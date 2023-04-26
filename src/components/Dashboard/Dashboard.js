@@ -9,7 +9,7 @@ export default function Dashboard() {
     <div>
       <div className="page-header ">
         <div>
-          <h1 className="page-title">Dashboard 01</h1>
+          <h1 className="page-title">Dashboard</h1>
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item className="breadcrumb-item" href="#">
               Home
@@ -18,7 +18,7 @@ export default function Dashboard() {
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Dashboard 01
+              Dashboard
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -32,7 +32,7 @@ export default function Dashboard() {
                 <Card.Body className="card-body">
                   <Row>
                     <div className="col">
-                      <h6 className="">Total Sales</h6>
+                      <h6 className="">Volume</h6>
                       <h3 className="mb-2 number-font">
                         <CountUp
                           end={34516}
@@ -63,7 +63,7 @@ export default function Dashboard() {
                 <div className="card-body">
                   <Row>
                     <div className="col">
-                      <h6 className="">Total Leads</h6>
+                      <h6 className="">Gross Profit</h6>
                       <h3 className="mb-2 number-font">
                         <CountUp
                           end={56992}
@@ -94,7 +94,7 @@ export default function Dashboard() {
                 <Card.Body className="card-body">
                   <Row>
                     <div className="col">
-                      <h6 className="">Total Profit</h6>
+                      <h6 className="">Gross Margin</h6>
                       <h3 className="mb-2 number-font">
                         $
                         <CountUp
@@ -121,38 +121,7 @@ export default function Dashboard() {
                 </Card.Body>
               </Card>
             </Col>
-            {/* <Col lg={6} md={12} sm={12} xl={3}>
-              <Card className=" overflow-hidden">
-                <Card.Body className="card-body">
-                  <Row>
-                    <div className="col">
-                      <h6 className="">Total Cost</h6>
-                      <h3 className="mb-2 number-font">
-                        $
-                        <CountUp
-                          end={34789}
-                          separator=","
-                          start={0}
-                          duration={2.94}
-                        />
-                      </h3>
-                      <p className="text-muted mb-0">
-                        <span className="text-danger me-1">
-                          <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                          <span>0.2% </span>
-                        </span>
-                        last month
-                      </p>
-                    </div>
-                    <div className="col col-auto">
-                      <div className="counter-icon bg-success-gradient box-shadow-success brround  ms-auto">
-                        <i className="fe fe-briefcase text-white mb-5 "></i>
-                      </div>
-                    </div>
-                  </Row>
-                </Card.Body>
-              </Card>
-            </Col> */}
+          
           </Row>
         </Col>
       </Row>
@@ -181,7 +150,7 @@ export default function Dashboard() {
                 <Card.Body className="card-body">
                   <Row>
                     <div className="col">
-                      <h6 className="">Total Sales</h6>
+                      <h6 className="">COFFEE</h6>
                       <h3 className="mb-2 number-font">
                         <CountUp
                           end={34516}
@@ -212,7 +181,7 @@ export default function Dashboard() {
                 <div className="card-body">
                   <Row>
                     <div className="col">
-                      <h6 className="">Total Leads</h6>
+                      <h6 className="">LOTTERY SALES</h6>
                       <h3 className="mb-2 number-font">
                         <CountUp
                           end={56992}
@@ -247,7 +216,7 @@ export default function Dashboard() {
                 <Card.Body className="card-body">
                   <Row>
                     <div className="col">
-                      <h6 className="">Total Sales</h6>
+                      <h6 className="">VALET</h6>
                       <h3 className="mb-2 number-font">
                         <CountUp
                           end={34516}
@@ -278,10 +247,10 @@ export default function Dashboard() {
                 <div className="card-body">
                   <Row>
                     <div className="col">
-                      <h6 className="">Total Leads</h6>
+                      <h6 className="">SHOP SALES</h6>
                       <h3 className="mb-2 number-font">
                         <CountUp
-                          end={56992}
+                          end={6992}
                           separator=","
                           start={0}
                           duration={2.94}
@@ -313,10 +282,10 @@ export default function Dashboard() {
                 <Card.Body className="card-body">
                   <Row>
                     <div className="col">
-                      <h6 className="">Total Sales</h6>
+                      <h6 className="">SHOP FACILITY FEE</h6>
                       <h3 className="mb-2 number-font">
                         <CountUp
-                          end={34516}
+                          end={3516}
                           separator=","
                           start={0}
                           duration={2.94}
@@ -344,10 +313,10 @@ export default function Dashboard() {
                 <div className="card-body">
                   <Row>
                     <div className="col">
-                      <h6 className="">Total Leads</h6>
+                      <h6 className="">PAYPOINT SALES</h6>
                       <h3 className="mb-2 number-font">
                         <CountUp
-                          end={56992}
+                          end={15992}
                           separator=","
                           start={0}
                           duration={2.94}
