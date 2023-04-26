@@ -11,24 +11,13 @@ export const MENUITEMS = [
       },
     ],
   },
-  {
-    menutitle: "WIDGETS",
-    Items: [
-      {
-        path: `/widgets`,
-        icon: "grid",
-        type: "link",
-        active: false,
-        title: "Widgets",
-      },
-    ],
-  },
+ 
 
   {
-    menutitle: "Elements",
+   
     Items: [
       {
-        title: "Components",
+        title: "Manage Clients",
         icon: "database",
         type: "sub",
         active: false,
@@ -36,156 +25,40 @@ export const MENUITEMS = [
           {
             path: `/components/cardsDesign`,
             type: "link",
-            title: "Cards Design",
+            title: "Add Clients",
           },
-          {
-            path: `/components/defaultCalendar`,
-            type: "link",
-            title: "Default Calendar",
-          },
-          {
-            path: `/components/fullCalendar`,
-            type: "link",
-            title: "Full Calendar",
-          },
-          {
-            path: `/components/defaultChat`,
-            type: "link",
-            title: "Default Chat",
-          },
-          {
-            path: `/components/notifications`,
-            type: "link",
-            title: "Notifications",
-          },
-          {
-            path: `/components/sweetAlerts`,
-            type: "link",
-            title: "Sweet Alerts",
-          },
-          {
-            path: `/components/rangeSlider`,
-            type: "link",
-            title: "Range Slider",
-          },
-          {
-            path: `/components/contentScrollBar`,
-            type: "link",
-            title: "Contentscrollbar",
-          },
-          {
-            path: `/components/loader`,
-            type: "link",
-            title: "Loader",
-          },
-          {
-            path: `/components/counters`,
-            type: "link",
-            title: "Counters",
-          },
-          {
-            path: `/components/rating`,
-            type: "link",
-            title: "Rating",
-          },
-          {
-            path: `/components/timeline`,
-            type: "link",
-            title: "Timeline",
-          },
-          {
-            path: `/components/treeview`,
-            type: "link",
-            title: "Treeview",
-          },
+         
+        
         ],
       },
       {
-        title: "Elements",
+        title: "Manage Sites",
         icon: "package",
         type: "sub",
         active: false,
         children: [
           {
             path: `/elements/alerts`,
-            title: "Alerts",
+            title: "Add Sites",
             type: "link",
           },
+         
+          
+        ],
+      },
+      {
+        title: "Manage Roles",
+        icon: "package",
+        type: "sub",
+        active: false,
+        children: [
           {
-            path: `/elements/buttons`,
-            title: "Buttons",
+            path: `/elements/alerts`,
+            title: "Add Roles",
             type: "link",
           },
-          {
-            path: `/elements/colors`,
-            title: "Colors",
-            type: "link",
-          },
-          {
-            path: `/elements/avatarSquares`,
-            title: "Avatar-Squares",
-            type: "link",
-          },
-          {
-            path: `/elements/avatarRounded`,
-            title: "Avatar-Rounded",
-            type: "link",
-          },
-          {
-            path: `/elements/avatarRadius`,
-            title: "Avatar-Raduis",
-            type: "link",
-          },
-          {
-            path: `/elements/dropDowns`,
-            title: "Drop downs",
-            type: "link",
-          },
-          {
-            path: `/elements/list`,
-            title: "List",
-            type: "link",
-          },
-          {
-            path: `/elements/tags`,
-            title: "Tags",
-            type: "link",
-          },
-          {
-            path: `/elements/paginations`,
-            title: "Paginations",
-            type: "link",
-          },
-          {
-            path: `/elements/navigation`,
-            title: "Navigation",
-            type: "link",
-          },
-          {
-            path: `/elements/typography`,
-            title: "Typography",
-            type: "link",
-          },
-          {
-            path: `/elements/breadcrumbs`,
-            title: "Breadcrumbs",
-            type: "link",
-          },
-          {
-            path: `/elements/badges`,
-            title: "Badges",
-            type: "link",
-          },
-          {
-            path: `/elements/panels`,
-            title: "Panels",
-            type: "link",
-          },
-          {
-            path: `/elements/thumbnails`,
-            title: "Thumbnails",
-            type: "link",
-          },
+         
+          
         ],
       },
       // {
@@ -511,200 +384,200 @@ export const MENUITEMS = [
   //   ],
   // },
 
-  {
-    menutitle: "CUSTOM & ERROR PAGES",
-    Items: [
-      {
-        title: "Custom Pages",
-        icon: "settings",
-        type: "sub",
-        active: false,
-        children: [
-          {
-            path: `/login`,
-            title: "Login",
-            type: "link",
-          },
-          {
-            path: `/custompages/register`,
-            title: "Register",
-            type: "link",
-          },
-          {
-            path: `/custompages/forgotPassword`,
-            title: "Forgot Password",
-            type: "link",
-          },
-          // {
-          //   path: `/custompages/lockScreen`,
-          //   title: "Lock Screen",
-          //   type: "link",
-          // },
-          // {
-          //   title: "Errors Pages",
-          //   icon: "info",
-          //   type: "sub",
-          //   active: false,
-          //   children: [
-          //     {
-          //       path: `/custompages/errorpages/errorpage400`,
-          //       title: "400",
-          //       type: "link",
-          //     },
-          //     {
-          //       path: `/custompages/errorpages/errorpage401`,
-          //       title: "401",
-          //       type: "link",
-          //     },
-          //     {
-          //       path: `/custompages/errorpages/errorpage403`,
-          //       title: "403",
-          //       type: "link",
-          //     },
-          //     {
-          //       path: `/custompages/errorpages/errorpage500`,
-          //       title: "500",
-          //       type: "link",
-          //     },
-          //     {
-          //       path: `/custompages/errorpages/errorpage503`,
-          //       title: "503",
-          //       type: "link",
-          //     },
-          //   ],
-          // },
-        ],
-      },
+  // {
+  //   menutitle: "CUSTOM & ERROR PAGES",
+  //   Items: [
+  //     {
+  //       title: "Custom Pages",
+  //       icon: "settings",
+  //       type: "sub",
+  //       active: false,
+  //       children: [
+  //         {
+  //           path: `/login`,
+  //           title: "Login",
+  //           type: "link",
+  //         },
+  //         {
+  //           path: `/custompages/register`,
+  //           title: "Register",
+  //           type: "link",
+  //         },
+  //         {
+  //           path: `/custompages/forgotPassword`,
+  //           title: "Forgot Password",
+  //           type: "link",
+  //         },
+  //         // {
+  //         //   path: `/custompages/lockScreen`,
+  //         //   title: "Lock Screen",
+  //         //   type: "link",
+  //         // },
+  //         // {
+  //         //   title: "Errors Pages",
+  //         //   icon: "info",
+  //         //   type: "sub",
+  //         //   active: false,
+  //         //   children: [
+  //         //     {
+  //         //       path: `/custompages/errorpages/errorpage400`,
+  //         //       title: "400",
+  //         //       type: "link",
+  //         //     },
+  //         //     {
+  //         //       path: `/custompages/errorpages/errorpage401`,
+  //         //       title: "401",
+  //         //       type: "link",
+  //         //     },
+  //         //     {
+  //         //       path: `/custompages/errorpages/errorpage403`,
+  //         //       title: "403",
+  //         //       type: "link",
+  //         //     },
+  //         //     {
+  //         //       path: `/custompages/errorpages/errorpage500`,
+  //         //       title: "500",
+  //         //       type: "link",
+  //         //     },
+  //         //     {
+  //         //       path: `/custompages/errorpages/errorpage503`,
+  //         //       title: "503",
+  //         //       type: "link",
+  //         //     },
+  //         //   ],
+  //         // },
+  //       ],
+  //     },
 
-      // {
-      //   title: "Submenus",
-      //   icon: "sliders",
-      //   type: "sub",
-      //   active: false,
-      //   children: [
-      //     {
-      //       path: `/#`,
-      //       title: "SubMenu1",
-      //       type: "link",
-      //     },
-      //     {
-      //       path: `/#`,
-      //       title: "SubMenu2",
-      //       type: "sub",
-      //       children: [
-      //         {
-      //           path: `/#`,
-      //           title: "SubMenu2-1",
-      //           type: "link",
-      //         },
-      //         {
-      //           path: `/#`,
-      //           title: "SubMenu2-2",
-      //           type: "link",
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // },
-    ],
-  },
-  {
-    menutitle: "FORMS & ICONS",
-    Items: [
-      {
-        title: "Forms",
-        icon: "file-text",
-        type: "sub",
-        badge: "badge bg-success",
-        badgetxt: "5",
-        background: "hor-rightangle",
-        active: false,
-        children: [
-          {
-            path: `/form/formElements`,
-            title: "Form Elements",
-            type: "link",
-          },
-          {
-            path: `/form/formAdvanced`,
-            title: "Form Advanced",
-            type: "link",
-          },
-          {
-            path: `/form/formEditor`,
-            title: "Form Editor",
-            type: "link",
-          },
-          {
-            path: `/form/formWizard`,
-            title: "Form Wizard",
-            type: "link",
-          },
-          {
-            path: `/form/formValidation`,
-            title: "Form Validation",
-            type: "link",
-          },
-        ],
-      },
+  //     // {
+  //     //   title: "Submenus",
+  //     //   icon: "sliders",
+  //     //   type: "sub",
+  //     //   active: false,
+  //     //   children: [
+  //     //     {
+  //     //       path: `/#`,
+  //     //       title: "SubMenu1",
+  //     //       type: "link",
+  //     //     },
+  //     //     {
+  //     //       path: `/#`,
+  //     //       title: "SubMenu2",
+  //     //       type: "sub",
+  //     //       children: [
+  //     //         {
+  //     //           path: `/#`,
+  //     //           title: "SubMenu2-1",
+  //     //           type: "link",
+  //     //         },
+  //     //         {
+  //     //           path: `/#`,
+  //     //           title: "SubMenu2-2",
+  //     //           type: "link",
+  //     //         },
+  //     //       ],
+  //     //     },
+  //     //   ],
+  //     // },
+  //   ],
+  // },
+  // {
+  //   menutitle: "FORMS & ICONS",
+  //   Items: [
+  //     {
+  //       title: "Forms",
+  //       icon: "file-text",
+  //       type: "sub",
+  //       badge: "badge bg-success",
+  //       badgetxt: "5",
+  //       background: "hor-rightangle",
+  //       active: false,
+  //       children: [
+  //         {
+  //           path: `/form/formElements`,
+  //           title: "Form Elements",
+  //           type: "link",
+  //         },
+  //         {
+  //           path: `/form/formAdvanced`,
+  //           title: "Form Advanced",
+  //           type: "link",
+  //         },
+  //         {
+  //           path: `/form/formEditor`,
+  //           title: "Form Editor",
+  //           type: "link",
+  //         },
+  //         {
+  //           path: `/form/formWizard`,
+  //           title: "Form Wizard",
+  //           type: "link",
+  //         },
+  //         {
+  //           path: `/form/formValidation`,
+  //           title: "Form Validation",
+  //           type: "link",
+  //         },
+  //       ],
+  //     },
 
-      // {
-      //   title: "Icons",
-      //   icon: "command",
-      //   type: "sub",
-      //   children: [
-      //     {
-      //       path: `/icon/fontAwesome`,
-      //       title: "Font Awesome",
-      //       type: "link",
-      //     },
-      //     {
-      //       path: `/icon/materialDesignIcons`,
-      //       title: "Material Design Icons",
-      //       type: "link",
-      //     },
-      //     {
-      //       path: `/icon/simpleLineIcons`,
-      //       title: "Simple Line Icons",
-      //       type: "link",
-      //     },
-      //     {
-      //       path: `/icon/featherIcons`,
-      //       title: "Feather Icons",
-      //       type: "link",
-      //     },
-      //     {
-      //       path: `/icon/ionicIcons`,
-      //       title: "Ionic Icons",
-      //       type: "link",
-      //     },
-      //     {
-      //       path: `/icon/flagIcons`,
-      //       title: "Flag Icons",
-      //       type: "link",
-      //     },
-      //     {
-      //       path: `/icon/pe7Icons`,
-      //       title: "Pe7 Icons",
-      //       type: "link",
-      //     },
-      //     {
-      //       path: `/icon/themifyIcons`,
-      //       title: "Themify Icons",
-      //       type: "link",
-      //     },
-      //     {
-      //       path: `/icon/typiconsIcons`,
-      //       title: "Typicons Icons",
-      //       type: "link",
-      //     },
-      //     {
-      //       path: `/icon/weatherIcons`,
-      //       title: "Weather Icons",
-      //       type: "link",
-      //     },
-      //   ],
-      // },
-    ],
-  },
+  //     // {
+  //     //   title: "Icons",
+  //     //   icon: "command",
+  //     //   type: "sub",
+  //     //   children: [
+  //     //     {
+  //     //       path: `/icon/fontAwesome`,
+  //     //       title: "Font Awesome",
+  //     //       type: "link",
+  //     //     },
+  //     //     {
+  //     //       path: `/icon/materialDesignIcons`,
+  //     //       title: "Material Design Icons",
+  //     //       type: "link",
+  //     //     },
+  //     //     {
+  //     //       path: `/icon/simpleLineIcons`,
+  //     //       title: "Simple Line Icons",
+  //     //       type: "link",
+  //     //     },
+  //     //     {
+  //     //       path: `/icon/featherIcons`,
+  //     //       title: "Feather Icons",
+  //     //       type: "link",
+  //     //     },
+  //     //     {
+  //     //       path: `/icon/ionicIcons`,
+  //     //       title: "Ionic Icons",
+  //     //       type: "link",
+  //     //     },
+  //     //     {
+  //     //       path: `/icon/flagIcons`,
+  //     //       title: "Flag Icons",
+  //     //       type: "link",
+  //     //     },
+  //     //     {
+  //     //       path: `/icon/pe7Icons`,
+  //     //       title: "Pe7 Icons",
+  //     //       type: "link",
+  //     //     },
+  //     //     {
+  //     //       path: `/icon/themifyIcons`,
+  //     //       title: "Themify Icons",
+  //     //       type: "link",
+  //     //     },
+  //     //     {
+  //     //       path: `/icon/typiconsIcons`,
+  //     //       title: "Typicons Icons",
+  //     //       type: "link",
+  //     //     },
+  //     //     {
+  //     //       path: `/icon/weatherIcons`,
+  //     //       title: "Weather Icons",
+  //     //       type: "link",
+  //     //     },
+  //     //   ],
+  //     // },
+  //   ],
+  // },
 ];
