@@ -332,7 +332,7 @@ export function Carouseldatalist() {
             <img className="pro_img br-5" alt="Product" src={playerData.IMG} />
             <div className="carouselproduct mt-4 text-center pb-4">
               <h5 className="">
-                <Link to={`${process.env.PUBLIC_URL}/pages/e-commerce/shoppingCart/`}>
+                <Link to={`/pages/e-commerce/shoppingCart/`}>
                   {playerData.TITLE}
                 </Link>
               </h5>
@@ -348,7 +348,7 @@ export function Carouseldatalist() {
                 <i className="me-1 fa fa-star-o"></i>
               </div>
               <Link
-                to={`${process.env.PUBLIC_URL}/pages/e-commerce/shoppingCart/`}
+                to={`/pages/e-commerce/shoppingCart/`}
                 className={`btn btn-${playerData.BUY}`}
               >
                 <i className="ti-shopping-cart"></i> Buy Now

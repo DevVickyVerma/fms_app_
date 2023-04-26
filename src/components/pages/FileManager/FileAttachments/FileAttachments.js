@@ -572,7 +572,7 @@ export default function FileAttachments() {
                         <div className="file-image p-2">
                           <div className="product-image">
                             <Link
-                              to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                              to={`/pages/FileManager/FileDetails/FileDetails`}
                             >
                               <img
                                 src={require("../../../../assets/images/pngs/4.png")}
@@ -593,7 +593,7 @@ export default function FileAttachments() {
                               </li>
                               <li>
                                 <Link
-                                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                                  to={`/pages/FileManager/FileDetails/FileDetails`}
                                   className="bg-primary"
                                 >
                                   <i className="fe fe-eye"></i>
@@ -610,7 +610,7 @@ export default function FileAttachments() {
                         <div className="file-image p-2">
                           <div className="product-image">
                             <Link
-                              to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                              to={`/pages/FileManager/FileDetails/FileDetails`}
                             >
                               <img
                                 src={require("../../../../assets/images/pngs/3.png")}
@@ -631,7 +631,7 @@ export default function FileAttachments() {
                               </li>
                               <li>
                                 <Link
-                                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                                  to={`/pages/FileManager/FileDetails/FileDetails`}
                                   className="bg-primary"
                                 >
                                   <i className="fe fe-eye"></i>
@@ -648,7 +648,7 @@ export default function FileAttachments() {
                         <div className="file-image p-2">
                           <div className="product-image">
                             <Link
-                              to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                              to={`/pages/FileManager/FileDetails/FileDetails`}
                             >
                               <img
                                 src={require("../../../../assets/images/pngs/9.png")}
@@ -669,7 +669,7 @@ export default function FileAttachments() {
                               </li>
                               <li>
                                 <Link
-                                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                                  to={`/pages/FileManager/FileDetails/FileDetails`}
                                   className="bg-primary"
                                 >
                                   <i className="fe fe-eye"></i>
@@ -686,7 +686,7 @@ export default function FileAttachments() {
                         <div className="file-image p-2">
                           <div className="product-image">
                             <Link
-                              to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                              to={`/pages/FileManager/FileDetails/FileDetails`}
                             >
                               <img
                                 src={require("../../../../assets/images/pngs/6.png")}
@@ -707,7 +707,7 @@ export default function FileAttachments() {
                               </li>
                               <li>
                                 <Link
-                                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                                  to={`/pages/FileManager/FileDetails/FileDetails`}
                                   className="bg-primary"
                                 >
                                   <i className="fe fe-eye"></i>
@@ -724,7 +724,7 @@ export default function FileAttachments() {
                         <div className="file-image p-2">
                           <div className="product-image">
                             <Link
-                              to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                              to={`/pages/FileManager/FileDetails/FileDetails`}
                             >
                               <img
                                 src={require("../../../../assets/images/pngs/1.png")}
@@ -745,7 +745,7 @@ export default function FileAttachments() {
                               </li>
                               <li>
                                 <Link
-                                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                                  to={`/pages/FileManager/FileDetails/FileDetails`}
                                   className="bg-primary"
                                 >
                                   <i className="fe fe-eye"></i>
@@ -762,7 +762,7 @@ export default function FileAttachments() {
                         <div className="file-image p-2">
                           <div className="product-image">
                             <Link
-                              to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                              to={`/pages/FileManager/FileDetails/FileDetails`}
                             >
                               <img
                                 src={require("../../../../assets/images/pngs/10.png")}
@@ -783,7 +783,7 @@ export default function FileAttachments() {
                               </li>
                               <li>
                                 <Link
-                                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                                  to={`/pages/FileManager/FileDetails/FileDetails`}
                                   className="bg-primary"
                                 >
                                   <i className="fe fe-eye"></i>
@@ -817,7 +817,7 @@ export default function FileAttachments() {
                   <div className="file-image-1">
                     <div className="product-image">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                        to={`/pages/FileManager/FileDetails/FileDetails`}
                       >
                         <img
                           src={require("../../../../assets/images/pngs/file-image.png")}
@@ -838,7 +838,7 @@ export default function FileAttachments() {
                         </li>
                         <li>
                           <Link
-                            to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                            to={`/pages/FileManager/FileDetails/FileDetails`}
                           >
                             <i className="fe fe-eye"></i>
                           </Link>
@@ -850,7 +850,7 @@ export default function FileAttachments() {
                   <div className="file-image-1">
                     <div className="product-image">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                        to={`/pages/FileManager/FileDetails/FileDetails`}
                       >
                         <img
                           src={require("../../../../assets/images/media/files/doc.png")}
@@ -870,7 +870,7 @@ export default function FileAttachments() {
                         </li>
                         <li>
                           <Link
-                            to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                            to={`/pages/FileManager/FileDetails/FileDetails`}
                             className="bg-primary"
                           >
                             <i className="fe fe-eye"></i>
@@ -883,7 +883,7 @@ export default function FileAttachments() {
                   <div className="file-image-1">
                     <div className="product-image">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                        to={`/pages/FileManager/FileDetails/FileDetails`}
                       >
                         <img
                           src={require("../../../../assets/images/media/files/file2.png")}
@@ -903,7 +903,7 @@ export default function FileAttachments() {
                         </li>
                         <li>
                           <Link
-                            to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                            to={`/pages/FileManager/FileDetails/FileDetails`}
                             className="bg-primary"
                           >
                             <i className="fe fe-eye"></i>
@@ -916,7 +916,7 @@ export default function FileAttachments() {
                   <div className="file-image-1">
                     <div className="product-image">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                        to={`/pages/FileManager/FileDetails/FileDetails`}
                       >
                         <img
                           src={require("../../../../assets/images/media/files/file.png")}
@@ -936,7 +936,7 @@ export default function FileAttachments() {
                         </li>
                         <li>
                           <Link
-                            to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                            to={`/pages/FileManager/FileDetails/FileDetails`}
                             className="bg-primary"
                           >
                             <i className="fe fe-eye"></i>
@@ -949,7 +949,7 @@ export default function FileAttachments() {
                   <div className="file-image-1">
                     <div className="product-image">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                        to={`/pages/FileManager/FileDetails/FileDetails`}
                       >
                         <img
                           src={require("../../../../assets/images/media/files/imgformat.png")}
@@ -970,7 +970,7 @@ export default function FileAttachments() {
                         </li>
                         <li>
                           <Link
-                            to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                            to={`/pages/FileManager/FileDetails/FileDetails`}
                             className="bg-primary"
                           >
                             <i className="fe fe-eye"></i>
@@ -999,7 +999,7 @@ export default function FileAttachments() {
                   <div className="file-image-1 file-image-md">
                     <div className="product-image">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                        to={`/pages/FileManager/FileDetails/FileDetails`}
                       >
                         <img
                           src={require("../../../../assets/images/pngs/file-image.png")}
@@ -1020,7 +1020,7 @@ export default function FileAttachments() {
                         </li>
                         <li>
                           <Link
-                            to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                            to={`/pages/FileManager/FileDetails/FileDetails`}
                             className="bg-primary"
                           >
                             <i className="fe fe-eye"></i>
@@ -1033,7 +1033,7 @@ export default function FileAttachments() {
                   <div className="file-image-1 file-image-md">
                     <div className="product-image">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                        to={`/pages/FileManager/FileDetails/FileDetails`}
                       >
                         <img
                           src={require("../../../../assets/images/media/files/doc.png")}
@@ -1053,7 +1053,7 @@ export default function FileAttachments() {
                         </li>
                         <li>
                           <Link
-                            to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                            to={`/pages/FileManager/FileDetails/FileDetails`}
                             className="bg-primary"
                           >
                             <i className="fe fe-eye"></i>
@@ -1066,7 +1066,7 @@ export default function FileAttachments() {
                   <div className="file-image-1 file-image-md">
                     <div className="product-image">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                        to={`/pages/FileManager/FileDetails/FileDetails`}
                       >
                         <img
                           src={require("../../../../assets/images/media/files/file2.png")}
@@ -1086,7 +1086,7 @@ export default function FileAttachments() {
                         </li>
                         <li>
                           <Link
-                            to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                            to={`/pages/FileManager/FileDetails/FileDetails`}
                             className="bg-primary"
                           >
                             <i className="fe fe-eye"></i>
@@ -1099,7 +1099,7 @@ export default function FileAttachments() {
                   <div className="file-image-1 file-image-md">
                     <div className="product-image">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                        to={`/pages/FileManager/FileDetails/FileDetails`}
                       >
                         <img
                           src={require("../../../../assets/images/media/files/file.png")}
@@ -1119,7 +1119,7 @@ export default function FileAttachments() {
                         </li>
                         <li>
                           <Link
-                            to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                            to={`/pages/FileManager/FileDetails/FileDetails`}
                             className="bg-primary"
                           >
                             <i className="fe fe-eye"></i>
@@ -1132,7 +1132,7 @@ export default function FileAttachments() {
                   <div className="file-image-1 file-image-md">
                     <div className="product-image">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                        to={`/pages/FileManager/FileDetails/FileDetails`}
                       >
                         <img
                           src={require("../../../../assets/images/media/files/imgformat.png")}
@@ -1153,7 +1153,7 @@ export default function FileAttachments() {
                         </li>
                         <li>
                           <Link
-                            to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                            to={`/pages/FileManager/FileDetails/FileDetails`}
                             className="bg-primary"
                           >
                             <i className="fe fe-eye"></i>
@@ -1182,7 +1182,7 @@ export default function FileAttachments() {
                   <div className="file-image-1 file-image-lg">
                     <div className="product-image">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                        to={`/pages/FileManager/FileDetails/FileDetails`}
                       >
                         <img
                           src={require("../../../../assets/images/pngs/file-image.png")}
@@ -1203,7 +1203,7 @@ export default function FileAttachments() {
                         </li>
                         <li>
                           <Link
-                            to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                            to={`/pages/FileManager/FileDetails/FileDetails`}
                             className="bg-primary"
                           >
                             <i className="fe fe-eye"></i>
@@ -1216,7 +1216,7 @@ export default function FileAttachments() {
                   <div className="file-image-1 file-image-lg">
                     <div className="product-image">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                        to={`/pages/FileManager/FileDetails/FileDetails`}
                       >
                         <img
                           src={require("../../../../assets/images/media/files/doc.png")}
@@ -1236,7 +1236,7 @@ export default function FileAttachments() {
                         </li>
                         <li>
                           <Link
-                            to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                            to={`/pages/FileManager/FileDetails/FileDetails`}
                             className="bg-primary"
                           >
                             <i className="fe fe-eye"></i>
@@ -1249,7 +1249,7 @@ export default function FileAttachments() {
                   <div className="file-image-1 file-image-lg">
                     <div className="product-image">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                        to={`/pages/FileManager/FileDetails/FileDetails`}
                       >
                         <img
                           src={require("../../../../assets/images/media/files/file2.png")}
@@ -1269,7 +1269,7 @@ export default function FileAttachments() {
                         </li>
                         <li>
                           <Link
-                            to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                            to={`/pages/FileManager/FileDetails/FileDetails`}
                             className="bg-primary"
                           >
                             <i className="fe fe-eye"></i>
@@ -1282,7 +1282,7 @@ export default function FileAttachments() {
                   <div className="file-image-1 file-image-lg">
                     <div className="product-image">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                        to={`/pages/FileManager/FileDetails/FileDetails`}
                       >
                         <img
                           src={require("../../../../assets/images/media/files/file.png")}
@@ -1302,7 +1302,7 @@ export default function FileAttachments() {
                         </li>
                         <li>
                           <Link
-                            to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                            to={`/pages/FileManager/FileDetails/FileDetails`}
                             className="bg-primary"
                           >
                             <i className="fe fe-eye"></i>
@@ -1315,7 +1315,7 @@ export default function FileAttachments() {
                   <div className="file-image-1 file-image-lg">
                     <div className="product-image">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                        to={`/pages/FileManager/FileDetails/FileDetails`}
                       >
                         <img
                           src={require("../../../../assets/images/media/files/imgformat.png")}
@@ -1336,7 +1336,7 @@ export default function FileAttachments() {
                         </li>
                         <li>
                           <Link
-                            to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                            to={`/pages/FileManager/FileDetails/FileDetails`}
                             className="bg-primary"
                           >
                             <i className="fe fe-eye"></i>

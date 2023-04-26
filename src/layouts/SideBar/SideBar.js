@@ -108,7 +108,7 @@ const Sidebar = () => {
         <Scrollbars >
           <div className="header side-header">
             <Link
-              to={`${process.env.PUBLIC_URL}/dashboard/`}
+              to={`/dashboard/`}
               className="header-brand1"
             >
               <img

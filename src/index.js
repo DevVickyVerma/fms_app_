@@ -145,507 +145,507 @@ const Root = () => {
       <React.Suspense fallback={Loaderimg()}>
         <Routes>
           <Route
-            path={`${process.env.PUBLIC_URL}/`}
+            path={`/`}
             element={<App />}
           >
             <Route index element={<Dashboard />} />
             <Route
-              path={`${process.env.PUBLIC_URL}/dashboard`}
+              path={`/dashboard`}
               element={<Dashboard />}
             />
             <Route
-              path={`${process.env.PUBLIC_URL}/widgets`}
+              path={`/widgets`}
               element={<Widgets />}
             />
             <Route>
               <Route
-                path={`${process.env.PUBLIC_URL}/components/cardsDesign`}
+                path={`/components/cardsDesign`}
                 element={<CardDesign />}
               />
               <Route
-                path={`${process.env.PUBLIC_URL}/components/defaultCalendar`}
+                path={`/components/defaultCalendar`}
                 element={<DefaultCalendar />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/components/fullCalendar`}
+                path={`/components/fullCalendar`}
                 element={<FullCalendar />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/components/defaultChat`}
+                path={`/components/defaultChat`}
                 element={<DefaultChat />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/components/notifications`}
+                path={`/components/notifications`}
                 element={<Notifications />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/components/sweetAlerts`}
+                path={`/components/sweetAlerts`}
                 element={<SweetAlerts />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/components/rangeSlider`}
+                path={`/components/rangeSlider`}
                 element={<RangeSlider />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/components/contentScrollBar`}
+                path={`/components/contentScrollBar`}
                 element={<ContentScrollBar />}
               />
 
               {/* <Route
-                path={`${process.env.PUBLIC_URL}/components/loader`}
+                path={`/components/loader`}
                 element={<Loader />}
               /> */}
               <Route
-                path={`${process.env.PUBLIC_URL}/components/counters`}
+                path={`/components/counters`}
                 element={<Counters />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/components/rating`}
+                path={`/components/rating`}
                 element={<Rating />}
               />
               <Route
-                path={`${process.env.PUBLIC_URL}/components/timeline`}
+                path={`/components/timeline`}
                 element={<Timeline />}
               />
               <Route
-                path={`${process.env.PUBLIC_URL}/components/treeview`}
+                path={`/components/treeview`}
                 element={<Treeview />}
               />
             </Route>
             <Route>
               <Route
-                path={`${process.env.PUBLIC_URL}/elements/alerts`}
+                path={`/elements/alerts`}
                 element={<Alerts />}
               />
               <Route
-                path={`${process.env.PUBLIC_URL}/elements/buttons`}
+                path={`/elements/buttons`}
                 element={<Buttons />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/elements/colors`}
+                path={`/elements/colors`}
                 element={<Colors />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/elements/avatarSquares`}
+                path={`/elements/avatarSquares`}
                 element={<AvatarSquares />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/elements/avatarRounded`}
+                path={`/elements/avatarRounded`}
                 element={<AvatarRounded />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/elements/avatarRadius`}
+                path={`/elements/avatarRadius`}
                 element={<AvatarRadius />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/elements/dropDowns`}
+                path={`/elements/dropDowns`}
                 element={<DropDowns />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/elements/list`}
+                path={`/elements/list`}
                 element={<List />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/elements/tags`}
+                path={`/elements/tags`}
                 element={<Tags />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/elements/paginations`}
+                path={`/elements/paginations`}
                 element={<Paginations />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/elements/navigation`}
+                path={`/elements/navigation`}
                 element={<Navigation />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/elements/typography`}
+                path={`/elements/typography`}
                 element={<Typography />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/elements/breadcrumbs`}
+                path={`/elements/breadcrumbs`}
                 element={<Breadcrumbs />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/elements/badges`}
+                path={`/elements/badges`}
                 element={<Badges />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/elements/panels`}
+                path={`/elements/panels`}
                 element={<Panels />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/elements/thumbnails`}
+                path={`/elements/thumbnails`}
                 element={<Thumbnails />}
               />
             </Route>
             <Route>
               <Route
-                path={`${process.env.PUBLIC_URL}/advancedElements/mediaObject`}
+                path={`/advancedElements/mediaObject`}
                 element={<Mediaobject />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/advancedElements/accordions`}
+                path={`/advancedElements/accordions`}
                 element={<Accordions />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/advancedElements/tabs`}
+                path={`/advancedElements/tabs`}
                 element={<Tabs />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/advancedElements/charts`}
+                path={`/advancedElements/charts`}
                 element={<Charts />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/advancedElements/modal`}
+                path={`/advancedElements/modal`}
                 element={<Modal />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/advancedElements/tooltipandPopover`}
+                path={`/advancedElements/tooltipandPopover`}
                 element={<TooltipandPopover />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/advancedElements/progress`}
+                path={`/advancedElements/progress`}
                 element={<Progress />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/advancedElements/carousels`}
+                path={`/advancedElements/carousels`}
                 element={<Carousels />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/advancedElements/headers`}
+                path={`/advancedElements/headers`}
                 element={<Header />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/advancedElements/footers`}
+                path={`/advancedElements/footers`}
                 element={<Footer />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/advancedElements/userList`}
+                path={`/advancedElements/userList`}
                 element={<UserList />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/advancedElements/search`}
+                path={`/advancedElements/search`}
                 element={<Search />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/advancedElements/cryptoCurrencies`}
+                path={`/advancedElements/cryptoCurrencies`}
                 element={<Cryptocurrencies />}
               />
             </Route>
             <Route>
               <Route
-                path={`${process.env.PUBLIC_URL}/charts/chartJs`}
+                path={`/charts/chartJs`}
                 element={<ChartJs />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/charts/echarts`}
+                path={`/charts/echarts`}
                 element={<Echarts />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/charts/nvd3charts`}
+                path={`/charts/nvd3charts`}
                 element={<Nvd3charts />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/charts/PieCharts`}
+                path={`/charts/PieCharts`}
                 element={<PieCharts />}
               /> 
             </Route>
             <Route>
               <Route
-                path={`${process.env.PUBLIC_URL}/tables/defaultTables`}
+                path={`/tables/defaultTables`}
                 element={<DefaultTables />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/tables/dataTables`}
+                path={`/tables/dataTables`}
                 element={<DataTables />}
               />
             </Route>
             <Route>
               <Route
-                path={`${process.env.PUBLIC_URL}/form/formElements`}
+                path={`/form/formElements`}
                 element={<FormElements />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/form/formAdvanced`}
+                path={`/form/formAdvanced`}
                 element={<FormAdvanced />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/form/formEditor`}
+                path={`/form/formEditor`}
                 element={<FormEditor />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/form/formWizard`}
+                path={`/form/formWizard`}
                 element={<FormWizard />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/form/formValidation`}
+                path={`/form/formValidation`}
                 element={<FormValidation />}
               />
             </Route>
             <Route>
               <Route
-                path={`${process.env.PUBLIC_URL}/icon/fontAwesome`}
+                path={`/icon/fontAwesome`}
                 element={<FontAwesome />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/icon/materialDesignIcons`}
+                path={`/icon/materialDesignIcons`}
                 element={<MaterialDesignIcons />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/icon/simpleLineIcons`}
+                path={`/icon/simpleLineIcons`}
                 element={<SimpleLineIcons />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/icon/featherIcons`}
+                path={`/icon/featherIcons`}
                 element={<FeatherIcons />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/icon/ionicIcons`}
+                path={`/icon/ionicIcons`}
                 element={<IonicIcons />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/icon/flagIcons`}
+                path={`/icon/flagIcons`}
                 element={<FlagIcons />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/icon/pe7Icons`}
+                path={`/icon/pe7Icons`}
                 element={<Pe7Icons />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/icon/themifyIcons`}
+                path={`/icon/themifyIcons`}
                 element={<ThemifyIcons />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/icon/typiconsIcons`}
+                path={`/icon/typiconsIcons`}
                 element={<TypiconsIcons />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/icon/weatherIcons`}
+                path={`/icon/weatherIcons`}
                 element={<WeatherIcons />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/icon/typiconsIcons`}
+                path={`/icon/typiconsIcons`}
                 element={<TypiconsIcons />}
               />
             </Route>
             <Route>
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/profile`}
+                path={`/pages/profile`}
                 element={<Profile />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/editProfile`}
+                path={`/pages/editProfile`}
                 element={<EditProfile />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/mailInbox`}
+                path={`/pages/mailInbox`}
                 element={<MailInbox />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/mailCompose`}
+                path={`/pages/mailCompose`}
                 element={<MailCompose />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/gallery`}
+                path={`/pages/gallery`}
                 element={<Gallery />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/aboutCompany`}
+                path={`/pages/aboutCompany`}
                 element={<AboutCompany />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/services`}
+                path={`/pages/services`}
                 element={<Services />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/faqs`}
+                path={`/pages/faqs`}
                 element={<FAQS />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/terms`}
+                path={`/pages/terms`}
                 element={<Terms />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/invoice`}
+                path={`/pages/invoice`}
                 element={<Invoice />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/pricingTables`}
+                path={`/pages/pricingTables`}
                 element={<PricingTables />}
               />
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/Blog/blog`}
+                path={`/pages/Blog/blog`}
                 element={<Blog />}
               />
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`}
+                path={`/pages/Blog/blogDetails`}
                 element={<BlogDetails />}
               />
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/Blog/blogPost`}
+                path={`/pages/Blog/blogPost`}
                 element={<BlogPost />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/empty`}
+                path={`/pages/empty`}
                 element={<Empty />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/maps/leafletMaps`}
+                path={`/pages/maps/leafletMaps`}
                 element={<LeafletMaps />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/maps/vectorMaps`}
+                path={`/pages/maps/vectorMaps`}
                 element={<VectorMaps />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/e-commerce/shop`}
+                path={`/pages/e-commerce/shop`}
                 element={<Shop />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/e-commerce/productDetails`}
+                path={`/pages/e-commerce/productDetails`}
                 element={<ProductDetails />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/e-commerce/shoppingCart`}
+                path={`/pages/e-commerce/shoppingCart`}
                 element={<ShoppingCarts />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/e-commerce/wishlist`}
+                path={`/pages/e-commerce/wishlist`}
                 element={<Wishlist />}
               />
 
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/e-commerce/checkout`}
+                path={`/pages/e-commerce/checkout`}
                 element={<Checkout />}
               />
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/FileManager/FileAttachments/FileAttachments`}
+                path={`/pages/FileManager/FileAttachments/FileAttachments`}
                 element={<FileAttachments />}
               />
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`}
+                path={`/pages/FileManager/FileDetails/FileDetails`}
                 element={<FileDetails />}
               />
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/FileManagerFileManager/FileManager`}
+                path={`/pages/FileManagerFileManager/FileManager`}
                 element={<FileManager />}
               />
               <Route
-                path={`${process.env.PUBLIC_URL}/pages/FileManager/FileManagerList/FileManagerList`}
+                path={`/pages/FileManager/FileManagerList/FileManagerList`}
                 element={<FileManagerList />}
               />
             </Route>
           </Route>
           <Route
-            path={`${process.env.PUBLIC_URL}/pages/themeStyle`}
+            path={`/pages/themeStyle`}
             element={<Switcherlayout />}
           />
           <Route
-            path={`${process.env.PUBLIC_URL}/`}
+            path={`/`}
             element={<Custompages />}
           >
             <Route
-              path={`${process.env.PUBLIC_URL}/pages/underConstruction`}
+              path={`/pages/underConstruction`}
               element={<UnderConstruction />}
             />
             <Route
-              path={`${process.env.PUBLIC_URL}/custompages/login`}
+              path={`/login`}
               element={<Login />}
             />
             <Route
-              path={`${process.env.PUBLIC_URL}/custompages/register`}
+              path={`/custompages/register`}
               element={<Register />}
             />
             <Route
-              path={`${process.env.PUBLIC_URL}/custompages/forgotPassword`}
+              path={`/custompages/forgotPassword`}
               element={<ForgotPassword />}
             />
             <Route
-              path={`${process.env.PUBLIC_URL}/custompages/lockScreen`}
+              path={`/custompages/lockScreen`}
               element={<LockScreen />}
             />
             <Route
-              path={`${process.env.PUBLIC_URL}/custompages/errorpages/errorpage401`}
+              path={`/custompages/errorpages/errorpage401`}
               element={<Errorpage401 />}
             />
             <Route
-              path={`${process.env.PUBLIC_URL}/custompages/errorpages/errorpage403`}
+              path={`/custompages/errorpages/errorpage403`}
               element={<Errorpage403 />}
             />
             <Route
-              path={`${process.env.PUBLIC_URL}/custompages/errorpages/errorpage500`}
+              path={`/custompages/errorpages/errorpage500`}
               element={<Errorpage500 />}
             />
             <Route
-              path={`${process.env.PUBLIC_URL}/custompages/errorpages/errorpage503`}
+              path={`/custompages/errorpages/errorpage503`}
               element={<Errorpage503 />}
             />
             <Route path="*" element={<Errorpage400 />} />

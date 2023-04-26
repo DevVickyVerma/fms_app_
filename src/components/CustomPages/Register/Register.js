@@ -75,14 +75,14 @@ export default function Register() {
                     <input type="checkbox" className="custom-control-input" />
                     <span className="custom-control-label">
                       Agree the
-                      <Link to={`${process.env.PUBLIC_URL}/pages/terms/`}>
+                      <Link to={`/pages/terms/`}>
                         terms and policy
                       </Link>
                     </span>
                   </label>
                   <div className="container-login100-form-btn">
                     <Link
-                      to={`${process.env.PUBLIC_URL}/dashboard/`}
+                      to={`/dashboard/`}
                       className="login100-form-btn btn-primary"
                     >
                       Register
@@ -92,7 +92,7 @@ export default function Register() {
                     <p className="text-dark mb-0">
                       Already have account?
                       <Link
-                        to={`${process.env.PUBLIC_URL}/custompages/login`}
+                        to={`/custompages/login`}
                         className="text-primary ms-1"
                       >
                         Sign In

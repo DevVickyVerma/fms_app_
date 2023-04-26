@@ -51,7 +51,7 @@ export default function LockScreen() {
                   </div>
                   <div className="container-login100-form-btn">
                     <Link
-                      to={`${process.env.PUBLIC_URL}/dashboard/`}
+                      to={`/dashboard/`}
                       className="login100-form-btn btn-primary"
                     >
                       Unlock
@@ -60,7 +60,7 @@ export default function LockScreen() {
                   <div className="text-center pt-2">
                     <span className="txt1">I Forgot</span>
                     <Link
-                      to={`${process.env.PUBLIC_URL}/custompages/forgotPassword/`}
+                      to={`/custompages/forgotPassword/`}
                       className="txt2"
                     >
                       Give me Hint

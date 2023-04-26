@@ -55424,4 +55424,16 @@ textarea.form-control {
     width: 30px !important;
 }
 
+
+.login-logo img {
+    background: #FFF;
+    padding: 20px;
+    width: 365px;
+    height: 140px;
+    border-radius: 4px;
+    text-align: center !important;
+
+}
+
+
 /*# sourceMappingURL=style.css.map */

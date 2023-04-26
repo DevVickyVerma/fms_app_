@@ -57,7 +57,7 @@ import { Link } from "react-router-dom";
           ></Link>
           <div className="responsive-logo">
             <Link
-              to={`${process.env.PUBLIC_URL}/dashboard/`}
+              to={`/dashboard/`}
               className="header-logo"
             >
               <img
@@ -74,7 +74,7 @@ import { Link } from "react-router-dom";
           </div>
           <Link
             className="logo-horizontal "
-            to={`${process.env.PUBLIC_URL}/dashboard/`}
+            to={`/dashboard/`}
           >
             <img
               src={require("../../assets/images/brand/logo.png")}
@@ -180,7 +180,7 @@ import { Link } from "react-router-dom";
                       <div className="notifications-menu">
                         <Dropdown.Item
                           className=" d-flex"
-                          href={`${process.env.PUBLIC_URL}/components/defaultChat/`}
+                          href={`/components/defaultChat/`}
                         >
                           <div className="me-3 notifyimg  bg-primary-gradient brround box-shadow-primary">
                             <i className="fe fe-message-square"></i>
@@ -196,7 +196,7 @@ import { Link } from "react-router-dom";
                         </Dropdown.Item>
                         <Dropdown.Item
                           className=" d-flex"
-                          href={`${process.env.PUBLIC_URL}/components/defaultChat/`}
+                          href={`/components/defaultChat/`}
                         >
                           <div className="me-3 notifyimg  bg-secondary-gradient brround box-shadow-primary">
                             <i className="fe fe-mail"></i>
@@ -212,7 +212,7 @@ import { Link } from "react-router-dom";
                         </Dropdown.Item>
                         <Dropdown.Item
                           className=" d-flex"
-                          href={`${process.env.PUBLIC_URL}/pages/e-commerce/shoppingCart/`}
+                          href={`/pages/e-commerce/shoppingCart/`}
                         >
                           <div className="me-3 notifyimg  bg-success-gradient brround box-shadow-primary">
                             <i className="fe fe-shopping-cart"></i>
@@ -263,7 +263,7 @@ import { Link } from "react-router-dom";
                       <div className="message-menu">
                         <Dropdown.Item
                           className=" d-flex"
-                          href={`${process.env.PUBLIC_URL}/components/defaultChat/`}
+                          href={`/components/defaultChat/`}
                         >
                           <img
                             alt=""
@@ -282,7 +282,7 @@ import { Link } from "react-router-dom";
                         </Dropdown.Item>
                         <Dropdown.Item
                           className=" d-flex"
-                          href={`${process.env.PUBLIC_URL}/components/defaultChat/`}
+                          href={`/components/defaultChat/`}
                         >
                           <img
                             alt=""
@@ -301,7 +301,7 @@ import { Link } from "react-router-dom";
                         </Dropdown.Item>
                         <Dropdown.Item
                           className=" d-flex"
-                          href={`${process.env.PUBLIC_URL}/components/defaultChat/`}
+                          href={`/components/defaultChat/`}
                         >
                           <img
                             alt=""
@@ -320,7 +320,7 @@ import { Link } from "react-router-dom";
                         </Dropdown.Item>
                         <Dropdown.Item
                           className=" d-flex"
-                          href={`${process.env.PUBLIC_URL}/components/defaultChat/`}
+                          href={`/components/defaultChat/`}
                         >
                           <img
                             alt=""
@@ -372,30 +372,30 @@ import { Link } from "react-router-dom";
                       </div>
                       <div className="dropdown-divider m-0"></div>
                       <Dropdown.Item
-                        href={`${process.env.PUBLIC_URL}/pages/profile/`}
+                        href={`/pages/profile/`}
                       >
                         <i className="dropdown-icon fe fe-user"></i> Profile
                       </Dropdown.Item>
                       <Dropdown.Item
-                        href={`${process.env.PUBLIC_URL}/pages/mailInbox/`}
+                        href={`/pages/mailInbox/`}
                       >
                         <i className="dropdown-icon fe fe-mail"></i> Inbox
                         <span className="badge bg-secondary float-end">3</span>
                       </Dropdown.Item>
                       <Dropdown.Item
-                        href={`${process.env.PUBLIC_URL}/pages/mailCompose/`}
+                        href={`/pages/mailCompose/`}
                       >
                         <i className="dropdown-icon fe fe-settings"></i>
                         Settings
                       </Dropdown.Item>
                       <Dropdown.Item
-                        href={`${process.env.PUBLIC_URL}/pages/faqs/`}
+                        href={`/pages/faqs/`}
                       >
                         <i className="dropdown-icon fe fe-alert-triangle"></i>
                         Need help?p??
                       </Dropdown.Item>
                       <Dropdown.Item
-                        href={`${process.env.PUBLIC_URL}/custompages/login/`}
+                        href={`/login/`}
                       >
                         <i className="dropdown-icon fe fe-alert-circle"></i>
                         Sign out

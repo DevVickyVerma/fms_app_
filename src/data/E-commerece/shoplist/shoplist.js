@@ -331,7 +331,7 @@ export function Shopcardlist() {
             <div className="product-grid6 card-body ">
               <div className="product-image6 ">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/e-commerce/productDetails/`}
+                  to={`/pages/e-commerce/productDetails/`}
                 >
                   <img src={playerData.IMAGE} className="img-fluid" alt="" />
                 </Link>
@@ -352,7 +352,7 @@ export function Shopcardlist() {
                 <ul className="icons">
                   <li>
                     <Link
-                      to={`${process.env.PUBLIC_URL}/pages/e-commerce/productDetails/`}
+                      to={`/pages/e-commerce/productDetails/`}
                       data-tip="Quick View"
                     >
                       <i className="fe fe-eye "></i>
@@ -360,7 +360,7 @@ export function Shopcardlist() {
                   </li>
                   <li>
                     <Link
-                      to={`${process.env.PUBLIC_URL}/pages/e-commerce/wishlist/`}
+                      to={`/pages/e-commerce/wishlist/`}
                       data-tip="Add to Wishlist"
                     >
                       <i className="fa fa-heart-o"></i>
@@ -368,7 +368,7 @@ export function Shopcardlist() {
                   </li>
                   <li>
                     <Link
-                      to={`${process.env.PUBLIC_URL}/pages/e-commerce/shoppingCart/`}
+                      to={`/pages/e-commerce/shoppingCart/`}
                       data-tip="Add to Cart"
                     >
                       <i className="fa fa-shopping-cart"></i>

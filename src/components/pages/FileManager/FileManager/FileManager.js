@@ -219,7 +219,7 @@ export default function FileManager() {
             <Col xl={3} md={6} sm={6}>
               <Card className="pos-relative">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileManagerList/FileManagerList/`}
+                  to={`/pages/FileManager/FileManagerList/FileManagerList/`}
                   className="open-file"
                 />
                 <Card.Body className="px-4 pt-4 pb-2">
@@ -273,7 +273,7 @@ export default function FileManager() {
             <Col xl={3} md={6} sm={6}>
               <Card className="pos-relative">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileManagerList/FileManagerList/`}
+                  to={`/pages/FileManager/FileManagerList/FileManagerList/`}
                   className="open-file"
                 />
                 <Card.Body className="px-4 pt-4 pb-2">
@@ -325,7 +325,7 @@ export default function FileManager() {
             <Col xl={3} md={6} sm={6}>
               <Card className="pos-relative">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileManagerList/FileManagerList/`}
+                  to={`/pages/FileManager/FileManagerList/FileManagerList/`}
                   className="open-file"
                 />
                 <Card.Body className="px-4 pt-4 pb-2">
@@ -372,7 +372,7 @@ export default function FileManager() {
             <Col xl={3} md={6} sm={6}>
               <Card className="pos-relative">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileManagerList/FileManagerList/`}
+                  to={`/pages/FileManager/FileManagerList/FileManagerList/`}
                   className="open-file"
                 />
                 <Card.Body className="px-4 pt-4 pb-2">
@@ -424,7 +424,7 @@ export default function FileManager() {
             <Col xl={3} md={6} sm={6}>
               <Card className="pos-relative">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileManagerList/FileManagerList/`}
+                  to={`/pages/FileManager/FileManagerList/FileManagerList/`}
                   className="open-file"
                 />
                 <Card.Body className="px-4 pt-4 pb-2">
@@ -479,7 +479,7 @@ export default function FileManager() {
             <Col xl={3} md={6} sm={6}>
               <Card className="pos-relative">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileManagerList/FileManagerList/`}
+                  to={`/pages/FileManager/FileManagerList/FileManagerList/`}
                   className="open-file"
                 />
                 <Card.Body className="px-4 pt-4 pb-2">
@@ -530,7 +530,7 @@ export default function FileManager() {
             <Col xl={3} md={6} sm={6}>
               <Card className="pos-relative">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileManagerList/FileManagerList/`}
+                  to={`/pages/FileManager/FileManagerList/FileManagerList/`}
                   className="open-file"
                 />
                 <Card.Body className="px-4 pt-4 pb-2">
@@ -590,7 +590,7 @@ export default function FileManager() {
             <Col xl={3} md={6} sm={6}>
               <Card className="pos-relative">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileManagerList/FileManagerList/`}
+                  to={`/pages/FileManager/FileManagerList/FileManagerList/`}
                   className="open-file"
                 />
                 <Card.Body className="px-4 pt-4 pb-2">
@@ -665,7 +665,7 @@ export default function FileManager() {
             <Col xl={3} xxl={3} lg={6} md={6} sm={6}>
               <Card className="overflow-hidden">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails/`}
+                  to={`/pages/FileManager/FileDetails/FileDetails/`}
                   className="mx-auto my-3"
                 >
                   <img
@@ -688,7 +688,7 @@ export default function FileManager() {
             <Col xl={3} xxl={3} lg={6} md={6} sm={6}>
               <Card className="overflow-hidden">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails/`}
+                  to={`/pages/FileManager/FileDetails/FileDetails/`}
                 >
                   <img
                     src={require("../../../../assets/images/media/files/07.jpg")}
@@ -713,7 +713,7 @@ export default function FileManager() {
             <Col xl={3} xxl={3} lg={6} md={6} sm={6}>
               <Card className="overflow-hidden">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails/`}
+                  to={`/pages/FileManager/FileDetails/FileDetails/`}
                   className="mx-auto my-3"
                 >
                   <img
@@ -736,7 +736,7 @@ export default function FileManager() {
             <Col xl={3} xxl={3} lg={6} md={6} sm={6}>
               <Card className="overflow-hidden">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails/`}
+                  to={`/pages/FileManager/FileDetails/FileDetails/`}
                 >
                   <img
                     src={require("../../../../assets/images/media/files/02.jpg")}
@@ -761,7 +761,7 @@ export default function FileManager() {
             <Col xl={3} xxl={3} lg={6} md={6} sm={6}>
               <Card className="overflow-hidden">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails/`}
+                  to={`/pages/FileManager/FileDetails/FileDetails/`}
                   className="mx-auto my-3"
                 >
                   <img
@@ -784,7 +784,7 @@ export default function FileManager() {
             <Col xl={3} xxl={3} lg={6} md={6} sm={6}>
               <Card className="overflow-hidden">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails/`}
+                  to={`/pages/FileManager/FileDetails/FileDetails/`}
                   className="mx-auto my-3"
                 >
                   <img
@@ -807,7 +807,7 @@ export default function FileManager() {
             <Col xl={3} xxl={3} lg={6} md={6} sm={6}>
               <Card className="overflow-hidden">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails/`}
+                  to={`/pages/FileManager/FileDetails/FileDetails/`}
                 >
                   <img
                     src={require("../../../../assets/images/media/files/04.jpg")}
@@ -832,7 +832,7 @@ export default function FileManager() {
             <Col xl={3} xxl={3} lg={6} md={6} sm={6}>
               <Card className="overflow-hidden">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails/`}
+                  to={`/pages/FileManager/FileDetails/FileDetails/`}
                   className="mx-auto my-3"
                 >
                   <img
@@ -855,7 +855,7 @@ export default function FileManager() {
             <Col xl={3} xxl={3} lg={6} md={6} sm={6}>
               <Card className="overflow-hidden">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails/`}
+                  to={`/pages/FileManager/FileDetails/FileDetails/`}
                 >
                   <img
                     src={require("../../../../assets/images/media/files/06.jpg")}
@@ -880,7 +880,7 @@ export default function FileManager() {
             <Col xl={3} xxl={3} lg={6} md={6} sm={6}>
               <Card className="overflow-hidden">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails/`}
+                  to={`/pages/FileManager/FileDetails/FileDetails/`}
                   className="mx-auto my-3"
                 >
                   <img
@@ -903,7 +903,7 @@ export default function FileManager() {
             <Col xl={3} xxl={3} lg={6} md={6} sm={6}>
               <Card className="overflow-hidden">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails/`}
+                  to={`/pages/FileManager/FileDetails/FileDetails/`}
                   className="mx-auto my-3"
                 >
                   <img
@@ -928,7 +928,7 @@ export default function FileManager() {
             <Col xl={3} xxl={3} lg={6} md={6} sm={6}>
               <Card className="overflow-hidden">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails/`}
+                  to={`/pages/FileManager/FileDetails/FileDetails/`}
                 >
                   <img
                     src={require("../../../../assets/images/media/files/05.jpg")}

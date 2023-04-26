@@ -59,7 +59,7 @@ export default function ProductDetails() {
               </div>
               <div className="text-center mt-5 pb-5 border-bottom">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/e-commerce/shoppingCart/`}
+                  to={`/pages/e-commerce/shoppingCart/`}
                   className="btn btn-primary me-2"
                 >
                   <i className="ti-shopping-cart"> </i> Add to cart

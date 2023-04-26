@@ -115,13 +115,13 @@ export default function ShoppingCarts() {
             <Card.Footer>
               <div className="step-footer text-end">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/e-commerce/shop/`}
+                  to={`/pages/e-commerce/shop/`}
                   className="btn btn-primary me-2 mb-1"
                 >
                   <i className="fa fa-arrow-left me-1"></i>Continue Shopping
                 </Link>
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/e-commerce/checkout/`}
+                  to={`/pages/e-commerce/checkout/`}
                   className="btn btn-success me-2 mb-1"
                 >
                   Check out<i className="fa fa-arrow-right ms-1"></i>
