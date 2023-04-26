@@ -21,7 +21,7 @@ export default function Errorpage403() {
               </h5>
               <div className="text-center">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/dashboard/`}
+                  to={`/dashboard/`}
                   className="btn btn-primary mt-5 mb-5"
                 >
                   

@@ -3,7 +3,7 @@ export const MENUITEMS = [
     menutitle: "MAIN",
     Items: [
       {
-        path: `${process.env.PUBLIC_URL}/dashboard`,
+        path: `/dashboard`,
         icon: "home",
         type: "link",
         active: true,
@@ -15,7 +15,7 @@ export const MENUITEMS = [
     menutitle: "WIDGETS",
     Items: [
       {
-        path: `${process.env.PUBLIC_URL}/widgets`,
+        path: `/widgets`,
         icon: "grid",
         type: "link",
         active: false,
@@ -34,67 +34,67 @@ export const MENUITEMS = [
         active: false,
         children: [
           {
-            path: `${process.env.PUBLIC_URL}/components/cardsDesign`,
+            path: `/components/cardsDesign`,
             type: "link",
             title: "Cards Design",
           },
           {
-            path: `${process.env.PUBLIC_URL}/components/defaultCalendar`,
+            path: `/components/defaultCalendar`,
             type: "link",
             title: "Default Calendar",
           },
           {
-            path: `${process.env.PUBLIC_URL}/components/fullCalendar`,
+            path: `/components/fullCalendar`,
             type: "link",
             title: "Full Calendar",
           },
           {
-            path: `${process.env.PUBLIC_URL}/components/defaultChat`,
+            path: `/components/defaultChat`,
             type: "link",
             title: "Default Chat",
           },
           {
-            path: `${process.env.PUBLIC_URL}/components/notifications`,
+            path: `/components/notifications`,
             type: "link",
             title: "Notifications",
           },
           {
-            path: `${process.env.PUBLIC_URL}/components/sweetAlerts`,
+            path: `/components/sweetAlerts`,
             type: "link",
             title: "Sweet Alerts",
           },
           {
-            path: `${process.env.PUBLIC_URL}/components/rangeSlider`,
+            path: `/components/rangeSlider`,
             type: "link",
             title: "Range Slider",
           },
           {
-            path: `${process.env.PUBLIC_URL}/components/contentScrollBar`,
+            path: `/components/contentScrollBar`,
             type: "link",
             title: "Contentscrollbar",
           },
           {
-            path: `${process.env.PUBLIC_URL}/components/loader`,
+            path: `/components/loader`,
             type: "link",
             title: "Loader",
           },
           {
-            path: `${process.env.PUBLIC_URL}/components/counters`,
+            path: `/components/counters`,
             type: "link",
             title: "Counters",
           },
           {
-            path: `${process.env.PUBLIC_URL}/components/rating`,
+            path: `/components/rating`,
             type: "link",
             title: "Rating",
           },
           {
-            path: `${process.env.PUBLIC_URL}/components/timeline`,
+            path: `/components/timeline`,
             type: "link",
             title: "Timeline",
           },
           {
-            path: `${process.env.PUBLIC_URL}/components/treeview`,
+            path: `/components/treeview`,
             type: "link",
             title: "Treeview",
           },
@@ -107,82 +107,82 @@ export const MENUITEMS = [
         active: false,
         children: [
           {
-            path: `${process.env.PUBLIC_URL}/elements/alerts`,
+            path: `/elements/alerts`,
             title: "Alerts",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/elements/buttons`,
+            path: `/elements/buttons`,
             title: "Buttons",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/elements/colors`,
+            path: `/elements/colors`,
             title: "Colors",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/elements/avatarSquares`,
+            path: `/elements/avatarSquares`,
             title: "Avatar-Squares",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/elements/avatarRounded`,
+            path: `/elements/avatarRounded`,
             title: "Avatar-Rounded",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/elements/avatarRadius`,
+            path: `/elements/avatarRadius`,
             title: "Avatar-Raduis",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/elements/dropDowns`,
+            path: `/elements/dropDowns`,
             title: "Drop downs",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/elements/list`,
+            path: `/elements/list`,
             title: "List",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/elements/tags`,
+            path: `/elements/tags`,
             title: "Tags",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/elements/paginations`,
+            path: `/elements/paginations`,
             title: "Paginations",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/elements/navigation`,
+            path: `/elements/navigation`,
             title: "Navigation",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/elements/typography`,
+            path: `/elements/typography`,
             title: "Typography",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/elements/breadcrumbs`,
+            path: `/elements/breadcrumbs`,
             title: "Breadcrumbs",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/elements/badges`,
+            path: `/elements/badges`,
             title: "Badges",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/elements/panels`,
+            path: `/elements/panels`,
             title: "Panels",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/elements/thumbnails`,
+            path: `/elements/thumbnails`,
             title: "Thumbnails",
             type: "link",
           },
@@ -196,67 +196,67 @@ export const MENUITEMS = [
       //   active: false,
       //   children: [
       //     {
-      //       path: `${process.env.PUBLIC_URL}/advancedElements/mediaObject`,
+      //       path: `/advancedElements/mediaObject`,
       //       type: "link",
       //       title: "Media Object",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/advancedElements/accordions`,
+      //       path: `/advancedElements/accordions`,
       //       type: "link",
       //       title: "Accordions",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/advancedElements/tabs`,
+      //       path: `/advancedElements/tabs`,
       //       type: "link",
       //       title: "Tabs",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/advancedElements/charts`,
+      //       path: `/advancedElements/charts`,
       //       type: "link",
       //       title: "Charts",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/advancedElements/modal`,
+      //       path: `/advancedElements/modal`,
       //       type: "link",
       //       title: "Modal",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/advancedElements/tooltipandpopover`,
+      //       path: `/advancedElements/tooltipandpopover`,
       //       type: "link",
       //       title: "Tooltip and popover",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/advancedElements/progress`,
+      //       path: `/advancedElements/progress`,
       //       type: "link",
       //       title: "Progress",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/advancedElements/carousels`,
+      //       path: `/advancedElements/carousels`,
       //       type: "link",
       //       title: "Carousels",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/advancedElements/headers`,
+      //       path: `/advancedElements/headers`,
       //       type: "link",
       //       title: "Headers",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/advancedElements/footers`,
+      //       path: `/advancedElements/footers`,
       //       type: "link",
       //       title: "Footers",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/advancedElements/userList`,
+      //       path: `/advancedElements/userList`,
       //       type: "link",
       //       title: "UserList",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/advancedElements/search`,
+      //       path: `/advancedElements/search`,
       //       type: "link",
       //       title: "Search",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/advancedElements/cryptoCurrencies`,
+      //       path: `/advancedElements/cryptoCurrencies`,
       //       type: "link",
       //       title: "CryptoCurrencies",
       //     },
@@ -275,22 +275,22 @@ export const MENUITEMS = [
   //       active: false,
   //       children: [
   //         {
-  //           path: `${process.env.PUBLIC_URL}/charts/chartJs`,
+  //           path: `/charts/chartJs`,
   //           title: " ChartJs",
   //           type: "link",
   //         },
   //         {
-  //           path: `${process.env.PUBLIC_URL}/charts/echarts`,
+  //           path: `/charts/echarts`,
   //           title: "ECharts",
   //           type: "link",
   //         },
   //         {
-  //           path: `${process.env.PUBLIC_URL}/charts/nvd3Charts`,
+  //           path: `/charts/nvd3Charts`,
   //           title: "Nvd3 Charts",
   //           type: "link",
   //         },
   //         {
-  //           path: `${process.env.PUBLIC_URL}/charts/pieCharts`,
+  //           path: `/charts/pieCharts`,
   //           title: "Pie Charts",
   //           type: "link",
   //         },
@@ -308,12 +308,12 @@ export const MENUITEMS = [
   //       active: false,
   //       children: [
   //         {
-  //           path: `${process.env.PUBLIC_URL}/tables/defaultTables`,
+  //           path: `/tables/defaultTables`,
   //           title: " Default Tables",
   //           type: "link",
   //         },
   //         {
-  //           path: `${process.env.PUBLIC_URL}/tables/dataTables`,
+  //           path: `/tables/dataTables`,
   //           title: "Data Tables ",
   //           type: "link",
   //         },
@@ -333,73 +333,73 @@ export const MENUITEMS = [
   //       active: false,
   //       children: [
   //         {
-  //           path: `${process.env.PUBLIC_URL}/pages/profile`,
+  //           path: `/pages/profile`,
   //           title: "Profile",
   //           type: "link",
   //         },
   //         {
-  //           path: `${process.env.PUBLIC_URL}/pages/editProfile`,
+  //           path: `/pages/editProfile`,
   //           title: "Edit Profile",
   //           type: "link",
   //         },
   //         {
-  //           path: `${process.env.PUBLIC_URL}/pages/mailInbox`,
+  //           path: `/pages/mailInbox`,
   //           title: "Mail Inbox",
   //           type: "link",
   //         },
   //         {
-  //           path: `${process.env.PUBLIC_URL}/pages/mailCompose`,
+  //           path: `/pages/mailCompose`,
   //           title: "Mail Compose",
   //           type: "link",
   //         },
   //         {
-  //           path: `${process.env.PUBLIC_URL}/pages/gallery`,
+  //           path: `/pages/gallery`,
   //           title: "Gallery",
   //           type: "link",
   //         },
   //         {
-  //           path: `${process.env.PUBLIC_URL}/pages/aboutCompany`,
+  //           path: `/pages/aboutCompany`,
   //           title: "About Company",
   //           type: "link",
   //         },
   //         {
-  //           path: `${process.env.PUBLIC_URL}/pages/services`,
+  //           path: `/pages/services`,
   //           title: "Services",
   //           type: "link",
   //         },
   //         {
-  //           path: `${process.env.PUBLIC_URL}/pages/faqs`,
+  //           path: `/pages/faqs`,
   //           title: "FAQS",
   //           type: "link",
   //         },
   //         {
-  //           path: `${process.env.PUBLIC_URL}/pages/terms`,
+  //           path: `/pages/terms`,
   //           title: "Terms",
   //           type: "link",
   //         },
   //         {
-  //           path: `${process.env.PUBLIC_URL}/pages/invoice`,
+  //           path: `/pages/invoice`,
   //           title: "Invoice",
   //           type: "link",
   //         },
   //         {
-  //           path: `${process.env.PUBLIC_URL}/pages/pricingTables`,
+  //           path: `/pages/pricingTables`,
   //           title: "Pricing Tables",
   //           type: "link",
   //         },
 
   //         {
-  //           path: `${process.env.PUBLIC_URL}/pages/empty`,
+  //           path: `/pages/empty`,
   //           title: "Empty",
   //           type: "link",
   //         },
   //         {
-  //           path: `${process.env.PUBLIC_URL}/pages/underConstruction`,
+  //           path: `/pages/underConstruction`,
   //           title: "Under Construction",
   //           type: "link",
   //         },
   //         {
-  //           path: `${process.env.PUBLIC_URL}/pages/themeStyle`,
+  //           path: `/pages/themeStyle`,
   //           title: "Theme Style",
   //           type: "link",
   //         },
@@ -409,17 +409,17 @@ export const MENUITEMS = [
   //           active: false,
   //           children: [
   //             {
-  //               path: `${process.env.PUBLIC_URL}/pages/Blog/blog`,
+  //               path: `/pages/Blog/blog`,
   //               title: "Blog",
   //               type: "link",
   //             },
   //             {
-  //               path: `${process.env.PUBLIC_URL}/pages/Blog/blogDetails`,
+  //               path: `/pages/Blog/blogDetails`,
   //               title: "Blog Details",
   //               type: "link",
   //             },
   //             {
-  //               path: `${process.env.PUBLIC_URL}/pages/Blog/blogPost`,
+  //               path: `/pages/Blog/blogPost`,
   //               title: "Blog Post",
   //               type: "link",
   //             },
@@ -432,12 +432,12 @@ export const MENUITEMS = [
   //           active: false,
   //           children: [
   //             {
-  //               path: `${process.env.PUBLIC_URL}/pages/maps/leafletMaps`,
+  //               path: `/pages/maps/leafletMaps`,
   //               type: "link",
   //               title: "Leaflet Maps ",
   //             },
   //             {
-  //               path: `${process.env.PUBLIC_URL}/pages/maps/vectorMaps`,
+  //               path: `/pages/maps/vectorMaps`,
   //               type: "link",
   //               title: "Vector Maps ",
   //             },
@@ -450,27 +450,27 @@ export const MENUITEMS = [
   //           active: false,
   //           children: [
   //             {
-  //               path: `${process.env.PUBLIC_URL}/pages/e-commerce/shop`,
+  //               path: `/pages/e-commerce/shop`,
   //               title: "Shop",
   //               type: "link",
   //             },
   //             {
-  //               path: `${process.env.PUBLIC_URL}/pages/e-commerce/productDetails`,
+  //               path: `/pages/e-commerce/productDetails`,
   //               title: "Product Details",
   //               type: "link",
   //             },
   //             {
-  //               path: `${process.env.PUBLIC_URL}/pages/e-commerce/shoppingCart`,
+  //               path: `/pages/e-commerce/shoppingCart`,
   //               title: "Shopping Cart",
   //               type: "link",
   //             },
   //             {
-  //               path: `${process.env.PUBLIC_URL}/pages/e-commerce/wishlist`,
+  //               path: `/pages/e-commerce/wishlist`,
   //               title: "Wishlist",
   //               type: "link",
   //             },
   //             {
-  //               path: `${process.env.PUBLIC_URL}/pages/e-commerce/checkout`,
+  //               path: `/pages/e-commerce/checkout`,
   //               title: "Checkout",
   //               type: "link",
   //             },
@@ -483,24 +483,24 @@ export const MENUITEMS = [
   //           active: false,
   //           children: [
   //             {
-  //               path: `${process.env.PUBLIC_URL}/pages/FileManager/FileManagerList/FileManagerList`,
+  //               path: `/pages/FileManager/FileManagerList/FileManagerList`,
   //               title: "File Manager List",
   //               type: "link",
   //             },
   //             {
-  //               path: `${process.env.PUBLIC_URL}/pages/FileManagerFileManager/FileManager`,
+  //               path: `/pages/FileManagerFileManager/FileManager`,
   //               title: "File Manager",
   //               type: "link",
   //             },
 
   //             {
-  //               path: `${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails`,
+  //               path: `/pages/FileManager/FileDetails/FileDetails`,
   //               title: "File Details",
   //               type: "link",
   //             },
 
   //             {
-  //               path: `${process.env.PUBLIC_URL}/pages/FileManager/FileAttachments/FileAttachments`,
+  //               path: `/pages/FileManager/FileAttachments/FileAttachments`,
   //               title: "File Attachments",
   //               type: "link",
   //             },
@@ -521,22 +521,22 @@ export const MENUITEMS = [
         active: false,
         children: [
           {
-            path: `${process.env.PUBLIC_URL}/custompages/login`,
+            path: `/login`,
             title: "Login",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/custompages/register`,
+            path: `/custompages/register`,
             title: "Register",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/custompages/forgotPassword`,
+            path: `/custompages/forgotPassword`,
             title: "Forgot Password",
             type: "link",
           },
           // {
-          //   path: `${process.env.PUBLIC_URL}/custompages/lockScreen`,
+          //   path: `/custompages/lockScreen`,
           //   title: "Lock Screen",
           //   type: "link",
           // },
@@ -547,27 +547,27 @@ export const MENUITEMS = [
           //   active: false,
           //   children: [
           //     {
-          //       path: `${process.env.PUBLIC_URL}/custompages/errorpages/errorpage400`,
+          //       path: `/custompages/errorpages/errorpage400`,
           //       title: "400",
           //       type: "link",
           //     },
           //     {
-          //       path: `${process.env.PUBLIC_URL}/custompages/errorpages/errorpage401`,
+          //       path: `/custompages/errorpages/errorpage401`,
           //       title: "401",
           //       type: "link",
           //     },
           //     {
-          //       path: `${process.env.PUBLIC_URL}/custompages/errorpages/errorpage403`,
+          //       path: `/custompages/errorpages/errorpage403`,
           //       title: "403",
           //       type: "link",
           //     },
           //     {
-          //       path: `${process.env.PUBLIC_URL}/custompages/errorpages/errorpage500`,
+          //       path: `/custompages/errorpages/errorpage500`,
           //       title: "500",
           //       type: "link",
           //     },
           //     {
-          //       path: `${process.env.PUBLIC_URL}/custompages/errorpages/errorpage503`,
+          //       path: `/custompages/errorpages/errorpage503`,
           //       title: "503",
           //       type: "link",
           //     },
@@ -583,22 +583,22 @@ export const MENUITEMS = [
       //   active: false,
       //   children: [
       //     {
-      //       path: `${process.env.PUBLIC_URL}/#`,
+      //       path: `/#`,
       //       title: "SubMenu1",
       //       type: "link",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/#`,
+      //       path: `/#`,
       //       title: "SubMenu2",
       //       type: "sub",
       //       children: [
       //         {
-      //           path: `${process.env.PUBLIC_URL}/#`,
+      //           path: `/#`,
       //           title: "SubMenu2-1",
       //           type: "link",
       //         },
       //         {
-      //           path: `${process.env.PUBLIC_URL}/#`,
+      //           path: `/#`,
       //           title: "SubMenu2-2",
       //           type: "link",
       //         },
@@ -621,27 +621,27 @@ export const MENUITEMS = [
         active: false,
         children: [
           {
-            path: `${process.env.PUBLIC_URL}/form/formElements`,
+            path: `/form/formElements`,
             title: "Form Elements",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/form/formAdvanced`,
+            path: `/form/formAdvanced`,
             title: "Form Advanced",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/form/formEditor`,
+            path: `/form/formEditor`,
             title: "Form Editor",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/form/formWizard`,
+            path: `/form/formWizard`,
             title: "Form Wizard",
             type: "link",
           },
           {
-            path: `${process.env.PUBLIC_URL}/form/formValidation`,
+            path: `/form/formValidation`,
             title: "Form Validation",
             type: "link",
           },
@@ -654,52 +654,52 @@ export const MENUITEMS = [
       //   type: "sub",
       //   children: [
       //     {
-      //       path: `${process.env.PUBLIC_URL}/icon/fontAwesome`,
+      //       path: `/icon/fontAwesome`,
       //       title: "Font Awesome",
       //       type: "link",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/icon/materialDesignIcons`,
+      //       path: `/icon/materialDesignIcons`,
       //       title: "Material Design Icons",
       //       type: "link",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/icon/simpleLineIcons`,
+      //       path: `/icon/simpleLineIcons`,
       //       title: "Simple Line Icons",
       //       type: "link",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/icon/featherIcons`,
+      //       path: `/icon/featherIcons`,
       //       title: "Feather Icons",
       //       type: "link",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/icon/ionicIcons`,
+      //       path: `/icon/ionicIcons`,
       //       title: "Ionic Icons",
       //       type: "link",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/icon/flagIcons`,
+      //       path: `/icon/flagIcons`,
       //       title: "Flag Icons",
       //       type: "link",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/icon/pe7Icons`,
+      //       path: `/icon/pe7Icons`,
       //       title: "Pe7 Icons",
       //       type: "link",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/icon/themifyIcons`,
+      //       path: `/icon/themifyIcons`,
       //       title: "Themify Icons",
       //       type: "link",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/icon/typiconsIcons`,
+      //       path: `/icon/typiconsIcons`,
       //       title: "Typicons Icons",
       //       type: "link",
       //     },
       //     {
-      //       path: `${process.env.PUBLIC_URL}/icon/weatherIcons`,
+      //       path: `/icon/weatherIcons`,
       //       title: "Weather Icons",
       //       type: "link",
       //     },

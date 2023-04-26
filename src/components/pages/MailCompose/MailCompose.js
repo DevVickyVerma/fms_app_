@@ -47,7 +47,7 @@ export default function MailCompose() {
             <div className="list-group list-group-transparent mb-0 mail-inbox pb-3">
               <div className="mt-4 mb-4 mx-4 text-center">
                 <Link
-                  to={`${process.env.PUBLIC_URL}/pages/mailInbox/`}
+                  to={`/pages/mailInbox/`}
                   className="btn btn-primary btn-lg d-grid"
                 >
                   Inbox

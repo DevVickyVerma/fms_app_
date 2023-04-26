@@ -19,6 +19,9 @@ export function RightSidebar() {
     document.querySelector(".sidebar-right").classList.remove("sidebar-open");
   }
 
+
+  
+
   return (
     <div className="sidebar sidebar-right sidebar-animate">
       <div className="panel panel-primary card mb-0 shadow-none border-0">
@@ -65,7 +68,7 @@ export function RightSidebar() {
                 </div>
                 <Link
                   className="dropdown-item d-flex border-bottom border-top"
-                  to={`${process.env.PUBLIC_URL}/pages/profile/`}
+                  to={`/pages/profile/`}
                 >
                   <div className="d-flex">
                     <i className="fe fe-user me-3 tx-20 text-muted"></i>
@@ -80,7 +83,7 @@ export function RightSidebar() {
            
                 <Link
                   className="dropdown-item d-flex border-bottom"
-                  to={`${process.env.PUBLIC_URL}/pages/editProfile/`}
+                  to={`/pages/editProfile/`}
                 >
                   <div className="d-flex">
                     <i className="fe fe-settings me-3 tx-20 text-muted"></i>
@@ -92,18 +95,18 @@ export function RightSidebar() {
                     </div>
                   </div>
                 </Link>
-                <Link
+                <div
                   className="dropdown-item d-flex border-bottom"
-                  to={`${process.env.PUBLIC_URL}/custompages/login`}
+                 
                 >
                   <div className="d-flex">
                     <i className="fe fe-power me-3 tx-20 text-muted"></i>
-                    <div className="pt-1">
-                      <h6 className="mb-0">Sign Out</h6>
+                    <div className="pt-1 onhover">
+                      {/* <h6 className="mb-0 " onClick={logout}>Sign Out</h6> */}
                       <p className="tx-12 mb-0 text-muted">Account Signout</p>
                     </div>
                   </div>
-                </Link>
+                </div>
               </div>
             </Tab>
 

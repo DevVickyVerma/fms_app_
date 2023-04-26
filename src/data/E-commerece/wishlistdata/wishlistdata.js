@@ -89,21 +89,21 @@ export function Wishlistdata() {
             </td>
             <td>
               <Link
-                to={`${process.env.PUBLIC_URL}/pages/e-commerce/productDetails/`}
+                to={`/pages/e-commerce/productDetails/`}
                 className="btn btn-primary-light btn-square  br-50 m-1"
                 title=""
               >
                 <i className="fe fe-eye fs-13"></i>
               </Link>
               <Link
-                to={`${process.env.PUBLIC_URL}/pages/e-commerce/shoppingCart/`}
+                to={`/pages/e-commerce/shoppingCart/`}
                 className="btn btn-info-light btn-square  br-50 m-1"
                 title=""
               >
                 <i className="fe fe-shopping-cart fs-13"></i>
               </Link>
               <Link
-                to={`${process.env.PUBLIC_URL}/pages/e-commerce/shoppingCart/`}
+                to={`/pages/e-commerce/shoppingCart/`}
                 className="btn btn-danger-light btn-square  br-50 m-1"
                 title=""
               >

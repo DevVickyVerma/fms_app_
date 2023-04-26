@@ -39,7 +39,7 @@ export default function Headers() {
                   </Link>
                   <Link
                     className="header-brand"
-                    to={`${process.env.PUBLIC_URL}/dashboard/`}
+                    to={`/dashboard/`}
                   >
                     <img
                       src={require("../../../assets/images/brand/logo-3.png")}
@@ -149,7 +149,7 @@ export default function Headers() {
                   </Link>
                   <Link
                     className="header-brand"
-                    to={`${process.env.PUBLIC_URL}/dashboard/`}
+                    to={`/dashboard/`}
                   >
                     <img
                       src={require("../../../assets/images/brand/logo-3.png")}
@@ -251,7 +251,7 @@ export default function Headers() {
                   </Link>
                   <Link
                     className="header-brand"
-                    to={`${process.env.PUBLIC_URL}/dashboard/`}
+                    to={`/dashboard/`}
                   >
                     <img
                       src={require("../../../assets/images/brand/logo-3.png")}

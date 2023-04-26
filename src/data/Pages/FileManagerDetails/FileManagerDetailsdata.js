@@ -46,7 +46,7 @@ export function SimpleSlider() {
         <div className="item me-4">
           <div className="card overflow-hidden border p-0 mb-0 bg-white">
             <Link
-              to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails/`}
+              to={`/pages/FileManager/FileDetails/FileDetails/`}
             >
               <img
                 src={require("../../../assets/images/media/files/03.jpg")}
@@ -70,7 +70,7 @@ export function SimpleSlider() {
         <div className="item">
           <div className="card overflow-hidden border p-0 mb-0 bg-white">
             <Link
-              to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails/`}
+              to={`/pages/FileManager/FileDetails/FileDetails/`}
               className="mx-auto my-3"
             >
               <img
@@ -93,7 +93,7 @@ export function SimpleSlider() {
         <div className="item">
           <div className="card overflow-hidden border p-0 mb-0 bg-white">
             <Link
-              to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails/`}
+              to={`/pages/FileManager/FileDetails/FileDetails/`}
             >
               <img
                 src={require("../../../assets/images/media/files/07.jpg")}
@@ -117,7 +117,7 @@ export function SimpleSlider() {
         <div className="item">
           <div className="card overflow-hidden border p-0 mb-0 bg-white">
             <Link
-              to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails/`}
+              to={`/pages/FileManager/FileDetails/FileDetails/`}
               className="mx-auto my-3"
             >
               <img
@@ -140,7 +140,7 @@ export function SimpleSlider() {
         <div className="item">
           <div className="card overflow-hidden border p-0 mb-0 bg-white">
             <Link
-              to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails/`}
+              to={`/pages/FileManager/FileDetails/FileDetails/`}
             >
               <img
                 src={require("../../../assets/images/media/files/06.jpg")}
@@ -164,7 +164,7 @@ export function SimpleSlider() {
         <div className="item">
           <div className="card overflow-hidden border p-0 mb-0 bg-white">
             <Link
-              to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails/`}
+              to={`/pages/FileManager/FileDetails/FileDetails/`}
               className="mx-auto my-3"
             >
               <img
@@ -187,7 +187,7 @@ export function SimpleSlider() {
         <div className="item">
           <div className="card overflow-hidden border p-0 mb-0 bg-white">
             <Link
-              to={`${process.env.PUBLIC_URL}/pages/FileManager/FileDetails/FileDetails/`}
+              to={`/pages/FileManager/FileDetails/FileDetails/`}
             >
               <img
                 src={require("../../../assets/images/media/files/02.jpg")}

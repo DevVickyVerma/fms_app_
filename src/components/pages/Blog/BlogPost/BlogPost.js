@@ -106,7 +106,7 @@ export default function BlogPost() {
                 <div className="">
                   <div className="d-flex overflow-visible blogimg">
                     <Link
-                      to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`}
+                      to={`/pages/Blog/blogDetails`}
                       className="card-aside-column br-5 cover-image  me-3"
                     >
                       <img
@@ -125,7 +125,7 @@ export default function BlogPost() {
                       </span>
                       <h4>
                         <Link
-                          to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`}
+                          to={`/pages/Blog/blogDetails`}
                         >
                           Generator on the Internet..
                         </Link>
@@ -139,7 +139,7 @@ export default function BlogPost() {
                   </div>
                   <div className="d-flex overflow-visible mt-5 blogimg">
                     <Link
-                      to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`}
+                      to={`/pages/Blog/blogDetails`}
                       className="card-aside-column br-5 cover-image  me-3"
                     >
                       <img
@@ -158,7 +158,7 @@ export default function BlogPost() {
                       </span>
                       <h4>
                         <Link
-                          to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`}
+                          to={`/pages/Blog/blogDetails`}
                         >
                           Voluptatem quia voluptas...
                         </Link>
@@ -172,7 +172,7 @@ export default function BlogPost() {
                   </div>
                   <div className="d-flex overflow-visible mt-5 blogimg">
                     <Link
-                      to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`}
+                      to={`/pages/Blog/blogDetails`}
                       className="card-aside-column br-5 cover-image me-3"
                     >
                       <img
@@ -191,7 +191,7 @@ export default function BlogPost() {
                       </span>
                       <h4>
                         <Link
-                          to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`}
+                          to={`/pages/Blog/blogDetails`}
                         >
                           Generator on the Internet..
                         </Link>
@@ -205,7 +205,7 @@ export default function BlogPost() {
                   </div>
                   <div className="d-flex overflow-visible mt-5 blogimg">
                     <Link
-                      to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`}
+                      to={`/pages/Blog/blogDetails`}
                       className="card-aside-column br-5 cover-image  me-3"
                     >
                       <img
@@ -224,7 +224,7 @@ export default function BlogPost() {
                       </span>
                       <h4>
                         <Link
-                          to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`}
+                          to={`/pages/Blog/blogDetails`}
                         >
                           Voluptatem quia voluptas...
                         </Link>
@@ -253,7 +253,7 @@ export default function BlogPost() {
                     />
                     <div className="media-body valign-middle">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/profile`}
+                        to={`/pages/profile`}
                         className="fw-semibold text-dark"
                       >
                         John Paige
@@ -272,7 +272,7 @@ export default function BlogPost() {
                     />
                     <div className="media-body valign-middle">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/profile`}
+                        to={`/pages/profile`}
                         className="fw-semibold text-dark"
                       >
                         Peter Hill
@@ -291,7 +291,7 @@ export default function BlogPost() {
                     />
                     <div className="media-body valign-middle">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/profile`}
+                        to={`/pages/profile`}
                         className="fw-semibold text-dark"
                       >
                         Irene Harris
@@ -310,7 +310,7 @@ export default function BlogPost() {
                     />
                     <div className="media-body valign-middle">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/profile`}
+                        to={`/pages/profile`}
                         className="fw-semibold text-dark"
                       >
                         Harry Fisher

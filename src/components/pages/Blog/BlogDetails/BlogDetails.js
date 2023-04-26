@@ -60,7 +60,7 @@ export default function BlogDetails() {
                     </div>
                   </Link>
                   <Link
-                    to={`${process.env.PUBLIC_URL}/pages/profile`}
+                    to={`/pages/profile`}
                     className="d-flex mb-2"
                   >
                     <i className="fe fe-user fs-16 me-1 p-3 bg-primary-transparent text-primary bradius" />
@@ -110,7 +110,7 @@ export default function BlogDetails() {
               <Card.Body className="pb-0">
                 <div className="media mb-5 overflow-visible d-block d-sm-flex">
                   <div className="me-3 mb-2">
-                    <Link to={`${process.env.PUBLIC_URL}/pages/profile`}>
+                    <Link to={`/pages/profile`}>
                       <img
                         className="media-object rounded-circle thumb-sm"
                         alt="64x64"
@@ -180,7 +180,7 @@ export default function BlogDetails() {
                     </div>
                     <div className="media mb-5 overflow-visible">
                       <div className="me-3">
-                        <Link to={`${process.env.PUBLIC_URL}/pages/profile`}>
+                        <Link to={`/pages/profile`}>
                           <img
                             className="media-object rounded-circle thumb-sm"
                             alt="64x64"
@@ -252,7 +252,7 @@ export default function BlogDetails() {
                 </div>
                 <div className="media mb-5 overflow-visible">
                   <div className="me-3">
-                    <Link to={`${process.env.PUBLIC_URL}/pages/profile`}>
+                    <Link to={`/pages/profile`}>
                       <img
                         className="media-object rounded-circle thumb-sm"
                         alt="64x64"
@@ -318,7 +318,7 @@ export default function BlogDetails() {
                 </div>
                 <div className="media mb-5 overflow-visible d-block d-sm-flex">
                   <div className="me-3 mb-1">
-                    <Link to={`${process.env.PUBLIC_URL}/pages/profile`}>
+                    <Link to={`/pages/profile`}>
                       <img
                         className="media-object rounded-circle thumb-sm"
                         alt="64x64"
@@ -388,7 +388,7 @@ export default function BlogDetails() {
                     </div>
                     <div className="media mb-5 overflow-visible d-block d-sm-flex">
                       <div className="me-3 mb-1">
-                        <Link to={`${process.env.PUBLIC_URL}/pages/profile`}>
+                        <Link to={`/pages/profile`}>
                           <img
                             className="media-object rounded-circle thumb-sm"
                             alt="64x64"
@@ -459,7 +459,7 @@ export default function BlogDetails() {
                         <div className="media overflow-visible">
                           <div className="me-3">
                             <Link
-                              to={`${process.env.PUBLIC_URL}/pages/profile`}
+                              to={`/pages/profile`}
                             >
                               <img
                                 className="media-object rounded-circle thumb-sm"
@@ -657,7 +657,7 @@ export default function BlogDetails() {
                     />
                     <div className="media-body valign-middle">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/profile`}
+                        to={`/pages/profile`}
                         className="fw-semibold text-dark"
                       >
                         Simon Sais
@@ -676,7 +676,7 @@ export default function BlogDetails() {
                     />
                     <div className="media-body valign-middle">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/profile`}
+                        to={`/pages/profile`}
                         className="fw-semibold text-dark"
                       >
                         Cherry Blossom
@@ -695,7 +695,7 @@ export default function BlogDetails() {
                     />
                     <div className="media-body valign-middle">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/profile`}
+                        to={`/pages/profile`}
                         className="fw-semibold text-dark"
                       >
                         Ivan Notheridiya
@@ -714,7 +714,7 @@ export default function BlogDetails() {
                     />
                     <div className="media-body valign-middle">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/profile`}
+                        to={`/pages/profile`}
                         className="fw-semibold text-dark"
                       >
                         Manny Jah
@@ -736,7 +736,7 @@ export default function BlogDetails() {
                 <div className="">
                   <div className="d-flex overflow-visible blogimg">
                     <Link
-                      to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`}
+                      to={`/pages/Blog/blogDetails`}
                       className="card-aside-column br-5 cover-image me-3"
                     >
                       <img
@@ -752,7 +752,7 @@ export default function BlogDetails() {
                     <div className="ps-1 flex-column">
                       <h4>
                         <Link
-                          to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`}
+                          to={`/pages/Blog/blogDetails`}
                         >
                           Generator on the Internet..
                         </Link>
@@ -768,7 +768,7 @@ export default function BlogDetails() {
                   </div>
                   <div className="d-flex overflow-visible mt-5 blogimg">
                     <Link
-                      to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`}
+                      to={`/pages/Blog/blogDetails`}
                       className="card-aside-column br-5 cover-image me-3"
                     >
                       <img
@@ -784,7 +784,7 @@ export default function BlogDetails() {
                     <div className="ps-1 flex-column">
                       <h4>
                         <Link
-                          to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`}
+                          to={`/pages/Blog/blogDetails`}
                         >
                           Voluptatem quia voluptas...
                         </Link>
@@ -800,7 +800,7 @@ export default function BlogDetails() {
                   </div>
                   <div className="d-flex overflow-visible mt-5 blogimg">
                     <Link
-                      to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`}
+                      to={`/pages/Blog/blogDetails`}
                       className="card-aside-column br-5 cover-image me-3"
                     >
                       <img
@@ -816,7 +816,7 @@ export default function BlogDetails() {
                     <div className="ps-1 flex-column">
                       <h4>
                         <Link
-                          to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`}
+                          to={`/pages/Blog/blogDetails`}
                         >
                           Generator on the Internet..
                         </Link>
@@ -832,7 +832,7 @@ export default function BlogDetails() {
                   </div>
                   <div className="d-flex overflow-visible mt-5 blogimg">
                     <Link
-                      to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`}
+                      to={`/pages/Blog/blogDetails`}
                       className="card-aside-column br-5 cover-image me-3"
                     >
                       <img
@@ -848,7 +848,7 @@ export default function BlogDetails() {
                     <div className="ps-1 flex-column">
                       <h4>
                         <Link
-                          to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`}
+                          to={`/pages/Blog/blogDetails`}
                         >
                           Voluptatem quia voluptas...
                         </Link>

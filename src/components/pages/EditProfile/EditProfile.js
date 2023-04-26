@@ -48,7 +48,7 @@ export default function EditProfile() {
                 />
                 <div className="ms-auto mt-xl-2 mt-lg-0 me-lg-2">
                   <Link
-                    to={`${process.env.PUBLIC_URL}/pages/editProfile/`}
+                    to={`/pages/editProfile/`}
                     className="btn btn-primary btn-sm mt-1 mb-1 me-2"
                   >
                     <i className="fe fe-camera me-1"></i>Edit profile

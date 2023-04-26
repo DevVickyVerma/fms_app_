@@ -48,7 +48,7 @@ export default function Blog() {
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
               </Card.Text>
-              <Link to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`} className="float-end">
+              <Link to={`/pages/Blog/blogDetails`} className="float-end">
                 Read more <i className="fa fa-angle-double-right"></i>
               </Link>
             </Card.Body>
@@ -69,7 +69,7 @@ export default function Blog() {
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
               </Card.Text>
-              <Link to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`} className="float-end text-info">
+              <Link to={`/pages/Blog/blogDetails`} className="float-end text-info">
                 Read more <i className="fa fa-angle-double-right"></i>
               </Link>
             </Card.Body>
@@ -90,7 +90,7 @@ export default function Blog() {
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
               </Card.Text>
-              <Link to={`${process.env.PUBLIC_URL}/pages/Blog/blogDetails`} className="float-end text-success">
+              <Link to={`/pages/Blog/blogDetails`} className="float-end text-success">
                 Read more <i className="fa fa-angle-double-right"></i>
               </Link>
             </Card.Body>
@@ -112,7 +112,7 @@ export default function Blog() {
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
               </Card.Text>
-              <Link to={`${process.env.PUBLIC_URL}/pages/Blog/blogPost`} className="btn btn-primary btn-md">
+              <Link to={`/pages/Blog/blogPost`} className="btn btn-primary btn-md">
                 Read more
               </Link>
             </Card.Body>
@@ -133,7 +133,7 @@ export default function Blog() {
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
               </Card.Text>
-              <Link to={`${process.env.PUBLIC_URL}/pages/Blog/blogPost`} className="btn btn-warning btn-md">
+              <Link to={`/pages/Blog/blogPost`} className="btn btn-warning btn-md">
                 Read more
               </Link>
             </Card.Body>
@@ -154,7 +154,7 @@ export default function Blog() {
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
               </Card.Text>
-              <Link to={`${process.env.PUBLIC_URL}/pages/Blog/blogPost`} className="btn btn-info btn-md">
+              <Link to={`/pages/Blog/blogPost`} className="btn btn-info btn-md">
                 Read more
               </Link>
             </Card.Body>
@@ -185,7 +185,7 @@ export default function Blog() {
                 />
                 <div>
                   <Link
-                    to={`${process.env.PUBLIC_URL}/pages/profile/`}
+                    to={`/pages/profile/`}
                     className="text-default"
                   >
                     Megan Peters
@@ -229,7 +229,7 @@ export default function Blog() {
                 />
                 <div>
                   <Link
-                    to={`${process.env.PUBLIC_URL}/pages/profile/`}
+                    to={`/pages/profile/`}
                     className="text-default"
                   >
                     Anna Ogden
@@ -266,7 +266,7 @@ export default function Blog() {
                 />
                 <div>
                   <Link
-                    to={`${process.env.PUBLIC_URL}/pages/profile/`}
+                    to={`/pages/profile/`}
                     className="text-default"
                   >
                     Carol Paige
@@ -310,7 +310,7 @@ export default function Blog() {
                 />
                 <div>
                   <Link
-                    to={`${process.env.PUBLIC_URL}/pages/profile/`}
+                    to={`/pages/profile/`}
                     className="text-default"
                   >
                     Fiona Hodges
@@ -360,7 +360,7 @@ export default function Blog() {
                 />
                 <div>
                   <Link
-                    to={`${process.env.PUBLIC_URL}/pages/profile/`}
+                    to={`/pages/profile/`}
                     className="text-default"
                   >
                     Anna Ogden
@@ -397,7 +397,7 @@ export default function Blog() {
                 ></img>
                 <div>
                   <Link
-                    to={`${process.env.PUBLIC_URL}/pages/profile/`}
+                    to={`/pages/profile/`}
                     className="text-default"
                   >
                     Irene Scott

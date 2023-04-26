@@ -50,6 +50,33 @@ export function Header() {
   //   document.querySelector(".demo_changer").classList.toggle("active");
   //   document.querySelector(".demo_changer").style.right = "0px";
   // };
+
+  const logout = () => {
+    const token = localStorage.getItem('token');
+    fetch('http://192.168.1.165:8000/v1/logout', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+    })
+      .then(response => {
+        if (response.ok) {
+          localStorage.clear();
+          // window.location.replace('/login');
+          alert("done")
+        } else {
+          throw new Error('Failed to logout');
+          alert("else")
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+  
+
+
+
   return (
     <Navbar expand="md" className="app-header header sticky">
       <Container fluid className="main-container">
@@ -62,7 +89,7 @@ export function Header() {
           ></Link>
           <div className="responsive-logo">
             <Link
-              to={`${process.env.PUBLIC_URL}/dashboard/`}
+              to={`/dashboard/`}
               className="header-logo"
             >
               <img
@@ -79,7 +106,7 @@ export function Header() {
           </div>
           <Link
             className="logo-horizontal "
-            to={`${process.env.PUBLIC_URL}/dashboard/`}
+            to={`/dashboard/`}
           >
             <img
               src={require("../../assets/images/brand/logo.png")}
@@ -152,7 +179,7 @@ export function Header() {
                       <i className="fe fe-minimize fullscreen-button"></i>
                     </Link>
                   </div>
-                  {/* <Dropdown className="d-md-flex notifications">
+                  <Dropdown className="d-md-flex notifications">
                     <Dropdown.Toggle className="nav-link icon " variant="">
                       <i className="fe fe-bell"></i>
                       <span className=" pulse"></span>
@@ -176,7 +203,7 @@ export function Header() {
                       <div className="notifications-menu">
                         <Dropdown.Item
                           className=" d-flex"
-                          href={`${process.env.PUBLIC_URL}/components/defaultChat/`}
+                          href={`/components/defaultChat/`}
                         >
                           <div className="me-3 notifyimg  bg-primary-gradient brround box-shadow-primary">
                             <i className="fe fe-message-square"></i>
@@ -192,7 +219,7 @@ export function Header() {
                         </Dropdown.Item>
                         <Dropdown.Item
                           className=" d-flex"
-                          href={`${process.env.PUBLIC_URL}/components/defaultChat/`}
+                          href={`/components/defaultChat/`}
                         >
                           <div className="me-3 notifyimg  bg-secondary-gradient brround box-shadow-primary">
                             <i className="fe fe-mail"></i>
@@ -208,7 +235,7 @@ export function Header() {
                         </Dropdown.Item>
                         <Dropdown.Item
                           className=" d-flex"
-                          href={`${process.env.PUBLIC_URL}/pages/e-commerce/shoppingCart/`}
+                          href={`/pages/e-commerce/shoppingCart/`}
                         >
                           <div className="me-3 notifyimg  bg-success-gradient brround box-shadow-primary">
                             <i className="fe fe-shopping-cart"></i>
@@ -232,7 +259,7 @@ export function Header() {
                       </Link>
                     </Dropdown.Menu>
                   </Dropdown>
-                  <Dropdown className="dropdown d-md-flex message">
+                  {/* <Dropdown className="dropdown d-md-flex message">
                     <Dropdown.Toggle
                       className="nav-link icon text-center d-flex"
                       variant=""
@@ -259,7 +286,7 @@ export function Header() {
                       <div className="message-menu">
                         <Dropdown.Item
                           className=" d-flex"
-                          href={`${process.env.PUBLIC_URL}/components/defaultChat/`}
+                          href={`/components/defaultChat/`}
                         >
                           <img
                             alt=""
@@ -278,7 +305,7 @@ export function Header() {
                         </Dropdown.Item>
                         <Dropdown.Item
                           className=" d-flex"
-                          href={`${process.env.PUBLIC_URL}/components/defaultChat/`}
+                          href={`/components/defaultChat/`}
                         >
                           <img
                             alt=""
@@ -297,7 +324,7 @@ export function Header() {
                         </Dropdown.Item>
                         <Dropdown.Item
                           className=" d-flex"
-                          href={`${process.env.PUBLIC_URL}/components/defaultChat/`}
+                          href={`/components/defaultChat/`}
                         >
                           <img
                             alt=""
@@ -316,7 +343,7 @@ export function Header() {
                         </Dropdown.Item>
                         <Dropdown.Item
                           className=" d-flex"
-                          href={`${process.env.PUBLIC_URL}/components/defaultChat/`}
+                          href={`/components/defaultChat/`}
                         >
                           <img
                             alt=""
@@ -368,37 +395,38 @@ export function Header() {
                       </div>
                       <div className="dropdown-divider m-0"></div>
                       <Dropdown.Item
-                        href={`${process.env.PUBLIC_URL}/pages/profile/`}
+                        href={`/pages/profile/`}
                       >
                         <i className="dropdown-icon fe fe-user"></i> Profile
                       </Dropdown.Item>
                       <Dropdown.Item
-                        href={`${process.env.PUBLIC_URL}/pages/mailInbox/`}
+                        href={`/pages/mailInbox/`}
                       >
                         <i className="dropdown-icon fe fe-mail"></i> Inbox
                         <span className="badge bg-secondary float-end">3</span>
                       </Dropdown.Item>
                       <Dropdown.Item
-                        href={`${process.env.PUBLIC_URL}/pages/mailCompose/`}
+                        href={`/pages/mailCompose/`}
                       >
                         <i className="dropdown-icon fe fe-settings"></i>
                         Settings
                       </Dropdown.Item>
                       <Dropdown.Item
-                        href={`${process.env.PUBLIC_URL}/pages/faqs/`}
+                        href={`/pages/faqs/`}
                       >
                         <i className="dropdown-icon fe fe-alert-triangle"></i>
-                        Need help?p??
+                        Need help?
                       </Dropdown.Item>
                       <Dropdown.Item
-                        href={`${process.env.PUBLIC_URL}/custompages/login/`}
+                        // href={`/login/`}
+                        onClick={logout}
                       >
                         <i className="dropdown-icon fe fe-alert-circle"></i>
                         Sign out
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
-                  <div className="dropdown d-md-flex header-settings">
+                  {/* <div className="dropdown d-md-flex header-settings">
                     <Link
                       to="#"
                       className="nav-link icon "
@@ -406,7 +434,7 @@ export function Header() {
                     >
                       <i className="fe fe-menu"></i>
                     </Link>
-                  </div>
+                  </div> */}
                 </div>
               </Navbar.Collapse>
             </div>

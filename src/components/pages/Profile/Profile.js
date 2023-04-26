@@ -53,7 +53,7 @@ export default function Profile() {
                           <i className="fa fa-rss"></i> Follow
                         </Link>
                         <Link
-                          to={`${process.env.PUBLIC_URL}/pages/mailInbox/`}
+                          to={`/pages/mailInbox/`}
                           className="btn btn-secondary mt-1 mb-1 ms-1"
                         >
                           <i className="fa fa-envelope"></i> E-mail
@@ -64,13 +64,13 @@ export default function Profile() {
                   <Col lg={12} md={12} xl={6}>
                     <div className="text-xl-right mt-4 mt-xl-0">
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/mailInbox/`}
+                        to={`/pages/mailInbox/`}
                         className="btn btn-white me-1"
                       >
                         Message
                       </Link>
                       <Link
-                        to={`${process.env.PUBLIC_URL}/pages/editProfile/`}
+                        to={`/pages/editProfile/`}
                         className="btn btn-primary me-1"
                       >
                         Edit Profile
@@ -217,7 +217,7 @@ export default function Profile() {
                             <li className="col-lg-4  col-md-6 col-sm-12 col-12  ">
                               <Card className=" border p-0">
                                 <Link
-                                  to={`${process.env.PUBLIC_URL}/pages/profile/`}
+                                  to={`/pages/profile/`}
                                 >
                                   <Card.Body className=" text-center">
                                     <img
@@ -260,7 +260,7 @@ export default function Profile() {
                             <li className="col-lg-4 col-md-6 col-sm-12 col-12">
                               <Card className="border p-0">
                                 <Link
-                                  to={`${process.env.PUBLIC_URL}/pages/profile/`}
+                                  to={`/pages/profile/`}
                                 >
                                   <Card.Body className="text-center">
                                     <img
@@ -303,7 +303,7 @@ export default function Profile() {
                             <li className="col-lg-4 col-md-6 col-sm-12 col-12">
                               <Card className="border p-0">
                                 <Link
-                                  to={`${process.env.PUBLIC_URL}/pages/profile/`}
+                                  to={`/pages/profile/`}
                                 >
                                   <Card.Body className="text-center">
                                     <img
@@ -346,7 +346,7 @@ export default function Profile() {
                             <li className="col-lg-4 col-md-6 col-sm-12 col-12">
                               <div className="card border p-0 mb-lg-0">
                                 <Link
-                                  to={`${process.env.PUBLIC_URL}/pages/profile/`}
+                                  to={`/pages/profile/`}
                                 >
                                   <Card.Body className="text-center">
                                     <img
@@ -389,7 +389,7 @@ export default function Profile() {
                             <li className="col-lg-4 col-md-6 col-sm-12 col-12">
                               <div className="card border p-0 mb-lg-0">
                                 <Link
-                                  to={`${process.env.PUBLIC_URL}/pages/profile/`}
+                                  to={`/pages/profile/`}
                                 >
                                   <Card.Body className="text-center">
                                     <img
@@ -438,7 +438,7 @@ export default function Profile() {
                                     alt=""
                                   />
                                   <Link
-                                    to={`${process.env.PUBLIC_URL}/pages/profile/`}
+                                    to={`/pages/profile/`}
                                   >
                                     <h4 className="fs-16 mb-0 mt-3 text-dark fw-semibold">
                                       Ryan Gossling
