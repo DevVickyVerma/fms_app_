@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Card } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -18,6 +18,13 @@ import { ToastContainer, toast } from "react-toastify";
 // };
 
 export default function Login() {
+
+useEffect(()=>{
+  console.log("https://192.168.1.165:8000/v1")
+})
+
+
+
   const [loading, setLoading] = useState(false);
 
   const LoginSchema = Yup.object().shape({
@@ -31,7 +38,7 @@ export default function Login() {
   const handleSubmit = async (values) => {
    
     
-    const response = await fetch("http://192.168.1.165:8000/v1/login", {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/login`,{
       method: "POST",
       headers: {
         "Content-Type": "application/json",

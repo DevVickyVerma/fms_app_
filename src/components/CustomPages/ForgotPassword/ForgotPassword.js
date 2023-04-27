@@ -31,9 +31,9 @@ export default function ForgotPassword() {
   const Errornotify = (message) => toast.error(message);
 
   const handleSubmit = async (values) => {
-
+    
     setLoading(true);
-    const response = await fetch("http://192.168.1.165:8000/v1/forgot/password", {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/forgot/password`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
