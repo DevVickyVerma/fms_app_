@@ -5,17 +5,17 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 
-const Loaderimg = () => {
-  return (
-    <div id="global-loader">
-      <img
-        src={require("../../../assets/images/loader.svg").default}
-        className="loader-img"
-        alt="Loader"
-      />
-    </div>
-  );
-};
+// const Loaderimg = () => {
+//   return (
+//     <div id="global-loader">
+//       <img
+//         src={require("../../../assets/images/loader.svg").default}
+//         className="loader-img"
+//         alt="Loader"
+//       />
+//     </div>
+//   );
+// };
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
@@ -29,7 +29,8 @@ export default function Login() {
   const Errornotify = (message) => toast.error(message);
 
   const handleSubmit = async (values) => {
-    setLoading(true);
+   
+    
     const response = await fetch("http://192.168.1.165:8000/v1/login", {
       method: "POST",
       headers: {
@@ -46,19 +47,18 @@ export default function Login() {
       localStorage.setItem("UserName", fullName);
       localStorage.setItem("Role", data.data.role );
       notify(data.message);
-      setTimeout(() => {
-        window.location.href = `/dashboard`;
-      }, 2000);
+      window.location.href = `/dashboard`;
+     
     } else {
       Errornotify(data.message);
     }
-    setLoading(false);
+   
   };
   
 
   return (
     <div className="login-img">
-      {loading && <Loaderimg />}
+      {/* {loading && <Loaderimg />} */}
       <div className="page">
         <div className="">
           <div className="col col-login mx-auto">

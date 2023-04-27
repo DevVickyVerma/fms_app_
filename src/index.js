@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Navigate, BrowserRouter, Route, Routes } from "react-router-dom";
 
 const Switcherlayout = React.lazy(() => import("./components/switcherlayout"));
 //App
@@ -91,10 +91,14 @@ const Loaderimg = () => {
   );
 };
 const Root = () => {
-  return (
+
+  const isLoggedIn = localStorage.getItem('token');
+  return isLoggedIn ? (
     <Fragment>
+    
       <BrowserRouter>
         <React.Suspense fallback={Loaderimg()}>
+        
           <Routes>
             <Route path={`/`} element={<App />}>
               <Route index element={<Dashboard />} />
@@ -177,6 +181,18 @@ const Root = () => {
         </React.Suspense>
       </BrowserRouter>
     </Fragment>
+  ): (
+    <BrowserRouter>
+        <React.Suspense fallback={Loaderimg()}>
+        
+          <Routes>
+          <Route path={`/`} element={<Login />} />
+          <Route   path={`/custompages/forgotPassword`}
+                element={<ForgotPassword />} />
+          </Routes>
+          </React.Suspense>
+          </BrowserRouter>
+  
   );
 };
 const root = ReactDOM.createRoot(document.getElementById("root"));

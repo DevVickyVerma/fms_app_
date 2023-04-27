@@ -70,11 +70,15 @@ export function Header() {
       localStorage.clear();
 
       setTimeout(() => {
-        window.location.replace("/login");
+        window.location.replace("/");
       }, 500); 
       SuccessfullMsg(data.message);
     } else {
       ErrorMsg(data.message);
+      setTimeout(() => {
+        window.location.replace("/");
+      }, 500); 
+      localStorage.clear();
     }
   };
 
@@ -389,9 +393,13 @@ export function Header() {
                         </div>
                       </div>
                       <div className="dropdown-divider m-0"></div>
-                      <Dropdown.Item href={`/pages/profile/`}>
-                        <i className="dropdown-icon fe fe-user"></i> Profile
+                      <Dropdown.Item href={`/pages/editProfile/`}>
+                        <i className="dropdown-icon fe fe-user"></i> Edit  Profile
                       </Dropdown.Item>
+                      <Dropdown.Item href={`/pages/editProfile/`}>
+                        <i className="dropdown-icon fe fe-user"></i> Chnage Password
+                      </Dropdown.Item>
+                    
                     
                       <Dropdown.Item href="#">
                         <i className="dropdown-icon fe fe-settings"></i>
