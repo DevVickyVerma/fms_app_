@@ -1,6 +1,7 @@
 import React from "react";
-import { Dropdown, Navbar, Container,Button } from "react-bootstrap";
+import { Dropdown, Navbar, Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 export function Header() {
   //full screen
@@ -51,31 +52,31 @@ export function Header() {
   //   document.querySelector(".demo_changer").style.right = "0px";
   // };
 
-  const logout = () => {
-    const token = localStorage.getItem('token');
-    fetch('http://192.168.1.165:8000/v1/logout', {
-      method: 'POST',
+  const notify = (message) => toast.success(message);
+  const Errornotify = (message) => toast.error(message);
+
+  const logout = async () => {
+    const token = localStorage.getItem("token");
+    const response = await fetch("http://192.168.1.165:8000/v1/logout", {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
-    })
-      .then(response => {
-        if (response.ok) {
-          localStorage.clear();
-          // window.location.replace('/login');
-          alert("done")
-        } else {
-          throw new Error('Failed to logout');
-          alert("else")
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }
-  
+    });
 
+    const data = await response.json();
 
+    if (response.ok) {
+      localStorage.clear();
+
+      setTimeout(() => {
+        window.location.replace("/login");
+      }, 2000); // Delay for 2 seconds (2000 milliseconds)
+      notify(data.message);
+    } else {
+      Errornotify(data.message);
+    }
+  };
 
   return (
     <Navbar expand="md" className="app-header header sticky">
@@ -88,10 +89,7 @@ export function Header() {
             onClick={() => openCloseSidebar()}
           ></Link>
           <div className="responsive-logo">
-            <Link
-              to={`/dashboard/`}
-              className="header-logo"
-            >
+            <Link to={`/dashboard/`} className="header-logo">
               <img
                 src={require("../../assets/images/brand/logo-3.png")}
                 className="mobile-logo logo-1"
@@ -104,10 +102,7 @@ export function Header() {
               />
             </Link>
           </div>
-          <Link
-            className="logo-horizontal "
-            to={`/dashboard/`}
-          >
+          <Link className="logo-horizontal " to={`/dashboard/`}>
             <img
               src={require("../../assets/images/brand/logo.png")}
               className="header-brand-img desktop-logo"
@@ -119,7 +114,7 @@ export function Header() {
               alt="logo"
             />
           </Link>
-        
+
           <div className="d-flex order-lg-2 ms-auto header-right-icons">
             <Navbar.Toggle
               aria-controls="navbarScroll"
@@ -394,26 +389,18 @@ export function Header() {
                         </div>
                       </div>
                       <div className="dropdown-divider m-0"></div>
-                      <Dropdown.Item
-                        href={`/pages/profile/`}
-                      >
+                      <Dropdown.Item href={`/pages/profile/`}>
                         <i className="dropdown-icon fe fe-user"></i> Profile
                       </Dropdown.Item>
-                      <Dropdown.Item
-                        href={`/pages/mailInbox/`}
-                      >
+                      <Dropdown.Item href={`/pages/mailInbox/`}>
                         <i className="dropdown-icon fe fe-mail"></i> Inbox
                         <span className="badge bg-secondary float-end">3</span>
                       </Dropdown.Item>
-                      <Dropdown.Item
-                        href={`/pages/mailCompose/`}
-                      >
+                      <Dropdown.Item href={`/pages/mailCompose/`}>
                         <i className="dropdown-icon fe fe-settings"></i>
                         Settings
                       </Dropdown.Item>
-                      <Dropdown.Item
-                        href={`/pages/faqs/`}
-                      >
+                      <Dropdown.Item href={`/pages/faqs/`}>
                         <i className="dropdown-icon fe fe-alert-triangle"></i>
                         Need help?
                       </Dropdown.Item>
@@ -426,6 +413,7 @@ export function Header() {
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
+                  <ToastContainer />
                   {/* <div className="dropdown d-md-flex header-settings">
                     <Link
                       to="#"
@@ -438,7 +426,6 @@ export function Header() {
                 </div>
               </Navbar.Collapse>
             </div>
-
           </div>
         </div>
       </Container>

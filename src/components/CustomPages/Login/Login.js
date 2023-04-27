@@ -5,7 +5,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 
-
 const Loaderimg = () => {
   return (
     <div id="global-loader">
@@ -18,11 +17,8 @@ const Loaderimg = () => {
   );
 };
 
-
 export default function Login() {
-
   const [loading, setLoading] = useState(false);
-
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
@@ -47,7 +43,9 @@ export default function Login() {
     if (response.ok && data) {
       localStorage.setItem("token", data.data.access_token);
       notify(data.message);
-      window.location.href = `/dashboard`;
+      setTimeout(() => {
+        window.location.href = `/dashboard`;
+      }, 2000);
     } else {
       Errornotify(data.message);
     }
@@ -56,7 +54,7 @@ export default function Login() {
 
   return (
     <div className="login-img">
-        {loading && <Loaderimg />} 
+      {loading && <Loaderimg />}
       <div className="page">
         <div className="">
           <div className="col col-login mx-auto">
