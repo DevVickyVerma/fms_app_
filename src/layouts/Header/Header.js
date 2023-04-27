@@ -52,8 +52,8 @@ export function Header() {
   //   document.querySelector(".demo_changer").style.right = "0px";
   // };
 
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
+  const SuccessfullMsg = (message) => toast.success(message);
+  const ErrorMsg = (message) => toast.error(message);
 
   const logout = async () => {
     const token = localStorage.getItem("token");
@@ -71,10 +71,10 @@ export function Header() {
 
       setTimeout(() => {
         window.location.replace("/login");
-      }, 2000); // Delay for 2 seconds (2000 milliseconds)
-      notify(data.message);
+      }, 500); 
+      SuccessfullMsg(data.message);
     } else {
-      Errornotify(data.message);
+      ErrorMsg(data.message);
     }
   };
 
@@ -384,28 +384,22 @@ export function Header() {
                     >
                       <div className="drop-heading">
                         <div className="text-center">
-                          <h5 className="text-dark mb-0">Elizabeth Dyer</h5>
-                          <small className="text-muted">Administrator</small>
+                          <h5 className="text-dark mb-0"> {localStorage.getItem('UserName') ?  localStorage.getItem('UserName') : "Elizabeth Dyer"}     </h5>
+                          <small className="text-muted"> {localStorage.getItem('Role') ?  localStorage.getItem('Role') : "Administrator"}</small>
                         </div>
                       </div>
                       <div className="dropdown-divider m-0"></div>
                       <Dropdown.Item href={`/pages/profile/`}>
                         <i className="dropdown-icon fe fe-user"></i> Profile
                       </Dropdown.Item>
-                      <Dropdown.Item href={`/pages/mailInbox/`}>
-                        <i className="dropdown-icon fe fe-mail"></i> Inbox
-                        <span className="badge bg-secondary float-end">3</span>
-                      </Dropdown.Item>
-                      <Dropdown.Item href={`/pages/mailCompose/`}>
+                    
+                      <Dropdown.Item href="#">
                         <i className="dropdown-icon fe fe-settings"></i>
                         Settings
                       </Dropdown.Item>
-                      <Dropdown.Item href={`/pages/faqs/`}>
-                        <i className="dropdown-icon fe fe-alert-triangle"></i>
-                        Need help?
-                      </Dropdown.Item>
+                     
                       <Dropdown.Item
-                        // href={`/login/`}
+                        // href="logout"
                         onClick={logout}
                       >
                         <i className="dropdown-icon fe fe-alert-circle"></i>

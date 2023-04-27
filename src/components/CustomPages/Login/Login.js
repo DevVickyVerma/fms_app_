@@ -37,11 +37,14 @@ export default function Login() {
       },
       body: JSON.stringify(values),
     });
-
+  
     const data = await response.json();
-
+  
     if (response.ok && data) {
+      const fullName = `${data.data.first_name} ${data.data.last_name}`;
       localStorage.setItem("token", data.data.access_token);
+      localStorage.setItem("UserName", fullName);
+      localStorage.setItem("Role", data.data.role );
       notify(data.message);
       setTimeout(() => {
         window.location.href = `/dashboard`;
@@ -51,6 +54,7 @@ export default function Login() {
     }
     setLoading(false);
   };
+  
 
   return (
     <div className="login-img">
