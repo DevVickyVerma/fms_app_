@@ -126,7 +126,7 @@ export default function ForgotPassword() {
                             <p className="text-dark mb-0">
                               Forgot It?
                               <Link
-                                to={`/login`}
+                                to={`/`}
                                 className="text-primary ms-1"
                               >
                                 Back to Login

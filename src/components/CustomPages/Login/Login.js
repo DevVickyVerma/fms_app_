@@ -5,24 +5,20 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 
-
-const Loaderimg = () => {
-  return (
-    <div id="global-loader">
-      <img
-        src={require("../../../assets/images/loader.svg").default}
-        className="loader-img"
-        alt="Loader"
-      />
-    </div>
-  );
-};
-
+// const Loaderimg = () => {
+//   return (
+//     <div id="global-loader">
+//       <img
+//         src={require("../../../assets/images/loader.svg").default}
+//         className="loader-img"
+//         alt="Loader"
+//       />
+//     </div>
+//   );
+// };
 
 export default function Login() {
-
   const [loading, setLoading] = useState(false);
-
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
@@ -33,7 +29,8 @@ export default function Login() {
   const Errornotify = (message) => toast.error(message);
 
   const handleSubmit = async (values) => {
-    setLoading(true);
+   
+    
     const response = await fetch("http://192.168.1.165:8000/v1/login", {
       method: "POST",
       headers: {
@@ -41,22 +38,27 @@ export default function Login() {
       },
       body: JSON.stringify(values),
     });
-
+  
     const data = await response.json();
-
+  
     if (response.ok && data) {
+      const fullName = `${data.data.first_name} ${data.data.last_name}`;
       localStorage.setItem("token", data.data.access_token);
+      localStorage.setItem("UserName", fullName);
+      localStorage.setItem("Role", data.data.role );
       notify(data.message);
       window.location.href = `/dashboard`;
+     
     } else {
       Errornotify(data.message);
     }
-    setLoading(false);
+   
   };
+  
 
   return (
     <div className="login-img">
-        {loading && <Loaderimg />} 
+      {/* {loading && <Loaderimg />} */}
       <div className="page">
         <div className="">
           <div className="col col-login mx-auto">

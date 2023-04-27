@@ -12,7 +12,51 @@ import {
   ListGroup,
   Breadcrumb,
 } from "react-bootstrap";
+
+import { Formik, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+
 export default function EditProfile() {
+
+  const validationSchema = Yup.object({
+    currentPassword: Yup.string().required("Required"),
+    newPassword: Yup.string()
+      .required("Required")
+      .min(8, "Must be at least 8 characters")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+        "Must contain at least one uppercase letter, one lowercase letter, and one number"
+      ),
+    confirmPassword: Yup.string()
+      .required("Required")
+      .test(
+        "password-match",
+        "Passwords do not match",
+        function (value) {
+          return value === this.parent.newPassword;
+        }
+      ),
+  });
+  
+  const initialValues = {
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  };
+  
+  function validate(values) {
+    const errors = {};
+  
+    if (values.newPassword !== values.confirmPassword) {
+      errors.confirmPassword = "Passwords do not match";
+    }
+  
+    return errors;
+  }
+
+
+
+
   return (
     <div>
       <div className="page-header">
@@ -30,11 +74,20 @@ export default function EditProfile() {
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
-       
       </div>
 
       <Row>
         <Col lg={12} xl={4} md={12} sm={12}>
+        <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      validate={validate}
+      onSubmit={(values) => {
+        console.log(values, "values");
+      }}
+    >
+      {({ errors, touched }) => (
+        <Form>
           <Card className="profile-edit">
             <Card.Header>
               <Card.Title>Edit Password</Card.Title>
@@ -46,52 +99,49 @@ export default function EditProfile() {
                   className="rounded-circle avatar-lg me-2"
                   src={require("../../../assets/images/users/8.jpg")}
                 />
-                <div className="ms-auto mt-xl-2 mt-lg-0 me-lg-2">
-                  <Link
-                    to={`/pages/editProfile/`}
-                    className="btn btn-primary btn-sm mt-1 mb-1 me-2"
-                  >
-                    <i className="fe fe-camera me-1"></i>Edit profile
-                  </Link>
-                  <Link to="#" className="btn btn-danger btn-sm mt-1 mb-1 me-2">
-                    <i className="fe fe-camera-off me-1"></i>Delete profile
-                  </Link>
-                </div>
               </div>
               <FormGroup>
-                <Form.Label className="form-label">Change Password</Form.Label>
-                <FormControl
+                <Form.Label className="form-label">
+                  Current Password
+                </Form.Label>
+                <Field
                   type="password"
                   className="form-control"
-                  defaultValue="password"
+                  name="currentPassword"
                 />
+                <ErrorMessage name="currentPassword" component="div" className="error" />
               </FormGroup>
               <FormGroup>
                 <Form.Label className="form-label">New Password</Form.Label>
-                <Form.Control
+                <Field
                   type="password"
                   className="form-control"
-                  defaultValue="password"
+                  name="newPassword"
                 />
+                <ErrorMessage name="newPassword" component="div" className="error" />
               </FormGroup>
               <FormGroup>
-                <Form.Label className="form-label">Confirm Password</Form.Label>
-                <Form.Control
+                <Form.Label className="form-label">
+                  Confirm Password
+                </Form.Label>
+                <Field
                   type="password"
                   className="form-control"
-                  defaultValue="password"
+                  name="confirmPassword"
                 />
+                <ErrorMessage name="confirmPassword" component="div" className="error" />
               </FormGroup>
             </Card.Body>
             <Card.Footer className="text-end">
-              <Link to="#" className="btn btn-primary me-2">
-                Updated
-              </Link>
-              <Link to="#" className="btn btn-danger">
-                Cancel
-              </Link>
+              <button type="submit" className="btn btn-primary me-2">
+                Update
+              </button>
             </Card.Footer>
           </Card>
+        </Form>
+      )}
+    </Formik>
+
           <Card className="panel-theme">
             <Card.Header>
               <div className="float-start">
@@ -203,28 +253,6 @@ export default function EditProfile() {
                 Cancel
               </Link>
             </Card.Footer>
-          </Card>
-        </Col>
-      </Row>
-
-      <Row>
-        <Col>
-          <Card>
-            <Card.Header>
-              <Card.Title as="h3">Projects</Card.Title>
-              <div className="card-options">
-                <button
-                  id="add__new__list"
-                  type="button"
-                  className="btn btn-md btn-primary "
-                >
-                  <i className="fa fa-plus"></i> Add a new Project
-                </button>
-              </div>
-            </Card.Header>
-            <div className="table-responsive editprofiletable">
-              <editprofile.CustomEditComponent />
-            </div>
           </Card>
         </Col>
       </Row>
