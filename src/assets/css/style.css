@@ -43613,6 +43613,11 @@ iframe {
     border-radius: 5px;
     border: 1px solid #ecf0fa;
 }
+.dark-mode .input101 {
+    color: #dedefd !important;
+    background-color: #2e2e4a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
 
 /*------------------------------------------------------------------
 [ Focus ]*/
