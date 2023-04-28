@@ -393,7 +393,7 @@ export function Header() {
                         <i className="dropdown-icon fe fe-user"></i> Edit  Profile
                       </Dropdown.Item>
                       <Dropdown.Item href={`/pages/editProfile/`}>
-                        <i className="dropdown-icon fe fe-user"></i> Chnage Password
+                        <i className="dropdown-icon fe fe-user"></i> Change Password
                       </Dropdown.Item>
                     
                     
