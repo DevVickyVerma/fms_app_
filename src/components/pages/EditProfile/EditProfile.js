@@ -64,6 +64,12 @@ export default function EditProfile() {
     }
   };
 
+  const handleSubmit1 = (values, setSubmitting) => {
+    console.log(values, "values");
+
+    setSubmitting(false);
+  };
+
   return (
     <div>
       <div className="page-header">
@@ -182,62 +188,107 @@ export default function EditProfile() {
             <Card.Header>
               <Card.Title as="h3">Edit Profile</Card.Title>
             </Card.Header>
-            <Card.Body>
-              <Row>
-                <Col lg={6} md={12}>
-                  <FormGroup>
-                    <label htmlFor="exampleInputname">First Name</label>
-                    <Form.Control
-                      type="text"
-                      className="form-control"
-                      id="exampleInputname"
-                      placeholder="First Name"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg={6} md={12}>
-                  <FormGroup>
-                    <label htmlFor="exampleInputname1">Last Name</label>
-                    <Form.Control
-                      type="text"
-                      className="form-control"
-                      id="exampleInputname1"
-                      placeholder="Enter Last Name"
-                    />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col lg={6} md={12}>
-                  <FormGroup>
-                    <label htmlFor="exampleInputEmail1">Phone Number</label>
-                    <Form.Control
-                      type="text"
-                      className="form-control"
-                      id="exampleInputname"
-                      placeholder="Phone Number"
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg={6} md={12}>
-                  <label htmlFor="exampleInputEmail1">Role</label>
-                  <select
-                    class="form-select"
-                    aria-label="Default select example"
-                  >
-                    <option selected>Your Role</option>
-                    <option value="1">Admin</option>
-                    <option value="2">Admin</option>
-                    <option value="3">Admin</option>
-                  </select>
-                </Col>
-              </Row>
-            </Card.Body>
-            <Card.Footer className="text-end">
-              <button type="submit" className="btn btn-primary me-2">
-                Update
-              </button>
-            </Card.Footer>
+            <Formik
+              initialValues={{
+                firstName: "",
+                lastName: "",
+                phoneNumber: "",
+                role: "",
+              }}
+              validationSchema={Yup.object({
+                firstName: Yup.string()
+                  .max(15, "Must be 15 characters or less")
+                  .required("First name is required"),
+
+                lastName: Yup.string()
+                  .max(20, "Must be 20 characters or less")
+                  .required("Last name is required"),
+                phoneNumber: Yup.string()
+                  .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
+                  .required("Phone number is required"),
+                role: Yup.string().required("Required"),
+              })}
+              onSubmit={(values, { setSubmitting }) => {
+                console.log(values, "values");
+                handleSubmit1(values, setSubmitting);
+              }}
+            >
+              {({ handleSubmit, isSubmitting, errors, touched }) => (
+                <Form onSubmit={handleSubmit}>
+                  <Card.Body>
+                    <Row>
+                      <Col lg={6} md={12}>
+                        <FormGroup>
+                          <label htmlFor="firstName">First Name</label>
+                          <Field
+                            type="text"
+                            className="form-control"
+                            id="firstName"
+                            name="firstName"
+                            placeholder="First Name"
+                          />
+                          <ErrorMessage name="firstName" />
+                        </FormGroup>
+                      </Col>
+                      <Col lg={6} md={12}>
+                        <FormGroup>
+                          <label htmlFor="lastName">Last Name</label>
+                          <Field
+                            type="text"
+                            className="form-control"
+                            id="lastName"
+                            name="lastName"
+                            placeholder="Last Name"
+                          />
+                          <ErrorMessage name="lastName" />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col lg={6} md={12}>
+                        <FormGroup>
+                          <label htmlFor="phoneNumber">Phone Number</label>
+                          <Field
+                            type="text"
+                            className="form-control"
+                            id="phoneNumber"
+                            name="phoneNumber"
+                            placeholder="Phone Number"
+                          />
+                          <ErrorMessage name="phoneNumber" />
+                        </FormGroup>
+                      </Col>
+                      <Col lg={6} md={12}>
+                        <FormGroup>
+                          <label htmlFor="role">Role</label>
+                          <Field
+                            as="select"
+                            className="form-select"
+                            id="role"
+                            name="role"
+                          >
+                            <option value="">Select a Role</option>
+                            <option value="admin">Admin</option>
+                            <option value="manager">Manager</option>
+                            <option value="employee">Employee</option>
+                          </Field>
+                          <ErrorMessage name="role" />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                  <Card.Footer className="text-end">
+                    <button
+                      className="btn btn-primary me-2"
+                      type="submit"
+                      disabled={isSubmitting}
+                    >
+                      Update
+                    </button>
+                  </Card.Footer>
+                </Form>
+              )}
+            </Formik>
           </Card>
         </Col>
       </Row>
