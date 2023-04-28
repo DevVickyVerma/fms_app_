@@ -118,7 +118,7 @@ export default function EditProfile() {
                       <ErrorMessage
                         name="old_password"
                         component="div"
-                        className="error"
+                        className="invalid-feedback"
                       />
                     </FormGroup>
                     <FormGroup>
@@ -127,7 +127,7 @@ export default function EditProfile() {
                       </Form.Label>
                       <Field
                         type="password"
-                        className={`input101 ${
+                        className={`input101  ${
                           errors.password && touched.password
                             ? "is-invalid"
                             : ""
@@ -138,7 +138,7 @@ export default function EditProfile() {
                       <ErrorMessage
                         name="password"
                         component="div"
-                        className="error"
+                        className="invalid-feedback"
                       />
                     </FormGroup>
                     <FormGroup>
@@ -159,7 +159,7 @@ export default function EditProfile() {
                       <ErrorMessage
                         name="password_confirmation"
                         component="div"
-                        className="error"
+                        className="invalid-feedback"
                       />
                     </FormGroup>
                   </Card.Body>
