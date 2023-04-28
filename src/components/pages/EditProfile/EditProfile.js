@@ -113,6 +113,7 @@ export default function EditProfile() {
                             : ""
                         }`}
                         name="old_password"
+                        placeholder=" Current Password"
                       />
                       <ErrorMessage
                         name="old_password"
@@ -132,6 +133,7 @@ export default function EditProfile() {
                             : ""
                         }`}
                         name="password"
+                        placeholder=" New Password"
                       />
                       <ErrorMessage
                         name="password"
@@ -152,6 +154,7 @@ export default function EditProfile() {
                             : ""
                         }`}
                         name="password_confirmation"
+                        placeholder="Confirm Password"
                       />
                       <ErrorMessage
                         name="password_confirmation"
