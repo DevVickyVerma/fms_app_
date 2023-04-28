@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
 import { Navigate, BrowserRouter, Route, Routes } from "react-router-dom";
+import PrivateRoutes from './Utils/PrivateRoutes'
 
 const Switcherlayout = React.lazy(() => import("./components/switcherlayout"));
 //App
@@ -93,14 +94,16 @@ const Loaderimg = () => {
 const Root = () => {
 
   const isLoggedIn = localStorage.getItem('token');
-  return isLoggedIn ? (
+  return (
     <Fragment>
     
       <BrowserRouter>
         <React.Suspense fallback={Loaderimg()}>
         
           <Routes>
-            <Route path={`/`} element={<App />}>
+          <Route element={<PrivateRoutes />}>
+            <Route      path={`/`} element={<App />} >
+            {/* <Route  path={`/login`} element={<Login />} /> */}
               <Route index element={<Dashboard />} />
               <Route path={`/dashboard`} element={<Dashboard />} />
 
@@ -146,6 +149,7 @@ const Root = () => {
 
                 <Route path={`/pages/terms`} element={<Terms />} />
               </Route>
+              </Route>
             </Route>
 
             <Route path={`/`} element={<Custompages />}>
@@ -177,23 +181,12 @@ const Root = () => {
               />
               <Route path="*" element={<Errorpage400 />} />
             </Route>
+            <Route element={<Login/>} path="/"/>
           </Routes>
         </React.Suspense>
       </BrowserRouter>
     </Fragment>
-  ): (
-    <BrowserRouter>
-        <React.Suspense fallback={Loaderimg()}>
-        
-          <Routes>
-          <Route path={`/`} element={<Login />} />
-          <Route   path={`/custompages/forgotPassword`}
-                element={<ForgotPassword />} />
-          </Routes>
-          </React.Suspense>
-          </BrowserRouter>
-  
-  );
+  )
 };
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<Root />);

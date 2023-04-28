@@ -15,20 +15,15 @@ import {
 
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { toast } from "react-toastify";
 
 export default function EditProfile() {
-  useEffect(()=>{
-    console.log(process.env.REACT_APP_BASE_URL,"URL")
-  })
-
-
-  
   const validationSchema = Yup.object().shape({
     old_password: Yup.string().required("Current Password is required"),
     password: Yup.string()
       .required("New Password is required")
       .min(8, "Password must be at least 8 characters long"),
-      password_confirmation: Yup.string()
+    password_confirmation: Yup.string()
       .oneOf([Yup.ref("password"), null], "Passwords must match")
       .required("Confirm Password is required"),
   });
@@ -39,89 +34,35 @@ export default function EditProfile() {
     password_confirmation: "",
   };
 
+  const notify = (message) => toast.success(message);
+  const Errornotify = (message) => toast.error(message);
 
-  // async function handleSubmit(values) {
-  //   try {
-  //     const response = await fetch('/api/reset-password', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(values),
-  //     });
-
-  //     if (response.ok) {
-  //       setSuccess(true);
-  //     } else {
-  //       const data = await response.json();
-  //       setError(data.message);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     setError('An error occurred. Please try again later.');
-  //   }
-  // }
-
-  // const  handlesubmit = (values) =>{
-  //   const token = localStorage.getItem("token");
-  //   fetch(`${process.env.REACT_APP_BASE_URL}/reset/password`,{
-  //    method: 'POST',
-  //    headers: {
-  //      Authorization: `Bearer ${token}`,
-  //    },
-  //    body: JSON.stringify({
-  //      currentPassword: values.currentPassword,
-  //      confirmPassword: values.confirmPassword,
-  //    }),
-  //  })
-  //    .then((response) => {
-  //     const data = response.json();
-  //      console.log(data,"response")
-       
-  //      // Handle API response
-      
-  //    })
-  //    .catch((error) => {
-  //      // Handle API error
-  //      console.log(error,"response")
-  //    });
-
-  // }
   const handlesubmit = async (values) => {
-    // const token = localStorage.getItem("token");
-   
+    const token = localStorage.getItem("token");
 
-    // Object.keys(values).forEach(key => {
-    //   if (typeof values[key] === "string") {
-    //     values[key] = values[key].replace(/"/g, "");
-    //   }
-    // });
-  
     console.log(values, "Object");
-    console.log(values,"Object")
-    var token = 'dWFPTWZ4a1p0QzZNUitleHIrVzhPTEtqL1o1QmhNT1Zpd3pKajI3U1hDOD0=';
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/update/password`, {
-      method: "POST",
-      headers: {
-             Authorization: `Bearer ${token}`,
-           },
-           body: JSON.stringify(values),
-        });
- 
+
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/update/password`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(values),
+      }
+    );
 
     const data = await response.json();
 
     if (response.ok) {
-    console.log(data,"data")
-    
+      notify(data.message);
+      console.log(data, "data");
     } else {
-      console.log(data,"data")
-      
+      console.log(data, "data");
+      Errornotify(data.message);
     }
   };
-
-
-
 
   return (
     <div>
@@ -150,7 +91,7 @@ export default function EditProfile() {
             onSubmit={(values, { setSubmitting }) => {
               console.log(values, "values");
               setSubmitting(false);
-              handlesubmit(values)
+              handlesubmit(values);
             }}
           >
             {({ handleSubmit, isSubmitting, errors, touched }) => (
@@ -205,7 +146,8 @@ export default function EditProfile() {
                       <Field
                         type="password"
                         className={`input101 ${
-                          errors.password_confirmation && touched.password_confirmation
+                          errors.password_confirmation &&
+                          touched.password_confirmation
                             ? "is-invalid"
                             : ""
                         }`}
@@ -219,7 +161,11 @@ export default function EditProfile() {
                     </FormGroup>
                   </Card.Body>
                   <Card.Footer className="text-end">
-                    <button className="btn btn-primary me-2" type="submit" disabled={isSubmitting}>
+                    <button
+                      className="btn btn-primary me-2"
+                      type="submit"
+                      disabled={isSubmitting}
+                    >
                       Update
                     </button>
                   </Card.Footer>
