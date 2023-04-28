@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as formelement from "../../../data/Form/formelement/formelement";
 import * as editprofile from "../../../data/Pages/editprofile/editprofile";
 import { Link } from "react-router-dom";
@@ -17,42 +17,108 @@ import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 export default function EditProfile() {
+  useEffect(()=>{
+    console.log(process.env.REACT_APP_BASE_URL,"URL")
+  })
 
-  const validationSchema = Yup.object({
-    currentPassword: Yup.string().required("Required"),
-    newPassword: Yup.string()
-      .required("Required")
-      .min(8, "Must be at least 8 characters")
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-        "Must contain at least one uppercase letter, one lowercase letter, and one number"
-      ),
-    confirmPassword: Yup.string()
-      .required("Required")
-      .test(
-        "password-match",
-        "Passwords do not match",
-        function (value) {
-          return value === this.parent.newPassword;
-        }
-      ),
+
+  
+  const validationSchema = Yup.object().shape({
+    old_password: Yup.string().required("Current Password is required"),
+    password: Yup.string()
+      .required("New Password is required")
+      .min(8, "Password must be at least 8 characters long"),
+      password_confirmation: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Confirm Password is required"),
   });
-  
+
   const initialValues = {
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
+    old_password: "",
+    password: "",
+    password_confirmation: "",
   };
+
+
+  // async function handleSubmit(values) {
+  //   try {
+  //     const response = await fetch('/api/reset-password', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(values),
+  //     });
+
+  //     if (response.ok) {
+  //       setSuccess(true);
+  //     } else {
+  //       const data = await response.json();
+  //       setError(data.message);
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     setError('An error occurred. Please try again later.');
+  //   }
+  // }
+
+  // const  handlesubmit = (values) =>{
+  //   const token = localStorage.getItem("token");
+  //   fetch(`${process.env.REACT_APP_BASE_URL}/reset/password`,{
+  //    method: 'POST',
+  //    headers: {
+  //      Authorization: `Bearer ${token}`,
+  //    },
+  //    body: JSON.stringify({
+  //      currentPassword: values.currentPassword,
+  //      confirmPassword: values.confirmPassword,
+  //    }),
+  //  })
+  //    .then((response) => {
+  //     const data = response.json();
+  //      console.log(data,"response")
+       
+  //      // Handle API response
+      
+  //    })
+  //    .catch((error) => {
+  //      // Handle API error
+  //      console.log(error,"response")
+  //    });
+
+  // }
+  const handlesubmit = async (values) => {
+    // const token = localStorage.getItem("token");
+   
+
+    // Object.keys(values).forEach(key => {
+    //   if (typeof values[key] === "string") {
+    //     values[key] = values[key].replace(/"/g, "");
+    //   }
+    // });
   
-  function validate(values) {
-    const errors = {};
-  
-    if (values.newPassword !== values.confirmPassword) {
-      errors.confirmPassword = "Passwords do not match";
+    console.log(values, "Object");
+    console.log(values,"Object")
+    var token = 'dWFPTWZ4a1p0QzZNUitleHIrVzhPTEtqL1o1QmhNT1Zpd3pKajI3U1hDOD0=';
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/update/password`, {
+      method: "POST",
+      headers: {
+             Authorization: `Bearer ${token}`,
+           },
+           body: JSON.stringify(values),
+        });
+ 
+
+    const data = await response.json();
+
+    if (response.ok) {
+    console.log(data,"data")
+    
+    } else {
+      console.log(data,"data")
+      
     }
-  
-    return errors;
-  }
+  };
 
 
 
@@ -78,94 +144,89 @@ export default function EditProfile() {
 
       <Row>
         <Col lg={12} xl={4} md={12} sm={12}>
-        <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      validate={validate}
-      onSubmit={(values) => {
-        console.log(values, "values");
-      }}
-    >
-      {({ errors, touched }) => (
-        <Form>
-          <Card className="profile-edit">
-            <Card.Header>
-              <Card.Title>Edit Password</Card.Title>
-            </Card.Header>
-            <Card.Body>
-              <div className="d-flex mb-3">
-                <img
-                  alt="User Avatar"
-                  className="rounded-circle avatar-lg me-2"
-                  src={require("../../../assets/images/users/8.jpg")}
-                />
-              </div>
-              <FormGroup>
-                <Form.Label className="form-label">
-                  Current Password
-                </Form.Label>
-                <Field
-                  type="password"
-                  className="form-control"
-                  name="currentPassword"
-                />
-                <ErrorMessage name="currentPassword" component="div" className="error" />
-              </FormGroup>
-              <FormGroup>
-                <Form.Label className="form-label">New Password</Form.Label>
-                <Field
-                  type="password"
-                  className="form-control"
-                  name="newPassword"
-                />
-                <ErrorMessage name="newPassword" component="div" className="error" />
-              </FormGroup>
-              <FormGroup>
-                <Form.Label className="form-label">
-                  Confirm Password
-                </Form.Label>
-                <Field
-                  type="password"
-                  className="form-control"
-                  name="confirmPassword"
-                />
-                <ErrorMessage name="confirmPassword" component="div" className="error" />
-              </FormGroup>
-            </Card.Body>
-            <Card.Footer className="text-end">
-              <button type="submit" className="btn btn-primary me-2">
-                Update
-              </button>
-            </Card.Footer>
-          </Card>
-        </Form>
-      )}
-    </Formik>
-
-          <Card className="panel-theme">
-            <Card.Header>
-              <div className="float-start">
-                <Card.Title as="h3">Contact</Card.Title>
-              </div>
-              <div className="clearfix"></div>
-            </Card.Header>
-            <Card.Body className="no-padding">
-              <ListGroup className="no-margin">
-                <ListGroup.Item className="list-group-item">
-                  <i className="fa fa-envelope list-contact-icons border text-center br-100"></i>
-                  <span className="contact-icons">support@demo.com</span>
-                </ListGroup.Item>
-                <ListGroup.Item className="list-group-item">
-                  <i className="fa fa-globe list-contact-icons border text-center br-100"></i>
-                  <span className="contact-icons"> www.abcd.com</span>
-                </ListGroup.Item>
-                <ListGroup.Item className="list-group-item">
-                  <i className="fa fa-phone list-contact-icons border text-center br-100"></i>
-                  <span className="contact-icons">+125 5826 3658 </span>
-                </ListGroup.Item>
-              </ListGroup>
-            </Card.Body>
-          </Card>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={(values, { setSubmitting }) => {
+              console.log(values, "values");
+              setSubmitting(false);
+              handlesubmit(values)
+            }}
+          >
+            {({ handleSubmit, isSubmitting, errors, touched }) => (
+              <Form onSubmit={handleSubmit}>
+                <Card className="profile-edit">
+                  <Card.Header>
+                    <Card.Title as="h3">Edit Password</Card.Title>
+                  </Card.Header>
+                  <Card.Body>
+                    <FormGroup>
+                      <Form.Label className="form-label">
+                        Current Password
+                      </Form.Label>
+                      <Field
+                        type="password"
+                        className={` input101 ${
+                          errors.old_password && touched.old_password
+                            ? "is-invalid"
+                            : ""
+                        }`}
+                        name="old_password"
+                      />
+                      <ErrorMessage
+                        name="old_password"
+                        component="div"
+                        className="error"
+                      />
+                    </FormGroup>
+                    <FormGroup>
+                      <Form.Label className="form-label">
+                        New Password
+                      </Form.Label>
+                      <Field
+                        type="password"
+                        className={`input101 ${
+                          errors.password && touched.password
+                            ? "is-invalid"
+                            : ""
+                        }`}
+                        name="password"
+                      />
+                      <ErrorMessage
+                        name="password"
+                        component="div"
+                        className="error"
+                      />
+                    </FormGroup>
+                    <FormGroup>
+                      <Form.Label className="form-label">
+                        Confirm Password
+                      </Form.Label>
+                      <Field
+                        type="password"
+                        className={`input101 ${
+                          errors.password_confirmation && touched.password_confirmation
+                            ? "is-invalid"
+                            : ""
+                        }`}
+                        name="password_confirmation"
+                      />
+                      <ErrorMessage
+                        name="password_confirmation"
+                        component="div"
+                        className="error"
+                      />
+                    </FormGroup>
+                  </Card.Body>
+                  <Card.Footer className="text-end">
+                    <button className="btn btn-primary me-2" type="submit" disabled={isSubmitting}>
+                      Update
+                    </button>
+                  </Card.Footer>
+                </Card>
+              </Form>
+            )}
+          </Formik>
         </Col>
         <Col lg={12} xl={8} md={12} sm={12}>
           <Card>
@@ -197,61 +258,36 @@ export default function EditProfile() {
                   </FormGroup>
                 </Col>
               </Row>
-              <FormGroup className="mt-2">
-                <label htmlFor="exampleInputEmail1">Email address</label>
-                <Form.Control
-                  type="email"
-                  className="form-control"
-                  id="exampleInputEmail1"
-                  placeholder="email address"
-                />
-              </FormGroup>
-              <FormGroup className="mt-2">
-                <label htmlFor="exampleInputnumber">Conatct Number</label>
-                <Form.Control
-                  type="number"
-                  className="form-control"
-                  id="exampleInputnumber"
-                  placeholder="ph number"
-                />
-              </FormGroup>
-              <FormGroup>
-                <Form.Label className="form-label">About Me</Form.Label>
-                <textarea
-                  className="form-control"
-                  rows="6"
-                  defaultValue="My bio........."
-                ></textarea>
-              </FormGroup>
-              <FormGroup>
-                <Form.Label className="form-label">Website</Form.Label>
-                <Form.Control
-                  className="form-control"
-                  placeholder="http://splink.com"
-                />
-              </FormGroup>
-              <FormGroup>
-                <Form.Label className="form-label">Date Of Birth</Form.Label>
-                <Row>
-                  <Col md={4}>
-                    <formelement.Selectdate />
-                  </Col>
-                  <Col md={4}>
-                    <formelement.Dateofbirth />
-                  </Col>
-                  <Col md={4}>
-                    <formelement.Selectyear />
-                  </Col>
-                </Row>
-              </FormGroup>
+              <Row>
+                <Col lg={6} md={12}>
+                  <FormGroup>
+                    <label htmlFor="exampleInputEmail1">Phone Number</label>
+                    <Form.Control
+                      type="text"
+                      className="form-control"
+                      id="exampleInputname"
+                      placeholder="Phone Number"
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg={6} md={12}>
+                  <label htmlFor="exampleInputEmail1">Role</label>
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                  >
+                    <option selected>Your Role</option>
+                    <option value="1">Admin</option>
+                    <option value="2">Admin</option>
+                    <option value="3">Admin</option>
+                  </select>
+                </Col>
+              </Row>
             </Card.Body>
             <Card.Footer className="text-end">
-              <Link to="#" className="btn btn-success mt-1 me-2">
-                Save
-              </Link>
-              <Link to="#" className="btn btn-danger mt-1 me-2">
-                Cancel
-              </Link>
+              <button type="submit" className="btn btn-primary me-2">
+                Update
+              </button>
             </Card.Footer>
           </Card>
         </Col>

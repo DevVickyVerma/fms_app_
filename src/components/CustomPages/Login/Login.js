@@ -36,7 +36,7 @@ useEffect(()=>{
   const Errornotify = (message) => toast.error(message);
 
   const handleSubmit = async (values) => {
-   
+    console.log(values, "Object");
     
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}/login`,{
       method: "POST",
@@ -53,6 +53,7 @@ useEffect(()=>{
       localStorage.setItem("token", data.data.access_token);
       localStorage.setItem("UserName", fullName);
       localStorage.setItem("Role", data.data.role );
+      localStorage.setItem("userid", data.data.id );
       notify(data.message);
       window.location.href = `/dashboard`;
      
