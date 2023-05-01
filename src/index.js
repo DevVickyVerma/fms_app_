@@ -24,30 +24,16 @@ const Footer = React.lazy(() =>
 const Header = React.lazy(() =>
   import("./components/Advanced-Elements/Headers/Headers")
 );
-const Modal = React.lazy(() =>
-  import("./components/Advanced-Elements/Modal/Modal")
-);
-const Tabs = React.lazy(() =>
-  import("./components/Advanced-Elements/Tabs/Tabs")
-);
-const UserList = React.lazy(() =>
-  import("./components/Advanced-Elements/UserList/UserList")
-);
-const TooltipandPopover = React.lazy(() =>
-  import("./components/Advanced-Elements/TooltipandPopover/TooltipandPopover")
-);
+
+
 
 //pages
 const Profile = React.lazy(() => import("./components/pages/Profile/Profile"));
 const EditProfile = React.lazy(() =>
   import("./components/pages/EditProfile/EditProfile")
 );
-const MailInbox = React.lazy(() =>
-  import("./components/pages/MailInbox/MailInbox")
-);
-const MailCompose = React.lazy(() =>
-  import("./components/pages/MailCompose/MailCompose")
-);
+
+
 
 const FAQS = React.lazy(() => import("./components/pages/FAQS/FAQS"));
 const Terms = React.lazy(() => import("./components/pages/Terms/Terms"));
@@ -113,10 +99,7 @@ const Root = () => {
                   element={<Accordions />}
                 />
 
-                <Route
-                  path={`/advancedElements/tooltipandPopover`}
-                  element={<TooltipandPopover />}
-                />
+              
 
                 <Route
                   path={`/advancedElements/headers`}
@@ -135,10 +118,6 @@ const Root = () => {
                 <Route path={`/pages/profile`} element={<Profile />} />
 
                 <Route path={`/pages/editProfile`} element={<EditProfile />} />
-
-                <Route path={`/pages/mailInbox`} element={<MailInbox />} />
-
-                <Route path={`/pages/mailCompose`} element={<MailCompose />} />
 
                 
 

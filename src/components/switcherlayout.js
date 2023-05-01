@@ -6,7 +6,7 @@ import Switcher from "../layouts/Switcher/Switcher";
 import RightSidebar from "../layouts/RightSidebar/RightSidebar";
 import * as Switcherdata from "../data/Switcher/Switcherdata";
 import TabToTop from "../layouts/TabToTop/TabToTop";
-import ThemeStyle from "./pages/Theme Style/ThemeStyle"
+
 
 export default function Switcherlayout() {
   return (
@@ -23,7 +23,7 @@ export default function Switcherlayout() {
                   className="main-container container-fluid"
                   onClick={() => Switcherdata.responsiveSidebarclose()}
                 >
-                  <ThemeStyle />
+                
                 </div>
               </div>
             </div>
