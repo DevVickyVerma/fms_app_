@@ -1,7 +1,5 @@
-import React, { useEffect } from "react";
-import * as formelement from "../../../data/Form/formelement/formelement";
-import * as editprofile from "../../../data/Pages/editprofile/editprofile";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+
 import {
   Col,
   Row,
@@ -16,8 +14,31 @@ import {
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 export default function EditProfile() {
+  const [dropdownItems, setDropdownItems] = useState([]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const axiosInstance = axios.create({
+      baseURL: process.env.REACT_APP_BASE_URL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.post("/role-list");
+        setDropdownItems(response.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const validationSchema = Yup.object().shape({
     old_password: Yup.string().required("Current Password is required"),
     password: Yup.string()
@@ -38,9 +59,13 @@ export default function EditProfile() {
   const Errornotify = (message) => toast.error(message);
 
   const handlesubmit = async (values) => {
+    console.log(values, "values11");
     const token = localStorage.getItem("token");
 
-    console.log(values, "Object");
+    const formData = new FormData();
+    formData.append("old_password", values.old_password);
+    formData.append("password", values.password);
+    formData.append("password_confirmation", values.password_confirmation);
 
     const response = await fetch(
       `${process.env.REACT_APP_BASE_URL}/update/password`,
@@ -49,7 +74,7 @@ export default function EditProfile() {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(values),
+        body: formData,
       }
     );
 
@@ -64,10 +89,38 @@ export default function EditProfile() {
     }
   };
 
-  const handleSubmit1 = (values, setSubmitting) => {
-    console.log(values, "values");
+  const handleSubmit1 = async (values, setSubmitting) => {
+    console.log(values, "values11");
 
-    setSubmitting(false);
+    const token = localStorage.getItem("token");
+
+    const formData = new FormData();
+    formData.append("first_name", values.first_name);
+    formData.append("last_name", values.last_name);
+    formData.append("role", values.role);
+    formData.append("phone_number", values.phone_number);
+
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/update-profile`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      }
+    );
+
+    const data = await response.json();
+
+    if (response.ok) {
+      notify(data.message);
+      console.log(data, "data");
+      setSubmitting(false);
+    } else {
+      console.log(data, "data");
+      Errornotify(data.message);
+    }
   };
 
   return (
@@ -190,23 +243,23 @@ export default function EditProfile() {
             </Card.Header>
             <Formik
               initialValues={{
-                firstName: "",
-                lastName: "",
-                phoneNumber: "",
+                first_name: "",
+                last_name: "",
+                phone_number: "",
                 role: "",
               }}
               validationSchema={Yup.object({
-                firstName: Yup.string()
+                first_name: Yup.string()
                   .max(15, "Must be 15 characters or less")
                   .required("First name is required"),
 
-                lastName: Yup.string()
+                last_name: Yup.string()
                   .max(20, "Must be 20 characters or less")
                   .required("Last name is required"),
-                phoneNumber: Yup.string()
+                phone_number: Yup.string()
                   .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
                   .required("Phone number is required"),
-                role: Yup.string().required("Required"),
+                role: Yup.string().required("Role is required"),
               })}
               onSubmit={(values, { setSubmitting }) => {
                 console.log(values, "values");
@@ -219,43 +272,68 @@ export default function EditProfile() {
                     <Row>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label htmlFor="firstName">First Name</label>
+                          <label htmlFor="first_name">First Name</label>
                           <Field
                             type="text"
-                            className="form-control"
-                            id="firstName"
-                            name="firstName"
+                            // className="form-control"
+                            className={`input101 ${
+                              errors.first_name && touched.first_name
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="first_name"
+                            name="first_name"
                             placeholder="First Name"
                           />
-                          <ErrorMessage name="firstName" />
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="first_name"
+                          />
                         </FormGroup>
                       </Col>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label htmlFor="lastName">Last Name</label>
+                          <label htmlFor="last_name">Last Name</label>
                           <Field
                             type="text"
-                            className="form-control"
-                            id="lastName"
-                            name="lastName"
+                            className={`input101 ${
+                              errors.last_name && touched.last_name
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="last_name"
+                            name="last_name"
                             placeholder="Last Name"
                           />
-                          <ErrorMessage name="lastName" />
+                          <ErrorMessage
+                            name="last_name"
+                            component="div"
+                            className="invalid-feedback"
+                          />
                         </FormGroup>
                       </Col>
                     </Row>
                     <Row>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label htmlFor="phoneNumber">Phone Number</label>
+                          <label htmlFor="phone_number">Phone Number</label>
                           <Field
                             type="text"
-                            className="form-control"
-                            id="phoneNumber"
-                            name="phoneNumber"
+                            className={`input101 ${
+                              errors.phone_number && touched.phone_number
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="phone_number"
+                            name="phone_number"
                             placeholder="Phone Number"
                           />
-                          <ErrorMessage name="phoneNumber" />
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="phone_number"
+                          />
                         </FormGroup>
                       </Col>
                       <Col lg={6} md={12}>
@@ -263,16 +341,28 @@ export default function EditProfile() {
                           <label htmlFor="role">Role</label>
                           <Field
                             as="select"
-                            className="form-select"
+                            className={`input101 ${
+                              errors.role && touched.role ? "is-invalid" : ""
+                            }`}
                             id="role"
                             name="role"
                           >
                             <option value="">Select a Role</option>
-                            <option value="admin">Admin</option>
-                            <option value="manager">Manager</option>
-                            <option value="employee">Employee</option>
+                            {dropdownItems && dropdownItems.length > 0 ? (
+                              dropdownItems.map((item) => (
+                                <option key={item.id} value={item.name}>
+                                  {item.name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled>No roles available</option>
+                            )}
                           </Field>
-                          <ErrorMessage name="role" />
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="role"
+                          />
                         </FormGroup>
                       </Col>
                     </Row>

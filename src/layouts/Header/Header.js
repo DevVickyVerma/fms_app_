@@ -57,7 +57,7 @@ export function Header() {
 
   const logout = async () => {
     const token = localStorage.getItem("token");
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}logout`, {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/logout`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -71,13 +71,13 @@ export function Header() {
 
       setTimeout(() => {
         window.location.replace("/");
-      }, 500); 
+      }, 500);
       SuccessfullMsg(data.message);
     } else {
       ErrorMsg(data.message);
       setTimeout(() => {
         window.location.replace("/");
-      }, 500); 
+      }, 500);
       localStorage.clear();
     }
   };
@@ -258,124 +258,14 @@ export function Header() {
                       </Link>
                     </Dropdown.Menu>
                   </Dropdown>
-                  {/* <Dropdown className="dropdown d-md-flex message">
-                    <Dropdown.Toggle
-                      className="nav-link icon text-center d-flex"
-                      variant=""
-                    >
-                      <i className="fe fe-message-square"></i>
-                      <span className=" pulse-danger"></span>
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu
-                      className="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                      style={{ margin: 0 }}
-                    >
-                      <div className="drop-heading border-bottom">
-                        <div className="d-flex">
-                          <h6 className="mt-1 mb-0 fs-16 fw-semibold">
-                            You have Messages
-                          </h6>
-                          <div className="ms-auto">
-                            <span className="badge bg-danger rounded-pill">
-                              4
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="message-menu">
-                        <Dropdown.Item
-                          className=" d-flex"
-                          href={`/components/defaultChat/`}
-                        >
-                          <img
-                            alt=""
-                            className="avatar avatar-md brround me-3 cover-image"
-                            src={require("../../assets/images/users/1.jpg")}
-                          />
-                          <div className="wd-90p">
-                            <div className="d-flex">
-                              <h5 className="mb-1">Madeleine</h5>
-                              <small className="text-muted ms-auto text-end">
-                                3 hours ago
-                              </small>
-                            </div>
-                            <span>Hey! there I' am available....</span>
-                          </div>
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          className=" d-flex"
-                          href={`/components/defaultChat/`}
-                        >
-                          <img
-                            alt=""
-                            className="avatar avatar-md brround me-3 cover-image"
-                            src={require("../../assets/images/users/2.jpg")}
-                          />
-                          <div className="wd-90p">
-                            <div className="d-flex">
-                              <h5 className="mb-1">Anthony</h5>
-                              <small className="text-muted ms-auto text-end">
-                                5 hour ago
-                              </small>
-                            </div>
-                            <span>New product Launching...</span>
-                          </div>
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          className=" d-flex"
-                          href={`/components/defaultChat/`}
-                        >
-                          <img
-                            alt=""
-                            className="avatar avatar-md brround me-3 cover-image"
-                            src={require("../../assets/images/users/4.jpg")}
-                          />
-                          <div className="wd-90p">
-                            <div className="d-flex">
-                              <h5 className="mb-1">Olivia</h5>
-                              <small className="text-muted ms-auto text-end">
-                                45 mintues ago
-                              </small>
-                            </div>
-                            <span>New Schedule Realease......</span>
-                          </div>
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          className=" d-flex"
-                          href={`/components/defaultChat/`}
-                        >
-                          <img
-                            alt=""
-                            className="avatar avatar-md brround me-3 cover-image"
-                            src={require("../../assets/images/users/15.jpg")}
-                          />
-                          <div className="wd-90p">
-                            <div className="d-flex">
-                              <h5 className="mb-1">Sanderson</h5>
-                              <small className="text-muted ms-auto text-end">
-                                2 days ago
-                              </small>
-                            </div>
-                            <span>New Schedule Realease......</span>
-                          </div>
-                        </Dropdown.Item>
-                      </div>
-                      <div className="dropdown-divider m-0"></div>
-                      <Link
-                        to="#"
-                        className=" dropdown-item text-center p-3 text-muted"
-                      >
-                        See all Messages
-                      </Link>
-                    </Dropdown.Menu>
-                  </Dropdown> */}
+                 
                   <Dropdown className=" d-md-flex profile-1">
                     <Dropdown.Toggle
                       className="nav-link profile leading-none d-flex px-1"
                       variant=""
                     >
                       <span className="avatar  profile-user brround cover-image">
-                      <i className="fe fe-user"></i>
+                        <i className="fe fe-user"></i>
                       </span>
                     </Dropdown.Toggle>
                     <Dropdown.Menu
@@ -384,24 +274,35 @@ export function Header() {
                     >
                       <div className="drop-heading">
                         <div className="text-center">
-                          <h5 className="text-dark mb-0"> {localStorage.getItem('UserName') ?  localStorage.getItem('UserName') : "Elizabeth Dyer"}     </h5>
-                          <small className="text-muted"> {localStorage.getItem('Role') ?  localStorage.getItem('Role') : "Administrator"}</small>
+                          <h5 className="text-dark mb-0">
+                            {" "}
+                            {localStorage.getItem("UserName")
+                              ? localStorage.getItem("UserName")
+                              : "Elizabeth Dyer"}{" "}
+                          </h5>
+                          <small className="text-muted">
+                            {" "}
+                            {localStorage.getItem("Role")
+                              ? localStorage.getItem("Role")
+                              : "Administrator"}
+                          </small>
                         </div>
                       </div>
                       <div className="dropdown-divider m-0"></div>
                       <Dropdown.Item href={`/pages/editProfile/`}>
-                        <i className="dropdown-icon fe fe-user"></i> Edit  Profile
+                        <i className="dropdown-icon fe fe-user"></i> Edit
+                        Profile
                       </Dropdown.Item>
                       <Dropdown.Item href={`/pages/editProfile/`}>
-                        <i className="dropdown-icon fe fe-user"></i>Change password
+                        <i className="dropdown-icon fe fe-user"></i>Change
+                        password
                       </Dropdown.Item>
-                    
-                    
+
                       <Dropdown.Item href="#">
                         <i className="dropdown-icon fe fe-settings"></i>
                         Settings
                       </Dropdown.Item>
-                     
+
                       <Dropdown.Item
                         // href="logout"
                         onClick={logout}
@@ -412,15 +313,7 @@ export function Header() {
                     </Dropdown.Menu>
                   </Dropdown>
                   <ToastContainer />
-                  {/* <div className="dropdown d-md-flex header-settings">
-                    <Link
-                      to="#"
-                      className="nav-link icon "
-                      onClick={() => openCloseSidebarright()}
-                    >
-                      <i className="fe fe-menu"></i>
-                    </Link>
-                  </div> */}
+                  
                 </div>
               </Navbar.Collapse>
             </div>
