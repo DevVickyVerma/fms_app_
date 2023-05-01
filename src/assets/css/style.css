@@ -55451,6 +55451,34 @@ textarea.form-control {
     text-align: center !important;
 
 }
-
+.data-table-extensions {
+    display: none !important;
+    width: 100%;
+    box-sizing: border-box;
+    display: none;
+    padding: 0.7rem 1.2rem;
+}
+.table-heading {
+    padding: 10px;
+    background: #f2f3f9;
+    margin-top: 20px;
+}
+.table-heading h2 {
+    font-size: 18px;
+    margin: 0px;
+    font-weight: 500;
+}
+.form-check-inline {
+    display: inline-flex;
+    align-items: center;
+    padding-left: 0;
+    margin-right: 0.75rem;
+    width: 23%;
+}
+.form-check-input {
+    width: 1.5em;
+    height: 1.5em;
+    
+}
 
 /*# sourceMappingURL=style.css.map */

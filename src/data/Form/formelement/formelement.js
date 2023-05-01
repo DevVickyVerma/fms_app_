@@ -341,28 +341,22 @@ export function InputSelect(){
   const optioninputselect = [
     {
       value: "Group-1",
-      label: "Select",
+      label: "User",
     },
+    
     {
       value: "Group-2",
-      label: "Apple",
+      label: "Manager",
     },
     {
       value: "Group-3",
-      label: "Orange",
+      label: "operator",
     },
     {
       value: "Group-4",
-      label: "Mango",
+      label: "Manager",
     },
-    {
-      value: "Group-5",
-      label: "Grapes",
-    },
-    {
-      value: "Group-6",
-      label: "Banana",
-    },
+   
 
    
   ];

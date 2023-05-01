@@ -56,12 +56,12 @@ export const MENUITEMS = [
         active: false,
         children: [
           {
-            // path: `/elements/alerts`,
+           path: `/pages/manageRoles`,
             title: "Manage Roles",
             type: "link",
           },
           {
-            // path: `/elements/alerts`,
+            // path: `/pages/editRoles`,
             title: "Add Roles",
             type: "link",
           },
