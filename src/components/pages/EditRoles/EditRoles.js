@@ -9,6 +9,7 @@ import {
   Col,
   Dropdown,
   Form,
+  FormGroup,
   OverlayTrigger,
   Row,
   Tooltip,
@@ -17,6 +18,7 @@ import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
 import * as formelement from "../../../data/Form/formelement/formelement";
+import { Field } from "formik";
 
 export default function EditRoles() {
   return (
@@ -50,19 +52,25 @@ export default function EditRoles() {
         <div className="col-lg-12 col-xl-12 col-md-12 col-sm-12">
           <Card>
             <Card.Header>
-              <h4 className="card-title">Gerenal Elements</h4>
+              <h4 className="card-title">Edit Role Permissions</h4>
             </Card.Header>
             <Card.Body>
               <Row>
                 <div className="col-lg-6 col-md-12">
-                  <form className="form-vertical">
-                    <label>Name</label>
-                    <div className=" row mb-4 mb-0">
-                      <div className="col-md-9">
-                        <formelement.InputSelect />
-                      </div>
-                    </div>
-                  </form>
+                  <Form>
+                    <FormGroup>
+                      <Form.Label htmlFor="  Role" className="form-label">
+                      Role
+                      </Form.Label>
+                      <input
+                        type="text"
+                        id="  Role"
+                        className="form-control"
+                        name="  Role"
+                        placeholder="  Role"
+                      />
+                    </FormGroup>
+                  </Form>
                 </div>
               </Row>
 

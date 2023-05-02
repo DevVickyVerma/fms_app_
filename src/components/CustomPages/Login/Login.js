@@ -18,14 +18,7 @@ import { ToastContainer, toast } from "react-toastify";
 // };
 
 export default function Login() {
-
-useEffect(()=>{
-  console.log("https://192.168.1.165:8000/v1")
-})
-
-
-
-  const [loading, setLoading] = useState(false);
+ const [loading, setLoading] = useState(false);
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
@@ -37,30 +30,30 @@ useEffect(()=>{
 
   const handleSubmit = async (values) => {
     console.log(values, "Object");
-    
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/login`,{
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    });
   
-    const data = await response.json();
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
   
-    if (response.ok && data) {
-      const fullName = `${data.data.first_name} ${data.data.last_name}`;
-      localStorage.setItem("token", data.data.access_token);
-      localStorage.setItem("UserName", fullName);
-      localStorage.setItem("Role", data.data.role );
-      localStorage.setItem("userid", data.data.id );
-      notify(data.message);
-      window.location.href = `/dashboard`;
-     
-    } else {
-      Errornotify(data.message);
+      const data = await response.json();
+  
+      if (response.ok && data) {
+        localStorage.setItem("token", data.data.access_token);
+  
+        notify(data.message);
+        window.location.href = `/dashboard`;
+      } else {
+        Errornotify(data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      Errornotify("Network error: Please check your internet connection and try again.");
     }
-   
   };
   
 

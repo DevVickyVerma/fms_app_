@@ -50,99 +50,26 @@ export const MENUITEMS = [
         ],
       },
       {
-        title: "Manage Roles",
+        title: "Manage Role",
         icon: "package",
         type: "sub",
         active: false,
         children: [
           {
-           path: `/pages/manageRoles`,
-            title: "Manage Roles",
+           path: `/manageroles`,
+            title: "Manage Role",
             type: "link",
           },
-          {
-            // path: `/pages/editRoles`,
-            title: "Add Roles",
-            type: "link",
-          },
+          // {
+          //   // path: `manageroles/#addRoleModal`,
+          //   title: "Add Roles",
+          //   type: "link",
+          // },
          
           
         ],
       },
-      // {
-      //   title: "Advanced Elements",
-      //   icon: "file",
-      //   type: "sub",
-      //   bookmark: true,
-      //   active: false,
-      //   children: [
-      //     {
-      //       path: `/advancedElements/mediaObject`,
-      //       type: "link",
-      //       title: "Media Object",
-      //     },
-      //     {
-      //       path: `/advancedElements/accordions`,
-      //       type: "link",
-      //       title: "Accordions",
-      //     },
-      //     {
-      //       path: `/advancedElements/tabs`,
-      //       type: "link",
-      //       title: "Tabs",
-      //     },
-      //     {
-      //       path: `/advancedElements/charts`,
-      //       type: "link",
-      //       title: "Charts",
-      //     },
-      //     {
-      //       path: `/advancedElements/modal`,
-      //       type: "link",
-      //       title: "Modal",
-      //     },
-      //     {
-      //       path: `/advancedElements/tooltipandpopover`,
-      //       type: "link",
-      //       title: "Tooltip and popover",
-      //     },
-      //     {
-      //       path: `/advancedElements/progress`,
-      //       type: "link",
-      //       title: "Progress",
-      //     },
-      //     {
-      //       path: `/advancedElements/carousels`,
-      //       type: "link",
-      //       title: "Carousels",
-      //     },
-      //     {
-      //       path: `/advancedElements/headers`,
-      //       type: "link",
-      //       title: "Headers",
-      //     },
-      //     {
-      //       path: `/advancedElements/footers`,
-      //       type: "link",
-      //       title: "Footers",
-      //     },
-      //     {
-      //       path: `/advancedElements/userList`,
-      //       type: "link",
-      //       title: "UserList",
-      //     },
-      //     {
-      //       path: `/advancedElements/search`,
-      //       type: "link",
-      //       title: "Search",
-      //     },
-      //     {
-      //       path: `/advancedElements/cryptoCurrencies`,
-      //       type: "link",
-      //       title: "CryptoCurrencies",
-      //     },
-      //   ],
-      // },
+    
     ],
   },
 

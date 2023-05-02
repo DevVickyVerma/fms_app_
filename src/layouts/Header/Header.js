@@ -1,9 +1,69 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Dropdown, Navbar, Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 export function Header() {
+  const [data, setData] = useState("");
+
+  const SuccessAlert = (message) => toast.success(message);
+  const ErrorAlert = (message) => toast.error(message);
+
+  const logout = async () => {
+    const token = localStorage.getItem("token");
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/logout`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      localStorage.clear();
+
+      setTimeout(() => {
+        window.location.replace("/");
+      }, 500);
+      SuccessAlert(data.message);
+    } else {
+      ErrorAlert(data.message);
+      setTimeout(() => {
+        window.location.replace("/");
+      }, 500);
+      localStorage.clear();
+    }
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const axiosInstance = axios.create({
+      baseURL: process.env.REACT_APP_BASE_URL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.post("/detail");
+        setData(response.data.data);
+        console.log(data, "response1");
+        console.log(response.data.message, "response");
+      } catch (error) {
+        console.error(error);
+        ErrorAlert("Invalid access token");
+        setTimeout(() => {
+          window.location.replace("/");
+        }, 500);
+        localStorage.clear();
+      }
+    };
+
+    fetchData();
+  }, [localStorage.getItem("token")]);
+
   //full screen
   function Fullscreen() {
     if (
@@ -51,36 +111,6 @@ export function Header() {
   //   document.querySelector(".demo_changer").classList.toggle("active");
   //   document.querySelector(".demo_changer").style.right = "0px";
   // };
-
-  const SuccessfullMsg = (message) => toast.success(message);
-  const ErrorMsg = (message) => toast.error(message);
-
-  const logout = async () => {
-    const token = localStorage.getItem("token");
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/logout`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      localStorage.clear();
-
-      setTimeout(() => {
-        window.location.replace("/");
-      }, 500);
-      SuccessfullMsg(data.message);
-    } else {
-      ErrorMsg(data.message);
-      setTimeout(() => {
-        window.location.replace("/");
-      }, 500);
-      localStorage.clear();
-    }
-  };
 
   return (
     <Navbar expand="md" className="app-header header sticky">
@@ -258,7 +288,7 @@ export function Header() {
                       </Link>
                     </Dropdown.Menu>
                   </Dropdown>
-                 
+
                   <Dropdown className=" d-md-flex profile-1">
                     <Dropdown.Toggle
                       className="nav-link profile leading-none d-flex px-1"
@@ -275,25 +305,23 @@ export function Header() {
                       <div className="drop-heading">
                         <div className="text-center">
                           <h5 className="text-dark mb-0">
-                            {" "}
-                            {localStorage.getItem("UserName")
-                              ? localStorage.getItem("UserName")
-                              : "Elizabeth Dyer"}{" "}
+                            {localStorage.getItem("token")
+                              ? data.full_name
+                              : "Elizabeth Dyer"}
                           </h5>
                           <small className="text-muted">
-                            {" "}
-                            {localStorage.getItem("Role")
-                              ? localStorage.getItem("Role")
-                              : "Administrator"}
+                            {localStorage.getItem("token")
+                              ? data.company_name
+                              : "Elizabeth Dyer"}
                           </small>
                         </div>
                       </div>
                       <div className="dropdown-divider m-0"></div>
-                      <Dropdown.Item href={`/pages/editProfile/`}>
+                      <Dropdown.Item href={`/editprofile`}>
                         <i className="dropdown-icon fe fe-user"></i> Edit
                         Profile
                       </Dropdown.Item>
-                      <Dropdown.Item href={`/pages/editProfile/`}>
+                      <Dropdown.Item href={`/editprofile`}>
                         <i className="dropdown-icon fe fe-user"></i>Change
                         Password
                       </Dropdown.Item>
@@ -313,7 +341,6 @@ export function Header() {
                     </Dropdown.Menu>
                   </Dropdown>
                   <ToastContainer />
-                  
                 </div>
               </Navbar.Collapse>
             </div>

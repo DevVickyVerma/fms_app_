@@ -55461,7 +55461,7 @@ textarea.form-control {
 .table-heading {
     padding: 10px;
     background: #f2f3f9;
-    margin-top: 20px;
+    margin: 20px 0px;
 }
 .table-heading h2 {
     font-size: 18px;

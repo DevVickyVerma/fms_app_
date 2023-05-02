@@ -137,14 +137,14 @@ const Root = () => {
                   <Route path={`/pages/profile`} element={<Profile />} />
 
                   <Route
-                    path={`/pages/editProfile`}
+                    path={`/editprofile`}
                     element={<EditProfile />}
                   />
                   <Route
-                    path={`/pages/manageRoles`}
+                    path={`/manageroles`}
                     element={<ManageRoles />}
                   />
-                  <Route path={`/pages/editRoles`} element={<EditRoles />} />
+                  <Route path={`/editrole`} element={<EditRoles />} />
 
                   <Route path={`/pages/faqs`} element={<FAQS />} />
 
