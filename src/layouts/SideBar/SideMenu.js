@@ -16,12 +16,12 @@ export const MENUITEMS = [
         active: false,
         children: [
           {
-            // path: `/components/cardsDesign`,
+            path: `/clients`,
             type: "link",
             title: "Manage Clients",
           },
           {
-            // path: `/components/cardsDesign`,
+            path: `/addclient`,
             type: "link",
             title: "Add Clients",
           },
@@ -36,12 +36,12 @@ export const MENUITEMS = [
         active: false,
         children: [
           {
-            // path: `/elements/alerts`,
+            path: `/sites`,
             title: "Manage Sites",
             type: "link",
           },
           {
-            // path: `/elements/alerts`,
+            path: `/addsite`,
             title: "Add Sites",
             type: "link",
           },
@@ -56,7 +56,7 @@ export const MENUITEMS = [
         active: false,
         children: [
           {
-           path: `/manageroles`,
+           path: `/roles`,
             title: "Manage Role",
             type: "link",
           },

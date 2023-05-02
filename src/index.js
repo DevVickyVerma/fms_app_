@@ -34,9 +34,28 @@ const EditProfile = React.lazy(() =>
 const ManageRoles = React.lazy(() =>
   import("./components/pages/ManageRoles/ManageRoles")
 );
+const ManageClient = React.lazy(() =>
+  import("./components/pages/ManageClient/ManageClient")
+);
+const Managesite = React.lazy(() =>
+  import("./components/pages/ManageSite/ManageSite")
+);
 
 const EditRoles = React.lazy(() =>
   import("./components/pages/EditRoles/EditRoles")
+);
+const EditClient = React.lazy(() =>
+  import("./components/pages/ManageClient/EditClient")
+);
+const AddClient = React.lazy(() =>
+  import("./components/pages/ManageClient/AddClient")
+);
+const AddSite = React.lazy(() =>
+  import("./components/pages/ManageSite/AddSite")
+);
+
+const EditSite= React.lazy(() =>
+  import("./components/pages/ManageSite/EditSite")
 );
 
 const FAQS = React.lazy(() => import("./components/pages/FAQS/FAQS"));
@@ -140,9 +159,33 @@ const Root = () => {
                     path={`/editprofile`}
                     element={<EditProfile />}
                   />
+                    <Route
+                    path={`editclient`}
+                    element={<EditClient />}
+                  />
+                    <Route
+                    path={`addclient`}
+                    element={<AddClient />}
+                  />
                   <Route
-                    path={`/manageroles`}
+                    path={`addsite`}
+                    element={<AddSite />}
+                  />
+                    <Route
+                    path={`editsite`}
+                    element={<EditSite />}
+                  />
+                  <Route
+                    path={`/roles`}
                     element={<ManageRoles />}
+                  />
+                     <Route
+                    path={`/clients`}
+                    element={<ManageClient />}
+                  />
+                    <Route
+                    path={`/sites`}
+                    element={<Managesite />}
                   />
                   <Route path={`/editrole`} element={<EditRoles />} />
 
