@@ -83,7 +83,7 @@ export function RightSidebar() {
            
                 <Link
                   className="dropdown-item d-flex border-bottom"
-                  to={`/pages/editProfile/`}
+                  to={`/editProfile`}
                 >
                   <div className="d-flex">
                     <i className="fe fe-settings me-3 tx-20 text-muted"></i>

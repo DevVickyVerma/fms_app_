@@ -58,7 +58,7 @@ export default function Profile() {
                     <div className="text-xl-right mt-4 mt-xl-0">
                       
                       <Link
-                        to={`/pages/editProfile/`}
+                        to={`/editprofile`}
                         className="btn btn-primary me-1"
                       >
                         Edit Profile

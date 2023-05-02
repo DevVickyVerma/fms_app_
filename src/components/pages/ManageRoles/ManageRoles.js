@@ -62,9 +62,9 @@ export default function ManageRoles() {
       sortable: false,
       width: "10%",
       center: true,
-      cell: (row) => (
+      cell: (row,index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
-          {row.sno}
+          {index+1}
         </span>
       ),
     },
@@ -73,14 +73,17 @@ export default function ManageRoles() {
       selector: (row) => [row.name],
       sortable: false,
       width: "70%",
-      cell: (row) => (
+      cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">
+              {row.name}
+            </h6>
           </div>
         </div>
       ),
     },
+    
     {
       name: "ACTION",
       selector: (row) => [row.action],
@@ -90,7 +93,7 @@ export default function ManageRoles() {
         <span className="text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <Link
-              to="/pages/editRoles"
+              to="/editrole"
               className="btn btn-primary btn-sm rounded-11 me-2"
             >
               <i>
