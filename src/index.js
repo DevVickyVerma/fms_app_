@@ -37,12 +37,27 @@ const ManageRoles = React.lazy(() =>
 const ManageClient = React.lazy(() =>
   import("./components/pages/ManageClient/ManageClient")
 );
+const ManageBusinessTypes = React.lazy(() =>
+  import("./components/pages/ManageBusinessTypes/ManageBusinessTypes")
+);
+const ManageBusinessSubTypes = React.lazy(() =>
+  import("./components/pages/ManageBusinessTypes/ManageSubBusinessTypes")
+);
+const AddBusiness = React.lazy(() =>
+  import("./components/pages/ManageBusinessTypes/AddBusiness")
+);
+const ManageAddon = React.lazy(() =>
+  import("./components/pages/ManageAddon/ManageAddon")
+);
+const EditAddon = React.lazy(() =>
+  import("./components/pages/ManageAddon/EditAddon")
+);
 const Managesite = React.lazy(() =>
   import("./components/pages/ManageSite/ManageSite")
 );
 
 const EditRoles = React.lazy(() =>
-  import("./components/pages/EditRoles/EditRoles")
+  import("./components/pages/ManageRoles/EditRoles")
 );
 const EditClient = React.lazy(() =>
   import("./components/pages/ManageClient/EditClient")
@@ -54,7 +69,7 @@ const AddSite = React.lazy(() =>
   import("./components/pages/ManageSite/AddSite")
 );
 
-const EditSite= React.lazy(() =>
+const EditSite = React.lazy(() =>
   import("./components/pages/ManageSite/EditSite")
 );
 
@@ -155,38 +170,22 @@ const Root = () => {
                 <Route>
                   <Route path={`/pages/profile`} element={<Profile />} />
 
+                  <Route path={`/editprofile`} element={<EditProfile />} />
+                  <Route path={`editclient`} element={<EditClient />} />
+                  <Route path={`addclient`} element={<AddClient />} />
+                  <Route path={`addsite`} element={<AddSite />} />
+                  <Route path={`editsite`} element={<EditSite />} />
+                  <Route path={`/manageaddon`} element={<ManageAddon />} />
+                  <Route path={`/business`} element={<ManageBusinessTypes />} />
                   <Route
-                    path={`/editprofile`}
-                    element={<EditProfile />}
+                    path={`/sub-business`}
+                    element={<ManageBusinessSubTypes />}
                   />
-                    <Route
-                    path={`editclient`}
-                    element={<EditClient />}
-                  />
-                    <Route
-                    path={`addclient`}
-                    element={<AddClient />}
-                  />
-                  <Route
-                    path={`addsite`}
-                    element={<AddSite />}
-                  />
-                    <Route
-                    path={`editsite`}
-                    element={<EditSite />}
-                  />
-                  <Route
-                    path={`/roles`}
-                    element={<ManageRoles />}
-                  />
-                     <Route
-                    path={`/clients`}
-                    element={<ManageClient />}
-                  />
-                    <Route
-                    path={`/sites`}
-                    element={<Managesite />}
-                  />
+                  <Route path={`/addbusiness`} element={<AddBusiness />} />
+                  <Route path={`EditAddon`} element={<EditAddon />} />
+                  <Route path={`/roles`} element={<ManageRoles />} />
+                  <Route path={`/clients`} element={<ManageClient />} />
+                  <Route path={`/sites`} element={<Managesite />} />
                   <Route path={`/editrole`} element={<EditRoles />} />
 
                   <Route path={`/pages/faqs`} element={<FAQS />} />
