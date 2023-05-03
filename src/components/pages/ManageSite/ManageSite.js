@@ -167,7 +167,7 @@ export default function ManageSite() {
         </div>
         <div className="ms-auto pageheader-btn">
         <Link to="/addsite" className="btn btn-primary">
-        Add
+        Add Site
                     </Link>
          
         </div>

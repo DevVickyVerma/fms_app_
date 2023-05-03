@@ -166,8 +166,8 @@ export default function ManageClient() {
           </Breadcrumb>
         </div>
         <div className="ms-auto pageheader-btn">
-          <Link to="/addsite" className="btn btn-primary">
-            Add
+          <Link to="/addclient" className="btn btn-primary">
+            Add Client
           </Link>
         </div>
       </div>
