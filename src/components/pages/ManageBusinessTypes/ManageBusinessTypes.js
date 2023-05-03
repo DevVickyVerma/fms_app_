@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
 
-export default function ManageRoles() {
+export default function ManageBusinessTypes() {
   const [data, setData] = useState();
 
 
@@ -158,7 +158,7 @@ export default function ManageRoles() {
     <>
       <div className="page-header ">
         <div>
-          <h1 className="page-title">Manage Roles</h1>
+          <h1 className="page-title">Manage Business Types</h1>
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item className="breadcrumb-item" href="#">
               Home
@@ -167,20 +167,20 @@ export default function ManageRoles() {
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Manage Roles
+              Manage Business Types
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
         <div className="ms-auto pageheader-btn">
           <FormModal
             open={open}
-            modalId="AddRole"
-            modalTitle="Add Role"
-            modalContentText="Enter the name of the new role:"
-            modalInputLabel="Role Name"
+            modalId="AddBusinessTypes"
+            modalTitle="Add Business-Types"
+            modalContentText="Enter the name of the type of Business:"
+            modalInputLabel="Add Business Types"
             modalInputType="text"
             modalCancelButtonLabel="Cancel"
-            modalSaveButtonLabel="Add"
+            modalSaveButtonLabel="Add Business"
             onSubmit={handleAddRole}
             onClose={handleClose}
           />

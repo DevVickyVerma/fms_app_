@@ -50,14 +50,14 @@ export const MENUITEMS = [
         ],
       },
       {
-        title: "Manage Role",
+        title: "Manage Roles",
         icon: "package",
         type: "sub",
         active: false,
         children: [
           {
            path: `/roles`,
-            title: "Manage Role",
+            title: "Manage Roles",
             type: "link",
           },
           // {
@@ -65,6 +65,51 @@ export const MENUITEMS = [
           //   title: "Add Roles",
           //   type: "link",
           // },
+         
+          
+        ],
+      },
+      {
+        title: "Manage Addons",
+        icon: "package",
+        type: "sub",
+        active: false,
+        children: [
+          {
+           path: `/manageaddon`,
+            title: "Manage Addon",
+            type: "link",
+          },
+          // {
+          //   path: `/addaddon`,
+          //   title: "Add Addon",
+          //   type: "link",
+          // },
+         
+          
+        ],
+      },
+      {
+        title: "Manage Business Types",
+        icon: "package",
+        type: "sub",
+        active: false,
+        children: [
+          {
+            path: `/business`,
+             title: "Manage Business Types",
+             type: "link",
+           },
+          {
+           path: `/sub-business`,
+            title: "Manage Sub-Business Types",
+            type: "link",
+          },
+          {
+            path: `/addbusiness`,
+             title: "Add Business Types",
+             type: "link",
+           },
          
           
         ],

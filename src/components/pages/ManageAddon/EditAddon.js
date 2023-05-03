@@ -14,18 +14,14 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import { Button } from "bootstrap";
-import axios from "axios";
-import Swal from "sweetalert2";
-import * as formelement from "../../../data/Form/formelement/formelement";
-import { Field } from "formik";
 
-export default function EditRoles() {
+
+export default function EditAddon() {
   return (
     <>
       <div className="page-header ">
         <div>
-          <h1 className="page-title">Edit Roles</h1>
+          <h1 className="page-title">Edit Addon</h1>
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item className="breadcrumb-item" href="#">
               Home
@@ -34,7 +30,7 @@ export default function EditRoles() {
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Edit Roles
+             Edit Addon
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -52,7 +48,7 @@ export default function EditRoles() {
         <div className="col-lg-12 col-xl-12 col-md-12 col-sm-12">
           <Card>
             <Card.Header>
-              <h4 className="card-title">Edit Role Permissions</h4>
+              <h4 className="card-title">Edit Addon</h4>
             </Card.Header>
             <Card.Body>
               <Row>
