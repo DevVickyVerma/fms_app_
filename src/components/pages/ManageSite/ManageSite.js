@@ -4,13 +4,17 @@ import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { Breadcrumb, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Button } from "bootstrap";
+
 import axios from "axios";
 import Swal from "sweetalert2";
-import { FormModal } from "../../../data/Modal/Modal";
+
+import { toast } from "react-toastify";
 
 export default function ManageSite() {
   const [data, setData] = useState();
+
+  const SuccessAlert = (message) => toast.success(message);
+  const ErrorAlert = (message) => toast.error(message);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -45,10 +49,15 @@ export default function ManageSite() {
     });
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.post("/role-list");
-        setData(response.data.data);
+        const response = await axiosInstance.get("/site-list");
+        if (response.data.data.length > 0) {
+          setData(response.data.data);
+          // console.log(response.data,"response.data.data");
+          // SuccessAlert(response.data.message)
+        }
       } catch (error) {
         console.error(error);
+        ErrorAlert(data.message);
       }
     };
 
@@ -69,14 +78,14 @@ export default function ManageSite() {
       ),
     },
     {
-      name: "Role",
-      selector: (row) => [row.name],
+      name: "Site",
+      selector: (row) => [row.site_display_name],
       sortable: false,
       width: "70%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row.site_display_name}</h6>
           </div>
         </div>
       ),
@@ -138,16 +147,7 @@ export default function ManageSite() {
     data,
   };
   const [roles, setRoles] = useState([]);
-  const [open, setOpen] = useState(false);
 
-  const handleAddRole = (newRole) => {
-    setRoles([...roles, newRole]);
-    setOpen(false);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
   return (
     <>
       <div className="page-header ">
@@ -166,10 +166,9 @@ export default function ManageSite() {
           </Breadcrumb>
         </div>
         <div className="ms-auto pageheader-btn">
-        <Link to="/addsite" className="btn btn-primary">
-        Add Site
-                    </Link>
-         
+          <Link to="/addsite" className="btn btn-primary">
+            Add Site
+          </Link>
         </div>
       </div>
 

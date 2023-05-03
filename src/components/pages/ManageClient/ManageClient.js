@@ -69,7 +69,7 @@ export default function ManageClient() {
       ),
     },
     {
-      name: "Role",
+      name: "Client",
       selector: (row) => [row.name],
       sortable: false,
       width: "70%",

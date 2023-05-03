@@ -8,9 +8,11 @@ import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { FormModal } from "../../../data/Modal/Modal";
+import { toast } from "react-toastify";
 
 export default function ManageRoles() {
   const [data, setData] = useState();
+
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -46,7 +48,11 @@ export default function ManageRoles() {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.post("/role-list");
-        setData(response.data.data);
+        if (response.data.data.length > 0) {
+          setData(response.data.data);
+
+          // SuccessAlert(response.data.message)
+        }
       } catch (error) {
         console.error(error);
       }
@@ -62,9 +68,9 @@ export default function ManageRoles() {
       sortable: false,
       width: "10%",
       center: true,
-      cell: (row,index) => (
+      cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
-          {index+1}
+          {index + 1}
         </span>
       ),
     },
@@ -76,14 +82,12 @@ export default function ManageRoles() {
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">
-              {row.name}
-            </h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
           </div>
         </div>
       ),
     },
-    
+
     {
       name: "ACTION",
       selector: (row) => [row.action],
@@ -168,20 +172,18 @@ export default function ManageRoles() {
           </Breadcrumb>
         </div>
         <div className="ms-auto pageheader-btn">
-        
-      <FormModal
-      
-        open={open}
-        modalId="addRoleModal"
-        modalTitle="Add Role"
-        modalContentText="Enter the name of the new role:"
-        modalInputLabel="Role Name"
-        modalInputType="text"
-        modalCancelButtonLabel="Cancel"
-        modalSaveButtonLabel="Add"
-        onSubmit={handleAddRole}
-        onClose={handleClose}
-      />
+          <FormModal
+            open={open}
+            modalId="addRoleModal"
+            modalTitle="Add Role"
+            modalContentText="Enter the name of the new role:"
+            modalInputLabel="Role Name"
+            modalInputType="text"
+            modalCancelButtonLabel="Cancel"
+            modalSaveButtonLabel="Add"
+            onSubmit={handleAddRole}
+            onClose={handleClose}
+          />
         </div>
       </div>
 

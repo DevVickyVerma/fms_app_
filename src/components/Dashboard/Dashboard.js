@@ -5,15 +5,6 @@ import { Breadcrumb, Col, Row, Card } from "react-bootstrap";
 import * as dashboard from "../../data/dashboard/dashboard";
 import { Link } from "react-router-dom";
 export default function Dashboard() {
-
-useEffect(()=>{
-  
-  if(!localStorage.getItem('token')){
-    
-  }
-},[])
-
-
   return (
     <div>
       <div className="page-header ">
@@ -31,7 +22,6 @@ useEffect(()=>{
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
-       
       </div>
       <Row>
         <Col lg={12} md={12} sm={12} xl={12}>
@@ -130,7 +120,6 @@ useEffect(()=>{
                 </Card.Body>
               </Card>
             </Col>
-          
           </Row>
         </Col>
       </Row>
@@ -153,7 +142,7 @@ useEffect(()=>{
           </Card>
         </Col>
         <Col sm={12} md={12} lg={12} xl={6}>
-        <Row>
+          <Row>
             <Col lg={6} md={12} sm={12} xl={6}>
               <Card className=" overflow-hidden">
                 <Card.Body className="card-body">
@@ -216,8 +205,6 @@ useEffect(()=>{
                 </div>
               </div>
             </div>
-           
-           
           </Row>
           <Row>
             <Col lg={6} md={12} sm={12} xl={6}>
@@ -282,8 +269,6 @@ useEffect(()=>{
                 </div>
               </div>
             </div>
-           
-           
           </Row>
           <Row>
             <Col lg={6} md={12} sm={12} xl={6}>
@@ -348,12 +333,9 @@ useEffect(()=>{
                 </div>
               </div>
             </div>
-           
-           
           </Row>
         </Col>
       </Row>
-     
     </div>
   );
 }
