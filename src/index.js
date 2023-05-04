@@ -179,7 +179,8 @@ const Root = () => {
             </Route>
 
             <Route path={`/`} element={<Custompages />}>
-              <Route path={`/login`} element={<Login />} />
+            <Route path="/login" element={<Login token={token} />} />
+
               <Route path={`/reset-password/:token`} element={<ResetPassword />} />
 <Route path={`/custompages/register`} element={<Register />} />
               <Route
@@ -208,7 +209,8 @@ const Root = () => {
               />
               <Route path="*" element={<Errorpage400 />} />
             </Route>
-            <Route element={<Login />} path="/" />
+            <Route path="/login" element={<Login token={token} />} />
+
           </Routes>
         </React.Suspense>
       </BrowserRouter>

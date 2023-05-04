@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { Card } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -17,8 +17,11 @@ import { ToastContainer, toast } from "react-toastify";
 //   );
 // };
 
-export default function Login() {
- const [loading, setLoading] = useState(false);
+export default function Login(props) {
+  if (props.token) {
+    return <Navigate to="/dashboard" />;
+  }
+ 
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
