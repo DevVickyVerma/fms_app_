@@ -1,41 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import "react-data-table-component-extensions/dist/index.css";
-import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
-import { Breadcrumb, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Button } from "bootstrap";
-import axios from "axios";
-import Swal from "sweetalert2";
-import { FormModal } from "../../../data/Modal/Modal";
+
+import {
+  Col,
+  Row,
+  Card,
+  Form,
+  FormGroup,
+  FormControl,
+  ListGroup,
+  Breadcrumb,
+} from "react-bootstrap";
+
+import { Formik, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import { toast } from "react-toastify";
+import axios from "axios";
 
-export default function AddBusiness() {
-  const [data, setData] = useState();
-
-
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        console.log(`Item with ID ${id} deleted!`);
-
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your item has been deleted.",
-          icon: "success",
-          confirmButtonText: "OK",
-        });
-      }
-    });
-  };
+export default function AddClient() {
+  const [dropdownItems, setDropdownItems] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -48,11 +30,7 @@ export default function AddBusiness() {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.post("/role-list");
-        if (response.data.data.length > 0) {
-          setData(response.data.data);
-
-          // SuccessAlert(response.data.message)
-        }
+        setDropdownItems(response.data.data);
       } catch (error) {
         console.error(error);
       }
@@ -61,147 +39,216 @@ export default function AddBusiness() {
     fetchData();
   }, []);
 
-  const columns = [
-    {
-      name: "S.NO",
-      selector: (row, index) => index + 1,
-      sortable: false,
-      width: "10%",
-      center: true,
-      cell: (row, index) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
-          {index + 1}
-        </span>
-      ),
-    },
-    {
-      name: "Role",
-      selector: (row) => [row.name],
-      sortable: false,
-      width: "70%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
-          </div>
-        </div>
-      ),
-    },
 
-    {
-      name: "ACTION",
-      selector: (row) => [row.action],
-      sortable: false,
-      width: "20%",
-      cell: (row) => (
-        <span className="text-center">
-          <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
-            <Link
-              to="/editrole"
-              className="btn btn-primary btn-sm rounded-11 me-2"
-            >
-              <i>
-                <svg
-                  className="table-edit"
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  width="16"
-                >
-                  <path d="M0 0h24v24H0V0z" fill="none" />
-                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19zM20.71 5.63l-2.34-2.34c-.2-.2-.45-.29-.71-.29s-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41z" />
-                </svg>
-              </i>
-            </Link>
-          </OverlayTrigger>
-          <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
-            <Link
-              to="#"
-              className="btn btn-danger btn-sm rounded-11"
-              onClick={() => handleDelete(row.id)}
-            >
-              <i>
-                <svg
-                  className="table-delete"
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  width="16"
-                >
-                  <path d="M0 0h24v24H0V0z" fill="none" />
-                  <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
-                </svg>
-              </i>
-            </Link>
-          </OverlayTrigger>
-        </span>
-      ),
-    },
-  ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
-  const [roles, setRoles] = useState([]);
-  const [open, setOpen] = useState(false);
+  
 
-  const handleAddRole = (newRole) => {
-    setRoles([...roles, newRole]);
-    setOpen(false);
+  const notify = (message) => toast.success(message);
+  const Errornotify = (message) => toast.error(message);
+
+ 
+
+  const handleSubmit1 = async (values, setSubmitting) => {
+    console.log(values, "values11");
+
+    const token = localStorage.getItem("token");
+
+    const formData = new FormData();
+    formData.append("first_name", values.first_name);
+    formData.append("last_name", values.last_name);
+    formData.append("role", values.role);
+    formData.append("phone_number", values.phone_number);
+
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/update-profile`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      }
+    );
+
+    const data = await response.json();
+
+    if (response.ok) {
+      notify(data.message);
+      console.log(data, "data");
+      setSubmitting(false);
+    } else {
+      console.log(data, "data");
+      Errornotify(data.message);
+    }
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
   return (
-    <>
-      <div className="page-header ">
+    <div>
+      <div className="page-header">
         <div>
           <h1 className="page-title">Add Business</h1>
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item className="breadcrumb-item" href="#">
-              Home
+              Pages
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Add-Business
+              Add Business
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
-        <div className="ms-auto pageheader-btn">
-          <FormModal
-            open={open}
-            modalId="AddBusiness"
-            modalTitle="Add Business"
-            modalContentText="Enter the name of the Business:"
-            modalInputLabel="Business Name"
-            modalInputType="text"
-            modalCancelButtonLabel="Cancel"
-            modalSaveButtonLabel="Add"
-            onSubmit={handleAddRole}
-            onClose={handleClose}
-          />
-        </div>
       </div>
 
-      <DataTableExtensions {...tableDatas}>
-        <DataTable
-          columns={columns}
-          data={data}
-          noHeader
-          defaultSortField="id"
-          defaultSortAsc={false}
-          striped={true}
-          // center={true}
-          persistTableHead
-          // pagination
-          highlightOnHover
-          searchable={true}
-        />
-      </DataTableExtensions>
-    </>
+      <Row>
+       
+        <Col lg={12} xl={12} md={12} sm={12}>
+          <Card>
+            <Card.Header>
+              <Card.Title as="h3">Add Business</Card.Title>
+            </Card.Header>
+            <Formik
+              initialValues={{
+                first_name: "",
+                last_name: "",
+                phone_number: "",
+                role: "",
+              }}
+              validationSchema={Yup.object({
+                first_name: Yup.string()
+                  .max(15, "Must be 15 characters or less")
+                  .required("First name is required"),
+
+                last_name: Yup.string()
+                  .max(20, "Must be 20 characters or less")
+                  .required("Last name is required"),
+                phone_number: Yup.string()
+                  .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
+                  .required("Phone number is required"),
+                role: Yup.string().required("Role is required"),
+              })}
+              onSubmit={(values, { setSubmitting }) => {
+                console.log(values, "values");
+                handleSubmit1(values, setSubmitting);
+              }}
+            >
+              {({ handleSubmit, isSubmitting, errors, touched }) => (
+                <Form onSubmit={handleSubmit}>
+                  <Card.Body>
+                    <Row>
+                      <Col lg={6} md={12}>
+                        <FormGroup>
+                          <label htmlFor="first_name">First Name</label>
+                          <Field
+                            type="text"
+                            // className="form-control"
+                            className={`input101 ${
+                              errors.first_name && touched.first_name
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="first_name"
+                            name="first_name"
+                            placeholder="First Name"
+                          />
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="first_name"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg={6} md={12}>
+                        <FormGroup>
+                          <label htmlFor="last_name">Last Name</label>
+                          <Field
+                            type="text"
+                            className={`input101 ${
+                              errors.last_name && touched.last_name
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="last_name"
+                            name="last_name"
+                            placeholder="Last Name"
+                          />
+                          <ErrorMessage
+                            name="last_name"
+                            component="div"
+                            className="invalid-feedback"
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col lg={6} md={12}>
+                        <FormGroup>
+                          <label htmlFor="phone_number">Phone Number</label>
+                          <Field
+                            type="text"
+                            className={`input101 ${
+                              errors.phone_number && touched.phone_number
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="phone_number"
+                            name="phone_number"
+                            placeholder="Phone Number"
+                          />
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="phone_number"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg={6} md={12}>
+                        <FormGroup>
+                          <label htmlFor="role">Role</label>
+                          <Field
+                            as="select"
+                            className={`input101 ${
+                              errors.role && touched.role ? "is-invalid" : ""
+                            }`}
+                            id="role"
+                            name="role"
+                          >
+                            <option value="">Select a Role</option>
+                            {dropdownItems && dropdownItems.length > 0 ? (
+                              dropdownItems.map((item) => (
+                                <option key={item.id} value={item.name}>
+                                  {item.name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled>No roles available</option>
+                            )}
+                          </Field>
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="role"
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                  <Card.Footer className="text-end">
+                    <button
+                      className="btn btn-primary me-2"
+                      type="submit"
+                      disabled={isSubmitting}
+                    >
+                      Update
+                    </button>
+                  </Card.Footer>
+                </Form>
+              )}
+            </Formik>
+          </Card>
+        </Col>
+      </Row>
+    </div>
   );
 }

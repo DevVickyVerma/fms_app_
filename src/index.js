@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.scss";
 import { Navigate, BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./Utils/PrivateRoutes";
-import jwtDecode from "jwt-decode";
+
 
 const Switcherlayout = React.lazy(() => import("./components/switcherlayout"));
 //App
@@ -120,25 +120,7 @@ const Loaderimg = () => {
 const Root = () => {
   const [token, setToken] = useState(localStorage.getItem("token"));
 
-  useEffect(() => {
-    // Check if token is expired on mount
-    isTokenExpired();
-  }, []);
-
-  function isTokenExpired(token) {
-    if (token) {
-      const decodedToken = jwtDecode(token);
-      const currentTime = Date.now() / 1000;
-      if (decodedToken.exp < currentTime) {
-        return true; // Token is expired
-        alert("token remove");
-      } else {
-        return false; // Token is still valid
-      }
-    } else {
-      return true; // No token found
-    }
-  }
+ 
 
   return (
     <Fragment>
