@@ -78,6 +78,7 @@ const Terms = React.lazy(() => import("./components/pages/Terms/Terms"));
 
 //custom Pages
 const Login = React.lazy(() => import("./components/CustomPages/Login/Login"));
+const ResetPassword = React.lazy(() => import("./components/CustomPages/ResetPassword/ResetPassword"));
 const Register = React.lazy(() =>
   import("./components/CustomPages/Register/Register")
 );
@@ -197,7 +198,8 @@ const Root = () => {
 
             <Route path={`/`} element={<Custompages />}>
               <Route path={`/login`} element={<Login />} />
-              <Route path={`/custompages/register`} element={<Register />} />
+              <Route path={`/reset-password/:token`} element={<ResetPassword />} />
+<Route path={`/custompages/register`} element={<Register />} />
               <Route
                 path={`/custompages/forgotPassword`}
                 element={<ForgotPassword />}

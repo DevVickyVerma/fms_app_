@@ -1,7 +1,7 @@
 {
   "name": "verticalmenu-icon-sidebar",
   "version": "0.1.0",
-  "homepage": "https://react.spurko.com/zanex/preview/",
+  "homepage": "https://react.spurko.com/",
   "private": true,
   "dependencies": {
     "@coreui/react": "^4.1.2",
