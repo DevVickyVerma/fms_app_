@@ -32,7 +32,7 @@ export default function Login(props) {
   const Errornotify = (message) => toast.error(message);
 
   const handleSubmit = async (values) => {
-    console.log(values, "Object");
+   
   
     try {
       const response = await fetch(`${process.env.REACT_APP_BASE_URL}/login`, {

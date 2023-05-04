@@ -23,14 +23,13 @@ export default function ResetPassword() {
           .then(response => {
             setIsTokenValid(true)
             setUserId(response.data.data.id)
-            
           })
           .catch(error => {
             setTimeout(() => {
                 window.location.href = `/login`;
             }, 1000);
            
-            console.log(error)
+      
             ErrorAlert("Invalid forgot password token")
             setIsTokenValid(false)
           });
@@ -47,7 +46,7 @@ export default function ResetPassword() {
       
         try {
           const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/reset/password`, formData);
-          console.log(response.data, 'done');
+        
           SuccessAlert(response.data.message)
           window.location.href = `/login`;
         } catch (error) {
@@ -75,37 +74,6 @@ export default function ResetPassword() {
  
 
 
-//     console.log(values, "Object");
-  
-//     try {
-//       const response = await fetch(`${process.env.REACT_APP_BASE_URL}/login`, {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(values),
-//       });
-  
-//       const data = await response.json();
-  
-//       if (response.ok && data) {
-//         localStorage.setItem("token", data.data.access_token);
-  
-//         notify(data.message);
-//         window.location.href = `/dashboard`;
-//       } else {
-//         Errornotify(data.message);
-//       }
-//     } catch (error) {
-//       console.error(error);
-//       Errornotify("Network error: Please check your internet connection and try again.");
-//     }
-//   };
-  
-// const handleSubmit = (values)=>{
-//     console.log(userId,"token")
-//     console.log(values,"values")
-// }
 
   return (
     <div className="login-img">

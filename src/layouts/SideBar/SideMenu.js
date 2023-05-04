@@ -80,11 +80,11 @@ export const MENUITEMS = [
             title: "Manage Addon",
             type: "link",
           },
-          // {
-          //   path: `/addaddon`,
-          //   title: "Add Addon",
-          //   type: "link",
-          // },
+          {
+            path: `/addaddon`,
+            title: "Add Addon",
+            type: "link",
+          },
          
           
         ],

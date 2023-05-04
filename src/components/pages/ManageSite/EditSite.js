@@ -49,7 +49,7 @@ export default function EditSite() {
  
 
   const handleSubmit1 = async (values, setSubmitting) => {
-    console.log(values, "values11");
+   
 
     const token = localStorage.getItem("token");
 
@@ -74,10 +74,10 @@ export default function EditSite() {
 
     if (response.ok) {
       notify(data.message);
-      console.log(data, "data");
+    
       setSubmitting(false);
     } else {
-      console.log(data, "data");
+     
       Errornotify(data.message);
     }
   };
@@ -129,7 +129,7 @@ export default function EditSite() {
                 role: Yup.string().required("Role is required"),
               })}
               onSubmit={(values, { setSubmitting }) => {
-                console.log(values, "values");
+            
                 handleSubmit1(values, setSubmitting);
               }}
             >

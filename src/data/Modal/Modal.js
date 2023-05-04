@@ -24,7 +24,7 @@ export function FormModal(props) {
     if (inputValue.trim() !== "") {
       handleClose();
       setInputValue("")
-      console.log(inputValue,"inputValue");
+   
      
     } else {
       setError(true);

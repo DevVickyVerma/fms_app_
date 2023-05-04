@@ -52,6 +52,9 @@ const ManageAddon = React.lazy(() =>
 const EditAddon = React.lazy(() =>
   import("./components/pages/ManageAddon/EditAddon")
 );
+const AddAddon = React.lazy(() =>
+  import("./components/pages/ManageAddon/AddAddon")
+);
 const Managesite = React.lazy(() =>
   import("./components/pages/ManageSite/ManageSite")
 );
@@ -159,6 +162,7 @@ const Root = () => {
                   <Route path={`addsite`} element={<AddSite />} />
                   <Route path={`editsite`} element={<EditSite />} />
                   <Route path={`/manageaddon`} element={<ManageAddon />} />
+                  <Route path={`/addaddon`} element={<AddAddon />} />
                   <Route path={`/business`} element={<ManageBusinessTypes />} />
                   <Route
                     path={`/sub-business`}

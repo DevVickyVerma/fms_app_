@@ -16,7 +16,7 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
-export default function EditAddon() {
+export default function AddAddon() {
   const [roles, setRoles] = useState([]);
 
 
@@ -52,7 +52,7 @@ export default function EditAddon() {
     <>
       <div className="page-header ">
         <div>
-          <h1 className="page-title">Edit Addon</h1>
+          <h1 className="page-title">Add Addon</h1>
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item className="breadcrumb-item" href="#">
               Home
@@ -61,7 +61,7 @@ export default function EditAddon() {
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Edit Addon
+             Add Addon
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -79,7 +79,7 @@ export default function EditAddon() {
         <div className="col-lg-12 col-xl-12 col-md-12 col-sm-12">
           <Card>
             <Card.Header>
-              <h4 className="card-title">Edit Addon</h4>
+              <h4 className="card-title">Add Addon</h4>
             </Card.Header>
             <Card.Body>
               <Row>
@@ -87,7 +87,7 @@ export default function EditAddon() {
                   <form>
                   <FormGroup>
                       <Form.Label htmlFor="  Role" className="form-label">
-                      Edit Addon
+                      Addon
                       </Form.Label>
                       <input
                         type="text"
