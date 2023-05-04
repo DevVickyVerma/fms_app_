@@ -23,7 +23,6 @@ export default function ResetPassword() {
           .then(response => {
             setIsTokenValid(true)
             setUserId(response.data.data.id)
-          
           })
           .catch(error => {
             setTimeout(() => {

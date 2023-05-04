@@ -49,8 +49,7 @@ export function Header() {
       try {
         const response = await axiosInstance.post("/detail");
         setData(response.data.data);
- 
-      
+
       } catch (error) {
         console.error(error);
         ErrorAlert("Invalid access token");
