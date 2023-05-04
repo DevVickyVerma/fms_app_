@@ -59,7 +59,7 @@ export default function EditProfile() {
   const Errornotify = (message) => toast.error(message);
 
   const handlesubmit = async (values) => {
-    console.log(values, "values11");
+  
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
@@ -82,15 +82,15 @@ export default function EditProfile() {
 
     if (response.ok) {
       notify(data.message);
-      console.log(data, "data");
+   
     } else {
-      console.log(data, "data");
+   
       Errornotify(data.message);
     }
   };
 
   const handleSubmit1 = async (values, setSubmitting) => {
-    console.log(values, "values11");
+  
 
     const token = localStorage.getItem("token");
 
@@ -115,10 +115,10 @@ export default function EditProfile() {
 
     if (response.ok) {
       notify(data.message);
-      console.log(data, "data");
+     
       setSubmitting(false);
     } else {
-      console.log(data, "data");
+   
       Errornotify(data.message);
     }
   };
@@ -148,7 +148,7 @@ export default function EditProfile() {
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting }) => {
-              console.log(values, "values");
+           
               setSubmitting(false);
               handlesubmit(values);
             }}
@@ -262,7 +262,7 @@ export default function EditProfile() {
                 role: Yup.string().required("Role is required"),
               })}
               onSubmit={(values, { setSubmitting }) => {
-                console.log(values, "values");
+               
                 handleSubmit1(values, setSubmitting);
               }}
             >

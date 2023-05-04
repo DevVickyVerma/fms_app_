@@ -179,7 +179,7 @@ export function CustomizedRating8() {
     color: "#6c757d",
     activeColor: "#ffc107",
     onChange: (newValue) => {
-      console.log(`Example 3: new value is ${newValue}`);
+      // console.log(`Example 3: new value is ${newValue}`);
     },
   };
   return <ReactStars {...ColorExample} className="Rating"/>;

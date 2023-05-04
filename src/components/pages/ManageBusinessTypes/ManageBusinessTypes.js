@@ -25,7 +25,7 @@ export default function ManageBusinessTypes() {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(`Item with ID ${id} deleted!`);
+       
 
         Swal.fire({
           title: "Deleted!",
