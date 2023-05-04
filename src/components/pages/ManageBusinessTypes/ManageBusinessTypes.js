@@ -47,7 +47,7 @@ export default function ManageBusinessTypes() {
     });
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.post("/role-list");
+        const response = await axiosInstance.get("/business-types");
         if (response.data.data.length > 0) {
           setData(response.data.data);
 
@@ -75,7 +75,7 @@ export default function ManageBusinessTypes() {
       ),
     },
     {
-      name: "Role",
+      name: "Business",
       selector: (row) => [row.name],
       sortable: false,
       width: "70%",
