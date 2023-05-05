@@ -15,9 +15,11 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import axios from "axios";
+import { useLocation } from 'react-router-dom';
 
 export default function EditAddon() {
   const [roles, setRoles] = useState([]);
+  const [addonDetails, setAddonDetails] = useState();
 
 
   useEffect(() => {
@@ -39,6 +41,46 @@ export default function EditAddon() {
       })
       .catch((error) => console.log(error));
   }, []);
+  
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const addon_id = localStorage.getItem("EditAddon");
+
+    const formData = new FormData();
+    formData.append("addon_id", addon_id);
+
+    const axiosInstance = axios.create({
+      baseURL: process.env.REACT_APP_BASE_URL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+    axiosInstance.post("/addon-detail", formData)
+      .then((response) => {
+
+        if(response.data){
+          console.log(response.data.data,"response");
+          setAddonDetails(response.data.data)
+          console.log(addonDetails.name,"addonDetails")
+        }
+      
+       
+      })
+      .catch((error) => {
+        console.log(error);
+    
+      });
+  }, []);
+
+
+
+
+
+
+
+
   const handleSave = () => {
     const checkedRoles = roles.filter((role) => {
       const checkbox = document.getElementById(`checkbox-${role.id}`);
@@ -94,7 +136,8 @@ export default function EditAddon() {
                         id="  Addon"
                         className="form-control"
                         name="  Addon"
-                        placeholder="  Addon"
+                        placeholder=" Addon"
+                        //  
                       />
                     </FormGroup>
                     <div className="col-lg-12 col-md-12 p-0">

@@ -14,6 +14,12 @@ export default function ManageAddon() {
   const [data, setData] = useState();
 
 
+const handleEdit = (id)=>{
+  console.log(id,"handleEdit")
+  localStorage.setItem("EditAddon", id);
+}
+
+
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -99,6 +105,7 @@ export default function ManageAddon() {
             <Link
               to="/editaddon"
               className="btn btn-primary btn-sm rounded-11 me-2"
+              onClick={() => handleEdit(row.id)}
             >
               <i>
                 <svg
@@ -172,18 +179,9 @@ export default function ManageAddon() {
           </Breadcrumb>
         </div>
         <div className="ms-auto pageheader-btn">
-          <FormModal
-            open={open}
-            modalId="addon"
-            modalTitle="Add Addon"
-            modalContentText="Enter the name of the  Addon:"
-            modalInputLabel=" Name"
-            modalInputType="text"
-            modalCancelButtonLabel="Cancel"
-            modalSaveButtonLabel="Add"
-            onSubmit={handleAddRole}
-            onClose={handleClose}
-          />
+          <Link to="/addaddon" className="btn btn-primary">
+            Add Addon
+          </Link>
         </div>
       </div>
 
