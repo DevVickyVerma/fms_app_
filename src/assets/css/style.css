@@ -55474,6 +55474,7 @@ textarea.form-control {
     padding-left: 0;
     margin-right: 0.75rem;
     width: 23%;
+    padding: 15px 0px;
 }
 .form-check-input {
     width: 1.5em;
