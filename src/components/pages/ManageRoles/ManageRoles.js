@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+
+import { Link, Navigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -9,10 +10,11 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function ManageRoles() {
   const [data, setData] = useState();
-
+  const navigate = useNavigate();
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -25,8 +27,6 @@ export default function ManageRoles() {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-      
-
         Swal.fire({
           title: "Deleted!",
           text: "Your item has been deleted.",
@@ -47,14 +47,23 @@ export default function ManageRoles() {
     });
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.post("/role-list");
+        const response = await axiosInstance.post("/role/list");
         if (response.data.data.length > 0) {
           setData(response.data.data);
 
           // SuccessAlert(response.data.message)
         }
       } catch (error) {
-        console.error(error);
+        console.log(error.response.data.status_code, "error");
+        if (
+          error &&
+          error.response &&
+          error.response.data.status_code === "403"
+        ) {
+          navigate("/errorpage403");
+        }
+
+        // console.error(error);
       }
     };
 

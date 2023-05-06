@@ -47,7 +47,7 @@ export default function ManageSubBusinessTypes() {
     });
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get("/business-sub-types");
+        const response = await axiosInstance.get("/business/sub/types");
         if (response.data.data.length > 0) {
           setData(response.data.data);
 

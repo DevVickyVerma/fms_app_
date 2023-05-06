@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -11,6 +11,7 @@ import { FormModal } from "../../../data/Modal/Modal";
 
 export default function ManageClient() {
   const [data, setData] = useState();
+  const navigate = useNavigate();
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -45,10 +46,16 @@ export default function ManageClient() {
     });
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.post("/role-list");
+        const response = await axiosInstance.post("/role/list");
         setData(response.data.data);
       } catch (error) {
-        console.error(error);
+        if (
+          error &&
+          error.response &&
+          error.response.data.status_code === "403"
+        ) {
+          navigate("/errorpage403");
+        }
       }
     };
 

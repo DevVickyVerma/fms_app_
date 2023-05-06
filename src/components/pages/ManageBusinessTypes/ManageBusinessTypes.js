@@ -47,7 +47,7 @@ export default function ManageBusinessTypes() {
     });
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get("/business-types");
+        const response = await axiosInstance.get("/business/types");
         if (response.data.data.length > 0) {
           setData(response.data.data);
 

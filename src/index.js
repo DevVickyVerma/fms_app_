@@ -200,7 +200,7 @@ const Root = () => {
                 element={<Errorpage401 />}
               />
               <Route
-                path={`/custompages/errorpages/errorpage403`}
+                path={`/errorpage403`}
                 element={<Errorpage403 />}
               />
               <Route

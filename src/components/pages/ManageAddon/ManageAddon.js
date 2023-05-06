@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 
 export default function ManageAddon() {
   const [data, setData] = useState();
-
+  const navigate = useNavigate();
 
 const handleEdit = (id)=>{
   console.log(id,"handleEdit")
@@ -53,14 +53,23 @@ const handleEdit = (id)=>{
     });
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.post("/addon-list");
+        const response = await axiosInstance.post("/addon/list");
         if (response.data.data.length > 0) {
           setData(response.data.data);
 
           // SuccessAlert(response.data.message)
         }
-      } catch (error) {
-        console.error(error);
+      }  catch (error) {
+        console.log(error.response.data.status_code, "error");
+        if (
+          error &&
+          error.response &&
+          error.response.data.status_code === "403"
+        ) {
+          navigate("/errorpage403");
+        }
+
+        // console.error(error);
       }
     };
 
