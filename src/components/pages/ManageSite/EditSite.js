@@ -29,7 +29,7 @@ export default function EditSite() {
     });
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.post("/role-list");
+        const response = await axiosInstance.post("/role/list");
         setDropdownItems(response.data.data);
       } catch (error) {
         console.error(error);

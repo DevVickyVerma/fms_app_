@@ -17,27 +17,36 @@ import { toast } from "react-toastify";
 import axios from "axios";
 
 export default function EditProfile() {
-  const [dropdownItems, setDropdownItems] = useState([]);
+  const [userDetails, setUserDetails] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.post("/role-list");
-        setDropdownItems(response.data.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+   
 
     fetchData();
-  }, []);
+  }, [localStorage.getItem("First_name")]);
+  const token = localStorage.getItem("token");
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const fetchData = async () => {
+    try {
+      const response = await axiosInstance.post("/detail");
+      const { data } = response;
+      if (data) {
+        localStorage.setItem("First_name",data.data.first_name);
+        localStorage.setItem("Last_name",data.data.last_name);
+        localStorage.setItem("Phone_Number",data.data.phone_number);
+        setUserDetails(data.data.first_name);
+      }
+    } catch (error) {
+      console.error(error);
+      localStorage.clear();
+    }
+  };
+  
 
   const validationSchema = Yup.object().shape({
     old_password: Yup.string().required("Current Password is required"),
@@ -59,7 +68,6 @@ export default function EditProfile() {
   const Errornotify = (message) => toast.error(message);
 
   const handlesubmit = async (values) => {
-  
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
@@ -82,15 +90,13 @@ export default function EditProfile() {
 
     if (response.ok) {
       notify(data.message);
-   
     } else {
-   
       Errornotify(data.message);
     }
   };
 
   const handleSubmit1 = async (values, setSubmitting) => {
-  
+    console.log(values, "values");
 
     const token = localStorage.getItem("token");
 
@@ -115,10 +121,10 @@ export default function EditProfile() {
 
     if (response.ok) {
       notify(data.message);
-     
+
       setSubmitting(false);
     } else {
-   
+
       Errornotify(data.message);
     }
   };
@@ -148,7 +154,6 @@ export default function EditProfile() {
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting }) => {
-           
               setSubmitting(false);
               handlesubmit(values);
             }}
@@ -158,6 +163,7 @@ export default function EditProfile() {
                 <Card className="profile-edit">
                   <Card.Header>
                     <Card.Title as="h3">Edit Password</Card.Title>
+                    <Card.Title as="h3">{userDetails}</Card.Title>
                   </Card.Header>
                   <Card.Body>
                     <FormGroup>
@@ -243,10 +249,9 @@ export default function EditProfile() {
             </Card.Header>
             <Formik
               initialValues={{
-                first_name: "",
-                last_name: "",
-                phone_number: "",
-                role: "",
+                first_name: localStorage.getItem("First_name")? localStorage.getItem("First_name") : "",
+                last_name: localStorage.getItem("Last_name")? localStorage.getItem("Last_name") : "",
+                phone_number:localStorage.getItem("Phone_Number")? localStorage.getItem("Phone_Number") : "",
               }}
               validationSchema={Yup.object({
                 first_name: Yup.string()
@@ -259,10 +264,8 @@ export default function EditProfile() {
                 phone_number: Yup.string()
                   .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
                   .required("Phone number is required"),
-                role: Yup.string().required("Role is required"),
               })}
               onSubmit={(values, { setSubmitting }) => {
-               
                 handleSubmit1(values, setSubmitting);
               }}
             >
@@ -333,35 +336,6 @@ export default function EditProfile() {
                             component="div"
                             className="invalid-feedback"
                             name="phone_number"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg={6} md={12}>
-                        <FormGroup>
-                          <label htmlFor="role">Role</label>
-                          <Field
-                            as="select"
-                            className={`input101 ${
-                              errors.role && touched.role ? "is-invalid" : ""
-                            }`}
-                            id="role"
-                            name="role"
-                          >
-                            <option value="">Select a Role</option>
-                            {dropdownItems && dropdownItems.length > 0 ? (
-                              dropdownItems.map((item) => (
-                                <option key={item.id} value={item.name}>
-                                  {item.name}
-                                </option>
-                              ))
-                            ) : (
-                              <option disabled>No roles available</option>
-                            )}
-                          </Field>
-                          <ErrorMessage
-                            component="div"
-                            className="invalid-feedback"
-                            name="role"
                           />
                         </FormGroup>
                       </Col>

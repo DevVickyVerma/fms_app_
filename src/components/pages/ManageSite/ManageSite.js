@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -15,7 +15,7 @@ export default function ManageSite() {
 
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
-
+  const navigate = useNavigate();
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -49,14 +49,20 @@ export default function ManageSite() {
     });
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get("/site-list");
+        const response = await axiosInstance.get("/site/list");
         if (response.data.data.length > 0) {
           setData(response.data.data);
           // console.log(response.data,"response.data.data");
           // SuccessAlert(response.data.message)
         }
       } catch (error) {
-        console.error(error);
+        if (
+          error &&
+          error.response &&
+          error.response.data.status_code === "403"
+        ) {
+          navigate("/errorpage403");
+        }
         ErrorAlert(data.message);
       }
     };

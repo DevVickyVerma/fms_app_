@@ -46,7 +46,16 @@ export default function AddAddon() {
         console.log(rolesList, "rolesList");
         setPermissions(rolesList);
       })
-      .catch((error) => console.log(error));
+      .catch((error) =>{
+        if (
+          error &&
+          error.response &&
+          error.response.data.status_code === "403"
+        ) {
+          navigate("/errorpage403");
+        }
+
+      } );
   }, []);
 
   // const handleSubmit=(values)=>{

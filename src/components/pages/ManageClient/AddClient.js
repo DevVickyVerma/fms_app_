@@ -15,10 +15,11 @@ import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function AddClient() {
   const [dropdownItems, setDropdownItems] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem("token");
     const axiosInstance = axios.create({
@@ -29,10 +30,16 @@ export default function AddClient() {
     });
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.post("/role-list");
+        const response = await axiosInstance.post("/role/list");
         setDropdownItems(response.data.data);
       } catch (error) {
-        console.error(error);
+        if (
+          error &&
+          error.response &&
+          error.response.data.status_code === "403"
+        ) {
+          navigate("/errorpage403");
+        }
       }
     };
 
