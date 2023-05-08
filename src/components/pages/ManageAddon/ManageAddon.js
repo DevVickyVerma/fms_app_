@@ -13,10 +13,15 @@ import { toast } from "react-toastify";
 export default function ManageAddon() {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+  const SuccessAlert = (message) => toast.success(message);
+  const ErrorAlert = (message) => toast.error(message);
+const handleEdit = (row)=>{
+  console.log(row,"handleEdit")
+ 
+ 
+  localStorage.setItem("EditAddon", row.id);
+  localStorage.setItem("EditAddon_name", row.name);
 
-const handleEdit = (id)=>{
-  console.log(id,"handleEdit")
-  localStorage.setItem("EditAddon", id);
 }
 
 
@@ -54,27 +59,26 @@ const handleEdit = (id)=>{
     const fetchData = async () => {
       try {
         const response = await axiosInstance.post("/addon/list");
-   
-        if (response.data.data.length > 0) {
-         
-          setData(response.data.data);
-         
-
-          // SuccessAlert(response.data.message)
+    
+        if (response.data.data.addons.length > 0) {
+          setData(response.data.data.addons);
         }
-      }  catch (error) {
+      } catch (error) {
         console.log(error.response.data.status_code, "error");
-        if (
-          error &&
+        if (error.response && error.response.status === 401) {
+          navigate("/login");
+          ErrorAlert("Invalid access token");
+          localStorage.clear();
+        } else if (
           error.response &&
           error.response.data.status_code === "403"
         ) {
           navigate("/errorpage403");
         }
-
         // console.error(error);
       }
     };
+    
 
     fetchData();
   }, []);
@@ -117,7 +121,7 @@ const handleEdit = (id)=>{
             <Link
               to="/editaddon"
               className="btn btn-primary btn-sm rounded-11 me-2"
-              onClick={() => handleEdit(row.id)}
+              onClick={() => handleEdit(row)}
             >
               <i>
                 <svg

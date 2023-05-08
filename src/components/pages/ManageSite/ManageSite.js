@@ -50,20 +50,22 @@ export default function ManageSite() {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.post("/site/list");
-        if (response.data.data.length > 0) {
-          setData(response.data.data);
-          // console.log(response.data,"response.data.data");
-          // SuccessAlert(response.data.message)
+        if (response.data.data.sites.length > 0) {
+          setData(response.data.data.sites);
         }
       } catch (error) {
-        if (
-          error &&
+        console.log(error.response.data.status_code, "error");
+        if (error.response && error.response.status === 401) {
+          navigate("/login");
+          ErrorAlert("Invalid access token");
+          localStorage.clear();
+        } else if (
           error.response &&
           error.response.data.status_code === "403"
         ) {
           navigate("/errorpage403");
         }
-        ErrorAlert(data.message);
+        // console.error(error);
       }
     };
 

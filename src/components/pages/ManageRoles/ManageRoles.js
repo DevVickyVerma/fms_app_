@@ -15,7 +15,8 @@ import { useNavigate } from "react-router-dom";
 export default function ManageRoles() {
   const [data, setData] = useState();
   const navigate = useNavigate();
-
+  const SuccessAlert = (message) => toast.success(message);
+  const ErrorAlert = (message) => toast.error(message);
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -48,21 +49,21 @@ export default function ManageRoles() {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.post("/role/list");
-        if (response.data.data.length > 0) {
-          setData(response.data.data);
-
-          // SuccessAlert(response.data.message)
+       if (response.data.data.addons.length > 0) {
+          setData(response.data.data.addons);
         }
       } catch (error) {
         console.log(error.response.data.status_code, "error");
-        if (
-          error &&
+        if (error.response && error.response.status === 401) {
+          navigate("/login");
+          ErrorAlert("Invalid access token");
+          localStorage.clear();
+        } else if (
           error.response &&
           error.response.data.status_code === "403"
         ) {
           navigate("/errorpage403");
         }
-
         // console.error(error);
       }
     };

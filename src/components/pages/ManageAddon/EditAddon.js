@@ -23,6 +23,9 @@ import { toast } from "react-toastify";
 
 export default function AddAddon() {
   const [permissions, setPermissions] = useState([]);
+  const [userpermissions, setUserPermissions] = useState([]);
+  const [edituserDetails, setEdituserDetails] = useState("");
+  const [editName, seteditName] = useState("");
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
   const navigate = useNavigate();
@@ -38,13 +41,10 @@ export default function AddAddon() {
     axiosInstance
       .post("/permission-list")
       .then((response) => {
-        const rolesList = response.data.data.map((item) => ({
-          id: item.id,
-          name: item.display_name,
-          permission_name: item.name,
-        }));
-        console.log(rolesList, "rolesList");
-        setPermissions(rolesList);
+        console.log(response.data, "rolesList1");
+        setUserPermissions(response.data.data);
+        console.log(response.data, "response.data");
+        // setPermissions(response.data);
       })
       .catch((error) => {
         if (
@@ -54,12 +54,58 @@ export default function AddAddon() {
         ) {
           navigate("/errorpage403");
         }
-       });
+      });
   }, []);
 
-  const handleSubmit=(values)=>{
-    console.log(values,"handleSubmit")
-  }
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const axiosInstance = axios.create({
+      baseURL: process.env.REACT_APP_BASE_URL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const addonId = localStorage.getItem("EditAddon");
+    const formData = new FormData();
+    formData.append("addon_id", addonId);
+
+    const GetAddonDetails = async () => {
+      try {
+        const response = await axiosInstance.post("/addon/detail", formData);
+        const { data } = response;
+        if (data) {
+          console.log(data.data.addon_name, "addon_name");
+          setEdituserDetails(data.data.addon_name);
+          // setPermissions(response.data);
+          console.log(response.data, "setPermissions");
+          setPermissions(data);
+          console.log(data, "rolesList21");
+          console.log(data, "rolesList2");
+        }
+      } catch (error) {
+        console.log(error.response.data.status_code, "error");
+        if (error.response && error.response.status === 401) {
+          navigate("/login");
+          ErrorAlert("Invalid access token");
+          localStorage.clear();
+        } else if (
+          error.response &&
+          error.response.data.status_code === "403"
+        ) {
+          navigate("/errorpage403");
+        }
+        // console.error(error);
+      }
+    };
+
+    GetAddonDetails();
+  }, []);
+
+  useEffect(() => {
+    setEdituserDetails();
+  }, [edituserDetails]);
+
   // const handleSubmit = async (values) => {
   //   const body = {
   //     name: values.name,
@@ -81,7 +127,6 @@ export default function AddAddon() {
   //   );
 
   //   const data = await response.json();
-  
 
   //   if (response.ok) {
   //     SuccessAlert(data.message);
@@ -90,6 +135,10 @@ export default function AddAddon() {
   //     ErrorAlert(data.message);
   //   }
   // };
+
+  const handleSubmit = (values) => {
+    console.log(values, "values");
+  };
 
   return (
     <>
@@ -109,6 +158,12 @@ export default function AddAddon() {
           </Breadcrumb>
         </div>
       </div>
+
+      {/* 
+      name: localStorage.getItem("EditAddon_name")
+                        ? localStorage.getItem("EditAddon_name")
+                        : "", */}
+
       <Row>
         <div className="col-lg-12 col-xl-12 col-md-12 col-sm-12">
           <Card>
@@ -119,9 +174,29 @@ export default function AddAddon() {
               <Row>
                 <div className="col-lg- col-md-12">
                   <Formik
-                    initialValues={{ name: "", permissions: [] }}
+                    initialValues={{
+                      name: localStorage.getItem("EditAddon_name")
+                        ? localStorage.getItem("EditAddon_name")
+                        : "",
+                      permissions: [],
+                    }}
                     validationSchema={Yup.object().shape({
-                      name: Yup.string().required("Addon is required"),
+                      name: Yup.string()
+                        .required("Addon is required")
+                        .matches(/^[a-zA-Z0-9_\- ]+$/, {
+                          message:
+                            "Addon Name must not contain special characters",
+                          excludeEmptyString: true,
+                        })
+                        .matches(
+                          /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
+                          {
+                            message:
+                              "Addon Name must not have consecutive spaces",
+                            excludeEmptyString: true,
+                          }
+                        ),
+
                       permissions: Yup.array()
                         .required("At least one role is required")
                         .min(1, "At least one role is required"),
@@ -140,7 +215,7 @@ export default function AddAddon() {
                     {({ errors, touched, handleSubmit }) => (
                       <Form onSubmit={handleSubmit}>
                         <div className="form-group">
-                          <label htmlFor="name"> Edit Addon</label>
+                          <label htmlFor="name"> Add Addon</label>
                           <Field
                             type="text"
                             id="name"
@@ -156,42 +231,59 @@ export default function AddAddon() {
                             className="invalid-feedback"
                           />
                         </div>
-                        <div className="col-lg-12 col-md-12 p-0">
-                          <div className="table-heading">
-                            <h2>Permissions</h2>
-                          </div>
-                        </div>
+
                         <div className="form-group">
-                          {permissions.map((role) => (
-                            <div
-                              key={role.id}
-                              className="form-check form-check-inline"
-                            >
-                              <Field
-                                className={`form-check-input ${
-                                  touched.permissions && errors.permissions
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                type="checkbox"
-                                name="permissions"
-                                value={role.permission_name}
-                                id={`role-${role.permission_name}`}
-                              />
-                              <label
-                                className="form-check-label"
-                                htmlFor={`role-${role.id}`}
-                              >
-                                {role.name}
-                              </label>
-                            </div>
-                          ))}
+                          {permissions.data &&
+                            permissions.data.addon_permissions && (
+                              <div>
+                                {Object.keys(
+                                  permissions.data.addon_permissions
+                                ).map((heading) => (
+                                  <div key={heading}>
+                                    <div className="table-heading">
+                                      <h2>{heading}</h2>
+                                    </div>
+                                    <div className="form-group">
+                                      {permissions.data.addon_permissions[
+                                        heading
+                                      ].names.map((nameItem) => (
+                                        <div
+                                          key={nameItem.id}
+                                          className="form-check form-check-inline"
+                                        >
+                                          <Field
+                                            className={`form-check-input ${
+                                              touched.permissions &&
+                                              errors.permissions
+                                                ? "is-invalid"
+                                                : ""
+                                            }`}
+                                            type="checkbox"
+                                            name={`permissions.${nameItem.permission_name}`}
+                                            id={`permission-${nameItem.id}`}
+                                            checked={nameItem.checked}
+                                          />
+                                          <label
+                                            className="form-check-label"
+                                            htmlFor={`permission-${nameItem.id}`}
+                                          >
+                                            {nameItem.display_name}
+                                          </label>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+
                           <ErrorMessage
                             name="permissions"
                             component="div"
                             className="invalid-feedback"
                           />
                         </div>
+
                         <div className="text-end">
                           <button
                             type="submit"

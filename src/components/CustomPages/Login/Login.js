@@ -5,19 +5,20 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 
-// const Loaderimg = () => {
-//   return (
-//     <div id="global-loader">
-//       <img
-//         src={require("../../../assets/images/loader.svg").default}
-//         className="loader-img"
-//         alt="Loader"
-//       />
-//     </div>
-//   );
-// };
+const Loaderimg = () => {
+  return (
+    <div id="global-loader">
+      <img
+        src={require("../../../assets/images/loader.svg").default}
+        className="loader-img"
+        alt="Loader"
+      />
+    </div>
+  );
+};
 
 export default function Login(props) {
+  const [loading, setLoading] = useState(false);
   if (props.token) {
     return <Navigate to="/dashboard" />;
   }
@@ -32,7 +33,7 @@ export default function Login(props) {
   const Errornotify = (message) => toast.error(message);
 
   const handleSubmit = async (values) => {
-   
+    setLoading(true);
   
     try {
       const response = await fetch(`${process.env.REACT_APP_BASE_URL}/login`, {
@@ -57,12 +58,13 @@ export default function Login(props) {
       console.error(error);
       Errornotify("Network error: Please check your internet connection and try again.");
     }
+    setLoading(false);
   };
   
 
   return (
     <div className="login-img">
-      {/* {loading && <Loaderimg />} */}
+      {loading && <Loaderimg />}
       <div className="page">
         <div className="">
           <div className="col col-login mx-auto">

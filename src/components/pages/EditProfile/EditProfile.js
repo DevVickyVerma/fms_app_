@@ -15,13 +15,14 @@ import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function EditProfile() {
   const [userDetails, setUserDetails] = useState("");
-
+  const navigate = useNavigate();
   useEffect(() => {
    
-
+ 
     fetchData();
   }, [localStorage.getItem("First_name")]);
   const token = localStorage.getItem("token");
@@ -46,6 +47,11 @@ export default function EditProfile() {
       localStorage.clear();
     }
   };
+
+
+
+
+
   
 
   const validationSchema = Yup.object().shape({
@@ -121,7 +127,7 @@ export default function EditProfile() {
 
     if (response.ok) {
       notify(data.message);
-
+      navigate("/dashboard");
       setSubmitting(false);
     } else {
 

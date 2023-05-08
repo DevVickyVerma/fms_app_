@@ -47,7 +47,9 @@ export default function ManageClient() {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.post("/role/list");
-        setData(response.data.data);
+        if (response.data.data.addons.length > 0) {
+          setData(response.data.data.addons);
+        }
       } catch (error) {
         if (
           error &&

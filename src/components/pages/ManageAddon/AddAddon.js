@@ -23,6 +23,7 @@ import { toast } from "react-toastify";
 
 export default function AddAddon() {
   const [permissions, setPermissions] = useState([]);
+  const [userpermissions, setUserPermissions] = useState([]);
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
   const navigate = useNavigate();
@@ -38,15 +39,11 @@ export default function AddAddon() {
     axiosInstance
       .post("/permission-list")
       .then((response) => {
-        const rolesList = response.data.data.map((item) => ({
-          id: item.id,
-          name: item.display_name,
-          permission_name: item.name,
-        }));
-        console.log(rolesList, "rolesList");
-        setPermissions(rolesList);
+        console.log(response.data, "setPermissions");
+        setUserPermissions(response.data.data);
+        setPermissions(response.data);
       })
-      .catch((error) =>{
+      .catch((error) => {
         if (
           error &&
           error.response &&
@@ -54,13 +51,12 @@ export default function AddAddon() {
         ) {
           navigate("/errorpage403");
         }
-
-      } );
+      });
   }, []);
 
-  // const handleSubmit=(values)=>{
-  //   console.log(values,"handleSubmit")
-  // }
+  // const handleSubmit = (values) => {
+  //   console.log(values, "handleSubmit");
+  // };
   const handleSubmit = async (values) => {
     const body = {
       name: values.name,
@@ -70,7 +66,7 @@ export default function AddAddon() {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/addon-create`,
+      `${process.env.REACT_APP_BASE_URL}/addon/create`,
       {
         method: "POST",
         headers: {
@@ -82,7 +78,6 @@ export default function AddAddon() {
     );
 
     const data = await response.json();
-  
 
     if (response.ok) {
       SuccessAlert(data.message);
@@ -122,7 +117,22 @@ export default function AddAddon() {
                   <Formik
                     initialValues={{ name: "", permissions: [] }}
                     validationSchema={Yup.object().shape({
-                      name: Yup.string().required("Addon is required"),
+                      name: Yup.string()
+                        .required("Addon is required")
+                        .matches(/^[a-zA-Z0-9_\- ]+$/, {
+                          message:
+                            "Addon Name must not contain special characters",
+                          excludeEmptyString: true,
+                        })
+                        .matches(
+                          /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
+                          {
+                            message:
+                              "Addon Name must not have consecutive spaces",
+                            excludeEmptyString: true,
+                          }
+                        ),
+
                       permissions: Yup.array()
                         .required("At least one role is required")
                         .min(1, "At least one role is required"),
@@ -141,7 +151,7 @@ export default function AddAddon() {
                     {({ errors, touched, handleSubmit }) => (
                       <Form onSubmit={handleSubmit}>
                         <div className="form-group">
-                          <label htmlFor="name">Addon</label>
+                          <label htmlFor="name"> Add Addon</label>
                           <Field
                             type="text"
                             id="name"
@@ -157,42 +167,56 @@ export default function AddAddon() {
                             className="invalid-feedback"
                           />
                         </div>
-                        <div className="col-lg-12 col-md-12 p-0">
-                          <div className="table-heading">
-                            <h2>Permissions</h2>
-                          </div>
-                        </div>
+
                         <div className="form-group">
-                          {permissions.map((role) => (
-                            <div
-                              key={role.id}
-                              className="form-check form-check-inline"
-                            >
-                              <Field
-                                className={`form-check-input ${
-                                  touched.permissions && errors.permissions
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                type="checkbox"
-                                name="permissions"
-                                value={role.permission_name}
-                                id={`role-${role.permission_name}`}
-                              />
-                              <label
-                                className="form-check-label"
-                                htmlFor={`role-${role.id}`}
-                              >
-                                {role.name}
-                              </label>
+                          {permissions.data && (
+                            <div>
+                              {Object.keys(permissions.data).map((heading) => (
+                                <div key={heading}>
+                                  <div className="table-heading">
+                                    <h2>{heading}</h2>
+                                  </div>
+                                  <div className="form-group">
+                                    {permissions.data[heading].names.map(
+                                      (nameItem) => (
+                                        <div
+                                          key={nameItem.id}
+                                          className="form-check form-check-inline"
+                                        >
+                                          <Field
+                                            className={`form-check-input ${
+                                              touched.permissions &&
+                                              errors.permissions
+                                                ? "is-invalid"
+                                                : ""
+                                            }`}
+                                            type="checkbox"
+                                            name="permissions"
+                                            value={nameItem.name}
+                                            id={`permission-${nameItem.id}`}
+                                          />
+                                          <label
+                                            className="form-check-label"
+                                            htmlFor={`permission-${nameItem.id}`}
+                                          >
+                                            {nameItem.display_name}
+                                          </label>
+                                        </div>
+                                      )
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
                             </div>
-                          ))}
+                          )}
+
                           <ErrorMessage
                             name="permissions"
                             component="div"
                             className="invalid-feedback"
                           />
                         </div>
+
                         <div className="text-end">
                           <button
                             type="submit"
