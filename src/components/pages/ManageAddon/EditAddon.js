@@ -21,6 +21,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+
 export default function AddAddon() {
   const [permissions, setPermissions] = useState([]);
   const [userpermissions, setUserPermissions] = useState([]);
@@ -262,6 +263,12 @@ export default function AddAddon() {
                                             name={`permissions.${nameItem.permission_name}`}
                                             id={`permission-${nameItem.id}`}
                                             checked={nameItem.checked}
+                                            onClick={() => {
+                                              nameItem.checked =
+                                                !nameItem.checked;
+                                                console.log(`Value of ${nameItem.permission_name} checkbox: ${nameItem.checked}`);
+                                        
+                                            }}
                                           />
                                           <label
                                             className="form-check-label"
