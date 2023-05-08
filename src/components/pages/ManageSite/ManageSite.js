@@ -49,7 +49,7 @@ export default function ManageSite() {
     });
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get("/site/list");
+        const response = await axiosInstance.post("/site/list");
         if (response.data.data.length > 0) {
           setData(response.data.data);
           // console.log(response.data,"response.data.data");

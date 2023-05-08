@@ -11,7 +11,7 @@ import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
 
 export default function ManageAddon() {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const navigate = useNavigate();
 
 const handleEdit = (id)=>{
@@ -54,8 +54,11 @@ const handleEdit = (id)=>{
     const fetchData = async () => {
       try {
         const response = await axiosInstance.post("/addon/list");
+   
         if (response.data.data.length > 0) {
+         
           setData(response.data.data);
+         
 
           // SuccessAlert(response.data.message)
         }
@@ -90,7 +93,7 @@ const handleEdit = (id)=>{
       ),
     },
     {
-      name: "Role",
+      name: "Addon",
       selector: (row) => [row.name],
       sortable: false,
       width: "70%",
@@ -159,17 +162,7 @@ const handleEdit = (id)=>{
     columns,
     data,
   };
-  const [roles, setRoles] = useState([]);
-  const [open, setOpen] = useState(false);
 
-  const handleAddRole = (newRole) => {
-    setRoles([...roles, newRole]);
-    setOpen(false);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
   return (
     <>
       <div className="page-header ">

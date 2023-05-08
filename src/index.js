@@ -4,7 +4,6 @@ import "./index.scss";
 import { Navigate, BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./Utils/PrivateRoutes";
 
-
 const Switcherlayout = React.lazy(() => import("./components/switcherlayout"));
 //App
 const App = React.lazy(() => import("./components/app"));
@@ -81,7 +80,9 @@ const Terms = React.lazy(() => import("./components/pages/Terms/Terms"));
 
 //custom Pages
 const Login = React.lazy(() => import("./components/CustomPages/Login/Login"));
-const ResetPassword = React.lazy(() => import("./components/CustomPages/ResetPassword/ResetPassword"));
+const ResetPassword = React.lazy(() =>
+  import("./components/CustomPages/ResetPassword/ResetPassword")
+);
 const Register = React.lazy(() =>
   import("./components/CustomPages/Register/Register")
 );
@@ -122,8 +123,6 @@ const Loaderimg = () => {
 
 const Root = () => {
   const [token, setToken] = useState(localStorage.getItem("token"));
-
- 
 
   return (
     <Fragment>
@@ -183,10 +182,13 @@ const Root = () => {
             </Route>
 
             <Route path={`/`} element={<Custompages />}>
-            <Route path="/login" element={<Login token={token} />} />
+              <Route path="/login" element={<Login token={token} />} />
 
-              <Route path={`/reset-password/:token`} element={<ResetPassword />} />
-<Route path={`/custompages/register`} element={<Register />} />
+              <Route
+                path={`/reset-password/:token`}
+                element={<ResetPassword />}
+              />
+              <Route path={`/custompages/register`} element={<Register />} />
               <Route
                 path={`/custompages/forgotPassword`}
                 element={<ForgotPassword />}
@@ -199,10 +201,7 @@ const Root = () => {
                 path={`/custompages/errorpages/errorpage401`}
                 element={<Errorpage401 />}
               />
-              <Route
-                path={`/errorpage403`}
-                element={<Errorpage403 />}
-              />
+              <Route path={`/errorpage403`} element={<Errorpage403 />} />
               <Route
                 path={`/custompages/errorpages/errorpage500`}
                 element={<Errorpage500 />}
@@ -214,7 +213,6 @@ const Root = () => {
               <Route path="*" element={<Errorpage400 />} />
             </Route>
             <Route path="/login" element={<Login token={token} />} />
-
           </Routes>
         </React.Suspense>
       </BrowserRouter>
