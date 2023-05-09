@@ -182,18 +182,11 @@ export default function ManageRoles() {
           </Breadcrumb>
         </div>
         <div className="ms-auto pageheader-btn">
-          <FormModal
-            open={open}
-            modalId="AddRole"
-            modalTitle="Add Role"
-            modalContentText="Enter the name of the new role:"
-            modalInputLabel="Role Name"
-            modalInputType="text"
-            modalCancelButtonLabel="Cancel"
-            modalSaveButtonLabel="Add"
-            onSubmit={handleAddRole}
-            onClose={handleClose}
-          />
+        <div className="ms-auto pageheader-btn">
+          <Link to="/addroles" className="btn btn-primary">
+            Add Role
+          </Link>
+        </div>
         </div>
       </div>
 
