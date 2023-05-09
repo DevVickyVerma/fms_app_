@@ -60,11 +60,11 @@ export const MENUITEMS = [
             title: "Manage Roles",
             type: "link",
           },
-          // {
-          //   // path: `manageroles/#addRoleModal`,
-          //   title: "Add Roles",
-          //   type: "link",
-          // },
+          {
+            path: `/addroles`,
+            title: "Add Roles",
+            type: "link",
+          },
          
           
         ],
@@ -105,11 +105,11 @@ export const MENUITEMS = [
             title: "Manage Sub-Business Types",
             type: "link",
           },
-          {
-            path: `/addbusiness`,
-             title: "Add Business Types",
-             type: "link",
-           },
+          // {
+          //   path: `/addbusiness`,
+          //    title: "Add Business Types",
+          //    type: "link",
+          //  },
          
           
         ],
