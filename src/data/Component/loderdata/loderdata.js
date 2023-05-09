@@ -33,23 +33,23 @@ export function Cardwithloader1() {
           <CardActions className="card-header ">
             <h3 className="card-title">loaders</h3>
             <div className="rtlcards ">
-            <ExpandMore
-              expand={expanded}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <ExpandMoreIcon />
-            </ExpandMore>
-            <IconButton
-              size="small"
-              edge="start"
-              color="inherit"
-              onClick={() => setShow(false)}
-              aria-label="close"
-            >
-              <CloseIcon fontSize="small" />
-            </IconButton>
+              <ExpandMore
+                expand={expanded}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
+              >
+                <ExpandMoreIcon />
+              </ExpandMore>
+              <IconButton
+                size="small"
+                edge="start"
+                color="inherit"
+                onClick={() => setShow(false)}
+                aria-label="close"
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
             </div>
           </CardActions>
           <Collapse in={expanded} timeout="auto">
@@ -79,23 +79,23 @@ export function Cardwithloader2() {
           <CardActions className="card-header ">
             <h3 className="card-title">loaders</h3>
             <div className="rtlcards ">
-            <ExpandMore
-              expand={expanded}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <ExpandMoreIcon />
-            </ExpandMore>
-            <IconButton
-              size="small"
-              edge="start"
-              color="inherit"
-              onClick={() => setShow(false)}
-              aria-label="close"
-            >
-              <CloseIcon fontSize="small" />
-            </IconButton>
+              <ExpandMore
+                expand={expanded}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
+              >
+                <ExpandMoreIcon />
+              </ExpandMore>
+              <IconButton
+                size="small"
+                edge="start"
+                color="inherit"
+                onClick={() => setShow(false)}
+                aria-label="close"
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
             </div>
           </CardActions>
           <Collapse in={expanded} timeout="auto">
@@ -128,23 +128,23 @@ export function Cardwithloader3() {
           <CardActions className="card-header ">
             <h3 className="card-title">loaders</h3>
             <div className="rtlcards ">
-            <ExpandMore
-              expand={expanded}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <ExpandMoreIcon />
-            </ExpandMore>
-            <IconButton
-              size="small"
-              edge="start"
-              color="inherit"
-              onClick={() => setShow(false)}
-              aria-label="close"
-            >
-              <CloseIcon fontSize="small" />
-            </IconButton>
+              <ExpandMore
+                expand={expanded}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
+              >
+                <ExpandMoreIcon />
+              </ExpandMore>
+              <IconButton
+                size="small"
+                edge="start"
+                color="inherit"
+                onClick={() => setShow(false)}
+                aria-label="close"
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
             </div>
           </CardActions>
           <Collapse in={expanded} timeout="auto">
@@ -177,23 +177,23 @@ export function Cardwithloader4() {
           <CardActions className="card-header ">
             <h3 className="card-title">loaders</h3>
             <div className="rtlcards ">
-            <ExpandMore
-              expand={expanded}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <ExpandMoreIcon />
-            </ExpandMore>
-            <IconButton
-              size="small"
-              edge="start"
-              color="inherit"
-              onClick={() => setShow(false)}
-              aria-label="close"
-            >
-              <CloseIcon fontSize="small" />
-            </IconButton>
+              <ExpandMore
+                expand={expanded}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
+              >
+                <ExpandMoreIcon />
+              </ExpandMore>
+              <IconButton
+                size="small"
+                edge="start"
+                color="inherit"
+                onClick={() => setShow(false)}
+                aria-label="close"
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
             </div>
           </CardActions>
           <Collapse in={expanded} timeout="auto">
@@ -228,23 +228,23 @@ export function Cardwithloader5() {
           <CardActions className="card-header ">
             <h3 className="card-title">loaders</h3>
             <div className="rtlcards ">
-            <ExpandMore
-              expand={expanded}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <ExpandMoreIcon />
-            </ExpandMore>
-            <IconButton
-              size="small"
-              edge="start"
-              color="inherit"
-              onClick={() => setShow(false)}
-              aria-label="close"
-            >
-              <CloseIcon fontSize="small" />
-            </IconButton>
+              <ExpandMore
+                expand={expanded}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
+              >
+                <ExpandMoreIcon />
+              </ExpandMore>
+              <IconButton
+                size="small"
+                edge="start"
+                color="inherit"
+                onClick={() => setShow(false)}
+                aria-label="close"
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
             </div>
           </CardActions>
           <Collapse in={expanded} timeout="auto">
@@ -274,22 +274,22 @@ export function Cardwithloader6() {
           <CardActions className="card-header ">
             <h3 className="card-title">loaders</h3>
             <div className="rtlcards ">
-            <ExpandMore
-              expand={expanded}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <ExpandMoreIcon />
-            </ExpandMore>
-            <IconButton
-              size="small"
-              aria-label="close"
-              color="inherit"
-              onClick={() => setShow(false)}
-            >
-              <CloseIcon fontSize="small" />
-            </IconButton>
+              <ExpandMore
+                expand={expanded}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
+              >
+                <ExpandMoreIcon />
+              </ExpandMore>
+              <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={() => setShow(false)}
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
             </div>
           </CardActions>
           <Collapse in={expanded} timeout="auto">
@@ -314,7 +314,6 @@ export function Loadersbigsizes() {
       <Card className="card ">
         <CardActions className="card-header lodaer">
           <h3 className="card-title">loaders big sizes</h3>
-          
         </CardActions>
         <Collapse in={expanded} timeout="auto">
           <div className="card-body">
@@ -331,11 +330,8 @@ export function Loadersbigsizes() {
 export function Loadersbigsizes1() {
   const [expanded] = React.useState(true);
   return (
-    <>
-      <Card className="card ">
-        <CardActions className="card-header lodaer">
-          <h3 className="card-title">loaders big sizes</h3>
-        </CardActions>
+    <div class="fullscreen">
+      <Card className="card">
         <Collapse in={expanded} timeout="auto">
           <div className="card-body">
             <div className="dimmer active">
@@ -347,6 +343,6 @@ export function Loadersbigsizes1() {
           </div>
         </Collapse>
       </Card>
-    </>
+    </div>
   );
 }

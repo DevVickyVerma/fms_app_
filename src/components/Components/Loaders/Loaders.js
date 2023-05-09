@@ -58,7 +58,7 @@ export default function Loaders() {
         <div className="col-md-6">
           <loderdata.Loadersbigsizes />
         </div>
-        <div className="col-md-6">
+        <div className="col-md-4">
           <loderdata.Loadersbigsizes1 />
         </div>
       </div>

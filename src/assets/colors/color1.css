@@ -441,7 +441,7 @@ a.text-primary:focus {
 .double-bounce2,
 .cube1,
 .cube2 {
-    background-color: var(--primary-bg-color);
+    background-color: #1d1397fa;
 }
 
 .lds-heart div {
