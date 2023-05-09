@@ -1,12 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import ReactApexChart from "react-apexcharts";
 import { Breadcrumb, Col, Row, Card } from "react-bootstrap";
 import * as dashboard from "../../data/dashboard/dashboard";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 export default function Dashboard() {
+
+  const notify = (message) => toast.success(message);
+  const [justLoggedIn, setJustLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const loggedInFlag = localStorage.getItem("justLoggedIn");
+
+    if (loggedInFlag) {
+      setJustLoggedIn(true);
+      localStorage.removeItem("justLoggedIn"); // clear the flag
+    }
+  }, []);
+
+  useEffect(() => {
+    if (justLoggedIn) {
+      notify("Login Successfully");
+      setJustLoggedIn(false);
+    }
+  }, [justLoggedIn]);
   return (
     <div>
+    
       <div className="page-header ">
         <div>
           <h1 className="page-title">Dashboard</h1>

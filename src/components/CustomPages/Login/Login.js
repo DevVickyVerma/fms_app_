@@ -4,6 +4,8 @@ import { Card } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
+import * as loderdata from "../../../data/Component/loderdata/loderdata";
+import { useNavigate } from "react-router-dom";
 
 const Loaderimg = () => {
   return (
@@ -18,11 +20,14 @@ const Loaderimg = () => {
 };
 
 export default function Login(props) {
+  const [isNavigated, setIsNavigated] = useState(false);
+
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   if (props.token) {
     return <Navigate to="/dashboard" />;
   }
- 
+  
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
@@ -34,7 +39,7 @@ export default function Login(props) {
 
   const handleSubmit = async (values) => {
     setLoading(true);
-  
+
     try {
       const response = await fetch(`${process.env.REACT_APP_BASE_URL}/login`, {
         method: "POST",
@@ -43,28 +48,29 @@ export default function Login(props) {
         },
         body: JSON.stringify(values),
       });
-  
+
       const data = await response.json();
-  
       if (response.ok && data) {
         localStorage.setItem("token", data.data.access_token);
-  
+        navigate("/dashboard");
+        localStorage.setItem("justLoggedIn", true);
         notify(data.message);
-        window.location.href = `/dashboard`;
       } else {
         Errornotify(data.message);
       }
     } catch (error) {
       console.error(error);
-      Errornotify("Network error: Please check your internet connection and try again.");
+      Errornotify(
+        "Network error: Please check your internet connection and try again."
+      );
     }
     setLoading(false);
   };
-  
 
   return (
     <div className="login-img">
-      {loading && <Loaderimg />}
+      {loading && <loderdata.Loadersbigsizes1 />}
+
       <div className="page">
         <div className="">
           <div className="col col-login mx-auto">

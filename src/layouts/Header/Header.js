@@ -3,13 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Dropdown, Navbar, Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import  * as loderdata from "../../data/Component/loderdata/loderdata";
 
 export function Header() {
   const [data, setData] = useState("");
 
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
-
+  const [loading, setLoading] = useState(false);
   const logout = async () => {
     const token = localStorage.getItem("token");
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}/logout`, {
@@ -38,6 +39,7 @@ export function Header() {
   };
 
   useEffect(() => {
+    // setLoading(true);
     const token = localStorage.getItem("token");
     const axiosInstance = axios.create({
       baseURL: process.env.REACT_APP_BASE_URL,
@@ -58,6 +60,7 @@ export function Header() {
         }, 500);
         localStorage.clear();
       }
+      // setLoading(false);
     };
 
     fetchData();
@@ -113,6 +116,7 @@ export function Header() {
 
   return (
     <Navbar expand="md" className="app-header header sticky">
+     {loading && <loderdata.Loadersbigsizes1 />}
       <Container fluid className="main-container">
         <div className="d-flex align-items-center">
           <Link

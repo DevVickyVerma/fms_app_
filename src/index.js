@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.scss";
 import { Navigate, BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./Utils/PrivateRoutes";
+import * as loderdata from "./data/Component/loderdata/loderdata";
 
 const Switcherlayout = React.lazy(() => import("./components/switcherlayout"));
 //App
@@ -112,14 +113,27 @@ const Errorpage503 = React.lazy(() =>
   import("./components/ErrorPages/ErrorPages/503/503")
 );
 
+
 const Loaderimg = () => {
+  const [showLoader, setShowLoader] = useState(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowLoader(false);
+    }, 5000); // 5 seconds in milliseconds
+
+    // return () => clearTimeout(timeout);
+  }, []);
+
   return (
     <div id="global-loader">
-      <img
-        src={require("./assets/images/loader.svg").default}
-        className="loader-img"
-        alt="Loader"
-      />
+      {showLoader ? (
+        <loderdata.Loadersbigsizes1 />
+      ) : (
+        <div>
+          <Root />
+        </div>
+      )}
     </div>
   );
 };
@@ -130,7 +144,7 @@ const Root = () => {
   return (
     <Fragment>
       <BrowserRouter>
-        <React.Suspense fallback={Loaderimg()}>
+        <React.Suspense fallback={<Loaderimg />}>
           <Routes>
             <Route element={<PrivateRoutes token={token} />}>
               <Route path={`/`} element={<App />}>

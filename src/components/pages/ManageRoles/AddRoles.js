@@ -87,7 +87,7 @@ export default function AddRoles() {
       const body = {
         name: values.name,
         permissions: values.permissions,
-        addons: values.addons,
+        addons: values.permissions,
       };
 
       const token = localStorage.getItem("token");
@@ -108,7 +108,7 @@ export default function AddRoles() {
 
       if (response.ok) {
         SuccessAlert(data.message);
-        navigate("/roles");
+        navigate("/manageaddon");
       } else {
         ErrorAlert(data.message);
       }
