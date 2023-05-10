@@ -20,75 +20,47 @@ import { Link, useNavigate } from "react-router-dom";
 export default function AddClient() {
   const [dropdownItems, setDropdownItems] = useState([]);
   const navigate = useNavigate();
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.post("/role/list");
-        setDropdownItems(response.data.data);
-      } catch (error) {
-        if (
-          error &&
-          error.response &&
-          error.response.data.status_code === "403"
-        ) {
-          navigate("/errorpage403");
-        }
-      }
-    };
-
-    fetchData();
-  }, []);
-
-
-
-  
 
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
 
- 
+  // const handleSubmit1 = async (values, setSubmitting) => {
 
-  const handleSubmit1 = async (values, setSubmitting) => {
- 
+  //   const token = localStorage.getItem("token");
 
-    const token = localStorage.getItem("token");
+  //   const formData = new FormData();
+  //   formData.append("first_name", values.first_name);
+  //   formData.append("last_name", values.last_name);
+  //   formData.append("role", values.role);
+  //   formData.append("phone_number", values.phone_number);
 
-    const formData = new FormData();
-    formData.append("first_name", values.first_name);
-    formData.append("last_name", values.last_name);
-    formData.append("role", values.role);
-    formData.append("phone_number", values.phone_number);
+  //   const response = await fetch(
+  //     `${process.env.REACT_APP_BASE_URL}/update-profile`,
+  //     {
+  //       method: "POST",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: formData,
+  //     }
+  //   );
 
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/update-profile`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      }
-    );
+  //   const data = await response.json();
 
-    const data = await response.json();
+  //   if (response.ok) {
+  //     notify(data.message);
 
-    if (response.ok) {
-      notify(data.message);
-    
-      setSubmitting(false);
-    } else {
-     
-      Errornotify(data.message);
-    }
+  //     setSubmitting(false);
+  //   } else {
+
+  //     Errornotify(data.message);
+  //   }
+  // };
+
+  const handleSubmit1 = (values, setSubmitting) => {
+    console.log(values, "handle");
+    // setSubmitting(false);
   };
-
   return (
     <div>
       <div className="page-header">
@@ -109,7 +81,6 @@ export default function AddClient() {
       </div>
 
       <Row>
-       
         <Col lg={12} xl={12} md={12} sm={12}>
           <Card>
             <Card.Header>
@@ -120,7 +91,6 @@ export default function AddClient() {
                 first_name: "",
                 last_name: "",
                 phone_number: "",
-                role: "",
               }}
               validationSchema={Yup.object({
                 first_name: Yup.string()
@@ -133,10 +103,8 @@ export default function AddClient() {
                 phone_number: Yup.string()
                   .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
                   .required("Phone number is required"),
-                role: Yup.string().required("Role is required"),
               })}
               onSubmit={(values, { setSubmitting }) => {
-          
                 handleSubmit1(values, setSubmitting);
               }}
             >
@@ -210,53 +178,24 @@ export default function AddClient() {
                           />
                         </FormGroup>
                       </Col>
-                      <Col lg={6} md={12}>
-                        <FormGroup>
-                          <label htmlFor="role">Role</label>
-                          <Field
-                            as="select"
-                            className={`input101 ${
-                              errors.role && touched.role ? "is-invalid" : ""
-                            }`}
-                            id="role"
-                            name="role"
-                          >
-                            <option value="">Select a Role</option>
-                            {dropdownItems && dropdownItems.length > 0 ? (
-                              dropdownItems.map((item) => (
-                                <option key={item.id} value={item.name}>
-                                  {item.name}
-                                </option>
-                              ))
-                            ) : (
-                              <option disabled>No roles available</option>
-                            )}
-                          </Field>
-                          <ErrorMessage
-                            component="div"
-                            className="invalid-feedback"
-                            name="role"
-                          />
-                        </FormGroup>
-                      </Col>
                     </Row>
                   </Card.Body>
                   <Card.Footer className="text-end">
-                  <Link type="submit"
-                            className="btn btn-danger me-2 " to={`/clients/`}>
-                         
-                            Cancel
-                          </Link>
-                    
-                          <button
-                            type="submit"
-                            className="btn btn-primary me-2 "
-                            disabled={isSubmitting}
-                          >
-                            Save
-                          </button>
-                          
-                        
+                    <Link
+                      type="submit"
+                      className="btn btn-danger me-2 "
+                      to={`/clients/`}
+                    >
+                      Cancel
+                    </Link>
+
+                    <button
+                      type="submit"
+                      className="btn btn-primary me-2"
+                      disabled={Object.keys(errors).length > 0}
+                    >
+                      Save
+                    </button>
                   </Card.Footer>
                 </Form>
               )}

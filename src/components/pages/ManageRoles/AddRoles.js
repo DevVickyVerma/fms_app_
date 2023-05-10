@@ -291,7 +291,7 @@ export default function AddRoles() {
 
                         <div className="text-end">
 
-                        <Link type="submit"
+                        <Link 
                             className="btn btn-danger me-2 " to={`/roles/`}>
                          
                             Cancel
@@ -300,6 +300,8 @@ export default function AddRoles() {
                           <button
                             type="submit"
                             className="btn btn-primary me-2 "
+                           
+                            disabled={Object.keys(errors).length > 0}
                           >
                             Save
                           </button>

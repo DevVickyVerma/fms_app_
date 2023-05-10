@@ -56,6 +56,15 @@ export default function AddAddon() {
       });
   }, []);
 
+
+  // const permissionArray = [...AddonpermissionsList.data.addon_permissions[
+  //   heading
+  // ].names]
+// const handleChange =(item, id)=>{
+//      permissionArray[id] = item
+// }
+
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     const axiosInstance = axios.create({
@@ -249,6 +258,9 @@ export default function AddAddon() {
                                       <h2>{heading}</h2>
                                     </div>
                                     <div className="form-group">
+
+
+                                    
                                       {AddonpermissionsList.data.addon_permissions[
                                         heading
                                       ].names.map((nameItem) => (
@@ -336,6 +348,7 @@ export default function AddAddon() {
                           <button
                             type="submit"
                             className="btn btn-primary me-2 "
+                            disabled={Object.keys(errors).length > 0}
                           >
                             Update
                           </button>

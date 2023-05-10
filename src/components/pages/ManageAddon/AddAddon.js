@@ -39,7 +39,7 @@ export default function AddAddon() {
     axiosInstance
       .post("/permission-list")
       .then((response) => {
-        console.log(response.data, "setPermissions");
+        
         setUserPermissions(response.data.data);
         setPermissions(response.data);
       })
@@ -226,6 +226,7 @@ export default function AddAddon() {
                           <button
                             type="submit"
                             className="btn btn-primary me-2 "
+                            disabled={Object.keys(errors).length > 0}
                           >
                             Save
                           </button>
