@@ -69,9 +69,10 @@ export default function Login(props) {
     } catch (error) {
       console.error(error);
       Errornotify(
-        "Network error: Please check your internet connection and try again."
+        error.message
       );
     }
+    
     setLoading(false);
   };
 
