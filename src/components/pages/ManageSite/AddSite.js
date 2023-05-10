@@ -15,7 +15,7 @@ import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function AddSite() {
   const [dropdownItems, setDropdownItems] = useState([]);
@@ -46,18 +46,10 @@ export default function AddSite() {
     fetchData();
   }, []);
 
-
-
-  
-
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
 
- 
-
   const handleSubmit1 = async (values, setSubmitting) => {
-
-
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
@@ -81,10 +73,9 @@ export default function AddSite() {
 
     if (response.ok) {
       notify(data.message);
- 
+
       setSubmitting(false);
     } else {
-     
       Errornotify(data.message);
     }
   };
@@ -109,7 +100,6 @@ export default function AddSite() {
       </div>
 
       <Row>
-       
         <Col lg={12} xl={12} md={12} sm={12}>
           <Card>
             <Card.Header>
@@ -136,7 +126,6 @@ export default function AddSite() {
                 role: Yup.string().required("Role is required"),
               })}
               onSubmit={(values, { setSubmitting }) => {
-               
                 handleSubmit1(values, setSubmitting);
               }}
             >
@@ -241,13 +230,22 @@ export default function AddSite() {
                       </Col>
                     </Row>
                   </Card.Body>
+
                   <Card.Footer className="text-end">
-                    <button
-                      className="btn btn-primary me-2"
+                    <Link
                       type="submit"
+                      className="btn btn-danger me-2 "
+                      to={`/roles/`}
+                    >
+                      Cancel
+                    </Link>
+
+                    <button
+                      type="submit"
+                      className="btn btn-primary me-2 "
                       disabled={isSubmitting}
                     >
-                      Update
+                      Save
                     </button>
                   </Card.Footer>
                 </Form>

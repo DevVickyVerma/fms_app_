@@ -15,7 +15,7 @@ import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function AddClient() {
   const [dropdownItems, setDropdownItems] = useState([]);
@@ -242,13 +242,21 @@ export default function AddClient() {
                     </Row>
                   </Card.Body>
                   <Card.Footer className="text-end">
-                    <button
-                      className="btn btn-primary me-2"
-                      type="submit"
-                      disabled={isSubmitting}
-                    >
-                      Update
-                    </button>
+                  <Link type="submit"
+                            className="btn btn-danger me-2 " to={`/clients/`}>
+                         
+                            Cancel
+                          </Link>
+                    
+                          <button
+                            type="submit"
+                            className="btn btn-primary me-2 "
+                            disabled={isSubmitting}
+                          >
+                            Save
+                          </button>
+                          
+                        
                   </Card.Footer>
                 </Form>
               )}

@@ -456,9 +456,22 @@ export default function EditRoles() {
               </Row>
             </Card.Body>
             <Card.Footer className="text-end">
-              <button className="btn btn-primary me-2" type="submit">
-                Save
-              </button>
+           
+            <Link type="submit"
+                            className="btn btn-danger me-2 " to={`/roles/`}>
+                         
+                            Cancel
+                          </Link>
+
+
+                          <button
+                            type="submit"
+                            className="btn btn-primary me-2 "
+                          >
+                            Update
+                          </button>
+                         
+                        
             </Card.Footer>
           </Card>
         </div>

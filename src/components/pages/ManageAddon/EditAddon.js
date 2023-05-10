@@ -41,9 +41,8 @@ export default function AddAddon() {
     axiosInstance
       .post("/permission-list")
       .then((response) => {
-       
         setUserPermissions(response.data.data);
-       
+
         // setPermissions(response.data);
       })
       .catch((error) => {
@@ -75,15 +74,12 @@ export default function AddAddon() {
         const response = await axiosInstance.post("/addon/detail", formData);
         const { data } = response;
         if (data) {
-         
           setEdituserDetails(data.data.addon_name);
           // setPermissions(response.data);
-         
+
           setPermissions(data);
-         
         }
       } catch (error) {
-        
         if (error.response && error.response.status === 401) {
           navigate("/login");
           ErrorAlert("Invalid access token");
@@ -94,7 +90,6 @@ export default function AddAddon() {
         ) {
           navigate("/errorpage403");
         }
-      
       }
     };
 
@@ -138,7 +133,7 @@ export default function AddAddon() {
   const handleSubmit = (values) => {
     console.log(values, "values");
   };
-  
+
   //   const { permission_name } = nameItem;
   //   const permissions = values.permissions || [];
 
@@ -176,11 +171,6 @@ export default function AddAddon() {
         </div>
       </div>
 
-      {/* 
-      name: localStorage.getItem("EditAddon_name")
-                        ? localStorage.getItem("EditAddon_name")
-                        : "", */}
-
       <Row>
         <div className="col-lg-12 col-xl-12 col-md-12 col-sm-12">
           <Card>
@@ -195,7 +185,6 @@ export default function AddAddon() {
                       name: localStorage.getItem("EditAddon_name") || "",
                       permissions: [],
                     }}
-                
                     validationSchema={Yup.object().shape({
                       name: Yup.string()
                         .required("Addon is required")
@@ -284,6 +273,10 @@ export default function AddAddon() {
                                                 ...values.permissions,
                                               ];
                                               if (checked) {
+                                                console.log(
+                                                  newPermissions,
+                                                  "newPermissions"
+                                                );
                                                 newPermissions.push(
                                                   nameItem.permission_name
                                                 );
@@ -303,7 +296,10 @@ export default function AddAddon() {
                                                 "permissions",
                                                 newPermissions
                                               );
-                                              console.log(newPermissions,"newPermissions");
+                                              console.log(
+                                                newPermissions,
+                                                "newPermissions"
+                                              );
                                             }}
                                           />
 
@@ -330,12 +326,20 @@ export default function AddAddon() {
                         </div>
 
                         <div className="text-end">
+                        <Link
+                            type="submit"
+                            className="btn btn-danger me-2 "
+                            to={`/manageaddon/`}
+                          >
+                            Cancel
+                          </Link>
                           <button
                             type="submit"
                             className="btn btn-primary me-2 "
                           >
-                            Save
+                            Update
                           </button>
+                          
                         </div>
                       </Form>
                     )}
