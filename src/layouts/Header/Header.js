@@ -47,24 +47,28 @@ export function Header() {
         Authorization: `Bearer ${token}`,
       },
     });
+  
     const fetchData = async () => {
       try {
         const response = await axiosInstance.post("/detail");
         setData(response.data.data);
-
       } catch (error) {
         console.error(error);
-        ErrorAlert("Invalid access token");
+        if (error.response && error.response.data && error.response.data.message) {
+          ErrorAlert(error.response.data.message);
+        } else {
+          ErrorAlert("Unknown error occurred");
+        }
         setTimeout(() => {
           window.location.replace("/");
+          localStorage.clear();
         }, 500);
-        localStorage.clear();
       }
-      // setLoading(false);
     };
-
+  
     fetchData();
   }, [localStorage.getItem("token")]);
+  
 
   //full screen
   function Fullscreen() {
