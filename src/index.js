@@ -120,29 +120,7 @@ const Loaderimg = () => {
   );
 };
 
-// const Loaderimg = () => {
-//   const [showLoader, setShowLoader] = useState(true);
 
-//   useEffect(() => {
-//     const timeout = setTimeout(() => {
-//       setShowLoader(false);
-//     }, 5000); // 5 seconds in milliseconds
-
-//     // return () => clearTimeout(timeout);
-//   }, []);
-
-//   return (
-//     <div id="global-loader">
-//       {showLoader ? (
-//         <loderdata.Loadersbigsizes1 />
-//       ) : (
-//         <div>
-//           <Root />
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
 
 const Root = () => {
   const [token, setToken] = useState(localStorage.getItem("token"));
