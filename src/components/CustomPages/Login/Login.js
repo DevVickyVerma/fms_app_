@@ -19,19 +19,23 @@ const Loaderimg = () => {
   );
 };
 
+
+
+
 export default function Login(props) {
   const [isNavigated, setIsNavigated] = useState(false);
 
-  useEffect(() => {
-    console.clear()
-    console.log("Updated Code");
-  }, []);
+
+  useEffect(()=>{
+    console.log("Updated Code")
+  },[])
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   if (props.token) {
     return <Navigate to="/dashboard" />;
   }
+  
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
