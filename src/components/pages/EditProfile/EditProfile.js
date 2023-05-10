@@ -37,9 +37,13 @@ export default function EditProfile() {
       const response = await axiosInstance.post("/detail");
       const { data } = response;
       if (data) {
-        localStorage.setItem("First_name",data.data.first_name);
-        localStorage.setItem("Last_name",data.data.last_name);
-        localStorage.setItem("Phone_Number",data.data.phone_number);
+        const firstName = data.data.first_name ?? "";
+        const lastName = data.data.last_name ?? "";
+        const phoneNumber = data.data.phone_number ?? "";
+        localStorage.setItem("First_name", firstName);
+        localStorage.setItem("Last_name", lastName);
+        localStorage.setItem("Phone_Number", phoneNumber);
+        
         setUserDetails(data.data.first_name);
       }
     } catch (error) {
@@ -255,6 +259,7 @@ export default function EditProfile() {
             </Card.Header>
             <Formik
               initialValues={{
+                
                 first_name: localStorage.getItem("First_name")? localStorage.getItem("First_name") : "",
                 last_name: localStorage.getItem("Last_name")? localStorage.getItem("Last_name") : "",
                 phone_number:localStorage.getItem("Phone_Number")? localStorage.getItem("Phone_Number") : "",

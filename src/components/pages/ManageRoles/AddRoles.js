@@ -108,7 +108,7 @@ export default function AddRoles() {
 
       if (response.ok) {
         SuccessAlert(data.message);
-        navigate("/manageaddon");
+        navigate("/roles");
       } else {
         ErrorAlert(data.message);
       }
@@ -290,12 +290,20 @@ export default function AddRoles() {
                         </div>
 
                         <div className="text-end">
+
+                        <Link type="submit"
+                            className="btn btn-danger me-2 " to={`/roles/`}>
+                         
+                            Cancel
+                          </Link>
+
                           <button
                             type="submit"
                             className="btn btn-primary me-2 "
                           >
                             Save
                           </button>
+                          
                         </div>
                       </Form>
                     )}

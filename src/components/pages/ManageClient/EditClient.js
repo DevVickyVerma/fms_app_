@@ -15,6 +15,7 @@ import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function EditClient() {
   const [dropdownItems, setDropdownItems] = useState([]);
@@ -235,13 +236,20 @@ export default function EditClient() {
                     </Row>
                   </Card.Body>
                   <Card.Footer className="text-end">
-                    <button
-                      className="btn btn-primary me-2"
-                      type="submit"
-                      disabled={isSubmitting}
-                    >
-                      Update
-                    </button>
+                  <Link type="submit"
+                            className="btn btn-danger me-2 " to={`/clients/`}>
+                         
+                            Cancel
+                          </Link>
+                  <button
+                            type="submit"
+                            className="btn btn-primary me-2 "
+                            disabled={isSubmitting}
+                          >
+                            Save
+                          </button>
+                          
+                  
                   </Card.Footer>
                 </Form>
               )}

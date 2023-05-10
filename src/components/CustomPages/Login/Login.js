@@ -19,8 +19,16 @@ const Loaderimg = () => {
   );
 };
 
+
+
+
 export default function Login(props) {
   const [isNavigated, setIsNavigated] = useState(false);
+
+
+  useEffect(()=>{
+    console.log("Updated Code")
+  },[])
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
