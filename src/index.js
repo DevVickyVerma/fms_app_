@@ -112,31 +112,37 @@ const Errorpage500 = React.lazy(() =>
 const Errorpage503 = React.lazy(() =>
   import("./components/ErrorPages/ErrorPages/503/503")
 );
-
-
 const Loaderimg = () => {
-  const [showLoader, setShowLoader] = useState(true);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setShowLoader(false);
-    }, 5000); // 5 seconds in milliseconds
-
-    // return () => clearTimeout(timeout);
-  }, []);
-
   return (
     <div id="global-loader">
-      {showLoader ? (
-        <loderdata.Loadersbigsizes1 />
-      ) : (
-        <div>
-          <Root />
-        </div>
-      )}
+      <loderdata.Loadersbigsizes1 />
     </div>
   );
 };
+
+// const Loaderimg = () => {
+//   const [showLoader, setShowLoader] = useState(true);
+
+//   useEffect(() => {
+//     const timeout = setTimeout(() => {
+//       setShowLoader(false);
+//     }, 5000); // 5 seconds in milliseconds
+
+//     // return () => clearTimeout(timeout);
+//   }, []);
+
+//   return (
+//     <div id="global-loader">
+//       {showLoader ? (
+//         <loderdata.Loadersbigsizes1 />
+//       ) : (
+//         <div>
+//           <Root />
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
 
 const Root = () => {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -144,7 +150,7 @@ const Root = () => {
   return (
     <Fragment>
       <BrowserRouter>
-        <React.Suspense fallback={<Loaderimg />}>
+        <React.Suspense fallback={Loaderimg()}>
           <Routes>
             <Route element={<PrivateRoutes token={token} />}>
               <Route path={`/`} element={<App />}>
