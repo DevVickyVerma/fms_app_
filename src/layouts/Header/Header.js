@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Dropdown, Navbar, Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import  * as loderdata from "../../data/Component/loderdata/loderdata";
-
+import * as loderdata from "../../data/Component/loderdata/loderdata";
+import { useNavigate } from "react-router-dom";
 export function Header() {
   const [data, setData] = useState("");
 
+  const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
   const [loading, setLoading] = useState(false);
@@ -47,20 +48,27 @@ export function Header() {
         Authorization: `Bearer ${token}`,
       },
     });
+
     const fetchData = async () => {
       try {
         const response = await axiosInstance.post("/detail");
         setData(response.data.data);
-
       } catch (error) {
         console.error(error);
-        ErrorAlert("Invalid access token");
-        setTimeout(() => {
-          window.location.replace("/");
-        }, 500);
-        localStorage.clear();
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          ErrorAlert(error.response.data.message);
+        } else {
+          ErrorAlert("Unknown error occurred");
+        }
+        // setTimeout(() => {
+        //   window.location.replace("/");
+        //   localStorage.clear();
+        // }, 500);
       }
-      // setLoading(false);
     };
 
     fetchData();
@@ -116,7 +124,7 @@ export function Header() {
 
   return (
     <Navbar expand="md" className="app-header header sticky">
-     {loading && <loderdata.Loadersbigsizes1 />}
+      {loading && <loderdata.Loadersbigsizes1 />}
       <Container fluid className="main-container">
         <div className="d-flex align-items-center">
           <Link
@@ -320,11 +328,11 @@ export function Header() {
                         </div>
                       </div>
                       <div className="dropdown-divider m-0"></div>
-                      <Dropdown.Item href={`/editprofile`}>
+                      <Dropdown.Item as={Link} to="/editprofile">
                         <i className="dropdown-icon fe fe-user"></i> Edit
                         Profile
                       </Dropdown.Item>
-                      <Dropdown.Item href={`/editprofile`}>
+                      <Dropdown.Item as={Link} to="/editprofile" >
                         <i className="dropdown-icon fe fe-user"></i>Change
                         Password
                       </Dropdown.Item>

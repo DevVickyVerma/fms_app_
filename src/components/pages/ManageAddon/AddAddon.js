@@ -218,12 +218,18 @@ export default function AddAddon() {
                         </div>
 
                         <div className="text-end">
+                        <Link type="submit"
+                            className="btn btn-danger me-2 " to={`/manageaddon/`}>
+                         
+                            Cancel
+                          </Link>
                           <button
                             type="submit"
                             className="btn btn-primary me-2 "
                           >
                             Save
                           </button>
+                          
                         </div>
                       </Form>
                     )}
