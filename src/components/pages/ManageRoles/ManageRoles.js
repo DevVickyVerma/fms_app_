@@ -28,12 +28,37 @@ export default function ManageRoles() {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your item has been deleted.",
-          icon: "success",
-          confirmButtonText: "OK",
+        console.log(id, "isConfirmed");
+        const token = localStorage.getItem("token");
+
+        const formData = new FormData();
+        formData.append("role_id", id);
+
+        const axiosInstance = axios.create({
+          baseURL: process.env.REACT_APP_BASE_URL,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
         });
+        const fetchData = async () => {
+          try {
+            const response = await axiosInstance.post("/role/delete", formData);
+            setData(response.data.data);
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your item has been deleted.",
+              icon: "success",
+              confirmButtonText: "OK",
+            });
+          } catch (error) {
+            console.error(error);
+            const message = error.response ? error.response.data.message : "Unknown error occurred";
+            ErrorAlert(message);
+          }
+          // setLoading(false);
+        };
+        fetchData();
       }
     });
   };
@@ -49,7 +74,7 @@ export default function ManageRoles() {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.post("/role/list");
-       if (response.data.data.addons.length > 0) {
+        if (response.data.data.addons.length > 0) {
           setData(response.data.data.addons);
         }
       } catch (error) {
@@ -167,7 +192,6 @@ export default function ManageRoles() {
   return (
     <>
       <div className="page-header ">
-    
         <div>
           <h1 className="page-title">Manage Roles</h1>
           <Breadcrumb className="breadcrumb">
@@ -183,11 +207,11 @@ export default function ManageRoles() {
           </Breadcrumb>
         </div>
         <div className="ms-auto pageheader-btn">
-        <div className="ms-auto pageheader-btn">
-          <Link to="/addroles" className="btn btn-primary">
-            Add Role
-          </Link>
-        </div>
+          <div className="ms-auto pageheader-btn">
+            <Link to="/addroles" className="btn btn-primary">
+              Add Role
+            </Link>
+          </div>
         </div>
       </div>
 
