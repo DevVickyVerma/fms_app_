@@ -64,10 +64,10 @@ export function Header() {
         } else {
           ErrorAlert("Unknown error occurred");
         }
-        setTimeout(() => {
-          window.location.replace("/");
-          localStorage.clear();
-        }, 500);
+        // setTimeout(() => {
+        //   window.location.replace("/");
+        //   localStorage.clear();
+        // }, 500);
       }
     };
 
