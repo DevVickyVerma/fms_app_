@@ -41,7 +41,7 @@ export default function ManageRoles() {
           },
           body: formData,
         });
-        const fetchData = async () => {
+        const DeleteRole = async () => {
           try {
             const response = await axiosInstance.post("/role/delete", formData);
             setData(response.data.data);
@@ -51,50 +51,61 @@ export default function ManageRoles() {
               icon: "success",
               confirmButtonText: "OK",
             });
+            fetchData()
           } catch (error) {
             console.error(error);
-            const message = error.response ? error.response.data.message : "Unknown error occurred";
+            const message = error.response
+              ? error.response.data.message
+              : "Unknown error occurred";
             ErrorAlert(message);
           }
           // setLoading(false);
         };
-        fetchData();
+        DeleteRole();
+        
       }
     });
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.post("/role/list");
-        if (response.data.data.addons.length > 0) {
-          setData(response.data.data.addons);
-        }
-      } catch (error) {
-        console.log(error.response.data.status_code, "error");
-        if (error.response && error.response.status === 401) {
-          navigate("/login");
-          ErrorAlert("Invalid access token");
-          localStorage.clear();
-        } else if (
-          error.response &&
-          error.response.data.status_code === "403"
-        ) {
-          navigate("/errorpage403");
-        }
-        // console.error(error);
-      }
-    };
-
+   
     fetchData();
   }, []);
+  const token = localStorage.getItem("token");
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const fetchData = async () => {
+    try {
+      const response = await axiosInstance.post("/role/list");
+      if (response.data.data.addons.length > 0) {
+        setData(response.data.data.addons);
+      }
+    } catch (error) {
+      console.log(error.response.data.status_code, "error");
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+        ErrorAlert("Invalid access token");
+        localStorage.clear();
+      } else if (
+        error.response &&
+        error.response.data.status_code === "403"
+      ) {
+        navigate("/errorpage403");
+      }
+      // console.error(error);
+    }
+  };
+
+
+  const handleEdit = (row) => {
+    console.log(row, "handleEdit");
+    localStorage.setItem("EditRoleID", row.id);
+    localStorage.setItem("EditRole_name", row.name);
+  };
 
   const columns = [
     {
@@ -132,8 +143,9 @@ export default function ManageRoles() {
         <span className="text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <Link
-              to="/editrole"
+              // to="/editrole"
               className="btn btn-primary btn-sm rounded-11 me-2"
+              onClick={() => handleEdit(row)}
             >
               <i>
                 <svg
@@ -181,21 +193,17 @@ export default function ManageRoles() {
   const [roles, setRoles] = useState([]);
   const [open, setOpen] = useState(false);
 
-  const handleAddRole = (newRole) => {
-    setRoles([...roles, newRole]);
-    setOpen(false);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
   return (
     <>
       <div className="page-header ">
         <div>
           <h1 className="page-title">Manage Roles</h1>
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/dashboard' }}>
+            <Breadcrumb.Item
+              className="breadcrumb-item"
+              linkAs={Link}
+              linkProps={{ to: "/dashboard" }}
+            >
               Dashboard
             </Breadcrumb.Item>
             <Breadcrumb.Item
@@ -225,7 +233,7 @@ export default function ManageRoles() {
           striped={true}
           // center={true}
           persistTableHead
-          // pagination
+          pagination
           highlightOnHover
           searchable={true}
         />

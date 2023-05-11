@@ -25,31 +25,61 @@ const handleEdit = (row)=>{
 }
 
 
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-      
+const handleDelete = (id) => {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You will not be able to recover this item!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "Cancel",
+    reverseButtons: true,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log(id, "isConfirmed");
+      const token = localStorage.getItem("token");
 
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your item has been deleted.",
-          icon: "success",
-          confirmButtonText: "OK",
-        });
-      }
-    });
-  };
+      const formData = new FormData();
+      formData.append("addon_id", id);
+
+      const axiosInstance = axios.create({
+        baseURL: process.env.REACT_APP_BASE_URL,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+      const DeleteRole = async () => {
+        try {
+          const response = await axiosInstance.post("/addon/delete", formData);
+          setData(response.data.data);
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your item has been deleted.",
+            icon: "success",
+            confirmButtonText: "OK",
+          });
+          fetchData()
+        } catch (error) {
+          console.error(error);
+          const message = error.response
+            ? error.response.data.message
+            : "Unknown error occurred";
+          ErrorAlert(message);
+        }
+        // setLoading(false);
+      };
+      DeleteRole();
+      
+    }
+  });
+};
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+   fetchData();
+  }, []);
+
+  const token = localStorage.getItem("token");
     const axiosInstance = axios.create({
       baseURL: process.env.REACT_APP_BASE_URL,
       headers: {
@@ -79,10 +109,6 @@ const handleEdit = (row)=>{
       }
     };
     
-
-    fetchData();
-  }, []);
-
   const columns = [
     {
       name: "S.NO",
