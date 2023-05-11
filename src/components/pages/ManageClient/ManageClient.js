@@ -24,8 +24,6 @@ export default function ManageClient() {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-      
-
         Swal.fire({
           title: "Deleted!",
           text: "Your item has been deleted.",
@@ -46,9 +44,9 @@ export default function ManageClient() {
     });
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.post("/role/list");
-        if (response.data.data.addons.length > 0) {
-          setData(response.data.data.addons);
+        const response = await axiosInstance.post("/client-list");
+        if (response.data.data.length > 0) {
+          setData(response.data.data);
         }
       } catch (error) {
         if (
@@ -79,13 +77,13 @@ export default function ManageClient() {
     },
     {
       name: "Client",
-      selector: (row) => [row.name],
+      selector: (row) => [row.full_name],
       sortable: false,
       width: "70%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row.full_name}</h6>
           </div>
         </div>
       ),
@@ -100,7 +98,7 @@ export default function ManageClient() {
         <span className="text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <Link
-              to="/editclient"
+              to="/comingsoon"
               className="btn btn-primary btn-sm rounded-11 me-2"
             >
               <i>
@@ -163,8 +161,8 @@ export default function ManageClient() {
         <div>
           <h1 className="page-title">Manage Client</h1>
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" href="#">
-              Home
+            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/dashboard' }}>
+              Dashboard
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item active breadcrumds"
@@ -175,7 +173,7 @@ export default function ManageClient() {
           </Breadcrumb>
         </div>
         <div className="ms-auto pageheader-btn">
-          <Link to="/addclient" className="btn btn-primary">
+          <Link to="/comingsoon" className="btn btn-primary">
             Add Client
           </Link>
         </div>

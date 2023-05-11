@@ -15,7 +15,7 @@ import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function AddClient() {
   const [dropdownItems, setDropdownItems] = useState([]);
@@ -95,15 +95,16 @@ export default function AddClient() {
       <div className="page-header">
         <div>
           <h1 className="page-title">Add Business</h1>
+         
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" href="#">
-              Pages
+            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/dashboard' }}>
+              Dashboard
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Add Business
+              Manage Business
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>

@@ -159,15 +159,17 @@ export default function ManageSubBusinessTypes() {
       <div className="page-header ">
         <div>
           <h1 className="page-title">Manage Sub-Business Types</h1>
+          
+
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" href="#">
-              Home
+            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/dashboard' }}>
+              Dashboard
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Manage Sub-Business Types
+               Manage Sub-Business Types
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>

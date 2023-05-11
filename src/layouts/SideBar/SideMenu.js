@@ -21,7 +21,7 @@ export const MENUITEMS = [
             title: "Manage Clients",
           },
           {
-            path: `/addclient`,
+            path: `/comingsoon`,
             type: "link",
             title: "Add Clients",
           },
@@ -41,7 +41,7 @@ export const MENUITEMS = [
             type: "link",
           },
           {
-            path: `/addsite`,
+            path: `/comingsoon`,
             title: "Add Sites",
             type: "link",
           },
@@ -105,11 +105,11 @@ export const MENUITEMS = [
             title: "Manage Sub-Business Types",
             type: "link",
           },
-          // {
-          //   path: `/addbusiness`,
-          //    title: "Add Business Types",
-          //    type: "link",
-          //  },
+          {
+            path: `/comingsoon`,
+             title: "Add Business Types",
+             type: "link",
+           },
          
           
         ],

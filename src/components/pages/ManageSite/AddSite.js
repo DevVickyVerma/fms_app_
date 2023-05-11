@@ -17,77 +17,42 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function AddSite() {
-  const [dropdownItems, setDropdownItems] = useState([]);
-  const navigate = useNavigate();
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.post("/role/list");
-        setDropdownItems(response.data.data);
-      } catch (error) {
-        if (
-          error &&
-          error.response &&
-          error.response.data.status_code === "403"
-        ) {
-          navigate("/errorpage403");
-        }
-      }
-    };
 
-    fetchData();
-  }, []);
+export default function AddSite() {
+
+  const navigate = useNavigate();
+
 
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
 
-  const handleSubmit1 = async (values, setSubmitting) => {
-    const token = localStorage.getItem("token");
-
-    const formData = new FormData();
-    formData.append("first_name", values.first_name);
-    formData.append("last_name", values.last_name);
-    formData.append("role", values.role);
-    formData.append("phone_number", values.phone_number);
-
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/update-profile`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      }
-    );
-
-    const data = await response.json();
-
-    if (response.ok) {
-      notify(data.message);
-
-      setSubmitting(false);
-    } else {
-      Errornotify(data.message);
-    }
+ 
+  const handleSubmit1 = (values, setSubmitting) => {
+    console.log(values, "handle");
+    // setSubmitting(false);
   };
+
+ 
+  
+
+
 
   return (
     <div>
       <div className="page-header">
         <div>
           <h1 className="page-title">Add Site</h1>
+         
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" href="#">
-              Pages
+            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/dashboard' }}>
+              Dashboard
+            </Breadcrumb.Item>
+            <Breadcrumb.Item
+              className="breadcrumb-item  breadcrumds"
+              aria-current="page"
+              linkAs={Link} linkProps={{ to: '/sites' }}
+            >
+              Manage Sites
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item active breadcrumds"
@@ -110,7 +75,7 @@ export default function AddSite() {
                 first_name: "",
                 last_name: "",
                 phone_number: "",
-                role: "",
+                
               }}
               validationSchema={Yup.object({
                 first_name: Yup.string()
@@ -123,7 +88,7 @@ export default function AddSite() {
                 phone_number: Yup.string()
                   .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
                   .required("Phone number is required"),
-                role: Yup.string().required("Role is required"),
+                
               })}
               onSubmit={(values, { setSubmitting }) => {
                 handleSubmit1(values, setSubmitting);
@@ -199,35 +164,7 @@ export default function AddSite() {
                           />
                         </FormGroup>
                       </Col>
-                      <Col lg={6} md={12}>
-                        <FormGroup>
-                          <label htmlFor="role">Role</label>
-                          <Field
-                            as="select"
-                            className={`input101 ${
-                              errors.role && touched.role ? "is-invalid" : ""
-                            }`}
-                            id="role"
-                            name="role"
-                          >
-                            <option value="">Select a Role</option>
-                            {dropdownItems && dropdownItems.length > 0 ? (
-                              dropdownItems.map((item) => (
-                                <option key={item.id} value={item.name}>
-                                  {item.name}
-                                </option>
-                              ))
-                            ) : (
-                              <option disabled>No roles available</option>
-                            )}
-                          </Field>
-                          <ErrorMessage
-                            component="div"
-                            className="invalid-feedback"
-                            name="role"
-                          />
-                        </FormGroup>
-                      </Col>
+                     
                     </Row>
                   </Card.Body>
 
@@ -243,7 +180,7 @@ export default function AddSite() {
                     <button
                       type="submit"
                       className="btn btn-primary me-2 "
-                      disabled={isSubmitting}
+                      disabled={Object.keys(errors).length > 0}
                     >
                       Save
                     </button>

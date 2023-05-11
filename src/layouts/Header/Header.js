@@ -64,10 +64,10 @@ export function Header() {
         } else {
           ErrorAlert("Unknown error occurred");
         }
-        // setTimeout(() => {
-        //   window.location.replace("/");
-        //   localStorage.clear();
-        // }, 500);
+        setTimeout(() => {
+          window.location.replace("/");
+          localStorage.clear();
+        }, 500);
       }
     };
 
@@ -337,7 +337,7 @@ export function Header() {
                         Password
                       </Dropdown.Item>
 
-                      <Dropdown.Item href="#">
+                      <Dropdown.Item as={Link} to="/comingsoon" >
                         <i className="dropdown-icon fe fe-settings"></i>
                         Settings
                       </Dropdown.Item>

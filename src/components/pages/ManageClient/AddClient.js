@@ -66,9 +66,17 @@ export default function AddClient() {
       <div className="page-header">
         <div>
           <h1 className="page-title">Add Client</h1>
+         
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" href="#">
-              Pages
+            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/dashboard' }}>
+              Dashboard
+            </Breadcrumb.Item>
+            <Breadcrumb.Item
+              className="breadcrumb-item  breadcrumds"
+              aria-current="page"
+              linkAs={Link} linkProps={{ to: '/clients' }}
+            >
+              Manage Client
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item active breadcrumds"

@@ -15,7 +15,6 @@ import {
   Tooltip,
 } from "react-bootstrap";
 
-
 export default function EditRoles() {
   return (
     <>
@@ -23,14 +22,21 @@ export default function EditRoles() {
         <div>
           <h1 className="page-title">Edit Roles</h1>
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" href="#">
-              Home
+            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/dashboard' }}>
+              Dashboard
+            </Breadcrumb.Item>
+            <Breadcrumb.Item
+              className="breadcrumb-item  breadcrumds"
+              aria-current="page"
+              linkAs={Link} linkProps={{ to: '/roles' }}
+            >
+              Manage Roles
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Edit Roles
+              Edit Role
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -56,7 +62,7 @@ export default function EditRoles() {
                   <Form>
                     <FormGroup>
                       <Form.Label htmlFor="  Role" className="form-label">
-                      Role
+                        Role
                       </Form.Label>
                       <input
                         type="text"
@@ -456,22 +462,17 @@ export default function EditRoles() {
               </Row>
             </Card.Body>
             <Card.Footer className="text-end">
-           
-            <Link type="submit"
-                            className="btn btn-danger me-2 " to={`/roles/`}>
-                         
-                            Cancel
-                          </Link>
+              <Link
+                type="submit"
+                className="btn btn-danger me-2 "
+                to={`/roles/`}
+              >
+                Cancel
+              </Link>
 
-
-                          <button
-                            type="submit"
-                            className="btn btn-primary me-2 "
-                          >
-                            Update
-                          </button>
-                         
-                        
+              <button type="submit" className="btn btn-primary me-2 ">
+                Update
+              </button>
             </Card.Footer>
           </Card>
         </div>

@@ -32,9 +32,7 @@ export default function Dashboard() {
         <div>
           <h1 className="page-title">Dashboard</h1>
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" href="#">
-              Home
-            </Breadcrumb.Item>
+            
             <Breadcrumb.Item
               className="breadcrumb-item active breadcrumds"
               aria-current="page"

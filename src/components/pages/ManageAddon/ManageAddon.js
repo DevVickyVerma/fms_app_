@@ -119,7 +119,7 @@ const handleEdit = (row)=>{
         <span className="text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <Link
-              to="/editaddon"
+              to="/comingsoon"
               className="btn btn-primary btn-sm rounded-11 me-2"
               onClick={() => handleEdit(row)}
             >
@@ -173,8 +173,8 @@ const handleEdit = (row)=>{
         <div>
           <h1 className="page-title">Manage Addon</h1>
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" href="#">
-              Home
+            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/dashboard' }}>
+              Dashboard
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item active breadcrumds"

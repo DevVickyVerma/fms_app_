@@ -64,7 +64,8 @@
   left: auto !important;
 }
 .breadcrumb .breadcrumb-item.active a {
-  color: $primary-1 !important;
+  color: var(--primary-bg-color) !important;
+  cursor: default;
 }
 //.notifications,
 .profile-1,

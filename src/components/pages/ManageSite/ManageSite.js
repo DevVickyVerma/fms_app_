@@ -161,9 +161,11 @@ export default function ManageSite() {
       <div className="page-header ">
         <div>
           <h1 className="page-title">Manage Site</h1>
+         
+
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" href="#">
-              Home
+            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/dashboard' }}>
+              Dashboard
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item active breadcrumds"
@@ -174,7 +176,7 @@ export default function ManageSite() {
           </Breadcrumb>
         </div>
         <div className="ms-auto pageheader-btn">
-          <Link to="/addsite" className="btn btn-primary">
+          <Link to="/comingsoon" className="btn btn-primary">
             Add Site
           </Link>
         </div>

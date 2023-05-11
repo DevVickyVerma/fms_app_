@@ -112,6 +112,9 @@ const Errorpage500 = React.lazy(() =>
 const Errorpage503 = React.lazy(() =>
   import("./components/ErrorPages/ErrorPages/503/503")
 );
+const COMINGSOON = React.lazy(() =>
+  import("./components/ErrorPages/ErrorPages/Soon/Comingsoon")
+);
 const Loaderimg = () => {
   return (
     <div id="global-loader">
@@ -164,6 +167,7 @@ const Root = () => {
                   <Route path={`/manageaddon`} element={<ManageAddon />} />
                   <Route path={`/addaddon`} element={<AddAddon />} />
                   <Route path={`/business`} element={<ManageBusinessTypes />} />
+                  <Route path={`/comingsoon`} element={<COMINGSOON />} />
                   <Route
                     path={`/sub-business`}
                     element={<ManageBusinessSubTypes />}
