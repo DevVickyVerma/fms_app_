@@ -259,10 +259,10 @@ export default function EditProfile() {
             </Card.Header>
             <Formik
               initialValues={{
-                
-                first_name: localStorage.getItem("First_name")? localStorage.getItem("First_name") : "",
-                last_name: localStorage.getItem("Last_name")? localStorage.getItem("Last_name") : "",
-                phone_number:localStorage.getItem("Phone_Number")? localStorage.getItem("Phone_Number") : "",
+               
+                first_name: localStorage.getItem("First_name")|| "",
+                last_name: localStorage.getItem("Last_name")|| "",
+                phone_number:localStorage.getItem("Phone_Number")|| "",
               }}
               validationSchema={Yup.object({
                 first_name: Yup.string()

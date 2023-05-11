@@ -119,7 +119,7 @@ const handleEdit = (row)=>{
         <span className="text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <Link
-              to="/comingsoon"
+              to="/editaddon"
               className="btn btn-primary btn-sm rounded-11 me-2"
               onClick={() => handleEdit(row)}
             >
