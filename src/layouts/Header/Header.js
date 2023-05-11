@@ -1,14 +1,16 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Dropdown, Navbar, Container, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import * as loderdata from "../../data/Component/loderdata/loderdata";
-import { useNavigate } from "react-router-dom";
+
+
+
 export function Header() {
   const [data, setData] = useState("");
 
-  const navigate = useNavigate();
+
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
   const [loading, setLoading] = useState(false);
@@ -122,8 +124,10 @@ export function Header() {
   //   document.querySelector(".demo_changer").style.right = "0px";
   // };
 
+
   return (
     <Navbar expand="md" className="app-header header sticky">
+    
       {loading && <loderdata.Loadersbigsizes1 />}
       <Container fluid className="main-container">
         <div className="d-flex align-items-center">

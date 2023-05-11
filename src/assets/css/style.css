@@ -35146,7 +35146,7 @@ body.rtl {
     -ms-flex-align: center;
     align-items: center;
     padding: 10px 30px;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 400;
     -webkit-transition: border-left-color 0.3s ease, background-color 0.3s ease;
     -o-transition: border-left-color 0.3s ease, background-color 0.3s ease;
@@ -35160,7 +35160,7 @@ body.rtl {
     text-decoration: none;
     color: #ffffff;
     background: linear-gradient(to bottom right, var(--primary-bg-color) 0%, var(--primary06) 100%);
-    border-radius: 0 60px 60px 0;
+    border-radius: 0 0px 0px 0;
     box-shadow: 0 7px 12px 0 rgba(95, 118, 232, 0.21);
 }
 
@@ -35169,7 +35169,7 @@ body.rtl {
     text-decoration: none;
     color: #ffffff;
     background: linear-gradient(to bottom right, var(--primary-bg-color) 0%, var(--primary06) 100%) !important;
-    border-radius: 0 60px 60px 0;
+    border-radius: 0 0px 0px 0;
     box-shadow: 0 7px 12px 0 rgba(95, 118, 232, 0.21);
 }
 
