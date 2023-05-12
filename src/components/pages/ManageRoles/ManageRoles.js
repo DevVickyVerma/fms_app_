@@ -143,7 +143,7 @@ export default function ManageRoles() {
         <span className="text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <Link
-              // to="/editrole"
+              to="/editrole"
               className="btn btn-primary btn-sm rounded-11 me-2"
               onClick={() => handleEdit(row)}
             >

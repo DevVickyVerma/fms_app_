@@ -69,6 +69,10 @@ export default function EditRoles() {
         console.log(response.data.data.addons, "setPermissions");
 
         setAddonitem(response.data.data.addons);
+
+
+
+        
       })
       .catch((error) => {
         if (
@@ -152,7 +156,10 @@ const handleSubmit=(values)=>{
               <Row>
                 <div className="col-lg- col-md-12">
                   <Formik
-                    initialValues={{ name: "", permissions: [], addons: [] }}
+                    initialValues={{
+                      name: localStorage.getItem("EditRole_name") || "",
+                    permissions: [],
+                     addons: [] }}
                     validationSchema={Yup.object().shape({
                       name: Yup.string()
                         .required("Addon is required")

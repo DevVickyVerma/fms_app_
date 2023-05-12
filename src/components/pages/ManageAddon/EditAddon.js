@@ -16,6 +16,7 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import axios from "axios";
@@ -23,12 +24,16 @@ import { toast } from "react-toastify";
 
 export default function AddAddon() {
   const [AddonpermissionsList, setPermissions] = useState([]);
+
   const [userpermissions, setUserPermissions] = useState([]);
   const [edituserDetails, setEdituserDetails] = useState("");
   const [editName, seteditName] = useState("");
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
   const navigate = useNavigate();
+
+  const [permissionArray, setPermissionArray] = useState([]);
+  const [permissionArray1, setPermissionArray1] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -42,7 +47,8 @@ export default function AddAddon() {
       .post("/permission-list")
       .then((response) => {
         setUserPermissions(response.data.data);
-
+        // Object.keys(response.data.data).map((key) =>
+        // )
         // setPermissions(response.data);
       })
       .catch((error) => {
@@ -55,15 +61,6 @@ export default function AddAddon() {
         }
       });
   }, []);
-
-
-  // const permissionArray = [...AddonpermissionsList.data.addon_permissions[
-  //   heading
-  // ].names]
-// const handleChange =(item, id)=>{
-//      permissionArray[id] = item
-// }
-
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -82,10 +79,26 @@ export default function AddAddon() {
       try {
         const response = await axiosInstance.post("/addon/detail", formData);
         const { data } = response;
+
+        for (const key of Object.keys(data.data.addon_permissions)) {
+          let array = [];
+          for (const item of data?.data?.addon_permissions[key].names) {
+            if (item.checked) {
+              console.log(item, "item");
+              array.push(item.permission_name);
+            }
+          }
+          setPermissionArray((prevState) => [
+            ...new Set([...prevState, ...array]),
+          ]);
+
+          if (array.length > 0) {
+            console.log(permissionArray, "permissions");
+          }
+        }
+
         if (data) {
           setEdituserDetails(data.data.addon_name);
-          // setPermissions(response.data);
-
           setPermissions(data);
         }
       } catch (error) {
@@ -109,41 +122,37 @@ export default function AddAddon() {
     setEdituserDetails();
   }, [edituserDetails]);
 
-  // const handleSubmit = async (values) => {
-  //   const body = {
-  //     name: values.name,
-  //     permissions: values.permissions,
-  //   };
+  const handleSubmit = async (values) => {
+    const body = {
+      addon_name: values.name,
+      permissions: values.permissionsList,
+      addon_id: localStorage.getItem("EditAddon"),
+    };
 
-  //   const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-  //   const response = await fetch(
-  //     `${process.env.REACT_APP_BASE_URL}/addon-create`,
-  //     {
-  //       method: "POST",
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(body),
-  //     }
-  //   );
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/addon/update`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      }
+    );
 
-  //   const data = await response.json();
+    const data = await response.json();
 
-  //   if (response.ok) {
-  //     SuccessAlert(data.message);
-  //     navigate("/manageaddon");
-  //   } else {
-  //     ErrorAlert(data.message);
-  //   }
-  // };
-
-  const handleSubmit = (values) => {
-    console.log(values, "values");
+    if (response.ok) {
+      SuccessAlert(data.message);
+      // navigate("/manageaddon");
+    } else {
+      ErrorAlert(data.message);
+    }
   };
 
-  //   const { permission_name } = nameItem;
   //   const permissions = values.permissions || [];
 
   //   // Check if the permission is already present in the permissions array
@@ -161,19 +170,32 @@ export default function AddAddon() {
   //   setFieldValue("permissions", permissions);
   // };
 
+  // const handleSubmit = (values) => {
+  //   console.log(values, "final");
+  // };
+
+  // const handleSubmit=(values)=>{
+  //   console.log(permissionArray, "final");
+
+  // }
   return (
     <>
       <div className="page-header ">
         <div>
           <h1 className="page-title">Edit Addon</h1>
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/dashboard' }}>
+            <Breadcrumb.Item
+              className="breadcrumb-item"
+              linkAs={Link}
+              linkProps={{ to: "/dashboard" }}
+            >
               Dashboard
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item  breadcrumds"
               aria-current="page"
-              linkAs={Link} linkProps={{ to: '/manageaddon' }}
+              linkAs={Link}
+              linkProps={{ to: "/manageaddon" }}
             >
               Manage Addons
             </Breadcrumb.Item>
@@ -199,7 +221,7 @@ export default function AddAddon() {
                   <Formik
                     initialValues={{
                       name: localStorage.getItem("EditAddon_name") || "",
-                      permissions: [],
+                      permissionsList: [],
                     }}
                     validationSchema={Yup.object().shape({
                       name: Yup.string()
@@ -217,7 +239,7 @@ export default function AddAddon() {
                             excludeEmptyString: true,
                           }
                         ),
-                      permissions: Yup.array()
+                      permissionsList: Yup.array()
                         .required("At least one role is required")
                         .min(1, "At least one role is required"),
                     })}
@@ -257,6 +279,8 @@ export default function AddAddon() {
                           {AddonpermissionsList.data &&
                             AddonpermissionsList.data.addon_permissions && (
                               <div>
+                                {/* Add the filteredPermissions constant here */}
+
                                 {Object.keys(
                                   AddonpermissionsList.data.addon_permissions
                                 ).map((heading) => (
@@ -265,9 +289,6 @@ export default function AddAddon() {
                                       <h2>{heading}</h2>
                                     </div>
                                     <div className="form-group">
-
-
-                                    
                                       {AddonpermissionsList.data.addon_permissions[
                                         heading
                                       ].names.map((nameItem) => (
@@ -277,54 +298,73 @@ export default function AddAddon() {
                                         >
                                           <Field
                                             className={`form-check-input ${
-                                              touched.permissions &&
-                                              errors.permissions
+                                              touched.permissionsList &&
+                                              errors.permissionsList
                                                 ? "is-invalid"
                                                 : ""
                                             }`}
                                             type="checkbox"
-                                            name={`permissions.${nameItem.permission_name}`}
-                                            id={`permission-${nameItem.id}`}
-                                            checked={nameItem.checked}
+                                            name={`permissionsList.${nameItem.permission_name}`}
+                                            id={`permissionsList-${nameItem.id}`}
+                                            checked={permissionArray.find(
+                                              (item) =>
+                                                item ===
+                                                nameItem.permission_name
+                                            )}
                                             onChange={(e) => {
-                                              const checked = e.target.checked;
-                                              const newPermissions = [
-                                                ...values.permissions,
+                                              // Get the name of the permission being changed from the current element
+                                              const permissionName =
+                                                nameItem.permission_name;
+
+                                              console.log(permissionName);
+
+                                              // Create a new array from the current state of permissionArray
+                                              const updatedPermissionArray = [
+                                                ...permissionArray,
                                               ];
-                                              if (checked) {
-                                                console.log(
-                                                  newPermissions,
-                                                  "newPermissions"
+
+                                              // Find the index of the permissionName in the updatedPermissionArray
+                                              const findInd =
+                                                updatedPermissionArray.findIndex(
+                                                  (item) =>
+                                                    item === permissionName
                                                 );
-                                                newPermissions.push(
-                                                  nameItem.permission_name
+
+                                              // If the permissionName is already in the array, remove it
+                                              if (findInd >= 0) {
+                                                updatedPermissionArray.splice(
+                                                  findInd,
+                                                  1
                                                 );
-                                              } else {
-                                                const index =
-                                                  newPermissions.indexOf(
-                                                    nameItem.permission_name
-                                                  );
-                                                if (index !== -1) {
-                                                  newPermissions.splice(
-                                                    index,
-                                                    1
-                                                  );
-                                                }
                                               }
-                                              setFieldValue(
-                                                "permissions",
-                                                newPermissions
-                                              );
+                                              // Otherwise, add the permissionName to the array
+                                              else {
+                                                updatedPermissionArray.push(
+                                                  permissionName
+                                                );
+                                              }
+
                                               console.log(
-                                                newPermissions,
-                                                "newPermissions"
+                                                updatedPermissionArray,
+                                                "updatedPermissionArray"
+                                              );
+
+                                              // Update the state of permissionArray with the updatedPermissionArray
+                                              setPermissionArray(
+                                                updatedPermissionArray
+                                              );
+
+                                              // Update the form field "permissionsList" with the updatedPermissionArray
+                                              setFieldValue(
+                                                "permissionsList",
+                                                updatedPermissionArray
                                               );
                                             }}
                                           />
 
                                           <label
                                             className="form-check-label"
-                                            htmlFor={`permission-${nameItem.id}`}
+                                            htmlFor={`permissionsList-${nameItem.id}`}
                                           >
                                             {nameItem.display_name}
                                           </label>
@@ -345,7 +385,7 @@ export default function AddAddon() {
                         </div>
 
                         <div className="text-end">
-                        <Link
+                          <Link
                             type="submit"
                             className="btn btn-danger me-2 "
                             to={`/manageaddon/`}
@@ -359,7 +399,6 @@ export default function AddAddon() {
                           >
                             Update
                           </button>
-                          
                         </div>
                       </Form>
                     )}
