@@ -108,7 +108,7 @@ export default function AddRoles() {
 
       if (response.ok) {
         SuccessAlert(data.message);
-        navigate("/roles");
+        // navigate("/roles");
       } else {
         ErrorAlert(data.message);
       }
