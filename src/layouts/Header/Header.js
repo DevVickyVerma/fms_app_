@@ -41,40 +41,7 @@ export function Header() {
     }
   };
 
-  useEffect(() => {
-    // setLoading(true);
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
 
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.post("/detail");
-        setData(response.data.data);
-      } catch (error) {
-        console.error(error);
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.data.message
-        ) {
-          ErrorAlert(error.response.data.message);
-        } else {
-          ErrorAlert("Unknown error occurred");
-        }
-        setTimeout(() => {
-          window.location.replace("/");
-          localStorage.clear();
-        }, 500);
-      }
-    };
-
-    fetchData();
-  }, [localStorage.getItem("token")]);
 
   //full screen
   function Fullscreen() {
@@ -320,15 +287,15 @@ export function Header() {
                       <div className="drop-heading">
                         <div className="text-center">
                           <h5 className="text-dark mb-0">
-                            {localStorage.getItem("token")
-                              ? data.full_name
+                            {localStorage.getItem("full_name")
+                              ? localStorage.getItem("full_name")
                               : "Elizabeth Dyer"}
                           </h5>
-                          <small className="text-muted">
+                          {/* <small className="text-muted">
                             {localStorage.getItem("token")
                               ? data.company_name
                               : "Elizabeth Dyer"}
-                          </small>
+                          </small> */}
                         </div>
                       </div>
                       <div className="dropdown-divider m-0"></div>

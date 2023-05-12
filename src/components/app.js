@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import Header from "../layouts/Header/Header";
 import Sidebar from "../layouts/SideBar/SideBar";
 import Footer from "../layouts/Footer/Footer";
@@ -9,11 +9,18 @@ import { Outlet, useLocation } from "react-router-dom";
 import TabToTop from "../layouts/TabToTop/TabToTop";
 import { useNavigate } from "react-router-dom";
 import TopLoadingBar from "react-top-loading-bar";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 export default function App() {
   const loadingBarRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const [data, setData] = useState("");
+
+
+  const SuccessAlert = (message) => toast.success(message);
+  const ErrorAlert = (message) => toast.error(message);
   const simulateLoadingAndNavigate = () => {
     loadingBarRef.current.continuousStart();
 
@@ -26,7 +33,47 @@ export default function App() {
 
   useEffect(() => {
     simulateLoadingAndNavigate();
+    console.clear()
+    console.log("checkdashboard")
   }, [location.pathname]);
+
+  useEffect(() => {
+    // setLoading(true);
+    const token = localStorage.getItem("token");
+    const axiosInstance = axios.create({
+      baseURL: process.env.REACT_APP_BASE_URL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.post("/detail");
+        setData(response.data.data);
+      } catch (error) {
+        console.error(error);
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          ErrorAlert(error.response.data.message);
+        } else {
+          ErrorAlert("Unknown error occurred");
+        }
+        setTimeout(() => {
+          window.location.replace("/");
+          localStorage.clear();
+        }, 500);
+      }
+    };
+
+    fetchData();
+  }, [localStorage.getItem("token")]);
+
+
+
   return (
     <Fragment>
       <div className="horizontalMenucontainer">

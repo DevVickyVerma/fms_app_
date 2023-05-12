@@ -40,7 +40,6 @@ export default function EditRoles() {
     axiosInstance
       .post("/permission-list")
       .then((response) => {
-        console.log(response.data, "setPermissions");
         setUserPermissions(response.data.data);
         setPermissions(response.data);
       })
@@ -66,13 +65,7 @@ export default function EditRoles() {
     axiosInstance
       .post("/addon/list")
       .then((response) => {
-        console.log(response.data.data.addons, "setPermissions");
-
         setAddonitem(response.data.data.addons);
-
-
-
-        
       })
       .catch((error) => {
         if (
@@ -83,43 +76,43 @@ export default function EditRoles() {
           navigate("/errorpage403");
         }
       });
+      console.clear()
   }, []);
 
+  // const handleSubmit = async (values) => {
+  //   const body = {
+  //     name: values.name,
+  //     permissions: values.permissions,
+  //     addons: values.permissions,
+  //   };
 
-    // const handleSubmit = async (values) => {
-    //   const body = {
-    //     name: values.name,
-    //     permissions: values.permissions,
-    //     addons: values.permissions,
-    //   };
+  //   const token = localStorage.getItem("token");
 
-    //   const token = localStorage.getItem("token");
+  //   const response = await fetch(
+  //     `${process.env.REACT_APP_BASE_URL}/role/create`,
+  //     {
+  //       method: "POST",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(body),
+  //     }
+  //   );
 
-    //   const response = await fetch(
-    //     `${process.env.REACT_APP_BASE_URL}/role/create`,
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify(body),
-    //     }
-    //   );
+  //   const data = await response.json();
 
-    //   const data = await response.json();
+  //   if (response.ok) {
+  //     SuccessAlert(data.message);
+  //     navigate("/roles");
+  //   } else {
+  //     ErrorAlert(data.message);
+  //   }
+  // };
 
-    //   if (response.ok) {
-    //     SuccessAlert(data.message);
-    //     navigate("/roles");
-    //   } else {
-    //     ErrorAlert(data.message);
-    //   }
-    // };
-
-const handleSubmit=(values)=>{
-  console.log(values,"values")
-}
+  const handleSubmit = (values) => {
+    console.log(values, "values");
+  };
 
   return (
     <>
@@ -127,13 +120,18 @@ const handleSubmit=(values)=>{
         <div>
           <h1 className="page-title">Edit Role</h1>
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/dashboard' }}>
+            <Breadcrumb.Item
+              className="breadcrumb-item"
+              linkAs={Link}
+              linkProps={{ to: "/dashboard" }}
+            >
               Dashboard
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item  breadcrumds"
               aria-current="page"
-              linkAs={Link} linkProps={{ to: '/roles' }}
+              linkAs={Link}
+              linkProps={{ to: "/roles" }}
             >
               Manage Roles
             </Breadcrumb.Item>
@@ -158,8 +156,9 @@ const handleSubmit=(values)=>{
                   <Formik
                     initialValues={{
                       name: localStorage.getItem("EditRole_name") || "",
-                    permissions: [],
-                     addons: [] }}
+                      permissions: [],
+                      addons: [],
+                    }}
                     validationSchema={Yup.object().shape({
                       name: Yup.string()
                         .required("Addon is required")
@@ -307,22 +306,17 @@ const handleSubmit=(values)=>{
                         </div>
 
                         <div className="text-end">
-
-                        <Link 
-                            className="btn btn-danger me-2 " to={`/roles/`}>
-                         
+                          <Link className="btn btn-danger me-2 " to={`/roles/`}>
                             Cancel
                           </Link>
 
                           <button
                             type="submit"
                             className="btn btn-primary me-2 "
-                           
                             disabled={Object.keys(errors).length > 0}
                           >
                             Save
                           </button>
-                          
                         </div>
                       </Form>
                     )}

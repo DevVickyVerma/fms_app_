@@ -54,7 +54,6 @@ export default function ManageSite() {
           setData(response.data.data.sites);
         }
       } catch (error) {
-        console.log(error.response.data.status_code, "error");
         if (error.response && error.response.status === 401) {
           navigate("/login");
           ErrorAlert("Invalid access token");
@@ -70,6 +69,7 @@ export default function ManageSite() {
     };
 
     fetchData();
+    console.clear()
   }, []);
 
   const columns = [
@@ -161,10 +161,13 @@ export default function ManageSite() {
       <div className="page-header ">
         <div>
           <h1 className="page-title">Manage Site</h1>
-         
 
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/dashboard' }}>
+            <Breadcrumb.Item
+              className="breadcrumb-item"
+              linkAs={Link}
+              linkProps={{ to: "/dashboard" }}
+            >
               Dashboard
             </Breadcrumb.Item>
             <Breadcrumb.Item

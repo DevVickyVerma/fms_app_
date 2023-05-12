@@ -84,7 +84,7 @@ export default function AddAddon() {
           let array = [];
           for (const item of data?.data?.addon_permissions[key].names) {
             if (item.checked) {
-              console.log(item, "item");
+             
               array.push(item.permission_name);
             }
           }
@@ -92,9 +92,9 @@ export default function AddAddon() {
             ...new Set([...prevState, ...array]),
           ]);
 
-          if (array.length > 0) {
-            console.log(permissionArray, "permissions");
-          }
+          // if (array.length > 0) {
+          //   console.log(permissionArray, "permissions");
+          // }
         }
 
         if (data) {
@@ -120,6 +120,7 @@ export default function AddAddon() {
 
   useEffect(() => {
     setEdituserDetails();
+    console.clear()
   }, [edituserDetails]);
 
   const handleSubmit = async (values) => {
@@ -147,7 +148,7 @@ export default function AddAddon() {
 
     if (response.ok) {
       SuccessAlert(data.message);
-      // navigate("/manageaddon");
+      navigate("/manageaddon");
     } else {
       ErrorAlert(data.message);
     }
@@ -316,7 +317,7 @@ export default function AddAddon() {
                                               const permissionName =
                                                 nameItem.permission_name;
 
-                                              console.log(permissionName);
+                                            
 
                                               // Create a new array from the current state of permissionArray
                                               const updatedPermissionArray = [
@@ -344,10 +345,10 @@ export default function AddAddon() {
                                                 );
                                               }
 
-                                              console.log(
-                                                updatedPermissionArray,
-                                                "updatedPermissionArray"
-                                              );
+                                              // console.log(
+                                              //   updatedPermissionArray,
+                                              //   "updatedPermissionArray"
+                                              // );
 
                                               // Update the state of permissionArray with the updatedPermissionArray
                                               setPermissionArray(

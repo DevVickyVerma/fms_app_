@@ -40,7 +40,7 @@ export default function AddRoles() {
     axiosInstance
       .post("/permission-list")
       .then((response) => {
-        console.log(response.data, "setPermissions");
+      
         setUserPermissions(response.data.data);
         setPermissions(response.data);
       })
@@ -65,7 +65,7 @@ export default function AddRoles() {
     axiosInstance
       .post("/addon/list")
       .then((response) => {
-        console.log(response.data.data.addons, "setPermissions");
+       
 
         setAddonitem(response.data.data.addons);
       })
@@ -78,11 +78,10 @@ export default function AddRoles() {
           navigate("/errorpage403");
         }
       });
+      console.clear()
   }, []);
 
-  // const handleSubmit = (values) => {
-  //   console.log(values, "handleSubmit");
-  // };
+ 
     const handleSubmit = async (values) => {
       const body = {
         name: values.name,

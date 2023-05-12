@@ -27,7 +27,7 @@ export default function Login(props) {
 
 
   useEffect(()=>{
-    console.log("Updated Code")
+    console.clear()
   },[])
 
   const navigate = useNavigate();

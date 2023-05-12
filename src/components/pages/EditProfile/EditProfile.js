@@ -40,7 +40,9 @@ export default function EditProfile() {
         const firstName = data.data.first_name ?? "";
         const lastName = data.data.last_name ?? "";
         const phoneNumber = data.data.phone_number ?? "";
+        const full_name = data.data.full_name ?? "";
         localStorage.setItem("First_name", firstName);
+        localStorage.setItem("full_name", full_name);
         localStorage.setItem("Last_name", lastName);
         localStorage.setItem("Phone_Number", phoneNumber);
         

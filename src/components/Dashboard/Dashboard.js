@@ -24,6 +24,7 @@ export default function Dashboard() {
       notify("Login Successfully");
       setJustLoggedIn(false);
     }
+    console.clear()
   }, [justLoggedIn]);
   return (
     <div>
