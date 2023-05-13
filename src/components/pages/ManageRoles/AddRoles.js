@@ -37,12 +37,29 @@ export default function AddRoles() {
         Authorization: `Bearer ${token}`,
       },
     });
+  
     axiosInstance
       .post("/permission-list")
       .then((response) => {
-      
         setUserPermissions(response.data.data);
         setPermissions(response.data);
+  
+        axiosInstance
+          .post("/addon/list")
+          .then((response) => {
+            setAddonitem(response.data.data.addons);
+          })
+          .catch((error) => {
+            if (
+              error &&
+              error.response &&
+              error.response.data.status_code === "403"
+            ) {
+              navigate("/errorpage403");
+            }
+          });
+  
+        console.clear();
       })
       .catch((error) => {
         if (
@@ -54,32 +71,7 @@ export default function AddRoles() {
         }
       });
   }, []);
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    axiosInstance
-      .post("/addon/list")
-      .then((response) => {
-       
-
-        setAddonitem(response.data.data.addons);
-      })
-      .catch((error) => {
-        if (
-          error &&
-          error.response &&
-          error.response.data.status_code === "403"
-        ) {
-          navigate("/errorpage403");
-        }
-      });
-      console.clear()
-  }, []);
+  
 
  
     const handleSubmit = async (values) => {
@@ -107,7 +99,7 @@ export default function AddRoles() {
 
       if (response.ok) {
         SuccessAlert(data.message);
-        // navigate("/roles");
+        navigate("/roles");
       } else {
         ErrorAlert(data.message);
       }

@@ -34,7 +34,7 @@ export default function App() {
   useEffect(() => {
     simulateLoadingAndNavigate();
     console.clear()
-    console.log("checkdashboard")
+   
   }, [location.pathname]);
 
   useEffect(() => {

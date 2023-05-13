@@ -43,13 +43,12 @@ export default function AddAddon() {
         Authorization: `Bearer ${token}`,
       },
     });
+  
+    // Fetch user permissions
     axiosInstance
       .post("/permission-list")
       .then((response) => {
         setUserPermissions(response.data.data);
-        // Object.keys(response.data.data).map((key) =>
-        // )
-        // setPermissions(response.data);
       })
       .catch((error) => {
         if (
@@ -60,43 +59,30 @@ export default function AddAddon() {
           navigate("/errorpage403");
         }
       });
-  }, []);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
+  
+    // Fetch addon details and set permissions
     const addonId = localStorage.getItem("EditAddon");
     const formData = new FormData();
     formData.append("addon_id", addonId);
-
-    const GetAddonDetails = async () => {
+  
+    const getAddonDetails = async () => {
       try {
         const response = await axiosInstance.post("/addon/detail", formData);
         const { data } = response;
-
+  
+        const permissionArray = [];
         for (const key of Object.keys(data.data.addon_permissions)) {
           let array = [];
           for (const item of data?.data?.addon_permissions[key].names) {
             if (item.checked) {
-             
               array.push(item.permission_name);
             }
           }
-          setPermissionArray((prevState) => [
-            ...new Set([...prevState, ...array]),
-          ]);
-
-          // if (array.length > 0) {
-          //   console.log(permissionArray, "permissions");
-          // }
+          permissionArray.push(...array);
         }
-
+  
+        setPermissionArray([...new Set(permissionArray)]);
+  
         if (data) {
           setEdituserDetails(data.data.addon_name);
           setPermissions(data);
@@ -114,9 +100,10 @@ export default function AddAddon() {
         }
       }
     };
-
-    GetAddonDetails();
+  
+    getAddonDetails();
   }, []);
+  
 
   useEffect(() => {
     setEdituserDetails();
