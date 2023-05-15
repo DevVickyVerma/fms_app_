@@ -41,7 +41,7 @@ export const MENUITEMS = [
             type: "link",
           },
           {
-            path: `/comingsoon`,
+            path: `/addsite`,
             title: "Add Sites",
             type: "link",
           },

@@ -179,7 +179,7 @@ export default function ManageSite() {
           </Breadcrumb>
         </div>
         <div className="ms-auto pageheader-btn">
-          <Link to="/comingsoon" className="btn btn-primary">
+          <Link to="/addsite" className="btn btn-primary">
             Add Site
           </Link>
         </div>
