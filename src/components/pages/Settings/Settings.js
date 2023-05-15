@@ -17,12 +17,12 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function EditProfile() {
+export default function Settings() {
   const [userDetails, setUserDetails] = useState("");
   const navigate = useNavigate();
-  useEffect(() => {
-    fetchData();
-  }, [localStorage.getItem("First_name")]);
+  //   useEffect(() => {
+  //     fetchData();
+  //   }, []);
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -35,14 +35,14 @@ export default function EditProfile() {
       const response = await axiosInstance.post("/detail");
       const { data } = response;
       if (data) {
-        const firstName = data.data.first_name ?? "";
-        const lastName = data.data.last_name ?? "";
-        const phoneNumber = data.data.phone_number ?? "";
-        const full_name = data.data.full_name ?? "";
-        localStorage.setItem("First_name", firstName);
-        localStorage.setItem("full_name", full_name);
-        localStorage.setItem("Last_name", lastName);
-        localStorage.setItem("Phone_Number", phoneNumber);
+        // const firstName = data.data.first_name ?? "";
+        // const lastName = data.data.pagination ?? "";
+        // const phoneNumber = data.data.phone_number ?? "";
+        // const full_name = data.data.full_name ?? "";
+        // localStorage.setItem("First_name", firstName);
+        // localStorage.setItem("full_name", full_name);
+        // localStorage.setItem("pagination", lastName);
+        // localStorage.setItem("Phone_Number", phoneNumber);
 
         setUserDetails(data.data.first_name);
       }
@@ -53,50 +53,55 @@ export default function EditProfile() {
   };
 
   const validationSchema = Yup.object().shape({
-    old_password: Yup.string().required("Current Password is required"),
+    smtp_url: Yup.string().required("Smtp Url is required"),
     password: Yup.string()
-      .required("New Password is required")
+      .required(" Password is required")
       .min(8, "Password must be at least 8 characters long"),
-    password_confirmation: Yup.string()
-      .oneOf([Yup.ref("password"), null], "Passwords must match")
-      .required("Confirm Password is required"),
+    user_name: Yup.string().required("User Name is required"),
+    port: Yup.string().required(" Port  is required"),
   });
 
   const initialValues = {
-    old_password: "",
+    smtp_url: "",
     password: "",
-    password_confirmation: "",
+    user_name: "",
+    port: "",
   };
 
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
 
-  const handlesubmit = async (values) => {
-    const token = localStorage.getItem("token");
+  //   const handlesubmit = async (values) => {
+  //     const token = localStorage.getItem("token");
 
-    const formData = new FormData();
-    formData.append("old_password", values.old_password);
-    formData.append("password", values.password);
-    formData.append("password_confirmation", values.password_confirmation);
+  //     const formData = new FormData();
+  //     formData.append("smtp_url", values.smtp_url);
+  //     formData.append("password", values.password);
+  //     formData.append("user_name", values.user_name);
+  //     formData.append("port", values.port);
 
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/update/password`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      }
-    );
+  //     const response = await fetch(
+  //       `${process.env.REACT_APP_BASE_URL}/update/password`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         body: formData,
+  //       }
+  //     );
 
-    const data = await response.json();
+  //     const data = await response.json();
 
-    if (response.ok) {
-      notify(data.message);
-    } else {
-      Errornotify(data.message);
-    }
+  //     if (response.ok) {
+  //       notify(data.message);
+  //     } else {
+  //       Errornotify(data.message);
+  //     }
+  //   };
+
+  const handlesubmit = (values) => {
+    console.log(values, "smtpvalues");
   };
 
   const handleSubmit1 = async (values, setSubmitting) => {
@@ -106,7 +111,7 @@ export default function EditProfile() {
 
     const formData = new FormData();
     formData.append("first_name", values.first_name);
-    formData.append("last_name", values.last_name);
+    formData.append("pagination", values.pagination);
     formData.append("role", values.role);
     formData.append("phone_number", values.phone_number);
 
@@ -136,7 +141,7 @@ export default function EditProfile() {
     <div>
       <div className="page-header">
         <div>
-          <h1 className="page-title">Edit Profile</h1>
+          <h1 className="page-title">Settings</h1>
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item
               className="breadcrumb-item"
@@ -150,7 +155,7 @@ export default function EditProfile() {
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Edit Profile
+              Settings
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -170,33 +175,47 @@ export default function EditProfile() {
               <Form onSubmit={handleSubmit}>
                 <Card className="profile-edit">
                   <Card.Header>
-                    <Card.Title as="h3">Edit Password</Card.Title>
+                    <Card.Title as="h3">Smtp Settings</Card.Title>
                   </Card.Header>
                   <Card.Body>
                     <FormGroup>
-                      <Form.Label className="form-label">
-                        Current Password
-                      </Form.Label>
+                      <Form.Label className="form-label">Smtp Url</Form.Label>
                       <Field
-                        type="password"
+                        type="text"
                         className={` input101 ${
-                          errors.old_password && touched.old_password 
+                          errors.smtp_url && touched.smtp_url
                             ? "is-invalid"
                             : ""
                         }`}
-                        name="old_password"
-                        placeholder=" Current Password"
+                        name="smtp_url"
+                        placeholder=" Smtp Url"
                       />
                       <ErrorMessage
-                        name="old_password"
+                        name="smtp_url"
                         component="div"
                         className="invalid-feedback"
                       />
                     </FormGroup>
                     <FormGroup>
-                      <Form.Label className="form-label">
-                        New Password
-                      </Form.Label>
+                      <Form.Label className="form-label">User Name</Form.Label>
+                      <Field
+                        type="text"
+                        className={`input101 ${
+                          errors.user_name && touched.user_name
+                            ? "is-invalid"
+                            : ""
+                        }`}
+                        name="user_name"
+                        placeholder="User Name"
+                      />
+                      <ErrorMessage
+                        name="user_name"
+                        component="div"
+                        className="invalid-feedback"
+                      />
+                    </FormGroup>
+                    <FormGroup>
+                      <Form.Label className="form-label">Password</Form.Label>
                       <Field
                         type="password"
                         className={`input101  ${
@@ -205,7 +224,7 @@ export default function EditProfile() {
                             : ""
                         }`}
                         name="password"
-                        placeholder=" New Password"
+                        placeholder="Password"
                       />
                       <ErrorMessage
                         name="password"
@@ -213,23 +232,19 @@ export default function EditProfile() {
                         className="invalid-feedback"
                       />
                     </FormGroup>
+
                     <FormGroup>
-                      <Form.Label className="form-label">
-                        Confirm Password
-                      </Form.Label>
+                      <Form.Label className="form-label">Port</Form.Label>
                       <Field
-                        type="password"
+                        type="text"
                         className={`input101 ${
-                          errors.password_confirmation &&
-                          touched.password_confirmation
-                            ? "is-invalid"
-                            : ""
+                          errors.port && touched.port ? "is-invalid" : ""
                         }`}
-                        name="password_confirmation"
-                        placeholder="Confirm Password"
+                        name="port"
+                        placeholder="Port"
                       />
                       <ErrorMessage
-                        name="password_confirmation"
+                        name="port"
                         component="div"
                         className="invalid-feedback"
                       />
@@ -252,25 +267,21 @@ export default function EditProfile() {
         <Col lg={12} xl={8} md={12} sm={12}>
           <Card>
             <Card.Header>
-              <Card.Title as="h3">Edit Profile</Card.Title>
+              <Card.Title as="h3">Other Settings</Card.Title>
             </Card.Header>
             <Formik
               initialValues={{
-                first_name: localStorage.getItem("First_name") || "",
-                last_name: localStorage.getItem("Last_name") || "",
-                phone_number: localStorage.getItem("Phone_Number") || "",
+                date_format: "",
+                pagination: "",
               }}
               validationSchema={Yup.object({
-                first_name: Yup.string()
+                date_format: Yup.string()
                   .max(15, "Must be 15 characters or less")
-                  .required("First name is required"),
+                  .required("Date Format is required"),
 
-                last_name: Yup.string()
+                pagination: Yup.string()
                   .max(20, "Must be 20 characters or less")
-                  .required("Last name is required"),
-                phone_number: Yup.string()
-                  .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
-                  .required("Phone number is required"),
+                  .required("Pagination is required"),
               })}
               onSubmit={(values, { setSubmitting }) => {
                 handleSubmit1(values, setSubmitting);
@@ -282,67 +293,49 @@ export default function EditProfile() {
                     <Row>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label htmlFor="first_name">First Name</label>
+                          <Form.Label className="form-label">
+                            Date Format
+                          </Form.Label>
+
                           <Field
                             type="text"
                             // className="form-control"
                             className={`input101 ${
-                              errors.first_name && touched.first_name
+                              errors.date_format && touched.date_format
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            id="first_name"
-                            name="first_name"
-                            placeholder="First Name"
+                            id="date_format"
+                            name="date_format"
+                            placeholder="Date Format"
                           />
                           <ErrorMessage
                             component="div"
                             className="invalid-feedback"
-                            name="first_name"
+                            name="date_format"
                           />
                         </FormGroup>
                       </Col>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label htmlFor="last_name">Last Name</label>
+                          <Form.Label className="form-label">
+                            Pagination/Per Page
+                          </Form.Label>
                           <Field
                             type="text"
                             className={`input101 ${
-                              errors.last_name && touched.last_name
+                              errors.pagination && touched.pagination
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            id="last_name"
-                            name="last_name"
-                            placeholder="Last Name"
+                            id="pagination"
+                            name="pagination"
+                            placeholder="Pagination"
                           />
                           <ErrorMessage
-                            name="last_name"
+                            name="pagination"
                             component="div"
                             className="invalid-feedback"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col lg={6} md={12}>
-                        <FormGroup>
-                          <label htmlFor="phone_number">Phone Number</label>
-                          <Field
-                            type="text"
-                            className={`input101 ${
-                              errors.phone_number && touched.phone_number
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="phone_number"
-                            name="phone_number"
-                            placeholder="Phone Number"
-                          />
-                          <ErrorMessage
-                            component="div"
-                            className="invalid-feedback"
-                            name="phone_number"
                           />
                         </FormGroup>
                       </Col>

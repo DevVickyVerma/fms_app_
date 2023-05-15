@@ -78,6 +78,9 @@ const AddSite = React.lazy(() =>
 const EditSite = React.lazy(() =>
   import("./components/pages/ManageSite/EditSite")
 );
+const Settings = React.lazy(() =>
+  import("./components/pages/Settings/Settings")
+);
 
 const FAQS = React.lazy(() => import("./components/pages/FAQS/FAQS"));
 const Terms = React.lazy(() => import("./components/pages/Terms/Terms"));
@@ -177,6 +180,7 @@ const Root = () => {
                   <Route path={`/clients`} element={<ManageClient />} />
                   <Route path={`/sites`} element={<Managesite />} />
                   <Route path={`/editrole`} element={<EditRoles />} />
+                  <Route path={`/settings`} element={<Settings />} />
 
                   <Route path={`/pages/faqs`} element={<FAQS />} />
 

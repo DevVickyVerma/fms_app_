@@ -308,7 +308,7 @@ export function Header() {
                         Password
                       </Dropdown.Item>
 
-                      <Dropdown.Item as={Link} to="/comingsoon" >
+                      <Dropdown.Item as={Link} to="/settings" >
                         <i className="dropdown-icon fe fe-settings"></i>
                         Settings
                       </Dropdown.Item>

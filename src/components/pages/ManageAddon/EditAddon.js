@@ -16,6 +16,7 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
+
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -82,6 +83,7 @@ export default function AddAddon() {
         }
   
         setPermissionArray([...new Set(permissionArray)]);
+      
   
         if (data) {
           setEdituserDetails(data.data.addon_name);
