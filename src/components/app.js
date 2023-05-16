@@ -18,7 +18,6 @@ export default function App() {
   const location = useLocation();
   const [data, setData] = useState("");
 
-
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
   const simulateLoadingAndNavigate = () => {
@@ -33,46 +32,45 @@ export default function App() {
 
   useEffect(() => {
     simulateLoadingAndNavigate();
-    console.clear()
-   
+    console.clear();
   }, [location.pathname]);
 
   useEffect(() => {
-    // setLoading(true);
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.post("/detail");
-        setData(response.data.data);
-      } catch (error) {
-        console.error(error);
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.data.message
-        ) {
-          ErrorAlert(error.response.data.message);
-        } else {
-          ErrorAlert("Unknown error occurred");
-        }
-        setTimeout(() => {
-          window.location.replace("/");
-          localStorage.clear();
-        }, 500);
-      }
-    };
-
     fetchData();
-  }, [localStorage.getItem("token")]);
-
-
+  }, [localStorage.getItem("First_name")]);
+  const token = localStorage.getItem("token");
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const fetchData = async () => {
+    try {
+      const response = await axiosInstance.post("/detail");
+      const { data } = response;
+      if (data) {
+        const firstName = data.data.first_name ?? "";
+        const lastName = data.data.last_name ?? "";
+        const phoneNumber = data.data.phone_number ?? "";
+        const full_name = data.data.full_name ?? "";
+        localStorage.setItem("First_name", firstName);
+        localStorage.setItem("full_name", full_name);
+        localStorage.setItem("Last_name", lastName);
+        localStorage.setItem("Phone_Number", phoneNumber);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+        ErrorAlert("Invalid access token");
+        localStorage.clear();
+      } else if (error.response && error.response.data.status_code === "403") {
+        navigate("/errorpage403");
+      } else {
+        console.error(error);
+      }
+    }
+  };
 
   return (
     <Fragment>
@@ -80,7 +78,11 @@ export default function App() {
         <TabToTop />
         <div className="page">
           <div className="page-main">
-          <TopLoadingBar style={{ height: '4px' }} color="#6259ca" ref={loadingBarRef} />
+            <TopLoadingBar
+              style={{ height: "4px" }}
+              color="#6259ca"
+              ref={loadingBarRef}
+            />
 
             <Header />
             <Sidebar />

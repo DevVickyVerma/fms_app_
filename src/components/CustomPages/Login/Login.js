@@ -61,9 +61,18 @@ export default function Login(props) {
       } else {
         Errornotify(data.message);
       }
-    } catch (error) {
-      console.error(error);
-      Errornotify(error.message);
+    } 
+    catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+        Errornotify("Invalid access token");
+        localStorage.clear();
+      } else if (error.response && error.response.data.status_code === "403") {
+        navigate("/errorpage403");
+      } else {
+        console.error(error);
+        Errornotify(error.message);
+      }
     }
 
     setLoading(false);

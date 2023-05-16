@@ -21,6 +21,8 @@ export default function AddSite() {
   const navigate = useNavigate();
   const [dropdownItems, setDropdownItems] = useState([]);
   const [AddSiteData, setAddSiteData] = useState([]);
+  const [selectedBusinessType, setSelectedBusinessType] = useState("");
+  const [subTypes, setSubTypes] = useState([]);
 
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
@@ -44,29 +46,65 @@ export default function AddSite() {
     const GetSiteData = async () => {
       try {
         const response = await axiosInstance.get("site/common-data-list");
-
+  
         if (response.data) {
           setAddSiteData(response.data.data);
         }
       } catch (error) {
-        console.error(error);
+        if (error.response && error.response.status === 401) {
+          navigate("/login");
+          Errornotify("Invalid access token");
+          localStorage.clear();
+        } else if (
+          error.response &&
+          error.response.data.status_code === "403"
+        ) {
+          navigate("/errorpage403");
+        } else {
+          console.error(error);
+        }
       }
     };
-    GetSiteData();
-
-    fetchData();
+    try {
+      GetSiteData();
+      fetchData();
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+        Errornotify("Invalid access token");
+        localStorage.clear();
+      } else if (
+        error.response &&
+        error.response.data.status_code === "403"
+      ) {
+        navigate("/errorpage403");
+      } else {
+        console.error(error);
+      }
+    }
   }, []);
+  
 
   // const handleSubmit1 = (values, setSubmitting) => {
   //   console.log(values, "handle");
   //   setSubmitting(false);
   // };
-  const handleSubmit1 = async (values, setSubmitting) => {
-  
 
+  // const handleBusinessTypeChange = (event) => {
+  //   const selectedType = event.target.value;
+  //   console.log(selectedType, "selectedType");
+  //   setSelectedBusinessType(selectedType);
+  //   const selectedTypeData = AddSiteData.busines_types.find(
+  //     (type) => type.name === selectedType
+  //   );
+  //   setSubTypes(selectedTypeData.sub_types);
+  // };
+
+  const handleSubmit1 = async (values, setSubmitting) => {
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
+    formData.append("bussiness_Type", values.bussiness_Type);
     formData.append("business_sub_type_id", values.bussiness_Sub_Type);
     formData.append("data_import_type_id", values.Select_machine_type);
     formData.append("site_code", values.site_code);
@@ -74,37 +112,48 @@ export default function AddSite() {
     formData.append("site_display_name", values.display_name);
     formData.append("site_address", values.site_Address);
     formData.append("start_date", values.DRS_Start_Date);
-    formData.append("department_sage_code", values.Saga_department_code);
-    formData.append("bp_credit_card_site_no", values.first_name);
+    formData.append("department_sage_code", values.Saga_department_name);
+    formData.append("bp_credit_card_site_no", values.Bp_nctt_site_no);
     formData.append("supplier_id", values.supplier);
     formData.append("site_report_status", values.Report_generation_Status);
     formData.append("site_report_date_type", values.Report_date_type);
-    formData.append("sage_department_id", values.Report_date_type);
+    formData.append("sage_department_id", values.Saga_department_code);
     formData.append("drs_upload_status", values.Drs_upload_status);
-   
-    
 
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/site/add`,
-      {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/site/add`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
         },
         body: formData,
-      }
-    );
-
-    const data = await response.json();
-
-    if (response.ok) {
-      notify(data.message);
+      });
     
-      setSubmitting(false);
-    } else {
-  
-      Errornotify(data.message);
+      const data = await response.json();
+    
+      if (response.ok) {
+        notify(data.message);
+    
+        setSubmitting(false);
+      } else {
+        Errornotify(data.message);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+        Errornotify("Invalid access token");
+        localStorage.clear();
+      } else if (
+        error.response &&
+        error.response.data.status_code === "403"
+      ) {
+        navigate("/errorpage403");
+      } else  {
+        Errornotify(error.response.message);
+        console.error(error);
+      }
     }
+    
   };
   return (
     <div>
@@ -159,7 +208,7 @@ export default function AddSite() {
                 // Saga_department_code: "",
 
                 // supplier: "",
-                // Saga_department_name: "",
+                Saga_department_name: "",
                 // Bp_nctt_site_no: "",
 
                 // Report_generation_Status: "",
@@ -227,7 +276,7 @@ export default function AddSite() {
                 handleSubmit1(values, setSubmitting);
               }}
             >
-              {({ handleSubmit, isSubmitting, errors, touched }) => (
+              {({ handleSubmit, isSubmitting, errors, touched,setFieldValue }) => (
                 <Form onSubmit={handleSubmit}>
                   <Card.Body>
                     <Row>
@@ -334,7 +383,7 @@ export default function AddSite() {
                               AddSiteData.suppliers.map((item) => (
                                 <option
                                   key={item.id}
-                                  value={item.supplier_name}
+                                  value={item.id}
                                 >
                                   {item.supplier_name}
                                 </option>
@@ -372,7 +421,7 @@ export default function AddSite() {
                             {AddSiteData.site_status &&
                             AddSiteData.site_status.length > 0 ? (
                               AddSiteData.site_status.map((item) => (
-                                <option value={item.name}>{item.name}</option>
+                                <option value={item.value}>{item.name}</option>
                               ))
                             ) : (
                               <option disabled>No Site Status available</option>
@@ -403,6 +452,17 @@ export default function AddSite() {
                             }`}
                             id="bussiness_Type"
                             name="bussiness_Type"
+                            onChange={(e) => {
+                              const selectedType = e.target.value;
+                              console.log(selectedType, "selectedType");
+                              setFieldValue("bussiness_Type", selectedType);
+                              setSelectedBusinessType(selectedType);
+                              const selectedTypeData =
+                                AddSiteData.busines_types.find(
+                                  (type) => type.name === selectedType
+                                );
+                              setSubTypes(selectedTypeData.sub_types);
+                            }}
                           >
                             <option value="">Select a Bussiness Type</option>
                             {AddSiteData.busines_types &&
@@ -446,15 +506,17 @@ export default function AddSite() {
                             name="bussiness_Sub_Type"
                           >
                             <option value="">
-                              Select a Bussiness Sub-Type
+                              Select a bussiness_Sub_Type
                             </option>
-                            
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                            
-                            
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
+                            {subTypes && subTypes.length > 0 ? (
+                              subTypes.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled>No bussiness_Sub_Type</option>
+                            )}
                           </Field>
                           <ErrorMessage
                             component="div"
@@ -488,7 +550,7 @@ export default function AddSite() {
                             {AddSiteData.department_codes &&
                             AddSiteData.department_codes.length > 0 ? (
                               AddSiteData.department_codes.map((item) => (
-                                <option key={item.id} value={item.value}>
+                                <option key={item.id} value={item.id}>
                                   {item.value}
                                 </option>
                               ))
@@ -606,17 +668,8 @@ export default function AddSite() {
                             <option value="">
                               Select a Report Generation Status
                             </option>
-                            {dropdownItems && dropdownItems.length > 0 ? (
-                              dropdownItems.map((item) => (
-                                <option key={item.id} value={item.name}>
-                                  {item.name}
-                                </option>
-                              ))
-                            ) : (
-                              <option disabled>
-                                No Report_generation_Status
-                              </option>
-                            )}
+                            <option value="0">Yes</option>
+                            <option value="1">No</option>
                           </Field>
                           <ErrorMessage
                             component="div"
@@ -644,13 +697,10 @@ export default function AddSite() {
                             id="Report_date_type"
                             name="Report_date_type"
                           >
-                          <option value="">
-                              Select a  Report Date Type
-                            </option>
-                            
-                            
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
+                            <option value="">Select a Report Date Type</option>
+
+                            <option value="0">Yes</option>
+                            <option value="1">No</option>
                           </Field>
                           <ErrorMessage
                             component="div"
@@ -681,10 +731,9 @@ export default function AddSite() {
                             <option value="">
                               Select a Fuel Commission Type
                             </option>
-                            
-                            
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
+
+                            <option value="0">Yes</option>
+                            <option value="1">No</option>
                           </Field>
                           <ErrorMessage
                             component="div"
@@ -713,9 +762,9 @@ export default function AddSite() {
                             name="Paper_work_status"
                           >
                             <option value="">Select a Paper Work Status</option>
-                            
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
+
+                            <option value="0">Yes</option>
+                            <option value="1">No</option>
                           </Field>
                           <ErrorMessage
                             component="div"
@@ -743,10 +792,11 @@ export default function AddSite() {
                             id="Bunkered_sale_status"
                             name="Bunkered_sale_status"
                           >
-                            
-                            <option value="">Select a Bunkered Sale Status</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
+                            <option value="">
+                              Select a Bunkered Sale Status
+                            </option>
+                            <option value="0">Yes</option>
+                            <option value="1">No</option>
                           </Field>
                           <ErrorMessage
                             component="div"
@@ -775,8 +825,8 @@ export default function AddSite() {
                             name="Drs_upload_status"
                           >
                             <option value="">Select a DRS Upload Status</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
+                            <option value="0">Yes</option>
+                            <option value="1">No</option>
                           </Field>
 
                           <ErrorMessage
@@ -840,7 +890,7 @@ export default function AddSite() {
                               AddSiteData.data_import_types.map((item) => (
                                 <option
                                   key={item.id}
-                                  value={item.import_type_name}
+                                  value={item.id}
                                 >
                                   {item.import_type_name}
                                 </option>
@@ -863,7 +913,7 @@ export default function AddSite() {
                     <Link
                       type="submit"
                       className="btn btn-danger me-2 "
-                      to={`/roles/`}
+                      to={`/sites/`}
                     >
                       Cancel
                     </Link>

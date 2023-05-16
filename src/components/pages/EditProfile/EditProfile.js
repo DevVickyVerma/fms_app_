@@ -20,37 +20,37 @@ import { Link, useNavigate } from "react-router-dom";
 export default function EditProfile() {
   const [userDetails, setUserDetails] = useState("");
   const navigate = useNavigate();
-  useEffect(() => {
-    fetchData();
-  }, [localStorage.getItem("First_name")]);
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const fetchData = async () => {
-    try {
-      const response = await axiosInstance.post("/detail");
-      const { data } = response;
-      if (data) {
-        const firstName = data.data.first_name ?? "";
-        const lastName = data.data.last_name ?? "";
-        const phoneNumber = data.data.phone_number ?? "";
-        const full_name = data.data.full_name ?? "";
-        localStorage.setItem("First_name", firstName);
-        localStorage.setItem("full_name", full_name);
-        localStorage.setItem("Last_name", lastName);
-        localStorage.setItem("Phone_Number", phoneNumber);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [localStorage.getItem("First_name")]);
+  // const token = localStorage.getItem("token");
+  // const axiosInstance = axios.create({
+  //   baseURL: process.env.REACT_APP_BASE_URL,
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  // });
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await axiosInstance.post("/detail");
+  //     const { data } = response;
+  //     if (data) {
+  //       const firstName = data.data.first_name ?? "";
+  //       const lastName = data.data.last_name ?? "";
+  //       const phoneNumber = data.data.phone_number ?? "";
+  //       const full_name = data.data.full_name ?? "";
+  //       localStorage.setItem("First_name", firstName);
+  //       localStorage.setItem("full_name", full_name);
+  //       localStorage.setItem("Last_name", lastName);
+  //       localStorage.setItem("Phone_Number", phoneNumber);
 
-        setUserDetails(data.data.first_name);
-      }
-    } catch (error) {
-      console.error(error);
-      localStorage.clear();
-    }
-  };
+  //       setUserDetails(data.data.first_name);
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     localStorage.clear();
+  //   }
+  // };
 
   const validationSchema = Yup.object().shape({
     old_password: Yup.string().required("Current Password is required"),

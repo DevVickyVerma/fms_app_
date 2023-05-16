@@ -51,13 +51,16 @@ export default function AddAddon() {
       .then((response) => {
         setUserPermissions(response.data.data);
       })
-      .catch((error) => {
-        if (
-          error &&
-          error.response &&
-          error.response.data.status_code === "403"
-        ) {
+      .catch((error)=> {
+        if (error.response && error.response.status === 401) {
+          navigate("/login");
+          ErrorAlert("Invalid access token");
+          localStorage.clear();
+        } else if (error.response && error.response.data.status_code === "403") {
           navigate("/errorpage403");
+        } else {
+          console.error(error);
+          ErrorAlert(error.message);
         }
       });
   

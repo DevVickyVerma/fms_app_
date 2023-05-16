@@ -43,16 +43,21 @@ export default function AddAddon() {
         setUserPermissions(response.data.data);
         setPermissions(response.data);
       })
-      .catch((error) => {
-        if (
-          error &&
-          error.response &&
-          error.response.data.status_code === "403"
-        ) {
+   
+      .catch((error)=> {
+        if (error.response && error.response.status === 401) {
+          navigate("/login");
+          ErrorAlert("Invalid access token");
+          localStorage.clear();
+        } else if (error.response && error.response.data.status_code === "403") {
           navigate("/errorpage403");
+        } else {
+          console.error(error);
+          ErrorAlert(error.message);
         }
       });
   }, []);
+
 
   // const handleSubmit = (values) => {
   //   console.log(values, "handleSubmit");

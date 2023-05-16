@@ -60,12 +60,17 @@ const handleDelete = (id) => {
             confirmButtonText: "OK",
           });
           fetchData()
-        } catch (error) {
-          console.error(error);
-          const message = error.response
-            ? error.response.data.message
-            : "Unknown error occurred";
-          ErrorAlert(message);
+        }  catch (error) {
+          if (error.response && error.response.status === 401) {
+            navigate("/login");
+            ErrorAlert("Invalid access token");
+            localStorage.clear();
+          } else if (error.response && error.response.data.status_code === "403") {
+            navigate("/errorpage403");
+          } else {
+            console.error(error);
+            ErrorAlert(error.message);
+          }
         }
         // setLoading(false);
       };
