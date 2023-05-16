@@ -119,6 +119,7 @@ export default function AddSite() {
     formData.append("site_report_date_type", values.Report_date_type);
     formData.append("sage_department_id", values.Saga_department_code);
     formData.append("drs_upload_status", values.Drs_upload_status);
+    formData.append("site_status", values.Site_Status);
 
     try {
       const response = await fetch(`${process.env.REACT_APP_BASE_URL}/site/add`, {
@@ -133,26 +134,25 @@ export default function AddSite() {
     
       if (response.ok) {
         notify(data.message);
-    
+        navigate("/sites");
         setSubmitting(false);
       } else {
         Errornotify(data.message);
       }
-    } catch (error) {
+    }catch (error) {
       if (error.response && error.response.status === 401) {
         navigate("/login");
         Errornotify("Invalid access token");
         localStorage.clear();
-      } else if (
-        error.response &&
-        error.response.data.status_code === "403"
-      ) {
-        navigate("/errorpage403");
-      } else  {
-        Errornotify(error.response.message);
-        console.error(error);
+      } else if (error.response && error.response.data.status_code === "403") {
+        Errornotify("/errorpage403");
+      } else {
+        const errorMessage = error.response && error.response.data ? error.response.data.message : "An error occurred";
+        console.error(errorMessage,"errorMessage");
+        Errornotify(errorMessage);
       }
     }
+    
     
   };
   return (
@@ -205,18 +205,18 @@ export default function AddSite() {
                 supplier: "",
                 DRS_Start_Date: "",
                 // display_name: "",
-                // Saga_department_code: "",
+                Saga_department_code: "",
 
                 // supplier: "",
                 Saga_department_name: "",
                 // Bp_nctt_site_no: "",
 
                 // Report_generation_Status: "",
-                // Report_date_type: "",
+                Report_date_type: "",
                 // Fuel_commission_type: "",
                 // Paper_work_status: "",
                 // Bunkered_sale_status: "",
-                // Drs_upload_status: "",
+                Drs_upload_status: "",
               }}
               validationSchema={Yup.object({
                 site_code: Yup.string()

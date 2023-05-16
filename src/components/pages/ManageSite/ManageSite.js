@@ -3,15 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import { Breadcrumb, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Breadcrumb, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import axios from "axios";
 import Swal from "sweetalert2";
 
 import { toast } from "react-toastify";
+import { Switch } from "@material-ui/core";
 
 export default function ManageSite() {
   const [data, setData] = useState();
+  const [isChecked, setIsChecked] = useState(true);
+  const [activeArray, setActiveArray] = useState([]);
 
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
@@ -27,50 +30,125 @@ export default function ManageSite() {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(`Item with ID ${id} deleted!`);
-
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your item has been deleted.",
-          icon: "success",
-          confirmButtonText: "OK",
+        console.log(id, "isConfirmed");
+        const token = localStorage.getItem("token");
+  
+        const formData = new FormData();
+        formData.append("id", id);
+  
+        const axiosInstance = axios.create({
+          baseURL: process.env.REACT_APP_BASE_URL,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
         });
+        const DeleteRole = async () => {
+          try {
+            const response = await axiosInstance.post("/site/delete", formData);
+            setData(response.data.data);
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your item has been deleted.",
+              icon: "success",
+              confirmButtonText: "OK",
+            });
+            fetchData()
+          }  catch (error) {
+            if (error.response && error.response.status === 401) {
+              navigate("/login");
+              ErrorAlert("Invalid access token");
+              localStorage.clear();
+            } else if (error.response && error.response.data.status_code === "403") {
+              navigate("/errorpage403");
+            } else {
+              console.error(error);
+              ErrorAlert(error.message);
+            }
+          }
+          // setLoading(false);
+        };
+        DeleteRole();
+        
       }
     });
   };
+  const [selectedRows, setSelectedRows] = useState([]);
+  const toggleActive = (id) => {
+    const newData = [...data];
+    const index = newData.findIndex((d) => d.id === id);
+    newData[index].active = !newData[index].active;
+    setData(newData);
+
+    if (newData[index].active) {
+      console.log(`${id} is now active.`);
+      formData.append("id", id);
+      formData.append("site_status", 0);
+      // ToggleStatus()
+    } else {
+      console.log(`${id} is now inactive.`);
+      formData.append("id", id);
+      formData.append("site_status", 23);
+      // ToggleStatus()
+    }
+  };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.post("/site/list");
-        if (response.data.data.sites.length > 0) {
-          setData(response.data.data.sites);
-        }
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
-          navigate("/login");
-          ErrorAlert("Invalid access token");
-          localStorage.clear();
-        } else if (
-          error.response &&
-          error.response.data.status_code === "403"
-        ) {
-          navigate("/errorpage403");
-        }
-        // console.error(error);
-      }
-    };
-
     fetchData();
-    console.clear()
+    console.clear();
   }, []);
+  const token = localStorage.getItem("token");
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const fetchData = async () => {
+    try {
+      const response = await axiosInstance.post("/site/list");
+
+      if (response.data.data.sites.length > 0) {
+        setData(response.data.data.sites);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+        ErrorAlert("Invalid access token");
+        localStorage.clear();
+      } else if (error.response && error.response.data.status_code === "403") {
+        navigate("/errorpage403");
+      }
+      // console.error(error);
+    }
+  };
+  const formData = new FormData();
+
+  const ToggleStatus = async () => {
+    try {
+      const response = await axiosInstance.post(
+        "/site/update-status",
+        formData
+      );
+      if (response) {
+        SuccessAlert(response.data.message);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+        ErrorAlert("Invalid access token");
+        localStorage.clear();
+      } else if (error.response && error.response.data.status_code === "403") {
+        navigate("/errorpage403");
+      } else {
+        const errorMessage =
+          error.response && error.response.message
+            ? error.response.message
+            : "An error occurred";
+        ErrorAlert(errorMessage);
+      }
+    }
+  };
 
   const columns = [
     {
@@ -106,6 +184,22 @@ export default function ManageSite() {
       width: "20%",
       cell: (row) => (
         <span className="text-center">
+          <OverlayTrigger placement="top" overlay={<Tooltip>Toggle</Tooltip>}>
+            <Link
+              // to="/editsite"
+              className="btn  btn-sm rounded-11 toggl-btn"
+            >
+              <Form.Check
+                type="switch"
+                id={`active-switch-${row.id}`}
+                // label={row.site_status === 1 ? "Active" : "Inactive"}
+                className="toggl-btn"
+                checked={row.active}
+                // checked={row.site_status === 1}
+                onChange={() => toggleActive(row.id)}
+              />
+            </Link>
+          </OverlayTrigger>
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <Link
               to="/editsite"
