@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 
 import { toast } from "react-toastify";
 import { Switch } from "@material-ui/core";
+import Details from "../../../data/Modal/Details";
 
 export default function ManageSite() {
   const [data, setData] = useState();
@@ -19,6 +20,17 @@ export default function ManageSite() {
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [dropdownValue, setDropdownValue] = useState([]);
+
+  const handleDropdownChange = (event) => {
+    setDropdownValue(event.target.value);
+    console.log(dropdownValue, "dropdownValue");
+  };
+
+  const handleDetailsClick = () => {
+    setShowModal(true);
+  };
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -30,7 +42,6 @@ export default function ManageSite() {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(id, "isConfirmed");
         const token = localStorage.getItem("token");
 
         const formData = new FormData();
@@ -83,37 +94,28 @@ export default function ManageSite() {
     setData(newData);
 
     if (newData[index].active) {
-      console.log(`${id} is now active.`);
       setActiveArray((prevActiveArray) => {
         // Check if id is already in array
         if (prevActiveArray.includes(id)) {
-          console.log(`${id} is already in activeArray.`);
           return prevActiveArray; // return original array
         } else {
-          console.log(`${id} added to activeArray.`);
           return [...prevActiveArray, id]; // push item into array
         }
       });
       formData.append("id", id);
       formData.append("site_status", 1);
-      console.log(activeArray, "activeArray");
-      // ToggleStatus()
+      ToggleStatus();
     } else {
-      console.log(`${id} is now inactive.`);
       setActiveArray((prevActiveArray) =>
         prevActiveArray.filter((activeId) => activeId !== id)
       ); // remove item from array
       formData.append("id", id);
       formData.append("site_status", 0);
-      console.log(activeArray, "activeArray");
-      // ToggleStatus()
+
+      ToggleStatus();
     }
   };
 
-  useEffect(() => {
-    fetchData();
-    // console.clear();
-  }, []);
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -127,18 +129,20 @@ export default function ManageSite() {
 
       if (response.data.data.sites.length > 0) {
         setData(response.data.data.sites);
-      }
-      const filteredStatuses = [];
-      for (const site of data) {
-        if (site.site_status === 1) {
-          filteredStatuses.push(site.id);
+
+        setDropdownValue(response.data.data);
+
+        const filteredStatuses = [];
+        for (const site of response.data.data.sites) {
+          if (site.site_status === 1) {
+            filteredStatuses.push(site.id);
+          }
+        }
+
+        if (filteredStatuses.length > 0) {
+          setActiveArray(filteredStatuses);
         }
       }
-      console.log(filteredStatuses, "filteredStatuses");
-      if (filteredStatuses.length > 0) {
-        setActiveArray(filteredStatuses);
-      }
-      console.log(activeArray, "filteredStatuses1");
     } catch (error) {
       if (error.response && error.response.status === 401) {
         navigate("/login");
@@ -147,7 +151,6 @@ export default function ManageSite() {
       } else if (error.response && error.response.data.status_code === "403") {
         navigate("/errorpage403");
       }
-      // console.error(error);
     }
   };
   const formData = new FormData();
@@ -177,7 +180,9 @@ export default function ManageSite() {
       }
     }
   };
-
+  // const handleDetailsClick = () => {
+  // <details/>
+  // };
   const columns = [
     {
       name: "S.NO",
@@ -193,13 +198,13 @@ export default function ManageSite() {
     },
     {
       name: "Site",
-      selector: (row) => [row.site_display_name],
+      selector: (row) => [row.site_name],
       sortable: false,
       width: "60%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.site_display_name}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row.site_name}</h6>
           </div>
         </div>
       ),
@@ -236,9 +241,22 @@ export default function ManageSite() {
       width: "20%",
       cell: (row) => (
         <span className="text-center">
+          <OverlayTrigger placement="top" overlay={<Tooltip>Details</Tooltip>}>
+            <span onClick={handleDetailsClick}>
+              <Details
+                showModal={showModal}
+                setShowModal={setShowModal}
+                dropdownValue={dropdownValue}
+                handleDropdownChange={handleDropdownChange}
+                modalHeading="Assign Client"
+                sites={dropdownValue}
+              />
+            </span>
+          </OverlayTrigger>
+
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <Link
-              // to="/editsite"
+              to="/editsite"
               onClick={() => console.log("Edit")}
               className="btn btn-primary btn-sm rounded-11 me-2"
             >
@@ -286,6 +304,10 @@ export default function ManageSite() {
     data,
   };
   const [roles, setRoles] = useState([]);
+  useEffect(() => {
+    fetchData();
+    console.clear();
+  }, []);
 
   return (
     <>

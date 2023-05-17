@@ -55522,6 +55522,9 @@ textarea.form-control {
     margin-bottom: 14px;
     margin-right: 10px;
 }
+svg.table-Details {
+    fill: #fff !important;
+}
 .css-bhp9pd-MuiPaper-root-MuiCard-root {
     background-color: rgb(0 0 0 / 0%) !important;
     box-shadow: none !important;

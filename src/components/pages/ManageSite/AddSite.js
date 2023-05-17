@@ -39,12 +39,14 @@ export default function AddSite() {
       try {
         const response = await axiosInstance.post("/role/list");
         setDropdownItems(response.data.data.addons);
+        console.log(response.data.data.addons)
 
 
         
       } catch (error) {
         console.error(error);
       }
+     
     };
     const GetSiteData = async () => {
       try {
@@ -85,6 +87,7 @@ export default function AddSite() {
         console.error(error);
       }
     }
+    // console.clear()
   }, []);
 
   const handleSubmit1 = async (values, setSubmitting) => {
@@ -191,14 +194,14 @@ export default function AddSite() {
                 Select_machine_type: "",
                 supplier: "",
                 DRS_Start_Date: "",
-                // display_name: "",
+                display_name: "",
                 Saga_department_code: "",
 
                 // supplier: "",
                 Saga_department_name: "",
-                // Bp_nctt_site_no: "",
+                Bp_nctt_site_no: "",
 
-                // Report_generation_Status: "",
+                Report_generation_Status: "",
                 Report_date_type: "",
                 // Fuel_commission_type: "",
                 // Paper_work_status: "",
@@ -211,31 +214,31 @@ export default function AddSite() {
                   .required("Site Code is required"),
                 site_name: Yup.string()
                   .max(20, "Must be 20 characters or less")
-                  .required("Site name is required"),
-                site_Address: Yup.string().required("site_Address is required"),
-                Site_Status: Yup.string().required("Site_Status is required"),
+                  .required("Site Name is required"),
+                site_Address: Yup.string().required("Site Address is required"),
+                Site_Status: Yup.string().required("Site Status is required"),
 
                 bussiness_Sub_Type: Yup.string().required(
-                  "bussiness_Sub_Type is required"
+                  "Bussiness Sub Type is required"
                 ),
                 bussiness_Type: Yup.string().required(
-                  "bussiness_Type is required"
+                  "Bussiness Type is required"
                 ),
-                supplier: Yup.string().required("supplier is required"),
+                supplier: Yup.string().required("Supplier is required"),
                 DRS_Start_Date: Yup.string().required(
-                  "DRS_Start_Date is required"
+                  "DRS Start Date is required"
                 ),
                 Select_machine_type: Yup.string().required(
                   " Data Import Types is required"
                 ),
                 // display_name: Yup.string().required("Display name is required"),
-                // Saga_department_code: Yup.string().required(
-                //   "Saga_department_code  is required"
-                // ),
+                Saga_department_code: Yup.string().required(
+                  "Saga Department Code  is required"
+                ),
 
-                // Saga_department_name: Yup.string().required(
-                //   "Saga_department_name is required"
-                // ),
+                Saga_department_name: Yup.string().required(
+                  "Saga Department Name is required"
+                ),
                 // Bp_nctt_site_no: Yup.string().required(
                 //   "Bp_nctt_site_no is required"
                 // ),
@@ -311,7 +314,7 @@ export default function AddSite() {
                             }`}
                             id="site_name"
                             name="site_name"
-                            placeholder="site_name"
+                            placeholder="Site Name"
                           />
                           <ErrorMessage
                             component="div"
@@ -337,7 +340,7 @@ export default function AddSite() {
                             }`}
                             id="display_name"
                             name="display_name"
-                            placeholder="display_name"
+                            placeholder="Display Name"
                           />
                           <ErrorMessage
                             component="div"
@@ -364,7 +367,7 @@ export default function AddSite() {
                             id="supplier"
                             name="supplier"
                           >
-                            <option value="">Select a supplier</option>
+                            <option value="">Select a Supplier</option>
                             {AddSiteData.suppliers &&
                             AddSiteData.suppliers.length > 0 ? (
                               AddSiteData.suppliers.map((item) => (
@@ -376,7 +379,7 @@ export default function AddSite() {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No supplier available</option>
+                              <option disabled>No Supplier available</option>
                             )}
                           </Field>
                           <ErrorMessage
@@ -408,7 +411,7 @@ export default function AddSite() {
                             {AddSiteData.site_status &&
                             AddSiteData.site_status.length > 0 ? (
                               AddSiteData.site_status.map((item) => (
-                                <option value={item.value}>{item.name}</option>
+                                <option   key={item.value} value={item.value}>{item.name}</option>
                               ))
                             ) : (
                               <option disabled>No Site Status available</option>
@@ -441,7 +444,7 @@ export default function AddSite() {
                             name="bussiness_Type"
                             onChange={(e) => {
                               const selectedType = e.target.value;
-                              console.log(selectedType, "selectedType");
+                             
                               setFieldValue("bussiness_Type", selectedType);
                               setSelectedBusinessType(selectedType);
                               const selectedTypeData =
@@ -493,7 +496,7 @@ export default function AddSite() {
                             name="bussiness_Sub_Type"
                           >
                             <option value="">
-                              Select a bussiness_Sub_Type
+                              Select a Bussiness Sub-Type
                             </option>
                             {subTypes && subTypes.length > 0 ? (
                               subTypes.map((item) => (
@@ -518,7 +521,7 @@ export default function AddSite() {
                             htmlFor="Saga_department_code"
                             className=" form-label mt-4"
                           >
-                            Saga Department Code{" "}
+                            Saga Department Code<span className="text-danger">*</span>
                           </label>
                           <Field
                             as="select"
@@ -558,7 +561,7 @@ export default function AddSite() {
                             htmlFor="Saga_department_name"
                             className=" form-label mt-4"
                           >
-                            Saga Department Name
+                            Saga Department Name<span className="text-danger">*</span>
                           </label>
                           <Field
                             type="text"
@@ -570,7 +573,7 @@ export default function AddSite() {
                             }`}
                             id="Saga_department_name"
                             name="Saga_department_name"
-                            placeholder="Saga_department_name"
+                            placeholder="Saga Department Name"
                           />
                           <ErrorMessage
                             component="div"
@@ -597,7 +600,7 @@ export default function AddSite() {
                             }`}
                             id="Bp_nctt_site_no"
                             name="Bp_nctt_site_no"
-                            placeholder="Bp_nctt_site_no"
+                            placeholder="BP NCTT Site No"
                           />
                           <ErrorMessage
                             component="div"
@@ -655,8 +658,8 @@ export default function AddSite() {
                             <option value="">
                               Select a Report Generation Status
                             </option>
-                            <option value="0">Yes</option>
-                            <option value="1">No</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
                           </Field>
                           <ErrorMessage
                             component="div"
@@ -686,8 +689,8 @@ export default function AddSite() {
                           >
                             <option value="">Select a Report Date Type</option>
 
-                            <option value="0">Yes</option>
-                            <option value="1">No</option>
+                            <option value="1">Start Date</option>
+                            <option value="2">End Date</option>
                           </Field>
                           <ErrorMessage
                             component="div"
@@ -719,8 +722,8 @@ export default function AddSite() {
                               Select a Fuel Commission Type
                             </option>
 
-                            <option value="0">Yes</option>
-                            <option value="1">No</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
                           </Field>
                           <ErrorMessage
                             component="div"
@@ -750,8 +753,8 @@ export default function AddSite() {
                           >
                             <option value="">Select a Paper Work Status</option>
 
-                            <option value="0">Yes</option>
-                            <option value="1">No</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
                           </Field>
                           <ErrorMessage
                             component="div"
@@ -782,8 +785,8 @@ export default function AddSite() {
                             <option value="">
                               Select a Bunkered Sale Status
                             </option>
-                            <option value="0">Yes</option>
-                            <option value="1">No</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
                           </Field>
                           <ErrorMessage
                             component="div"
@@ -798,7 +801,7 @@ export default function AddSite() {
                             htmlFor="Drs_upload_status"
                             className=" form-label mt-4"
                           >
-                            DRS Upload Status{" "}
+                            DRS Upload Status
                           </label>
                           <Field
                             as="select"
@@ -812,8 +815,8 @@ export default function AddSite() {
                             name="Drs_upload_status"
                           >
                             <option value="">Select a DRS Upload Status</option>
-                            <option value="0">Yes</option>
-                            <option value="1">No</option>
+                            <option value="1">Automatic</option>
+                            <option value="2">Manual</option>
                           </Field>
 
                           <ErrorMessage
