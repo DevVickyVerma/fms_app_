@@ -39,6 +39,9 @@ export default function AddSite() {
       try {
         const response = await axiosInstance.post("/role/list");
         setDropdownItems(response.data.data.addons);
+
+
+        
       } catch (error) {
         console.error(error);
       }
@@ -83,22 +86,6 @@ export default function AddSite() {
       }
     }
   }, []);
-  
-
-  // const handleSubmit1 = (values, setSubmitting) => {
-  //   console.log(values, "handle");
-  //   setSubmitting(false);
-  // };
-
-  // const handleBusinessTypeChange = (event) => {
-  //   const selectedType = event.target.value;
-  //   console.log(selectedType, "selectedType");
-  //   setSelectedBusinessType(selectedType);
-  //   const selectedTypeData = AddSiteData.busines_types.find(
-  //     (type) => type.name === selectedType
-  //   );
-  //   setSubTypes(selectedTypeData.sub_types);
-  // };
 
   const handleSubmit1 = async (values, setSubmitting) => {
     const token = localStorage.getItem("token");

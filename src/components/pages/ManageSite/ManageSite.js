@@ -32,10 +32,10 @@ export default function ManageSite() {
       if (result.isConfirmed) {
         console.log(id, "isConfirmed");
         const token = localStorage.getItem("token");
-  
+
         const formData = new FormData();
         formData.append("id", id);
-  
+
         const axiosInstance = axios.create({
           baseURL: process.env.REACT_APP_BASE_URL,
           headers: {
@@ -53,13 +53,16 @@ export default function ManageSite() {
               icon: "success",
               confirmButtonText: "OK",
             });
-            fetchData()
-          }  catch (error) {
+            fetchData();
+          } catch (error) {
             if (error.response && error.response.status === 401) {
               navigate("/login");
               ErrorAlert("Invalid access token");
               localStorage.clear();
-            } else if (error.response && error.response.data.status_code === "403") {
+            } else if (
+              error.response &&
+              error.response.data.status_code === "403"
+            ) {
               navigate("/errorpage403");
             } else {
               console.error(error);
@@ -69,11 +72,10 @@ export default function ManageSite() {
           // setLoading(false);
         };
         DeleteRole();
-        
       }
     });
   };
-  const [selectedRows, setSelectedRows] = useState([]);
+
   const toggleActive = (id) => {
     const newData = [...data];
     const index = newData.findIndex((d) => d.id === id);
@@ -82,20 +84,35 @@ export default function ManageSite() {
 
     if (newData[index].active) {
       console.log(`${id} is now active.`);
+      setActiveArray((prevActiveArray) => {
+        // Check if id is already in array
+        if (prevActiveArray.includes(id)) {
+          console.log(`${id} is already in activeArray.`);
+          return prevActiveArray; // return original array
+        } else {
+          console.log(`${id} added to activeArray.`);
+          return [...prevActiveArray, id]; // push item into array
+        }
+      });
       formData.append("id", id);
-      formData.append("site_status", 0);
+      formData.append("site_status", 1);
+      console.log(activeArray, "activeArray");
       // ToggleStatus()
     } else {
       console.log(`${id} is now inactive.`);
+      setActiveArray((prevActiveArray) =>
+        prevActiveArray.filter((activeId) => activeId !== id)
+      ); // remove item from array
       formData.append("id", id);
-      formData.append("site_status", 23);
+      formData.append("site_status", 0);
+      console.log(activeArray, "activeArray");
       // ToggleStatus()
     }
   };
 
   useEffect(() => {
     fetchData();
-    console.clear();
+    // console.clear();
   }, []);
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
@@ -111,6 +128,17 @@ export default function ManageSite() {
       if (response.data.data.sites.length > 0) {
         setData(response.data.data.sites);
       }
+      const filteredStatuses = [];
+      for (const site of data) {
+        if (site.site_status === 1) {
+          filteredStatuses.push(site.id);
+        }
+      }
+      console.log(filteredStatuses, "filteredStatuses");
+      if (filteredStatuses.length > 0) {
+        setActiveArray(filteredStatuses);
+      }
+      console.log(activeArray, "filteredStatuses1");
     } catch (error) {
       if (error.response && error.response.status === 401) {
         navigate("/login");
@@ -167,13 +195,37 @@ export default function ManageSite() {
       name: "Site",
       selector: (row) => [row.site_display_name],
       sortable: false,
-      width: "70%",
+      width: "60%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.site_display_name}</h6>
           </div>
         </div>
+      ),
+    },
+    {
+      name: "Status",
+      selector: (row) => [row.status],
+      sortable: false,
+      width: "10%",
+      cell: (row) => (
+        <span className="text-muted fs-15 fw-semibold text-center">
+          <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
+            <Link className="btn  btn-sm rounded-11 toggl-btn">
+              <Form.Check
+                type="switch"
+                id={`active-switch-${row.id}`}
+                // label={row.site_status === 1 ? "Active" : "Inactive"}
+                className="toggl-btn"
+                // checked={row.active}
+                // checked={row.site_status === 1}
+                checked={activeArray.find((item) => item === row.id)}
+                onChange={() => toggleActive(row.id)}
+              />
+            </Link>
+          </OverlayTrigger>
+        </span>
       ),
     },
 
@@ -184,25 +236,10 @@ export default function ManageSite() {
       width: "20%",
       cell: (row) => (
         <span className="text-center">
-          <OverlayTrigger placement="top" overlay={<Tooltip>Toggle</Tooltip>}>
-            <Link
-              // to="/editsite"
-              className="btn  btn-sm rounded-11 toggl-btn"
-            >
-              <Form.Check
-                type="switch"
-                id={`active-switch-${row.id}`}
-                // label={row.site_status === 1 ? "Active" : "Inactive"}
-                className="toggl-btn"
-                checked={row.active}
-                // checked={row.site_status === 1}
-                onChange={() => toggleActive(row.id)}
-              />
-            </Link>
-          </OverlayTrigger>
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <Link
-              to="/editsite"
+              // to="/editsite"
+              onClick={() => console.log("Edit")}
               className="btn btn-primary btn-sm rounded-11 me-2"
             >
               <i>
