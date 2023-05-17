@@ -86,6 +86,10 @@ export default function ManageSite() {
       }
     });
   };
+  const handleEdit =(id)=>{
+    console.log(id)
+    localStorage.setItem("Edit_Site", id);
+  }
 
   const toggleActive = (id) => {
     const newData = [...data];
@@ -257,7 +261,7 @@ export default function ManageSite() {
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <Link
               to="/editsite"
-              onClick={() => console.log("Edit")}
+              onClick={() => handleEdit(row.id)}
               className="btn btn-primary btn-sm rounded-11 me-2"
             >
               <i>

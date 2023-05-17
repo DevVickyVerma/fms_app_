@@ -15,9 +15,17 @@ import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function EditSite() {
+export default function AddSite() {
+  const navigate = useNavigate();
   const [dropdownItems, setDropdownItems] = useState([]);
+  const [AddSiteData, setAddSiteData] = useState([]);
+  const [selectedBusinessType, setSelectedBusinessType] = useState("");
+  const [subTypes, setSubTypes] = useState([]);
+
+  const notify = (message) => toast.success(message);
+  const Errornotify = (message) => toast.error(message);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -27,69 +35,142 @@ export default function EditSite() {
         Authorization: `Bearer ${token}`,
       },
     });
-    const fetchData = async () => {
+
+    // const GetSiteData1 = async () => {
+    //   const Edit_Site = localStorage.getItem("Edit_Site");
+    //   try {
+    //     const response = await axiosInstance.get("/site/detail/?id=" + Edit_Site);
+
+    //     if (response.data) {
+    //      setAddSiteData(response.data.data);
+    //      console.log(response.data.data)
+    //     }
+    //   } catch (error) {
+    //     if (error.response && error.response.status === 401) {
+    //       navigate("/login");
+    //       Errornotify("Invalid access token");
+    //       localStorage.clear();
+    //     } else if (
+    //       error.response &&
+    //       error.response.data.status_code === "403"
+    //     ) {
+    //       navigate("/errorpage403");
+    //     } else {
+    //       console.error(error);
+    //     }
+    //   }
+    // };
+    const GetSiteData = async () => {
       try {
-        const response = await axiosInstance.post("/role/list");
-        setDropdownItems(response.data.data);
+        const response = await axiosInstance.get("site/common-data-list");
+
+        if (response.data) {
+          setAddSiteData(response.data.data);
+        }
       } catch (error) {
-        console.error(error);
+        if (error.response && error.response.status === 401) {
+          navigate("/login");
+          Errornotify("Invalid access token");
+          localStorage.clear();
+        } else if (
+          error.response &&
+          error.response.data.status_code === "403"
+        ) {
+          navigate("/errorpage403");
+        } else {
+          console.error(error);
+        }
       }
     };
 
-    fetchData();
+    try {
+      GetSiteData();
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+        Errornotify("Invalid access token");
+        localStorage.clear();
+      } else if (error.response && error.response.data.status_code === "403") {
+        navigate("/errorpage403");
+      } else {
+        console.error(error);
+      }
+    }
+    // console.clear()
   }, []);
 
-
-
-  
-
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
-
- 
-
   const handleSubmit1 = async (values, setSubmitting) => {
-   
-
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
-    formData.append("first_name", values.first_name);
-    formData.append("last_name", values.last_name);
-    formData.append("role", values.role);
-    formData.append("phone_number", values.phone_number);
+    formData.append("bussiness_Type", values.bussiness_Type);
+    formData.append("business_sub_type_id", values.bussiness_Sub_Type);
+    formData.append("data_import_type_id", values.Select_machine_type);
+    formData.append("site_code", values.site_code);
+    formData.append("site_name", values.site_name);
+    formData.append("site_display_name", values.display_name);
+    formData.append("site_address", values.site_Address);
+    formData.append("start_date", values.DRS_Start_Date);
+    formData.append("department_sage_code", values.Saga_department_name);
 
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/update-profile`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      }
-    );
+    formData.append("drs_upload_status", values.Drs_upload_status);
+    formData.append("site_status", values.Site_Status);
 
-    const data = await response.json();
+    // try {
+    //   const response = await fetch(`${process.env.REACT_APP_BASE_URL}/site/add`, {
+    //     method: "POST",
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //     body: formData,
+    //   });
 
-    if (response.ok) {
-      notify(data.message);
-    
-      setSubmitting(false);
-    } else {
-     
-      Errornotify(data.message);
-    }
+    //   const data = await response.json();
+
+    //   if (response.ok) {
+    //     notify(data.message);
+    //     navigate("/sites");
+    //     setSubmitting(false);
+    //   } else {
+    //     Errornotify(data.message);
+    //   }
+    // }catch (error) {
+    //   if (error.response && error.response.status === 401) {
+    //     navigate("/login");
+    //     Errornotify("Invalid access token");
+    //     localStorage.clear();
+    //   } else if (error.response && error.response.data.status_code === "403") {
+    //     Errornotify("/errorpage403");
+    //   } else {
+    //     const errorMessage = error.response && error.response.data ? error.response.data.message : "An error occurred";
+    //     console.error(errorMessage,"errorMessage");
+    //     Errornotify(errorMessage);
+    //   }
+    // }
+
+    console.log(values, "formData");
   };
-
   return (
     <div>
       <div className="page-header">
         <div>
           <h1 className="page-title">Edit Site</h1>
+
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" href="#">
-              Pages
+            <Breadcrumb.Item
+              className="breadcrumb-item"
+              linkAs={Link}
+              linkProps={{ to: "/dashboard" }}
+            >
+              Dashboard
+            </Breadcrumb.Item>
+            <Breadcrumb.Item
+              className="breadcrumb-item  breadcrumds"
+              aria-current="page"
+              linkAs={Link}
+              linkProps={{ to: "/sites" }}
+            >
+              Manage Sites
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item active breadcrumds"
@@ -102,7 +183,6 @@ export default function EditSite() {
       </div>
 
       <Row>
-       
         <Col lg={12} xl={12} md={12} sm={12}>
           <Card>
             <Card.Header>
@@ -110,137 +190,379 @@ export default function EditSite() {
             </Card.Header>
             <Formik
               initialValues={{
-                first_name: "",
-                last_name: "",
-                phone_number: "",
-                role: "",
+                site_code: "",
+                site_name: "",
+                site_Address: "",
+                Site_Status: "",
+                bussiness_Sub_Type: "",
+                bussiness_Type: "",
+                Select_machine_type: "",
+
+                DRS_Start_Date: "",
+                display_name: "",
+
+              
               }}
               validationSchema={Yup.object({
-                first_name: Yup.string()
-                  .max(15, "Must be 15 characters or less")
-                  .required("First name is required"),
-
-                last_name: Yup.string()
+                site_code: Yup.string()
                   .max(20, "Must be 20 characters or less")
-                  .required("Last name is required"),
-                phone_number: Yup.string()
-                  .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
-                  .required("Phone number is required"),
-                role: Yup.string().required("Role is required"),
+                  .required("Site Code is required"),
+                site_name: Yup.string()
+                  .max(20, "Must be 20 characters or less")
+                  .required("Site Name is required"),
+                site_Address: Yup.string().required("Site Address is required"),
+                Site_Status: Yup.string().required("Site Status is required"),
+
+                bussiness_Sub_Type: Yup.string().required(
+                  "Bussiness Sub Type is required"
+                ),
+                bussiness_Type: Yup.string().required(
+                  "Bussiness Type is required"
+                ),
+
+                DRS_Start_Date: Yup.string().required(
+                  "DRS Start Date is required"
+                ),
+                Select_machine_type: Yup.string().required(
+                  " Data Import Types is required"
+                ),
+                // display_name: Yup.string().required("Display name is required"),
               })}
               onSubmit={(values, { setSubmitting }) => {
-            
                 handleSubmit1(values, setSubmitting);
               }}
             >
-              {({ handleSubmit, isSubmitting, errors, touched }) => (
+              {({
+                handleSubmit,
+                isSubmitting,
+                errors,
+                touched,
+                setFieldValue,
+              }) => (
                 <Form onSubmit={handleSubmit}>
                   <Card.Body>
                     <Row>
-                      <Col lg={6} md={12}>
+                      <Col lg={4} md={6}>
                         <FormGroup>
-                          <label htmlFor="first_name">First Name</label>
-                          <Field
-                            type="text"
-                            // className="form-control"
-                            className={`input101 ${
-                              errors.first_name && touched.first_name
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="first_name"
-                            name="first_name"
-                            placeholder="First Name"
-                          />
-                          <ErrorMessage
-                            component="div"
-                            className="invalid-feedback"
-                            name="first_name"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg={6} md={12}>
-                        <FormGroup>
-                          <label htmlFor="last_name">Last Name</label>
+                          <label
+                            className="form-label mt-4"
+                            htmlFor="site_code"
+                          >
+                            Site Code<span className="text-danger">*</span>
+                          </label>
+
                           <Field
                             type="text"
                             className={`input101 ${
-                              errors.last_name && touched.last_name
+                              errors.site_code && touched.site_code
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            id="last_name"
-                            name="last_name"
-                            placeholder="Last Name"
+                            id="site_code"
+                            name="site_code"
+                            placeholder="Site Code"
                           />
                           <ErrorMessage
-                            name="last_name"
+                            name="site_code"
                             component="div"
                             className="invalid-feedback"
                           />
                         </FormGroup>
                       </Col>
-                    </Row>
-                    <Row>
-                      <Col lg={6} md={12}>
+                      <Col lg={4} md={6}>
                         <FormGroup>
-                          <label htmlFor="phone_number">Phone Number</label>
+                          <label
+                            className=" form-label mt-4"
+                            htmlFor="site_name"
+                          >
+                            Site Name<span className="text-danger">*</span>
+                          </label>
                           <Field
                             type="text"
                             className={`input101 ${
-                              errors.phone_number && touched.phone_number
+                              errors.site_name && touched.site_name
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            id="phone_number"
-                            name="phone_number"
-                            placeholder="Phone Number"
+                            id="site_name"
+                            name="site_name"
+                            placeholder="Site Name"
                           />
                           <ErrorMessage
                             component="div"
                             className="invalid-feedback"
-                            name="phone_number"
+                            name="site_name"
                           />
                         </FormGroup>
                       </Col>
-                      <Col lg={6} md={12}>
+                      <Col lg={4} md={6}>
                         <FormGroup>
-                          <label htmlFor="role">Role</label>
+                          <label
+                            htmlFor="display_name "
+                            className=" form-label mt-4"
+                          >
+                            Display Name
+                          </label>
+                          <Field
+                            type="text"
+                            className={`input101 ${
+                              errors.display_name && touched.display_name
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="display_name"
+                            name="display_name"
+                            placeholder="Display Name"
+                          />
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="display_name"
+                          />
+                        </FormGroup>
+                      </Col>
+
+                      <Col lg={4} md={6}>
+                        <FormGroup>
+                          <label
+                            htmlFor=" Site_Status"
+                            className=" form-label mt-4"
+                          >
+                            Site Status<span className="text-danger">*</span>
+                          </label>
                           <Field
                             as="select"
                             className={`input101 ${
-                              errors.role && touched.role ? "is-invalid" : ""
+                              errors.Site_Status && touched.Site_Status
+                                ? "is-invalid"
+                                : ""
                             }`}
-                            id="role"
-                            name="role"
+                            id="Site_Status"
+                            name="Site_Status"
                           >
-                            <option value="">Select a Role</option>
-                            {dropdownItems && dropdownItems.length > 0 ? (
-                              dropdownItems.map((item) => (
-                                <option key={item.id} value={item.name}>
+                            <option value="">Select a Site Status</option>
+                            {AddSiteData.site_status &&
+                            AddSiteData.site_status.length > 0 ? (
+                              AddSiteData.site_status.map((item) => (
+                                <option key={item.value} value={item.value}>
                                   {item.name}
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No roles available</option>
+                              <option disabled>No Site Status available</option>
                             )}
                           </Field>
                           <ErrorMessage
                             component="div"
                             className="invalid-feedback"
-                            name="role"
+                            name="Site_Status"
+                          />
+                        </FormGroup>
+                      </Col>
+
+                      <Col lg={4} md={6}>
+                        <FormGroup>
+                          <label
+                            htmlFor="bussiness_Type"
+                            className=" form-label mt-4"
+                          >
+                            Bussiness Type<span className="text-danger">*</span>
+                          </label>
+                          <Field
+                            as="select"
+                            className={`input101 ${
+                              errors.bussiness_Type && touched.bussiness_Type
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="bussiness_Type"
+                            name="bussiness_Type"
+                            onChange={(e) => {
+                              const selectedType = e.target.value;
+
+                              setFieldValue("bussiness_Type", selectedType);
+                              setSelectedBusinessType(selectedType);
+                              const selectedTypeData =
+                                AddSiteData.busines_types.find(
+                                  (type) => type.name === selectedType
+                                );
+                              setSubTypes(selectedTypeData.sub_types);
+                            }}
+                          >
+                            <option value="">Select a Bussiness Type</option>
+                            {AddSiteData.busines_types &&
+                            AddSiteData.busines_types.length > 0 ? (
+                              AddSiteData.busines_types.map((item) => (
+                                <option key={item.id} value={item.name}>
+                                  {item.name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled>
+                                No BussinessType available
+                              </option>
+                            )}
+                          </Field>
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="bussiness_Type"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <FormGroup>
+                          <label
+                            htmlFor="bussiness_Sub_Type"
+                            className=" form-label mt-4"
+                          >
+                            Bussiness Sub-Type
+                            <span className="text-danger">*</span>
+                          </label>
+                          <Field
+                            as="select"
+                            className={`input101 ${
+                              errors.bussiness_Sub_Type &&
+                              touched.bussiness_Sub_Type
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="bussiness_Sub_Type"
+                            name="bussiness_Sub_Type"
+                          >
+                            <option value="">
+                              Select a Bussiness Sub-Type
+                            </option>
+                            {subTypes && subTypes.length > 0 ? (
+                              subTypes.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled>No bussiness_Sub_Type</option>
+                            )}
+                          </Field>
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="bussiness_Sub_Type"
+                          />
+                        </FormGroup>
+                      </Col>
+
+                      <Col lg={4} md={6}>
+                        <FormGroup>
+                          <label
+                            htmlFor="DRS_Start_Date"
+                            className=" form-label mt-4"
+                          >
+                            DRS Start Date<span className="text-danger">*</span>
+                          </label>
+                          <Field
+                            type="date"
+                            className={`input101 ${
+                              errors.DRS_Start_Date && touched.DRS_Start_Date
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="DRS_Start_Date"
+                            name="DRS_Start_Date"
+                            placeholder="DRS_Start_Date"
+                          />
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="DRS_Start_Date"
+                          />
+                        </FormGroup>
+                      </Col>
+
+                      <Col lg={4} md={6}>
+                        <FormGroup>
+                          <label
+                            className="form-label mt-4"
+                            htmlFor="site_Address"
+                          >
+                            Site Address<span className="text-danger">*</span>
+                          </label>
+
+                          <Field
+                            as="textarea"
+                            type="textarea"
+                            className={`input101 ${
+                              errors.site_Address && touched.site_Address
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="site_Address"
+                            name="site_Address"
+                            placeholder="Site Address"
+                          />
+                          <ErrorMessage
+                            name="site_Address"
+                            component="div"
+                            className="invalid-feedback"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <FormGroup>
+                          <label
+                            htmlFor="Select_machine_type"
+                            className=" form-label mt-4"
+                          >
+                            Select Data Import Types
+                            <span className="text-danger">*</span>
+                          </label>
+                          <Field
+                            as="select"
+                            className={`input101 ${
+                              errors.Select_machine_type &&
+                              touched.Select_machine_type
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="Select_machine_type"
+                            name="Select_machine_type"
+                          >
+                            <option value=""> Select Data Import Types</option>
+                            {AddSiteData.data_import_types &&
+                            AddSiteData.data_import_types.length > 0 ? (
+                              AddSiteData.data_import_types.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.import_type_name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled>No Machine Type</option>
+                            )}
+                          </Field>
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="Select_machine_type"
                           />
                         </FormGroup>
                       </Col>
                     </Row>
                   </Card.Body>
+
                   <Card.Footer className="text-end">
-                    <button
-                      className="btn btn-primary me-2"
+                    <Link
                       type="submit"
-                      disabled={isSubmitting}
+                      className="btn btn-danger me-2 "
+                      to={`/sites/`}
                     >
-                      Update
+                      Cancel
+                    </Link>
+
+                    <button
+                      type="submit"
+                      className="btn btn-primary me-2 "
+                      // disabled={Object.keys(errors).length > 0}
+                    >
+                      Save
                     </button>
                   </Card.Footer>
                 </Form>
