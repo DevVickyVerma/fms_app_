@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { Breadcrumb, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
-
+import * as loderdata from "../../../data/Component/loderdata/loderdata";
 import axios from "axios";
 import Swal from "sweetalert2";
 
 import { toast } from "react-toastify";
 import { Switch } from "@material-ui/core";
 import Details from "../../../data/Modal/Details";
+import CommonSidebar from "../../../data/Modal/CommonSidebar";
 
 export default function ManageSite() {
   const [data, setData] = useState();
@@ -22,13 +23,74 @@ export default function ManageSite() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
+  const [sidebardata, setSideData] = useState();
+  const [SiteId, setSiteId] = useState();
+  const [loading, setLoading] = useState(false);
+
+  const [sidebardataobject, setSideDataobject] = useState();
+
+  const Loaderimg = () => {
+    return (
+      <div id="global-loader">
+        <loderdata.Loadersbigsizes1 />
+      </div>
+    );
+  };
+
+  const handleToggleSidebar = async (row) => {
+    setSideData(row.site_name);
+    setLoading(true); // Set loading state to true
+
+    const token = localStorage.getItem("token");
+    const axiosInstance = axios.create({
+      baseURL: process.env.REACT_APP_BASE_URL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const getSiteDetails = async () => {
+      try {
+        const response = await axiosInstance.get("/site/detail/?id=" + row.id);
+
+        if (response.data && response.data.data) {
+          console.log(response.data.data);
+          setSideDataobject(response.data.data);
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          navigate("/login");
+          ErrorAlert("Invalid access token");
+          localStorage.clear();
+        } else if (
+          error.response &&
+          error.response.data.status_code === "403"
+        ) {
+          navigate("/errorpage403");
+        } else {
+          console.error(error);
+        }
+      }
+    };
+
+    await getSiteDetails();
+
+    setLoading(false); // Set loading state to false
+    setSidebarVisible(!sidebarVisible);
+  };
 
   const handleDropdownChange = (event) => {
     setDropdownValue(event.target.value);
     console.log(dropdownValue, "dropdownValue");
   };
+  const handleCloseSidebar = () => {
+    setSidebarVisible(false);
+  };
 
-  const handleDetailsClick = () => {
+  const handleDetailsClick = (row) => {
+  
+    setSiteId(row.id)
     setShowModal(true);
   };
   const handleDelete = (id) => {
@@ -86,10 +148,10 @@ export default function ManageSite() {
       }
     });
   };
-  const handleEdit =(id)=>{
-    console.log(id)
+  const handleEdit = (id) => {
+    console.log(id);
     localStorage.setItem("Edit_Site", id);
-  }
+  };
 
   const toggleActive = (id) => {
     const newData = [...data];
@@ -101,21 +163,22 @@ export default function ManageSite() {
       setActiveArray((prevActiveArray) => {
         // Check if id is already in array
         if (prevActiveArray.includes(id)) {
-          return prevActiveArray; // return original array
+          // Remove item from array
+          return prevActiveArray.filter((activeId) => activeId !== id);
         } else {
-          return [...prevActiveArray, id]; // push item into array
+          return [...prevActiveArray, id]; // Push item into array
         }
       });
       formData.append("id", id);
       formData.append("site_status", 1);
+
       ToggleStatus();
     } else {
       setActiveArray((prevActiveArray) =>
         prevActiveArray.filter((activeId) => activeId !== id)
-      ); // remove item from array
+      );
       formData.append("id", id);
       formData.append("site_status", 0);
-
       ToggleStatus();
     }
   };
@@ -133,8 +196,8 @@ export default function ManageSite() {
 
       if (response.data.data.sites.length > 0) {
         setData(response.data.data.sites);
-
-        setDropdownValue(response.data.data);
+        console.log(response.data.data,"Site")
+        // setDropdownValue(response.data.data);
 
         const filteredStatuses = [];
         for (const site of response.data.data.sites) {
@@ -146,6 +209,28 @@ export default function ManageSite() {
         if (filteredStatuses.length > 0) {
           setActiveArray(filteredStatuses);
         }
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+        ErrorAlert("Invalid access token");
+        localStorage.clear();
+      } else if (error.response && error.response.data.status_code === "403") {
+        navigate("/errorpage403");
+      }
+    }
+  };
+  const fetchClientList = async () => {
+    try {
+      const response = await axiosInstance.post("/client-list");
+
+      if (response.data.data.length > 0) {
+        // setData(response.data.data.sites);
+        console.log(response.data.data,"client")
+
+        setDropdownValue(response.data.data);
+
+      
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -206,9 +291,15 @@ export default function ManageSite() {
       sortable: false,
       width: "60%",
       cell: (row, index) => (
-        <div className="d-flex">
+        <div
+          className="d-flex"
+          style={{ cursor: "pointer" }}
+          onClick={() => handleToggleSidebar(row)}
+        >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.site_name}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold Tablename" variant="primary">
+              {row.site_name}
+            </h6>
           </div>
         </div>
       ),
@@ -221,18 +312,15 @@ export default function ManageSite() {
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
-            <Link className="btn  btn-sm rounded-11 toggl-btn">
+            <button className="btn  btn-sm rounded-11 toggl-btn">
               <Form.Check
                 type="switch"
                 id={`active-switch-${row.id}`}
-                // label={row.site_status === 1 ? "Active" : "Inactive"}
                 className="toggl-btn"
-                // checked={row.active}
-                // checked={row.site_status === 1}
                 checked={activeArray.find((item) => item === row.id)}
                 onChange={() => toggleActive(row.id)}
               />
-            </Link>
+            </button>
           </OverlayTrigger>
         </span>
       ),
@@ -246,7 +334,7 @@ export default function ManageSite() {
       cell: (row) => (
         <span className="text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Details</Tooltip>}>
-            <span onClick={handleDetailsClick}>
+            <span  onClick={() => handleDetailsClick(row)}>
               <Details
                 showModal={showModal}
                 setShowModal={setShowModal}
@@ -254,6 +342,7 @@ export default function ManageSite() {
                 handleDropdownChange={handleDropdownChange}
                 modalHeading="Assign Client"
                 sites={dropdownValue}
+                SiteId={SiteId}
               />
             </span>
           </OverlayTrigger>
@@ -310,6 +399,7 @@ export default function ManageSite() {
   const [roles, setRoles] = useState([]);
   useEffect(() => {
     fetchData();
+    fetchClientList()
     console.clear();
   }, []);
 
@@ -341,6 +431,14 @@ export default function ManageSite() {
           </Link>
         </div>
       </div>
+      <Suspense fallback={<img src={Loaderimg} alt="Loading" />}>
+        <CommonSidebar
+          title={sidebardata}
+          sidebarContent={sidebardataobject}
+          visible={sidebarVisible}
+          onClose={handleCloseSidebar}
+        />
+      </Suspense>
 
       <DataTableExtensions {...tableDatas}>
         <DataTable

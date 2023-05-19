@@ -32,7 +32,7 @@ export default function App() {
 
   useEffect(() => {
     simulateLoadingAndNavigate();
-    console.clear();
+    // console.clear();
   }, [location.pathname]);
 
   useEffect(() => {
