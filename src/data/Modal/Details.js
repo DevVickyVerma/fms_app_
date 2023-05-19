@@ -1,10 +1,16 @@
 import axios from "axios";
-import { ErrorMessage, Field } from "formik";
+import { ErrorMessage, Field ,Formik} from "formik";
 import React, { useEffect, useState } from "react";
 import { Modal, Button, Dropdown, FormGroup, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import * as Yup from "yup";
+
+// Define the validation schema using Yup
+const validationSchema = Yup.object().shape({
+  selectedValue: Yup.string().required("Please select a client"),
+});
 
 function Details(props) {
   const [showModal, setShowModal] = useState(false);
@@ -15,30 +21,86 @@ function Details(props) {
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
 
-  const handleDropdownChange = (event) => {
-    console.log(event.target.value, "site_name");
-    setSelectDropdownValue(event.target.value)
-  };
-  
+  const [selectedValue, setSelectedValue] = useState("");
+  const [error, setError] = useState("");
 
-  const Submitform = async () => {
+  const handleDropdownChange = (event) => {
+    setSelectedValue(event.target.value);
+    if (selectedValue != "") {
+      setError("");
+      return;
+    }
+  };
+
+  // const Submitform = async () => {
+  //   setShowModal(false);
+  //   const token = localStorage.getItem("token");
+
+  //   const formData = new FormData();
+  //   formData.append("id", props.SiteId);
+  //   formData.append("client_id", SelectdropdownValue);
+
+  //   const axiosInstance = axios.create({
+  //     baseURL: process.env.REACT_APP_BASE_URL,
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   });
+
+  //   try {
+  //     const response = await axiosInstance.post("/site/assign", formData);
+
+  //     if (response.data && response.data.data) {
+  //       console.log(response.data.data);
+  //       // setSideDataobject(response.data.data);
+  //       toast.success(response.data.message);
+  //     }
+  //   } catch (error) {
+  //     if (error.response && error.response.status === 401) {
+  //       navigate("/login");
+  //       toast.error("Invalid access token");
+  //       localStorage.clear();
+  //     } else if (error.response && error.response.status === 422) {
+  //       console.log("error");
+  //       ErrorAlert("This site is already assigned. Please assign it to another client.");
+  //     } else if (error.response && error.response.status === 403) {
+  //       navigate("/errorpage403");
+  //     } else if (error.response && error.response.data && error.response.data.message) {
+  //       const errorMessage = error.response.data.message;
+  //       toast.error(errorMessage);
+  //     } else {
+  //       console.error(error);
+  //       toast.error("An error occurred");
+  //     }
+  //   }
+  // };
+
+  // Submitform();
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    if (values.selectedValue === "") {
+      setError("Please select a client");
+      setSubmitting(false);
+      return;
+    }
+
     setShowModal(false);
     const token = localStorage.getItem("token");
-  
+
     const formData = new FormData();
     formData.append("id", props.SiteId);
-    formData.append("client_id", SelectdropdownValue);
-  
+    formData.append("client_id", values.selectedValue);
+
     const axiosInstance = axios.create({
       baseURL: process.env.REACT_APP_BASE_URL,
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-  
+
     try {
       const response = await axiosInstance.post("/site/assign", formData);
-  
+
       if (response.data && response.data.data) {
         console.log(response.data.data);
         // setSideDataobject(response.data.data);
@@ -49,12 +111,25 @@ function Details(props) {
         navigate("/login");
         toast.error("Invalid access token");
         localStorage.clear();
-      } else if (error.response && error.response.status === 422) {
-        console.log("error");
-        ErrorAlert("This site is already assigned. Please assign it to another client.");
+      } else if (error.response) {
+        if (
+          error.response.data &&
+          error.response.data.message &&
+          Array.isArray(error.response.data.message) &&
+          error.response.data.message.length > 0
+        ) {
+          const errorMessage = error.response.data.message[0];
+          toast.error(errorMessage);
+        } else {
+          toast.error("An error occurred");
+        }
       } else if (error.response && error.response.status === 403) {
         navigate("/errorpage403");
-      } else if (error.response && error.response.data && error.response.data.message) {
+      } else if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
         const errorMessage = error.response.data.message;
         toast.error(errorMessage);
       } else {
@@ -62,10 +137,21 @@ function Details(props) {
         toast.error("An error occurred");
       }
     }
+
+    setSubmitting(false);
   };
-  
-  // Submitform();
-  
+
+  // return (
+  //   <Formik
+  //     initialValues={{
+  //       selectedValue: '',
+  //     }}
+  //     validationSchema={validationSchema}
+  //     onSubmit={handleSubmit}
+  //   >
+  //     {/* Rest of your code */}
+  //   </Formik>
+  // );
 
   useEffect(() => {
     if (props.sites) {
@@ -97,34 +183,51 @@ function Details(props) {
           <Modal.Title>{props.modalHeading || "Modal Heading"}</Modal.Title>
         </Modal.Header>
 
-        <Modal.Body>
-          {Array.isArray(dropdownValue) ? (
-            <select
-              id="assignClient"
-              className="form-select"
-              onChange={handleDropdownChange}
-              required
-            >
-              <option value="">Select a Client</option>
-              {dropdownValue.map((option) => (
-                <option key={option.id} value={option.id}>
-                  {option.client_name}
-                </option>
-              ))}
-            </select>
-          ) : (
-            <p>Error loading dropdown values</p>
-          )}
-        </Modal.Body>
+        <Formik
+          initialValues={{
+            selectedValue: "",
+          }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ isSubmitting }) => (
+            <Form onSubmit={handleSubmit}>
+              <Modal.Body>
+                {Array.isArray(dropdownValue) ? (
+                  <Field
+                    as="select"
+                    id="assignClient"
+                    className="form-select"
+                    name="selectedValue"
+                  >
+                    <option value="">Select a Client</option>
+                    {dropdownValue.map((option) => (
+                      <option key={option.id} value={option.id}>
+                        {option.client_name}
+                      </option>
+                    ))}
+                  </Field>
+                ) : (
+                  <p>Error loading dropdown values</p>
+                )}
+                <ErrorMessage
+                  name="selectedValue"
+                  component="p"
+                  className="error-message"
+                />
+              </Modal.Body>
 
-        <Modal.Footer>
-          <Button variant="danger" onClick={() => setShowModal(false)}>
-            {props.cancelButtonText || "Close"}
-          </Button>
-          <Button variant="primary" onClick={() => Submitform()}>
-            {props.saveButtonText || "Submit"}
-          </Button>
-        </Modal.Footer>
+              <Modal.Footer>
+                <Button variant="danger" onClick={() => setShowModal(false)}>
+                  {props.cancelButtonText || "Close"}
+                </Button>
+                <Button variant="primary" type="submit" disabled={isSubmitting}>
+                  {props.saveButtonText || "Submit"}
+                </Button>
+              </Modal.Footer>
+            </Form>
+          )}
+        </Formik>
       </Modal>
     </>
   );

@@ -110,6 +110,9 @@ export default function AddSite() {
     formData.append("sage_department_id", values.Saga_department_code);
     formData.append("drs_upload_status", values.Drs_upload_status);
     formData.append("site_status", values.Site_Status);
+    formData.append("bunker_upload_status", values.Bunkered_sale_status);
+    formData.append("fuel_commission_calc_status", values.Fuel_commission_type);
+    formData.append("paperwork_status", values.Paper_work_status);
 
     try {
       const response = await fetch(`${process.env.REACT_APP_BASE_URL}/site/add`, {
@@ -203,9 +206,9 @@ export default function AddSite() {
 
                 Report_generation_Status: "",
                 Report_date_type: "",
-                // Fuel_commission_type: "",
-                // Paper_work_status: "",
-                // Bunkered_sale_status: "",
+                Fuel_commission_type: "",
+                Paper_work_status: "",
+                Bunkered_sale_status: "",
                 Drs_upload_status: "",
               }}
               validationSchema={Yup.object({

@@ -24,7 +24,17 @@ export default function Login(props) {
 
   useEffect(() => {
     console.clear();
+   
+    
+    
   }, []);
+  if (localStorage.getItem("myKey") === null) {
+    if (!localStorage.getItem("refreshed")) {
+      localStorage.setItem("refreshed", "true");
+      window.location.reload();
+    }
+  }
+  
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
