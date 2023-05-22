@@ -4,9 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const CommonSidebar = (props) => {
-   
   const { title, sidebarContent, visible, onClose } = props;
-  console.log(sidebarContent,"sidebarContent")
+
   const capitalizeFirstLetter = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
@@ -27,39 +26,39 @@ const CommonSidebar = (props) => {
           </button>
         </div>
         <div className="card-body">
-        {sidebarContent ? (
-  <div style={{ display: "flex" }}>
-    <ul
-      style={{
-        listStyleType: "none",
-        padding: 0,
-        marginRight: "10px",
-      }}
-    >
-      {Object.keys(sidebarContent)
-        .slice(0, Math.ceil(Object.keys(sidebarContent).length / 2))
-        .map((key) => (
-          <li key={key} className="li-row">
-            <strong>{formatKey(key)}</strong><br></br> {sidebarContent[key]}
-          </li>
-        ))}
-    </ul>
-    <ul style={{ listStyleType: "none", padding: 0 }}>
-      {Object.keys(sidebarContent)
-        .slice(Math.ceil(Object.keys(sidebarContent).length / 2))
-        .map((key) => (
-          <li key={key} className="li-row">
-            <strong>{formatKey(key)}</strong><br></br> {sidebarContent[key]}
-          </li>
-        ))}
-    </ul>
-  </div>
-) : (
-  <p>No sidebar content available</p>
-)}
-
-</div>
-
+          {sidebarContent ? (
+            <div style={{ display: "flex" }}>
+              <ul
+                style={{
+                  listStyleType: "none",
+                  padding: 0,
+                  marginRight: "10px",
+                }}
+              >
+                {Object.keys(sidebarContent)
+                  .slice(0, Math.ceil(Object.keys(sidebarContent).length / 2))
+                  .map((key) => (
+                    <li key={key} className="li-row">
+                      <strong>{formatKey(key)}</strong>
+                      <br></br> {sidebarContent[key]}
+                    </li>
+                  ))}
+              </ul>
+              <ul style={{ listStyleType: "none", padding: 0 }}>
+                {Object.keys(sidebarContent)
+                  .slice(Math.ceil(Object.keys(sidebarContent).length / 2))
+                  .map((key) => (
+                    <li key={key} className="li-row">
+                      <strong>{formatKey(key)}</strong>
+                      <br></br> {sidebarContent[key]}
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          ) : (
+            <p>No sidebar content available</p>
+          )}
+        </div>
       </div>
     </div>
   );

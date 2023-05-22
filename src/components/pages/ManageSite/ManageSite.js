@@ -55,7 +55,7 @@ export default function ManageSite() {
         const response = await axiosInstance.get("/site/detail/?id=" + row.id);
 
         if (response.data && response.data.data) {
-          console.log(response.data.data);
+        
           setSideDataobject(response.data.data);
         }
       } catch (error) {
@@ -82,7 +82,7 @@ export default function ManageSite() {
 
   const handleDropdownChange = (event) => {
     setDropdownValue(event.target.value);
-    console.log(dropdownValue, "dropdownValue");
+
   };
   const handleCloseSidebar = () => {
     setSidebarVisible(false);
@@ -149,7 +149,7 @@ export default function ManageSite() {
     });
   };
   const handleEdit = (id) => {
-    console.log(id);
+   
     localStorage.setItem("Edit_Site", id);
   };
 
@@ -196,7 +196,7 @@ export default function ManageSite() {
 
       if (response.data.data.sites.length > 0) {
         setData(response.data.data.sites);
-        console.log(response.data.data,"Site")
+      
         // setDropdownValue(response.data.data);
 
         const filteredStatuses = [];
@@ -226,7 +226,7 @@ export default function ManageSite() {
 
       if (response.data.data.length > 0) {
         // setData(response.data.data.sites);
-        console.log(response.data.data,"client")
+      
 
         setDropdownValue(response.data.data);
 

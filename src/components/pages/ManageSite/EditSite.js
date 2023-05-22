@@ -99,7 +99,7 @@ export default function AddSite() {
         console.error(error);
       }
     }
-    // console.clear()
+    console.clear()
   }, []);
 
   const handleSubmit = async (event) => {
@@ -149,7 +149,7 @@ export default function AddSite() {
         Errornotify(errorMessage);
       }
     }
-    console.log(formik.values);
+  
   };
 
   const formik = useFormik({
