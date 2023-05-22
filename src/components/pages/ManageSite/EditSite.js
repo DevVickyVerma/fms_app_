@@ -103,34 +103,15 @@ export default function AddSite() {
   }, []);
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); 
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
-    formData.append("bp_credit_card_site_no", formik.values.bp_credit_card_site_no);
-    formData.append("bunker_upload_status", formik.values.bunker_upload_status);
-    formData.append("business_sub_type_id", formik.values.business_sub_type_id);
-    formData.append("business_type", formik.values.business_type);
-    formData.append("business_type_id", formik.values.business_type_id);
-    formData.append("data_import_type", formik.values.data_import_type);
-    formData.append("data_import_type_id", formik.values.data_import_type_id);
-    formData.append("department_sage_code", formik.values.department_sage_code);
-    formData.append("drs_upload_status", formik.values.drs_upload_status);
-    formData.append("fuel_commission_calc_status", formik.values.fuel_commission_calc_status);
-    formData.append("id", formik.values.id);
-    formData.append("paperwork_status", formik.values.paperwork_status);
-    formData.append("site_address", formik.values.site_address);
-    formData.append("site_code", formik.values.site_code);
-    formData.append("site_display_name", formik.values.site_display_name);
-    formData.append("site_name", formik.values.site_name);
-    formData.append("site_report_date_type", formik.values.site_report_date_type);
-    formData.append("site_report_status", formik.values.site_report_status);
-    formData.append("site_status", formik.values.site_status);
-    formData.append("start_date", formik.values.start_date);
-    formData.append("supplier_id", formik.values.supplier_id);
-    formData.append("supplier_name", formik.values.supplier_name);
-    formData.append("unique_id", formik.values.unique_id);
-   
+
+    // Iterate over formik.values and convert null to empty strings
+    for (const [key, value] of Object.entries(formik.values)) {
+      const convertedValue = value === null ? "" : value;
+      formData.append(key, convertedValue);
+    }
 
     try {
       const response = await fetch(
@@ -149,7 +130,6 @@ export default function AddSite() {
       if (response.ok) {
         notify(data.message);
         navigate("/sites");
-       
       } else {
         Errornotify(data.message);
       }
@@ -170,8 +150,6 @@ export default function AddSite() {
       }
     }
     console.log(formik.values);
-
-  
   };
 
   const formik = useFormik({
@@ -192,10 +170,10 @@ export default function AddSite() {
       site_report_status: "",
       site_report_date_type: "",
       drs_upload_status: "",
-  
+
       fuel_commission_calc_status: "",
-      bunker_upload_status:'',
-      paperwork_status:'',
+      bunker_upload_status: "",
+      paperwork_status: "",
     },
     validationSchema: Yup.object({
       site_code: Yup.string()
@@ -225,9 +203,7 @@ export default function AddSite() {
       bp_credit_card_site_no: Yup.string().required(
         "Bunker Upload Status is required"
       ),
-      drs_upload_status: Yup.string().required(
-        "drs_upload_status is required"
-      ),
+      drs_upload_status: Yup.string().required("drs_upload_status is required"),
     }),
     onSubmit: handleSubmit,
   });
@@ -246,11 +222,6 @@ export default function AddSite() {
     );
     setSubTypes(selectedTypeData.sub_types);
   };
-  // const handleSubmit = (event) => {
-  //   event.preventDefault(); // Prevent the default form submission behavior
-    
-   
-  // };
 
   return (
     <div>
@@ -292,7 +263,7 @@ export default function AddSite() {
             </Card.Header>
 
             <div class="card-body">
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={formik.handleSubmit}>
                 <Row>
                   <Col lg={4} md={6}>
                     <div className="form-group">
