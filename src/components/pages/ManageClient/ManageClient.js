@@ -8,6 +8,7 @@ import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { FormModal } from "../../../data/Modal/Modal";
+import { toast } from "react-toastify";
 
 export default function ManageClient() {
   const [data, setData] = useState();
@@ -33,6 +34,20 @@ export default function ManageClient() {
       }
     });
   };
+  const notify = (message) => toast.success(message);
+  const Errornotify = (message) => toast.error(message);
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      Errornotify("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      console.error(error.message, "error");
+      Errornotify(error.message);
+    }
+  }
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -49,13 +64,7 @@ export default function ManageClient() {
           setData(response.data.data);
         }
       } catch (error) {
-        if (
-          error &&
-          error.response &&
-          error.response.data.status_code === "403"
-        ) {
-          navigate("/errorpage403");
-        }
+        handleError(error)
       }
     };
 

@@ -47,18 +47,10 @@ export default function AddClient() {
     fetchData();
   }, []);
 
-
-
-  
-
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
 
- 
-
   const handleSubmit1 = async (values, setSubmitting) => {
- 
-
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
@@ -82,10 +74,9 @@ export default function AddClient() {
 
     if (response.ok) {
       notify(data.message);
-   
+
       setSubmitting(false);
     } else {
-    
       Errornotify(data.message);
     }
   };
@@ -95,9 +86,13 @@ export default function AddClient() {
       <div className="page-header">
         <div>
           <h1 className="page-title">Add Business</h1>
-         
+
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/dashboard' }}>
+            <Breadcrumb.Item
+              className="breadcrumb-item"
+              linkAs={Link}
+              linkProps={{ to: "/dashboard" }}
+            >
               Dashboard
             </Breadcrumb.Item>
             <Breadcrumb.Item
@@ -111,7 +106,6 @@ export default function AddClient() {
       </div>
 
       <Row>
-       
         <Col lg={12} xl={12} md={12} sm={12}>
           <Card>
             <Card.Header>
@@ -138,7 +132,6 @@ export default function AddClient() {
                 role: Yup.string().required("Role is required"),
               })}
               onSubmit={(values, { setSubmitting }) => {
-            
                 handleSubmit1(values, setSubmitting);
               }}
             >

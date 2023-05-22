@@ -41,6 +41,19 @@ const validationSchema = Yup.object().shape({
 export default function Settings() {
   const [userDetails, setUserDetails] = useState([]);
 
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      Errornotify("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      console.error(error.message, "error");
+      Errornotify(error.message);
+    }
+  }
+
   const navigate = useNavigate();
   useEffect(() => {
     fetchData();
@@ -64,8 +77,7 @@ export default function Settings() {
         // console.log(response.data.data)
       }
     } catch (error) {
-      console.error(error);
-      localStorage.clear();
+      handleError(error);
     }
   };
 
@@ -362,7 +374,7 @@ export default function Settings() {
                     /^(?:100|[1-9][0-9]?|0)$/,
                     "Pagination must be a number between 0 and 100"
                   )
-                  
+
                   .required("Pagination is required"),
               })}
               onSubmit={async (values) => {
@@ -399,28 +411,12 @@ export default function Settings() {
 
                     if (response.ok) {
                       notify(data.message);
-                      // navigate("/dashboard");
+                      navigate("/dashboard");
                     } else {
                       Errornotify(data.message);
                     }
                   } catch (error) {
-                    if (error.response && error.response.status === 401) {
-                      navigate("/login");
-                      Errornotify("Invalid access token");
-                      localStorage.clear();
-                    } else if (
-                      error.response &&
-                      error.response.data.status_code === "403"
-                    ) {
-                      Errornotify("/errorpage403");
-                    } else {
-                      const errorMessage =
-                        error.response && error.response.data
-                          ? error.response.data.message
-                          : "An error occurred";
-                      console.error(errorMessage, "errorMessage");
-                      Errornotify(errorMessage);
-                    }
+                    handleError(error);
                   }
                 } else {
                   console.error("Values must be an object.");
@@ -440,7 +436,7 @@ export default function Settings() {
                       <Col lg={6} md={12}>
                         <FormGroup>
                           <Form.Label className="form-label">
-                            Date Format
+                            Date Format<span className="text-danger">*</span>
                           </Form.Label>
                           <Field
                             as="select" // Render the dropdown as a select element
@@ -476,6 +472,7 @@ export default function Settings() {
                         <FormGroup>
                           <Form.Label className="form-label">
                             Pagination/Per Page
+                            <span className="text-danger">*</span>
                           </Form.Label>
                           <Field
                             type="text"

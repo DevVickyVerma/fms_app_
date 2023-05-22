@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -12,7 +12,21 @@ import { toast } from "react-toastify";
 
 export default function ManageSubBusinessTypes() {
   const [data, setData] = useState();
-
+  const navigate = useNavigate();
+  const notify = (message) => toast.success(message);
+  const Errornotify = (message) => toast.error(message);
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      Errornotify("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      console.error(error.message, "error");
+      Errornotify(error.message);
+    }
+  }
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -54,7 +68,7 @@ export default function ManageSubBusinessTypes() {
           // SuccessAlert(response.data.message)
         }
       } catch (error) {
-        console.error(error);
+        handleError(error)
       }
     };
 

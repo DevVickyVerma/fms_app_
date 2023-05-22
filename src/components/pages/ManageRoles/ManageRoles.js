@@ -66,6 +66,18 @@ export default function ManageRoles() {
       }
     });
   };
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      ErrorAlert("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      console.error(error.message, "error");
+      ErrorAlert(error.message);
+    }
+  }
 
   useEffect(() => {
    
@@ -85,18 +97,7 @@ export default function ManageRoles() {
         setData(response.data.data.addons);
       }
     } catch (error) {
-      console.log(error.response.data.status_code, "error");
-      if (error.response && error.response.status === 401) {
-        navigate("/login");
-        ErrorAlert("Invalid access token");
-        localStorage.clear();
-      } else if (
-        error.response &&
-        error.response.data.status_code === "403"
-      ) {
-        navigate("/errorpage403");
-      }
-      // console.error(error);
+      handleError(error);
     }
   };
 

@@ -29,6 +29,20 @@ export default function ManageSite() {
   const [loading, setLoading] = useState(false);
 
   const [sidebardataobject, setSideDataobject] = useState();
+  const notify = (message) => toast.success(message);
+  const Errornotify = (message) => toast.error(message);
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      Errornotify("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      console.error(error.message, "error");
+      Errornotify(error.message);
+    }
+  }
 
   const Loaderimg = () => {
     return (
@@ -59,18 +73,7 @@ export default function ManageSite() {
           setSideDataobject(response.data.data);
         }
       } catch (error) {
-        if (error.response && error.response.status === 401) {
-          navigate("/login");
-          ErrorAlert("Invalid access token");
-          localStorage.clear();
-        } else if (
-          error.response &&
-          error.response.data.status_code === "403"
-        ) {
-          navigate("/errorpage403");
-        } else {
-          console.error(error);
-        }
+        handleError(error);
       }
     };
 
@@ -128,19 +131,7 @@ export default function ManageSite() {
             });
             fetchData();
           } catch (error) {
-            if (error.response && error.response.status === 401) {
-              navigate("/login");
-              ErrorAlert("Invalid access token");
-              localStorage.clear();
-            } else if (
-              error.response &&
-              error.response.data.status_code === "403"
-            ) {
-              navigate("/errorpage403");
-            } else {
-              console.error(error);
-              ErrorAlert(error.message);
-            }
+            handleError(error);
           }
           // setLoading(false);
         };
@@ -211,13 +202,7 @@ export default function ManageSite() {
         }
       }
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        navigate("/login");
-        ErrorAlert("Invalid access token");
-        localStorage.clear();
-      } else if (error.response && error.response.data.status_code === "403") {
-        navigate("/errorpage403");
-      }
+      handleError(error);
     }
   };
   const fetchClientList = async () => {
@@ -305,7 +290,7 @@ export default function ManageSite() {
       ),
     },
     {
-      name: "Site Date",
+      name: "Created Date",
       selector: (row) => [row.start_date],
       sortable: false,
       width: "10%",
@@ -472,7 +457,7 @@ export default function ManageSite() {
           persistTableHead
           // pagination
           highlightOnHover
-          searchable={true}
+          searchable={false}
         />
       </DataTableExtensions>
     </>

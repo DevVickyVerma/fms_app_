@@ -56591,6 +56591,9 @@ h3.Sidebar-title {
   max-width: 90%;
   font-weight: 600;
 }
+.rmdp-container {
+  width: 100% !important;
+}
 
 .common-sidebar.visible {
   transform: translateX(100%);

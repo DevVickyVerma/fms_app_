@@ -15,6 +15,18 @@ export default function ManageAddon() {
   const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      ErrorAlert("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      console.error(error.message,"error");
+      ErrorAlert(error.message)
+    }
+  }
 const handleEdit = (row)=>{
   console.log(row,"handleEdit")
  
@@ -61,16 +73,7 @@ const handleDelete = (id) => {
           });
           fetchData()
         }  catch (error) {
-          if (error.response && error.response.status === 401) {
-            navigate("/login");
-            ErrorAlert("Invalid access token");
-            localStorage.clear();
-          } else if (error.response && error.response.data.status_code === "403") {
-            navigate("/errorpage403");
-          } else {
-            console.error(error);
-            ErrorAlert(error.message);
-          }
+          handleError(error)
         }
         // setLoading(false);
       };
@@ -99,17 +102,7 @@ const handleDelete = (id) => {
           setData(response.data.data.addons);
         }
       } catch (error) {
-        console.log(error.response.data.status_code, "error");
-        if (error.response && error.response.status === 401) {
-          navigate("/login");
-          ErrorAlert("Invalid access token");
-          localStorage.clear();
-        } else if (
-          error.response &&
-          error.response.data.status_code === "403"
-        ) {
-          navigate("/errorpage403");
-        }
+        handleError(error)
         // console.error(error);
       }
     };

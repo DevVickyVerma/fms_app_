@@ -29,6 +29,18 @@ export default function EditRoles() {
   const ErrorAlert = (message) => toast.error(message);
   const [permissionArray, setPermissionArray] = useState([]);
   const navigate = useNavigate();
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      ErrorAlert("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      console.error(error.message, "error");
+      ErrorAlert(error.message);
+    }
+  }
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -47,13 +59,7 @@ export default function EditRoles() {
         setAddonitem(response.data.data.addons);
       })
       .catch((error) => {
-        if (
-          error &&
-          error.response &&
-          error.response.data.status_code === "403"
-        ) {
-          navigate("/errorpage403");
-        }
+        handleError(error);
       });
 
     console.clear();
@@ -99,13 +105,7 @@ export default function EditRoles() {
         setPermissions(response.data.data.permissions);
       })
       .catch((error) => {
-        if (
-          error &&
-          error.response &&
-          error.response.data.status_code === "403"
-        ) {
-          navigate("/errorpage403");
-        }
+        handleError(error);
       });
   }, []);
 

@@ -17,6 +17,8 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import DatePicker from "react-multi-date-picker";
+import apiCall from "../../../CommonComponet/Apicall/Apicall";
 
 export default function AddSite() {
   const navigate = useNavigate();
@@ -28,6 +30,21 @@ export default function AddSite() {
 
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+
+
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      Errornotify("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      console.error(error.message, "error");
+      Errornotify(error.message);
+    }
+  }
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -49,20 +66,10 @@ export default function AddSite() {
           formik.setValues(response.data.data);
         }
       } catch (error) {
-        if (error.response && error.response.status === 401) {
-          navigate("/login");
-          Errornotify("Invalid access token");
-          localStorage.clear();
-        } else if (
-          error.response &&
-          error.response.data.status_code === "403"
-        ) {
-          navigate("/errorpage403");
-        } else {
-          console.error(error);
-        }
+        handleError(error)
       }
     };
+
     const GetSiteData = async () => {
       try {
         const response = await axiosInstance.get("site/common-data-list");
@@ -71,36 +78,56 @@ export default function AddSite() {
           setAddSiteData(response.data.data);
         }
       } catch (error) {
-        if (error.response && error.response.status === 401) {
-          navigate("/login");
-          Errornotify("Invalid access token");
-          localStorage.clear();
-        } else if (
-          error.response &&
-          error.response.data.status_code === "403"
-        ) {
-          navigate("/errorpage403");
-        } else {
-          console.error(error);
-        }
+        handleError(error)
       }
     };
     try {
       GetSiteData();
       GetSiteDetails();
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        navigate("/login");
-        Errornotify("Invalid access token");
-        localStorage.clear();
-      } else if (error.response && error.response.data.status_code === "403") {
-        navigate("/errorpage403");
-      } else {
-        console.error(error);
-      }
+      handleError(error)
     }
     console.clear();
   }, []);
+
+  
+  //   const token = localStorage.getItem("token");
+  //   const Edit_Site_id = localStorage.getItem("Edit_Site");
+  
+    
+  
+  //   const apiConfig = {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   };
+  
+  //   const fetchData = async () => {
+  //     try {
+  //       const siteDetails = await apiCall("/site/detail/?id=" + Edit_Site_id, {
+  //         method: "GET",
+  //       }, navigate);
+  
+  //       const siteData = await apiCall("site/common-data-list", {
+  //         method: "GET",
+  //       }, navigate);
+  
+  //       if (siteDetails) {
+  //         setEditSiteData(siteDetails);
+  //         formik.setValues(siteDetails);
+  //       }
+  
+  //       if (siteData) {
+  //         setAddSiteData(siteData);
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  
+  //   fetchData();
+  // }, []);
+  
 
   const handleSubmit = async (event) => {
     const token = localStorage.getItem("token");
@@ -134,20 +161,7 @@ export default function AddSite() {
         Errornotify(data.message);
       }
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        navigate("/login");
-        Errornotify("Invalid access token");
-        localStorage.clear();
-      } else if (error.response && error.response.data.status_code === "403") {
-        Errornotify("/errorpage403");
-      } else {
-        const errorMessage =
-          error.response && error.response.data
-            ? error.response.data.message
-            : "An error occurred";
-        console.error(errorMessage, "errorMessage");
-        Errornotify(errorMessage);
-      }
+      handleError(error)
     }
   };
 
@@ -202,7 +216,7 @@ export default function AddSite() {
       bp_credit_card_site_no: Yup.string().required(
         "Bunker Upload Status is required"
       ),
-      drs_upload_status: Yup.string().required("drs_upload_status is required"),
+      drs_upload_status: Yup.string().required("Drs Upload Status is required"),
     }),
     onSubmit: handleSubmit,
   });
@@ -608,8 +622,7 @@ export default function AddSite() {
                       <label htmlFor="start_date" className="form-label mt-4">
                         DRS Start Date<span className="text-danger">*</span>
                       </label>
-                      <input
-                        type="date"
+                      <DatePicker
                         className={`input101 ${
                           formik.errors.start_date && formik.touched.start_date
                             ? "is-invalid"
@@ -618,9 +631,16 @@ export default function AddSite() {
                         id="start_date"
                         name="start_date"
                         placeholder="start_date"
-                        onChange={formik.handleChange}
+                        onChange={(date) => {
+                          formik.setFieldValue("start_date", date);
+                          formik.handleChange({
+                            target: { name: "start_date", value: date },
+                          });
+                        }}
                         onBlur={formik.handleBlur}
-                        value={formik.values.start_date}
+                        selected={formik.values.start_date}
+                        open={isDatePickerOpen} // Control whether the date picker is open or closed
+                        onClick={() => setIsDatePickerOpen(true)} // Open the date picker when the input is clicked
                       />
                       {formik.errors.start_date &&
                         formik.touched.start_date && (
@@ -630,6 +650,7 @@ export default function AddSite() {
                         )}
                     </div>
                   </Col>
+
                   <Col lg={4} md={6}>
                     <div className="form-group">
                       <label

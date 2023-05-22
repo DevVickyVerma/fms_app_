@@ -27,6 +27,18 @@ export default function AddAddon() {
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
   const navigate = useNavigate();
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      ErrorAlert("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      console.error(error.message,"error");
+      ErrorAlert(error.message)
+    }
+  }
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -45,23 +57,12 @@ export default function AddAddon() {
       })
    
       .catch((error)=> {
-        if (error.response && error.response.status === 401) {
-          navigate("/login");
-          ErrorAlert("Invalid access token");
-          localStorage.clear();
-        } else if (error.response && error.response.data.status_code === "403") {
-          navigate("/errorpage403");
-        } else {
-          console.error(error);
-          ErrorAlert(error.message);
-        }
+        handleError(error);
       });
   }, []);
 
 
-  // const handleSubmit = (values) => {
-  //   console.log(values, "handleSubmit");
-  // };
+
   const handleSubmit = async (values) => {
     const body = {
       name: values.name,

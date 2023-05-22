@@ -35,6 +35,20 @@ export default function AddAddon() {
 
   const [permissionArray, setPermissionArray] = useState([]);
   const [permissionArray1, setPermissionArray1] = useState([]);
+ 
+ 
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      ErrorAlert("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      console.error(error.message,"error");
+      ErrorAlert(error.message)
+    }
+  }
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -52,16 +66,7 @@ export default function AddAddon() {
         setUserPermissions(response.data.data);
       })
       .catch((error)=> {
-        if (error.response && error.response.status === 401) {
-          navigate("/login");
-          ErrorAlert("Invalid access token");
-          localStorage.clear();
-        } else if (error.response && error.response.data.status_code === "403") {
-          navigate("/errorpage403");
-        } else {
-          console.error(error);
-          ErrorAlert(error.message);
-        }
+        handleError(error)
       });
   
     // Fetch addon details and set permissions
@@ -93,16 +98,7 @@ export default function AddAddon() {
           setPermissions(data);
         }
       } catch (error) {
-        if (error.response && error.response.status === 401) {
-          navigate("/login");
-          ErrorAlert("Invalid access token");
-          localStorage.clear();
-        } else if (
-          error.response &&
-          error.response.data.status_code === "403"
-        ) {
-          navigate("/errorpage403");
-        }
+        handleError(error)
       }
     };
   

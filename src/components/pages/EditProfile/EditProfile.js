@@ -20,37 +20,6 @@ import { Link, useNavigate } from "react-router-dom";
 export default function EditProfile() {
   const [userDetails, setUserDetails] = useState("");
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   fetchData();
-  // }, [localStorage.getItem("First_name")]);
-  // const token = localStorage.getItem("token");
-  // const axiosInstance = axios.create({
-  //   baseURL: process.env.REACT_APP_BASE_URL,
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // });
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axiosInstance.post("/detail");
-  //     const { data } = response;
-  //     if (data) {
-  //       const firstName = data.data.first_name ?? "";
-  //       const lastName = data.data.last_name ?? "";
-  //       const phoneNumber = data.data.phone_number ?? "";
-  //       const full_name = data.data.full_name ?? "";
-  //       localStorage.setItem("First_name", firstName);
-  //       localStorage.setItem("full_name", full_name);
-  //       localStorage.setItem("Last_name", lastName);
-  //       localStorage.setItem("Phone_Number", phoneNumber);
-
-  //       setUserDetails(data.data.first_name);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     localStorage.clear();
-  //   }
-  // };
 
   const validationSchema = Yup.object().shape({
     old_password: Yup.string().required("Current Password is required"),
@@ -70,32 +39,80 @@ export default function EditProfile() {
 
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      Errornotify("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      console.error(error.message, "error");
+      Errornotify(error.message);
+    }
+  }
+
+  // const handlesubmit = async (values) => {
+  //   const token = localStorage.getItem("token");
+
+  //   const formData = new FormData();
+  //   formData.append("old_password", values.old_password);
+  //   formData.append("password", values.password);
+  //   formData.append("password_confirmation", values.password_confirmation);
+
+  //   const response = await fetch(
+  //     `${process.env.REACT_APP_BASE_URL}/update/password`,
+  //     {
+  //       method: "POST",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: formData,
+  //     }
+  //   );
+
+  //   const data = await response.json();
+
+  //   if (response.ok) {
+  //     notify(data.message);
+  //   } else {
+  //     Errornotify(data.message);
+  //   }
+  // };
 
   const handlesubmit = async (values) => {
-    const token = localStorage.getItem("token");
+    try {
+      const token = localStorage.getItem("token");
 
-    const formData = new FormData();
-    formData.append("old_password", values.old_password);
-    formData.append("password", values.password);
-    formData.append("password_confirmation", values.password_confirmation);
+      const formData = new FormData();
+      formData.append("old_password", values.old_password);
+      formData.append("password", values.password);
+      formData.append("password_confirmation", values.password_confirmation);
 
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/update/password`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/update/password`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        notify(data.message);
+      } else {
+        const errorMessage = Array.isArray(data.message)
+          ? data.message.join(" ")
+          : data.message;
+        console.log(errorMessage);
+        Errornotify(errorMessage);
       }
-    );
-
-    const data = await response.json();
-
-    if (response.ok) {
-      notify(data.message);
-    } else {
-      Errornotify(data.message);
+    } catch (error) {
+      handleError(error);
     }
   };
 
@@ -128,7 +145,11 @@ export default function EditProfile() {
       navigate("/dashboard");
       setSubmitting(false);
     } else {
-      Errornotify(data.message);
+      const errorMessage = Array.isArray(data.message)
+        ? data.message.join(" ")
+        : data.message;
+      console.log(errorMessage);
+      Errornotify(errorMessage);
     }
   };
 
@@ -180,7 +201,7 @@ export default function EditProfile() {
                       <Field
                         type="password"
                         className={` input101 ${
-                          errors.old_password && touched.old_password 
+                          errors.old_password && touched.old_password
                             ? "is-invalid"
                             : ""
                         }`}

@@ -16,16 +16,35 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import DatePicker, { Calendar } from "react-multi-date-picker";
+import { useFormikContext } from "formik";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function AddSite() {
+  // const { setFieldValue } = useFormikContext();
+
   const navigate = useNavigate();
   const [dropdownItems, setDropdownItems] = useState([]);
   const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedBusinessType, setSelectedBusinessType] = useState("");
   const [subTypes, setSubTypes] = useState([]);
+  const [Calendervalue, SetCalenderonChange] = useState(new Date());
 
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      Errornotify("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      console.error(error.message,"error");
+      Errornotify(error.message)
+    }
+  }
+  
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -39,53 +58,27 @@ export default function AddSite() {
       try {
         const response = await axiosInstance.post("/role/list");
         setDropdownItems(response.data.data.addons);
-        console.log(response.data.data.addons)
-
-
-        
+        console.log(response.data.data.addons);
       } catch (error) {
-        console.error(error);
+        handleError(error)
       }
-     
     };
     const GetSiteData = async () => {
       try {
         const response = await axiosInstance.get("site/common-data-list");
-  
+
         if (response.data) {
           setAddSiteData(response.data.data);
         }
       } catch (error) {
-        if (error.response && error.response.status === 401) {
-          navigate("/login");
-          Errornotify("Invalid access token");
-          localStorage.clear();
-        } else if (
-          error.response &&
-          error.response.data.status_code === "403"
-        ) {
-          navigate("/errorpage403");
-        } else {
-          console.error(error);
-        }
+        handleError(error)
       }
     };
     try {
       GetSiteData();
       fetchData();
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        navigate("/login");
-        Errornotify("Invalid access token");
-        localStorage.clear();
-      } else if (
-        error.response &&
-        error.response.data.status_code === "403"
-      ) {
-        navigate("/errorpage403");
-      } else {
-        console.error(error);
-      }
+      handleError(error)
     }
     // console.clear()
   }, []);
@@ -115,16 +108,19 @@ export default function AddSite() {
     formData.append("paperwork_status", values.Paper_work_status);
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/site/add`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-    
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/site/add`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+
       const data = await response.json();
-    
+
       if (response.ok) {
         notify(data.message);
         navigate("/sites");
@@ -132,21 +128,9 @@ export default function AddSite() {
       } else {
         Errornotify(data.message);
       }
-    }catch (error) {
-      if (error.response && error.response.status === 401) {
-        navigate("/login");
-        Errornotify("Invalid access token");
-        localStorage.clear();
-      } else if (error.response && error.response.data.status_code === "403") {
-        Errornotify("/errorpage403");
-      } else {
-        const errorMessage = error.response && error.response.data ? error.response.data.message : "An error occurred";
-        console.error(errorMessage,"errorMessage");
-        Errornotify(errorMessage);
-      }
+    } catch (error) {
+      handleError(error)
     }
-    
-    
   };
   return (
     <div>
@@ -242,34 +226,18 @@ export default function AddSite() {
                 Saga_department_name: Yup.string().required(
                   "Saga Department Name is required"
                 ),
-                // Bp_nctt_site_no: Yup.string().required(
-                //   "Bp_nctt_site_no is required"
-                // ),
-
-                // Report_generation_Status: Yup.string().required(
-                //   "Report_generation_Status is required"
-                // ),
-                // Report_date_type: Yup.string().required(
-                //   "Report_date_type is required"
-                // ),
-                // Fuel_commission_type: Yup.string().required(
-                //   "Fuel_commission_type is required"
-                // ),
-                // Paper_work_status: Yup.string().required(
-                //   "Paper_work_status is required"
-                // ),
-                // Bunkered_sale_status: Yup.string().required(
-                //   "Bunkered_sale_status is required"
-                // ),
-                // Drs_upload_status: Yup.string().required(
-                //   "Drs_upload_status is required"
-                // ),
               })}
               onSubmit={(values, { setSubmitting }) => {
                 handleSubmit1(values, setSubmitting);
               }}
             >
-              {({ handleSubmit, isSubmitting, errors, touched,setFieldValue }) => (
+              {({
+                handleSubmit,
+                isSubmitting,
+                errors,
+                touched,
+                setFieldValue,
+              }) => (
                 <Form onSubmit={handleSubmit}>
                   <Card.Body>
                     <Row>
@@ -374,10 +342,7 @@ export default function AddSite() {
                             {AddSiteData.suppliers &&
                             AddSiteData.suppliers.length > 0 ? (
                               AddSiteData.suppliers.map((item) => (
-                                <option
-                                  key={item.id}
-                                  value={item.id}
-                                >
+                                <option key={item.id} value={item.id}>
                                   {item.supplier_name}
                                 </option>
                               ))
@@ -414,7 +379,9 @@ export default function AddSite() {
                             {AddSiteData.site_status &&
                             AddSiteData.site_status.length > 0 ? (
                               AddSiteData.site_status.map((item) => (
-                                <option   key={item.value} value={item.value}>{item.name}</option>
+                                <option key={item.value} value={item.value}>
+                                  {item.name}
+                                </option>
                               ))
                             ) : (
                               <option disabled>No Site Status available</option>
@@ -447,7 +414,7 @@ export default function AddSite() {
                             name="bussiness_Type"
                             onChange={(e) => {
                               const selectedType = e.target.value;
-                             
+
                               setFieldValue("bussiness_Type", selectedType);
                               setSelectedBusinessType(selectedType);
                               const selectedTypeData =
@@ -524,7 +491,8 @@ export default function AddSite() {
                             htmlFor="Saga_department_code"
                             className=" form-label mt-4"
                           >
-                            Saga Department Code<span className="text-danger">*</span>
+                            Saga Department Code
+                            <span className="text-danger">*</span>
                           </label>
                           <Field
                             as="select"
@@ -564,7 +532,8 @@ export default function AddSite() {
                             htmlFor="Saga_department_name"
                             className=" form-label mt-4"
                           >
-                            Saga Department Name<span className="text-danger">*</span>
+                            Saga Department Name
+                            <span className="text-danger">*</span>
                           </label>
                           <Field
                             type="text"
@@ -616,20 +585,23 @@ export default function AddSite() {
                         <FormGroup>
                           <label
                             htmlFor="DRS_Start_Date"
-                            className=" form-label mt-4"
+                            className="form-label mt-4"
                           >
                             DRS Start Date<span className="text-danger">*</span>
                           </label>
-                          <Field
-                            type="date"
-                            className={`input101 ${
+                          <DatePicker
+                            className={`input101  ${
                               errors.DRS_Start_Date && touched.DRS_Start_Date
                                 ? "is-invalid"
                                 : ""
                             }`}
                             id="DRS_Start_Date"
                             name="DRS_Start_Date"
-                            placeholder="DRS_Start_Date"
+                            placeholderText="DRS_Start_Date"
+                          
+                            onChange={(date) =>
+                              setFieldValue("DRS_Start_Date", date)
+                            }
                           />
                           <ErrorMessage
                             component="div"
@@ -881,10 +853,7 @@ export default function AddSite() {
                             {AddSiteData.data_import_types &&
                             AddSiteData.data_import_types.length > 0 ? (
                               AddSiteData.data_import_types.map((item) => (
-                                <option
-                                  key={item.id}
-                                  value={item.id}
-                                >
+                                <option key={item.id} value={item.id}>
                                   {item.import_type_name}
                                 </option>
                               ))
