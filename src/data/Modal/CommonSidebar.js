@@ -20,13 +20,12 @@ const CommonSidebar = (props) => {
     <div className={`common-sidebar ${visible ? "visible" : ""}`}>
       <div className="card">
         <div className="card-header text-center Sidebarheader">
-        <button className="close-button" onClick={props.onClose}>
+          <button className="close-button" onClick={props.onClose}>
             <FontAwesomeIcon icon={faTimes} />
           </button>
           <h3 className="Sidebar-title m-0">{title}</h3>
-          
         </div>
-        <div className="card-body">
+        <div className="card-body scrollview" >
           {sidebarContent ? (
             <div style={{ display: "flex" }}>
               <ul

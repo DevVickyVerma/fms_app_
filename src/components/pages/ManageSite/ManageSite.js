@@ -23,7 +23,7 @@ export default function ManageSite() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
-  const [sidebarVisible, setSidebarVisible] = useState(false);
+  const [sidebarVisible, setSidebarVisible] = useState(true);
   const [sidebardata, setSideData] = useState();
   const [SiteId, setSiteId] = useState();
   const [loading, setLoading] = useState(false);
@@ -85,7 +85,7 @@ export default function ManageSite() {
 
   };
   const handleCloseSidebar = () => {
-    setSidebarVisible(false);
+    setSidebarVisible(true);
   };
 
   const handleDetailsClick = (row) => {

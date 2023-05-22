@@ -37,7 +37,7 @@ export default function App() {
 
   useEffect(() => {
     fetchData();
-  }, [localStorage.getItem("First_name")]);
+  }, [localStorage.getItem("token")]);
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,

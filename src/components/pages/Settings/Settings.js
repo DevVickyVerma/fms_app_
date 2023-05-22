@@ -98,7 +98,7 @@ export default function Settings() {
 
         if (response.ok) {
           notify(data.message);
-          // navigate("/sites");
+          navigate("/dashboard");
         } else {
           Errornotify(data.message);
         }
