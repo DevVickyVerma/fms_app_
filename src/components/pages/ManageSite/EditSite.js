@@ -99,7 +99,7 @@ export default function AddSite() {
         console.error(error);
       }
     }
-    console.clear()
+    console.clear();
   }, []);
 
   const handleSubmit = async (event) => {
@@ -149,7 +149,6 @@ export default function AddSite() {
         Errornotify(errorMessage);
       }
     }
-  
   };
 
   const formik = useFormik({
@@ -180,7 +179,7 @@ export default function AddSite() {
         .max(20, "Must be 20 characters or less")
         .required("Site Code is required"),
       site_name: Yup.string()
-        .max(20, "Must be 20 characters or less")
+        .max(30, "Must be 30 characters or less")
         .required("Site Name is required"),
       site_address: Yup.string().required("Site Address is required"),
       site_status: Yup.string().required("Site Status is required"),

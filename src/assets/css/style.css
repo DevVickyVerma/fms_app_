@@ -56588,7 +56588,7 @@ svg.table-Details {
 }
 h3.Sidebar-title {
   font-size: 30px;
-  max-width: 20%;
+  max-width: 90%;
   font-weight: 600;
 }
 
@@ -56596,7 +56596,7 @@ h3.Sidebar-title {
   transform: translateX(100%);
 }
 .scrollview {
-  height: 700px;
+  height: 600px;
   overflow-y: scroll;
 }
 .Sidebarheader {
@@ -56617,9 +56617,11 @@ h3.Sidebar-title {
   );
   border-radius: 0 0px 0px 0;
   box-shadow: 0 7px 12px 0 rgba(95, 118, 232, 0.21);
+  display: flex;
+    justify-content: space-between;
 }
 button.close-button {
-  margin-right: 2%;
+ 
   height: 30px;
   width: 30px;
   text-decoration: none;

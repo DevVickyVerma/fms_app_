@@ -32,7 +32,9 @@ const validationSchema = Yup.object().shape({
     .min(4, "Password must be at least 4 characters long"),
   username: Yup.string().required("User Name is required"),
   port: Yup.string().required(" Port  is required"),
-  from_email: Yup.string().required("From Email is required").email("Invalid email format"),
+  from_email: Yup.string()
+    .required("From Email is required")
+    .email("Invalid email format"),
   from_name: Yup.string().required(" From name  is required"),
 });
 
@@ -134,6 +136,13 @@ export default function Settings() {
     values,
   } = formik;
 
+  const dateFormatOptions = [
+    "YYYY-MM-DD",
+    "MM/DD/YYYY",
+    "DD-MM-YYYY",
+    // Add more format options as needed
+  ];
+
   return (
     <div>
       <div className="page-header">
@@ -166,164 +175,168 @@ export default function Settings() {
                 <Card.Title as="h3">Smtp Settings</Card.Title>
               </Card.Header>
               <div className="card-body">
-              <Row>
-              <Col lg={6} xl={6} md={6} sm={6}>
-                <div className="form-group">
-                  <label className="form-label mt-4" htmlFor="host">
-                    SMTP Url<span className="text-danger">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className={`input101 ${
-                      formik.errors.host && formik.touched.host
-                        ? "is-invalid"
-                        : ""
-                    }`}
-                    id="host"
-                    name="host"
-                    placeholder="SMTP url"
-                    onChange={formik.handleChange}
-                    value={formik.values.host || ""}
-                  />
-                  {formik.errors.host && formik.touched.host && (
-                    <div className="invalid-feedback">{formik.errors.host}</div>
-                  )}
-                </div>
-                </Col>
-                <Col lg={6} xl={6} md={6} sm={6}>
-                <div className="form-group">
-                  <label className="form-label mt-4" htmlFor="username">
-                    User Name<span className="text-danger">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className={`input101 ${
-                      formik.errors.username && formik.touched.username
-                        ? "is-invalid"
-                        : ""
-                    }`}
-                    id="username"
-                    name="username"
-                    placeholder="User Name"
-                    onChange={formik.handleChange}
-                    value={formik.values.username || ""}
-                  />
-                  {formik.errors.username && formik.touched.username && (
-                    <div className="invalid-feedback">
-                      {formik.errors.username}
+                <Row>
+                  <Col lg={6} xl={6} md={6} sm={6}>
+                    <div className="form-group">
+                      <label className="form-label mt-4" htmlFor="host">
+                        SMTP Url<span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        className={`input101 ${
+                          formik.errors.host && formik.touched.host
+                            ? "is-invalid"
+                            : ""
+                        }`}
+                        id="host"
+                        name="host"
+                        placeholder="SMTP url"
+                        onChange={formik.handleChange}
+                        value={formik.values.host || ""}
+                      />
+                      {formik.errors.host && formik.touched.host && (
+                        <div className="invalid-feedback">
+                          {formik.errors.host}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-                </Col>
-                <Col lg={6} md={12}>
-                <div className="form-group">
-                  <label className="form-label mt-4" htmlFor="password">
-                    Password<span className="text-danger">*</span>
-                  </label>
-                  <input
-                    type="password"
-                    className={`input101 ${
-                      formik.errors.password && formik.touched.password
-                        ? "is-invalid"
-                        : ""
-                    }`}
-                    id="password"
-                    name="password"
-                    placeholder="Password"
-                    onChange={formik.handleChange}
-                    value={formik.values.password || ""}
-                  />
-                  {formik.errors.password && formik.touched.password && (
-                    <div className="invalid-feedback">
-                      {formik.errors.password}
+                  </Col>
+                  <Col lg={6} xl={6} md={6} sm={6}>
+                    <div className="form-group">
+                      <label className="form-label mt-4" htmlFor="username">
+                        User Name<span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        className={`input101 ${
+                          formik.errors.username && formik.touched.username
+                            ? "is-invalid"
+                            : ""
+                        }`}
+                        id="username"
+                        name="username"
+                        placeholder="User Name"
+                        onChange={formik.handleChange}
+                        value={formik.values.username || ""}
+                      />
+                      {formik.errors.username && formik.touched.username && (
+                        <div className="invalid-feedback">
+                          {formik.errors.username}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-                </Col>
-                <Col lg={6} md={12}>
-                <div className="form-group">
-                  <label className="form-label mt-4" htmlFor="port">
-                    Port<span className="text-danger">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className={`input101 ${
-                      formik.errors.port && formik.touched.port
-                        ? "is-invalid"
-                        : ""
-                    }`}
-                    id="port"
-                    name="port"
-                    placeholder="Port"
-                    onChange={formik.handleChange}
-                    value={formik.values.port || ""}
-                  />
-                  {formik.errors.port && formik.touched.port && (
-                    <div className="invalid-feedback">{formik.errors.port}</div>
-                  )}
-                </div>
-                </Col>
-                <Col lg={6} md={12}>
-                <div className="form-group">
-                  <label className="form-label mt-4" htmlFor="from_email">
-                    From Email<span className="text-danger">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className={`input101 ${
-                      formik.errors.from_email && formik.touched.from_email
-                        ? "is-invalid"
-                        : ""
-                    }`}
-                    id="from_email"
-                    name="from_email"
-                    placeholder="From Email"
-                    onChange={formik.handleChange}
-                    value={formik.values.from_email || ""}
-                  />
-                  {formik.errors.from_email && formik.touched.from_email && (
-                    <div className="invalid-feedback">
-                      {formik.errors.from_email}
+                  </Col>
+                  <Col lg={6} md={12}>
+                    <div className="form-group">
+                      <label className="form-label mt-4" htmlFor="password">
+                        Password<span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="password"
+                        className={`input101 ${
+                          formik.errors.password && formik.touched.password
+                            ? "is-invalid"
+                            : ""
+                        }`}
+                        id="password"
+                        name="password"
+                        placeholder="Password"
+                        onChange={formik.handleChange}
+                        value={formik.values.password || ""}
+                      />
+                      {formik.errors.password && formik.touched.password && (
+                        <div className="invalid-feedback">
+                          {formik.errors.password}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-                </Col>
-                <Col lg={6} md={12}>
-                <div className="form-group">
-                  <label className="form-label mt-4" htmlFor="from_name">
-                    From Name<span className="text-danger">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className={`input101 ${
-                      formik.errors.from_name && formik.touched.from_name
-                        ? "is-invalid"
-                        : ""
-                    }`}
-                    id="from_name"
-                    name="from_name"
-                    placeholder="From Name"
-                    onChange={formik.handleChange}
-                    value={formik.values.from_name || ""}
-                  />
-                  {formik.errors.from_name && formik.touched.from_name && (
-                    <div className="invalid-feedback">
-                      {formik.errors.from_name}
+                  </Col>
+                  <Col lg={6} md={12}>
+                    <div className="form-group">
+                      <label className="form-label mt-4" htmlFor="port">
+                        Port<span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        className={`input101 ${
+                          formik.errors.port && formik.touched.port
+                            ? "is-invalid"
+                            : ""
+                        }`}
+                        id="port"
+                        name="port"
+                        placeholder="Port"
+                        onChange={formik.handleChange}
+                        value={formik.values.port || ""}
+                      />
+                      {formik.errors.port && formik.touched.port && (
+                        <div className="invalid-feedback">
+                          {formik.errors.port}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-                </Col>
-               
-                <div className="text-end">
-                  <button
-                    className="btn btn-primary me-2"
-                    type="submit"
-                    disabled={isSubmitting}
-                  >
-                    Update
-                  </button>
-                </div>
-               
+                  </Col>
+                  <Col lg={6} md={12}>
+                    <div className="form-group">
+                      <label className="form-label mt-4" htmlFor="from_email">
+                        From Email<span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        className={`input101 ${
+                          formik.errors.from_email && formik.touched.from_email
+                            ? "is-invalid"
+                            : ""
+                        }`}
+                        id="from_email"
+                        name="from_email"
+                        placeholder="From Email"
+                        onChange={formik.handleChange}
+                        value={formik.values.from_email || ""}
+                      />
+                      {formik.errors.from_email &&
+                        formik.touched.from_email && (
+                          <div className="invalid-feedback">
+                            {formik.errors.from_email}
+                          </div>
+                        )}
+                    </div>
+                  </Col>
+                  <Col lg={6} md={12}>
+                    <div className="form-group">
+                      <label className="form-label mt-4" htmlFor="from_name">
+                        From Name<span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        className={`input101 ${
+                          formik.errors.from_name && formik.touched.from_name
+                            ? "is-invalid"
+                            : ""
+                        }`}
+                        id="from_name"
+                        name="from_name"
+                        placeholder="From Name"
+                        onChange={formik.handleChange}
+                        value={formik.values.from_name || ""}
+                      />
+                      {formik.errors.from_name && formik.touched.from_name && (
+                        <div className="invalid-feedback">
+                          {formik.errors.from_name}
+                        </div>
+                      )}
+                    </div>
+                  </Col>
+
+                  <div className="text-end">
+                    <button
+                      className="btn btn-primary me-2"
+                      type="submit"
+                      disabled={isSubmitting}
+                    >
+                      Update
+                    </button>
+                  </div>
                 </Row>
               </div>
             </Card>
@@ -345,14 +358,82 @@ export default function Settings() {
                   .required("Date Format is required"),
 
                 pagination: Yup.string()
-                  .max(20, "Must be 20 characters or less")
+                  .matches(
+                    /^(?:100|[1-9][0-9]?|0)$/,
+                    "Pagination must be a number between 0 and 100"
+                  )
+                  
                   .required("Pagination is required"),
               })}
-              onSubmit={(values, { setSubmitting }) => {
-                handleSubmit(values, setSubmitting);
+              onSubmit={async (values) => {
+                const formData = new FormData();
+
+                if (typeof values === "object") {
+                  const keys = Object.keys(values);
+                  const valuesArray = Object.values(values);
+
+                  for (let i = 0; i < keys.length; i++) {
+                    const key = keys[i];
+                    const value = valuesArray[i];
+                    const encodedKey = `key[${i}]:${encodeURIComponent(key)}`;
+                    const encodedValue = `value[${i}]:${encodeURIComponent(
+                      value
+                    )}`;
+
+                    formData.append(encodedKey, "");
+                    formData.append(encodedValue, "");
+                  }
+                  try {
+                    const response = await fetch(
+                      `${process.env.REACT_APP_BASE_URL}/config-setting/update`,
+                      {
+                        method: "POST",
+                        headers: {
+                          Authorization: `Bearer ${token}`,
+                        },
+                        body: formData,
+                      }
+                    );
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                      notify(data.message);
+                      // navigate("/dashboard");
+                    } else {
+                      Errornotify(data.message);
+                    }
+                  } catch (error) {
+                    if (error.response && error.response.status === 401) {
+                      navigate("/login");
+                      Errornotify("Invalid access token");
+                      localStorage.clear();
+                    } else if (
+                      error.response &&
+                      error.response.data.status_code === "403"
+                    ) {
+                      Errornotify("/errorpage403");
+                    } else {
+                      const errorMessage =
+                        error.response && error.response.data
+                          ? error.response.data.message
+                          : "An error occurred";
+                      console.error(errorMessage, "errorMessage");
+                      Errornotify(errorMessage);
+                    }
+                  }
+                } else {
+                  console.error("Values must be an object.");
+                }
               }}
             >
-              {({ handleSubmit, isSubmitting, errors, touched }) => (
+              {({
+                handleSubmit,
+                isSubmitting,
+                errors,
+                touched,
+                setFieldValue,
+              }) => (
                 <Form onSubmit={handleSubmit}>
                   <Card.Body>
                     <Row>
@@ -361,10 +442,8 @@ export default function Settings() {
                           <Form.Label className="form-label">
                             Date Format
                           </Form.Label>
-
                           <Field
-                            type="text"
-                            // className="form-control"
+                            as="select" // Render the dropdown as a select element
                             className={`input101 ${
                               errors.date_format && touched.date_format
                                 ? "is-invalid"
@@ -373,7 +452,19 @@ export default function Settings() {
                             id="date_format"
                             name="date_format"
                             placeholder="Date Format"
-                          />
+                            onChange={(e) => {
+                              const selectedValue = e.target.value;
+                              console.log(selectedValue);
+                              setFieldValue("date_format", selectedValue);
+                            }}
+                          >
+                            <option value="">Select a date format</option>
+                            {dateFormatOptions.map((option) => (
+                              <option key={option} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                          </Field>
                           <ErrorMessage
                             component="div"
                             className="invalid-feedback"

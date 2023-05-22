@@ -289,7 +289,7 @@ export default function ManageSite() {
       name: "Site",
       selector: (row) => [row.site_name],
       sortable: false,
-      width: "60%",
+      width: "50%",
       cell: (row, index) => (
         <div
           className="d-flex"
@@ -304,6 +304,26 @@ export default function ManageSite() {
         </div>
       ),
     },
+    {
+      name: "Site Date",
+      selector: (row) => [row.start_date],
+      sortable: false,
+      width: "10%",
+      cell: (row, index) => (
+        <div
+          className="d-flex"
+          style={{ cursor: "default" }}
+          // onClick={() => handleToggleSidebar(row)}
+        >
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold ">
+              {row.start_date}
+            </h6>
+          </div>
+        </div>
+      ),
+    },
+   
     {
       name: "Status",
       selector: (row) => [row.status],

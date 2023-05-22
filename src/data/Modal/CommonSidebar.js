@@ -20,39 +20,65 @@ const CommonSidebar = (props) => {
     <div className={`common-sidebar ${visible ? "visible" : ""}`}>
       <div className="card">
         <div className="card-header text-center Sidebarheader">
+        <h3 className="Sidebar-title m-0">{title}</h3>
           <button className="close-button" onClick={props.onClose}>
             <FontAwesomeIcon icon={faTimes} />
           </button>
-          <h3 className="Sidebar-title m-0">{title}</h3>
+         
         </div>
-        <div className="card-body scrollview" >
+        <div className="card-body scrollview">
           {sidebarContent ? (
-            <div style={{ display: "flex" }}>
+            <div style={{ display: "flex", width: "100%" }}>
               <ul
                 style={{
                   listStyleType: "none",
                   padding: 0,
                   marginRight: "10px",
+                  width: "50%",
                 }}
               >
                 {Object.keys(sidebarContent)
                   .slice(0, Math.ceil(Object.keys(sidebarContent).length / 2))
-                  .map((key) => (
-                    <li key={key} className="li-row">
-                      <strong>{formatKey(key)}</strong>
-                      <br></br> {sidebarContent[key]}
-                    </li>
-                  ))}
+                  .map((key) => {
+                    if (
+                      key === "unique_id" ||
+                      key === "business_type_id" ||
+                      key === "id" ||
+                      key === "business_sub_type_id" ||
+                      key === "supplier_id" ||
+                      key === "data_import_type_id"
+                    ) {
+                      return null;
+                    }
+                    return (
+                      <li key={key} className="li-row">
+                        <strong>{formatKey(key)}</strong>
+                        <br /> {sidebarContent[key]}
+                      </li>
+                    );
+                  })}
               </ul>
-              <ul style={{ listStyleType: "none", padding: 0 }}>
+              <ul style={{ listStyleType: "none", padding: 0, width: "50%" }}>
                 {Object.keys(sidebarContent)
                   .slice(Math.ceil(Object.keys(sidebarContent).length / 2))
-                  .map((key) => (
-                    <li key={key} className="li-row">
-                      <strong>{formatKey(key)}</strong>
-                      <br></br> {sidebarContent[key]}
-                    </li>
-                  ))}
+                  .map((key) => {
+                    if (
+                      key === "unique_id" ||
+                      key === "business_type_id" ||
+                      key === "id" ||
+                      key === "business_sub_type_id" ||
+                      key === "supplier_id" ||
+                      key === "data_import_type_id"
+                    ) {
+                      return null;
+                    }
+                    return (
+                      <li key={key} className="li-row">
+                        <strong>{formatKey(key)}</strong>
+                        <br /> {sidebarContent[key]}
+                      </li>
+                    );
+                  })}
               </ul>
             </div>
           ) : (
