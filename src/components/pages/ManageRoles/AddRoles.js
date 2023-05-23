@@ -37,13 +37,13 @@ export default function AddRoles() {
         Authorization: `Bearer ${token}`,
       },
     });
-  
+
     axiosInstance
       .post("/permission-list")
       .then((response) => {
         setUserPermissions(response.data.data);
         setPermissions(response.data);
-  
+
         axiosInstance
           .post("/addon/list")
           .then((response) => {
@@ -58,7 +58,7 @@ export default function AddRoles() {
               navigate("/errorpage403");
             }
           });
-  
+
         console.clear();
       })
       .catch((error) => {
@@ -71,39 +71,37 @@ export default function AddRoles() {
         }
       });
   }, []);
-  
 
- 
-    const handleSubmit = async (values) => {
-      const body = {
-        name: values.name,
-        permissions: values.permissions,
-        addons: values.permissions,
-      };
-
-      const token = localStorage.getItem("token");
-
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/role/create`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(body),
-        }
-      );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        SuccessAlert(data.message);
-        navigate("/roles");
-      } else {
-        ErrorAlert(data.message);
-      }
+  const handleSubmit = async (values) => {
+    const body = {
+      name: values.name,
+      permissions: values.permissions,
+      addons: values.permissions,
     };
+
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/role/create`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      }
+    );
+
+    const data = await response.json();
+
+    if (response.ok) {
+      SuccessAlert(data.message);
+      navigate("/roles");
+    } else {
+      ErrorAlert(data.message);
+    }
+  };
 
   return (
     <>
@@ -111,13 +109,18 @@ export default function AddRoles() {
         <div>
           <h1 className="page-title">Add Role</h1>
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/dashboard' }}>
+            <Breadcrumb.Item
+              className="breadcrumb-item"
+              linkAs={Link}
+              linkProps={{ to: "/dashboard" }}
+            >
               Dashboard
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item  breadcrumds"
               aria-current="page"
-              linkAs={Link} linkProps={{ to: '/roles' }}
+              linkAs={Link}
+              linkProps={{ to: "/roles" }}
             >
               Manage Roles
             </Breadcrumb.Item>
@@ -196,11 +199,16 @@ export default function AddRoles() {
                           />
                         </div>
                         <div className="form-group">
-                          {addonitem && (
+                          <div className="table-heading">
+                            <h2>
+                              Addons List{" "}
+                              <span className="text-danger danger-title">
+                                * Atleast One Addon is Required{" "}
+                              </span>
+                            </h2>
+                          </div>
+                          {addonitem && addonitem.length > 0 ? (
                             <div>
-                              <div className="table-heading">
-                                <h2>Addons List</h2>
-                              </div>
                               {addonitem.map((role) => (
                                 <div
                                   key={role.id}
@@ -226,6 +234,13 @@ export default function AddRoles() {
                                 </div>
                               ))}
                             </div>
+                          ) : (
+                            <div>
+                              No Records Found Please
+                              <Link className=" m-2 " to={`/addaddon/`}>
+                                Add Addon
+                              </Link>
+                            </div>
                           )}
 
                           <ErrorMessage
@@ -236,11 +251,17 @@ export default function AddRoles() {
                         </div>
 
                         <div className="form-group">
-                          {permissions.data && (
+                          <div className="table-heading">
+                            <h2>
+                              Permissions
+                              <span className="text-danger danger-title">
+                                * Atleast One Permission is Required{" "}
+                              </span>
+                            </h2>
+                          </div>
+                          {permissions.data &&
+                          Object.keys(permissions.data).length > 0 ? (
                             <div>
-                              <div className="table-heading">
-                                <h2>Permissions</h2>
-                              </div>
                               {Object.keys(permissions.data).map((heading) => (
                                 <div key={heading}>
                                   <div className="table-heading">
@@ -278,6 +299,8 @@ export default function AddRoles() {
                                 </div>
                               ))}
                             </div>
+                          ) : (
+                            <div>No permissions found.</div>
                           )}
 
                           <ErrorMessage
@@ -288,22 +311,17 @@ export default function AddRoles() {
                         </div>
 
                         <div className="text-end">
-
-                        <Link 
-                            className="btn btn-danger me-2 " to={`/roles/`}>
-                         
+                          <Link className="btn btn-danger me-2 " to={`/roles/`}>
                             Cancel
                           </Link>
 
                           <button
                             type="submit"
                             className="btn btn-primary me-2 "
-                           
                             disabled={Object.keys(errors).length > 0}
                           >
                             Save
                           </button>
-                          
                         </div>
                       </Form>
                     )}

@@ -454,12 +454,16 @@ export default function Settings() {
                               setFieldValue("date_format", selectedValue);
                             }}
                           >
-                            <option value="">Select a date format</option>
+                            {/* <option value="">Select a date format</option>
                             {dateFormatOptions.map((option) => (
                               <option key={option} value={option}>
                                 {option}
                               </option>
-                            ))}
+                            ))} */} 
+                            <option value="">Select a date format</option>
+                            <option value="Y-m-d">YYYY-MM-DD</option>
+                            <option value="m-d-Y">MM-DD-YYYY </option>
+                            <option value="d-m-Y">DD-MM-YYYY</option>
                           </Field>
                           <ErrorMessage
                             component="div"

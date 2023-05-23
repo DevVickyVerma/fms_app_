@@ -35,8 +35,8 @@ export default function AddAddon() {
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
     } else {
-      console.error(error.message,"error");
-      ErrorAlert(error.message)
+      console.error(error.message, "error");
+      ErrorAlert(error.message);
     }
   }
 
@@ -51,17 +51,14 @@ export default function AddAddon() {
     axiosInstance
       .post("/permission-list")
       .then((response) => {
-        
         setUserPermissions(response.data.data);
         setPermissions(response.data);
       })
-   
-      .catch((error)=> {
+
+      .catch((error) => {
         handleError(error);
       });
   }, []);
-
-
 
   const handleSubmit = async (values) => {
     const body = {
@@ -99,13 +96,18 @@ export default function AddAddon() {
         <div>
           <h1 className="page-title">Add Addon</h1>
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/dashboard' }}>
+            <Breadcrumb.Item
+              className="breadcrumb-item"
+              linkAs={Link}
+              linkProps={{ to: "/dashboard" }}
+            >
               Dashboard
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item  breadcrumds"
               aria-current="page"
-              linkAs={Link} linkProps={{ to: '/manageaddon' }}
+              linkAs={Link}
+              linkProps={{ to: "/manageaddon" }}
             >
               Manage Addons
             </Breadcrumb.Item>
@@ -182,8 +184,13 @@ export default function AddAddon() {
                         </div>
 
                         <div className="form-group">
-                          {permissions.data && (
+                        <div className="table-heading">
+                                <h2>Permissions</h2>
+                              </div>
+                          {permissions.data &&
+                          Object.keys(permissions.data).length > 0 ? (
                             <div>
+                              
                               {Object.keys(permissions.data).map((heading) => (
                                 <div key={heading}>
                                   <div className="table-heading">
@@ -221,6 +228,8 @@ export default function AddAddon() {
                                 </div>
                               ))}
                             </div>
+                          ) : (
+                            <div>No permissions available.</div>
                           )}
 
                           <ErrorMessage
@@ -231,9 +240,11 @@ export default function AddAddon() {
                         </div>
 
                         <div className="text-end">
-                        <Link type="submit"
-                            className="btn btn-danger me-2 " to={`/manageaddon/`}>
-                         
+                          <Link
+                            type="submit"
+                            className="btn btn-danger me-2 "
+                            to={`/manageaddon/`}
+                          >
                             Cancel
                           </Link>
                           <button
@@ -243,7 +254,6 @@ export default function AddAddon() {
                           >
                             Save
                           </button>
-                          
                         </div>
                       </Form>
                     )}
