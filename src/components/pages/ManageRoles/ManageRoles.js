@@ -11,12 +11,14 @@ import Swal from "sweetalert2";
 import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import SideSearchbar from "../../../data/Modal/SideSearchbar";
 
 export default function ManageRoles() {
   const [data, setData] = useState();
   const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
+  const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -51,7 +53,7 @@ export default function ManageRoles() {
               icon: "success",
               confirmButtonText: "OK",
             });
-            fetchData()
+            fetchData();
           } catch (error) {
             console.error(error);
             const message = error.response
@@ -62,7 +64,6 @@ export default function ManageRoles() {
           // setLoading(false);
         };
         DeleteRole();
-        
       }
     });
   };
@@ -80,7 +81,6 @@ export default function ManageRoles() {
   }
 
   useEffect(() => {
-   
     fetchData();
   }, []);
   const token = localStorage.getItem("token");
@@ -100,7 +100,6 @@ export default function ManageRoles() {
       handleError(error);
     }
   };
-
 
   const handleEdit = (row) => {
     console.log(row, "handleEdit");
@@ -193,7 +192,36 @@ export default function ManageRoles() {
   };
   const [roles, setRoles] = useState([]);
   const [open, setOpen] = useState(false);
+  const handleToggleSidebar1 = () => {
+    setSidebarVisible1(!sidebarVisible1);
+  };
+  const handleSubmit = (formData) => {
+    const axiosInstance = axios.create({
+      baseURL: process.env.REACT_APP_BASE_URL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+    const SearchList = async () => {
+      try {
+        const response = await axiosInstance.post("/role/list", formData);
 
+        setData(response.data.data.addons);
+        handleToggleSidebar1();
+      } catch (error) {
+        console.error(error);
+        const message = error.response
+          ? error.response.data.message
+          : "Unknown error occurred";
+        ErrorAlert(message);
+      }
+      // setLoading(false);
+    };
+    SearchList();
+    // Handle the form data here
+    console.log("Form Data1111:", formData);
+  };
   return (
     <>
       <div className="page-header ">
@@ -217,12 +245,29 @@ export default function ManageRoles() {
         </div>
         <div className="ms-auto pageheader-btn">
           <div className="ms-auto pageheader-btn">
-            <Link to="/addroles" className="btn btn-primary">
+            {data?.length > 0 && (
+              <Link
+                className="btn btn-primary"
+                onClick={() => {
+                  handleToggleSidebar1();
+                  // Additional functionality or actions when clicking the "Search" button
+                }}
+              >
+                Search
+              </Link>
+            )}
+            <Link to="/addroles" className="btn btn-primary ms-2">
               Add Role
             </Link>
           </div>
         </div>
       </div>
+      <SideSearchbar
+        title="Search"
+        visible={sidebarVisible1}
+        onClose={handleToggleSidebar1}
+        onSubmit={handleSubmit}
+      />
 
       <DataTableExtensions {...tableDatas}>
         <DataTable

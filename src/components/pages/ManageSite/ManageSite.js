@@ -12,6 +12,8 @@ import { toast } from "react-toastify";
 import { Switch } from "@material-ui/core";
 import Details from "../../../data/Modal/Details";
 import CommonSidebar from "../../../data/Modal/CommonSidebar";
+import SearchComponent from "../../../data/Modal/Searchbar";
+import SideSearchbar from "../../../data/Modal/SideSearchbar";
 
 export default function ManageSite() {
   const [data, setData] = useState();
@@ -24,6 +26,7 @@ export default function ManageSite() {
   const [showModal, setShowModal] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
   const [sidebarVisible, setSidebarVisible] = useState(true);
+  const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [sidebardata, setSideData] = useState();
   const [SiteId, setSiteId] = useState();
   const [loading, setLoading] = useState(false);
@@ -69,7 +72,6 @@ export default function ManageSite() {
         const response = await axiosInstance.get("/site/detail/?id=" + row.id);
 
         if (response.data && response.data.data) {
-        
           setSideDataobject(response.data.data);
         }
       } catch (error) {
@@ -83,17 +85,19 @@ export default function ManageSite() {
     setSidebarVisible(!sidebarVisible);
   };
 
+  const handleToggleSidebar1 = () => {
+    setSidebarVisible1(!sidebarVisible1);
+  };
+
   const handleDropdownChange = (event) => {
     setDropdownValue(event.target.value);
-
   };
   const handleCloseSidebar = () => {
     setSidebarVisible(true);
   };
 
   const handleDetailsClick = (row) => {
-  
-    setSiteId(row.id)
+    setSiteId(row.id);
     setShowModal(true);
   };
   const handleDelete = (id) => {
@@ -140,7 +144,6 @@ export default function ManageSite() {
     });
   };
   const handleEdit = (id) => {
-   
     localStorage.setItem("Edit_Site", id);
   };
 
@@ -187,7 +190,7 @@ export default function ManageSite() {
 
       if (response.data.data.sites.length > 0) {
         setData(response.data.data.sites);
-      
+
         // setDropdownValue(response.data.data);
 
         const filteredStatuses = [];
@@ -211,11 +214,8 @@ export default function ManageSite() {
 
       if (response.data.data.length > 0) {
         // setData(response.data.data.sites);
-      
 
         setDropdownValue(response.data.data);
-
-      
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -301,14 +301,12 @@ export default function ManageSite() {
           // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold ">
-              {row.start_date}
-            </h6>
+            <h6 className="mb-0 fs-14 fw-semibold ">{row.start_date}</h6>
           </div>
         </div>
       ),
     },
-   
+
     {
       name: "Status",
       selector: (row) => [row.status],
@@ -339,7 +337,7 @@ export default function ManageSite() {
       cell: (row) => (
         <span className="text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Details</Tooltip>}>
-            <span  onClick={() => handleDetailsClick(row)}>
+            <span onClick={() => handleDetailsClick(row)}>
               <Details
                 showModal={showModal}
                 setShowModal={setShowModal}
@@ -404,9 +402,42 @@ export default function ManageSite() {
   const [roles, setRoles] = useState([]);
   useEffect(() => {
     fetchData();
-    fetchClientList()
+    fetchClientList();
     console.clear();
   }, []);
+  const handleSearchSubmit = (data) => {
+    // Handle the data retrieval here
+    console.log(data);
+    // Perform further operations such as API calls, data processing, etc.
+  };
+
+  const handleSubmit = (formData) => {
+    const axiosInstance = axios.create({
+      baseURL: process.env.REACT_APP_BASE_URL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+    const SearchList = async () => {
+      try {
+        const response = await axiosInstance.post("/site/list", formData);
+
+        setData(response.data.data.sites);
+        handleToggleSidebar1();
+      } catch (error) {
+        console.error(error);
+        const message = error.response
+          ? error.response.data.message
+          : "Unknown error occurred";
+        ErrorAlert(message);
+      }
+      // setLoading(false);
+    };
+    SearchList();
+    // Handle the form data here
+    console.log("Form Data1111:", formData);
+  };
 
   return (
     <>
@@ -430,12 +461,31 @@ export default function ManageSite() {
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
-        <div className="ms-auto pageheader-btn">
-          <Link to="/addsite" className="btn btn-primary">
+        <div className="ms-auto pageheader-btn ">
+          {data?.length > 0 && (
+            <Link
+              className="btn btn-primary"
+              onClick={() => {
+                handleToggleSidebar1();
+                // Additional functionality or actions when clicking the "Search" button
+              }}
+            >
+              Search
+            </Link>
+          )}
+
+          <Link to="/addsite" className="btn btn-primary ms-2">
             Add Site
           </Link>
         </div>
       </div>
+      <SideSearchbar
+        title="Search"
+        visible={sidebarVisible1}
+        onClose={handleToggleSidebar1}
+        onSubmit={handleSubmit}
+      />
+
       <Suspense fallback={<img src={Loaderimg} alt="Loading" />}>
         <CommonSidebar
           title={sidebardata}
