@@ -62,29 +62,22 @@ export default function EditRoles() {
           const { data } = response;
           
 
+     
           // for (const key of Object.keys(data.data.addons)) {
           //   let array = [];
-          //   for (const item of data?.data?.addons[key]) {
+          //   for (const item of data?.data?.addons[key].names) {
           //     if (item.checked) {
           //       array.push(item.name);
           //     }
           //   }
-          //   setPermissionArray((prevState) => [
-          //     ...new Set([...prevState, ...array]),
-          //   ]);
+          //   setAddonArray((prevState) => {
+          //     const updatedArray = [...prevState, ...array];
+          //     return Array.from(new Set(updatedArray));
+          //   });
           // }
-          for (const key of Object.keys(data.data.addons)) {
-            let array = [];
-            for (const item of data?.data?.addons[key].names) {
-              if (item.checked) {
-                array.push(item.name);
-              }
-            }
-            setAddonArray((prevState) => {
-              const updatedArray = [...prevState, ...array];
-              return Array.from(new Set(updatedArray));
-            });
-          }
+
+
+          
           setAddonitem(response.data.data.addons);
           
 

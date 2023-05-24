@@ -12,7 +12,6 @@ import { toast } from "react-toastify";
 import { Switch } from "@material-ui/core";
 import Details from "../../../data/Modal/Details";
 import CommonSidebar from "../../../data/Modal/CommonSidebar";
-import SearchComponent from "../../../data/Modal/Searchbar";
 import SideSearchbar from "../../../data/Modal/SideSearchbar";
 
 export default function ManageSite() {
