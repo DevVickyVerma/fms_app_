@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import { Breadcrumb, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Breadcrumb, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -19,6 +19,7 @@ export default function ManageClient() {
   const navigate = useNavigate();
   const [searchdata, setSearchdata] = useState({});
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
+  const [activeArray, setActiveArray] = useState([]);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -41,9 +42,8 @@ export default function ManageClient() {
     });
   };
   const handleSearchReset = () => {
-    fetchData()
+    fetchData();
     setSearchdata({});
-
   };
   const SuccessAlert = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
@@ -64,9 +64,11 @@ export default function ManageClient() {
   };
   const handleSubmit = (formData) => {
     const filteredFormData = Object.fromEntries(
-      Object.entries(formData).filter(([key, value]) => value !== null && value !== "")
+      Object.entries(formData).filter(
+        ([key, value]) => value !== null && value !== ""
+      )
     );
-  
+
     if (Object.values(filteredFormData).length > 0) {
       setSearchdata(filteredFormData);
       const axiosInstance = axios.create({
@@ -79,28 +81,26 @@ export default function ManageClient() {
       const SearchList = async () => {
         try {
           const response = await axiosInstance.post("/client-list", formData);
-  
+
           setData(response.data.data);
         } catch (error) {
           console.error(error);
           const message = error.response
             ? error.response.data.message
             : "Unknown error occurred";
-            Errornotify(message);
+          Errornotify(message);
         }
       };
       SearchList();
     }
-  
+
     // Clear the form input values
-   // Resetting the formData to an empty object
-  
+    // Resetting the formData to an empty object
+
     handleToggleSidebar1();
   };
 
   useEffect(() => {
-  
-
     fetchData();
   }, []);
   const token = localStorage.getItem("token");
@@ -115,9 +115,71 @@ export default function ManageClient() {
       const response = await axiosInstance.post("/client-list");
       if (response.data.data.length > 0) {
         setData(response.data.data);
+        const filteredStatuses = [];
+        for (const client of response.data.data) {
+          if (client.status === 1) {
+            filteredStatuses.push(client.id);
+          }
+        }
+
+        if (filteredStatuses.length > 0) {
+          setActiveArray(filteredStatuses);
+        }
       }
     } catch (error) {
-      handleError(error)
+      handleError(error);
+    }
+  };
+  const formData = new FormData();
+  const toggleActive = (id) => {
+    const newData = [...data];
+    const index = newData.findIndex((d) => d.id === id);
+    newData[index].active = !newData[index].active;
+    setData(newData);
+
+    if (newData[index].active) {
+      setActiveArray((prevActiveArray) => {
+        // Check if id is already in array
+        if (prevActiveArray.includes(id)) {
+          // Remove item from array
+          return prevActiveArray.filter((activeId) => activeId !== id);
+        } else {
+          return [...prevActiveArray, id]; // Push item into array
+        }
+      });
+      formData.append("user_id", id);
+      formData.append("status", 1);
+
+      ToggleStatus();
+    } else {
+      setActiveArray((prevActiveArray) =>
+        prevActiveArray.filter((activeId) => activeId !== id)
+      );
+      formData.append("user_id", id);
+      formData.append("status", 0);
+      ToggleStatus();
+    }
+  };
+  const ToggleStatus = async () => {
+    try {
+      const response = await axiosInstance.post("/update-status", formData);
+      if (response) {
+        SuccessAlert(response.data.message);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+        Errornotify("Invalid access token");
+        localStorage.clear();
+      } else if (error.response && error.response.data.status_code === "403") {
+        navigate("/errorpage403");
+      } else {
+        const errorMessage =
+          error.response && error.response.message
+            ? error.response.message
+            : "An error occurred";
+        Errornotify(errorMessage);
+      }
     }
   };
 
@@ -138,7 +200,7 @@ export default function ManageClient() {
       name: "Client",
       selector: (row) => [row.full_name],
       sortable: false,
-      width: "55%",
+      width: "45%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -162,6 +224,27 @@ export default function ManageClient() {
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
           </div>
         </div>
+      ),
+    },
+    {
+      name: "Status",
+      selector: (row) => [row.status],
+      sortable: false,
+      width: "10%",
+      cell: (row) => (
+        <span className="text-muted fs-15 fw-semibold text-center">
+          <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
+            <button className="btn  btn-sm rounded-11 toggl-btn">
+              <Form.Check
+                type="switch"
+                id={`active-switch-${row.id}`}
+                className="toggl-btn"
+                checked={activeArray.find((item) => item === row.id)}
+                onChange={() => toggleActive(row.id)}
+              />
+            </button>
+          </OverlayTrigger>
+        </span>
       ),
     },
     {
@@ -236,7 +319,11 @@ export default function ManageClient() {
         <div>
           <h1 className="page-title">Manage Client</h1>
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/dashboard' }}>
+            <Breadcrumb.Item
+              className="breadcrumb-item"
+              linkAs={Link}
+              linkProps={{ to: "/dashboard" }}
+            >
               Dashboard
             </Breadcrumb.Item>
             <Breadcrumb.Item
@@ -248,7 +335,7 @@ export default function ManageClient() {
           </Breadcrumb>
         </div>
         <div className="ms-auto pageheader-btn">
-        <span className="Search-data">
+          <span className="Search-data">
             {Object.entries(searchdata).map(([key, value]) => (
               <div key={key} className="badge">
                 <span className="badge-key">
@@ -258,7 +345,7 @@ export default function ManageClient() {
               </div>
             ))}
           </span>
-        <Link
+          <Link
             className="btn btn-primary"
             onClick={() => {
               handleToggleSidebar1();
@@ -270,14 +357,15 @@ export default function ManageClient() {
             </span>
           </Link>
           {Object.keys(searchdata).length > 0 ? (
-            <Link  className="btn btn-danger ms-2" onClick={handleSearchReset}>
+            <Link className="btn btn-danger ms-2" onClick={handleSearchReset}>
               Reset <RestartAltIcon />
             </Link>
           ) : (
             ""
           )}
           <Link to="/comingsoon" className="btn btn-primary ms-2">
-            Add Client<AddCircleOutlineIcon />
+            Add Client
+            <AddCircleOutlineIcon />
           </Link>
         </div>
       </div>
