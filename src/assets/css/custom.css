@@ -1,3 +1,54 @@
 span.text-danger.danger-title {
-    font-size: 11px;
-  }
+  font-size: 11px;
+}
+.SidebarSearchheader {
+  max-width: 100%;
+  color: #fff;
+  height: 45px;
+  /* font-size: 12px !important; */
+  text-decoration: none;
+  color: #ffffff;
+  background: linear-gradient(
+    to bottom right,
+    #6259ca 0%,
+    var(--primary06) 100%
+  );
+  background: linear-gradient(
+    to bottom right,
+    #6259ca 0%,
+    var(--primary06) 100%
+  );
+  background: linear-gradient(
+    to bottom right,
+    var(--primary-bg-color) 0%,
+    var(--primary06) 100%
+  );
+  border-radius: 0 0px 0px 0;
+  box-shadow: 0 7px 12px 0 rgba(95, 118, 232, 0.21);
+  display: flex;
+  justify-content: space-between;
+}
+h3.SidebarSearch-title {
+  font-size: 25px;
+  max-width: 90%;
+  font-weight: 500;
+}
+.badge {
+  display: inline-block;
+  background-color: #c1c1c1;
+  
+  padding: 12px 9px;
+  border-radius: 7px;
+  margin-right: 10px;
+  color: #fff;
+}
+.badge-key {
+  font-weight: bold;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.badge-value {
+  margin-left: 5px;
+  font-size: 13px;
+}

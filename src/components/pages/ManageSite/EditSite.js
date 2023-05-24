@@ -19,7 +19,6 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import DatePicker from "react-multi-date-picker";
 
-
 export default function AddSite() {
   const navigate = useNavigate();
 
@@ -31,8 +30,6 @@ export default function AddSite() {
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-
-
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
@@ -42,9 +39,12 @@ export default function AddSite() {
       navigate("/errorpage403");
     } else {
       console.error(error.message, "error");
-      Errornotify(error.message);
+      const errorMessage = error.response ? error.response.data.message[0] : error.message;
+      Errornotify(errorMessage);
     }
   }
+  
+  
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -66,7 +66,7 @@ export default function AddSite() {
           formik.setValues(response.data.data);
         }
       } catch (error) {
-        handleError(error)
+        handleError(error);
       }
     };
 
@@ -78,61 +78,24 @@ export default function AddSite() {
           setAddSiteData(response.data.data);
         }
       } catch (error) {
-        handleError(error)
+        handleError(error);
       }
     };
     try {
       GetSiteData();
       GetSiteDetails();
     } catch (error) {
-      handleError(error)
+      handleError(error);
     }
+
     console.clear();
   }, []);
-
-  
-  //   const token = localStorage.getItem("token");
-  //   const Edit_Site_id = localStorage.getItem("Edit_Site");
-  
-    
-  
-  //   const apiConfig = {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   };
-  
-  //   const fetchData = async () => {
-  //     try {
-  //       const siteDetails = await apiCall("/site/detail/?id=" + Edit_Site_id, {
-  //         method: "GET",
-  //       }, navigate);
-  
-  //       const siteData = await apiCall("site/common-data-list", {
-  //         method: "GET",
-  //       }, navigate);
-  
-  //       if (siteDetails) {
-  //         setEditSiteData(siteDetails);
-  //         formik.setValues(siteDetails);
-  //       }
-  
-  //       if (siteData) {
-  //         setAddSiteData(siteData);
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  
-  //   fetchData();
-  // }, []);
-  
 
   const handleSubmit = async (event) => {
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
+    console.log(formData,"formData")
 
     // Iterate over formik.values and convert null to empty strings
     for (const [key, value] of Object.entries(formik.values)) {
@@ -161,7 +124,7 @@ export default function AddSite() {
         Errornotify(data.message);
       }
     } catch (error) {
-      handleError(error)
+      handleError(error);
     }
   };
 
@@ -210,13 +173,13 @@ export default function AddSite() {
       department_sage_code: Yup.string().required(
         "Department Sage Code is required"
       ),
-      bunker_upload_status: Yup.string().required(
-        "Bunker Upload Status is required"
-      ),
+      // bunker_upload_status: Yup.string().required(
+      //   "Bunker Upload Status is required"
+      // ),
       bp_credit_card_site_no: Yup.string().required(
         "Bunker Upload Status is required"
       ),
-      drs_upload_status: Yup.string().required("Drs Upload Status is required"),
+      // drs_upload_status: Yup.string().required("Drs Upload Status is required"),
     }),
     onSubmit: handleSubmit,
   });
@@ -371,7 +334,7 @@ export default function AddSite() {
                         id="supplier_id"
                         name="supplier_id"
                         onChange={formik.handleChange}
-                        value={formik.values.supplier_id || ""}
+                        value={formik.values.supplier_id}
                       >
                         <option value="">Select a supplier_id</option>
                         {AddSiteData.suppliers &&

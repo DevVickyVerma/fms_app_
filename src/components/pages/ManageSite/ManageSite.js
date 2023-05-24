@@ -13,6 +13,9 @@ import { Switch } from "@material-ui/core";
 import Details from "../../../data/Modal/Details";
 import CommonSidebar from "../../../data/Modal/CommonSidebar";
 import SideSearchbar from "../../../data/Modal/SideSearchbar";
+import SearchIcon from "@mui/icons-material/Search";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 export default function ManageSite() {
   const [data, setData] = useState();
@@ -28,6 +31,7 @@ export default function ManageSite() {
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [sidebardata, setSideData] = useState();
   const [SiteId, setSiteId] = useState();
+  const [searchdata, setSearchdata] = useState({});
   const [loading, setLoading] = useState(false);
 
   const [sidebardataobject, setSideDataobject] = useState();
@@ -273,7 +277,7 @@ export default function ManageSite() {
       name: "Site",
       selector: (row) => [row.site_name],
       sortable: false,
-      width: "50%",
+      width: "45%",
       cell: (row, index) => (
         <div
           className="d-flex"
@@ -292,7 +296,7 @@ export default function ManageSite() {
       name: "Created Date",
       selector: (row) => [row.start_date],
       sortable: false,
-      width: "10%",
+      width: "15%",
       cell: (row, index) => (
         <div
           className="d-flex"
@@ -404,39 +408,48 @@ export default function ManageSite() {
     fetchClientList();
     console.clear();
   }, []);
-  const handleSearchSubmit = (data) => {
-    // Handle the data retrieval here
-    console.log(data);
-    // Perform further operations such as API calls, data processing, etc.
+  const handleSearchReset = () => {
+    fetchData()
+    setSearchdata({});
+
   };
 
   const handleSubmit = (formData) => {
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
-    const SearchList = async () => {
-      try {
-        const response = await axiosInstance.post("/site/list", formData);
-
-        setData(response.data.data.sites);
-        handleToggleSidebar1();
-      } catch (error) {
-        console.error(error);
-        const message = error.response
-          ? error.response.data.message
-          : "Unknown error occurred";
-        ErrorAlert(message);
-      }
-      // setLoading(false);
-    };
-    SearchList();
-    // Handle the form data here
-    console.log("Form Data1111:", formData);
+    const filteredFormData = Object.fromEntries(
+      Object.entries(formData).filter(([key, value]) => value !== null && value !== "")
+    );
+  
+    if (Object.values(filteredFormData).length > 0) {
+      setSearchdata(filteredFormData);
+      const axiosInstance = axios.create({
+        baseURL: process.env.REACT_APP_BASE_URL,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+      const SearchList = async () => {
+        try {
+          const response = await axiosInstance.post("/site/list", formData);
+  
+          setData(response.data.data.sites);
+        } catch (error) {
+          console.error(error);
+          const message = error.response
+            ? error.response.data.message
+            : "Unknown error occurred";
+          ErrorAlert(message);
+        }
+      };
+      SearchList();
+    }
+  
+    // Clear the form input values
+   // Resetting the formData to an empty object
+  
+    handleToggleSidebar1();
   };
+  
 
   return (
     <>
@@ -461,20 +474,38 @@ export default function ManageSite() {
           </Breadcrumb>
         </div>
         <div className="ms-auto pageheader-btn ">
-          {data?.length > 0 && (
-            <Link
-              className="btn btn-primary"
-              onClick={() => {
-                handleToggleSidebar1();
-                // Additional functionality or actions when clicking the "Search" button
-              }}
-            >
-              Search
+          <span className="Search-data">
+            {Object.entries(searchdata).map(([key, value]) => (
+              <div key={key} className="badge">
+                <span className="badge-key">
+                  {key.charAt(0).toUpperCase() + key.slice(1)}:
+                </span>
+                <span className="badge-value">{value}</span>
+              </div>
+            ))}
+          </span>
+
+          <Link
+            className="btn btn-primary"
+            onClick={() => {
+              handleToggleSidebar1();
+            }}
+          >
+            Search
+            <span className="ms-2">
+              <SearchIcon />
+            </span>
+          </Link>
+          {Object.keys(searchdata).length > 0 ? (
+            <Link  className="btn btn-danger ms-2" onClick={handleSearchReset}>
+              Reset <RestartAltIcon />
             </Link>
+          ) : (
+            ""
           )}
 
           <Link to="/addsite" className="btn btn-primary ms-2">
-            Add Site
+            Add Site <AddCircleOutlineIcon />
           </Link>
         </div>
       </div>
