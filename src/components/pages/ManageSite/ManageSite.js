@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 
 import { toast } from "react-toastify";
 import { Switch } from "@material-ui/core";
-import Details from "../../../data/Modal/Details";
+import SiteDetails from "../../../data/Modal/SiteDetails";
 import CommonSidebar from "../../../data/Modal/CommonSidebar";
 import SideSearchbar from "../../../data/Modal/SideSearchbar";
 import SearchIcon from "@mui/icons-material/Search";
@@ -257,9 +257,7 @@ export default function ManageSite() {
       }
     }
   };
-  // const handleDetailsClick = () => {
-  // <details/>
-  // };
+ 
   const columns = [
     {
       name: "S.NO",
@@ -341,12 +339,12 @@ export default function ManageSite() {
         <span className="text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Details</Tooltip>}>
             <span onClick={() => handleDetailsClick(row)}>
-              <Details
+              <SiteDetails
                 showModal={showModal}
                 setShowModal={setShowModal}
                 dropdownValue={dropdownValue}
                 handleDropdownChange={handleDropdownChange}
-                modalHeading="Assign Client"
+                modalHeading="Assign Site"
                 sites={dropdownValue}
                 SiteId={SiteId}
               />
