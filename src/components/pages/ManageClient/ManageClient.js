@@ -7,12 +7,18 @@ import { Breadcrumb, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { FormModal } from "../../../data/Modal/Modal";
+
 import { toast } from "react-toastify";
+import SearchIcon from "@mui/icons-material/Search";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import SideSearchbar from "../../../data/Modal/SideSearchbar";
 
 export default function ManageClient() {
   const [data, setData] = useState();
   const navigate = useNavigate();
+  const [searchdata, setSearchdata] = useState({});
+  const [sidebarVisible1, setSidebarVisible1] = useState(true);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -34,7 +40,12 @@ export default function ManageClient() {
       }
     });
   };
-  const notify = (message) => toast.success(message);
+  const handleSearchReset = () => {
+    fetchData()
+    setSearchdata({});
+
+  };
+  const SuccessAlert = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -48,28 +59,67 @@ export default function ManageClient() {
       Errornotify(error.message);
     }
   }
+  const handleToggleSidebar1 = () => {
+    setSidebarVisible1(!sidebarVisible1);
+  };
+  const handleSubmit = (formData) => {
+    const filteredFormData = Object.fromEntries(
+      Object.entries(formData).filter(([key, value]) => value !== null && value !== "")
+    );
+  
+    if (Object.values(filteredFormData).length > 0) {
+      setSearchdata(filteredFormData);
+      const axiosInstance = axios.create({
+        baseURL: process.env.REACT_APP_BASE_URL,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+      const SearchList = async () => {
+        try {
+          const response = await axiosInstance.post("/client-list", formData);
+  
+          setData(response.data.data);
+        } catch (error) {
+          console.error(error);
+          const message = error.response
+            ? error.response.data.message
+            : "Unknown error occurred";
+            Errornotify(message);
+        }
+      };
+      SearchList();
+    }
+  
+    // Clear the form input values
+   // Resetting the formData to an empty object
+  
+    handleToggleSidebar1();
+  };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.post("/client-list");
-        if (response.data.data.length > 0) {
-          setData(response.data.data);
-        }
-      } catch (error) {
-        handleError(error)
-      }
-    };
+  
 
     fetchData();
   }, []);
+  const token = localStorage.getItem("token");
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const fetchData = async () => {
+    try {
+      const response = await axiosInstance.post("/client-list");
+      if (response.data.data.length > 0) {
+        setData(response.data.data);
+      }
+    } catch (error) {
+      handleError(error)
+    }
+  };
 
   const columns = [
     {
@@ -88,7 +138,7 @@ export default function ManageClient() {
       name: "Client",
       selector: (row) => [row.full_name],
       sortable: false,
-      width: "70%",
+      width: "55%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -97,7 +147,23 @@ export default function ManageClient() {
         </div>
       ),
     },
-
+    {
+      name: "Created Date",
+      selector: (row) => [row.created_date],
+      sortable: false,
+      width: "15%",
+      cell: (row, index) => (
+        <div
+          className="d-flex"
+          style={{ cursor: "default" }}
+          // onClick={() => handleToggleSidebar(row)}
+        >
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
+          </div>
+        </div>
+      ),
+    },
     {
       name: "ACTION",
       selector: (row) => [row.action],
@@ -182,11 +248,45 @@ export default function ManageClient() {
           </Breadcrumb>
         </div>
         <div className="ms-auto pageheader-btn">
-          <Link to="/comingsoon" className="btn btn-primary">
-            Add Client
+        <span className="Search-data">
+            {Object.entries(searchdata).map(([key, value]) => (
+              <div key={key} className="badge">
+                <span className="badge-key">
+                  {key.charAt(0).toUpperCase() + key.slice(1)}:
+                </span>
+                <span className="badge-value">{value}</span>
+              </div>
+            ))}
+          </span>
+        <Link
+            className="btn btn-primary"
+            onClick={() => {
+              handleToggleSidebar1();
+            }}
+          >
+            Search
+            <span className="ms-2">
+              <SearchIcon />
+            </span>
+          </Link>
+          {Object.keys(searchdata).length > 0 ? (
+            <Link  className="btn btn-danger ms-2" onClick={handleSearchReset}>
+              Reset <RestartAltIcon />
+            </Link>
+          ) : (
+            ""
+          )}
+          <Link to="/comingsoon" className="btn btn-primary ms-2">
+            Add Client<AddCircleOutlineIcon />
           </Link>
         </div>
       </div>
+      <SideSearchbar
+        title="Search"
+        visible={sidebarVisible1}
+        onClose={handleToggleSidebar1}
+        onSubmit={handleSubmit}
+      />
 
       <DataTableExtensions {...tableDatas}>
         <DataTable
