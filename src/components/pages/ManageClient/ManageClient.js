@@ -363,7 +363,7 @@ export default function ManageClient() {
           ) : (
             ""
           )}
-          <Link to="/comingsoon" className="btn btn-primary ms-2">
+          <Link to="/addclient" className="btn btn-primary ms-2">
             Add Client
             <AddCircleOutlineIcon />
           </Link>
@@ -386,7 +386,7 @@ export default function ManageClient() {
           striped={true}
           // center={true}
           persistTableHead
-          // pagination
+          pagination
           highlightOnHover
           searchable={true}
         />

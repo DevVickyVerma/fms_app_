@@ -292,7 +292,7 @@ export default function ManageSite() {
     },
     {
       name: "Created Date",
-      selector: (row) => [row.start_date],
+      selector: (row) => [row.created_date],
       sortable: false,
       width: "15%",
       cell: (row, index) => (
@@ -302,7 +302,7 @@ export default function ManageSite() {
           // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold ">{row.start_date}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
           </div>
         </div>
       ),

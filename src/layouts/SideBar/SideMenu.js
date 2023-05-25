@@ -21,7 +21,7 @@ export const MENUITEMS = [
             title: "Manage Clients",
           },
           {
-            path: `/comingsoon`,
+            path: `/addclient`,
             type: "link",
             title: "Add Clients",
           },

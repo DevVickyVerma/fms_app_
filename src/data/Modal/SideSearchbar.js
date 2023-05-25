@@ -6,34 +6,34 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const SideSearchbar = (props) => {
-  const { title, sidebarContent, visible, onClose, onSubmit ,onCancel} = props;
+  const { title, sidebarContent, visible, onClose, onSubmit, onCancel } = props;
 
   const [keyword, setSearchQuery] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [start_date, setStartDate] = useState("");
+  const [end_date, setEndDate] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (startDate && !endDate) {
+    if (start_date && !end_date) {
       setErrorMessage("Please select an end date");
       return;
     }
 
     // Check if the end date is selected but the start date is not
-    if (!startDate && endDate) {
+    if (!start_date && end_date) {
       setErrorMessage("Please select a start date");
       return;
     }
     setErrorMessage("");
     const formData = {
       keyword,
-      startDate,
-      endDate,
+      start_date,
+      end_date,
     };
     console.log("Search Query:", keyword);
-    console.log("Start Date:", startDate);
-    console.log("End Date:", endDate);
+    console.log("Start Date:", start_date);
+    console.log("End Date:", end_date);
     onSubmit(formData);
     setSearchQuery("");
     setStartDate("");
@@ -50,7 +50,7 @@ const SideSearchbar = (props) => {
           </button>
         </div>
         <div className="card-body">
-          <form >
+          <form>
             <div className="form-group">
               <label className="form-label" htmlFor="Search">
                 Search:
@@ -72,7 +72,7 @@ const SideSearchbar = (props) => {
                   type="date"
                   id="start-date"
                   className="form-control"
-                  value={startDate}
+                  value={start_date}
                   onChange={(e) => setStartDate(e.target.value)}
                 />
               </div>
@@ -85,7 +85,7 @@ const SideSearchbar = (props) => {
                   type="date"
                   id="end-date"
                   className="form-control"
-                  value={endDate}
+                  value={end_date}
                   onChange={(e) => setEndDate(e.target.value)}
                 />
               </div>
@@ -93,16 +93,19 @@ const SideSearchbar = (props) => {
             {errorMessage && (
               <div className="error-message">{errorMessage}</div>
             )}
-          
           </form>
           <div className="text-end">
-              <button type="Search" className="btn btn-primary" onClick={handleSubmit}>
-                Search
-              </button>
-               <button className="btn btn-danger ms-2" onClick={onClose}>
-                Cancel
-              </button>
-            </div>
+            <button
+              type="Search"
+              className="btn btn-primary"
+              onClick={handleSubmit}
+            >
+              Search
+            </button>
+            <button className="btn btn-danger ms-2" onClick={onClose}>
+              Cancel
+            </button>
+          </div>
         </div>
       </div>
     </div>

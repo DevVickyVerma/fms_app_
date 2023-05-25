@@ -19,8 +19,8 @@ const CommonSidebar = (props) => {
   return (
     <div className={`common-sidebar ${visible ? "visible" : ""}`}>
       <div className="card">
-        <div className="card-header text-center Sidebarheader">
-        <h3 className="Sidebar-title m-0">{title}</h3>
+        <div className="card-header text-center SidebarSearchheader">
+        <h3 className="SidebarSearch-title m-0">{title}</h3>
           <button className="close-button" onClick={props.onClose}>
             <FontAwesomeIcon icon={faTimes} />
           </button>

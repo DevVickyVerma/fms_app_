@@ -16,137 +16,130 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import DatePicker, { Calendar } from "react-multi-date-picker";
+import { useFormikContext } from "formik";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function AddClient() {
+  // const { setFieldValue } = useFormikContext();
+
   const navigate = useNavigate();
   const [dropdownItems, setDropdownItems] = useState([]);
-  const [AddSiteData, setAddSiteData] = useState([]);
+  const [AddClientData, setAddClientData] = useState([]);
   const [selectedBusinessType, setSelectedBusinessType] = useState("");
   const [subTypes, setSubTypes] = useState([]);
+  const [Calendervalue, SetCalenderonChange] = useState(new Date());
 
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
+  const [selectedItems, setSelectedItems] = useState(["1"]);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.post("/role/list");
-        setDropdownItems(response.data.data.addons);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    const GetSiteData = async () => {
-      try {
-        const response = await axiosInstance.get("site/common-data-list");
-  
-        if (response.data) {
-          setAddSiteData(response.data.data);
-        }
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
-          navigate("/login");
-          Errornotify("Invalid access token");
-          localStorage.clear();
-        } else if (
-          error.response &&
-          error.response.data.status_code === "403"
-        ) {
-          navigate("/errorpage403");
-        } else {
-          console.error(error);
-        }
-      }
-    };
-    try {
-      GetSiteData();
-      fetchData();
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        navigate("/login");
-        Errornotify("Invalid access token");
-        localStorage.clear();
-      } else if (
-        error.response &&
-        error.response.data.status_code === "403"
-      ) {
-        navigate("/errorpage403");
-      } else {
-        console.error(error);
-      }
+  const handleCheckboxChange = (checkboxId) => {
+    if (selectedItems.includes(checkboxId)) {
+      setSelectedItems(selectedItems.filter((item) => item !== checkboxId));
+    } else {
+      setSelectedItems([...selectedItems, checkboxId]);
     }
-  }, []);
-  
+    console.log(selectedItems, selectedItems);
+  };
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      Errornotify("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      console.error(error.message, "error");
+      Errornotify(error.message);
+    }
+  }
 
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   const axiosInstance = axios.create({
+  //     baseURL: process.env.REACT_APP_BASE_URL,
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   });
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axiosInstance.post("/role/list");
+  //       setDropdownItems(response.data.data.addons);
+  //       console.log(response.data.data.addons);
+  //     } catch (error) {
+  //       handleError(error)
+  //     }
+  //   };
+  //   const GetSiteData = async () => {
+  //     try {
+  //       const response = await axiosInstance.get("site/common-data-list");
 
+  //       if (response.data) {
+  //         setAddClientData(response.data.data);
+  //       }
+  //     } catch (error) {
+  //       handleError(error)
+  //     }
+  //   };
+  //   try {
+  //     GetSiteData();
+  //     fetchData();
+  //   } catch (error) {
+  //     handleError(error)
+  //   }
+  //   // console.clear()
+  // }, []);
 
   const handleSubmit1 = async (values, setSubmitting) => {
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
-    formData.append("bussiness_Type", values.bussiness_Type);
-    formData.append("business_sub_type_id", values.bussiness_Sub_Type);
-    formData.append("data_import_type_id", values.Select_machine_type);
-    formData.append("site_code", values.site_code);
-    formData.append("site_name", values.site_name);
-    formData.append("site_display_name", values.display_name);
-    formData.append("site_address", values.site_Address);
-    formData.append("start_date", values.DRS_Start_Date);
-    formData.append("department_sage_code", values.Saga_department_name);
-    formData.append("bp_credit_card_site_no", values.Bp_nctt_site_no);
-    formData.append("supplier_id", values.supplier);
-    formData.append("site_report_status", values.Report_generation_Status);
-    formData.append("site_report_date_type", values.Report_date_type);
-    formData.append("sage_department_id", values.Saga_department_code);
-    formData.append("drs_upload_status", values.Drs_upload_status);
+    formData.append("email", values.email);
+    formData.append("password", values.password);
+    formData.append("first_name", values.first_name);
+    formData.append("last_name", values.last_name);
+
+    formData.append("client_code", values.client_code);
+    formData.append("financial_start_month", values.financial_start_month);
+    formData.append("financial_end_month", values.financial_end_month);
+    formData.append("lommis_status", values.lommis_status);
+    formData.append("role_name", "Client");
+    formData.append("ma_option",selectedItems );
+    formData.append("ma_option", JSON.stringify(selectedItems));
+  
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/site/add`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-    
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/add-user`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+
       const data = await response.json();
-    
+
       if (response.ok) {
         notify(data.message);
-    
+        navigate("/clients");
         setSubmitting(false);
       } else {
         Errornotify(data.message);
       }
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        navigate("/login");
-        Errornotify("Invalid access token");
-        localStorage.clear();
-      } else if (
-        error.response &&
-        error.response.data.status_code === "403"
-      ) {
-        navigate("/errorpage403");
-      } else  {
-        Errornotify(error.response.message);
-        console.error(error);
-      }
+      handleError(error);
     }
-    
   };
   return (
     <div>
       <div className="page-header">
         <div>
-          <h1 className="page-title">Add Site</h1>
+          <h1 className="page-title">Add Clint</h1>
 
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item
@@ -160,15 +153,15 @@ export default function AddClient() {
               className="breadcrumb-item  breadcrumds"
               aria-current="page"
               linkAs={Link}
-              linkProps={{ to: "/sites" }}
+              linkProps={{ to: "/clients" }}
             >
-              Manage Sites
+              Manage Client
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Add Site
+              Add Client
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -178,92 +171,65 @@ export default function AddClient() {
         <Col lg={12} xl={12} md={12} sm={12}>
           <Card>
             <Card.Header>
-              <Card.Title as="h3">Add Site</Card.Title>
+              <Card.Title as="h3">Add Client</Card.Title>
             </Card.Header>
             <Formik
               initialValues={{
-                site_code: "",
-                site_name: "",
-                site_Address: "",
-                Site_Status: "",
-                bussiness_Sub_Type: "",
-                bussiness_Type: "",
-                Select_machine_type: "",
-                supplier: "",
-                DRS_Start_Date: "",
-                // display_name: "",
-                // Saga_department_code: "",
+                client_code: "",
+                first_name: "",
 
-                // supplier: "",
-                Saga_department_name: "",
-                // Bp_nctt_site_no: "",
+                financial_end_month: "",
 
-                // Report_generation_Status: "",
-                // Report_date_type: "",
-                // Fuel_commission_type: "",
-                // Paper_work_status: "",
-                // Bunkered_sale_status: "",
-                // Drs_upload_status: "",
+                financial_start_month: "",
+
+                last_name: "",
+
+                // financial_start_month: "",
+                email: "",
+                password: "",
+
+                status: "",
+
+                lommis_status: "",
               }}
               validationSchema={Yup.object({
-                site_code: Yup.string()
+                client_code: Yup.string()
                   .max(20, "Must be 20 characters or less")
-                  .required("Site Code is required"),
-                site_name: Yup.string()
+                  .required("Clinet Code is required"),
+                first_name: Yup.string()
                   .max(20, "Must be 20 characters or less")
-                  .required("Site name is required"),
-                site_Address: Yup.string().required("site_Address is required"),
-                Site_Status: Yup.string().required("Site_Status is required"),
+                  .required("First Name is required"),
 
-                bussiness_Sub_Type: Yup.string().required(
-                  "bussiness_Sub_Type is required"
+                lommis_status: Yup.string().required(
+                  "Lommis Status is required"
                 ),
-                bussiness_Type: Yup.string().required(
-                  "bussiness_Type is required"
+                last_name: Yup.string().required("Last Name is required"),
+                status: Yup.string().required(" Status is required"),
+                financial_end_month: Yup.string().required(
+                  "Financial End Month is required"
                 ),
-                supplier: Yup.string().required("supplier is required"),
-                DRS_Start_Date: Yup.string().required(
-                  "DRS_Start_Date is required"
-                ),
-                Select_machine_type: Yup.string().required(
-                  " Data Import Types is required"
-                ),
-                // display_name: Yup.string().required("Display name is required"),
-                // Saga_department_code: Yup.string().required(
-                //   "Saga_department_code  is required"
-                // ),
 
-                // Saga_department_name: Yup.string().required(
-                //   "Saga_department_name is required"
-                // ),
-                // Bp_nctt_site_no: Yup.string().required(
-                //   "Bp_nctt_site_no is required"
-                // ),
+                financial_start_month: Yup.string().required(
+                  "Financial Start Month is required"
+                ),
 
-                // Report_generation_Status: Yup.string().required(
-                //   "Report_generation_Status is required"
-                // ),
-                // Report_date_type: Yup.string().required(
-                //   "Report_date_type is required"
-                // ),
-                // Fuel_commission_type: Yup.string().required(
-                //   "Fuel_commission_type is required"
-                // ),
-                // Paper_work_status: Yup.string().required(
-                //   "Paper_work_status is required"
-                // ),
-                // Bunkered_sale_status: Yup.string().required(
-                //   "Bunkered_sale_status is required"
-                // ),
-                // Drs_upload_status: Yup.string().required(
-                //   "Drs_upload_status is required"
-                // ),
+                email: Yup.string()
+                  .required(" Email is required")
+                  .email("Invalid email format"),
+
+                password: Yup.string().required("Password is required"),
               })}
               onSubmit={(values, { setSubmitting }) => {
                 handleSubmit1(values, setSubmitting);
               }}
             >
-              {({ handleSubmit, isSubmitting, errors, touched,setFieldValue }) => (
+              {({
+                handleSubmit,
+                isSubmitting,
+                errors,
+                touched,
+                setFieldValue,
+              }) => (
                 <Form onSubmit={handleSubmit}>
                   <Card.Body>
                     <Row>
@@ -271,24 +237,24 @@ export default function AddClient() {
                         <FormGroup>
                           <label
                             className="form-label mt-4"
-                            htmlFor="site_code"
+                            htmlFor="client_code"
                           >
-                            Site Code<span className="text-danger">*</span>
+                            Client Code<span className="text-danger">*</span>
                           </label>
 
                           <Field
                             type="text"
                             className={`input101 ${
-                              errors.site_code && touched.site_code
+                              errors.client_code && touched.client_code
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            id="site_code"
-                            name="site_code"
-                            placeholder="Site Code"
+                            id="client_code"
+                            name="client_code"
+                            placeholder="Client Code"
                           />
                           <ErrorMessage
-                            name="site_code"
+                            name="client_code"
                             component="div"
                             className="invalid-feedback"
                           />
@@ -298,598 +264,271 @@ export default function AddClient() {
                         <FormGroup>
                           <label
                             className=" form-label mt-4"
-                            htmlFor="site_name"
+                            htmlFor="first_name"
                           >
-                            Site Name<span className="text-danger">*</span>
+                            First Name<span className="text-danger">*</span>
                           </label>
                           <Field
                             type="text"
                             className={`input101 ${
-                              errors.site_name && touched.site_name
+                              errors.first_name && touched.first_name
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            id="site_name"
-                            name="site_name"
-                            placeholder="site_name"
+                            id="first_name"
+                            name="first_name"
+                            placeholder="First Name"
                           />
                           <ErrorMessage
                             component="div"
                             className="invalid-feedback"
-                            name="site_name"
+                            name="first_name"
                           />
                         </FormGroup>
                       </Col>
                       <Col lg={4} md={6}>
                         <FormGroup>
                           <label
-                            htmlFor="display_name "
+                            htmlFor="last_name "
                             className=" form-label mt-4"
                           >
-                            Display Name
+                            Last Name<span className="text-danger">*</span>
                           </label>
                           <Field
                             type="text"
                             className={`input101 ${
-                              errors.display_name && touched.display_name
+                              errors.last_name && touched.last_name
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            id="display_name"
-                            name="display_name"
-                            placeholder="display_name"
+                            id="last_name"
+                            name="last_name"
+                            placeholder="Last Name"
                           />
                           <ErrorMessage
                             component="div"
                             className="invalid-feedback"
-                            name="display_name"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg={4} md={6}>
-                        <FormGroup>
-                          <label
-                            htmlFor="supplier"
-                            className=" form-label mt-4"
-                          >
-                            Supplier<span className="text-danger">*</span>
-                          </label>
-                          <Field
-                            as="select"
-                            className={`input101 ${
-                              errors.supplier && touched.supplier
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="supplier"
-                            name="supplier"
-                          >
-                            <option value="">Select a supplier</option>
-                            {AddSiteData.suppliers &&
-                            AddSiteData.suppliers.length > 0 ? (
-                              AddSiteData.suppliers.map((item) => (
-                                <option
-                                  key={item.id}
-                                  value={item.id}
-                                >
-                                  {item.supplier_name}
-                                </option>
-                              ))
-                            ) : (
-                              <option disabled>No supplier available</option>
-                            )}
-                          </Field>
-                          <ErrorMessage
-                            component="div"
-                            className="invalid-feedback"
-                            name="supplier"
+                            name="last_name"
                           />
                         </FormGroup>
                       </Col>
                       <Col lg={4} md={6}>
                         <FormGroup>
                           <label
-                            htmlFor=" Site_Status"
+                            htmlFor="password "
                             className=" form-label mt-4"
                           >
-                            Site Status<span className="text-danger">*</span>
+                            Password<span className="text-danger">*</span>
                           </label>
                           <Field
-                            as="select"
+                            type="password"
                             className={`input101 ${
-                              errors.Site_Status && touched.Site_Status
+                              errors.password && touched.password
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            id="Site_Status"
-                            name="Site_Status"
-                          >
-                            <option value="">Select a Site Status</option>
-                            {AddSiteData.site_status &&
-                            AddSiteData.site_status.length > 0 ? (
-                              AddSiteData.site_status.map((item) => (
-                                <option value={item.value}>{item.name}</option>
-                              ))
-                            ) : (
-                              <option disabled>No Site Status available</option>
-                            )}
-                          </Field>
+                            id="password"
+                            name="password"
+                            placeholder="Password"
+                          />
                           <ErrorMessage
                             component="div"
                             className="invalid-feedback"
-                            name="Site_Status"
+                            name="password"
                           />
                         </FormGroup>
                       </Col>
 
                       <Col lg={4} md={6}>
                         <FormGroup>
-                          <label
-                            htmlFor="bussiness_Type"
-                            className=" form-label mt-4"
-                          >
-                            Bussiness Type<span className="text-danger">*</span>
+                          <label htmlFor="status" className=" form-label mt-4">
+                            Status<span className="text-danger">*</span>
                           </label>
                           <Field
                             as="select"
                             className={`input101 ${
-                              errors.bussiness_Type && touched.bussiness_Type
+                              errors.status && touched.status
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            id="bussiness_Type"
-                            name="bussiness_Type"
-                            onChange={(e) => {
-                              const selectedType = e.target.value;
-                              console.log(selectedType, "selectedType");
-                              setFieldValue("bussiness_Type", selectedType);
-                              setSelectedBusinessType(selectedType);
-                              const selectedTypeData =
-                                AddSiteData.busines_types.find(
-                                  (type) => type.name === selectedType
-                                );
-                              setSubTypes(selectedTypeData.sub_types);
-                            }}
+                            id="status"
+                            name="status"
                           >
-                            <option value="">Select a Bussiness Type</option>
-                            {AddSiteData.busines_types &&
-                            AddSiteData.busines_types.length > 0 ? (
-                              AddSiteData.busines_types.map((item) => (
-                                <option key={item.id} value={item.name}>
-                                  {item.name}
-                                </option>
-                              ))
-                            ) : (
-                              <option disabled>
-                                No BussinessType available
-                              </option>
-                            )}
+                            <option value="">Select a Status</option>
+                            <option value="1">1</option>
+                            <option value="0">0</option>
                           </Field>
                           <ErrorMessage
                             component="div"
                             className="invalid-feedback"
-                            name="bussiness_Type"
+                            name="status"
                           />
                         </FormGroup>
                       </Col>
                       <Col lg={4} md={6}>
                         <FormGroup>
                           <label
-                            htmlFor="bussiness_Sub_Type"
+                            htmlFor="lommis_status"
                             className=" form-label mt-4"
                           >
-                            Bussiness Sub-Type
+                            Lommis Status<span className="text-danger">*</span>
+                          </label>
+                          <Field
+                            as="select"
+                            className={`input101 ${
+                              errors.lommis_status && touched.lommis_status
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="lommis_status"
+                            name="lommis_status"
+                          >
+                            <option value="">Select a Lommis Status</option>
+
+                            <option value="1">1</option>
+                            <option value="0">0</option>
+                          </Field>
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="lommis_status"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <FormGroup>
+                          <label
+                            htmlFor="financial_start_month"
+                            className=" form-label mt-4"
+                          >
+                            Financial Start Month
                             <span className="text-danger">*</span>
                           </label>
                           <Field
                             as="select"
                             className={`input101 ${
-                              errors.bussiness_Sub_Type &&
-                              touched.bussiness_Sub_Type
+                              errors.financial_start_month &&
+                              touched.financial_start_month
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            id="bussiness_Sub_Type"
-                            name="bussiness_Sub_Type"
+                            id="financial_start_month"
+                            name="financial_start_month"
                           >
                             <option value="">
-                              Select a bussiness_Sub_Type
+                              Select a Financial Start Month
                             </option>
-                            {subTypes && subTypes.length > 0 ? (
-                              subTypes.map((item) => (
-                                <option key={item.id} value={item.id}>
-                                  {item.name}
-                                </option>
-                              ))
-                            ) : (
-                              <option disabled>No bussiness_Sub_Type</option>
-                            )}
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
                           </Field>
                           <ErrorMessage
                             component="div"
                             className="invalid-feedback"
-                            name="bussiness_Sub_Type"
+                            name="financial_start_month"
                           />
                         </FormGroup>
                       </Col>
                       <Col lg={4} md={6}>
                         <FormGroup>
                           <label
-                            htmlFor="Saga_department_code"
+                            htmlFor=" financial_end_month"
                             className=" form-label mt-4"
                           >
-                            Saga Department Code{" "}
-                          </label>
-                          <Field
-                            as="select"
-                            className={`input101 ${
-                              errors.Saga_department_code &&
-                              touched.Saga_department_code
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="Saga_department_code"
-                            name="Saga_department_code"
-                          >
-                            <option value="">
-                              Select a Saga Department Code
-                            </option>
-                            {AddSiteData.department_codes &&
-                            AddSiteData.department_codes.length > 0 ? (
-                              AddSiteData.department_codes.map((item) => (
-                                <option key={item.id} value={item.id}>
-                                  {item.value}
-                                </option>
-                              ))
-                            ) : (
-                              <option disabled>No Saga Department Code</option>
-                            )}
-                          </Field>
-                          <ErrorMessage
-                            component="div"
-                            className="invalid-feedback"
-                            name="Saga_department_code"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg={4} md={6}>
-                        <FormGroup>
-                          <label
-                            htmlFor="Saga_department_name"
-                            className=" form-label mt-4"
-                          >
-                            Saga Department Name
-                          </label>
-                          <Field
-                            type="text"
-                            className={`input101 ${
-                              errors.Saga_department_name &&
-                              touched.Saga_department_name
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="Saga_department_name"
-                            name="Saga_department_name"
-                            placeholder="Saga_department_name"
-                          />
-                          <ErrorMessage
-                            component="div"
-                            className="invalid-feedback"
-                            name="Saga_department_name"
-                          />
-                        </FormGroup>
-                      </Col>
-
-                      <Col lg={4} md={6}>
-                        <FormGroup>
-                          <label
-                            htmlFor="Bp_nctt_site_no"
-                            className=" form-label mt-4"
-                          >
-                            BP NCTT Site No
-                          </label>
-                          <Field
-                            type="text"
-                            className={`input101 ${
-                              errors.Bp_nctt_site_no && touched.Bp_nctt_site_no
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="Bp_nctt_site_no"
-                            name="Bp_nctt_site_no"
-                            placeholder="Bp_nctt_site_no"
-                          />
-                          <ErrorMessage
-                            component="div"
-                            className="invalid-feedback"
-                            name="Bp_nctt_site_no"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg={4} md={6}>
-                        <FormGroup>
-                          <label
-                            htmlFor="DRS_Start_Date"
-                            className=" form-label mt-4"
-                          >
-                            DRS Start Date<span className="text-danger">*</span>
-                          </label>
-                          <Field
-                            type="date"
-                            className={`input101 ${
-                              errors.DRS_Start_Date && touched.DRS_Start_Date
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="DRS_Start_Date"
-                            name="DRS_Start_Date"
-                            placeholder="DRS_Start_Date"
-                          />
-                          <ErrorMessage
-                            component="div"
-                            className="invalid-feedback"
-                            name="DRS_Start_Date"
-                          />
-                        </FormGroup>
-                      </Col>
-
-                      <Col lg={4} md={6}>
-                        <FormGroup>
-                          <label
-                            htmlFor="Report_generation_Status"
-                            className=" form-label mt-4"
-                          >
-                            Report Generation Status{" "}
-                          </label>
-                          <Field
-                            as="select"
-                            className={`input101 ${
-                              errors.Report_generation_Status &&
-                              touched.Report_generation_Status
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="Report_generation_Status"
-                            name="Report_generation_Status"
-                          >
-                            <option value="">
-                              Select a Report Generation Status
-                            </option>
-                            <option value="0">Yes</option>
-                            <option value="1">No</option>
-                          </Field>
-                          <ErrorMessage
-                            component="div"
-                            className="invalid-feedback"
-                            name="Report_generation_Status"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg={4} md={6}>
-                        <FormGroup>
-                          <label
-                            htmlFor="Report_date_type"
-                            className=" form-label mt-4"
-                          >
-                            Report Date Type{" "}
-                          </label>
-                          <Field
-                            as="select"
-                            className={`input101 ${
-                              errors.Report_date_type &&
-                              touched.Report_date_type
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="Report_date_type"
-                            name="Report_date_type"
-                          >
-                            <option value="">Select a Report Date Type</option>
-
-                            <option value="0">Yes</option>
-                            <option value="1">No</option>
-                          </Field>
-                          <ErrorMessage
-                            component="div"
-                            className="invalid-feedback"
-                            name="Report_date_type"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg={4} md={6}>
-                        <FormGroup>
-                          <label
-                            htmlFor="Fuel_commission_type"
-                            className=" form-label mt-4"
-                          >
-                            Fuel Commission Type{" "}
-                          </label>
-                          <Field
-                            as="select"
-                            className={`input101 ${
-                              errors.Fuel_commission_type &&
-                              touched.Fuel_commission_type
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="Fuel_commission_type"
-                            name="Fuel_commission_type"
-                          >
-                            <option value="">
-                              Select a Fuel Commission Type
-                            </option>
-
-                            <option value="0">Yes</option>
-                            <option value="1">No</option>
-                          </Field>
-                          <ErrorMessage
-                            component="div"
-                            className="invalid-feedback"
-                            name="Fuel_commission_type"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg={4} md={6}>
-                        <FormGroup>
-                          <label
-                            htmlFor="Paper_work_status"
-                            className=" form-label mt-4"
-                          >
-                            Paper Work Status{" "}
-                          </label>
-                          <Field
-                            as="select"
-                            className={`input101 ${
-                              errors.Paper_work_status &&
-                              touched.Paper_work_status
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="Paper_work_status"
-                            name="Paper_work_status"
-                          >
-                            <option value="">Select a Paper Work Status</option>
-
-                            <option value="0">Yes</option>
-                            <option value="1">No</option>
-                          </Field>
-                          <ErrorMessage
-                            component="div"
-                            className="invalid-feedback"
-                            name="Paper_work_status"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg={4} md={6}>
-                        <FormGroup>
-                          <label
-                            htmlFor="Bunkered_sale_status"
-                            className=" form-label mt-4"
-                          >
-                            Bunkered Sale Status{" "}
-                          </label>
-                          <Field
-                            as="select"
-                            className={`input101 ${
-                              errors.Bunkered_sale_status &&
-                              touched.Bunkered_sale_status
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="Bunkered_sale_status"
-                            name="Bunkered_sale_status"
-                          >
-                            <option value="">
-                              Select a Bunkered Sale Status
-                            </option>
-                            <option value="0">Yes</option>
-                            <option value="1">No</option>
-                          </Field>
-                          <ErrorMessage
-                            component="div"
-                            className="invalid-feedback"
-                            name="Bunkered_sale_status"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg={4} md={6}>
-                        <FormGroup>
-                          <label
-                            htmlFor="Drs_upload_status"
-                            className=" form-label mt-4"
-                          >
-                            DRS Upload Status{" "}
-                          </label>
-                          <Field
-                            as="select"
-                            className={`input101 ${
-                              errors.Drs_upload_status &&
-                              touched.Drs_upload_status
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="Drs_upload_status"
-                            name="Drs_upload_status"
-                          >
-                            <option value="">Select a DRS Upload Status</option>
-                            <option value="0">Yes</option>
-                            <option value="1">No</option>
-                          </Field>
-
-                          <ErrorMessage
-                            component="div"
-                            className="invalid-feedback"
-                            name="Drs_upload_status"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg={4} md={6}>
-                        <FormGroup>
-                          <label
-                            className="form-label mt-4"
-                            htmlFor="site_Address"
-                          >
-                            Site Address<span className="text-danger">*</span>
-                          </label>
-
-                          <Field
-                            as="textarea"
-                            type="textarea"
-                            className={`input101 ${
-                              errors.site_Address && touched.site_Address
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="site_Address"
-                            name="site_Address"
-                            placeholder="Site Address"
-                          />
-                          <ErrorMessage
-                            name="site_Address"
-                            component="div"
-                            className="invalid-feedback"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg={4} md={6}>
-                        <FormGroup>
-                          <label
-                            htmlFor="Select_machine_type"
-                            className=" form-label mt-4"
-                          >
-                            Select Data Import Types
+                            Financial End Month
                             <span className="text-danger">*</span>
                           </label>
                           <Field
                             as="select"
                             className={`input101 ${
-                              errors.Select_machine_type &&
-                              touched.Select_machine_type
+                              errors.financial_end_month &&
+                              touched.financial_end_month
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            id="Select_machine_type"
-                            name="Select_machine_type"
+                            id="financial_end_month"
+                            name="financial_end_month"
                           >
-                            <option value=""> Select Data Import Types</option>
-                            {AddSiteData.data_import_types &&
-                            AddSiteData.data_import_types.length > 0 ? (
-                              AddSiteData.data_import_types.map((item) => (
-                                <option
-                                  key={item.id}
-                                  value={item.id}
-                                >
-                                  {item.import_type_name}
-                                </option>
-                              ))
-                            ) : (
-                              <option disabled>No Machine Type</option>
-                            )}
+                            <option value="">
+                              Select a Financial End Month
+                            </option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
                           </Field>
                           <ErrorMessage
                             component="div"
                             className="invalid-feedback"
-                            name="Select_machine_type"
+                            name="financial_end_month"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <FormGroup>
+                          <label htmlFor="email" className=" form-label mt-4">
+                            Email
+                            <span className="text-danger">*</span>
+                          </label>
+                          <Field
+                            type="text"
+                            className={`input101 ${
+                              errors.email && touched.email ? "is-invalid" : ""
+                            }`}
+                            id="email"
+                            name="email"
+                            placeholder="Email"
+                          />
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="email"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <FormGroup>
+                          <label htmlFor="email" className=" form-label mt-4">
+                            MA Options
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="checkbox"
+                            checked
+                            onChange={() => handleCheckboxChange("1")}
+                          />{" "}
+                          Actual
+                          <input
+                            type="checkbox"
+                            onChange={() => handleCheckboxChange("2")}
+                          />
+                          Forecast
+                          <input
+                            type="checkbox"
+                            onChange={() => handleCheckboxChange("3")}
+                          />{" "}
+                          Variance
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="email"
                           />
                         </FormGroup>
                       </Col>
