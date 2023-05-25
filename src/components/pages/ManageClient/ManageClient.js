@@ -20,6 +20,7 @@ export default function ManageClient() {
   const [searchdata, setSearchdata] = useState({});
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [activeArray, setActiveArray] = useState([]);
+  const [SearchList, setSearchList] = useState(false);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -44,6 +45,7 @@ export default function ManageClient() {
   const handleSearchReset = () => {
     fetchData();
     setSearchdata({});
+    setSearchList(true)
   };
   const SuccessAlert = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
@@ -374,6 +376,8 @@ export default function ManageClient() {
         visible={sidebarVisible1}
         onClose={handleToggleSidebar1}
         onSubmit={handleSubmit}
+        searchListstatus={SearchList}
+        
       />
 
       <DataTableExtensions {...tableDatas}>

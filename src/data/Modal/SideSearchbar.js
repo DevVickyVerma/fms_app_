@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -6,12 +6,27 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const SideSearchbar = (props) => {
-  const { title, sidebarContent, visible, onClose, onSubmit, onCancel } = props;
+  const {
+    title,
+    sidebarContent,
+    visible,
+    onClose,
+    onSubmit,
+    searchListstatus,
+  } = props;
 
   const [keyword, setSearchQuery] = useState("");
   const [start_date, setStartDate] = useState("");
   const [end_date, setEndDate] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    if (searchListstatus) {
+      setSearchQuery("");
+      setStartDate("");
+      setEndDate("");
+    }
+  }, [onSubmit]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -31,13 +46,11 @@ const SideSearchbar = (props) => {
       start_date,
       end_date,
     };
-    console.log("Search Query:", keyword);
-    console.log("Start Date:", start_date);
-    console.log("End Date:", end_date);
+    // console.log("Search Query:", keyword);
+    // console.log("Start Date:", start_date);
+    // console.log("End Date:", end_date);
     onSubmit(formData);
-    setSearchQuery("");
-    setStartDate("");
-    setEndDate("");
+  
   };
 
   return (
@@ -119,6 +132,7 @@ SideSearchbar.propTypes = {
   onClose: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  searchListstatus: PropTypes.bool.isRequired,
 };
 
 export default SideSearchbar;

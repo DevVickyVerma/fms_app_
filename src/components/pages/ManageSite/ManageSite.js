@@ -33,6 +33,8 @@ export default function ManageSite() {
   const [SiteId, setSiteId] = useState();
   const [searchdata, setSearchdata] = useState({});
   const [loading, setLoading] = useState(false);
+  const [SearchList, setSearchList] = useState(false);
+
 
   const [sidebardataobject, setSideDataobject] = useState();
   const notify = (message) => toast.success(message);
@@ -45,7 +47,7 @@ export default function ManageSite() {
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
     } else {
-      console.error(error.message, "error");
+    
       Errornotify(error.message);
     }
   }
@@ -100,7 +102,8 @@ export default function ManageSite() {
   };
 
   const handleDetailsClick = (row) => {
-    setSiteId(row.id);
+    
+    localStorage.setItem('AssignSiteId', row.id);
     setShowModal(true);
   };
   const handleDelete = (id) => {
@@ -211,26 +214,9 @@ export default function ManageSite() {
       handleError(error);
     }
   };
-  const fetchClientList = async () => {
-    try {
-      const response = await axiosInstance.post("/client-list");
-
-      if (response.data.data.length > 0) {
-        // setData(response.data.data.sites);
-
-        setDropdownValue(response.data.data);
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        navigate("/login");
-        ErrorAlert("Invalid access token");
-        localStorage.clear();
-      } else if (error.response && error.response.data.status_code === "403") {
-        navigate("/errorpage403");
-      }
-    }
-  };
+ 
   const formData = new FormData();
+ 
 
   const ToggleStatus = async () => {
     try {
@@ -257,7 +243,7 @@ export default function ManageSite() {
       }
     }
   };
- 
+
   const columns = [
     {
       name: "S.NO",
@@ -339,6 +325,7 @@ export default function ManageSite() {
         <span className="text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Details</Tooltip>}>
             <span onClick={() => handleDetailsClick(row)}>
+          
               <SiteDetails
                 showModal={showModal}
                 setShowModal={setShowModal}
@@ -346,7 +333,7 @@ export default function ManageSite() {
                 handleDropdownChange={handleDropdownChange}
                 modalHeading="Assign Site"
                 sites={dropdownValue}
-                SiteId={SiteId}
+               
               />
             </span>
           </OverlayTrigger>
@@ -403,22 +390,29 @@ export default function ManageSite() {
   const [roles, setRoles] = useState([]);
   useEffect(() => {
     fetchData();
-    fetchClientList();
+   
     console.clear();
   }, []);
+  
   const handleSearchReset = () => {
-    fetchData()
+    fetchData();
     setSearchdata({});
+    setSearchList(true)
+ 
 
   };
 
   const handleSubmit = (formData) => {
     const filteredFormData = Object.fromEntries(
-      Object.entries(formData).filter(([key, value]) => value !== null && value !== "")
+      Object.entries(formData).filter(
+        ([key, value]) => value !== null && value !== ""
+      )
     );
-  
+
     if (Object.values(filteredFormData).length > 0) {
+     
       setSearchdata(filteredFormData);
+    
       const axiosInstance = axios.create({
         baseURL: process.env.REACT_APP_BASE_URL,
         headers: {
@@ -429,10 +423,10 @@ export default function ManageSite() {
       const SearchList = async () => {
         try {
           const response = await axiosInstance.post("/site/list", formData);
-  
+
           setData(response.data.data.sites);
         } catch (error) {
-          console.error(error);
+       
           const message = error.response
             ? error.response.data.message
             : "Unknown error occurred";
@@ -441,13 +435,12 @@ export default function ManageSite() {
       };
       SearchList();
     }
-  
+
     // Clear the form input values
-   // Resetting the formData to an empty object
-  
+    // Resetting the formData to an empty object
+
     handleToggleSidebar1();
   };
-  
 
   return (
     <>
@@ -495,7 +488,7 @@ export default function ManageSite() {
             </span>
           </Link>
           {Object.keys(searchdata).length > 0 ? (
-            <Link  className="btn btn-danger ms-2" onClick={handleSearchReset}>
+            <Link className="btn btn-danger ms-2" onClick={handleSearchReset}>
               Reset <RestartAltIcon />
             </Link>
           ) : (
@@ -512,6 +505,7 @@ export default function ManageSite() {
         visible={sidebarVisible1}
         onClose={handleToggleSidebar1}
         onSubmit={handleSubmit}
+        searchListstatus={SearchList}
       />
 
       <Suspense fallback={<img src={Loaderimg} alt="Loading" />}>

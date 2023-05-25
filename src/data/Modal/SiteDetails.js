@@ -1,115 +1,151 @@
-import axios from "axios";
-import { ErrorMessage, Field ,Formik} from "formik";
-import React, { useEffect, useState } from "react";
-import { Modal, Button, Dropdown, FormGroup, Form } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-
+import React, { useDebugValue, useEffect, useState } from "react";
+import { Modal, Button, Form } from "react-bootstrap";
+import { useFormik } from "formik";
 import * as Yup from "yup";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-// Define the validation schema using Yup
-const validationSchema = Yup.object().shape({
-  selectedValue: Yup.string().required("Please select a client"),
-});
-
-function SiteDetails(props) {
+const MyModal = (props) => {
   const [showModal, setShowModal] = useState(false);
-  const [dropdownValue, setDropdownValue] = useState("");
-  const [propsSiteId, setpropsSiteId] = useState(props.SiteId);
-  const [SelectdropdownValue, setSelectDropdownValue] = useState("");
+  const [dropdownValue, setDropdownValue] = useState([]);
+  const notify = (message) => toast.success(message);
+  const Errornotify = (message) => toast.error(message);
+  const [Listcompany, setCompanylist] = useState([]);
   const navigate = useNavigate();
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
 
-  const [selectedValue, setSelectedValue] = useState("");
-  const [error, setError] = useState("");
+  const formik = useFormik({
+    initialValues: {
+      clientlist: "",
+      companylist: "",
+    },
+    validationSchema: Yup.object({
+      clientlist: Yup.string().required("First Select is required"),
+      companylist: Yup.string().required("Second Select is required"),
+    }),
+    onSubmit: (values) => {
+      handlesubmit(values);
+      setShowModal(false);
+    },
+  });
 
-  const handleDropdownChange = (event) => {
-    setSelectedValue(event.target.value);
-    if (selectedValue != "") {
-      setError("");
-      return;
+  const handlesubmit = async (values) => {
+    try {
+      const token = localStorage.getItem("token");
+      const SiteId = localStorage.getItem("AssignSiteId");
+
+      const formData = new FormData();
+      formData.append("id", SiteId);
+      formData.append("client_id", values.clientlist);
+      formData.append("company_id", values.companylist);
+
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/site/assign`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        notify(data.message);
+        formik.resetForm();
+      } else {
+        const errorMessage = Array.isArray(data.message)
+          ? data.message.join(" ")
+          : data.message;
+        console.log(errorMessage);
+        Errornotify(errorMessage);
+      }
+    } catch (error) {
+      handleError(error);
     }
   };
 
-  
-  const handleSubmit = async (values, { setSubmitting }) => {
-    if (values.selectedValue === "") {
-      setError("Please select a client");
-      setSubmitting(false);
-      return;
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      Errornotify("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      console.error(error.message, "error");
+      Errornotify(error.message);
     }
+  }
 
-    setShowModal(false);
+  const token = localStorage.getItem("token");
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const fetchClientList = async () => {
+    try {
+      const response = await axiosInstance.post("/client-list");
+
+      if (response.data.data.clients.length > 0) {
+        // setData(response.data.data.sites);
+
+        setDropdownValue(response.data.data);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+        Errornotify("Invalid access token");
+        localStorage.clear();
+      } else if (error.response && error.response.data.status_code === "403") {
+        navigate("/errorpage403");
+      }
+    }
+  };
+  const fetchCompanyList = async (id) => {
     const token = localStorage.getItem("token");
-
     const formData = new FormData();
-    formData.append("id", props.SiteId);
-    formData.append("client_id", values.selectedValue);
-
+    formData.append("client_id", id);
     const axiosInstance = axios.create({
       baseURL: process.env.REACT_APP_BASE_URL,
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      body: formData,
     });
-
     try {
-      const response = await axiosInstance.post("/site/assign", formData);
+      const response = await axiosInstance.post("/company/list");
 
-      if (response.data && response.data.data) {
-        console.log(response.data.data);
-        // setSideDataobject(response.data.data);
-        toast.success(response.data.message);
+      setCompanylist(response.data.data);
+      if (response.data.length > 0) {
+        // setCompanylist(response.data.data);
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
         navigate("/login");
-        toast.error("Invalid access token");
+        Errornotify("Invalid access token");
         localStorage.clear();
-      } else if (error.response) {
-        if (
-          error.response.data &&
-          error.response.data.message &&
-          Array.isArray(error.response.data.message) &&
-          error.response.data.message.length > 0
-        ) {
-          const errorMessage = error.response.data.message[0];
-          toast.error(errorMessage);
-        } else {
-          toast.error("An error occurred");
-        }
-      } else if (error.response && error.response.status === 403) {
+      } else if (error.response && error.response.data.status_code === "403") {
         navigate("/errorpage403");
-      } else if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        const errorMessage = error.response.data.message;
-        toast.error(errorMessage);
-      } else {
-        console.error(error);
-        toast.error("An error occurred");
       }
     }
-
-    setSubmitting(false);
   };
 
- 
-
-  useEffect(() => {
-    if (props.sites) {
-      setDropdownValue(props.sites);
-    }
-  }, [props.sites]);
+  const clientList = () => {
+    fetchClientList();
+    setShowModal(true);
+  };
 
   return (
     <>
       <Button
         className="btn btn-primary btn-sm rounded-11 me-2"
-        onClick={() => setShowModal(true)}
+        onClick={clientList}
       >
         <i>
           <svg
@@ -123,60 +159,101 @@ function SiteDetails(props) {
           </svg>
         </i>
       </Button>
-
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title>{props.modalHeading || "Modal Heading"}</Modal.Title>
+          <Modal.Title>Assign Site</Modal.Title>
         </Modal.Header>
 
-        <Formik
-          initialValues={{
-            selectedValue: "",
-          }}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          {({ isSubmitting }) => (
-            <Form onSubmit={handleSubmit}>
-              <Modal.Body>
-                {Array.isArray(dropdownValue) ? (
-                  <Field
-                    as="select"
-                    id="assignClient"
-                    className="form-select"
-                    name="selectedValue"
-                  >
-                    <option value="">Select a Client</option>
-                    {dropdownValue.map((option) => (
-                      <option key={option.id} value={option.id}>
-                        {option.client_name}
-                      </option>
-                    ))}
-                  </Field>
+        <Modal.Body>
+          <Form onSubmit={formik.handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="clientlist" className="form-label mt-4">
+                Select Client
+              </label>
+              <select
+                className={`input101 ${
+                  formik.errors.clientlist && formik.touched.clientlist
+                    ? "is-invalid"
+                    : ""
+                }`}
+                id="clientlist"
+                name="clientlist"
+                onChange={(e) => {
+                  const selectedType = e.target.value;
+                  if (selectedType.length > 0 && selectedType) {
+                    fetchCompanyList(selectedType);
+                    formik.setFieldValue("clientlist", selectedType);
+                  } else {
+                    console.log(e.target.value, "dd");
+                  }
+                }}
+                onBlur={formik.handleBlur}
+                value={formik.values.clientlist}
+              >
+                <option value=""> Select Client</option>
+                {dropdownValue.clients && dropdownValue.clients.length > 0 ? (
+                  dropdownValue.clients.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.client_name}
+                    </option>
+                  ))
                 ) : (
-                  <p>Error loading dropdown values</p>
+                  <option disabled>No clients</option>
                 )}
-                <ErrorMessage
-                  name="selectedValue"
-                  component="p"
-                  className="error-message"
-                />
-              </Modal.Body>
+              </select>
+              {formik.errors.clientlist && formik.touched.clientlist && (
+                <div className="invalid-feedback">
+                  {formik.errors.clientlist}
+                </div>
+              )}
+            </div>
+            <div className="form-group">
+              <label htmlFor="companylist" className="form-label mt-4">
+                Select Company
+              </label>
+              <select
+                className={`input101 ${
+                  formik.errors.companylist && formik.touched.companylist
+                    ? "is-invalid"
+                    : ""
+                }`}
+                id="companylist"
+                name="companylist"
+                onBlur={formik.handleBlur}
+                value={formik.values.companylist}
+                onChange={formik.handleChange}
+              >
+                <option value=""> Select Company</option>
+                {Listcompany.companies && Listcompany.companies.length > 0 ? (
+                  Listcompany.companies.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.company_name}
+                    </option>
+                  ))
+                ) : (
+                  <option disabled>No clients</option>
+                )}
+              </select>
+              {formik.errors.companylist && formik.touched.companylist && (
+                <div className="invalid-feedback">
+                  {formik.errors.companylist}
+                </div>
+              )}
+            </div>
 
-              <Modal.Footer>
-                <Button variant="danger" onClick={() => setShowModal(false)}>
-                  {props.cancelButtonText || "Close"}
-                </Button>
-                <Button variant="primary" type="submit" disabled={isSubmitting}>
-                  {props.saveButtonText || "Submit"}
-                </Button>
-              </Modal.Footer>
-            </Form>
-          )}
-        </Formik>
+            <Modal.Footer>
+              <Button variant="danger" onClick={() => setShowModal(false)}>
+                Close
+              </Button>
+              <Button variant="primary" type="submit">
+                Assign
+              </Button>
+            </Modal.Footer>
+          </Form>
+        </Modal.Body>
       </Modal>
     </>
   );
-}
+};
 
-export default SiteDetails;
+export default MyModal;
