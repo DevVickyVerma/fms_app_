@@ -76,6 +76,9 @@ const EditRoles = React.lazy(() =>
 const EditClient = React.lazy(() =>
   import("./components/pages/ManageClient/EditClient")
 );
+const EditCompany = React.lazy(() =>
+  import("./components/pages/ManageCompany/EditCompany")
+);
 const AddClient = React.lazy(() =>
   import("./components/pages/ManageClient/AddClient")
 );
@@ -185,6 +188,7 @@ const Root = () => {
                   />
                   <Route path={`/addbusiness`} element={<AddBusiness />} />
                   <Route path={`EditAddon`} element={<EditAddon />} />
+                  <Route path={`/editcompany`} element={<EditCompany />} />
                   <Route path={`/roles`} element={<ManageRoles />} />
                   <Route path={`/addroles`} element={<AddRoles />} />
                   <Route path={`/clients`} element={<ManageClient />} />

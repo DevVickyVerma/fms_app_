@@ -74,6 +74,10 @@ export default function ManageCompany() {
 
     fetchData();
   }, []);
+  const handleEdit = (row) => {
+    localStorage.setItem("Company_id", row.id);
+    localStorage.setItem("Company_Client_id", row.client_id);
+  };
 
   const columns = [
     {
@@ -111,8 +115,9 @@ export default function ManageCompany() {
         <span className="text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <Link
-              to="/comingsoon"
+              to="/editcompany"
               className="btn btn-primary btn-sm rounded-11 me-2"
+              onClick={() => handleEdit(row)}
             >
               <i>
                 <svg
@@ -157,17 +162,9 @@ export default function ManageCompany() {
     columns,
     data,
   };
-  const [roles, setRoles] = useState([]);
-  const [open, setOpen] = useState(false);
 
-  const handleAddRole = (newRole) => {
-    setRoles([...roles, newRole]);
-    setOpen(false);
-  };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+
   return (
     <>
       <div className="page-header ">
