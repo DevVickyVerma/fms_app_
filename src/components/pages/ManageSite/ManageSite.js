@@ -35,7 +35,6 @@ export default function ManageSite() {
   const [loading, setLoading] = useState(false);
   const [SearchList, setSearchList] = useState(false);
 
-
   const [sidebardataobject, setSideDataobject] = useState();
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
@@ -47,8 +46,10 @@ export default function ManageSite() {
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
     } else {
-    
-      Errornotify(error.message);
+      const errorMessage = Array.isArray(error.response.data.message)
+        ? error.response.data.message.join(" ")
+        : error.response.data.message;
+      Errornotify(errorMessage);
     }
   }
 
@@ -102,8 +103,7 @@ export default function ManageSite() {
   };
 
   const handleDetailsClick = (row) => {
-    
-    localStorage.setItem('AssignSiteId', row.id);
+    localStorage.setItem("AssignSiteId", row.id);
     setShowModal(true);
   };
   const handleDelete = (id) => {
@@ -161,9 +161,7 @@ export default function ManageSite() {
 
     if (newData[index].active) {
       setActiveArray((prevActiveArray) => {
-        // Check if id is already in array
         if (prevActiveArray.includes(id)) {
-          // Remove item from array
           return prevActiveArray.filter((activeId) => activeId !== id);
         } else {
           return [...prevActiveArray, id]; // Push item into array
@@ -171,15 +169,16 @@ export default function ManageSite() {
       });
       formData.append("id", id);
       formData.append("site_status", 1);
-
-      ToggleStatus();
+      alert("on,1");
+      // ToggleStatus();
     } else {
       setActiveArray((prevActiveArray) =>
         prevActiveArray.filter((activeId) => activeId !== id)
       );
       formData.append("id", id);
       formData.append("site_status", 0);
-      ToggleStatus();
+      alert("off,0");
+      // ToggleStatus();
     }
   };
 
@@ -214,9 +213,8 @@ export default function ManageSite() {
       handleError(error);
     }
   };
- 
+
   const formData = new FormData();
- 
 
   const ToggleStatus = async () => {
     try {
@@ -325,7 +323,6 @@ export default function ManageSite() {
         <span className="text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Details</Tooltip>}>
             <span onClick={() => handleDetailsClick(row)}>
-          
               <SiteDetails
                 showModal={showModal}
                 setShowModal={setShowModal}
@@ -333,7 +330,6 @@ export default function ManageSite() {
                 handleDropdownChange={handleDropdownChange}
                 modalHeading="Assign Site"
                 sites={dropdownValue}
-               
               />
             </span>
           </OverlayTrigger>
@@ -390,16 +386,14 @@ export default function ManageSite() {
   const [roles, setRoles] = useState([]);
   useEffect(() => {
     fetchData();
-   
+
     console.clear();
   }, []);
-  
+
   const handleSearchReset = () => {
     fetchData();
     setSearchdata({});
-    setSearchList(true)
- 
-
+    setSearchList(true);
   };
 
   const handleSubmit = (formData) => {
@@ -410,9 +404,8 @@ export default function ManageSite() {
     );
 
     if (Object.values(filteredFormData).length > 0) {
-     
       setSearchdata(filteredFormData);
-    
+
       const axiosInstance = axios.create({
         baseURL: process.env.REACT_APP_BASE_URL,
         headers: {
@@ -426,7 +419,6 @@ export default function ManageSite() {
 
           setData(response.data.data.sites);
         } catch (error) {
-       
           const message = error.response
             ? error.response.data.message
             : "Unknown error occurred";

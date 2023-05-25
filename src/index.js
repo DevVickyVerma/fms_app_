@@ -5,6 +5,7 @@ import { Navigate, BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./Utils/PrivateRoutes";
 import * as loderdata from "./data/Component/loderdata/loderdata";
 
+
 const Switcherlayout = React.lazy(() => import("./components/switcherlayout"));
 //App
 const App = React.lazy(() => import("./components/app"));
@@ -34,6 +35,9 @@ const EditProfile = React.lazy(() =>
 const ManageRoles = React.lazy(() =>
   import("./components/pages/ManageRoles/ManageRoles")
 );
+const ManageCompany = React.lazy(() =>
+  import("./components/pages/ManageCompany/ManageCompany")
+);
 const AddRoles = React.lazy(() =>
   import("./components/pages/ManageRoles/AddRoles")
 );
@@ -57,6 +61,10 @@ const EditAddon = React.lazy(() =>
 );
 const AddAddon = React.lazy(() =>
   import("./components/pages/ManageAddon/AddAddon")
+);
+
+const AddCompany = React.lazy(() =>
+  import("./components/pages/ManageCompany/AddCompany")
 );
 const Managesite = React.lazy(() =>
   import("./components/pages/ManageSite/ManageSite")
@@ -166,6 +174,8 @@ const Root = () => {
                   <Route path={`addsite`} element={<AddSite />} />
                   <Route path={`editsite`} element={<EditSite />} />
                   <Route path={`/manageaddon`} element={<ManageAddon />} />
+                  <Route path={`/addcompany`} element={<AddCompany />} />
+                  <Route path={`/managecompany`} element={<ManageCompany />} />
                   <Route path={`/addaddon`} element={<AddAddon />} />
                   <Route path={`/business`} element={<ManageBusinessTypes />} />
                   <Route path={`/comingsoon`} element={<COMINGSOON />} />

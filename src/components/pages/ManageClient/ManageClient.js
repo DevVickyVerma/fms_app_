@@ -56,9 +56,11 @@ export default function ManageClient() {
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
-    } else {
-      console.error(error.message, "error");
-      Errornotify(error.message);
+    }else {
+      const errorMessage = Array.isArray(error.response.data.message)
+        ? error.response.data.message.join(" ")
+        : error.response.data.message;
+      Errornotify(errorMessage);
     }
   }
   const handleToggleSidebar1 = () => {
@@ -115,10 +117,12 @@ export default function ManageClient() {
   const fetchData = async () => {
     try {
       const response = await axiosInstance.post("/client-list");
-      if (response.data.data.length > 0) {
-        setData(response.data.data);
+      console.log(response.data.data.clients.length,"lldld")
+      if (response.data.data.clients.length > 0) {
+        // alert("done")
+        setData(response.data.data.clients);
         const filteredStatuses = [];
-        for (const client of response.data.data) {
+        for (const client of response.data.data.clients) {
           if (client.status === 1) {
             filteredStatuses.push(client.id);
           }

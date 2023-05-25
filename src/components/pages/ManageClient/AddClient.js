@@ -106,7 +106,7 @@ export default function AddClient() {
     formData.append("financial_end_month", values.financial_end_month);
     formData.append("lommis_status", values.lommis_status);
     formData.append("role_name", "Client");
-    formData.append("ma_option",selectedItems );
+ 
     formData.append("ma_option", JSON.stringify(selectedItems));
   
 

@@ -50,6 +50,26 @@ export const MENUITEMS = [
         ],
       },
       {
+        title: "Manage Company",
+        icon: "package",
+        type: "sub",
+        active: false,
+        children: [
+          {
+           path: `/managecompany`,
+            title: "Manage Company",
+            type: "link",
+          },
+          {
+            path: `/addcompany`,
+            title: "Add Company",
+            type: "link",
+          },
+         
+          
+        ],
+      },
+      {
         title: "Manage Roles",
         icon: "package",
         type: "sub",
