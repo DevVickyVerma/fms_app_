@@ -38,12 +38,12 @@ export default function AddSite() {
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
     } else {
-      console.error(error.message, "error");
-      const errorMessage = error.response ? error.response.data.message[0] : error.message;
-      Errornotify(errorMessage);
+      const errorMessage = Array.isArray(error.response.data.message)
+        ? error.response.data.message.join(" ")
+        : error.response.data.message;
+        Errornotify(errorMessage);
     }
   }
-  
   
 
   useEffect(() => {

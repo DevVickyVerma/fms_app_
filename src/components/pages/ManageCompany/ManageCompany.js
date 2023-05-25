@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -13,7 +13,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 export default function ManageCompany() {
   const [data, setData] = useState();
-
+  const navigate = useNavigate();
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -34,6 +34,22 @@ export default function ManageCompany() {
       }
     });
   };
+  const SuccessAlert = (message) => toast.success(message);
+  const ErrorAlert = (message) => toast.error(message);
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      ErrorAlert("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      const errorMessage = Array.isArray(error.response.data.message)
+        ? error.response.data.message.join(" ")
+        : error.response.data.message;
+        ErrorAlert(errorMessage);
+    }
+  }
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -52,7 +68,7 @@ export default function ManageCompany() {
           // SuccessAlert(response.data.message)
         }
       } catch (error) {
-        console.error(error);
+        handleError(error);
       }
     };
 

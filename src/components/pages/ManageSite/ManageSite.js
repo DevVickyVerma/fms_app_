@@ -49,7 +49,7 @@ export default function ManageSite() {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+        Errornotify(errorMessage);
     }
   }
 

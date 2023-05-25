@@ -56,11 +56,11 @@ export default function ManageClient() {
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
-    }else {
+    } else {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+        Errornotify(errorMessage);
     }
   }
   const handleToggleSidebar1 = () => {

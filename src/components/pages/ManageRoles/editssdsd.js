@@ -39,8 +39,10 @@ export default function EditRoles() {
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
     } else {
-      console.error(error.message, "error");
-      ErrorAlert(error.message);
+      const errorMessage = Array.isArray(error.response.data.message)
+        ? error.response.data.message.join(" ")
+        : error.response.data.message;
+        ErrorAlert(errorMessage);
     }
   }
 

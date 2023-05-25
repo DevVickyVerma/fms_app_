@@ -44,15 +44,17 @@ export default function AddClient() {
     console.log(selectedItems, selectedItems);
   };
   function handleError(error) {
-    if (error.response && error.response.client_id === 401) {
+    if (error.response && error.response.status === 401) {
       navigate("/login");
       Errornotify("Invalid access token");
       localStorage.clear();
-    } else if (error.response && error.response.data.client_id_code === "403") {
+    } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
     } else {
-      console.error(error.message, "error");
-      Errornotify(error.message);
+      const errorMessage = Array.isArray(error.response.data.message)
+        ? error.response.data.message.join(" ")
+        : error.response.data.message;
+        Errornotify(errorMessage);
     }
   }
 
