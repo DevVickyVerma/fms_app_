@@ -137,40 +137,23 @@ export default function ManageClient() {
     }
   };
   const formData = new FormData();
-  const toggleActive = (id) => {
-    const newData = [...data];
-    const index = newData.findIndex((d) => d.id === id);
-    newData[index].active = !newData[index].active;
-    setData(newData);
+  const toggleActive = (row) => {
+    formData.append("user_id", row.id);
 
-    if (newData[index].active) {
-      setActiveArray((prevActiveArray) => {
-        // Check if id is already in array
-        if (prevActiveArray.includes(id)) {
-          // Remove item from array
-          return prevActiveArray.filter((activeId) => activeId !== id);
-        } else {
-          return [...prevActiveArray, id]; // Push item into array
-        }
-      });
-      formData.append("user_id", id);
-      formData.append("status", 1);
-
-      ToggleStatus();
-    } else {
-      setActiveArray((prevActiveArray) =>
-        prevActiveArray.filter((activeId) => activeId !== id)
-      );
-      formData.append("user_id", id);
+    if (row.status === 1) {
       formData.append("status", 0);
-      ToggleStatus();
+    } else if (row.status === 0) {
+      formData.append("status", 1);
     }
+
+    ToggleStatus();
   };
   const ToggleStatus = async () => {
     try {
       const response = await axiosInstance.post("/update-status", formData);
       if (response) {
         SuccessAlert(response.data.message);
+        fetchData();
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -240,15 +223,25 @@ export default function ManageClient() {
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
-            <button className="btn  btn-sm rounded-11 toggl-btn">
-              <Form.Check
-                type="switch"
-                id={`active-switch-${row.id}`}
-                className="toggl-btn"
-                checked={activeArray.find((item) => item === row.id)}
-                onChange={() => toggleActive(row.id)}
-              />
-            </button>
+            {row.status === 1 ? (
+              <button
+                className="badge bg-success"
+                onClick={() => toggleActive(row)}
+              >
+                Active
+              </button>
+            ) : row.status === 0 ? (
+              <button
+                className="badge bg-danger"
+                onClick={() => toggleActive(row)}
+              >
+                Inactive
+              </button>
+            ) : (
+              <button className="badge" onClick={() => toggleActive(row)}>
+                Unknown
+              </button>
+            )}
           </OverlayTrigger>
         </span>
       ),

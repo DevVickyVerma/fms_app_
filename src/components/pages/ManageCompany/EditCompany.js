@@ -192,7 +192,7 @@ export default function AddSite() {
 
       if (response.ok) {
         notify(data.message);
-        // navigate("/sites");
+        navigate("/managecompany");
       } else {
         Errornotify(data.message);
       }

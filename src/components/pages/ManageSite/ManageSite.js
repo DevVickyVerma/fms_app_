@@ -49,7 +49,7 @@ export default function ManageSite() {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-        Errornotify(errorMessage);
+      Errornotify(errorMessage);
     }
   }
 
@@ -153,33 +153,17 @@ export default function ManageSite() {
     localStorage.setItem("Edit_Site", id);
   };
 
-  const toggleActive = (id) => {
-    const newData = [...data];
-    const index = newData.findIndex((d) => d.id === id);
-    newData[index].active = !newData[index].active;
-    setData(newData);
+ 
+  const toggleActive = (row) => {
+    formData.append("id", row.id);
 
-    if (newData[index].active) {
-      setActiveArray((prevActiveArray) => {
-        if (prevActiveArray.includes(id)) {
-          return prevActiveArray.filter((activeId) => activeId !== id);
-        } else {
-          return [...prevActiveArray, id]; // Push item into array
-        }
-      });
-      formData.append("id", id);
-      formData.append("site_status", 1);
-      alert("on,1");
-      // ToggleStatus();
-    } else {
-      setActiveArray((prevActiveArray) =>
-        prevActiveArray.filter((activeId) => activeId !== id)
-      );
-      formData.append("id", id);
+    if (row.site_status === 1) {
       formData.append("site_status", 0);
-      alert("off,0");
-      // ToggleStatus();
+    } else if (row.site_status === 0) {
+      formData.append("site_status", 1);
     }
+
+    ToggleStatus();
   };
 
   const token = localStorage.getItem("token");
@@ -224,6 +208,7 @@ export default function ManageSite() {
       );
       if (response) {
         SuccessAlert(response.data.message);
+        fetchData();
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -300,15 +285,25 @@ export default function ManageSite() {
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
-            <button className="btn  btn-sm rounded-11 toggl-btn">
-              <Form.Check
-                type="switch"
-                id={`active-switch-${row.id}`}
-                className="toggl-btn"
-                checked={activeArray.find((item) => item === row.id)}
-                onChange={() => toggleActive(row.id)}
-              />
-            </button>
+            {row.site_status === 1 ? (
+              <button
+                className="badge bg-success"
+                onClick={() => toggleActive(row)}
+              >
+                Active
+              </button>
+            ) : row.site_status === 0 ? (
+              <button
+                className="badge bg-danger"
+                onClick={() => toggleActive(row)}
+              >
+                Inactive
+              </button>
+            ) : (
+              <button className="badge" onClick={() => toggleActive(row)}>
+                Unknown
+              </button>
+            )}
           </OverlayTrigger>
         </span>
       ),

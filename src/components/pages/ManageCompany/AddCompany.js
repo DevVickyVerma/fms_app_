@@ -35,14 +35,7 @@ export default function AddClient() {
   const Errornotify = (message) => toast.error(message);
   const [selectedItems, setSelectedItems] = useState(["1"]);
 
-  const handleCheckboxChange = (checkboxId) => {
-    if (selectedItems.includes(checkboxId)) {
-      setSelectedItems(selectedItems.filter((item) => item !== checkboxId));
-    } else {
-      setSelectedItems([...selectedItems, checkboxId]);
-    }
-    console.log(selectedItems, selectedItems);
-  };
+ 
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");

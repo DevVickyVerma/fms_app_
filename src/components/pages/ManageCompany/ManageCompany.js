@@ -50,30 +50,67 @@ export default function ManageCompany() {
         ErrorAlert(errorMessage);
     }
   }
+  const formData = new FormData();
+  const toggleActive = (row) => {
+    formData.append("user_id", row.id);
+
+    if (row.status === 1) {
+      formData.append("status", 0);
+    } else if (row.status === 0) {
+      formData.append("status", 1);
+    }
+
+    ToggleStatus();
+  };
+  const token = localStorage.getItem("token");
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const ToggleStatus = async () => {
+    try {
+      const response = await axiosInstance.post("/update-status", formData);
+      if (response) {
+        SuccessAlert(response.data.message);
+        fetchData();
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+        ErrorAlert("Invalid access token");
+        localStorage.clear();
+      } else if (error.response && error.response.data.status_code === "403") {
+        navigate("/errorpage403");
+      } else {
+        const errorMessage =
+          error.response && error.response.message
+            ? error.response.message
+            : "An error occurred";
+            ErrorAlert(errorMessage);
+      }
+    }
+  };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.post("/company/list");
-        if (response.data.data.companies.length > 0) {
-          setData(response.data.data.companies);
-
-          // SuccessAlert(response.data.message)
-        }
-      } catch (error) {
-        handleError(error);
-      }
-    };
+  
 
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axiosInstance.post("/company/list");
+      if (response.data.data.companies.length > 0) {
+        setData(response.data.data.companies);
+
+        // SuccessAlert(response.data.message)
+      }
+    } catch (error) {
+      handleError(error);
+    }
+  };
   const handleEdit = (row) => {
     localStorage.setItem("Company_id", row.id);
     localStorage.setItem("Company_Client_id", row.client_id);
@@ -96,13 +133,44 @@ export default function ManageCompany() {
       name: "Company",
       selector: (row) => [row.company_name],
       sortable: false,
-      width: "70%",
+      width: "60%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.company_name}</h6>
           </div>
         </div>
+      ),
+    },
+    {
+      name: "Status",
+      selector: (row) => [row.status],
+      sortable: false,
+      width: "10%",
+      cell: (row) => (
+        <span className="text-muted fs-15 fw-semibold text-center">
+          <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
+            {row.status === 1 ? (
+              <button
+                className="badge bg-success"
+                onClick={() => toggleActive(row)}
+              >
+                Active
+              </button>
+            ) : row.status === 0 ? (
+              <button
+                className="badge bg-danger"
+                onClick={() => toggleActive(row)}
+              >
+                Inactive
+              </button>
+            ) : (
+              <button className="badge" onClick={() => toggleActive(row)}>
+                Unknown
+              </button>
+            )}
+          </OverlayTrigger>
+        </span>
       ),
     },
 
