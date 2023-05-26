@@ -41,10 +41,9 @@ export default function AddSite() {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-        Errornotify(errorMessage);
+      Errornotify(errorMessage);
     }
   }
-  
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -95,7 +94,7 @@ export default function AddSite() {
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
-    console.log(formData,"formData")
+    console.log(formData, "formData");
 
     // Iterate over formik.values and convert null to empty strings
     for (const [key, value] of Object.entries(formik.values)) {
@@ -322,7 +321,7 @@ export default function AddSite() {
                   <Col lg={4} md={6}>
                     <div className="form-group">
                       <label htmlFor="supplier_id" className="form-label mt-4">
-                        supplier_id<span className="text-danger">*</span>
+                        Supplier Id<span className="text-danger">*</span>
                       </label>
                       <select
                         className={`input101 ${
@@ -336,7 +335,7 @@ export default function AddSite() {
                         onChange={formik.handleChange}
                         value={formik.values.supplier_id}
                       >
-                        <option value="">Select a supplier_id</option>
+                        <option value="">Select a Supplier Id</option>
                         {AddSiteData.suppliers &&
                         AddSiteData.suppliers.length > 0 ? (
                           AddSiteData.suppliers.map((item) => (
@@ -536,7 +535,7 @@ export default function AddSite() {
                         }`}
                         id="department_sage_code"
                         name="department_sage_code"
-                        placeholder="department_sage_code"
+                        placeholder="Saga Department code"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.department_sage_code || ""}
@@ -555,7 +554,7 @@ export default function AddSite() {
                         htmlFor="bp_credit_card_site_no"
                         className="form-label mt-4"
                       >
-                        BP NCTT Site No
+                        BP NCTT Site No<span className="text-danger">*</span>
                       </label>
                       <input
                         type="text"
