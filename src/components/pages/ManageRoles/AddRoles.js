@@ -201,7 +201,7 @@ export default function AddRoles() {
                         <div className="form-group">
                           <div className="table-heading">
                             <h2>
-                              Addons List{" "}
+                              Addons List
                               <span className="text-danger danger-title">
                                 * Atleast One Addon is Required{" "}
                               </span>

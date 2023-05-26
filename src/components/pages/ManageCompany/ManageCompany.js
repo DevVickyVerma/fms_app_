@@ -25,12 +25,40 @@ export default function ManageCompany() {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your item has been deleted.",
-          icon: "success",
-          confirmButtonText: "OK",
+        console.log(id, "isConfirmed");
+        const token = localStorage.getItem("token");
+
+        const formData = new FormData();
+        formData.append("id", id);
+
+        const axiosInstance = axios.create({
+          baseURL: process.env.REACT_APP_BASE_URL,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
         });
+        const DeleteRole = async () => {
+          try {
+            const response = await axiosInstance.post("company/delete", formData);
+            setData(response.data.data);
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your item has been deleted.",
+              icon: "success",
+              confirmButtonText: "OK",
+            });
+            fetchData();
+          } catch (error) {
+            console.error(error);
+            const message = error.response
+              ? error.response.data.message
+              : "Unknown error occurred";
+            ErrorAlert(message);
+          }
+          // setLoading(false);
+        };
+        DeleteRole();
       }
     });
   };
@@ -52,7 +80,7 @@ export default function ManageCompany() {
   }
   const formData = new FormData();
   const toggleActive = (row) => {
-    formData.append("user_id", row.id);
+    formData.append("id", row.id);
 
     if (row.status === 1) {
       formData.append("status", 0);
@@ -71,7 +99,7 @@ export default function ManageCompany() {
   });
   const ToggleStatus = async () => {
     try {
-      const response = await axiosInstance.post("/update-status", formData);
+      const response = await axiosInstance.post("/company/update-status", formData);
       if (response) {
         SuccessAlert(response.data.message);
         fetchData();

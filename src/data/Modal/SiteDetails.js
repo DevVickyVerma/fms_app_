@@ -118,10 +118,10 @@ const MyModal = (props) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      body: formData,
+     
     });
     try {
-      const response = await axiosInstance.post("/company/list");
+      const response = await axiosInstance.post("/company/list",formData);
 
       setCompanylist(response.data.data);
       if (response.data.length > 0) {

@@ -92,8 +92,7 @@ export default function AddClient() {
     formData.append("company_details", values.company_details);
     formData.append("company_code", values.company_code);
     formData.append("address", values.address);
-
-    formData.append("client_id", values.client_id);
+    
 
     try {
       const response = await fetch(

@@ -33,21 +33,46 @@ export default function ManageClient() {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your item has been deleted.",
-          icon: "success",
-          confirmButtonText: "OK",
+        console.log(id, "isConfirmed");
+        const token = localStorage.getItem("token");
+
+        const formData = new FormData();
+        formData.append("id", id);
+
+        const axiosInstance = axios.create({
+          baseURL: process.env.REACT_APP_BASE_URL,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
         });
+        const DeleteRole = async () => {
+          try {
+            const response = await axiosInstance.post("/client-delete", formData);
+            setData(response.data.data);
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your item has been deleted.",
+              icon: "success",
+              confirmButtonText: "OK",
+            });
+            fetchData();
+          } catch (error) {
+            handleError(error);
+          }
+          // setLoading(false);
+        };
+        DeleteRole();
       }
     });
   };
   const handleSearchReset = () => {
     fetchData();
     setSearchdata({});
-    setSearchList(true)
+    setSearchList(true);
   };
   const SuccessAlert = (message) => toast.success(message);
+
   const Errornotify = (message) => toast.error(message);
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -60,7 +85,7 @@ export default function ManageClient() {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-        Errornotify(errorMessage);
+      Errornotify(errorMessage);
     }
   }
   const handleToggleSidebar1 = () => {
@@ -117,7 +142,7 @@ export default function ManageClient() {
   const fetchData = async () => {
     try {
       const response = await axiosInstance.post("/client-list");
-      console.log(response.data.data.clients.length,"lldld")
+      console.log(response.data.data.clients.length, "lldld");
       if (response.data.data.clients.length > 0) {
         // alert("done")
         setData(response.data.data.clients);
@@ -170,6 +195,10 @@ export default function ManageClient() {
         Errornotify(errorMessage);
       }
     }
+  };
+  const handleEdit = (row) => {
+    localStorage.setItem("Client_id", row.id);
+   
   };
 
   const columns = [
@@ -255,8 +284,9 @@ export default function ManageClient() {
         <span className="text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <Link
-              to="/comingsoon"
+              to="/editclient"
               className="btn btn-primary btn-sm rounded-11 me-2"
+              onClick={() => handleEdit(row)}
             >
               <i>
                 <svg
@@ -301,17 +331,9 @@ export default function ManageClient() {
     columns,
     data,
   };
-  const [roles, setRoles] = useState([]);
-  const [open, setOpen] = useState(false);
+ 
 
-  const handleAddRole = (newRole) => {
-    setRoles([...roles, newRole]);
-    setOpen(false);
-  };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
   return (
     <>
       <div className="page-header ">
@@ -374,7 +396,6 @@ export default function ManageClient() {
         onClose={handleToggleSidebar1}
         onSubmit={handleSubmit}
         searchListstatus={SearchList}
-        
       />
 
       <DataTableExtensions {...tableDatas}>

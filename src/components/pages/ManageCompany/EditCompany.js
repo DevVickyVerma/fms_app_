@@ -166,7 +166,7 @@ export default function AddSite() {
 
   const handleSubmit = async (event) => {
     const token = localStorage.getItem("token");
-
+    const Company_id = localStorage.getItem("Company_id");
     const formData = new FormData();
     console.log(formData, "formData");
 
@@ -175,6 +175,7 @@ export default function AddSite() {
       const convertedValue = value === null ? "" : value;
       formData.append(key, convertedValue);
     }
+    formData.append("company_id", Company_id);
 
     try {
       const response = await fetch(
@@ -253,7 +254,7 @@ export default function AddSite() {
     <div>
       <div className="page-header">
         <div>
-          <h1 className="page-title">Edit Site</h1>
+          <h1 className="page-title">Edit Company</h1>
 
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item
@@ -285,7 +286,7 @@ export default function AddSite() {
         <Col lg={12} xl={12} md={12} sm={12}>
           <Card>
             <Card.Header>
-              <Card.Title as="h3">Edit Site</Card.Title>
+              <Card.Title as="h3">Edit Company</Card.Title>
             </Card.Header>
 
             <div class="card-body">
@@ -464,7 +465,7 @@ export default function AddSite() {
                   <Link
                     type="sussbmit"
                     className="btn btn-danger me-2 "
-                    to={`/sites/`}
+                    to={`/managecompany/`}
                   >
                     Cancel
                   </Link>

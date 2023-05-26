@@ -141,7 +141,7 @@ export default function AddClient() {
     <div>
       <div className="page-header">
         <div>
-          <h1 className="page-title">Add Clint</h1>
+          <h1 className="page-title">Add Client</h1>
 
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item

@@ -28,6 +28,7 @@ export default function EditRoles() {
   const ErrorAlert = (message) => toast.error(message);
   const [permissionArray, setPermissionArray] = useState([]);
   const [addonArray, setAddonArray] = useState([]);
+  const successToasts = {}; // Object to store the toast IDs
 
   const navigate = useNavigate();
   function handleError(error) {
@@ -41,7 +42,7 @@ export default function EditRoles() {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-        ErrorAlert(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 
@@ -62,28 +63,17 @@ export default function EditRoles() {
       .then((response) => {
         if (response) {
           const { data } = response;
-          
 
-     
-          // for (const key of Object.keys(data.data.addons)) {
-          //   let array = [];
-          //   for (const item of data?.data?.addons[key].names) {
-          //     if (item.checked) {
-          //       array.push(item.name);
-          //     }
-          //   }
-          //   setAddonArray((prevState) => {
-          //     const updatedArray = [...prevState, ...array];
-          //     return Array.from(new Set(updatedArray));
-          //   });
-          // }
+          for (const item of data.data.addons) {
+            if (item.checked) {
+              setAddonArray((prevState) => {
+                const updatedArray = [...prevState, item.id];
+                return Array.from(new Set(updatedArray));
+              });
+            }
+          }
 
-
-          
           setAddonitem(response.data.data.addons);
-          
-
-          
 
           for (const key of Object.keys(data.data.permissions)) {
             let array = [];
@@ -234,6 +224,9 @@ export default function EditRoles() {
                         <div className="form-group">
                           <div className="table-heading">
                             <h2>Addons List</h2>
+                            <span className="text-danger danger-title">
+                              * Atleast One Addon is Required{" "}
+                            </span>
                           </div>
                           {addonitem && addonitem.length > 0 ? (
                             <div>
@@ -253,50 +246,39 @@ export default function EditRoles() {
                                     value={role.id}
                                     id={`addons-${role.id}`}
                                     checked={addonArray.find(
-                                              (item) => item === role.name
-                                            )}
-                                            onChange={(e) => {
-                                              // Get the name of the permission being changed from the current element
-                                              const permissionName =
-                                              role.name;
+                                      (item) => item === role.id
+                                    )}
+                                    onChange={(e) => {
+                                      // Get the name of the permission being changed from the current element
+                                      const permissionName = role.id;
 
-                                              // Create a new array from the current state of permissionArray
-                                              const updatedAddonArray = [
-                                                ...addonArray,
-                                              ];
+                                      // Create a new array from the current state of permissionArray
+                                      const updatedAddonArray = [...addonArray];
 
-                                              // Find the index of the permissionName in the updatedPermissionArray
-                                              const findInd =
-                                              updatedAddonArray.findIndex(
-                                                  (item) =>
-                                                    item === permissionName
-                                                );
+                                      // Find the index of the permissionName in the updatedPermissionArray
+                                      const findInd =
+                                        updatedAddonArray.findIndex(
+                                          (item) => item === permissionName
+                                        );
 
-                                              // If the permissionName is already in the array, remove it
-                                              if (findInd >= 0) {
-                                                updatedAddonArray.splice(
-                                                  findInd,
-                                                  1
-                                                );
-                                              }
-                                              // Otherwise, add the permissionName to the array
-                                              else {
-                                                updatedAddonArray.push(
-                                                  permissionName
-                                                );
-                                              }
+                                      // If the permissionName is already in the array, remove it
+                                      if (findInd >= 0) {
+                                        updatedAddonArray.splice(findInd, 1);
+                                      }
+                                      // Otherwise, add the permissionName to the array
+                                      else {
+                                        updatedAddonArray.push(permissionName);
+                                      }
 
-                                              // Update the state of permissionArray with the updatedPermissionArray
-                                              setAddonArray(
-                                                updatedAddonArray
-                                              );
+                                      // Update the state of permissionArray with the updatedPermissionArray
+                                      setAddonArray(updatedAddonArray);
 
-                                              // Update the form field "permissionsList" with the updatedPermissionArray
-                                              setFieldValue(
-                                                "addons",
-                                                updatedAddonArray
-                                              );
-                                            }}
+                                      // Update the form field "permissionsList" with the updatedPermissionArray
+                                      setFieldValue(
+                                        "addons",
+                                        updatedAddonArray
+                                      );
+                                    }}
                                   />
                                   <label
                                     className="form-check-label"
@@ -326,6 +308,9 @@ export default function EditRoles() {
                           <div>
                             <div className="table-heading">
                               <h2>Permissions</h2>
+                              <span className="text-danger danger-title">
+                                * Atleast One Permission is Required
+                              </span>
                             </div>
                             {Object.keys(permissions).length > 0 ? (
                               Object.keys(permissions).map((heading) => (
