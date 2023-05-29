@@ -244,7 +244,7 @@ export default function ManageSite() {
       name: "Site",
       selector: (row) => [row.site_name],
       sortable: false,
-      width: "45%",
+      width: "25%",
       cell: (row, index) => (
         <div
           className="d-flex"
@@ -255,6 +255,40 @@ export default function ManageSite() {
             <h6 className="mb-0 fs-14 fw-semibold Tablename" variant="primary">
               {row.site_name}
             </h6>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Assign Client",
+      selector: (row) => [row.site_name],
+      sortable: false,
+      width: "10%",
+      cell: (row, index) => (
+        <div className="d-flex" style={{ cursor: "default" }}>
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            {row.clients && row.clients.length > 0 ? (
+              <h6 className="mb-0 fs-14 fw-semibold">{row.clients[0].full_name}</h6>
+            ) : (
+              <h6 className="mb-0 fs-14 fw-semibold">No Client</h6>
+            )}
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Company",
+      selector: (row) => [row.site_name],
+      sortable: false,
+      width: "10%",
+      cell: (row, index) => (
+        <div className="d-flex" style={{ cursor: "default" }}>
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            {row.clients && row.clients.length > 0 ? (
+              <h6 className="mb-0 fs-14 fw-semibold">{row.clients[0].company}</h6>
+            ) : (
+              <h6 className="mb-0 fs-14 fw-semibold">No Company found</h6>
+            )}
           </div>
         </div>
       ),

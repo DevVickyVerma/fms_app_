@@ -86,6 +86,7 @@ export default function AddSite() {
     fetchClientList();
     console.clear();
   }, []);
+
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -93,18 +94,24 @@ export default function AddSite() {
       Authorization: `Bearer ${token}`,
     },
   });
+
   const fetchClientList = async () => {
-   const id = localStorage.getItem("Client_id");
+    const id = localStorage.getItem("Client_id");
     try {
-      const response = await axiosInstance.GET("/client-detail?id=" + id);
-
-      if (response.data.data.clients.length > 0) {
-        // setData(response.data.data.sites);
-
+      const response = await axiosInstance.get("/client-detail", {
+        params: {
+          id: id,
+        },
+      });
+      console.log(response.data.data);
+      if (response) {
+        formik.setValues(response.data.data);
+        console.log(formik.values)
+        console.log(response.data.data);
         setDropdownValue(response.data.data);
       }
     } catch (error) {
-      handleError(error)
+      handleError(error);
     }
   };
 
@@ -146,29 +153,32 @@ export default function AddSite() {
   //   }
   // };
 
-
-  const handleSubmit =(values)=>{
-    console.log(values,"values");
-  }
+  const handleSubmit = (values) => {
+    console.log(values, "values");
+  };
   const formik = useFormik({
     initialValues: {
       client_code: "",
+      client_id:"",
+      created_date:"",
       first_name: "",
 
       financial_end_month: "",
 
-      // financial_start_month: "",
-
       financial_start_month: "",
 
-      client_id: "",
+     
       last_name: "",
       email: "",
       password: "",
 
       status: "",
 
-      lommis_status: "",
+      loomis_status: "",
+      
+      full_name:"",
+      id:"",
+      ma_option: [],
     },
     validationSchema: Yup.object({
       client_code: Yup.string()
@@ -194,26 +204,17 @@ export default function AddSite() {
         .email("Invalid email format"),
 
       password: Yup.string().required("Password is required"),
-      lommis_status: Yup.string().required("Lommis Status is required"),
+      loomis_status: Yup.string().required("Lommis Status is required"),
       status: Yup.string().required(" Status is required"),
     }),
-    onSubmit: handleSubmit,
+    onSubmit: (values) => {
+      handleSubmit(values);
+    },
   });
 
   const isInvalid = formik.errors && formik.touched.name ? "is-invalid" : "";
 
-  // Use the isInvalid variable to conditionally set the class name
-  const inputClass = `form-control ${isInvalid}`;
-  const handleBusinessTypeChange = (e) => {
-    const selectedType = e.target.value;
 
-    formik.setFieldValue("business_type", selectedType);
-    setSelectedBusinessType(selectedType);
-    const selectedTypeData = AddSiteData.busines_types.find(
-      (type) => type.name === selectedType
-    );
-    setSubTypes(selectedTypeData.sub_types);
-  };
 
   return (
     <div>
@@ -300,7 +301,7 @@ export default function AddSite() {
                         name="first_name"
                         placeholder="Company Name"
                         onChange={formik.handleChange}
-                        value={formik.values.first_name || ""}
+                        value={formik.values.first_name}
                       />
                       {formik.errors.first_name &&
                         formik.touched.first_name && (
@@ -333,7 +334,7 @@ export default function AddSite() {
                       </div>
                     )}
                   </Col>
-                
+
                   <Col lg={4} md={6}>
                     <div className="form-group">
                       <label className="form-label mt-4" htmlFor="email">
@@ -359,7 +360,7 @@ export default function AddSite() {
                       )}
                     </div>
                   </Col>
-                  <Col lg={4} md={6}>
+                  {/* <Col lg={4} md={6}>
                     <div className="form-group">
                       <label className="form-label mt-4" htmlFor="password">
                         password<span className="text-danger">*</span>
@@ -383,12 +384,12 @@ export default function AddSite() {
                         </div>
                       )}
                     </div>
-                  </Col>
-                 
+                  </Col> */}
+
                   <Col lg={4} md={6}>
                     <div className="form-group">
                       <label htmlFor="status" className="form-label mt-4">
-                       Status<span className="text-danger">*</span>
+                        Status<span className="text-danger">*</span>
                       </label>
                       <select
                         className={`input101 ${
@@ -501,38 +502,129 @@ export default function AddSite() {
                   <Col lg={4} md={6}>
                     <div className="form-group">
                       <label
-                        htmlFor="lommis_status"
+                        htmlFor="loomis_status"
                         className="form-label mt-4"
                       >
                         Lommis Status<span className="text-danger">*</span>
                       </label>
                       <select
                         className={`input101 ${
-                          formik.errors.lommis_status &&
-                          formik.touched.lommis_status
+                          formik.errors.loomis_status &&
+                          formik.touched.loomis_status
                             ? "is-invalid"
                             : ""
                         }`}
-                        id="lommis_status"
-                        name="lommis_status"
+                        id="loomis_status"
+                        name="loomis_status"
                         onChange={formik.handleChange}
-                        value={formik.values.lommis_status}
+                        value={formik.values.loomis_status}
                       >
                         <option value="">Select a Lommis Status</option>
 
                         <option value="1">1</option>
                         <option value="0">0</option>
                       </select>
-                      {formik.errors.lommis_status &&
-                        formik.touched.lommis_status && (
+                      {formik.errors.loomis_status &&
+                        formik.touched.loomis_status && (
                           <div className="invalid-feedback">
-                            {formik.errors.lommis_status}
+                            {formik.errors.loomis_status}
                           </div>
                         )}
                     </div>
                   </Col>
+                  <Col lg={4} md={6}>
+                    <div className="form-group">
+                      <label htmlFor="ma_option" className="form-label mt-4">
+                        MA Options
+                        <span className="text-danger">*</span>
+                      </label>
+                      <div>
+                        <label>
+                          <input
+                            type="checkbox"
+                            name="ma_option"
+                            value="1"
+                            checked={formik.values.ma_option.includes("1")}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                formik.setFieldValue("ma_option", [
+                                  ...formik.values.ma_option,
+                                  "1",
+                                ]);
+                              } else {
+                                formik.setFieldValue(
+                                  "ma_option",
+                                  formik.values.ma_option.filter(
+                                    (option) => option !== "1"
+                                  )
+                                );
+                              }
+                            }}
+                          />
+                          Actual
+                        </label>
+                      </div>
+                      <div>
+                        <label>
+                          <input
+                            type="checkbox"
+                            name="ma_option"
+                            value="2"
+                            checked={formik.values.ma_option.includes("2")}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                formik.setFieldValue("ma_option", [
+                                  ...formik.values.ma_option,
+                                  "2",
+                                ]);
+                              } else {
+                                formik.setFieldValue(
+                                  "ma_option",
+                                  formik.values.ma_option.filter(
+                                    (option) => option !== "2"
+                                  )
+                                );
+                              }
+                            }}
+                          />
+                          Forecast
+                        </label>
+                      </div>
+                      <div>
+                        <label>
+                          <input
+                            type="checkbox"
+                            name="ma_option"
+                            value="3"
+                            checked={formik.values.ma_option.includes("3")}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                formik.setFieldValue("ma_option", [
+                                  ...formik.values.ma_option,
+                                  "3",
+                                ]);
+                              } else {
+                                formik.setFieldValue(
+                                  "ma_option",
+                                  formik.values.ma_option.filter(
+                                    (option) => option !== "3"
+                                  )
+                                );
+                              }
+                            }}
+                          />
+                          Variance
+                        </label>
+                      </div>
+                      {formik.errors.ma_option && formik.touched.ma_option && (
+                        <div className="invalid-feedback">
+                          {formik.errors.ma_option}
+                        </div>
+                      )}
+                    </div>
+                  </Col>
                 </Row>
-         
+
                 <div className="text-end">
                   <Link
                     type="sussbmit"
