@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -12,7 +12,28 @@ import { toast } from "react-toastify";
 
 export default function ManageBusinessTypes() {
   const [data, setData] = useState();
+  const SuccessAlert = (message) => toast.success(message);
+  const ErrorAlert = (message) => toast.error(message);
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const fetchData = async () => {
+    try {
+      const response = await axiosInstance.get("/business/types");
+      if (response.data.data.length > 0) {
+        setData(response.data.data);
 
+        // SuccessAlert(response.data.message)
+      }
+    } catch (error) {
+      handleError(error);
+    }
+  };
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -25,41 +46,69 @@ export default function ManageBusinessTypes() {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-       
+        console.log(id, "isConfirmed");
+        const token = localStorage.getItem("token");
 
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your item has been deleted.",
-          icon: "success",
-          confirmButtonText: "OK",
+        const formData = new FormData();
+        formData.append("id", id);
+
+        const axiosInstance = axios.create({
+          baseURL: process.env.REACT_APP_BASE_URL,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
         });
+        const DeleteRole = async () => {
+          try {
+            const response = await axiosInstance.post(
+              "business/delete-type",
+              formData
+            );
+            setData(response.data.data);
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your item has been deleted.",
+              icon: "success",
+              confirmButtonText: "OK",
+            });
+            fetchData();
+          } catch (error) {
+            console.error(error);
+            const message = error.response
+              ? error.response.data.message
+              : "Unknown error occurred";
+            ErrorAlert(message);
+          }
+          // setLoading(false);
+        };
+        DeleteRole();
       }
     });
   };
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      ErrorAlert("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      const errorMessage = Array.isArray(error.response.data.message)
+        ? error.response.data.message.join(" ")
+        : error.response.data.message;
+        ErrorAlert(errorMessage);
+    }
+  }
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.get("/business/types");
-        if (response.data.data.length > 0) {
-          setData(response.data.data);
-
-          // SuccessAlert(response.data.message)
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     fetchData();
   }, []);
+  const handleEdit = (row) => {
+    console.log(row, "handleEdit");
+
+    localStorage.setItem("EditBussinessId", row.id);
+  };
 
   const columns = [
     {
@@ -76,18 +125,30 @@ export default function ManageBusinessTypes() {
     },
     {
       name: "Business",
-      selector: (row) => [row.name],
+      selector: (row) => [row.business_name],
       sortable: false,
-      width: "70%",
+      width: "60%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row.business_name}</h6>
           </div>
         </div>
       ),
     },
-
+    {
+      name: "Created Date",
+      selector: (row) => [row.created_date],
+      sortable: false,
+      width: "10%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
+          </div>
+        </div>
+      ),
+    },
     {
       name: "ACTION",
       selector: (row) => [row.action],
@@ -97,8 +158,9 @@ export default function ManageBusinessTypes() {
         <span className="text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <Link
-              to="/editrole"
+              to={`/editbusiness/${row.id}`} // Assuming `row.id` contains the ID
               className="btn btn-primary btn-sm rounded-11 me-2"
+              onClick={() => handleEdit(row)}
             >
               <i>
                 <svg
@@ -159,9 +221,13 @@ export default function ManageBusinessTypes() {
       <div className="page-header ">
         <div>
           <h1 className="page-title">Manage Business Types</h1>
-          
+
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/dashboard' }}>
+            <Breadcrumb.Item
+              className="breadcrumb-item"
+              linkAs={Link}
+              linkProps={{ to: "/dashboard" }}
+            >
               Dashboard
             </Breadcrumb.Item>
             <Breadcrumb.Item
@@ -173,18 +239,9 @@ export default function ManageBusinessTypes() {
           </Breadcrumb>
         </div>
         <div className="ms-auto pageheader-btn">
-          <FormModal
-            open={open}
-            modalId="AddBusinessTypes"
-            modalTitle="Add Business-Types"
-            modalContentText="Enter the name of the type of Business:"
-            modalInputLabel="Add Business Types"
-            modalInputType="text"
-            modalCancelButtonLabel="Cancel"
-            modalSaveButtonLabel="Add Business"
-            onSubmit={handleAddRole}
-            onClose={handleClose}
-          />
+          <Link to="/addbusiness" className="btn btn-primary">
+            Add Business Types
+          </Link>
         </div>
       </div>
 

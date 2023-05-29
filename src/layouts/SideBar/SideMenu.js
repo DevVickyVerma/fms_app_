@@ -120,6 +120,23 @@ export const MENUITEMS = [
              title: "Manage Business Types",
              type: "link",
            },
+        
+          {
+            path: `/addbusiness`,
+             title: "Add Business Types",
+             type: "link",
+           },
+         
+          
+        ],
+      },
+      {
+        title: "Manage Sub-Business Types",
+        icon: "package",
+        type: "sub",
+        active: false,
+        children: [
+        
           {
            path: `/sub-business`,
             title: "Manage Sub-Business Types",
@@ -127,7 +144,7 @@ export const MENUITEMS = [
           },
           {
             path: `/comingsoon`,
-             title: "Add Business Types",
+             title: "Add Sub-Business Types",
              type: "link",
            },
          

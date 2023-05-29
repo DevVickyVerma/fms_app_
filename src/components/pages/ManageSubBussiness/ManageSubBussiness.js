@@ -91,14 +91,27 @@ export default function ManageSubBusinessTypes() {
       ),
     },
     {
-      name: "Role",
-      selector: (row) => [row.name],
+      name: "Business  Type",
+      selector: (row) => [row.business_type],
       sortable: false,
-      width: "70%",
+      width: "60%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row.business_type}</h6>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Business Sub Type",
+      selector: (row) => [row.business_sub_name],
+      sortable: false,
+      width: "20%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.business_sub_name}</h6>
           </div>
         </div>
       ),

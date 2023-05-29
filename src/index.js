@@ -48,7 +48,7 @@ const ManageBusinessTypes = React.lazy(() =>
   import("./components/pages/ManageBusinessTypes/ManageBusinessTypes")
 );
 const ManageBusinessSubTypes = React.lazy(() =>
-  import("./components/pages/ManageBusinessTypes/ManageSubBusinessTypes")
+  import("./components/pages/ManageSubBussiness/ManageSubBussiness")
 );
 const AddBusiness = React.lazy(() =>
   import("./components/pages/ManageBusinessTypes/AddBusiness")
@@ -78,6 +78,9 @@ const EditClient = React.lazy(() =>
 );
 const EditCompany = React.lazy(() =>
   import("./components/pages/ManageCompany/EditCompany")
+);
+const EditBusiness = React.lazy(() =>
+  import("./components/pages/ManageBusinessTypes/EditBussinesType")
 );
 const AddClient = React.lazy(() =>
   import("./components/pages/ManageClient/AddClient")
@@ -189,6 +192,7 @@ const Root = () => {
                   <Route path={`/addbusiness`} element={<AddBusiness />} />
                   <Route path={`EditAddon`} element={<EditAddon />} />
                   <Route path={`/editcompany`} element={<EditCompany />} />
+                  <Route path={`/editbusiness/:id`} element={<EditBusiness />} />
                   <Route path={`/roles`} element={<ManageRoles />} />
                   <Route path={`/addroles`} element={<AddRoles />} />
                   <Route path={`/clients`} element={<ManageClient />} />

@@ -21,32 +21,6 @@ export default function AddClient() {
   const [dropdownItems, setDropdownItems] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.post("/role/list");
-        setDropdownItems(response.data.data);
-      } catch (error) {
-        if (
-          error &&
-          error.response &&
-          error.response.data.status_code === "403"
-        ) {
-          navigate("/errorpage403");
-        }
-      }
-    };
-
-    fetchData();
-  }, []);
-
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
 
@@ -54,13 +28,12 @@ export default function AddClient() {
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
-    formData.append("first_name", values.first_name);
-    formData.append("last_name", values.last_name);
-    formData.append("role", values.role);
-    formData.append("phone_number", values.phone_number);
+    formData.append("business_name", values.business_name);
+    formData.append("slug", values.slug);
+    formData.append("status", values.status);
 
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/update-profile`,
+      `${process.env.REACT_APP_BASE_URL}/business/add-type`,
       {
         method: "POST",
         headers: {
@@ -113,23 +86,21 @@ export default function AddClient() {
             </Card.Header>
             <Formik
               initialValues={{
-                first_name: "",
-                last_name: "",
-                phone_number: "",
-                role: "",
+                business_name: "",
+                slug: "",
+
+                status: "",
               }}
               validationSchema={Yup.object({
-                first_name: Yup.string()
+                business_name: Yup.string()
                   .max(15, "Must be 15 characters or less")
-                  .required("First name is required"),
+                  .required(" Bussiness Name is required"),
 
-                last_name: Yup.string()
+                slug: Yup.string()
                   .max(20, "Must be 20 characters or less")
-                  .required("Last name is required"),
-                phone_number: Yup.string()
-                  .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
-                  .required("Phone number is required"),
-                role: Yup.string().required("Role is required"),
+                  .required("Slug is required"),
+
+                status: Yup.string().required("status is required"),
               })}
               onSubmit={(values, { setSubmitting }) => {
                 handleSubmit1(values, setSubmitting);
@@ -141,42 +112,40 @@ export default function AddClient() {
                     <Row>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label htmlFor="first_name">First Name</label>
+                          <label htmlFor="business_name">Bussiness Name</label>
                           <Field
                             type="text"
                             // className="form-control"
                             className={`input101 ${
-                              errors.first_name && touched.first_name
+                              errors.business_name && touched.business_name
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            id="first_name"
-                            name="first_name"
-                            placeholder="First Name"
+                            id="business_name"
+                            name="business_name"
+                            placeholder="Bussiness Name"
                           />
                           <ErrorMessage
                             component="div"
                             className="invalid-feedback"
-                            name="first_name"
+                            name="business_name"
                           />
                         </FormGroup>
                       </Col>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label htmlFor="last_name">Last Name</label>
+                          <label htmlFor="slug">Slug</label>
                           <Field
                             type="text"
                             className={`input101 ${
-                              errors.last_name && touched.last_name
-                                ? "is-invalid"
-                                : ""
+                              errors.slug && touched.slug ? "is-invalid" : ""
                             }`}
-                            id="last_name"
-                            name="last_name"
-                            placeholder="Last Name"
+                            id="slug"
+                            name="slug"
+                            placeholder="Slug"
                           />
                           <ErrorMessage
-                            name="last_name"
+                            name="slug"
                             component="div"
                             className="invalid-feedback"
                           />
@@ -186,51 +155,25 @@ export default function AddClient() {
                     <Row>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label htmlFor="phone_number">Phone Number</label>
-                          <Field
-                            type="text"
-                            className={`input101 ${
-                              errors.phone_number && touched.phone_number
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="phone_number"
-                            name="phone_number"
-                            placeholder="Phone Number"
-                          />
-                          <ErrorMessage
-                            component="div"
-                            className="invalid-feedback"
-                            name="phone_number"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg={6} md={12}>
-                        <FormGroup>
-                          <label htmlFor="role">Role</label>
+                          <label htmlFor="status">status</label>
                           <Field
                             as="select"
                             className={`input101 ${
-                              errors.role && touched.role ? "is-invalid" : ""
+                              errors.status && touched.status
+                                ? "is-invalid"
+                                : ""
                             }`}
-                            id="role"
-                            name="role"
+                            id="status"
+                            name="status"
                           >
-                            <option value="">Select a Role</option>
-                            {dropdownItems && dropdownItems.length > 0 ? (
-                              dropdownItems.map((item) => (
-                                <option key={item.id} value={item.name}>
-                                  {item.name}
-                                </option>
-                              ))
-                            ) : (
-                              <option disabled>No roles available</option>
-                            )}
+                            <option value="">Select a Status</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
                           </Field>
                           <ErrorMessage
                             component="div"
                             className="invalid-feedback"
-                            name="role"
+                            name="status"
                           />
                         </FormGroup>
                       </Col>
@@ -242,7 +185,7 @@ export default function AddClient() {
                       type="submit"
                       disabled={isSubmitting}
                     >
-                      Update
+                      Add
                     </button>
                   </Card.Footer>
                 </Form>

@@ -106,7 +106,7 @@ export default function AddSite() {
       console.log(response.data.data);
       if (response) {
         formik.setValues(response.data.data);
-        console.log(formik.values)
+        console.log(formik.values);
         console.log(response.data.data);
         setDropdownValue(response.data.data);
       }
@@ -115,106 +115,100 @@ export default function AddSite() {
     }
   };
 
-  // const handleSubmit = async (event) => {
-  //   const token = localStorage.getItem("token");
-  //   const Company_id = localStorage.getItem("Company_id");
-  //   const formData = new FormData();
-  //   console.log(formData, "formData");
-
-  //   // Iterate over formik.values and convert null to empty strings
-  //   for (const [key, value] of Object.entries(formik.values)) {
-  //     const convertedValue = value === null ? "" : value;
-  //     formData.append(key, convertedValue);
-  //   }
-  //   formData.append("company_id", Company_id);
-
-  //   try {
-  //     const response = await fetch(
-  //       `${process.env.REACT_APP_BASE_URL}/company/update`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //         body: formData,
-  //       }
-  //     );
-
-  //     const data = await response.json();
-
-  //     if (response.ok) {
-  //       notify(data.message);
-  //       navigate("/managecompany");
-  //     } else {
-  //       Errornotify(data.message);
-  //     }
-  //   } catch (error) {
-  //     handleError(error);
-  //   }
-  // };
-
   const handleSubmit = (values) => {
-    console.log(values, "values");
+    const token = localStorage.getItem("token");
+  
+    const formData = new FormData();
+  
+    formData.append("client_code", values.client_code);
+    formData.append("client_id", values.client_id);
+    formData.append("created_date", values.created_date);
+    formData.append("first_name", values.first_name);
+    formData.append("financial_end_month", values.financial_end_month);
+    formData.append("financial_start_month", values.financial_start_month);
+    formData.append("last_name", values.last_name);
+    formData.append("email", values.email);
+    formData.append("password", values.first_name);
+    formData.append("status", values.status);
+    formData.append("loomis_status", values.loomis_status);
+    formData.append("full_name", values.full_name);
+    formData.append("id", values.id);
+    formData.append("ma_option", values.ma_option);
+  
+    fetch(`${process.env.REACT_APP_BASE_URL}/update-client`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        notify(data.message);
+        navigate("/clients")
+      })
+      .catch((error) => {
+        handleError(error);
+      });
   };
+  
+  
+
+  // const handleSubmit = (values) => {
+
+  //   console.log(formData, "formData");
+  // };
   const formik = useFormik({
     initialValues: {
       client_code: "",
-      client_id:"",
-      created_date:"",
-      first_name: "",
-
-      financial_end_month: "",
-
-      financial_start_month: "",
-
-     
-      last_name: "",
+      client_name: "",
+      created_date: "",
       email: "",
-      password: "",
-
-      status: "",
-
+      financial_end_month: "",
+      financial_start_month: "",
+      first_name: "",
+      id: "",
+      last_name: "",
       loomis_status: "",
-      
-      full_name:"",
-      id:"",
       ma_option: [],
+      status: "",
     },
     validationSchema: Yup.object({
       client_code: Yup.string()
         .max(20, "Must be 20 characters or less")
         .required("Client Code is required"),
-      last_name: Yup.string()
-        .max(20, "Must be 20 characters or less")
-        .required("Last Name is required"),
-      first_name: Yup.string()
-        .max(20, "Must be 20 characters or less")
-        .required("First Name is required"),
-
-      financial_end_month: Yup.string().required(
-        "Financial End Month is required"
-      ),
-      // client_id: Yup.string().required("Client is required"),
-
-      financial_start_month: Yup.string().required(
-        "Financial Start Month is required"
-      ),
+      // client_name: Yup.string()
+      //   .max(20, "Must be 20 characters or less")
+      //   .required("Client Code is required"),
+      created_date: Yup.string().required("Client Code is required"),
       email: Yup.string()
         .required(" Email is required")
         .email("Invalid email format"),
-
-      password: Yup.string().required("Password is required"),
+      financial_end_month: Yup.string().required(
+        "Financial End Month is required"
+      ),
+      financial_start_month: Yup.string().required(
+        "Financial Start Month is required"
+      ),
+      first_name: Yup.string()
+        .max(20, "Must be 20 characters or less")
+        .required("First Name is required"),
+      last_name: Yup.string()
+        .max(20, "Must be 20 characters or less")
+        .required("Last Name is required"),
       loomis_status: Yup.string().required("Lommis Status is required"),
+
       status: Yup.string().required(" Status is required"),
     }),
     onSubmit: (values) => {
       handleSubmit(values);
+      // console.log(values);
     },
   });
 
   const isInvalid = formik.errors && formik.touched.name ? "is-invalid" : "";
-
-
 
   return (
     <div>
