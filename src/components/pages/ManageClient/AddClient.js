@@ -59,22 +59,22 @@ export default function AddClient() {
   const handleSubmit1 = async (values, setSubmitting) => {
     setIsLoading(true);
     const token = localStorage.getItem("token");
-
+  
     const formData = new FormData();
     formData.append("email", values.email);
     formData.append("password", values.password);
     formData.append("first_name", values.first_name);
     formData.append("last_name", values.last_name);
-
+  
     formData.append("client_code", values.client_code);
     formData.append("financial_start_month", values.financial_start_month);
     formData.append("financial_end_month", values.financial_end_month);
     formData.append("lommis_status", values.lommis_status);
     formData.append("role_name", "Client");
     formData.append("send_mail", isChecked);
-
+  
     formData.append("ma_option", JSON.stringify(selectedItems));
-
+  
     try {
       const response = await fetch(
         `${process.env.REACT_APP_BASE_URL}/add-user`,
@@ -86,29 +86,35 @@ export default function AddClient() {
           body: formData,
         }
       );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        notify(data.message);
-        navigate("/clients");
-        setSubmitting(false);
-      } else {
-        if (data && data.message && Array.isArray(data.message)) {
-          data.message.forEach((errorMsg) => {
+  
+      const apiResponse = await response.json(); // Parse the API response
+  
+      if (apiResponse.api_response === "error") {
+        if (apiResponse.data && apiResponse.data.message && Array.isArray(apiResponse.data.message)) {
+          // Handle multiple error messages
+          apiResponse.data.message.forEach((errorMsg) => {
             Errornotify(errorMsg);
           });
+        } else if (apiResponse.message) {
+          // Handle single error message
+          Errornotify(apiResponse.message);
         } else {
           throw new Error("An error occurred.");
         }
+      } else {
+        notify(apiResponse.message);
+        navigate("/clients");
       }
     } catch (error) {
       handleError(error);
-    }
-    finally {
-      setIsLoading(false); // Hide loading indicator
+    } finally {
+      setIsLoading(false); // Set isLoading to false regardless of the outcome
+      setSubmitting(false);
     }
   };
+  
+  
+  
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxChange1 = (event) => {
@@ -509,13 +515,14 @@ export default function AddClient() {
                             onChange={() => handleCheckboxChange("1")}
                           />{" "}
                            <span className="mx-2">Actual</span>
+                           <br></br>
                           
                           <input
                             type="checkbox"
                             onChange={() => handleCheckboxChange("2")}
                           />
                            <span className="mx-2">Forecast</span>
-                          
+                           <br></br>
                           <input
                             type="checkbox"
                             onChange={() => handleCheckboxChange("3")}
