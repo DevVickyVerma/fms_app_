@@ -18,7 +18,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function AddClient() {
-    const [dropdownValue, setDropdownValue] = useState([]);
+  const [dropdownValue, setDropdownValue] = useState([]);
   const navigate = useNavigate();
 
   const notify = (message) => toast.success(message);
@@ -34,7 +34,7 @@ export default function AddClient() {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-  
+
       if (errorMessage) {
         Errornotify(errorMessage);
       } else {
@@ -44,19 +44,17 @@ export default function AddClient() {
       throw new Error("An error occurred.");
     }
   }
-  
-  
 
-  const handleSubmit1 = async (values, setSubmitting) => {
+  const handleSubmit1 = async (values) => {
     try {
       const token = localStorage.getItem("token");
-  
+
       const formData = new FormData();
       formData.append("business_sub_name", values.business_name);
       formData.append("slug", values.slug);
       formData.append("status", values.status);
       formData.append("business_type_id", values.business_type_id);
-  
+
       const response = await fetch(
         `${process.env.REACT_APP_BASE_URL}/business/add-sub-type`,
         {
@@ -67,12 +65,12 @@ export default function AddClient() {
           body: formData,
         }
       );
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
         notify(data.message);
-        setSubmitting(false);
+        navigate("/sub-business");
       } else {
         if (data && data.message && Array.isArray(data.message)) {
           data.message.forEach((errorMsg) => {
@@ -87,8 +85,7 @@ export default function AddClient() {
       console.log(error, "hamdlerrro9r");
     }
   };
-  
-  
+
   useEffect(() => {
     fetchBusinessList();
     console.clear();
@@ -105,7 +102,7 @@ export default function AddClient() {
       const response = await axiosInstance.get("/business/types");
 
       if (response.data.data.length > 0) {
-         console.log(response.data);
+        console.log(response.data);
 
         setDropdownValue(response.data);
       }
@@ -156,13 +153,13 @@ export default function AddClient() {
                 slug: "",
 
                 status: "",
-                business_type_id:"",
+                business_type_id: "",
               }}
               validationSchema={Yup.object({
                 business_name: Yup.string()
                   .max(15, "Must be 15 characters or less")
                   .required(" Bussiness Name is required"),
-                  business_type_id:Yup.string().required("status is required"),
+                business_type_id: Yup.string().required("status is required"),
 
                 slug: Yup.string()
                   .max(20, "Must be 20 characters or less")
@@ -170,11 +167,11 @@ export default function AddClient() {
 
                 status: Yup.string().required("status is required"),
               })}
-              onSubmit={(values, { setSubmitting }) => {
-                handleSubmit1(values, setSubmitting);
+              onSubmit={(values) => {
+                handleSubmit1(values);
               }}
             >
-              {({ handleSubmit, isSubmitting, errors, touched }) => (
+              {({ handleSubmit, errors, touched }) => (
                 <Form onSubmit={handleSubmit}>
                   <Card.Body>
                     <Row>
@@ -257,14 +254,15 @@ export default function AddClient() {
                           <Field
                             as="select"
                             className={`input101 ${
-                              errors.business_type_id && touched.business_type_id
+                              errors.business_type_id &&
+                              touched.business_type_id
                                 ? "is-invalid"
                                 : ""
                             }`}
                             id="business_type_id"
                             name="business_type_id"
                           >
-                            <option value=""> Select  Business Type</option>
+                            <option value=""> Select Business Type</option>
                             {dropdownValue.data &&
                             dropdownValue.data.length > 0 ? (
                               dropdownValue.data.map((item) => (
@@ -273,7 +271,7 @@ export default function AddClient() {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No  Business Type</option>
+                              <option disabled>No Business Type</option>
                             )}
                           </Field>
                           <ErrorMessage
@@ -283,15 +281,10 @@ export default function AddClient() {
                           />
                         </FormGroup>
                       </Col>
-
                     </Row>
                   </Card.Body>
                   <Card.Footer className="text-end">
-                    <button
-                      className="btn btn-primary me-2"
-                      type="submit"
-                      disabled={isSubmitting}
-                    >
+                    <button className="btn btn-primary me-2" type="submit">
                       Add
                     </button>
                   </Card.Footer>

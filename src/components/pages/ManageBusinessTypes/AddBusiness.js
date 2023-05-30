@@ -24,7 +24,7 @@ export default function AddClient() {
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
 
-  const handleSubmit1 = async (values, setSubmitting) => {
+  const handleSubmit1 = async (values) => {
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
@@ -48,7 +48,7 @@ export default function AddClient() {
     if (response.ok) {
       notify(data.message);
 
-      setSubmitting(false);
+     
     }else {
       if (data && data.message && Array.isArray(data.message)) {
         data.message.forEach((errorMsg) => {
@@ -108,11 +108,11 @@ export default function AddClient() {
 
                 status: Yup.string().required("status is required"),
               })}
-              onSubmit={(values, { setSubmitting }) => {
-                handleSubmit1(values, setSubmitting);
+              onSubmit={(values) => {
+                handleSubmit1(values, );
               }}
             >
-              {({ handleSubmit, isSubmitting, errors, touched }) => (
+              {({ handleSubmit, errors, touched }) => (
                 <Form onSubmit={handleSubmit}>
                   <Card.Body>
                     <Row>
@@ -161,7 +161,7 @@ export default function AddClient() {
                     <Row>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label htmlFor="status">status</label>
+                          <label htmlFor="status">Status</label>
                           <Field
                             as="select"
                             className={`input101 ${
@@ -173,8 +173,8 @@ export default function AddClient() {
                             name="status"
                           >
                             <option value="">Select a Status</option>
-                            <option value="1">Yes</option>
-                            <option value="0">No</option>
+                            <option value="1">Active</option>
+                            <option value="0">InActive</option>
                           </Field>
                           <ErrorMessage
                             component="div"
@@ -189,7 +189,7 @@ export default function AddClient() {
                     <button
                       className="btn btn-primary me-2"
                       type="submit"
-                      disabled={isSubmitting}
+                     
                     >
                       Add
                     </button>

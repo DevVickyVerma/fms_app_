@@ -108,9 +108,9 @@ export default function AddClient() {
     formData.append("financial_end_month", values.financial_end_month);
     formData.append("lommis_status", values.lommis_status);
     formData.append("role_name", "Client");
- 
+    formData.append("welcome_email", isChecked);
+
     formData.append("ma_option", JSON.stringify(selectedItems));
-  
 
     try {
       const response = await fetch(
@@ -131,12 +131,25 @@ export default function AddClient() {
         navigate("/clients");
         setSubmitting(false);
       } else {
-        Errornotify(data.message);
+        if (data && data.message && Array.isArray(data.message)) {
+          data.message.forEach((errorMsg) => {
+            Errornotify(errorMsg);
+          });
+        } else {
+          throw new Error("An error occurred.");
+        }
       }
     } catch (error) {
       handleError(error);
     }
   };
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange1 = (event) => {
+    setIsChecked(event.target.checked);
+    console.log(event.target.checked);
+  };
+
   return (
     <div>
       <div className="page-header">
@@ -193,6 +206,7 @@ export default function AddClient() {
                 status: "",
 
                 lommis_status: "",
+                welcome_email: "",
               }}
               validationSchema={Yup.object({
                 client_code: Yup.string()
@@ -527,6 +541,25 @@ export default function AddClient() {
                             onChange={() => handleCheckboxChange("3")}
                           />{" "}
                           Variance
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="email"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <FormGroup>
+                          <label htmlFor="email" className="form-label mt-4">
+                            Send Welcome Email
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="checkbox"
+                            checked={isChecked}
+                            onChange={handleCheckboxChange1}
+                          />
+                          Send
                           <ErrorMessage
                             component="div"
                             className="invalid-feedback"
