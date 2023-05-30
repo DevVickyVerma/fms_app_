@@ -62,7 +62,7 @@ export default function AddSite() {
 
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(`/business/type/${id}`);
+        const response = await axiosInstance.get(`/business/sub-type/${id}`);
         if (response) {
           console.log(response.data.data);
           setEditSiteData(response.data.data);
@@ -75,11 +75,31 @@ export default function AddSite() {
 
     try {
       fetchData();
+      fetchClientList();
     } catch (error) {
       handleError(error);
     }
     console.clear();
   }, [id]);
+  const fetchClientList = async () => {
+    try {
+      const response = await axiosInstance.get("/business/types");
+
+      if (response) {
+        // setData(response.data.data.sites);
+        console.log(response.data);
+        setDropdownValue(response.data);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+        Errornotify("Invalid access token");
+        localStorage.clear();
+      } else if (error.response && error.response.data.status_code === "403") {
+        navigate("/errorpage403");
+      }
+    }
+  };
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
@@ -95,12 +115,10 @@ export default function AddSite() {
     const formData = new FormData();
     console.log(formData, "formData");
 
-    formData.append("business_name", values.business_name);
+    formData.append("business_sub_name", values.business_sub_name);
     formData.append("slug", values.slug);
     formData.append("status", values.status);
-    formData.append("id", values.id);
-  
-    
+    formData.append("business_type_id", values.business_type_id);
 
     try {
       const response = await fetch(
@@ -129,15 +147,18 @@ export default function AddSite() {
 
   const formik = useFormik({
     initialValues: {
-      business_name: "",
+      business_sub_name: "",
       slug: "",
 
       status: "",
+      business_type_id: "",
     },
     validationSchema: Yup.object({
-      business_name: Yup.string()
+      business_sub_name: Yup.string()
         .max(20, "Must be 20 characters or less")
         .required("Company Code is required"),
+
+      business_type_id: Yup.string().required("status is required"),
 
       slug: Yup.string()
         .max(20, "Must be 20 characters or less")
@@ -209,28 +230,28 @@ export default function AddSite() {
                     <div className="form-group">
                       <label
                         className="form-label mt-4"
-                        htmlFor="business_name"
+                        htmlFor="business_sub_name"
                       >
                         Business Name<span className="text-danger">*</span>
                       </label>
                       <input
-                        id="business_name"
-                        business_name="name"
+                        id="business_sub_name"
+                        business_sub_name="name"
                         type="text"
                         className={`input101 ${
-                          formik.errors.business_name &&
-                          formik.touched.business_name
+                          formik.errors.business_sub_name &&
+                          formik.touched.business_sub_name
                             ? "is-invalid"
                             : ""
                         }`}
                         placeholder="Company Code"
                         onChange={formik.handleChange}
-                        value={formik.values.business_name || ""}
+                        value={formik.values.business_sub_name || ""}
                       />
-                      {formik.errors.business_name &&
-                        formik.touched.business_name && (
+                      {formik.errors.business_sub_name &&
+                        formik.touched.business_sub_name && (
                           <div className="invalid-feedback">
-                            {formik.errors.nbusiness_nameame}
+                            {formik.errors.business_sub_nameame}
                           </div>
                         )}
                     </div>
@@ -286,6 +307,46 @@ export default function AddSite() {
                           {formik.errors.status}
                         </div>
                       )}
+                    </div>
+                  </Col>
+                  <Col lg={4} md={6}>
+                    <div className="form-group">
+                      <label
+                        htmlFor="business_type_id"
+                        className=" form-label mt-4"
+                      >
+                        Business Type <span className="text-danger">*</span>
+                      </label>
+                      <select
+                        as="select"
+                        className={`input101 ${
+                          formik.errors.business_type_id &&
+                          formik.errors.business_type_id
+                            ? "is-invalid"
+                            : ""
+                        }`}
+                        id="business_type_id"
+                        name="business_type_id"
+                        onChange={formik.handleChange}
+                        value={formik.values.business_type_id}
+                      >
+                        <option value=""> Select Business Type</option>
+                        {dropdownValue.data && dropdownValue.data.length > 0 ? (
+                          dropdownValue.data.map((item) => (
+                            <option key={item.id} value={item.id}>
+                              {item.business_name}
+                            </option>
+                          ))
+                        ) : (
+                          <option disabled>No Business Type</option>
+                        )}
+                      </select>
+                      {formik.errors.business_type_id &&
+                        formik.touched.business_type_id && (
+                          <div className="invalid-feedback">
+                            {formik.errors.business_type_id}
+                          </div>
+                        )}
                     </div>
                   </Col>
                 </Row>

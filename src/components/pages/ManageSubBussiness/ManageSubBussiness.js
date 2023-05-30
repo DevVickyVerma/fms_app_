@@ -9,7 +9,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
-
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 export default function ManageSubBusinessTypes() {
   const [data, setData] = useState();
   const navigate = useNavigate();
@@ -22,13 +22,19 @@ export default function ManageSubBusinessTypes() {
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
-    } else {
+    } else if (error.response && error.response.data.message) {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
+        
+      if (errorMessage) {
         Errornotify(errorMessage);
+      }
+    } else {
+      Errornotify("An error occurred.");
     }
   }
+  
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -41,14 +47,40 @@ export default function ManageSubBusinessTypes() {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-       
+        console.log(id, "isConfirmed");
+        const token = localStorage.getItem("token");
 
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your item has been deleted.",
-          icon: "success",
-          confirmButtonText: "OK",
+        const formData = new FormData();
+        formData.append("id", id);
+
+        const axiosInstance = axios.create({
+          baseURL: process.env.REACT_APP_BASE_URL,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
         });
+        // const DeleteRole = async () => {
+        //   try {
+        //     const response = await axiosInstance.post("company/delete", formData);
+        //     setData(response.data.data);
+        //     Swal.fire({
+        //       title: "Deleted!",
+        //       text: "Your item has been deleted.",
+        //       icon: "success",
+        //       confirmButtonText: "OK",
+        //     });
+        //     fetchData();
+        //   } catch (error) {
+        //     console.error(error);
+        //     const message = error.response
+        //       ? error.response.data.message
+        //       : "Unknown error occurred";
+        //     ErrorAlert(message);
+        //   }
+        //   // setLoading(false);
+        // };
+        // DeleteRole();
       }
     });
   };
@@ -70,7 +102,8 @@ export default function ManageSubBusinessTypes() {
           // SuccessAlert(response.data.message)
         }
       } catch (error) {
-        handleError(error)
+        handleError(error);
+        console.log(error.response);
       }
     };
 
@@ -126,7 +159,7 @@ export default function ManageSubBusinessTypes() {
         <span className="text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <Link
-              to="/editrole"
+             to={`/editsub-business/${row.id}`}
               className="btn btn-primary btn-sm rounded-11 me-2"
             >
               <i>
@@ -188,33 +221,27 @@ export default function ManageSubBusinessTypes() {
       <div className="page-header ">
         <div>
           <h1 className="page-title">Manage Sub-Business Types</h1>
-          
 
           <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/dashboard' }}>
+            <Breadcrumb.Item
+              className="breadcrumb-item"
+              linkAs={Link}
+              linkProps={{ to: "/dashboard" }}
+            >
               Dashboard
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-               Manage Sub-Business Types
+              Manage Sub-Business Types
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
         <div className="ms-auto pageheader-btn">
-          <FormModal
-            open={open}
-            modalId="SubBusiness"
-            modalTitle="Add Sub-Business Types "
-            modalContentText="Enter the name of the Sub-Business:"
-            modalInputLabel="Sub-Business Name"
-            modalInputType="text"
-            modalCancelButtonLabel="Cancel"
-            modalSaveButtonLabel="Add"
-            onSubmit={handleAddRole}
-            onClose={handleClose}
-          />
+          <Link to="/addsub-business" className="btn btn-primary ms-2">
+            Add Sub-Business Types <AddCircleOutlineIcon />
+          </Link>
         </div>
       </div>
 
@@ -228,7 +255,7 @@ export default function ManageSubBusinessTypes() {
           striped={true}
           // center={true}
           persistTableHead
-          // pagination
+          pagination
           highlightOnHover
           searchable={true}
         />

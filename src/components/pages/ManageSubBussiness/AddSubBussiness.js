@@ -18,44 +18,104 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function AddClient() {
-  const [dropdownItems, setDropdownItems] = useState([]);
+    const [dropdownValue, setDropdownValue] = useState([]);
   const navigate = useNavigate();
 
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
-
-  const handleSubmit1 = async (values, setSubmitting) => {
-    const token = localStorage.getItem("token");
-
-    const formData = new FormData();
-    formData.append("business_name", values.business_name);
-    formData.append("slug", values.slug);
-    formData.append("status", values.status);
-
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/business/add-type`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      }
-    );
-
-    const data = await response.json();
-
-    if (response.ok) {
-      notify(data.message);
-
-      setSubmitting(false);
-    }else {
-      if (data && data.message && Array.isArray(data.message)) {
-        data.message.forEach((errorMsg) => {
-          Errornotify(errorMsg);
-        });
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      Errornotify("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else if (error.response && error.response.data.message) {
+      const errorMessage = Array.isArray(error.response.data.message)
+        ? error.response.data.message.join(" ")
+        : error.response.data.message;
+  
+      if (errorMessage) {
+        Errornotify(errorMessage);
       } else {
         throw new Error("An error occurred.");
+      }
+    } else {
+      throw new Error("An error occurred.");
+    }
+  }
+  
+  
+
+  const handleSubmit1 = async (values, setSubmitting) => {
+    try {
+      const token = localStorage.getItem("token");
+  
+      const formData = new FormData();
+      formData.append("business_sub_name", values.business_name);
+      formData.append("slug", values.slug);
+      formData.append("status", values.status);
+      formData.append("business_type_id", values.business_type_id);
+  
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/business/add-sub-type`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        notify(data.message);
+        setSubmitting(false);
+      } else {
+        if (data && data.message && Array.isArray(data.message)) {
+          data.message.forEach((errorMsg) => {
+            Errornotify(errorMsg);
+          });
+        } else {
+          throw new Error("An error occurred.");
+        }
+      }
+    } catch (error) {
+      handleError(error);
+      console.log(error, "hamdlerrro9r");
+    }
+  };
+  
+  
+  useEffect(() => {
+    fetchBusinessList();
+    console.clear();
+  }, []);
+  const token = localStorage.getItem("token");
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const fetchBusinessList = async () => {
+    try {
+      const response = await axiosInstance.get("/business/types");
+
+      if (response.data.data.length > 0) {
+         console.log(response.data);
+
+        setDropdownValue(response.data);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+        Errornotify("Invalid access token");
+        localStorage.clear();
+      } else if (error.response && error.response.data.status_code === "403") {
+        navigate("/errorpage403");
       }
     }
   };
@@ -64,7 +124,7 @@ export default function AddClient() {
     <div>
       <div className="page-header">
         <div>
-          <h1 className="page-title">Add Business</h1>
+          <h1 className="page-title">Add Sub-Business</h1>
 
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item
@@ -78,7 +138,7 @@ export default function AddClient() {
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Manage Business
+              Manage Sub-Business
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -88,7 +148,7 @@ export default function AddClient() {
         <Col lg={12} xl={12} md={12} sm={12}>
           <Card>
             <Card.Header>
-              <Card.Title as="h3">Add Business</Card.Title>
+              <Card.Title as="h3">Add Sub-Business</Card.Title>
             </Card.Header>
             <Formik
               initialValues={{
@@ -96,11 +156,13 @@ export default function AddClient() {
                 slug: "",
 
                 status: "",
+                business_type_id:"",
               }}
               validationSchema={Yup.object({
                 business_name: Yup.string()
                   .max(15, "Must be 15 characters or less")
                   .required(" Bussiness Name is required"),
+                  business_type_id:Yup.string().required("status is required"),
 
                 slug: Yup.string()
                   .max(20, "Must be 20 characters or less")
@@ -158,6 +220,7 @@ export default function AddClient() {
                         </FormGroup>
                       </Col>
                     </Row>
+
                     <Row>
                       <Col lg={6} md={12}>
                         <FormGroup>
@@ -183,6 +246,44 @@ export default function AddClient() {
                           />
                         </FormGroup>
                       </Col>
+                      <Col lg={4} md={6}>
+                        <FormGroup>
+                          <label
+                            htmlFor="business_type_id"
+                            className=" form-label mt-4"
+                          >
+                            Business Type <span className="text-danger">*</span>
+                          </label>
+                          <Field
+                            as="select"
+                            className={`input101 ${
+                              errors.business_type_id && touched.business_type_id
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="business_type_id"
+                            name="business_type_id"
+                          >
+                            <option value=""> Select  Business Type</option>
+                            {dropdownValue.data &&
+                            dropdownValue.data.length > 0 ? (
+                              dropdownValue.data.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.business_name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled>No  Business Type</option>
+                            )}
+                          </Field>
+                          <ErrorMessage
+                            component="div"
+                            className="invalid-feedback"
+                            name="business_type_id"
+                          />
+                        </FormGroup>
+                      </Col>
+
                     </Row>
                   </Card.Body>
                   <Card.Footer className="text-end">

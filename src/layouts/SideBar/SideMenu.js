@@ -143,7 +143,7 @@ export const MENUITEMS = [
             type: "link",
           },
           {
-            path: `/comingsoon`,
+            path: `/addsub-business`,
              title: "Add Sub-Business Types",
              type: "link",
            },

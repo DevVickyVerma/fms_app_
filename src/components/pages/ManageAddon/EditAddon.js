@@ -99,6 +99,15 @@ export default function AddAddon() {
           setEdituserDetails(data.data.addon_name);
           setPermissions(data);
         }
+        else {
+          if (data && data.message && Array.isArray(data.message)) {
+            data.message.forEach((errorMsg) => {
+              ErrorAlert(errorMsg);
+            });
+          } else {
+            throw new Error("An error occurred.");
+          }
+        }
       } catch (error) {
         handleError(error)
       }

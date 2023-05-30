@@ -160,7 +160,7 @@ export default function ManageBusinessTypes() {
             <Link
               to={`/editbusiness/${row.id}`} // Assuming `row.id` contains the ID
               className="btn btn-primary btn-sm rounded-11 me-2"
-              onClick={() => handleEdit(row)}
+              
             >
               <i>
                 <svg
