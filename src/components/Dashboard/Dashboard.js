@@ -6,6 +6,8 @@ import * as dashboard from "../../data/dashboard/dashboard";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setuser } from "../../Redux/userDataSlice";
 export default function Dashboard() {
   const navigate = useNavigate();
 
@@ -16,6 +18,16 @@ export default function Dashboard() {
 
   const notify = (message) => toast.success(message);
   const [justLoggedIn, setJustLoggedIn] = useState(false);
+
+  const dispatch = useDispatch();
+  // useEffect(() => {
+  //   axios.get("https://catfact.ninja/fact").then((res) => {
+  //     const resData = JSON.stringify(res.data);
+  //     dispatch(setuser(resData));
+  //   });
+  // }, []);
+
+
 
   useEffect(() => {
     const loggedInFlag = localStorage.getItem("justLoggedIn");

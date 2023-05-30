@@ -32,7 +32,7 @@ export default function ManageSite() {
   const [sidebardata, setSideData] = useState();
   const [SiteId, setSiteId] = useState();
   const [searchdata, setSearchdata] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [SearchList, setSearchList] = useState(false);
 
   const [sidebardataobject, setSideDataobject] = useState();
@@ -63,7 +63,7 @@ export default function ManageSite() {
 
   const handleToggleSidebar = async (row) => {
     setSideData(row.site_name);
-    setLoading(true); // Set loading state to true
+    setIsLoading(true); // Set loading state to true
 
     const token = localStorage.getItem("token");
     const axiosInstance = axios.create({
@@ -87,7 +87,7 @@ export default function ManageSite() {
 
     await getSiteDetails();
 
-    setLoading(false); // Set loading state to false
+    setIsLoading(false); // Set loading state to false
     setSidebarVisible(!sidebarVisible);
   };
 
@@ -130,6 +130,7 @@ export default function ManageSite() {
           body: formData,
         });
         const DeleteRole = async () => {
+          setIsLoading(true);
           try {
             const response = await axiosInstance.post("/site/delete", formData);
             setData(response.data.data);
@@ -142,8 +143,10 @@ export default function ManageSite() {
             fetchData();
           } catch (error) {
             handleError(error);
+          }finally {
+            setIsLoading(false); // Hide loading indicator
           }
-          // setLoading(false);
+          // setIsLoading(false);
         };
         DeleteRole();
       }
@@ -201,6 +204,7 @@ export default function ManageSite() {
   const formData = new FormData();
 
   const ToggleStatus = async () => {
+     setIsLoading(true); 
     try {
       const response = await axiosInstance.post(
         "/site/update-status",
@@ -225,6 +229,9 @@ export default function ManageSite() {
         ErrorAlert(errorMessage);
       }
     }
+    finally {
+    setIsLoading(false); // Set isLoading to false after the request is completed or an error occurred
+  }
   };
 
   const columns = [
@@ -480,7 +487,11 @@ export default function ManageSite() {
   };
 
   return (
-    <>
+   <>
+      {isLoading ? (
+        Loaderimg()
+      ) : (
+        <>
       <div className="page-header ">
         <div>
           <h1 className="page-title">Manage Site</h1>
@@ -569,6 +580,8 @@ export default function ManageSite() {
           searchable={false}
         />
       </DataTableExtensions>
+ </>
+      )}
     </>
   );
 }

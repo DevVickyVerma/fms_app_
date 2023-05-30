@@ -4,6 +4,8 @@ import "./index.scss";
 import { Navigate, BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./Utils/PrivateRoutes";
 import * as loderdata from "./data/Component/loderdata/loderdata";
+import { Provider } from "react-redux";
+import   { store }  from "./Redux/reduxstore";
 
 
 const Switcherlayout = React.lazy(() => import("./components/switcherlayout"));
@@ -153,6 +155,7 @@ const Root = () => {
     <Fragment>
       <BrowserRouter>
         <React.Suspense fallback={Loaderimg()}>
+        <Provider store={store}>
           <Routes>
             <Route element={<PrivateRoutes token={token} />}>
               <Route path={`/`} element={<App />}>
@@ -254,6 +257,7 @@ const Root = () => {
             </Route>
             <Route path="/login" element={<Login token={token} />} />
           </Routes>
+          </Provider>
         </React.Suspense>
       </BrowserRouter>
     </Fragment>

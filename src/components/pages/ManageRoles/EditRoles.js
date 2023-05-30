@@ -54,9 +54,9 @@ export default function EditRoles() {
         Authorization: `Bearer ${token}`,
       },
     });
-    const addonId = localStorage.getItem("EditRoleID");
+    const EditRoleId = localStorage.getItem("EditRoleID");
     const formData = new FormData();
-    formData.append("role_id", addonId);
+    formData.append("role_id", EditRoleId);
 
     axiosInstance
       .post("/role/detail", formData)
@@ -64,16 +64,7 @@ export default function EditRoles() {
         if (response) {
           const { data } = response;
 
-          for (const item of data.data.addons) {
-            if (item.checked) {
-              setAddonArray((prevState) => {
-                const updatedArray = [...prevState, item.id];
-                return Array.from(new Set(updatedArray));
-              });
-            }
-          }
-
-          setAddonitem(response.data.data.addons);
+         
 
           for (const key of Object.keys(data.data.permissions)) {
             let array = [];
@@ -101,7 +92,7 @@ export default function EditRoles() {
     const body = {
       name: values.name,
       permissions: values.permissions,
-      addons: values.addons,
+     
       role_id: localStorage.getItem("EditRoleID"),
     };
 
@@ -172,7 +163,7 @@ export default function EditRoles() {
                     initialValues={{
                       name: localStorage.getItem("EditRole_name") || "",
                       permissions: [],
-                      addons: [],
+                     
                     }}
                     validationSchema={Yup.object().shape({
                       name: Yup.string()
@@ -194,9 +185,7 @@ export default function EditRoles() {
                       permissions: Yup.array()
                         .required("At least one role is required")
                         .min(1, "At least one role is required"),
-                      addons: Yup.array()
-                        .required("At least one role is required")
-                        .min(1, "At least one role is required"),
+                     
                     })}
                     onSubmit={(values, { setSubmitting }) => {
                       handleSubmit(values);
@@ -221,89 +210,7 @@ export default function EditRoles() {
                             className="invalid-feedback"
                           />
                         </div>
-                        <div className="form-group">
-                          <div className="table-heading">
-                            <h2>Addons List</h2>
-                            <span className="text-danger danger-title">
-                              * Atleast One Addon is Required{" "}
-                            </span>
-                          </div>
-                          {addonitem && addonitem.length > 0 ? (
-                            <div>
-                              {addonitem.map((role) => (
-                                <div
-                                  key={role.id}
-                                  className="form-check form-check-inline"
-                                >
-                                  <Field
-                                    className={`form-check-input ${
-                                      touched.addons && errors.addons
-                                        ? "is-invalid"
-                                        : ""
-                                    }`}
-                                    type="checkbox"
-                                    name="addons"
-                                    value={role.id}
-                                    id={`addons-${role.id}`}
-                                    checked={addonArray.find(
-                                      (item) => item === role.id
-                                    )}
-                                    onChange={(e) => {
-                                      // Get the name of the permission being changed from the current element
-                                      const permissionName = role.id;
-
-                                      // Create a new array from the current state of permissionArray
-                                      const updatedAddonArray = [...addonArray];
-
-                                      // Find the index of the permissionName in the updatedPermissionArray
-                                      const findInd =
-                                        updatedAddonArray.findIndex(
-                                          (item) => item === permissionName
-                                        );
-
-                                      // If the permissionName is already in the array, remove it
-                                      if (findInd >= 0) {
-                                        updatedAddonArray.splice(findInd, 1);
-                                      }
-                                      // Otherwise, add the permissionName to the array
-                                      else {
-                                        updatedAddonArray.push(permissionName);
-                                      }
-
-                                      // Update the state of permissionArray with the updatedPermissionArray
-                                      setAddonArray(updatedAddonArray);
-
-                                      // Update the form field "permissionsList" with the updatedPermissionArray
-                                      setFieldValue(
-                                        "addons",
-                                        updatedAddonArray
-                                      );
-                                    }}
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor={`addons-${role.id}`}
-                                  >
-                                    {role.name}
-                                  </label>
-                                </div>
-                              ))}
-                            </div>
-                          ) : (
-                            <div>
-                              No Records Found Please
-                              <Link className=" m-2 " to={`/addaddon/`}>
-                                Add Addon
-                              </Link>
-                            </div>
-                          )}
-
-                          <ErrorMessage
-                            name="permissions"
-                            component="div"
-                            className="invalid-feedback"
-                          />
-                        </div>
+                     
                         <div className="form-group">
                           <div>
                             <div className="table-heading">

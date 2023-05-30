@@ -16,6 +16,7 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function EditProfile() {
   const [userDetails, setUserDetails] = useState("");
@@ -50,7 +51,7 @@ export default function EditProfile() {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-        Errornotify(errorMessage);
+      Errornotify(errorMessage);
     }
   }
 
@@ -154,6 +155,7 @@ export default function EditProfile() {
       Errornotify(errorMessage);
     }
   };
+  // const data = useSelector((state) => state.userData.data);
 
   return (
     <div>
@@ -194,6 +196,8 @@ export default function EditProfile() {
                 <Card className="profile-edit">
                   <Card.Header>
                     <Card.Title as="h3">Edit Password</Card.Title>
+                    {/* <p>cat fact: {data.fact}</p>
+                    <p>cat fact: {data.length}</p> */}
                   </Card.Header>
                   <Card.Body>
                     <FormGroup>

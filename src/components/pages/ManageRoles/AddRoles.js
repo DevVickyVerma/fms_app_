@@ -23,12 +23,25 @@ import { toast } from "react-toastify";
 
 export default function AddRoles() {
   const [permissions, setPermissions] = useState([]);
-  const [addonitem, setAddonitem] = useState([]);
+
   const [userpermissions, setUserPermissions] = useState([]);
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
   const navigate = useNavigate();
-
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      ErrorAlert("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      const errorMessage = Array.isArray(error.response.data.message)
+        ? error.response.data.message.join(" ")
+        : error.response.data.message;
+        ErrorAlert(errorMessage);
+    }
+  }
   useEffect(() => {
     const token = localStorage.getItem("token");
     const axiosInstance = axios.create({
@@ -44,31 +57,10 @@ export default function AddRoles() {
         setUserPermissions(response.data.data);
         setPermissions(response.data);
 
-        axiosInstance
-          .post("/addon/list")
-          .then((response) => {
-            setAddonitem(response.data.data.addons);
-          })
-          .catch((error) => {
-            if (
-              error &&
-              error.response &&
-              error.response.data.status_code === "403"
-            ) {
-              navigate("/errorpage403");
-            }
-          });
-
         console.clear();
       })
       .catch((error) => {
-        if (
-          error &&
-          error.response &&
-          error.response.data.status_code === "403"
-        ) {
-          navigate("/errorpage403");
-        }
+        handleError(error)
       });
   }, []);
 
@@ -76,7 +68,6 @@ export default function AddRoles() {
     const body = {
       name: values.name,
       permissions: values.permissions,
-      addons: values.permissions,
     };
 
     const token = localStorage.getItem("token");
@@ -143,7 +134,7 @@ export default function AddRoles() {
               <Row>
                 <div className="col-lg- col-md-12">
                   <Formik
-                    initialValues={{ name: "", permissions: [], addons: [] }}
+                    initialValues={{ name: "", permissions: [] }}
                     validationSchema={Yup.object().shape({
                       name: Yup.string()
                         .required("Addon is required")
@@ -162,9 +153,6 @@ export default function AddRoles() {
                         ),
 
                       permissions: Yup.array()
-                        .required("At least one role is required")
-                        .min(1, "At least one role is required"),
-                      addons: Yup.array()
                         .required("At least one role is required")
                         .min(1, "At least one role is required"),
                     })}
@@ -194,57 +182,6 @@ export default function AddRoles() {
                           />
                           <ErrorMessage
                             name="name"
-                            component="div"
-                            className="invalid-feedback"
-                          />
-                        </div>
-                        <div className="form-group">
-                          <div className="table-heading">
-                            <h2>
-                              Addons List
-                              <span className="text-danger danger-title">
-                                * Atleast One Addon is Required{" "}
-                              </span>
-                            </h2>
-                          </div>
-                          {addonitem && addonitem.length > 0 ? (
-                            <div>
-                              {addonitem.map((role) => (
-                                <div
-                                  key={role.id}
-                                  className="form-check form-check-inline"
-                                >
-                                  <Field
-                                    className={`form-check-input ${
-                                      touched.addons && errors.addons
-                                        ? "is-invalid"
-                                        : ""
-                                    }`}
-                                    type="checkbox"
-                                    name="addons"
-                                    value={role.id}
-                                    id={`addons-${role.id}`}
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    htmlFor={`addons-${role.id}`}
-                                  >
-                                    {role.name}
-                                  </label>
-                                </div>
-                              ))}
-                            </div>
-                          ) : (
-                            <div>
-                              No Records Found Please
-                              <Link className=" m-2 " to={`/addaddon/`}>
-                                Add Addon
-                              </Link>
-                            </div>
-                          )}
-
-                          <ErrorMessage
-                            name="permissions"
                             component="div"
                             className="invalid-feedback"
                           />

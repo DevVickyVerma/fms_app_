@@ -180,29 +180,35 @@ export default function ManageClient() {
 
     ToggleStatus();
   };
-  const ToggleStatus = async () => {
-    try {
-      const response = await axiosInstance.post("/update-status", formData);
-      if (response) {
-        SuccessAlert(response.data.message);
-        fetchData();
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        navigate("/login");
-        Errornotify("Invalid access token");
-        localStorage.clear();
-      } else if (error.response && error.response.data.status_code === "403") {
-        navigate("/errorpage403");
-      } else {
-        const errorMessage =
-          error.response && error.response.message
-            ? error.response.message
-            : "An error occurred";
-        Errornotify(errorMessage);
-      }
+ const ToggleStatus = async () => {
+  
+
+  try {
+    setIsLoading(true); // Set isLoading to true before making the request
+
+    const response = await axiosInstance.post("/update-status", formData);
+    if (response) {
+      SuccessAlert(response.data.message);
+      fetchData();
     }
-  };
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      Errornotify("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      const errorMessage =
+        error.response && error.response.message
+          ? error.response.message
+          : "An error occurred";
+      Errornotify(errorMessage);
+    }
+  } finally {
+    setIsLoading(false); // Set isLoading to false after the request is completed or an error occurred
+  }
+};
   const handleEdit = (row) => {
     localStorage.setItem("Client_id", row.id);
   };
