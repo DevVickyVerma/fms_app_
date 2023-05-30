@@ -637,8 +637,8 @@ export default function AddSite() {
                         <option value="">
                           Select a Report Generation Status
                         </option>
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
+                        <option value="1">Active</option>
+                            <option value="0">InActive</option>
                       </select>
                       {formik.errors.site_report_status &&
                         formik.touched.site_report_status && (

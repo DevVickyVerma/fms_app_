@@ -233,8 +233,8 @@ export default function AddClient() {
                             name="status"
                           >
                             <option value="">Select a Status</option>
-                            <option value="1">Yes</option>
-                            <option value="0">No</option>
+                            <option value="1">Active</option>
+                            <option value="0">InActive</option>
                           </Field>
                           <ErrorMessage
                             component="div"

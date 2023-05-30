@@ -19,6 +19,7 @@ import { Link, useNavigate } from "react-router-dom";
 import DatePicker, { Calendar } from "react-multi-date-picker";
 import { useFormikContext } from "formik";
 import "react-datepicker/dist/react-datepicker.css";
+import * as loderdata from "../../../data/Component/loderdata/loderdata";
 
 export default function AddSite() {
   // const { setFieldValue } = useFormikContext();
@@ -29,6 +30,7 @@ export default function AddSite() {
   const [selectedBusinessType, setSelectedBusinessType] = useState("");
   const [subTypes, setSubTypes] = useState([]);
   const [Calendervalue, SetCalenderonChange] = useState(new Date());
+  const [isLoading, setIsLoading] = useState(false);
 
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
@@ -86,6 +88,7 @@ export default function AddSite() {
   }, []);
 
   const handleSubmit1 = async (values, setSubmitting) => {
+     setIsLoading(true);
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
@@ -133,9 +136,23 @@ export default function AddSite() {
     } catch (error) {
       handleError(error)
     }
+     finally {
+      setIsLoading(false); // Hide loading indicator
+    }
+  };
+    const Loaderimg = () => {
+    return (
+      <div id="global-loader">
+        <loderdata.Loadersbigsizes1 />
+      </div>
+    );
   };
   return (
-    <div>
+     <>
+      {isLoading ? (
+        Loaderimg()
+      ) :(
+        <>
       <div className="page-header">
         <div>
           <h1 className="page-title">Add Site</h1>
@@ -227,6 +244,9 @@ export default function AddSite() {
 
                 Saga_department_name: Yup.string().required(
                   "Saga Department Name is required"
+                ),
+                Drs_upload_status: Yup.string().required(
+                  "Drs Upload Status is required"
                 ),
               })}
               onSubmit={(values, { setSubmitting }) => {
@@ -635,8 +655,8 @@ export default function AddSite() {
                             <option value="">
                               Select a Report Generation Status
                             </option>
-                            <option value="1">Yes</option>
-                            <option value="0">No</option>
+                            <option value="1">Active</option>
+                            <option value="0">InActive</option>
                           </Field>
                           <ErrorMessage
                             component="div"
@@ -699,8 +719,8 @@ export default function AddSite() {
                               Select a Fuel Commission Type
                             </option>
 
-                            <option value="1">Yes</option>
-                            <option value="0">No</option>
+                            <option value="1">Active</option>
+                            <option value="0">InActive</option>
                           </Field>
                           <ErrorMessage
                             component="div"
@@ -730,8 +750,8 @@ export default function AddSite() {
                           >
                             <option value="">Select a Paper Work Status</option>
 
-                            <option value="1">Yes</option>
-                            <option value="0">No</option>
+                            <option value="1">Active</option>
+                            <option value="0">InActive</option>
                           </Field>
                           <ErrorMessage
                             component="div"
@@ -762,8 +782,8 @@ export default function AddSite() {
                             <option value="">
                               Select a Bunkered Sale Status
                             </option>
-                            <option value="1">Yes</option>
-                            <option value="0">No</option>
+                            <option value="1">Active</option>
+                            <option value="0">InActive</option>
                           </Field>
                           <ErrorMessage
                             component="div"
@@ -778,7 +798,7 @@ export default function AddSite() {
                             htmlFor="Drs_upload_status"
                             className=" form-label mt-4"
                           >
-                            DRS Upload Status
+                            DRS Upload Status<span className="text-danger">*</span>
                           </label>
                           <Field
                             as="select"
@@ -896,6 +916,8 @@ export default function AddSite() {
           </Card>
         </Col>
       </Row>
-    </div>
+     </>
+      )}
+    </>
   );
 }

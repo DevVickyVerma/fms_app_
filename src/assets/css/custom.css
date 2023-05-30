@@ -55,3 +55,16 @@ h3.SidebarSearch-title {
 .bg-success {
   background: #09ad0e !important;
 }
+#global-loader {
+  position: fixed;
+  z-index: 50000;
+     background: none !important;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}

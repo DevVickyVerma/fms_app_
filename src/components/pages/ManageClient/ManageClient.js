@@ -13,6 +13,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import SideSearchbar from "../../../data/Modal/SideSearchbar";
+import * as loderdata from "../../../data/Component/loderdata/loderdata";
 
 export default function ManageClient() {
   const [data, setData] = useState();
@@ -21,7 +22,7 @@ export default function ManageClient() {
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [activeArray, setActiveArray] = useState([]);
   const [SearchList, setSearchList] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -47,8 +48,12 @@ export default function ManageClient() {
           body: formData,
         });
         const DeleteRole = async () => {
+          setIsLoading(true);
           try {
-            const response = await axiosInstance.post("/client-delete", formData);
+            const response = await axiosInstance.post(
+              "/client-delete",
+              formData
+            );
             setData(response.data.data);
             Swal.fire({
               title: "Deleted!",
@@ -59,6 +64,8 @@ export default function ManageClient() {
             fetchData();
           } catch (error) {
             handleError(error);
+          } finally {
+            setIsLoading(false); // Hide loading indicator
           }
           // setLoading(false);
         };
@@ -198,7 +205,6 @@ export default function ManageClient() {
   };
   const handleEdit = (row) => {
     localStorage.setItem("Client_id", row.id);
-   
   };
 
   const columns = [
@@ -331,88 +337,103 @@ export default function ManageClient() {
     columns,
     data,
   };
- 
 
+  const Loaderimg = () => {
+    return (
+      <div id="global-loader">
+        <loderdata.Loadersbigsizes1 />
+      </div>
+    );
+  };
 
   return (
     <>
-      <div className="page-header ">
-        <div>
-          <h1 className="page-title">Manage Client</h1>
-          <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item
-              className="breadcrumb-item"
-              linkAs={Link}
-              linkProps={{ to: "/dashboard" }}
-            >
-              Dashboard
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item active breadcrumds"
-              aria-current="page"
-            >
-              Manage Client
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
-        <div className="ms-auto pageheader-btn">
-          <span className="Search-data">
-            {Object.entries(searchdata).map(([key, value]) => (
-              <div key={key} className="badge">
-                <span className="badge-key">
-                  {key.charAt(0).toUpperCase() + key.slice(1)}:
+      {isLoading ? (
+        Loaderimg()
+      ) : (
+        <>
+          <div className="page-header ">
+            <div>
+              <h1 className="page-title">Manage Client</h1>
+              <Breadcrumb className="breadcrumb">
+                <Breadcrumb.Item
+                  className="breadcrumb-item"
+                  linkAs={Link}
+                  linkProps={{ to: "/dashboard" }}
+                >
+                  Dashboard
+                </Breadcrumb.Item>
+                <Breadcrumb.Item
+                  className="breadcrumb-item active breadcrumds"
+                  aria-current="page"
+                >
+                  Manage Client
+                </Breadcrumb.Item>
+              </Breadcrumb>
+            </div>
+            <div className="ms-auto pageheader-btn">
+              <span className="Search-data">
+                {Object.entries(searchdata).map(([key, value]) => (
+                  <div key={key} className="badge">
+                    <span className="badge-key">
+                      {key.charAt(0).toUpperCase() + key.slice(1)}:
+                    </span>
+                    <span className="badge-value">{value}</span>
+                  </div>
+                ))}
+              </span>
+              <Link
+                className="btn btn-primary"
+                onClick={() => {
+                  handleToggleSidebar1();
+                }}
+              >
+                Search
+                <span className="ms-2">
+                  <SearchIcon />
                 </span>
-                <span className="badge-value">{value}</span>
-              </div>
-            ))}
-          </span>
-          <Link
-            className="btn btn-primary"
-            onClick={() => {
-              handleToggleSidebar1();
-            }}
-          >
-            Search
-            <span className="ms-2">
-              <SearchIcon />
-            </span>
-          </Link>
-          {Object.keys(searchdata).length > 0 ? (
-            <Link className="btn btn-danger ms-2" onClick={handleSearchReset}>
-              Reset <RestartAltIcon />
-            </Link>
-          ) : (
-            ""
-          )}
-          <Link to="/addclient" className="btn btn-primary ms-2">
-            Add Client
-            <AddCircleOutlineIcon />
-          </Link>
-        </div>
-      </div>
-      <SideSearchbar
-        title="Search"
-        visible={sidebarVisible1}
-        onClose={handleToggleSidebar1}
-        onSubmit={handleSubmit}
-        searchListstatus={SearchList}
-      />
+              </Link>
+              {Object.keys(searchdata).length > 0 ? (
+                <Link
+                  className="btn btn-danger ms-2"
+                  onClick={handleSearchReset}
+                >
+                  Reset <RestartAltIcon />
+                </Link>
+              ) : (
+                ""
+              )}
+              <Link to="/addclient" className="btn btn-primary ms-2">
+                Add Client
+                <AddCircleOutlineIcon />
+              </Link>
+            </div>
+          </div>
+          <SideSearchbar
+            title="Search"
+            visible={sidebarVisible1}
+            onClose={handleToggleSidebar1}
+            onSubmit={handleSubmit}
+            searchListstatus={SearchList}
+          />
 
-      <DataTableExtensions {...tableDatas}>
-        <DataTable
-          columns={columns}
-          data={data}
-          noHeader
-          defaultSortField="id"
-          defaultSortAsc={false}
-          striped={true}
-          // center={true}
-          persistTableHead
-          pagination
-          highlightOnHover
-          searchable={true}
-        />
-      </DataTableExtensions>
+          <DataTableExtensions {...tableDatas}>
+            <DataTable
+              columns={columns}
+              data={data}
+              noHeader
+              defaultSortField="id"
+              defaultSortAsc={false}
+              striped={true}
+              // center={true}
+              persistTableHead
+              pagination
+              highlightOnHover
+              searchable={true}
+            />
+          </DataTableExtensions>
+        </>
+      )}
     </>
   );
 }

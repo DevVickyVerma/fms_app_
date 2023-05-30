@@ -397,8 +397,8 @@ export default function AddSite() {
                         value={formik.values.status}
                       >
                         <option value="">Select a status</option>
-                        <option value="1">1</option>
-                        <option value="0">0</option>
+                        <option value="1">Active</option>
+                            <option value="0">InActive</option>
                       </select>
                       {formik.errors.status && formik.touched.status && (
                         <div className="invalid-feedback">
@@ -515,8 +515,8 @@ export default function AddSite() {
                       >
                         <option value="">Select a Lommis Status</option>
 
-                        <option value="1">1</option>
-                        <option value="0">0</option>
+                        <option value="1">Active</option>
+                            <option value="0">InActive</option>
                       </select>
                       {formik.errors.loomis_status &&
                         formik.touched.loomis_status && (

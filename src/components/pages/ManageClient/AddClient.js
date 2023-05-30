@@ -19,16 +19,14 @@ import { Link, useNavigate } from "react-router-dom";
 import DatePicker, { Calendar } from "react-multi-date-picker";
 import { useFormikContext } from "formik";
 import "react-datepicker/dist/react-datepicker.css";
+import * as loderdata from "../../../data/Component/loderdata/loderdata";
 
 export default function AddClient() {
   // const { setFieldValue } = useFormikContext();
 
   const navigate = useNavigate();
-  const [dropdownItems, setDropdownItems] = useState([]);
-  const [AddClientData, setAddClientData] = useState([]);
-  const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  const [subTypes, setSubTypes] = useState([]);
-  const [Calendervalue, SetCalenderonChange] = useState(new Date());
+ 
+  const [isLoading, setIsLoading] = useState(false);
 
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
@@ -57,44 +55,9 @@ export default function AddClient() {
     }
   }
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   const axiosInstance = axios.create({
-  //     baseURL: process.env.REACT_APP_BASE_URL,
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axiosInstance.post("/role/list");
-  //       setDropdownItems(response.data.data.addons);
-  //       console.log(response.data.data.addons);
-  //     } catch (error) {
-  //       handleError(error)
-  //     }
-  //   };
-  //   const GetSiteData = async () => {
-  //     try {
-  //       const response = await axiosInstance.get("site/common-data-list");
-
-  //       if (response.data) {
-  //         setAddClientData(response.data.data);
-  //       }
-  //     } catch (error) {
-  //       handleError(error)
-  //     }
-  //   };
-  //   try {
-  //     GetSiteData();
-  //     fetchData();
-  //   } catch (error) {
-  //     handleError(error)
-  //   }
-  //   // console.clear()
-  // }, []);
-
+ 
   const handleSubmit1 = async (values, setSubmitting) => {
+    setIsLoading(true);
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
@@ -108,7 +71,7 @@ export default function AddClient() {
     formData.append("financial_end_month", values.financial_end_month);
     formData.append("lommis_status", values.lommis_status);
     formData.append("role_name", "Client");
-    formData.append("welcome_email", isChecked);
+    formData.append("send_mail", isChecked);
 
     formData.append("ma_option", JSON.stringify(selectedItems));
 
@@ -142,16 +105,30 @@ export default function AddClient() {
     } catch (error) {
       handleError(error);
     }
+    finally {
+      setIsLoading(false); // Hide loading indicator
+    }
   };
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxChange1 = (event) => {
     setIsChecked(event.target.checked);
-    console.log(event.target.checked);
+    
+  };
+  const Loaderimg = () => {
+    return (
+      <div id="global-loader">
+        <loderdata.Loadersbigsizes1 />
+      </div>
+    );
   };
 
   return (
-    <div>
+    <>
+      {isLoading ? (
+        Loaderimg()
+      ) :(
+        <>
       <div className="page-header">
         <div>
           <h1 className="page-title">Add Client</h1>
@@ -206,7 +183,7 @@ export default function AddClient() {
                 status: "",
 
                 lommis_status: "",
-                welcome_email: "",
+                send_mail: "",
               }}
               validationSchema={Yup.object({
                 client_code: Yup.string()
@@ -371,8 +348,8 @@ export default function AddClient() {
                             name="status"
                           >
                             <option value="">Select a Status</option>
-                            <option value="1">1</option>
-                            <option value="0">0</option>
+                            <option value="1">Active</option>
+                            <option value="0">InActive</option>
                           </Field>
                           <ErrorMessage
                             component="div"
@@ -401,8 +378,9 @@ export default function AddClient() {
                           >
                             <option value="">Select a Lommis Status</option>
 
-                            <option value="1">1</option>
-                            <option value="0">0</option>
+                    
+                            <option value="1">Active</option>
+                            <option value="0">InActive</option>
                           </Field>
                           <ErrorMessage
                             component="div"
@@ -530,17 +508,20 @@ export default function AddClient() {
                             checked
                             onChange={() => handleCheckboxChange("1")}
                           />{" "}
-                          Actual
+                           <span className="mx-2">Actual</span>
+                          
                           <input
                             type="checkbox"
                             onChange={() => handleCheckboxChange("2")}
                           />
-                          Forecast
+                           <span className="mx-2">Forecast</span>
+                          
                           <input
                             type="checkbox"
                             onChange={() => handleCheckboxChange("3")}
                           />{" "}
-                          Variance
+                           <span className="mx-2">Variance</span>
+                          
                           <ErrorMessage
                             component="div"
                             className="invalid-feedback"
@@ -552,14 +533,14 @@ export default function AddClient() {
                         <FormGroup>
                           <label htmlFor="email" className="form-label mt-4">
                             Send Welcome Email
-                            <span className="text-danger">*</span>
+                           
                           </label>
                           <input
                             type="checkbox"
                             checked={isChecked}
                             onChange={handleCheckboxChange1}
                           />
-                          Send
+                          <span className="ms-1">Yes</span>
                           <ErrorMessage
                             component="div"
                             className="invalid-feedback"
@@ -593,6 +574,8 @@ export default function AddClient() {
           </Card>
         </Col>
       </Row>
-    </div>
+      </>
+      )}
+    </>
   );
 }

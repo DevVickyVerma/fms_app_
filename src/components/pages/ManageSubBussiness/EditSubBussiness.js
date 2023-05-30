@@ -188,7 +188,7 @@ export default function AddSite() {
     <div>
       <div className="page-header">
         <div>
-          <h1 className="page-title">Edit Business</h1>
+          <h1 className="page-title">Edit Sub-Business</h1>
 
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item
@@ -202,15 +202,15 @@ export default function AddSite() {
               className="breadcrumb-item  breadcrumds"
               aria-current="page"
               linkAs={Link}
-              linkProps={{ to: "/business" }}
+              linkProps={{ to: "/sub-business" }}
             >
-              Manage Business
+              Manage Sub-Business
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Edit Business
+              Edit Sub-Business
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -220,7 +220,7 @@ export default function AddSite() {
         <Col lg={12} xl={12} md={12} sm={12}>
           <Card>
             <Card.Header>
-              <Card.Title as="h3">Edit Company</Card.Title>
+              <Card.Title as="h3">Edit Sub-Business</Card.Title>
             </Card.Header>
 
             <div class="card-body">
@@ -299,8 +299,8 @@ export default function AddSite() {
                         value={formik.values.status}
                       >
                         <option value="">Select a Status</option>
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
+                        <option value="1">Active</option>
+                            <option value="0">InActive</option>
                       </select>
                       {formik.errors.status && formik.touched.status && (
                         <div className="invalid-feedback">

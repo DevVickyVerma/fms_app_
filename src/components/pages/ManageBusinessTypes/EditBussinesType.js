@@ -278,8 +278,8 @@ export default function AddSite() {
                         value={formik.values.status}
                       >
                         <option value="">Select a Status</option>
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
+                        <option value="1">Active</option>
+                            <option value="0">InActive</option>
                       </select>
                       {formik.errors.status && formik.touched.status && (
                         <div className="invalid-feedback">

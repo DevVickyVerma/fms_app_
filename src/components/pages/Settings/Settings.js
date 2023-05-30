@@ -52,13 +52,14 @@ export default function Settings() {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-        Errornotify(errorMessage);
+      Errornotify(errorMessage);
     }
   }
 
   const navigate = useNavigate();
   useEffect(() => {
     fetchData();
+    configsetting()
   }, []);
 
   const token = localStorage.getItem("token");
@@ -77,6 +78,18 @@ export default function Settings() {
         // setUserDetails(response.data.data);
         // console.log(values)
         // console.log(response.data.data)
+      }
+    } catch (error) {
+      handleError(error);
+    }
+  };
+  const configsetting = async () => {
+    try {
+      const response = await axiosInstance.get("/config-setting");
+      const { data } = response;
+      if (data) {
+        // formik.setValues(response.data.data);
+     
       }
     } catch (error) {
       handleError(error);
@@ -389,14 +402,13 @@ export default function Settings() {
                   for (let i = 0; i < keys.length; i++) {
                     const key = keys[i];
                     const value = valuesArray[i];
-                    const encodedKey = `key[${i}]:${encodeURIComponent(key)}`;
-                    const encodedValue = `value[${i}]:${encodeURIComponent(
-                      value
-                    )}`;
+                    const encodedKey = `key[${i}]`;
+                    const encodedValue = `value[${i}]`;
 
-                    formData.append(encodedKey, "");
-                    formData.append(encodedValue, "");
+                    formData.append(encodedKey, key);
+                    formData.append(encodedValue, value);
                   }
+
                   try {
                     const response = await fetch(
                       `${process.env.REACT_APP_BASE_URL}/config-setting/update`,
@@ -461,7 +473,7 @@ export default function Settings() {
                               <option key={option} value={option}>
                                 {option}
                               </option>
-                            ))} */} 
+                            ))} */}
                             <option value="">Select a date format</option>
                             <option value="Y-m-d">YYYY-MM-DD</option>
                             <option value="m-d-Y">MM-DD-YYYY </option>

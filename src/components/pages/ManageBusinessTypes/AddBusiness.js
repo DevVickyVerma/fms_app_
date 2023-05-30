@@ -47,6 +47,7 @@ export default function AddClient() {
 
     if (response.ok) {
       notify(data.message);
+      navigate("/business")
 
      
     }else {
