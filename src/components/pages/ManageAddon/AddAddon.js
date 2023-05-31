@@ -20,8 +20,11 @@ import * as Yup from "yup";
 
 import axios from "axios";
 import { toast } from "react-toastify";
+import withApi from "../../../Utils/ApiHelper";
 
-export default function AddAddon() {
+
+  const AddAddon = (props) => {
+    const { apidata, isLoading, error, getData, postData } = props;
   const [permissions, setPermissions] = useState([]);
   const [userpermissions, setUserPermissions] = useState([]);
   const SuccessAlert = (message) => toast.success(message);
@@ -52,7 +55,7 @@ export default function AddAddon() {
       },
     });
     axiosInstance
-      .post("/permission-list")
+      .get("/permission-list")
       .then((response) => {
         setUserPermissions(response.data.data);
         setPermissions(response.data);
@@ -270,3 +273,5 @@ export default function AddAddon() {
     </>
   );
 }
+
+  export default withApi(AddAddon);

@@ -5,9 +5,11 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Loaderimg from "../../Utils/Loader";
 
 const MyModal = (props) => {
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
@@ -20,8 +22,8 @@ const MyModal = (props) => {
       companylist: "",
     },
     validationSchema: Yup.object({
-      clientlist: Yup.string().required("First Select is required"),
-      companylist: Yup.string().required("Second Select is required"),
+      clientlist: Yup.string().required("Client is required"),
+      companylist: Yup.string().required("Company is required"),
     }),
     onSubmit: (values) => {
       handlesubmit(values);
@@ -90,13 +92,14 @@ const MyModal = (props) => {
     },
   });
 
+ 
   const fetchClientList = async () => {
     try {
-      const response = await axiosInstance.post("/client-list");
-
+      setLoading(true); // Set loading state to true
+  
+      const response = await axiosInstance.get("/client-list");
+  
       if (response.data.data.clients.length > 0) {
-        // setData(response.data.data.sites);
-
         setDropdownValue(response.data.data);
       }
     } catch (error) {
@@ -107,8 +110,11 @@ const MyModal = (props) => {
       } else if (error.response && error.response.data.status_code === "403") {
         navigate("/errorpage403");
       }
+    } finally {
+      setLoading(false); // Set loading state to false
     }
   };
+
   const fetchCompanyList = async (id) => {
     const token = localStorage.getItem("token");
     const formData = new FormData();
@@ -121,7 +127,7 @@ const MyModal = (props) => {
      
     });
     try {
-      const response = await axiosInstance.post("/company/list",formData);
+      const response = await axiosInstance.get("/company/list",formData);
 
       setCompanylist(response.data.data);
       if (response.data.length > 0) {
@@ -137,6 +143,7 @@ const MyModal = (props) => {
       }
     }
   };
+  
 
   const clientList = () => {
     fetchClientList();
@@ -145,6 +152,10 @@ const MyModal = (props) => {
 
   return (
     <>
+    {isLoading ? (
+     <Loaderimg/>
+    ) : (
+      <>
       <Button
         className="btn btn-primary btn-sm rounded-11 me-2"
         onClick={clientList}
@@ -254,6 +265,8 @@ const MyModal = (props) => {
           </Form>
         </Modal.Body>
       </Modal>
+      </>
+      )}
     </>
   );
 };

@@ -18,8 +18,11 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import DatePicker from "react-multi-date-picker";
+import withApi from "../../../Utils/ApiHelper";
 
-export default function AddSite() {
+
+  const EditCompany = (props) => {
+    const { apidata, isLoading, error, getData, postData } = props;
   const navigate = useNavigate();
 
   const [AddSiteData, setAddSiteData] = useState([]);
@@ -46,57 +49,6 @@ export default function AddSite() {
     }
   }
 
-  //   useEffect(() => {
-  //     const token = localStorage.getItem("token");
-  //     const Company_Client_id = localStorage.getItem("Company_Client_id");
-  //     const Edit_Site = localStorage.getItem("Edit_Site");
-  //     const formData = new FormData();
-  //     formData.append("id", SiteId);
-  //     formData.append("client_id", values.clientlist);
-  //     formData.append("company_id", values.companylist);
-  //     const axiosInstance = axios.create({
-  //       baseURL: process.env.REACT_APP_BASE_URL,
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       body: formData,
-  //     });
-  //     const GetSiteDetails = async () => {
-  //       const Edit_Site_id = localStorage.getItem("Edit_Site");
-  //       try {
-  //         const response = await axiosInstance.get(
-  //           "/site/detail/?id=" + Edit_Site_id
-  //         );
-
-  //         if (response) {
-  //           setEditSiteData(response.data.data);
-  //           formik.setValues(response.data.data);
-  //         }
-  //       } catch (error) {
-  //         handleError(error);
-  //       }
-  //     };
-
-  //     const GetSiteData = async () => {
-  //       try {
-  //         const response = await axiosInstance.get("site/common-data-list");
-
-  //         if (response.data) {
-  //           setAddSiteData(response.data.data);
-  //         }
-  //       } catch (error) {
-  //         handleError(error);
-  //       }
-  //     };
-  //     try {
-  //       GetSiteData();
-  //       GetSiteDetails();
-  //     } catch (error) {
-  //       handleError(error);
-  //     }
-
-  //     console.clear();
-  //   }, []);
   useEffect(() => {
     const token = localStorage.getItem("token");
     const Company_Client_id = localStorage.getItem("Company_Client_id");
@@ -134,33 +86,23 @@ export default function AddSite() {
     // console.clear()
   }, []);
   useEffect(() => {
-    fetchClientList();
+    handleFetchData();
     console.clear();
   }, []);
   const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const fetchClientList = async () => {
+
+  const handleFetchData = async () => {
     try {
-      const response = await axiosInstance.post("/client-list");
+      const response = await getData("/client-list");
+      console.log(response.data.data, "ddd");
 
-      if (response.data.data.clients.length > 0) {
-        // setData(response.data.data.sites);
-
+      if (response && response.data && response.data.data) {
         setDropdownValue(response.data.data);
+      } else {
+        throw new Error("No data available in the response");
       }
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        navigate("/login");
-        Errornotify("Invalid access token");
-        localStorage.clear();
-      } else if (error.response && error.response.data.status_code === "403") {
-        navigate("/errorpage403");
-      }
+      console.error("API error:", error);
     }
   };
 
@@ -377,7 +319,7 @@ export default function AddSite() {
                   <Col lg={4} md={6}>
                     <div className="form-group">
                       <label htmlFor="client_id" className="form-label mt-4">
-                        client <span className="text-danger">*</span>
+                        Client <span className="text-danger">*</span>
                       </label>
                       <select
                         className={`input101 ${
@@ -437,7 +379,7 @@ export default function AddSite() {
                   <Col lg={4} md={6}>
                     <div className="form-group">
                       <label htmlFor="website" className="form-label mt-4">
-                        website
+                        Website
                       </label>
                       <input
                         type="text"
@@ -482,3 +424,4 @@ export default function AddSite() {
     </div>
   );
 }
+export default withApi(EditCompany);

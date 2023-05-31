@@ -16,52 +16,40 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import withApi from "../../../Utils/ApiHelper";
+import Loaderimg from "../../../Utils/Loader";
 
-export default function AddClient() {
-  const [dropdownItems, setDropdownItems] = useState([]);
-  const navigate = useNavigate();
+const AddAddon = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
 
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
 
+ 
   const handleSubmit1 = async (values) => {
-    const token = localStorage.getItem("token");
-
-    const formData = new FormData();
-    formData.append("business_name", values.business_name);
-    formData.append("slug", values.slug);
-    formData.append("status", values.status);
-
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/business/add-type`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      }
-    );
-
-    const data = await response.json();
-
-    if (response.ok) {
-      notify(data.message);
-      navigate("/business")
-
+    try {
      
-    }else {
-      if (data && data.message && Array.isArray(data.message)) {
-        data.message.forEach((errorMsg) => {
-          Errornotify(errorMsg);
-        });
-      } else {
-        throw new Error("An error occurred.");
-      }
-    }
+      const formData = new FormData();
+      formData.append("business_name", values.business_name);
+      formData.append("slug", values.slug);
+      formData.append("status", values.status);
+
+    const postDataUrl = "/business/add-type";
+    const navigatePath = "/business";
+  
+    await postData(postDataUrl, formData, navigatePath);
+  
+   ; // Set the submission state to false after the API call is completed
+  } catch (error) {
+    console.log(error);
+ ; // Set the submission state to false if an error occurs
+  }
   };
 
   return (
+    <>
+    {isLoading ? (
+      <Loaderimg/>
+    ) :(
+      <>
     <div>
       <div className="page-header">
         <div>
@@ -110,7 +98,7 @@ export default function AddClient() {
                 status: Yup.string().required("status is required"),
               })}
               onSubmit={(values) => {
-                handleSubmit1(values, );
+                handleSubmit1(values);
               }}
             >
               {({ handleSubmit, errors, touched }) => (
@@ -171,11 +159,11 @@ export default function AddClient() {
                                 : ""
                             }`}
                             id="status"
-                            name="status"
+                            name="Status"
                           >
                             <option value="">Select a Status</option>
                             <option value="1">Active</option>
-                            <option value="0">InActive</option>
+                            <option value="0">Inactive</option>
                           </Field>
                           <ErrorMessage
                             component="div"
@@ -187,11 +175,7 @@ export default function AddClient() {
                     </Row>
                   </Card.Body>
                   <Card.Footer className="text-end">
-                    <button
-                      className="btn btn-primary me-2"
-                      type="submit"
-                     
-                    >
+                    <button className="btn btn-primary me-2" type="submit">
                       Add
                     </button>
                   </Card.Footer>
@@ -202,5 +186,9 @@ export default function AddClient() {
         </Col>
       </Row>
     </div>
+    </>
+      )}
+    </>
   );
 }
+export default withApi(AddAddon);

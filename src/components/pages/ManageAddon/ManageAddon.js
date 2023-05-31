@@ -9,8 +9,12 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
+import withApi from "../../../Utils/ApiHelper";
+import Loaderimg from "../../../Utils/Loader";
 
-export default function ManageAddon() {
+
+  const ManageAddon = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
@@ -39,6 +43,8 @@ const handleEdit = (row)=>{
 }
 
 
+
+
 const handleDelete = (id) => {
   Swal.fire({
     title: "Are you sure?",
@@ -50,7 +56,6 @@ const handleDelete = (id) => {
     reverseButtons: true,
   }).then((result) => {
     if (result.isConfirmed) {
-      console.log(id, "isConfirmed");
       const token = localStorage.getItem("token");
 
       const formData = new FormData();
@@ -73,20 +78,22 @@ const handleDelete = (id) => {
             icon: "success",
             confirmButtonText: "OK",
           });
-          fetchData()
-        }  catch (error) {
-          handleError(error)
+          FetchTableData();
+        } catch (error) {
+          handleError(error);
+        } finally {
         }
-        // setLoading(false);
+        // setIsLoading(false);
       };
       DeleteRole();
-      
     }
   });
 };
 
+
+
   useEffect(() => {
-   fetchData();
+   FetchTableData();
   }, []);
 
   const token = localStorage.getItem("token");
@@ -96,16 +103,20 @@ const handleDelete = (id) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    const fetchData = async () => {
+ 
+
+    const FetchTableData = async () => {
       try {
-        const response = await axiosInstance.post("/addon/list");
-    
-        if (response.data.data.addons.length > 0) {
+        const response = await getData("/addon/list");
+        console.log(response.data.data, "ddd");
+  
+        if (response && response.data && response.data.data.addons) {
           setData(response.data.data.addons);
+        } else {
+          throw new Error("No data available in the response");
         }
       } catch (error) {
-        handleError(error)
-        // console.error(error);
+        console.error("API error:", error);
       }
     };
     
@@ -195,6 +206,10 @@ const handleDelete = (id) => {
 
   return (
     <>
+    {isLoading ? (
+      <Loaderimg/>
+    ) : (
+      <>
       <div className="page-header ">
         <div>
           <h1 className="page-title">Manage Addon</h1>
@@ -232,6 +247,9 @@ const handleDelete = (id) => {
           searchable={true}
         />
       </DataTableExtensions>
+      </>
+      )}
     </>
   );
-}
+};
+export default withApi(ManageAddon);

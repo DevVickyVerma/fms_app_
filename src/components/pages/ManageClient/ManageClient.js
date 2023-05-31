@@ -14,15 +14,17 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import SideSearchbar from "../../../data/Modal/SideSearchbar";
 import * as loderdata from "../../../data/Component/loderdata/loderdata";
+import withApi from "../../../Utils/ApiHelper";
 
-export default function ManageClient() {
+const ManageClient = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
   const navigate = useNavigate();
   const [searchdata, setSearchdata] = useState({});
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [activeArray, setActiveArray] = useState([]);
   const [SearchList, setSearchList] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+ 
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -30,57 +32,39 @@ export default function ManageClient() {
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
+      cancelButtonText: "Cancel", 
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(id, "isConfirmed");
-        const token = localStorage.getItem("token");
+      const formData = new FormData();
+      formData.append("id", id);
+      DeleteClient(formData)
 
-        const formData = new FormData();
-        formData.append("id", id);
-
-        const axiosInstance = axios.create({
-          baseURL: process.env.REACT_APP_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-        const DeleteRole = async () => {
-          setIsLoading(true);
-          try {
-            const response = await axiosInstance.post(
-              "/client-delete",
-              formData
-            );
-            setData(response.data.data);
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your item has been deleted.",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-            fetchData();
-          } catch (error) {
-            handleError(error);
-          } finally {
-            setIsLoading(false); // Hide loading indicator
-          }
-          // setLoading(false);
-        };
-        DeleteRole();
       }
-    });
+   });
   };
+  const DeleteClient = async (formData) => {
+    try {
+      const response = await postData("client-delete", formData);
+      console.log(response, "response"); // Console log the response
+      if (apidata.api_response === "success") {
+        handleFetchData();
+      }
+    } catch (error) {
+      handleError(error);
+    }
+  };
+  
+
   const handleSearchReset = () => {
-    fetchData();
+    handleFetchData();
     setSearchdata({});
     setSearchList(true);
   };
   const SuccessAlert = (message) => toast.success(message);
 
   const Errornotify = (message) => toast.error(message);
+  const token = localStorage.getItem("token");
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
@@ -119,6 +103,7 @@ export default function ManageClient() {
           const response = await axiosInstance.post("/client-list", formData);
 
           setData(response.data.data);
+          alert("hi")
         } catch (error) {
           console.error(error);
           const message = error.response
@@ -136,79 +121,66 @@ export default function ManageClient() {
     handleToggleSidebar1();
   };
 
+ 
   useEffect(() => {
-    fetchData();
+    handleFetchData();
   }, []);
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const fetchData = async () => {
-    try {
-      const response = await axiosInstance.post("/client-list");
-      console.log(response.data.data.clients.length, "lldld");
-      if (response.data.data.clients.length > 0) {
-        // alert("done")
-        setData(response.data.data.clients);
-        const filteredStatuses = [];
-        for (const client of response.data.data.clients) {
-          if (client.status === 1) {
-            filteredStatuses.push(client.id);
-          }
-        }
 
-        if (filteredStatuses.length > 0) {
-          setActiveArray(filteredStatuses);
-        }
+  const handleFetchData = async () => {
+    try {
+      const response = await getData("/client-list");
+      console.log(response.data.data, "ddd");
+
+      if (response && response.data && response.data.data) {
+        setData(response.data.data.clients);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+  
+  // const toggleActive = (row) => {
+  //   const formData = new FormData();
+  //   formData.append("user_id", row.id);
+  
+  //   if (row.status === 1) {
+  //     formData.append("status", 0);
+  //   } else if (row.status === 0) {
+  //     formData.append("status", 1);
+  //   }
+  
+  //   ToggleStatus(formData);
+  // };
+  
+  const toggleActive = (row) => {
+    const formData = new FormData();
+    formData.append("user_id", row.id);
+  
+    const newStatus = row.status === 1 ? 0 : 1;
+    formData.append("status", newStatus);
+  
+    ToggleStatus(formData);
+  };
+  
+  const ToggleStatus = async (formData) => {
+    try {
+      const response = await postData("/update-status", formData);
+      console.log(response, "response"); // Console log the response
+      if (apidata.api_response === "success") {
+        handleFetchData();
       }
     } catch (error) {
       handleError(error);
     }
   };
-  const formData = new FormData();
-  const toggleActive = (row) => {
-    formData.append("user_id", row.id);
-
-    if (row.status === 1) {
-      formData.append("status", 0);
-    } else if (row.status === 0) {
-      formData.append("status", 1);
-    }
-
-    ToggleStatus();
-  };
- const ToggleStatus = async () => {
+  
   
 
-  try {
-    setIsLoading(true); // Set isLoading to true before making the request
-
-    const response = await axiosInstance.post("/update-status", formData);
-    if (response) {
-      SuccessAlert(response.data.message);
-      fetchData();
-    }
-  } catch (error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      Errornotify("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage =
-        error.response && error.response.message
-          ? error.response.message
-          : "An error occurred";
-      Errornotify(errorMessage);
-    }
-  } finally {
-    setIsLoading(false); // Set isLoading to false after the request is completed or an error occurred
-  }
-};
+  
+  
+  
   const handleEdit = (row) => {
     localStorage.setItem("Client_id", row.id);
   };
@@ -442,4 +414,6 @@ export default function ManageClient() {
       )}
     </>
   );
-}
+};
+
+export default withApi(ManageClient);

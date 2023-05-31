@@ -16,8 +16,11 @@ import SideSearchbar from "../../../data/Modal/SideSearchbar";
 import SearchIcon from "@mui/icons-material/Search";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import withApi from "../../../Utils/ApiHelper";
 
-export default function ManageSite() {
+const ManageSite = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
+
   const [data, setData] = useState();
   const [isChecked, setIsChecked] = useState(true);
   const [activeArray, setActiveArray] = useState([]);
@@ -32,7 +35,7 @@ export default function ManageSite() {
   const [sidebardata, setSideData] = useState();
   const [SiteId, setSiteId] = useState();
   const [searchdata, setSearchdata] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+
   const [SearchList, setSearchList] = useState(false);
 
   const [sidebardataobject, setSideDataobject] = useState();
@@ -63,7 +66,6 @@ export default function ManageSite() {
 
   const handleToggleSidebar = async (row) => {
     setSideData(row.site_name);
-    setIsLoading(true); // Set loading state to true
 
     const token = localStorage.getItem("token");
     const axiosInstance = axios.create({
@@ -87,7 +89,6 @@ export default function ManageSite() {
 
     await getSiteDetails();
 
-    setIsLoading(false); // Set loading state to false
     setSidebarVisible(!sidebarVisible);
   };
 
@@ -130,7 +131,6 @@ export default function ManageSite() {
           body: formData,
         });
         const DeleteRole = async () => {
-          setIsLoading(true);
           try {
             const response = await axiosInstance.post("/site/delete", formData);
             setData(response.data.data);
@@ -140,11 +140,10 @@ export default function ManageSite() {
               icon: "success",
               confirmButtonText: "OK",
             });
-            fetchData();
+            FetchTableData();
           } catch (error) {
             handleError(error);
-          }finally {
-            setIsLoading(false); // Hide loading indicator
+          } finally {
           }
           // setIsLoading(false);
         };
@@ -156,18 +155,29 @@ export default function ManageSite() {
     localStorage.setItem("Edit_Site", id);
   };
 
- 
   const toggleActive = (row) => {
+    const formData = new FormData();
     formData.append("id", row.id);
-
-    if (row.site_status === 1) {
-      formData.append("site_status", 0);
-    } else if (row.site_status === 0) {
-      formData.append("site_status", 1);
-    }
-
-    ToggleStatus();
+  
+    const newStatus = row.site_status === 1 ? 0 : 1;
+    formData.append("site_status", newStatus);
+  
+    ToggleStatus(formData);
   };
+  
+  const ToggleStatus = async (formData) => {
+    try {
+      const response = await postData("/site/update-status", formData);
+      console.log(response, "response"); // Console log the response
+      if (apidata.api_response === "success") {
+        FetchTableData();
+      }
+    } catch (error) {
+      handleError(error);
+    }
+  };
+  
+  
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
@@ -176,63 +186,25 @@ export default function ManageSite() {
       Authorization: `Bearer ${token}`,
     },
   });
-  const fetchData = async () => {
-    try {
-      const response = await axiosInstance.post("/site/list");
 
-      if (response.data.data.sites.length > 0) {
+  const FetchTableData = async () => {
+    try {
+      const response = await getData("/site/list");
+      console.log(response.data.data, "ddd");
+
+      if (response && response.data && response.data.data.sites) {
         setData(response.data.data.sites);
-
-        // setDropdownValue(response.data.data);
-
-        const filteredStatuses = [];
-        for (const site of response.data.data.sites) {
-          if (site.site_status === 1) {
-            filteredStatuses.push(site.id);
-          }
-        }
-
-        if (filteredStatuses.length > 0) {
-          setActiveArray(filteredStatuses);
-        }
-      }
-    } catch (error) {
-      handleError(error);
-    }
-  };
-
-  const formData = new FormData();
-
-  const ToggleStatus = async () => {
-     setIsLoading(true); 
-    try {
-      const response = await axiosInstance.post(
-        "/site/update-status",
-        formData
-      );
-      if (response) {
-        SuccessAlert(response.data.message);
-        fetchData();
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        navigate("/login");
-        ErrorAlert("Invalid access token");
-        localStorage.clear();
-      } else if (error.response && error.response.data.status_code === "403") {
-        navigate("/errorpage403");
       } else {
-        const errorMessage =
-          error.response && error.response.message
-            ? error.response.message
-            : "An error occurred";
-        ErrorAlert(errorMessage);
+        throw new Error("No data available in the response");
       }
+    } catch (error) {
+      console.error("API error:", error);
     }
-    finally {
-    setIsLoading(false); // Set isLoading to false after the request is completed or an error occurred
-  }
   };
+
+
+
+
 
   const columns = [
     {
@@ -277,7 +249,9 @@ export default function ManageSite() {
             <div className="d-flex" style={{ cursor: "default" }}>
               <div className="ms-2 mt-0 mt-sm-2 d-block">
                 {row.clients && row.clients.length > 0 ? (
-                  <h6 className="mb-0 fs-14 fw-semibold">{row.clients[0].full_name}</h6>
+                  <h6 className="mb-0 fs-14 fw-semibold">
+                    {row.clients[0].full_name}
+                  </h6>
                 ) : (
                   <h6 className="mb-0 fs-14 fw-semibold">No Client</h6>
                 )}
@@ -290,7 +264,7 @@ export default function ManageSite() {
         }
       },
     },
-    
+
     {
       name: "Company",
       selector: (row) => [row.site_name],
@@ -301,8 +275,12 @@ export default function ManageSite() {
           return (
             <div className="d-flex" style={{ cursor: "default" }}>
               <div className="ms-2 mt-0 mt-sm-2 d-block">
-                {row.clients && row.clients.length > 0 && row.clients[0].company ? (
-                  <h6 className="mb-0 fs-14 fw-semibold">{row.clients[0].company.company_name}</h6>
+                {row.clients &&
+                row.clients.length > 0 &&
+                row.clients[0].company ? (
+                  <h6 className="mb-0 fs-14 fw-semibold">
+                    {row.clients[0].company.company_name}
+                  </h6>
                 ) : (
                   <h6 className="mb-0 fs-14 fw-semibold">No Company found</h6>
                 )}
@@ -315,7 +293,7 @@ export default function ManageSite() {
         }
       },
     },
-       
+
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
@@ -435,15 +413,15 @@ export default function ManageSite() {
     columns,
     data,
   };
-  const [roles, setRoles] = useState([]);
+
   useEffect(() => {
-    fetchData();
+    FetchTableData();
 
     console.clear();
   }, []);
 
   const handleSearchReset = () => {
-    fetchData();
+    FetchTableData();
     setSearchdata({});
     setSearchList(true);
   };
@@ -458,26 +436,35 @@ export default function ManageSite() {
     if (Object.values(filteredFormData).length > 0) {
       setSearchdata(filteredFormData);
 
-      const axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_BASE_URL,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-      const SearchList = async () => {
-        try {
-          const response = await axiosInstance.post("/site/list", formData);
+      // const FetchTableData = async (formData) => {
+      //   try {
+      //     const response = await getData("/site/list", formData);
+      //     console.log(response.data.data, "ddd");
 
-          setData(response.data.data.sites);
-        } catch (error) {
-          const message = error.response
-            ? error.response.data.message
-            : "Unknown error occurred";
-          ErrorAlert(message);
-        }
-      };
-      SearchList();
+      //     if (response && response.data && response.data.data.sites) {
+      //       setData(response.data.data.sites);
+      //     } else {
+      //       throw new Error("No data available in the response");
+      //     }
+      //   } catch (error) {
+      //     console.error("API error:", error);
+      //   }
+      // };
+      // FetchTableData();
+
+      // const SearchList = async () => {
+      //   try {
+      //     const response = await axiosInstance.post("/site/list", formData);
+
+      //     setData(response.data.data.sites);
+      //   } catch (error) {
+      //     const message = error.response
+      //       ? error.response.data.message
+      //       : "Unknown error occurred";
+      //     ErrorAlert(message);
+      //   }
+      // };
+      // SearchList();
     }
 
     // Clear the form input values
@@ -487,101 +474,106 @@ export default function ManageSite() {
   };
 
   return (
-   <>
+    <>
       {isLoading ? (
         Loaderimg()
       ) : (
         <>
-      <div className="page-header ">
-        <div>
-          <h1 className="page-title">Manage Site</h1>
+          <div className="page-header ">
+            <div>
+              <h1 className="page-title">Manage Site</h1>
 
-          <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item
-              className="breadcrumb-item"
-              linkAs={Link}
-              linkProps={{ to: "/dashboard" }}
-            >
-              Dashboard
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item active breadcrumds"
-              aria-current="page"
-            >
-              Manage Site
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
-        <div className="ms-auto pageheader-btn ">
-          <span className="Search-data">
-            {Object.entries(searchdata).map(([key, value]) => (
-              <div key={key} className="badge">
-                <span className="badge-key">
-                  {key.charAt(0).toUpperCase() + key.slice(1)}:
+              <Breadcrumb className="breadcrumb">
+                <Breadcrumb.Item
+                  className="breadcrumb-item"
+                  linkAs={Link}
+                  linkProps={{ to: "/dashboard" }}
+                >
+                  Dashboard
+                </Breadcrumb.Item>
+                <Breadcrumb.Item
+                  className="breadcrumb-item active breadcrumds"
+                  aria-current="page"
+                >
+                  Manage Site
+                </Breadcrumb.Item>
+              </Breadcrumb>
+            </div>
+            <div className="ms-auto pageheader-btn ">
+              <span className="Search-data">
+                {Object.entries(searchdata).map(([key, value]) => (
+                  <div key={key} className="badge">
+                    <span className="badge-key">
+                      {key.charAt(0).toUpperCase() + key.slice(1)}:
+                    </span>
+                    <span className="badge-value">{value}</span>
+                  </div>
+                ))}
+              </span>
+
+              <Link
+                className="btn btn-primary"
+                onClick={() => {
+                  handleToggleSidebar1();
+                }}
+              >
+                Search
+                <span className="ms-2">
+                  <SearchIcon />
                 </span>
-                <span className="badge-value">{value}</span>
-              </div>
-            ))}
-          </span>
+              </Link>
+              {Object.keys(searchdata).length > 0 ? (
+                <Link
+                  className="btn btn-danger ms-2"
+                  onClick={handleSearchReset}
+                >
+                  Reset <RestartAltIcon />
+                </Link>
+              ) : (
+                ""
+              )}
 
-          <Link
-            className="btn btn-primary"
-            onClick={() => {
-              handleToggleSidebar1();
-            }}
-          >
-            Search
-            <span className="ms-2">
-              <SearchIcon />
-            </span>
-          </Link>
-          {Object.keys(searchdata).length > 0 ? (
-            <Link className="btn btn-danger ms-2" onClick={handleSearchReset}>
-              Reset <RestartAltIcon />
-            </Link>
-          ) : (
-            ""
-          )}
+              <Link to="/addsite" className="btn btn-primary ms-2">
+                Add Site <AddCircleOutlineIcon />
+              </Link>
+            </div>
+          </div>
+          <SideSearchbar
+            title="Search"
+            visible={sidebarVisible1}
+            onClose={handleToggleSidebar1}
+            onSubmit={handleSubmit}
+            searchListstatus={SearchList}
+          />
 
-          <Link to="/addsite" className="btn btn-primary ms-2">
-            Add Site <AddCircleOutlineIcon />
-          </Link>
-        </div>
-      </div>
-      <SideSearchbar
-        title="Search"
-        visible={sidebarVisible1}
-        onClose={handleToggleSidebar1}
-        onSubmit={handleSubmit}
-        searchListstatus={SearchList}
-      />
+          <Suspense fallback={<img src={Loaderimg} alt="Loading" />}>
+            <CommonSidebar
+              title={sidebardata}
+              sidebarContent={sidebardataobject}
+              visible={sidebarVisible}
+              onClose={handleCloseSidebar}
+            />
+          </Suspense>
 
-      <Suspense fallback={<img src={Loaderimg} alt="Loading" />}>
-        <CommonSidebar
-          title={sidebardata}
-          sidebarContent={sidebardataobject}
-          visible={sidebarVisible}
-          onClose={handleCloseSidebar}
-        />
-      </Suspense>
-
-      <DataTableExtensions {...tableDatas}>
-        <DataTable
-          columns={columns}
-          data={data}
-          noHeader
-          defaultSortField="id"
-          defaultSortAsc={false}
-          striped={true}
-          // center={true}
-          persistTableHead
-          // pagination
-          highlightOnHover
-          searchable={false}
-        />
-      </DataTableExtensions>
- </>
+          <DataTableExtensions {...tableDatas}>
+            <DataTable
+              columns={columns}
+              data={data}
+              noHeader
+              defaultSortField="id"
+              defaultSortAsc={false}
+              striped={true}
+              // center={true}
+              persistTableHead
+              // pagination
+              highlightOnHover
+              searchable={false}
+            />
+          </DataTableExtensions>
+        </>
       )}
     </>
   );
-}
+};
+
+export default withApi(ManageSite);

@@ -35,7 +35,8 @@ h3.SidebarSearch-title {
 }
 .badge {
   display: inline-block;
-  background-color: #c1c1c1;
+  background-color:#898989;
+  border-color: none;
   
   padding: 12px 9px;
   border-radius: 7px;

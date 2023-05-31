@@ -11,13 +11,16 @@ import Swal from "sweetalert2";
 import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import withApi from "../../../Utils/ApiHelper";
 
-export default function ManageRoles() {
+const ManageRoles = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
   const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
  
+
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -29,7 +32,6 @@ export default function ManageRoles() {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(id, "isConfirmed");
         const token = localStorage.getItem("token");
 
         const formData = new FormData();
@@ -52,15 +54,12 @@ export default function ManageRoles() {
               icon: "success",
               confirmButtonText: "OK",
             });
-            fetchData();
+            FetchTableData();
           } catch (error) {
-            console.error(error);
-            const message = error.response
-              ? error.response.data.message
-              : "Unknown error occurred";
-            ErrorAlert(message);
+            handleError(error);
+          } finally {
           }
-          // setLoading(false);
+          // setIsLoading(false);
         };
         DeleteRole();
       }
@@ -82,7 +81,7 @@ export default function ManageRoles() {
   }
 
   useEffect(() => {
-    fetchData();
+    FetchTableData();
   }, []);
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
@@ -91,21 +90,35 @@ export default function ManageRoles() {
       Authorization: `Bearer ${token}`,
     },
   });
-  const fetchData = async () => {
-    try {
-      const response = await axiosInstance.post("/role/list");
-      if (response.data.data.addons.length > 0) {
-        setData(response.data.data.addons);
-      }
-    } catch (error) {
-      handleError(error);
-    }
-  };
+  // const FetchTableData = async () => {
+  //   try {
+  //     const response = await axiosInstance.post("/role/list");
+  //     if (response.data.data.addons.length > 0) {
+  //       setData(response.data.data.addons);
+  //     }
+  //   } catch (error) {
+  //     handleError(error);
+  //   }
+  // };
 
   const handleEdit = (row) => {
     console.log(row, "handleEdit");
     localStorage.setItem("EditRoleID", row.id);
     localStorage.setItem("EditRole_name", row.name);
+  };
+   const FetchTableData = async () => {
+    try {
+      const response = await getData("/role/list");
+      console.log(response.data.data, "ddd");
+
+      if (response && response.data && response.data.data.addons) {
+        setData(response.data.data.addons);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
   };
 
   const columns = [
@@ -244,3 +257,4 @@ export default function ManageRoles() {
     </>
   );
 }
+export default withApi(ManageRoles);

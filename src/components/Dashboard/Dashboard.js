@@ -8,7 +8,20 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setuser } from "../../Redux/userDataSlice";
-export default function Dashboard() {
+import withApi from "../../Utils/ApiHelper";
+const Dashboard = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
+
+  // const handleFetchData = () => {
+  //   getData('/details'); // Pass the dynamic URL as an argument
+  // };
+
+  // const handlePostData = () => {
+  //   const body = {
+  //     /* Define your request body */
+  //   };
+  //   postData(body);
+  // };
   const navigate = useNavigate();
 
   const [data, setData] = useState("");
@@ -27,8 +40,6 @@ export default function Dashboard() {
   //   });
   // }, []);
 
-
-
   useEffect(() => {
     const loggedInFlag = localStorage.getItem("justLoggedIn");
 
@@ -45,19 +56,14 @@ export default function Dashboard() {
     }
     console.clear();
   }, [justLoggedIn]);
+
   useEffect(() => {
-    fetchData();
-  }, [localStorage.getItem("token")]);
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const fetchData = async () => {
+    handleFetchData();
+  }, []);
+
+  const handleFetchData = async () => {
     try {
-      const response = await axiosInstance.post("/detail");
+      const response = await getData("/detail");
       const { data } = response;
       if (data) {
         const firstName = data.data.first_name ?? "";
@@ -70,15 +76,7 @@ export default function Dashboard() {
         localStorage.setItem("Phone_Number", phoneNumber);
       }
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        navigate("/login");
-        ErrorAlert("Invalid access token");
-        localStorage.clear();
-      } else if (error.response && error.response.data.status_code === "403") {
-        navigate("/errorpage403");
-      } else {
-        console.error(error);
-      }
+      console.error("API error:", error);
     }
   };
   return (
@@ -411,4 +409,6 @@ export default function Dashboard() {
       </Row>
     </div>
   );
-}
+};
+
+export default withApi(Dashboard);

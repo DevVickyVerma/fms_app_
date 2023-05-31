@@ -19,9 +19,10 @@ import { Link, useNavigate } from "react-router-dom";
 import DatePicker, { Calendar } from "react-multi-date-picker";
 import { useFormikContext } from "formik";
 import "react-datepicker/dist/react-datepicker.css";
+import withApi from "../../../Utils/ApiHelper";
 
-export default function AddClient() {
-  // const { setFieldValue } = useFormikContext();
+const AddCompany = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
 
   const navigate = useNavigate();
   const [dropdownItems, setDropdownItems] = useState([]);
@@ -64,7 +65,7 @@ export default function AddClient() {
   });
   const fetchClientList = async () => {
     try {
-      const response = await axiosInstance.post("/client-list");
+      const response = await axiosInstance.get("/client-list");
 
       if (response.data.data.clients.length > 0) {
         // setData(response.data.data.sites);
@@ -83,7 +84,8 @@ export default function AddClient() {
   };
 
   const handleSubmit1 = async (values, setSubmitting) => {
-    const token = localStorage.getItem("token");
+    try {
+      setSubmitting(true);
 
     const formData = new FormData();
 
@@ -95,31 +97,18 @@ export default function AddClient() {
     formData.append("client_id", values.client_id);
     
 
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/company/create`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        notify(data.message);
-        navigate("/managecompany");
-        setSubmitting(false);
-      } else {
-        Errornotify(data.message);
-      }
-    } catch (error) {
-      handleError(error);
-    }
+    const postDataUrl = "/company/create";
+    const navigatePath = "/managecompany";
+  
+    await postData(postDataUrl, formData, navigatePath);
+  
+    setSubmitting(false); // Set the submission state to false after the API call is completed
+  } catch (error) {
+    handleError(error);
+    setSubmitting(false); // Set the submission state to false if an error occurs
+  }
   };
+  
   return (
     <div>
       <div className="page-header">
@@ -382,7 +371,7 @@ export default function AddClient() {
                     <Link
                       type="submit"
                       className="btn btn-danger me-2 "
-                      to={`/sites/`}
+                      to={`/managecompany/`}
                     >
                       Cancel
                     </Link>
@@ -404,3 +393,4 @@ export default function AddClient() {
     </div>
   );
 }
+export default withApi(AddCompany);

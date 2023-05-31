@@ -7,34 +7,81 @@ import { Breadcrumb, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-export default function ManageSubBusinessTypes() {
+import withApi from "../../../Utils/ApiHelper";
+import * as loderdata from "../../../data/Component/loderdata/loderdata";
+
+const ManageSubBusinessTypes = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
-  const navigate = useNavigate();
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      Errornotify("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else if (error.response && error.response.data.message) {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-        
-      if (errorMessage) {
-        Errornotify(errorMessage);
-      }
-    } else {
-      Errornotify("An error occurred.");
+  const fetchData = async () => {
+    try {
+      const response = await getData("/business/sub-types");
+      const { data } = response;
+      console.log(apidata, "data");
+
+      // if (data) {
+      //   const firstName = data.data?.first_name || "";
+      //   const lastName = data.data?.last_name || "";
+      //   const phoneNumber = data.data?.phone_number || "";
+      //   const fullName = data.data?.full_name || "";
+
+      //   localStorage.setItem("First_name", firstName);
+      //   localStorage.setItem("Last_name", lastName);
+      //   localStorage.setItem("Phone_Number", phoneNumber);
+      //   localStorage.setItem("full_name", fullName);
+      // }
+    } catch (error) {
+      console.error("API error:", error);
     }
-  }
+  };
+
+  useEffect(() => {
+    handleFetchData();
+  }, []);
+
+  const handleFetchData = async () => {
+    try {
+      const response = await getData("/business/sub-types");
+      console.log(response.data.data, "ddd");
+
+      if (response && response.data && response.data.data) {
+        setData(response.data.data);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+  //  const handleFetchData = () => {
+  //     getData("/business/sub-types"); // Pass the dynamic URL as an argument
+  //   };
+
+ 
+  const toggleActive = (row) => {
+    const formData = new FormData();
+    formData.append("id", row.id);
   
+    const newStatus = row.status === 1 ? 0 : 1;
+    formData.append("status", newStatus);
+  
+    ToggleStatus(formData);
+  };
+  
+  const ToggleStatus = async (formData) => {
+    try {
+      const response = await postData("business/update-sub-type-status", formData);
+      console.log(response, "response"); // Console log the response
+      if (apidata.api_response === "success") {
+        handleFetchData();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -47,68 +94,21 @@ export default function ManageSubBusinessTypes() {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(id, "isConfirmed");
-        const token = localStorage.getItem("token");
-
         const formData = new FormData();
         formData.append("id", id);
-
-        const axiosInstance = axios.create({
-          baseURL: process.env.REACT_APP_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-        // const DeleteRole = async () => {
-        //   try {
-        //     const response = await axiosInstance.post("company/delete", formData);
-        //     setData(response.data.data);
-        //     Swal.fire({
-        //       title: "Deleted!",
-        //       text: "Your item has been deleted.",
-        //       icon: "success",
-        //       confirmButtonText: "OK",
-        //     });
-        //     fetchData();
-        //   } catch (error) {
-        //     console.error(error);
-        //     const message = error.response
-        //       ? error.response.data.message
-        //       : "Unknown error occurred";
-        //     ErrorAlert(message);
-        //   }
-        //   // setLoading(false);
-        // };
-        // DeleteRole();
+        const DeleteRole = () => {
+          const body = {
+            formData,
+          };
+          postData('company/delete', body);
+          postData(body);
+        };
+        DeleteRole();
       }
     });
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.get("/business/sub-types");
-        if (response.data.data.length > 0) {
-          setData(response.data.data);
 
-          // SuccessAlert(response.data.message)
-        }
-      } catch (error) {
-        handleError(error);
-        console.log(error.response);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const columns = [
     {
@@ -127,7 +127,7 @@ export default function ManageSubBusinessTypes() {
       name: "Business  Type",
       selector: (row) => [row.business_type],
       sortable: false,
-      width: "60%",
+      width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -149,6 +149,50 @@ export default function ManageSubBusinessTypes() {
         </div>
       ),
     },
+    {
+      name: "Created Date",
+      selector: (row) => [row.created_date],
+      sortable: false,
+      width: "15%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Status",
+      selector: (row) => [row.status],
+      sortable: false,
+      width: "15%",
+      cell: (row) => (
+        <span className="text-muted fs-15 fw-semibold text-center">
+          <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
+            {row.status === 1 ? (
+              <button
+                className="badge bg-success"
+                onClick={() => toggleActive(row)}
+              >
+                Active
+              </button>
+            ) : row.status === 0 ? (
+              <button
+                className="badge bg-danger"
+                onClick={() => toggleActive(row)}
+              >
+                Inactive
+              </button>
+            ) : (
+              <button className="badge" onClick={() => toggleActive(row)}>
+                Unknown
+              </button>
+            )}
+          </OverlayTrigger>
+        </span>
+      ),
+    },
 
     {
       name: "ACTION",
@@ -159,7 +203,7 @@ export default function ManageSubBusinessTypes() {
         <span className="text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <Link
-             to={`/editsub-business/${row.id}`}
+              to={`/editsub-business/${row.id}`}
               className="btn btn-primary btn-sm rounded-11 me-2"
             >
               <i>
@@ -205,19 +249,22 @@ export default function ManageSubBusinessTypes() {
     columns,
     data,
   };
-  const [roles, setRoles] = useState([]);
-  const [open, setOpen] = useState(false);
 
-  const handleAddRole = (newRole) => {
-    setRoles([...roles, newRole]);
-    setOpen(false);
-  };
 
-  const handleClose = () => {
-    setOpen(false);
+
+  const Loaderimg = () => {
+    return (
+      <div id="global-loader">
+        <loderdata.Loadersbigsizes1 />
+      </div>
+    );
   };
   return (
     <>
+    {isLoading ? (
+      Loaderimg()
+    ) : (
+      <>
       <div className="page-header ">
         <div>
           <h1 className="page-title">Manage Sub-Business Types</h1>
@@ -260,6 +307,9 @@ export default function ManageSubBusinessTypes() {
           searchable={true}
         />
       </DataTableExtensions>
+      </>
+      )}
     </>
   );
-}
+};
+export default withApi(ManageSubBusinessTypes);

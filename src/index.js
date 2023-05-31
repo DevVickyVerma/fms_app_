@@ -5,8 +5,8 @@ import { Navigate, BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./Utils/PrivateRoutes";
 import * as loderdata from "./data/Component/loderdata/loderdata";
 import { Provider } from "react-redux";
-import   { store }  from "./Redux/reduxstore";
-
+import { store } from "./Redux/reduxstore";
+import withApi from "./Utils/ApiHelper";
 
 const Switcherlayout = React.lazy(() => import("./components/switcherlayout"));
 //App
@@ -43,9 +43,31 @@ const ManageCompany = React.lazy(() =>
 const AddRoles = React.lazy(() =>
   import("./components/pages/ManageRoles/AddRoles")
 );
+// client Start
 const ManageClient = React.lazy(() =>
   import("./components/pages/ManageClient/ManageClient")
 );
+const EditClient = React.lazy(() =>
+  import("./components/pages/ManageClient/EditClient")
+);
+const AddClient = React.lazy(() =>
+  import("./components/pages/ManageClient/AddClient")
+);
+// client End
+// Site Start
+const Managesite = React.lazy(() =>
+  import("./components/pages/ManageSite/ManageSite")
+);
+const AddSite = React.lazy(() =>
+  import("./components/pages/ManageSite/AddSite")
+);
+
+const EditSite = React.lazy(() =>
+  import("./components/pages/ManageSite/EditSite")
+);
+
+// Site End
+
 const ManageBusinessTypes = React.lazy(() =>
   import("./components/pages/ManageBusinessTypes/ManageBusinessTypes")
 );
@@ -74,32 +96,18 @@ const AddAddon = React.lazy(() =>
 const AddCompany = React.lazy(() =>
   import("./components/pages/ManageCompany/AddCompany")
 );
-const Managesite = React.lazy(() =>
-  import("./components/pages/ManageSite/ManageSite")
-);
 
 const EditRoles = React.lazy(() =>
   import("./components/pages/ManageRoles/EditRoles")
 );
-const EditClient = React.lazy(() =>
-  import("./components/pages/ManageClient/EditClient")
-);
+
 const EditCompany = React.lazy(() =>
   import("./components/pages/ManageCompany/EditCompany")
 );
 const EditBusiness = React.lazy(() =>
   import("./components/pages/ManageBusinessTypes/EditBussinesType")
 );
-const AddClient = React.lazy(() =>
-  import("./components/pages/ManageClient/AddClient")
-);
-const AddSite = React.lazy(() =>
-  import("./components/pages/ManageSite/AddSite")
-);
 
-const EditSite = React.lazy(() =>
-  import("./components/pages/ManageSite/EditSite")
-);
 const Settings = React.lazy(() =>
   import("./components/pages/Settings/Settings")
 );
@@ -150,113 +158,169 @@ const Loaderimg = () => {
 
 const Root = () => {
   const [token, setToken] = useState(localStorage.getItem("token"));
-
+  const WrappedDashboard = withApi(Dashboard);
+  const WrappedManageBusinessSubTypes = withApi(ManageBusinessSubTypes);
+  const WrappeAddBusinessSubTypes = withApi(AddBusinessSubTypes);
+  const WrappedManageClient = withApi(ManageClient);
+  const WrappedAddClient = withApi(AddClient);
+  const WrappeAddEditClient = withApi(EditClient);
+  const WrappedManageSite = withApi(Managesite);
+  const WrappedAddSite = withApi(AddSite);
+  const WrappeAddEditSite = withApi(EditSite);
+  const WrappedManageCompany = withApi(ManageCompany);
+  const WrappedAddCompany = withApi(AddCompany);
+  const WrappeAddEditCompany = withApi(EditCompany);
+  const WrappedManageRoles = withApi(ManageRoles);
+  const WrappedAddRoles = withApi(AddRoles);
+  const WrappeAddEditRoles = withApi(EditRoles);
+  const WrappedManageAddon = withApi(ManageAddon);
+  const WrappedAddAddon = withApi(AddAddon);
+  const WrappeAddEditAddon = withApi(EditAddon);
   return (
     <Fragment>
       <BrowserRouter>
         <React.Suspense fallback={Loaderimg()}>
-        <Provider store={store}>
-          <Routes>
-            <Route element={<PrivateRoutes token={token} />}>
-              <Route path={`/`} element={<App />}>
-                {/* <Route  path={`/login`} element={<Login />} /> */}
-                <Route index element={<Dashboard />} />
-                <Route path={`/dashboard`} element={<Dashboard />} />
-
-                <Route>
+          <Provider store={store}>
+            <Routes>
+              <Route element={<PrivateRoutes token={token} />}>
+                <Route path={`/`} element={<App />}>
+                  {/* <Route  path={`/login`} element={<Login />} /> */}
+                  <Route index element={<Dashboard />} />
+                  <Route path={`/dashboard`} element={<WrappedDashboard />} />
+                  {/* client  Components Start */}
+                  <Route path={`/clients`} element={<WrappedManageClient />} />
                   <Route
-                    path={`/advancedElements/accordions`}
-                    element={<Accordions />}
+                    path={`editclient`}
+                    element={<WrappeAddEditClient />}
                   />
+                  <Route path={`addclient`} element={<WrappedAddClient />} />
 
-                  <Route
-                    path={`/advancedElements/headers`}
-                    element={<Header />}
-                  />
+                  {/* client  Components End */}
 
-                  <Route
-                    path={`/advancedElements/footers`}
-                    element={<Footer />}
-                  />
-                </Route>
+                  {/* sites  Components Start */}
 
-                <Route>
-                  <Route path={`/pages/profile`} element={<Profile />} />
-
-                  <Route path={`/editprofile`} element={<EditProfile />} />
-                  <Route path={`editclient`} element={<EditClient />} />
-                  <Route path={`addclient`} element={<AddClient />} />
-                  <Route path={`addsite`} element={<AddSite />} />
-                  <Route path={`editsite`} element={<EditSite />} />
-                  <Route path={`/manageaddon`} element={<ManageAddon />} />
-                  <Route path={`/addcompany`} element={<AddCompany />} />
-                  <Route path={`/managecompany`} element={<ManageCompany />} />
-                  <Route path={`/addaddon`} element={<AddAddon />} />
-                  <Route path={`/business`} element={<ManageBusinessTypes />} />
-                  <Route path={`/comingsoon`} element={<COMINGSOON />} />
-                  <Route
-                    path={`/sub-business`}
-                    element={<ManageBusinessSubTypes />}
-                  />
-                     <Route
-                    path={`/addsub-business`}
-                    element={<AddBusinessSubTypes />}
-                  />
-                    <Route
-                    path={`/editsub-business/:id`}
-                    element={<EditBusinessSubTypes />}
-                  />
-                  <Route path={`/addbusiness`} element={<AddBusiness />} />
-                  <Route path={`EditAddon`} element={<EditAddon />} />
-                  <Route path={`/editcompany`} element={<EditCompany />} />
-                  <Route path={`/editbusiness/:id`} element={<EditBusiness />} />
-                  <Route path={`/roles`} element={<ManageRoles />} />
-                  <Route path={`/addroles`} element={<AddRoles />} />
-                  <Route path={`/clients`} element={<ManageClient />} />
+                  <Route path={`addsite`} element={<WrappedAddSite />} />
+                  <Route path={`editsite`} element={<WrappeAddEditSite />} />
                   <Route path={`/sites`} element={<Managesite />} />
-                  <Route path={`/editrole`} element={<EditRoles />} />
-                  <Route path={`/settings`} element={<Settings />} />
+                  {/* sites  Components End */}
 
-                  <Route path={`/pages/faqs`} element={<FAQS />} />
+                  {/* Company  Components Start */}
+                  <Route path={`/addcompany`} element={<WrappedAddCompany />} />
+                  <Route
+                    path={`/managecompany`}
+                    element={<WrappedManageCompany />}
+                  />
+                  <Route
+                    path={`/editcompany`}
+                    element={<WrappeAddEditCompany />}
+                  />
 
-                  <Route path={`/pages/terms`} element={<Terms />} />
+                  {/* Company  Components End */}
+
+                  {/* Role  Components Start */}
+                  <Route path={`/roles`} element={<WrappedManageRoles />} />
+                  <Route path={`/addroles`} element={<WrappedAddRoles />} />
+
+                  <Route path={`/editrole`} element={<WrappeAddEditRoles />} />
+
+                  {/* Role  Components End */}
+
+                  {/* Addon  Components Start */}
+                  <Route path={`/manageaddon`} element={<WrappedManageAddon />} />
+
+                  <Route path={`/addaddon`} element={<WrappedAddAddon />} />
+                  <Route path={`EditAddon`} element={<WrappeAddEditAddon />} />
+
+                  {/* Addon  Components End */}
+
+                  <Route>
+                    <Route
+                      path={`/advancedElements/accordions`}
+                      element={<Accordions />}
+                    />
+
+                    <Route
+                      path={`/advancedElements/headers`}
+                      element={<Header />}
+                    />
+
+                    <Route
+                      path={`/advancedElements/footers`}
+                      element={<Footer />}
+                    />
+                  </Route>
+
+                  <Route>
+                    <Route path={`/pages/profile`} element={<Profile />} />
+
+                    <Route path={`/editprofile`} element={<EditProfile />} />
+
+                    <Route
+                      path={`/business`}
+                      element={<ManageBusinessTypes />}
+                    />
+                    <Route path={`/comingsoon`} element={<COMINGSOON />} />
+                    <Route
+                      path={`/sub-business`}
+                      element={<WrappedManageBusinessSubTypes />}
+                    />
+                    <Route
+                      path={`/addsub-business`}
+                      element={<WrappeAddBusinessSubTypes />}
+                    />
+                    <Route
+                      path={`/editsub-business/:id`}
+                      element={<EditBusinessSubTypes />}
+                    />
+                    <Route path={`/addbusiness`} element={<AddBusiness />} />
+
+                    <Route
+                      path={`/editbusiness/:id`}
+                      element={<EditBusiness />}
+                    />
+
+                    <Route path={`/settings`} element={<Settings />} />
+
+                    <Route path={`/pages/faqs`} element={<FAQS />} />
+
+                    <Route path={`/pages/terms`} element={<Terms />} />
+                  </Route>
                 </Route>
               </Route>
-            </Route>
 
-            <Route path={`/`} element={<Custompages />}>
+              <Route path={`/`} element={<Custompages />}>
+                <Route path="/login" element={<Login token={token} />} />
+
+                <Route
+                  path={`/reset-password/:token`}
+                  element={<ResetPassword />}
+                />
+                <Route path={`/custompages/register`} element={<Register />} />
+                <Route
+                  path={`/custompages/forgotPassword`}
+                  element={<ForgotPassword />}
+                />
+                <Route
+                  path={`/custompages/lockScreen`}
+                  element={<LockScreen />}
+                />
+                <Route
+                  path={`/custompages/errorpages/errorpage401`}
+                  element={<Errorpage401 />}
+                />
+                <Route path={`/errorpage403`} element={<Errorpage403 />} />
+                <Route
+                  path={`/custompages/errorpages/errorpage500`}
+                  element={<Errorpage500 />}
+                />
+                <Route
+                  path={`/custompages/errorpages/errorpage503`}
+                  element={<Errorpage503 />}
+                />
+                <Route path="*" element={<Errorpage400 />} />
+              </Route>
               <Route path="/login" element={<Login token={token} />} />
-
-              <Route
-                path={`/reset-password/:token`}
-                element={<ResetPassword />}
-              />
-              <Route path={`/custompages/register`} element={<Register />} />
-              <Route
-                path={`/custompages/forgotPassword`}
-                element={<ForgotPassword />}
-              />
-              <Route
-                path={`/custompages/lockScreen`}
-                element={<LockScreen />}
-              />
-              <Route
-                path={`/custompages/errorpages/errorpage401`}
-                element={<Errorpage401 />}
-              />
-              <Route path={`/errorpage403`} element={<Errorpage403 />} />
-              <Route
-                path={`/custompages/errorpages/errorpage500`}
-                element={<Errorpage500 />}
-              />
-              <Route
-                path={`/custompages/errorpages/errorpage503`}
-                element={<Errorpage503 />}
-              />
-              <Route path="*" element={<Errorpage400 />} />
-            </Route>
-            <Route path="/login" element={<Login token={token} />} />
-          </Routes>
+            </Routes>
           </Provider>
         </React.Suspense>
       </BrowserRouter>

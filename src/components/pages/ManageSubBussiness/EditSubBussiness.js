@@ -119,10 +119,11 @@ export default function AddSite() {
     formData.append("slug", values.slug);
     formData.append("status", values.status);
     formData.append("business_type_id", values.business_type_id);
+    formData.append("id", values.id);
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/business/update-type`,
+        `${process.env.REACT_APP_BASE_URL}/business/update-sub-type`,
         {
           method: "POST",
           headers: {
@@ -226,7 +227,7 @@ export default function AddSite() {
             <div class="card-body">
               <form onSubmit={formik.handleSubmit}>
                 <Row>
-                  <Col lg={4} md={6}>
+                  <Col lg={6} md={6}>
                     <div className="form-group">
                       <label
                         className="form-label mt-4"
@@ -256,7 +257,7 @@ export default function AddSite() {
                         )}
                     </div>
                   </Col>
-                  <Col lg={4} md={6}>
+                  <Col lg={6} md={6}>
                     <div className="form-group">
                       <label className="form-label mt-4" htmlFor="slug">
                         Slug<span className="text-danger">*</span>
@@ -282,10 +283,10 @@ export default function AddSite() {
                     </div>
                   </Col>
 
-                  <Col lg={4} md={6}>
+                  <Col lg={6} md={6}>
                     <div className="form-group">
                       <label htmlFor="status" className="form-label mt-4">
-                        status <span className="text-danger">*</span>
+                        Status <span className="text-danger">*</span>
                       </label>
                       <select
                         className={`input101 ${
@@ -300,7 +301,7 @@ export default function AddSite() {
                       >
                         <option value="">Select a Status</option>
                         <option value="1">Active</option>
-                            <option value="0">InActive</option>
+                            <option value="0">Inactive</option>
                       </select>
                       {formik.errors.status && formik.touched.status && (
                         <div className="invalid-feedback">
@@ -309,7 +310,7 @@ export default function AddSite() {
                       )}
                     </div>
                   </Col>
-                  <Col lg={4} md={6}>
+                  <Col lg={6} md={6}>
                     <div className="form-group">
                       <label
                         htmlFor="business_type_id"

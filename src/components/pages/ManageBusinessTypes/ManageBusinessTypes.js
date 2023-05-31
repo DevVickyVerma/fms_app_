@@ -9,29 +9,30 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
+import withApi from "../../../Utils/ApiHelper";
+import Loaderimg from "../../../Utils/Loader";
 
-export default function ManageBusinessTypes() {
+const ManageBusinessTypes = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
+
   const [data, setData] = useState();
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const fetchData = async () => {
-    try {
-      const response = await axiosInstance.get("/business/types");
-      if (response.data.data.length > 0) {
-        setData(response.data.data);
 
-        // SuccessAlert(response.data.message)
+  const FetchTableData = async () => {
+    try {
+      const response = await getData("/business/types");
+      console.log(response.data.data, "ddd");
+
+      if (response && response.data && response.data.data) {
+        setData(response.data.data);
+      } else {
+        throw new Error("No data available in the response");
       }
     } catch (error) {
-      handleError(error);
+      console.error("API error:", error);
     }
   };
 
@@ -46,46 +47,24 @@ export default function ManageBusinessTypes() {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(id, "isConfirmed");
-        const token = localStorage.getItem("token");
-
         const formData = new FormData();
         formData.append("id", id);
-
-        const axiosInstance = axios.create({
-          baseURL: process.env.REACT_APP_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-        const DeleteRole = async () => {
-          try {
-            const response = await axiosInstance.post(
-              "business/delete-type",
-              formData
-            );
-            setData(response.data.data);
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your item has been deleted.",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-            fetchData();
-          } catch (error) {
-            console.error(error);
-            const message = error.response
-              ? error.response.data.message
-              : "Unknown error occurred";
-            ErrorAlert(message);
-          }
-          // setLoading(false);
-        };
-        DeleteRole();
+        DeleteClient(formData);
       }
     });
   };
+  const DeleteClient = async (formData) => {
+    try {
+      const response = await postData("business/delete-type", formData);
+      console.log(response, "response"); // Console log the response
+      if (apidata.api_response === "success") {
+        FetchTableData();
+      }
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
@@ -97,17 +76,38 @@ export default function ManageBusinessTypes() {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-        ErrorAlert(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 
   useEffect(() => {
-    fetchData();
+    FetchTableData();
   }, []);
   const handleEdit = (row) => {
     console.log(row, "handleEdit");
 
     localStorage.setItem("EditBussinessId", row.id);
+  };
+  const toggleActive = (row) => {
+    const formData = new FormData();
+    formData.append("id", row.id);
+  
+    const newStatus = row.status === 1 ? 0 : 1;
+    formData.append("status", newStatus);
+  
+    ToggleStatus(formData);
+  };
+  
+  const ToggleStatus = async (formData) => {
+    try {
+      const response = await postData("business/update-type-status", formData);
+      console.log(response, "response"); // Console log the response
+      if (apidata.api_response === "success") {
+        FetchTableData();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const columns = [
@@ -127,7 +127,7 @@ export default function ManageBusinessTypes() {
       name: "Business",
       selector: (row) => [row.business_name],
       sortable: false,
-      width: "60%",
+      width: "35%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -140,13 +140,44 @@ export default function ManageBusinessTypes() {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "10%",
+      width: "15%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
           </div>
         </div>
+      ),
+    },
+    {
+      name: "Status",
+      selector: (row) => [row.status],
+      sortable: false,
+      width: "20%",
+      cell: (row) => (
+        <span className="text-muted fs-15 fw-semibold text-center">
+          <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
+            {row.status === 1 ? (
+              <button
+                className="badge bg-success"
+                onClick={() => toggleActive(row)}
+              >
+                Active
+              </button>
+            ) : row.status === 0 ? (
+              <button
+                className="badge bg-danger"
+                onClick={() => toggleActive(row)}
+              >
+                Inactive
+              </button>
+            ) : (
+              <button className="badge" onClick={() => toggleActive(row)}>
+                Unknown
+              </button>
+            )}
+          </OverlayTrigger>
+        </span>
       ),
     },
     {
@@ -160,7 +191,6 @@ export default function ManageBusinessTypes() {
             <Link
               to={`/editbusiness/${row.id}`} // Assuming `row.id` contains the ID
               className="btn btn-primary btn-sm rounded-11 me-2"
-              
             >
               <i>
                 <svg
@@ -218,48 +248,55 @@ export default function ManageBusinessTypes() {
   };
   return (
     <>
-      <div className="page-header ">
-        <div>
-          <h1 className="page-title">Manage Business Types</h1>
+      {isLoading ? (
+        <Loaderimg />
+      ) : (
+        <>
+          <div className="page-header ">
+            <div>
+              <h1 className="page-title">Manage Business Types</h1>
 
-          <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item
-              className="breadcrumb-item"
-              linkAs={Link}
-              linkProps={{ to: "/dashboard" }}
-            >
-              Dashboard
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item active breadcrumds"
-              aria-current="page"
-            >
-              Manage Business Types
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
-        <div className="ms-auto pageheader-btn">
-          <Link to="/addbusiness" className="btn btn-primary">
-            Add Business Types
-          </Link>
-        </div>
-      </div>
+              <Breadcrumb className="breadcrumb">
+                <Breadcrumb.Item
+                  className="breadcrumb-item"
+                  linkAs={Link}
+                  linkProps={{ to: "/dashboard" }}
+                >
+                  Dashboard
+                </Breadcrumb.Item>
+                <Breadcrumb.Item
+                  className="breadcrumb-item active breadcrumds"
+                  aria-current="page"
+                >
+                  Manage Business Types
+                </Breadcrumb.Item>
+              </Breadcrumb>
+            </div>
+            <div className="ms-auto pageheader-btn">
+              <Link to="/addbusiness" className="btn btn-primary">
+                Add Business Types
+              </Link>
+            </div>
+          </div>
 
-      <DataTableExtensions {...tableDatas}>
-        <DataTable
-          columns={columns}
-          data={data}
-          noHeader
-          defaultSortField="id"
-          defaultSortAsc={false}
-          striped={true}
-          // center={true}
-          persistTableHead
-          // pagination
-          highlightOnHover
-          searchable={true}
-        />
-      </DataTableExtensions>
+          <DataTableExtensions {...tableDatas}>
+            <DataTable
+              columns={columns}
+              data={data}
+              noHeader
+              defaultSortField="id"
+              defaultSortAsc={false}
+              striped={true}
+              // center={true}
+              persistTableHead
+              // pagination
+              highlightOnHover
+              searchable={true}
+            />
+          </DataTableExtensions>
+        </>
+      )}
     </>
   );
-}
+};
+export default withApi(ManageBusinessTypes);

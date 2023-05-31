@@ -22,8 +22,12 @@ import * as Yup from "yup";
 
 import axios from "axios";
 import { toast } from "react-toastify";
+import withApi from "../../../Utils/ApiHelper";
+import Loaderimg from "../../../Utils/Loader";
 
-export default function AddAddon() {
+
+  const EditAddon = (props) => {
+    const { apidata, isLoading, error, getData, postData } = props;
   const [AddonpermissionsList, setPermissions] = useState([]);
 
   const [userpermissions, setUserPermissions] = useState([]);
@@ -35,8 +39,7 @@ export default function AddAddon() {
 
   const [permissionArray, setPermissionArray] = useState([]);
   const [permissionArray1, setPermissionArray1] = useState([]);
- 
- 
+
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
@@ -48,7 +51,7 @@ export default function AddAddon() {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-        ErrorAlert(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 
@@ -60,66 +63,93 @@ export default function AddAddon() {
         Authorization: `Bearer ${token}`,
       },
     });
-  
+
     // Fetch user permissions
     axiosInstance
-      .post("/permission-list")
+      .get("/permission-list")
       .then((response) => {
         setUserPermissions(response.data.data);
       })
-      .catch((error)=> {
-        handleError(error)
+      .catch((error) => {
+        handleError(error);
       });
-  
+
     // Fetch addon details and set permissions
     const addonId = localStorage.getItem("EditAddon");
     const formData = new FormData();
     formData.append("addon_id", addonId);
-  
-    const getAddonDetails = async () => {
-      try {
-        const response = await axiosInstance.post("/addon/detail", formData);
-        const { data } = response;
-  
-        const permissionArray = [];
-        for (const key of Object.keys(data.data.addon_permissions)) {
-          let array = [];
-          for (const item of data?.data?.addon_permissions[key].names) {
-            if (item.checked) {
-              array.push(item.permission_name);
-            }
-          }
-          permissionArray.push(...array);
-        }
-  
-        setPermissionArray([...new Set(permissionArray)]);
-      
-  
-        if (data) {
-          setEdituserDetails(data.data.addon_name);
-          setPermissions(data);
-        }
-        else {
-          if (data && data.message && Array.isArray(data.message)) {
-            data.message.forEach((errorMsg) => {
-              ErrorAlert(errorMsg);
-            });
-          } else {
-            throw new Error("An error occurred.");
-          }
-        }
-      } catch (error) {
-        handleError(error)
-      }
-    };
-  
-    getAddonDetails();
+
+    FetchPermisionList()
   }, []);
-  
+
+  // const getAddonDetails = async () => {
+  //   try {
+  //     const response = await axiosInstance.get("/addon/detail", formData);
+  //     const { data } = response;
+
+  //     const permissionArray = [];
+  //     for (const key of Object.keys(data.data.addon_permissions)) {
+  //       let array = [];
+  //       for (const item of data?.data?.addon_permissions[key].names) {
+  //         if (item.checked) {
+  //           array.push(item.permission_name);
+  //         }
+  //       }
+  //       permissionArray.push(...array);
+  //     }
+
+  //     setPermissionArray([...new Set(permissionArray)]);
+
+  //     if (data) {
+  //       setEdituserDetails(data.data.addon_name);
+  //       setPermissions(data);
+  //     } else {
+  //       if (data && data.message && Array.isArray(data.message)) {
+  //         data.message.forEach((errorMsg) => {
+  //           ErrorAlert(errorMsg);
+  //         });
+  //       } else {
+  //         throw new Error("An error occurred.");
+  //       }
+  //     }
+  //   } catch (error) {
+  //     handleError(error);
+  //   }
+  // };
+
+  const FetchPermisionList = async () => {
+    try {
+      const addonId = localStorage.getItem("EditAddon");
+      const formData = new FormData();
+      formData.append("addon_id", addonId);
+      const response = await getData("addon/detail", addonId, formData);
+      console.log(response.data.data, "ddd");
+      const { data } = response;
+
+      const permissionArray = [];
+      for (const key of Object.keys(data.data.addon_permissions)) {
+        let array = [];
+        for (const item of data?.data?.addon_permissions[key].names) {
+          if (item.checked) {
+            array.push(item.permission_name);
+          }
+        }
+        permissionArray.push(...array);
+      }
+
+      setPermissionArray([...new Set(permissionArray)]);
+      if (response && response.data) {
+        setEdituserDetails(data.data.addon_name);
+        setPermissions(data);
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
 
   useEffect(() => {
     setEdituserDetails();
-    console.clear()
+    console.clear();
   }, [edituserDetails]);
 
   const handleSubmit = async (values) => {
@@ -153,33 +183,13 @@ export default function AddAddon() {
     }
   };
 
-  //   const permissions = values.permissions || [];
 
-  //   // Check if the permission is already present in the permissions array
-  //   const index = permissions.indexOf(permission_name);
-
-  //   // If the permission is already present, remove it from the array
-  //   if (index !== -1) {
-  //     permissions.splice(index, 1);
-  //   } else {
-  //     // Otherwise, add it to the array
-  //     permissions.push(permission_name);
-  //   }
-
-  //   // Set the updated permissions array in the form values
-  //   setFieldValue("permissions", permissions);
-  // };
-
-  // const handleSubmit = (values) => {
-  //   console.log(values, "final");
-  // };
-
-  // const handleSubmit=(values)=>{
-  //   console.log(permissionArray, "final");
-
-  // }
   return (
     <>
+    {isLoading ? (
+      <Loaderimg/>
+    ) :(
+      <>
       <div className="page-header ">
         <div>
           <h1 className="page-title">Edit Addon</h1>
@@ -316,8 +326,6 @@ export default function AddAddon() {
                                               const permissionName =
                                                 nameItem.permission_name;
 
-                                            
-
                                               // Create a new array from the current state of permissionArray
                                               const updatedPermissionArray = [
                                                 ...permissionArray,
@@ -409,6 +417,9 @@ export default function AddAddon() {
           </Card>
         </div>
       </Row>
+      </>
+      )}
     </>
   );
-}
+};
+export default withApi(EditAddon);

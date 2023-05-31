@@ -24,12 +24,12 @@ export default function App() {
     setTimeout(() => {
       loadingBarRef.current.complete();
       // navigate("/new-url"); // replace "/new-url" with the URL you want to navigate to
-    }, 500);
+    }, 50);
   };
 
   useEffect(() => {
     simulateLoadingAndNavigate();
-    console.clear();
+    // console.clear();
   }, [location.pathname]);
 
   return (

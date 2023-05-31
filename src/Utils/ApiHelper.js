@@ -1,0 +1,114 @@
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+const withApi = (WrappedComponent) => {
+  const WithApi = (props) => {
+    const [apidata, setApiData] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    // useEffect((url) => {
+    //     console.log(url,"dsadas")
+    //   getData();
+    // }, []);
+    const navigate = useNavigate();
+    const notify = (message) => toast.success(message);
+    const Errornotify = (message) => toast.error(message);
+    function handleError(error) {
+        if (error.response && error.response.status === 401) {
+          navigate("/login");
+          Errornotify("Invalid access token");
+          localStorage.clear();
+        } else if (error.response && error.response.data.status_code === "403") {
+          navigate("/errorpage403");
+        } else if (error.response && error.response.data.message) {
+          const errorMessage = Array.isArray(error.response.data.message)
+            ? error.response.data.message.join(" ")
+            : error.response.data.message;
+            
+          if (errorMessage) {
+            Errornotify(errorMessage);
+          }
+        } else {
+          Errornotify("An error occurred.");
+        }
+      }
+    const axiosInstance = axios.create({
+      baseURL: process.env.REACT_APP_BASE_URL,
+    });
+
+    axiosInstance.interceptors.request.use(
+      (config) => {
+        const token = localStorage.getItem('token');
+        config.headers.Authorization = `Bearer ${token}`;
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
+
+    const getData = async (url, id, formData) => {
+      try {
+        setIsLoading(true);
+        const modifiedUrl = id ? `${url}/${id}` : url; // Append the ID to the URL if it exists
+        const response = await axiosInstance.get(modifiedUrl, { params: formData });
+        const data = response.data;
+        setApiData(data);
+        setIsLoading(false);
+        return response; // Return the response object
+      } catch (error) {
+        handleError(error);
+        setError(error);
+        setIsLoading(false);
+        throw error; // Throw the error to handle it in the calling function
+      }
+    };
+    
+    
+      
+
+      const postData = async (url, body, navigatePath) => {
+        try {
+          setIsLoading(true);
+      
+          const response = await axiosInstance.post(url, body);
+          if (response && response.data) {
+            const data = response.data;
+            console.log(data,""); // Console log the response data
+            setApiData(data);
+            notify(data.message);
+            setIsLoading(false);
+            navigate(navigatePath); // Navigate to the specified dynamic path
+          } else {
+            // Handle the case where the response or response.data is undefined
+            throw new Error("Invalid response");
+          }
+        } catch (error) {
+          handleError(error);
+          setError(error);
+          setIsLoading(false);
+        }
+      };
+      
+      
+
+    return (
+      <WrappedComponent
+        apidata={apidata}
+        isLoading={isLoading}
+        error={error}
+        getData={getData}
+        postData={postData}
+      
+        {...props}
+      />
+    );
+  };
+
+  return WithApi;
+};
+
+export default withApi;

@@ -10,8 +10,11 @@ import Swal from "sweetalert2";
 import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import withApi from "../../../Utils/ApiHelper";
+import Loaderimg from "../../../Utils/Loader";
 
-export default function ManageCompany() {
+const ManageCompany = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
   const navigate = useNavigate();
   const handleDelete = (id) => {
@@ -25,7 +28,6 @@ export default function ManageCompany() {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(id, "isConfirmed");
         const token = localStorage.getItem("token");
 
         const formData = new FormData();
@@ -40,7 +42,7 @@ export default function ManageCompany() {
         });
         const DeleteRole = async () => {
           try {
-            const response = await axiosInstance.post("company/delete", formData);
+            const response = await axiosInstance.post("/company/delete", formData);
             setData(response.data.data);
             Swal.fire({
               title: "Deleted!",
@@ -48,15 +50,12 @@ export default function ManageCompany() {
               icon: "success",
               confirmButtonText: "OK",
             });
-            fetchData();
+            FetchTableData();
           } catch (error) {
-            console.error(error);
-            const message = error.response
-              ? error.response.data.message
-              : "Unknown error occurred";
-            ErrorAlert(message);
+            handleError(error);
+          } finally {
           }
-          // setLoading(false);
+          // setIsLoading(false);
         };
         DeleteRole();
       }
@@ -75,70 +74,55 @@ export default function ManageCompany() {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-        ErrorAlert(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
-  const formData = new FormData();
-  const toggleActive = (row) => {
+
+ 
+    const toggleActive = (row) => {
+    const formData = new FormData();
     formData.append("id", row.id);
-
-    if (row.status === 1) {
-      formData.append("status", 0);
-    } else if (row.status === 0) {
-      formData.append("status", 1);
-    }
-
-    ToggleStatus();
-  };
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const ToggleStatus = async () => {
-    try {
-      const response = await axiosInstance.post("/company/update-status", formData);
-      if (response) {
-        SuccessAlert(response.data.message);
-        fetchData();
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        navigate("/login");
-        ErrorAlert("Invalid access token");
-        localStorage.clear();
-      } else if (error.response && error.response.data.status_code === "403") {
-        navigate("/errorpage403");
-      } else {
-        const errorMessage =
-          error.response && error.response.message
-            ? error.response.message
-            : "An error occurred";
-            ErrorAlert(errorMessage);
-      }
-    }
-  };
-
-  useEffect(() => {
   
-
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
+    const newStatus = row.status === 1 ? 0 : 1;
+    formData.append("status", newStatus);
+  
+    ToggleStatus(formData);
+  };
+  
+  const ToggleStatus = async (formData) => {
     try {
-      const response = await axiosInstance.post("/company/list");
-      if (response.data.data.companies.length > 0) {
-        setData(response.data.data.companies);
-
-        // SuccessAlert(response.data.message)
+      const response = await postData("/company/update-status", formData);
+      console.log(response, "response"); // Console log the response
+      if (apidata.api_response === "success") {
+        FetchTableData();
       }
     } catch (error) {
       handleError(error);
     }
   };
+
+  useEffect(() => {
+    FetchTableData();
+  }, []);
+
+
+  const FetchTableData = async () => {
+    try {
+      const response = await getData("/company/list");
+      console.log(response.data.data, "ddd");
+
+      if (response && response.data && response.data.data.companies) {
+        setData(response.data.data.companies);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+
+
   const handleEdit = (row) => {
     localStorage.setItem("Company_id", row.id);
     localStorage.setItem("Company_Client_id", row.client_id);
@@ -259,10 +243,12 @@ export default function ManageCompany() {
     data,
   };
 
-
-
   return (
     <>
+    {isLoading ? (
+    <Loaderimg/>
+    ) : (
+      <>
       <div className="page-header ">
         <div>
           <h1 className="page-title">Manage Company</h1>
@@ -305,6 +291,9 @@ export default function ManageCompany() {
           searchable={true}
         />
       </DataTableExtensions>
+      </>
+      )}
     </>
   );
-}
+};
+export default withApi(ManageCompany);

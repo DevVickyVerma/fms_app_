@@ -20,13 +20,16 @@ import DatePicker, { Calendar } from "react-multi-date-picker";
 import { useFormikContext } from "formik";
 import "react-datepicker/dist/react-datepicker.css";
 import * as loderdata from "../../../data/Component/loderdata/loderdata";
+import withApi from "../../../Utils/ApiHelper";
 
-export default function AddClient() {
+
+  const AddClient = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
   // const { setFieldValue } = useFormikContext();
 
   const navigate = useNavigate();
  
-  const [isLoading, setIsLoading] = useState(false);
+
 
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
@@ -57,65 +60,38 @@ export default function AddClient() {
 
  
   const handleSubmit1 = async (values, setSubmitting) => {
-    setIsLoading(true);
-    const token = localStorage.getItem("token");
-  
-    const formData = new FormData();
-    formData.append("email", values.email);
-    formData.append("password", values.password);
-    formData.append("first_name", values.first_name);
-    formData.append("last_name", values.last_name);
-  
-    formData.append("client_code", values.client_code);
-    formData.append("financial_start_month", values.financial_start_month);
-    formData.append("financial_end_month", values.financial_end_month);
-    formData.append("lommis_status", values.lommis_status);
-    formData.append("role_name", "Client");
-    formData.append("send_mail", isChecked);
-  
-    formData.append("ma_option", JSON.stringify(selectedItems));
-  
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/add-user`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
+      setSubmitting(true); // Set the submission state to true before making the API call
   
-      const apiResponse = await response.json(); // Parse the API response
+      const formData = new FormData();
+      formData.append("email", values.email);
+      formData.append("password", values.password);
+      formData.append("first_name", values.first_name);
+      formData.append("last_name", values.last_name);
+      formData.append("client_code", values.client_code);
+      formData.append("financial_start_month", values.financial_start_month);
+      formData.append("financial_end_month", values.financial_end_month);
+      formData.append("lommis_status", values.lommis_status);
+      formData.append("role_name", "Client");
+      formData.append("send_mail", isChecked);
+      formData.append("ma_option", JSON.stringify(selectedItems));
   
-      if (apiResponse.api_response === "error") {
-        if (apiResponse.data && apiResponse.data.message && Array.isArray(apiResponse.data.message)) {
-          // Handle multiple error messages
-          apiResponse.data.message.forEach((errorMsg) => {
-            Errornotify(errorMsg);
-          });
-        } else if (apiResponse.message) {
-          // Handle single error message
-          Errornotify(apiResponse.message);
-        } else {
-          throw new Error("An error occurred.");
-        }
-      } else {
-        notify(apiResponse.message);
-        navigate("/clients");
-      }
+      const postDataUrl = "/add-user";
+      const navigatePath = "/clients";
+  
+      await postData(postDataUrl, formData, navigatePath);
+  
+      setSubmitting(false); // Set the submission state to false after the API call is completed
     } catch (error) {
       handleError(error);
-    } finally {
-      setIsLoading(false); // Set isLoading to false regardless of the outcome
-      setSubmitting(false);
+      setSubmitting(false); // Set the submission state to false if an error occurs
     }
   };
   
   
   
-  const [isChecked, setIsChecked] = useState(false);
+  
+const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxChange1 = (event) => {
     setIsChecked(event.target.checked);
@@ -586,3 +562,4 @@ export default function AddClient() {
     </>
   );
 }
+export default withApi(AddClient);

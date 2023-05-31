@@ -18,8 +18,13 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import DatePicker from "react-multi-date-picker";
+import withApi from "../../../Utils/ApiHelper";
+import Loaderimg from "../../../Utils/Loader";
 
-export default function AddSite() {
+
+  
+  const EditBussiness = (props) => {
+    const { apidata, isLoading, error, getData, postData } = props;
   const navigate = useNavigate();
 
   const [AddSiteData, setAddSiteData] = useState([]);
@@ -89,42 +94,66 @@ export default function AddSite() {
     },
   });
 
-  const handleSubmit = async (values) => {
-    const token = localStorage.getItem("token");
+  // const handleSubmit = async (values) => {
+  //   const token = localStorage.getItem("token");
 
-    const formData = new FormData();
-    console.log(formData, "formData");
+  //   const formData = new FormData();
+  //   console.log(formData, "formData");
 
-    formData.append("business_name", values.business_name);
-    formData.append("slug", values.slug);
-    formData.append("status", values.status);
-    formData.append("id", values.id);
+  //   formData.append("business_name", values.business_name);
+  //   formData.append("slug", values.slug);
+  //   formData.append("status", values.status);
+  //   formData.append("id", values.id);
   
     
 
+  //   try {
+  //     const response = await fetch(
+  //       `${process.env.REACT_APP_BASE_URL}/business/update-type`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         body: formData,
+  //       }
+  //     );
+
+  //     const data = await response.json();
+
+  //     if (response.ok) {
+  //       notify(data.message);
+  //       navigate("/business");
+  //     } else {
+  //       Errornotify(data.message);
+  //     }
+  //   } catch (error) {
+  //     handleError(error);
+  //   }
+  // };
+  
+  const handleSubmit = async (values) => {
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/business/update-type`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
+     
+ 
+      const formData = new FormData();
+      console.log(formData, "formData");
+  
+      formData.append("business_name", values.business_name);
+      formData.append("slug", values.slug);
+      formData.append("status", values.status);
+      formData.append("id", values.id);
 
-      const data = await response.json();
-
-      if (response.ok) {
-        notify(data.message);
-        navigate("/business");
-      } else {
-        Errornotify(data.message);
-      }
-    } catch (error) {
-      handleError(error);
-    }
+    const postDataUrl = "/business/update-type";
+    const navigatePath = "/business";
+  
+    await postData(postDataUrl, formData, navigatePath);
+  
+   ; // Set the submission state to false after the API call is completed
+  } catch (error) {
+    handleError(error);
+ ; // Set the submission state to false if an error occurs
+  }
   };
 
   const formik = useFormik({
@@ -164,6 +193,11 @@ export default function AddSite() {
   };
 
   return (
+    <>
+    {isLoading ? (
+      <Loaderimg/>
+    ) :(
+      <>
     <div>
       <div className="page-header">
         <div>
@@ -199,13 +233,13 @@ export default function AddSite() {
         <Col lg={12} xl={12} md={12} sm={12}>
           <Card>
             <Card.Header>
-              <Card.Title as="h3">Edit Company</Card.Title>
+              <Card.Title as="h3">Edit Business</Card.Title>
             </Card.Header>
 
             <div class="card-body">
               <form onSubmit={formik.handleSubmit}>
                 <Row>
-                  <Col lg={4} md={6}>
+                  <Col lg={6} md={6}>
                     <div className="form-group">
                       <label
                         className="form-label mt-4"
@@ -235,7 +269,7 @@ export default function AddSite() {
                         )}
                     </div>
                   </Col>
-                  <Col lg={4} md={6}>
+                  <Col lg={6} md={6}>
                     <div className="form-group">
                       <label className="form-label mt-4" htmlFor="slug">
                         Slug<span className="text-danger">*</span>
@@ -261,10 +295,10 @@ export default function AddSite() {
                     </div>
                   </Col>
 
-                  <Col lg={4} md={6}>
+                  <Col lg={6} md={6}>
                     <div className="form-group">
                       <label htmlFor="status" className="form-label mt-4">
-                        status <span className="text-danger">*</span>
+                        Status <span className="text-danger">*</span>
                       </label>
                       <select
                         className={`input101 ${
@@ -279,7 +313,7 @@ export default function AddSite() {
                       >
                         <option value="">Select a Status</option>
                         <option value="1">Active</option>
-                            <option value="0">InActive</option>
+                            <option value="0">Inactive</option>
                       </select>
                       {formik.errors.status && formik.touched.status && (
                         <div className="invalid-feedback">
@@ -293,7 +327,7 @@ export default function AddSite() {
                   <Link
                     type="sussbmit"
                     className="btn btn-danger me-2 "
-                    to={`/managecompany/`}
+                    to={`/business/`}
                   >
                     Cancel
                   </Link>
@@ -308,5 +342,9 @@ export default function AddSite() {
         </Col>
       </Row>
     </div>
+    </>
+      )}
+    </>
   );
 }
+export default withApi(EditBussiness);

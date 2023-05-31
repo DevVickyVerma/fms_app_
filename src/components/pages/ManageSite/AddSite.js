@@ -58,15 +58,7 @@ export default function AddSite() {
         Authorization: `Bearer ${token}`,
       },
     });
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.post("/role/list");
-        setDropdownItems(response.data.data.addons);
-        console.log(response.data.data.addons);
-      } catch (error) {
-        handleError(error)
-      }
-    };
+  
     const GetSiteData = async () => {
       try {
         const response = await axiosInstance.get("site/common-data-list");
@@ -80,7 +72,7 @@ export default function AddSite() {
     };
     try {
       GetSiteData();
-      fetchData();
+     
     } catch (error) {
       handleError(error)
     }

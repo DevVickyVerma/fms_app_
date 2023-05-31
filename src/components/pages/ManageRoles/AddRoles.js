@@ -20,8 +20,12 @@ import * as Yup from "yup";
 
 import axios from "axios";
 import { toast } from "react-toastify";
+import withApi from "../../../Utils/ApiHelper";
+import Loaderimg from "../../../Utils/Loader";
 
-export default function AddRoles() {
+
+  const AddRoles = (props) => {
+    const { apidata, isLoading, error, getData, postData } = props;
   const [permissions, setPermissions] = useState([]);
 
   const [userpermissions, setUserPermissions] = useState([]);
@@ -43,59 +47,50 @@ export default function AddRoles() {
     }
   }
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    FetchTableData()
+  }, []);
+  const FetchTableData = async () => {
+    try {
+      const response = await getData("/permission-list")
+      console.log(response.data.data, "ddd");
 
-    axiosInstance
-      .post("/permission-list")
-      .then((response) => {
+      if (response && response.data && response.data) {
         setUserPermissions(response.data.data);
         setPermissions(response.data);
-
-        console.clear();
-      })
-      .catch((error) => {
-        handleError(error)
-      });
-  }, []);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
 
   const handleSubmit = async (values) => {
-    const body = {
+    try {
+     
+    const formData = {
       name: values.name,
       permissions: values.permissions,
     };
 
-    const token = localStorage.getItem("token");
-
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/role/create`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      }
-    );
-
-    const data = await response.json();
-
-    if (response.ok) {
-      SuccessAlert(data.message);
-      navigate("/roles");
-    } else {
-      ErrorAlert(data.message);
-    }
+    const postDataUrl = "/role/create";
+    const navigatePath = "/roles";
+  
+    await postData(postDataUrl, formData, navigatePath);
+  
+   ; // Set the submission state to false after the API call is completed
+  } catch (error) {
+    handleError(error);
+ ; // Set the submission state to false if an error occurs
+  }
   };
 
   return (
     <>
+    {isLoading ? (
+      <Loaderimg/>
+    ) :(
+      <>
       <div className="page-header ">
         <div>
           <h1 className="page-title">Add Role</h1>
@@ -269,6 +264,10 @@ export default function AddRoles() {
           </Card>
         </div>
       </Row>
+      </>
+      )}
     </>
   );
 }
+
+  export default withApi(AddRoles);

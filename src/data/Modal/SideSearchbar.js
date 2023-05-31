@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Loaderimg from "../../Utils/Loader";
 
 const SideSearchbar = (props) => {
   const {
@@ -19,6 +20,7 @@ const SideSearchbar = (props) => {
   const [start_date, setStartDate] = useState("");
   const [end_date, setEndDate] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+    const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     if (searchListstatus) {
@@ -28,32 +30,47 @@ const SideSearchbar = (props) => {
     }
   }, [onSubmit]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (start_date && !end_date) {
-      setErrorMessage("Please select an end date");
-      return;
-    }
+const handleSubmit = async (event) => {
+  event.preventDefault();
 
-    // Check if the end date is selected but the start date is not
-    if (!start_date && end_date) {
-      setErrorMessage("Please select a start date");
-      return;
-    }
-    setErrorMessage("");
-    const formData = {
-      keyword,
-      start_date,
-      end_date,
-    };
-    // console.log("Search Query:", keyword);
-    // console.log("Start Date:", start_date);
-    // console.log("End Date:", end_date);
-    onSubmit(formData);
-  
+  if (start_date && !end_date) {
+    setErrorMessage("Please select an end date");
+    return;
+  }
+
+  if (!start_date && end_date) {
+    setErrorMessage("Please select a start date");
+    return;
+  }
+
+  setErrorMessage("");
+  setLoading(true); // Set loading state to true
+
+  const formData = {
+    keyword,
+    start_date,
+    end_date,
   };
 
+  try {
+    // Perform your form submission or API request here
+    // Example: await axiosInstance.post("/submit-form", formData);
+    await onSubmit(formData);
+  } catch (error) {
+    // Handle any errors that occurred during the form submission or API request
+    console.error("Error:", error);
+  } finally {
+    setLoading(false); // Set loading state to false
+  }
+};
+
+
   return (
+      <>
+    {isLoading ? (
+     <Loaderimg/>
+    ) : (
+      <>
     <div className={`common-sidebar ${visible ? "visible" : ""}`}>
       <div className="card">
         <div className="card-header text-center SidebarSearchheader">
@@ -122,6 +139,9 @@ const SideSearchbar = (props) => {
         </div>
       </div>
     </div>
+    </>
+      )}
+    </>
   );
 };
 

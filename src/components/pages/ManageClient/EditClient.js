@@ -20,6 +20,7 @@ import { Link, useNavigate } from "react-router-dom";
 import DatePicker from "react-multi-date-picker";
 
 export default function AddSite() {
+  
   const navigate = useNavigate();
 
   const [AddSiteData, setAddSiteData] = useState([]);
@@ -623,7 +624,7 @@ export default function AddSite() {
                   <Link
                     type="sussbmit"
                     className="btn btn-danger me-2 "
-                    to={`/managecompany/`}
+                    to={`/clients/`}
                   >
                     Cancel
                   </Link>

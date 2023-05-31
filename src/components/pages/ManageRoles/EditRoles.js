@@ -19,8 +19,12 @@ import * as Yup from "yup";
 
 import axios from "axios";
 import { toast } from "react-toastify";
+import withApi from "../../../Utils/ApiHelper";
+import Loaderimg from "../../../Utils/Loader";
 
-export default function EditRoles() {
+const EditRoles = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
+
   const [permissions, setPermissions] = useState([]);
   const [addonitem, setAddonitem] = useState([]);
   const [userpermissions, setUserPermissions] = useState([]);
@@ -47,52 +51,42 @@ export default function EditRoles() {
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const EditRoleId = localStorage.getItem("EditRoleID");
-    const formData = new FormData();
-    formData.append("role_id", EditRoleId);
-
-    axiosInstance
-      .post("/role/detail", formData)
-      .then((response) => {
-        if (response) {
-          const { data } = response;
-
-         
-
-          for (const key of Object.keys(data.data.permissions)) {
-            let array = [];
-            for (const item of data?.data?.permissions[key].names) {
-              if (item.checked) {
-                array.push(item.name);
-              }
-            }
-            setPermissionArray((prevState) => [
-              ...new Set([...prevState, ...array]),
-            ]);
-          }
-        }
-
-        // setUserPermissions(response.data.data.permissions);
-        setPermissions(response.data.data.permissions);
-      })
-      .catch((error) => {
-        handleError(error);
-      });
+    FetchPermisionList();
     console.clear();
   }, []);
+  const FetchPermisionList = async () => {
+    try {
+      const EditRoleId = localStorage.getItem("EditRoleID");
+      const formData = new FormData();
+      formData.append("role_id", EditRoleId);
+      const response = await getData("/role/detail", EditRoleId, formData);
+      console.log(response.data.data, "ddd");
+      if (response && response.data) {
+        const { data } = response.data;
+
+        for (const key of Object.keys(data.permissions)) {
+          let array = [];
+          for (const item of data.permissions[key].names) {
+            if (item.checked) {
+              array.push(item.name);
+            }
+          }
+          setPermissionArray((prevState) => [
+            ...new Set([...prevState, ...array]),
+          ]);
+        }
+        setPermissions(data.permissions);
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
 
   const handleSubmit = async (values) => {
     const body = {
       name: values.name,
       permissions: values.permissions,
-     
+
       role_id: localStorage.getItem("EditRoleID"),
     };
 
@@ -122,6 +116,10 @@ export default function EditRoles() {
 
   return (
     <>
+    {isLoading ? (
+      <Loaderimg/>
+    ) :(
+      <>
       <div className="page-header ">
         <div>
           <h1 className="page-title">Edit Role</h1>
@@ -163,7 +161,6 @@ export default function EditRoles() {
                     initialValues={{
                       name: localStorage.getItem("EditRole_name") || "",
                       permissions: [],
-                     
                     }}
                     validationSchema={Yup.object().shape({
                       name: Yup.string()
@@ -185,7 +182,6 @@ export default function EditRoles() {
                       permissions: Yup.array()
                         .required("At least one role is required")
                         .min(1, "At least one role is required"),
-                     
                     })}
                     onSubmit={(values, { setSubmitting }) => {
                       handleSubmit(values);
@@ -210,14 +206,16 @@ export default function EditRoles() {
                             className="invalid-feedback"
                           />
                         </div>
-                     
+
                         <div className="form-group">
                           <div>
                             <div className="table-heading">
-                              <h2>Permissions</h2>
-                              <span className="text-danger danger-title">
-                                * Atleast One Permission is Required
-                              </span>
+                              <h2>
+                                Permissions
+                                <span className="text-danger danger-title">
+                                  * Atleast One Permission is Required{" "}
+                                </span>
+                              </h2>
                             </div>
                             {Object.keys(permissions).length > 0 ? (
                               Object.keys(permissions).map((heading) => (
@@ -340,6 +338,9 @@ export default function EditRoles() {
           </Card>
         </div>
       </Row>
+      </>
+      )}
     </>
   );
-}
+};
+export default withApi(EditRoles);
