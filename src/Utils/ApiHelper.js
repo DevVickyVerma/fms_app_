@@ -14,12 +14,20 @@ const withApi = (WrappedComponent) => {
     //   getData();
     // }, []);
     const navigate = useNavigate();
-    const notify = (message) => toast.success(message);
-    const Errornotify = (message) => toast.error(message);
+    const SuccessToast = (message) => {
+      toast.success(message, {
+        autoClose: 1000, // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+      });
+    };
+    const ErrorToast = (message) => {
+      toast.error(message, {
+        autoClose: 1000, // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+      });
+    };
     function handleError(error) {
         if (error.response && error.response.status === 401) {
           navigate("/login");
-          Errornotify("Invalid access token");
+          ErrorToast("Invalid access token");
           localStorage.clear();
         } else if (error.response && error.response.data.status_code === "403") {
           navigate("/errorpage403");
@@ -29,10 +37,10 @@ const withApi = (WrappedComponent) => {
             : error.response.data.message;
             
           if (errorMessage) {
-            Errornotify(errorMessage);
+            ErrorToast(errorMessage);
           }
         } else {
-          Errornotify("An error occurred.");
+          ErrorToast("An error occurred.");
         }
       }
     const axiosInstance = axios.create({
@@ -79,7 +87,7 @@ const withApi = (WrappedComponent) => {
             const data = response.data;
             console.log(data,""); // Console log the response data
             setApiData(data);
-            notify(data.message);
+            SuccessToast(data.message);
             setIsLoading(false);
             navigate(navigatePath); // Navigate to the specified dynamic path
           } else {
