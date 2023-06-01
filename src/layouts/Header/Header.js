@@ -4,44 +4,36 @@ import { Dropdown, Navbar, Container, Button } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import * as loderdata from "../../data/Component/loderdata/loderdata";
+import withApi from "../../Utils/ApiHelper";
 
-
-
-export function Header() {
+const Header = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState("");
-
 
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
   const [loading, setLoading] = useState(false);
-  const logout = async () => {
-    const token = localStorage.getItem("token");
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/logout`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
 
-    const data = await response.json();
+  const logout = async (row) => {
+    try {
+      const response = await getData("/logout");
 
-    if (response.ok) {
-      localStorage.clear();
+      if (response.data.api_response === "success") {
+        localStorage.clear();
 
-      setTimeout(() => {
-        window.location.replace("/");
-      }, 500);
-      SuccessAlert(data.message);
-    } else {
-      ErrorAlert(data.message);
-      setTimeout(() => {
-        window.location.replace("/");
-      }, 500);
-      localStorage.clear();
+        setTimeout(() => {
+          window.location.replace("/");
+        }, 500);
+
+        SuccessAlert(response.data.message);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+      // Handle the error here, such as displaying an error message or performing other actions
     }
   };
-
-
 
   //full screen
   function Fullscreen() {
@@ -91,10 +83,8 @@ export function Header() {
   //   document.querySelector(".demo_changer").style.right = "0px";
   // };
 
-
   return (
     <Navbar expand="md" className="app-header header sticky">
-    
       {loading && <loderdata.Loadersbigsizes1 />}
       <Container fluid className="main-container">
         <div className="d-flex align-items-center">
@@ -303,12 +293,12 @@ export function Header() {
                         <i className="dropdown-icon fe fe-user"></i> Edit
                         Profile
                       </Dropdown.Item>
-                      <Dropdown.Item as={Link} to="/editprofile" >
+                      <Dropdown.Item as={Link} to="/editprofile">
                         <i className="dropdown-icon fe fe-user"></i>Change
                         Password
                       </Dropdown.Item>
 
-                      <Dropdown.Item as={Link} to="/settings" >
+                      <Dropdown.Item as={Link} to="/settings">
                         <i className="dropdown-icon fe fe-settings"></i>
                         Settings
                       </Dropdown.Item>
@@ -331,6 +321,6 @@ export function Header() {
       </Container>
     </Navbar>
   );
-}
+};
 
-export default Header;
+export default withApi(Header);

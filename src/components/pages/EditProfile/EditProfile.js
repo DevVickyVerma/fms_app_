@@ -55,33 +55,7 @@ export default function EditProfile() {
     }
   }
 
-  // const handlesubmit = async (values) => {
-  //   const token = localStorage.getItem("token");
 
-  //   const formData = new FormData();
-  //   formData.append("old_password", values.old_password);
-  //   formData.append("password", values.password);
-  //   formData.append("password_confirmation", values.password_confirmation);
-
-  //   const response = await fetch(
-  //     `${process.env.REACT_APP_BASE_URL}/update/password`,
-  //     {
-  //       method: "POST",
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       body: formData,
-  //     }
-  //   );
-
-  //   const data = await response.json();
-
-  //   if (response.ok) {
-  //     notify(data.message);
-  //   } else {
-  //     Errornotify(data.message);
-  //   }
-  // };
 
   const handlesubmit = async (values) => {
     try {

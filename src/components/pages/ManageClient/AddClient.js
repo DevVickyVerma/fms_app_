@@ -331,7 +331,7 @@ const [isChecked, setIsChecked] = useState(false);
                           >
                             <option value="">Select a Status</option>
                             <option value="1">Active</option>
-                            <option value="0">InActive</option>
+                            <option value="0">Inactive</option>
                           </Field>
                           <ErrorMessage
                             component="div"
@@ -538,7 +538,7 @@ const [isChecked, setIsChecked] = useState(false);
                     <Link
                       type="submit"
                       className="btn btn-danger me-2 "
-                      to={`/sites/`}
+                      to={`/clients/`}
                     >
                       Cancel
                     </Link>

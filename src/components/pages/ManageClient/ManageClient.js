@@ -24,7 +24,7 @@ const ManageClient = (props) => {
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [activeArray, setActiveArray] = useState([]);
   const [SearchList, setSearchList] = useState(false);
- 
+
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -32,16 +32,15 @@ const ManageClient = (props) => {
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel", 
+      cancelButtonText: "Cancel",
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-      const formData = new FormData();
-      formData.append("id", id);
-      DeleteClient(formData)
-
+        const formData = new FormData();
+        formData.append("id", id);
+        DeleteClient(formData);
       }
-   });
+    });
   };
   const DeleteClient = async (formData) => {
     try {
@@ -54,7 +53,6 @@ const ManageClient = (props) => {
       handleError(error);
     }
   };
-  
 
   const handleSearchReset = () => {
     handleFetchData();
@@ -100,10 +98,16 @@ const ManageClient = (props) => {
       });
       const SearchList = async () => {
         try {
-          const response = await axiosInstance.post("/client-list", formData);
+          const params = new URLSearchParams(formData).toString(); // Convert form data to query string
+          const url = `/client-list?${params}`; // Append query string to the URL
 
-          setData(response.data.data);
-          alert("hi")
+          const response = await axiosInstance.get(url);
+
+          if (response && response.data && response.data.data) {
+            setData(response.data.data.clients);
+          } else {
+            throw new Error("No data found");
+          }
         } catch (error) {
           console.error(error);
           const message = error.response
@@ -112,16 +116,14 @@ const ManageClient = (props) => {
           Errornotify(message);
         }
       };
+
+
       SearchList();
     }
-
-    // Clear the form input values
-    // Resetting the formData to an empty object
 
     handleToggleSidebar1();
   };
 
- 
   useEffect(() => {
     handleFetchData();
   }, []);
@@ -140,30 +142,30 @@ const ManageClient = (props) => {
       console.error("API error:", error);
     }
   };
-  
+
   // const toggleActive = (row) => {
   //   const formData = new FormData();
   //   formData.append("user_id", row.id);
-  
+
   //   if (row.status === 1) {
   //     formData.append("status", 0);
   //   } else if (row.status === 0) {
   //     formData.append("status", 1);
   //   }
-  
+
   //   ToggleStatus(formData);
   // };
-  
+
   const toggleActive = (row) => {
     const formData = new FormData();
     formData.append("user_id", row.id);
-  
+
     const newStatus = row.status === 1 ? 0 : 1;
     formData.append("status", newStatus);
-  
+
     ToggleStatus(formData);
   };
-  
+
   const ToggleStatus = async (formData) => {
     try {
       const response = await postData("/update-status", formData);
@@ -175,19 +177,14 @@ const ManageClient = (props) => {
       handleError(error);
     }
   };
-  
-  
 
-  
-  
-  
   const handleEdit = (row) => {
     localStorage.setItem("Client_id", row.id);
   };
 
   const columns = [
     {
-      name: "S.NO",
+      name: "S.No",
       selector: (row, index) => index + 1,
       sortable: false,
       width: "10%",
@@ -260,7 +257,7 @@ const ManageClient = (props) => {
       ),
     },
     {
-      name: "ACTION",
+      name: "Action",
       selector: (row) => [row.action],
       sortable: false,
       width: "20%",

@@ -181,7 +181,7 @@ const ManageBusinessTypes = (props) => {
       ),
     },
     {
-      name: "ACTION",
+      name: "Action",
       selector: (row) => [row.action],
       sortable: false,
       width: "20%",

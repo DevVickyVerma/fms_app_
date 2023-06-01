@@ -18,9 +18,11 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import DatePicker from "react-multi-date-picker";
+import withApi from "../../../Utils/ApiHelper";
 
-export default function AddSite() {
-  
+const EditClient = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
+
   const navigate = useNavigate();
 
   const [AddSiteData, setAddSiteData] = useState([]);
@@ -47,42 +49,6 @@ export default function AddSite() {
     }
   }
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   const Company_Client_id = localStorage.getItem("Company_Client_id");
-  //   const Company_id = localStorage.getItem("Company_id");
-
-  //   const formData = new FormData();
-
-  //   formData.append("client_id", Company_Client_id);
-  //   formData.append("company_id", Company_id);
-
-  //   const axiosInstance = axios.create({
-  //     baseURL: process.env.REACT_APP_BASE_URL,
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axiosInstance.post("/company/detail", formData);
-  //       if (response) {
-  //         console.log(response.data.data);
-  //         setEditSiteData(response.data.data);
-  //         formik.setValues(response.data.data);
-  //       }
-  //     } catch (error) {
-  //       handleError(error);
-  //     }
-  //   };
-
-  //   try {
-  //     fetchData();
-  //   } catch (error) {
-  //     handleError(error);
-  //   }
-  //   // console.clear()
-  // }, []);
   useEffect(() => {
     fetchClientList();
     console.clear();
@@ -116,46 +82,33 @@ export default function AddSite() {
     }
   };
 
-  const handleSubmit = (values) => {
-    const token = localStorage.getItem("token");
-  
-    const formData = new FormData();
-  
-    formData.append("client_code", values.client_code);
-    formData.append("client_id", values.client_id);
-    formData.append("created_date", values.created_date);
-    formData.append("first_name", values.first_name);
-    formData.append("financial_end_month", values.financial_end_month);
-    formData.append("financial_start_month", values.financial_start_month);
-    formData.append("last_name", values.last_name);
-    formData.append("email", values.email);
-    formData.append("password", values.first_name);
-    formData.append("status", values.status);
-    formData.append("loomis_status", values.loomis_status);
-    formData.append("full_name", values.full_name);
-    formData.append("id", values.id);
-    formData.append("ma_option", values.ma_option);
-  
-    fetch(`${process.env.REACT_APP_BASE_URL}/update-client`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        notify(data.message);
-        navigate("/clients")
-      })
-      .catch((error) => {
-        handleError(error);
-      });
+  const handleSubmit = async (values) => {
+    try {
+      const formData = new FormData();
+
+      formData.append("client_code", values.client_code);
+      formData.append("client_id", values.client_id);
+      formData.append("created_date", values.created_date);
+      formData.append("first_name", values.first_name);
+      formData.append("financial_end_month", values.financial_end_month);
+      formData.append("financial_start_month", values.financial_start_month);
+      formData.append("last_name", values.last_name);
+      formData.append("email", values.email);
+      formData.append("password", values.first_name);
+      formData.append("status", values.status);
+      formData.append("loomis_status", values.loomis_status);
+      formData.append("full_name", values.full_name);
+      formData.append("id", values.id);
+      formData.append("ma_option", values.ma_option);
+
+      const postDataUrl = "/update-client";
+      const navigatePath = "/clients";
+
+      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
+    } catch (error) {
+      console.log(error); // Set the submission state to false if an error occurs
+    }
   };
-  
-  
 
   // const handleSubmit = (values) => {
 
@@ -179,6 +132,7 @@ export default function AddSite() {
     validationSchema: Yup.object({
       client_code: Yup.string()
         .max(20, "Must be 20 characters or less")
+        // .min(10, "The client code must be 10 digits")
         .required("Client Code is required"),
       // client_name: Yup.string()
       //   .max(20, "Must be 20 characters or less")
@@ -208,8 +162,6 @@ export default function AddSite() {
       // console.log(values);
     },
   });
-
-  const isInvalid = formik.errors && formik.touched.name ? "is-invalid" : "";
 
   return (
     <div>
@@ -268,7 +220,7 @@ export default function AddSite() {
                             ? "is-invalid"
                             : ""
                         }`}
-                        placeholder="Company Code"
+                        placeholder="Client Code"
                         onChange={formik.handleChange}
                         value={formik.values.client_code || ""}
                       />
@@ -345,8 +297,9 @@ export default function AddSite() {
                         id="email"
                         name="email"
                         placeholder="Company Name"
-                        onChange={formik.handleChange}
+                        // onChange={formik.handleChange}
                         value={formik.values.email || ""}
+                        readonly
                       />
                       {formik.errors.email && formik.touched.email && (
                         <div className="invalid-feedback">
@@ -399,7 +352,7 @@ export default function AddSite() {
                       >
                         <option value="">Select a status</option>
                         <option value="1">Active</option>
-                            <option value="0">InActive</option>
+                        <option value="0">Inactive</option>
                       </select>
                       {formik.errors.status && formik.touched.status && (
                         <div className="invalid-feedback">
@@ -517,7 +470,7 @@ export default function AddSite() {
                         <option value="">Select a Lommis Status</option>
 
                         <option value="1">Active</option>
-                            <option value="0">InActive</option>
+                        <option value="0">Inactive</option>
                       </select>
                       {formik.errors.loomis_status &&
                         formik.touched.loomis_status && (
@@ -640,4 +593,6 @@ export default function AddSite() {
       </Row>
     </div>
   );
-}
+};
+
+export default withApi(EditClient);

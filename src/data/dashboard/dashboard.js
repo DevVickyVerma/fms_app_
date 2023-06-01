@@ -209,7 +209,7 @@ export const Productsales=()=>{
       cell: row=><span className={`text-${row.color} fs-15 fw-semibold`}>{row.status}</span>
     },
     {
-      name: "ACTION",
+      name: "Action",
       selector: row => [row.action],
       sortable: true,
       cell: row =><span className="">

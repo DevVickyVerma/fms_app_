@@ -9,7 +9,6 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 import { toast } from "react-toastify";
-import { Switch } from "@material-ui/core";
 import SiteDetails from "../../../data/Modal/SiteDetails";
 import CommonSidebar from "../../../data/Modal/CommonSidebar";
 import SideSearchbar from "../../../data/Modal/SideSearchbar";
@@ -22,8 +21,7 @@ const ManageSite = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
   const [data, setData] = useState();
-  const [isChecked, setIsChecked] = useState(true);
-  const [activeArray, setActiveArray] = useState([]);
+
 
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
@@ -65,32 +63,27 @@ const ManageSite = (props) => {
   };
 
   const handleToggleSidebar = async (row) => {
+    await getSiteDetails(row);
     setSideData(row.site_name);
-
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const getSiteDetails = async () => {
-      try {
-        const response = await axiosInstance.get("/site/detail/?id=" + row.id);
-
-        if (response.data && response.data.data) {
-          setSideDataobject(response.data.data);
-        }
-      } catch (error) {
-        handleError(error);
-      }
-    };
-
-    await getSiteDetails();
-
     setSidebarVisible(!sidebarVisible);
   };
+
+  const getSiteDetails = async (row) => {
+    try {
+      const response = await getData("/site/detail/?id=" + row.id);
+      console.log(response.data.data, "ddd");
+  
+      if (response.data && response.data.data) {
+        setSideDataobject(response.data.data);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+      // Handle the error here, such as displaying an error message or performing other actions
+    }
+  };
+  
 
   const handleToggleSidebar1 = () => {
     setSidebarVisible1(!sidebarVisible1);
@@ -158,13 +151,13 @@ const ManageSite = (props) => {
   const toggleActive = (row) => {
     const formData = new FormData();
     formData.append("id", row.id);
-  
+
     const newStatus = row.site_status === 1 ? 0 : 1;
     formData.append("site_status", newStatus);
-  
+
     ToggleStatus(formData);
   };
-  
+
   const ToggleStatus = async (formData) => {
     try {
       const response = await postData("/site/update-status", formData);
@@ -176,8 +169,6 @@ const ManageSite = (props) => {
       handleError(error);
     }
   };
-  
-  
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
@@ -202,13 +193,9 @@ const ManageSite = (props) => {
     }
   };
 
-
-
-
-
   const columns = [
     {
-      name: "S.NO",
+      name: "S.No",
       selector: (row, index) => index + 1,
       sortable: false,
       width: "10%",
@@ -248,14 +235,13 @@ const ManageSite = (props) => {
           return (
             <div className="d-flex" style={{ cursor: "default" }}>
               <div className="ms-2 mt-0 mt-sm-2 d-block">
-                {row.site_owner && row.site_owner? (
+                {row.site_owner && row.site_owner ? (
                   <h6 className="mb-0 fs-14 fw-semibold">
                     {row.site_owner.client_name}
                   </h6>
                 ) : (
                   <h6 className="mb-0 fs-14 fw-semibold">No Client</h6>
                 )}
-               
               </div>
             </div>
           );
@@ -276,7 +262,7 @@ const ManageSite = (props) => {
           return (
             <div className="d-flex" style={{ cursor: "default" }}>
               <div className="ms-2 mt-0 mt-sm-2 d-block">
-              {row.site_owner && row.site_owner? (
+                {row.site_owner && row.site_owner ? (
                   <h6 className="mb-0 fs-14 fw-semibold">
                     {row.site_owner.company_name}
                   </h6>
@@ -344,7 +330,7 @@ const ManageSite = (props) => {
     },
 
     {
-      name: "ACTION",
+      name: "Action",
       selector: (row) => [row.action],
       sortable: false,
       width: "20%",
@@ -451,19 +437,43 @@ const ManageSite = (props) => {
       // };
       // FetchTableData();
 
-      // const SearchList = async () => {
-      //   try {
-      //     const response = await axiosInstance.post("/site/list", formData);
+    //   const SearchList = async () => {
+    //     try {
+    //       const response = await axiosInstance.post("/site/list", formData);
 
-      //     setData(response.data.data.sites);
-      //   } catch (error) {
-      //     const message = error.response
-      //       ? error.response.data.message
-      //       : "Unknown error occurred";
-      //     ErrorAlert(message);
-      //   }
-      // };
-      // SearchList();
+    //       setData(response.data.data.sites);
+    //     } catch (error) {
+    //       const message = error.response
+    //         ? error.response.data.message
+    //         : "Unknown error occurred";
+    //       ErrorAlert(message);
+    //     }
+    //   };
+    //   SearchList();
+    // }
+        const SearchList = async () => {
+        try {
+          const params = new URLSearchParams(formData).toString(); // Convert form data to query string
+          const url = `/site/list?${params}`; // Append query string to the URL
+
+          const response = await axiosInstance.get(url);
+
+          if (response && response.data && response.data.data) {
+            setData(response.data.data.sites);
+          } else {
+            throw new Error("No data found");
+          }
+        } catch (error) {
+          console.error(error);
+          const message = error.response
+            ? error.response.data.message
+            : "Unknown error occurred";
+          Errornotify(message);
+        }
+      };
+
+
+      SearchList();
     }
 
     // Clear the form input values

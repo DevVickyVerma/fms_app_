@@ -130,7 +130,7 @@ const ManageCompany = (props) => {
 
   const columns = [
     {
-      name: "S.NO",
+      name: "S.No",
       selector: (row, index) => index + 1,
       sortable: false,
       width: "10%",
@@ -230,7 +230,7 @@ const ManageCompany = (props) => {
     },
 
     {
-      name: "ACTION",
+      name: "Action",
       selector: (row) => [row.action],
       sortable: false,
       width: "20%",

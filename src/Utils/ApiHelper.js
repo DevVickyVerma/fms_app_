@@ -63,10 +63,15 @@ const withApi = (WrappedComponent) => {
         setIsLoading(true);
         const modifiedUrl = id ? `${url}/${id}` : url; // Append the ID to the URL if it exists
         const response = await axiosInstance.get(modifiedUrl, { params: formData });
-        const data = response.data;
-        setApiData(data);
-        setIsLoading(false);
-        return response; // Return the response object
+    
+        if (response && response.data) {
+          const data = response.data;
+          setApiData(data);
+          setIsLoading(false);
+          return response; // Return the response object
+        } else {
+          throw new Error("Invalid response"); // Handle the case where the response or response.data is undefined
+        }
       } catch (error) {
         handleError(error);
         setError(error);
@@ -74,6 +79,7 @@ const withApi = (WrappedComponent) => {
         throw error; // Throw the error to handle it in the calling function
       }
     };
+    
     
     
       

@@ -176,6 +176,7 @@ const Root = () => {
   const WrappedManageAddon = withApi(ManageAddon);
   const WrappedAddAddon = withApi(AddAddon);
   const WrappeAddEditAddon = withApi(EditAddon);
+  const WrappeHeader = withApi(Header);
   return (
     <Fragment>
       <BrowserRouter>
@@ -232,6 +233,15 @@ const Root = () => {
                   <Route path={`EditAddon`} element={<WrappeAddEditAddon />} />
 
                   {/* Addon  Components End */}
+                  {/* Header  Components Start */}
+                  <Route
+                      path={`/advancedElements/headers`}
+                      element={<WrappeHeader />}
+                    />
+                  {/* Header  Components End */}
+
+
+
 
                   <Route>
                     <Route
@@ -239,10 +249,7 @@ const Root = () => {
                       element={<Accordions />}
                     />
 
-                    <Route
-                      path={`/advancedElements/headers`}
-                      element={<Header />}
-                    />
+               
 
                     <Route
                       path={`/advancedElements/footers`}

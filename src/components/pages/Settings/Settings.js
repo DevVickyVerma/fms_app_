@@ -38,6 +38,7 @@ const validationSchema = Yup.object().shape({
   from_name: Yup.string().required(" From name  is required"),
 });
 
+
 export default function Settings() {
   const [userDetails, setUserDetails] = useState([]);
 
@@ -59,7 +60,7 @@ export default function Settings() {
   const navigate = useNavigate();
   useEffect(() => {
     fetchData();
-    configsetting()
+    configsetting();
   }, []);
 
   const token = localStorage.getItem("token");
@@ -88,20 +89,19 @@ export default function Settings() {
       const response = await axiosInstance.get("/config-setting");
       const { data } = response;
       if (data) {
-        // formik.setValues(response.data.data);
-     
+        formik2.setValues(data.data); // Set field values for formik2
       }
     } catch (error) {
       handleError(error);
     }
   };
-
+  
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
 
   const formik = useFormik({
-    initialValues,
-    validationSchema,
+    initialValues: initialValues, // Replace 'initialValues' with the actual initial values for the first form
+    validationSchema: validationSchema,
     onSubmit: async (values) => {
       const formData = new FormData();
 
@@ -153,6 +153,86 @@ export default function Settings() {
     },
   });
 
+
+  const initialValues2 = {
+    date_format: "",
+    pagination: "",
+  };
+  const validationSchema2 = Yup.object({
+    date_format: Yup.string()
+      .max(15, "Must be 15 characters or less")
+      .required("Date Format is required"),
+  
+    pagination: Yup.string()
+      .matches(
+        /^(?:100|[1-9][0-9]?|0)$/,
+        "Pagination must be a number between 0 and 100"
+      )
+  
+      .required("Pagination is required"),
+  });
+  const handleSubmit2  = async (values) => {
+    const formData = new FormData();
+  
+    if (typeof values === "object") {
+      const keys = Object.keys(values);
+      const valuesArray = Object.values(values);
+  
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        const value = valuesArray[i];
+        const encodedKey = `key[${i}]`;
+        const encodedValue = `value[${i}]`;
+  
+        formData.append(encodedKey, key);
+        formData.append(encodedValue, value);
+      }
+  
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_BASE_URL}/config-setting/update`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: formData,
+          }
+        );
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+          notify(data.message);
+          navigate("/dashboard");
+        } else {
+          Errornotify(data.message);
+        }
+      } catch (error) {
+        handleError(error);
+      }
+    } else {
+      console.error("Values must be an object.");
+    }
+  };
+  const formik2 = useFormik({
+    initialValues: initialValues2,
+    validationSchema: validationSchema2,
+    onSubmit: handleSubmit2,
+  });
+  
+ 
+  
+  const {
+    handleSubmit: handleSubmit2Form,
+    isSubmitting: isSubmitting2,
+    errors: errors2,
+    touched: touched2,
+    handleChange: handleChange2,
+    handleBlur: handleBlur2,
+    values: values2,
+  } = formik2;
+
   const {
     handleSubmit,
     isSubmitting,
@@ -163,12 +243,7 @@ export default function Settings() {
     values,
   } = formik;
 
-  const dateFormatOptions = [
-    "YYYY-MM-DD",
-    "MM/DD/YYYY",
-    "DD-MM-YYYY",
-    // Add more format options as needed
-  ];
+
 
   return (
     <div>
@@ -196,7 +271,7 @@ export default function Settings() {
 
       <Row>
         <Col lg={12} xl={6} md={12} sm={12}>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={formik.handleSubmit}>
             <Card className="profile-edit">
               <Card.Header>
                 <Card.Title as="h3">Smtp Settings</Card.Title>
@@ -371,10 +446,7 @@ export default function Settings() {
         </Col>
         <Col lg={12} xl={6} md={12} sm={12}>
           <Card>
-            <Card.Header>
-              <Card.Title as="h3">Other Settings</Card.Title>
-            </Card.Header>
-            <Formik
+            {/* <Formik
               initialValues={{
                 date_format: "",
                 pagination: "",
@@ -468,12 +540,6 @@ export default function Settings() {
                               setFieldValue("date_format", selectedValue);
                             }}
                           >
-                            {/* <option value="">Select a date format</option>
-                            {dateFormatOptions.map((option) => (
-                              <option key={option} value={option}>
-                                {option}
-                              </option>
-                            ))} */}
                             <option value="">Select a date format</option>
                             <option value="Y-m-d">YYYY-MM-DD</option>
                             <option value="m-d-Y">MM-DD-YYYY </option>
@@ -486,30 +552,7 @@ export default function Settings() {
                           />
                         </FormGroup>
                       </Col>
-                      <Col lg={6} md={12}>
-                        <FormGroup>
-                          <Form.Label className="form-label">
-                            Pagination/Per Page
-                            <span className="text-danger">*</span>
-                          </Form.Label>
-                          <Field
-                            type="text"
-                            className={`input101 ${
-                              errors.pagination && touched.pagination
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="pagination"
-                            name="pagination"
-                            placeholder="Pagination"
-                          />
-                          <ErrorMessage
-                            name="pagination"
-                            component="div"
-                            className="invalid-feedback"
-                          />
-                        </FormGroup>
-                      </Col>
+                     
                     </Row>
                   </Card.Body>
                   <Card.Footer className="text-end">
@@ -523,7 +566,84 @@ export default function Settings() {
                   </Card.Footer>
                 </Form>
               )}
-            </Formik>
+            </Formik> */}
+            <form onSubmit={formik2.handleSubmit}>
+              <Card className="profile-edit">
+                <Card.Header>
+                  <Card.Title as="h3">Other Settings</Card.Title>
+                </Card.Header>
+                <div className="card-body">
+                  <Row>
+                    <Col lg={6} md={6}>
+                      <div className="form-group">
+                        <label className="form-label mt-4" htmlFor="host">
+                          Date Format<span className="text-danger">*</span>
+                        </label>
+                        <select
+                          className={`input101 ${
+                            formik2.errors.date_format &&
+                            formik2.touched.date_format
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          id="date_format"
+                          name="date_format"
+                          onChange={formik2.handleChange}
+                          value={formik2.values.date_format}
+                        >
+                          <option value="">Select a date format</option>
+                          <option value="Y-m-d">YYYY-MM-DD</option>
+                          <option value="m-d-Y">MM-DD-YYYY</option>
+                          <option value="d-m-Y">DD-MM-YYYY</option>
+                        </select>
+                        {formik2.errors.date_format &&
+                          formik2.touched.date_format && (
+                            <div className="invalid-feedback">
+                              {formik2.errors.date_format}
+                            </div>
+                          )}
+                      </div>
+                    </Col>
+                    <Col lg={6} md={6}>
+                      <div className="form-group">
+                        <label className="form-label mt-4" htmlFor="pagination">
+                          Pagination<span className="text-danger">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          className={`input101 ${
+                            formik2.errors.pagination &&
+                            formik2.touched.pagination
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          id="pagination"
+                          name="pagination"
+                          placeholder="Company Name"
+                          onChange={formik2.handleChange}
+                          value={formik2.values.pagination}
+                        />
+                        {formik2.errors.pagination &&
+                          formik2.touched.pagination && (
+                            <div className="invalid-feedback">
+                              {formik2.errors.pagination}
+                            </div>
+                          )}
+                      </div>
+                    </Col>
+                  </Row>
+                </div>
+                <div className="text-end">
+                  <button
+                    className="btn btn-primary me-2"
+                    type="submit"
+                    disabled={formik2.isSubmitting}
+                  >
+                    Update
+                  </button>
+                </div>
+              </Card>
+            </form>
           </Card>
         </Col>
       </Row>
