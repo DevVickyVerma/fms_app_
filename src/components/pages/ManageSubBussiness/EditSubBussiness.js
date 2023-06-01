@@ -137,7 +137,7 @@ export default function AddSite() {
 
       if (response.ok) {
         notify(data.message);
-        navigate("/business");
+        navigate("/sub-business");
       } else {
         Errornotify(data.message);
       }
@@ -162,8 +162,18 @@ export default function AddSite() {
       business_type_id: Yup.string().required("status is required"),
 
       slug: Yup.string()
-        .max(20, "Must be 20 characters or less")
-        .required("Company Name is required"),
+        .required("Slug is required")
+        .matches(/^[a-zA-Z0-9_\- ]+$/, {
+          message: "Slug must not contain special characters",
+          excludeEmptyString: true,
+        })
+        .matches(
+          /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
+          {
+            message: "Slug must not have consecutive spaces",
+            excludeEmptyString: true,
+          }
+        ),
 
       status: Yup.string().required("Client is required"),
     }),
@@ -245,14 +255,14 @@ export default function AddSite() {
                             ? "is-invalid"
                             : ""
                         }`}
-                        placeholder="Company Code"
+                        placeholder="Business Name"
                         onChange={formik.handleChange}
                         value={formik.values.business_sub_name || ""}
                       />
                       {formik.errors.business_sub_name &&
                         formik.touched.business_sub_name && (
                           <div className="invalid-feedback">
-                            {formik.errors.business_sub_nameame}
+                            {formik.errors.business_sub_name}
                           </div>
                         )}
                     </div>
@@ -271,7 +281,7 @@ export default function AddSite() {
                         }`}
                         id="slug"
                         name="slug"
-                        placeholder="Company Name"
+                        placeholder="Slug"
                         onChange={formik.handleChange}
                         value={formik.values.slug || ""}
                       />
@@ -301,7 +311,7 @@ export default function AddSite() {
                       >
                         <option value="">Select a Status</option>
                         <option value="1">Active</option>
-                            <option value="0">Inactive</option>
+                        <option value="0">Inactive</option>
                       </select>
                       {formik.errors.status && formik.touched.status && (
                         <div className="invalid-feedback">
@@ -353,9 +363,9 @@ export default function AddSite() {
                 </Row>
                 <div className="text-end">
                   <Link
-                    type="sussbmit"
+                    type="submit"
                     className="btn btn-danger me-2 "
-                    to={`/managecompany/`}
+                    to={`/sub-business/`}
                   >
                     Cancel
                   </Link>

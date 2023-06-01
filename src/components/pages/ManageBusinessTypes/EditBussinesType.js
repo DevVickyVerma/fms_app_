@@ -166,13 +166,24 @@ import Loaderimg from "../../../Utils/Loader";
     validationSchema: Yup.object({
       business_name: Yup.string()
         .max(20, "Must be 20 characters or less")
-        .required("Company Code is required"),
+        .required("Business Name is required"),
 
-      slug: Yup.string()
-        .max(20, "Must be 20 characters or less")
-        .required("Company Name is required"),
+        slug: Yup.string()
+        .required("Slug is required")
+        .matches(/^[a-zA-Z0-9_\- ]+$/, {
+          message: "Slug must not contain special characters",
+          excludeEmptyString: true,
+        })
+        .matches(
+          /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
+          {
+            message: "Slug must not have consecutive spaces",
+            excludeEmptyString: true,
+          }
+        ),
 
-      status: Yup.string().required("Client is required"),
+
+      status: Yup.string().required("Status is required"),
     }),
     onSubmit: handleSubmit,
   });
@@ -257,14 +268,14 @@ import Loaderimg from "../../../Utils/Loader";
                             ? "is-invalid"
                             : ""
                         }`}
-                        placeholder="Company Code"
+                        placeholder="Business Name"
                         onChange={formik.handleChange}
                         value={formik.values.business_name || ""}
                       />
                       {formik.errors.business_name &&
                         formik.touched.business_name && (
                           <div className="invalid-feedback">
-                            {formik.errors.nbusiness_nameame}
+                            {formik.errors.business_name}
                           </div>
                         )}
                     </div>
@@ -283,7 +294,7 @@ import Loaderimg from "../../../Utils/Loader";
                         }`}
                         id="slug"
                         name="slug"
-                        placeholder="Company Name"
+                        placeholder="Slug"
                         onChange={formik.handleChange}
                         value={formik.values.slug || ""}
                       />

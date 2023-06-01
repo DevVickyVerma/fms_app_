@@ -124,19 +124,6 @@ const ManageSubBusinessTypes = (props) => {
       ),
     },
     {
-      name: "Business  Type",
-      selector: (row) => [row.business_type],
-      sortable: false,
-      width: "20%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.business_type}</h6>
-          </div>
-        </div>
-      ),
-    },
-    {
       name: "Business Sub Type",
       selector: (row) => [row.business_sub_name],
       sortable: false,
@@ -149,6 +136,20 @@ const ManageSubBusinessTypes = (props) => {
         </div>
       ),
     },
+    {
+      name: "Business  Type",
+      selector: (row) => [row.business_type],
+      sortable: false,
+      width: "20%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.business_type}</h6>
+          </div>
+        </div>
+      ),
+    },
+   
     {
       name: "Created Date",
       selector: (row) => [row.created_date],

@@ -248,7 +248,8 @@ import Loaderimg from "../../../Utils/Loader";
                               "Addon Name must not have consecutive spaces",
                             excludeEmptyString: true,
                           }
-                        ),
+                        )
+                        .min(3, "The addon name must be at least 3 characters."),
                       permissionsList: Yup.array()
                         .required("At least one role is required")
                         .min(1, "At least one role is required"),
@@ -286,6 +287,14 @@ import Loaderimg from "../../../Utils/Loader";
                         </div>
 
                         <div className="form-group">
+                        <div className="table-heading">
+                        <h2>
+                              Permissions
+                              <span className="text-danger danger-title">
+                                * Atleast One Permission is Required{" "}
+                              </span>
+                            </h2>
+                              </div>
                           {AddonpermissionsList.data &&
                             AddonpermissionsList.data.addon_permissions && (
                               <div>

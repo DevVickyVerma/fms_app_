@@ -248,13 +248,14 @@ const ManageSite = (props) => {
           return (
             <div className="d-flex" style={{ cursor: "default" }}>
               <div className="ms-2 mt-0 mt-sm-2 d-block">
-                {row.clients && row.clients.length > 0 ? (
+                {row.site_owner && row.site_owner? (
                   <h6 className="mb-0 fs-14 fw-semibold">
-                    {row.clients[0].full_name}
+                    {row.site_owner.client_name}
                   </h6>
                 ) : (
                   <h6 className="mb-0 fs-14 fw-semibold">No Client</h6>
                 )}
+               
               </div>
             </div>
           );
@@ -275,14 +276,12 @@ const ManageSite = (props) => {
           return (
             <div className="d-flex" style={{ cursor: "default" }}>
               <div className="ms-2 mt-0 mt-sm-2 d-block">
-                {row.clients &&
-                row.clients.length > 0 &&
-                row.clients[0].company ? (
+              {row.site_owner && row.site_owner? (
                   <h6 className="mb-0 fs-14 fw-semibold">
-                    {row.clients[0].company.company_name}
+                    {row.site_owner.company_name}
                   </h6>
                 ) : (
-                  <h6 className="mb-0 fs-14 fw-semibold">No Company found</h6>
+                  <h6 className="mb-0 fs-14 fw-semibold">No Client</h6>
                 )}
               </div>
             </div>

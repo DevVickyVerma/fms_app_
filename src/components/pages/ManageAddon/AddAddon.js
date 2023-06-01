@@ -152,7 +152,8 @@ import withApi from "../../../Utils/ApiHelper";
                               "Addon Name must not have consecutive spaces",
                             excludeEmptyString: true,
                           }
-                        ),
+                        )
+                        .min(3, "The addon name must be at least 3 characters."),
 
                       permissions: Yup.array()
                         .required("At least one role is required")
@@ -191,7 +192,12 @@ import withApi from "../../../Utils/ApiHelper";
 
                         <div className="form-group">
                         <div className="table-heading">
-                                <h2>Permissions</h2>
+                        <h2>
+                              Permissions
+                              <span className="text-danger danger-title">
+                                * Atleast One Permission is Required{" "}
+                              </span>
+                            </h2>
                               </div>
                           {permissions.data &&
                           Object.keys(permissions.data).length > 0 ? (

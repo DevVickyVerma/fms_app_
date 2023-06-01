@@ -145,11 +145,54 @@ const ManageCompany = (props) => {
       name: "Company",
       selector: (row) => [row.company_name],
       sortable: false,
-      width: "60%",
+      width: "25%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.company_name}</h6>
+          </div>
+        </div>
+      ),
+    },
+     {
+      name: "Client Name",
+      selector: (row) => [row.client],
+      sortable: false,
+      width: "20%",
+      cell: (row, index) => {
+        try {
+          return (
+            <div className="d-flex" style={{ cursor: "default" }}>
+              <div className="ms-2 mt-0 mt-sm-2 d-block">
+              {row.client && row.client? (
+                  <h6 className="mb-0 fs-14 fw-semibold">
+                    {row.client.full_name}
+                  </h6>
+                ) : (
+                  <h6 className="mb-0 fs-14 fw-semibold">No Client</h6>
+                )}
+              </div>
+            </div>
+          );
+        } catch (error) {
+          console.error("Error:", error);
+          return <h6 className="mb-0 fs-14 fw-semibold">Error</h6>;
+        }
+      },
+    },
+      {
+      name: "Created Date",
+      selector: (row) => [row.created_date],
+      sortable: false,
+      width: "15%",
+      cell: (row, index) => (
+        <div
+          className="d-flex"
+          style={{ cursor: "default" }}
+          // onClick={() => handleToggleSidebar(row)}
+        >
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
           </div>
         </div>
       ),

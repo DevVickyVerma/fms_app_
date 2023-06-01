@@ -131,12 +131,23 @@ const AddSubBussiness = (props) => {
                     business_name: Yup.string()
                       .max(15, "Must be 15 characters or less")
                       .required(" Bussiness Name is required"),
-                    business_type_id:
-                      Yup.string().required("status is required"),
+                    business_type_id: Yup.string().required(
+                      "Business Type is required"
+                    ),
 
                     slug: Yup.string()
-                      .max(20, "Must be 20 characters or less")
-                      .required("Slug is required"),
+                      .required("Slug is required")
+                      .matches(/^[a-zA-Z0-9_\- ]+$/, {
+                        message: "Slug must not contain special characters",
+                        excludeEmptyString: true,
+                      })
+                      .matches(
+                        /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
+                        {
+                          message: "Slug must not have consecutive spaces",
+                          excludeEmptyString: true,
+                        }
+                      ),
 
                     status: Yup.string().required("status is required"),
                   })}
@@ -211,7 +222,7 @@ const AddSubBussiness = (props) => {
                               >
                                 <option value="">Select a Status</option>
                                 <option value="1">Active</option>
-                                <option value="0">InActive</option>
+                                <option value="0">Inactive</option>
                               </Field>
                               <ErrorMessage
                                 component="div"
@@ -262,6 +273,13 @@ const AddSubBussiness = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
+                        <Link
+                          type="submit"
+                          className="btn btn-danger me-2 "
+                          to={`/sub-business/`}
+                        >
+                          Cancel
+                        </Link>
                         <button className="btn btn-primary me-2" type="submit">
                           Add
                         </button>

@@ -91,11 +91,22 @@ const AddAddon = (props) => {
                   .max(15, "Must be 15 characters or less")
                   .required(" Bussiness Name is required"),
 
-                slug: Yup.string()
-                  .max(20, "Must be 20 characters or less")
-                  .required("Slug is required"),
+                  slug: Yup.string()
+        .required("Slug is required")
+        .matches(/^[a-zA-Z0-9_\- ]+$/, {
+          message: "Slug must not contain special characters",
+          excludeEmptyString: true,
+        })
+        .matches(
+          /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
+          {
+            message: "Slug must not have consecutive spaces",
+            excludeEmptyString: true,
+          }
+        ),
 
-                status: Yup.string().required("status is required"),
+
+                status: Yup.string().required("Status is required"),
               })}
               onSubmit={(values) => {
                 handleSubmit1(values);
@@ -175,6 +186,13 @@ const AddAddon = (props) => {
                     </Row>
                   </Card.Body>
                   <Card.Footer className="text-end">
+                  <Link
+                      type="submit"
+                      className="btn btn-danger me-2 "
+                      to={`/business/`}
+                    >
+                      Cancel
+                    </Link>
                     <button className="btn btn-primary me-2" type="submit">
                       Add
                     </button>

@@ -137,11 +137,24 @@ const handleDelete = (id) => {
       name: "Addon",
       selector: (row) => [row.name],
       sortable: false,
-      width: "70%",
+      width: "50%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Created Date",
+      selector: (row) => [row.created_date],
+      sortable: false,
+      width: "20%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
           </div>
         </div>
       ),
