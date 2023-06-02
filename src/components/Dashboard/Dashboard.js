@@ -64,8 +64,11 @@ const Dashboard = (props) => {
   const handleFetchData = async () => {
     try {
       const response = await getData("/detail");
+      
       const { data } = response;
       if (data) {
+        const resData = JSON.stringify( data.data);
+        dispatch(setuser(resData));
         const firstName = data.data.first_name ?? "";
         const lastName = data.data.last_name ?? "";
         const phoneNumber = data.data.phone_number ?? "";

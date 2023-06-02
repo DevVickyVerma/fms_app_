@@ -96,30 +96,27 @@ const ManageClient = (props) => {
         },
         body: formData,
       });
-      const SearchList = async () => {
+      const SearchList = async (row) => {
         try {
-          const params = new URLSearchParams(formData).toString(); // Convert form data to query string
-          const url = `/client-list?${params}`; // Append query string to the URL
-
-          const response = await axiosInstance.get(url);
+          const params = new URLSearchParams(formData).toString();
+          const response = await getData(`/client-list?${params}`);
+          console.log(response.data.data, "ddd");
 
           if (response && response.data && response.data.data) {
             setData(response.data.data.clients);
           } else {
-            throw new Error("No data found");
+            throw new Error("No data available in the response");
           }
         } catch (error) {
-          console.error(error);
-          const message = error.response
-            ? error.response.data.message
-            : "Unknown error occurred";
-          Errornotify(message);
+          console.error("API error:", error);
+          // Handle the error here, such as displaying an error message or performing other actions
         }
       };
 
-
       SearchList();
     }
+
+
 
     handleToggleSidebar1();
   };
@@ -198,7 +195,7 @@ const ManageClient = (props) => {
     {
       name: "Client",
       selector: (row) => [row.full_name],
-      sortable: false,
+      sortable: true,
       width: "45%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -211,7 +208,7 @@ const ManageClient = (props) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: false,
+      sortable: true,
       width: "15%",
       cell: (row, index) => (
         <div
@@ -228,7 +225,7 @@ const ManageClient = (props) => {
     {
       name: "Status",
       selector: (row) => [row.status],
-      sortable: false,
+      sortable: true,
       width: "10%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -257,9 +254,9 @@ const ManageClient = (props) => {
       ),
     },
     {
-      name: "Action",
+       name: "Action",
       selector: (row) => [row.action],
-      sortable: false,
+      sortable: true,
       width: "20%",
       cell: (row) => (
         <span className="text-center">
@@ -403,6 +400,7 @@ const ManageClient = (props) => {
               // center={true}
               persistTableHead
               pagination
+
               highlightOnHover
               searchable={true}
             />

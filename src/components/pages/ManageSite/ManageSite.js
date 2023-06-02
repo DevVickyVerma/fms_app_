@@ -22,7 +22,6 @@ const ManageSite = (props) => {
 
   const [data, setData] = useState();
 
-
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
   const navigate = useNavigate();
@@ -72,7 +71,7 @@ const ManageSite = (props) => {
     try {
       const response = await getData("/site/detail/?id=" + row.id);
       console.log(response.data.data, "ddd");
-  
+
       if (response.data && response.data.data) {
         setSideDataobject(response.data.data);
       } else {
@@ -83,7 +82,6 @@ const ManageSite = (props) => {
       // Handle the error here, such as displaying an error message or performing other actions
     }
   };
-  
 
   const handleToggleSidebar1 = () => {
     setSidebarVisible1(!sidebarVisible1);
@@ -421,57 +419,22 @@ const ManageSite = (props) => {
     if (Object.values(filteredFormData).length > 0) {
       setSearchdata(filteredFormData);
 
-      // const FetchTableData = async (formData) => {
-      //   try {
-      //     const response = await getData("/site/list", formData);
-      //     console.log(response.data.data, "ddd");
-
-      //     if (response && response.data && response.data.data.sites) {
-      //       setData(response.data.data.sites);
-      //     } else {
-      //       throw new Error("No data available in the response");
-      //     }
-      //   } catch (error) {
-      //     console.error("API error:", error);
-      //   }
-      // };
-      // FetchTableData();
-
-    //   const SearchList = async () => {
-    //     try {
-    //       const response = await axiosInstance.post("/site/list", formData);
-
-    //       setData(response.data.data.sites);
-    //     } catch (error) {
-    //       const message = error.response
-    //         ? error.response.data.message
-    //         : "Unknown error occurred";
-    //       ErrorAlert(message);
-    //     }
-    //   };
-    //   SearchList();
-    // }
-        const SearchList = async () => {
+      const SearchList = async (row) => {
         try {
-          const params = new URLSearchParams(formData).toString(); // Convert form data to query string
-          const url = `/site/list?${params}`; // Append query string to the URL
-
-          const response = await axiosInstance.get(url);
+          const params = new URLSearchParams(formData).toString();
+          const response = await getData(`/client-list?${params}`);
+          console.log(response.data.data, "ddd");
 
           if (response && response.data && response.data.data) {
-            setData(response.data.data.sites);
+            setData(response.data.data.clients);
           } else {
-            throw new Error("No data found");
+            throw new Error("No data available in the response");
           }
         } catch (error) {
-          console.error(error);
-          const message = error.response
-            ? error.response.data.message
-            : "Unknown error occurred";
-          Errornotify(message);
+          console.error("API error:", error);
+          // Handle the error here, such as displaying an error message or performing other actions
         }
       };
-
 
       SearchList();
     }
