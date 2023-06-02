@@ -6,39 +6,35 @@ import * as dashboard from "../../data/dashboard/dashboard";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { setuser } from "../../Redux/userDataSlice";
+
+import { setuser } from "../../Redux/apiResponseSlice";
 import withApi from "../../Utils/ApiHelper";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchApiResponse } from '../../Redux/apiResponseSlice';
+
 const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
-  // const handleFetchData = () => {
-  //   getData('/details'); // Pass the dynamic URL as an argument
-  // };
 
-  // const handlePostData = () => {
-  //   const body = {
-  //     /* Define your request body */
-  //   };
-  //   postData(body);
-  // };
-  const navigate = useNavigate();
 
-  const [data, setData] = useState("");
 
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
+
 
   const notify = (message) => toast.success(message);
   const [justLoggedIn, setJustLoggedIn] = useState(false);
 
   const dispatch = useDispatch();
+  const apiResponseData = useSelector((state) => state.apiResponse.data);
+  const isReduxLoading = useSelector((state) => state.apiResponse.isLoading);
+  const Reduxerror = useSelector((state) => state.apiResponse.error);
+
+  // Fetch the API response when the component mounts or whenever needed
   // useEffect(() => {
-  //   axios.get("https://catfact.ninja/fact").then((res) => {
-  //     const resData = JSON.stringify(res.data);
-  //     dispatch(setuser(resData));
-  //   });
-  // }, []);
+  //   dispatch(fetchApiResponse());
+  // }, [dispatch]);
+
+
+
 
   useEffect(() => {
     const loggedInFlag = localStorage.getItem("justLoggedIn");
@@ -67,8 +63,8 @@ const Dashboard = (props) => {
       
       const { data } = response;
       if (data) {
-        const resData = JSON.stringify( data.data);
-        dispatch(setuser(resData));
+        // const resData = JSON.stringify( data.data);
+        // dispatch(setuser(resData));
         const firstName = data.data.first_name ?? "";
         const lastName = data.data.last_name ?? "";
         const phoneNumber = data.data.phone_number ?? "";
@@ -97,6 +93,7 @@ const Dashboard = (props) => {
           </Breadcrumb>
         </div>
       </div>
+    
       <Row>
         <Col lg={12} md={12} sm={12} xl={12}>
           <Row>

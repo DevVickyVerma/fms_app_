@@ -5,7 +5,8 @@ import { Navigate, BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./Utils/PrivateRoutes";
 import * as loderdata from "./data/Component/loderdata/loderdata";
 import { Provider } from "react-redux";
-import { store } from "./Redux/reduxstore";
+import store from './Redux/store';
+
 import withApi from "./Utils/ApiHelper";
 
 const Switcherlayout = React.lazy(() => import("./components/switcherlayout"));

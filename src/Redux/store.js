@@ -1,3 +1,5 @@
+// ./Redux/store.js
+
 import { configureStore } from '@reduxjs/toolkit';
 import apiResponseReducer from './apiResponseSlice';
 
