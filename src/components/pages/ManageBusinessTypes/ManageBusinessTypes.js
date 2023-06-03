@@ -28,6 +28,7 @@ const ManageBusinessTypes = (props) => {
 
       if (response && response.data && response.data.data) {
         setData(response.data.data);
+        setSearchvalue(response.data.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -91,13 +92,13 @@ const ManageBusinessTypes = (props) => {
   const toggleActive = (row) => {
     const formData = new FormData();
     formData.append("id", row.id);
-  
+
     const newStatus = row.status === 1 ? 0 : 1;
     formData.append("status", newStatus);
-  
+
     ToggleStatus(formData);
   };
-  
+
   const ToggleStatus = async (formData) => {
     try {
       const response = await postData("business/update-type-status", formData);
@@ -126,7 +127,7 @@ const ManageBusinessTypes = (props) => {
     {
       name: "Business",
       selector: (row) => [row.business_name],
-      sortable: false,
+      sortable: true,
       width: "35%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -139,7 +140,7 @@ const ManageBusinessTypes = (props) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: false,
+      sortable: true,
       width: "15%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -152,7 +153,7 @@ const ManageBusinessTypes = (props) => {
     {
       name: "Status",
       selector: (row) => [row.status],
-      sortable: false,
+      sortable: true,
       width: "20%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -235,17 +236,19 @@ const ManageBusinessTypes = (props) => {
     columns,
     data,
   };
-  const [roles, setRoles] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [searchvalue, setSearchvalue] = useState();
 
-  const handleAddRole = (newRole) => {
-    setRoles([...roles, newRole]);
-    setOpen(false);
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchText(value);
+
+    const filteredData = searchvalue.filter((item) =>
+      item.business_name.toLowerCase().includes(value.toLowerCase())
+    );
+    setData(filteredData);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
   return (
     <>
       {isLoading ? (
@@ -272,10 +275,21 @@ const ManageBusinessTypes = (props) => {
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
+
             <div className="ms-auto pageheader-btn">
-              <Link to="/addbusiness" className="btn btn-primary">
-                Add Business Types
-              </Link>
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  value={searchText}
+                  onChange={handleSearch}
+                  placeholder="Search..."
+                  style={{ borderRadius: 0 }}
+                />
+                <Link to="/addbusiness" className="btn btn-primary">
+                  Add Business Types
+                </Link>
+              </div>
             </div>
           </div>
 

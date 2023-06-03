@@ -12,8 +12,7 @@ import { toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 
-
-  const ManageAddon = (props) => {
+const ManageAddon = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState([]);
   const navigate = useNavigate();
@@ -30,96 +29,104 @@ import Loaderimg from "../../../Utils/Loader";
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-        ErrorAlert(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
-const handleEdit = (row)=>{
-  console.log(row,"handleEdit")
- 
- 
-  localStorage.setItem("EditAddon", row.id);
-  localStorage.setItem("EditAddon_name", row.name);
+  const handleEdit = (row) => {
+    console.log(row, "handleEdit");
 
-}
+    localStorage.setItem("EditAddon", row.id);
+    localStorage.setItem("EditAddon_name", row.name);
+  };
 
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will not be able to recover this item!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const token = localStorage.getItem("token");
 
+        const formData = new FormData();
+        formData.append("addon_id", id);
 
-
-const handleDelete = (id) => {
-  Swal.fire({
-    title: "Are you sure?",
-    text: "You will not be able to recover this item!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Yes, delete it!",
-    cancelButtonText: "Cancel",
-    reverseButtons: true,
-  }).then((result) => {
-    if (result.isConfirmed) {
-      const token = localStorage.getItem("token");
-
-      const formData = new FormData();
-      formData.append("addon_id", id);
-
-      const axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_BASE_URL,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-      const DeleteRole = async () => {
-        try {
-          const response = await axiosInstance.post("/addon/delete", formData);
-          setData(response.data.data);
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your item has been deleted.",
-            icon: "success",
-            confirmButtonText: "OK",
-          });
-          FetchTableData();
-        } catch (error) {
-          handleError(error);
-        } finally {
-        }
-        // setIsLoading(false);
-      };
-      DeleteRole();
-    }
-  });
-};
-
-
+        const axiosInstance = axios.create({
+          baseURL: process.env.REACT_APP_BASE_URL,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
+        const DeleteRole = async () => {
+          try {
+            const response = await axiosInstance.post(
+              "/addon/delete",
+              formData
+            );
+            setData(response.data.data);
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your item has been deleted.",
+              icon: "success",
+              confirmButtonText: "OK",
+            });
+            FetchTableData();
+          } catch (error) {
+            handleError(error);
+          } finally {
+          }
+          // setIsLoading(false);
+        };
+        DeleteRole();
+      }
+    });
+  };
 
   useEffect(() => {
-   FetchTableData();
+    FetchTableData();
   }, []);
 
   const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
- 
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-    const FetchTableData = async () => {
-      try {
-        const response = await getData("/addon/list");
-        console.log(response.data.data, "ddd");
-  
-        if (response && response.data && response.data.data.addons) {
-          setData(response.data.data.addons);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } catch (error) {
-        console.error("API error:", error);
+  const FetchTableData = async () => {
+    try {
+      const response = await getData("/addon/list");
+      console.log(response.data.data, "ddd");
+
+      if (response && response.data && response.data.data.addons) {
+        setData(response.data.data.addons);
+        setSearchvalue(response.data.data.addons);
+      } else {
+        throw new Error("No data available in the response");
       }
-    };
-    
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+  const [searchText, setSearchText] = useState("");
+  const [searchvalue, setSearchvalue] = useState();
+
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchText(value);
+
+    const filteredData = searchvalue.filter((item) =>
+      item.name.toLowerCase().includes(value.toLowerCase())
+    );
+    setData(filteredData);
+  };
+
   const columns = [
     {
       name: "S.No",
@@ -136,7 +143,7 @@ const handleDelete = (id) => {
     {
       name: "Addon",
       selector: (row) => [row.name],
-      sortable: false,
+      sortable: true,
       width: "50%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -149,7 +156,7 @@ const handleDelete = (id) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: false,
+      sortable: true,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -219,48 +226,66 @@ const handleDelete = (id) => {
 
   return (
     <>
-    {isLoading ? (
-      <Loaderimg/>
-    ) : (
-      <>
-      <div className="page-header ">
-        <div>
-          <h1 className="page-title">Manage Addon</h1>
-          <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/dashboard' }}>
-              Dashboard
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item active breadcrumds"
-              aria-current="page"
-            >
-              Manage Addon
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
-        <div className="ms-auto pageheader-btn">
-          <Link to="/addaddon" className="btn btn-primary">
-            Add Addon
-          </Link>
-        </div>
-      </div>
+      {isLoading ? (
+        <Loaderimg />
+      ) : (
+        <>
+          <div className="page-header ">
+            <div>
+              <h1 className="page-title">Manage Addon</h1>
+              <Breadcrumb className="breadcrumb">
+                <Breadcrumb.Item
+                  className="breadcrumb-item"
+                  linkAs={Link}
+                  linkProps={{ to: "/dashboard" }}
+                >
+                  Dashboard
+                </Breadcrumb.Item>
+                <Breadcrumb.Item
+                  className="breadcrumb-item active breadcrumds"
+                  aria-current="page"
+                >
+                  Manage Addon
+                </Breadcrumb.Item>
+              </Breadcrumb>
+            </div>
+            <div className="ms-auto pageheader-btn">
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  value={searchText}
+                  onChange={handleSearch}
+                  placeholder="Search..."
+                  style={{ borderRadius: 0 }}
+                />
+                <Link
+                  to="/addaddon"
+                  className="btn btn-primary ms-2"
+                  style={{ borderRadius: "4px" }}
+                >
+                  Add Addon
+                </Link>
+              </div>
+            </div>
+          </div>
 
-      <DataTableExtensions {...tableDatas}>
-        <DataTable
-          columns={columns}
-          data={data}
-          noHeader
-          defaultSortField="id"
-          defaultSortAsc={false}
-          striped={true}
-          // center={true}
-          persistTableHead
-          // pagination
-          highlightOnHover
-          searchable={true}
-        />
-      </DataTableExtensions>
-      </>
+          <DataTableExtensions {...tableDatas}>
+            <DataTable
+              columns={columns}
+              data={data}
+              noHeader
+              defaultSortField="id"
+              defaultSortAsc={false}
+              striped={true}
+              // center={true}
+              persistTableHead
+              // pagination
+              highlightOnHover
+              searchable={true}
+            />
+          </DataTableExtensions>
+        </>
       )}
     </>
   );

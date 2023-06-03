@@ -21,25 +21,37 @@ const ManageSubBusinessTypes = (props) => {
       const { data } = response;
       console.log(apidata, "data");
 
-      // if (data) {
-      //   const firstName = data.data?.first_name || "";
-      //   const lastName = data.data?.last_name || "";
-      //   const phoneNumber = data.data?.phone_number || "";
-      //   const fullName = data.data?.full_name || "";
+      if (data) {
+        const firstName = data.data?.first_name || "";
+        const lastName = data.data?.last_name || "";
+        const phoneNumber = data.data?.phone_number || "";
+        const fullName = data.data?.full_name || "";
 
-      //   localStorage.setItem("First_name", firstName);
-      //   localStorage.setItem("Last_name", lastName);
-      //   localStorage.setItem("Phone_Number", phoneNumber);
-      //   localStorage.setItem("full_name", fullName);
-      // }
+        localStorage.setItem("First_name", firstName);
+        localStorage.setItem("Last_name", lastName);
+        localStorage.setItem("Phone_Number", phoneNumber);
+        localStorage.setItem("full_name", fullName);
+      }
     } catch (error) {
       console.error("API error:", error);
     }
   };
 
   useEffect(() => {
-    handleFetchData();
+    handleFetchData(); 
   }, []);
+  const [searchText, setSearchText] = useState("");
+  const [searchvalue, setSearchvalue] = useState();
+
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchText(value);
+
+    const filteredData = searchvalue.filter((item) =>
+      item.business_sub_name.toLowerCase().includes(value.toLowerCase())
+    );
+    setData(filteredData);
+  };
 
   const handleFetchData = async () => {
     try {
@@ -48,6 +60,7 @@ const ManageSubBusinessTypes = (props) => {
 
       if (response && response.data && response.data.data) {
         setData(response.data.data);
+        setSearchvalue(response.data.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -60,20 +73,22 @@ const ManageSubBusinessTypes = (props) => {
   //     getData("/business/sub-types"); // Pass the dynamic URL as an argument
   //   };
 
- 
   const toggleActive = (row) => {
     const formData = new FormData();
     formData.append("id", row.id);
-  
+
     const newStatus = row.status === 1 ? 0 : 1;
     formData.append("status", newStatus);
-  
+
     ToggleStatus(formData);
   };
-  
+
   const ToggleStatus = async (formData) => {
     try {
-      const response = await postData("business/update-sub-type-status", formData);
+      const response = await postData(
+        "business/update-sub-type-status",
+        formData
+      );
       console.log(response, "response"); // Console log the response
       if (apidata.api_response === "success") {
         handleFetchData();
@@ -100,15 +115,13 @@ const ManageSubBusinessTypes = (props) => {
           const body = {
             formData,
           };
-          postData('company/delete', body);
+          postData("company/delete", body);
           postData(body);
         };
         DeleteRole();
       }
     });
   };
-
-
 
   const columns = [
     {
@@ -126,7 +139,7 @@ const ManageSubBusinessTypes = (props) => {
     {
       name: "Business Sub Type",
       selector: (row) => [row.business_sub_name],
-      sortable: false,
+      sortable: true,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -139,7 +152,7 @@ const ManageSubBusinessTypes = (props) => {
     {
       name: "Business  Type",
       selector: (row) => [row.business_type],
-      sortable: false,
+      sortable: true,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -149,11 +162,11 @@ const ManageSubBusinessTypes = (props) => {
         </div>
       ),
     },
-   
+
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: false,
+      sortable: true,
       width: "15%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -166,7 +179,7 @@ const ManageSubBusinessTypes = (props) => {
     {
       name: "Status",
       selector: (row) => [row.status],
-      sortable: false,
+      sortable: true,
       width: "15%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -196,7 +209,7 @@ const ManageSubBusinessTypes = (props) => {
     },
 
     {
-        name: "Action",
+      name: "Action",
       selector: (row) => [row.action],
       sortable: false,
       width: "20%",
@@ -251,8 +264,6 @@ const ManageSubBusinessTypes = (props) => {
     data,
   };
 
-
-
   const Loaderimg = () => {
     return (
       <div id="global-loader">
@@ -262,53 +273,63 @@ const ManageSubBusinessTypes = (props) => {
   };
   return (
     <>
-    {isLoading ? (
-      Loaderimg()
-    ) : (
-      <>
-      <div className="page-header ">
-        <div>
-          <h1 className="page-title">Manage Sub-Business Types</h1>
+      {isLoading ? (
+        Loaderimg()
+      ) : (
+        <>
+          <div className="page-header ">
+            <div>
+              <h1 className="page-title">Manage Sub-Business Types</h1>
 
-          <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item
-              className="breadcrumb-item"
-              linkAs={Link}
-              linkProps={{ to: "/dashboard" }}
-            >
-              Dashboard
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item active breadcrumds"
-              aria-current="page"
-            >
-              Manage Sub-Business Types
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
-        <div className="ms-auto pageheader-btn">
-          <Link to="/addsub-business" className="btn btn-primary ms-2">
-            Add Sub-Business Types <AddCircleOutlineIcon />
-          </Link>
-        </div>
-      </div>
+              <Breadcrumb className="breadcrumb">
+                <Breadcrumb.Item
+                  className="breadcrumb-item"
+                  linkAs={Link}
+                  linkProps={{ to: "/dashboard" }}
+                >
+                  Dashboard
+                </Breadcrumb.Item>
+                <Breadcrumb.Item
+                  className="breadcrumb-item active breadcrumds"
+                  aria-current="page"
+                >
+                  Manage Sub-Business Types
+                </Breadcrumb.Item>
+              </Breadcrumb>
+            </div>
+            <div className="ms-auto pageheader-btn">
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  value={searchText}
+                  onChange={handleSearch}
+                  placeholder="Search..."
+                  style={{ borderRadius: 0 }}
+                />
+                <Link to="/addsub-business" className="btn btn-primary ms-2">
+                  Add Sub-Business Types <AddCircleOutlineIcon />
+                </Link>
+              </div>
+            </div>
+          </div>
 
-      <DataTableExtensions {...tableDatas}>
-        <DataTable
-          columns={columns}
-          data={data}
-          noHeader
-          defaultSortField="id"
-          defaultSortAsc={false}
-          striped={true}
-          // center={true}
-          persistTableHead
-          pagination
-          highlightOnHover
-          searchable={true}
-        />
-      </DataTableExtensions>
-      </>
+          <DataTableExtensions {...tableDatas}>
+            <DataTable
+              columns={columns}
+              data={data}
+              noHeader
+              defaultSortField="id"
+              defaultSortAsc={false}
+              striped={true}
+              // center={true}
+              persistTableHead
+              pagination
+              highlightOnHover
+              searchable={true}
+            />
+          </DataTableExtensions>
+        </>
       )}
     </>
   );

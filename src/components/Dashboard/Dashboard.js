@@ -9,16 +9,11 @@ import axios from "axios";
 
 import { setuser } from "../../Redux/apiResponseSlice";
 import withApi from "../../Utils/ApiHelper";
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchApiResponse } from '../../Redux/apiResponseSlice';
+import { useDispatch, useSelector } from "react-redux";
+import { fetchApiResponse } from "../../Redux/apiResponseSlice";
 
 const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
-
-
-
-
-
 
   const notify = (message) => toast.success(message);
   const [justLoggedIn, setJustLoggedIn] = useState(false);
@@ -27,12 +22,6 @@ const Dashboard = (props) => {
   const apiResponseData = useSelector((state) => state.apiResponse.data);
   const isReduxLoading = useSelector((state) => state.apiResponse.isLoading);
   const Reduxerror = useSelector((state) => state.apiResponse.error);
-
-  // Fetch the API response when the component mounts or whenever needed
-  // useEffect(() => {
-  //   dispatch(fetchApiResponse());
-  // }, [dispatch]);
-
 
 
 
@@ -60,7 +49,7 @@ const Dashboard = (props) => {
   const handleFetchData = async () => {
     try {
       const response = await getData("/detail");
-      
+
       const { data } = response;
       if (data) {
         // const resData = JSON.stringify( data.data);
@@ -93,7 +82,7 @@ const Dashboard = (props) => {
           </Breadcrumb>
         </div>
       </div>
-    
+
       <Row>
         <Col lg={12} md={12} sm={12} xl={12}>
           <Row>

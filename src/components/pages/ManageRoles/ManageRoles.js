@@ -12,6 +12,7 @@ import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
+import SearchIcon from "@mui/icons-material/Search";
 
 const ManageRoles = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -19,8 +20,6 @@ const ManageRoles = (props) => {
   const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
-  
- 
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -77,7 +76,7 @@ const ManageRoles = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-        ErrorAlert(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 
@@ -107,13 +106,14 @@ const ManageRoles = (props) => {
     localStorage.setItem("EditRoleID", row.id);
     localStorage.setItem("EditRole_name", row.name);
   };
-   const FetchTableData = async () => {
+  const FetchTableData = async () => {
     try {
       const response = await getData("/role/list");
       console.log(response.data.data, "ddd");
 
       if (response && response.data && response.data.data.addons) {
         setData(response.data.data.addons);
+        setSearchvalue(response.data.data.addons);
       } else {
         throw new Error("No data available in the response");
       }
@@ -138,7 +138,7 @@ const ManageRoles = (props) => {
     {
       name: "Role",
       selector: (row) => [row.name],
-      sortable: false,
+      sortable: true,
       width: "55%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -148,10 +148,10 @@ const ManageRoles = (props) => {
         </div>
       ),
     },
-        {
+    {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: false,
+      sortable: true,
       width: "15%",
       cell: (row, index) => (
         <div
@@ -167,7 +167,7 @@ const ManageRoles = (props) => {
     },
 
     {
-      name: "Action",  
+      name: "Action",
       selector: (row) => [row.action],
       sortable: false,
       width: "20%",
@@ -222,8 +222,18 @@ const ManageRoles = (props) => {
     columns,
     data,
   };
-  const [roles, setRoles] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [searchvalue, setSearchvalue] = useState();
+
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchText(value);
+
+    const filteredData = searchvalue.filter((item) =>
+      item.name.toLowerCase().includes(value.toLowerCase())
+    );
+    setData(filteredData);
+  };
 
   return (
     <>
@@ -247,15 +257,25 @@ const ManageRoles = (props) => {
           </Breadcrumb>
         </div>
         <div className="ms-auto pageheader-btn">
-          <div className="ms-auto pageheader-btn">
-            
-            <Link to="/addroles" className="btn btn-primary ms-2">
+          <div className="input-group">
+            <input
+              type="text"
+              className="form-control"
+              value={searchText}
+              onChange={handleSearch}
+              placeholder="Search..."
+              style={{ borderRadius: 0 }}
+            />
+            <Link
+              to="/addroles"
+              className="btn btn-primary ms-2"
+              style={{ borderRadius: "4px" }}
+            >
               Add Role
             </Link>
           </div>
         </div>
       </div>
-    
 
       <DataTableExtensions {...tableDatas}>
         <DataTable
@@ -274,5 +294,5 @@ const ManageRoles = (props) => {
       </DataTableExtensions>
     </>
   );
-}
+};
 export default withApi(ManageRoles);
