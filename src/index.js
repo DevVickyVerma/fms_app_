@@ -69,6 +69,21 @@ const EditSite = React.lazy(() =>
 );
 
 // Site End
+// Charges Start
+
+const ManageCharges=React.lazy(()=>
+  import("./components/pages/ManageCharges/ManageCharges")
+  );
+
+  const AddCharges=React.lazy(()=>
+  import("./components/pages/ManageCharges/AddCharges")
+  );
+
+  const EditCharges=React.lazy(()=>
+  import("./components/pages/ManageCharges/EditCharges")
+  );
+
+// Charges End
 
 const ManageBusinessTypes = React.lazy(() =>
   import("./components/pages/ManageBusinessTypes/ManageBusinessTypes")
@@ -190,6 +205,9 @@ const Root = () => {
   const WrappedAddAddon = withApi(AddAddon);
   const WrappeAddEditAddon = withApi(EditAddon);
   const WrappeHeader = withApi(Header);
+  const WrappedManageCharges = withApi(ManageCharges);
+  const WrappedAddCharges = withApi(AddCharges);
+  const WrappedEditCharges = withApi(EditCharges);
   return (
     <Fragment>
       <BrowserRouter>
@@ -252,6 +270,13 @@ const Root = () => {
                       element={<WrappeHeader />}
                     />
                   {/* Header  Components End */}
+                  {/ Charges  Components Start /}
+                  <Route path={`/managecharges`} element={<WrappedManageCharges />} />
+
+                  <Route path={`/addcharges`} element={<WrappedAddCharges />} />
+                  <Route  path={`/editcharges/:id`} element={<WrappedEditCharges />} />
+
+                  {/ Charges  Components End /}
 
 
 
