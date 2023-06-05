@@ -270,13 +270,13 @@ const Root = () => {
                       element={<WrappeHeader />}
                     />
                   {/* Header  Components End */}
-                  {/ Charges  Components Start /}
+                   {/* Charges  Components Start  */}
                   <Route path={`/managecharges`} element={<WrappedManageCharges />} />
 
                   <Route path={`/addcharges`} element={<WrappedAddCharges />} />
                   <Route  path={`/editcharges/:id`} element={<WrappedEditCharges />} />
 
-                  {/ Charges  Components End /}
+                   {/* Charges  Components End  */}
 
 
 
