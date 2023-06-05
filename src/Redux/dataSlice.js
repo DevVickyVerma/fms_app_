@@ -1,17 +1,10 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// Define the initial state
-const initialState = {
-  data: [],
-  loading: false,
-  error: null,
-};
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-// Create an asynchronous thunk to fetch the API data
-// `${process.env.REACT_APP_BASE_URL}/reset/password`,
+// Async thunk action to fetch data from the API
 const baseUrl = process.env.REACT_APP_BASE_URL;
 const token = localStorage.getItem("token");
-export const fetchData = createAsyncThunk("data/fetchData", async () => {
+export const fetchData = createAsyncThunk('data/fetchData', async (_, { rejectWithValue }) => {
   try {
     const response = await fetch(`${baseUrl}/detail`, {
       headers: {
@@ -19,18 +12,20 @@ export const fetchData = createAsyncThunk("data/fetchData", async () => {
       },
     });
     const data = await response.json();
-     // Check the structure of the data
     return data.data;
   } catch (error) {
-    throw new Error("Failed to fetch data from API.");
+    return rejectWithValue('Failed to fetch data from API.');
   }
 });
 
-
-// Create the data slice
+// Data slice
 const dataSlice = createSlice({
-  name: "data",
-  initialState,
+  name: 'data',
+  initialState: {
+    permissionsArray: null,
+    loading: false,
+    error: null,
+  },
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -40,15 +35,15 @@ const dataSlice = createSlice({
       })
       .addCase(fetchData.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = action.payload;
+        state.permissionsArray = action.payload;
       })
       .addCase(fetchData.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload;
       });
   },
 });
 
-// Export the action and reducer
-export const dataActions = dataSlice.actions;
+export const { } = dataSlice.actions;
+
 export default dataSlice.reducer;

@@ -147,7 +147,7 @@ const handleSubmit = async (event) => {
 
 SideSearchbar.propTypes = {
   title: PropTypes.string.isRequired,
-  sidebarContent: PropTypes.node.isRequired,
+  // sidebarContent: PropTypes.node.isRequired,
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,

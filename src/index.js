@@ -4,8 +4,9 @@ import "./index.scss";
 import { Navigate, BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./Utils/PrivateRoutes";
 import * as loderdata from "./data/Component/loderdata/loderdata";
-import { Provider } from "react-redux";
-import store from './Redux/store';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import dataReducer, { fetchData } from './Redux/dataSlice';
 
 import withApi from "./Utils/ApiHelper";
 
@@ -157,7 +158,18 @@ const Loaderimg = () => {
   );
 };
 
+
 const Root = () => {
+
+
+
+  const store = configureStore({
+    reducer: {
+      data: dataReducer,
+    },
+  });
+  
+  store.dispatch(fetchData());
   const [token, setToken] = useState(localStorage.getItem("token"));
   const WrappedDashboard = withApi(Dashboard);
   const WrappedManageBusinessSubTypes = withApi(ManageBusinessSubTypes);

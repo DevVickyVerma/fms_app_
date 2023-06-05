@@ -6,30 +6,24 @@ import { useSelector } from "react-redux";
 const Sidebar = () => {
   const [mainmenu, setMainMenu] = useState(MENUITEMS);
 
-
-
   const [permissionsArray, setpermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
-  
+
   useEffect(() => {
     if (UserPermissions) {
       setpermissionsArray(UserPermissions.permissions);
     }
   }, [UserPermissions]);
-  
+
   useEffect(() => {
     if (permissionsArray) {
       console.log("Permissions Array:", permissionsArray);
       permissionsArray.forEach((permission, index) => {
         console.log(`Permission ${index + 1}:`, permission);
       });
-      
     }
   }, [permissionsArray]);
-
-
-
 
   useEffect(() => {
     const currentUrl = window.location.pathname.slice(0, -1);
