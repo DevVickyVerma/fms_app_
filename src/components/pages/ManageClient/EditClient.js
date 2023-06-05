@@ -9,6 +9,7 @@ import {
   FormControl,
   ListGroup,
   Breadcrumb,
+  FormFloating,
 } from "react-bootstrap";
 
 import { Formik, Field, ErrorMessage } from "formik";
@@ -34,6 +35,7 @@ const EditClient = (props) => {
   const Errornotify = (message) => toast.error(message);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
+ const [isEditEnabled, setIsEditEnabled] = useState(false);
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
@@ -161,12 +163,84 @@ const EditClient = (props) => {
       handleSubmit(values);
       // console.log(values);
     },
+  
   });
 
-  return (
+
+
+ 
+
+  const handleCheckBoxChange = (value) => {
+    console.log(value,"value");
+    const { ma_option } = formik.values;
+    console.log(ma_option,"ma_option");
+
+
+    let updateOptions=[];
+    if(ma_option.includes("value")){
+      updateOptions.push("value");
+      console.log(ma_option,"value")
+    }else{
+      updateOptions.pop(value)
+      console.log(ma_option,"value")
+    }
+
+
+
+
+
+    // const isOption = ma_option.includes(value);
+
+    // let updateOptions;
+    // if (isOption) {
+    //   updateOptions = ma_option.filter((option) => option !== value);
+    //   console.log(updateOptions,"updateOptions");
+    // } else {
+    //   updateOptions = [...ma_option, value];
+    //   console.log(updateOptions,"updateOptionschange");
+    // }
+
+    // if (updateOptions.length === 3) {
+    //   updateOptions = [];
+    //   setIsEditEnabled(true); 
+    //   console.log(isEditEnabled,"isEditEnabled");
+    // } else {
+    //   setIsEditEnabled(false);
+    // }
+
+    formik.setFieldValue("ma_option", updateOptions);
+  };
+
+// const handleCheckBoxChange = (value) => {
+//   const { ma_option } = formik.values;
+
+//   const isOption = ma_option.includes(value);
+
+//   let updateOptions;
+//   if (isOption) {
+//     updateOptions = ma_option.filter((option) => option !== value);
+//   } else {
+//     updateOptions = [...ma_option, value];
+//   }
+
+//   console.log(updateOptions);
+
+//   if (updateOptions.length === 3) {
+//     updateOptions = [];
+//   }
+
+//   formik.setFieldValue('ma_option', updateOptions);
+// };
+
+
+
+  
+return (
     <div>
+   
       <div className="page-header">
         <div>
+       
           <h1 className="page-title">Edit Client</h1>
 
           <Breadcrumb className="breadcrumb">
@@ -481,6 +555,7 @@ const EditClient = (props) => {
                     </div>
                   </Col>
                   <Col lg={4} md={6}>
+                  
                     <div className="form-group">
                       <label htmlFor="ma_option" className="form-label mt-4">
                         MA Options
@@ -493,21 +568,9 @@ const EditClient = (props) => {
                             name="ma_option"
                             value="1"
                             checked={formik.values.ma_option.includes("1")}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                formik.setFieldValue("ma_option", [
-                                  ...formik.values.ma_option,
-                                  "1",
-                                ]);
-                              } else {
-                                formik.setFieldValue(
-                                  "ma_option",
-                                  formik.values.ma_option.filter(
-                                    (option) => option !== "1"
-                                  )
-                                );
-                              }
-                            }}
+
+                            onChange={()=>handleCheckBoxChange("1")}
+                         
                           />
                           Actual
                         </label>
@@ -519,21 +582,8 @@ const EditClient = (props) => {
                             name="ma_option"
                             value="2"
                             checked={formik.values.ma_option.includes("2")}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                formik.setFieldValue("ma_option", [
-                                  ...formik.values.ma_option,
-                                  "2",
-                                ]);
-                              } else {
-                                formik.setFieldValue(
-                                  "ma_option",
-                                  formik.values.ma_option.filter(
-                                    (option) => option !== "2"
-                                  )
-                                );
-                              }
-                            }}
+                            onChange={()=>handleCheckBoxChange("2")}
+                          
                           />
                           Forecast
                         </label>
@@ -545,21 +595,8 @@ const EditClient = (props) => {
                             name="ma_option"
                             value="3"
                             checked={formik.values.ma_option.includes("3")}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                formik.setFieldValue("ma_option", [
-                                  ...formik.values.ma_option,
-                                  "3",
-                                ]);
-                              } else {
-                                formik.setFieldValue(
-                                  "ma_option",
-                                  formik.values.ma_option.filter(
-                                    (option) => option !== "3"
-                                  )
-                                );
-                              }
-                            }}
+                            onChange={()=>handleCheckBoxChange("3")}
+                            
                           />
                           Variance
                         </label>
@@ -571,11 +608,13 @@ const EditClient = (props) => {
                       )}
                     </div>
                   </Col>
+                  
                 </Row>
+                  
 
                 <div className="text-end">
                   <Link
-                    type="sussbmit"
+                    type="submit"
                     className="btn btn-danger me-2 "
                     to={`/clients/`}
                   >
@@ -585,12 +624,14 @@ const EditClient = (props) => {
                   <button type="submit" className="btn btn-primary">
                     Submit
                   </button>
+        
                 </div>
               </form>
             </div>
           </Card>
         </Col>
       </Row>
+    
     </div>
   );
 };

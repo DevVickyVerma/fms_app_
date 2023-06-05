@@ -151,7 +151,30 @@ export const MENUITEMS = [
           
         ],
       },
-    
+
+      {
+        title: "Manage Charges",
+        icon: "package",
+        type: "sub",
+        active: false,
+        children: [
+          {
+           path: `/managecharges`,
+            title: "Manage Charges",
+            type: "link",
+          },
+          {
+            path: `/addcharges`,
+            title: "Add Charges",
+            type: "link",
+          },
+         
+          
+        ],
+      },
+
+      
+      
     ],
   },
 
