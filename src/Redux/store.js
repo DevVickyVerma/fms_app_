@@ -1,12 +1,11 @@
-// ./Redux/store.js
-
 import { configureStore } from '@reduxjs/toolkit';
-import apiResponseReducer from './apiResponseSlice';
+import dataReducer from './dataSlice';
 
 const store = configureStore({
   reducer: {
-    apiResponse: apiResponseReducer,
+    data: dataReducer,
   },
 });
 
 export default store;
+

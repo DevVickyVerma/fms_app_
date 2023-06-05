@@ -2,9 +2,31 @@ import React, { Fragment, useState, useEffect } from "react";
 import { MENUITEMS } from "./SideMenu";
 import { Link, NavLink } from "react-router-dom";
 import Scrollbars from "react-custom-scrollbars";
+import { useSelector } from "react-redux";
 const Sidebar = () => {
   const [mainmenu, setMainMenu] = useState(MENUITEMS);
 
+
+
+  const [permissionsArray, setpermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+  
+  useEffect(() => {
+    if (UserPermissions) {
+      setpermissionsArray(UserPermissions.permissions);
+    }
+  }, [UserPermissions]);
+  
+  useEffect(() => {
+    if (permissionsArray) {
+      console.log("Permissions Array:", permissionsArray);
+      permissionsArray.forEach((permission, index) => {
+        console.log(`Permission ${index + 1}:`, permission);
+      });
+      
+    }
+  }, [permissionsArray]);
 
 
 
@@ -89,14 +111,12 @@ const Sidebar = () => {
     }
     item.active = !item.active;
     setMainMenu({ mainmenu: MENUITEMS });
- 
   };
 
   //Hover effect
   function Onhover() {
     if (document.querySelector(".app").classList.contains("sidenav-toggled"))
       document.querySelector(".app").classList.add("sidenav-toggled-open");
-
   }
   function Outhover() {
     document.querySelector(".app").classList.remove("sidenav-toggled-open");
@@ -110,12 +130,9 @@ const Sidebar = () => {
         onMouseOver={() => Onhover()}
         onMouseOut={() => Outhover()}
       >
-        <Scrollbars >
+        <Scrollbars>
           <div className="header side-header">
-            <Link
-              to={`/dashboard/`}
-              className="header-brand1"
-            >
+            <Link to={`/dashboard/`} className="header-brand1">
               <img
                 src={require("../../assets/images/brand/logo.png")}
                 className="header-brand-img desktop-logo"

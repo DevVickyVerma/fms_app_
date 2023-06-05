@@ -5,23 +5,20 @@ import { Breadcrumb, Col, Row, Card } from "react-bootstrap";
 import * as dashboard from "../../data/dashboard/dashboard";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import axios from "axios";
-
-import { setuser } from "../../Redux/apiResponseSlice";
 import withApi from "../../Utils/ApiHelper";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchApiResponse } from "../../Redux/apiResponseSlice";
+import { useDispatch } from 'react-redux';
+import { fetchData } from '../../Redux/dataSlice';
 
 const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
   const notify = (message) => toast.success(message);
   const [justLoggedIn, setJustLoggedIn] = useState(false);
-
   const dispatch = useDispatch();
-  const apiResponseData = useSelector((state) => state.apiResponse.data);
-  const isReduxLoading = useSelector((state) => state.apiResponse.isLoading);
-  const Reduxerror = useSelector((state) => state.apiResponse.error);
+
+  useEffect(() => {
+    dispatch(fetchData());
+  }, [dispatch]);
 
 
 
@@ -39,7 +36,7 @@ const Dashboard = (props) => {
       notify("Login Successfully");
       setJustLoggedIn(false);
     }
-    console.clear();
+    // console.clear();
   }, [justLoggedIn]);
 
   useEffect(() => {

@@ -4,22 +4,13 @@ import { Dropdown, Navbar, Container, Button } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import * as loderdata from "../../data/Component/loderdata/loderdata";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchApiResponse } from "../../Redux/apiResponseSlice";
+
 import withApi from "../../Utils/ApiHelper";
 
 const Header = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
-  const dispatch = useDispatch();
-  const apiResponseData = useSelector((state) => state.apiResponse.data);
-  const isReduxLoading = useSelector((state) => state.apiResponse.isLoading);
-  const Reduxerror = useSelector((state) => state.apiResponse.error);
-
   // Fetch the API response when the component mounts or whenever needed
-  useEffect(() => {
-    dispatch(fetchApiResponse());
-  }, [dispatch]);
 
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
@@ -287,13 +278,17 @@ const Header = (props) => {
                     >
                       <div className="drop-heading">
                         <div className="text-center">
-                         
-                          {apiResponseData && (
+                          <h5 className="text-dark mb-0">
+                            {localStorage.getItem("full_name")
+                              ? localStorage.getItem("full_name")
+                              : "Admin"}{" "}
+                          </h5>
+                          {/* {apiResponseData && (
                             <h5 className="text-dark mb-0">
                            { apiResponseData.data &&
                                   apiResponseData.data.full_name}
                             </h5>
-                          )}
+                          )} */}
                         </div>
                       </div>
                       <div className="dropdown-divider m-0"></div>
