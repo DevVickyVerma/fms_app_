@@ -6,7 +6,7 @@ import * as dashboard from "../../data/dashboard/dashboard";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import withApi from "../../Utils/ApiHelper";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchData } from '../../Redux/dataSlice';
 
 const Dashboard = (props) => {
@@ -14,11 +14,19 @@ const Dashboard = (props) => {
 
   const notify = (message) => toast.success(message);
   const [justLoggedIn, setJustLoggedIn] = useState(false);
-  const dispatch = useDispatch();
 
-  useEffect(() => {
+  
+const dispatch = useDispatch();
+const data = useSelector((state) => state.data.data);
+const token = localStorage.getItem("token");
+
+useEffect(() => {
+  if (token) {
     dispatch(fetchData());
-  }, [dispatch]);
+  } else {
+    // Handle the case when there is no token
+  }
+}, [dispatch, token]);
 
 
 
