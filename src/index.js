@@ -4,9 +4,9 @@ import "./index.scss";
 import { Navigate, BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./Utils/PrivateRoutes";
 import * as loderdata from "./data/Component/loderdata/loderdata";
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-import dataReducer, { fetchData } from './Redux/dataSlice';
+import { Provider } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
+import dataReducer, { fetchData } from "./Redux/dataSlice";
 
 import withApi from "./Utils/ApiHelper";
 
@@ -71,19 +71,52 @@ const EditSite = React.lazy(() =>
 // Site End
 // Charges Start
 
-const ManageCharges=React.lazy(()=>
+const ManageCharges = React.lazy(() =>
   import("./components/pages/ManageCharges/ManageCharges")
-  );
+);
 
-  const AddCharges=React.lazy(()=>
+const AddCharges = React.lazy(() =>
   import("./components/pages/ManageCharges/AddCharges")
-  );
+);
 
-  const EditCharges=React.lazy(()=>
+const EditCharges = React.lazy(() =>
   import("./components/pages/ManageCharges/EditCharges")
-  );
+);
 
 // Charges End
+
+
+// Shops Start
+
+const ManageShops = React.lazy(() =>
+  import("./components/pages/ManageShops/ManageShops")
+);
+
+const AddShops = React.lazy(() =>
+  import("./components/pages/ManageShops/AddShops")
+);
+
+const EditShops = React.lazy(() =>
+  import("./components/pages/ManageShops/EditShops")
+);
+
+// Shops End
+
+// Shops Start
+
+const ManageCards = React.lazy(() =>
+  import("./components/pages/ManageCards/ManageCards")
+);
+
+const AddCards = React.lazy(() =>
+  import("./components/pages/ManageCards/AddCards")
+);
+
+const EditCards = React.lazy(() =>
+  import("./components/pages/ManageCards/EditCards")
+);
+
+// Shops End
 
 const ManageBusinessTypes = React.lazy(() =>
   import("./components/pages/ManageBusinessTypes/ManageBusinessTypes")
@@ -173,17 +206,13 @@ const Loaderimg = () => {
   );
 };
 
-
 const Root = () => {
-
-
-
   const store = configureStore({
     reducer: {
       data: dataReducer,
     },
   });
-  
+
   store.dispatch(fetchData());
   const [token, setToken] = useState(localStorage.getItem("token"));
   const WrappedDashboard = withApi(Dashboard);
@@ -208,6 +237,12 @@ const Root = () => {
   const WrappedManageCharges = withApi(ManageCharges);
   const WrappedAddCharges = withApi(AddCharges);
   const WrappedEditCharges = withApi(EditCharges);
+  const WrappedManageShops = withApi(ManageShops);
+  const WrappedAddShops = withApi(AddShops);
+  const WrappedEditShops = withApi(EditShops);
+  const WrappedManageCards = withApi(ManageShops);
+  const WrappedAddCards = withApi(AddCards);
+  const WrappedEditCards = withApi(EditCards);
   return (
     <Fragment>
       <BrowserRouter>
@@ -258,7 +293,10 @@ const Root = () => {
                   {/* Role  Components End */}
 
                   {/* Addon  Components Start */}
-                  <Route path={`/manageaddon`} element={<WrappedManageAddon />} />
+                  <Route
+                    path={`/manageaddon`}
+                    element={<WrappedManageAddon />}
+                  />
 
                   <Route path={`/addaddon`} element={<WrappedAddAddon />} />
                   <Route path={`EditAddon`} element={<WrappeAddEditAddon />} />
@@ -266,19 +304,54 @@ const Root = () => {
                   {/* Addon  Components End */}
                   {/* Header  Components Start */}
                   <Route
-                      path={`/advancedElements/headers`}
-                      element={<WrappeHeader />}
-                    />
+                    path={`/advancedElements/headers`}
+                    element={<WrappeHeader />}
+                  />
                   {/* Header  Components End */}
-                   {/* Charges  Components Start  */}
-                  <Route path={`/managecharges`} element={<WrappedManageCharges />} />
+                  {/* Charges  Components Start  */}
+                  <Route
+                    path={`/managecharges`}
+                    element={<WrappedManageCharges />}
+                  />
 
                   <Route path={`/addcharges`} element={<WrappedAddCharges />} />
-                  <Route  path={`/editcharges/:id`} element={<WrappedEditCharges />} />
+                  <Route
+                    path={`/editcharges/:id`}
+                    element={<WrappedEditCharges />}
+                  />
 
-                   {/* Charges  Components End  */}
+                  {/* Charges  Components End  */}
+
+                  {/* Shops components start */}
+
+                  <Route
+                    path={`/manageshops`}
+                    element={<WrappedManageShops />}
+                  />
+
+                  <Route path={`/addshops`} element={<WrappedAddShops />} />
+                  <Route
+                    path={`/editshops/:id`}
+                    element={<WrappedEditShops />}
+                  />
+
+                  {/* Shops components end */}
 
 
+                  {/* Cards components start */}
+
+                  <Route
+                    path={`/managecards`}
+                    element={<WrappedManageCards />}
+                  />
+
+                  <Route path={`/addcards`} element={<WrappedAddShops />} />
+                  <Route
+                    path={`/editcards/:id`}
+                    element={<WrappedEditCards />}
+                  />
+
+                  {/* Cards components end */}
 
 
                   <Route>
@@ -286,8 +359,6 @@ const Root = () => {
                       path={`/advancedElements/accordions`}
                       element={<Accordions />}
                     />
-
-               
 
                     <Route
                       path={`/advancedElements/footers`}

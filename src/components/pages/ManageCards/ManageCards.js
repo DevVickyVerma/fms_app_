@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+
+import { Link, Navigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -9,15 +10,18 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
-import Loaderimg from "../../../Utils/Loader";
+import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
 
-const ManageCompany = (props) => {
+const ManageCards = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
   const navigate = useNavigate();
+  const SuccessAlert = (message) => toast.success(message);
+  const ErrorAlert = (message) => toast.error(message);
+
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -43,7 +47,7 @@ const ManageCompany = (props) => {
         });
         const DeleteRole = async () => {
           try {
-            const response = await axiosInstance.post("/company/delete", formData);
+            const response = await axiosInstance.post("charge/delete", formData);
             setData(response.data.data);
             Swal.fire({
               title: "Deleted!",
@@ -62,8 +66,6 @@ const ManageCompany = (props) => {
       }
     });
   };
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
@@ -79,20 +81,24 @@ const ManageCompany = (props) => {
     }
   }
 
- 
-    const toggleActive = (row) => {
+  useEffect(() => {
+    FetchTableData();
+  }, []);
+
+
+  const toggleActive = (row) => {
     const formData = new FormData();
     formData.append("id", row.id);
-  
+
     const newStatus = row.status === 1 ? 0 : 1;
-    formData.append("status", newStatus);
-  
+    formData.append("charge_status", newStatus);
+
     ToggleStatus(formData);
   };
-  
+
   const ToggleStatus = async (formData) => {
     try {
-      const response = await postData("/company/update-status", formData);
+      const response = await postData("charge/update-status", formData);
       console.log(response, "response"); // Console log the response
       if (apidata.api_response === "success") {
         FetchTableData();
@@ -102,18 +108,29 @@ const ManageCompany = (props) => {
     }
   };
 
-  useEffect(() => {
-    FetchTableData();
-  }, []);
+
+  const token = localStorage.getItem("token");
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
 
+  const handleEdit = (row) => {
+    console.log(row, "handleEdit");
+    localStorage.setItem("EditRoleID", row.id);
+    localStorage.setItem("EditRole_name", row.name);
+  };
   const FetchTableData = async () => {
     try {
-      const response = await getData("/company/list");
-      console.log(response.data.data, "ddd");
+      const response = await getData("charge/list");
+      console.log(response.data.data, "charges");
 
-      if (response && response.data && response.data.data.companies) {
-        setData(response.data.data.companies);
+      if (response && response.data && response.data.data) {
+        setData(response.data.data.charges);
+        setSearchvalue(response.data.data.charges);
       } else {
         throw new Error("No data available in the response");
       }
@@ -123,17 +140,11 @@ const ManageCompany = (props) => {
   };
 
 
-
-  const handleEdit = (row) => {
-    localStorage.setItem("Company_id", row.id);
-    localStorage.setItem("Company_Client_id", row.client_id);
-  };
-
- 
   const permissionsToCheck = [
-    "company-list","company-create",
-    "company-edit",
-    "company-details",
+    "charges-list","charges-create",
+    "charges-edit",
+    "charges-details",
+    "charges-delete"
   ];
     let isPermissionAvailable = false;
   const [permissionsArray, setPermissionsArray] = useState([]);
@@ -152,16 +163,15 @@ const ManageCompany = (props) => {
 
 
 
-  const isStatusPermissionAvailable = permissionsArray.includes("company-status-update");
-  const isEditPermissionAvailable = permissionsArray.includes("company-edit");
-  const isAddPermissionAvailable = permissionsArray.includes("company-create");
-  const isDeletePermissionAvailable = permissionsArray.includes("company-delete");
-  const isDetailsPermissionAvailable = permissionsArray.includes("company-details");
-  const isAssignPermissionAvailable = permissionsArray.includes("company-assign");
+const isStatusPermissionAvailable = permissionsArray.includes("charges-status-update");
+const isEditPermissionAvailable = permissionsArray.includes("charges-edit");
+const isAddPermissionAvailable = permissionsArray.includes("charges-create");
+const isDeletePermissionAvailable = permissionsArray.includes("charges-delete");
+const isDetailsPermissionAvailable = permissionsArray.includes("charges-details");
+const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
 
 
-
-
+  
   const columns = [
     {
       name: "S.No",
@@ -176,49 +186,36 @@ const ManageCompany = (props) => {
       ),
     },
     {
-      name: "Company",
-      selector: (row) => [row.company_name],
-      sortable: false,
-      width: "25%",
+      name: "Cards Name",
+      selector: (row) => [row.charge_name],
+      sortable: true,
+      width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.company_name}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row.charge_name}</h6>
           </div>
         </div>
       ),
     },
-     {
-      name: "Client Name",
-      selector: (row) => [row.client],
-      sortable: false,
-      width: "20%",
-      cell: (row, index) => {
-        try {
-          return (
-            <div className="d-flex" style={{ cursor: "default" }}>
-              <div className="ms-2 mt-0 mt-sm-2 d-block">
-              {row.client && row.client? (
-                  <h6 className="mb-0 fs-14 fw-semibold">
-                    {row.client.full_name}
-                  </h6>
-                ) : (
-                  <h6 className="mb-0 fs-14 fw-semibold">No Client</h6>
-                )}
-              </div>
+    {
+        name: "Cards Code",
+        selector: (row) => [row.charge_code],
+        sortable: true,
+        width: "20%",
+        cell: (row, index) => (
+          <div className="d-flex">
+            <div className="ms-2 mt-0 mt-sm-2 d-block">
+              <h6 className="mb-0 fs-14 fw-semibold">{row.charge_code}</h6>
             </div>
-          );
-        } catch (error) {
-          console.error("Error:", error);
-          return <h6 className="mb-0 fs-14 fw-semibold">Error</h6>;
-        }
+          </div>
+        ),
       },
-    },
-      {
+    {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: false,
-      width: "15%",
+      sortable: true,
+      width: "20%",
       cell: (row, index) => (
         <div
           className="d-flex"
@@ -232,42 +229,44 @@ const ManageCompany = (props) => {
       ),
     },
     {
-      name: "Status",
-      selector: (row) => [row.status],
-      sortable: false,
-      width: "10%",
-      cell: (row) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
-          <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
-            {row.status === 1 ? (
-              <button
-                className="badge bg-success"
-                onClick={
+        name: "Status",
+        selector: (row) => [row.charge_status],
+        sortable: true,
+        width: "10%",
+        cell: (row) => (
+          <span className="text-muted fs-15 fw-semibold text-center">
+  
+            <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
+              {row.charge_status === 1 ? (
+                <button
+                  className="badge bg-success"
+                  onClick={
                   isStatusPermissionAvailable ? () => toggleActive(row) : null
                 }
-              >
-                Active
-              </button>
-            ) : row.status === 0 ? (
-              <button
-                className="badge bg-danger"
-                onClick={
+                >
+                  Active
+                </button>
+              ) : row.charge_status === 0 ? (
+                <button
+                  className="badge bg-danger"
+                  onClick={
                   isStatusPermissionAvailable ? () => toggleActive(row) : null
                 }
-              >
-                Inactive
-              </button>
-            ) : (
-              <button className="badge" onClick={
+                >
+                  Inactive
+                </button>
+              ) : (
+                <button className="badge" onClick={
                   isStatusPermissionAvailable ? () => toggleActive(row) : null
                 }>
-                Unknown
-              </button>
-            )}
-          </OverlayTrigger>
-        </span>
-      ),
-    },
+                  Unknown
+                </button>
+              )}
+            </OverlayTrigger>
+   
+          </span>
+        ),
+      },
 
     {
       name: "Action",
@@ -276,11 +275,11 @@ const ManageCompany = (props) => {
       width: "20%",
       cell: (row) => (
         <span className="text-center">
+        {isEditPermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
-            <Link
-              to="/editcompany"
+          <Link
+              to={`/editcard/${row.id}`} // Assuming `row.id` contains the ID
               className="btn btn-primary btn-sm rounded-11 me-2"
-              onClick={() => handleEdit(row)}
             >
               <i>
                 <svg
@@ -296,6 +295,7 @@ const ManageCompany = (props) => {
               </i>
             </Link>
           </OverlayTrigger>
+          ) : null}
           {isDeletePermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
             <Link
@@ -327,17 +327,24 @@ const ManageCompany = (props) => {
     columns,
     data,
   };
+  const [searchText, setSearchText] = useState("");
+  const [searchvalue, setSearchvalue] = useState();
+
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchText(value);
+
+    const filteredData = searchvalue.filter((item) =>
+      item.charge_name.toLowerCase().includes(value.toLowerCase())
+    );
+    setData(filteredData);
+  };
 
   return (
     <>
-    {isLoading ? (
-    <Loaderimg/>
-    ) : (
-      <>
       <div className="page-header ">
         <div>
-          <h1 className="page-title">Manage Company</h1>
-
+          <h1 className="page-title">Manage Charges</h1>
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item
               className="breadcrumb-item"
@@ -350,14 +357,31 @@ const ManageCompany = (props) => {
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Manage Company
+              Manage Cards
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
         <div className="ms-auto pageheader-btn">
-          <Link to="/addcompany" className="btn btn-primary ms-2">
-            Add Company <AddCircleOutlineIcon />
-          </Link>
+          <div className="input-group">
+            <input
+              type="text"
+              className="form-control"
+              value={searchText}
+              onChange={handleSearch}
+              placeholder="Search..."
+              style={{ borderRadius: 0 }}
+            />
+            {isAddPermissionAvailable ? (
+            <Link
+              to="/addCards"
+              className="btn btn-primary ms-2"
+              style={{ borderRadius: "4px" }}
+            >
+              Add Cards
+            </Link>
+            ) : null}
+          </div>
+         
         </div>
       </div>
 
@@ -371,14 +395,12 @@ const ManageCompany = (props) => {
           striped={true}
           // center={true}
           persistTableHead
-          // pagination
+          pagination
           highlightOnHover
           searchable={true}
         />
       </DataTableExtensions>
-      </>
-      )}
     </>
   );
 };
-export default withApi(ManageCompany);
+export default withApi(ManageCards);

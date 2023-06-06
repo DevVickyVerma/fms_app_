@@ -18,13 +18,9 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { useSelector } from "react-redux";
 
 const AddCharges = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
-
-  const navigate = useNavigate();
- 
 
   const handleSubmit1 = async (values) => {
     try {
@@ -41,29 +37,6 @@ const AddCharges = (props) => {
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
-
-
-  const [permissionsArray, setPermissionsArray] = useState([]);
-
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions.permissions);
-    }
-  }, [UserPermissions]);
-
- 
-
-  useEffect(() => {
-    const isAddPermissionAvailable = permissionsArray?.includes("charges-create");
-
-    if (!isAddPermissionAvailable) {
-      navigate("/errorpage403"); // Replace '403' with the actual route name for your 403 page
-    }
-  }, [permissionsArray]);
-
-
 
   return (
     <>

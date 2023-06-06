@@ -172,6 +172,46 @@ export const MENUITEMS = [
           
         ],
       },
+      {
+        title: "Manage Shops",
+        icon: "package",
+        type: "sub",
+        active: false,
+        children: [
+          {
+           path: `/manageshops`,
+            title: "Manage Shops",
+            type: "link",
+          },
+          {
+            path: `/addshops`,
+            title: "Add Shops",
+            type: "link",
+          },
+         
+          
+        ],
+      },
+      {
+        title: "Manage Cards",
+        icon: "package",
+        type: "sub",
+        active: false,
+        children: [
+          {
+           path: `/manageCards`,
+            title: "Manage Cards",
+            type: "link",
+          },
+          {
+            path: `/addcards`,
+            title: "Add Cards",
+            type: "link",
+          },
+         
+          
+        ],
+      },
 
       
       

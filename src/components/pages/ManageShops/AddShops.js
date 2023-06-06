@@ -13,57 +13,29 @@ import {
 
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
-import axios from "axios";
+
 import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { useSelector } from "react-redux";
 
-const AddCharges = (props) => {
+const AddShops = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
-
-  const navigate = useNavigate();
- 
 
   const handleSubmit1 = async (values) => {
     try {
       const formData = new FormData();
-      formData.append("charge_name", values.charge_name);
-      formData.append("charge_code", values.charge_code);
-      formData.append("charge_status", values.charge_status);
+      formData.append("shop_name", values.shop_name);
+      formData.append("code", values.code);
+      formData.append("status", values.status);
 
-      const postDataUrl = "charge/add";
+      const postDataUrl = "shop/add";
+      const navigatePath = "/ManageShops";
 
-      const navigatePath = "/ManageCharges";
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
-
-
-  const [permissionsArray, setPermissionsArray] = useState([]);
-
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions.permissions);
-    }
-  }, [UserPermissions]);
-
- 
-
-  useEffect(() => {
-    const isAddPermissionAvailable = permissionsArray?.includes("charges-create");
-
-    if (!isAddPermissionAvailable) {
-      navigate("/errorpage403"); // Replace '403' with the actual route name for your 403 page
-    }
-  }, [permissionsArray]);
-
-
 
   return (
     <>
@@ -74,7 +46,7 @@ const AddCharges = (props) => {
           <div>
             <div className="page-header">
               <div>
-                <h1 className="page-title">Add Charges</h1>
+                <h1 className="page-title">Add Shops</h1>
 
                 <Breadcrumb className="breadcrumb">
                   <Breadcrumb.Item
@@ -88,7 +60,7 @@ const AddCharges = (props) => {
                     className="breadcrumb-item active breadcrumds"
                     aria-current="page"
                   >
-                    Manage Charges
+                    Manage Shops
                   </Breadcrumb.Item>
                 </Breadcrumb>
               </div>
@@ -98,24 +70,23 @@ const AddCharges = (props) => {
               <Col lg={12} xl={12} md={12} sm={12}>
                 <Card>
                   <Card.Header>
-                    <Card.Title as="h3">Add Charges</Card.Title>
+                    <Card.Title as="h3">Add Shops</Card.Title>
                   </Card.Header>
                   <Formik
                     initialValues={{
-                      charge_name: "",
-                      charge_code: "",
-                      charge_status: "",
+                      shop_name: "",
+                      code: "",
+                      status: "",
                     }}
                     validationSchema={Yup.object({
-                      charge_name: Yup.string()
+                      shop_name: Yup.string()
                         .max(15, "Must be 15 characters or less")
-                        .required(" Charge Name is required"),
+                        .required(" Shop Name is required"),
 
-                      charge_code: Yup.string()
-                        .required("Charge Code is required")
+                      code: Yup.string()
+                        .required("Shop Code is required")
                         .matches(/^[a-zA-Z0-9_\- ]+$/, {
-                          message:
-                            "charge_code must not contain special characters",
+                          message: "code must not contain special characters",
                           excludeEmptyString: true,
                         })
                         .matches(
@@ -127,7 +98,7 @@ const AddCharges = (props) => {
                           }
                         ),
 
-                      charge_status: Yup.string().required(
+                      status: Yup.string().required(
                         "Charge Status is required"
                       ),
                     })}
@@ -141,42 +112,42 @@ const AddCharges = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="charge_name">Charge Name</label>
+                                <label htmlFor="shop_name">Shop Name</label>
                                 <Field
                                   type="text"
                                   // className="form-control"
                                   className={`input101 ${
-                                    errors.charge_name && touched.charge_name
+                                    errors.shop_name && touched.shop_name
                                       ? "is-invalid"
                                       : ""
                                   }`}
-                                  id="charge_name"
-                                  name="charge_name"
-                                  placeholder="Charge Name"
+                                  id="shop_name"
+                                  name="shop_name"
+                                  placeholder="Shop Name"
                                 />
                                 <ErrorMessage
                                   component="div"
                                   className="invalid-feedback"
-                                  name="charge_name"
+                                  name="shop_name"
                                 />
                               </FormGroup>
                             </Col>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="charge_code">Charge Code</label>
+                                <label htmlFor="code">Shop Code</label>
                                 <Field
                                   type="text"
                                   className={`input101 ${
-                                    errors.charge_code && touched.charge_code
+                                    errors.code && touched.code
                                       ? "is-invalid"
                                       : ""
                                   }`}
-                                  id="charge_code"
-                                  name="charge_code"
-                                  placeholder="Charge Code"
+                                  id="code"
+                                  name="code"
+                                  placeholder="Shop Code"
                                 />
                                 <ErrorMessage
-                                  name="charge_code"
+                                  name="code"
                                   component="div"
                                   className="invalid-feedback"
                                 />
@@ -186,28 +157,25 @@ const AddCharges = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="charge_status">
-                                  Charge Status
-                                </label>
+                                <label htmlFor="status">Shop Status</label>
                                 <Field
                                   as="select"
                                   className={`input101 ${
-                                    errors.charge_status &&
-                                    touched.charge_status
+                                    errors.status && touched.status
                                       ? "is-invalid"
                                       : ""
                                   }`}
-                                  id="charge_status"
-                                  name="charge_status"
+                                  id="status"
+                                  name="status"
                                 >
-                                  <option value="">Select Charge Status</option>
+                                  {/* <option value="">Select Shop Status</option> */}
                                   <option value="1">Active</option>
                                   <option value="0">Inactive</option>
                                 </Field>
                                 <ErrorMessage
                                   component="div"
                                   className="invalid-feedback"
-                                  name="charge_status"
+                                  name="status"
                                 />
                               </FormGroup>
                             </Col>
@@ -240,4 +208,4 @@ const AddCharges = (props) => {
     </>
   );
 };
-export default withApi(AddCharges);
+export default withApi(AddShops);

@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import SearchIcon from "@mui/icons-material/Search";
+import { useSelector } from "react-redux";
 
 const ManageCharges = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -35,7 +36,7 @@ const ManageCharges = (props) => {
         const token = localStorage.getItem("token");
 
         const formData = new FormData();
-        formData.append("role_id", id);
+        formData.append("id", id);
 
         const axiosInstance = axios.create({
           baseURL: process.env.REACT_APP_BASE_URL,
@@ -46,7 +47,7 @@ const ManageCharges = (props) => {
         });
         const DeleteRole = async () => {
           try {
-            const response = await axiosInstance.post("/role/delete", formData);
+            const response = await axiosInstance.post("charge/delete", formData);
             setData(response.data.data);
             Swal.fire({
               title: "Deleted!",
@@ -87,17 +88,17 @@ const ManageCharges = (props) => {
 
   const toggleActive = (row) => {
     const formData = new FormData();
-    formData.append("user_id", row.id);
+    formData.append("id", row.id);
 
     const newStatus = row.status === 1 ? 0 : 1;
-    formData.append("status", newStatus);
+    formData.append("charge_status", newStatus);
 
     ToggleStatus(formData);
   };
 
   const ToggleStatus = async (formData) => {
     try {
-      const response = await postData("/update-status", formData);
+      const response = await postData("charge/update-status", formData);
       console.log(response, "response"); // Console log the response
       if (apidata.api_response === "success") {
         FetchTableData();
@@ -137,6 +138,39 @@ const ManageCharges = (props) => {
       console.error("API error:", error);
     }
   };
+
+
+  const permissionsToCheck = [
+    "charges-list","charges-create",
+    "charges-edit",
+    "charges-details",
+    "charges-delete"
+  ];
+    let isPermissionAvailable = false;
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions.permissions);
+    }
+  }, [UserPermissions]);
+
+
+
+
+
+
+
+const isStatusPermissionAvailable = permissionsArray.includes("charges-status-update");
+const isEditPermissionAvailable = permissionsArray.includes("charges-edit");
+const isAddPermissionAvailable = permissionsArray.includes("charges-create");
+const isDeletePermissionAvailable = permissionsArray.includes("charges-delete");
+const isDetailsPermissionAvailable = permissionsArray.includes("charges-details");
+const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
+
+
 
   const columns = [
     {
@@ -201,27 +235,35 @@ const ManageCharges = (props) => {
         width: "10%",
         cell: (row) => (
           <span className="text-muted fs-15 fw-semibold text-center">
+  
             <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
               {row.charge_status === 1 ? (
                 <button
                   className="badge bg-success"
-                  onClick={() => toggleActive(row)}
+                  onClick={
+                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                }
                 >
                   Active
                 </button>
               ) : row.charge_status === 0 ? (
                 <button
                   className="badge bg-danger"
-                  onClick={() => toggleActive(row)}
+                  onClick={
+                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                }
                 >
                   Inactive
                 </button>
               ) : (
-                <button className="badge" onClick={() => toggleActive(row)}>
+                <button className="badge" onClick={
+                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                }>
                   Unknown
                 </button>
               )}
             </OverlayTrigger>
+   
           </span>
         ),
       },
@@ -233,6 +275,7 @@ const ManageCharges = (props) => {
       width: "20%",
       cell: (row) => (
         <span className="text-center">
+        {isEditPermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
           <Link
               to={`/editcharges/${row.id}`} // Assuming `row.id` contains the ID
@@ -252,6 +295,8 @@ const ManageCharges = (props) => {
               </i>
             </Link>
           </OverlayTrigger>
+          ) : null}
+          {isDeletePermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
             <Link
               to="#"
@@ -272,6 +317,7 @@ const ManageCharges = (props) => {
               </i>
             </Link>
           </OverlayTrigger>
+          ) : null}
         </span>
       ),
     },
@@ -289,7 +335,7 @@ const ManageCharges = (props) => {
     setSearchText(value);
 
     const filteredData = searchvalue.filter((item) =>
-      item.name.toLowerCase().includes(value.toLowerCase())
+      item.charge_name.toLowerCase().includes(value.toLowerCase())
     );
     setData(filteredData);
   };
@@ -325,6 +371,7 @@ const ManageCharges = (props) => {
               placeholder="Search..."
               style={{ borderRadius: 0 }}
             />
+            {isAddPermissionAvailable ? (
             <Link
               to="/addCharges"
               className="btn btn-primary ms-2"
@@ -332,7 +379,9 @@ const ManageCharges = (props) => {
             >
               Add Charges
             </Link>
+            ) : null}
           </div>
+         
         </div>
       </div>
 
