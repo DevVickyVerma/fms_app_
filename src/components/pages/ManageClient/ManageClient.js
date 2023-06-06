@@ -184,13 +184,13 @@ const ManageClient = (props) => {
   }, [UserPermissions]);
 
   const isStatusPermissionAvailable =
-    permissionsArray?.includes("site-status-update");
-  const isEditPermissionAvailable = permissionsArray?.includes("site-edit");
-  const isAddPermissionAvailable = permissionsArray?.includes("site-create");
-  const isDeletePermissionAvailable = permissionsArray?.includes("site-delete");
+    permissionsArray?.includes("user-status-update");
+  const isEditPermissionAvailable = permissionsArray?.includes("user-edit");
+  const isAddPermissionAvailable = permissionsArray?.includes("user-create");
+  const isDeletePermissionAvailable = permissionsArray?.includes("user-delete");
   const isDetailsPermissionAvailable =
-    permissionsArray?.includes("site-details");
-  const isAssignPermissionAvailable = permissionsArray?.includes("site-assign");
+    permissionsArray?.includes("user-details");
+  const isAssignPermissionAvailable = permissionsArray?.includes("user-assign");
 
   const columns = [
     {
@@ -407,6 +407,7 @@ const ManageClient = (props) => {
                   <AddCircleOutlineIcon />
                 </Link>
               ) : null}
+              
             </div>
           </div>
           <SideSearchbar

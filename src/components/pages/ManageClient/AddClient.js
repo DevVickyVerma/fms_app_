@@ -99,25 +99,8 @@ const AddClient = (props) => {
   };
 
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
 
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions.permissions);
-    }
-  }, [UserPermissions]);
-
- 
-
-  useEffect(() => {
-    const isAddPermissionAvailable = permissionsArray?.includes("user-create");
-
-    if (!isAddPermissionAvailable) {
-      navigate("/errorpage403"); // Replace '403' with the actual route name for your 403 page
-    }
-  }, [permissionsArray]);
+  
 
   return (
     <>

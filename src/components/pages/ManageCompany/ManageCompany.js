@@ -43,7 +43,10 @@ const ManageCompany = (props) => {
         });
         const DeleteRole = async () => {
           try {
-            const response = await axiosInstance.post("/company/delete", formData);
+            const response = await axiosInstance.post(
+              "/company/delete",
+              formData
+            );
             setData(response.data.data);
             Swal.fire({
               title: "Deleted!",
@@ -79,17 +82,16 @@ const ManageCompany = (props) => {
     }
   }
 
- 
-    const toggleActive = (row) => {
+  const toggleActive = (row) => {
     const formData = new FormData();
     formData.append("id", row.id);
-  
+
     const newStatus = row.status === 1 ? 0 : 1;
     formData.append("status", newStatus);
-  
+
     ToggleStatus(formData);
   };
-  
+
   const ToggleStatus = async (formData) => {
     try {
       const response = await postData("/company/update-status", formData);
@@ -106,7 +108,6 @@ const ManageCompany = (props) => {
     FetchTableData();
   }, []);
 
-
   const FetchTableData = async () => {
     try {
       const response = await getData("/company/list");
@@ -122,20 +123,18 @@ const ManageCompany = (props) => {
     }
   };
 
-
-
   const handleEdit = (row) => {
     localStorage.setItem("Company_id", row.id);
     localStorage.setItem("Company_Client_id", row.client_id);
   };
 
- 
   const permissionsToCheck = [
-    "company-list","company-create",
+    "company-list",
+    "company-create",
     "company-edit",
     "company-details",
   ];
-    let isPermissionAvailable = false;
+  let isPermissionAvailable = false;
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -146,21 +145,17 @@ const ManageCompany = (props) => {
     }
   }, [UserPermissions]);
 
-
-
-
-
-
-
-  const isStatusPermissionAvailable = permissionsArray.includes("company-status-update");
+  const isStatusPermissionAvailable = permissionsArray.includes(
+    "company-status-update"
+  );
   const isEditPermissionAvailable = permissionsArray.includes("company-edit");
   const isAddPermissionAvailable = permissionsArray.includes("company-create");
-  const isDeletePermissionAvailable = permissionsArray.includes("company-delete");
-  const isDetailsPermissionAvailable = permissionsArray.includes("company-details");
-  const isAssignPermissionAvailable = permissionsArray.includes("company-assign");
-
-
-
+  const isDeletePermissionAvailable =
+    permissionsArray.includes("company-delete");
+  const isDetailsPermissionAvailable =
+    permissionsArray.includes("company-details");
+  const isAssignPermissionAvailable =
+    permissionsArray.includes("company-assign");
 
   const columns = [
     {
@@ -188,7 +183,7 @@ const ManageCompany = (props) => {
         </div>
       ),
     },
-     {
+    {
       name: "Client Name",
       selector: (row) => [row.client],
       sortable: false,
@@ -198,7 +193,7 @@ const ManageCompany = (props) => {
           return (
             <div className="d-flex" style={{ cursor: "default" }}>
               <div className="ms-2 mt-0 mt-sm-2 d-block">
-              {row.client && row.client? (
+                {row.client && row.client ? (
                   <h6 className="mb-0 fs-14 fw-semibold">
                     {row.client.full_name}
                   </h6>
@@ -214,7 +209,7 @@ const ManageCompany = (props) => {
         }
       },
     },
-      {
+    {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: false,
@@ -258,9 +253,12 @@ const ManageCompany = (props) => {
                 Inactive
               </button>
             ) : (
-              <button className="badge" onClick={
+              <button
+                className="badge"
+                onClick={
                   isStatusPermissionAvailable ? () => toggleActive(row) : null
-                }>
+                }
+              >
                 Unknown
               </button>
             )}
@@ -297,26 +295,26 @@ const ManageCompany = (props) => {
             </Link>
           </OverlayTrigger>
           {isDeletePermissionAvailable ? (
-          <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
-            <Link
-              to="#"
-              className="btn btn-danger btn-sm rounded-11"
-              onClick={() => handleDelete(row.id)}
-            >
-              <i>
-                <svg
-                  className="table-delete"
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  width="16"
-                >
-                  <path d="M0 0h24v24H0V0z" fill="none" />
-                  <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
-                </svg>
-              </i>
-            </Link>
-          </OverlayTrigger>
+            <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
+              <Link
+                to="#"
+                className="btn btn-danger btn-sm rounded-11"
+                onClick={() => handleDelete(row.id)}
+              >
+                <i>
+                  <svg
+                    className="table-delete"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    width="16"
+                  >
+                    <path d="M0 0h24v24H0V0z" fill="none" />
+                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
+                  </svg>
+                </i>
+              </Link>
+            </OverlayTrigger>
           ) : null}
         </span>
       ),
@@ -330,53 +328,55 @@ const ManageCompany = (props) => {
 
   return (
     <>
-    {isLoading ? (
-    <Loaderimg/>
-    ) : (
-      <>
-      <div className="page-header ">
-        <div>
-          <h1 className="page-title">Manage Company</h1>
+      {isLoading ? (
+        <Loaderimg />
+      ) : (
+        <>
+          <div className="page-header ">
+            <div>
+              <h1 className="page-title">Manage Company</h1>
 
-          <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item
-              className="breadcrumb-item"
-              linkAs={Link}
-              linkProps={{ to: "/dashboard" }}
-            >
-              Dashboard
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item active breadcrumds"
-              aria-current="page"
-            >
-              Manage Company
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
-        <div className="ms-auto pageheader-btn">
-          <Link to="/addcompany" className="btn btn-primary ms-2">
-            Add Company <AddCircleOutlineIcon />
-          </Link>
-        </div>
-      </div>
+              <Breadcrumb className="breadcrumb">
+                <Breadcrumb.Item
+                  className="breadcrumb-item"
+                  linkAs={Link}
+                  linkProps={{ to: "/dashboard" }}
+                >
+                  Dashboard
+                </Breadcrumb.Item>
+                <Breadcrumb.Item
+                  className="breadcrumb-item active breadcrumds"
+                  aria-current="page"
+                >
+                  Manage Company
+                </Breadcrumb.Item>
+              </Breadcrumb>
+            </div>
+            <div className="ms-auto pageheader-btn">
+              {isAddPermissionAvailable ? (
+                <Link to="/addcompany" className="btn btn-primary ms-2">
+                  Add Company <AddCircleOutlineIcon />
+                </Link>
+              ) : null}
+            </div>
+          </div>
 
-      <DataTableExtensions {...tableDatas}>
-        <DataTable
-          columns={columns}
-          data={data}
-          noHeader
-          defaultSortField="id"
-          defaultSortAsc={false}
-          striped={true}
-          // center={true}
-          persistTableHead
-          // pagination
-          highlightOnHover
-          searchable={true}
-        />
-      </DataTableExtensions>
-      </>
+          <DataTableExtensions {...tableDatas}>
+            <DataTable
+              columns={columns}
+              data={data}
+              noHeader
+              defaultSortField="id"
+              defaultSortAsc={false}
+              striped={true}
+              // center={true}
+              persistTableHead
+              // pagination
+              highlightOnHover
+              searchable={true}
+            />
+          </DataTableExtensions>
+        </>
       )}
     </>
   );

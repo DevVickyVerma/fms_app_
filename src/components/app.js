@@ -12,7 +12,7 @@ import TopLoadingBar from "react-top-loading-bar";
 
 
 export default function App() {
-  const loadingBarRef = useRef(null);
+  const loadingBarRef = useRef();
   const navigate = useNavigate();
   const location = useLocation();
 

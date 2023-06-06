@@ -619,7 +619,7 @@ export default function Settings() {
                           }`}
                           id="pagination"
                           name="pagination"
-                          placeholder="Company Name"
+                          placeholder="Pagination"
                           onChange={formik2.handleChange}
                           value={formik2.values.pagination}
                         />
