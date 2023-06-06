@@ -47,7 +47,7 @@ const ManageCards = (props) => {
         });
         const DeleteRole = async () => {
           try {
-            const response = await axiosInstance.post("charge/delete", formData);
+            const response = await axiosInstance.post("card/delete", formData);
             setData(response.data.data);
             Swal.fire({
               title: "Deleted!",
@@ -91,14 +91,14 @@ const ManageCards = (props) => {
     formData.append("id", row.id);
 
     const newStatus = row.status === 1 ? 0 : 1;
-    formData.append("charge_status", newStatus);
+    formData.append("card_status", newStatus);
 
     ToggleStatus(formData);
   };
 
   const ToggleStatus = async (formData) => {
     try {
-      const response = await postData("charge/update-status", formData);
+      const response = await postData("card/update-status", formData);
       console.log(response, "response"); // Console log the response
       if (apidata.api_response === "success") {
         FetchTableData();
@@ -125,12 +125,12 @@ const ManageCards = (props) => {
   };
   const FetchTableData = async () => {
     try {
-      const response = await getData("charge/list");
-      console.log(response.data.data, "charges");
+      const response = await getData("card/list");
+      console.log(response.data.data, "cards");
 
       if (response && response.data && response.data.data) {
-        setData(response.data.data.charges);
-        setSearchvalue(response.data.data.charges);
+        setData(response.data.data.cards);
+        setSearchvalue(response.data.data.cards);
       } else {
         throw new Error("No data available in the response");
       }
@@ -141,10 +141,10 @@ const ManageCards = (props) => {
 
 
   const permissionsToCheck = [
-    "charges-list","charges-create",
-    "charges-edit",
-    "charges-details",
-    "charges-delete"
+    "cards-list","cards-create",
+    "cards-edit",
+    "cards-details",
+    "cards-delete"
   ];
     let isPermissionAvailable = false;
   const [permissionsArray, setPermissionsArray] = useState([]);
@@ -163,15 +163,15 @@ const ManageCards = (props) => {
 
 
 
-const isStatusPermissionAvailable = permissionsArray.includes("charges-status-update");
-const isEditPermissionAvailable = permissionsArray.includes("charges-edit");
-const isAddPermissionAvailable = permissionsArray.includes("charges-create");
-const isDeletePermissionAvailable = permissionsArray.includes("charges-delete");
-const isDetailsPermissionAvailable = permissionsArray.includes("charges-details");
-const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
+const isStatusPermissionAvailable = permissionsArray.includes("cards-status-update");
+const isEditPermissionAvailable = permissionsArray.includes("cards-edit");
+const isAddPermissionAvailable = permissionsArray.includes("cards-create");
+const isDeletePermissionAvailable = permissionsArray.includes("cards-delete");
+const isDetailsPermissionAvailable = permissionsArray.includes("cards-details");
+const isAssignPermissionAvailable = permissionsArray.includes("cards-assign");
 
 
-  
+
   const columns = [
     {
       name: "S.No",
@@ -187,26 +187,26 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
     },
     {
       name: "Cards Name",
-      selector: (row) => [row.charge_name],
+      selector: (row) => [row.card_name],
       sortable: true,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.charge_name}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row.card_name}</h6>
           </div>
         </div>
       ),
     },
     {
         name: "Cards Code",
-        selector: (row) => [row.charge_code],
+        selector: (row) => [row.card_code],
         sortable: true,
         width: "20%",
         cell: (row, index) => (
           <div className="d-flex">
             <div className="ms-2 mt-0 mt-sm-2 d-block">
-              <h6 className="mb-0 fs-14 fw-semibold">{row.charge_code}</h6>
+              <h6 className="mb-0 fs-14 fw-semibold">{row.card_code}</h6>
             </div>
           </div>
         ),
@@ -230,14 +230,14 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
     },
     {
         name: "Status",
-        selector: (row) => [row.charge_status],
+        selector: (row) => [row.card_status],
         sortable: true,
         width: "10%",
         cell: (row) => (
           <span className="text-muted fs-15 fw-semibold text-center">
   
             <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
-              {row.charge_status === 1 ? (
+              {row.card_status === 1 ? (
                 <button
                   className="badge bg-success"
                   onClick={
@@ -246,7 +246,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
                 >
                   Active
                 </button>
-              ) : row.charge_status === 0 ? (
+              ) : row.card_status === 0 ? (
                 <button
                   className="badge bg-danger"
                   onClick={
@@ -275,11 +275,12 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
       width: "20%",
       cell: (row) => (
         <span className="text-center">
-        {isEditPermissionAvailable ? (
+        {/* {isEditPermissionAvailable ? ( */}
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
           <Link
               to={`/editcard/${row.id}`} // Assuming `row.id` contains the ID
               className="btn btn-primary btn-sm rounded-11 me-2"
+              
             >
               <i>
                 <svg
@@ -295,8 +296,8 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
               </i>
             </Link>
           </OverlayTrigger>
-          ) : null}
-          {isDeletePermissionAvailable ? (
+          {/* ) : null} */}
+          {/* {isDeletePermissionAvailable ? ( */}
           <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
             <Link
               to="#"
@@ -317,7 +318,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
               </i>
             </Link>
           </OverlayTrigger>
-          ) : null}
+          {/* ) : null} */}
         </span>
       ),
     },
@@ -335,7 +336,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
     setSearchText(value);
 
     const filteredData = searchvalue.filter((item) =>
-      item.charge_name.toLowerCase().includes(value.toLowerCase())
+      item.card_name.toLowerCase().includes(value.toLowerCase())
     );
     setData(filteredData);
   };
@@ -344,7 +345,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
     <>
       <div className="page-header ">
         <div>
-          <h1 className="page-title">Manage Charges</h1>
+          <h1 className="page-title">Manage Cards</h1>
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item
               className="breadcrumb-item"

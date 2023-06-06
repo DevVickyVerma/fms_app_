@@ -240,7 +240,7 @@ const Root = () => {
   const WrappedManageShops = withApi(ManageShops);
   const WrappedAddShops = withApi(AddShops);
   const WrappedEditShops = withApi(EditShops);
-  const WrappedManageCards = withApi(ManageShops);
+  const WrappedManageCards = withApi(ManageCards);
   const WrappedAddCards = withApi(AddCards);
   const WrappedEditCards = withApi(EditCards);
   return (
@@ -345,9 +345,9 @@ const Root = () => {
                     element={<WrappedManageCards />}
                   />
 
-                  <Route path={`/addcards`} element={<WrappedAddShops />} />
+                  <Route path={`/addcards`} element={<WrappedAddCards />} />
                   <Route
-                    path={`/editcards/:id`}
+                    path={`/editcard/:id`}
                     element={<WrappedEditCards />}
                   />
 
