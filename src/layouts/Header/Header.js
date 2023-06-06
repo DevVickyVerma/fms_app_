@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import * as loderdata from "../../data/Component/loderdata/loderdata";
 
 import withApi from "../../Utils/ApiHelper";
+import { useSelector } from "react-redux";
 
 const Header = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -36,6 +37,27 @@ const Header = (props) => {
       // Handle the error here, such as displaying an error message or performing other actions
     }
   };
+
+  const permissionsToCheck = [
+    "profile-update-profile",
+    "profile-update-password",
+  ];
+
+  let isPermissionAvailable = false;
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions.permissions);
+    }
+  }, [UserPermissions]);
+
+ 
+  const isProfileUpdatePermissionAvailable = permissionsArray?.includes("profile-update-profile");
+  const isUpdatePasswordPermissionAvailable = permissionsArray?.includes("profile-update-password");
+
 
   //full screen
   function Fullscreen() {
@@ -292,14 +314,18 @@ const Header = (props) => {
                         </div>
                       </div>
                       <div className="dropdown-divider m-0"></div>
+                      {isProfileUpdatePermissionAvailable ? (
                       <Dropdown.Item as={Link} to="/editprofile">
                         <i className="dropdown-icon fe fe-user"></i> Edit
                         Profile
                       </Dropdown.Item>
+                      ) : null}
+                      {isUpdatePasswordPermissionAvailable ? (
                       <Dropdown.Item as={Link} to="/editprofile">
                         <i className="dropdown-icon fe fe-user"></i>Change
                         Password
                       </Dropdown.Item>
+                      ) : null}
 
                       <Dropdown.Item as={Link} to="/settings">
                         <i className="dropdown-icon fe fe-settings"></i>

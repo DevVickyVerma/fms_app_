@@ -133,20 +133,20 @@ const ManageBusinessTypes = (props) => {
   }, [UserPermissions]);
 
   const isStatusPermissionAvailable =
-    permissionsArray.includes("business-status-update");
+    permissionsArray?.includes("business-status-update");
   const isEditPermissionAvailable =
-    permissionsArray.includes("business-type-edit");
-  const isAddPermissionAvailable = permissionsArray.includes(
+    permissionsArray?.includes("business-type-edit");
+  const isAddPermissionAvailable = permissionsArray?.includes(
     "business-type-create"
   );
-  const isDeletePermissionAvailable = permissionsArray.includes(
+  const isDeletePermissionAvailable = permissionsArray?.includes(
     "business-type--delete"
   );
-  const isDetailsPermissionAvailable = permissionsArray.includes(
+  const isDetailsPermissionAvailable = permissionsArray?.includes(
     "business-type--detail"
   );
   const isAssignPermissionAvailable =
-    permissionsArray.includes("business-assign");
+    permissionsArray?.includes("business-assign");
 
   const columns = [
     {

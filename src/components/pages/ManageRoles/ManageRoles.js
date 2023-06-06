@@ -130,12 +130,12 @@ const ManageRoles = (props) => {
   }, [UserPermissions]);
 
   const isStatusPermissionAvailable =
-    permissionsArray.includes("role-status-update");
-  const isEditPermissionAvailable = permissionsArray.includes("role-edit");
-  const isAddPermissionAvailable = permissionsArray.includes("role-create");
-  const isDeletePermissionAvailable = permissionsArray.includes("role-delete");
+    permissionsArray?.includes("role-status-update");
+  const isEditPermissionAvailable = permissionsArray?.includes("role-edit");
+  const isAddPermissionAvailable = permissionsArray?.includes("role-create");
+  const isDeletePermissionAvailable = permissionsArray?.includes("role-delete");
   const isDetailsPermissionAvailable =
-    permissionsArray.includes("role-details");
+    permissionsArray?.includes("role-details");
 
   const columns = [
     {
