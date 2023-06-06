@@ -8,10 +8,14 @@ const initialState = {
 };
 
 // Create an asynchronous thunk to fetch the API data
-// `${process.env.REACT_APP_BASE_URL}/reset/password`,
 const baseUrl = process.env.REACT_APP_BASE_URL;
-const token = localStorage.getItem("token");
-export const fetchData = createAsyncThunk("data/fetchData", async () => {
+export const fetchData = createAsyncThunk("data/fetchData", async (_, thunkAPI) => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    throw new Error("Token not found in localStorage.");
+  }
+
   try {
     const response = await fetch(`${baseUrl}/detail`, {
       headers: {
@@ -19,7 +23,7 @@ export const fetchData = createAsyncThunk("data/fetchData", async () => {
       },
     });
     const data = await response.json();
-     // Check the structure of the data
+    // Check the structure of the data
     return data.data;
   } catch (error) {
     throw new Error("Failed to fetch data from API.");
