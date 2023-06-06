@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import SearchIcon from "@mui/icons-material/Search";
+import { useSelector } from "react-redux";
 
 const ManageRoles = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -90,16 +91,7 @@ const ManageRoles = (props) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  // const FetchTableData = async () => {
-  //   try {
-  //     const response = await axiosInstance.post("/role/list");
-  //     if (response.data.data.addons.length > 0) {
-  //       setData(response.data.data.addons);
-  //     }
-  //   } catch (error) {
-  //     handleError(error);
-  //   }
-  // };
+ 
 
   const handleEdit = (row) => {
     console.log(row, "handleEdit");
@@ -109,7 +101,7 @@ const ManageRoles = (props) => {
   const FetchTableData = async () => {
     try {
       const response = await getData("/role/list");
-      console.log(response.data.data, "ddd");
+     
 
       if (response && response.data && response.data.data.addons) {
         setData(response.data.data.addons);
@@ -121,6 +113,46 @@ const ManageRoles = (props) => {
       console.error("API error:", error);
     }
   };
+  const permissionsArray = useSelector((state) => state.data.permissionsArray);
+
+  
+  
+  const permissionsToCheck = [
+    "role-list","role-create",
+    "role-edit",
+    "role-delete",
+  ];
+  let isPermissionAvailable = false;
+
+  if (permissionsArray && permissionsArray.permissions) {
+    try {
+      isPermissionAvailable = permissionsArray.permissions.some((permission) =>
+        permissionsToCheck.includes(permission)
+      );
+    } catch (error) {
+      console.error("Error occurred while checking permissions:", error);
+    }
+  } else {
+    console.error(
+      "permissionsArray is null or does not have 'permissions' property"
+    );
+  }
+
+  const isStatusPermissionAvailable =
+    permissionsArray.permissions.includes("role-status-update");
+  const isEditPermissionAvailable =
+    permissionsArray.permissions.includes("role-edit");
+  const isAddPermissionAvailable =
+    permissionsArray.permissions.includes("role-create");
+  const isDeletePermissionAvailable =
+    permissionsArray.permissions.includes("role-delete");
+  const isDetailsPermissionAvailable =
+    permissionsArray.permissions.includes("role-details");
+
+
+
+
+
 
   const columns = [
     {
@@ -173,6 +205,7 @@ const ManageRoles = (props) => {
       width: "20%",
       cell: (row) => (
         <span className="text-center">
+        {isEditPermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <Link
               to="/editrole"
@@ -193,6 +226,8 @@ const ManageRoles = (props) => {
               </i>
             </Link>
           </OverlayTrigger>
+          ) : null}
+          {isDeletePermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
             <Link
               to="#"
@@ -213,6 +248,7 @@ const ManageRoles = (props) => {
               </i>
             </Link>
           </OverlayTrigger>
+          ) : null}
         </span>
       ),
     },

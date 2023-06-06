@@ -91,7 +91,7 @@ const AddCharges = (props) => {
                   .required(" Charge Name is required"),
 
                   charge_code: Yup.string()
-        .required("charge_code is required")
+        .required("Charge Code is required")
         .matches(/^[a-zA-Z0-9_\- ]+$/, {
           message: "charge_code must not contain special characters",
           excludeEmptyString: true,
@@ -99,13 +99,13 @@ const AddCharges = (props) => {
         .matches(
           /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
           {
-            message: "charge_code must not have consecutive spaces",
+            message: "Charge Code must not have consecutive spaces",
             excludeEmptyString: true,
           }
         ),
 
 
-                charge_status: Yup.string().required("charge_status is required"),
+                charge_status: Yup.string().required("Charge Status is required"),
               })}
               onSubmit={(values) => {
                 handleSubmit1(values);
@@ -139,7 +139,7 @@ const AddCharges = (props) => {
                       </Col>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label htmlFor="charge_code">charge_code</label>
+                          <label htmlFor="charge_code">Charge Code</label>
                           <Field
                             type="text"
                             className={`input101 ${
@@ -147,7 +147,7 @@ const AddCharges = (props) => {
                             }`}
                             id="charge_code"
                             name="charge_code"
-                            placeholder="charge_code"
+                            placeholder="Charge Code"
                           />
                           <ErrorMessage
                             name="charge_code"
@@ -160,7 +160,7 @@ const AddCharges = (props) => {
                     <Row>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label htmlFor="charge_status">charge_status</label>
+                          <label htmlFor="charge_status">Charge Status</label>
                           <Field
                             as="select"
                             className={`input101 ${
@@ -171,7 +171,7 @@ const AddCharges = (props) => {
                             id="charge_status"
                             name="charge_status"
                           >
-                            <option value="">Select charge_status</option>
+                            <option value="">Select Charge Status</option>
                             <option value="1">Active</option>
                             <option value="0">Inactive</option>
                           </Field>
