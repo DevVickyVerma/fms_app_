@@ -21,6 +21,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
+import { useSelector } from "react-redux";
 
 
   const AddAddon = (props) => {
@@ -95,6 +96,28 @@ import withApi from "../../../Utils/ApiHelper";
       ErrorAlert(data.message);
     }
   };
+
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions.permissions);
+    }
+  }, [UserPermissions]);
+
+ 
+
+  useEffect(() => {
+    const isAddPermissionAvailable = permissionsArray?.includes("addons-create");
+
+    if (!isAddPermissionAvailable) {
+      navigate("/errorpage403"); // Replace '403' with the actual route name for your 403 page
+    }
+  }, [permissionsArray]);
+
+
 
   return (
     <>

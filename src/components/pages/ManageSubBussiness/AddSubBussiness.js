@@ -18,6 +18,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import { useSelector } from "react-redux";
 
 const AddSubBussiness = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -84,6 +85,27 @@ const AddSubBussiness = (props) => {
       console.error("API error:", error);
     }
   };
+
+
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions.permissions);
+    }
+  }, [UserPermissions]);
+
+ 
+
+  useEffect(() => {
+    const isAddPermissionAvailable = permissionsArray?.includes("sub-business-create");
+
+    if (!isAddPermissionAvailable) {
+      navigate("/errorpage403"); // Replace '403' with the actual route name for your 403 page
+    }
+  }, [permissionsArray]);
 
   return (
     <>

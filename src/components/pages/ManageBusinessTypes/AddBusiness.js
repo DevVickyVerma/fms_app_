@@ -18,6 +18,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import { useSelector } from "react-redux";
 
 const AddAddon = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -43,6 +44,25 @@ const AddAddon = (props) => {
  ; // Set the submission state to false if an error occurs
   }
   };
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions.permissions);
+    }
+  }, [UserPermissions]);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const isAddPermissionAvailable = permissionsArray?.includes("addons-create");
+
+    if (!isAddPermissionAvailable) {
+      navigate("/errorpage403"); // Replace '403' with the actual route name for your 403 page
+    }
+  }, [permissionsArray]);
 
   return (
     <>

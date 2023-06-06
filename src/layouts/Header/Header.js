@@ -14,8 +14,9 @@ const Header = (props) => {
   // Fetch the API response when the component mounts or whenever needed
 
   const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
+
   const [loading, setLoading] = useState(false);
+  const [username, setUsername] = useState();
 
   const logout = async (row) => {
     try {
@@ -50,7 +51,9 @@ const Header = (props) => {
 
   useEffect(() => {
     if (UserPermissions) {
+      console.log(UserPermissions,"UserPermissions")
       setPermissionsArray(UserPermissions.permissions);
+      setUsername(UserPermissions.full_name);
     }
   }, [UserPermissions]);
 
@@ -301,9 +304,9 @@ const Header = (props) => {
                       <div className="drop-heading">
                         <div className="text-center">
                           <h5 className="text-dark mb-0">
-                            {localStorage.getItem("full_name")
-                              ? localStorage.getItem("full_name")
-                              : "Admin"}{" "}
+                            {username
+                              ? username
+                              : "Admin"}
                           </h5>
                           {/* {apiResponseData && (
                             <h5 className="text-dark mb-0">

@@ -588,4 +588,7 @@ const AddClient = (props) => {
     </>
   );
 };
+
 export default withApi(AddClient);
+
+
