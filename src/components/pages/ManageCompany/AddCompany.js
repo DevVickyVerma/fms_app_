@@ -20,6 +20,7 @@ import DatePicker, { Calendar } from "react-multi-date-picker";
 import { useFormikContext } from "formik";
 import "react-datepicker/dist/react-datepicker.css";
 import withApi from "../../../Utils/ApiHelper";
+import { useSelector } from "react-redux";
 
 const AddCompany = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -108,6 +109,36 @@ const AddCompany = (props) => {
     setSubmitting(false); // Set the submission state to false if an error occurs
   }
   };
+
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions?.permissions);
+    }
+  }, [UserPermissions]);
+
+  useEffect(() => {
+    const isAddPermissionAvailable = permissionsArray?.includes("company-create");
+  
+    if (permissionsArray.length > 0) {
+      if (isAddPermissionAvailable) {
+        console.log(isAddPermissionAvailable, "AddPermissionAvailable");
+        // Perform action when permission is available
+        // Your code here
+      } else {
+        // console.log(isAddPermissionAvailable, "NoAddPermissionAvailable");
+        // Perform action when permission is not available
+        // Your code here
+        navigate("/errorpage403");
+      }
+    }
+  }, [permissionsArray]);
+
+
+
   
   return (
     <div>

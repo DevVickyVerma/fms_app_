@@ -149,6 +149,40 @@ export default function AddSite() {
       </div>
     );
   };
+
+
+ const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions?.permissions);
+    }
+  }, [UserPermissions]);
+
+  useEffect(() => {
+    const isAddPermissionAvailable = permissionsArray?.includes("site-create");
+  
+    if (permissionsArray.length > 0) {
+      if (isAddPermissionAvailable) {
+        console.log(isAddPermissionAvailable, "AddPermissionAvailable");
+        // Perform action when permission is available
+        // Your code here
+      } else {
+        // console.log(isAddPermissionAvailable, "NoAddPermissionAvailable");
+        // Perform action when permission is not available
+        // Your code here
+        navigate("/errorpage403");
+      }
+    }
+  }, [permissionsArray]);
+
+
+
+
+
+
   return (
      <>
       {isLoading ? (

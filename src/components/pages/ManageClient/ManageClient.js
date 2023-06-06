@@ -179,7 +179,7 @@ const ManageClient = (props) => {
 
   useEffect(() => {
     if (UserPermissions) {
-      setPermissionsArray(UserPermissions.permissions);
+      setPermissionsArray(UserPermissions?.permissions);
     }
   }, [UserPermissions]);
 
@@ -343,6 +343,8 @@ const ManageClient = (props) => {
       </div>
     );
   };
+  
+
 
   return (
     <>

@@ -97,7 +97,32 @@ import { useSelector } from "react-redux";
     }
   };
 
- 
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions?.permissions);
+    }
+  }, [UserPermissions]);
+
+  useEffect(() => {
+    const isAddPermissionAvailable = permissionsArray?.includes("addons-create");
+  
+    if (permissionsArray.length > 0) {
+      if (isAddPermissionAvailable) {
+        console.log(isAddPermissionAvailable, "AddPermissionAvailable");
+        // Perform action when permission is available
+        // Your code here
+      } else {
+        // console.log(isAddPermissionAvailable, "NoAddPermissionAvailable");
+        // Perform action when permission is not available
+        // Your code here
+        navigate("/errorpage403");
+      }
+    }
+  }, [permissionsArray]);
 
 
 

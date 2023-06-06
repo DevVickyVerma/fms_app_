@@ -22,6 +22,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import { useSelector } from "react-redux";
 
 
   const AddRoles = (props) => {
@@ -84,6 +85,37 @@ import Loaderimg from "../../../Utils/Loader";
  ; // Set the submission state to false if an error occurs
   }
   };
+
+
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions?.permissions);
+    }
+  }, [UserPermissions]);
+
+  useEffect(() => {
+    const isAddPermissionAvailable = permissionsArray?.includes("role-create");
+  
+    if (permissionsArray.length > 0) {
+      if (isAddPermissionAvailable) {
+        console.log(isAddPermissionAvailable, "AddPermissionAvailable");
+        // Perform action when permission is available
+        // Your code here
+      } else {
+        // console.log(isAddPermissionAvailable, "NoAddPermissionAvailable");
+        // Perform action when permission is not available
+        // Your code here
+        navigate("/errorpage403");
+      }
+    }
+  }, [permissionsArray]);
+
+
+
 
   return (
     <>

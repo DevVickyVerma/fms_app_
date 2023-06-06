@@ -23,7 +23,7 @@ import { useSelector } from "react-redux";
 const AddAddon = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
-
+  const navigate = useNavigate();
  
   const handleSubmit1 = async (values) => {
     try {
@@ -44,6 +44,32 @@ const AddAddon = (props) => {
  ; // Set the submission state to false if an error occurs
   }
   };
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions?.permissions);
+    }
+  }, [UserPermissions]);
+
+  useEffect(() => {
+    const isAddPermissionAvailable = permissionsArray?.includes("business-type-create");
+  
+    if (permissionsArray.length > 0) {
+      if (isAddPermissionAvailable) {
+        console.log(isAddPermissionAvailable, "AddPermissionAvailable");
+        // Perform action when permission is available
+        // Your code here
+      } else {
+        // console.log(isAddPermissionAvailable, "NoAddPermissionAvailable");
+        // Perform action when permission is not available
+        // Your code here
+        navigate("/errorpage403");
+      }
+    }
+  }, [permissionsArray]);
  
 
   return (
