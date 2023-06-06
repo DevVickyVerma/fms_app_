@@ -87,7 +87,7 @@ const ManageCharges = (props) => {
 
   const toggleActive = (row) => {
     const formData = new FormData();
-    formData.append("user_id", row.id);
+    formData.append("id", row.id);
 
     const newStatus = row.status === 1 ? 0 : 1;
     formData.append("status", newStatus);
@@ -97,7 +97,7 @@ const ManageCharges = (props) => {
 
   const ToggleStatus = async (formData) => {
     try {
-      const response = await postData("/update-status", formData);
+      const response = await postData("/shop/update-status", formData);
       console.log(response, "response"); // Console log the response
       if (apidata.api_response === "success") {
         FetchTableData();
@@ -124,12 +124,12 @@ const ManageCharges = (props) => {
   };
   const FetchTableData = async () => {
     try {
-      const response = await getData("charge/list");
-      console.log(response.data.data, "charges");
+      const response = await getData("shop/list");
+      console.log(response.data.data, "shops");
 
       if (response && response.data && response.data.data) {
-        setData(response.data.data.charges);
-        setSearchvalue(response.data.data.charges);
+        setData(response.data.data.shop);
+        setSearchvalue(response.data.data.shop);
       } else {
         throw new Error("No data available in the response");
       }
@@ -153,26 +153,26 @@ const ManageCharges = (props) => {
     },
     {
       name: "Shops Name",
-      selector: (row) => [row.charge_name],
+      selector: (row) => [row.shop_name],
       sortable: true,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.charge_name}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row.shop_name}</h6>
           </div>
         </div>
       ),
     },
     {
         name: "Shops Code",
-        selector: (row) => [row.charge_code],
+        selector: (row) => [row.code],
         sortable: true,
         width: "20%",
         cell: (row, index) => (
           <div className="d-flex">
             <div className="ms-2 mt-0 mt-sm-2 d-block">
-              <h6 className="mb-0 fs-14 fw-semibold">{row.charge_code}</h6>
+              <h6 className="mb-0 fs-14 fw-semibold">{row.code}</h6>
             </div>
           </div>
         ),
@@ -196,20 +196,20 @@ const ManageCharges = (props) => {
     },
     {
         name: "Status",
-        selector: (row) => [row.charge_status],
+        selector: (row) => [row.status],
         sortable: true,
         width: "10%",
         cell: (row) => (
           <span className="text-muted fs-15 fw-semibold text-center">
             <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
-              {row.charge_status === 1 ? (
+              {row.status === 1 ? (
                 <button
                   className="badge bg-success"
                   onClick={() => toggleActive(row)}
                 >
                   Active
                 </button>
-              ) : row.charge_status === 0 ? (
+              ) : row.status === 0 ? (
                 <button
                   className="badge bg-danger"
                   onClick={() => toggleActive(row)}
@@ -235,7 +235,7 @@ const ManageCharges = (props) => {
         <span className="text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
           <Link
-              to={`/editcharges/${row.id}`} // Assuming `row.id` contains the ID
+              to={`/editshops/${row.id}`} // Assuming `row.id` contains the ID
               className="btn btn-primary btn-sm rounded-11 me-2"
             >
               <i>
@@ -326,7 +326,7 @@ const ManageCharges = (props) => {
               style={{ borderRadius: 0 }}
             />
             <Link
-              to="/addCharges"
+              to="/addShops"
               className="btn btn-primary ms-2"
               style={{ borderRadius: "4px" }}
             >

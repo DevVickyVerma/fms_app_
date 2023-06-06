@@ -13,24 +13,25 @@ import {
 
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
+import { toast } from "react-toastify";
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 
-const AddShops = (props) => {
+const AddCharges = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
   const handleSubmit1 = async (values) => {
     try {
       const formData = new FormData();
-      formData.append("shop_name", values.shop_name);
-      formData.append("code", values.code);
-      formData.append("status", values.status);
+      formData.append("charge_name", values.charge_name);
+      formData.append("charge_code", values.charge_code);
+      formData.append("charge_status", values.charge_status);
 
-      const postDataUrl = "shop/add";
-      const navigatePath = "/ManageShops";
+      const postDataUrl = "charge/add";
 
+      const navigatePath = "/ManageCharges";
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
@@ -46,7 +47,7 @@ const AddShops = (props) => {
           <div>
             <div className="page-header">
               <div>
-                <h1 className="page-title">Add Shops</h1>
+                <h1 className="page-title">Add Charges</h1>
 
                 <Breadcrumb className="breadcrumb">
                   <Breadcrumb.Item
@@ -60,7 +61,7 @@ const AddShops = (props) => {
                     className="breadcrumb-item active breadcrumds"
                     aria-current="page"
                   >
-                    Manage Shops
+                    Manage Charges
                   </Breadcrumb.Item>
                 </Breadcrumb>
               </div>
@@ -70,23 +71,24 @@ const AddShops = (props) => {
               <Col lg={12} xl={12} md={12} sm={12}>
                 <Card>
                   <Card.Header>
-                    <Card.Title as="h3">Add Shops</Card.Title>
+                    <Card.Title as="h3">Add Charges</Card.Title>
                   </Card.Header>
                   <Formik
                     initialValues={{
-                      shop_name: "",
-                      code: "",
-                      status: "",
+                      charge_name: "",
+                      charge_code: "",
+                      charge_status: "",
                     }}
                     validationSchema={Yup.object({
-                      shop_name: Yup.string()
+                      charge_name: Yup.string()
                         .max(15, "Must be 15 characters or less")
-                        .required(" Shop Name is required"),
+                        .required(" Charge Name is required"),
 
-                      code: Yup.string()
-                        .required("Shop Code is required")
+                      charge_code: Yup.string()
+                        .required("Charge Code is required")
                         .matches(/^[a-zA-Z0-9_\- ]+$/, {
-                          message: "code must not contain special characters",
+                          message:
+                            "charge_code must not contain special characters",
                           excludeEmptyString: true,
                         })
                         .matches(
@@ -98,7 +100,7 @@ const AddShops = (props) => {
                           }
                         ),
 
-                      status: Yup.string().required(
+                      charge_status: Yup.string().required(
                         "Charge Status is required"
                       ),
                     })}
@@ -112,42 +114,42 @@ const AddShops = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="shop_name">Shop Name</label>
+                                <label htmlFor="charge_name">Charge Name</label>
                                 <Field
                                   type="text"
                                   // className="form-control"
                                   className={`input101 ${
-                                    errors.shop_name && touched.shop_name
+                                    errors.charge_name && touched.charge_name
                                       ? "is-invalid"
                                       : ""
                                   }`}
-                                  id="shop_name"
-                                  name="shop_name"
-                                  placeholder="Shop Name"
+                                  id="charge_name"
+                                  name="charge_name"
+                                  placeholder="Charge Name"
                                 />
                                 <ErrorMessage
                                   component="div"
                                   className="invalid-feedback"
-                                  name="shop_name"
+                                  name="charge_name"
                                 />
                               </FormGroup>
                             </Col>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="code">Shop Code</label>
+                                <label htmlFor="charge_code">Charge Code</label>
                                 <Field
                                   type="text"
                                   className={`input101 ${
-                                    errors.code && touched.code
+                                    errors.charge_code && touched.charge_code
                                       ? "is-invalid"
                                       : ""
                                   }`}
-                                  id="code"
-                                  name="code"
-                                  placeholder="Shop Code"
+                                  id="charge_code"
+                                  name="charge_code"
+                                  placeholder="Charge Code"
                                 />
                                 <ErrorMessage
-                                  name="code"
+                                  name="charge_code"
                                   component="div"
                                   className="invalid-feedback"
                                 />
@@ -157,25 +159,28 @@ const AddShops = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="status">Shop Status</label>
+                                <label htmlFor="charge_status">
+                                  Charge Status
+                                </label>
                                 <Field
                                   as="select"
                                   className={`input101 ${
-                                    errors.status && touched.status
+                                    errors.charge_status &&
+                                    touched.charge_status
                                       ? "is-invalid"
                                       : ""
                                   }`}
-                                  id="status"
-                                  name="status"
+                                  id="charge_status"
+                                  name="charge_status"
                                 >
-                                  {/* <option value="">Select Shop Status</option> */}
+                                  <option value="">Select Charge Status</option>
                                   <option value="1">Active</option>
                                   <option value="0">Inactive</option>
                                 </Field>
                                 <ErrorMessage
                                   component="div"
                                   className="invalid-feedback"
-                                  name="status"
+                                  name="charge_status"
                                 />
                               </FormGroup>
                             </Col>
@@ -208,4 +213,4 @@ const AddShops = (props) => {
     </>
   );
 };
-export default withApi(AddShops);
+export default withApi(AddCharges);

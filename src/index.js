@@ -102,6 +102,22 @@ const EditShops = React.lazy(() =>
 
 // Shops End
 
+// Shops Start
+
+const ManageCards = React.lazy(() =>
+  import("./components/pages/ManageCards/ManageCards")
+);
+
+const AddCards = React.lazy(() =>
+  import("./components/pages/ManageCards/AddCards")
+);
+
+const EditCards = React.lazy(() =>
+  import("./components/pages/ManageCards/EditCards")
+);
+
+// Shops End
+
 const ManageBusinessTypes = React.lazy(() =>
   import("./components/pages/ManageBusinessTypes/ManageBusinessTypes")
 );
@@ -224,6 +240,9 @@ const Root = () => {
   const WrappedManageShops = withApi(ManageShops);
   const WrappedAddShops = withApi(AddShops);
   const WrappedEditShops = withApi(EditShops);
+  const WrappedManageCards = withApi(ManageShops);
+  const WrappedAddCards = withApi(AddCards);
+  const WrappedEditCards = withApi(EditCards);
   return (
     <Fragment>
       <BrowserRouter>
@@ -317,6 +336,23 @@ const Root = () => {
                   />
 
                   {/* Shops components end */}
+
+
+                  {/* Cards components start */}
+
+                  <Route
+                    path={`/managecards`}
+                    element={<WrappedManageCards />}
+                  />
+
+                  <Route path={`/addcards`} element={<WrappedAddShops />} />
+                  <Route
+                    path={`/editcards/:id`}
+                    element={<WrappedEditCards />}
+                  />
+
+                  {/* Cards components end */}
+
 
                   <Route>
                     <Route

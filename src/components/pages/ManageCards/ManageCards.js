@@ -15,7 +15,7 @@ import withApi from "../../../Utils/ApiHelper";
 import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
 
-const ManageCharges = (props) => {
+const ManageCards = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
   const navigate = useNavigate();
@@ -171,7 +171,7 @@ const isDetailsPermissionAvailable = permissionsArray.includes("charges-details"
 const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
 
 
-
+  
   const columns = [
     {
       name: "S.No",
@@ -186,7 +186,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
       ),
     },
     {
-      name: "Charges Name",
+      name: "Cards Name",
       selector: (row) => [row.charge_name],
       sortable: true,
       width: "20%",
@@ -199,7 +199,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
       ),
     },
     {
-        name: "Charges Code",
+        name: "Cards Code",
         selector: (row) => [row.charge_code],
         sortable: true,
         width: "20%",
@@ -278,7 +278,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
         {isEditPermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
           <Link
-              to={`/editcharges/${row.id}`} // Assuming `row.id` contains the ID
+              to={`/editcard/${row.id}`} // Assuming `row.id` contains the ID
               className="btn btn-primary btn-sm rounded-11 me-2"
             >
               <i>
@@ -357,7 +357,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Manage Charges
+              Manage Cards
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -373,11 +373,11 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
             />
             {isAddPermissionAvailable ? (
             <Link
-              to="/addCharges"
+              to="/addCards"
               className="btn btn-primary ms-2"
               style={{ borderRadius: "4px" }}
             >
-              Add Charges
+              Add Cards
             </Link>
             ) : null}
           </div>
@@ -403,4 +403,4 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
     </>
   );
 };
-export default withApi(ManageCharges);
+export default withApi(ManageCards);

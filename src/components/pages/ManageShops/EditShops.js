@@ -21,10 +21,8 @@ import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 
-
-  
-  const EditBussiness = (props) => {
-    const { apidata, isLoading, error, getData, postData } = props;
+const EditShops = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
   const navigate = useNavigate();
 
   const [AddSiteData, setAddSiteData] = useState([]);
@@ -37,11 +35,11 @@ import Loaderimg from "../../../Utils/Loader";
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
   function handleError(error) {
-    if (error.response && error.response.charge_status === 401) {
+    if (error.response && error.response.status === 401) {
       navigate("/login");
       Errornotify("Invalid access token");
       localStorage.clear();
-    } else if (error.response && error.response.data.charge_status_code === "403") {
+    } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
     } else {
       const errorMessage = Array.isArray(error.response.data.message)
@@ -67,7 +65,7 @@ import Loaderimg from "../../../Utils/Loader";
 
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(`/charge/${id}`);
+        const response = await axiosInstance.get(`/shop/${id}`);
         if (response) {
           console.log(response.data.data);
           setEditSiteData(response.data.data);
@@ -94,96 +92,52 @@ import Loaderimg from "../../../Utils/Loader";
     },
   });
 
-  // const handleSubmit = async (values) => {
-  //   const token = localStorage.getItem("token");
-
-  //   const formData = new FormData();
-  //   console.log(formData, "formData");
-
-  //   formData.append("charge_code", values.charge_code);
-  //   formData.append("charge_name", values.charge_name);
-  //   formData.append("charge_status", values.charge_status);
-  //   formData.append("id", values.id);
-  
-    
-
-  //   try {
-  //     const response = await fetch(
-  //       `${process.env.REACT_APP_BASE_URL}/business/update-type`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //         body: formData,
-  //       }
-  //     );
-
-  //     const data = await response.json();
-
-  //     if (response.ok) {
-  //       notify(data.message);
-  //       navigate("/business");
-  //     } else {
-  //       Errornotify(data.message);
-  //     }
-  //   } catch (error) {
-  //     handleError(error);
-  //   }
-  // };
-  
   const handleSubmit = async (values) => {
     try {
-     
- 
       const formData = new FormData();
       console.log(formData, "formData");
-  
-      formData.append("charge_code", values.charge_code);
-      formData.append("charge_name", values.charge_name);
-      formData.append("charge_status", values.charge_status);
+
+      formData.append("code", values.code);
+      formData.append("shop_name", values.name);
+      formData.append("status", values.status);
       formData.append("id", values.id);
 
-    const postDataUrl = "/charge/update";
-    const navigatePath = "/managecharges";
-  
-    await postData(postDataUrl, formData, navigatePath);
-  
-   ; // Set the submission state to false after the API call is completed
-  } catch (error) {
-    handleError(error);
- ; // Set the submission state to false if an error occurs
-  }
+      const postDataUrl = "/shop/update";
+      const navigatePath = "/manageshops";
+
+      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
+    } catch (error) {
+      handleError(error); // Set the submission state to false if an error occurs
+    }
   };
 
   const formik = useFormik({
     initialValues: {
-      charge_code: "",
-      charge_name: "",
+      code: "",
+      name: "",
 
-      charge_status: "",
+      status: "",
     },
     validationSchema: Yup.object({
-      charge_code: Yup.string()
+      code: Yup.string()
         .max(20, "Must be 20 characters or less")
-        .required("Business Name is required"),
+        .required("Shop Name is required"),
 
-        charge_name: Yup.string()
-        .required("charge_name is required")
+      name: Yup.string()
+        .required("Shop Name is required")
         .matches(/^[a-zA-Z0-9_\- ]+$/, {
-          message: "charge_name must not contain special characters",
+          message: "Shop Name must not contain special characters",
           excludeEmptyString: true,
         })
         .matches(
           /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
           {
-            message: "charge_name must not have consecutive spaces",
+            message: "Shop Name must not have consecutive spaces",
             excludeEmptyString: true,
           }
         ),
 
-
-      charge_status: Yup.string().required("charge_status is required"),
+      status: Yup.string().required("Shop Status is required"),
     }),
     onSubmit: handleSubmit,
   });
@@ -197,7 +151,7 @@ import Loaderimg from "../../../Utils/Loader";
 
     formik.setFieldValue("business_type", selectedType);
     setSelectedBusinessType(selectedType);
-    const selectedTypeData = AddSiteData.busines_types.find(
+    const selectedTypeData = AddSiteData.business_types.find(
       (type) => type.name === selectedType
     );
     setSubTypes(selectedTypeData.sub_types);
@@ -205,157 +159,154 @@ import Loaderimg from "../../../Utils/Loader";
 
   return (
     <>
-    {isLoading ? (
-      <Loaderimg/>
-    ) :(
-      <>
-    <div>
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">Edit Business</h1>
+      {isLoading ? (
+        <Loaderimg />
+      ) : (
+        <>
+          <div>
+            <div className="page-header">
+              <div>
+                <h1 className="page-title">Edit Shops</h1>
 
-          <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item
-              className="breadcrumb-item"
-              linkAs={Link}
-              linkProps={{ to: "/dashboard" }}
-            >
-              Dashboard
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item  breadcrumds"
-              aria-current="page"
-              linkAs={Link}
-              linkProps={{ to: "/business" }}
-            >
-              Manage Business
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item active breadcrumds"
-              aria-current="page"
-            >
-              Edit Business
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
-      </div>
-
-      <Row>
-        <Col lg={12} xl={12} md={12} sm={12}>
-          <Card>
-            <Card.Header>
-              <Card.Title as="h3">Edit Business</Card.Title>
-            </Card.Header>
-
-            <div class="card-body">
-              <form onSubmit={formik.handleSubmit}>
-                <Row>
-                  <Col lg={6} md={6}>
-                    <div className="form-group">
-                      <label
-                        className="form-label mt-4"
-                        htmlFor="charge_code"
-                      >
-                        Charges Name<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        id="charge_code"
-                        charge_code="name"
-                        type="text"
-                        className={`input101 ${
-                          formik.errors.charge_code &&
-                          formik.touched.charge_code
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        placeholder="Business Name"
-                        onChange={formik.handleChange}
-                        value={formik.values.charge_code || ""}
-                      />
-                      {formik.errors.charge_code &&
-                        formik.touched.charge_code && (
-                          <div className="invalid-feedback">
-                            {formik.errors.charge_code}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-                  <Col lg={6} md={6}>
-                    <div className="form-group">
-                      <label className="form-label mt-4" htmlFor="charge_name">
-                        charge_name<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        className={`input101 ${
-                          formik.errors.charge_name && formik.touched.charge_name
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="charge_name"
-                        name="charge_name"
-                        placeholder="charge_name"
-                        onChange={formik.handleChange}
-                        value={formik.values.charge_name || ""}
-                      />
-                      {formik.errors.charge_name && formik.touched.charge_name && (
-                        <div className="invalid-feedback">
-                          {formik.errors.charge_name}
-                        </div>
-                      )}
-                    </div>
-                  </Col>
-
-                  <Col lg={6} md={6}>
-                    <div className="form-group">
-                      <label htmlFor="charge_status" className="form-label mt-4">
-                        charge_status <span className="text-danger">*</span>
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.charge_status && formik.touched.charge_status
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="charge_status"
-                        name="charge_status"
-                        onChange={formik.handleChange}
-                        value={formik.values.charge_status}
-                      >
-                        <option value="">Select a charge_status</option>
-                        <option value="1">Active</option>
-                            <option value="0">Inactive</option>
-                      </select>
-                      {formik.errors.charge_status && formik.touched.charge_status && (
-                        <div className="invalid-feedback">
-                          {formik.errors.charge_status}
-                        </div>
-                      )}
-                    </div>
-                  </Col>
-                </Row>
-                <div className="text-end">
-                  <Link
-                    type="sussbmit"
-                    className="btn btn-danger me-2 "
-                    to={`/managecharges/`}
+                <Breadcrumb className="breadcrumb">
+                  <Breadcrumb.Item
+                    className="breadcrumb-item"
+                    linkAs={Link}
+                    linkProps={{ to: "/dashboard" }}
                   >
-                    Cancel
-                  </Link>
-
-                  <button type="submit" className="btn btn-primary">
-                    Submit
-                  </button>
-                </div>
-              </form>
+                    Dashboard
+                  </Breadcrumb.Item>
+                  <Breadcrumb.Item
+                    className="breadcrumb-item  breadcrumds"
+                    aria-current="page"
+                    linkAs={Link}
+                    linkProps={{ to: "/ManageShops" }}
+                  >
+                    Manage Shop
+                  </Breadcrumb.Item>
+                  <Breadcrumb.Item
+                    className="breadcrumb-item active breadcrumds"
+                    aria-current="page"
+                  >
+                    Edit Shop
+                  </Breadcrumb.Item>
+                </Breadcrumb>
+              </div>
             </div>
-          </Card>
-        </Col>
-      </Row>
-    </div>
-    </>
+
+            <Row>
+              <Col lg={12} xl={12} md={12} sm={12}>
+                <Card>
+                  <Card.Header>
+                    <Card.Title as="h3">Edit Shop</Card.Title>
+                  </Card.Header>
+
+                  <div class="card-body">
+                    <form onSubmit={formik.handleSubmit}>
+                      <Row>
+                        <Col lg={6} md={6}>
+                          <div className="form-group">
+                            <label className="form-label mt-4" htmlFor="name">
+                              Shop Name<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              id="name"
+                              code="name"
+                              type="text"
+                              className={`input101 ${
+                                formik.errors.name && formik.touched.name
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              placeholder="Shop Name"
+                              onChange={formik.handleChange}
+                              value={formik.values.name || ""}
+                              
+                            />
+                            {formik.errors.name && formik.touched.name && (
+                              <div className="invalid-feedback">
+                                {formik.errors.name}
+                              </div>
+                            )}
+                          </div>
+                        </Col>
+                        <Col lg={6} md={6}>
+                          <div className="form-group">
+                            <label className="form-label mt-4" htmlFor="code">
+                              Shop code<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className={`input101 ${
+                                formik.errors.code && formik.touched.code
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              id="code"
+                              name="code"
+                              placeholder="Shop Code"
+                              onChange={formik.handleChange}
+                              value={formik.values.code || ""}
+                              readOnly
+                            />
+                            {formik.errors.code && formik.touched.code && (
+                              <div className="invalid-feedback">
+                                {formik.errors.code}
+                              </div>
+                            )}
+                          </div>
+                        </Col>
+
+                        <Col lg={6} md={6}>
+                          <div className="form-group">
+                            <label htmlFor="status" className="form-label mt-4">
+                              Shop Status <span className="text-danger">*</span>
+                            </label>
+                            <select
+                              className={`input101 ${
+                                formik.errors.status && formik.touched.status
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              id="status"
+                              name="status"
+                              onChange={formik.handleChange}
+                              value={formik.values.status}
+                            >
+                              <option value="">Select Status</option>
+                              <option value="1">Active</option>
+                              <option value="0">Inactive</option>
+                            </select>
+                            {formik.errors.status && formik.touched.status && (
+                              <div className="invalid-feedback">
+                                {formik.errors.status}
+                              </div>
+                            )}
+                          </div>
+                        </Col>
+                      </Row>
+                      <div className="text-end">
+                        <Link
+                          type="submit"
+                          className="btn btn-danger me-2 "
+                          to={`/manageshops/`}
+                        >
+                          Cancel
+                        </Link>
+
+                        <button type="submit" className="btn btn-primary">
+                          Submit
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </Card>
+              </Col>
+            </Row>
+          </div>
+        </>
       )}
     </>
   );
-}
-export default withApi(EditBussiness);
+};
+export default withApi(EditShops);
