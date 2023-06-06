@@ -21,10 +21,8 @@ import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 
-
-  
-  const EditBussiness = (props) => {
-    const { apidata, isLoading, error, getData, postData } = props;
+const EditCards = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
   const navigate = useNavigate();
 
   const [AddSiteData, setAddSiteData] = useState([]);
@@ -37,11 +35,14 @@ import Loaderimg from "../../../Utils/Loader";
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
   function handleError(error) {
-    if (error.response && error.response.charge_status === 401) {
+    if (error.response && error.response.card_status === 401) {
       navigate("/login");
       Errornotify("Invalid access token");
       localStorage.clear();
-    } else if (error.response && error.response.data.charge_status_code === "403") {
+    } else if (
+      error.response &&
+      error.response.data.card_status_code === "403"
+    ) {
       navigate("/errorpage403");
     } else {
       const errorMessage = Array.isArray(error.response.data.message)
@@ -67,7 +68,7 @@ import Loaderimg from "../../../Utils/Loader";
 
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(`/charge/${id}`);
+        const response = await axiosInstance.get(`/card/${id}`);
         if (response) {
           console.log(response.data.data);
           setEditSiteData(response.data.data);
@@ -94,61 +95,51 @@ import Loaderimg from "../../../Utils/Loader";
     },
   });
 
-  
- 
-  
   const handleSubmit = async (values) => {
     try {
-     
- 
       const formData = new FormData();
       console.log(formData, "formData");
-  
-      formData.append("charge_code", values.charge_code);
-      formData.append("charge_name", values.charge_name);
-      formData.append("charge_status", values.charge_status);
+
+      formData.append("card_code", values.card_code);
+      formData.append("card_name", values.card_name);
+      formData.append("card_status", values.card_status);
       formData.append("id", values.id);
 
-    const postDataUrl = "/charge/update";
-    const navigatePath = "/managecharges";
-  
-    await postData(postDataUrl, formData, navigatePath);
-  
-   ; // Set the submission state to false after the API call is completed
-  } catch (error) {
-    handleError(error);
- ; // Set the submission state to false if an error occurs
-  }
+      const postDataUrl = "/card/update";
+      const navigatePath = "/ManageCards";
+
+      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
+    } catch (error) {
+      handleError(error); // Set the submission state to false if an error occurs
+    }
   };
 
   const formik = useFormik({
     initialValues: {
-      charge_code: "",
-      charge_name: "",
-
-      charge_status: "",
+      card_code: "",
+      card_name: "",
+      card_status: "",
     },
     validationSchema: Yup.object({
-      charge_code: Yup.string()
+      card_code: Yup.string()
         .max(20, "Must be 20 characters or less")
-        .required("charge code is required"),
+        .required("card code is required"),
 
-        charge_name: Yup.string()
-        .required("charge_name is required")
+      card_name: Yup.string()
+        .required("card_name is required")
         .matches(/^[a-zA-Z0-9_\- ]+$/, {
-          message: "charge name must not contain special characters",
+          message: "card name must not contain special characters",
           excludeEmptyString: true,
         })
         .matches(
           /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
           {
-            message: "charge_name must not have consecutive spaces",
+            message: "card_name must not have consecutive spaces",
             excludeEmptyString: true,
           }
         ),
 
-
-      charge_status: Yup.string().required("Charge Status is required"),
+      card_status: Yup.string().required("Card Status is required"),
     }),
     onSubmit: handleSubmit,
   });
@@ -170,158 +161,168 @@ import Loaderimg from "../../../Utils/Loader";
 
   return (
     <>
-    {isLoading ? (
-      <Loaderimg/>
-    ) :(
-      <>
-    <div>
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">Edit Charges</h1>
+      {isLoading ? (
+        <Loaderimg />
+      ) : (
+        <>
+          <div>
+            <div className="page-header">
+              <div>
+                <h1 className="page-title">Edit cards</h1>
 
-          <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item
-              className="breadcrumb-item"
-              linkAs={Link}
-              linkProps={{ to: "/dashboard" }}
-            >
-              Dashboard
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item  breadcrumds"
-              aria-current="page"
-              linkAs={Link}
-              linkProps={{ to: "/managecharges" }}
-            >
-              Manage Charges
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item active breadcrumds"
-              aria-current="page"
-            >
-              Edit Charges
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
-      </div>
-
-      <Row>
-        <Col lg={12} xl={12} md={12} sm={12}>
-          <Card>
-            <Card.Header>
-              <Card.Title as="h3">Edit Charges</Card.Title>
-            </Card.Header>
-
-            <div class="card-body">
-              <form onSubmit={formik.handleSubmit}>
-                <Row>
-                  <Col lg={6} md={6}>
-                    <div className="form-group">
-                      <label
-                        className="form-label mt-4"
-                        htmlFor="charge_code"
-                      >
-                        Charges Code<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        id="charge_code"
-                        charge_code="name"
-                        type="text"
-                        className={`input101 ${
-                          formik.errors.charge_code &&
-                          formik.touched.charge_code
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        placeholder="Business Name"
-                        onChange={formik.handleChange}
-                        value={formik.values.charge_code || ""}
-                        readOnly
-                      />
-                      {formik.errors.charge_code &&
-                        formik.touched.charge_code && (
-                          <div className="invalid-feedback">
-                            {formik.errors.charge_code}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-                  <Col lg={6} md={6}>
-                    <div className="form-group">
-                      <label className="form-label mt-4" htmlFor="charge_name">
-                       Charges Name <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        className={`input101 ${
-                          formik.errors.charge_name && formik.touched.charge_name
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="charge_name"
-                        name="charge_name"
-                        placeholder="charge_name"
-                        onChange={formik.handleChange}
-                        value={formik.values.charge_name || ""}
-                      />
-                      {formik.errors.charge_name && formik.touched.charge_name && (
-                        <div className="invalid-feedback">
-                          {formik.errors.charge_name}
-                        </div>
-                      )}
-                    </div>
-                  </Col>
-
-                  <Col lg={6} md={6}>
-                    <div className="form-group">
-                      <label htmlFor="charge_status" className="form-label mt-4">
-                        Charge Status <span className="text-danger">*</span>
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.charge_status && formik.touched.charge_status
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="charge_status"
-                        name="charge_status"
-                        onChange={formik.handleChange}
-                        value={formik.values.charge_status}
-                      >
-                        <option value="">Select a charge_status</option>
-                        <option value="1">Active</option>
-                            <option value="0">Inactive</option>
-                      </select>
-                      {formik.errors.charge_status && formik.touched.charge_status && (
-                        <div className="invalid-feedback">
-                          {formik.errors.charge_status}
-                        </div>
-                      )}
-                    </div>
-                  </Col>
-                </Row>
-                <div className="text-end">
-                  <Link
-                    type="sussbmit"
-                    className="btn btn-danger me-2 "
-                    to={`/managecharges/`}
+                <Breadcrumb className="breadcrumb">
+                  <Breadcrumb.Item
+                    className="breadcrumb-item"
+                    linkAs={Link}
+                    linkProps={{ to: "/dashboard" }}
                   >
-                    Cancel
-                  </Link>
-
-                  <button type="submit" className="btn btn-primary">
-                    Submit
-                  </button>
-                </div>
-              </form>
+                    Dashboard
+                  </Breadcrumb.Item>
+                  <Breadcrumb.Item
+                    className="breadcrumb-item  breadcrumds"
+                    aria-current="page"
+                    linkAs={Link}
+                    linkProps={{ to: "/managecards" }}
+                  >
+                    Manage cards
+                  </Breadcrumb.Item>
+                  <Breadcrumb.Item
+                    className="breadcrumb-item active breadcrumds"
+                    aria-current="page"
+                  >
+                    Edit cards
+                  </Breadcrumb.Item>
+                </Breadcrumb>
+              </div>
             </div>
-          </Card>
-        </Col>
-      </Row>
-    </div>
-    </>
+
+            <Row>
+              <Col lg={12} xl={12} md={12} sm={12}>
+                <Card>
+                  <Card.Header>
+                    <Card.Title as="h3">Edit cards</Card.Title>
+                  </Card.Header>
+
+                  <div class="card-body">
+                    <form onSubmit={formik.handleSubmit}>
+                      <Row>
+                        <Col lg={6} md={6}>
+                          <div className="form-group">
+                            <label
+                              className="form-label mt-4"
+                              htmlFor="card_code"
+                            >
+                              cards Code<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              id="card_code"
+                              card_code="name"
+                              type="text"
+                              className={`input101 ${
+                                formik.errors.card_code &&
+                                formik.touched.card_code
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              placeholder="Card Name"
+                              onChange={formik.handleChange}
+                              value={formik.values.card_code || ""}
+                              readOnly
+                            />
+                            {formik.errors.card_code &&
+                              formik.touched.card_code && (
+                                <div className="invalid-feedback">
+                                  {formik.errors.card_code}
+                                </div>
+                              )}
+                          </div>
+                        </Col>
+                        <Col lg={6} md={6}>
+                          <div className="form-group">
+                            <label
+                              className="form-label mt-4"
+                              htmlFor="card_name"
+                            >
+                              cards Name <span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className={`input101 ${
+                                formik.errors.card_name &&
+                                formik.touched.card_name
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              id="card_name"
+                              name="card_name"
+                              placeholder="Card Name"
+                              onChange={formik.handleChange}
+                              value={formik.values.card_name || ""}
+                            />
+                            {formik.errors.card_name &&
+                              formik.touched.card_name && (
+                                <div className="invalid-feedback">
+                                  {formik.errors.card_name}
+                                </div>
+                              )}
+                          </div>
+                        </Col>
+
+                        <Col lg={6} md={6}>
+                          <div className="form-group">
+                            <label
+                              htmlFor="card_status"
+                              className="form-label mt-4"
+                            >
+                              card Status <span className="text-danger">*</span>
+                            </label>
+                            <select
+                              className={`input101 ${
+                                formik.errors.card_status &&
+                                formik.touched.card_status
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              id="card_status"
+                              name="card_status"
+                              onChange={formik.handleChange}
+                              value={formik.values.card_status}
+                            >
+                              <option value="">Select a card_status</option>
+                              <option value="1">Active</option>
+                              <option value="0">Inactive</option>
+                            </select>
+                            {formik.errors.card_status &&
+                              formik.touched.card_status && (
+                                <div className="invalid-feedback">
+                                  {formik.errors.card_status}
+                                </div>
+                              )}
+                          </div>
+                        </Col>
+                      </Row>
+                      <div className="text-end">
+                        <Link
+                          type="submit"
+                          className="btn btn-danger me-2 "
+                          to={`/managecards/`}
+                        >
+                          Cancel
+                        </Link>
+
+                        <button type="submit" className="btn btn-primary">
+                          Submit
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </Card>
+              </Col>
+            </Row>
+          </div>
+        </>
       )}
     </>
   );
-}
-export default withApi(EditBussiness);
+};
+export default withApi(EditCards);

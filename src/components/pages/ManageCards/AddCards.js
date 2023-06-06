@@ -6,8 +6,8 @@ import {
   Card,
   Form,
   FormGroup,
-  FormControl,
-  ListGroup,
+  
+  
   Breadcrumb,
 } from "react-bootstrap";
 
@@ -19,19 +19,19 @@ import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 
-const AddCharges = (props) => {
+const AddCards = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
   const handleSubmit1 = async (values) => {
     try {
       const formData = new FormData();
-      formData.append("charge_name", values.charge_name);
-      formData.append("charge_code", values.charge_code);
-      formData.append("charge_status", values.charge_status);
+      formData.append("card_name", values.card_name);
+      formData.append("card_code", values.card_code);
+      formData.append("card_status", values.card_status);
 
-      const postDataUrl = "charge/add";
+      const postDataUrl = "card/add";
 
-      const navigatePath = "/ManageCharges";
+      const navigatePath = "/ManageCards";
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
@@ -47,7 +47,7 @@ const AddCharges = (props) => {
           <div>
             <div className="page-header">
               <div>
-                <h1 className="page-title">Add Charges</h1>
+                <h1 className="page-title">Add Cards</h1>
 
                 <Breadcrumb className="breadcrumb">
                   <Breadcrumb.Item
@@ -61,7 +61,7 @@ const AddCharges = (props) => {
                     className="breadcrumb-item active breadcrumds"
                     aria-current="page"
                   >
-                    Manage Charges
+                    Manage Cards
                   </Breadcrumb.Item>
                 </Breadcrumb>
               </div>
@@ -71,37 +71,37 @@ const AddCharges = (props) => {
               <Col lg={12} xl={12} md={12} sm={12}>
                 <Card>
                   <Card.Header>
-                    <Card.Title as="h3">Add Charges</Card.Title>
+                    <Card.Title as="h3">Add Cards</Card.Title>
                   </Card.Header>
                   <Formik
                     initialValues={{
-                      charge_name: "",
-                      charge_code: "",
-                      charge_status: "",
+                      card_name: "",
+                      card_code: "",
+                      card_status: "",
                     }}
                     validationSchema={Yup.object({
-                      charge_name: Yup.string()
+                      card_name: Yup.string()
                         .max(15, "Must be 15 characters or less")
-                        .required(" Charge Name is required"),
+                        .required(" Card Name is required"),
 
-                      charge_code: Yup.string()
-                        .required("Charge Code is required")
+                      card_code: Yup.string()
+                        .required("Card Code is required")
                         .matches(/^[a-zA-Z0-9_\- ]+$/, {
                           message:
-                            "charge_code must not contain special characters",
+                            "Card_code must not contain special characters",
                           excludeEmptyString: true,
                         })
                         .matches(
                           /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
                           {
                             message:
-                              "Charge Code must not have consecutive spaces",
+                              "Card Code must not have consecutive spaces",
                             excludeEmptyString: true,
                           }
                         ),
 
-                      charge_status: Yup.string().required(
-                        "Charge Status is required"
+                      card_status: Yup.string().required(
+                        "Card Status is required"
                       ),
                     })}
                     onSubmit={(values) => {
@@ -114,42 +114,42 @@ const AddCharges = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="charge_name">Charge Name</label>
+                                <label htmlFor="card_name">Card Name</label>
                                 <Field
                                   type="text"
                                   // className="form-control"
                                   className={`input101 ${
-                                    errors.charge_name && touched.charge_name
+                                    errors.card_name && touched.card_name
                                       ? "is-invalid"
                                       : ""
                                   }`}
-                                  id="charge_name"
-                                  name="charge_name"
-                                  placeholder="Charge Name"
+                                  id="card_name"
+                                  name="card_name"
+                                  placeholder="Card Name"
                                 />
                                 <ErrorMessage
                                   component="div"
                                   className="invalid-feedback"
-                                  name="charge_name"
+                                  name="card_name"
                                 />
                               </FormGroup>
                             </Col>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="charge_code">Charge Code</label>
+                                <label htmlFor="card_code">Card Code</label>
                                 <Field
                                   type="text"
                                   className={`input101 ${
-                                    errors.charge_code && touched.charge_code
+                                    errors.card_code && touched.card_code
                                       ? "is-invalid"
                                       : ""
                                   }`}
-                                  id="charge_code"
-                                  name="charge_code"
-                                  placeholder="Charge Code"
+                                  id="card_code"
+                                  name="card_code"
+                                  placeholder="Card Code"
                                 />
                                 <ErrorMessage
-                                  name="charge_code"
+                                  name="card_code"
                                   component="div"
                                   className="invalid-feedback"
                                 />
@@ -159,28 +159,28 @@ const AddCharges = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="charge_status">
-                                  Charge Status
+                                <label htmlFor="card_status">
+                                  Card Status
                                 </label>
                                 <Field
                                   as="select"
                                   className={`input101 ${
-                                    errors.charge_status &&
-                                    touched.charge_status
+                                    errors.card_status &&
+                                    touched.card_status
                                       ? "is-invalid"
                                       : ""
                                   }`}
-                                  id="charge_status"
-                                  name="charge_status"
+                                  id="card_status"
+                                  name="card_status"
                                 >
-                                  <option value="">Select Charge Status</option>
+                                  {/* <option value="">Select card Status</option> */}
                                   <option value="1">Active</option>
                                   <option value="0">Inactive</option>
                                 </Field>
                                 <ErrorMessage
                                   component="div"
                                   className="invalid-feedback"
-                                  name="charge_status"
+                                  name="card_status"
                                 />
                               </FormGroup>
                             </Col>
@@ -190,7 +190,7 @@ const AddCharges = (props) => {
                           <Link
                             type="submit"
                             className="btn btn-danger me-2 "
-                            to={`/AddCharges/`}
+                            to={`/AddCards/`}
                           >
                             Cancel
                           </Link>
@@ -213,4 +213,4 @@ const AddCharges = (props) => {
     </>
   );
 };
-export default withApi(AddCharges);
+export default withApi(AddCards);
