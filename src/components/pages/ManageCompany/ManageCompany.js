@@ -152,12 +152,12 @@ const ManageCompany = (props) => {
 
 
 
-const isStatusPermissionAvailable = permissionsArray?.includes("site-status-update");
-const isEditPermissionAvailable = permissionsArray?.includes("site-edit");
-const isAddPermissionAvailable = permissionsArray?.includes("site-create");
-const isDeletePermissionAvailable = permissionsArray?.includes("site-delete");
-const isDetailsPermissionAvailable = permissionsArray?.includes("site-details");
-const isAssignPermissionAvailable = permissionsArray?.includes("site-assign");
+  const isStatusPermissionAvailable = permissionsArray.includes("company-status-update");
+  const isEditPermissionAvailable = permissionsArray.includes("company-edit");
+  const isAddPermissionAvailable = permissionsArray.includes("company-create");
+  const isDeletePermissionAvailable = permissionsArray.includes("company-delete");
+  const isDetailsPermissionAvailable = permissionsArray.includes("company-details");
+  const isAssignPermissionAvailable = permissionsArray.includes("company-assign");
 
 
 
