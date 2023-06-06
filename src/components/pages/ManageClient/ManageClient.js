@@ -15,6 +15,7 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import SideSearchbar from "../../../data/Modal/SideSearchbar";
 import * as loderdata from "../../../data/Component/loderdata/loderdata";
 import withApi from "../../../Utils/ApiHelper";
+import { useSelector } from "react-redux";
 
 const ManageClient = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -140,18 +141,6 @@ const ManageClient = (props) => {
     }
   };
 
-  // const toggleActive = (row) => {
-  //   const formData = new FormData();
-  //   formData.append("user_id", row.id);
-
-  //   if (row.status === 1) {
-  //     formData.append("status", 0);
-  //   } else if (row.status === 0) {
-  //     formData.append("status", 1);
-  //   }
-
-  //   ToggleStatus(formData);
-  // };
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -178,6 +167,45 @@ const ManageClient = (props) => {
   const handleEdit = (row) => {
     localStorage.setItem("Client_id", row.id);
   };
+  
+  const permissionsArray = useSelector((state) => state.data.permissionsArray);
+
+  console.log(permissionsArray.permissions, "permissionsArray");
+
+  const permissionsToCheck = [
+    "user-list,site-create,user-status-update",
+    "user-edit",
+    "user-delete",
+  ];
+  let isPermissionAvailable = false;
+
+  if (permissionsArray && permissionsArray.permissions) {
+    try {
+      isPermissionAvailable = permissionsArray.permissions.some((permission) =>
+        permissionsToCheck.includes(permission)
+      );
+    } catch (error) {
+      console.error("Error occurred while checking permissions:", error);
+    }
+  } else {
+    console.error(
+      "permissionsArray is null or does not have 'permissions' property"
+    );
+  }
+
+
+  const isStatusPermissionAvailable =
+    permissionsArray.permissions.includes("user-status-update");
+  const isEditPermissionAvailable =
+    permissionsArray.permissions.includes("user-edit");
+  const isAddPermissionAvailable =
+    permissionsArray.permissions.includes("user-create");
+  const isDeletePermissionAvailable =
+    permissionsArray.permissions.includes("user-delete");
+
+
+
+
 
   const columns = [
     {
@@ -233,19 +261,25 @@ const ManageClient = (props) => {
             {row.status === 1 ? (
               <button
                 className="badge bg-success"
-                onClick={() => toggleActive(row)}
+                onClick={
+                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                }
               >
                 Active
               </button>
             ) : row.status === 0 ? (
               <button
                 className="badge bg-danger"
-                onClick={() => toggleActive(row)}
+                onClick={
+                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                }
               >
                 Inactive
               </button>
             ) : (
-              <button className="badge" onClick={() => toggleActive(row)}>
+              <button className="badge"  onClick={
+                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                }>
                 Unknown
               </button>
             )}
@@ -260,6 +294,7 @@ const ManageClient = (props) => {
       width: "20%",
       cell: (row) => (
         <span className="text-center">
+        {isEditPermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <Link
               to="/editclient"
@@ -280,6 +315,8 @@ const ManageClient = (props) => {
               </i>
             </Link>
           </OverlayTrigger>
+          ) : null}
+          {isDeletePermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
             <Link
               to="#"
@@ -300,6 +337,7 @@ const ManageClient = (props) => {
               </i>
             </Link>
           </OverlayTrigger>
+          ) : null}
         </span>
       ),
     },
@@ -375,10 +413,11 @@ const ManageClient = (props) => {
               ) : (
                 ""
               )}
+              {isAddPermissionAvailable?
               <Link to="/addclient" className="btn btn-primary ms-2">
                 Add Client
                 <AddCircleOutlineIcon />
-              </Link>
+              </Link>:null}
             </div>
           </div>
           <SideSearchbar

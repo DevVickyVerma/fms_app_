@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import { useSelector } from "react-redux";
 
 const ManageCompany = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -128,6 +129,51 @@ const ManageCompany = (props) => {
     localStorage.setItem("Company_Client_id", row.client_id);
   };
 
+  const permissionsArray = useSelector((state) => state.data.permissionsArray);
+
+  console.log(permissionsArray.permissions, "permissionsArray");
+
+  const permissionsToCheck = [
+    "company-list","company-create",
+    "company-edit",
+    "company-details",
+  ];
+
+
+
+
+  let isPermissionAvailable = false;
+
+  if (permissionsArray && permissionsArray.permissions) {
+    try {
+      isPermissionAvailable = permissionsArray.permissions.some((permission) =>
+        permissionsToCheck.includes(permission)
+      );
+    } catch (error) {
+      console.error("Error occurred while checking permissions:", error);
+    }
+  } else {
+    console.error(
+      "permissionsArray is null or does not have 'permissions' property"
+    );
+  }
+
+
+  const isStatusPermissionAvailable =
+    permissionsArray.permissions.includes("site-status-update");
+  const isEditPermissionAvailable =
+    permissionsArray.permissions.includes("site-edit");
+  const isAddPermissionAvailable =
+    permissionsArray.permissions.includes("site-create");
+  const isDeletePermissionAvailable =
+    permissionsArray.permissions.includes("site-delete");
+  const isDetailsPermissionAvailable =
+    permissionsArray.permissions.includes("site-details");
+  const isAssignPermissionAvailable =
+    permissionsArray.permissions.includes("site-assign");
+
+
+
   const columns = [
     {
       name: "S.No",
@@ -208,19 +254,25 @@ const ManageCompany = (props) => {
             {row.status === 1 ? (
               <button
                 className="badge bg-success"
-                onClick={() => toggleActive(row)}
+                onClick={
+                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                }
               >
                 Active
               </button>
             ) : row.status === 0 ? (
               <button
                 className="badge bg-danger"
-                onClick={() => toggleActive(row)}
+                onClick={
+                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                }
               >
                 Inactive
               </button>
             ) : (
-              <button className="badge" onClick={() => toggleActive(row)}>
+              <button className="badge" onClick={
+                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                }>
                 Unknown
               </button>
             )}
@@ -256,6 +308,7 @@ const ManageCompany = (props) => {
               </i>
             </Link>
           </OverlayTrigger>
+          {isDeletePermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
             <Link
               to="#"
@@ -276,6 +329,7 @@ const ManageCompany = (props) => {
               </i>
             </Link>
           </OverlayTrigger>
+          ) : null}
         </span>
       ),
     },

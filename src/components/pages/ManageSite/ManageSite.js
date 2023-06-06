@@ -23,7 +23,6 @@ const ManageSite = (props) => {
 
   const permissionsArray = useSelector((state) => state.data.permissionsArray);
 
-  console.log(permissionsArray.permissions, "permissionsArray");
 
   const [data, setData] = useState();
 
@@ -196,15 +195,10 @@ const ManageSite = (props) => {
     }
   };
 
-  //permissions check
 
-  // const statuspermission = "site-status-update";
-  // const editpermission = "site-status-update";
-  // const deletepermission = "site-status-update";
-  // const ispermissionAvailable = permissionsArray.permissions.includes(statuspermission);
 
   const permissionsToCheck = [
-    "site-list,site-create,site-status-update",
+    "site-list","site-create","site-status-update",
     "site-edit",
     "site-delete",
   ];

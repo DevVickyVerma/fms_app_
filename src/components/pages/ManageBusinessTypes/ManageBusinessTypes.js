@@ -11,6 +11,7 @@ import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import { useSelector } from "react-redux";
 
 const ManageBusinessTypes = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -111,6 +112,49 @@ const ManageBusinessTypes = (props) => {
     }
   };
 
+  const permissionsArray = useSelector((state) => state.data.permissionsArray);
+
+  console.log(permissionsArray.permissions, "permissionsArray");
+
+  const permissionsToCheck = [
+    "business-type-list",
+    "business-type-create",
+    "business-type-edit",
+    "business-type--detail",
+    "business-type--delete",
+  ];
+  let isPermissionAvailable = false;
+
+  if (permissionsArray && permissionsArray.permissions) {
+    try {
+      isPermissionAvailable = permissionsArray.permissions.some((permission) =>
+        permissionsToCheck.includes(permission)
+      );
+    } catch (error) {
+      console.error("Error occurred while checking permissions:", error);
+    }
+  } else {
+    console.error(
+      "permissionsArray is null or does not have 'permissions' property"
+    );
+  }
+
+  const isStatusPermissionAvailable =
+    permissionsArray.permissions.includes("site-status-update");
+  const isEditPermissionAvailable =
+    permissionsArray.permissions.includes("business-type-edit");
+  const isAddPermissionAvailable = permissionsArray.permissions.includes(
+    "business-type-create"
+  );
+  const isDeletePermissionAvailable = permissionsArray.permissions.includes(
+    "business-type--delete"
+  );
+  const isDetailsPermissionAvailable = permissionsArray.permissions.includes(
+    "business-type--detail"
+  );
+  const isAssignPermissionAvailable =
+    permissionsArray.permissions.includes("site-assign");
+
   const columns = [
     {
       name: "S.NO",
@@ -161,19 +205,28 @@ const ManageBusinessTypes = (props) => {
             {row.status === 1 ? (
               <button
                 className="badge bg-success"
-                onClick={() => toggleActive(row)}
+                onClick={
+                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                }
               >
                 Active
               </button>
             ) : row.status === 0 ? (
               <button
                 className="badge bg-danger"
-                onClick={() => toggleActive(row)}
+                onClick={
+                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                }
               >
                 Inactive
               </button>
             ) : (
-              <button className="badge" onClick={() => toggleActive(row)}>
+              <button
+                className="badge"
+                onClick={
+                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                }
+              >
                 Unknown
               </button>
             )}
@@ -188,45 +241,49 @@ const ManageBusinessTypes = (props) => {
       width: "20%",
       cell: (row) => (
         <span className="text-center">
-          <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
-            <Link
-              to={`/editbusiness/${row.id}`} // Assuming `row.id` contains the ID
-              className="btn btn-primary btn-sm rounded-11 me-2"
-            >
-              <i>
-                <svg
-                  className="table-edit"
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  width="16"
-                >
-                  <path d="M0 0h24v24H0V0z" fill="none" />
-                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19zM20.71 5.63l-2.34-2.34c-.2-.2-.45-.29-.71-.29s-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41z" />
-                </svg>
-              </i>
-            </Link>
-          </OverlayTrigger>
-          <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
-            <Link
-              to="#"
-              className="btn btn-danger btn-sm rounded-11"
-              onClick={() => handleDelete(row.id)}
-            >
-              <i>
-                <svg
-                  className="table-delete"
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  width="16"
-                >
-                  <path d="M0 0h24v24H0V0z" fill="none" />
-                  <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
-                </svg>
-              </i>
-            </Link>
-          </OverlayTrigger>
+          {isEditPermissionAvailable ? (
+            <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
+              <Link
+                to={`/editbusiness/${row.id}`} // Assuming `row.id` contains the ID
+                className="btn btn-primary btn-sm rounded-11 me-2"
+              >
+                <i>
+                  <svg
+                    className="table-edit"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    width="16"
+                  >
+                    <path d="M0 0h24v24H0V0z" fill="none" />
+                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19zM20.71 5.63l-2.34-2.34c-.2-.2-.45-.29-.71-.29s-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41z" />
+                  </svg>
+                </i>
+              </Link>
+            </OverlayTrigger>
+          ) : null}
+          {isDeletePermissionAvailable ? (
+            <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
+              <Link
+                to="#"
+                className="btn btn-danger btn-sm rounded-11"
+                onClick={() => handleDelete(row.id)}
+              >
+                <i>
+                  <svg
+                    className="table-delete"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    width="16"
+                  >
+                    <path d="M0 0h24v24H0V0z" fill="none" />
+                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
+                  </svg>
+                </i>
+              </Link>
+            </OverlayTrigger>
+          ) : null}
         </span>
       ),
     },
@@ -286,9 +343,12 @@ const ManageBusinessTypes = (props) => {
                   placeholder="Search..."
                   style={{ borderRadius: 0 }}
                 />
-                <Link to="/addbusiness" className="btn btn-primary">
-                  Add Business Types
-                </Link>
+
+                {isAddPermissionAvailable ? (
+                  <Link to="/addbusiness" className="btn btn-primary">
+                    Add Business Types
+                  </Link>
+                ) : null}
               </div>
             </div>
           </div>
