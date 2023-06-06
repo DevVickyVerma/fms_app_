@@ -117,8 +117,6 @@ const ManageClient = (props) => {
       SearchList();
     }
 
-
-
     handleToggleSidebar1();
   };
 
@@ -129,7 +127,6 @@ const ManageClient = (props) => {
   const handleFetchData = async () => {
     try {
       const response = await getData("/client-list");
-      console.log(response.data.data, "ddd");
 
       if (response && response.data && response.data.data) {
         setData(response.data.data.clients);
@@ -140,7 +137,6 @@ const ManageClient = (props) => {
       console.error("API error:", error);
     }
   };
-
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -167,9 +163,7 @@ const ManageClient = (props) => {
   const handleEdit = (row) => {
     localStorage.setItem("Client_id", row.id);
   };
-  
 
-  
   const permissionsToCheck = [
     "user-list",
     "site-create",
@@ -178,7 +172,7 @@ const ManageClient = (props) => {
     "user-delete",
   ];
 
-   let isPermissionAvailable = false;
+  let isPermissionAvailable = false;
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -188,19 +182,15 @@ const ManageClient = (props) => {
       setPermissionsArray(UserPermissions.permissions);
     }
   }, [UserPermissions]);
-  
- const isStatusPermissionAvailable =
-  permissionsArray.includes("site-status-update");
-const isEditPermissionAvailable = permissionsArray.includes("site-edit");
-const isAddPermissionAvailable = permissionsArray.includes("site-create");
-const isDeletePermissionAvailable = permissionsArray.includes("site-delete");
-const isDetailsPermissionAvailable = permissionsArray.includes("site-details");
-const isAssignPermissionAvailable = permissionsArray.includes("site-assign");
 
-
-
-
-
+  const isStatusPermissionAvailable =
+    permissionsArray?.includes("site-status-update");
+  const isEditPermissionAvailable = permissionsArray?.includes("site-edit");
+  const isAddPermissionAvailable = permissionsArray?.includes("site-create");
+  const isDeletePermissionAvailable = permissionsArray?.includes("site-delete");
+  const isDetailsPermissionAvailable =
+    permissionsArray?.includes("site-details");
+  const isAssignPermissionAvailable = permissionsArray?.includes("site-assign");
 
   const columns = [
     {
@@ -272,9 +262,12 @@ const isAssignPermissionAvailable = permissionsArray.includes("site-assign");
                 Inactive
               </button>
             ) : (
-              <button className="badge"  onClick={
+              <button
+                className="badge"
+                onClick={
                   isStatusPermissionAvailable ? () => toggleActive(row) : null
-                }>
+                }
+              >
                 Unknown
               </button>
             )}
@@ -283,55 +276,55 @@ const isAssignPermissionAvailable = permissionsArray.includes("site-assign");
       ),
     },
     {
-       name: "Action",
+      name: "Action",
       selector: (row) => [row.action],
       sortable: true,
       width: "20%",
       cell: (row) => (
         <span className="text-center">
-        {isEditPermissionAvailable ? (
-          <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
-            <Link
-              to="/editclient"
-              className="btn btn-primary btn-sm rounded-11 me-2"
-              onClick={() => handleEdit(row)}
-            >
-              <i>
-                <svg
-                  className="table-edit"
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  width="16"
-                >
-                  <path d="M0 0h24v24H0V0z" fill="none" />
-                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19zM20.71 5.63l-2.34-2.34c-.2-.2-.45-.29-.71-.29s-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41z" />
-                </svg>
-              </i>
-            </Link>
-          </OverlayTrigger>
+          {isEditPermissionAvailable ? (
+            <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
+              <Link
+                to="/editclient"
+                className="btn btn-primary btn-sm rounded-11 me-2"
+                onClick={() => handleEdit(row)}
+              >
+                <i>
+                  <svg
+                    className="table-edit"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    width="16"
+                  >
+                    <path d="M0 0h24v24H0V0z" fill="none" />
+                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19zM20.71 5.63l-2.34-2.34c-.2-.2-.45-.29-.71-.29s-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41z" />
+                  </svg>
+                </i>
+              </Link>
+            </OverlayTrigger>
           ) : null}
           {isDeletePermissionAvailable ? (
-          <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
-            <Link
-              to="#"
-              className="btn btn-danger btn-sm rounded-11"
-              onClick={() => handleDelete(row.id)}
-            >
-              <i>
-                <svg
-                  className="table-delete"
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  width="16"
-                >
-                  <path d="M0 0h24v24H0V0z" fill="none" />
-                  <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
-                </svg>
-              </i>
-            </Link>
-          </OverlayTrigger>
+            <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
+              <Link
+                to="#"
+                className="btn btn-danger btn-sm rounded-11"
+                onClick={() => handleDelete(row.id)}
+              >
+                <i>
+                  <svg
+                    className="table-delete"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    width="16"
+                  >
+                    <path d="M0 0h24v24H0V0z" fill="none" />
+                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
+                  </svg>
+                </i>
+              </Link>
+            </OverlayTrigger>
           ) : null}
         </span>
       ),
@@ -408,11 +401,12 @@ const isAssignPermissionAvailable = permissionsArray.includes("site-assign");
               ) : (
                 ""
               )}
-              {isAddPermissionAvailable?
-              <Link to="/addclient" className="btn btn-primary ms-2">
-                Add Client
-                <AddCircleOutlineIcon />
-              </Link>:null}
+              {isAddPermissionAvailable ? (
+                <Link to="/addclient" className="btn btn-primary ms-2">
+                  Add Client
+                  <AddCircleOutlineIcon />
+                </Link>
+              ) : null}
             </div>
           </div>
           <SideSearchbar
@@ -434,7 +428,6 @@ const isAssignPermissionAvailable = permissionsArray.includes("site-assign");
               // center={true}
               persistTableHead
               pagination
-
               highlightOnHover
               searchable={true}
             />
