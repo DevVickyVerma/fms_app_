@@ -13,7 +13,6 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import SearchIcon from "@mui/icons-material/Search";
-import { useSelector } from "react-redux";
 
 const ManageCharges = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -139,39 +138,6 @@ const ManageCharges = (props) => {
     }
   };
 
-
-  const permissionsToCheck = [
-    "charges-list","charges-create",
-    "charges-edit",
-    "charges-details",
-    "charges-delete"
-  ];
-    let isPermissionAvailable = false;
-  const [permissionsArray, setPermissionsArray] = useState([]);
-
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions.permissions);
-    }
-  }, [UserPermissions]);
-
-
-
-
-
-
-
-const isStatusPermissionAvailable = permissionsArray.includes("charges-status-update");
-const isEditPermissionAvailable = permissionsArray.includes("charges-edit");
-const isAddPermissionAvailable = permissionsArray.includes("charges-create");
-const isDeletePermissionAvailable = permissionsArray.includes("charges-delete");
-const isDetailsPermissionAvailable = permissionsArray.includes("charges-details");
-const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
-
-
-
   const columns = [
     {
       name: "S.No",
@@ -186,7 +152,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
       ),
     },
     {
-      name: "Charges Name",
+      name: "Shops Name",
       selector: (row) => [row.charge_name],
       sortable: true,
       width: "20%",
@@ -199,7 +165,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
       ),
     },
     {
-        name: "Charges Code",
+        name: "Shops Code",
         selector: (row) => [row.charge_code],
         sortable: true,
         width: "20%",
@@ -235,7 +201,6 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
         width: "10%",
         cell: (row) => (
           <span className="text-muted fs-15 fw-semibold text-center">
-          {isStatusPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
               {row.charge_status === 1 ? (
                 <button
@@ -257,7 +222,6 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
                 </button>
               )}
             </OverlayTrigger>
-            ) : null}
           </span>
         ),
       },
@@ -269,7 +233,6 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
       width: "20%",
       cell: (row) => (
         <span className="text-center">
-        {isEditPermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
           <Link
               to={`/editcharges/${row.id}`} // Assuming `row.id` contains the ID
@@ -289,8 +252,6 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
               </i>
             </Link>
           </OverlayTrigger>
-          ) : null}
-          {isDeletePermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
             <Link
               to="#"
@@ -311,7 +272,6 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
               </i>
             </Link>
           </OverlayTrigger>
-          ) : null}
         </span>
       ),
     },
@@ -329,7 +289,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
     setSearchText(value);
 
     const filteredData = searchvalue.filter((item) =>
-      item.charge_name.toLowerCase().includes(value.toLowerCase())
+      item.shop_name.toLowerCase().includes(value.toLowerCase())
     );
     setData(filteredData);
   };
@@ -338,7 +298,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
     <>
       <div className="page-header ">
         <div>
-          <h1 className="page-title">Manage Charges</h1>
+          <h1 className="page-title">Manage Shops</h1>
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item
               className="breadcrumb-item"
@@ -351,7 +311,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Manage Charges
+              Manage Shops
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -365,17 +325,14 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
               placeholder="Search..."
               style={{ borderRadius: 0 }}
             />
-            {isAddPermissionAvailable ? (
             <Link
               to="/addCharges"
               className="btn btn-primary ms-2"
               style={{ borderRadius: "4px" }}
             >
-              Add Charges
+              Add Shops
             </Link>
-            ) : null}
           </div>
-         
         </div>
       </div>
 

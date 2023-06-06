@@ -11,6 +11,7 @@ import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import { useSelector } from "react-redux";
 
 const ManageAddon = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -127,6 +128,33 @@ const ManageAddon = (props) => {
     setData(filteredData);
   };
 
+
+  const permissionsToCheck = [
+    "addons-list","addons-create",
+    "addons-edit",
+    "addons-assign",
+    "addons-details",
+    "addons-delete",
+  ];
+    let isPermissionAvailable = false;
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions.permissions);
+    }
+  }, [UserPermissions]);
+
+
+const isStatusPermissionAvailable = permissionsArray.includes("addons-status-update");
+const isEditPermissionAvailable = permissionsArray.includes("addons-edit");
+const isAddPermissionAvailable = permissionsArray.includes("addons-create");
+const isDeletePermissionAvailable = permissionsArray.includes("addons-delete");
+const isDetailsPermissionAvailable = permissionsArray.includes("addons-details");
+const isAssignPermissionAvailable = permissionsArray.includes("addons-assign");
+
   const columns = [
     {
       name: "S.No",
@@ -174,6 +202,7 @@ const ManageAddon = (props) => {
       width: "20%",
       cell: (row) => (
         <span className="text-center">
+        {isEditPermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <Link
               to="/editaddon"
@@ -194,6 +223,8 @@ const ManageAddon = (props) => {
               </i>
             </Link>
           </OverlayTrigger>
+          ) : null}
+          {isDeletePermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
             <Link
               to="#"
@@ -214,6 +245,7 @@ const ManageAddon = (props) => {
               </i>
             </Link>
           </OverlayTrigger>
+          ) : null}
         </span>
       ),
     },
@@ -259,6 +291,7 @@ const ManageAddon = (props) => {
                   placeholder="Search..."
                   style={{ borderRadius: 0 }}
                 />
+                {isAddPermissionAvailable ? (
                 <Link
                   to="/addaddon"
                   className="btn btn-primary ms-2"
@@ -266,6 +299,7 @@ const ManageAddon = (props) => {
                 >
                   Add Addon
                 </Link>
+                ) : null}
               </div>
             </div>
           </div>

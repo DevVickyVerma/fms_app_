@@ -69,9 +69,7 @@ const ManageSubBusinessTypes = (props) => {
     }
   };
 
-  //  const handleFetchData = () => {
-  //     getData("/business/sub-types"); // Pass the dynamic URL as an argument
-  //   };
+  
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -122,6 +120,9 @@ const ManageSubBusinessTypes = (props) => {
       }
     });
   };
+
+
+  
 
   const columns = [
     {

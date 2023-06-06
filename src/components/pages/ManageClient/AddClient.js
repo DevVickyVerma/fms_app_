@@ -21,6 +21,7 @@ import { useFormikContext } from "formik";
 import "react-datepicker/dist/react-datepicker.css";
 import * as loderdata from "../../../data/Component/loderdata/loderdata";
 import withApi from "../../../Utils/ApiHelper";
+import { useSelector } from "react-redux";
 
 
   const AddClient = (props) => {
@@ -105,14 +106,48 @@ const [isChecked, setIsChecked] = useState(false);
     );
   };
 
+  const permissionsToCheck = [
+    "user-list",
+    "user-create",
+    
+    "user-edit",
+    "user-delete",
+  ];
+  let isPermissionAvailable = false;
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions.permissions);
+    }
+  }, [UserPermissions]);
+
+  const isStatusPermissionAvailable =
+    permissionsArray.includes("user-status-update");
+  const isEditPermissionAvailable = permissionsArray.includes("user-edit");
+  const isAddPermissionAvailable = permissionsArray.includes("user-create");
+  const isDeletePermissionAvailable = permissionsArray.includes("user-delete");
+  const isDetailsPermissionAvailable =
+    permissionsArray.includes("site-details");
+  const isAssignPermissionAvailable = permissionsArray.includes("user-assign");
+
+
+
+
+
   return (
     <>
       {isLoading ? (
         Loaderimg()
       ) :(
         <>
+       
       <div className="page-header">
+      {isAddPermissionAvailable ? (
         <div>
+        
           <h1 className="page-title">Add Client</h1>
 
           <Breadcrumb className="breadcrumb">
@@ -138,7 +173,9 @@ const [isChecked, setIsChecked] = useState(false);
               Add Client
             </Breadcrumb.Item>
           </Breadcrumb>
+          
         </div>
+        ) : null}
       </div>
 
       <Row>
@@ -557,6 +594,7 @@ const [isChecked, setIsChecked] = useState(false);
           </Card>
         </Col>
       </Row>
+  
       </>
       )}
     </>
