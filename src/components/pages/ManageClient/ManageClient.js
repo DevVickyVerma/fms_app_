@@ -168,40 +168,35 @@ const ManageClient = (props) => {
     localStorage.setItem("Client_id", row.id);
   };
   
-  const permissionsArray = useSelector((state) => state.data.permissionsArray);
 
-  console.log(permissionsArray.permissions, "permissionsArray");
-
+  
   const permissionsToCheck = [
-    "user-list,site-create,user-status-update",
+    "user-list",
+    "site-create",
+    "user-status-update",
     "user-edit",
     "user-delete",
   ];
-  let isPermissionAvailable = false;
 
-  if (permissionsArray && permissionsArray.permissions) {
-    try {
-      isPermissionAvailable = permissionsArray.permissions.some((permission) =>
-        permissionsToCheck.includes(permission)
-      );
-    } catch (error) {
-      console.error("Error occurred while checking permissions:", error);
+   let isPermissionAvailable = false;
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions.permissions);
     }
-  } else {
-    console.error(
-      "permissionsArray is null or does not have 'permissions' property"
-    );
-  }
+  }, [UserPermissions]);
+  
+ const isStatusPermissionAvailable =
+  permissionsArray.includes("site-status-update");
+const isEditPermissionAvailable = permissionsArray.includes("site-edit");
+const isAddPermissionAvailable = permissionsArray.includes("site-create");
+const isDeletePermissionAvailable = permissionsArray.includes("site-delete");
+const isDetailsPermissionAvailable = permissionsArray.includes("site-details");
+const isAssignPermissionAvailable = permissionsArray.includes("site-assign");
 
-
-  const isStatusPermissionAvailable =
-    permissionsArray.permissions.includes("user-status-update");
-  const isEditPermissionAvailable =
-    permissionsArray.permissions.includes("user-edit");
-  const isAddPermissionAvailable =
-    permissionsArray.permissions.includes("user-create");
-  const isDeletePermissionAvailable =
-    permissionsArray.permissions.includes("user-delete");
 
 
 

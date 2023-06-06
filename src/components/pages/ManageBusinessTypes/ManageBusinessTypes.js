@@ -112,9 +112,7 @@ const ManageBusinessTypes = (props) => {
     }
   };
 
-  const permissionsArray = useSelector((state) => state.data.permissionsArray);
-
-  console.log(permissionsArray.permissions, "permissionsArray");
+ 
 
   const permissionsToCheck = [
     "business-type-list",
@@ -124,36 +122,31 @@ const ManageBusinessTypes = (props) => {
     "business-type--delete",
   ];
   let isPermissionAvailable = false;
+  const [permissionsArray, setPermissionsArray] = useState([]);
 
-  if (permissionsArray && permissionsArray.permissions) {
-    try {
-      isPermissionAvailable = permissionsArray.permissions.some((permission) =>
-        permissionsToCheck.includes(permission)
-      );
-    } catch (error) {
-      console.error("Error occurred while checking permissions:", error);
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions.permissions);
     }
-  } else {
-    console.error(
-      "permissionsArray is null or does not have 'permissions' property"
-    );
-  }
+  }, [UserPermissions]);
 
   const isStatusPermissionAvailable =
-    permissionsArray.permissions.includes("site-status-update");
+    permissionsArray.includes("business-status-update");
   const isEditPermissionAvailable =
-    permissionsArray.permissions.includes("business-type-edit");
-  const isAddPermissionAvailable = permissionsArray.permissions.includes(
+    permissionsArray.includes("business-type-edit");
+  const isAddPermissionAvailable = permissionsArray.includes(
     "business-type-create"
   );
-  const isDeletePermissionAvailable = permissionsArray.permissions.includes(
+  const isDeletePermissionAvailable = permissionsArray.includes(
     "business-type--delete"
   );
-  const isDetailsPermissionAvailable = permissionsArray.permissions.includes(
+  const isDetailsPermissionAvailable = permissionsArray.includes(
     "business-type--detail"
   );
   const isAssignPermissionAvailable =
-    permissionsArray.permissions.includes("site-assign");
+    permissionsArray.includes("business-assign");
 
   const columns = [
     {

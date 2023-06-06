@@ -129,48 +129,36 @@ const ManageCompany = (props) => {
     localStorage.setItem("Company_Client_id", row.client_id);
   };
 
-  const permissionsArray = useSelector((state) => state.data.permissionsArray);
-
-  console.log(permissionsArray.permissions, "permissionsArray");
-
+ 
   const permissionsToCheck = [
     "company-list","company-create",
     "company-edit",
     "company-details",
   ];
+    let isPermissionAvailable = false;
+  const [permissionsArray, setPermissionsArray] = useState([]);
 
+  const UserPermissions = useSelector((state) => state?.data?.data);
 
-
-
-  let isPermissionAvailable = false;
-
-  if (permissionsArray && permissionsArray.permissions) {
-    try {
-      isPermissionAvailable = permissionsArray.permissions.some((permission) =>
-        permissionsToCheck.includes(permission)
-      );
-    } catch (error) {
-      console.error("Error occurred while checking permissions:", error);
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions.permissions);
     }
-  } else {
-    console.error(
-      "permissionsArray is null or does not have 'permissions' property"
-    );
-  }
+  }, [UserPermissions]);
 
 
-  const isStatusPermissionAvailable =
-    permissionsArray.permissions.includes("site-status-update");
-  const isEditPermissionAvailable =
-    permissionsArray.permissions.includes("site-edit");
-  const isAddPermissionAvailable =
-    permissionsArray.permissions.includes("site-create");
-  const isDeletePermissionAvailable =
-    permissionsArray.permissions.includes("site-delete");
-  const isDetailsPermissionAvailable =
-    permissionsArray.permissions.includes("site-details");
-  const isAssignPermissionAvailable =
-    permissionsArray.permissions.includes("site-assign");
+
+
+
+
+
+const isStatusPermissionAvailable = permissionsArray.includes("site-status-update");
+const isEditPermissionAvailable = permissionsArray.includes("site-edit");
+const isAddPermissionAvailable = permissionsArray.includes("site-create");
+const isDeletePermissionAvailable = permissionsArray.includes("site-delete");
+const isDetailsPermissionAvailable = permissionsArray.includes("site-details");
+const isAssignPermissionAvailable = permissionsArray.includes("site-assign");
+
 
 
 

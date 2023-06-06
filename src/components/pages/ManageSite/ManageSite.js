@@ -21,9 +21,6 @@ import { useSelector } from "react-redux";
 const ManageSite = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
-  const permissionsArray = useSelector((state) => state.data.permissionsArray);
-
-
   const [data, setData] = useState();
 
   const SuccessAlert = (message) => toast.success(message);
@@ -195,41 +192,32 @@ const ManageSite = (props) => {
     }
   };
 
-
-
   const permissionsToCheck = [
-    "site-list","site-create","site-status-update",
+    "site-list",
+    "site-create",
+    "site-status-update",
     "site-edit",
     "site-delete",
   ];
   let isPermissionAvailable = false;
+  const [permissionsArray, setPermissionsArray] = useState([]);
 
-  if (permissionsArray && permissionsArray.permissions) {
-    try {
-      isPermissionAvailable = permissionsArray.permissions.some((permission) =>
-        permissionsToCheck.includes(permission)
-      );
-    } catch (error) {
-      console.error("Error occurred while checking permissions:", error);
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions.permissions);
     }
-  } else {
-    console.error(
-      "permissionsArray is null or does not have 'permissions' property"
-    );
-  }
+  }, [UserPermissions]);
 
   const isStatusPermissionAvailable =
-    permissionsArray.permissions.includes("site-status-update");
-  const isEditPermissionAvailable =
-    permissionsArray.permissions.includes("site-edit");
-  const isAddPermissionAvailable =
-    permissionsArray.permissions.includes("site-create");
-  const isDeletePermissionAvailable =
-    permissionsArray.permissions.includes("site-delete");
+    permissionsArray.includes("site-status-update");
+  const isEditPermissionAvailable = permissionsArray.includes("site-edit");
+  const isAddPermissionAvailable = permissionsArray.includes("site-create");
+  const isDeletePermissionAvailable = permissionsArray.includes("site-delete");
   const isDetailsPermissionAvailable =
-    permissionsArray.permissions.includes("site-details");
-  const isAssignPermissionAvailable =
-    permissionsArray.permissions.includes("site-assign");
+    permissionsArray.includes("site-details");
+  const isAssignPermissionAvailable = permissionsArray.includes("site-assign");
 
   const columns = [
     {
