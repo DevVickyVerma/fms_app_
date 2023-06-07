@@ -134,6 +134,40 @@ const EditDeductions = React.lazy(() =>
 
 // Deductions End
 
+
+// Suppliers Start
+
+const ManageSuppliers = React.lazy(() =>
+  import("./components/pages/ManageSuppliers/ManageSuppliers")
+);
+
+const AddSuppliers = React.lazy(() =>
+  import("./components/pages/ManageSuppliers/AddSuppliers")
+);
+
+const EditSuppliers = React.lazy(() =>
+  import("./components/pages/ManageSuppliers/EditSuppliers")
+);
+
+// Suppliers End
+
+
+// FuelSites Start
+
+const ManageFuelSites = React.lazy(() =>
+  import("./components/pages/ManageFuelSites/ManageFuelSites")
+);
+
+const AddFuelSites = React.lazy(() =>
+  import("./components/pages/ManageFuelSites/AddFuelSites")
+);
+
+const EditFuelSites = React.lazy(() =>
+  import("./components/pages/ManageFuelSites/EditFuelSites")
+);
+
+// FuelSites End
+
 const ManageBusinessTypes = React.lazy(() =>
   import("./components/pages/ManageBusinessTypes/ManageBusinessTypes")
 );
@@ -262,6 +296,12 @@ const Root = () => {
   const WrappedManageDeductions = withApi(ManageDeductions);
   const WrappedAddDeductions = withApi(AddDeductions);
   const WrappedEditDeductions = withApi(EditDeductions);
+  const WrappedManageSuppliers = withApi(ManageSuppliers);
+  const WrappedAddSuppliers = withApi(AddSuppliers);
+  const WrappedEditSuppliers = withApi(EditSuppliers);
+  const WrappedManageFuelSites = withApi(ManageFuelSites);
+  const WrappedAddFuelSites = withApi(AddFuelSites);
+  const WrappedEditFuelSites = withApi(EditFuelSites);
   return (
     <Fragment>
       <BrowserRouter>
@@ -386,6 +426,39 @@ const Root = () => {
                   />
 
                   {/* Deduction components end */}
+
+                   {/* FuelSites components start */}
+
+                   {/* <Route
+                    path={`/managefuelsites`}
+                    element={<WrappedManageFuelSites />}
+                  />
+
+                  <Route path={`/addfuelsites`} element={<WrappedAddFuelSites />} />
+                  <Route
+                    path={`/editfuelsites/:id`}
+                    element={<WrappedEditFuelSites />}
+                  />
+
+                  FuelSites components end */}
+
+
+
+
+                   {/* Suppliers components start */}
+
+                   <Route
+                    path={`/managesuppliers`}
+                    element={<WrappedManageSuppliers />}
+                  />
+
+                  <Route path={`/addsuppliers`} element={<WrappedAddSuppliers />} />
+                  <Route
+                    path={`/editsuppliers/:id`}
+                    element={<WrappedEditSuppliers />}
+                  />
+
+                  {/* Suppliers components end */}
 
 
                   <Route>
