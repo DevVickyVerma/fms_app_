@@ -301,24 +301,24 @@ export const MENUITEMS = [
       },
       {
         title: "Manage Suppliers",
-        icon: "package",
+        icon: "percent",
         type: "sub",
         active: false,
-        permission: " supplier-list",
+        permission: "supplier-list",
         visibility: false,
         children: [
           {
             path: `/managesuppliers`,
             title: "Manage Suppliers",
             type: "link",
-            permission: " supplier-list",
+            permission: "supplier-list",
         visibility: false,
           },
           {
             path: `/addSuppliers`,
             title: "Add Suppliers",
             type: "link",
-            permission: " supplier-create",
+            permission: "supplier-create",
         visibility: false,
           },
         ],
