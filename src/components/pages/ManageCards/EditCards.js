@@ -168,7 +168,7 @@ const EditCards = (props) => {
           <div>
             <div className="page-header">
               <div>
-                <h1 className="page-title">Edit cards</h1>
+                <h1 className="page-title">Edit Card</h1>
 
                 <Breadcrumb className="breadcrumb">
                   <Breadcrumb.Item
@@ -184,13 +184,13 @@ const EditCards = (props) => {
                     linkAs={Link}
                     linkProps={{ to: "/managecards" }}
                   >
-                    Manage cards
+                    Manage Card
                   </Breadcrumb.Item>
                   <Breadcrumb.Item
                     className="breadcrumb-item active breadcrumds"
                     aria-current="page"
                   >
-                    Edit cards
+                    Edit Card
                   </Breadcrumb.Item>
                 </Breadcrumb>
               </div>
@@ -212,7 +212,7 @@ const EditCards = (props) => {
                               className="form-label mt-4"
                               htmlFor="card_code"
                             >
-                              cards Code<span className="text-danger">*</span>
+                              Card Code<span className="text-danger">*</span>
                             </label>
                             <input
                               id="card_code"
@@ -243,7 +243,7 @@ const EditCards = (props) => {
                               className="form-label mt-4"
                               htmlFor="card_name"
                             >
-                              cards Name <span className="text-danger">*</span>
+                              Card Name <span className="text-danger">*</span>
                             </label>
                             <input
                               type="text"
@@ -274,7 +274,7 @@ const EditCards = (props) => {
                               htmlFor="card_status"
                               className="form-label mt-4"
                             >
-                              card Status <span className="text-danger">*</span>
+                              Card Status <span className="text-danger">*</span>
                             </label>
                             <select
                               className={`input101 ${
@@ -288,7 +288,7 @@ const EditCards = (props) => {
                               onChange={formik.handleChange}
                               value={formik.values.card_status}
                             >
-                              <option value="">Select a card_status</option>
+                              
                               <option value="1">Active</option>
                               <option value="0">Inactive</option>
                             </select>

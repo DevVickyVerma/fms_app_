@@ -207,7 +207,7 @@ const AddCharges = (props) => {
                                   id="charge_status"
                                   name="charge_status"
                                 >
-                                  <option value="">Select Charge Status</option>
+                                  
                                   <option value="1">Active</option>
                                   <option value="0">Inactive</option>
                                 </Field>
