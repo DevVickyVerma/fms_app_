@@ -116,7 +116,7 @@ const EditShops = (props) => {
       code: "",
       name: "",
 
-      status: "",
+      status: "1",
     },
     validationSchema: Yup.object({
       code: Yup.string()
@@ -182,13 +182,13 @@ const EditShops = (props) => {
                     linkAs={Link}
                     linkProps={{ to: "/ManageShops" }}
                   >
-                    Manage Shop
+                    Manage Shops
                   </Breadcrumb.Item>
                   <Breadcrumb.Item
                     className="breadcrumb-item active breadcrumds"
                     aria-current="page"
                   >
-                    Edit Shop
+                    Edit Shops
                   </Breadcrumb.Item>
                 </Breadcrumb>
               </div>
@@ -206,7 +206,7 @@ const EditShops = (props) => {
                       <Row>
                         <Col lg={6} md={6}>
                           <div className="form-group">
-                            <label className="form-label mt-4" htmlFor="name">
+                            <label  htmlFor="name">
                               Shop Name<span className="text-danger">*</span>
                             </label>
                             <input
@@ -232,12 +232,12 @@ const EditShops = (props) => {
                         </Col>
                         <Col lg={6} md={6}>
                           <div className="form-group">
-                            <label className="form-label mt-4" htmlFor="code">
-                              Shop code<span className="text-danger">*</span>
+                            <label  htmlFor="code">
+                              Shop Code<span className="text-danger">*</span>
                             </label>
                             <input
                               type="text"
-                              className={`input101 ${
+                              className={`input101  readonly ${
                                 formik.errors.code && formik.touched.code
                                   ? "is-invalid"
                                   : ""
@@ -259,7 +259,7 @@ const EditShops = (props) => {
 
                         <Col lg={6} md={6}>
                           <div className="form-group">
-                            <label htmlFor="status" className="form-label mt-4">
+                            <label htmlFor="status" >
                               Shop Status <span className="text-danger">*</span>
                             </label>
                             <select
@@ -273,7 +273,7 @@ const EditShops = (props) => {
                               onChange={formik.handleChange}
                               value={formik.values.status}
                             >
-                              <option value="">Select Status</option>
+                              
                               <option value="1">Active</option>
                               <option value="0">Inactive</option>
                             </select>

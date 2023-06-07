@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import SearchIcon from "@mui/icons-material/Search";
+import { useSelector } from "react-redux";
 
 const ManageCharges = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -35,7 +36,7 @@ const ManageCharges = (props) => {
         const token = localStorage.getItem("token");
 
         const formData = new FormData();
-        formData.append("role_id", id);
+        formData.append("id", id);
 
         const axiosInstance = axios.create({
           baseURL: process.env.REACT_APP_BASE_URL,
@@ -46,7 +47,7 @@ const ManageCharges = (props) => {
         });
         const DeleteRole = async () => {
           try {
-            const response = await axiosInstance.post("/role/delete", formData);
+            const response = await axiosInstance.post("/shop/delete", formData);
             setData(response.data.data);
             Swal.fire({
               title: "Deleted!",
@@ -138,6 +139,44 @@ const ManageCharges = (props) => {
     }
   };
 
+//permissions check
+const [permissionsArray, setPermissionsArray] = useState([]);
+
+const UserPermissions = useSelector((state) => state?.data?.data);
+
+useEffect(() => {
+  if (UserPermissions) {
+    setPermissionsArray(UserPermissions.permissions);
+  }
+}, [UserPermissions]);
+
+const isStatusPermissionAvailable = permissionsArray.includes(
+  "shop-status-update"
+);
+const isEditPermissionAvailable = permissionsArray.includes("shop-edit");
+const isAddPermissionAvailable = permissionsArray.includes("shop-create");
+const isDeletePermissionAvailable = permissionsArray.includes("shop-delete");
+const isDetailsPermissionAvailable =
+  permissionsArray.includes("shop-details");
+const isAssignPermissionAvailable = permissionsArray.includes("shop-assign");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   const columns = [
     {
       name: "S.No",
@@ -205,19 +244,25 @@ const ManageCharges = (props) => {
               {row.status === 1 ? (
                 <button
                   className="badge bg-success"
-                  onClick={() => toggleActive(row)}
+                  onClick={
+                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                }
                 >
                   Active
                 </button>
               ) : row.status === 0 ? (
                 <button
                   className="badge bg-danger"
-                  onClick={() => toggleActive(row)}
+                  onClick={
+                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                }
                 >
                   Inactive
                 </button>
               ) : (
-                <button className="badge" onClick={() => toggleActive(row)}>
+                <button className="badge"  onClick={
+                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                }>
                   Unknown
                 </button>
               )}
@@ -233,6 +278,7 @@ const ManageCharges = (props) => {
       width: "20%",
       cell: (row) => (
         <span className="text-center">
+          {isEditPermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
           <Link
               to={`/editshops/${row.id}`} // Assuming `row.id` contains the ID
@@ -252,6 +298,8 @@ const ManageCharges = (props) => {
               </i>
             </Link>
           </OverlayTrigger>
+          ) : null}
+          {isDeletePermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
             <Link
               to="#"
@@ -272,6 +320,7 @@ const ManageCharges = (props) => {
               </i>
             </Link>
           </OverlayTrigger>
+          ) : null}
         </span>
       ),
     },
@@ -293,6 +342,9 @@ const ManageCharges = (props) => {
     );
     setData(filteredData);
   };
+
+
+
 
   return (
     <>
@@ -325,6 +377,7 @@ const ManageCharges = (props) => {
               placeholder="Search..."
               style={{ borderRadius: 0 }}
             />
+              {isAddPermissionAvailable ? (
             <Link
               to="/addShops"
               className="btn btn-primary ms-2"
@@ -332,6 +385,7 @@ const ManageCharges = (props) => {
             >
               Add Shops
             </Link>
+                  ) : null}
           </div>
         </div>
       </div>

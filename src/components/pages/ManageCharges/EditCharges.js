@@ -130,7 +130,7 @@ import Loaderimg from "../../../Utils/Loader";
     },
     validationSchema: Yup.object({
       charge_code: Yup.string()
-        .max(20, "Must be 20 characters or less")
+       
         .required("charge code is required"),
 
         charge_name: Yup.string()
@@ -215,40 +215,10 @@ import Loaderimg from "../../../Utils/Loader";
             <div class="card-body">
               <form onSubmit={formik.handleSubmit}>
                 <Row>
+                
                   <Col lg={6} md={6}>
                     <div className="form-group">
-                      <label
-                        className="form-label mt-4"
-                        htmlFor="charge_code"
-                      >
-                        Charges Code<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        id="charge_code"
-                        charge_code="name"
-                        type="text"
-                        className={`input101 ${
-                          formik.errors.charge_code &&
-                          formik.touched.charge_code
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        placeholder="Business Name"
-                        onChange={formik.handleChange}
-                        value={formik.values.charge_code || ""}
-                        readOnly
-                      />
-                      {formik.errors.charge_code &&
-                        formik.touched.charge_code && (
-                          <div className="invalid-feedback">
-                            {formik.errors.charge_code}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-                  <Col lg={6} md={6}>
-                    <div className="form-group">
-                      <label className="form-label mt-4" htmlFor="charge_name">
+                      <label htmlFor="charge_name">
                        Charges Name <span className="text-danger">*</span>
                       </label>
                       <input
@@ -271,10 +241,41 @@ import Loaderimg from "../../../Utils/Loader";
                       )}
                     </div>
                   </Col>
+                  <Col lg={6} md={6}>
+                    <div className="form-group">
+                      <label
+                      
+                        htmlFor="charge_code"
+                      >
+                        Charges Code<span className="text-danger">*</span>
+                      </label>
+                      <input
+                        id="charge_code"
+                        charge_code="name"
+                        type="text"
+                        className={`input101 readonly ${
+                          formik.errors.charge_code &&
+                          formik.touched.charge_code
+                            ? "is-invalid"
+                            : ""
+                        }`}
+                        placeholder="Business Name"
+                        onChange={formik.handleChange}
+                        value={formik.values.charge_code || ""}
+                        readOnly
+                      />
+                      {formik.errors.charge_code &&
+                        formik.touched.charge_code && (
+                          <div className="invalid-feedback">
+                            {formik.errors.charge_code}
+                          </div>
+                        )}
+                    </div>
+                  </Col>
 
                   <Col lg={6} md={6}>
                     <div className="form-group">
-                      <label htmlFor="charge_status" className="form-label mt-4">
+                      <label htmlFor="charge_status" >
                         Charge Status <span className="text-danger">*</span>
                       </label>
                       <select

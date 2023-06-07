@@ -24,7 +24,6 @@ const AddCharges = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
   const navigate = useNavigate();
- 
 
   const handleSubmit1 = async (values) => {
     try {
@@ -33,15 +32,14 @@ const AddCharges = (props) => {
       formData.append("charge_code", values.charge_code);
       formData.append("charge_status", values.charge_status);
 
-      const postDataUrl = "charge/add";
+      const postDataUrl = "/charge/add";
 
-      const navigatePath = "/ManageCharges";
+      const navigatePath = "/managecharges";
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
-
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
@@ -54,8 +52,9 @@ const AddCharges = (props) => {
   }, [UserPermissions]);
 
   useEffect(() => {
-    const isAddPermissionAvailable = permissionsArray?.includes("charges-create");
-  
+    const isAddPermissionAvailable =
+      permissionsArray?.includes("charges-create");
+
     if (permissionsArray.length > 0) {
       if (isAddPermissionAvailable) {
         console.log(isAddPermissionAvailable, "AddPermissionAvailable");
@@ -69,8 +68,6 @@ const AddCharges = (props) => {
       }
     }
   }, [permissionsArray]);
-
-
 
   return (
     <>
@@ -149,6 +146,7 @@ const AddCharges = (props) => {
                             <Col lg={6} md={12}>
                               <FormGroup>
                                 <label htmlFor="charge_name">Charge Name</label>
+                                
                                 <Field
                                   type="text"
                                   // className="form-control"
@@ -207,7 +205,7 @@ const AddCharges = (props) => {
                                   id="charge_status"
                                   name="charge_status"
                                 >
-                                  
+                                  <option value="">Select a status</option>
                                   <option value="1">Active</option>
                                   <option value="0">Inactive</option>
                                 </Field>

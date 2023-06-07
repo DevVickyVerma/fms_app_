@@ -77,7 +77,7 @@ const AddCards = (props) => {
                     initialValues={{
                       card_name: "",
                       card_code: "",
-                      card_status: "",
+                      card_status: "1",
                     }}
                     validationSchema={Yup.object({
                       card_name: Yup.string()

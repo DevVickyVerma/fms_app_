@@ -90,7 +90,7 @@ const ManageCharges = (props) => {
     const formData = new FormData();
     formData.append("id", row.id);
 
-    const newStatus = row.status === 1 ? 0 : 1;
+    const newStatus = row.charge_status === 1 ? 0 : 1;
     formData.append("charge_status", newStatus);
 
     ToggleStatus(formData);

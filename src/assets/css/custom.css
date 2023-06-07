@@ -69,3 +69,6 @@ h3.SidebarSearch-title {
   margin: 0 auto;
   text-align: center;
 }
+.readonly {
+  background-color: rgb(221 221 221 / 59%);
+}

@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import withApi from "../../../Utils/ApiHelper";
 import * as loderdata from "../../../data/Component/loderdata/loderdata";
+import { useSelector } from "react-redux";
 
 const ManageSubBusinessTypes = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -120,6 +121,31 @@ const ManageSubBusinessTypes = (props) => {
       }
     });
   };
+  const navigate = useNavigate();
+  //permissions check
+const [permissionsArray, setPermissionsArray] = useState([]);
+
+const UserPermissions = useSelector((state) => state?.data?.data);
+
+useEffect(() => {
+  if (UserPermissions) {
+    setPermissionsArray(UserPermissions.permissions);
+  }
+}, [UserPermissions]);
+
+const isStatusPermissionAvailable = permissionsArray.includes(
+  "shop-status-update"
+);
+const isEditPermissionAvailable = permissionsArray.includes("business-sub-type-edit");
+const isAddPermissionAvailable = permissionsArray.includes("business-sub-type-create");
+const isDeletePermissionAvailable = permissionsArray.includes("business-sub-type-delete");
+const isDetailsPermissionAvailable =
+  permissionsArray.includes("business-sub-type-detail");
+const isAssignPermissionAvailable = permissionsArray.includes("business-sub-type-assign");
+
+
+
+
 
 
   

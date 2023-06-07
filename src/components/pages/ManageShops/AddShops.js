@@ -17,6 +17,7 @@ import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import { useSelector } from "react-redux";
 
 const AddShops = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -36,6 +37,41 @@ const AddShops = (props) => {
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
+  const navigate = useNavigate();
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions?.permissions);
+    }
+  }, [UserPermissions]);
+
+  useEffect(() => {
+    const isAddPermissionAvailable = permissionsArray?.includes("user-create");
+  
+    if (permissionsArray.length > 0) {
+      if (isAddPermissionAvailable) {
+        console.log(isAddPermissionAvailable, "AddPermissionAvailable");
+        // Perform action when permission is available
+        // Your code here
+      } else {
+        // console.log(isAddPermissionAvailable, "NoAddPermissionAvailable");
+        // Perform action when permission is not available
+        // Your code here
+        navigate("/errorpage403");
+      }
+    }
+  }, [permissionsArray]);
+
+
+
+
+
+
+
+
 
   return (
     <>
@@ -76,7 +112,7 @@ const AddShops = (props) => {
                     initialValues={{
                       shop_name: "",
                       code: "",
-                      status: "",
+                      status: "1",
                     }}
                     validationSchema={Yup.object({
                       shop_name: Yup.string()
@@ -99,7 +135,7 @@ const AddShops = (props) => {
                         ),
 
                       status: Yup.string().required(
-                        "Charge Status is required"
+                        " Status is required"
                       ),
                     })}
                     onSubmit={(values) => {
@@ -168,7 +204,7 @@ const AddShops = (props) => {
                                   id="status"
                                   name="status"
                                 >
-                                  {/* <option value="">Select Shop Status</option> */}
+                                 
                                   <option value="1">Active</option>
                                   <option value="0">Inactive</option>
                                 </Field>
@@ -185,7 +221,7 @@ const AddShops = (props) => {
                           <Link
                             type="submit"
                             className="btn btn-danger me-2 "
-                            to={`/AddCharges/`}
+                            to={`/manageshops/`}
                           >
                             Cancel
                           </Link>

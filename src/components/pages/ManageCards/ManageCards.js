@@ -85,7 +85,6 @@ const ManageCards = (props) => {
     FetchTableData();
   }, []);
 
-
   const toggleActive = (row) => {
     const formData = new FormData();
     formData.append("id", row.id);
@@ -108,7 +107,6 @@ const ManageCards = (props) => {
     }
   };
 
-
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -116,7 +114,6 @@ const ManageCards = (props) => {
       Authorization: `Bearer ${token}`,
     },
   });
-
 
   const handleEdit = (row) => {
     console.log(row, "handleEdit");
@@ -140,35 +137,52 @@ const ManageCards = (props) => {
   };
 
 
-  const permissionsToCheck = [
-    "cards-list","cards-create",
-    "cards-edit",
-    "cards-details",
-    "cards-delete"
-  ];
-    let isPermissionAvailable = false;
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
     if (UserPermissions) {
-      setPermissionsArray(UserPermissions.permissions);
+      setPermissionsArray(UserPermissions?.permissions);
     }
   }, [UserPermissions]);
 
-
-
-
-
-
-
-const isStatusPermissionAvailable = permissionsArray.includes("cards-status-update");
-const isEditPermissionAvailable = permissionsArray.includes("cards-edit");
-const isAddPermissionAvailable = permissionsArray.includes("cards-create");
-const isDeletePermissionAvailable = permissionsArray.includes("cards-delete");
-const isDetailsPermissionAvailable = permissionsArray.includes("cards-details");
-const isAssignPermissionAvailable = permissionsArray.includes("cards-assign");
+  const isStatusPermissionAvailable = permissionsArray.includes(
+    "cards-status-update"
+  );
+  const isEditPermissionAvailable = permissionsArray.includes("card-edit");
+  const isAddPermissionAvailable = permissionsArray.includes("card-create");
+  const isDeletePermissionAvailable = permissionsArray.includes("card-delete");
+  const isDetailsPermissionAvailable =
+    permissionsArray.includes("cards-details");
+  const isAssignPermissionAvailable = permissionsArray.includes("card-assign");
+  // useEffect(() => {
+  //   const checkCardPermissions = () => {
+  //     const permissions = [
+  //       { permission: "cards-status-update", label: "Status Update" },
+  //       { permission: "card-edit", label: "Edit" },
+  //       { permission: "card-create", label: "Create" },
+  //       { permission: "card-delete", label: "Delete" },
+  //       { permission: "cards-details", label: "Details" },
+  //       { permission: "card-assign", label: "Assign" }
+  //     ];
+  
+  //     const availablePermissions = permissions.filter(
+  //       permission => permissionsArray.includes(permission.permission)
+  //     );
+  
+  //     if (availablePermissions.length === 0) {
+  //       navigate("/errorpage403");
+  //     } else {
+  //       console.log("Available card permissions:");
+  //       availablePermissions.forEach(permission => {
+  //         console.log(permission.label);
+  //       });
+  //     }
+  //   };
+  
+  //   checkCardPermissions();
+  // }, [permissionsArray]);
 
 
 
@@ -199,18 +213,18 @@ const isAssignPermissionAvailable = permissionsArray.includes("cards-assign");
       ),
     },
     {
-        name: "Cards Code",
-        selector: (row) => [row.card_code],
-        sortable: true,
-        width: "20%",
-        cell: (row, index) => (
-          <div className="d-flex">
-            <div className="ms-2 mt-0 mt-sm-2 d-block">
-              <h6 className="mb-0 fs-14 fw-semibold">{row.card_code}</h6>
-            </div>
+      name: "Cards Code",
+      selector: (row) => [row.card_code],
+      sortable: true,
+      width: "20%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.card_code}</h6>
           </div>
-        ),
-      },
+        </div>
+      ),
+    },
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
@@ -229,44 +243,45 @@ const isAssignPermissionAvailable = permissionsArray.includes("cards-assign");
       ),
     },
     {
-        name: "Status",
-        selector: (row) => [row.card_status],
-        sortable: true,
-        width: "10%",
-        cell: (row) => (
-          <span className="text-muted fs-15 fw-semibold text-center">
-  
-            <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
-              {row.card_status === 1 ? (
-                <button
-                  className="badge bg-success"
-                  onClick={
+      name: "Status",
+      selector: (row) => [row.card_status],
+      sortable: true,
+      width: "10%",
+      cell: (row) => (
+        <span className="text-muted fs-15 fw-semibold text-center">
+          <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
+            {row.card_status === 1 ? (
+              <button
+                className="badge bg-success"
+                onClick={
                   isStatusPermissionAvailable ? () => toggleActive(row) : null
                 }
-                >
-                  Active
-                </button>
-              ) : row.card_status === 0 ? (
-                <button
-                  className="badge bg-danger"
-                  onClick={
+              >
+                Active
+              </button>
+            ) : row.card_status === 0 ? (
+              <button
+                className="badge bg-danger"
+                onClick={
                   isStatusPermissionAvailable ? () => toggleActive(row) : null
                 }
-                >
-                  Inactive
-                </button>
-              ) : (
-                <button className="badge" onClick={
+              >
+                Inactive
+              </button>
+            ) : (
+              <button
+                className="badge"
+                onClick={
                   isStatusPermissionAvailable ? () => toggleActive(row) : null
-                }>
-                  Unknown
-                </button>
-              )}
-            </OverlayTrigger>
-   
-          </span>
-        ),
-      },
+                }
+              >
+                Unknown
+              </button>
+            )}
+          </OverlayTrigger>
+        </span>
+      ),
+    },
 
     {
       name: "Action",
@@ -275,12 +290,11 @@ const isAssignPermissionAvailable = permissionsArray.includes("cards-assign");
       width: "20%",
       cell: (row) => (
         <span className="text-center">
-        {/* {isEditPermissionAvailable ? ( */}
+          {isEditPermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
-          <Link
+            <Link
               to={`/editcard/${row.id}`} // Assuming `row.id` contains the ID
               className="btn btn-primary btn-sm rounded-11 me-2"
-              
             >
               <i>
                 <svg
@@ -296,8 +310,8 @@ const isAssignPermissionAvailable = permissionsArray.includes("cards-assign");
               </i>
             </Link>
           </OverlayTrigger>
-          {/* ) : null} */}
-          {/* {isDeletePermissionAvailable ? ( */}
+          ) : null}
+          {isDeletePermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
             <Link
               to="#"
@@ -318,7 +332,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("cards-assign");
               </i>
             </Link>
           </OverlayTrigger>
-          {/* ) : null} */}
+          ) : null}
         </span>
       ),
     },
@@ -340,6 +354,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("cards-assign");
     );
     setData(filteredData);
   };
+  
 
   return (
     <>
@@ -373,16 +388,15 @@ const isAssignPermissionAvailable = permissionsArray.includes("cards-assign");
               style={{ borderRadius: 0 }}
             />
             {isAddPermissionAvailable ? (
-            <Link
-              to="/addCards"
-              className="btn btn-primary ms-2"
-              style={{ borderRadius: "4px" }}
-            >
-              Add Cards
-            </Link>
+              <Link
+                to="/addCards"
+                className="btn btn-primary ms-2"
+                style={{ borderRadius: "4px" }}
+              >
+                Add Cards
+              </Link>
             ) : null}
           </div>
-         
         </div>
       </div>
 
