@@ -126,29 +126,29 @@ import Loaderimg from "../../../Utils/Loader";
       charge_code: "",
       charge_name: "",
 
-      charge_status: "",
+      charge_status: "1",
     },
     validationSchema: Yup.object({
       charge_code: Yup.string()
        
-        .required("charge code is required"),
+        .required("Charge code is required"),
 
         charge_name: Yup.string()
-        .required("charge_name is required")
+        .required("Charge Name is required")
         .matches(/^[a-zA-Z0-9_\- ]+$/, {
-          message: "charge name must not contain special characters",
+          message: "Charge Name must not contain special characters",
           excludeEmptyString: true,
         })
         .matches(
           /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
           {
-            message: "charge_name must not have consecutive spaces",
+            message: "Charge Name must not have consecutive spaces",
             excludeEmptyString: true,
           }
         ),
 
 
-      charge_status: Yup.string().required("Charge Status is required"),
+      charge_status: Yup.string().required(" Status is required"),
     }),
     onSubmit: handleSubmit,
   });
@@ -156,17 +156,8 @@ import Loaderimg from "../../../Utils/Loader";
   const isInvalid = formik.errors && formik.touched.name ? "is-invalid" : "";
 
   // Use the isInvalid variable to conditionally set the class name
-  const inputClass = `form-control ${isInvalid}`;
-  const handleBusinessTypeChange = (e) => {
-    const selectedType = e.target.value;
-
-    formik.setFieldValue("business_type", selectedType);
-    setSelectedBusinessType(selectedType);
-    const selectedTypeData = AddSiteData.busines_types.find(
-      (type) => type.name === selectedType
-    );
-    setSubTypes(selectedTypeData.sub_types);
-  };
+  
+ 
 
   return (
     <>
@@ -259,7 +250,7 @@ import Loaderimg from "../../../Utils/Loader";
                             ? "is-invalid"
                             : ""
                         }`}
-                        placeholder="Business Name"
+                        placeholder="Charge Name"
                         onChange={formik.handleChange}
                         value={formik.values.charge_code || ""}
                         readOnly
@@ -289,7 +280,7 @@ import Loaderimg from "../../../Utils/Loader";
                         onChange={formik.handleChange}
                         value={formik.values.charge_status}
                       >
-                        <option value="">Select a charge_status</option>
+                        
                         <option value="1">Active</option>
                             <option value="0">Inactive</option>
                       </select>
