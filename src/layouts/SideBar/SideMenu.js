@@ -212,7 +212,26 @@ export const MENUITEMS = [
           
         ],
       },
-
+      {
+        title: "Manage Deductions",
+        icon: "package",
+        type: "sub",
+        active: false,
+        children: [
+          {
+           path: `/managedeductions`,
+            title: "Manage Deductions",
+            type: "link",
+          },
+          {
+            path: `/addDeductions`,
+            title: "Add Deductions",
+            type: "link",
+          },
+         
+          
+        ],
+      },
       
       
     ],

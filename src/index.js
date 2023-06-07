@@ -102,7 +102,7 @@ const EditShops = React.lazy(() =>
 
 // Shops End
 
-// Shops Start
+// Cards Start
 
 const ManageCards = React.lazy(() =>
   import("./components/pages/ManageCards/ManageCards")
@@ -116,7 +116,23 @@ const EditCards = React.lazy(() =>
   import("./components/pages/ManageCards/EditCards")
 );
 
-// Shops End
+// Cards End
+
+// Deductions Start
+
+const ManageDeductions = React.lazy(() =>
+  import("./components/pages/ManageDeductions/ManageDeductions")
+);
+
+const AddDeductions = React.lazy(() =>
+  import("./components/pages/ManageDeductions/AddDeductions")
+);
+
+const EditDeductions = React.lazy(() =>
+  import("./components/pages/ManageDeductions/EditDeductions")
+);
+
+// Deductions End
 
 const ManageBusinessTypes = React.lazy(() =>
   import("./components/pages/ManageBusinessTypes/ManageBusinessTypes")
@@ -243,6 +259,9 @@ const Root = () => {
   const WrappedManageCards = withApi(ManageCards);
   const WrappedAddCards = withApi(AddCards);
   const WrappedEditCards = withApi(EditCards);
+  const WrappedManageDeductions = withApi(ManageDeductions);
+  const WrappedAddDeductions = withApi(AddDeductions);
+  const WrappedEditDeductions = withApi(EditDeductions);
   return (
     <Fragment>
       <BrowserRouter>
@@ -352,6 +371,21 @@ const Root = () => {
                   />
 
                   {/* Cards components end */}
+
+                  {/* Deductions components start */}
+
+                  <Route
+                    path={`/managedeductions`}
+                    element={<WrappedManageDeductions />}
+                  />
+
+                  <Route path={`/adddeductions`} element={<WrappedAddDeductions />} />
+                  <Route
+                    path={`/editdeductions/:id`}
+                    element={<WrappedEditDeductions />}
+                  />
+
+                  {/* Deduction components end */}
 
 
                   <Route>
