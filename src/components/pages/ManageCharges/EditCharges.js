@@ -221,7 +221,7 @@ import Loaderimg from "../../../Utils/Loader";
                         }`}
                         id="charge_name"
                         name="charge_name"
-                        placeholder="charge_name"
+                        placeholder="Charge Code"
                         onChange={formik.handleChange}
                         value={formik.values.charge_name || ""}
                       />
@@ -250,7 +250,7 @@ import Loaderimg from "../../../Utils/Loader";
                             ? "is-invalid"
                             : ""
                         }`}
-                        placeholder="Charge Name"
+                        placeholder="Charge Code"
                         onChange={formik.handleChange}
                         value={formik.values.charge_code || ""}
                         readOnly
