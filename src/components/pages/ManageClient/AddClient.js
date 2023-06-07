@@ -192,8 +192,8 @@ const AddClient = (props) => {
 
                     status: "",
 
-                    lommis_status: "",
-                    send_mail: "",
+                    lommis_status: "1",
+                    send_mail: "1",
                   }}
                   validationSchema={Yup.object({
                     client_code: Yup.string()
@@ -361,7 +361,7 @@ const AddClient = (props) => {
                                 id="status"
                                 name="status"
                               >
-                                <option value="">Select a Status</option>
+                              
                                 <option value="1">Active</option>
                                 <option value="0">Inactive</option>
                               </Field>
@@ -391,7 +391,7 @@ const AddClient = (props) => {
                                 id="lommis_status"
                                 name="lommis_status"
                               >
-                                <option value="">Select a Lommis Status</option>
+                              
 
                                 <option value="1">Active</option>
                                 <option value="0">InActive</option>

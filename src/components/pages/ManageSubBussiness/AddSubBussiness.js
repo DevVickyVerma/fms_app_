@@ -159,7 +159,7 @@ const AddSubBussiness = (props) => {
                     business_name: "",
                     slug: "",
 
-                    status: "",
+                    status: "1",
                     business_type_id: "",
                   }}
                   validationSchema={Yup.object({
@@ -255,7 +255,7 @@ const AddSubBussiness = (props) => {
                                 id="status"
                                 name="status"
                               >
-                                <option value="">Select a Status</option>
+                          
                                 <option value="1">Active</option>
                                 <option value="0">Inactive</option>
                               </Field>

@@ -117,7 +117,7 @@ const AddAddon = (props) => {
                 business_name: "",
                 slug: "",
 
-                status: "",
+                status: "1",
               }}
               validationSchema={Yup.object({
                 business_name: Yup.string()
@@ -205,7 +205,7 @@ const AddAddon = (props) => {
                             id="status"
                             name="Status"
                           >
-                            <option value="">Select a Status</option>
+                           
                             <option value="1">Active</option>
                             <option value="0">Inactive</option>
                           </Field>

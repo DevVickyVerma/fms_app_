@@ -112,7 +112,7 @@ const AddCharges = (props) => {
                     initialValues={{
                       charge_name: "",
                       charge_code: "",
-                      charge_status: "",
+                      charge_status: "1",
                     }}
                     validationSchema={Yup.object({
                       charge_name: Yup.string()
@@ -209,7 +209,7 @@ const AddCharges = (props) => {
                                   id="charge_status"
                                   name="charge_status"
                                 >
-                                  <option value="">Select a status</option>
+                                 
                                   <option value="1">Active</option>
                                   <option value="0">Inactive</option>
                                 </Field>

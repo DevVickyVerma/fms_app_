@@ -210,7 +210,7 @@ const AddCards = (props) => {
                                   id="card_status"
                                   name="card_status"
                                 >
-                                  {/* <option value="">Select card Status</option> */}
+                               
                                   <option value="1">Active</option>
                                   <option value="0">Inactive</option>
                                 </Field>

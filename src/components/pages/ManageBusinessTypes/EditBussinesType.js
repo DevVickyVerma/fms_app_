@@ -161,7 +161,7 @@ import Loaderimg from "../../../Utils/Loader";
       business_name: "",
       slug: "",
 
-      status: "",
+      status: "1",
     },
     validationSchema: Yup.object({
       business_name: Yup.string()
@@ -322,7 +322,7 @@ import Loaderimg from "../../../Utils/Loader";
                         onChange={formik.handleChange}
                         value={formik.values.status}
                       >
-                        <option value="">Select a Status</option>
+                    
                         <option value="1">Active</option>
                             <option value="0">Inactive</option>
                       </select>

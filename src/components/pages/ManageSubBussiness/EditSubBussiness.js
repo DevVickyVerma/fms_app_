@@ -151,7 +151,7 @@ export default function AddSite() {
       business_sub_name: "",
       slug: "",
 
-      status: "",
+      status: "1",
       business_type_id: "",
     },
     validationSchema: Yup.object({
@@ -309,7 +309,7 @@ export default function AddSite() {
                         onChange={formik.handleChange}
                         value={formik.values.status}
                       >
-                        <option value="">Select a Status</option>
+                       
                         <option value="1">Active</option>
                         <option value="0">Inactive</option>
                       </select>

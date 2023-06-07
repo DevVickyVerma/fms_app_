@@ -129,7 +129,7 @@ const EditClient = (props) => {
       last_name: "",
       loomis_status: "",
       ma_option: [],
-      status: "",
+      status: "1",
     },
     validationSchema: Yup.object({
       client_code: Yup.string()
@@ -424,7 +424,7 @@ return (
                         onChange={formik.handleChange}
                         value={formik.values.status}
                       >
-                        <option value="">Select a status</option>
+                      
                         <option value="1">Active</option>
                         <option value="0">Inactive</option>
                       </select>
@@ -541,7 +541,7 @@ return (
                         onChange={formik.handleChange}
                         value={formik.values.loomis_status}
                       >
-                        <option value="">Select a Lommis Status</option>
+                      
 
                         <option value="1">Active</option>
                         <option value="0">Inactive</option>
