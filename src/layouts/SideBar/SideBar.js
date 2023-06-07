@@ -20,7 +20,7 @@ const Sidebar = () => {
     if (UserPermissions) {
       setpermissionsArray(UserPermissions?.permissions);
     }
-  }, [UserPermissions]);
+  }, [UserPermissions,MENUITEMS]);
 
   useEffect(() => {
     if (permissionsArray) {
@@ -58,7 +58,7 @@ const Sidebar = () => {
      
       setMainMenu({mainmenu})
     }
-  }, [permissionsArray]);
+  }, [permissionsArray,MENUITEMS]);
 
   useEffect(() => {
     const currentUrl = window.location.pathname.slice(0, -1);
@@ -83,7 +83,7 @@ const Sidebar = () => {
       });
       return items;
     });
-  }, []);
+  }, [permissionsArray]);
   const setNavActive = (item) => {
     MENUITEMS.map((menuItems) => {
       menuItems.Items.filter((Items) => {

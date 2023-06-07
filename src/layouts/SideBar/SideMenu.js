@@ -299,6 +299,48 @@ export const MENUITEMS = [
           
         ],
       },
+      {
+        title: "Manage Suppliers",
+        icon: "package",
+        type: "sub",
+        active: false,
+        permission: " supplier-list",
+        visibility: false,
+        children: [
+          {
+            path: `/managesuppliers`,
+            title: "Manage Suppliers",
+            type: "link",
+            permission: " supplier-list",
+        visibility: false,
+          },
+          {
+            path: `/addSuppliers`,
+            title: "Add Suppliers",
+            type: "link",
+            permission: " supplier-create",
+        visibility: false,
+          },
+        ],
+      },
+      // {
+      //   title: "Manage FuelSites",
+      //   icon: "package",
+      //   type: "sub",
+      //   active: false,
+      //   children: [
+      //     {
+      //       path: `/managefuelsites`,
+      //       title: "Manage FuelSites",
+      //       type: "link",
+      //     },
+      //     {
+      //       path: `/addfuelsites`,
+      //       title: "Add FuelSites",
+      //       type: "link",
+      //     },
+      //   ],
+      // },
       
       
     ],
