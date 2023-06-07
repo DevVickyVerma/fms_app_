@@ -18,6 +18,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import { useSelector } from "react-redux";
 
 const AddCards = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -37,6 +38,42 @@ const AddCards = (props) => {
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
+
+ const navigate = useNavigate();
+ const [permissionsArray, setPermissionsArray] = useState([]);
+ const [isPermissionsSet, setIsPermissionsSet] = useState(false);
+ 
+ const UserPermissions = useSelector((state) => state?.data?.data);
+ 
+ useEffect(() => {
+   if (UserPermissions) {
+     setPermissionsArray(UserPermissions?.permissions);
+     setIsPermissionsSet(true);
+   }
+ }, [UserPermissions]);
+ 
+ useEffect(() => {
+   if (isPermissionsSet) {
+     const isAddPermissionAvailable = permissionsArray?.includes("card-create");
+   
+     if (permissionsArray.length > 0) {
+       if (isAddPermissionAvailable) {
+         console.log(isAddPermissionAvailable, "AddPermissionAvailable");
+         // Perform action when permission is available
+         // Your code here
+       } else {
+         // Perform action when permission is not available
+         // Your code here
+         navigate("/errorpage403");
+       }
+     } else {
+       navigate("/errorpage403");
+     }
+   }
+ }, [isPermissionsSet, permissionsArray]);
+
+
+
 
   return (
     <>

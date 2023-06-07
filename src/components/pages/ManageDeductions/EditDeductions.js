@@ -118,7 +118,7 @@ const Editdeductions = (props) => {
     initialValues: {
       deduction_code: "",
       deduction_name: "",
-      deduction_status: "",
+      deduction_status: "1",
     },
     validationSchema: Yup.object({
       deduction_code: Yup.string()
@@ -184,13 +184,13 @@ const Editdeductions = (props) => {
                     linkAs={Link}
                     linkProps={{ to: "/managedeductions" }}
                   >
-                    Manage deduction
+                    Manage Deduction
                   </Breadcrumb.Item>
                   <Breadcrumb.Item
                     className="breadcrumb-item active breadcrumds"
                     aria-current="page"
                   >
-                    Edit deduction
+                    Edit Deduction
                   </Breadcrumb.Item>
                 </Breadcrumb>
               </div>
@@ -282,7 +282,7 @@ const Editdeductions = (props) => {
                               onChange={formik.handleChange}
                               value={formik.values.deduction_status}
                             >
-                              <option value="">Select Deduction Status</option>
+                             
                               <option value="1">Active</option>
                               <option value="0">Inactive</option>
                             </select>

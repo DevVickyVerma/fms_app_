@@ -214,19 +214,25 @@ const isAssignPermissionAvailable = permissionsArray.includes("business-sub-type
             {row.status === 1 ? (
               <button
                 className="badge bg-success"
-                onClick={() => toggleActive(row)}
+                onClick={
+                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                }
               >
                 Active
               </button>
             ) : row.status === 0 ? (
               <button
                 className="badge bg-danger"
-                onClick={() => toggleActive(row)}
+                onClick={
+                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                }
               >
                 Inactive
               </button>
             ) : (
-              <button className="badge" onClick={() => toggleActive(row)}>
+              <button className="badge"  onClick={
+                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                }>
                 Unknown
               </button>
             )}
@@ -242,6 +248,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("business-sub-type
       width: "20%",
       cell: (row) => (
         <span className="text-center">
+            {isEditPermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <Link
               to={`/editsub-business/${row.id}`}
@@ -261,6 +268,8 @@ const isAssignPermissionAvailable = permissionsArray.includes("business-sub-type
               </i>
             </Link>
           </OverlayTrigger>
+          ) : null}
+          {isDeletePermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
             <Link
               to="#"
@@ -281,7 +290,9 @@ const isAssignPermissionAvailable = permissionsArray.includes("business-sub-type
               </i>
             </Link>
           </OverlayTrigger>
+          ) : null}
         </span>
+          
       ),
     },
   ];
@@ -334,9 +345,11 @@ const isAssignPermissionAvailable = permissionsArray.includes("business-sub-type
                   placeholder="Search..."
                   style={{ borderRadius: 0 }}
                 />
+                  {isAddPermissionAvailable ? (
                 <Link to="/addsub-business" className="btn btn-primary ms-2">
                   Add Sub-Business Types <AddCircleOutlineIcon />
                 </Link>
+                ) : null}
               </div>
             </div>
           </div>

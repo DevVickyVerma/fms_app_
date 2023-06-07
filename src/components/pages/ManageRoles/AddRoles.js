@@ -88,31 +88,36 @@ import { useSelector } from "react-redux";
 
 
   const [permissionsArray, setPermissionsArray] = useState([]);
-
+  const [isPermissionsSet, setIsPermissionsSet] = useState(false);
+  
   const UserPermissions = useSelector((state) => state?.data?.data);
-
+  
   useEffect(() => {
     if (UserPermissions) {
       setPermissionsArray(UserPermissions?.permissions);
+      setIsPermissionsSet(true);
     }
   }, [UserPermissions]);
-
-  useEffect(() => {
-    const isAddPermissionAvailable = permissionsArray?.includes("role-create");
   
-    if (permissionsArray.length > 0) {
-      if (isAddPermissionAvailable) {
-        console.log(isAddPermissionAvailable, "AddPermissionAvailable");
-        // Perform action when permission is available
-        // Your code here
+  useEffect(() => {
+    if (isPermissionsSet) {
+      const isAddPermissionAvailable = permissionsArray?.includes("role-create");
+    
+      if (permissionsArray.length > 0) {
+        if (isAddPermissionAvailable) {
+          console.log(isAddPermissionAvailable, "AddPermissionAvailable");
+          // Perform action when permission is available
+          // Your code here
+        } else {
+          // Perform action when permission is not available
+          // Your code here
+          navigate("/errorpage403");
+        }
       } else {
-        // console.log(isAddPermissionAvailable, "NoAddPermissionAvailable");
-        // Perform action when permission is not available
-        // Your code here
         navigate("/errorpage403");
       }
     }
-  }, [permissionsArray]);
+  }, [isPermissionsSet, permissionsArray]);
 
 
 
