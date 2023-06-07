@@ -269,7 +269,7 @@ import Loaderimg from "../../../Utils/Loader";
                     }) => (
                       <Form onSubmit={handleSubmit}>
                         <div className="form-group">
-                          <label htmlFor="name"> Add Addon</label>
+                          <label  className=" form-label mt-4" htmlFor="name"> Add Addon</label>
                           <Field
                             type="text"
                             id="name"

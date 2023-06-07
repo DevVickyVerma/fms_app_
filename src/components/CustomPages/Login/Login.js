@@ -144,7 +144,7 @@ export default function Login(props) {
                           }`}
                           type="password"
                           name="password"
-                          placeholder="password"
+                          placeholder="Password"
                         />
                         <span className="focus-input100"></span>
                         <span className="symbol-input100">

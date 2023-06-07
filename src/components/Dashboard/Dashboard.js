@@ -12,7 +12,13 @@ import { fetchData } from '../../Redux/dataSlice';
 const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
-  const notify = (message) => toast.success(message);
+
+  const SuccessToast = (message) => {
+    toast.success(message, {
+      autoClose: 500, // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+    });
+  };
+  
   const [justLoggedIn, setJustLoggedIn] = useState(false);
 
   
@@ -41,7 +47,7 @@ useEffect(() => {
 
   useEffect(() => {
     if (justLoggedIn) {
-      notify("Login Successfully");
+      SuccessToast("Login Successfully");
       setJustLoggedIn(false);
     }
     // console.clear();

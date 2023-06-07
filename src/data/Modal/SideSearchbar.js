@@ -82,7 +82,7 @@ const handleSubmit = async (event) => {
         <div className="card-body">
           <form>
             <div className="form-group">
-              <label className="form-label" htmlFor="Search">
+            <label  className=" form-label mt-4"   htmlFor="Search">
                 Search:
               </label>
               <input
@@ -95,7 +95,7 @@ const handleSubmit = async (event) => {
             </div>
             <div className="d-flex ">
               <div className="form-group" style={{ width: "50%" }}>
-                <label className="form-label" htmlFor="start-date">
+              <label  className=" form-label mt-4"  htmlFor="start-date">
                   Start Date:
                 </label>
                 <input
@@ -108,7 +108,7 @@ const handleSubmit = async (event) => {
               </div>
 
               <div className="form-group ms-2" style={{ width: "50%" }}>
-                <label className="form-label" htmlFor="end-date">
+              <label  className=" form-label mt-4"   htmlFor="end-date">
                   End Date:
                 </label>
                 <input

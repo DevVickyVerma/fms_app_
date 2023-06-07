@@ -203,7 +203,7 @@ import { useSelector } from "react-redux";
                     {({ errors, touched, handleSubmit }) => (
                       <Form onSubmit={handleSubmit}>
                         <div className="form-group">
-                          <label htmlFor="name"> Add Role</label>
+                          <label      className=" form-label mt-4" htmlFor="name"> Add Role</label>
                           <Field
                             type="text"
                             id="name"

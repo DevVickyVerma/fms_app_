@@ -336,12 +336,18 @@ const isAssignPermissionAvailable = permissionsArray.includes("shop-assign");
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearchText(value);
-
-    const filteredData = searchvalue.filter((item) =>
-      item.shop_name.toLowerCase().includes(value.toLowerCase())
-    );
+  
+    const filteredData = searchvalue.filter((item) => {
+      if (item && item.data) {
+        return item.data.toLowerCase().includes(value.toLowerCase());
+      }
+      return false;
+    });
+  console.log(filteredData,"filteredData")
     setData(filteredData);
   };
+  
+  
 
 
 

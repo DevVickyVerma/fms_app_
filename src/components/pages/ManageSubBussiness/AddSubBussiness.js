@@ -196,7 +196,7 @@ const AddSubBussiness = (props) => {
                         <Row>
                           <Col lg={6} md={12}>
                             <FormGroup>
-                              <label htmlFor="business_name">
+                            <label  className=" form-label mt-4"  htmlFor="business_name">
                                 Bussiness Name
                               </label>
                               <Field
@@ -220,7 +220,7 @@ const AddSubBussiness = (props) => {
                           </Col>
                           <Col lg={6} md={12}>
                             <FormGroup>
-                              <label htmlFor="slug">Slug</label>
+                            <label  className=" form-label mt-4"  htmlFor="slug">Slug</label>
                               <Field
                                 type="text"
                                 className={`input101 ${
@@ -244,7 +244,7 @@ const AddSubBussiness = (props) => {
                         <Row>
                           <Col lg={6} md={12}>
                             <FormGroup>
-                              <label htmlFor="status">Status</label>
+                            <label  className=" form-label mt-4"  htmlFor="status">Status</label>
                               <Field
                                 as="select"
                                 className={`input101 ${
@@ -268,9 +268,9 @@ const AddSubBussiness = (props) => {
                           </Col>
                           <Col lg={4} md={6}>
                             <FormGroup>
-                              <label
+                            <label  className=" form-label mt-4" 
                                 htmlFor="business_type_id"
-                                className=" form-label mt-4"
+                             
                               >
                                 Business Type{" "}
                                 <span className="text-danger">*</span>

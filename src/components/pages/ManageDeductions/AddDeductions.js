@@ -158,7 +158,7 @@ const AddDeductions = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="deduction name">Deduction Name</label>
+                                   <label  className=" form-label mt-4"  htmlFor="deduction name">Deduction Name</label>
                                 <Field
                                   type="text"
                                   // className="form-control"
@@ -180,7 +180,7 @@ const AddDeductions = (props) => {
                             </Col>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="deduction_code">Deduction Code</label>
+                                   <label  className=" form-label mt-4" htmlFor="deduction_code">Deduction Code</label>
                                 <Field
                                   type="text"
                                   className={`input101 ${
@@ -203,7 +203,7 @@ const AddDeductions = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="deduction_status">
+                                   <label  className=" form-label mt-4" htmlFor="deduction_status">
                                   Deduction Status
                                 </label>
                                 <Field

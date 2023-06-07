@@ -151,7 +151,7 @@ const AddCards = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="card_name">Card Name</label>
+                                <label  className=" form-label mt-4" htmlFor="card_name">Card Name</label>
                                 <Field
                                   type="text"
                                   // className="form-control"
@@ -173,7 +173,7 @@ const AddCards = (props) => {
                             </Col>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="card_code">Card Code</label>
+                                <label  className=" form-label mt-4" htmlFor="card_code">Card Code</label>
                                 <Field
                                   type="text"
                                   className={`input101 ${
@@ -196,7 +196,7 @@ const AddCards = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="card_status">
+                                <label   className=" form-label mt-4" htmlFor="card_status">
                                   Card Status
                                 </label>
                                 <Field

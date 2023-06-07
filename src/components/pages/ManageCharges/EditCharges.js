@@ -209,7 +209,7 @@ import Loaderimg from "../../../Utils/Loader";
                 
                   <Col lg={6} md={6}>
                     <div className="form-group">
-                      <label htmlFor="charge_name">
+                      <label  className=" form-label mt-4" htmlFor="charge_name">
                        Charges Name <span className="text-danger">*</span>
                       </label>
                       <input
@@ -266,7 +266,7 @@ import Loaderimg from "../../../Utils/Loader";
 
                   <Col lg={6} md={6}>
                     <div className="form-group">
-                      <label htmlFor="charge_status" >
+                      <label  className=" form-label mt-4" htmlFor="charge_status" >
                         Charge Status <span className="text-danger">*</span>
                       </label>
                       <select

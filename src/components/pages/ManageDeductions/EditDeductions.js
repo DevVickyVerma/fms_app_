@@ -208,7 +208,7 @@ const Editdeductions = (props) => {
                       <Row>
                         <Col lg={6} md={6}>
                           <div className="form-group">
-                            <label htmlFor="deduction_name">
+                            <label  className=" form-label mt-4" htmlFor="deduction_name">
                               Deduction Name{" "}
                               <span className="text-danger">*</span>
                             </label>
@@ -236,7 +236,7 @@ const Editdeductions = (props) => {
                         </Col>
                         <Col lg={6} md={6}>
                           <div className="form-group">
-                            <label htmlFor="deduction_code">
+                            <label  className=" form-label mt-4" htmlFor="deduction_code">
                               Deduction Code
                               <span className="text-danger">*</span>
                             </label>
@@ -266,7 +266,7 @@ const Editdeductions = (props) => {
 
                         <Col lg={6} md={6}>
                           <div className="form-group">
-                            <label htmlFor="deduction_status">
+                            <label  className=" form-label mt-4" htmlFor="deduction_status">
                               Deduction Status{" "}
                               <span className="text-danger">*</span>
                             </label>

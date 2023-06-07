@@ -149,7 +149,7 @@ const AddCharges = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="charge_name">Charge Name</label>
+                                <label  className=" form-label mt-4" htmlFor="charge_name">Charge Name</label>
                                 
                                 <Field
                                   type="text"
@@ -172,7 +172,7 @@ const AddCharges = (props) => {
                             </Col>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="charge_code">Charge Code</label>
+                                <label  className=" form-label mt-4" htmlFor="charge_code">Charge Code</label>
                                 <Field
                                   type="text"
                                   className={`input101 ${
@@ -195,7 +195,7 @@ const AddCharges = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="charge_status">
+                                <label  className=" form-label mt-4" htmlFor="charge_status">
                                   Charge Status
                                 </label>
                                 <Field
@@ -226,7 +226,7 @@ const AddCharges = (props) => {
                           <Link
                             type="submit"
                             className="btn btn-danger me-2 "
-                            to={`/AddCharges/`}
+                            to="managecharges"
                           >
                             Cancel
                           </Link>

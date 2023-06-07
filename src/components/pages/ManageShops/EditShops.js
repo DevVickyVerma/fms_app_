@@ -206,7 +206,7 @@ const EditShops = (props) => {
                       <Row>
                         <Col lg={6} md={6}>
                           <div className="form-group">
-                            <label  htmlFor="name">
+                          <label  className=" form-label mt-4"   htmlFor="name">
                               Shop Name<span className="text-danger">*</span>
                             </label>
                             <input
@@ -232,7 +232,7 @@ const EditShops = (props) => {
                         </Col>
                         <Col lg={6} md={6}>
                           <div className="form-group">
-                            <label  htmlFor="code">
+                          <label  className=" form-label mt-4"   htmlFor="code">
                               Shop Code<span className="text-danger">*</span>
                             </label>
                             <input
@@ -259,7 +259,7 @@ const EditShops = (props) => {
 
                         <Col lg={6} md={6}>
                           <div className="form-group">
-                            <label htmlFor="status" >
+                          <label  className=" form-label mt-4"  htmlFor="status" >
                               Shop Status <span className="text-danger">*</span>
                             </label>
                             <select

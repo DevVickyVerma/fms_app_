@@ -184,7 +184,7 @@ const Header = (props) => {
                       </div>
                     </div>
                   </div>
-                  <div className="dropdown d-md-flex">
+                  {/* <div className="dropdown d-md-flex">
                     <Link
                       to="#"
                       className="nav-link icon theme-layout nav-link-bg layout-setting"
@@ -197,7 +197,7 @@ const Header = (props) => {
                         <i className={`fe ${"fe-sun"}`}></i>
                       </span>
                     </Link>
-                  </div>
+                  </div> */}
                   <div className="dropdown d-md-flex">
                     <Link
                       to="#"
@@ -207,7 +207,7 @@ const Header = (props) => {
                       <i className="fe fe-minimize fullscreen-button"></i>
                     </Link>
                   </div>
-                  <Dropdown className="d-md-flex notifications">
+                  {/* <Dropdown className="d-md-flex notifications">
                     <Dropdown.Toggle className="nav-link icon " variant="">
                       <i className="fe fe-bell"></i>
                       <span className=" pulse"></span>
@@ -286,7 +286,7 @@ const Header = (props) => {
                         View all Notification
                       </Link>
                     </Dropdown.Menu>
-                  </Dropdown>
+                  </Dropdown> */}
 
                   <Dropdown className=" d-md-flex profile-1">
                     <Dropdown.Toggle

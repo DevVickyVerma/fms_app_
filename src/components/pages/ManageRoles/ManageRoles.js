@@ -285,13 +285,14 @@ const ManageRoles = (props) => {
               placeholder="Search..."
               style={{ borderRadius: 0 }}
             />
+            {isAddPermissionAvailable?
             <Link
               to="/addroles"
               className="btn btn-primary ms-2"
               style={{ borderRadius: "4px" }}
             >
               Add Role
-            </Link>
+            </Link>:""}
           </div>
         </div>
       </div>

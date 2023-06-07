@@ -153,7 +153,7 @@ const AddShops = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="shop_name">Shop Name</label>
+                              <label  className=" form-label mt-4"  htmlFor="shop_name">Shop Name</label>
                                 <Field
                                   type="text"
                                   // className="form-control"
@@ -175,7 +175,7 @@ const AddShops = (props) => {
                             </Col>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="code">Shop Code</label>
+                              <label  className=" form-label mt-4"  htmlFor="code">Shop Code</label>
                                 <Field
                                   type="text"
                                   className={`input101 ${
@@ -198,7 +198,7 @@ const AddShops = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="status">Shop Status</label>
+                              <label  className=" form-label mt-4"  htmlFor="status">Shop Status</label>
                                 <Field
                                   as="select"
                                   className={`input101 ${

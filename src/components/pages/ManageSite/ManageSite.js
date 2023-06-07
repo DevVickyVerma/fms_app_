@@ -210,8 +210,7 @@ const ManageSite = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable =
-    permissionsArray?.includes("site-status-update");
+
   const isEditPermissionAvailable = permissionsArray?.includes("site-edit");
   const isAddPermissionAvailable = permissionsArray?.includes("site-create");
   const isDeletePermissionAvailable = permissionsArray?.includes("site-delete");
@@ -268,7 +267,7 @@ const ManageSite = (props) => {
                     {row.site_owner.client_name}
                   </h6>
                 ) : (
-                  <h6 className="mb-0 fs-14 fw-semibold">No Client</h6>
+                  <h6 className="mb-0 fs-14 fw-semibold"> ---</h6>
                 )}
               </div>
             </div>
@@ -295,7 +294,7 @@ const ManageSite = (props) => {
                     {row.site_owner.company_name}
                   </h6>
                 ) : (
-                  <h6 className="mb-0 fs-14 fw-semibold">No Client</h6>
+                  <h6 className="mb-0 fs-14 fw-semibold">----</h6>
                 )}
               </div>
             </div>
@@ -337,7 +336,7 @@ const ManageSite = (props) => {
               <button
                 className="badge bg-success"
                 onClick={
-                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Active
@@ -346,13 +345,15 @@ const ManageSite = (props) => {
               <button
                 className="badge bg-danger"
                 onClick={
-                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Inactive
               </button>
             ) : (
-              <button className="badge" onClick={() => toggleActive(row)}>
+              <button className="badge" onClick={
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
+                }>
                 Unknown
               </button>
             )}

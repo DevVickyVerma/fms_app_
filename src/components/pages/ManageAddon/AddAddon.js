@@ -209,7 +209,7 @@ import { useSelector } from "react-redux";
                     {({ errors, touched, handleSubmit }) => (
                       <Form onSubmit={handleSubmit}>
                         <div className="form-group">
-                          <label htmlFor="name"> Add Addon</label>
+                          <label  className=" form-label mt-4" htmlFor="name"> Add Addon</label>
                           <Field
                             type="text"
                             id="name"
@@ -264,6 +264,7 @@ import { useSelector } from "react-redux";
                                             id={`permission-${nameItem.id}`}
                                           />
                                           <label
+                                          
                                             className="form-check-label"
                                             htmlFor={`permission-${nameItem.id}`}
                                           >

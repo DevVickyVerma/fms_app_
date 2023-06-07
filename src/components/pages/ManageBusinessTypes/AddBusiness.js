@@ -151,7 +151,7 @@ const AddAddon = (props) => {
                     <Row>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label htmlFor="business_name">Bussiness Name</label>
+                          <label  className=" form-label mt-4" htmlFor="business_name">Bussiness Name</label>
                           <Field
                             type="text"
                             // className="form-control"
@@ -173,7 +173,7 @@ const AddAddon = (props) => {
                       </Col>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label htmlFor="slug">Slug</label>
+                          <label  className=" form-label mt-4" htmlFor="slug">Slug</label>
                           <Field
                             type="text"
                             className={`input101 ${
@@ -194,7 +194,7 @@ const AddAddon = (props) => {
                     <Row>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label htmlFor="status">Status</label>
+                          <label  className=" form-label mt-4" htmlFor="status">Status</label>
                           <Field
                             as="select"
                             className={`input101 ${

@@ -191,7 +191,7 @@ const EditRoles = (props) => {
                     {({ errors, touched, handleSubmit, setFieldValue }) => (
                       <Form onSubmit={handleSubmit}>
                         <div className="form-group">
-                          <label htmlFor="name"> Edit Role</label>
+                          <label className=" form-label mt-4" htmlFor="name"> Edit Role</label>
                           <Field
                             type="text"
                             id="name"

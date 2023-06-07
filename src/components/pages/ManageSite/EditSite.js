@@ -198,6 +198,16 @@ export default function AddSite() {
     setSubTypes(selectedTypeData.sub_types);
   };
 
+  // Helper function to format the date as "YYYY-MM-DD"
+// Helper function to format the date as "YYYY-MM-DD"
+const formatDate = (date) => {
+  const selectedDate = new Date(date);
+  const year = selectedDate.getFullYear();
+  const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
+  const day = String(selectedDate.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
   return (
     <div>
       <div className="page-header">
@@ -584,26 +594,25 @@ export default function AddSite() {
                       <label htmlFor="start_date" className="form-label mt-4">
                         DRS Start Date<span className="text-danger">*</span>
                       </label>
-                      <DatePicker
-                        className={`input101 ${
-                          formik.errors.start_date && formik.touched.start_date
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="start_date"
-                        name="start_date"
-                        placeholder="start_date"
-                        onChange={(date) => {
-                          formik.setFieldValue("start_date", date);
-                          formik.handleChange({
-                            target: { name: "start_date", value: date },
-                          });
-                        }}
-                        onBlur={formik.handleBlur}
-                        selected={formik.values.start_date}
-                        open={isDatePickerOpen} // Control whether the date picker is open or closed
-                        onClick={() => setIsDatePickerOpen(true)} // Open the date picker when the input is clicked
-                      />
+                      <input
+  type="date"
+  className={`input101 ${
+    formik.errors.start_date && formik.touched.start_date ? "is-invalid" : ""
+  }`}
+  id="start_date"
+  name="start_date"
+  placeholder="DRS Start Date"
+  value={formik.values.start_date ? formatDate(formik.values.start_date) : ""}
+  onChange={(event) => {
+    const date = event.target.value;
+    formik.setFieldValue("start_date", date);
+  }}
+  onBlur={formik.handleBlur}
+/>
+
+
+
+
                       {formik.errors.start_date &&
                         formik.touched.start_date && (
                           <div className="invalid-feedback">
@@ -638,7 +647,7 @@ export default function AddSite() {
                           Select a Report Generation Status
                         </option>
                         <option value="1">Active</option>
-                            <option value="0">InActive</option>
+                        <option value="0">InActive</option>
                       </select>
                       {formik.errors.site_report_status &&
                         formik.touched.site_report_status && (

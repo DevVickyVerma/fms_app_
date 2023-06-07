@@ -283,7 +283,7 @@ export default function EditProfile() {
                     <Row>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label htmlFor="first_name">First Name</label>
+                          <label  className=" form-label mt-4" htmlFor="first_name">First Name</label>
                           <Field
                             type="text"
                             // className="form-control"
@@ -305,7 +305,7 @@ export default function EditProfile() {
                       </Col>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label htmlFor="last_name">Last Name</label>
+                          <label   className=" form-label mt-4"htmlFor="last_name">Last Name</label>
                           <Field
                             type="text"
                             className={`input101 ${
@@ -328,7 +328,7 @@ export default function EditProfile() {
                     <Row>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label htmlFor="phone_number">Phone Number</label>
+                          <label  className=" form-label mt-4" htmlFor="phone_number">Phone Number</label>
                           <Field
                             type="text"
                             className={`input101 ${

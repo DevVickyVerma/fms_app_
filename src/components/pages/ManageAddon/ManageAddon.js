@@ -148,7 +148,7 @@ const ManageAddon = (props) => {
   }, [UserPermissions]);
 
 
-const isStatusPermissionAvailable = permissionsArray.includes("addons-status-update");
+
 const isEditPermissionAvailable = permissionsArray.includes("addons-edit");
 const isAddPermissionAvailable = permissionsArray.includes("addons-create");
 const isDeletePermissionAvailable = permissionsArray.includes("addons-delete");
