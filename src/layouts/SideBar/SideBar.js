@@ -61,35 +61,44 @@ const Sidebar = () => {
 
 
   useEffect(() => {
+    console.log("mainmenu before update:", mainmenu);
     if (permissionsArray) {
       const updatedMainMenu = { ...mainmenu };
+      const menuItems = updatedMainMenu?.mainmenu?.[0]?.Items;
   
-      permissionsArray.forEach((permission, index) => {
-        const menuObj = updatedMainMenu.mainmenu[0]?.Items?.find(
-          (val) => val.permission === permission
-        );
-  
-        if (menuObj) {
-          menuObj.visibility = true;
-        }
-  
-        updatedMainMenu.mainmenu[0]?.Items?.forEach((item) => {
-          const childMenuObj = item.children?.find(
+      if (menuItems) {
+        permissionsArray.forEach((permission, index) => {
+          const menuObj = menuItems.find(
             (val) => val.permission === permission
           );
   
-          if (childMenuObj) {
-            childMenuObj.visibility = true;
+          if (menuObj) {
+            menuObj.visibility = true;
           }
+  
+          menuItems.forEach((item) => {
+            const childMenuObj = item.children?.find(
+              (val) => val.permission === permission
+            );
+  
+            if (childMenuObj) {
+              childMenuObj.visibility = true;
+            }
+          });
+  
+          console.log(`Permission ${index + 1}:`, permission);
         });
   
-        console.log(`Permission ${index + 1}:`, permission);
-      });
-  
-      console.log(updatedMainMenu, "updatedMainMenu");
-      setMainMenu(updatedMainMenu);
+        console.log("updatedMainMenu:", updatedMainMenu);
+        setMainMenu(updatedMainMenu);
+      } else {
+        console.log("Menu items not found.");
+      }
+    } else {
+      console.log("Permissions array is empty or undefined.");
     }
   }, [permissionsArray]);
+  
   
   
 
