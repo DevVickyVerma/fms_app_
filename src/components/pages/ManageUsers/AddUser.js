@@ -73,7 +73,7 @@ const AddUsers = (props) => {
       formData.append("send_mail", isChecked);
       formData.append("ma_option", JSON.stringify(selectedItems));
 
-      const postDataUrl = "/add-user";
+      const postDataUrl = "/user/add";
       const navigatePath = "/clients";
 
       await postData(postDataUrl, formData, navigatePath);
@@ -135,7 +135,7 @@ const AddUsers = (props) => {
 
   const FetchRoleList = async () => {
     try {
-      const response = await getData("/role/list");
+      const response = await getData("/user/list");
 
       if (response && response.data && response.data.data.addons) {
         setRoleItems(response.data.data.addons);

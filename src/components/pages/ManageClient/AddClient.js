@@ -69,11 +69,11 @@ const AddClient = (props) => {
       formData.append("financial_start_month", values.financial_start_month);
       formData.append("financial_end_month", values.financial_end_month);
       formData.append("lommis_status", values.lommis_status);
-      formData.append("role_name", "client");
+     
       formData.append("send_mail", isChecked);
       formData.append("ma_option", JSON.stringify(selectedItems));
 
-      const postDataUrl = "/add-user";
+      const postDataUrl = "/client/add";
       const navigatePath = "/clients";
 
       await postData(postDataUrl, formData, navigatePath);

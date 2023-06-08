@@ -105,7 +105,7 @@ const EditClient = (props) => {
       formData.append("ma_option", values.ma_option);
     
 
-      const postDataUrl = "/update-client";
+      const postDataUrl = "/client/update";
       const navigatePath = "/clients";
 
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
