@@ -235,7 +235,7 @@ import Loaderimg from "../../../Utils/Loader";
                   <Col lg={6} md={6}>
                     <div className="form-group">
                       <label
-                      
+                      className=" form-label mt-4"
                         htmlFor="charge_code"
                       >
                         Charges Code<span className="text-danger">*</span>

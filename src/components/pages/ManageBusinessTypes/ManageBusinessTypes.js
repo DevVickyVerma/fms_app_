@@ -85,11 +85,7 @@ const ManageBusinessTypes = (props) => {
   useEffect(() => {
     FetchTableData();
   }, []);
-  const handleEdit = (row) => {
-    console.log(row, "handleEdit");
 
-    localStorage.setItem("EditBussinessId", row.id);
-  };
   const toggleActive = (row) => {
     const formData = new FormData();
     formData.append("id", row.id);
@@ -199,7 +195,7 @@ const ManageBusinessTypes = (props) => {
               <button
                 className="badge bg-success"
                 onClick={
-                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                  isEditPermissionAvailable? () => toggleActive(row) : null
                 }
               >
                 Active
@@ -208,7 +204,7 @@ const ManageBusinessTypes = (props) => {
               <button
                 className="badge bg-danger"
                 onClick={
-                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                  isEditPermissionAvailable? () => toggleActive(row) : null
                 }
               >
                 Inactive
@@ -217,7 +213,7 @@ const ManageBusinessTypes = (props) => {
               <button
                 className="badge"
                 onClick={
-                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                  isEditPermissionAvailable? () => toggleActive(row) : null
                 }
               >
                 Unknown

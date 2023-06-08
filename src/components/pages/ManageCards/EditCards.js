@@ -206,6 +206,36 @@ const EditCards = (props) => {
                   <div class="card-body">
                     <form onSubmit={formik.handleSubmit}>
                       <Row>
+                      <Col lg={6} md={6}>
+                          <div className="form-group">
+                            <label
+                              className="form-label mt-4"
+                              htmlFor="card_name"
+                            >
+                              Card Name <span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              className={`input101 ${
+                                formik.errors.card_name &&
+                                formik.touched.card_name
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              id="card_name"
+                              name="card_name"
+                              placeholder="Card Name"
+                              onChange={formik.handleChange}
+                              value={formik.values.card_name || ""}
+                            />
+                            {formik.errors.card_name &&
+                              formik.touched.card_name && (
+                                <div className="invalid-feedback">
+                                  {formik.errors.card_name}
+                                </div>
+                              )}
+                          </div>
+                        </Col>
                         <Col lg={6} md={6}>
                           <div className="form-group">
                             <label
@@ -237,36 +267,7 @@ const EditCards = (props) => {
                               )}
                           </div>
                         </Col>
-                        <Col lg={6} md={6}>
-                          <div className="form-group">
-                            <label
-                              className="form-label mt-4"
-                              htmlFor="card_name"
-                            >
-                              Card Name <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              className={`input101 ${
-                                formik.errors.card_name &&
-                                formik.touched.card_name
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
-                              id="card_name"
-                              name="card_name"
-                              placeholder="Card Name"
-                              onChange={formik.handleChange}
-                              value={formik.values.card_name || ""}
-                            />
-                            {formik.errors.card_name &&
-                              formik.touched.card_name && (
-                                <div className="invalid-feedback">
-                                  {formik.errors.card_name}
-                                </div>
-                              )}
-                          </div>
-                        </Col>
+                      
 
                         <Col lg={6} md={6}>
                           <div className="form-group">

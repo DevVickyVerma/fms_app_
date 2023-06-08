@@ -118,11 +118,7 @@ const ManageCharges = (props) => {
   });
 
 
-  const handleEdit = (row) => {
-    console.log(row, "handleEdit");
-    localStorage.setItem("EditRoleID", row.id);
-    localStorage.setItem("EditRole_name", row.name);
-  };
+
   const FetchTableData = async () => {
     try {
       const response = await getData("charge/list");
@@ -241,7 +237,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
                 <button
                   className="badge bg-success"
                   onClick={
-                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                  isEditPermissionAvailable? () => toggleActive(row) : null
                 }
                 >
                   Active
@@ -250,14 +246,14 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
                 <button
                   className="badge bg-danger"
                   onClick={
-                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                  isEditPermissionAvailable? () => toggleActive(row) : null
                 }
                 >
                   Inactive
                 </button>
               ) : (
                 <button className="badge" onClick={
-                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                  isEditPermissionAvailable? () => toggleActive(row) : null
                 }>
                   Unknown
                 </button>

@@ -89,7 +89,7 @@ const ManageCards = (props) => {
     const formData = new FormData();
     formData.append("id", row.id);
 
-    const newStatus = row.status === 1 ? 0 : 1;
+    const newStatus = row.card_status === 1 ? 0 : 1;
     formData.append("card_status", newStatus);
 
     ToggleStatus(formData);
@@ -254,7 +254,7 @@ const ManageCards = (props) => {
               <button
                 className="badge bg-success"
                 onClick={
-                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                  isEditPermissionAvailable? () => toggleActive(row) : null
                 }
               >
                 Active
@@ -263,7 +263,7 @@ const ManageCards = (props) => {
               <button
                 className="badge bg-danger"
                 onClick={
-                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                  isEditPermissionAvailable? () => toggleActive(row) : null
                 }
               >
                 Inactive
@@ -272,7 +272,7 @@ const ManageCards = (props) => {
               <button
                 className="badge"
                 onClick={
-                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                  isEditPermissionAvailable? () => toggleActive(row) : null
                 }
               >
                 Unknown

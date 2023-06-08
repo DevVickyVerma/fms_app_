@@ -226,7 +226,7 @@ const AddCharges = (props) => {
                           <Link
                             type="submit"
                             className="btn btn-danger me-2 "
-                            to="managecharges"
+                            to="/managecharges"
                           >
                             Cancel
                           </Link>

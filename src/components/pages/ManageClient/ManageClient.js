@@ -247,7 +247,7 @@ const ManageClient = (props) => {
               <button
                 className="badge bg-success"
                 onClick={
-                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                  isEditPermissionAvailable? () => toggleActive(row) : null
                 }
               >
                 Active
@@ -256,7 +256,7 @@ const ManageClient = (props) => {
               <button
                 className="badge bg-danger"
                 onClick={
-                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                  isEditPermissionAvailable? () => toggleActive(row) : null
                 }
               >
                 Inactive
@@ -265,7 +265,7 @@ const ManageClient = (props) => {
               <button
                 className="badge"
                 onClick={
-                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                  isEditPermissionAvailable? () => toggleActive(row) : null
                 }
               >
                 Unknown

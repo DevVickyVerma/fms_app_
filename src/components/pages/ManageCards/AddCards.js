@@ -227,7 +227,7 @@ const AddCards = (props) => {
                           <Link
                             type="submit"
                             className="btn btn-danger me-2 "
-                            to={`/AddCards/`}
+                            to={`/manageCards/`}
                           >
                             Cancel
                           </Link>

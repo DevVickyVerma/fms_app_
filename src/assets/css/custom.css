@@ -71,4 +71,5 @@ h3.SidebarSearch-title {
 }
 .readonly {
   background-color: rgb(221 221 221 / 59%);
+  cursor: default;
 }

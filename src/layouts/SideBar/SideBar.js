@@ -20,11 +20,10 @@ const Sidebar = () => {
     if (UserPermissions) {
       setpermissionsArray(UserPermissions?.permissions);
     }
-  }, [UserPermissions,MENUITEMS]);
+  }, [UserPermissions, MENUITEMS]);
 
   useEffect(() => {
     if (permissionsArray) {
-      
       permissionsArray.forEach((permission, index) => {
         const menuObj = mainmenu[0]?.Items?.find(
           (val) => val.permission == permission
@@ -54,11 +53,10 @@ const Sidebar = () => {
 
         console.log(`Permission ${index + 1}:`, permission);
       });
-
-     
-      setMainMenu({mainmenu})
+      console.log(mainmenu, "mainmenuper");
+      setMainMenu({ mainmenu: MENUITEMS });
     }
-  }, [permissionsArray,MENUITEMS]);
+  }, [permissionsArray, MENUITEMS]);
 
   useEffect(() => {
     const currentUrl = window.location.pathname.slice(0, -1);
@@ -109,6 +107,7 @@ const Sidebar = () => {
       return menuItems;
     });
     item.active = !item.active;
+    console.log(mainmenu, "mainmenuperactive");
     setMainMenu({ mainmenu: MENUITEMS });
   };
 
@@ -139,6 +138,7 @@ const Sidebar = () => {
       });
     }
     item.active = !item.active;
+    console.log(mainmenu, "mainmenuperactive2");
     setMainMenu({ mainmenu: MENUITEMS });
   };
 

@@ -215,7 +215,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("business-sub-type
               <button
                 className="badge bg-success"
                 onClick={
-                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                  isEditPermissionAvailable? () => toggleActive(row) : null
                 }
               >
                 Active
@@ -224,14 +224,14 @@ const isAssignPermissionAvailable = permissionsArray.includes("business-sub-type
               <button
                 className="badge bg-danger"
                 onClick={
-                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                  isEditPermissionAvailable? () => toggleActive(row) : null
                 }
               >
                 Inactive
               </button>
             ) : (
               <button className="badge"  onClick={
-                  isStatusPermissionAvailable ? () => toggleActive(row) : null
+                  isEditPermissionAvailable? () => toggleActive(row) : null
                 }>
                 Unknown
               </button>
