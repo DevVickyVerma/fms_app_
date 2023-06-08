@@ -36,6 +36,30 @@ export const MENUITEMS = [
         ],
       },
       {
+        title: "Manage Users",
+        icon: "users",
+        type: "sub",
+        active: false,
+        permission: "site-fuel-delete",
+        visibility: false,
+        children: [
+          {
+            path: `/users`,
+            type: "link",
+            title: "Manage Users",
+            permission: "site-fuel-delete",
+            visibility: false,
+          },
+          {
+            path: `/addusers`,
+            type: "link",
+            title: "Add User",
+            permission: "shop-sale-list",
+            visibility: false,
+          },
+        ],
+      },
+      {
         title: "Manage Sites",
         icon: "university",
         type: "sub",
@@ -301,7 +325,7 @@ export const MENUITEMS = [
       },
       {
         title: "Manage Suppliers",
-        icon: "percent",
+        icon: "tint",
         type: "sub",
         active: false,
         permission: "supplier-list",

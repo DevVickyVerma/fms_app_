@@ -12,9 +12,9 @@ const Sidebar = () => {
 
   useEffect(() => {
     console.log("MENUITEMS", MENUITEMS);
-    if (MENUITEMS) {
-      setMainMenu(MENUITEMS);
-    }
+    // if (MENUITEMS) {
+    //   setMainMenu(MENUITEMS);
+    // }
     console.log("mainmenu123", mainmenu);
 
     if (UserPermissions) {
@@ -22,41 +22,78 @@ const Sidebar = () => {
     }
   }, [UserPermissions, MENUITEMS]);
 
+  // useEffect(() => {
+  //   if (permissionsArray) {
+  //     permissionsArray.forEach((permission, index) => {
+  //       const menuObj = mainmenu[0]?.Items?.find(
+  //         (val) => val.permission == permission
+  //       );
+
+  //       if (menuObj) {
+  //         console.log(menuObj, "menuObj");
+  //         menuObj.visibility = true;
+  //       }
+
+  //       let childMenuObj;
+
+  //       mainmenu[0]?.Items?.forEach((item) => {
+  //         if (childMenuObj) {
+  //           return;
+  //         }
+
+  //         childMenuObj = item.children?.find(
+  //           (val) => val.permission == permission
+  //         );
+  //       });
+
+  //       if (childMenuObj) {
+  //         childMenuObj.visibility = true;
+  //         return;
+  //       }
+
+  //       console.log(`Permission ${index + 1}:`, permission);
+  //     });
+  //     console.log(mainmenu, "mainmenuper");
+  //     setMainMenu({ mainmenu: MENUITEMS });
+  //     console.log(mainmenu, "mainmenuper1");
+  //   }
+  // }, [permissionsArray,MENUITEMS]);
+
+
   useEffect(() => {
     if (permissionsArray) {
+      const updatedMainMenu = { ...mainmenu };
+  
       permissionsArray.forEach((permission, index) => {
-        const menuObj = mainmenu[0]?.Items?.find(
-          (val) => val.permission == permission
+        const menuObj = updatedMainMenu.mainmenu[0]?.Items?.find(
+          (val) => val.permission === permission
         );
-
+  
         if (menuObj) {
-          console.log(menuObj, "menuObj");
           menuObj.visibility = true;
         }
-
-        let childMenuObj;
-
-        mainmenu[0]?.Items?.forEach((item) => {
-          if (childMenuObj) {
-            return;
-          }
-
-          childMenuObj = item.children?.find(
-            (val) => val.permission == permission
+  
+        updatedMainMenu.mainmenu[0]?.Items?.forEach((item) => {
+          const childMenuObj = item.children?.find(
+            (val) => val.permission === permission
           );
+  
+          if (childMenuObj) {
+            childMenuObj.visibility = true;
+          }
         });
-
-        if (childMenuObj) {
-          childMenuObj.visibility = true;
-          return;
-        }
-
+  
         console.log(`Permission ${index + 1}:`, permission);
       });
-      console.log(mainmenu, "mainmenuper");
-      setMainMenu({ mainmenu: MENUITEMS });
+  
+      console.log(updatedMainMenu, "updatedMainMenu");
+      setMainMenu(updatedMainMenu);
     }
-  }, [permissionsArray, MENUITEMS]);
+  }, [permissionsArray]);
+  
+  
+
+
 
   useEffect(() => {
     const currentUrl = window.location.pathname.slice(0, -1);

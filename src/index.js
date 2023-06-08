@@ -56,6 +56,17 @@ const AddClient = React.lazy(() =>
   import("./components/pages/ManageClient/AddClient")
 );
 // client End
+// User Start
+const ManageUser = React.lazy(() =>
+  import("./components/pages/ManageUsers/ManageUsers")
+);
+const EditUser = React.lazy(() =>
+  import("./components/pages/ManageUsers/EditUser")
+);
+const AddUser = React.lazy(() =>
+  import("./components/pages/ManageUsers/AddUser")
+);
+// User End
 // Site Start
 const Managesite = React.lazy(() =>
   import("./components/pages/ManageSite/ManageSite")
@@ -84,7 +95,6 @@ const EditCharges = React.lazy(() =>
 );
 
 // Charges End
-
 
 // Shops Start
 
@@ -134,7 +144,6 @@ const EditDeductions = React.lazy(() =>
 
 // Deductions End
 
-
 // Suppliers Start
 
 const ManageSuppliers = React.lazy(() =>
@@ -150,7 +159,6 @@ const EditSuppliers = React.lazy(() =>
 );
 
 // Suppliers End
-
 
 // FuelSites Start
 
@@ -271,6 +279,9 @@ const Root = () => {
   const WrappedManageClient = withApi(ManageClient);
   const WrappedAddClient = withApi(AddClient);
   const WrappeAddEditClient = withApi(EditClient);
+  const WrappedManageUser = withApi(ManageUser);
+  const WrappedAddUser = withApi(AddUser);
+  const WrappeAddEditUser = withApi(EditUser);
   const WrappedManageSite = withApi(Managesite);
   const WrappedAddSite = withApi(AddSite);
   const WrappeAddEditSite = withApi(EditSite);
@@ -322,6 +333,13 @@ const Root = () => {
                   <Route path={`addclient`} element={<WrappedAddClient />} />
 
                   {/* client  Components End */}
+
+                  {/* User  Components Start */}
+                  <Route path={`/users`} element={<WrappedManageUser />} />
+                  <Route path={`editusers`} element={<WrappeAddEditUser />} />
+                  <Route path={`addusers`} element={<WrappedAddUser />} />
+
+                  {/* User  Components End */}
 
                   {/* sites  Components Start */}
 
@@ -396,7 +414,6 @@ const Root = () => {
 
                   {/* Shops components end */}
 
-
                   {/* Cards components start */}
 
                   <Route
@@ -419,7 +436,10 @@ const Root = () => {
                     element={<WrappedManageDeductions />}
                   />
 
-                  <Route path={`/adddeductions`} element={<WrappedAddDeductions />} />
+                  <Route
+                    path={`/adddeductions`}
+                    element={<WrappedAddDeductions />}
+                  />
                   <Route
                     path={`/editdeductions/:id`}
                     element={<WrappedEditDeductions />}
@@ -427,9 +447,9 @@ const Root = () => {
 
                   {/* Deduction components end */}
 
-                   {/* FuelSites components start */}
+                  {/* FuelSites components start */}
 
-                   {/* <Route
+                  {/* <Route
                     path={`/managefuelsites`}
                     element={<WrappedManageFuelSites />}
                   />
@@ -442,24 +462,23 @@ const Root = () => {
 
                   FuelSites components end */}
 
+                  {/* Suppliers components start */}
 
-
-
-                   {/* Suppliers components start */}
-
-                   <Route
+                  <Route
                     path={`/managesuppliers`}
                     element={<WrappedManageSuppliers />}
                   />
 
-                  <Route path={`/addsuppliers`} element={<WrappedAddSuppliers />} />
+                  <Route
+                    path={`/addsuppliers`}
+                    element={<WrappedAddSuppliers />}
+                  />
                   <Route
                     path={`/editsuppliers/:id`}
                     element={<WrappedEditSuppliers />}
                   />
 
                   {/* Suppliers components end */}
-
 
                   <Route>
                     <Route
