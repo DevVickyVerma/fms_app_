@@ -125,7 +125,7 @@ const AddCards = (props) => {
                         .required("Card Code is required")
                         .matches(/^[a-zA-Z0-9_\- ]+$/, {
                           message:
-                            "Card_code must not contain special characters",
+                            "Card Code must not contain special characters",
                           excludeEmptyString: true,
                         })
                         .matches(

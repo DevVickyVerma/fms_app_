@@ -45,7 +45,7 @@ const ManageClient = (props) => {
   };
   const DeleteClient = async (formData) => {
     try {
-      const response = await postData("client-delete", formData);
+      const response = await postData("client/delete", formData);
       console.log(response, "response"); // Console log the response
       if (apidata.api_response === "success") {
         handleFetchData();
@@ -126,7 +126,7 @@ const ManageClient = (props) => {
 
   const handleFetchData = async () => {
     try {
-      const response = await getData("/client-list");
+      const response = await getData("/client/list");
 
       if (response && response.data && response.data.data) {
         setData(response.data.data.clients);
@@ -165,11 +165,11 @@ const ManageClient = (props) => {
   };
 
   const permissionsToCheck = [
-    "user-list",
-    "site-create",
-    "user-status-update",
-    "user-edit",
-    "user-delete",
+    "client-list",
+    "client-create",
+    "client-status-update",
+    "client-edit",
+    "client-delete",
   ];
 
   let isPermissionAvailable = false;
@@ -184,13 +184,13 @@ const ManageClient = (props) => {
   }, [UserPermissions]);
 
   const isStatusPermissionAvailable =
-    permissionsArray?.includes("user-status-update");
-  const isEditPermissionAvailable = permissionsArray?.includes("user-edit");
-  const isAddPermissionAvailable = permissionsArray?.includes("user-create");
-  const isDeletePermissionAvailable = permissionsArray?.includes("user-delete");
+    permissionsArray?.includes("client-status-update");
+  const isEditPermissionAvailable = permissionsArray?.includes("client-edit");
+  const isAddPermissionAvailable = permissionsArray?.includes("client-create");
+  const isDeletePermissionAvailable = permissionsArray?.includes("client-delete");
   const isDetailsPermissionAvailable =
-    permissionsArray?.includes("user-details");
-  const isAssignPermissionAvailable = permissionsArray?.includes("user-assign");
+    permissionsArray?.includes("client-details");
+  const isAssignPermissionAvailable = permissionsArray?.includes("client-assign");
 
   const columns = [
     {

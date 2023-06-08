@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
+import Loaderimg from "../../../Utils/Loader";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const ManageSuppliers = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -336,6 +338,10 @@ const isAssignPermissionAvailable = permissionsArray.includes("supplier-assign")
 
   return (
     <>
+
+    {isLoading ? (<Loaderimg />):(
+
+      <>
       <div className="page-header ">
         <div>
           <h1 className="page-title">Manage Suppliers</h1>
@@ -394,6 +400,8 @@ const isAssignPermissionAvailable = permissionsArray.includes("supplier-assign")
           searchable={true}
         />
       </DataTableExtensions>
+    </>
+  )}
     </>
   );
 };

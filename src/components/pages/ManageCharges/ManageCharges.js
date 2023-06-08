@@ -13,7 +13,9 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import SearchIcon from "@mui/icons-material/Search";
+import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const ManageCharges = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -216,7 +218,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
+          
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
@@ -338,6 +340,10 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
 
   return (
     <>
+   {isLoading ? (<Loaderimg />):(
+
+   <>
+     
       <div className="page-header ">
         <div>
           <h1 className="page-title">Manage Charges</h1>
@@ -396,7 +402,10 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
           searchable={true}
         />
       </DataTableExtensions>
+      </>
+   )}
     </>
+
   );
 };
 export default withApi(ManageCharges);

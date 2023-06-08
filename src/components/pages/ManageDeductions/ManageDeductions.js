@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
+import Loaderimg from "../../../Utils/Loader";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const ManageDeductions = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -333,6 +335,9 @@ const isAssignPermissionAvailable = permissionsArray.includes("deduction-assign"
 
   return (
     <>
+   {isLoading ? (<Loaderimg />):(
+
+   <>
       <div className="page-header ">
         <div>
           <h1 className="page-title">Manage Deductions</h1>
@@ -391,7 +396,10 @@ const isAssignPermissionAvailable = permissionsArray.includes("deduction-assign"
           searchable={true}
         />
       </DataTableExtensions>
+      </>
+   )}
     </>
+
   );
 };
 export default withApi(ManageDeductions);
