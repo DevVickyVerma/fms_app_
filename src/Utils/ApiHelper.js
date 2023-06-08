@@ -16,7 +16,11 @@ const withApi = (WrappedComponent) => {
     const navigate = useNavigate();
     const SuccessToast = (message) => {
       toast.success(message, {
-        autoClose: 1000, // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+        autoClose: 1000,
+        position: toast.POSITION.TOP_RIGHT,
+        hideProgressBar: true,
+        autoClose:5000,
+        theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
       });
     };
     const ErrorToast = (message) => {

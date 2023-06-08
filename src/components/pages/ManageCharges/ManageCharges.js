@@ -170,6 +170,8 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
 
 
 
+
+
   const columns = [
     {
       name: "S.No",
@@ -339,12 +341,15 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
   };
 
   return (
-    <>
-   {isLoading ? (<Loaderimg />):(
+  
 
+<>
+  
+{isLoading?
+    <Loaderimg />
+   :""}
    <>
-     
-      <div className="page-header ">
+   <div className="page-header ">
         <div>
           <h1 className="page-title">Manage Charges</h1>
           <Breadcrumb className="breadcrumb">
@@ -403,8 +408,8 @@ const isAssignPermissionAvailable = permissionsArray.includes("charges-assign");
         />
       </DataTableExtensions>
       </>
-   )}
-    </>
+</>
+   
 
   );
 };
