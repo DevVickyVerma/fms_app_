@@ -17,7 +17,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 
@@ -53,7 +53,7 @@ const EditUsers = (props) => {
 
   useEffect(() => {
     fetchClientList();
-    FetchRoleList()
+    FetchRoleList();
     console.clear();
   }, []);
 
@@ -64,15 +64,12 @@ const EditUsers = (props) => {
       Authorization: `Bearer ${token}`,
     },
   });
-
+ const { id } = useParams();
   const fetchClientList = async () => {
-    const id = localStorage.getItem("Client_id");
+    
     try {
-      const response = await axiosInstance.get("/client-detail", {
-        params: {
-          id: id,
-        },
-      });
+    
+       const response = await axiosInstance.get(`/user/detail?id=${id}`);
       console.log(response.data.data);
       if (response) {
         formik.setValues(response.data.data);
@@ -89,21 +86,18 @@ const EditUsers = (props) => {
     try {
       const formData = new FormData();
 
-      formData.append("client_code", values.client_code);
       formData.append("client_id", values.client_id);
       formData.append("created_date", values.created_date);
       formData.append("first_name", values.first_name);
-      formData.append("financial_end_month", values.financial_end_month);
-      formData.append("financial_start_month", values.financial_start_month);
+
       formData.append("last_name", values.last_name);
       formData.append("email", values.email);
       formData.append("password", values.first_name);
-      formData.append("status", values.status);
-      formData.append("loomis_status", values.loomis_status);
+
       formData.append("full_name", values.full_name);
       formData.append("id", values.id);
-      formData.append("ma_option", values.ma_option);
-      formData.append("role", values.role);
+
+      formData.append("role_id", values.role_id);
 
       const postDataUrl = "/update-client";
       const navigatePath = "/clients";
@@ -120,48 +114,29 @@ const EditUsers = (props) => {
   // };
   const formik = useFormik({
     initialValues: {
-      client_code: "",
-      client_name: "",
       created_date: "",
       email: "",
-      financial_end_month: "",
-      financial_start_month: "",
+
       first_name: "",
       id: "",
-      role: "",
+      role_id: "",
       last_name: "",
-      loomis_status: "",
-      ma_option: [],
+
       status: "1",
     },
     validationSchema: Yup.object({
-      client_code: Yup.string()
-        .max(20, "Must be 20 characters or less")
-        // .min(10, "The client code must be 10 digits")
-        .required("Client Code is required"),
-      // client_name: Yup.string()
-      //   .max(20, "Must be 20 characters or less")
-      //   .required("Client Code is required"),
       created_date: Yup.string().required("Client Code is required"),
       email: Yup.string()
         .required(" Email is required")
         .email("Invalid email format"),
-      financial_end_month: Yup.string().required(
-        "Financial End Month is required"
-      ),
-      financial_start_month: Yup.string().required(
-        "Financial Start Month is required"
-      ),
-      role: Yup.string().required(
-        "Role is required"
-      ),
+
+        role_id: Yup.string().required("Role is required"),
       first_name: Yup.string()
         .max(20, "Must be 20 characters or less")
         .required("First Name is required"),
       last_name: Yup.string()
         .max(20, "Must be 20 characters or less")
         .required("Last Name is required"),
-      loomis_status: Yup.string().required("Lommis Status is required"),
 
       status: Yup.string().required(" Status is required"),
     }),
@@ -174,9 +149,9 @@ const EditUsers = (props) => {
     try {
       const response = await getData("/role/list");
 
-      if (response && response.data && response.data.data.addons) {
-        setRoleItems(response.data.data.addons);
-        console.log(response.data.data.addons[0].name, "response.data")
+      if (response && response.data && response.data.data.roles) {
+        setRoleItems(response.data.data.roles);
+        console.log(response.data.data.roles[0].name, "response.data");
       } else {
         throw new Error("No data available in the response");
       }
@@ -199,10 +174,8 @@ const EditUsers = (props) => {
       console.log(ma_option, "value");
     }
 
-   
     formik.setFieldValue("ma_option", updateOptions);
   };
-
 
   return (
     <div>
@@ -246,33 +219,7 @@ const EditUsers = (props) => {
             <div class="card-body">
               <form onSubmit={formik.handleSubmit}>
                 <Row>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label className="form-label mt-4" htmlFor="client_code">
-                      User Code<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        id="client_code"
-                        name="client_code"
-                        type="text"
-                        className={`input101 ${
-                          formik.errors.client_code &&
-                          formik.touched.client_code
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        placeholder="Client Code"
-                        onChange={formik.handleChange}
-                        value={formik.values.client_code || ""}
-                      />
-                      {formik.errors.client_code &&
-                        formik.touched.client_code && (
-                          <div className="invalid-feedback">
-                            {formik.errors.client_code}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
+                
                   <Col lg={4} md={6}>
                     <div className="form-group">
                       <label className="form-label mt-4" htmlFor="first_name">
@@ -349,265 +296,45 @@ const EditUsers = (props) => {
                       )}
                     </div>
                   </Col>
-                  {/* <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label className="form-label mt-4" htmlFor="password">
-                        password<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        type="password"
-                        className={`input101 ${
-                          formik.errors.password && formik.touched.password
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="password"
-                        name="password"
-                        placeholder="Company Name"
-                        onChange={formik.handleChange}
-                        value={formik.values.password || ""}
-                      />
-                      {formik.errors.password && formik.touched.password && (
-                        <div className="invalid-feedback">
-                          {formik.errors.password}
-                        </div>
-                      )}
-                    </div>
-                  </Col> */}
+            
 
+               
+                
+                 
+                
                   <Col lg={4} md={6}>
                     <div className="form-group">
-                      <label htmlFor="status" className="form-label mt-4">
-                        Status<span className="text-danger">*</span>
+                      <label htmlFor="role_id" className="form-label mt-4">
+                        Role
+                        <span className="text-danger">*</span>
                       </label>
                       <select
                         className={`input101 ${
-                          formik.errors.status && formik.touched.status
+                          formik.errors.role_id && formik.touched.role_id
                             ? "is-invalid"
                             : ""
                         }`}
-                        id="status"
-                        name="status"
+                        id="role_id"
+                        name="role_id"
                         onChange={formik.handleChange}
-                        value={formik.values.status}
+                        value={formik.values.role_id}
                       >
-                        <option value="1">Active</option>
-                        <option value="0">Inactive</option>
+                        <option value="">Select a Role</option>
+                        {roleitems ? (
+                          roleitems.map((item) => (
+                            <option key={item.id} value={item.id}>
+                              {item.name}
+                            </option>
+                          ))
+                        ) : (
+                          <option disabled>No Role</option>
+                        )}
                       </select>
-                      {formik.errors.status && formik.touched.status && (
+                      {formik.errors.role_id && formik.touched.role_id && (
                         <div className="invalid-feedback">
-                          {formik.errors.status}
+                          {formik.errors.role_id}
                         </div>
                       )}
-                    </div>
-                  </Col>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="financial_start_month"
-                        className="form-label mt-4"
-                      >
-                        Financial Start Month
-                        <span className="text-danger">*</span>
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.financial_start_month &&
-                          formik.touched.financial_start_month
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="financial_start_month"
-                        name="financial_start_month"
-                        onChange={formik.handleChange}
-                        value={formik.values.financial_start_month}
-                      >
-                        <option value="">Select a Financial Start Month</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                      </select>
-                      {formik.errors.financial_start_month &&
-                        formik.touched.financial_start_month && (
-                          <div className="invalid-feedback">
-                            {formik.errors.financial_start_month}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="financial_end_month"
-                        className="form-label mt-4"
-                      >
-                        Financial End Month
-                        <span className="text-danger">*</span>
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.financial_end_month &&
-                          formik.touched.financial_end_month
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="financial_end_month"
-                        name="financial_end_month"
-                        onChange={formik.handleChange}
-                        value={formik.values.financial_end_month}
-                      >
-                        <option value="">Select a Financial End Month</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                      </select>
-                      {formik.errors.financial_end_month &&
-                        formik.touched.financial_end_month && (
-                          <div className="invalid-feedback">
-                            {formik.errors.financial_end_month}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="loomis_status"
-                        className="form-label mt-4"
-                      >
-                        Lommis Status<span className="text-danger">*</span>
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.loomis_status &&
-                          formik.touched.loomis_status
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="loomis_status"
-                        name="loomis_status"
-                        onChange={formik.handleChange}
-                        value={formik.values.loomis_status}
-                      >
-                        <option value="1">Active</option>
-                        <option value="0">Inactive</option>
-                      </select>
-                      {formik.errors.loomis_status &&
-                        formik.touched.loomis_status && (
-                          <div className="invalid-feedback">
-                            {formik.errors.loomis_status}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label htmlFor="ma_option" className="form-label mt-4">
-                        MA Options
-                        <span className="text-danger">*</span>
-                      </label>
-                      <div>
-                        <label>
-                          <input
-                            type="checkbox"
-                            name="ma_option"
-                            value="1"
-                            checked={formik.values.ma_option.includes("1")}
-                            onChange={() => handleCheckBoxChange("1")}
-                          />
-                          Actual
-                        </label>
-                      </div>
-                      <div>
-                        <label>
-                          <input
-                            type="checkbox"
-                            name="ma_option"
-                            value="2"
-                            checked={formik.values.ma_option.includes("2")}
-                            onChange={() => handleCheckBoxChange("2")}
-                          />
-                          Forecast
-                        </label>
-                      </div>
-                      <div>
-                        <label>
-                          <input
-                            type="checkbox"
-                            name="ma_option"
-                            value="3"
-                            checked={formik.values.ma_option.includes("3")}
-                            onChange={() => handleCheckBoxChange("3")}
-                          />
-                          Variance
-                        </label>
-                      </div>
-                      {formik.errors.ma_option && formik.touched.ma_option && (
-                        <div className="invalid-feedback">
-                          {formik.errors.ma_option}
-                        </div>
-                      )}
-                    </div>
-                  </Col>
-                    <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="role"
-                        className="form-label mt-4"
-                      >
-                     Role
-                        <span className="text-danger">*</span>
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.role &&
-                          formik.touched.role
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="role"
-                        name="role"
-                        onChange={formik.handleChange}
-                        value={formik.values.role}
-                      >
-                          <option value="">
-                                  Select a Role
-                                </option>
-                                {
-                                roleitems? (
-                                  roleitems.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Role</option>
-                                )}
-                      </select>
-                      {formik.errors.role &&
-                        formik.touched.role && (
-                          <div className="invalid-feedback">
-                            {formik.errors.role}
-                          </div>
-                        )}
                     </div>
                   </Col>
                 </Row>
@@ -616,7 +343,7 @@ const EditUsers = (props) => {
                   <Link
                     type="submit"
                     className="btn btn-danger me-2 "
-                    to={`/clients/`}
+                    to={`/users/`}
                   >
                     Cancel
                   </Link>

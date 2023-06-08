@@ -176,6 +176,16 @@ const EditFuelSites = React.lazy(() =>
 
 // FuelSites End
 
+// DSR Start
+
+const ManageDsr = React.lazy(() =>
+  import("./components/pages/ManageDSR/ManageDsr")
+);
+
+
+
+// DSR End
+
 const ManageBusinessTypes = React.lazy(() =>
   import("./components/pages/ManageBusinessTypes/ManageBusinessTypes")
 );
@@ -313,6 +323,7 @@ const Root = () => {
   const WrappedManageFuelSites = withApi(ManageFuelSites);
   const WrappedAddFuelSites = withApi(AddFuelSites);
   const WrappedEditFuelSites = withApi(EditFuelSites);
+  const WrappedManageDsr = withApi(ManageDsr);
   return (
     <Fragment>
       <BrowserRouter>
@@ -386,6 +397,16 @@ const Root = () => {
                     element={<WrappeHeader />}
                   />
                   {/* Header  Components End */}
+
+                  {/* DSR  Components Start */}
+                  <Route
+                    path={`/data-entry`}
+                    element={<WrappedManageDsr />}
+                  />
+                  {/* DSR  Components End */}
+
+
+
                   {/* Charges  Components Start  */}
                   <Route
                     path={`/managecharges`}

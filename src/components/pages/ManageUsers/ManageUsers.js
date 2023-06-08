@@ -9,10 +9,10 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 import { toast } from "react-toastify";
-import SearchIcon from "@mui/icons-material/Search";
+
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import SideSearchbar from "../../../data/Modal/SideSearchbar";
+
 import * as loderdata from "../../../data/Component/loderdata/loderdata";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
@@ -21,10 +21,9 @@ const ManageUser = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
   const navigate = useNavigate();
-  const [searchdata, setSearchdata] = useState({});
-  const [sidebarVisible1, setSidebarVisible1] = useState(true);
-  const [activeArray, setActiveArray] = useState([]);
-  const [SearchList, setSearchList] = useState(false);
+
+  
+
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -55,11 +54,7 @@ const ManageUser = (props) => {
     }
   };
 
-  const handleSearchReset = () => {
-    handleFetchData();
-    setSearchdata({});
-    setSearchList(true);
-  };
+
   const SuccessAlert = (message) => toast.success(message);
 
   const Errornotify = (message) => toast.error(message);
@@ -78,47 +73,22 @@ const ManageUser = (props) => {
       Errornotify(errorMessage);
     }
   }
-  const handleToggleSidebar1 = () => {
-    setSidebarVisible1(!sidebarVisible1);
-  };
-  const handleSubmit = (formData) => {
-    const filteredFormData = Object.fromEntries(
-      Object.entries(formData).filter(
-        ([key, value]) => value !== null && value !== ""
-      )
+  
+
+  const [searchText, setSearchText] = useState("");
+  const [searchvalue, setSearchvalue] = useState();
+
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchText(value);
+
+    const filteredData = searchvalue.filter((item) =>
+      item.role.toLowerCase().includes(value.toLowerCase())
     );
-
-    if (Object.values(filteredFormData).length > 0) {
-      setSearchdata(filteredFormData);
-      const axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_BASE_URL,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-      const SearchList = async (row) => {
-        try {
-          const params = new URLSearchParams(formData).toString();
-          const response = await getData(`/client-list?${params}`);
-          console.log(response.data.data, "ddd");
-
-          if (response && response.data && response.data.data) {
-            setData(response.data.data.clients);
-          } else {
-            throw new Error("No data available in the response");
-          }
-        } catch (error) {
-          console.error("API error:", error);
-          // Handle the error here, such as displaying an error message or performing other actions
-        }
-      };
-
-      SearchList();
-    }
-
-    handleToggleSidebar1();
+    setData(filteredData);
   };
+
+
 
   useEffect(() => {
     handleFetchData();
@@ -126,10 +96,11 @@ const ManageUser = (props) => {
 
   const handleFetchData = async () => {
     try {
-      const response = await getData("/client-list");
+      const response = await getData("/user/list");
 
       if (response && response.data && response.data.data) {
-        setData(response.data.data.clients);
+        setData(response.data.data);
+        setSearchvalue(response.data.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -160,19 +131,9 @@ const ManageUser = (props) => {
     }
   };
 
-  const handleEdit = (row) => {
-    localStorage.setItem("Client_id", row.id);
-  };
+ 
 
-  const permissionsToCheck = [
-    "user-list",
-    "site-create",
-    "user-status-update",
-    "user-edit",
-    "user-delete",
-  ];
 
-  let isPermissionAvailable = false;
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -206,14 +167,27 @@ const ManageUser = (props) => {
       ),
     },
     {
-      name: "Client",
+      name: "Full Name",
       selector: (row) => [row.full_name],
       sortable: true,
-      width: "45%",
+      width: "25%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.full_name}</h6>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Role",
+      selector: (row) => [row.role],
+      sortable: true,
+      width: "25%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.role}</h6>
           </div>
         </div>
       ),
@@ -279,7 +253,7 @@ const ManageUser = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: true,
-      width: "20%",
+      width: "15%",
       cell: (row) => (
         <span className="text-center">
           {isEditPermissionAvailable ? (
@@ -373,53 +347,28 @@ const ManageUser = (props) => {
               </Breadcrumb>
             </div>
             <div className="ms-auto pageheader-btn">
-              <span className="Search-data">
-                {Object.entries(searchdata).map(([key, value]) => (
-                  <div key={key} className="badge">
-                    <span className="badge-key">
-                      {key.charAt(0).toUpperCase() + key.slice(1)}:
-                    </span>
-                    <span className="badge-value">{value}</span>
-                  </div>
-                ))}
-              </span>
-              <Link
-                className="btn btn-primary"
-                onClick={() => {
-                  handleToggleSidebar1();
-                }}
-              >
-                Search
-                <span className="ms-2">
-                  <SearchIcon />
-                </span>
-              </Link>
-              {Object.keys(searchdata).length > 0 ? (
-                <Link
-                  className="btn btn-danger ms-2"
-                  onClick={handleSearchReset}
-                >
-                  Reset <RestartAltIcon />
-                </Link>
-              ) : (
-                ""
-              )}
-              {isAddPermissionAvailable ? (
+            <div className="input-group">
+            <input
+              type="text"
+              className="form-control"
+              value={searchText}
+              onChange={handleSearch}
+              placeholder="Search..."
+              style={{ borderRadius: 0 }}
+            />
+            {isAddPermissionAvailable ? (
                 <Link to="/addusers" className="btn btn-primary ms-2">
                   Add Users
                   <AddCircleOutlineIcon />
                 </Link>
               ) : null}
+          </div>
+            
+            
               
             </div>
           </div>
-          <SideSearchbar
-            title="Search"
-            visible={sidebarVisible1}
-            onClose={handleToggleSidebar1}
-            onSubmit={handleSubmit}
-            searchListstatus={SearchList}
-          />
+     
 
           <DataTableExtensions {...tableDatas}>
             <DataTable

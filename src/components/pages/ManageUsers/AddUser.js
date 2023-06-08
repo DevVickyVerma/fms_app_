@@ -65,16 +65,10 @@ const AddUsers = (props) => {
       formData.append("password", values.password);
       formData.append("first_name", values.first_name);
       formData.append("last_name", values.last_name);
-      formData.append("client_code", values.client_code);
-      formData.append("financial_start_month", values.financial_start_month);
-      formData.append("financial_end_month", values.financial_end_month);
-      formData.append("lommis_status", values.lommis_status);
-      formData.append("role", values.role);
-      formData.append("send_mail", isChecked);
-      formData.append("ma_option", JSON.stringify(selectedItems));
+      formData.append("role_id", values.role);
 
       const postDataUrl = "/user/add";
-      const navigatePath = "/clients";
+      const navigatePath = "/users";
 
       await postData(postDataUrl, formData, navigatePath);
 
@@ -135,11 +129,10 @@ const AddUsers = (props) => {
 
   const FetchRoleList = async () => {
     try {
-      const response = await getData("/user/list");
+      const response = await getData("/role/list");
 
-      if (response && response.data && response.data.data.addons) {
-        setRoleItems(response.data.data.addons);
-        console.log(response.data.data.addons[0].name, "response.data")
+      if (response && response.data && response.data.data.roles) {
+        setRoleItems(response.data.data.roles);
       } else {
         throw new Error("No data available in the response");
       }
@@ -192,46 +185,23 @@ const AddUsers = (props) => {
                 </Card.Header>
                 <Formik
                   initialValues={{
-                    client_code: "",
                     first_name: "",
                     role: "",
 
-                    financial_end_month: "",
-
-                    financial_start_month: "",
-
                     last_name: "",
 
-                    // financial_start_month: "",
                     email: "",
                     password: "",
 
-                    status: "",
-
-                    lommis_status: "1",
                     send_mail: "1",
                   }}
                   validationSchema={Yup.object({
-                    client_code: Yup.string()
-                      .max(20, "Must be 20 characters or less")
-                      .required("Clinet Code is required"),
                     first_name: Yup.string()
                       .max(20, "Must be 20 characters or less")
                       .required("First Name is required"),
 
-                    lommis_status: Yup.string().required(
-                      "Lommis Status is required"
-                    ),
                     role: Yup.string().required("Role is required"),
                     last_name: Yup.string().required("Last Name is required"),
-                    status: Yup.string().required(" Status is required"),
-                    financial_end_month: Yup.string().required(
-                      "Financial End Month is required"
-                    ),
-
-                    financial_start_month: Yup.string().required(
-                      "Financial Start Month is required"
-                    ),
 
                     email: Yup.string()
                       .required(" Email is required")
@@ -253,34 +223,7 @@ const AddUsers = (props) => {
                     <Form onSubmit={handleSubmit}>
                       <Card.Body>
                         <Row>
-                          <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label
-                                className="form-label mt-4"
-                                htmlFor="client_code"
-                              >
-                                Client Code
-                                <span className="text-danger">*</span>
-                              </label>
-
-                              <Field
-                                type="text"
-                                className={`input101 ${
-                                  errors.client_code && touched.client_code
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="client_code"
-                                name="client_code"
-                                placeholder="Client Code"
-                              />
-                              <ErrorMessage
-                                name="client_code"
-                                component="div"
-                                className="invalid-feedback"
-                              />
-                            </FormGroup>
-                          </Col>
+                         
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
@@ -360,149 +303,8 @@ const AddUsers = (props) => {
                             </FormGroup>
                           </Col>
 
-                          <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="status"
-                                className=" form-label mt-4"
-                              >
-                                Status<span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${
-                                  errors.status && touched.status
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="status"
-                                name="status"
-                              >
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
-                              </Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="status"
-                              />
-                            </FormGroup>
-                          </Col>
-                          <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="lommis_status"
-                                className=" form-label mt-4"
-                              >
-                                Lommis Status
-                                <span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${
-                                  errors.lommis_status && touched.lommis_status
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="lommis_status"
-                                name="lommis_status"
-                              >
-                                <option value="1">Active</option>
-                                <option value="0">InActive</option>
-                              </Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="lommis_status"
-                              />
-                            </FormGroup>
-                          </Col>
-                          <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="financial_start_month"
-                                className=" form-label mt-4"
-                              >
-                                Financial Start Month
-                                <span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${
-                                  errors.financial_start_month &&
-                                  touched.financial_start_month
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="financial_start_month"
-                                name="financial_start_month"
-                              >
-                                <option value="">
-                                  Select a Financial Start Month
-                                </option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                              </Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="financial_start_month"
-                              />
-                            </FormGroup>
-                          </Col>
-                          <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor=" financial_end_month"
-                                className=" form-label mt-4"
-                              >
-                                Financial End Month
-                                <span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${
-                                  errors.financial_end_month &&
-                                  touched.financial_end_month
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="financial_end_month"
-                                name="financial_end_month"
-                              >
-                                <option value="">
-                                  Select a Financial End Month
-                                </option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                              </Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="financial_end_month"
-                              />
-                            </FormGroup>
-                          </Col>
+                       
+                       
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
@@ -530,40 +332,7 @@ const AddUsers = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                          <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="email"
-                                className=" form-label mt-4"
-                              >
-                                MA Options
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="checkbox"
-                                checked
-                                onChange={() => handleCheckboxChange("1")}
-                              />{" "}
-                              <span className="mx-2">Actual</span>
-                              <br></br>
-                              <input
-                                type="checkbox"
-                                onChange={() => handleCheckboxChange("2")}
-                              />
-                              <span className="mx-2">Forecast</span>
-                              <br></br>
-                              <input
-                                type="checkbox"
-                                onChange={() => handleCheckboxChange("3")}
-                              />{" "}
-                              <span className="mx-2">Variance</span>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="email"
-                              />
-                            </FormGroup>
-                          </Col>
+                         
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
@@ -604,11 +373,8 @@ const AddUsers = (props) => {
                                 id="role"
                                 name="role"
                               >
-                                <option value="">
-                                  Select a Role
-                                </option>
-                                {
-                                roleitems? (
+                                <option value="">Select a Role</option>
+                                {roleitems ? (
                                   roleitems.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.name}
@@ -632,7 +398,7 @@ const AddUsers = (props) => {
                         <Link
                           type="submit"
                           className="btn btn-danger me-2 "
-                          to={`/clients/`}
+                          to={`/users/`}
                         >
                           Cancel
                         </Link>

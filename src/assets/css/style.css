@@ -35716,6 +35716,8 @@ body.rtl {
 .side-menu {
   margin-bottom: 0;
   padding: 0 15px 0 0px;
+  line-height: 25px;
+  font-size:12px;
 }
 
 .side-menu__item {

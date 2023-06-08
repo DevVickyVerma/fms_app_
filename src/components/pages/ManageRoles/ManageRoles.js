@@ -101,9 +101,9 @@ const ManageRoles = (props) => {
     try {
       const response = await getData("/role/list");
 
-      if (response && response.data && response.data.data.addons) {
-        setData(response.data.data.addons);
-        setSearchvalue(response.data.data.addons);
+      if (response && response.data && response.data.data.roles) {
+        setData(response.data.data.roles);
+        setSearchvalue(response.data.data.roles);
       } else {
         throw new Error("No data available in the response");
       }

@@ -66,7 +66,7 @@ const AddCompany = (props) => {
   });
   const fetchClientList = async () => {
     try {
-      const response = await axiosInstance.get("/client-list");
+      const response = await axiosInstance.get("/client/list");
 
       if (response.data.data.clients.length > 0) {
         // setData(response.data.data.sites);

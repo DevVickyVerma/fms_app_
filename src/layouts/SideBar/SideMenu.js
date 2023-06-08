@@ -12,6 +12,30 @@ export const MENUITEMS = [
         title: "Dashboard",
       },
       {
+        title: "Manage Users",
+        icon: "users",
+        type: "sub",
+        active: false,
+        permission: "user-list",
+        visibility: false,
+        children: [
+          {
+            path: `/users`,
+            type: "link",
+            title: "Manage Users",
+            permission: "user-list",
+            visibility: false,
+          },
+          {
+            path: `/addusers`,
+            type: "link",
+            title: "Add User",
+            permission: "user-list",
+            visibility: false,
+          },
+        ],
+      },
+      {
         title: "Manage Clients",
         icon: "users",
         type: "sub",
@@ -35,30 +59,7 @@ export const MENUITEMS = [
           },
         ],
       },
-      {
-        title: "Manage Users",
-        icon: "users",
-        type: "sub",
-        active: false,
-        permission: "site-fuel-delete",
-        visibility: false,
-        children: [
-          {
-            path: `/users`,
-            type: "link",
-            title: "Manage Users",
-            permission: "site-fuel-delete",
-            visibility: false,
-          },
-          {
-            path: `/addusers`,
-            type: "link",
-            title: "Add User",
-            permission: "shop-sale-list",
-            visibility: false,
-          },
-        ],
-      },
+    
       {
         title: "Manage Sites",
         icon: "university",
@@ -191,33 +192,33 @@ export const MENUITEMS = [
           
         ],
       },
-      {
-        title: "Manage Sub-Business Types",
-        icon: "th",
-        type: "sub",
-        active: false,
-        permission: "business-sub-type-list",
-        visibility: false,
-        children: [
+      // {
+      //   title: "Manage Sub-Business Types",
+      //   icon: "th",
+      //   type: "sub",
+      //   active: false,
+      //   permission: "business-sub-type-list",
+      //   visibility: false,
+      //   children: [
         
-          {
-           path: `/sub-business`,
-            title: "Manage Sub-Business Types",
-            type: "link",
-            permission: "business-sub-type-list",
-            visibility: false,
-          },
-          {
-            path: `/addsub-business`,
-             title: "Add Sub-Business Types",
-             type: "link",
-             permission: "business-sub-type-create",
-             visibility: false,
-           },
+      //     {
+      //      path: `/sub-business`,
+      //       title: "Manage Sub-Business Types",
+      //       type: "link",
+      //       permission: "business-sub-type-list",
+      //       visibility: false,
+      //     },
+      //     {
+      //       path: `/addsub-business`,
+      //        title: "Add Sub-Business Types",
+      //        type: "link",
+      //        permission: "business-sub-type-create",
+      //        visibility: false,
+      //      },
          
           
-        ],
-      },
+      //   ],
+      // },
 
       {
         title: "Manage Charges",
@@ -365,6 +366,24 @@ export const MENUITEMS = [
       //     },
       //   ],
       // },
+            {
+        title: "Manage DSR",
+        icon: "package",
+        type: "sub",
+        active: false,
+        permission: "supplier-create",
+        visibility: false,
+        children: [
+          {
+            path: `/data-entry`,
+            title: "Manage DSR",
+            type: "link",
+            permission: "supplier-create",
+            visibility: false,
+          },
+        
+        ],
+      },
       
       
     ],
