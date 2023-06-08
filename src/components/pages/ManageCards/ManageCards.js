@@ -14,9 +14,13 @@ import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
+import Loaderimg from "../../../Utils/Loader";
+
+
 
 const ManageCards = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
+  const [selectedFile, setSelectedFile] = useState(null);
   const [data, setData] = useState();
   const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
@@ -156,33 +160,7 @@ const ManageCards = (props) => {
   const isDetailsPermissionAvailable =
     permissionsArray.includes("cards-details");
   const isAssignPermissionAvailable = permissionsArray.includes("card-assign");
-  // useEffect(() => {
-  //   const checkCardPermissions = () => {
-  //     const permissions = [
-  //       { permission: "cards-status-update", label: "Status Update" },
-  //       { permission: "card-edit", label: "Edit" },
-  //       { permission: "card-create", label: "Create" },
-  //       { permission: "card-delete", label: "Delete" },
-  //       { permission: "cards-details", label: "Details" },
-  //       { permission: "card-assign", label: "Assign" }
-  //     ];
-  
-  //     const availablePermissions = permissions.filter(
-  //       permission => permissionsArray.includes(permission.permission)
-  //     );
-  
-  //     if (availablePermissions.length === 0) {
-  //       navigate("/errorpage403");
-  //     } else {
-  //       console.log("Available card permissions:");
-  //       availablePermissions.forEach(permission => {
-  //         console.log(permission.label);
-  //       });
-  //     }
-  //   };
-  
-  //   checkCardPermissions();
-  // }, [permissionsArray]);
+
 
 
 
@@ -333,6 +311,9 @@ const ManageCards = (props) => {
             </Link>
           </OverlayTrigger>
           ) : null}
+          
+      
+     
         </span>
       ),
     },
@@ -354,10 +335,22 @@ const ManageCards = (props) => {
     );
     setData(filteredData);
   };
+
+  const handleFileSelect = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+  const handleUpload=()=>{
+
+  }
+  
   
 
   return (
     <>
+      {isLoading ? (
+        <Loaderimg />
+      ) : (
+        <>
       <div className="page-header ">
         <div>
           <h1 className="page-title">Manage Cards</h1>
@@ -415,6 +408,8 @@ const ManageCards = (props) => {
           searchable={true}
         />
       </DataTableExtensions>
+      </>
+      )}
     </>
   );
 };
