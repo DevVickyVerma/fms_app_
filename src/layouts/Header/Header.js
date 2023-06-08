@@ -51,7 +51,7 @@ const Header = (props) => {
 
   useEffect(() => {
     if (UserPermissions) {
-      console.log(UserPermissions,"UserPermissions")
+     
       setPermissionsArray(UserPermissions.permissions);
       setUsername(UserPermissions.full_name);
     }

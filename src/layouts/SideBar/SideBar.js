@@ -11,11 +11,11 @@ const Sidebar = () => {
   const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
-    console.log("MENUITEMS", MENUITEMS);
+
     // if (MENUITEMS) {
     //   setMainMenu(MENUITEMS);
     // }
-    console.log("mainmenu123", mainmenu);
+
 
     if (UserPermissions) {
       setpermissionsArray(UserPermissions?.permissions);
@@ -61,35 +61,54 @@ const Sidebar = () => {
 
 
   useEffect(() => {
+    console.log("mainmenu before update:", mainmenu);
     if (permissionsArray) {
-      const updatedMainMenu = { ...mainmenu };
+      const updatedMainMenu = { ...(mainmenu || {}) };
   
-      permissionsArray.forEach((permission, index) => {
-        const menuObj = updatedMainMenu.mainmenu[0]?.Items?.find(
-          (val) => val.permission === permission
-        );
+      let menuItems = updatedMainMenu?.[0]?.Items;
+      if (!menuItems) {
+        menuItems = updatedMainMenu?.mainmenu[0]?.Items;
+      }
   
-        if (menuObj) {
-          menuObj.visibility = true;
-        }
-  
-        updatedMainMenu.mainmenu[0]?.Items?.forEach((item) => {
-          const childMenuObj = item.children?.find(
-            (val) => val.permission === permission
+      if (menuItems) {
+        menuItems.forEach((item) => {
+          const foundPermission = permissionsArray.find(
+            (permission) => permission === item.permission
           );
   
-          if (childMenuObj) {
-            childMenuObj.visibility = true;
+          if (foundPermission) {
+            item.visibility = true;
+          }
+  
+          if (item.children) {
+            item.children.forEach((childItem) => {
+              const foundChildPermission = permissionsArray.find(
+                (permission) => permission === childItem.permission
+              );
+  
+              if (foundChildPermission) {
+                childItem.visibility = true;
+              }
+            });
           }
         });
   
-        console.log(`Permission ${index + 1}:`, permission);
-      });
-  
-      console.log(updatedMainMenu, "updatedMainMenu");
-      setMainMenu(updatedMainMenu);
+        console.log("updatedMainMenu:", updatedMainMenu);
+        setMainMenu([{ Items: menuItems }]);
+      } else {
+        console.log("Menu items not found.");
+      }
+    } else {
+      console.log("Permissions array is empty or undefined.");
     }
   }, [permissionsArray]);
+  
+  
+  
+  
+  
+  
+  
   
   
 

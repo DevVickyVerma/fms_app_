@@ -336,7 +336,8 @@ const Root = () => {
 
                   {/* User  Components Start */}
                   <Route path={`/users`} element={<WrappedManageUser />} />
-                  <Route path={`editusers`} element={<WrappeAddEditUser />} />
+                  <Route path={`/editusers/:id`} element={<WrappeAddEditUser />} />
+                 
                   <Route path={`addusers`} element={<WrappedAddUser />} />
 
                   {/* User  Components End */}

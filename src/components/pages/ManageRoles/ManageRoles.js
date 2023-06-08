@@ -112,13 +112,7 @@ const ManageRoles = (props) => {
     }
   };
 
-  const permissionsToCheck = [
-    "role-list",
-    "role-create",
-    "role-edit",
-    "role-delete",
-  ];
-  let isPermissionAvailable = false;
+
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -132,10 +126,11 @@ const ManageRoles = (props) => {
   const isStatusPermissionAvailable =
     permissionsArray?.includes("role-status-update");
   const isEditPermissionAvailable = permissionsArray?.includes("role-edit");
-  const isAddPermissionAvailable = permissionsArray?.includes("role-create");
+  const isAddPermissionAvailable = permissionsArray?.includes("role-create") ;
   const isDeletePermissionAvailable = permissionsArray?.includes("role-delete");
   const isDetailsPermissionAvailable =
     permissionsArray?.includes("role-details");
+    console.log(data?.editable === 1,"editable");
 
   const columns = [
     {
@@ -210,7 +205,7 @@ const ManageRoles = (props) => {
               </Link>
             </OverlayTrigger>
           ) : null}
-          {isDeletePermissionAvailable ? (
+          {isDeletePermissionAvailable? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"

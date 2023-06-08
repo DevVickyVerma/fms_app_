@@ -69,7 +69,7 @@ const AddClient = (props) => {
       formData.append("financial_start_month", values.financial_start_month);
       formData.append("financial_end_month", values.financial_end_month);
       formData.append("lommis_status", values.lommis_status);
-      formData.append("role", values.role);
+      formData.append("role_name", "client");
       formData.append("send_mail", isChecked);
       formData.append("ma_option", JSON.stringify(selectedItems));
 
@@ -99,7 +99,7 @@ const AddClient = (props) => {
   };
 
   const [permissionsArray, setPermissionsArray] = useState([]);
-  const [roleitems, setRoleItems] = useState("");
+
   const [isPermissionsSet, setIsPermissionsSet] = useState(false);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -130,23 +130,23 @@ const AddClient = (props) => {
         navigate("/errorpage403");
       }
     }
-    FetchRoleList();
+
   }, [isPermissionsSet, permissionsArray]);
 
-  const FetchRoleList = async () => {
-    try {
-      const response = await getData("/role/list");
+  // const FetchRoleList = async () => {
+  //   try {
+  //     const response = await getData("/role/list");
 
-      if (response && response.data && response.data.data.addons) {
-        setRoleItems(response.data.data.addons);
-        console.log(response.data.data.addons[0].name, "response.data")
-      } else {
-        throw new Error("No data available in the response");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
+  //     if (response && response.data && response.data.data.addons) {
+  //       setRoleItems(response.data.data.addons);
+  //       console.log(response.data.data.addons[0].name, "response.data")
+  //     } else {
+  //       throw new Error("No data available in the response");
+  //     }
+  //   } catch (error) {
+  //     console.error("API error:", error);
+  //   }
+  // };
 
   return (
     <>
@@ -222,7 +222,7 @@ const AddClient = (props) => {
                     lommis_status: Yup.string().required(
                       "Lommis Status is required"
                     ),
-                    role: Yup.string().required("Role is required"),
+                   
                     last_name: Yup.string().required("Last Name is required"),
                     status: Yup.string().required(" Status is required"),
                     financial_end_month: Yup.string().required(
@@ -585,7 +585,7 @@ const AddClient = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                          <Col lg={4} md={6}>
+                          {/* <Col lg={4} md={6}>
                             <FormGroup>
                               <label
                                 htmlFor="role"
@@ -624,7 +624,7 @@ const AddClient = (props) => {
                                 name="role"
                               />
                             </FormGroup>
-                          </Col>
+                          </Col> */}
                         </Row>
                       </Card.Body>
 

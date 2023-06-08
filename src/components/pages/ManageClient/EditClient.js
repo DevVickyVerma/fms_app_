@@ -35,7 +35,7 @@ const EditClient = (props) => {
   const Errornotify = (message) => toast.error(message);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
-  const [roleitems, setRoleItems] = useState("");
+
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
@@ -53,7 +53,7 @@ const EditClient = (props) => {
 
   useEffect(() => {
     fetchClientList();
-    FetchRoleList()
+
     console.clear();
   }, []);
 
@@ -103,7 +103,7 @@ const EditClient = (props) => {
       formData.append("full_name", values.full_name);
       formData.append("id", values.id);
       formData.append("ma_option", values.ma_option);
-      formData.append("role", values.role);
+    
 
       const postDataUrl = "/update-client";
       const navigatePath = "/clients";
@@ -128,7 +128,7 @@ const EditClient = (props) => {
       financial_start_month: "",
       first_name: "",
       id: "",
-      role: "",
+   
       last_name: "",
       loomis_status: "",
       ma_option: [],
@@ -152,9 +152,7 @@ const EditClient = (props) => {
       financial_start_month: Yup.string().required(
         "Financial Start Month is required"
       ),
-      role: Yup.string().required(
-        "Role is required"
-      ),
+   
       first_name: Yup.string()
         .max(20, "Must be 20 characters or less")
         .required("First Name is required"),
@@ -170,20 +168,7 @@ const EditClient = (props) => {
       // console.log(values);
     },
   });
-  const FetchRoleList = async () => {
-    try {
-      const response = await getData("/role/list");
 
-      if (response && response.data && response.data.data.addons) {
-        setRoleItems(response.data.data.addons);
-        console.log(response.data.data.addons[0].name, "response.data")
-      } else {
-        throw new Error("No data available in the response");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
 
   const handleCheckBoxChange = (value) => {
     console.log(value, "value");
@@ -567,49 +552,7 @@ const EditClient = (props) => {
                       )}
                     </div>
                   </Col>
-                    <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="role"
-                        className="form-label mt-4"
-                      >
-                     Role
-                        <span className="text-danger">*</span>
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.role &&
-                          formik.touched.role
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="role"
-                        name="role"
-                        onChange={formik.handleChange}
-                        value={formik.values.role}
-                      >
-                          <option value="">
-                                  Select a Role
-                                </option>
-                                {
-                                roleitems? (
-                                  roleitems.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Role</option>
-                                )}
-                      </select>
-                      {formik.errors.role &&
-                        formik.touched.role && (
-                          <div className="invalid-feedback">
-                            {formik.errors.role}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
+                  
                 </Row>
 
                 <div className="text-end">

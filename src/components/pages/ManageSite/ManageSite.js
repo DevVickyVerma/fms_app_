@@ -215,7 +215,7 @@ const ManageSite = (props) => {
   const isAddPermissionAvailable = permissionsArray?.includes("site-create");
   const isDeletePermissionAvailable = permissionsArray?.includes("site-delete");
   const isDetailsPermissionAvailable =
-    permissionsArray?.includes("site-details");
+    permissionsArray?.includes("site-detail");
   const isAssignPermissionAvailable = permissionsArray?.includes("site-assign");
 
   const columns = [
