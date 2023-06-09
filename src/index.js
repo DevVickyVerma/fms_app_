@@ -327,7 +327,7 @@ const Root = () => {
   return (
     <Fragment>
       <BrowserRouter>
-        <React.Suspense fallback={Loaderimg()}>
+        <React.Suspense fallback={<Loaderimg />}>
           <Provider store={store}>
             <Routes>
               <Route element={<PrivateRoutes token={token} />}>

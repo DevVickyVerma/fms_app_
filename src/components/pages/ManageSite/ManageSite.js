@@ -17,6 +17,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
+import Loaderimg from "../../../Utils/Loader";
 
 const ManageSite = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -54,13 +55,13 @@ const ManageSite = (props) => {
     }
   }
 
-  const Loaderimg = () => {
-    return (
-      <div id="global-loader">
-        <loderdata.Loadersbigsizes1 />
-      </div>
-    );
-  };
+  // const Loaderimg = () => {
+  //   return (
+  //     <div id="global-loader">
+  //       <loderdata.Loadersbigsizes1 />
+  //     </div>
+  //   );
+  // };
 
   const handleToggleSidebar = async (row) => {
     await getSiteDetails(row);
@@ -493,7 +494,7 @@ const ManageSite = (props) => {
   return (
     <>
       {isLoading ? (
-        Loaderimg()
+       <Loaderimg />
       ) : (
         <>
           <div className="page-header ">

@@ -299,7 +299,7 @@ const ManageBusinessTypes = (props) => {
     <>
       {isLoading ? (
         <Loaderimg />
-      ) : (
+      ) :null} 
         <>
           <div className="page-header ">
             <div>
@@ -358,7 +358,7 @@ const ManageBusinessTypes = (props) => {
             />
           </DataTableExtensions>
         </>
-      )}
+      
     </>
   );
 };

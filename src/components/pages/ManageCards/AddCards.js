@@ -77,9 +77,9 @@ const AddCards = (props) => {
 
   return (
     <>
-      {isLoading ? (
-        <Loaderimg />
-      ) : (
+    {isLoading ? (
+     <Loaderimg />
+    ) : null}
         <>
           <div>
             <div className="page-header">
@@ -246,7 +246,7 @@ const AddCards = (props) => {
             </Row>
           </div>
         </>
-      )}
+     
     </>
   );
 };

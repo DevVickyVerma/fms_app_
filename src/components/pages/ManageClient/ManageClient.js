@@ -16,6 +16,7 @@ import SideSearchbar from "../../../data/Modal/SideSearchbar";
 import * as loderdata from "../../../data/Component/loderdata/loderdata";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
+import Loaderimg from "../../../Utils/Loader";
 
 const ManageClient = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -336,21 +337,22 @@ const ManageClient = (props) => {
     data,
   };
 
-  const Loaderimg = () => {
-    return (
-      <div id="global-loader">
-        <loderdata.Loadersbigsizes1 />
-      </div>
-    );
-  };
+  // const Loaderimg = () => {
+  //   return (
+  //     <div id="global-loader">
+  //       <loderdata.Loadersbigsizes1 />
+  //     </div>
+  //   );
+  // };
   
 
 
   return (
     <>
       {isLoading ? (
-        Loaderimg()
-      ) : (
+        <Loaderimg />
+        ):null}
+      
         <>
           <div className="page-header ">
             <div>
@@ -436,7 +438,7 @@ const ManageClient = (props) => {
             />
           </DataTableExtensions>
         </>
-      )}
+      
     </>
   );
 };

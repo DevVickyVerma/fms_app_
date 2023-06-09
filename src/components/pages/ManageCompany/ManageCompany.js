@@ -14,6 +14,7 @@ import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 
+
 const ManageCompany = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
@@ -328,9 +329,9 @@ const ManageCompany = (props) => {
 
   return (
     <>
-      {isLoading ? (
-        <Loaderimg />
-      ) : (
+    {isLoading ? (
+     <Loaderimg />
+    ) : null}
         <>
           <div className="page-header ">
             <div>
@@ -377,7 +378,7 @@ const ManageCompany = (props) => {
             />
           </DataTableExtensions>
         </>
-      )}
+      
     </>
   );
 };

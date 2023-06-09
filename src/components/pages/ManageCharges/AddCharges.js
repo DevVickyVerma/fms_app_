@@ -20,6 +20,7 @@ import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 
+
 const AddCharges = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
@@ -75,9 +76,9 @@ const AddCharges = (props) => {
 
   return (
     <>
-      {isLoading ? (
-        <Loaderimg />
-      ) : (
+    {isLoading ? (
+     <Loaderimg />
+    ) : null}
         <>
           <div>
             <div className="page-header">
@@ -245,7 +246,7 @@ const AddCharges = (props) => {
             </Row>
           </div>
         </>
-      )}
+   
     </>
   );
 };

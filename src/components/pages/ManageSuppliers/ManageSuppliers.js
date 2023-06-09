@@ -338,9 +338,9 @@ const isAssignPermissionAvailable = permissionsArray.includes("supplier-assign")
 
   return (
     <>
-
-    {isLoading ? (<Loaderimg />):(
-
+      {isLoading ? (
+       <Loaderimg />
+      ) : null}
       <>
       <div className="page-header ">
         <div>
@@ -401,7 +401,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("supplier-assign")
         />
       </DataTableExtensions>
     </>
-  )}
+
     </>
   );
 };

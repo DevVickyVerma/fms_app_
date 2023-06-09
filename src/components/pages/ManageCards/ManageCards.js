@@ -16,8 +16,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 
-
-
 const ManageCards = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [selectedFile, setSelectedFile] = useState(null);
@@ -140,7 +138,6 @@ const ManageCards = (props) => {
     }
   };
 
-
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -160,9 +157,6 @@ const ManageCards = (props) => {
   const isDetailsPermissionAvailable =
     permissionsArray.includes("cards-details");
   const isAssignPermissionAvailable = permissionsArray.includes("card-assign");
-
-
-
 
   const columns = [
     {
@@ -232,7 +226,7 @@ const ManageCards = (props) => {
               <button
                 className="badge bg-success"
                 onClick={
-                  isEditPermissionAvailable? () => toggleActive(row) : null
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Active
@@ -241,7 +235,7 @@ const ManageCards = (props) => {
               <button
                 className="badge bg-danger"
                 onClick={
-                  isEditPermissionAvailable? () => toggleActive(row) : null
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Inactive
@@ -250,7 +244,7 @@ const ManageCards = (props) => {
               <button
                 className="badge"
                 onClick={
-                  isEditPermissionAvailable? () => toggleActive(row) : null
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Unknown
@@ -269,51 +263,48 @@ const ManageCards = (props) => {
       cell: (row) => (
         <span className="text-center">
           {isEditPermissionAvailable ? (
-          <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
-            <Link
-              to={`/editcard/${row.id}`} // Assuming `row.id` contains the ID
-              className="btn btn-primary btn-sm rounded-11 me-2"
-            >
-              <i>
-                <svg
-                  className="table-edit"
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  width="16"
-                >
-                  <path d="M0 0h24v24H0V0z" fill="none" />
-                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19zM20.71 5.63l-2.34-2.34c-.2-.2-.45-.29-.71-.29s-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41z" />
-                </svg>
-              </i>
-            </Link>
-          </OverlayTrigger>
+            <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
+              <Link
+                to={`/editcard/${row.id}`} // Assuming `row.id` contains the ID
+                className="btn btn-primary btn-sm rounded-11 me-2"
+              >
+                <i>
+                  <svg
+                    className="table-edit"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    width="16"
+                  >
+                    <path d="M0 0h24v24H0V0z" fill="none" />
+                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19zM20.71 5.63l-2.34-2.34c-.2-.2-.45-.29-.71-.29s-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41z" />
+                  </svg>
+                </i>
+              </Link>
+            </OverlayTrigger>
           ) : null}
           {isDeletePermissionAvailable ? (
-          <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
-            <Link
-              to="#"
-              className="btn btn-danger btn-sm rounded-11"
-              onClick={() => handleDelete(row.id)}
-            >
-              <i>
-                <svg
-                  className="table-delete"
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  width="16"
-                >
-                  <path d="M0 0h24v24H0V0z" fill="none" />
-                  <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
-                </svg>
-              </i>
-            </Link>
-          </OverlayTrigger>
+            <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
+              <Link
+                to="#"
+                className="btn btn-danger btn-sm rounded-11"
+                onClick={() => handleDelete(row.id)}
+              >
+                <i>
+                  <svg
+                    className="table-delete"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    width="16"
+                  >
+                    <path d="M0 0h24v24H0V0z" fill="none" />
+                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
+                  </svg>
+                </i>
+              </Link>
+            </OverlayTrigger>
           ) : null}
-          
-      
-     
         </span>
       ),
     },
@@ -339,77 +330,72 @@ const ManageCards = (props) => {
   const handleFileSelect = (event) => {
     setSelectedFile(event.target.files[0]);
   };
-  const handleUpload=()=>{
-
-  }
-  
-  
 
   return (
     <>
       {isLoading ? (
         <Loaderimg />
-      ) : (
+      ) :null} 
         <>
-      <div className="page-header ">
-        <div>
-          <h1 className="page-title">Manage Cards</h1>
-          <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item
-              className="breadcrumb-item"
-              linkAs={Link}
-              linkProps={{ to: "/dashboard" }}
-            >
-              Dashboard
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item active breadcrumds"
-              aria-current="page"
-            >
-              Manage Cards
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
-        <div className="ms-auto pageheader-btn">
-          <div className="input-group">
-            <input
-              type="text"
-              className="form-control"
-              value={searchText}
-              onChange={handleSearch}
-              placeholder="Search..."
-              style={{ borderRadius: 0 }}
-            />
-            {isAddPermissionAvailable ? (
-              <Link
-                to="/addCards"
-                className="btn btn-primary ms-2"
-                style={{ borderRadius: "4px" }}
-              >
-                Add Cards
-              </Link>
-            ) : null}
+          <div className="page-header ">
+            <div>
+              <h1 className="page-title">Manage Cards</h1>
+              <Breadcrumb className="breadcrumb">
+                <Breadcrumb.Item
+                  className="breadcrumb-item"
+                  linkAs={Link}
+                  linkProps={{ to: "/dashboard" }}
+                >
+                  Dashboard
+                </Breadcrumb.Item>
+                <Breadcrumb.Item
+                  className="breadcrumb-item active breadcrumds"
+                  aria-current="page"
+                >
+                  Manage Cards
+                </Breadcrumb.Item>
+              </Breadcrumb>
+            </div>
+            <div className="ms-auto pageheader-btn">
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  value={searchText}
+                  onChange={handleSearch}
+                  placeholder="Search..."
+                  style={{ borderRadius: 0 }}
+                />
+                {isAddPermissionAvailable ? (
+                  <Link
+                    to="/addCards"
+                    className="btn btn-primary ms-2"
+                    style={{ borderRadius: "4px" }}
+                  >
+                    Add Cards
+                  </Link>
+                ) : null}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <DataTableExtensions {...tableDatas}>
-        <DataTable
-          columns={columns}
-          data={data}
-          noHeader
-          defaultSortField="id"
-          defaultSortAsc={false}
-          striped={true}
-          // center={true}
-          persistTableHead
-          pagination
-          highlightOnHover
-          searchable={true}
-        />
-      </DataTableExtensions>
-      </>
-      )}
+          <DataTableExtensions {...tableDatas}>
+            <DataTable
+              columns={columns}
+              data={data}
+              noHeader
+              defaultSortField="id"
+              defaultSortAsc={false}
+              striped={true}
+              // center={true}
+              persistTableHead
+              pagination
+              highlightOnHover
+              searchable={true}
+            />
+          </DataTableExtensions>
+        </>
+      
     </>
   );
 };

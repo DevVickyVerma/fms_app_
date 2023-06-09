@@ -19,6 +19,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
+import Loaderimg from "../../../Utils/Loader";
 
 
   const EditCompany = (props) => {
@@ -193,6 +194,11 @@ import withApi from "../../../Utils/ApiHelper";
   };
 
   return (
+    <>
+      {isLoading ? (
+       <Loaderimg />
+      ) : null}
+      <>
     <div>
       <div className="page-header">
         <div>
@@ -422,6 +428,9 @@ import withApi from "../../../Utils/ApiHelper";
         </Col>
       </Row>
     </div>
-  );
-}
+    </>
+      
+      </>
+    );
+  };
 export default withApi(EditCompany);

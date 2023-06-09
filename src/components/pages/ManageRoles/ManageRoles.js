@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
+import Loaderimg from "../../../Utils/Loader";
+
 
 const ManageRoles = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -251,6 +253,10 @@ const ManageRoles = (props) => {
 
   return (
     <>
+      {isLoading ? (
+       <Loaderimg />
+      ) : null}
+    <>
       <div className="page-header ">
         <div>
           <h1 className="page-title">Manage Roles</h1>
@@ -307,7 +313,9 @@ const ManageRoles = (props) => {
           searchable={true}
         />
       </DataTableExtensions>
-    </>
-  );
-};
+      </>
+      
+      </>
+    );
+  };
 export default withApi(ManageRoles);

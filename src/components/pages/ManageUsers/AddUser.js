@@ -22,6 +22,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import * as loderdata from "../../../data/Component/loderdata/loderdata";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
+import Loaderimg from "../../../Utils/Loader";
 
 const AddUsers = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -66,6 +67,7 @@ const AddUsers = (props) => {
       formData.append("first_name", values.first_name);
       formData.append("last_name", values.last_name);
       formData.append("role_id", values.role);
+      formData.append("send_mail", isChecked);
 
       const postDataUrl = "/user/add";
       const navigatePath = "/users";
@@ -84,13 +86,7 @@ const AddUsers = (props) => {
   const handleCheckboxChange1 = (event) => {
     setIsChecked(event.target.checked);
   };
-  const Loaderimg = () => {
-    return (
-      <div id="global-loader">
-        <loderdata.Loadersbigsizes1 />
-      </div>
-    );
-  };
+
 
   const [permissionsArray, setPermissionsArray] = useState([]);
   const [roleitems, setRoleItems] = useState("");
@@ -129,10 +125,11 @@ const AddUsers = (props) => {
 
   const FetchRoleList = async () => {
     try {
-      const response = await getData("/role/list");
+      const response = await getData("/roles");
 
-      if (response && response.data && response.data.data.roles) {
-        setRoleItems(response.data.data.roles);
+      if (response && response.data && response.data.data) {
+        setRoleItems(response?.data?.data);
+      
       } else {
         throw new Error("No data available in the response");
       }
@@ -140,12 +137,11 @@ const AddUsers = (props) => {
       console.error("API error:", error);
     }
   };
-
   return (
     <>
       {isLoading ? (
-        Loaderimg()
-      ) : (
+       <Loaderimg />
+      ) :null }
         <>
           <div className="page-header">
             <div>
@@ -377,7 +373,7 @@ const AddUsers = (props) => {
                                 {roleitems ? (
                                   roleitems.map((item) => (
                                     <option key={item.id} value={item.id}>
-                                      {item.name}
+                                      {item.role_name}
                                     </option>
                                   ))
                                 ) : (
@@ -418,7 +414,7 @@ const AddUsers = (props) => {
             </Col>
           </Row>
         </>
-      )}
+      
     </>
   );
 };

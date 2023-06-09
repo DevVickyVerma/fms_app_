@@ -260,7 +260,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("addons-assign");
     <>
       {isLoading ? (
         <Loaderimg />
-      ) : (
+      ) :null} 
         <>
           <div className="page-header ">
             <div>
@@ -320,7 +320,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("addons-assign");
             />
           </DataTableExtensions>
         </>
-      )}
+      
     </>
   );
 };

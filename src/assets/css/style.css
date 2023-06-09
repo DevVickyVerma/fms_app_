@@ -5950,6 +5950,7 @@ a.card-tabs-item.active {
   position: relative;
   margin-bottom: 1.5rem;
   width: 100%;
+  background:none;
 }
 
 .card .card {

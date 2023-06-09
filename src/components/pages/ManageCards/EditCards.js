@@ -161,9 +161,9 @@ const EditCards = (props) => {
 
   return (
     <>
-      {isLoading ? (
-        <Loaderimg />
-      ) : (
+    {isLoading ? (
+     <Loaderimg />
+    ) : null}
         <>
           <div>
             <div className="page-header">
@@ -322,7 +322,7 @@ const EditCards = (props) => {
             </Row>
           </div>
         </>
-      )}
+    
     </>
   );
 };

@@ -161,9 +161,10 @@ const Editdeductions = (props) => {
 
   return (
     <>
-      {isLoading ? (
-        <Loaderimg />
-      ) : (
+    {isLoading ? (
+     <Loaderimg />
+    ) : null}
+   
         <>
           <div>
             <div className="page-header">
@@ -315,7 +316,7 @@ const Editdeductions = (props) => {
             </Row>
           </div>
         </>
-      )}
+     
     </>
   );
 };

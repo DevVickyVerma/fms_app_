@@ -1,7 +1,8 @@
+
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { Slide, toast } from 'react-toastify';
 
 const withApi = (WrappedComponent) => {
   const WithApi = (props) => {
@@ -17,12 +18,20 @@ const withApi = (WrappedComponent) => {
     const SuccessToast = (message) => {
       toast.success(message, {
         autoClose: 1000,
-         // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+        position: toast.POSITION.TOP_RIGHT,
+        hideProgressBar: true,
+        transition: Slide,
+        autoClose: 1000,
+        theme:'colored' // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
       });
     };
     const ErrorToast = (message) => {
       toast.error(message, {
-        autoClose: 1000, // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+        position: toast.POSITION.TOP_RIGHT,
+        hideProgressBar: true,
+        transition: Slide,
+        autoClose: 1000,
+        theme:'colored' // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
       });
     };
     function handleError(error) {
