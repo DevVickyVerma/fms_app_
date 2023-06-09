@@ -3,32 +3,41 @@ import { Link } from "react-router-dom";
 import { Row, Col, Card,  } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { ToastContainer, toast } from "react-toastify";
+import { Slide, ToastContainer, toast } from "react-toastify";
+import Loaderimg from "../../../Utils/Loader";
 
 
-const Loaderimg = () => {
-  return (
-    <div id="global-loader">
-      <img
-        src={require("../../../assets/images/loader.svg").default}
-        className="loader-img"
-        alt="Loader"
-      />
-    </div>
-  );
-};
+
 
 
 export default function ForgotPassword() {
 
 
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   const ForgotPasswordSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
   });
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
+ 
+  const notify = (message) => {
+    toast.success(message, {
+      autoClose: 1000,
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+    });
+  };
+  const Errornotify = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+    });
+  };
 
   const handleSubmit = async (values) => {
     
@@ -53,6 +62,7 @@ export default function ForgotPassword() {
     } else {
       console.error(data.message);
       Errornotify(data.message);
+       setLoading(false);
     }
     setLoading(false);
   };
@@ -60,8 +70,11 @@ export default function ForgotPassword() {
 
 
   return (
+    
     <div className="login-img">
-     {loading && <Loaderimg />}
+
+      {isLoading ? <Loaderimg /> : null}
+     
       <div className="page">
      <div className="">
           <div className="col col-login mx-auto">
