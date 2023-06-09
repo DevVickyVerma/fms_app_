@@ -42,7 +42,7 @@ const ManageUser = (props) => {
   };
   const DeleteClient = async (formData) => {
     try {
-      const response = await postData("user-delete", formData);
+      const response = await postData("user/delete", formData);
       console.log(response, "response"); // Console log the response
       if (apidata.api_response === "success") {
         handleFetchData();
