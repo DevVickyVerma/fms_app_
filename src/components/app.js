@@ -10,11 +10,38 @@ import TabToTop from "../layouts/TabToTop/TabToTop";
 import { useNavigate } from "react-router-dom";
 import TopLoadingBar from "react-top-loading-bar";
 
+import SweetAlert from 'sweetalert2';
+import Swal from "sweetalert2";
+import withApi from "../Utils/ApiHelper";
 
-export default function App() {
+
+
+  const App = (props) => {
+    const { apidata, isLoading, error, getData, postData } = props;
   const loadingBarRef = useRef();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const logout = async () => {
+    try {
+      const response = await getData("/logout");
+
+      if (response.data.api_response === "success") {
+        localStorage.clear();
+
+        setTimeout(() => {
+          window.location.replace("/");
+        }, 500);
+
+      
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+      // Handle the error here, such as displaying an error message or performing other actions
+    }
+  };
 
 
   const simulateLoadingAndNavigate = () => {
@@ -29,8 +56,65 @@ export default function App() {
 
   useEffect(() => {
     simulateLoadingAndNavigate();
-    console.clear();
+    // console.clear();
   }, [location.pathname]);
+
+
+  const [isInactive, setIsInactive] = useState(false);
+  let inactivityTimeout;
+
+  const handleUserActivity = () => {
+    clearTimeout(inactivityTimeout);
+    setIsInactive(false);
+    inactivityTimeout = setTimeout(() => setIsInactive(true), 30000);
+  };
+
+  useEffect(() => {
+    window.addEventListener('mousemove', handleUserActivity);
+    window.addEventListener('keydown', handleUserActivity);
+    window.addEventListener('scroll', handleUserActivity);
+
+    inactivityTimeout = setTimeout(() => setIsInactive(true), 30000);
+
+    return () => {
+      window.removeEventListener('mousemove', handleUserActivity);
+      window.removeEventListener('keydown', handleUserActivity);
+      window.removeEventListener('scroll', handleUserActivity);
+      clearTimeout(inactivityTimeout);
+    };
+  }, []);
+  const handleConfirm = () => {
+    logout()
+    console.log('Delete confirmed');
+  };
+
+  const handleCancel = () => {
+    // Logic to handle cancellation
+    console.log('Deletion canceled');
+  };
+
+  useEffect(() => {
+    if (isInactive) {
+      Swal.fire({
+        title: 'Inactivity Alert',
+        text: 'Oops, there is no activity from last 5 minutes, would you like to stay logged in or logout?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'LogOut!',
+        cancelButtonText: 'Stay LoggedIn',
+        reverseButtons: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          handleConfirm();
+        } else {
+          handleCancel();
+        }
+      });
+  
+      console.log('Inactivity Alert');
+    }
+  }, [isInactive, handleConfirm, handleCancel]);
+  ;
 
   return (
     <Fragment>
@@ -68,3 +152,4 @@ export default function App() {
     </Fragment>
   );
 }
+export default withApi(App);

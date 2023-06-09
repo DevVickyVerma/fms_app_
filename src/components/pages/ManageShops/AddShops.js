@@ -54,7 +54,7 @@ const AddShops = (props) => {
     if (isPermissionsSet) {
       const isAddPermissionAvailable = permissionsArray?.includes("shop-create");
     
-      if (permissionsArray.length > 0) {
+      if (permissionsArray?.length > 0) {
         if (isAddPermissionAvailable) {
           console.log(isAddPermissionAvailable, "AddPermissionAvailable");
           // Perform action when permission is available

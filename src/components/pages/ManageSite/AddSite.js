@@ -102,6 +102,8 @@ export default function AddSite() {
     formData.append("bunker_upload_status", values.Bunkered_sale_status);
     formData.append("fuel_commission_calc_status", values.Fuel_commission_type);
     formData.append("paperwork_status", values.Paper_work_status);
+    formData.append("company_id", values.company_id);
+    formData.append("client_id", values.client_id);
 
     try {
       const response = await fetch(
@@ -155,7 +157,7 @@ export default function AddSite() {
       const isAddPermissionAvailable =
         permissionsArray?.includes("site-create");
 
-      if (permissionsArray.length > 0) {
+      if (permissionsArray?.length > 0) {
         if (isAddPermissionAvailable) {
           console.log(isAddPermissionAvailable, "AddPermissionAvailable");
           // Perform action when permission is available
@@ -237,6 +239,8 @@ export default function AddSite() {
                     Paper_work_status: "",
                     Bunkered_sale_status: "",
                     Drs_upload_status: "",
+                    client_id:"",
+                    company_id:"",
                   }}
                   validationSchema={Yup.object({
                     site_code: Yup.string()
@@ -275,6 +279,12 @@ export default function AddSite() {
                     ),
                     Drs_upload_status: Yup.string().required(
                       "Drs Upload Status is required"
+                    ),
+                    client_id: Yup.string().required(
+                      "Client is required"
+                    ),
+                    Company_id: Yup.string().required(
+                      "Company is required"
                     ),
                   })}
                   onSubmit={(values, { setSubmitting }) => {
@@ -944,6 +954,90 @@ export default function AddSite() {
                                 component="div"
                                 className="invalid-feedback"
                                 name="Select_machine_type"
+                              />
+                            </FormGroup>
+                          </Col>
+                             <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="client_id"
+                                className=" form-label mt-4"
+                              >
+                                Select Client
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${
+                                  errors.client_id &&
+                                  touched.client_id
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="client_id"
+                                name="client_id"
+                              >
+                                <option value="">
+                                  {" "}
+                                  Select Client
+                                </option>
+                                {/* {AddSiteData.data_import_types &&
+                                AddSiteData.data_import_types.length > 0 ? (
+                                  AddSiteData.data_import_types.map((item) => (
+                                    <option key={item.id} value={item.id}>
+                                      {item.import_type_name}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option disabled>No Client</option>
+                                )} */}
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="client_id"
+                              />
+                            </FormGroup>
+                          </Col>
+                             <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="company_id"
+                                className=" form-label mt-4"
+                              >
+                                Select Company
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${
+                                  errors.company_id &&
+                                  touched.company_id
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="company_id"
+                                name="company_id"
+                              >
+                                <option value="">
+                                  {" "}
+                                  Select Company
+                                </option>
+                                {/* {AddSiteData.data_import_types &&
+                                AddSiteData.data_import_types.length > 0 ? (
+                                  AddSiteData.data_import_types.map((item) => (
+                                    <option key={item.id} value={item.id}>
+                                      {item.import_type_name}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option disabled>No Client</option>
+                                )} */}
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="company_id"
                               />
                             </FormGroup>
                           </Col>
