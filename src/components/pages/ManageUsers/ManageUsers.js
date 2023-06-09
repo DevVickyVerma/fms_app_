@@ -327,7 +327,8 @@ const ManageUser = (props) => {
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
-            <div className="ms-auto pageheader-btn">
+           
+              <div className="ms-auto pageheader-btn">
               <div className="input-group">
                 <input
                   type="text"  autocomplete="off"
@@ -338,7 +339,12 @@ const ManageUser = (props) => {
                   style={{ borderRadius: 0 }}
                 />
                 {isAddPermissionAvailable ? (
-                  <Link to="/addusers" className="btn btn-primary ms-2">
+                 
+                    <Link
+                    to="/addusers"
+                    className="btn btn-primary ms-2"
+                    style={{ borderRadius: "4px" }}
+                  >
                     Add Users
                     <AddCircleOutlineIcon />
                   </Link>

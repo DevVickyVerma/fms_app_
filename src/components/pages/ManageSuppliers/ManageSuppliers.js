@@ -180,10 +180,10 @@ const isAssignPermissionAvailable = permissionsArray.includes("supplier-assign")
       ),
     },
     {
-      name: "Suppliers Name",
+      name: "Supplier Name",
       selector: (row) => [row.supplier_name],
       sortable: true,
-      width: "20%",
+      width: "25%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -193,18 +193,24 @@ const isAssignPermissionAvailable = permissionsArray.includes("supplier-assign")
       ),
     },
     {
-        name: "Suppliers Code",
-        selector: (row) => [row.supplier_code],
-        sortable: true,
-        width: "20%",
-        cell: (row, index) => (
-          <div className="d-flex">
-            <div className="ms-2 mt-0 mt-sm-2 d-block">
-              <h6 className="mb-0 fs-14 fw-semibold">{row.supplier_code}</h6>
-            </div>
+      name: "Supplier Logo",
+      selector: (row) => [row.supplier_logo],
+      sortable: true,
+      width: "15%",
+      cell: (row, index) => (
+        <div className="d-flex align-items-center card-img">
+          <img
+            src={row.supplier_logo}
+            alt={row.supplier_logo}
+            className="mr-2"
+            style={{ width: "50px", height: "50px" }}
+          />
+          <div>
+           
           </div>
-        ),
-      },
+        </div>
+      ),
+    },
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
