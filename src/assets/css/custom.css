@@ -73,3 +73,6 @@ h3.SidebarSearch-title {
   background-color: rgb(221 221 221 / 59%);
   cursor: default;
 }
+.card.card-none.card {
+  background: none !important;
+}

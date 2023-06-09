@@ -4,7 +4,7 @@ import ReactApexChart from "react-apexcharts";
 import { Breadcrumb, Col, Row, Card } from "react-bootstrap";
 import * as dashboard from "../../data/dashboard/dashboard";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { Slide, toast } from "react-toastify";
 import withApi from "../../Utils/ApiHelper";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchData } from '../../Redux/dataSlice';
@@ -15,9 +15,26 @@ const Dashboard = (props) => {
 
   const SuccessToast = (message) => {
     toast.success(message, {
-      autoClose: 500, // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+      autoClose: 500,
+      position: toast.POSITION.TOP_RIGHT,
+    hideProgressBar: true,
+      transition: Slide,
+      autoClose: 500,
+      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
     });
   };
+  const Errornotify = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+    });
+  }
+
+
+  
   
   const [justLoggedIn, setJustLoggedIn] = useState(false);
 

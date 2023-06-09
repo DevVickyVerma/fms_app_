@@ -1,8 +1,7 @@
-
-import axios from 'axios';
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Slide, toast } from 'react-toastify';
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Slide, toast } from "react-toastify";
 
 const withApi = (WrappedComponent) => {
   const WithApi = (props) => {
@@ -22,7 +21,7 @@ const withApi = (WrappedComponent) => {
         hideProgressBar: true,
         transition: Slide,
         autoClose: 1000,
-        theme:'colored' // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+        theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
       });
     };
     const ErrorToast = (message) => {
@@ -31,35 +30,35 @@ const withApi = (WrappedComponent) => {
         hideProgressBar: true,
         transition: Slide,
         autoClose: 1000,
-        theme:'colored' // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+        theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
       });
     };
     function handleError(error) {
-        if (error.response && error.response.status === 401) {
-          navigate("/login");
-          ErrorToast("Invalid access token");
-          localStorage.clear();
-        } else if (error.response && error.response.data.status_code === "403") {
-          navigate("/errorpage403");
-        } else if (error.response && error.response.data.message) {
-          const errorMessage = Array.isArray(error.response.data.message)
-            ? error.response.data.message.join(" ")
-            : error.response.data.message;
-            
-          if (errorMessage) {
-            ErrorToast(errorMessage);
-          }
-        } else {
-          ErrorToast("An error occurred.");
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+        ErrorToast("Invalid access token");
+        localStorage.clear();
+      } else if (error.response && error.response.data.status_code === "403") {
+        navigate("/errorpage403");
+      } else if (error.response && error.response.data.message) {
+        const errorMessage = Array.isArray(error.response.data.message)
+          ? error.response.data.message.join(" ")
+          : error.response.data.message;
+
+        if (errorMessage) {
+          ErrorToast(errorMessage);
         }
+      } else {
+        ErrorToast("An error occurred.");
       }
+    }
     const axiosInstance = axios.create({
       baseURL: process.env.REACT_APP_BASE_URL,
     });
 
     axiosInstance.interceptors.request.use(
       (config) => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         config.headers.Authorization = `Bearer ${token}`;
         return config;
       },
@@ -72,8 +71,10 @@ const withApi = (WrappedComponent) => {
       try {
         setIsLoading(true);
         const modifiedUrl = id ? `${url}/${id}` : url; // Append the ID to the URL if it exists
-        const response = await axiosInstance.get(modifiedUrl, { params: formData });
-    
+        const response = await axiosInstance.get(modifiedUrl, {
+          params: formData,
+        });
+
         if (response && response.data) {
           const data = response.data;
           setApiData(data);
@@ -89,35 +90,29 @@ const withApi = (WrappedComponent) => {
         throw error; // Throw the error to handle it in the calling function
       }
     };
-    
-    
-    
-      
 
-      const postData = async (url, body, navigatePath) => {
-        try {
-          setIsLoading(true);
-      
-          const response = await axiosInstance.post(url, body);
-          if (response && response.data) {
-            const data = response.data;
-            console.log(data,""); // Console log the response data
-            setApiData(data);
-            SuccessToast(data.message);
-            setIsLoading(false);
-            navigate(navigatePath); // Navigate to the specified dynamic path
-          } else {
-            // Handle the case where the response or response.data is undefined
-            throw new Error("Invalid response");
-          }
-        } catch (error) {
-          handleError(error);
-          setError(error);
+    const postData = async (url, body, navigatePath) => {
+      try {
+        setIsLoading(true);
+
+        const response = await axiosInstance.post(url, body);
+        if (response && response.data) {
+          const data = response.data;
+          console.log(data, ""); // Console log the response data
+          setApiData(data);
+          SuccessToast(data.message);
           setIsLoading(false);
+          navigate(navigatePath); // Navigate to the specified dynamic path
+        } else {
+          // Handle the case where the response or response.data is undefined
+          throw new Error("Invalid response");
         }
-      };
-      
-      
+      } catch (error) {
+        handleError(error);
+        setError(error);
+        setIsLoading(false);
+      }
+    };
 
     return (
       <WrappedComponent
@@ -126,7 +121,6 @@ const withApi = (WrappedComponent) => {
         error={error}
         getData={getData}
         postData={postData}
-      
         {...props}
       />
     );

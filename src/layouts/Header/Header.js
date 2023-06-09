@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Dropdown, Navbar, Container, Button } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { Slide, ToastContainer, toast } from "react-toastify";
 import * as loderdata from "../../data/Component/loderdata/loderdata";
 
 import withApi from "../../Utils/ApiHelper";
@@ -13,7 +13,27 @@ const Header = (props) => {
 
   // Fetch the API response when the component mounts or whenever needed
 
-  const SuccessAlert = (message) => toast.success(message);
+  
+  const SuccessAlert = (message) => {
+    toast.success(message, {
+      autoClose: 500,
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 500,
+      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+    });
+  };
+  const Errornotify = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+    });
+  }
+
 
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState();
