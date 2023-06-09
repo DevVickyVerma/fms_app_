@@ -22,6 +22,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import * as loderdata from "../../../data/Component/loderdata/loderdata";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
+import Loaderimg from "../../../Utils/Loader";
 
 const AddClient = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -90,13 +91,13 @@ const AddClient = (props) => {
   const handleCheckboxChange1 = (event) => {
     setIsChecked(event.target.checked);
   };
-  const Loaderimg = () => {
-    return (
-      <div id="global-loader">
-        <loderdata.Loadersbigsizes1 />
-      </div>
-    );
-  };
+  // const Loaderimg = () => {
+  //   return (
+  //     <div id="global-loader">
+  //       <loderdata.Loadersbigsizes1 />
+  //     </div>
+  //   );
+  // };
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
@@ -150,9 +151,9 @@ const AddClient = (props) => {
 
   return (
     <>
-      {isLoading ? (
-        Loaderimg()
-      ) : (
+       {isLoading ? (
+       <Loaderimg />
+      ) : null}
         <>
           <div className="page-header">
             <div>
@@ -652,7 +653,7 @@ const AddClient = (props) => {
             </Col>
           </Row>
         </>
-      )}
+     
     </>
   );
 };

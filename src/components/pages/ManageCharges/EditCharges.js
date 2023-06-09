@@ -162,8 +162,8 @@ import Loaderimg from "../../../Utils/Loader";
   return (
     <>
     {isLoading ? (
-      <Loaderimg/>
-    ) :(
+     <Loaderimg />
+    ) : null}
       <>
     <div>
       <div className="page-header">
@@ -312,7 +312,7 @@ import Loaderimg from "../../../Utils/Loader";
       </Row>
     </div>
     </>
-      )}
+     
     </>
   );
 }

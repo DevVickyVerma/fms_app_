@@ -20,6 +20,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
+import Loaderimg from "../../../Utils/Loader";
 
 const EditClient = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -190,6 +191,11 @@ const EditClient = (props) => {
 
 
   return (
+    <>
+    {isLoading ? (
+     <Loaderimg />
+    ) : null}
+      <>
     <div>
       <div className="page-header">
         <div>
@@ -574,7 +580,10 @@ const EditClient = (props) => {
         </Col>
       </Row>
     </div>
-  );
-};
+</>
+      
+      </>
+    );
+  };
 
 export default withApi(EditClient);

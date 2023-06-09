@@ -21,6 +21,7 @@ import { useFormikContext } from "formik";
 import "react-datepicker/dist/react-datepicker.css";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
+import Loaderimg from "../../../Utils/Loader";
 
 const AddCompany = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -146,6 +147,11 @@ const AddCompany = (props) => {
 
   
   return (
+    <>
+      {isLoading ? (
+       <Loaderimg />
+      ) : null}
+      <>
     <div>
       <div className="page-header">
         <div>
@@ -427,6 +433,9 @@ const AddCompany = (props) => {
         </Col>
       </Row>
     </div>
-  );
-}
+    </>
+      
+      </>
+    );
+  };
 export default withApi(AddCompany);

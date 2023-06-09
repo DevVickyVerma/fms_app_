@@ -188,7 +188,7 @@ import Loaderimg from "../../../Utils/Loader";
     <>
     {isLoading ? (
       <Loaderimg/>
-    ) :(
+    ) :null(
       <>
       <div className="page-header ">
         <div>

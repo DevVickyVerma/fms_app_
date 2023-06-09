@@ -124,9 +124,9 @@ import { useSelector } from "react-redux";
 
   return (
     <>
-    {isLoading ? (
-      <Loaderimg/>
-    ) :(
+      {isLoading ? (
+       <Loaderimg />
+      ) : null}
       <>
       <div className="page-header ">
         <div>
@@ -303,7 +303,7 @@ import { useSelector } from "react-redux";
         </div>
       </Row>
       </>
-      )}
+     
     </>
   );
 }

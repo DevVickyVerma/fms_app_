@@ -335,7 +335,9 @@ const isAssignPermissionAvailable = permissionsArray.includes("deduction-assign"
 
   return (
     <>
-   {isLoading ? (<Loaderimg />):(
+    {isLoading ? (
+     <Loaderimg />
+    ) : null}
 
    <>
       <div className="page-header ">
@@ -397,7 +399,7 @@ const isAssignPermissionAvailable = permissionsArray.includes("deduction-assign"
         />
       </DataTableExtensions>
       </>
-   )}
+ 
     </>
 
   );

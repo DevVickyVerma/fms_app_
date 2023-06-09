@@ -79,9 +79,9 @@ const AddAddon = (props) => {
 
   return (
     <>
-    {isLoading ? (
-      <Loaderimg/>
-    ) :(
+      {isLoading ? (
+       <Loaderimg />
+      ) : null}
       <>
     <div>
       <div className="page-header">
@@ -238,7 +238,7 @@ const AddAddon = (props) => {
       </Row>
     </div>
     </>
-      )}
+     
     </>
   );
 }

@@ -22,6 +22,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
+import Loaderimg from "../../../Utils/Loader";
 
 
   const AddAddon = (props) => {
@@ -134,6 +135,10 @@ import { useSelector } from "react-redux";
 
   return (
     <>
+     {isLoading ? (
+      <Loaderimg />
+      ) : null}
+      <>
       <div className="page-header ">
         <div>
           <h1 className="page-title">Add Addon</h1>
@@ -313,6 +318,7 @@ import { useSelector } from "react-redux";
           </Card>
         </div>
       </Row>
+      </>
     </>
   );
 }

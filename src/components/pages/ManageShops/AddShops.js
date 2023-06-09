@@ -81,8 +81,8 @@ const AddShops = (props) => {
   return (
     <>
       {isLoading ? (
-        <Loaderimg />
-      ) : (
+       <Loaderimg />
+      ) : null}
         <>
           <div>
             <div className="page-header">
@@ -245,7 +245,7 @@ const AddShops = (props) => {
             </Row>
           </div>
         </>
-      )}
+    
     </>
   );
 };

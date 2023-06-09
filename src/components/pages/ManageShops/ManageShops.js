@@ -327,9 +327,9 @@ const ManageShops = (props) => {
 
   return (
     <>
-      {isLoading ? (
-        <Loaderimg />
-      ) : (
+    {isLoading ? (
+     <Loaderimg />
+    ) : null}
         <>
           <div className="page-header ">
             <div>
@@ -389,7 +389,7 @@ const ManageShops = (props) => {
             />
           </DataTableExtensions>
         </>
-      )}
+    
     </>
   );
 };

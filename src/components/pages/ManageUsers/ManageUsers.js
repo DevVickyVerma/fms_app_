@@ -16,14 +16,12 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import * as loderdata from "../../../data/Component/loderdata/loderdata";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
+import Loaderimg from "../../../Utils/Loader";
 
 const ManageUser = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
   const navigate = useNavigate();
-
-  
-
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -44,7 +42,7 @@ const ManageUser = (props) => {
   };
   const DeleteClient = async (formData) => {
     try {
-      const response = await postData("user/delete", formData);
+      const response = await postData("user-delete", formData);
       console.log(response, "response"); // Console log the response
       if (apidata.api_response === "success") {
         handleFetchData();
@@ -53,7 +51,6 @@ const ManageUser = (props) => {
       handleError(error);
     }
   };
-
 
   const SuccessAlert = (message) => toast.success(message);
 
@@ -73,7 +70,6 @@ const ManageUser = (props) => {
       Errornotify(errorMessage);
     }
   }
-  
 
   const [searchText, setSearchText] = useState("");
   const [searchvalue, setSearchvalue] = useState();
@@ -87,8 +83,6 @@ const ManageUser = (props) => {
     );
     setData(filteredData);
   };
-
-
 
   useEffect(() => {
     handleFetchData();
@@ -130,9 +124,6 @@ const ManageUser = (props) => {
       handleError(error);
     }
   };
-
- 
-
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
@@ -221,7 +212,7 @@ const ManageUser = (props) => {
               <button
                 className="badge bg-success"
                 onClick={
-                  isEditPermissionAvailable? () => toggleActive(row) : null
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Active
@@ -230,7 +221,7 @@ const ManageUser = (props) => {
               <button
                 className="badge bg-danger"
                 onClick={
-                  isEditPermissionAvailable? () => toggleActive(row) : null
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Inactive
@@ -239,7 +230,7 @@ const ManageUser = (props) => {
               <button
                 className="badge"
                 onClick={
-                  isEditPermissionAvailable? () => toggleActive(row) : null
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Unknown
@@ -259,10 +250,8 @@ const ManageUser = (props) => {
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
-              
-                 to={`/editusers/${row.id}`}
+                to={`/editusers/${row.id}`}
                 className="btn btn-primary btn-sm rounded-11 me-2"
-             
               >
                 <i>
                   <svg
@@ -311,21 +300,13 @@ const ManageUser = (props) => {
     data,
   };
 
-  const Loaderimg = () => {
-    return (
-      <div id="global-loader">
-        <loderdata.Loadersbigsizes1 />
-      </div>
-    );
-  };
-  
 
 
   return (
     <>
       {isLoading ? (
-        Loaderimg()
-      ) : (
+       <Loaderimg />
+      ) : null}
         <>
           <div className="page-header ">
             <div>
@@ -347,28 +328,24 @@ const ManageUser = (props) => {
               </Breadcrumb>
             </div>
             <div className="ms-auto pageheader-btn">
-            <div className="input-group">
-            <input
-              type="text"
-              className="form-control"
-              value={searchText}
-              onChange={handleSearch}
-              placeholder="Search..."
-              style={{ borderRadius: 0 }}
-            />
-            {isAddPermissionAvailable ? (
-                <Link to="/addusers" className="btn btn-primary ms-2">
-                  Add Users
-                  <AddCircleOutlineIcon />
-                </Link>
-              ) : null}
-          </div>
-            
-            
-              
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  value={searchText}
+                  onChange={handleSearch}
+                  placeholder="Search..."
+                  style={{ borderRadius: 0 }}
+                />
+                {isAddPermissionAvailable ? (
+                  <Link to="/addusers" className="btn btn-primary ms-2">
+                    Add Users
+                    <AddCircleOutlineIcon />
+                  </Link>
+                ) : null}
+              </div>
             </div>
           </div>
-     
 
           <DataTableExtensions {...tableDatas}>
             <DataTable
@@ -386,7 +363,7 @@ const ManageUser = (props) => {
             />
           </DataTableExtensions>
         </>
-      )}
+      
     </>
   );
 };

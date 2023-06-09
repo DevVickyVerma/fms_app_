@@ -117,8 +117,8 @@ const EditRoles = (props) => {
   return (
     <>
     {isLoading ? (
-      <Loaderimg/>
-    ) :(
+     <Loaderimg />
+    ) : null}
       <>
       <div className="page-header ">
         <div>
@@ -340,7 +340,7 @@ const EditRoles = (props) => {
         </div>
       </Row>
       </>
-      )}
+  
     </>
   );
 };
