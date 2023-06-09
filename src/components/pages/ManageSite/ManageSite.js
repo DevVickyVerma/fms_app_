@@ -236,7 +236,7 @@ const ManageSite = (props) => {
       name: "Site",
       selector: (row) => [row.site_name],
       sortable: false,
-      width: "25%",
+      width: "15%",
       cell: (row, index) => (
         <div
           className="d-flex"
@@ -254,10 +254,10 @@ const ManageSite = (props) => {
       ),
     },
     {
-      name: "Assign Client",
+      name: " Client",
       selector: (row) => [row.site_name],
       sortable: false,
-      width: "10%",
+      width: "20%",
       cell: (row, index) => {
         try {
           return (
@@ -284,7 +284,7 @@ const ManageSite = (props) => {
       name: "Company",
       selector: (row) => [row.site_name],
       sortable: false,
-      width: "10%",
+      width: "15%",
       cell: (row, index) => {
         try {
           return (
@@ -367,26 +367,10 @@ const ManageSite = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "20%",
+      width: "15%",
       cell: (row) => (
         <span className="text-center">
-          {isAssignPermissionAvailable ? (
-            <OverlayTrigger
-              placement="top"
-              overlay={<Tooltip>Details</Tooltip>}
-            >
-              <span onClick={() => handleDetailsClick(row)}>
-                <SiteDetails
-                  showModal={showModal}
-                  setShowModal={setShowModal}
-                  dropdownValue={dropdownValue}
-                  handleDropdownChange={handleDropdownChange}
-                  modalHeading="Assign Site"
-                  sites={dropdownValue}
-                />
-              </span>
-            </OverlayTrigger>
-          ) : null}
+        
 
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>

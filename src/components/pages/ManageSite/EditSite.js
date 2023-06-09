@@ -133,7 +133,7 @@ export default function AddSite() {
       site_name: "",
       site_address: "",
       site_status: "",
-      business_sub_type: "",
+     
       business_type: "",
       data_import_type_id: "",
       supplier_id: "",
@@ -149,6 +149,8 @@ export default function AddSite() {
       fuel_commission_calc_status: "",
       bunker_upload_status: "",
       paperwork_status: "",
+      client_id: "",
+      company_id: "",
     },
     validationSchema: Yup.object({
       site_code: Yup.string()
@@ -159,7 +161,7 @@ export default function AddSite() {
         .required("Site Name is required"),
       site_address: Yup.string().required("Site Address is required"),
       site_status: Yup.string().required("Site Status is required"),
-      business_sub_type: Yup.string().required("Business Sub Type is required"),
+    
       business_type: Yup.string().required("Business Type is required"),
       supplier_id: Yup.string().required("Supplier ID is required"),
       start_date: Yup.string().required("DRS Start Date is required"),
@@ -177,6 +179,12 @@ export default function AddSite() {
       // ),
       bp_credit_card_site_no: Yup.string().required(
         "Bunker Upload Status is required"
+      ),
+      company_id: Yup.string().required(
+        "Company is required"
+      ),
+      client_id: Yup.string().required(
+        "Client is required"
       ),
       // drs_upload_status: Yup.string().required("Drs Upload Status is required"),
     }),
@@ -442,47 +450,7 @@ const formatDate = (date) => {
                         )}
                     </div>
                   </Col>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="business_sub_type"
-                        className="form-label mt-4"
-                      >
-                        Bussiness Sub-Type<span className="text-danger">*</span>
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.business_sub_type &&
-                          formik.touched.business_sub_type
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="business_sub_type"
-                        name="business_sub_type"
-                        onChange={formik.handleChange}
-                        value={formik.values.business_sub_type_id || ""}
-                      >
-                        <option value="">Select a Bussiness Sub-Type</option>
-                        {subTypes && subTypes.length > 0 ? (
-                          subTypes.map((item) => (
-                            <option key={item.id} value={item.id}>
-                              {item.name}
-                            </option>
-                          ))
-                        ) : (
-                          <option disabled>
-                            No Bussiness Sub-Type available
-                          </option>
-                        )}
-                      </select>
-                      {formik.errors.business_sub_type &&
-                        formik.touched.business_sub_type && (
-                          <div className="invalid-feedback">
-                            {formik.errors.business_sub_type}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
+                
                   <Col lg={4} md={6}>
                     <div className="form-group">
                       <label
@@ -894,32 +862,32 @@ const formatDate = (date) => {
                     <Col lg={4} md={6}>
                     <div className="form-group">
                       <label
-                        htmlFor="drs_upload_status"
+                        htmlFor="client_id"
                         className="form-label mt-4"
                       >
-                        DRS Upload Status
+                      Client
                       </label>
                       <select
                         className={`input101 ${
-                          formik.errors.drs_upload_status &&
-                          formik.touched.drs_upload_status
+                          formik.errors.client_id &&
+                          formik.touched.client_id
                             ? "is-invalid"
                             : ""
                         }`}
-                        id="drs_upload_status"
-                        name="drs_upload_status"
+                        id="client_id"
+                        name="client_id"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.drs_upload_status}
+                        value={formik.values.client_id}
                       >
-                        <option value="">Select a DRS Upload Status</option>
+                        <option value="">Select a Client</option>
                         <option value="1">Automatic</option>
                         <option value="2">Manual</option>
                       </select>
-                      {formik.errors.drs_upload_status &&
-                        formik.touched.drs_upload_status && (
+                      {formik.errors.client_id &&
+                        formik.touched.client_id && (
                           <div className="invalid-feedback">
-                            {formik.errors.drs_upload_status}
+                            {formik.errors.client_id}
                           </div>
                         )}
                     </div>

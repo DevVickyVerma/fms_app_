@@ -172,7 +172,7 @@ const ManageCards = (props) => {
       ),
     },
     {
-      name: "Cards Name",
+      name: "Card Name",
       selector: (row) => [row.card_name],
       sortable: true,
       width: "20%",
@@ -185,14 +185,20 @@ const ManageCards = (props) => {
       ),
     },
     {
-      name: "Cards Code",
+      name: "Card Logo",
       selector: (row) => [row.card_code],
       sortable: true,
       width: "20%",
       cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.card_code}</h6>
+        <div className="d-flex align-items-center card-img">
+          <img
+            src={row.logo}
+            alt={row.card_name}
+            className="mr-2"
+            style={{ width: "50px", height: "50px" }}
+          />
+          <div>
+           
           </div>
         </div>
       ),

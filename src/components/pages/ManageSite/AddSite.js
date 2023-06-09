@@ -113,8 +113,8 @@ const AddSite = (props) => {
   const handleSubmit1 = async (values, setSubmitting) => {
     try {
       const formData = new FormData();
-      formData.append("bussiness_Type", values.bussiness_Type);
-      formData.append("business_sub_type_id", values.bussiness_Sub_Type);
+      formData.append("business_type_id", values.bussiness_Type);
+     
       formData.append("data_import_type_id", values.Select_machine_type);
       formData.append("site_code", values.site_code);
       formData.append("site_name", values.site_name);
@@ -229,7 +229,7 @@ const AddSite = (props) => {
                     site_name: "",
                     site_Address: "",
                     Site_Status: "",
-                    bussiness_Sub_Type: "",
+                  
                     bussiness_Type: "",
                     Select_machine_type: "",
                     supplier: "",
@@ -264,9 +264,7 @@ const AddSite = (props) => {
                       "Site Status is required"
                     ),
 
-                    bussiness_Sub_Type: Yup.string().required(
-                      "Bussiness Sub Type is required"
-                    ),
+               
                     bussiness_Type: Yup.string().required(
                       "Bussiness Type is required"
                     ),
@@ -289,6 +287,7 @@ const AddSite = (props) => {
                       "Drs Upload Status is required"
                     ),
                     client_id: Yup.string().required("Client is required"),
+                    Bp_nctt_site_no: Yup.string().required("Bp Nctt Site No is required"),
                     // company_id: Yup.string().required(
                     //   "Company is required"
                     // ),
@@ -503,7 +502,7 @@ const AddSite = (props) => {
                                 {AddSiteData.busines_types &&
                                 AddSiteData.busines_types.length > 0 ? (
                                   AddSiteData.busines_types.map((item) => (
-                                    <option key={item.id} value={item.name}>
+                                    <option key={item.id} value={item.id}>
                                       {item.name}
                                     </option>
                                   ))
@@ -520,48 +519,7 @@ const AddSite = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                          <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="bussiness_Sub_Type"
-                                className=" form-label mt-4"
-                              >
-                                Bussiness Sub-Type
-                                <span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${
-                                  errors.bussiness_Sub_Type &&
-                                  touched.bussiness_Sub_Type
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="bussiness_Sub_Type"
-                                name="bussiness_Sub_Type"
-                              >
-                                <option value="">
-                                  Select a Bussiness Sub-Type
-                                </option>
-                                {subTypes && subTypes.length > 0 ? (
-                                  subTypes.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>
-                                    No bussiness_Sub_Type
-                                  </option>
-                                )}
-                              </Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="bussiness_Sub_Type"
-                              />
-                            </FormGroup>
-                          </Col>
+                       
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
@@ -640,7 +598,7 @@ const AddSite = (props) => {
                                 htmlFor="Bp_nctt_site_no"
                                 className=" form-label mt-4"
                               >
-                                BP NCTT Site No
+                                BP NCTT Site No <span className="text-danger">*</span>
                               </label>
                               <Field
                                 type="text"  autocomplete="off"
@@ -1038,7 +996,7 @@ const AddSite = (props) => {
                                 Listcompany.companies.length > 0 ? (
                                   Listcompany.companies.map((item) => (
                                     <option key={item.id} value={item.id}>
-                                      {item.id}
+                                      {item.company_name}
                                     </option>
                                   ))
                                 ) : (

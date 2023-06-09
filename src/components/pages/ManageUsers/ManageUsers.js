@@ -302,44 +302,55 @@ const ManageUser = (props) => {
 
   return (
     <>
-      {isLoading ? <Loaderimg /> : null}
-      <>
-        <div className="page-header ">
-          <div>
-            <h1 className="page-title">Manage Users</h1>
-            <Breadcrumb className="breadcrumb">
-              <Breadcrumb.Item
-                className="breadcrumb-item"
-                linkAs={Link}
-                linkProps={{ to: "/dashboard" }}
-              >
-                Dashboard
-              </Breadcrumb.Item>
-              <Breadcrumb.Item
-                className="breadcrumb-item active breadcrumds"
-                aria-current="page"
-              >
-                Manage Users
-              </Breadcrumb.Item>
-            </Breadcrumb>
-          </div>
-          <div className="ms-auto pageheader-btn">
-            <div className="input-group">
-              <input
-                type="text"
-                autocomplete="off"
-                className="form-control"
-                value={searchText}
-                onChange={handleSearch}
-                placeholder="Search..."
-                style={{ borderRadius: 0 }}
-              />
-              {isAddPermissionAvailable ? (
-                <Link to="/addusers" className="btn btn-primary ms-2 ">
-                  Add Users
-                  <AddCircleOutlineIcon />
-                </Link>
-              ) : null}
+
+
+      {isLoading ? (
+       <Loaderimg />
+      ) : null}
+        <>
+          <div className="page-header ">
+            <div>
+              <h1 className="page-title">Manage Users</h1>
+              <Breadcrumb className="breadcrumb">
+                <Breadcrumb.Item
+                  className="breadcrumb-item"
+                  linkAs={Link}
+                  linkProps={{ to: "/dashboard" }}
+                >
+                  Dashboard
+                </Breadcrumb.Item>
+                <Breadcrumb.Item
+                  className="breadcrumb-item active breadcrumds"
+                  aria-current="page"
+                >
+                  Manage Users
+                </Breadcrumb.Item>
+              </Breadcrumb>
+            </div>
+           
+              <div className="ms-auto pageheader-btn">
+              <div className="input-group">
+                <input
+                  type="text"  autocomplete="off"
+                  className="form-control"
+                  value={searchText}
+                  onChange={handleSearch}
+                  placeholder="Search..."
+                  style={{ borderRadius: 0 }}
+                />
+                {isAddPermissionAvailable ? (
+                 
+                    <Link
+                    to="/addusers"
+                    className="btn btn-primary ms-2"
+                    style={{ borderRadius: "4px" }}
+                  >
+                    Add Users
+                    <AddCircleOutlineIcon />
+                  </Link>
+                ) : null}
+              </div>
+
             </div>
           </div>
         </div>
