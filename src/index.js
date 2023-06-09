@@ -9,6 +9,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import dataReducer, { fetchData } from "./Redux/dataSlice";
 
 import withApi from "./Utils/ApiHelper";
+import Loaderimg from "./Utils/Loader";
 
 const Switcherlayout = React.lazy(() => import("./components/switcherlayout"));
 //App
@@ -266,13 +267,13 @@ const Errorpage503 = React.lazy(() =>
 const COMINGSOON = React.lazy(() =>
   import("./components/ErrorPages/ErrorPages/Soon/Comingsoon")
 );
-const Loaderimg = () => {
-  return (
-    <div id="global-loader">
-      <loderdata.Loadersbigsizes1 />
-    </div>
-  );
-};
+// const Loaderimg = () => {
+//   return (
+//     <div id="global-loader">
+//       <loderdata.Loadersbigsizes1 />
+//     </div>
+//   );
+// };
 
 const Root = () => {
   const store = configureStore({
@@ -320,9 +321,9 @@ const Root = () => {
   const WrappedManageSuppliers = withApi(ManageSuppliers);
   const WrappedAddSuppliers = withApi(AddSuppliers);
   const WrappedEditSuppliers = withApi(EditSuppliers);
-  const WrappedManageFuelSites = withApi(ManageFuelSites);
-  const WrappedAddFuelSites = withApi(AddFuelSites);
-  const WrappedEditFuelSites = withApi(EditFuelSites);
+  // const WrappedManageFuelSites = withApi(ManageFuelSites);
+  // const WrappedAddFuelSites = withApi(AddFuelSites);
+  // const WrappedEditFuelSites = withApi(EditFuelSites);
   const WrappedManageDsr = withApi(ManageDsr);
   return (
     <Fragment>

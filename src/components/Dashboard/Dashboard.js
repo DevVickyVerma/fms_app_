@@ -6,18 +6,17 @@ import * as dashboard from "../../data/dashboard/dashboard";
 import { Link, useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 import withApi from "../../Utils/ApiHelper";
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchData } from '../../Redux/dataSlice';
+import { useDispatch, useSelector } from "react-redux";
+import { fetchData } from "../../Redux/dataSlice";
 
 const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
-
 
   const SuccessToast = (message) => {
     toast.success(message, {
       autoClose: 500,
       position: toast.POSITION.TOP_RIGHT,
-    hideProgressBar: true,
+      hideProgressBar: true,
       transition: Slide,
       autoClose: 500,
       theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
@@ -31,27 +30,21 @@ const Dashboard = (props) => {
       autoClose: 1000,
       theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
     });
-  }
+  };
 
-
-  
-  
   const [justLoggedIn, setJustLoggedIn] = useState(false);
 
-  
-const dispatch = useDispatch();
-const data = useSelector((state) => state.data.data);
-const token = localStorage.getItem("token");
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.data.data);
+  const token = localStorage.getItem("token");
 
-useEffect(() => {
-  if (token) {
-    dispatch(fetchData());
-  } else {
-    // Handle the case when there is no token
-  }
-}, [dispatch, token]);
-
-
+  useEffect(() => {
+    if (token) {
+      dispatch(fetchData());
+    } else {
+      // Handle the case when there is no token
+    }
+  }, [dispatch, token]);
 
   useEffect(() => {
     const loggedInFlag = localStorage.getItem("justLoggedIn");

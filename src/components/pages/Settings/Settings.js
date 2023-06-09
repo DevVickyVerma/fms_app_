@@ -13,9 +13,10 @@ import {
 
 import { Formik, Field, ErrorMessage, useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
+import { Slide, toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import Loaderimg from "../../../Utils/Loader";
 const initialValues = {
   host: "",
   username: "",
@@ -41,6 +42,7 @@ const validationSchema = Yup.object().shape({
 
 export default function Settings() {
   const [userDetails, setUserDetails] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -53,8 +55,10 @@ export default function Settings() {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
+        setLoading(false);
       Errornotify(errorMessage);
     }
+    setLoading(false);
   }
 
   const navigate = useNavigate();
@@ -71,6 +75,7 @@ export default function Settings() {
     },
   });
   const fetchData = async () => {
+    setLoading(true)
     try {
       const response = await axiosInstance.get("/smtp/detail");
       const { data } = response;
@@ -79,30 +84,59 @@ export default function Settings() {
         // setUserDetails(response.data.data);
         // console.log(values)
         // console.log(response.data.data)
+        setLoading(false)
       }
     } catch (error) {
       handleError(error);
+      setLoading(false)
     }
+    setLoading(false)
   };
   const configsetting = async () => {
+    setLoading(true)
     try {
       const response = await axiosInstance.get("/config-setting");
       const { data } = response;
       if (data) {
         formik2.setValues(data.data); // Set field values for formik2
+        setLoading(false)
       }
     } catch (error) {
       handleError(error);
+      setLoading(false)
     }
+    setLoading(false)
   };
   
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
+  // const notify = (message) => toast.success(message);
+  // const Errornotify = (message) => toast.error(message);
+
+
+  const notify = (message) => {
+    toast.success(message, {
+      autoClose: 1000,
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+    });
+  };
+  const Errornotify = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+    });
+  };
 
   const formik = useFormik({
     initialValues: initialValues, // Replace 'initialValues' with the actual initial values for the first form
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+      setLoading(true)
       const formData = new FormData();
 
       // Iterate over values and convert null to empty strings
@@ -127,15 +161,19 @@ export default function Settings() {
 
         if (response.ok) {
           notify(data.message);
+          setLoading(false);
           navigate("/dashboard");
+          setLoading(false)
         } else {
           Errornotify(data.message);
+          setLoading(false)
         }
       } catch (error) {
         if (error.response && error.response.status === 401) {
           navigate("/login");
           Errornotify("Invalid access token");
           localStorage.clear();
+          setLoading(false);
         } else if (
           error.response &&
           error.response.data.status_code === "403"
@@ -172,6 +210,7 @@ export default function Settings() {
       .required("Pagination is required"),
   });
   const handleSubmit2  = async (values) => {
+    setLoading(true);
     const formData = new FormData();
   
     if (typeof values === "object") {
@@ -205,11 +244,14 @@ export default function Settings() {
         if (response.ok) {
           notify(data.message);
           navigate("/dashboard");
+          setLoading(false)
         } else {
           Errornotify(data.message);
+          setLoading(false)
         }
       } catch (error) {
         handleError(error);
+        setLoading(false)
       }
     } else {
       console.error("Values must be an object.");
@@ -246,6 +288,9 @@ export default function Settings() {
 
 
   return (
+    <>
+    {isLoading ? <Loaderimg /> : null}
+    <>
     <div>
       <div className="page-header">
         <div>
@@ -648,5 +693,7 @@ export default function Settings() {
         </Col>
       </Row>
     </div>
+    </>
+    </>
   );
 }
