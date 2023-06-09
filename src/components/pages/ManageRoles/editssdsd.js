@@ -209,7 +209,7 @@ export default function EditRoles() {
                     <div className="form-group">
                       <label htmlFor="name">Edit Role</label>
                       <input
-                        type="text"
+                        type="text"  autocomplete="off"
                         id="name"
                         name="name"
                         placeholder="Role Name"

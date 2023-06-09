@@ -248,7 +248,7 @@ import Loaderimg from "../../../Utils/Loader";
                       <input
                         id="company_code"
                         name="company_code"
-                        type="text"
+                        type="text"  autocomplete="off"
                         className={`input101 ${
                           formik.errors.company_code &&
                           formik.touched.company_code
@@ -273,7 +273,7 @@ import Loaderimg from "../../../Utils/Loader";
                         Company Name<span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"
+                        type="text"  autocomplete="off"
                         className={`input101 ${
                           formik.errors.company_name &&
                           formik.touched.company_name
@@ -302,7 +302,7 @@ import Loaderimg from "../../../Utils/Loader";
                       Company Details<span className="text-danger">*</span>
                     </label>
                     <input
-                      type="text"
+                      type="text"  autocomplete="off"
                       className={`input101 ${
                         formik.errors.company_details &&
                         formik.touched.company_details
@@ -388,7 +388,7 @@ import Loaderimg from "../../../Utils/Loader";
                         Website
                       </label>
                       <input
-                        type="text"
+                        type="text"  autocomplete="off"
                         className={`input101 ${
                           formik.errors.website && formik.touched.website
                             ? "is-invalid"

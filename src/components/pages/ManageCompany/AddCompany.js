@@ -243,7 +243,7 @@ const AddCompany = (props) => {
                           </label>
 
                           <Field
-                            type="text"
+                            type="text"  autocomplete="off"
                             className={`input101 ${
                               errors.company_code && touched.company_code
                                 ? "is-invalid"
@@ -269,7 +269,7 @@ const AddCompany = (props) => {
                             Company Name<span className="text-danger">*</span>
                           </label>
                           <Field
-                            type="text"
+                            type="text"  autocomplete="off"
                             className={`input101 ${
                               errors.company_name && touched.company_name
                                 ? "is-invalid"
@@ -322,7 +322,7 @@ const AddCompany = (props) => {
                             Website<span className="text-danger">*</span>
                           </label>
                           <Field
-                            type="text"
+                            type="text"  autocomplete="off"
                             className={`input101 ${
                               errors.website && touched.website
                                 ? "is-invalid"

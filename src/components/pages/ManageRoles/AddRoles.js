@@ -205,7 +205,7 @@ import { useSelector } from "react-redux";
                         <div className="form-group">
                           <label      className=" form-label mt-4" htmlFor="name"> Add Role</label>
                           <Field
-                            type="text"
+                            type="text"  autocomplete="off"
                             id="name"
                             name="name"
                             placeholder="RoleName"

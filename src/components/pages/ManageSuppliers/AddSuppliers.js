@@ -144,7 +144,7 @@ const AddSuppliers = (props) => {
                                   Supplier Name
                                 </label>
                                 <Field
-                                  type="text"
+                                  type="text"  autocomplete="off"
                                   // className="form-control"
                                   className={`input101 ${
                                     errors.supplier_name &&
@@ -169,7 +169,7 @@ const AddSuppliers = (props) => {
                                   Supplier Code
                                 </label>
                                 <Field
-                                  type="text"
+                                  type="text"  autocomplete="off"
                                   className={`input101 ${
                                     errors.supplier_code &&
                                     touched.supplier_code

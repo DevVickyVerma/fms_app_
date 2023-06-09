@@ -66,7 +66,7 @@ import withApi from "../Utils/ApiHelper";
   const handleUserActivity = () => {
     clearTimeout(inactivityTimeout);
     setIsInactive(false);
-    inactivityTimeout = setTimeout(() => setIsInactive(true), 30000);
+    inactivityTimeout = setTimeout(() => setIsInactive(true), 300000);
   };
 
   useEffect(() => {
@@ -74,7 +74,7 @@ import withApi from "../Utils/ApiHelper";
     window.addEventListener('keydown', handleUserActivity);
     window.addEventListener('scroll', handleUserActivity);
 
-    inactivityTimeout = setTimeout(() => setIsInactive(true), 30000);
+    inactivityTimeout = setTimeout(() => setIsInactive(true), 300000);
 
     return () => {
       window.removeEventListener('mousemove', handleUserActivity);

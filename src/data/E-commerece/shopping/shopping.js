@@ -91,7 +91,7 @@ export function ShoppingData() {
                   -
                 </button>
                 <input
-                  type="text"
+                  type="text"  autocomplete="off"
                   defaultValue={list.Quantity}
                   className="form-control text-center qty"
                 />

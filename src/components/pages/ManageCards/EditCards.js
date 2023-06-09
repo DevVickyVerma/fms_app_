@@ -215,7 +215,7 @@ const EditCards = (props) => {
                               Card Name <span className="text-danger">*</span>
                             </label>
                             <input
-                              type="text"
+                              type="text"  autocomplete="off"
                               className={`input101 ${
                                 formik.errors.card_name &&
                                 formik.touched.card_name
@@ -247,7 +247,7 @@ const EditCards = (props) => {
                             <input
                               id="card_code"
                               card_code="name"
-                              type="text"
+                              type="text"  autocomplete="off"
                               className={`input101 ${
                                 formik.errors.card_code &&
                                 formik.touched.card_code

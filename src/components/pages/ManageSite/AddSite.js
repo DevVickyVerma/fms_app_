@@ -22,8 +22,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import * as loderdata from "../../../data/Component/loderdata/loderdata";
 import { useSelector } from "react-redux";
 
-export default function AddSite() {
-  // const { setFieldValue } = useFormikContext();
+import withApi from "../../../Utils/ApiHelper";
+import Loaderimg from "../../../Utils/Loader";
+
+const AddSite = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
 
   const navigate = useNavigate();
   const [dropdownItems, setDropdownItems] = useState([]);
@@ -31,8 +34,11 @@ export default function AddSite() {
   const [selectedBusinessType, setSelectedBusinessType] = useState("");
   const [subTypes, setSubTypes] = useState([]);
   const [Calendervalue, SetCalenderonChange] = useState(new Date());
-  const [isLoading, setIsLoading] = useState(false);
 
+  const [UserRole, setUserRole] = useState(
+    localStorage.getItem("superiorRole")
+  );
+  const [Listcompany, setCompanylist] = useState([]);
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
   function handleError(error) {
@@ -78,66 +84,67 @@ export default function AddSite() {
     // console.clear()
   }, []);
 
-  const handleSubmit1 = async (values, setSubmitting) => {
-    setIsLoading(true);
+  const fetchCompanyList = async (id) => {
     const token = localStorage.getItem("token");
-
-    const formData = new FormData();
-    formData.append("bussiness_Type", values.bussiness_Type);
-    formData.append("business_sub_type_id", values.bussiness_Sub_Type);
-    formData.append("data_import_type_id", values.Select_machine_type);
-    formData.append("site_code", values.site_code);
-    formData.append("site_name", values.site_name);
-    formData.append("site_display_name", values.display_name);
-    formData.append("site_address", values.site_Address);
-    formData.append("start_date", values.DRS_Start_Date);
-    formData.append("department_sage_code", values.Saga_department_name);
-    formData.append("bp_credit_card_site_no", values.Bp_nctt_site_no);
-    formData.append("supplier_id", values.supplier);
-    formData.append("site_report_status", values.Report_generation_Status);
-    formData.append("site_report_date_type", values.Report_date_type);
-    formData.append("sage_department_id", values.Saga_department_code);
-    formData.append("drs_upload_status", values.Drs_upload_status);
-    formData.append("site_status", values.Site_Status);
-    formData.append("bunker_upload_status", values.Bunkered_sale_status);
-    formData.append("fuel_commission_calc_status", values.Fuel_commission_type);
-    formData.append("paperwork_status", values.Paper_work_status);
-    formData.append("company_id", values.company_id);
-    formData.append("client_id", values.client_id);
+    const axiosInstance = axios.create({
+      baseURL: process.env.REACT_APP_BASE_URL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/site/add`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        notify(data.message);
-        navigate("/sites");
-        setSubmitting(false);
-      } else {
-        Errornotify(data.message);
+      const response = await axiosInstance.get(`/companies?client_id=${id}`);
+      setCompanylist(response.data.data);
+      if (response.data.length > 0) {
+        // setCompanylist(response.data.data);
       }
     } catch (error) {
-      handleError(error);
-    } finally {
-      setIsLoading(false); // Hide loading indicator
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+        Errornotify("Invalid access token");
+        localStorage.clear();
+      } else if (error.response && error.response.data.status_code === "403") {
+        navigate("/errorpage403");
+      }
     }
   };
-  const Loaderimg = () => {
-    return (
-      <div id="global-loader">
-        <loderdata.Loadersbigsizes1 />
-      </div>
-    );
+
+  const handleSubmit1 = async (values, setSubmitting) => {
+    try {
+      const formData = new FormData();
+      formData.append("bussiness_Type", values.bussiness_Type);
+      formData.append("business_sub_type_id", values.bussiness_Sub_Type);
+      formData.append("data_import_type_id", values.Select_machine_type);
+      formData.append("site_code", values.site_code);
+      formData.append("site_name", values.site_name);
+      formData.append("site_display_name", values.display_name);
+      formData.append("site_address", values.site_Address);
+      formData.append("start_date", values.DRS_Start_Date);
+      formData.append("department_sage_code", values.Saga_department_name);
+      formData.append("bp_credit_card_site_no", values.Bp_nctt_site_no);
+      formData.append("supplier_id", values.supplier);
+      formData.append("site_report_status", values.Report_generation_Status);
+      formData.append("site_report_date_type", values.Report_date_type);
+      formData.append("sage_department_id", values.Saga_department_code);
+      formData.append("drs_upload_status", values.Drs_upload_status);
+      formData.append("site_status", values.Site_Status);
+      formData.append("bunker_upload_status", values.Bunkered_sale_status);
+      formData.append(
+        "fuel_commission_calc_status",
+        values.Fuel_commission_type
+      );
+      formData.append("paperwork_status", values.Paper_work_status);
+      formData.append("company_id", values.company_id);
+      formData.append("client_id", values.client_id);
+
+      const postDataUrl = "/site/add";
+
+      const navigatePath = "/sites";
+      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
+    } catch (error) {
+      console.log(error); // Set the submission state to false if an error occurs
+    }
   };
 
   const [permissionsArray, setPermissionsArray] = useState([]);
@@ -167,16 +174,17 @@ export default function AddSite() {
           // Your code here
           navigate("/errorpage403");
         }
-      } else {
-        navigate("/errorpage403");
       }
+      // else {
+      //   navigate("/errorpage403");
+      // }
     }
   }, [isPermissionsSet, permissionsArray]);
 
   return (
     <>
       {isLoading ? (
-        Loaderimg()
+       <Loaderimg/>
       ) : (
         <>
           <div className="page-header">
@@ -239,8 +247,8 @@ export default function AddSite() {
                     Paper_work_status: "",
                     Bunkered_sale_status: "",
                     Drs_upload_status: "",
-                    client_id:"",
-                    company_id:"",
+                    client_id: "",
+                    company_id: "",
                   }}
                   validationSchema={Yup.object({
                     site_code: Yup.string()
@@ -280,12 +288,10 @@ export default function AddSite() {
                     Drs_upload_status: Yup.string().required(
                       "Drs Upload Status is required"
                     ),
-                    client_id: Yup.string().required(
-                      "Client is required"
-                    ),
-                    Company_id: Yup.string().required(
-                      "Company is required"
-                    ),
+                    client_id: Yup.string().required("Client is required"),
+                    // company_id: Yup.string().required(
+                    //   "Company is required"
+                    // ),
                   })}
                   onSubmit={(values, { setSubmitting }) => {
                     handleSubmit1(values, setSubmitting);
@@ -311,7 +317,7 @@ export default function AddSite() {
                               </label>
 
                               <Field
-                                type="text"
+                                type="text"  autocomplete="off"
                                 className={`input101 ${
                                   errors.site_code && touched.site_code
                                     ? "is-invalid"
@@ -337,7 +343,7 @@ export default function AddSite() {
                                 Site Name<span className="text-danger">*</span>
                               </label>
                               <Field
-                                type="text"
+                                type="text"  autocomplete="off"
                                 className={`input101 ${
                                   errors.site_name && touched.site_name
                                     ? "is-invalid"
@@ -363,7 +369,7 @@ export default function AddSite() {
                                 Display Name
                               </label>
                               <Field
-                                type="text"
+                                type="text"  autocomplete="off"
                                 className={`input101 ${
                                   errors.display_name && touched.display_name
                                     ? "is-invalid"
@@ -609,7 +615,7 @@ export default function AddSite() {
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
-                                type="text"
+                                type="text"  autocomplete="off"
                                 className={`input101 ${
                                   errors.Saga_department_name &&
                                   touched.Saga_department_name
@@ -637,7 +643,7 @@ export default function AddSite() {
                                 BP NCTT Site No
                               </label>
                               <Field
-                                type="text"
+                                type="text"  autocomplete="off"
                                 className={`input101 ${
                                   errors.Bp_nctt_site_no &&
                                   touched.Bp_nctt_site_no
@@ -957,7 +963,7 @@ export default function AddSite() {
                               />
                             </FormGroup>
                           </Col>
-                             <Col lg={4} md={6}>
+                          <Col lg={4} md={6}>
                             <FormGroup>
                               <label
                                 htmlFor="client_id"
@@ -969,28 +975,33 @@ export default function AddSite() {
                               <Field
                                 as="select"
                                 className={`input101 ${
-                                  errors.client_id &&
-                                  touched.client_id
+                                  errors.client_id && touched.client_id
                                     ? "is-invalid"
                                     : ""
                                 }`}
                                 id="client_id"
                                 name="client_id"
+                                onChange={(e) => {
+                                  const selectedType = e.target.value;
+                                  if (selectedType.length > 0 && selectedType) {
+                                    fetchCompanyList(selectedType);
+                                    setFieldValue("client_id", selectedType);
+                                  } else {
+                                    console.log(e.target.value, "dd");
+                                  }
+                                }}
                               >
-                                <option value="">
-                                  {" "}
-                                  Select Client
-                                </option>
-                                {/* {AddSiteData.data_import_types &&
-                                AddSiteData.data_import_types.length > 0 ? (
-                                  AddSiteData.data_import_types.map((item) => (
+                                <option value=""> Select Client</option>
+                                {AddSiteData.clients &&
+                                AddSiteData.clients.length > 0 ? (
+                                  AddSiteData.clients.map((item) => (
                                     <option key={item.id} value={item.id}>
-                                      {item.import_type_name}
+                                      {item.client_name}
                                     </option>
                                   ))
                                 ) : (
                                   <option disabled>No Client</option>
-                                )} */}
+                                )}
                               </Field>
                               <ErrorMessage
                                 component="div"
@@ -999,47 +1010,47 @@ export default function AddSite() {
                               />
                             </FormGroup>
                           </Col>
-                             <Col lg={4} md={6}>
-                            <FormGroup>
+                          <Col lg={4} md={6}>
+                            <div className="form-group">
                               <label
                                 htmlFor="company_id"
-                                className=" form-label mt-4"
+                                className="form-label mt-4"
                               >
                                 Select Company
-                                <span className="text-danger">*</span>
                               </label>
-                              <Field
-                                as="select"
+                              <select
                                 className={`input101 ${
-                                  errors.company_id &&
-                                  touched.company_id
+                                  errors.company_id && touched.company_id
                                     ? "is-invalid"
                                     : ""
                                 }`}
                                 id="company_id"
                                 name="company_id"
+                                onChange={(e) => {
+                                  const selectedType = e.target.value;
+                                  if (selectedType.length > 0 && selectedType) {
+                                    setFieldValue("company_id", selectedType);
+                                  }
+                                }}
                               >
-                                <option value="">
-                                  {" "}
-                                  Select Company
-                                </option>
-                                {/* {AddSiteData.data_import_types &&
-                                AddSiteData.data_import_types.length > 0 ? (
-                                  AddSiteData.data_import_types.map((item) => (
+                                <option value=""> Select Company</option>
+                                {Listcompany.companies &&
+                                Listcompany.companies.length > 0 ? (
+                                  Listcompany.companies.map((item) => (
                                     <option key={item.id} value={item.id}>
-                                      {item.import_type_name}
+                                      {item.id}
                                     </option>
                                   ))
                                 ) : (
-                                  <option disabled>No Client</option>
-                                )} */}
-                              </Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="company_id"
-                              />
-                            </FormGroup>
+                                  <option disabled>No clients</option>
+                                )}
+                              </select>
+                              {errors.company_id && touched.company_id && (
+                                <div className="invalid-feedback">
+                                  {errors.company_id}
+                                </div>
+                              )}
+                            </div>
                           </Col>
                         </Row>
                       </Card.Body>
@@ -1071,4 +1082,5 @@ export default function AddSite() {
       )}
     </>
   );
-}
+};
+export default withApi(AddSite);

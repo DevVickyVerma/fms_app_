@@ -261,7 +261,7 @@ import Loaderimg from "../../../Utils/Loader";
                       <input
                         id="business_name"
                         business_name="name"
-                        type="text"
+                        type="text"  autocomplete="off"
                         className={`input101 ${
                           formik.errors.business_name &&
                           formik.touched.business_name
@@ -286,7 +286,7 @@ import Loaderimg from "../../../Utils/Loader";
                         Slug<span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"
+                        type="text"  autocomplete="off"
                         className={`input101 ${
                           formik.errors.slug && formik.touched.slug
                             ? "is-invalid"

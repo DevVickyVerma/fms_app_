@@ -284,7 +284,7 @@ export default function Settings() {
                         SMTP Url<span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"
+                        type="text"  autocomplete="off"
                         className={`input101 ${
                           formik.errors.host && formik.touched.host
                             ? "is-invalid"
@@ -309,7 +309,7 @@ export default function Settings() {
                         User Name<span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"
+                        type="text"  autocomplete="off"
                         className={`input101 ${
                           formik.errors.username && formik.touched.username
                             ? "is-invalid"
@@ -359,7 +359,7 @@ export default function Settings() {
                         Port<span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"
+                        type="text"  autocomplete="off"
                         className={`input101 ${
                           formik.errors.port && formik.touched.port
                             ? "is-invalid"
@@ -384,7 +384,7 @@ export default function Settings() {
                         From Email<span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"
+                        type="text"  autocomplete="off"
                         className={`input101 ${
                           formik.errors.from_email && formik.touched.from_email
                             ? "is-invalid"
@@ -410,7 +410,7 @@ export default function Settings() {
                         From Name<span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"
+                        type="text"  autocomplete="off"
                         className={`input101 ${
                           formik.errors.from_name && formik.touched.from_name
                             ? "is-invalid"
@@ -610,7 +610,7 @@ export default function Settings() {
                           Pagination<span className="text-danger">*</span>
                         </label>
                         <input
-                          type="text"
+                          type="text"  autocomplete="off"
                           className={`input101 ${
                             formik2.errors.pagination &&
                             formik2.touched.pagination

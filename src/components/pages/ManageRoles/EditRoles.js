@@ -193,7 +193,7 @@ const EditRoles = (props) => {
                         <div className="form-group">
                           <label className=" form-label mt-4" htmlFor="name"> Edit Role</label>
                           <Field
-                            type="text"
+                            type="text"  autocomplete="off"
                             id="name"
                             name="name"
                             placeholder="RoleName"

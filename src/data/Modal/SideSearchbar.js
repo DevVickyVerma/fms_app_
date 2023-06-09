@@ -86,7 +86,7 @@ const handleSubmit = async (event) => {
                 Search:
               </label>
               <input
-                type="text"
+                type="text"  autocomplete="off"
                 className="form-control"
                 placeholder="Enter your search item"
                 value={keyword}

@@ -75,4 +75,5 @@ h3.SidebarSearch-title {
 }
 .card.card-none.card {
   background: none !important;
+  box-shadow: none;
 }

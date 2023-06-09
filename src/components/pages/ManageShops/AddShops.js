@@ -155,7 +155,7 @@ const AddShops = (props) => {
                               <FormGroup>
                               <label  className=" form-label mt-4"  htmlFor="shop_name">Shop Name</label>
                                 <Field
-                                  type="text"
+                                  type="text"  autocomplete="off"
                                   // className="form-control"
                                   className={`input101 ${
                                     errors.shop_name && touched.shop_name
@@ -177,7 +177,7 @@ const AddShops = (props) => {
                               <FormGroup>
                               <label  className=" form-label mt-4"  htmlFor="code">Shop Code</label>
                                 <Field
-                                  type="text"
+                                  type="text"  autocomplete="off"
                                   className={`input101 ${
                                     errors.code && touched.code
                                       ? "is-invalid"

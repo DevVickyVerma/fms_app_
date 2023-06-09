@@ -216,7 +216,7 @@ import Loaderimg from "../../../Utils/Loader";
                         <div className="form-group">
                           <label  className=" form-label mt-4" htmlFor="name"> Add Addon</label>
                           <Field
-                            type="text"
+                            type="text"  autocomplete="off"
                             id="name"
                             name="name"
                             placeholder="Addonname"

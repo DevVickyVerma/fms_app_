@@ -232,7 +232,7 @@ const EditUsers = (props) => {
                         First Name<span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"
+                        type="text"  autocomplete="off"
                         className={`input101 ${
                           formik.errors.first_name && formik.touched.first_name
                             ? "is-invalid"
@@ -257,7 +257,7 @@ const EditUsers = (props) => {
                       Last Name<span className="text-danger">*</span>
                     </label>
                     <input
-                      type="text"
+                      type="text"  autocomplete="off"
                       className={`input101 ${
                         formik.errors.last_name && formik.touched.last_name
                           ? "is-invalid"
@@ -282,7 +282,7 @@ const EditUsers = (props) => {
                         Email<span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"
+                        type="text"  autocomplete="off"
                         className={`input101 ${
                           formik.errors.email && formik.touched.email
                             ? "is-invalid"

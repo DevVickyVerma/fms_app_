@@ -111,7 +111,7 @@ export default function Search() {
         </Col>
         <Col lg={12} xl={9}>
           <div className="input-group">
-            <input type="text" className="form-control" placeholder="" />
+            <input type="text"  autocomplete="off" className="form-control" placeholder="" />
             <div className="input-group-text btn btn-primary">
               <i className="fa fa-search" aria-hidden="true"></i>
             </div>

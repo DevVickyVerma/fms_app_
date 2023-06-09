@@ -258,7 +258,7 @@ const formatDate = (date) => {
                       <input
                         id="site_code"
                         name="site_code"
-                        type="text"
+                        type="text"  autocomplete="off"
                         className={`input101 ${
                           formik.errors.site_code && formik.touched.site_code
                             ? "is-invalid"
@@ -281,7 +281,7 @@ const formatDate = (date) => {
                         Site Name<span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"
+                        type="text"  autocomplete="off"
                         className={`input101 ${
                           formik.errors.site_name && formik.touched.site_name
                             ? "is-invalid"
@@ -308,7 +308,7 @@ const formatDate = (date) => {
                       Display Name
                     </label>
                     <input
-                      type="text"
+                      type="text"  autocomplete="off"
                       className={`input101 ${
                         formik.errors.site_display_name &&
                         formik.touched.site_display_name
@@ -536,7 +536,7 @@ const formatDate = (date) => {
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"
+                        type="text"  autocomplete="off"
                         className={`input101 ${
                           formik.errors.department_sage_code &&
                           formik.touched.department_sage_code
@@ -567,7 +567,7 @@ const formatDate = (date) => {
                         BP NCTT Site No<span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"
+                        type="text"  autocomplete="off"
                         className={`input101 ${
                           formik.errors.bp_credit_card_site_no &&
                           formik.touched.bp_credit_card_site_no
@@ -887,6 +887,39 @@ const formatDate = (date) => {
                         formik.touched.data_import_type_id && (
                           <div className="invalid-feedback">
                             {formik.errors.data_import_type_id}
+                          </div>
+                        )}
+                    </div>
+                  </Col>
+                    <Col lg={4} md={6}>
+                    <div className="form-group">
+                      <label
+                        htmlFor="drs_upload_status"
+                        className="form-label mt-4"
+                      >
+                        DRS Upload Status
+                      </label>
+                      <select
+                        className={`input101 ${
+                          formik.errors.drs_upload_status &&
+                          formik.touched.drs_upload_status
+                            ? "is-invalid"
+                            : ""
+                        }`}
+                        id="drs_upload_status"
+                        name="drs_upload_status"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.drs_upload_status}
+                      >
+                        <option value="">Select a DRS Upload Status</option>
+                        <option value="1">Automatic</option>
+                        <option value="2">Manual</option>
+                      </select>
+                      {formik.errors.drs_upload_status &&
+                        formik.touched.drs_upload_status && (
+                          <div className="invalid-feedback">
+                            {formik.errors.drs_upload_status}
                           </div>
                         )}
                     </div>

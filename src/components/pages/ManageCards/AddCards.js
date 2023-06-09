@@ -153,7 +153,7 @@ const AddCards = (props) => {
                               <FormGroup>
                                 <label  className=" form-label mt-4" htmlFor="card_name">Card Name</label>
                                 <Field
-                                  type="text"
+                                  type="text"  autocomplete="off"
                                   // className="form-control"
                                   className={`input101 ${
                                     errors.card_name && touched.card_name
@@ -175,7 +175,7 @@ const AddCards = (props) => {
                               <FormGroup>
                                 <label  className=" form-label mt-4" htmlFor="card_code">Card Code</label>
                                 <Field
-                                  type="text"
+                                  type="text"  autocomplete="off"
                                   className={`input101 ${
                                     errors.card_code && touched.card_code
                                       ? "is-invalid"

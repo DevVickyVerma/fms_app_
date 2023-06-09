@@ -245,7 +245,7 @@ const EditClient = (props) => {
                       <input
                         id="client_code"
                         name="client_code"
-                        type="text"
+                        type="text"  autocomplete="off"
                         className={`input101 ${
                           formik.errors.client_code &&
                           formik.touched.client_code
@@ -270,7 +270,7 @@ const EditClient = (props) => {
                         First Name<span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"
+                        type="text"  autocomplete="off"
                         className={`input101 ${
                           formik.errors.first_name && formik.touched.first_name
                             ? "is-invalid"
@@ -295,7 +295,7 @@ const EditClient = (props) => {
                       Last Name<span className="text-danger">*</span>
                     </label>
                     <input
-                      type="text"
+                      type="text"  autocomplete="off"
                       className={`input101 ${
                         formik.errors.last_name && formik.touched.last_name
                           ? "is-invalid"
@@ -320,7 +320,7 @@ const EditClient = (props) => {
                         Email<span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"
+                        type="text"  autocomplete="off"
                         className={`input101 ${
                           formik.errors.email && formik.touched.email
                             ? "is-invalid"

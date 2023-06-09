@@ -160,7 +160,7 @@ const AddDeductions = (props) => {
                               <FormGroup>
                                    <label  className=" form-label mt-4"  htmlFor="deduction name">Deduction Name</label>
                                 <Field
-                                  type="text"
+                                  type="text"  autocomplete="off"
                                   // className="form-control"
                                   className={`input101 ${
                                     errors.deduction_name && touched.deduction_name
@@ -182,7 +182,7 @@ const AddDeductions = (props) => {
                               <FormGroup>
                                    <label  className=" form-label mt-4" htmlFor="deduction_code">Deduction Code</label>
                                 <Field
-                                  type="text"
+                                  type="text"  autocomplete="off"
                                   className={`input101 ${
                                     errors.deduction_code && touched.deduction_code
                                       ? "is-invalid"

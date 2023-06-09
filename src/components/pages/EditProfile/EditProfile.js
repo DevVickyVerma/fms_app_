@@ -285,7 +285,7 @@ export default function EditProfile() {
                         <FormGroup>
                           <label  className=" form-label mt-4" htmlFor="first_name">First Name</label>
                           <Field
-                            type="text"
+                            type="text"  autocomplete="off"
                             // className="form-control"
                             className={`input101 ${
                               errors.first_name && touched.first_name
@@ -307,7 +307,7 @@ export default function EditProfile() {
                         <FormGroup>
                           <label   className=" form-label mt-4"htmlFor="last_name">Last Name</label>
                           <Field
-                            type="text"
+                            type="text"  autocomplete="off"
                             className={`input101 ${
                               errors.last_name && touched.last_name
                                 ? "is-invalid"
@@ -330,7 +330,7 @@ export default function EditProfile() {
                         <FormGroup>
                           <label  className=" form-label mt-4" htmlFor="phone_number">Phone Number</label>
                           <Field
-                            type="text"
+                            type="text"  autocomplete="off"
                             className={`input101 ${
                               errors.phone_number && touched.phone_number
                                 ? "is-invalid"

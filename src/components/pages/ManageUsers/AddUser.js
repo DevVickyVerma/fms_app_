@@ -229,7 +229,7 @@ const AddUsers = (props) => {
                                 First Name<span className="text-danger">*</span>
                               </label>
                               <Field
-                                type="text"
+                                type="text"  autocomplete="off"
                                 className={`input101 ${
                                   errors.first_name && touched.first_name
                                     ? "is-invalid"
@@ -255,7 +255,7 @@ const AddUsers = (props) => {
                                 Last Name<span className="text-danger">*</span>
                               </label>
                               <Field
-                                type="text"
+                                type="text"  autocomplete="off"
                                 className={`input101 ${
                                   errors.last_name && touched.last_name
                                     ? "is-invalid"
@@ -311,7 +311,7 @@ const AddUsers = (props) => {
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
-                                type="text"
+                                type="text"  autocomplete="off"
                                 className={`input101 ${
                                   errors.email && touched.email
                                     ? "is-invalid"

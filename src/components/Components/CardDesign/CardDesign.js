@@ -195,7 +195,7 @@ export default function CardDesign() {
                 <form>
                   <div className="input-group">
                     <input
-                      type="text"
+                      type="text"  autocomplete="off"
                       className="form-control form-control-sm"
                       placeholder="Search something..."
                       name="s"
@@ -477,7 +477,7 @@ export default function CardDesign() {
                 <form>
                   <div className="input-group">
                     <input
-                      type="text"
+                      type="text"  autocomplete="off"
                       className="form-control form-control-sm"
                       placeholder="Search something..."
                       name="s"

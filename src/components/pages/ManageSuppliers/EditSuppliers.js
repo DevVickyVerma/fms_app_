@@ -195,7 +195,7 @@ const Editsuppliers = (props) => {
                               <span className="text-danger">*</span>
                             </label>
                             <input
-                              type="text"
+                              type="text"  autocomplete="off"
                               className={`input101 ${
                                 formik.errors.supplier_name &&
                                 formik.touched.supplier_name
@@ -225,7 +225,7 @@ const Editsuppliers = (props) => {
                             <input
                               id="supplier_code"
                               name="supplier_code"
-                              type="text"
+                              type="text"  autocomplete="off"
                               className={`input101 readonly ${
                                 formik.errors.supplier_code &&
                                 formik.touched.supplier_code

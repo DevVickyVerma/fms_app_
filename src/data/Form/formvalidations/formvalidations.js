@@ -59,7 +59,7 @@ export function ServerSideValidation() {
       <CCol md={4}>
         <CFormLabel htmlFor="validationServer01">Email</CFormLabel>
         <CFormInput
-          type="text"
+          type="text"  autocomplete="off"
           id="validationServer01"
           defaultValue="Mark"
           valid
@@ -70,7 +70,7 @@ export function ServerSideValidation() {
       <CCol md={4}>
         <CFormLabel htmlFor="validationServer02">Email</CFormLabel>
         <CFormInput
-          type="text"
+          type="text"  autocomplete="off"
           id="validationServer02"
           defaultValue="Otto"
           valid
@@ -83,7 +83,7 @@ export function ServerSideValidation() {
         <CInputGroup className="has-validation">
           <CInputGroupText id="inputGroupPrepend03">@</CInputGroupText>
           <CFormInput
-            type="text"
+            type="text"  autocomplete="off"
             id="validationServerUsername"
             defaultValue=""
             aria-describedby="inputGroupPrepend03"
@@ -95,7 +95,7 @@ export function ServerSideValidation() {
       </CCol>
       <CCol md={6}>
         <CFormLabel htmlFor="validationServer03">City</CFormLabel>
-        <CFormInput type="text" id="validationServer03" invalid required />
+        <CFormInput type="text"  autocomplete="off" id="validationServer03" invalid required />
         <CFormFeedback invalid>Please provide a valid city.</CFormFeedback>
       </CCol>
       <CCol md={3}>
@@ -114,7 +114,7 @@ export function ServerSideValidation() {
       </CCol>
       <CCol md={3}>
         <CFormLabel htmlFor="validationServer05">City</CFormLabel>
-        <CFormInput type="text" id="validationServer05" invalid required />
+        <CFormInput type="text"  autocomplete="off" id="validationServer05" invalid required />
         <CFormFeedback invalid>Please provide a valid zip.</CFormFeedback>
       </CCol>
       <CCol xs={12}>
@@ -197,7 +197,7 @@ export function CustomValidation() {
       <CCol md={4}>
         <CFormLabel htmlFor="validationCustom01">Email</CFormLabel>
         <CFormInput
-          type="text"
+          type="text"  autocomplete="off"
           id="validationCustom01"
           defaultValue="Mark"
           required
@@ -207,7 +207,7 @@ export function CustomValidation() {
       <CCol md={4}>
         <CFormLabel htmlFor="validationCustom02">Email</CFormLabel>
         <CFormInput
-          type="text"
+          type="text"  autocomplete="off"
           id="validationCustom02"
           defaultValue="Otto"
           required
@@ -219,7 +219,7 @@ export function CustomValidation() {
         <CInputGroup className="has-validation">
           <CInputGroupText id="inputGroupPrepend">@</CInputGroupText>
           <CFormInput
-            type="text"
+            type="text"  autocomplete="off"
             id="validationCustomUsername"
             defaultValue=""
             aria-describedby="inputGroupPrepend"
@@ -230,7 +230,7 @@ export function CustomValidation() {
       </CCol>
       <CCol md={6}>
         <CFormLabel htmlFor="validationCustom03">City</CFormLabel>
-        <CFormInput type="text" id="validationCustom03" required />
+        <CFormInput type="text"  autocomplete="off" id="validationCustom03" required />
         <CFormFeedback invalid>Please provide a valid city.</CFormFeedback>
       </CCol>
       <CCol md={3}>
@@ -248,7 +248,7 @@ export function CustomValidation() {
       </CCol>
       <CCol md={3}>
         <CFormLabel htmlFor="validationCustom05">City</CFormLabel>
-        <CFormInput type="text" id="validationCustom05" required />
+        <CFormInput type="text"  autocomplete="off" id="validationCustom05" required />
         <CFormFeedback invalid>Please provide a valid zip.</CFormFeedback>
       </CCol>
       <CCol xs={12}>
@@ -329,7 +329,7 @@ export const DefaultValidation = (props) => {
       <CCol md={4}>
         <CFormLabel htmlFor="validationDefault01">Email</CFormLabel>
         <CFormInput
-          type="text"
+          type="text"  autocomplete="off"
           id="validationDefault01"
           defaultValue="Mark"
           required
@@ -339,7 +339,7 @@ export const DefaultValidation = (props) => {
       <CCol md={4}>
         <CFormLabel htmlFor="validationDefault02">Email</CFormLabel>
         <CFormInput
-          type="text"
+          type="text"  autocomplete="off"
           id="validationDefault02"
           defaultValue="Otto"
           required
@@ -351,7 +351,7 @@ export const DefaultValidation = (props) => {
         <CInputGroup className="has-validation">
           <CInputGroupText id="inputGroupPrepend02">@</CInputGroupText>
           <CFormInput
-            type="text"
+            type="text"  autocomplete="off"
             id="validationDefaultUsername"
             defaultValue=""
             aria-describedby="inputGroupPrepend02"
@@ -362,7 +362,7 @@ export const DefaultValidation = (props) => {
       </CCol>
       <CCol md={6}>
         <CFormLabel htmlFor="validationDefault03">City</CFormLabel>
-        <CFormInput type="text" id="validationDefault03" required />
+        <CFormInput type="text"  autocomplete="off" id="validationDefault03" required />
         <CFormFeedback invalid>Please provide a valid city.</CFormFeedback>
       </CCol>
       <CCol md={3}>
@@ -378,7 +378,7 @@ export const DefaultValidation = (props) => {
       </CCol>
       <CCol md={3}>
         <CFormLabel htmlFor="validationDefault05">City</CFormLabel>
-        <CFormInput type="text" id="validationDefault05" required />
+        <CFormInput type="text"  autocomplete="off" id="validationDefault05" required />
         <CFormFeedback invalid>Please provide a valid zip.</CFormFeedback>
       </CCol>
       <CCol xs={12}>
@@ -459,7 +459,7 @@ export function Tooltips() {
       <CCol md={4} className="position-relative">
         <CFormLabel htmlFor="validationTooltip01">Email</CFormLabel>
         <CFormInput
-          type="text"
+          type="text"  autocomplete="off"
           id="validationTooltip01"
           defaultValue="Mark"
           required
@@ -471,7 +471,7 @@ export function Tooltips() {
       <CCol md={4} className="position-relative">
         <CFormLabel htmlFor="validationTooltip02">Email</CFormLabel>
         <CFormInput
-          type="text"
+          type="text"  autocomplete="off"
           id="validationTooltip02"
           defaultValue="Otto"
           required
@@ -485,7 +485,7 @@ export function Tooltips() {
         <CInputGroup className="has-validation">
           <CInputGroupText id="inputGroupPrepend">@</CInputGroupText>
           <CFormInput
-            type="text"
+            type="text"  autocomplete="off"
             id="validationTooltipUsername"
             defaultValue=""
             aria-describedby="inputGroupPrepend"
@@ -498,7 +498,7 @@ export function Tooltips() {
       </CCol>
       <CCol md={6} className="position-relative">
         <CFormLabel htmlFor="validationTooltip03">City</CFormLabel>
-        <CFormInput type="text" id="validationTooltip03" required />
+        <CFormInput type="text"  autocomplete="off" id="validationTooltip03" required />
         <CFormFeedback tooltip invalid>
           Please provide a valid city.
         </CFormFeedback>
@@ -518,7 +518,7 @@ export function Tooltips() {
       </CCol>
       <CCol md={3} className="position-relative">
         <CFormLabel htmlFor="validationTooltip05">City</CFormLabel>
-        <CFormInput type="text" id="validationTooltip05" required />
+        <CFormInput type="text"  autocomplete="off" id="validationTooltip05" required />
         <CFormFeedback tooltip invalid>
           Please provide a valid zip.
         </CFormFeedback>

@@ -131,7 +131,7 @@ export default function Login(props) {
                                   ? "is-invalid"
                                   : ""
                               }`}
-                              type="text"
+                              type="text"  autocomplete="off"
                               name="email"
                               placeholder="Email"
                             />

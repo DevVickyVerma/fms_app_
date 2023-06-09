@@ -40,7 +40,7 @@ export default function LockScreen() {
                   >
                     <input
                       className="input100"
-                      type="text"
+                      type="text"  autocomplete="off"
                       name="pass"
                       placeholder="Password"
                     />

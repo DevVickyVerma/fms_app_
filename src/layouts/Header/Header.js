@@ -194,7 +194,7 @@ const Header = (props) => {
                     <div className="dropdown-menu header-search dropdown-menu-start">
                       <div className="input-group w-100 p-2 border">
                         <input
-                          type="text"
+                          type="text"  autocomplete="off"
                           className="form-control"
                           placeholder="Search...."
                         />

@@ -200,7 +200,7 @@ const AddSubBussiness = (props) => {
                                 Bussiness Name
                               </label>
                               <Field
-                                type="text"
+                                type="text"  autocomplete="off"
                                 // className="form-control"
                                 className={`input101 ${
                                   errors.business_name && touched.business_name
@@ -222,7 +222,7 @@ const AddSubBussiness = (props) => {
                             <FormGroup>
                             <label  className=" form-label mt-4"  htmlFor="slug">Slug</label>
                               <Field
-                                type="text"
+                                type="text"  autocomplete="off"
                                 className={`input101 ${
                                   errors.slug && touched.slug
                                     ? "is-invalid"

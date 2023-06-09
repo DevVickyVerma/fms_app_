@@ -32,7 +32,7 @@ export default function Register() {
                   >
                     <input
                       className="input100"
-                      type="text"
+                      type="text"  autocomplete="off"
                       name="email"
                       placeholder="User name"
                     />
@@ -47,7 +47,7 @@ export default function Register() {
                   >
                     <input
                       className="input100"
-                      type="text"
+                      type="text"  autocomplete="off"
                       name="email"
                       placeholder="Email"
                     />
