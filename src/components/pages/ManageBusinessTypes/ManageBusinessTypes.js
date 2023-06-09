@@ -334,7 +334,8 @@ const ManageBusinessTypes = (props) => {
                 />
 
                 {isAddPermissionAvailable ? (
-                  <Link to="/addbusiness" className="btn btn-primary">
+                  <Link to="/addbusiness" className="btn btn-primary"
+                  style={{borderRadius:"4px"}}>
                     Add Business Types
                   </Link>
                 ) : null}

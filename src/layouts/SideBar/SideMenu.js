@@ -60,32 +60,7 @@ export const MENUITEMS = [
         ],
       },
     
-      {
-        title: "Manage Sites",
-        icon: "university",
-        type: "sub",
-        active: false,
-        permission: "site-list",
-            visibility: false,
-        children: [
-          {
-            path: `/sites`,
-            title: "Manage Sites",
-            type: "link",
-            permission: "site-list",
-            visibility: false,
-          },
-          {
-            path: `/addsite`,
-            title: "Add Sites",
-            type: "link",
-            permission: "site-create",
-            visibility: false,
-          },
-         
-          
-        ],
-      },
+   
       {
         title: "Manage Company",
         icon: "building",
@@ -106,6 +81,32 @@ export const MENUITEMS = [
             title: "Add Company",
             type: "link",
             permission: "company-create",
+            visibility: false,
+          },
+         
+          
+        ],
+      },
+      {
+        title: "Manage Sites",
+        icon: "university",
+        type: "sub",
+        active: false,
+        permission: "site-list",
+            visibility: false,
+        children: [
+          {
+            path: `/sites`,
+            title: "Manage Sites",
+            type: "link",
+            permission: "site-list",
+            visibility: false,
+          },
+          {
+            path: `/addsite`,
+            title: "Add Sites",
+            type: "link",
+            permission: "site-create",
             visibility: false,
           },
          
@@ -368,7 +369,7 @@ export const MENUITEMS = [
       // },
             {
         title: "Manage DSR",
-        icon: "package",
+        icon: "globe",
         type: "sub",
         active: false,
         permission: "supplier-create",

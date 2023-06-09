@@ -300,10 +300,10 @@ const ManageUser = (props) => {
     data,
   };
 
-
-
   return (
     <>
+
+
       {isLoading ? (
        <Loaderimg />
       ) : null}
@@ -350,26 +350,27 @@ const ManageUser = (props) => {
                   </Link>
                 ) : null}
               </div>
+
             </div>
           </div>
+        </div>
 
-          <DataTableExtensions {...tableDatas}>
-            <DataTable
-              columns={columns}
-              data={data}
-              noHeader
-              defaultSortField="id"
-              defaultSortAsc={false}
-              striped={true}
-              // center={true}
-              persistTableHead
-              pagination
-              highlightOnHover
-              searchable={true}
-            />
-          </DataTableExtensions>
-        </>
-      
+        <DataTableExtensions {...tableDatas}>
+          <DataTable
+            columns={columns}
+            data={data}
+            noHeader
+            defaultSortField="id"
+            defaultSortAsc={false}
+            striped={true}
+            // center={true}
+            persistTableHead
+            pagination
+            highlightOnHover
+            searchable={true}
+          />
+        </DataTableExtensions>
+      </>
     </>
   );
 };
