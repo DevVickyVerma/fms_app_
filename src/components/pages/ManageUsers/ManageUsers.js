@@ -330,14 +330,14 @@ const ManageUser = (props) => {
            
               <div className="ms-auto pageheader-btn">
               <div className="input-group">
-                <input
+                {/* <input
                   type="text"  autocomplete="off"
                   className="form-control"
                   value={searchText}
                   onChange={handleSearch}
                   placeholder="Search..."
                   style={{ borderRadius: 0 }}
-                />
+                /> */}
                 {isAddPermissionAvailable ? (
                  
                     <Link

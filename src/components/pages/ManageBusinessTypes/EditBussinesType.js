@@ -94,43 +94,7 @@ import Loaderimg from "../../../Utils/Loader";
     },
   });
 
-  // const handleSubmit = async (values) => {
-  //   const token = localStorage.getItem("token");
-
-  //   const formData = new FormData();
-  //   console.log(formData, "formData");
-
-  //   formData.append("business_name", values.business_name);
-  //   formData.append("slug", values.slug);
-  //   formData.append("status", values.status);
-  //   formData.append("id", values.id);
   
-    
-
-  //   try {
-  //     const response = await fetch(
-  //       `${process.env.REACT_APP_BASE_URL}/business/update-type`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //         body: formData,
-  //       }
-  //     );
-
-  //     const data = await response.json();
-
-  //     if (response.ok) {
-  //       notify(data.message);
-  //       navigate("/business");
-  //     } else {
-  //       Errornotify(data.message);
-  //     }
-  //   } catch (error) {
-  //     handleError(error);
-  //   }
-  // };
   
   const handleSubmit = async (values) => {
     try {
