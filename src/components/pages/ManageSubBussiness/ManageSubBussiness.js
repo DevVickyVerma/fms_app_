@@ -133,15 +133,15 @@ useEffect(() => {
   }
 }, [UserPermissions]);
 
-const isStatusPermissionAvailable = permissionsArray.includes(
+const isStatusPermissionAvailable = permissionsArray?.includes(
   "shop-status-update"
 );
-const isEditPermissionAvailable = permissionsArray.includes("business-sub-type-edit");
-const isAddPermissionAvailable = permissionsArray.includes("business-sub-type-create");
-const isDeletePermissionAvailable = permissionsArray.includes("business-sub-type-delete");
+const isEditPermissionAvailable = permissionsArray?.includes("business-sub-type-edit");
+const isAddPermissionAvailable = permissionsArray?.includes("business-sub-type-create");
+const isDeletePermissionAvailable = permissionsArray?.includes("business-sub-type-delete");
 const isDetailsPermissionAvailable =
-  permissionsArray.includes("business-sub-type-detail");
-const isAssignPermissionAvailable = permissionsArray.includes("business-sub-type-assign");
+  permissionsArray?.includes("business-sub-type-detail");
+const isAssignPermissionAvailable = permissionsArray?.includes("business-sub-type-assign");
 
 
 

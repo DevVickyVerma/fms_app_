@@ -145,17 +145,17 @@ const ManageSuppliers = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable = permissionsArray.includes(
+  const isStatusPermissionAvailable = permissionsArray?.includes(
     "supplier-status-update"
   );
-  const isEditPermissionAvailable = permissionsArray.includes("supplier-edit");
-  const isAddPermissionAvailable = permissionsArray.includes("supplier-create");
+  const isEditPermissionAvailable = permissionsArray?.includes("supplier-edit");
+  const isAddPermissionAvailable = permissionsArray?.includes("supplier-create");
   const isDeletePermissionAvailable =
-    permissionsArray.includes("supplier-delete");
+    permissionsArray?.includes("supplier-delete");
   const isDetailsPermissionAvailable =
-    permissionsArray.includes("supplier-details");
+    permissionsArray?.includes("supplier-details");
   const isAssignPermissionAvailable =
-    permissionsArray.includes("supplier-assign");
+    permissionsArray?.includes("supplier-assign");
 
   const columns = [
     {

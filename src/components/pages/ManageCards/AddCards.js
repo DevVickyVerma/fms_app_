@@ -25,7 +25,7 @@ const AddCards = (props) => {
       formData.append("card_code", values.card_code);
       formData.append("card_status", values.card_status);
 
-      formData.append("image", values.image);
+      formData.append("logo", values.image);
 
       const postDataUrl = "card/add";
 

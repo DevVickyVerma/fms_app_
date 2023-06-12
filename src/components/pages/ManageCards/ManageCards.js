@@ -148,15 +148,15 @@ const ManageCards = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable = permissionsArray.includes(
+  const isStatusPermissionAvailable = permissionsArray?.includes(
     "cards-status-update"
   );
-  const isEditPermissionAvailable = permissionsArray.includes("card-edit");
-  const isAddPermissionAvailable = permissionsArray.includes("card-create");
-  const isDeletePermissionAvailable = permissionsArray.includes("card-delete");
+  const isEditPermissionAvailable = permissionsArray?.includes("card-edit");
+  const isAddPermissionAvailable = permissionsArray?.includes("card-create");
+  const isDeletePermissionAvailable = permissionsArray?.includes("card-delete");
   const isDetailsPermissionAvailable =
-    permissionsArray.includes("cards-details");
-  const isAssignPermissionAvailable = permissionsArray.includes("card-assign");
+    permissionsArray?.includes("cards-details");
+  const isAssignPermissionAvailable = permissionsArray?.includes("card-assign");
 
   const columns = [
     {

@@ -149,11 +149,11 @@ const ManageAddon = (props) => {
 
 
 
-const isEditPermissionAvailable = permissionsArray.includes("addons-edit");
-const isAddPermissionAvailable = permissionsArray.includes("addons-create");
-const isDeletePermissionAvailable = permissionsArray.includes("addons-delete");
-const isDetailsPermissionAvailable = permissionsArray.includes("addons-details");
-const isAssignPermissionAvailable = permissionsArray.includes("addons-assign");
+const isEditPermissionAvailable = permissionsArray?.includes("addons-edit");
+const isAddPermissionAvailable = permissionsArray?.includes("addons-create");
+const isDeletePermissionAvailable = permissionsArray?.includes("addons-delete");
+const isDetailsPermissionAvailable = permissionsArray?.includes("addons-details");
+const isAssignPermissionAvailable = permissionsArray?.includes("addons-assign");
 
   const columns = [
     {

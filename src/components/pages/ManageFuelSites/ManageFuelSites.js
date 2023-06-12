@@ -153,12 +153,12 @@ const ManageDeductions = (props) => {
 
 
 
-const isStatusPermissionAvailable = permissionsArray.includes("deduction-status-update");
-const isEditPermissionAvailable = permissionsArray.includes("deduction-edit");
-const isAddPermissionAvailable = permissionsArray.includes("deduction-create");
-const isDeletePermissionAvailable = permissionsArray.includes("deduction-delete");
-const isDetailsPermissionAvailable = permissionsArray.includes("deduction-details");
-const isAssignPermissionAvailable = permissionsArray.includes("deduction-assign");
+const isStatusPermissionAvailable = permissionsArray?.includes("deduction-status-update");
+const isEditPermissionAvailable = permissionsArray?.includes("deduction-edit");
+const isAddPermissionAvailable = permissionsArray?.includes("deduction-create");
+const isDeletePermissionAvailable = permissionsArray?.includes("deduction-delete");
+const isDetailsPermissionAvailable = permissionsArray?.includes("deduction-details");
+const isAssignPermissionAvailable = permissionsArray?.includes("deduction-assign");
 
 
 

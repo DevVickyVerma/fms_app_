@@ -154,17 +154,17 @@ const ManageCharges = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable = permissionsArray.includes(
+  const isStatusPermissionAvailable = permissionsArray?.includes(
     "charges-status-update"
   );
-  const isEditPermissionAvailable = permissionsArray.includes("charges-edit");
-  const isAddPermissionAvailable = permissionsArray.includes("charges-create");
+  const isEditPermissionAvailable = permissionsArray?.includes("charges-edit");
+  const isAddPermissionAvailable = permissionsArray?.includes("charges-create");
   const isDeletePermissionAvailable =
-    permissionsArray.includes("charges-delete");
+    permissionsArray?.includes("charges-delete");
   const isDetailsPermissionAvailable =
-    permissionsArray.includes("charges-details");
+    permissionsArray?.includes("charges-details");
   const isAssignPermissionAvailable =
-    permissionsArray.includes("charges-assign");
+    permissionsArray?.includes("charges-assign");
 
   const columns = [
     {

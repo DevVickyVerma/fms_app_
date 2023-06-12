@@ -152,17 +152,17 @@ const ManageCompany = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable = permissionsArray.includes(
+  const isStatusPermissionAvailable = permissionsArray?.includes(
     "company-status-update"
   );
-  const isEditPermissionAvailable = permissionsArray.includes("company-edit");
-  const isAddPermissionAvailable = permissionsArray.includes("company-create");
+  const isEditPermissionAvailable = permissionsArray?.includes("company-edit");
+  const isAddPermissionAvailable = permissionsArray?.includes("company-create");
   const isDeletePermissionAvailable =
-    permissionsArray.includes("company-delete");
+    permissionsArray?.includes("company-delete");
   const isDetailsPermissionAvailable =
-    permissionsArray.includes("company-details");
+    permissionsArray?.includes("company-details");
   const isAssignPermissionAvailable =
-    permissionsArray.includes("company-assign");
+    permissionsArray?.includes("company-assign");
 
   const columns = [
     {

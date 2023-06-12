@@ -151,13 +151,13 @@ const ManageShops = (props) => {
   }, [UserPermissions]);
 
   const isStatusPermissionAvailable =
-    permissionsArray.includes("shop-status-update");
-  const isEditPermissionAvailable = permissionsArray.includes("shop-edit");
-  const isAddPermissionAvailable = permissionsArray.includes("shop-create");
-  const isDeletePermissionAvailable = permissionsArray.includes("shop-delete");
+    permissionsArray?.includes("shop-status-update");
+  const isEditPermissionAvailable = permissionsArray?.includes("shop-edit");
+  const isAddPermissionAvailable = permissionsArray?.includes("shop-create");
+  const isDeletePermissionAvailable = permissionsArray?.includes("shop-delete");
   const isDetailsPermissionAvailable =
-    permissionsArray.includes("shop-details");
-  const isAssignPermissionAvailable = permissionsArray.includes("shop-assign");
+    permissionsArray?.includes("shop-details");
+  const isAssignPermissionAvailable = permissionsArray?.includes("shop-assign");
 
   const columns = [
     {

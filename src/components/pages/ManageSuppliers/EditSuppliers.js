@@ -24,11 +24,15 @@ import Loaderimg from "../../../Utils/Loader";
 const Editsuppliers = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const navigate = useNavigate();
+  const reader = new FileReader();
 
   const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedBusinessType, setSelectedBusinessType] = useState("");
   const [subTypes, setSubTypes] = useState([]);
   const [EditSiteData, setEditSiteData] = useState();
+  const [previewImage, setPreviewImage] = useState(null);
+ 
+  const [isDragging, setIsDragging] = useState(false);
 
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
@@ -70,6 +74,11 @@ const Editsuppliers = (props) => {
           console.log(response.data.data);
           setEditSiteData(response.data.data);
           formik.setValues(response.data.data);
+          if (formik.values.image) {
+            setPreviewImage(formik.values.logo);
+          } else {
+            setPreviewImage(null);
+          }
         }
       } catch (error) {
         handleError(error);
@@ -101,6 +110,7 @@ const Editsuppliers = (props) => {
       formData.append("supplier_name", values.supplier_name);
       formData.append("status", values.status);
       formData.append("id", values.id);
+      formData.append("logo", values.image);
 
       const postDataUrl = "/supplier/update";
       const navigatePath = "/Managesuppliers";
@@ -110,6 +120,32 @@ const Editsuppliers = (props) => {
       handleError(error); // Set the submission state to false if an error occurs
     }
   };
+  const handleImageChange = (event, setFieldValue) => {
+    const file = event.currentTarget.files[0];
+    setFieldValue("image", file);
+
+    // Preview the image
+ 
+    reader.onload = () => {
+      setPreviewImage(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleDrop = (event, setFieldValue) => {
+    event.preventDefault();
+    setIsDragging(false);
+    const file = event.dataTransfer.files[0];
+    setFieldValue("image", file);
+
+    // Preview the image
+    const reader = new FileReader();
+    reader.onload = () => {
+      setPreviewImage(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
 
   const formik = useFormik({
     initialValues: {
@@ -272,6 +308,46 @@ const Editsuppliers = (props) => {
                             )}
                           </div>
                         </Col>
+                        <Col lg={6} md={12}>
+                        <div className="form-group">
+                          <label htmlFor="image">Image</label>
+                          <div
+                            className={`dropzone ${
+                              formik.errors.image && formik.touched.image
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            onDrop={(event) =>
+                              handleDrop(event, formik.setFieldValue)
+                            }
+                            onDragOver={(event) => event.preventDefault()}
+                          >
+                            <input
+                              type="file"
+                              id="image"
+                              name="image"
+                              onChange={(event) =>
+                                handleImageChange(event, formik.setFieldValue)
+                              }
+                              className="form-control"
+                            />
+                            <p>
+                              Drag and drop your image here, or click to browse
+                            </p>
+                          </div>
+                          {formik.errors.image && formik.touched.image && (
+                            <div className="invalid-feedback">
+                              {formik.errors.image}
+                            </div>
+                          )}
+                        </div>
+                        {previewImage && (
+                          <div>
+                            <p>Preview:</p>
+                            <img src={previewImage} alt="Preview" />
+                          </div>
+                        )}
+                      </Col>
                       </Row>
                       <div className="text-end">
                         <Link

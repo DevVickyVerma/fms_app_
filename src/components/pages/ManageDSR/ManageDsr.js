@@ -37,12 +37,12 @@ const ManageDsr = (props) => {
 
 
 
-const isStatusPermissionAvailable = permissionsArray.includes("supplier-status-update");
-const isEditPermissionAvailable = permissionsArray.includes("supplier-edit");
-const isAddPermissionAvailable = permissionsArray.includes("supplier-create");
-const isDeletePermissionAvailable = permissionsArray.includes("supplier-delete");
-const isDetailsPermissionAvailable = permissionsArray.includes("supplier-details");
-const isAssignPermissionAvailable = permissionsArray.includes("supplier-assign");
+const isStatusPermissionAvailable = permissionsArray?.includes("supplier-status-update");
+const isEditPermissionAvailable = permissionsArray?.includes("supplier-edit");
+const isAddPermissionAvailable = permissionsArray?.includes("supplier-create");
+const isDeletePermissionAvailable = permissionsArray?.includes("supplier-delete");
+const isDetailsPermissionAvailable = permissionsArray?.includes("supplier-details");
+const isAssignPermissionAvailable = permissionsArray?.includes("supplier-assign");
 
 
 
