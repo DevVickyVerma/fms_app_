@@ -443,7 +443,7 @@ const AddSite = (props) => {
                                 id="Site_Status"
                                 name="Site_Status"
                               >
-                                <option value="">Select a Site Status</option>
+                                {/* <option value="">Select a Site Status</option> */}
                                 {AddSiteData.site_status &&
                                 AddSiteData.site_status.length > 0 ? (
                                   AddSiteData.site_status.map((item) => (
@@ -803,9 +803,9 @@ const AddSite = (props) => {
                                 id="Bunkered_sale_status"
                                 name="Bunkered_sale_status"
                               >
-                                <option value="">
+                                {/* <option value="">
                                   Select a Bunkered Sale Status
-                                </option>
+                                </option> */}
                                 <option value="1">Active</option>
                                 <option value="0">InActive</option>
                               </Field>
