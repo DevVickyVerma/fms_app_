@@ -213,7 +213,7 @@ const Editdeductions = (props) => {
                               <span className="text-danger">*</span>
                             </label>
                             <input
-                              type="text"  autocomplete="off"
+                              type="text"  autoComplete="off"
                               className={`input101 ${
                                 formik.errors.deduction_name &&
                                 formik.touched.deduction_name
@@ -243,7 +243,7 @@ const Editdeductions = (props) => {
                             <input
                               id="deduction_code"
                               deduction_code="code"
-                              type="text"  autocomplete="off"
+                              type="text"  autoComplete="off"
                               className={`input101 readonly ${
                                 formik.errors.deduction_code &&
                                 formik.touched.deduction_code

@@ -316,7 +316,7 @@ const AddSite = (props) => {
                               </label>
 
                               <Field
-                                type="text"  autocomplete="off"
+                                type="text"  autoComplete="off"
                                 className={`input101 ${
                                   errors.site_code && touched.site_code
                                     ? "is-invalid"
@@ -342,7 +342,7 @@ const AddSite = (props) => {
                                 Site Name<span className="text-danger">*</span>
                               </label>
                               <Field
-                                type="text"  autocomplete="off"
+                                type="text"  autoComplete="off"
                                 className={`input101 ${
                                   errors.site_name && touched.site_name
                                     ? "is-invalid"
@@ -368,7 +368,7 @@ const AddSite = (props) => {
                                 Display Name
                               </label>
                               <Field
-                                type="text"  autocomplete="off"
+                                type="text"  autoComplete="off"
                                 className={`input101 ${
                                   errors.display_name && touched.display_name
                                     ? "is-invalid"
@@ -573,7 +573,7 @@ const AddSite = (props) => {
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
-                                type="text"  autocomplete="off"
+                                type="text"  autoComplete="off"
                                 className={`input101 ${
                                   errors.Saga_department_name &&
                                   touched.Saga_department_name
@@ -601,7 +601,7 @@ const AddSite = (props) => {
                                 BP NCTT Site No <span className="text-danger">*</span>
                               </label>
                               <Field
-                                type="text"  autocomplete="off"
+                                type="text"  autoComplete="off"
                                 className={`input101 ${
                                   errors.Bp_nctt_site_no &&
                                   touched.Bp_nctt_site_no

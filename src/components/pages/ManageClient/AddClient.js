@@ -265,7 +265,7 @@ const AddClient = (props) => {
                               </label>
 
                               <Field
-                                type="text"  autocomplete="off"
+                                type="text"  autoComplete="off"
                                 className={`input101 ${
                                   errors.client_code && touched.client_code
                                     ? "is-invalid"
@@ -291,7 +291,7 @@ const AddClient = (props) => {
                                 First Name<span className="text-danger">*</span>
                               </label>
                               <Field
-                                type="text"  autocomplete="off"
+                                type="text"  autoComplete="off"
                                 className={`input101 ${
                                   errors.first_name && touched.first_name
                                     ? "is-invalid"
@@ -317,7 +317,7 @@ const AddClient = (props) => {
                                 Last Name<span className="text-danger">*</span>
                               </label>
                               <Field
-                                type="text"  autocomplete="off"
+                                type="text"  autoComplete="off"
                                 className={`input101 ${
                                   errors.last_name && touched.last_name
                                     ? "is-invalid"
@@ -514,7 +514,7 @@ const AddClient = (props) => {
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
-                                type="text"  autocomplete="off"
+                                type="text"  autoComplete="off"
                                 className={`input101 ${
                                   errors.email && touched.email
                                     ? "is-invalid"

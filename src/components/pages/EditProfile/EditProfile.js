@@ -322,7 +322,7 @@ export default function EditProfile() {
                               </label>
                               <Field
                                 type="text"
-                                autocomplete="off"
+                                autoComplete="off"
                                 // className="form-control"
                                 className={`input101 ${
                                   errors.first_name && touched.first_name
@@ -350,7 +350,7 @@ export default function EditProfile() {
                               </label>
                               <Field
                                 type="text"
-                                autocomplete="off"
+                                autoComplete="off"
                                 className={`input101 ${
                                   errors.last_name && touched.last_name
                                     ? "is-invalid"
@@ -379,7 +379,7 @@ export default function EditProfile() {
                               </label>
                               <Field
                                 type="text"
-                                autocomplete="off"
+                                autoComplete="off"
                                 className={`input101 ${
                                   errors.phone_number && touched.phone_number
                                     ? "is-invalid"

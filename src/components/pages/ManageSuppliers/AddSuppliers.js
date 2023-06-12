@@ -182,7 +182,7 @@ const AddSuppliers = (props) => {
                                 id="supplier_name"
                                 name="supplier_name"
                                 placeholder="Supplier Name"
-                                autocomplete="off"
+                                autoComplete="off"
                               />
                               <ErrorMessage
                                 component="div"
@@ -207,7 +207,7 @@ const AddSuppliers = (props) => {
                                 id="supplier_code"
                                 name="supplier_code"
                                 placeholder="Supplier Code"
-                                autocomplete="off"
+                                autoComplete="off"
                               />
                               <ErrorMessage
                                 name="supplier_code"

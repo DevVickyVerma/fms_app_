@@ -212,7 +212,7 @@ const EditShops = (props) => {
                             <input
                               id="name"
                               code="name"
-                              type="text"  autocomplete="off"
+                              type="text"  autoComplete="off"
                               className={`input101 ${
                                 formik.errors.name && formik.touched.name
                                   ? "is-invalid"
@@ -236,7 +236,7 @@ const EditShops = (props) => {
                               Shop Code<span className="text-danger">*</span>
                             </label>
                             <input
-                              type="text"  autocomplete="off"
+                              type="text"  autoComplete="off"
                               className={`input101  readonly ${
                                 formik.errors.code && formik.touched.code
                                   ? "is-invalid"

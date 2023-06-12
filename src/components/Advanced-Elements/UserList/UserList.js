@@ -39,7 +39,7 @@ export default function UserList() {
       <Row className="row-cards">
         <Col lg={12} xl={12}>
           <div className="input-group mb-5">
-            <input type="text"  autocomplete="off" className="form-control" placeholder="" />
+            <input type="text"  autoComplete="off" className="form-control" placeholder="" />
             <div className="input-group-text btn btn-primary">
               <i className="fa fa-search" aria-hidden="true"></i>
             </div>

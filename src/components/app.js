@@ -100,8 +100,8 @@ import withApi from "../Utils/ApiHelper";
         text: 'Oops, there is no activity from last 5 minutes, would you like to stay logged in or logout?',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'LogOut!',
-        cancelButtonText: 'Stay LoggedIn',
+        confirmButtonText: 'Logout!',
+        cancelButtonText: 'Stay Loggedin',
         reverseButtons: true,
       }).then((result) => {
         if (result.isConfirmed) {

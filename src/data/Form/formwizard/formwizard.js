@@ -35,7 +35,7 @@ import StepZilla from "react-stepzilla";
                 style={{ border: error ? "2px solid #6259ca" : "" }}
                 name="firstName"
                 defaultValue={values.firstName}
-                type="text"  autocomplete="off"
+                type="text"  autoComplete="off"
                 placeholder="First Name"
                 onChange={handleFormData("firstName")}
               />
@@ -53,7 +53,7 @@ import StepZilla from "react-stepzilla";
                 style={{ border: error ? "2px solid #6259ca" : "" }}
                 name="lastName"
                 defaultValue={values.lastName}
-                type="text"  autocomplete="off"
+                type="text"  autoComplete="off"
                 placeholder="Last Name"
                 onChange={handleFormData("lastName")}
               />
@@ -233,7 +233,7 @@ const handleInputData = input => e => {
              <div className="control-group form-group ">
                <label className="form-label">Name</label>
                <input
-                 type="text"  autocomplete="off"
+                 type="text"  autoComplete="off"
                  className="form-control required"
                  placeholder="Name"
                />
@@ -257,7 +257,7 @@ const handleInputData = input => e => {
              <div className="control-group form-group mb-0">
                <label className="form-label">Address</label>
                <input
-                 type="text"  autocomplete="off"
+                 type="text"  autoComplete="off"
                  className="form-control required"
                  placeholder="Address"
                />
@@ -329,7 +329,7 @@ const handleInputData = input => e => {
              <div className="form-group">
                <label className="form-label">Card Holder Name</label>
                <input
-                 type="text"  autocomplete="off"
+                 type="text"  autoComplete="off"
                  className="form-control"
                  id="name1"
                  placeholder="First Name"
@@ -339,7 +339,7 @@ const handleInputData = input => e => {
                <label className="form-label">Card number</label>
                <div className="input-group">
                  <input
-                   type="text"  autocomplete="off"
+                   type="text"  autoComplete="off"
                    className="form-control"
                    placeholder="Search for..."
                  />
@@ -449,7 +449,7 @@ function getStepContent(step) {
             <div className="form-group">
               <label>User Name</label>
               <input
-                type="text"  autocomplete="off"
+                type="text"  autoComplete="off"
                 className="form-control"
                 id="inputtext"
                 placeholder="Enter User Name"
@@ -591,7 +591,7 @@ const steps = [
         <span className="control-group form-group">
           <label className="form-label">Name</label>
           <input
-            type="text"  autocomplete="off"
+            type="text"  autoComplete="off"
             className="form-control required"
             placeholder="Name"
           />
@@ -615,7 +615,7 @@ const steps = [
         <span className="control-group form-group mb-0">
           <label className="form-label">Address</label>
           <input
-            type="text"  autocomplete="off"
+            type="text"  autoComplete="off"
             className="form-control required"
             placeholder="Address"
           />
@@ -669,7 +669,7 @@ const steps = [
         <span className="form-group">
           <label className="form-label">Card Holder Name</label>
           <input
-            type="text"  autocomplete="off"
+            type="text"  autoComplete="off"
             className="form-control"
             id="name12"
             placeholder="First Name"
@@ -679,7 +679,7 @@ const steps = [
           <label className="form-label">Card number</label>
           <span className="input-group">
             <input
-              type="text"  autocomplete="off"
+              type="text"  autoComplete="off"
               className="form-control"
               placeholder="Search for..."
             />
@@ -802,11 +802,11 @@ const NameEmail = () => {
 														<div className="my-3">
 															<div className="form-group">
 																<label>Name:</label>
-																<input type="text"  autocomplete="off" name="name" className="form-control" />
+																<input type="text"  autoComplete="off" name="name" className="form-control" />
 															</div>
 															<div className="form-group">
 																<label>Email:</label>
-																<input type="text"  autocomplete="off" name="email" className="form-control" />
+																<input type="text"  autoComplete="off" name="email" className="form-control" />
 															</div>
 														</div>
 												</div>
@@ -822,11 +822,11 @@ const Contact = () => {
 														<div className="my-3">
 															<div className="form-group">
 																<label>Telephone:</label>
-																<input type="text"  autocomplete="off" name="telephone" className="form-control" />
+																<input type="text"  autoComplete="off" name="telephone" className="form-control" />
 															</div>
 															<div className="form-group">
 																<label>Mobile:</label>
-																<input type="text"  autocomplete="off" name="mobile" className="form-control" />
+																<input type="text"  autoComplete="off" name="mobile" className="form-control" />
 															</div>
 														</div>
 													</div>
@@ -844,12 +844,12 @@ const PaymentDetails = () => {
           <section>
 												<div className="form-group">
 													<label className="form-label" >Card Holder Name</label>
-													<input type="text"  autocomplete="off" className="form-control" id="name1" placeholder="First Name"/>
+													<input type="text"  autoComplete="off" className="form-control" id="name1" placeholder="First Name"/>
 												</div>
 												<div className="form-group">
 													<label className="form-label">Card number</label>
 													<div className="input-group">
-														<input type="text"  autocomplete="off" className="form-control" placeholder="Search for..."/>
+														<input type="text"  autoComplete="off" className="form-control" placeholder="Search for..."/>
 														<span className="input-group-text btn btn-info shadow-none">
                               <button>
 															<i className="fa fa-cc-visa"></i> &nbsp; <i className="fa fa-cc-amex"></i> &nbsp;

@@ -162,7 +162,7 @@ const AddDeductions = (props) => {
                                    <span className="text-danger">*</span>
                                    </label>
                                 <Field
-                                  type="text"  autocomplete="off"
+                                  type="text"  autoComplete="off"
                                   // className="form-control"
                                   className={`input101 ${
                                     errors.deduction_name && touched.deduction_name
@@ -186,7 +186,7 @@ const AddDeductions = (props) => {
                                    <span className="text-danger">*</span>
                                    </label>
                                 <Field
-                                  type="text"  autocomplete="off"
+                                  type="text"  autoComplete="off"
                                   className={`input101 ${
                                     errors.deduction_code && touched.deduction_code
                                       ? "is-invalid"

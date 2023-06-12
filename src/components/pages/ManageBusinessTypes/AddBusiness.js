@@ -155,7 +155,7 @@ const AddAddon = (props) => {
                           <span className="text-danger">*</span>
                           </label>
                           <Field
-                            type="text"  autocomplete="off"
+                            type="text"  autoComplete="off"
                             // className="form-control"
                             className={`input101 ${
                               errors.business_name && touched.business_name
@@ -179,7 +179,7 @@ const AddAddon = (props) => {
                           <span className="text-danger">*</span>
                           </label>
                           <Field
-                            type="text"  autocomplete="off"
+                            type="text"  autoComplete="off"
                             className={`input101 ${
                               errors.slug && touched.slug ? "is-invalid" : ""
                             }`}

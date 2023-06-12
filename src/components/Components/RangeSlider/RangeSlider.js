@@ -47,7 +47,7 @@ export default function RangeSlider() {
               <rangeslider.DiscreteSliderMarks
                 className="rangeslider1"
                 name="example_name"
-                type="text"  autocomplete="off"
+                type="text"  autoComplete="off"
                 defaultValue=""
               />
             </Col>
@@ -55,7 +55,7 @@ export default function RangeSlider() {
               <rangeslider.Rangeslider2
                 className="rangeslider2"
                 name="example_name"
-                type="text"  autocomplete="off"
+                type="text"  autoComplete="off"
                 defaultValue=""
               />
             </Col>
@@ -65,7 +65,7 @@ export default function RangeSlider() {
               <rangeslider.RangeSlider3
                 className="rangeslider3"
                 name="example_name"
-                type="text"  autocomplete="off"
+                type="text"  autoComplete="off"
                 defaultValue=""
               />
             </Col>
@@ -73,7 +73,7 @@ export default function RangeSlider() {
               <rangeslider.RangeSlider4
                 className="rangeslider3"
                 name="example_name"
-                type="text"  autocomplete="off"
+                type="text"  autoComplete="off"
                 defaultValue=""
               />
             </Col>
@@ -93,7 +93,7 @@ export default function RangeSlider() {
                 data="true"
                 extra="true"
                 name="example_name"
-                type="text"  autocomplete="off"
+                type="text"  autoComplete="off"
               />
             </Col>
             <Col lg={12} className=" mt-4">

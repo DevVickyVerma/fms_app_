@@ -157,7 +157,7 @@ const AddShops = (props) => {
                               <span className="text-danger">*</span>
                               </label>
                                 <Field
-                                  type="text"  autocomplete="off"
+                                  type="text"  autoComplete="off"
                                   // className="form-control"
                                   className={`input101 ${
                                     errors.shop_name && touched.shop_name
@@ -181,7 +181,7 @@ const AddShops = (props) => {
                               <span className="text-danger">*</span>
                               </label>
                                 <Field
-                                  type="text"  autocomplete="off"
+                                  type="text"  autoComplete="off"
                                   className={`input101 ${
                                     errors.code && touched.code
                                       ? "is-invalid"

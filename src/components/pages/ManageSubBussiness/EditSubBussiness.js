@@ -248,7 +248,7 @@ export default function AddSite() {
                       <input
                         id="business_sub_name"
                         business_sub_name="name"
-                        type="text"  autocomplete="off"
+                        type="text"  autoComplete="off"
                         className={`input101 ${
                           formik.errors.business_sub_name &&
                           formik.touched.business_sub_name
@@ -273,7 +273,7 @@ export default function AddSite() {
                         Slug<span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"  autocomplete="off"
+                        type="text"  autoComplete="off"
                         className={`input101 ${
                           formik.errors.slug && formik.touched.slug
                             ? "is-invalid"

@@ -294,7 +294,7 @@ const formatDate = (date) => {
                       <input
                         id="site_code"
                         name="site_code"
-                        type="text"  autocomplete="off"
+                        type="text"  autoComplete="off"
                         className={`input101 ${
                           formik.errors.site_code && formik.touched.site_code
                             ? "is-invalid"
@@ -317,7 +317,7 @@ const formatDate = (date) => {
                         Site Name<span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"  autocomplete="off"
+                        type="text"  autoComplete="off"
                         className={`input101 ${
                           formik.errors.site_name && formik.touched.site_name
                             ? "is-invalid"
@@ -344,7 +344,7 @@ const formatDate = (date) => {
                       Display Name
                     </label>
                     <input
-                      type="text"  autocomplete="off"
+                      type="text"  autoComplete="off"
                       className={`input101 ${
                         formik.errors.site_display_name &&
                         formik.touched.site_display_name
@@ -532,7 +532,7 @@ const formatDate = (date) => {
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"  autocomplete="off"
+                        type="text"  autoComplete="off"
                         className={`input101 ${
                           formik.errors.department_sage_code &&
                           formik.touched.department_sage_code
@@ -563,7 +563,7 @@ const formatDate = (date) => {
                         BP NCTT Site No<span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"  autocomplete="off"
+                        type="text"  autoComplete="off"
                         className={`input101 ${
                           formik.errors.bp_credit_card_site_no &&
                           formik.touched.bp_credit_card_site_no

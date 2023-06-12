@@ -188,7 +188,7 @@ export default function FAQS() {
               <div className="pt-4">
                 <Form.Group className="form-group">
                   <Form.Control
-                    type="text"  autocomplete="off"
+                    type="text"  autoComplete="off"
                     className="form-control me-3"
                     id="name1"
                     placeholder="Your Name"

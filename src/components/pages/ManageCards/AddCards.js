@@ -206,7 +206,7 @@ const AddCards = (props) => {
                               </label>
                               <Field
                                 type="text"
-                                autocomplete="off"
+                                autoComplete="off"
                                 // className="form-control"
                                 className={`input101 ${
                                   errors.card_name && touched.card_name
@@ -235,7 +235,7 @@ const AddCards = (props) => {
                               </label>
                               <Field
                                 type="text"
-                                autocomplete="off"
+                                autoComplete="off"
                                 className={`input101 ${
                                   errors.card_code && touched.card_code
                                     ? "is-invalid"

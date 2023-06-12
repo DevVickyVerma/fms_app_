@@ -365,7 +365,7 @@ const ManageCards = (props) => {
             <div className="ms-auto pageheader-btn">
               <div className="input-group">
                 {/* <input
-                  type="text"  autocomplete="off"
+                  type="text"  autoComplete="off"
                   className="form-control"
                   value={searchText}
                   onChange={handleSearch}

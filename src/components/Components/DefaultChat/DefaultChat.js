@@ -41,7 +41,7 @@ export default function DefaultChat() {
                 <Card.Body>
                   <div className="input-group">
                     <input
-                      type="text"  autocomplete="off"
+                      type="text"  autoComplete="off"
                       className="form-control"
                       placeholder="Search ..."
                     />
@@ -1417,7 +1417,7 @@ export default function DefaultChat() {
                     <input
                       className=" form-control"
                       placeholder="Type your message here..."
-                      type="text"  autocomplete="off"
+                      type="text"  autoComplete="off"
                     />
                   </div>
                   <Link className="main-msg-send" to="#">

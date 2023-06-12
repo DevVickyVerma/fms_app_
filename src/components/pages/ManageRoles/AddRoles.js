@@ -207,7 +207,7 @@ import { useSelector } from "react-redux";
                           <span className="text-danger">*</span>
                           </label>
                           <Field
-                            type="text"  autocomplete="off"
+                            type="text"  autoComplete="off"
                             id="name"
                             name="name"
                             placeholder="Role Name"

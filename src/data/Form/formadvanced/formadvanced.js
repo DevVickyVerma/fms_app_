@@ -70,7 +70,7 @@ export function LocalizedTimePicker() {
             {...params}
             className="form-control"
             placeholder="Set time"
-            type="text"  autocomplete="off"
+            type="text"  autoComplete="off"
           />
         )}
       />
@@ -96,7 +96,7 @@ export function BasicTimePicker() {
             className="form-control"
             id="tp1"
             placeholder="Set time"
-            type="text"  autocomplete="off"
+            type="text"  autoComplete="off"
           />
         )}
       />
@@ -124,7 +124,7 @@ export function ResponsiveTimePickers() {
             {...params}
             className="form-control"
             placeholder="Set time"
-            type="text"  autocomplete="off"
+            type="text"  autoComplete="off"
           />
         )}
       />

@@ -65,7 +65,7 @@ export default function FormAdvanced() {
               </Row>
               <div className="input-group mb-5 file-browser">
                 <input
-                  type="text"  autocomplete="off"
+                  type="text"  autoComplete="off"
                   className="form-control browse-file"
                   placeholder="Choose"
                   readOnly
@@ -130,7 +130,7 @@ export default function FormAdvanced() {
                     className="form-control"
                     id="tp1"
                     placeholder="Set time"
-                    type="text"  autocomplete="off"
+                    type="text"  autoComplete="off"
                   />
                 </div>
               </div>
@@ -153,7 +153,7 @@ export default function FormAdvanced() {
                     className="form-control"
                     id="tp3"
                     placeholder="Set time"
-                    type="text"  autocomplete="off"
+                    type="text"  autoComplete="off"
                   />
                 </div>
               </div>
@@ -178,7 +178,7 @@ export default function FormAdvanced() {
                 Show pallete only. If you'd like, spectrum can show the palettes
                 you specify, and nothing else.
               </p>
-              <fromadvanced.ColorPickers id="showPaletteOnly" type="text"  autocomplete="off" />
+              <fromadvanced.ColorPickers id="showPaletteOnly" type="text"  autoComplete="off" />
             </Card.Body>
           </Card>
         </Col>

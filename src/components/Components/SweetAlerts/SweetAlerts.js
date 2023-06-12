@@ -80,7 +80,7 @@ export default function SweetAlerts() {
               <div className="form-group">
                 <label>Title</label>
                 <input
-                  type="text"  autocomplete="off"
+                  type="text"  autoComplete="off"
                   className="form-control"
                   placeholder="Title text"
                   id="title"
@@ -89,7 +89,7 @@ export default function SweetAlerts() {
               <div className="form-group">
                 <label>Message</label>
                 <input
-                  type="text"  autocomplete="off"
+                  type="text"  autoComplete="off"
                   className="form-control"
                   placeholder="Your message"
                   id="message"

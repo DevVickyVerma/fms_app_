@@ -213,7 +213,7 @@ import Loaderimg from "../../../Utils/Loader";
                        Charges Name <span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"  autocomplete="off"
+                        type="text"  autoComplete="off"
                         className={`input101 ${
                           formik.errors.charge_name && formik.touched.charge_name
                             ? "is-invalid"
@@ -243,7 +243,7 @@ import Loaderimg from "../../../Utils/Loader";
                       <input
                         id="charge_code"
                         charge_code="name"
-                        type="text"  autocomplete="off"
+                        type="text"  autoComplete="off"
                         className={`input101 readonly ${
                           formik.errors.charge_code &&
                           formik.touched.charge_code
