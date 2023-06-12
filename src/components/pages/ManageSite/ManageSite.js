@@ -3,7 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import { Breadcrumb, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  Form,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import * as loderdata from "../../../data/Component/loderdata/loderdata";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -211,7 +219,6 @@ const ManageSite = (props) => {
     }
   }, [UserPermissions]);
 
-
   const isEditPermissionAvailable = permissionsArray?.includes("site-edit");
   const isAddPermissionAvailable = permissionsArray?.includes("site-create");
   const isDeletePermissionAvailable = permissionsArray?.includes("site-delete");
@@ -352,9 +359,12 @@ const ManageSite = (props) => {
                 Inactive
               </button>
             ) : (
-              <button className="badge" onClick={
+              <button
+                className="badge"
+                onClick={
                   isEditPermissionAvailable ? () => toggleActive(row) : null
-                }>
+                }
+              >
                 Unknown
               </button>
             )}
@@ -370,8 +380,6 @@ const ManageSite = (props) => {
       width: "15%",
       cell: (row) => (
         <span className="text-center">
-        
-
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
@@ -478,7 +486,7 @@ const ManageSite = (props) => {
   return (
     <>
       {isLoading ? (
-       <Loaderimg />
+        <Loaderimg />
       ) : (
         <>
           <div className="page-header ">
@@ -558,22 +566,34 @@ const ManageSite = (props) => {
               onClose={handleCloseSidebar}
             />
           </Suspense>
-
-          <DataTableExtensions {...tableDatas}>
-            <DataTable
-              columns={columns}
-              data={data}
-              noHeader
-              defaultSortField="id"
-              defaultSortAsc={false}
-              striped={true}
-              // center={true}
-              persistTableHead
-              // pagination
-              highlightOnHover
-              searchable={false}
-            />
-          </DataTableExtensions>
+          <Row className=" row-sm">
+            <Col lg={12}>
+              <Card>
+                <Card.Header>
+                  <h3 className="card-title">Manage Site</h3>
+                </Card.Header>
+                <Card.Body>
+                  <div className="table-responsive deleted-table">
+                    <DataTableExtensions {...tableDatas}>
+                      <DataTable
+                        columns={columns}
+                        data={data}
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        striped={true}
+                        // center={true}
+                        persistTableHead
+                        // pagination
+                        highlightOnHover
+                        searchable={false}
+                      />
+                    </DataTableExtensions>
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
         </>
       )}
     </>

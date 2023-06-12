@@ -4,7 +4,7 @@ import { Link, Navigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import { Breadcrumb, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -300,7 +300,16 @@ const ManageRoles = (props) => {
         </div>
       </div>
 
-      <DataTableExtensions {...tableDatas}>
+  
+               <Row className=" row-sm">
+        <Col lg={12}>
+          <Card>
+            <Card.Header>
+              <h3 className="card-title">Manage Roles</h3>
+            </Card.Header>
+            <Card.Body>
+              <div className="table-responsive deleted-table">
+              <DataTableExtensions {...tableDatas}>
         <DataTable
           columns={columns}
           data={data}
@@ -315,6 +324,11 @@ const ManageRoles = (props) => {
           searchable={true}
         />
       </DataTableExtensions>
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
       </>
       
       </>

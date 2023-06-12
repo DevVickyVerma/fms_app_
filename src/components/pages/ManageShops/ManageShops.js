@@ -4,7 +4,14 @@ import { Link, Navigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import { Breadcrumb, OverlayTrigger, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -327,32 +334,30 @@ const ManageShops = (props) => {
 
   return (
     <>
-    {isLoading ? (
-     <Loaderimg />
-    ) : null}
-        <>
-          <div className="page-header ">
-            <div>
-              <h1 className="page-title">Manage Shops</h1>
-              <Breadcrumb className="breadcrumb">
-                <Breadcrumb.Item
-                  className="breadcrumb-item"
-                  linkAs={Link}
-                  linkProps={{ to: "/dashboard" }}
-                >
-                  Dashboard
-                </Breadcrumb.Item>
-                <Breadcrumb.Item
-                  className="breadcrumb-item active breadcrumds"
-                  aria-current="page"
-                >
-                  Manage Shops
-                </Breadcrumb.Item>
-              </Breadcrumb>
-            </div>
-            <div className="ms-auto pageheader-btn">
-              <div className="input-group">
-                {/* <input
+      {isLoading ? <Loaderimg /> : null}
+      <>
+        <div className="page-header ">
+          <div>
+            <h1 className="page-title">Manage Shops</h1>
+            <Breadcrumb className="breadcrumb">
+              <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/dashboard" }}
+              >
+                Dashboard
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item active breadcrumds"
+                aria-current="page"
+              >
+                Manage Shops
+              </Breadcrumb.Item>
+            </Breadcrumb>
+          </div>
+          <div className="ms-auto pageheader-btn">
+            <div className="input-group">
+              {/* <input
                   type="text"  autocomplete="off"
                   className="form-control"
                   value={searchText}
@@ -360,36 +365,48 @@ const ManageShops = (props) => {
                   placeholder="Search..."
                   style={{ borderRadius: 0 }}
                 /> */}
-                {isAddPermissionAvailable ? (
-                  <Link
-                    to="/addShops"
-                    className="btn btn-primary ms-2"
-                    style={{ borderRadius: "4px" }}
-                  >
-                    Add Shops
-                  </Link>
-                ) : null}
-              </div>
+              {isAddPermissionAvailable ? (
+                <Link
+                  to="/addShops"
+                  className="btn btn-primary ms-2"
+                  style={{ borderRadius: "4px" }}
+                >
+                  Add Shops
+                </Link>
+              ) : null}
             </div>
           </div>
+        </div>
 
-          <DataTableExtensions {...tableDatas}>
-            <DataTable
-              columns={columns}
-              data={data}
-              noHeader
-              defaultSortField="id"
-              defaultSortAsc={false}
-              striped={true}
-              // center={true}
-              persistTableHead
-              pagination
-              highlightOnHover
-              searchable={true}
-            />
-          </DataTableExtensions>
-        </>
-    
+        <Row className=" row-sm">
+          <Col lg={12}>
+            <Card>
+              <Card.Header>
+                <h3 className="card-title">Manage Shops</h3>
+              </Card.Header>
+              <Card.Body>
+                <div className="table-responsive deleted-table">
+                  <DataTableExtensions {...tableDatas}>
+                    <DataTable
+                      columns={columns}
+                      data={data}
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      striped={true}
+                      // center={true}
+                      persistTableHead
+                      pagination
+                      highlightOnHover
+                      searchable={true}
+                    />
+                  </DataTableExtensions>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </>
     </>
   );
 };

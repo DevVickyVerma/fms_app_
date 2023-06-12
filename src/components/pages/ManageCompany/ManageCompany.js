@@ -3,7 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import { Breadcrumb, OverlayTrigger, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -13,7 +20,6 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-
 
 const ManageCompany = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -239,7 +245,7 @@ const ManageCompany = (props) => {
               <button
                 className="badge bg-success"
                 onClick={
-                  isEditPermissionAvailable? () => toggleActive(row) : null
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Active
@@ -248,7 +254,7 @@ const ManageCompany = (props) => {
               <button
                 className="badge bg-danger"
                 onClick={
-                  isEditPermissionAvailable? () => toggleActive(row) : null
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Inactive
@@ -257,7 +263,7 @@ const ManageCompany = (props) => {
               <button
                 className="badge"
                 onClick={
-                  isEditPermissionAvailable? () => toggleActive(row) : null
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Unknown
@@ -329,56 +335,66 @@ const ManageCompany = (props) => {
 
   return (
     <>
-    {isLoading ? (
-     <Loaderimg />
-    ) : null}
-        <>
-          <div className="page-header ">
-            <div>
-              <h1 className="page-title">Manage Company</h1>
+      {isLoading ? <Loaderimg /> : null}
+      <>
+        <div className="page-header ">
+          <div>
+            <h1 className="page-title">Manage Companies</h1>
 
-              <Breadcrumb className="breadcrumb">
-                <Breadcrumb.Item
-                  className="breadcrumb-item"
-                  linkAs={Link}
-                  linkProps={{ to: "/dashboard" }}
-                >
-                  Dashboard
-                </Breadcrumb.Item>
-                <Breadcrumb.Item
-                  className="breadcrumb-item active breadcrumds"
-                  aria-current="page"
-                >
-                  Manage Company
-                </Breadcrumb.Item>
-              </Breadcrumb>
-            </div>
-            <div className="ms-auto pageheader-btn">
-              {isAddPermissionAvailable ? (
-                <Link to="/addcompany" className="btn btn-primary ms-2">
-                  Add Company <AddCircleOutlineIcon />
-                </Link>
-              ) : null}
-            </div>
+            <Breadcrumb className="breadcrumb">
+              <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/dashboard" }}
+              >
+                Dashboard
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item active breadcrumds"
+                aria-current="page"
+              >
+                Manage Companies
+              </Breadcrumb.Item>
+            </Breadcrumb>
           </div>
-
-          <DataTableExtensions {...tableDatas}>
-            <DataTable
-              columns={columns}
-              data={data}
-              noHeader
-              defaultSortField="id"
-              defaultSortAsc={false}
-              striped={true}
-              // center={true}
-              persistTableHead
-              // pagination
-              highlightOnHover
-              searchable={true}
-            />
-          </DataTableExtensions>
-        </>
-      
+          <div className="ms-auto pageheader-btn">
+            {isAddPermissionAvailable ? (
+              <Link to="/addcompany" className="btn btn-primary ms-2">
+                Add Company <AddCircleOutlineIcon />
+              </Link>
+            ) : null}
+          </div>
+        </div>
+        <Row className=" row-sm">
+          <Col lg={12}>
+            <Card>
+              <Card.Header>
+                <h3 className="card-title">Manage Companies</h3>
+              </Card.Header>
+              
+              <Card.Body>
+                <div className="table-responsive deleted-table">
+                  <DataTableExtensions {...tableDatas}>
+                    <DataTable
+                      columns={columns}
+                      data={data}
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      striped={true}
+                      // center={true}
+                      persistTableHead
+                      // pagination
+                      highlightOnHover
+                      searchable={true}
+                    />
+                  </DataTableExtensions>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </>
     </>
   );
 };
