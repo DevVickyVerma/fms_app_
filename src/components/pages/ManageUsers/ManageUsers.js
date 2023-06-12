@@ -365,7 +365,7 @@ const ManageUser = (props) => {
               persistTableHead
               pagination
               highlightOnHover
-              searchable={true}
+              searchable={false}
             />
           </DataTableExtensions>
         </>

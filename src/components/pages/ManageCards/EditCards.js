@@ -34,6 +34,8 @@ const EditCards = (props) => {
   const Errornotify = (message) => toast.error(message);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
+  const [previewImage, setPreviewImage] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
   function handleError(error) {
     if (error.response && error.response.card_status === 401) {
       navigate("/login");
@@ -52,6 +54,32 @@ const EditCards = (props) => {
     }
   }
   const { id } = useParams();
+
+  const handleImageChange = (event, setFieldValue) => {
+    const file = event.currentTarget.files[0];
+    setFieldValue("image", file);
+
+    // Preview the image
+    const reader = new FileReader();
+    reader.onload = () => {
+      setPreviewImage(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleDrop = (event, setFieldValue) => {
+    event.preventDefault();
+    setIsDragging(false);
+    const file = event.dataTransfer.files[0];
+    setFieldValue("image", file);
+
+    // Preview the image
+    const reader = new FileReader();
+    reader.onload = () => {
+      setPreviewImage(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -104,6 +132,7 @@ const EditCards = (props) => {
       formData.append("card_name", values.card_name);
       formData.append("card_status", values.card_status);
       formData.append("id", values.id);
+      formData.append("image", values.image);
 
       const postDataUrl = "/card/update";
       const navigatePath = "/ManageCards";
@@ -119,6 +148,7 @@ const EditCards = (props) => {
       card_code: "",
       card_name: "",
       card_status: "",
+      image: null,
     },
     validationSchema: Yup.object({
       card_code: Yup.string()
@@ -138,7 +168,7 @@ const EditCards = (props) => {
             excludeEmptyString: true,
           }
         ),
-
+      image: Yup.mixed().required(),
       card_status: Yup.string().required("Card Status is required"),
     }),
     onSubmit: handleSubmit,
@@ -161,168 +191,206 @@ const EditCards = (props) => {
 
   return (
     <>
-    {isLoading ? (
-     <Loaderimg />
-    ) : null}
-        <>
-          <div>
-            <div className="page-header">
-              <div>
-                <h1 className="page-title">Edit Card</h1>
+      {isLoading ? <Loaderimg /> : null}
+      <>
+        <div>
+          <div className="page-header">
+            <div>
+              <h1 className="page-title">Edit Card</h1>
 
-                <Breadcrumb className="breadcrumb">
-                  <Breadcrumb.Item
-                    className="breadcrumb-item"
-                    linkAs={Link}
-                    linkProps={{ to: "/dashboard" }}
-                  >
-                    Dashboard
-                  </Breadcrumb.Item>
-                  <Breadcrumb.Item
-                    className="breadcrumb-item  breadcrumds"
-                    aria-current="page"
-                    linkAs={Link}
-                    linkProps={{ to: "/managecards" }}
-                  >
-                    Manage Card
-                  </Breadcrumb.Item>
-                  <Breadcrumb.Item
-                    className="breadcrumb-item active breadcrumds"
-                    aria-current="page"
-                  >
-                    Edit Card
-                  </Breadcrumb.Item>
-                </Breadcrumb>
-              </div>
+              <Breadcrumb className="breadcrumb">
+                <Breadcrumb.Item
+                  className="breadcrumb-item"
+                  linkAs={Link}
+                  linkProps={{ to: "/dashboard" }}
+                >
+                  Dashboard
+                </Breadcrumb.Item>
+                <Breadcrumb.Item
+                  className="breadcrumb-item  breadcrumds"
+                  aria-current="page"
+                  linkAs={Link}
+                  linkProps={{ to: "/managecards" }}
+                >
+                  Manage Card
+                </Breadcrumb.Item>
+                <Breadcrumb.Item
+                  className="breadcrumb-item active breadcrumds"
+                  aria-current="page"
+                >
+                  Edit Card
+                </Breadcrumb.Item>
+              </Breadcrumb>
             </div>
-
-            <Row>
-              <Col lg={12} xl={12} md={12} sm={12}>
-                <Card>
-                  <Card.Header>
-                    <Card.Title as="h3">Edit cards</Card.Title>
-                  </Card.Header>
-
-                  <div class="card-body">
-                    <form onSubmit={formik.handleSubmit}>
-                      <Row>
-                      <Col lg={6} md={6}>
-                          <div className="form-group">
-                            <label
-                              className="form-label mt-4"
-                              htmlFor="card_name"
-                            >
-                              Card Name <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"  autocomplete="off"
-                              className={`input101 ${
-                                formik.errors.card_name &&
-                                formik.touched.card_name
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
-                              id="card_name"
-                              name="card_name"
-                              placeholder="Card Name"
-                              onChange={formik.handleChange}
-                              value={formik.values.card_name || ""}
-                            />
-                            {formik.errors.card_name &&
-                              formik.touched.card_name && (
-                                <div className="invalid-feedback">
-                                  {formik.errors.card_name}
-                                </div>
-                              )}
-                          </div>
-                        </Col>
-                        <Col lg={6} md={6}>
-                          <div className="form-group">
-                            <label
-                              className="form-label mt-4"
-                              htmlFor="card_code"
-                            >
-                              Card Code<span className="text-danger">*</span>
-                            </label>
-                            <input
-                              id="card_code"
-                              card_code="name"
-                              type="text"  autocomplete="off"
-                              className={`input101 ${
-                                formik.errors.card_code &&
-                                formik.touched.card_code
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
-                              placeholder="Card Name"
-                              onChange={formik.handleChange}
-                              value={formik.values.card_code || ""}
-                              readOnly
-                            />
-                            {formik.errors.card_code &&
-                              formik.touched.card_code && (
-                                <div className="invalid-feedback">
-                                  {formik.errors.card_code}
-                                </div>
-                              )}
-                          </div>
-                        </Col>
-                      
-
-                        <Col lg={6} md={6}>
-                          <div className="form-group">
-                            <label
-                              htmlFor="card_status"
-                              className="form-label mt-4"
-                            >
-                              Card Status <span className="text-danger">*</span>
-                            </label>
-                            <select
-                              className={`input101 ${
-                                formik.errors.card_status &&
-                                formik.touched.card_status
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
-                              id="card_status"
-                              name="card_status"
-                              onChange={formik.handleChange}
-                              value={formik.values.card_status}
-                            >
-                              
-                              <option value="1">Active</option>
-                              <option value="0">Inactive</option>
-                            </select>
-                            {formik.errors.card_status &&
-                              formik.touched.card_status && (
-                                <div className="invalid-feedback">
-                                  {formik.errors.card_status}
-                                </div>
-                              )}
-                          </div>
-                        </Col>
-                      </Row>
-                      <div className="text-end">
-                        <Link
-                          type="submit"
-                          className="btn btn-danger me-2 "
-                          to={`/managecards/`}
-                        >
-                          Cancel
-                        </Link>
-
-                        <button type="submit" className="btn btn-primary">
-                          Submit
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </Card>
-              </Col>
-            </Row>
           </div>
-        </>
-    
+
+          <Row>
+            <Col lg={12} xl={12} md={12} sm={12}>
+              <Card>
+                <Card.Header>
+                  <Card.Title as="h3">Edit cards</Card.Title>
+                </Card.Header>
+
+                <div class="card-body">
+                  <form onSubmit={formik.handleSubmit}>
+                    <Row>
+                      <Col lg={6} md={6}>
+                        <div className="form-group">
+                          <label
+                            className="form-label mt-4"
+                            htmlFor="card_name"
+                          >
+                            Card Name <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            autocomplete="off"
+                            className={`input101 ${
+                              formik.errors.card_name &&
+                              formik.touched.card_name
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="card_name"
+                            name="card_name"
+                            placeholder="Card Name"
+                            onChange={formik.handleChange}
+                            value={formik.values.card_name || ""}
+                          />
+                          {formik.errors.card_name &&
+                            formik.touched.card_name && (
+                              <div className="invalid-feedback">
+                                {formik.errors.card_name}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={6} md={6}>
+                        <div className="form-group">
+                          <label
+                            className="form-label mt-4"
+                            htmlFor="card_code"
+                          >
+                            Card Code<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            id="card_code"
+                            card_code="name"
+                            type="text"
+                            autocomplete="off"
+                            className={`input101 ${
+                              formik.errors.card_code &&
+                              formik.touched.card_code
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            placeholder="Card Name"
+                            onChange={formik.handleChange}
+                            value={formik.values.card_code || ""}
+                            readOnly
+                          />
+                          {formik.errors.card_code &&
+                            formik.touched.card_code && (
+                              <div className="invalid-feedback">
+                                {formik.errors.card_code}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+
+                      <Col lg={6} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="card_status"
+                            className="form-label mt-4"
+                          >
+                            Card Status <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.card_status &&
+                              formik.touched.card_status
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="card_status"
+                            name="card_status"
+                            onChange={formik.handleChange}
+                            value={formik.values.card_status}
+                          >
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
+                          </select>
+                          {formik.errors.card_status &&
+                            formik.touched.card_status && (
+                              <div className="invalid-feedback">
+                                {formik.errors.card_status}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={6} md={12}>
+                        <div className="form-group">
+                          <label htmlFor="image">Image</label>
+                          <div
+                            className={`dropzone ${
+                              formik.errors.image && formik.touched.image
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            onDrop={(event) =>
+                              handleDrop(event, formik.setFieldValue)
+                            }
+                            onDragOver={(event) => event.preventDefault()}
+                          >
+                            <input
+                              type="file"
+                              id="image"
+                              name="image"
+                              onChange={(event) =>
+                                handleImageChange(event, formik.setFieldValue)
+                              }
+                              className="form-control"
+                              value={formik.values.logo}
+                            />
+                            <p>
+                              Drag and drop your image here, or click to browse
+                            </p>
+                          </div>
+                          {formik.errors.image && formik.touched.image && (
+                            <div className="invalid-feedback">
+                              {formik.errors.image}
+                            </div>
+                          )}
+                        </div>
+                        {previewImage && (
+                          <div>
+                            <p>Preview:</p>
+                            <img src={previewImage} alt="Preview" />
+                          </div>
+                        )}
+                      </Col>
+                    </Row>
+                    <div className="text-end">
+                      <Link
+                        type="submit"
+                        className="btn btn-danger me-2 "
+                        to={`/managecards/`}
+                      >
+                        Cancel
+                      </Link>
+
+                      <button type="submit" className="btn btn-primary">
+                        Submit
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </Card>
+            </Col>
+          </Row>
+        </div>
+      </>
     </>
   );
 };

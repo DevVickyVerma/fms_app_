@@ -36,6 +36,7 @@
     "echarts-for-react": "^3.0.2",
     "env-cmd": "^10.1.0",
     "formik": "^2.2.9",
+    "formik-file-and-image-input": "^0.0.6",
     "fullcalendar-daygrid": "^5.3.3",
     "hh-mm-ss": "^1.2.0",
     "jwt-decode": "^3.1.2",

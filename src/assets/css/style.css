@@ -56505,13 +56505,13 @@ textarea.form-control {
   border-radius: 4px;
   text-align: center !important;
 }
-.data-table-extensions {
+/* .data-table-extensions {
   display: none !important;
   width: 100%;
   box-sizing: border-box;
   display: none;
   padding: 0.7rem 1.2rem;
-}
+} */
 .table-heading {
   padding: 10px;
   background: #f2f3f9;

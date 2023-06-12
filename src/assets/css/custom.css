@@ -77,3 +77,14 @@ h3.SidebarSearch-title {
   background: none !important;
   box-shadow: none;
 }
+.data-table-extensions > .data-table-extensions-filter > .filter-text {
+  /* border: 1px solid #eaedf1 !important; */
+  border-bottom: 1px solid #eaedf1 !important;
+  outline: none !important;
+  /* padding: 0.375rem 0.75rem !important; */
+  margin-left: -11px !important;
+  /* background-color: transparent !important; */
+  border-radius: 0px;
+  /* padding: 14px; */
+  background: #fff !important;
+}

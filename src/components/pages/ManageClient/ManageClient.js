@@ -434,7 +434,7 @@ const ManageClient = (props) => {
               persistTableHead
               pagination
               highlightOnHover
-              searchable={true}
+              // searchable={true}
             />
           </DataTableExtensions>
         </>

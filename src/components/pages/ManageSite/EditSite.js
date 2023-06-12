@@ -23,9 +23,11 @@ export default function AddSite() {
   const navigate = useNavigate();
 
   const [AddSiteData, setAddSiteData] = useState([]);
+  const [Listcompany, setCompanylist] = useState([]);
   const [selectedBusinessType, setSelectedBusinessType] = useState("");
   const [subTypes, setSubTypes] = useState([]);
   const [EditSiteData, setEditSiteData] = useState("");
+  const [companyId, setCompanyId] = useState();
 
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
@@ -63,6 +65,8 @@ export default function AddSite() {
         if (response) {
           setEditSiteData(response.data.data);
           formik.setValues(response.data.data);
+          fetchCompanyList(response.data.data.company_id)
+          console.log(response.data.data.company_id,"company")
         }
       } catch (error) {
         handleError(error);
@@ -190,6 +194,36 @@ export default function AddSite() {
     }),
     onSubmit: handleSubmit,
   });
+
+ 
+
+  const fetchCompanyList = async (id) => {
+    const token = localStorage.getItem("token");
+    const axiosInstance = axios.create({
+      baseURL: process.env.REACT_APP_BASE_URL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    try {
+      const response = await axiosInstance.get(`/companies?client_id=${id}`);
+      setCompanylist(response.data.data);
+      if (response.data.length > 0) {
+        // setCompanylist(response.data.data);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigate("/login");
+        Errornotify("Invalid access token");
+        localStorage.clear();
+      } else if (error.response && error.response.data.status_code === "403") {
+        navigate("/errorpage403");
+      }
+    }
+  };
+
+
 
   const isInvalid = formik.errors && formik.touched.name ? "is-invalid" : "";
 
@@ -876,13 +910,30 @@ const formatDate = (date) => {
                         }`}
                         id="client_id"
                         name="client_id"
-                        onChange={formik.handleChange}
+                         
                         onBlur={formik.handleBlur}
                         value={formik.values.client_id}
+                        onChange={(e) => {
+                                  const selectedType = e.target.value;
+                                  if (selectedType.length > 0 && selectedType) {
+                                    fetchCompanyList(selectedType);
+                                    formik.setFieldValue("client_id", selectedType);
+                                  } else {
+                                    console.log(e.target.value, "dd");
+                                  }
+                                }}
                       >
-                        <option value="">Select a Client</option>
-                        <option value="1">Automatic</option>
-                        <option value="2">Manual</option>
+                         <option value=""> Select Client</option>
+                                {AddSiteData.clients &&
+                                AddSiteData.clients.length > 0 ? (
+                                  AddSiteData.clients.map((item) => (
+                                    <option key={item.id} value={item.id}>
+                                      {item.client_name}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option disabled>No Client</option>
+                                )}
                       </select>
                       {formik.errors.client_id &&
                         formik.touched.client_id && (
@@ -892,6 +943,49 @@ const formatDate = (date) => {
                         )}
                     </div>
                   </Col>
+                  <Col lg={4} md={6}>
+                            <div className="form-group">
+                              <label
+                                htmlFor="company_id"
+                                className="form-label mt-4"
+                              >
+                                Select Company
+                              </label>
+                              <select
+                                className={`input101 ${
+                                  formik. errors.company_id &&  formik.touched.company_id
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="company_id"
+                                name="company_id"
+                                onChange={(e) => {
+                                  const selectedType = e.target.value;
+                                  if (selectedType.length > 0 && selectedType) {
+                                    formik.setFieldValue("company_id", selectedType);
+                                  }
+                                }}
+                                value={formik.values.company_id}
+                              >
+                                <option value=""> Select Company</option>
+                                {Listcompany.companies &&
+                                Listcompany.companies.length > 0 ? (
+                                  Listcompany.companies.map((item) => (
+                                    <option key={item.id} value={item.id}>
+                                      {item.company_name}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option disabled>No clients</option>
+                                )}
+                              </select>
+                              { formik.errors.company_id &&  formik.touched.company_id && (
+                                <div className="invalid-feedback">
+                                  { formik.errors.company_id}
+                                </div>
+                              )}
+                            </div>
+                          </Col>
                 </Row>
                 <div className="text-end">
                   <Link

@@ -3084,10 +3084,9 @@ ol.progtrckr li.progtrckr-todo:before{color: $transparent-body;background: $tran
     border: 1px solid $border !important;
     border-bottom: 1px solid $border !important;
     outline: none !important;
-    padding: 0.375rem 0.75rem !important;
+    padding: 10px !important;
     margin-left: -11px !important;
-    background-color: transparent !important;
-    border-radius: 7px;
+   
   }
   > .icon {
     display: none !important;
