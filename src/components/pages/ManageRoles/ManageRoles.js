@@ -243,11 +243,13 @@ const ManageRoles = (props) => {
 
   const handleSearch = (e) => {
     const value = e.target.value;
+    console.log(value)
     setSearchText(value);
 
-    const filteredData = searchvalue.filter((item) =>
+    const filteredData = tableDatas.filter((item) =>
       item.name.toLowerCase().includes(value.toLowerCase())
     );
+    console.log(filteredData)
     setData(filteredData);
   };
 
