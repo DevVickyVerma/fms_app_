@@ -23,6 +23,7 @@ import Loaderimg from "../../../Utils/Loader";
 
 const EditCards = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
+  const reader = new FileReader();
   const navigate = useNavigate();
 
   const [AddSiteData, setAddSiteData] = useState([]);
@@ -32,8 +33,7 @@ const EditCards = (props) => {
 
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-  const [dropdownValue, setDropdownValue] = useState([]);
+ 
   const [previewImage, setPreviewImage] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   function handleError(error) {
@@ -60,7 +60,7 @@ const EditCards = (props) => {
     setFieldValue("image", file);
 
     // Preview the image
-    const reader = new FileReader();
+ 
     reader.onload = () => {
       setPreviewImage(reader.result);
     };
@@ -101,6 +101,11 @@ const EditCards = (props) => {
           console.log(response.data.data);
           setEditSiteData(response.data.data);
           formik.setValues(response.data.data);
+          if (formik.values.image) {
+            setPreviewImage(formik.values.logo);
+          } else {
+            setPreviewImage(null);
+          }
         }
       } catch (error) {
         handleError(error);
@@ -132,7 +137,7 @@ const EditCards = (props) => {
       formData.append("card_name", values.card_name);
       formData.append("card_status", values.card_status);
       formData.append("id", values.id);
-      formData.append("image", values.image);
+      formData.append("logo", values.image);
 
       const postDataUrl = "/card/update";
       const navigatePath = "/ManageCards";
@@ -156,7 +161,7 @@ const EditCards = (props) => {
         .required("card code is required"),
 
       card_name: Yup.string()
-        .required("card_name is required")
+        .required("Card Name is required")
         .matches(/^[a-zA-Z0-9_\- ]+$/, {
           message: "card name must not contain special characters",
           excludeEmptyString: true,
@@ -168,7 +173,6 @@ const EditCards = (props) => {
             excludeEmptyString: true,
           }
         ),
-      image: Yup.mixed().required(),
       card_status: Yup.string().required("Card Status is required"),
     }),
     onSubmit: handleSubmit,
@@ -278,7 +282,7 @@ const EditCards = (props) => {
                             card_code="name"
                             type="text"
                             autocomplete="off"
-                            className={`input101 ${
+                            className={`input101 readonly ${
                               formik.errors.card_code &&
                               formik.touched.card_code
                                 ? "is-invalid"
@@ -351,7 +355,6 @@ const EditCards = (props) => {
                                 handleImageChange(event, formik.setFieldValue)
                               }
                               className="form-control"
-                              value={formik.values.logo}
                             />
                             <p>
                               Drag and drop your image here, or click to browse

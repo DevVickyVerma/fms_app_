@@ -65,8 +65,8 @@ export default function AddSite() {
         if (response) {
           setEditSiteData(response.data.data);
           formik.setValues(response.data.data);
-          fetchCompanyList(response.data.data.company_id)
-          console.log(response.data.data.company_id,"company")
+          // fetchCompanyList(response.data.data.client_id)
+          // console.log(response.data.data.company_id,"company")
         }
       } catch (error) {
         handleError(error);
@@ -153,8 +153,7 @@ export default function AddSite() {
       fuel_commission_calc_status: "",
       bunker_upload_status: "",
       paperwork_status: "",
-      client_id: "",
-      company_id: "",
+     
     },
     validationSchema: Yup.object({
       site_code: Yup.string()
@@ -184,12 +183,7 @@ export default function AddSite() {
       bp_credit_card_site_no: Yup.string().required(
         "Bunker Upload Status is required"
       ),
-      company_id: Yup.string().required(
-        "Company is required"
-      ),
-      client_id: Yup.string().required(
-        "Client is required"
-      ),
+ 
       // drs_upload_status: Yup.string().required("Drs Upload Status is required"),
     }),
     onSubmit: handleSubmit,
@@ -197,31 +191,31 @@ export default function AddSite() {
 
  
 
-  const fetchCompanyList = async (id) => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  // const fetchCompanyList = async (id) => {
+  //   const token = localStorage.getItem("token");
+  //   const axiosInstance = axios.create({
+  //     baseURL: process.env.REACT_APP_BASE_URL,
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   });
 
-    try {
-      const response = await axiosInstance.get(`/companies?client_id=${id}`);
-      setCompanylist(response.data.data);
-      if (response.data.length > 0) {
-        // setCompanylist(response.data.data);
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        navigate("/login");
-        Errornotify("Invalid access token");
-        localStorage.clear();
-      } else if (error.response && error.response.data.status_code === "403") {
-        navigate("/errorpage403");
-      }
-    }
-  };
+  //   try {
+  //     const response = await axiosInstance.get(`/companies?client_id=${id}`);
+  //     setCompanylist(response.data.data);
+  //     if (response.data.length > 0) {
+  //       // setCompanylist(response.data.data);
+  //     }
+  //   } catch (error) {
+  //     if (error.response && error.response.status === 401) {
+  //       navigate("/login");
+  //       Errornotify("Invalid access token");
+  //       localStorage.clear();
+  //     } else if (error.response && error.response.data.status_code === "403") {
+  //       navigate("/errorpage403");
+  //     }
+  //   }
+  // };
 
 
 
@@ -424,7 +418,7 @@ const formatDate = (date) => {
                         onChange={formik.handleChange}
                         value={formik.values.site_status}
                       >
-                        {/* <option value="">Select a Site Status</option> */}
+                        <option value="">Select a Site Status</option>
                         {AddSiteData.site_status &&
                         AddSiteData.site_status.length > 0 ? (
                           AddSiteData.site_status.map((item) => (
@@ -779,7 +773,7 @@ const formatDate = (date) => {
                         onBlur={formik.handleBlur}
                         value={formik.values.bunker_upload_status}
                       >
-                        {/* <option value="">Select a Bunkered Sale Status</option> */}
+                        <option value="">Select a Bunkered Sale Status</option>
                         <option value="1">Yes</option>
                         <option value="0">No</option>
                       </select>
@@ -893,7 +887,7 @@ const formatDate = (date) => {
                         )}
                     </div>
                   </Col>
-                    <Col lg={4} md={6}>
+                    {/* <Col lg={4} md={6}>
                     <div className="form-group">
                       <label
                         htmlFor="client_id"
@@ -985,7 +979,7 @@ const formatDate = (date) => {
                                 </div>
                               )}
                             </div>
-                          </Col>
+                          </Col> */}
                 </Row>
                 <div className="text-end">
                   <Link
