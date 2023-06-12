@@ -122,7 +122,7 @@ const AddAddon = (props) => {
               validationSchema={Yup.object({
                 business_name: Yup.string()
                   .max(15, "Must be 15 characters or less")
-                  .required(" Bussiness Name is required"),
+                  .required(" Business Name is required"),
 
                   slug: Yup.string()
         .required("Slug is required")
@@ -151,7 +151,9 @@ const AddAddon = (props) => {
                     <Row>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label  className=" form-label mt-4" htmlFor="business_name">Bussiness Name</label>
+                          <label  className=" form-label mt-4" htmlFor="business_name">Business Name
+                          <span className="text-danger">*</span>
+                          </label>
                           <Field
                             type="text"  autocomplete="off"
                             // className="form-control"
@@ -162,7 +164,7 @@ const AddAddon = (props) => {
                             }`}
                             id="business_name"
                             name="business_name"
-                            placeholder="Bussiness Name"
+                            placeholder="Business Name"
                           />
                           <ErrorMessage
                             component="div"
@@ -173,7 +175,9 @@ const AddAddon = (props) => {
                       </Col>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label  className=" form-label mt-4" htmlFor="slug">Slug</label>
+                          <label  className=" form-label mt-4" htmlFor="slug">Slug
+                          <span className="text-danger">*</span>
+                          </label>
                           <Field
                             type="text"  autocomplete="off"
                             className={`input101 ${
@@ -194,7 +198,9 @@ const AddAddon = (props) => {
                     <Row>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label  className=" form-label mt-4" htmlFor="status">Status</label>
+                          <label  className=" form-label mt-4" htmlFor="status">Status
+                          <span className="text-danger">*</span>
+                          </label>
                           <Field
                             as="select"
                             className={`input101 ${

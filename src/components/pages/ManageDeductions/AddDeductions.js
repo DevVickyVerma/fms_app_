@@ -158,7 +158,9 @@ const AddDeductions = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                   <label  className=" form-label mt-4"  htmlFor="deduction name">Deduction Name</label>
+                                   <label  className=" form-label mt-4"  htmlFor="deduction name">Deduction Name
+                                   <span className="text-danger">*</span>
+                                   </label>
                                 <Field
                                   type="text"  autocomplete="off"
                                   // className="form-control"
@@ -180,7 +182,9 @@ const AddDeductions = (props) => {
                             </Col>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                   <label  className=" form-label mt-4" htmlFor="deduction_code">Deduction Code</label>
+                                   <label  className=" form-label mt-4" htmlFor="deduction_code">Deduction Code
+                                   <span className="text-danger">*</span>
+                                   </label>
                                 <Field
                                   type="text"  autocomplete="off"
                                   className={`input101 ${
@@ -205,6 +209,7 @@ const AddDeductions = (props) => {
                               <FormGroup>
                                    <label  className=" form-label mt-4" htmlFor="deduction_status">
                                   Deduction Status
+                                  <span className="text-danger">*</span>
                                 </label>
                                 <Field
                                   as="select"

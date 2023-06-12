@@ -424,7 +424,7 @@ const formatDate = (date) => {
                         onChange={formik.handleChange}
                         value={formik.values.site_status}
                       >
-                        <option value="">Select a Site Status</option>
+                        {/* <option value="">Select a Site Status</option> */}
                         {AddSiteData.site_status &&
                         AddSiteData.site_status.length > 0 ? (
                           AddSiteData.site_status.map((item) => (
@@ -779,7 +779,7 @@ const formatDate = (date) => {
                         onBlur={formik.handleBlur}
                         value={formik.values.bunker_upload_status}
                       >
-                        <option value="">Select a Bunkered Sale Status</option>
+                        {/* <option value="">Select a Bunkered Sale Status</option> */}
                         <option value="1">Yes</option>
                         <option value="0">No</option>
                       </select>

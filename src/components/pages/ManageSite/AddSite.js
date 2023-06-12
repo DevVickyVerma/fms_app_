@@ -266,7 +266,7 @@ const AddSite = (props) => {
 
                
                     bussiness_Type: Yup.string().required(
-                      "Bussiness Type is required"
+                      "Business Type is required"
                     ),
                     supplier: Yup.string().required("Supplier is required"),
                     DRS_Start_Date: Yup.string().required(
@@ -443,7 +443,7 @@ const AddSite = (props) => {
                                 id="Site_Status"
                                 name="Site_Status"
                               >
-                                <option value="">Select a Site Status</option>
+                                {/* <option value="">Select a Site Status</option> */}
                                 {AddSiteData.site_status &&
                                 AddSiteData.site_status.length > 0 ? (
                                   AddSiteData.site_status.map((item) => (
@@ -471,7 +471,7 @@ const AddSite = (props) => {
                                 htmlFor="bussiness_Type"
                                 className=" form-label mt-4"
                               >
-                                Bussiness Type
+                                Business Type
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
@@ -497,7 +497,7 @@ const AddSite = (props) => {
                                 }}
                               >
                                 <option value="">
-                                  Select a Bussiness Type
+                                  Select a Business Type
                                 </option>
                                 {AddSiteData.busines_types &&
                                 AddSiteData.busines_types.length > 0 ? (
@@ -508,7 +508,7 @@ const AddSite = (props) => {
                                   ))
                                 ) : (
                                   <option disabled>
-                                    No BussinessType available
+                                    No BusinessType available
                                   </option>
                                 )}
                               </Field>
@@ -803,9 +803,9 @@ const AddSite = (props) => {
                                 id="Bunkered_sale_status"
                                 name="Bunkered_sale_status"
                               >
-                                <option value="">
+                                {/* <option value="">
                                   Select a Bunkered Sale Status
-                                </option>
+                                </option> */}
                                 <option value="1">Active</option>
                                 <option value="0">InActive</option>
                               </Field>
