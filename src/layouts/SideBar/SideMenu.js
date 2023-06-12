@@ -385,6 +385,24 @@ export const MENUITEMS = [
         
         ],
       },
+      {
+        title: "Manage Reports",
+        icon: "pie-chart",
+        type: "sub",
+        active: false,
+        permission: "supplier-create",
+        visibility: false,
+        children: [
+          {
+            path: `/reports`,
+            title: "Manage Reports",
+            type: "link",
+            permission: "supplier-create",
+            visibility: false,
+          },
+        
+        ],
+      },
       
       
     ],

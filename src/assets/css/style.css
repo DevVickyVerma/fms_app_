@@ -56514,11 +56514,12 @@ textarea.form-control {
 } */
 .table-heading {
   padding: 10px;
-  background: #f2f3f9;
+  background: #d8d8d8;
   margin: 20px 0px;
+  border-radius: 3px;
 }
 .table-heading h2 {
-  font-size: 18px;
+  font-size: 13px;
   margin: 0px;
   font-weight: 500;
 }

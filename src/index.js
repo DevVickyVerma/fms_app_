@@ -186,6 +186,15 @@ const ManageDsr = React.lazy(() =>
 
 
 // DSR End
+// Reports Start
+
+const ManageReports = React.lazy(() =>
+  import("./components/pages/Reports/ManageReports")
+);
+
+
+
+// Reports End
 
 const ManageBusinessTypes = React.lazy(() =>
   import("./components/pages/ManageBusinessTypes/ManageBusinessTypes")
@@ -325,6 +334,7 @@ const Root = () => {
   // const WrappedAddFuelSites = withApi(AddFuelSites);
   // const WrappedEditFuelSites = withApi(EditFuelSites);
   const WrappedManageDsr = withApi(ManageDsr);
+  const WrappedManageReports = withApi(ManageReports);
   return (
     <Fragment>
       <BrowserRouter>
@@ -405,6 +415,12 @@ const Root = () => {
                     element={<WrappedManageDsr />}
                   />
                   {/* DSR  Components End */}
+                  {/* Reports  Components Start */}
+                  <Route
+                    path={`/reports`}
+                    element={<WrappedManageReports/>}
+                  />
+                  {/* Reports  Components End */}
 
 
 

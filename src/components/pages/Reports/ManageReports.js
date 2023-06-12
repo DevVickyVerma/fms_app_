@@ -21,7 +21,7 @@ import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-const ManageDsr = (props) => {
+const ManageReports = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
   const [permissionsArray, setPermissionsArray] = useState([]);
@@ -97,6 +97,9 @@ const ManageDsr = (props) => {
       client_id: "",
       company_id: "",
       site_id: "",
+      end_date: "",
+      start_date: "",
+      report: "",
     },
 
     onSubmit: (values) => {
@@ -113,7 +116,7 @@ const ManageDsr = (props) => {
     <>
       <div className="page-header ">
         <div>
-          <h1 className="page-title">Data Entry</h1>
+          <h1 className="page-title">Report</h1>
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item
               className="breadcrumb-item"
@@ -126,7 +129,7 @@ const ManageDsr = (props) => {
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Data Entry
+             Report
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -135,10 +138,14 @@ const ManageDsr = (props) => {
       <Row>
         <Col md={12} xl={12}>
           <Card>
-            <Card.Body>
+           
+            <Card.Header>
+              <h3 className="card-title">Report</h3>
+              </Card.Header>
+              <Card.Body>
               <form onSubmit={formik.handleSubmit}>
                 <Row>
-                  <Col lg={3} md={6}>
+                  <Col lg={4} md={6}>
                     <div className="form-group d-flex">
                       <div>
                         <label htmlFor="client_id" className="form-label mx-4">
@@ -168,7 +175,7 @@ const ManageDsr = (props) => {
                       )}
                     </div>
                   </Col>
-                  <Col lg={3} md={6}>
+                  <Col lg={4} md={6}>
                     <div className="form-group d-flex">
                       <div>
                         <label htmlFor="company_id" className="form-label mx-4">
@@ -198,7 +205,7 @@ const ManageDsr = (props) => {
                       )}
                     </div>
                   </Col>
-                  <Col lg={3} md={6}>
+                  <Col lg={4} md={6}>
                     <div className="form-group d-flex">
                       <div>
                         <label htmlFor="site_id" className="form-label mx-4">
@@ -238,29 +245,92 @@ const ManageDsr = (props) => {
                       )}
                     </div>
                   </Col>
+                  <Col lg={4} md={6}>
+                    <div className="form-group d-flex">
+                      <div>
+                        <label htmlFor="report" className="form-label mx-4">
+                          Report<span className="text-danger">*</span>
+                        </label>
+                      </div>
+                      <select
+                        className={`input101 ${
+                          formik.errors.report && formik.touched.report
+                            ? "is-invalid"
+                            : ""
+                        }`}
+                        id="report"
+                        name="report"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.report}
+                      >
+                        <option value="">Select Report</option>
+                        {/* {dropdownValue.clients &&
+                        dropdownValue.clients.length > 0 ? (
+                          dropdownValue.clients.map((item) => (
+                            <option key={item.id} value={item.id}>
+                              {item.company_name}
+                            </option>
+                          ))
+                        ) : (
+                          <option disabled>No Site</option>
+                        )} */}
+                        <option value="1">Active</option>
+                                <option value="0">InActive</option>
+                      </select>
+                      {formik.errors.report && formik.touched.report && (
+                        <div className="invalid-feedback">
+                          {formik.errors.report}
+                        </div>
+                      )}
+                    </div>
+                  </Col>
                
 
                   {/* Repeat the above code for the remaining fields */}
 
-                  <Col lg={3} md={6}>
+                  <Col lg={4} md={6}>
                     <div className="form-group d-flex">
                       <div>
                         <label htmlFor="date" className="form-label mx-4">
-                          Date<span className="text-danger">*</span>
+                          From<span className="text-danger">*</span>
                         </label>
                       </div>
                       <input
                         type="date"
-                        id="date"
-                        name="date"
+                        id="start_date"
+                        name="start_date"
                         className="form-control"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.date}
+                        value={formik.values.start_date}
                       />
-                      {formik.errors.date && formik.touched.date && (
+                      {formik.errors.start_date && formik.touched.start_date && (
                         <div className="invalid-feedback">
-                          {formik.errors.date}
+                          {formik.errors.start_date}
+                        </div>
+                      )}
+                    </div>
+                  </Col>
+                  <Col lg={4} md={6}>
+                    <div className="form-group d-flex">
+                      <div>
+                        <label htmlFor="end_date" className="form-label mx-4">
+                          To<span className="text-danger">*</span>
+                        </label>
+                      </div>
+                      <input
+                        type="date"
+                        id="end_date"
+                        name="end_date"
+                        className="form-control"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.end_date}
+                      />
+                      {formik.errors.end_date && formik.touched.end_date && (
+                        <div className="invalid-feedback">
+                          {formik.errors.end_date}
                         </div>
                       )}
                     </div>
@@ -279,84 +349,7 @@ const ManageDsr = (props) => {
           </Card>
         </Col>
       </Row>
-
-      <Row>
-        <Col md={12} xl={12}>
-          <Card>
-            <Card.Header>
-              <h3 className="card-title">Upload Files</h3>
-              <Col lg={8} md={8}>
-                <div className="form-group d-flex">
-                  <div>
-                    <label htmlFor="upload_id" className="form-label mx-4">
-                      File Upload Type<span className="text-danger">*</span>
-                    </label>
-                  </div>
-                  <select
-                    className={`input101 ${
-                      formik.errors.upload_id && formik.touched.upload_id
-                        ? "is-invalid"
-                        : ""
-                    }`}
-                    id="upload_id"
-                    name="upload_id"
-                    onChange={formik.handleChange}
-                    value={formik.values.upload_id}
-                  >
-                    <option value=""> Select File Upload Type</option>
-                    <option value="1">Active</option>
-                                <option value="0">InActive</option>
-                  </select>
-                  {formik.errors.upload_id && formik.touched.upload_id && (
-                    <div className="invalid-feedback">
-                      {formik.errors.upload_id}
-                    </div>
-                  )}
-                </div>
-              </Col>
-            </Card.Header>
-            <Card.Body>
-              <Row>
-                {names1.map((item) => (
-                  <Col md={12} xl={3} key={item.id}>
-                    <Card className="text-white bg-primary">
-                      <Card.Body
-                        className="card-Div"
-                        onClick={() => handleClick(item)}
-                      >
-                        <h4 className="card-title">{item.name}</h4>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                ))}
-              </Row>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-      <Row>
-        <Col md={12} xl={12}>
-          <Card>
-            <Card.Header>
-              <h3 className="card-title">Data Entry</h3>
-            </Card.Header>
-            <Card.Body>
-              <Row>
-                {names.map((name, index) => (
-                  <Col md={12} xl={3} sm={4} key={index}>
-                    <Card className="text-white bg-primary">
-                      <Card.Body className="card-Div">
-                        <h4 className="card-title">{name}</h4>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                ))}
-              </Row>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
     </>
   );
 };
-export default withApi(ManageDsr);
+export default withApi(ManageReports);

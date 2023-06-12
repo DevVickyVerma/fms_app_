@@ -53,7 +53,7 @@ import { useSelector } from "react-redux";
   const FetchTableData = async () => {
     try {
       const response = await getData("/permission-list")
-      console.log(response.data.data, "ddd");
+    
 
       if (response && response.data && response.data) {
         setUserPermissions(response.data.data);
@@ -160,7 +160,9 @@ import { useSelector } from "react-redux";
         <div className="col-lg-12 col-xl-12 col-md-12 col-sm-12">
           <Card>
             <Card.Header>
-              <h4 className="card-title">Add Role</h4>
+              <h4 className="card-title">Add Role  <span className="text-danger danger-title">
+                                * Atleast One Permission is Required
+                              </span></h4>
             </Card.Header>
             <Card.Body>
               <Row>
@@ -223,14 +225,7 @@ import { useSelector } from "react-redux";
                         </div>
 
                         <div className="form-group">
-                          <div className="table-heading">
-                            <h2>
-                              Permissions
-                              <span className="text-danger danger-title">
-                                * Atleast One Permission is Required{" "}
-                              </span>
-                            </h2>
-                          </div>
+                        
                           {permissions.data &&
                           Object.keys(permissions.data).length > 0 ? (
                             <div>

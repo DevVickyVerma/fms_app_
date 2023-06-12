@@ -152,7 +152,9 @@ const EditRoles = (props) => {
         <div className="col-lg-12 col-xl-12 col-md-12 col-sm-12">
           <Card>
             <Card.Header>
-              <h4 className="card-title">Edit Role</h4>
+              <h4 className="card-title">Edit Role <span className="text-danger danger-title">
+                                  * Atleast One Permission is Required{" "}
+                                </span></h4>
             </Card.Header>
             <Card.Body>
               <Row>
@@ -210,14 +212,7 @@ const EditRoles = (props) => {
 
                         <div className="form-group">
                           <div>
-                            <div className="table-heading">
-                              <h2>
-                                Permissions
-                                <span className="text-danger danger-title">
-                                  * Atleast One Permission is Required{" "}
-                                </span>
-                              </h2>
-                            </div>
+                          
                             {Object.keys(permissions).length > 0 ? (
                               Object.keys(permissions).map((heading) => (
                                 <div key={heading}>

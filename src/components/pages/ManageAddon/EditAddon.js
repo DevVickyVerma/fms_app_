@@ -188,7 +188,8 @@ import Loaderimg from "../../../Utils/Loader";
     <>
     {isLoading ? (
       <Loaderimg/>
-    ) :null(
+    ) :null}
+    
       <>
       <div className="page-header ">
         <div>
@@ -223,7 +224,9 @@ import Loaderimg from "../../../Utils/Loader";
         <div className="col-lg-12 col-xl-12 col-md-12 col-sm-12">
           <Card>
             <Card.Header>
-              <h4 className="card-title">Edit Addon</h4>
+              <h4 className="card-title">Edit Addon    <span className="text-danger danger-title">
+                                * Atleast One Permission is Required{" "}
+                              </span></h4>
             </Card.Header>
             <Card.Body>
               <Row>
@@ -269,7 +272,7 @@ import Loaderimg from "../../../Utils/Loader";
                     }) => (
                       <Form onSubmit={handleSubmit}>
                         <div className="form-group">
-                          <label  className=" form-label mt-4" htmlFor="name"> Add Addon</label>
+                          <label  className=" form-label mt-4" htmlFor="name"> Edit Addon</label>
                           <Field
                             type="text"  autoComplete="off"
                             id="name"
@@ -287,14 +290,7 @@ import Loaderimg from "../../../Utils/Loader";
                         </div>
 
                         <div className="form-group">
-                        <div className="table-heading">
-                        <h2>
-                              Permissions
-                              <span className="text-danger danger-title">
-                                * Atleast One Permission is Required{" "}
-                              </span>
-                            </h2>
-                              </div>
+                       
                           {AddonpermissionsList.data &&
                             AddonpermissionsList.data.addon_permissions && (
                               <div>
@@ -427,7 +423,7 @@ import Loaderimg from "../../../Utils/Loader";
         </div>
       </Row>
       </>
-      )}
+    
     </>
   );
 };

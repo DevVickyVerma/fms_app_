@@ -93,7 +93,7 @@ const Sidebar = () => {
           }
         });
   
-        console.log("updatedMainMenu:", updatedMainMenu);
+    
         setMainMenu([{ Items: menuItems }]);
       } else {
         console.log("Menu items not found.");
@@ -163,7 +163,7 @@ const Sidebar = () => {
       return menuItems;
     });
     item.active = !item.active;
-    console.log(mainmenu, "mainmenuperactive");
+
     setMainMenu({ mainmenu: MENUITEMS });
   };
 
@@ -194,7 +194,7 @@ const Sidebar = () => {
       });
     }
     item.active = !item.active;
-    console.log(mainmenu, "mainmenuperactive2");
+
     setMainMenu({ mainmenu: MENUITEMS });
   };
 

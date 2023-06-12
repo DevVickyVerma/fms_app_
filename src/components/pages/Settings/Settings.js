@@ -195,6 +195,7 @@ export default function Settings() {
   const initialValues2 = {
     date_format: "",
     pagination: "",
+    decimal: "",
   };
   const validationSchema2 = Yup.object({
     date_format: Yup.string()
@@ -208,6 +209,14 @@ export default function Settings() {
       )
   
       .required("Pagination is required"),
+      decimal: Yup.string()
+      .max(5, "Must be 5 digit or less")
+      // .matches(
+      //   /^(?:5|[0-0][0-0]?|0)$/,
+      //   "Decimal must be a number between .00 to .00000"
+      // )
+  
+      .required("Decimal is required"),
   });
   const handleSubmit2  = async (values) => {
     setLoading(true);
@@ -490,128 +499,8 @@ export default function Settings() {
           </form>
         </Col>
         <Col lg={12} xl={6} md={12} sm={12}>
-          <Card>
-            {/* <Formik
-              initialValues={{
-                date_format: "",
-                pagination: "",
-              }}
-              validationSchema={Yup.object({
-                date_format: Yup.string()
-                  .max(15, "Must be 15 characters or less")
-                  .required("Date Format is required"),
+  
 
-                pagination: Yup.string()
-                  .matches(
-                    /^(?:100|[1-9][0-9]?|0)$/,
-                    "Pagination must be a number between 0 and 100"
-                  )
-
-                  .required("Pagination is required"),
-              })}
-              onSubmit={async (values) => {
-                const formData = new FormData();
-
-                if (typeof values === "object") {
-                  const keys = Object.keys(values);
-                  const valuesArray = Object.values(values);
-
-                  for (let i = 0; i < keys.length; i++) {
-                    const key = keys[i];
-                    const value = valuesArray[i];
-                    const encodedKey = `key[${i}]`;
-                    const encodedValue = `value[${i}]`;
-
-                    formData.append(encodedKey, key);
-                    formData.append(encodedValue, value);
-                  }
-
-                  try {
-                    const response = await fetch(
-                      `${process.env.REACT_APP_BASE_URL}/config-setting/update`,
-                      {
-                        method: "POST",
-                        headers: {
-                          Authorization: `Bearer ${token}`,
-                        },
-                        body: formData,
-                      }
-                    );
-
-                    const data = await response.json();
-
-                    if (response.ok) {
-                      notify(data.message);
-                      navigate("/dashboard");
-                    } else {
-                      Errornotify(data.message);
-                    }
-                  } catch (error) {
-                    handleError(error);
-                  }
-                } else {
-                  console.error("Values must be an object.");
-                }
-              }}
-            >
-              {({
-                handleSubmit,
-                isSubmitting,
-                errors,
-                touched,
-                setFieldValue,
-              }) => (
-                <Form onSubmit={handleSubmit}>
-                  <Card.Body>
-                    <Row>
-                      <Col lg={6} md={12}>
-                        <FormGroup>
-                          <Form.Label className="form-label">
-                            Date Format<span className="text-danger">*</span>
-                          </Form.Label>
-                          <Field
-                            as="select" // Render the dropdown as a select element
-                            className={`input101 ${
-                              errors.date_format && touched.date_format
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="date_format"
-                            name="date_format"
-                            placeholder="Date Format"
-                            onChange={(e) => {
-                              const selectedValue = e.target.value;
-                              console.log(selectedValue);
-                              setFieldValue("date_format", selectedValue);
-                            }}
-                          >
-                            <option value="">Select a date format</option>
-                            <option value="Y-m-d">YYYY-MM-DD</option>
-                            <option value="m-d-Y">MM-DD-YYYY </option>
-                            <option value="d-m-Y">DD-MM-YYYY</option>
-                          </Field>
-                          <ErrorMessage
-                            component="div"
-                            className="invalid-feedback"
-                            name="date_format"
-                          />
-                        </FormGroup>
-                      </Col>
-                     
-                    </Row>
-                  </Card.Body>
-                  <Card.Footer className="text-end">
-                    <button
-                      className="btn btn-primary me-2"
-                      type="submit"
-                      disabled={isSubmitting}
-                    >
-                      Update
-                    </button>
-                  </Card.Footer>
-                </Form>
-              )}
-            </Formik> */}
             <form onSubmit={formik2.handleSubmit}>
               <Card className="profile-edit">
                 <Card.Header>
@@ -676,9 +565,34 @@ export default function Settings() {
                           )}
                       </div>
                     </Col>
-                  </Row>
-                </div>
-                <div className="text-end">
+                    <Col lg={6} md={6}>
+                      <div className="form-group">
+                        <label className="form-label mt-4" htmlFor="decimal">
+                        Decimal<span className="text-danger">*</span>
+                        </label>
+                        <input
+                          type="text"  autoComplete="off"
+                          className={`input101 ${
+                            formik2.errors.decimal &&
+                            formik2.touched.decimal
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          id="decimal"
+                          name="decimal"
+                          placeholder="Decimal"
+                          onChange={formik2.handleChange}
+                          value={formik2.values.decimal}
+                        />
+                        {formik2.errors.decimal &&
+                          formik2.touched.decimal && (
+                            <div className="invalid-feedback">
+                              {formik2.errors.decimal}
+                            </div>
+                          )}
+                      </div>
+                    </Col>
+                    <div className="text-end">
                   <button
                     className="btn btn-primary me-2"
                     type="submit"
@@ -687,9 +601,13 @@ export default function Settings() {
                     Update
                   </button>
                 </div>
+                  </Row>
+                </div>
+              
               </Card>
+            
             </form>
-          </Card>
+       
         </Col>
       </Row>
     </div>
