@@ -140,8 +140,9 @@ const AddSuppliers = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="supplier name">
+                                <label htmlFor="supplier name" className="form-label mt-4">
                                   Supplier Name
+                                  <span className="text-danger">*</span>
                                 </label>
                                 <Field
                                   type="text"
@@ -165,8 +166,9 @@ const AddSuppliers = (props) => {
                             </Col>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="supplier_code">
+                                <label htmlFor="supplier_code" className="form-label mt-4">
                                   Supplier Code
+                                  <span className="text-danger">*</span>
                                 </label>
                                 <Field
                                   type="text"
@@ -191,8 +193,9 @@ const AddSuppliers = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="supplier_status">
+                                <label htmlFor="supplier_status" className="form-label mt-4">
                                   Supplier Status
+                                  <span className="text-danger">*</span>
                                 </label>
                                 <Field
                                   as="select"

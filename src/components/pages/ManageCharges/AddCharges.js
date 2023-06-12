@@ -150,7 +150,9 @@ const AddCharges = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label  className=" form-label mt-4" htmlFor="charge_name">Charge Name</label>
+                                <label  className=" form-label mt-4" htmlFor="charge_name">Charge Name
+                                <span className="text-danger">*</span>
+                                </label>
                                 
                                 <Field
                                   type="text"  autocomplete="off"
@@ -173,7 +175,9 @@ const AddCharges = (props) => {
                             </Col>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label  className=" form-label mt-4" htmlFor="charge_code">Charge Code</label>
+                                <label  className=" form-label mt-4" htmlFor="charge_code">Charge Code
+                                <span className="text-danger">*</span>
+                                </label>
                                 <Field
                                   type="text"  autocomplete="off"
                                   className={`input101 ${
@@ -198,6 +202,7 @@ const AddCharges = (props) => {
                               <FormGroup>
                                 <label  className=" form-label mt-4" htmlFor="charge_status">
                                   Charge Status
+                                  <span className="text-danger">*</span>
                                 </label>
                                 <Field
                                   as="select"

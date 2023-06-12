@@ -153,7 +153,9 @@ const AddShops = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                              <label  className=" form-label mt-4"  htmlFor="shop_name">Shop Name</label>
+                              <label  className=" form-label mt-4"  htmlFor="shop_name">Shop Name
+                              <span className="text-danger">*</span>
+                              </label>
                                 <Field
                                   type="text"  autocomplete="off"
                                   // className="form-control"
@@ -175,7 +177,9 @@ const AddShops = (props) => {
                             </Col>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                              <label  className=" form-label mt-4"  htmlFor="code">Shop Code</label>
+                              <label  className=" form-label mt-4"  htmlFor="code">Shop Code
+                              <span className="text-danger">*</span>
+                              </label>
                                 <Field
                                   type="text"  autocomplete="off"
                                   className={`input101 ${
@@ -198,7 +202,9 @@ const AddShops = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                              <label  className=" form-label mt-4"  htmlFor="status">Shop Status</label>
+                              <label  className=" form-label mt-4"  htmlFor="status">Shop Status
+                              <span className="text-danger">*</span>
+                              </label>
                                 <Field
                                   as="select"
                                   className={`input101 ${

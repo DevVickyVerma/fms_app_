@@ -203,12 +203,14 @@ import { useSelector } from "react-redux";
                     {({ errors, touched, handleSubmit }) => (
                       <Form onSubmit={handleSubmit}>
                         <div className="form-group">
-                          <label      className=" form-label mt-4" htmlFor="name"> Add Role</label>
+                          <label      className=" form-label mt-4" htmlFor="name"> Add Role
+                          <span className="text-danger">*</span>
+                          </label>
                           <Field
                             type="text"  autocomplete="off"
                             id="name"
                             name="name"
-                            placeholder="RoleName"
+                            placeholder="Role Name"
                             className={`input101 ${
                               touched.name && errors.name ? "is-invalid" : ""
                             }`}

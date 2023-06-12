@@ -202,6 +202,7 @@ const AddCards = (props) => {
                                 htmlFor="card_name"
                               >
                                 Card Name
+                                <span className="text-danger">*</span>
                               </label>
                               <Field
                                 type="text"
@@ -230,6 +231,7 @@ const AddCards = (props) => {
                                 htmlFor="card_code"
                               >
                                 Card Code
+                                <span className="text-danger">*</span>
                               </label>
                               <Field
                                 type="text"
@@ -259,6 +261,7 @@ const AddCards = (props) => {
                                 htmlFor="card_status"
                               >
                                 Card Status
+                                <span className="text-danger">*</span>
                               </label>
                               <Field
                                 as="select"
@@ -282,7 +285,9 @@ const AddCards = (props) => {
                           </Col>
                           <Col lg={6} md={12}>
                             <div className="form-group">
-                              <label htmlFor="image">Image</label>
+                              <label htmlFor="image">Image
+                              <span className="text-danger">*</span>
+                              </label>
                               <div
                                 className={`dropzone ${
                                   errors.image && touched.image
