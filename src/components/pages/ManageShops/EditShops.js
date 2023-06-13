@@ -256,6 +256,7 @@ const EditShops = (props) => {
                             )}
                           </div>
                         </Col>
+                      
 
                         <Col lg={6} md={6}>
                           <div className="form-group">
@@ -280,6 +281,84 @@ const EditShops = (props) => {
                             {formik.errors.status && formik.touched.status && (
                               <div className="invalid-feedback">
                                 {formik.errors.status}
+                              </div>
+                            )}
+                          </div>
+                        </Col>
+                        <Col lg={6} md={6}>
+                          <div className="form-group">
+                          <label  className=" form-label mt-4"   htmlFor="client">
+                              Client<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"  autoComplete="off"
+                              className={`input101  readonly ${
+                                formik.errors.client && formik.touched.client
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              id="client"
+                              name="client"
+                              placeholder="Client"
+                              onChange={formik.handleChange}
+                              value={formik.values.client || ""}
+                              readOnly
+                            />
+                            {formik.errors.client && formik.touched.client && (
+                              <div className="invalid-feedback">
+                                {formik.errors.client}
+                              </div>
+                            )}
+                          </div>
+                        </Col>
+                        <Col lg={6} md={6}>
+                          <div className="form-group">
+                          <label  className=" form-label mt-4"   htmlFor="company">
+                              Company<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"  autoComplete="off"
+                              className={`input101  readonly ${
+                                formik.errors.company && formik.touched.company
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              id="company"
+                              name="company"
+                              placeholder="company"
+                              onChange={formik.handleChange}
+                              value={formik.values.company || ""}
+                              readOnly
+                            />
+                            {formik.errors.company && formik.touched.company && (
+                              <div className="invalid-feedback">
+                                {formik.errors.company}
+                              </div>
+                            )}
+                          </div>
+                        </Col>
+                        <Col lg={6} md={6}>
+                          <div className="form-group">
+                          <label  className=" form-label mt-4"   htmlFor="site">
+                          Site<span className="text-danger">*</span>
+                            </label>
+                            <input
+                              type="text"  autoComplete="off"
+                              className={`input101  readonly ${
+                                formik.errors.site && formik.touched.site
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              id="site"
+                              name="site"
+                              placeholder="site"
+                              onChange={formik.handleChange}
+                              value={formik.values.site || ""}
+                              readOnly
+                            />
+                            {formik.errors.site && formik.touched.site && (
+                              <div className="invalid-feedback">
+                                {formik.errors.site}
                               </div>
                             )}
                           </div>

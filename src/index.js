@@ -81,6 +81,7 @@ const EditSite = React.lazy(() =>
 );
 
 // Site End
+
 // Charges Start
 
 const ManageCharges = React.lazy(() =>
@@ -200,10 +201,14 @@ const ManageReports = React.lazy(() =>
   import("./components/pages/Reports/ManageReports")
 );
 
-
-
 // Reports End
+// Other Start
 
+const WorkFlows = React.lazy(() =>
+  import("./components/pages/Others/WorkFlow")
+);
+
+// Other End
 
 const ManageBusinessTypes = React.lazy(() =>
   import("./components/pages/ManageBusinessTypes/ManageBusinessTypes")
@@ -342,6 +347,7 @@ const Root = () => {
 
   const WrappedManageDsr = withApi(ManageDsr);
   const WrappedManageReports = withApi(ManageReports);
+  const WrappedWorkFlows = withApi(WorkFlows);
   return (
     <Fragment>
       <BrowserRouter>
@@ -422,11 +428,13 @@ const Root = () => {
                   {/* DSR  Components Start */}
                   <Route path={`/data-entry`} element={<WrappedManageDsr />} />
                   {/* DSR  Components End */}
-  {/* Reports  Components Start */}
-  <Route
-                    path={`/reports`}
-                    element={<WrappedManageReports/>}
-                  />
+
+                  {/* Others  Components Start */}
+                  <Route path={`/workflows`} element={<WrappedWorkFlows />} />
+                  {/* Others  Components End */}
+                  
+                  {/* Reports  Components Start */}
+                  <Route path={`/reports`} element={<WrappedManageReports />} />
                   {/* Reports  Components End */}
                   {/* Charges  Components Start  */}
                   <Route

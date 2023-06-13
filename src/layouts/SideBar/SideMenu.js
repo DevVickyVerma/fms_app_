@@ -349,7 +349,7 @@ export const MENUITEMS = [
 
       {
         title: "Manage Category",
-        icon: "tint",
+        icon: "check-square",
         type: "sub",
         active: false,
         permission: "supplier-list",
@@ -413,6 +413,24 @@ export const MENUITEMS = [
           {
             path: `/reports`,
             title: "Manage Reports",
+            type: "link",
+            permission: "supplier-create",
+            visibility: false,
+          },
+        
+        ],
+      },
+      {
+        title: "Others",
+        icon: "tasks",
+        type: "sub",
+        active: false,
+        permission: "supplier-create",
+        visibility: false,
+        children: [
+          {
+            path: `/workflows`,
+            title: "WorkFlows",
             type: "link",
             permission: "supplier-create",
             visibility: false,
