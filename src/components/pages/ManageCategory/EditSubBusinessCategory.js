@@ -332,7 +332,7 @@ const EditBussiness = (props) => {
                                 htmlFor="business_type_id"
                                 className=" form-label mt-4"
                               >
-                                Select Sub-Business Category Types
+                                Select Business Category
                                 <span className="text-danger">*</span>
                               </label>
                               <select
@@ -349,7 +349,7 @@ const EditBussiness = (props) => {
                         >
                                 <option value="">
                                   {" "}
-                                  Select Sub-Business Category Types
+                                  Select Business Category
                                 </option>
                                 {
                                 AddSiteData.data ? (
@@ -359,7 +359,7 @@ const EditBussiness = (props) => {
                                     </option>
                                   ))
                                 ) : (
-                                  <option disabled>No Sub-Business Category Type</option>
+                                  <option disabled>No Business Category</option>
                                 )}
                             </select>
                             {formik.errors.business_type_id &&
