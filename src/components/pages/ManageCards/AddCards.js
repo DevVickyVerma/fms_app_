@@ -185,7 +185,7 @@ const AddCards = (props) => {
                     card_status: Yup.string().required(
                       "Card Status is required"
                     ),
-                    image: Yup.mixed().required(),
+                 
                   })}
                   onSubmit={(values) => {
                     handleSubmit1(values);
@@ -286,7 +286,7 @@ const AddCards = (props) => {
                           <Col lg={6} md={12}>
                             <div className="form-group">
                               <label htmlFor="image">Image
-                              <span className="text-danger">*</span>
+                            
                               </label>
                               <div
                                 className={`dropzone ${

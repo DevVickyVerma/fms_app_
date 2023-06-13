@@ -368,7 +368,7 @@ export const MENUITEMS = [
       //   ],
       // },
             {
-        title: "Manage DSR",
+        title: "Manage DRS",
         icon: "globe",
         type: "sub",
         active: false,
@@ -377,7 +377,7 @@ export const MENUITEMS = [
         children: [
           {
             path: `/data-entry`,
-            title: "Manage DSR",
+            title: "Manage DRS",
             type: "link",
             permission: "supplier-create",
             visibility: false,
