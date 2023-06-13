@@ -332,7 +332,7 @@ const EditBussiness = (props) => {
                                 htmlFor="business_type_id"
                                 className=" form-label mt-4"
                               >
-                                Select Business Category Types
+                                Select Business Type
                                 <span className="text-danger">*</span>
                               </label>
                               <select
@@ -349,7 +349,7 @@ const EditBussiness = (props) => {
                         >
                                 <option value="">
                                   {" "}
-                                  Select Business Category Types
+                                  Select Business Type
                                 </option>
                                 {
                                 AddSiteData.data ? (

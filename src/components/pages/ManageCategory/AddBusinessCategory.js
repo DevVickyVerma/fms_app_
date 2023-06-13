@@ -79,9 +79,7 @@ const AddBusinessCategory = (props) => {
   const Errornotify = (message) => toast.error(message);
   function handleError(error) {
     if (error.response && error.response.status === 401) {
-      // navigate("/login");
-      // Errornotify("Invalid access token");
-      // localStorage.clear();
+    
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
     } else {
@@ -266,7 +264,7 @@ const AddBusinessCategory = (props) => {
                                     : ""
                                 }`}
                                 id="status"
-                                name="Status"
+                                name="status"
                               >
                                 <option value="1">Active</option>
                                 <option value="0">Inactive</option>
@@ -284,7 +282,7 @@ const AddBusinessCategory = (props) => {
                                 htmlFor="business_type_id"
                                 className=" form-label mt-4"
                               >
-                                Select Business Category Types
+                                Select Business Type
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
@@ -300,7 +298,7 @@ const AddBusinessCategory = (props) => {
                               >
                                 <option value="">
                                   {" "}
-                                  Select Business Category Types
+                                  Select Business Type
                                 </option>
                                 {
                                 AddSiteData.data ? (
@@ -310,7 +308,7 @@ const AddBusinessCategory = (props) => {
                                     </option>
                                   ))
                                 ) : (
-                                  <option disabled>No Business Category Type</option>
+                                  <option disabled>No Business Type</option>
                                 )}
                               </Field>
                               <ErrorMessage

@@ -103,7 +103,7 @@ const AddSubBusinessCategory = (props) => {
 
     const GetSiteData = async () => {
       try {
-        const response = await axiosInstance.get("business/types");
+        const response = await axiosInstance.get("business/category");
         setAddSiteData(response.data);
         // if (response.data) {
         //   setAddSiteData(response.data.data);
@@ -285,7 +285,7 @@ const AddSubBusinessCategory = (props) => {
                                 htmlFor="business_category_id"
                                 className=" form-label mt-4"
                               >
-                                Select Sub-Business Category Types
+                                Select Business Category
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
@@ -301,17 +301,17 @@ const AddSubBusinessCategory = (props) => {
                               >
                                 <option value="">
                                   {" "}
-                                  Select Sub-Business Category Types
+                                  Select Business Category
                                 </option>
                                 {
                                 AddSiteData.data ? (
                                   AddSiteData.data.map((item) => (
                                     <option key={item.id} value={item.id}>
-                                      {item.business_name}
+                                      {item.category_name}
                                     </option>
                                   ))
                                 ) : (
-                                  <option disabled>No Sub-Business Category Type</option>
+                                  <option disabled>No Sub-Business Type</option>
                                 )}
                               </Field>
                               <ErrorMessage
