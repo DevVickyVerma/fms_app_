@@ -359,7 +359,7 @@ const EditBussiness = (props) => {
                                     </option>
                                   ))
                                 ) : (
-                                  <option disabled>No Business Category</option>
+                                  <option disabled>No Business Categories</option>
                                 )}
                             </select>
                             {formik.errors.business_type_id &&
