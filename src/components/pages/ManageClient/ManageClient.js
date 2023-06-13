@@ -3,7 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import { Breadcrumb, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  Form,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -184,14 +192,17 @@ const ManageClient = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable =
-    permissionsArray?.includes("client-status-update");
+  const isStatusPermissionAvailable = permissionsArray?.includes(
+    "client-status-update"
+  );
   const isEditPermissionAvailable = permissionsArray?.includes("client-edit");
   const isAddPermissionAvailable = permissionsArray?.includes("client-create");
-  const isDeletePermissionAvailable = permissionsArray?.includes("client-delete");
+  const isDeletePermissionAvailable =
+    permissionsArray?.includes("client-delete");
   const isDetailsPermissionAvailable =
     permissionsArray?.includes("client-details");
-  const isAssignPermissionAvailable = permissionsArray?.includes("client-assign");
+  const isAssignPermissionAvailable =
+    permissionsArray?.includes("client-assign");
 
   const columns = [
     {
@@ -248,7 +259,7 @@ const ManageClient = (props) => {
               <button
                 className="badge bg-success"
                 onClick={
-                  isEditPermissionAvailable? () => toggleActive(row) : null
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Active
@@ -257,7 +268,7 @@ const ManageClient = (props) => {
               <button
                 className="badge bg-danger"
                 onClick={
-                  isEditPermissionAvailable? () => toggleActive(row) : null
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Inactive
@@ -266,7 +277,7 @@ const ManageClient = (props) => {
               <button
                 className="badge"
                 onClick={
-                  isEditPermissionAvailable? () => toggleActive(row) : null
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Unknown
@@ -344,115 +355,105 @@ const ManageClient = (props) => {
   //     </div>
   //   );
   // };
-  
-
 
   return (
     <>
-      {isLoading ? (
-        <Loaderimg />
-        ):null}
-      
-        <>
-          <div className="page-header ">
-            <div>
-              <h1 className="page-title">Manage Client</h1>
-              <Breadcrumb className="breadcrumb">
-                <Breadcrumb.Item
-                  className="breadcrumb-item"
-                  linkAs={Link}
-                  linkProps={{ to: "/dashboard" }}
-                >
-                  Dashboard
-                </Breadcrumb.Item>
-                <Breadcrumb.Item
-                  className="breadcrumb-item active breadcrumds"
-                  aria-current="page"
-                >
-                  Manage Client
-                </Breadcrumb.Item>
-              </Breadcrumb>
-            </div>
-            <div className="ms-auto pageheader-btn">
-              <span className="Search-data">
-                {Object.entries(searchdata).map(([key, value]) => (
-                  <div key={key} className="badge">
-                    <span className="badge-key">
-                      {key.charAt(0).toUpperCase() + key.slice(1)}:
-                    </span>
-                    <span className="badge-value">{value}</span>
-                  </div>
-                ))}
-              </span>
-              <Link
-                className="btn btn-primary"
-                onClick={() => {
-                  handleToggleSidebar1();
-                }}
-              >
-                Search
-                <span className="ms-2">
-                  <SearchIcon />
-                </span>
-              </Link>
-              {Object.keys(searchdata).length > 0 ? (
-                <Link
-                  className="btn btn-danger ms-2"
-                  onClick={handleSearchReset}
-                >
-                  Reset <RestartAltIcon />
-                </Link>
-              ) : (
-                ""
-              )}
-              {isAddPermissionAvailable ? (
-                <Link to="/addclient" className="btn btn-primary ms-2">
-                  Add Client
-                  <AddCircleOutlineIcon />
-                </Link>
-              ) : null}
-              
-            </div>
-          </div>
-          <SideSearchbar
-            title="Search"
-            visible={sidebarVisible1}
-            onClose={handleToggleSidebar1}
-            onSubmit={handleSubmit}
-            searchListstatus={SearchList}
-          />
+      {isLoading ? <Loaderimg /> : null}
 
-             <Row className=" row-sm">
-        <Col lg={12}>
-          <Card>
-            <Card.Header>
-              <h3 className="card-title">Manage Client</h3>
-            </Card.Header>
-            <Card.Body>
-              <div className="table-responsive deleted-table">
-              
-          <DataTableExtensions {...tableDatas}>
-            <DataTable
-              columns={columns}
-              data={data}
-              noHeader
-              defaultSortField="id"
-              defaultSortAsc={false}
-              striped={true}
-              // center={true}
-              persistTableHead
-              pagination
-              highlightOnHover
-              // searchable={true}
-            />
-          </DataTableExtensions>
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-        </>
-      
+      <>
+        <div className="page-header ">
+          <div>
+            <h1 className="page-title">Manage Client</h1>
+            <Breadcrumb className="breadcrumb">
+              <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/dashboard" }}
+              >
+                Dashboard
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item active breadcrumds"
+                aria-current="page"
+              >
+                Manage Client
+              </Breadcrumb.Item>
+            </Breadcrumb>
+          </div>
+          <div className="ms-auto pageheader-btn">
+            <span className="Search-data">
+              {Object.entries(searchdata).map(([key, value]) => (
+                <div key={key} className="badge">
+                  <span className="badge-key">
+                    {key.charAt(0).toUpperCase() + key.slice(1)}:
+                  </span>
+                  <span className="badge-value">{value}</span>
+                </div>
+              ))}
+            </span>
+            <Link
+              className="btn btn-primary"
+              onClick={() => {
+                handleToggleSidebar1();
+              }}
+            >
+              Search
+              <span className="ms-2">
+                <SearchIcon />
+              </span>
+            </Link>
+            {Object.keys(searchdata).length > 0 ? (
+              <Link className="btn btn-danger ms-2" onClick={handleSearchReset}>
+                Reset <RestartAltIcon />
+              </Link>
+            ) : (
+              ""
+            )}
+            {isAddPermissionAvailable ? (
+              <Link to="/addclient" className="btn btn-primary ms-2">
+                Add Client
+                <AddCircleOutlineIcon />
+              </Link>
+            ) : null}
+          </div>
+        </div>
+        <SideSearchbar
+          title="Search"
+          visible={sidebarVisible1}
+          onClose={handleToggleSidebar1}
+          onSubmit={handleSubmit}
+          searchListstatus={SearchList}
+        />
+
+        <Row className=" row-sm">
+          <Col lg={12}>
+            <Card>
+              <Card.Header>
+                <h3 className="card-title">Manage Client</h3>
+              </Card.Header>
+              <Card.Body>
+                <div className="table-responsive deleted-table">
+                  <DataTableExtensions {...tableDatas}>
+                    <DataTable
+                      columns={columns}
+                      data={data}
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      striped={true}
+                      // center={true}
+                      persistTableHead
+                      pagination
+                      highlightOnHover
+                      searchable={false}
+                    />
+                  </DataTableExtensions>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </>
     </>
   );
 };
