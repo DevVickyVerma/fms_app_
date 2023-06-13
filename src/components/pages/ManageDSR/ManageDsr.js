@@ -8,6 +8,8 @@ import {
   Breadcrumb,
   Card,
   Col,
+  Form,
+  FormGroup,
   OverlayTrigger,
   Row,
   Tooltip,
@@ -18,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
-import { useFormik } from "formik";
+import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
 
 const ManageDsr = (props) => {
@@ -27,12 +29,18 @@ const ManageDsr = (props) => {
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
-  const [dropdownValue, setDropdownValue] = useState([]);
+  const [AddSiteData, setAddSiteData] = useState([]);
+  // const [selectedBusinessType, setSelectedBusinessType] = useState("");
+  // const [subTypes, setSubTypes] = useState([]);
+  const [selectedClientId, setSelectedClientId] = useState("");
+  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
+  const [selectedSiteList, setSelectedSiteList] = useState([]);
 
   useEffect(() => {
     if (UserPermissions) {
       setPermissionsArray(UserPermissions.permissions);
     }
+    handleFetchData()
   }, [UserPermissions]);
 
   const isStatusPermissionAvailable = permissionsArray?.includes(
@@ -51,15 +59,7 @@ const ManageDsr = (props) => {
   const [searchText, setSearchText] = useState("");
   const [searchvalue, setSearchvalue] = useState();
 
-  //   const handleSearch = (e) => {
-  //     const value = e.target.value;
-  //     setSearchText(value);
 
-  //     const filteredData = searchvalue.filter((item) =>
-  //       item.supplier_name.toLowerCase().includes(value.toLowerCase())
-  //     );
-  //     setData(filteredData);
-  //   };
   const names = [
     "Fuel Sales",
     "Bunkered Sales",
@@ -88,22 +88,38 @@ const ManageDsr = (props) => {
     { id: 10, name: "Upload Vat Ledger" },
   ];
 
-  const Cardvalue = (value) => {
-    console.log(value, "CardValue");
+
+
+  const handleFetchData = async () => {
+    try {
+      const response = await getData("/client/commonlist");
+
+      const { data } = response;
+      if (data) {
+        setAddSiteData(response.data);
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
   };
 
-  const formik = useFormik({
-    initialValues: {
-      client_id: "",
-      company_id: "",
-      site_id: "",
-    },
+  const handleSubmit1 = async (values) => {
+    try {
+      const formData = new FormData();
 
-    onSubmit: (values) => {
-      // Handle form submission
-      console.log(values);
-    },
-  });
+      formData.append("report", values.report);
+      formData.append("client_id", values.client_id);
+      formData.append("company_id", values.company_id);
+      formData.append("site_id", values.site_id);
+
+      // const postDataUrl = "shop/add";
+      // const navigatePath = "/ManageShops";
+
+      // await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
+    } catch (error) {
+      console.log(error); // Set the submission state to false if an error occurs
+    }
+  };
   const handleClick = (item) => {
     console.log("Clicked card:", item.name);
     console.log("Clicked card:", item.id);
@@ -136,145 +152,242 @@ const ManageDsr = (props) => {
         <Col md={12} xl={12}>
           <Card>
             <Card.Body>
-              <form onSubmit={formik.handleSubmit}>
-                <Row>
-                  <Col lg={3} md={6}>
-                    <div className="form-group d-flex">
-                      <div>
-                        <label htmlFor="client_id" className="form-label mx-4">
-                          Client<span className="text-danger">*</span>
-                        </label>
-                      </div>
-                      <select
-                        className={`input101 ${
-                          formik.errors.client_id && formik.touched.client_id
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="client_id"
-                        name="client_id"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.client_id}
-                      >
-                        <option value="">Select Client</option>
-                        <option value="1">Active</option>
-                                <option value="0">InActive</option>
-                      </select>
-                      {formik.errors.client_id && formik.touched.client_id && (
-                        <div className="invalid-feedback">
-                          {formik.errors.client_id}
-                        </div>
-                      )}
-                    </div>
-                  </Col>
-                  <Col lg={3} md={6}>
-                    <div className="form-group d-flex">
-                      <div>
-                        <label htmlFor="company_id" className="form-label mx-4">
-                          Company<span className="text-danger">*</span>
-                        </label>
-                      </div>
-                      <select
-                        className={`input101 ${
-                          formik.errors.company_id && formik.touched.company_id
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="company_id"
-                        name="company_id"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.company_id}
-                      >
-                        <option value="">Select Company</option>
-                        <option value="1">Active</option>
-                                <option value="0">InActive</option>
-                      </select>
-                      {formik.errors.client_id && formik.touched.client_id && (
-                        <div className="invalid-feedback">
-                          {formik.errors.client_id}
-                        </div>
-                      )}
-                    </div>
-                  </Col>
-                  <Col lg={3} md={6}>
-                    <div className="form-group d-flex">
-                      <div>
-                        <label htmlFor="site_id" className="form-label mx-4">
-                          Site<span className="text-danger">*</span>
-                        </label>
-                      </div>
-                      <select
-                        className={`input101 ${
-                          formik.errors.site_id && formik.touched.site_id
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="site_id"
-                        name="site_id"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.site_id}
-                      >
-                        <option value="">Select Site</option>
-                        {/* {dropdownValue.clients &&
-                        dropdownValue.clients.length > 0 ? (
-                          dropdownValue.clients.map((item) => (
-                            <option key={item.id} value={item.id}>
-                              {item.company_name}
-                            </option>
-                          ))
-                        ) : (
-                          <option disabled>No Site</option>
-                        )} */}
-                        <option value="1">Active</option>
-                                <option value="0">InActive</option>
-                      </select>
-                      {formik.errors.client_id && formik.touched.client_id && (
-                        <div className="invalid-feedback">
-                          {formik.errors.client_id}
-                        </div>
-                      )}
-                    </div>
-                  </Col>
-               
+            <Formik
+                initialValues={{
+                  report: "1",
+                  client_id: "",
+                  company_id: "",
+                  site_id: "",
+                  start_date: "",
+                 
+                
+                }}
+                validationSchema={Yup.object({
+                  report: Yup.string().required(" report is required"),
 
-                  {/* Repeat the above code for the remaining fields */}
+                  client_id: Yup.string().required("Client is required"),
+                  company_id: Yup.string().required("Company is required"),
+                  site_id: Yup.string().required("Site is required"),
+                  start_date: Yup.date().required("Start Date is required"),
+                
+                })}
+                onSubmit={(values) => {
+                  handleSubmit1(values);
+                }}
+              >
+                {({ handleSubmit, errors, touched, setFieldValue }) => (
+                  <Form onSubmit={handleSubmit}>
+                    <Card.Body>
+                      <Row>
+                     
+                        <Col lg={6} md={12}>
+                          <FormGroup>
+                            <label
+                              htmlFor="client_id"
+                              className=" form-label mt-4"
+                            >
+                              Client
+                              <span className="text-danger">*</span>
+                            </label>
+                            <Field
+                              as="select"
+                              className={`input101 ${
+                                errors.client_id && touched.client_id
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              id="client_id"
+                              name="client_id"
+                              onChange={(e) => {
+                                const selectedType = e.target.value;
+                                setFieldValue("client_id", selectedType);
+                                setSelectedClientId(selectedType);
 
-                  <Col lg={3} md={6}>
-                    <div className="form-group d-flex">
-                      <div>
-                        <label htmlFor="date" className="form-label mx-4">
-                          Date<span className="text-danger">*</span>
-                        </label>
-                      </div>
-                      <input
-                        type="date"
-                        id="date"
-                        name="date"
-                        className="form-control"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.date}
-                      />
-                      {formik.errors.date && formik.touched.date && (
-                        <div className="invalid-feedback">
-                          {formik.errors.date}
-                        </div>
-                      )}
-                    </div>
-                  </Col>
-                </Row>
-                <div className="text-end">
-                  <button type="reset" className="btn btn-danger me-2">
-                    Reset
-                  </button>
-                  <button type="submit" className="btn btn-primary">
-                    Submit
-                  </button>
-                </div>
-              </form>
+                                // Reset the selected company and site
+                                setSelectedCompanyList([]);
+                                setFieldValue("company_id", "");
+                                setFieldValue("site_id", "");
+
+                                const selectedClient = AddSiteData.data.find(
+                                  (client) => client.id === selectedType
+                                );
+
+                                if (selectedClient) {
+                                  setSelectedCompanyList(
+                                    selectedClient.companies
+                                  );
+                                  console.log(selectedClient, "selectedClient");
+                                  console.log(
+                                    selectedClient.companies,
+                                    "selectedClient"
+                                  );
+                                }
+                              }}
+                            >
+                              <option value="">Select a Client</option>
+                              {AddSiteData.data &&
+                              AddSiteData.data.length > 0 ? (
+                                AddSiteData.data.map((item) => (
+                                  <option key={item.id} value={item.id}>
+                                    {item.client_name}
+                                  </option>
+                                ))
+                              ) : (
+                                <option disabled>No Client</option>
+                              )}
+                            </Field>
+
+                            <ErrorMessage
+                              component="div"
+                              className="invalid-feedback"
+                              name="client_id"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg={6} md={12}>
+                          <FormGroup>
+                            <label
+                              htmlFor="company_id"
+                              className="form-label mt-4"
+                            >
+                              Company
+                              <span className="text-danger">*</span>
+                            </label>
+                            <Field
+                              as="select"
+                              className={`input101 ${
+                                errors.company_id && touched.company_id
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              id="company_id"
+                              name="company_id"
+                              onChange={(e) => {
+                                const selectedCompany = e.target.value;
+                                setFieldValue("company_id", selectedCompany);
+                                setSelectedSiteList([]);
+                                const selectedCompanyData =
+                                  selectedCompanyList.find(
+                                    (company) => company.id === selectedCompany
+                                  );
+                                if (selectedCompanyData) {
+                                  setSelectedSiteList(
+                                    selectedCompanyData.sites
+                                  );
+                                  console.log(
+                                    selectedCompanyData,
+                                    "company_id"
+                                  );
+                                  console.log(
+                                    selectedCompanyData.sites,
+                                    "company_id"
+                                  );
+                                }
+                              }}
+                            >
+                              <option value="">Select a Company</option>
+                              {selectedCompanyList.length > 0 ? (
+                                selectedCompanyList.map((company) => (
+                                  <option key={company.id} value={company.id}>
+                                    {company.company_name}
+                                  </option>
+                                ))
+                              ) : (
+                                <option disabled>No Company</option>
+                              )}
+                            </Field>
+                            <ErrorMessage
+                              component="div"
+                              className="invalid-feedback"
+                              name="company_id"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg={6} md={12}>
+                          <FormGroup>
+                            <label
+                              htmlFor="site_id"
+                              className="form-label mt-4"
+                            >
+                              Site
+                              <span className="text-danger">*</span>
+                            </label>
+                            <Field
+                              as="select"
+                              className={`input101 ${
+                                errors.site_id && touched.site_id
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              id="site_id"
+                              name="site_id"
+                            >
+                              <option value="">Select a Site</option>
+                              {selectedSiteList.length > 0 ? (
+                                selectedSiteList.map((site) => (
+                                  <option key={site.id} value={site.id}>
+                                    {site.site_name}
+                                  </option>
+                                ))
+                              ) : (
+                                <option disabled>No Site</option>
+                              )}
+                            </Field>
+                            <ErrorMessage
+                              component="div"
+                              className="invalid-feedback"
+                              name="site_id"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg={6} md={12}>
+                        <FormGroup>
+                            <label
+                              htmlFor="start_date"
+                              className="form-label mt-4"
+                            >
+                      Date
+                              <span className="text-danger">*</span>
+                            </label>
+                            <Field
+                             type="date"
+                              className={`input101 ${
+                                errors.start_date && touched.start_date
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              id="start_date"
+                              name="start_date"
+                            >
+                          
+                            </Field>
+                            <ErrorMessage
+                              component="div"
+                              className="invalid-feedback"
+                              name="start_date"
+                            />
+                          </FormGroup>
+                        </Col>
+                      
+                     
+
+                      </Row>
+                    </Card.Body>
+                    <Card.Footer className="text-end">
+                      <Link
+                        type="submit"
+                        className="btn btn-danger me-2 "
+                        to={`/dashboard/`}
+                      >
+                        Reset
+                      </Link>
+                      <button className="btn btn-primary me-2" type="submit">
+                        Submit
+                      </button>
+                    </Card.Footer>
+                  </Form>
+                )}
+              </Formik>
             </Card.Body>
           </Card>
         </Col>
@@ -283,38 +396,41 @@ const ManageDsr = (props) => {
       <Row>
         <Col md={12} xl={12}>
           <Card>
-            <Card.Header>
+            {/* <Card.Header>
               <h3 className="card-title">Upload Files</h3>
               <Col lg={8} md={8}>
                 <div className="form-group d-flex">
-                  <div>
-                    <label htmlFor="upload_id" className="form-label mx-4">
-                      File Upload Type<span className="text-danger">*</span>
-                    </label>
-                  </div>
-                  <select
+                <label
+                              className=" form-label mt-4"
+                              htmlFor="report"
+                            >
+                            File Upload
+                              <span className="text-danger">*</span>
+                            </label>
+                  <Field
+                              as="select"
                     className={`input101 ${
-                      formik.errors.upload_id && formik.touched.upload_id
+                  formik.errors.upload_id &&  touched.upload_id
                         ? "is-invalid"
                         : ""
                     }`}
                     id="upload_id"
                     name="upload_id"
-                    onChange={formik.handleChange}
-                    value={formik.values.upload_id}
+                    onChange={  formik.handleChange}
+                    value={values.upload_id}
                   >
                     <option value=""> Select File Upload Type</option>
                     <option value="1">Active</option>
                                 <option value="0">InActive</option>
-                  </select>
-                  {formik.errors.upload_id && formik.touched.upload_id && (
+                  </Field>
+                  {errors.upload_id && touched.upload_id && (
                     <div className="invalid-feedback">
-                      {formik.errors.upload_id}
+                      {errors.upload_id}
                     </div>
                   )}
                 </div>
               </Col>
-            </Card.Header>
+            </Card.Header> */}
             <Card.Body>
               <Row>
                 {names1.map((item) => (
