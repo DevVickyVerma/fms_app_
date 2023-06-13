@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
 
-import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  Card,
+  Form,
+  FormGroup,
+  FormControl,
+  ListGroup,
+  Breadcrumb,
+} from "react-bootstrap";
 
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -11,26 +20,29 @@ import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 
-const AddDeductions = (props) => {
+const AddSubBusinessCategory = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
+
   const navigate = useNavigate();
+  const [AddSiteData, setAddSiteData] = useState([]);
 
   const handleSubmit1 = async (values) => {
     try {
       const formData = new FormData();
-      formData.append("deduction_code", values.deduction_code);
-      formData.append("deduction_name", values.deduction_name);
-      formData.append("deduction_status", values.deduction_status);
+      formData.append("sub_category_name", values.sub_category_name);
+      formData.append("code", values.code);
+      formData.append("status", values.status);
+      formData.append("business_category_id", values.business_category_id);
+    
 
-      const postDataUrl = "/deduction/add";
-
-      const navigatePath = "/ManageDeductions";
+      const postDataUrl = "/business/subcategory/add";
+      const navigatePath = "/managesubbusinesscategory";
+      console.log(values, "name");
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
-
   const [permissionsArray, setPermissionsArray] = useState([]);
   const [isPermissionsSet, setIsPermissionsSet] = useState(false);
 
@@ -45,8 +57,9 @@ const AddDeductions = (props) => {
 
   useEffect(() => {
     if (isPermissionsSet) {
-      const isAddPermissionAvailable =
-        permissionsArray?.includes("deduction-create");
+      const isAddPermissionAvailable = permissionsArray?.includes(
+        "business-category-create"
+      );
 
       if (permissionsArray?.length > 0) {
         if (isAddPermissionAvailable) {
@@ -63,7 +76,49 @@ const AddDeductions = (props) => {
       }
     }
   }, [isPermissionsSet, permissionsArray]);
+  const notify = (message) => toast.success(message);
+  const Errornotify = (message) => toast.error(message);
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      // navigate("/login");
+      // Errornotify("Invalid access token");
+      // localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      const errorMessage = Array.isArray(error.response.data.message)
+        ? error.response.data.message.join(" ")
+        : error.response.data.message;
+      Errornotify(errorMessage);
+    }
+  }
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const axiosInstance = axios.create({
+      baseURL: process.env.REACT_APP_BASE_URL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
+    const GetSiteData = async () => {
+      try {
+        const response = await axiosInstance.get("business/types");
+        setAddSiteData(response.data);
+        // if (response.data) {
+        //   setAddSiteData(response.data.data);
+        // }
+      } catch (error) {
+        handleError(error);
+      }
+    };
+    try {
+      GetSiteData();
+    } catch (error) {
+      handleError(error);
+    }
+    // console.clear()
+  }, []);
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -71,7 +126,7 @@ const AddDeductions = (props) => {
         <div>
           <div className="page-header">
             <div>
-              <h1 className="page-title">Add Deductions</h1>
+              <h1 className="page-title">Add Sub-Business Category</h1>
 
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item
@@ -85,7 +140,7 @@ const AddDeductions = (props) => {
                   className="breadcrumb-item active breadcrumds"
                   aria-current="page"
                 >
-                  Manage Deductions
+                  Manage Sub-Business Category
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
@@ -95,38 +150,36 @@ const AddDeductions = (props) => {
             <Col lg={12} xl={12} md={12} sm={12}>
               <Card>
                 <Card.Header>
-                  <Card.Title as="h3">Add Deductions</Card.Title>
+                  <Card.Title as="h3">Add Sub-Business Category</Card.Title>
                 </Card.Header>
                 <Formik
                   initialValues={{
-                    deduction_name: "",
-                    deduction_code: "",
-                    deduction_status: "1",
+                    sub_category_name: "",
+                    code: "",
+                    business_category_id: " ",
+                    status: "1",
                   }}
                   validationSchema={Yup.object({
-                    deduction_name: Yup.string()
+                    sub_category_name: Yup.string()
                       .max(15, "Must be 15 characters or less")
-                      .required(" Deduction Name is required"),
+                      .required(" Sub-Business Category Name is required"),
 
-                    deduction_code: Yup.string()
-                      .required("Deduction Code is required")
+                    code: Yup.string()
+                      .required("Sub-Business Category Code  is required")
                       .matches(/^[a-zA-Z0-9_\- ]+$/, {
-                        message:
-                          "Deduction Code must not contain special characters",
+                        message: "Code must not contain special characters",
                         excludeEmptyString: true,
                       })
                       .matches(
                         /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
                         {
-                          message:
-                            "Deduction Code must not have consecutive spaces",
+                          message: "Code must not have consecutive spaces",
                           excludeEmptyString: true,
                         }
                       ),
 
-                    deduction_status: Yup.string().required(
-                      "Deduction Status is required"
-                    ),
+                    status: Yup.string().required("Status is required"),
+                    business_category_id: Yup.string().required("Sub-Business Category Type is required"),
                   })}
                   onSubmit={(values) => {
                     handleSubmit1(values);
@@ -140,9 +193,9 @@ const AddDeductions = (props) => {
                             <FormGroup>
                               <label
                                 className=" form-label mt-4"
-                                htmlFor="deduction name"
+                                htmlFor="sub_category_name"
                               >
-                                Deduction Name
+                                Sub-Business Category Name
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
@@ -150,19 +203,19 @@ const AddDeductions = (props) => {
                                 autoComplete="off"
                                 // className="form-control"
                                 className={`input101 ${
-                                  errors.deduction_name &&
-                                  touched.deduction_name
+                                  errors.sub_category_name &&
+                                  touched.sub_category_name
                                     ? "is-invalid"
                                     : ""
                                 }`}
-                                id="deduction_name"
-                                name="deduction_name"
-                                placeholder="Deduction Name"
+                                id="sub_category_name"
+                                name="sub_category_name"
+                                placeholder="Sub-Business Category Name"
                               />
                               <ErrorMessage
                                 component="div"
                                 className="invalid-feedback"
-                                name="deduction_name"
+                                name="sub_category_name"
                               />
                             </FormGroup>
                           </Col>
@@ -170,26 +223,26 @@ const AddDeductions = (props) => {
                             <FormGroup>
                               <label
                                 className=" form-label mt-4"
-                                htmlFor="deduction_code"
+                                htmlFor="code"
                               >
-                                Deduction Code
+                                Sub-Business Category Code
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
                                 type="text"
                                 autoComplete="off"
                                 className={`input101 ${
-                                  errors.deduction_code &&
-                                  touched.deduction_code
+                                  errors.code &&
+                                  touched.code
                                     ? "is-invalid"
                                     : ""
                                 }`}
-                                id="deduction_code"
-                                name="deduction_code"
-                                placeholder="Deduction Code"
+                                id="code"
+                                name="code"
+                                placeholder="Sub-Business Category Code"
                               />
                               <ErrorMessage
-                                name="deduction_code"
+                                name="code"
                                 component="div"
                                 className="invalid-feedback"
                               />
@@ -201,21 +254,20 @@ const AddDeductions = (props) => {
                             <FormGroup>
                               <label
                                 className=" form-label mt-4"
-                                htmlFor="deduction_status"
+                                htmlFor="status"
                               >
-                                Deduction Status
+                                Status
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
                                 as="select"
                                 className={`input101 ${
-                                  errors.deduction_status &&
-                                  touched.deduction_status
+                                  errors.status && touched.status
                                     ? "is-invalid"
                                     : ""
                                 }`}
-                                id="deduction_status"
-                                name="deduction_status"
+                                id="status"
+                                name="Status"
                               >
                                 <option value="1">Active</option>
                                 <option value="0">Inactive</option>
@@ -223,7 +275,49 @@ const AddDeductions = (props) => {
                               <ErrorMessage
                                 component="div"
                                 className="invalid-feedback"
-                                name="deduction_status"
+                                name="status"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="business_category_id"
+                                className=" form-label mt-4"
+                              >
+                                Select Sub-Business Category Types
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${
+                                  errors.business_category_id &&
+                                  touched.business_category_id
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="business_category_id"
+                                name="business_category_id"
+                              >
+                                <option value="">
+                                  {" "}
+                                  Select Sub-Business Category Types
+                                </option>
+                                {
+                                AddSiteData.data ? (
+                                  AddSiteData.data.map((item) => (
+                                    <option key={item.id} value={item.id}>
+                                      {item.business_name}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option disabled>No Sub-Business Category Type</option>
+                                )}
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="business_category_id"
                               />
                             </FormGroup>
                           </Col>
@@ -233,7 +327,7 @@ const AddDeductions = (props) => {
                         <Link
                           type="submit"
                           className="btn btn-danger me-2 "
-                          to={`/managedeductions/`}
+                          to={`/managesubbusinesscategory/`}
                         >
                           Cancel
                         </Link>
@@ -252,4 +346,4 @@ const AddDeductions = (props) => {
     </>
   );
 };
-export default withApi(AddDeductions);
+export default withApi(AddSubBusinessCategory);

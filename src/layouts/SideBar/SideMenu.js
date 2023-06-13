@@ -1,6 +1,5 @@
 export const MENUITEMS = [
   {
-   
     Items: [
       {
         path: `/dashboard`,
@@ -59,8 +58,7 @@ export const MENUITEMS = [
           },
         ],
       },
-    
-   
+
       {
         title: "Manage Company",
         icon: "building",
@@ -70,7 +68,7 @@ export const MENUITEMS = [
         visibility: false,
         children: [
           {
-           path: `/managecompany`,
+            path: `/managecompany`,
             title: "Manage Company",
             type: "link",
             permission: "company-list",
@@ -83,8 +81,6 @@ export const MENUITEMS = [
             permission: "company-create",
             visibility: false,
           },
-         
-          
         ],
       },
       {
@@ -93,7 +89,7 @@ export const MENUITEMS = [
         type: "sub",
         active: false,
         permission: "site-list",
-            visibility: false,
+        visibility: false,
         children: [
           {
             path: `/sites`,
@@ -109,8 +105,6 @@ export const MENUITEMS = [
             permission: "site-create",
             visibility: false,
           },
-         
-          
         ],
       },
       {
@@ -122,10 +116,10 @@ export const MENUITEMS = [
         visibility: false,
         children: [
           {
-           path: `/roles`,
+            path: `/roles`,
             title: "Manage Roles",
             type: "link",
-            permission:"role-list",
+            permission: "role-list",
             visibility: false,
           },
           {
@@ -135,8 +129,6 @@ export const MENUITEMS = [
             permission: "role-create",
             visibility: false,
           },
-         
-          
         ],
       },
       {
@@ -146,10 +138,10 @@ export const MENUITEMS = [
         active: false,
         permission: "addons-list",
         visibility: false,
-        
+
         children: [
           {
-           path: `/manageaddon`,
+            path: `/manageaddon`,
             title: "Manage Addon",
             type: "link",
             permission: "addons-list",
@@ -162,8 +154,6 @@ export const MENUITEMS = [
             permission: "addons-create",
             visibility: false,
           },
-         
-          
         ],
       },
       {
@@ -176,21 +166,19 @@ export const MENUITEMS = [
         children: [
           {
             path: `/business`,
-             title: "Manage Business Types",
-             type: "link",
-             permission: "business-type-list",
-             visibility: false,
-           },
-        
+            title: "Manage Business Types",
+            type: "link",
+            permission: "business-type-list",
+            visibility: false,
+          },
+
           {
             path: `/addbusiness`,
-             title: "Add Business Types",
-             type: "link",
-             permission: "business-type-create",
-             visibility: false,
-           },
-         
-          
+            title: "Add Business Types",
+            type: "link",
+            permission: "business-type-create",
+            visibility: false,
+          },
         ],
       },
       // {
@@ -201,7 +189,7 @@ export const MENUITEMS = [
       //   permission: "business-sub-type-list",
       //   visibility: false,
       //   children: [
-        
+
       //     {
       //      path: `/sub-business`,
       //       title: "Manage Sub-Business Types",
@@ -216,8 +204,7 @@ export const MENUITEMS = [
       //        permission: "business-sub-type-create",
       //        visibility: false,
       //      },
-         
-          
+
       //   ],
       // },
 
@@ -230,7 +217,7 @@ export const MENUITEMS = [
         visibility: false,
         children: [
           {
-           path: `/managecharges`,
+            path: `/managecharges`,
             title: "Manage Charges",
             type: "link",
             permission: "charges-list",
@@ -243,8 +230,6 @@ export const MENUITEMS = [
             permission: "charges-create",
             visibility: false,
           },
-         
-          
         ],
       },
       {
@@ -256,7 +241,7 @@ export const MENUITEMS = [
         visibility: false,
         children: [
           {
-           path: `/manageshops`,
+            path: `/manageshops`,
             title: "Manage Shops",
             type: "link",
             permission: "shop-list",
@@ -269,8 +254,6 @@ export const MENUITEMS = [
             permission: "shop-create",
             visibility: false,
           },
-         
-          
         ],
       },
       {
@@ -282,7 +265,7 @@ export const MENUITEMS = [
         visibility: false,
         children: [
           {
-           path: `/manageCards`,
+            path: `/manageCards`,
             title: "Manage Cards",
             type: "link",
             permission: "card-list",
@@ -295,8 +278,6 @@ export const MENUITEMS = [
             permission: "card-create",
             visibility: false,
           },
-         
-          
         ],
       },
       {
@@ -308,7 +289,7 @@ export const MENUITEMS = [
         visibility: false,
         children: [
           {
-           path: `/managedeductions`,
+            path: `/managedeductions`,
             title: "Manage Deductions",
             type: "link",
             permission: "deduction-list",
@@ -321,8 +302,6 @@ export const MENUITEMS = [
             permission: "deduction-create",
             visibility: false,
           },
-         
-          
         ],
       },
       {
@@ -338,36 +317,75 @@ export const MENUITEMS = [
             title: "Manage Suppliers",
             type: "link",
             permission: "supplier-list",
-        visibility: false,
+            visibility: false,
           },
           {
             path: `/addSuppliers`,
             title: "Add Suppliers",
             type: "link",
             permission: "supplier-create",
-        visibility: false,
+            visibility: false,
           },
         ],
       },
       // {
-      //   title: "Manage FuelSites",
+      //   title: "Business Category",
       //   icon: "package",
       //   type: "sub",
       //   active: false,
       //   children: [
       //     {
-      //       path: `/managefuelsites`,
-      //       title: "Manage FuelSites",
+      //       path: `/managebusinesscategory`,
+      //       title: "Manage Business Category",
       //       type: "link",
       //     },
       //     {
-      //       path: `/addfuelsites`,
-      //       title: "Add FuelSites",
+      //       path: `/addbusinesscategory`,
+      //       title: "Add Business Category",
       //       type: "link",
       //     },
       //   ],
       // },
-            {
+
+      {
+        title: "Manage Category",
+        icon: "tint",
+        type: "sub",
+        active: false,
+        permission: "supplier-list",
+        visibility: false,
+        children: [
+          {
+            path: `/managebusinesscategory`,
+            title: "Manage Business Category",
+            type: "link",
+            permission: "supplier-list",
+            visibility: false,
+          },
+          {
+            path: `/addbusinesscategory`,
+            title: "Add Business Category",
+            type: "link",
+            permission: "supplier-create",
+            visibility: false,
+          },
+          {
+            path: `/managesubbusinesscategory`,
+            title: "Manage Sub Business Category",
+            type: "link",
+            permission: "supplier-list",
+            visibility: false,
+          },
+          {
+            path: `/addsubbusinesscategory`,
+            title: "Add Sub Business Category",
+            type: "link",
+            permission: "supplier-create",
+            visibility: false,
+          },
+        ],
+      },
+      {
         title: "Manage DRS",
         icon: "globe",
         type: "sub",
@@ -382,7 +400,6 @@ export const MENUITEMS = [
             permission: "supplier-create",
             visibility: false,
           },
-        
         ],
       },
       {
@@ -403,10 +420,6 @@ export const MENUITEMS = [
         
         ],
       },
-      
-      
     ],
   },
-
-  
 ];
