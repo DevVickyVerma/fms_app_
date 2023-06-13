@@ -161,29 +161,37 @@ const EditSuppliers = React.lazy(() =>
 
 // Suppliers End
 
-// FuelSites Start
+// Category Start
 
-const ManageFuelSites = React.lazy(() =>
-  import("./components/pages/ManageFuelSites/ManageFuelSites")
+const ManageBusinessCategory = React.lazy(() =>
+  import("./components/pages/ManageCategory/ManageBusinessCategory")
 );
 
-const AddFuelSites = React.lazy(() =>
-  import("./components/pages/ManageFuelSites/AddFuelSites")
+const ManageSubBusinessCategory = React.lazy(() =>
+  import("./components/pages/ManageCategory/ManageSubBusinessCategory")
 );
 
-const EditFuelSites = React.lazy(() =>
-  import("./components/pages/ManageFuelSites/EditFuelSites")
+const AddBusinessCategory = React.lazy(() =>
+  import("./components/pages/ManageCategory/AddBusinessCategory")
+);
+const AddSubBusinessCategory = React.lazy(() =>
+  import("./components/pages/ManageCategory/AddSubBusinessCategory")
 );
 
-// FuelSites End
+const EditBusinessCategory = React.lazy(() =>
+  import("./components/pages/ManageCategory/EditBusinessCategory")
+);
+
+const EditSubBusinessCategory = React.lazy(() =>
+  import("./components/pages/ManageCategory/EditSubBusinessCategory")
+);
+// Category End
 
 // DSR Start
 
 const ManageDsr = React.lazy(() =>
   import("./components/pages/ManageDSR/ManageDsr")
 );
-
-
 
 // DSR End
 // Reports Start
@@ -195,6 +203,7 @@ const ManageReports = React.lazy(() =>
 
 
 // Reports End
+
 
 const ManageBusinessTypes = React.lazy(() =>
   import("./components/pages/ManageBusinessTypes/ManageBusinessTypes")
@@ -276,13 +285,6 @@ const Errorpage503 = React.lazy(() =>
 const COMINGSOON = React.lazy(() =>
   import("./components/ErrorPages/ErrorPages/Soon/Comingsoon")
 );
-// const Loaderimg = () => {
-//   return (
-//     <div id="global-loader">
-//       <loderdata.Loadersbigsizes1 />
-//     </div>
-//   );
-// };
 
 const Root = () => {
   const store = configureStore({
@@ -330,9 +332,14 @@ const Root = () => {
   const WrappedManageSuppliers = withApi(ManageSuppliers);
   const WrappedAddSuppliers = withApi(AddSuppliers);
   const WrappedEditSuppliers = withApi(EditSuppliers);
-  // const WrappedManageFuelSites = withApi(ManageFuelSites);
-  // const WrappedAddFuelSites = withApi(AddFuelSites);
-  // const WrappedEditFuelSites = withApi(EditFuelSites);
+
+  const WrappedManageBusinessCategory = withApi(ManageBusinessCategory);
+  const WrappedManageSubBusinessCategory = withApi(ManageSubBusinessCategory);
+  const WrappedAddBusinessCategory = withApi(AddBusinessCategory);
+  const WrappedEditBusinessCategory = withApi(EditBusinessCategory);
+  const WrappedAddSubBusinessCategory = withApi(AddSubBusinessCategory);
+  const WrappedEditSubBusinessCategory = withApi(EditSubBusinessCategory);
+
   const WrappedManageDsr = withApi(ManageDsr);
   const WrappedManageReports = withApi(ManageReports);
   return (
@@ -358,8 +365,11 @@ const Root = () => {
 
                   {/* User  Components Start */}
                   <Route path={`/users`} element={<WrappedManageUser />} />
-                  <Route path={`/editusers/:id`} element={<WrappeAddEditUser />} />
-                 
+                  <Route
+                    path={`/editusers/:id`}
+                    element={<WrappeAddEditUser />}
+                  />
+
                   <Route path={`addusers`} element={<WrappedAddUser />} />
 
                   {/* User  Components End */}
@@ -410,20 +420,14 @@ const Root = () => {
                   {/* Header  Components End */}
 
                   {/* DSR  Components Start */}
-                  <Route
-                    path={`/data-entry`}
-                    element={<WrappedManageDsr />}
-                  />
+                  <Route path={`/data-entry`} element={<WrappedManageDsr />} />
                   {/* DSR  Components End */}
-                  {/* Reports  Components Start */}
-                  <Route
+  {/* Reports  Components Start */}
+  <Route
                     path={`/reports`}
                     element={<WrappedManageReports/>}
                   />
                   {/* Reports  Components End */}
-
-
-
                   {/* Charges  Components Start  */}
                   <Route
                     path={`/managecharges`}
@@ -486,21 +490,6 @@ const Root = () => {
 
                   {/* Deduction components end */}
 
-                  {/* FuelSites components start */}
-
-                  {/* <Route
-                    path={`/managefuelsites`}
-                    element={<WrappedManageFuelSites />}
-                  />
-
-                  <Route path={`/addfuelsites`} element={<WrappedAddFuelSites />} />
-                  <Route
-                    path={`/editfuelsites/:id`}
-                    element={<WrappedEditFuelSites />}
-                  />
-
-                  FuelSites components end */}
-
                   {/* Suppliers components start */}
 
                   <Route
@@ -518,6 +507,39 @@ const Root = () => {
                   />
 
                   {/* Suppliers components end */}
+
+                  {/* Category components start */}
+
+                  <Route
+                    path={`/managebusinesscategory`}
+                    element={<WrappedManageBusinessCategory />}
+                  />
+
+                  <Route
+                    path={`/managesubbusinesscategory`}
+                    element={<WrappedManageSubBusinessCategory />}
+                  />
+
+                  <Route
+                    path={`/addbusinesscategory`}
+                    element={<WrappedAddBusinessCategory />}
+                  />
+
+                  <Route
+                    path={`/addsubbusinesscategory`}
+                    element={<WrappedAddSubBusinessCategory />}
+                  />
+
+                  <Route
+                    path={`/editbusinesscategory/:id`}
+                    element={<WrappedEditBusinessCategory />}
+                  />
+                  <Route
+                    path={`/editsubbusinesscategory/:id`}
+                    element={<WrappedEditSubBusinessCategory />}
+                  />
+
+                  {/* Category components end */}
 
                   <Route>
                     <Route
