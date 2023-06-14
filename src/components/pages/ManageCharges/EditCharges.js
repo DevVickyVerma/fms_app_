@@ -50,41 +50,83 @@ import Loaderimg from "../../../Utils/Loader";
       Errornotify(errorMessage);
     }
   }
+  // const { id } = useParams();
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   const formData = new FormData();
+
+  //   formData.append("id", id); // Use the retrieved ID from the URL
+
+  //   const axiosInstance = axios.create({
+  //     baseURL: process.env.REACT_APP_BASE_URL,
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   });
+
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axiosInstance.get(`/charge/${id}`);
+  //       if (response) {
+  //         console.log(response.data.data);
+  //         setEditSiteData(response.data.data);
+  //         formik.setValues(response.data.data);
+  //       }
+  //     } catch (error) {
+  //       handleError(error);
+  //     }
+  //   };
+
+  //   try {
+  //     fetchData();
+  //   } catch (error) {
+  //     handleError(error);
+  //   }
+  //   console.clear();
+  // }, [id]);
+
+  // const token = localStorage.getItem("token");
+  // const axiosInstance = axios.create({
+  //   baseURL: process.env.REACT_APP_BASE_URL,
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //   },
+  // });
+
+  
   const { id } = useParams();
 
+ 
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const formData = new FormData();
-
-    formData.append("id", id); // Use the retrieved ID from the URL
-
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.get(`/charge/${id}`);
-        if (response) {
-          console.log(response.data.data);
-          setEditSiteData(response.data.data);
-          formik.setValues(response.data.data);
-        }
-      } catch (error) {
-        handleError(error);
-      }
-    };
-
+ 
     try {
-      fetchData();
+      FetchRoleList();
     } catch (error) {
       handleError(error);
     }
     console.clear();
   }, [id]);
+
+
+  const FetchRoleList = async () => {
+   try {
+      const response = await getData(`/charge/${id}`);
+
+      if (response) {
+        formik.setValues(response.data.data);
+        console.log(formik.values);
+        console.log(response.data.data);
+        setDropdownValue(response.data.data);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
@@ -94,8 +136,7 @@ import Loaderimg from "../../../Utils/Loader";
     },
   });
 
-  
- 
+
   
   const handleSubmit = async (values) => {
     try {

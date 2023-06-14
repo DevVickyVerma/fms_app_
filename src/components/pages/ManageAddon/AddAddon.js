@@ -221,7 +221,7 @@ import Loaderimg from "../../../Utils/Loader";
                             type="text"  autoComplete="off"
                             id="name"
                             name="name"
-                            placeholder="Addonname"
+                            placeholder="Addon Name"
                             className={`input101 ${
                               touched.name && errors.name ? "is-invalid" : ""
                             }`}

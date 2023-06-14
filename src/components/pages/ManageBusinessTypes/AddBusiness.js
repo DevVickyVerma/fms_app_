@@ -86,7 +86,7 @@ const AddAddon = (props) => {
     <div>
       <div className="page-header">
         <div>
-          <h1 className="page-title">Add Business</h1>
+          <h1 className="page-title">Add Business Type Name</h1>
 
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item
@@ -110,7 +110,7 @@ const AddAddon = (props) => {
         <Col lg={12} xl={12} md={12} sm={12}>
           <Card>
             <Card.Header>
-              <Card.Title as="h3">Add Business</Card.Title>
+              <Card.Title as="h3">Add Business Type Name</Card.Title>
             </Card.Header>
             <Formik
               initialValues={{
@@ -122,7 +122,7 @@ const AddAddon = (props) => {
               validationSchema={Yup.object({
                 business_name: Yup.string()
                   .max(15, "Must be 15 characters or less")
-                  .required(" Business Name is required"),
+                  .required(" Business Type Name is required"),
 
                   slug: Yup.string()
         .required("Slug is required")
@@ -151,7 +151,7 @@ const AddAddon = (props) => {
                     <Row>
                       <Col lg={6} md={12}>
                         <FormGroup>
-                          <label  className=" form-label mt-4" htmlFor="business_name">Business Name
+                          <label  className=" form-label mt-4" htmlFor="business_name">Business Type Name
                           <span className="text-danger">*</span>
                           </label>
                           <Field
@@ -164,7 +164,7 @@ const AddAddon = (props) => {
                             }`}
                             id="business_name"
                             name="business_name"
-                            placeholder="Business Name"
+                            placeholder="Business Type Name"
                           />
                           <ErrorMessage
                             component="div"

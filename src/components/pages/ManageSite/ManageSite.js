@@ -383,8 +383,9 @@ const ManageSite = (props) => {
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
-                to="/editsite"
-                onClick={() => handleEdit(row.id)}
+                
+                to={`/editsite/${row.id}`}
+               
                 className="btn btn-primary btn-sm rounded-11 me-2"
               >
                 <i>
