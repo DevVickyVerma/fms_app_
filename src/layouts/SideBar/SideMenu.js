@@ -109,7 +109,7 @@ export const MENUITEMS = [
       },
       {
         title: "Site Settings",
-        icon: "university",
+        icon: "gear",
         type: "sub",
         active: false,
         permission: "site-list",
@@ -120,6 +120,13 @@ export const MENUITEMS = [
             title: "Tolerances",
             type: "link",
             permission: "site-list",
+            visibility: false,
+          },
+          {
+            path: `/site-setting`,
+            title: "Site-Setting",
+            type: "link",
+            permission: "site-create",
             visibility: false,
           },
        

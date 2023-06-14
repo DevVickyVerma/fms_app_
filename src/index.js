@@ -208,6 +208,10 @@ const SiteSettings = React.lazy(() =>
   import("./components/pages/SiteSetting/SiteSettings")
 );
 
+const Tolerances = React.lazy(() =>
+  import("./components/pages/SiteSetting/Tolerances")
+);
+
 // SiteSettings End
 // Other Start
 
@@ -356,6 +360,7 @@ const Root = () => {
   const WrappedManageReports = withApi(ManageReports);
   const WrappedWorkFlows = withApi(WorkFlows);
   const WrappedSiteSettings = withApi(SiteSettings);
+  const WrappedTolerances = withApi(Tolerances);
   return (
     <Fragment>
       <BrowserRouter>
@@ -445,7 +450,8 @@ const Root = () => {
                   <Route path={`/reports`} element={<WrappedManageReports />} />
                   {/* Reports  Components End */}
                   {/* Reports  Components Start */}
-                  <Route path={`/tolerances`} element={<WrappedSiteSettings />} />
+                  <Route path={`/site-setting`} element={<WrappedSiteSettings />} />
+                  <Route path={`/tolerances`} element={<WrappedTolerances />} />
                   {/* Reports  Components End */}
                   {/* Charges  Components Start  */}
                   <Route

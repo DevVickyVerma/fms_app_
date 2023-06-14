@@ -4,6 +4,7 @@ import { Link, Navigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
+import Loaderimg from "../../../Utils/Loader";
 import {
   Breadcrumb,
   Card,
@@ -22,6 +23,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
 import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
+import { FormModal } from "../../../data/Modal/UploadFile";
 
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -40,7 +42,7 @@ const ManageDsr = (props) => {
     if (UserPermissions) {
       setPermissionsArray(UserPermissions.permissions);
     }
-    handleFetchData()
+    handleFetchData();
   }, [UserPermissions]);
 
   const isStatusPermissionAvailable = permissionsArray?.includes(
@@ -57,8 +59,9 @@ const ManageDsr = (props) => {
     permissionsArray?.includes("supplier-assign");
 
   const [searchText, setSearchText] = useState("");
+  const [modalTitle, setModalTitle] = useState("");
   const [searchvalue, setSearchvalue] = useState();
-
+  const [UploadList, setUploadList] = useState();
 
   const names = [
     "Fuel Sales",
@@ -88,8 +91,6 @@ const ManageDsr = (props) => {
     { id: 10, name: "Upload Vat Ledger" },
   ];
 
-
-
   const handleFetchData = async () => {
     try {
       const response = await getData("/client/commonlist");
@@ -102,6 +103,23 @@ const ManageDsr = (props) => {
       console.error("API error:", error);
     }
   };
+
+  const  FetchModules = async (id) => {
+    try {
+      const response = await getData(`/drs/modules/?site_id=${id}`);
+
+      const { data } = response;
+      if (data) {
+        console.log(response.data);
+        setUploadList(response.data.data);
+
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+
 
   const handleSubmit1 = async (values) => {
     try {
@@ -120,12 +138,29 @@ const ManageDsr = (props) => {
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
-  const handleClick = (item) => {
+  const handleClick1 = (item) => {
     console.log("Clicked card:", item.name);
     console.log("Clicked card:", item.id);
   };
+  const [showModal, setShowModal] = useState(false); // State variable to control modal visibility
+
+  // Function to handle card click event
+  // const handleCardClick = (item) => {
+  //   // Open the modal by setting the showModal state to true
+  //   setShowModal(true);
+  //   modalTitle="item.name"
+
+  //   // You can also perform additional logic here based on the clicked item
+  // };
+  const handleCardClick = (item) => {
+    setModalTitle(item.name); // Set the modalTitle state to the itemName
+    setShowModal(true); // Show the modal
+  };
 
   return (
+    <>
+    {isLoading ? <Loaderimg /> : null}
+    
     <>
       <div className="page-header ">
         <div>
@@ -152,15 +187,13 @@ const ManageDsr = (props) => {
         <Col md={12} xl={12}>
           <Card>
             <Card.Body>
-            <Formik
+              <Formik
                 initialValues={{
                   report: "1",
                   client_id: "",
                   company_id: "",
                   site_id: "",
                   start_date: "",
-                 
-                
                 }}
                 validationSchema={Yup.object({
                   report: Yup.string().required(" report is required"),
@@ -169,7 +202,6 @@ const ManageDsr = (props) => {
                   company_id: Yup.string().required("Company is required"),
                   site_id: Yup.string().required("Site is required"),
                   start_date: Yup.date().required("Start Date is required"),
-                
                 })}
                 onSubmit={(values) => {
                   handleSubmit1(values);
@@ -179,7 +211,6 @@ const ManageDsr = (props) => {
                   <Form onSubmit={handleSubmit}>
                     <Card.Body>
                       <Row>
-                     
                         <Col lg={6} md={12}>
                           <FormGroup>
                             <label
@@ -300,6 +331,10 @@ const ManageDsr = (props) => {
                               component="div"
                               className="invalid-feedback"
                               name="company_id"
+                              onChange={(e) => {
+                                const selectedCompany = e.target.value;
+                             
+                              }}
                             />
                           </FormGroup>
                         </Col>
@@ -321,6 +356,10 @@ const ManageDsr = (props) => {
                               }`}
                               id="site_id"
                               name="site_id"
+                              onChange={(e) => {
+                                const selectedCompany = e.target.value;
+                                FetchModules(selectedCompany)
+                              }}
                             >
                               <option value="">Select a Site</option>
                               {selectedSiteList.length > 0 ? (
@@ -341,16 +380,16 @@ const ManageDsr = (props) => {
                           </FormGroup>
                         </Col>
                         <Col lg={6} md={12}>
-                        <FormGroup>
+                          <FormGroup>
                             <label
                               htmlFor="start_date"
                               className="form-label mt-4"
                             >
-                      Date
+                              Date
                               <span className="text-danger">*</span>
                             </label>
                             <Field
-                             type="date"
+                              type="date"
                               className={`input101 ${
                                 errors.start_date && touched.start_date
                                   ? "is-invalid"
@@ -358,9 +397,7 @@ const ManageDsr = (props) => {
                               }`}
                               id="start_date"
                               name="start_date"
-                            >
-                          
-                            </Field>
+                            ></Field>
                             <ErrorMessage
                               component="div"
                               className="invalid-feedback"
@@ -368,9 +405,6 @@ const ManageDsr = (props) => {
                             />
                           </FormGroup>
                         </Col>
-                      
-                     
-
                       </Row>
                     </Card.Body>
                     <Card.Footer className="text-end">
@@ -396,49 +430,14 @@ const ManageDsr = (props) => {
       <Row>
         <Col md={12} xl={12}>
           <Card>
-            {/* <Card.Header>
-              <h3 className="card-title">Upload Files</h3>
-              <Col lg={8} md={8}>
-                <div className="form-group d-flex">
-                <label
-                              className=" form-label mt-4"
-                              htmlFor="report"
-                            >
-                            File Upload
-                              <span className="text-danger">*</span>
-                            </label>
-                  <Field
-                              as="select"
-                    className={`input101 ${
-                  formik.errors.upload_id &&  touched.upload_id
-                        ? "is-invalid"
-                        : ""
-                    }`}
-                    id="upload_id"
-                    name="upload_id"
-                    onChange={  formik.handleChange}
-                    value={values.upload_id}
-                  >
-                    <option value=""> Select File Upload Type</option>
-                    <option value="1">Active</option>
-                                <option value="0">InActive</option>
-                  </Field>
-                  {errors.upload_id && touched.upload_id && (
-                    <div className="invalid-feedback">
-                      {errors.upload_id}
-                    </div>
-                  )}
-                </div>
-              </Col>
-            </Card.Header> */}
             <Card.Body>
               <Row>
-                {names1.map((item) => (
+                {UploadList?.map((item) => (
                   <Col md={12} xl={3} key={item.id}>
                     <Card className="text-white bg-primary">
                       <Card.Body
                         className="card-Div"
-                        onClick={() => handleClick(item)}
+                        onClick={() => handleCardClick(item)} // Pass item.name as an argument
                       >
                         <h4 className="card-title">{item.name}</h4>
                       </Card.Body>
@@ -447,9 +446,32 @@ const ManageDsr = (props) => {
                 ))}
               </Row>
             </Card.Body>
+            {modalTitle ? (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "10vh",
+                }}
+              >
+                <Col md={3} xl={3}>
+                  <FormModal
+                    open={showModal}
+                    onClose={() => setShowModal(false)}
+                    modalTitle={modalTitle} // Use the modalTitle variable
+                    modalCancelButtonLabel="Cancel"
+                    modalSaveButtonLabel="Save"
+                  />
+                </Col>
+              </div>
+            ) : (
+              ""
+            )}
           </Card>
         </Col>
       </Row>
+
       <Row>
         <Col md={12} xl={12}>
           <Card>
@@ -472,6 +494,7 @@ const ManageDsr = (props) => {
           </Card>
         </Col>
       </Row>
+    </>
     </>
   );
 };
