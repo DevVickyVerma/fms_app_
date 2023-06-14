@@ -16,12 +16,13 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import DatePicker from "react-multi-date-picker";
+import Loaderimg from "../../../Utils/Loader";
 
-export default function AddSite() {
+export default function AddSite(props) {
   const navigate = useNavigate();
-
+  const { apidata, isLoading, error, getData, postData } = props;
   const [AddSiteData, setAddSiteData] = useState([]);
   const [Listcompany, setCompanylist] = useState([]);
   const [selectedBusinessType, setSelectedBusinessType] = useState("");
@@ -47,52 +48,61 @@ export default function AddSite() {
     }
   }
 
+
+  const { id } = useParams();
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const GetSiteDetails = async () => {
-      const Edit_Site_id = localStorage.getItem("Edit_Site");
-      try {
-        const response = await axiosInstance.get(
-          "/site/detail/?id=" + Edit_Site_id
-        );
-
-        if (response) {
-          setEditSiteData(response.data.data);
-          formik.setValues(response.data.data);
-          // fetchCompanyList(response.data.data.client_id)
-          // console.log(response.data.data.company_id,"company")
-        }
-      } catch (error) {
-        handleError(error);
-      }
-    };
-
-    const GetSiteData = async () => {
-      try {
-        const response = await axiosInstance.get("site/common-data-list");
-
-        if (response.data) {
-          setAddSiteData(response.data.data);
-        }
-      } catch (error) {
-        handleError(error);
-      }
-    };
     try {
+      FetchRoleList();
       GetSiteData();
-      GetSiteDetails();
     } catch (error) {
       handleError(error);
     }
-
     console.clear();
-  }, []);
+  }, [id]);
+
+  const FetchRoleList = async () => {
+    try {
+      const response = await getData(`/site/common-data-list?id=${id}`);
+
+      if (response) {
+        formik.setValues(response.data.data);
+        console.log(formik.values);
+        console.log(response.data.data);
+        // setDropdownValue(response.data.data);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+  const GetSiteData = async () => {
+    try {
+   
+      const response = await getData(`/site/detail?id=${id}`);
+
+      if (response) {
+        formik.setValues(response.data.data);
+        console.log(formik.values);
+        console.log(response.data.data);
+        // setDropdownValue(response.data.data);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+
+  const token = localStorage.getItem("token");
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   const handleSubmit = async (event) => {
     const token = localStorage.getItem("token");
@@ -137,7 +147,7 @@ export default function AddSite() {
       site_name: "",
       site_address: "",
       site_status: "",
-     
+
       business_type: "",
       data_import_type_id: "",
       supplier_id: "",
@@ -153,7 +163,6 @@ export default function AddSite() {
       fuel_commission_calc_status: "",
       bunker_upload_status: "",
       paperwork_status: "",
-     
     },
     validationSchema: Yup.object({
       site_code: Yup.string()
@@ -164,7 +173,7 @@ export default function AddSite() {
         .required("Site Name is required"),
       site_address: Yup.string().required("Site Address is required"),
       site_status: Yup.string().required("Site Status is required"),
-    
+
       business_type: Yup.string().required("Business Type is required"),
       supplier_id: Yup.string().required("Supplier ID is required"),
       start_date: Yup.string().required("DRS Start Date is required"),
@@ -183,41 +192,13 @@ export default function AddSite() {
       bp_credit_card_site_no: Yup.string().required(
         "Bunker Upload Status is required"
       ),
- 
+
       // drs_upload_status: Yup.string().required("Drs Upload Status is required"),
     }),
     onSubmit: handleSubmit,
   });
 
- 
-
-  // const fetchCompanyList = async (id) => {
-  //   const token = localStorage.getItem("token");
-  //   const axiosInstance = axios.create({
-  //     baseURL: process.env.REACT_APP_BASE_URL,
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-
-  //   try {
-  //     const response = await axiosInstance.get(`/companies?client_id=${id}`);
-  //     setCompanylist(response.data.data);
-  //     if (response.data.length > 0) {
-  //       // setCompanylist(response.data.data);
-  //     }
-  //   } catch (error) {
-  //     if (error.response && error.response.status === 401) {
-  //       navigate("/login");
-  //       Errornotify("Invalid access token");
-  //       localStorage.clear();
-  //     } else if (error.response && error.response.data.status_code === "403") {
-  //       navigate("/errorpage403");
-  //     }
-  //   }
-  // };
-
-
+  
 
   const isInvalid = formik.errors && formik.touched.name ? "is-invalid" : "";
 
@@ -235,16 +216,19 @@ export default function AddSite() {
   };
 
   // Helper function to format the date as "YYYY-MM-DD"
-// Helper function to format the date as "YYYY-MM-DD"
-const formatDate = (date) => {
-  const selectedDate = new Date(date);
-  const year = selectedDate.getFullYear();
-  const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
-  const day = String(selectedDate.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-};
+  // Helper function to format the date as "YYYY-MM-DD"
+  const formatDate = (date) => {
+    const selectedDate = new Date(date);
+    const year = selectedDate.getFullYear();
+    const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
+    const day = String(selectedDate.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
 
   return (
+    <>
+      {isLoading ? <Loaderimg /> : null}
+      <>
     <div>
       <div className="page-header">
         <div>
@@ -294,8 +278,9 @@ const formatDate = (date) => {
                       <input
                         id="site_code"
                         name="site_code"
-                        type="text"  autoComplete="off"
-                        className={`input101 ${
+                        type="text"
+                        autoComplete="off"
+                        className={`input101 readonly ${
                           formik.errors.site_code && formik.touched.site_code
                             ? "is-invalid"
                             : ""
@@ -303,6 +288,7 @@ const formatDate = (date) => {
                         placeholder="Site Code"
                         onChange={formik.handleChange}
                         value={formik.values.site_code || ""}
+                        readOnly
                       />
                       {formik.errors.site_code && formik.touched.site_code && (
                         <div className="invalid-feedback">
@@ -317,7 +303,8 @@ const formatDate = (date) => {
                         Site Name<span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"  autoComplete="off"
+                        type="text"
+                        autoComplete="off"
                         className={`input101 ${
                           formik.errors.site_name && formik.touched.site_name
                             ? "is-invalid"
@@ -344,7 +331,8 @@ const formatDate = (date) => {
                       Display Name
                     </label>
                     <input
-                      type="text"  autoComplete="off"
+                      type="text"
+                      autoComplete="off"
                       className={`input101 ${
                         formik.errors.site_display_name &&
                         formik.touched.site_display_name
@@ -478,7 +466,7 @@ const formatDate = (date) => {
                         )}
                     </div>
                   </Col>
-                
+
                   <Col lg={4} md={6}>
                     <div className="form-group">
                       <label
@@ -532,7 +520,8 @@ const formatDate = (date) => {
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"  autoComplete="off"
+                        type="text"
+                        autoComplete="off"
                         className={`input101 ${
                           formik.errors.department_sage_code &&
                           formik.touched.department_sage_code
@@ -563,7 +552,8 @@ const formatDate = (date) => {
                         BP NCTT Site No<span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"  autoComplete="off"
+                        type="text"
+                        autoComplete="off"
                         className={`input101 ${
                           formik.errors.bp_credit_card_site_no &&
                           formik.touched.bp_credit_card_site_no
@@ -591,23 +581,26 @@ const formatDate = (date) => {
                         DRS Start Date<span className="text-danger">*</span>
                       </label>
                       <input
-  type="date"
-  className={`input101 ${
-    formik.errors.start_date && formik.touched.start_date ? "is-invalid" : ""
-  }`}
-  id="start_date"
-  name="start_date"
-  placeholder="DRS Start Date"
-  value={formik.values.start_date ? formatDate(formik.values.start_date) : ""}
-  onChange={(event) => {
-    const date = event.target.value;
-    formik.setFieldValue("start_date", date);
-  }}
-  onBlur={formik.handleBlur}
-/>
-
-
-
+                        type="date"
+                        className={`input101 ${
+                          formik.errors.start_date && formik.touched.start_date
+                            ? "is-invalid"
+                            : ""
+                        }`}
+                        id="start_date"
+                        name="start_date"
+                        placeholder="DRS Start Date"
+                        value={
+                          formik.values.start_date
+                            ? formatDate(formik.values.start_date)
+                            : ""
+                        }
+                        onChange={(event) => {
+                          const date = event.target.value;
+                          formik.setFieldValue("start_date", date);
+                        }}
+                        onBlur={formik.handleBlur}
+                      />
 
                       {formik.errors.start_date &&
                         formik.touched.start_date && (
@@ -887,7 +880,7 @@ const formatDate = (date) => {
                         )}
                     </div>
                   </Col>
-                    {/* <Col lg={4} md={6}>
+                  {/* <Col lg={4} md={6}>
                     <div className="form-group">
                       <label
                         htmlFor="client_id"
@@ -1000,5 +993,7 @@ const formatDate = (date) => {
         </Col>
       </Row>
     </div>
+    </>
+    </>
   );
-}
+};

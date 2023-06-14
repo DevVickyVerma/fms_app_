@@ -361,8 +361,11 @@ const Root = () => {
                   <Route path={`/dashboard`} element={<WrappedDashboard />} />
                   {/* client  Components Start */}
                   <Route path={`/clients`} element={<WrappedManageClient />} />
+
+                
+
                   <Route
-                    path={`editclient`}
+                    path={`editclient/:id`}
                     element={<WrappeAddEditClient />}
                   />
                   <Route path={`addclient`} element={<WrappedAddClient />} />
@@ -383,7 +386,7 @@ const Root = () => {
                   {/* sites  Components Start */}
 
                   <Route path={`addsite`} element={<WrappedAddSite />} />
-                  <Route path={`editsite`} element={<WrappeAddEditSite />} />
+                  <Route path={`editsite/:id`} element={<WrappeAddEditSite />} />
                   <Route path={`/sites`} element={<Managesite />} />
                   {/* sites  Components End */}
 

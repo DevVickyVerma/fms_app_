@@ -297,9 +297,8 @@ const ManageClient = (props) => {
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
-                to="/editclient"
+                to={`/editclient/${row.id}`}
                 className="btn btn-primary btn-sm rounded-11 me-2"
-                onClick={() => handleEdit(row)}
               >
                 <i>
                   <svg
