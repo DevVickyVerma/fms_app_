@@ -44,28 +44,6 @@ const ManageSite = (props) => {
   const [sidebardataobject, setSideDataobject] = useState();
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      Errornotify("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      Errornotify(errorMessage);
-    }
-  }
-
-  // const Loaderimg = () => {
-  //   return (
-  //     <div id="global-loader">
-  //       <loderdata.Loadersbigsizes1 />
-  //     </div>
-  //   );
-  // };
 
   const handleFetchData = async () => {
     try {
@@ -82,34 +60,20 @@ const ManageSite = (props) => {
 
   const handleSubmit1 = async (values) => {
     try {
-      const formData = new FormData();
+      try {
+        const response = await getData(
+          `/workflow/?client_id=${values.client_id}&company_id=${values.company_id}`
+        );
 
-      formData.append("report", values.report);
-      formData.append("client_id", values.client_id);
-      formData.append("company_id", values.company_id);
-      formData.append("site_id", values.site_id);
-
-      // const postDataUrl = "shop/add";
-      // const navigatePath = "/ManageShops";
-
-      // await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
+        const { data } = response;
+        if (data) {
+          setData(data.data);
+        }
+      } catch (error) {
+        console.error("API error:", error);
+      } // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
-    }
-  };
-
-  const FetchTableData = async () => {
-    try {
-      const response = await getData("/site/list");
-      console.log(response.data.data, "ddd");
-
-      if (response && response.data && response.data.data.sites) {
-        setData(response.data.data.sites);
-      } else {
-        throw new Error("No data available in the response");
-      }
-    } catch (error) {
-      console.error("API error:", error);
     }
   };
 
@@ -166,51 +130,29 @@ const ManageSite = (props) => {
     },
     {
       name: " WorkFlow",
-      selector: (row) => [row.site_name],
+      selector: (row) => [row.work_flow],
       sortable: false,
       width: "20%",
-      cell: (row, index) => {
-        try {
-          return (
-            <div className="d-flex" style={{ cursor: "default" }}>
-              <div className="ms-2 mt-0 mt-sm-2 d-block">
-                {row.site_owner && row.site_owner ? (
-                  <h6 className="mb-0 fs-14 fw-semibold">----</h6>
-                ) : (
-                  <h6 className="mb-0 fs-14 fw-semibold"> ---</h6>
-                )}
-              </div>
-            </div>
-          );
-        } catch (error) {
-          console.error("Error:", error);
-          return <h6 className="mb-0 fs-14 fw-semibold">Error</h6>;
-        }
-      },
+      cell: (row, index) => (
+        <div className="d-flex" style={{ cursor: "default" }}>
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold ">{row.work_flow}</h6>
+          </div>
+        </div>
+      ),
     },
     {
       name: " Approval Required",
-      selector: (row) => [row.site_name],
+      selector: (row) => [row.approval],
       sortable: false,
       width: "20%",
-      cell: (row, index) => {
-        try {
-          return (
-            <div className="d-flex" style={{ cursor: "default" }}>
-              <div className="ms-2 mt-0 mt-sm-2 d-block">
-                {row.site_owner && row.site_owner ? (
-                  <h6 className="mb-0 fs-14 fw-semibold">----</h6>
-                ) : (
-                  <h6 className="mb-0 fs-14 fw-semibold"> ---</h6>
-                )}
-              </div>
-            </div>
-          );
-        } catch (error) {
-          console.error("Error:", error);
-          return <h6 className="mb-0 fs-14 fw-semibold">Error</h6>;
-        }
-      },
+      cell: (row, index) => (
+        <div className="d-flex" style={{ cursor: "default" }}>
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold ">{row.approval}</h6>
+          </div>
+        </div>
+      ),
     },
   ];
 
@@ -220,7 +162,6 @@ const ManageSite = (props) => {
   };
 
   useEffect(() => {
-    FetchTableData();
     handleFetchData();
 
     // console.clear();
@@ -269,21 +210,12 @@ const ManageSite = (props) => {
                 <Card.Body>
                   <Formik
                     initialValues={{
-                      report: "1",
                       client_id: "",
                       company_id: "",
-                      site_id: "",
-                      start_date: "",
-                      end_date: "",
                     }}
                     validationSchema={Yup.object({
-                      report: Yup.string().required(" report is required"),
-
                       client_id: Yup.string().required("Client is required"),
                       company_id: Yup.string().required("Company is required"),
-                      site_id: Yup.string().required("Site is required"),
-                      start_date: Yup.date().required("Start Date is required"),
-                      end_date: Yup.date().required("End Date is required"),
                     })}
                     onSubmit={(values) => {
                       handleSubmit1(values);
@@ -313,6 +245,7 @@ const ManageSite = (props) => {
                                   name="client_id"
                                   onChange={(e) => {
                                     const selectedType = e.target.value;
+
                                     setFieldValue("client_id", selectedType);
                                     setSelectedClientId(selectedType);
 
@@ -381,6 +314,7 @@ const ManageSite = (props) => {
                                   name="company_id"
                                   onChange={(e) => {
                                     const selectedCompany = e.target.value;
+
                                     setFieldValue(
                                       "company_id",
                                       selectedCompany
@@ -434,7 +368,7 @@ const ManageSite = (props) => {
                             className="btn btn-primary me-2"
                             type="submit"
                           >
-                            Generate Report
+                            Submit
                           </button>
                         </Card.Footer>
                       </Form>
@@ -481,3 +415,13 @@ const ManageSite = (props) => {
 };
 
 export default withApi(ManageSite);
+
+
+
+
+
+
+
+
+
+ 
