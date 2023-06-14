@@ -108,6 +108,24 @@ export const MENUITEMS = [
         ],
       },
       {
+        title: "Site Settings",
+        icon: "university",
+        type: "sub",
+        active: false,
+        permission: "site-list",
+        visibility: false,
+        children: [
+          {
+            path: `/tolerances`,
+            title: "Tolerances",
+            type: "link",
+            permission: "site-list",
+            visibility: false,
+          },
+       
+        ],
+      },
+      {
         title: "Manage Roles",
         icon: "unlock-alt",
         type: "sub",

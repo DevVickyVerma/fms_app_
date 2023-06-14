@@ -94,7 +94,7 @@ import Loaderimg from "../../../Utils/Loader";
 
   const handleFetchData = async () => {
     try {
-      const response = await getData("/client-list");
+      const response = await getData("/client/list");
       console.log(response.data.data, "ddd");
 
       if (response && response.data && response.data.data) {

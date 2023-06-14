@@ -28,6 +28,7 @@ const ManageReports = (props) => {
   const UserPermissions = useSelector((state) => state?.data?.data);
   const [dropdownValue, setDropdownValue] = useState([]);
   const [AddSiteData, setAddSiteData] = useState([]);
+  const [ReportList, setReportList] = useState([]);
   // const [selectedBusinessType, setSelectedBusinessType] = useState("");
   // const [subTypes, setSubTypes] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
@@ -53,6 +54,19 @@ const ManageReports = (props) => {
       console.error("API error:", error);
     }
   };
+  const FetchReportList = async (id) => {
+    try {
+      const response = await getData(`client/reportlist?client_id=${id}`);
+  
+      const { data } = response;
+      if (data) {
+        setReportList(response.data);
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+  
 
   const handleSubmit1 = async (values) => {
     try {
@@ -150,6 +164,7 @@ const ManageReports = (props) => {
                               name="client_id"
                               onChange={(e) => {
                                 const selectedType = e.target.value;
+                                FetchReportList(selectedType)
                                 setFieldValue("client_id", selectedType);
                                 setSelectedClientId(selectedType);
 
@@ -365,8 +380,19 @@ const ManageReports = (props) => {
                               id="report"
                               name="report"
                             >
-                              <option value="1">Active</option>
-                              <option value="0">Inactive</option>
+                             <option value="">Select a Report</option>
+                                {ReportList.data &&
+                                  ReportList.data.length > 0 ? (
+                                    ReportList.data.map((item) => (
+                                    <option key={item.id} value={item.id}>
+                                      {item.report_name}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option disabled>
+                                    No Report
+                                  </option>
+                                )}
                             </Field>
                             <ErrorMessage
                               component="div"

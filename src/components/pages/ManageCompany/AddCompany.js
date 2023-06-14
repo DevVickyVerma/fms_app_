@@ -28,10 +28,7 @@ const AddCompany = (props) => {
 
   const navigate = useNavigate();
   const [dropdownItems, setDropdownItems] = useState([]);
-  const [AddClientData, setAddClientData] = useState([]);
-  const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  const [subTypes, setSubTypes] = useState([]);
-  const [Calendervalue, SetCalenderonChange] = useState(new Date());
+
   const [dropdownValue, setDropdownValue] = useState([]);
 
   const notify = (message) => toast.success(message);
