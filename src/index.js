@@ -202,6 +202,13 @@ const ManageReports = React.lazy(() =>
 );
 
 // Reports End
+// SiteSettings Start
+
+const SiteSettings = React.lazy(() =>
+  import("./components/pages/SiteSetting/SiteSettings")
+);
+
+// SiteSettings End
 // Other Start
 
 const WorkFlows = React.lazy(() =>
@@ -348,6 +355,7 @@ const Root = () => {
   const WrappedManageDsr = withApi(ManageDsr);
   const WrappedManageReports = withApi(ManageReports);
   const WrappedWorkFlows = withApi(WorkFlows);
+  const WrappedSiteSettings = withApi(SiteSettings);
   return (
     <Fragment>
       <BrowserRouter>
@@ -361,11 +369,8 @@ const Root = () => {
                   <Route path={`/dashboard`} element={<WrappedDashboard />} />
                   {/* client  Components Start */}
                   <Route path={`/clients`} element={<WrappedManageClient />} />
-
-                
-
                   <Route
-                    path={`editclient/:id`}
+               path={`editclient/:id`}
                     element={<WrappeAddEditClient />}
                   />
                   <Route path={`addclient`} element={<WrappedAddClient />} />
@@ -438,6 +443,9 @@ const Root = () => {
                   
                   {/* Reports  Components Start */}
                   <Route path={`/reports`} element={<WrappedManageReports />} />
+                  {/* Reports  Components End */}
+                  {/* Reports  Components Start */}
+                  <Route path={`/tolerances`} element={<WrappedSiteSettings />} />
                   {/* Reports  Components End */}
                   {/* Charges  Components Start  */}
                   <Route
