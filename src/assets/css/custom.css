@@ -95,3 +95,10 @@ button.modal-effect.d-grid.mb-3.upload-btn.btn.btn-danger {
   font-size: 18px;
   border: 0px solid #fff;
 }
+.table-input {
+  padding: 10px;
+  background: #fff;
+  color: #000;
+  width: 100%;
+  border: 1px solid #EEE;
+}

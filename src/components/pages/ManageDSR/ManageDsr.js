@@ -59,10 +59,12 @@ const ManageDsr = (props) => {
   const isAssignPermissionAvailable =
     permissionsArray?.includes("supplier-assign");
 
-  const [searchText, setSearchText] = useState("");
+  const [UploadTabname, setUploadTabname] = useState();
   const [modalTitle, setModalTitle] = useState("");
   const [Uploadtitle, setUploadtitle] = useState();
   const [UploadList, setUploadList] = useState();
+  const [PropsSiteId, setPropsSiteId] = useState();
+  const [PropsDate, setPropsDate] = useState();
 
   const names = [
     "Fuel Sales",
@@ -105,56 +107,71 @@ const ManageDsr = (props) => {
     }
   };
 
-  const FetchModules = async (id) => {
-    try {
-      const response = await getData(`/drs/modules/?site_id=${id}`);
-
-      const { data } = response;
-      if (data) {
-    
-        setUploadList(response?.data?.data.list);
-        setUploadtitle(response?.data?.data);
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
   const handleSubmit1 = async (values) => {
     try {
       const formData = new FormData();
 
-      formData.append("report", values.report);
+      formData.append("start_date", values.start_date);
       formData.append("client_id", values.client_id);
       formData.append("company_id", values.company_id);
       formData.append("site_id", values.site_id);
 
-      // const postDataUrl = "shop/add";
-      // const navigatePath = "/ManageShops";
+      try {
+        setPropsSiteId(values.site_id);
+        setPropsDate(values.start_date);
 
-      // await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
+        const response1 = await getData(
+          `/drs/modules/?site_id=${values.site_id}`
+        );
+
+        const { data } = response1;
+        if (data) {
+          setUploadList(response1?.data?.data.list);
+          setUploadtitle(response1?.data?.data);
+        }
+      } catch (error) {
+        console.error("API error:", error);
+      }
+
+      try {
+        const response2 = await getData(
+          `/fuel-delivery/list?site_id=${values.site_id}&drs_date=${values.start_date}`
+        );
+
+        const { data } = response2;
+        if (data) {
+          console.log(data);
+        }
+      } catch (error) {
+        console.error("API error:", error);
+      }
     } catch (error) {
-      console.log(error); // Set the submission state to false if an error occurs
+      console.error("Error:", error);
     }
   };
+
   const handleClick1 = (item) => {
     console.log("Clicked card:", item.name);
     console.log("Clicked card:", item.id);
   };
   const [showModal, setShowModal] = useState(false); // State variable to control modal visibility
 
-  // Function to handle card click event
-  // const handleCardClick = (item) => {
-  //   // Open the modal by setting the showModal state to true
-  //   setShowModal(true);
-  //   modalTitle="item.name"
-
-  //   // You can also perform additional logic here based on the clicked item
-  // };
   const handleCardClick = (item) => {
+    console.log(item.name);
+    setUploadTabname(item);
     setModalTitle(item.name); // Set the modalTitle state to the itemName
-    setShowModal(true); // Show the modal
+    setShowModal(true);
+
+    // Show the modal
   };
+  const handleEnteryClick = (item) => {
+    console.log(item);
+    setUploadTabname(item);
+  
+
+    // Show the modal
+  };
+
 
   return (
     <>
@@ -188,15 +205,12 @@ const ManageDsr = (props) => {
               <Card.Body>
                 <Formik
                   initialValues={{
-                    report: "1",
                     client_id: "",
                     company_id: "",
                     site_id: "",
                     start_date: "",
                   }}
                   validationSchema={Yup.object({
-                    report: Yup.string().required(" report is required"),
-
                     client_id: Yup.string().required("Client is required"),
                     company_id: Yup.string().required("Company is required"),
                     site_id: Yup.string().required("Site is required"),
@@ -358,10 +372,6 @@ const ManageDsr = (props) => {
                                 }`}
                                 id="site_id"
                                 name="site_id"
-                                onChange={(e) => {
-                                  const selectedCompany = e.target.value;
-                                  FetchModules(selectedCompany);
-                                }}
                               >
                                 <option value="">Select a Site</option>
                                 {selectedSiteList.length > 0 ? (
@@ -432,10 +442,10 @@ const ManageDsr = (props) => {
         <Row>
           <Col md={12} xl={12}>
             <Card>
-            <Card.Header>
-            <h3 className="card-title">Upload Files {Uploadtitle ? `(${Uploadtitle.b_mdl})` : ""}</h3>
-
-
+              <Card.Header>
+                <h3 className="card-title">
+                  Upload Files {Uploadtitle ? `(${Uploadtitle.b_mdl})` : ""}
+                </h3>
               </Card.Header>
               <Card.Body>
                 <Row>
@@ -494,7 +504,8 @@ const ManageDsr = (props) => {
                   {names.map((name, index) => (
                     <Col md={12} xl={3} sm={4} key={index}>
                       <Card className="text-white bg-primary">
-                        <Card.Body className="card-Div">
+                        <Card.Body className="card-Div"
+                         onClick={() => handleEnteryClick(name)}>
                           <h4 className="card-title">{name}</h4>
                         </Card.Body>
                       </Card>
@@ -506,7 +517,16 @@ const ManageDsr = (props) => {
           </Col>
         </Row>
 
-        <FuelDelivery/>
+        {/* <FuelDelivery SiteID={PropsSiteId} ReportDate={PropsDate} */}
+        {UploadTabname === "Fuel Delivery" ? (
+          <FuelDelivery SiteID={PropsSiteId} ReportDate={PropsDate} />
+        ) : UploadTabname === "Fuel Sales" ? (
+          ""
+        ) : UploadTabname === "Bunkered Sales" ? (
+          "" /* Render component for "Upload Vat Summary" here */
+        ) : UploadTabname === "Fuel-Inventory" ? (
+          ""
+        ) : null}
       </>
     </>
   );
