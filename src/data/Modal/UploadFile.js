@@ -9,6 +9,7 @@ import {
 import { Button } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 
 export function FormModal(props) {
   const [open, setOpen] = useState(false);
@@ -29,17 +30,6 @@ export function FormModal(props) {
     setInputValue(event.target.value);
     setError(event.target.value.trim() === "");
   };
-
-  //   const handleSave = (values) => {
-  //     if (values.image) {
-  //       handleClose();
-  //       setInputValue("");
-  //       // Perform your desired logic with the uploaded image
-  //       console.log(values.image);
-  //     } else {
-  //       setError(true);
-  //     }
-  //   };
 
   const handleSubmit1 = async (values) => {
     console.log(values.image);
@@ -87,12 +77,18 @@ export function FormModal(props) {
   return (
     <div>
       <Button
-        className="modal-effect d-grid mb-3"
+        className="modal-effect d-grid mb-3 upload-btn"
         // href={`#${props.modalId}`}
         variant="danger"
         onClick={handleClickOpen}
       >
-        {props.modalTitle}
+        <div className="d-flex">
+        <h4 class="card-title">  {props.modalTitle}
+          <span>
+            <UploadFileIcon />
+          </span></h4>
+        
+        </div>
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>
@@ -108,6 +104,21 @@ export function FormModal(props) {
             initialValues={{
               image: null,
             }}
+            validationSchema={Yup.object().shape({
+              image: Yup.mixed()
+                .required("File is required")
+                .test("fileType", "Invalid file type", (value) => {
+                  if (value) {
+                    const allowedFileTypes = [
+                      "text/csv",
+                      "application/vnd.ms-excel",
+                      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    ];
+                    return allowedFileTypes.includes(value.type);
+                  }
+                  return true;
+                }),
+            })}
             onSubmit={(values) => {
               handleSubmit1(values);
             }}

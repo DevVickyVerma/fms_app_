@@ -91,3 +91,7 @@ h3.SidebarSearch-title {
 .card-Div.card-body {
   cursor: pointer;
 }
+button.modal-effect.d-grid.mb-3.upload-btn.btn.btn-danger {
+  font-size: 18px;
+  border: 0px solid #fff;
+}

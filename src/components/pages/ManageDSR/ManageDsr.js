@@ -61,7 +61,7 @@ const ManageDsr = (props) => {
 
   const [searchText, setSearchText] = useState("");
   const [modalTitle, setModalTitle] = useState("");
-  const [searchvalue, setSearchvalue] = useState();
+  const [Uploadtitle, setUploadtitle] = useState();
   const [UploadList, setUploadList] = useState();
 
   const names = [
@@ -111,8 +111,9 @@ const ManageDsr = (props) => {
 
       const { data } = response;
       if (data) {
-        console.log(response.data);
-        setUploadList(response.data.data);
+    
+        setUploadList(response?.data?.data.list);
+        setUploadtitle(response?.data?.data);
       }
     } catch (error) {
       console.error("API error:", error);
@@ -432,7 +433,9 @@ const ManageDsr = (props) => {
           <Col md={12} xl={12}>
             <Card>
             <Card.Header>
-                <h3 className="card-title">Upload Files</h3>
+            <h3 className="card-title">Upload Files {Uploadtitle ? `(${Uploadtitle.b_mdl})` : ""}</h3>
+
+
               </Card.Header>
               <Card.Body>
                 <Row>
@@ -450,7 +453,7 @@ const ManageDsr = (props) => {
                       </Col>
                     ))
                   ) : (
-                    <p>No data available</p>
+                    <p>Please select site first......</p>
                   )}
                 </Row>
               </Card.Body>
