@@ -111,31 +111,44 @@ const FuelSales = (props) => {
     }
   }, [SiteID, ReportDate]);
 
-  if (SiteID && ReportDate) {
-    // console.log("client_id:", SiteID);
-    // console.log("start_date:", ReportDate);
+  // if (SiteID && ReportDate) {
+  //   // console.log("client_id:", SiteID);
+  //   // console.log("start_date:", ReportDate);
 
-    console.log("gotSiteID and Repordtdate");
-  }
+  //   console.log("gotSiteID and Repordtdate");
+  // }
 
   const handleSubmit = async (values) => {
     const token = localStorage.getItem("token");
-
+  
     // Create a new FormData object
     const formData = new FormData();
-
-    // Convert the array of objects to a JSON string
-    console.log(values.data, "BjsonArray");
-    setApiData(values.data)
-    console.log(typeof Apidata)
   
-
-    // Append the JSON string to the FormData
-    formData.append("sale_data", Apidata);
+    values.data.forEach((obj) => {
+      const id = obj.id;
+      const grossValueKey = `gross_value[${id}]`;
+      const discountKey = `discount[${id}]`;
+      const nettValueKey = `nett_value[${id}]`;
+      const sales_volume = `sales_volume[${id}]`;
+      // const actionKey = `action[${id}]`;
+  
+      const grossValue = obj.gross_value;
+      const discount = obj.discount;
+      const nettValue = obj.nett_value;
+      const salesValue = obj.sales_volume;
+      // const action = obj.action;
+  
+      formData.append(grossValueKey, grossValue);
+      formData.append(discountKey, discount);
+      formData.append(nettValueKey, nettValue);
+      formData.append(sales_volume, salesValue);
+    });
+  
     formData.append("site_id", SiteID);
     formData.append("drs_date", ReportDate);
-
+  
     try {
+      setIsLoading(true);
       const response = await fetch(
         `${process.env.REACT_APP_BASE_URL}/fuel-sale/update`,
         {
@@ -146,19 +159,26 @@ const FuelSales = (props) => {
           body: formData,
         }
       );
-
-      const data = await response.json();
-
+    
+      const responseData = await response.json(); // Read the response once
+    
       if (response.ok) {
         console.log("Done");
-        // navigate("/sites");
+        SuccessToast(responseData.message);
       } else {
-        console.log("NotDone");
+        ErrorToast(responseData.message);
+    
+        console.log("API Error:", responseData);
+        // Handle specific error cases if needed
       }
     } catch (error) {
-      handleError(error);
-    }
-  };
+      console.log("Request Error:", error);
+      // Handle request error
+    } finally {
+      setIsLoading(false);
+    }}
+    
+  
 
   const columns = [
     // ... existing columns
@@ -179,12 +199,12 @@ const FuelSales = (props) => {
       name: "SALES VOLUME	",
       selector: (row) => row.sales_volume,
       sortable: false,
-      width: "15%",
+      width: "20%",
       center: true,
       cell: (row, index) => (
         <div>
           <input
-            type="text"
+            type="number"
             id={`sales_volume-${index}`}
             name={`data[${index}].sales_volume`}
             className={
@@ -209,7 +229,7 @@ const FuelSales = (props) => {
       cell: (row, index) => (
         <div>
           <input
-            type="text"
+            type="number"
             id={`gross_value-${index}`}
             name={`data[${index}].gross_value`}
             className={
@@ -233,7 +253,7 @@ const FuelSales = (props) => {
       cell: (row, index) => (
         <div>
           <input
-            type="text"
+            type="number"
             id={`discount-${index}`}
             name={`data[${index}].discount`}
             className={
@@ -257,7 +277,7 @@ const FuelSales = (props) => {
       cell: (row, index) => (
         <div>
           <input
-            type="text"
+            type="number"
             id={`nett_value-${index}`}
             name={`data[${index}].nett_value`}
             className={

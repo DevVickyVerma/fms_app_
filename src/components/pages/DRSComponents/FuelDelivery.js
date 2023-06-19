@@ -16,7 +16,8 @@ const FuelDelivery = (props) => {
   const [data, setData] = useState([]);
   const [editable, setis_editable] = useState();
 
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  
   const navigate = useNavigate();
   const SuccessToast = (message) => {
     toast.success(message, {
@@ -101,22 +102,76 @@ const FuelDelivery = (props) => {
         console.error("API error:", error);
         handleError(error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
     fetchData();
   }, [SiteID, ReportDate]);
 
-  if (SiteID && ReportDate) {
-    console.log("client_id:", SiteID);
-    console.log("start_date:", ReportDate);
-  }
 
-  const handleSubmit = (values) => {
-    console.log(values, "Submit");
-  };
 
+  const handleSubmit = async (values) => {
+    const token = localStorage.getItem("token");
+
+    console.log(values.data)
+  
+    // Create a new FormData object
+    const formData = new FormData();
+  
+    values.data.forEach((obj) => {
+      const id = obj.id;
+      const grossValueKey = `gross_value[${id}]`;
+      const discountKey = `discount[${id}]`;
+      const nettValueKey = `nett_value[${id}]`;
+      const sales_volume = `sales_volume[${id}]`;
+      // const actionKey = `action[${id}]`;
+  
+      const grossValue = obj.gross_value;
+      const discount = obj.discount;
+      const nettValue = obj.nett_value;
+      const salesValue = obj.sales_volume;
+      // const action = obj.action;
+  
+      formData.append(grossValueKey, grossValue);
+      formData.append(discountKey, discount);
+      formData.append(nettValueKey, nettValue);
+      formData.append(sales_volume, salesValue);
+    });
+  
+    formData.append("site_id", SiteID);
+    formData.append("drs_date", ReportDate);
+  
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/fuel-delivery/update`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+    
+      const responseData = await response.json(); // Read the response once
+    
+      if (response.ok) {
+        console.log("Done");
+        SuccessToast(responseData.message);
+      } else {
+        ErrorToast(responseData.message);
+    
+        console.log("API Error:", responseData);
+        // Handle specific error cases if needed
+      }
+    } catch (error) {
+      console.log("Request Error:", error);
+      // Handle request error
+    } finally {
+      setIsLoading(false);
+    }}
   const columns = [
     // ... existing columns
 
@@ -393,7 +448,7 @@ const FuelDelivery = (props) => {
 
   return (
     <>
-      {loading ? <Loaderimg /> : null}
+      {isLoading ? <Loaderimg /> : null}
       <>
         <Row className="row-sm">
           <Col lg={12}>
