@@ -25,6 +25,8 @@ import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
 import { FormModal } from "../../../data/Modal/UploadFile";
 import FuelDelivery from "../DRSComponents/FuelDelivery";
+import ShopSales from "../DRSComponents/FuelSales";
+import FuelSales from "../DRSComponents/FuelSales";
 
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -63,36 +65,12 @@ const ManageDsr = (props) => {
   const [modalTitle, setModalTitle] = useState("");
   const [Uploadtitle, setUploadtitle] = useState();
   const [UploadList, setUploadList] = useState();
+  const [DataEnteryList, setDataEnteryList] = useState();
   const [PropsSiteId, setPropsSiteId] = useState();
+  const [PropsCompanyId, setPropsCompanyId] = useState();
+  const [PropsFile, setPropsFile] = useState();
   const [PropsDate, setPropsDate] = useState();
 
-  const names = [
-    "Fuel Sales",
-    "Bunkered Sales",
-    "Fuel-Inventory",
-    "Fuel Delivery",
-    "Valet &  Coffee Sales",
-    "Shop Sales",
-    "Department Shop Sales",
-    "Charges & Deduction",
-    "Credit Card Banking",
-    "Cash Banking",
-    "Bank Deposits",
-    "Department Shop Summary",
-    "Summary",
-  ]; // Array of names
-  const names1 = [
-    { id: 1, name: "Upload Bank Statement" },
-    { id: 2, name: "Upload Fuel Purchases" },
-    { id: 3, name: "Upload BP NCTT Statement" },
-    { id: 4, name: "Upload Fairbank Statement" },
-    { id: 5, name: "Upload BP Commission Statement" },
-    { id: 6, name: "Upload Lottery & Phonecard Invoice data" },
-    { id: 7, name: "Upload Coffee/Carwash Invoice data" },
-    { id: 8, name: "Upload Sage Ledger (Sales)" },
-    { id: 9, name: "Upload Safe Ledger (Budget)" },
-    { id: 10, name: "Upload Vat Ledger" },
-  ];
 
   const handleFetchData = async () => {
     try {
@@ -119,6 +97,8 @@ const ManageDsr = (props) => {
       try {
         setPropsSiteId(values.site_id);
         setPropsDate(values.start_date);
+        setPropsCompanyId(values.company_id)
+       
 
         const response1 = await getData(
           `/drs/modules/?site_id=${values.site_id}`
@@ -127,6 +107,7 @@ const ManageDsr = (props) => {
         const { data } = response1;
         if (data) {
           setUploadList(response1?.data?.data.list);
+          setDataEnteryList(response1?.data?.data.cards);
           setUploadtitle(response1?.data?.data);
         }
       } catch (error) {
@@ -150,28 +131,26 @@ const ManageDsr = (props) => {
     }
   };
 
-  const handleClick1 = (item) => {
-    console.log("Clicked card:", item.name);
-    console.log("Clicked card:", item.id);
-  };
+
   const [showModal, setShowModal] = useState(false); // State variable to control modal visibility
 
   const handleCardClick = (item) => {
-    console.log(item.name);
+    console.log(showModal, "upload");
+    setPropsFile(item.code);
     setUploadTabname(item);
     setModalTitle(item.name); // Set the modalTitle state to the itemName
-    setShowModal(true);
-
-    // Show the modal
-  };
-  const handleEnteryClick = (item) => {
-    console.log(item);
-    setUploadTabname(item);
+    setShowModal(true); // Toggle the value of showModal
   
+    // Show or hide the modal based on the new value of showModal
+  };
+  
+  
+  const handleEnteryClick = (item) => {
+    console.log(item,"ssss");
+    setUploadTabname(item.name);
 
     // Show the modal
   };
-
 
   return (
     <>
@@ -467,7 +446,7 @@ const ManageDsr = (props) => {
                   )}
                 </Row>
               </Card.Body>
-              {modalTitle ? (
+              {showModal ? (
                 <div
                   style={{
                     display: "flex",
@@ -479,6 +458,10 @@ const ManageDsr = (props) => {
                   <Col md={3} xl={3}>
                     <FormModal
                       open={showModal}
+                      PropsSiteId={PropsSiteId}
+                      PropsCompanyId={PropsCompanyId}
+                      selectedClientId={selectedClientId}
+                      PropsFile={PropsFile}
                       onClose={() => setShowModal(false)}
                       modalTitle={modalTitle} // Use the modalTitle variable
                       modalCancelButtonLabel="Cancel"
@@ -501,16 +484,22 @@ const ManageDsr = (props) => {
               </Card.Header>
               <Card.Body>
                 <Row>
-                  {names.map((name, index) => (
-                    <Col md={12} xl={3} sm={4} key={index}>
-                      <Card className="text-white bg-primary">
-                        <Card.Body className="card-Div"
-                         onClick={() => handleEnteryClick(name)}>
-                          <h4 className="card-title">{name}</h4>
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                  ))}
+                  {DataEnteryList && DataEnteryList.length > 0 ? (
+                    DataEnteryList.map((item) => (
+                      <Col md={12} xl={3} key={item.id}>
+                        <Card className="text-white bg-primary">
+                          <Card.Body
+                            className="card-Div"
+                            onClick={() => handleEnteryClick(item)} // Pass item.name as an argument
+                          >
+                            <h4 className="card-title">{item.name}</h4>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    ))
+                  ) : (
+                    <p>Please select site first......</p>
+                  )}
                 </Row>
               </Card.Body>
             </Card>
@@ -521,7 +510,7 @@ const ManageDsr = (props) => {
         {UploadTabname === "Fuel Delivery" ? (
           <FuelDelivery SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : UploadTabname === "Fuel Sales" ? (
-          ""
+          <FuelSales SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : UploadTabname === "Bunkered Sales" ? (
           "" /* Render component for "Upload Vat Summary" here */
         ) : UploadTabname === "Fuel-Inventory" ? (

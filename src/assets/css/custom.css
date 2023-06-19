@@ -70,7 +70,7 @@ h3.SidebarSearch-title {
   text-align: center;
 }
 .readonly {
-  background-color: rgb(221 221 221 / 59%);
+  background-color: rgb(221 221 221 / 59%) !important;
   cursor: default;
 }
 .card.card-none.card {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogActions,
@@ -10,13 +10,26 @@ import { Button } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import Loaderimg from "../../Utils/Loader";
+import { useNavigate } from "react-router-dom";
+import { Slide, toast } from "react-toastify";
 
 export function FormModal(props) {
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
+
+  useEffect(() => {
+    console.log(props, "props"); // Log all props
+    console.log(props.PropsSiteId, "PropsSiteId");
+    console.log(props.PropsCompanyId, "PropsCompanyId");
+    console.log(props.PropsFile, "PropsCompanyId");
+  }, []);
+
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -26,26 +39,76 @@ export function FormModal(props) {
     setOpen(false);
   };
 
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
-    setError(event.target.value.trim() === "");
+ 
+
+  const SuccessToast = (message) => {
+    toast.success(message, {
+      autoClose: 1000,
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+    });
   };
 
+  const ErrorToast = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+    });
+  };
+
+
+
   const handleSubmit1 = async (values) => {
-    console.log(values.image);
+    const token = localStorage.getItem("token");
 
-    // try {
-    //   const formData = new FormData();
+    const formData = new FormData();
+    formData.append("site_id", props.PropsSiteId);
+    formData.append("company_id", props.PropsCompanyId);
+    formData.append("client_id", props.selectedClientId);
+    formData.append("type", props.PropsFile);
+    formData.append("file", values.image);
 
-    //   formData.append("logo", values.image);
+    setIsLoading(true);
 
-    //   const postDataUrl = "/supplier/add";
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/drs/file/upload`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            // Add Content-Type header if necessary:
+            // "Content-Type": "multipart/form-data",
+          },
+          body: formData,
+        }
+      );
 
-    //   const navigatePath = "/ManageSuppliers";
-    //   await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
-    // } catch (error) {
-    //   console.log(error); // Set the submission state to false if an error occurs
-    // }
+      if (response.ok) {
+        const data = await response.json();
+
+        SuccessToast(data.message);
+
+        handleClose();
+      } else {
+        const errorData = await response.json();
+        ErrorToast(errorData.message);
+        handleClose();
+        console.log("API Error:", errorData.message);
+        // Handle specific error cases if needed
+      }
+    } catch (error) {
+      console.log("Request Error:", error);
+      // Handle request error
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleImageChange = (event, setFieldValue) => {
@@ -75,93 +138,98 @@ export function FormModal(props) {
   };
 
   return (
-    <div>
-      <Button
-        className="modal-effect d-grid mb-3 upload-btn"
-        // href={`#${props.modalId}`}
-        variant="danger"
-        onClick={handleClickOpen}
-      >
-        <div className="d-flex">
-        <h4 class="card-title">  {props.modalTitle}
-          <span>
-            <UploadFileIcon />
-          </span></h4>
-        
-        </div>
-      </Button>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>
-          {props.modalTitle}
-          <Button onClick={handleClose} className="btn-close" variant="">
-            x
-          </Button>
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>{props.modalContentText}</DialogContentText>
+    <>
+      {isLoading ? <Loaderimg /> : null}
+      <div>
+        <Button
+          className="modal-effect d-grid mb-3 upload-btn"
+          // href={`#${props.modalId}`}
+          variant="danger"
+          onClick={handleClickOpen}
+        >
+          <div className="d-flex">
+            <h4 class="card-title">
+              {" "}
+              {props.modalTitle}
+              <span>
+                <UploadFileIcon />
+              </span>
+            </h4>
+          </div>
+        </Button>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>
+            {props.modalTitle}
+            <Button onClick={handleClose} className="btn-close" variant="">
+              x
+            </Button>
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>{props.modalContentText}</DialogContentText>
 
-          <Formik
-            initialValues={{
-              image: null,
-            }}
-            validationSchema={Yup.object().shape({
-              image: Yup.mixed()
-                .required("File is required")
-                .test("fileType", "Invalid file type", (value) => {
-                  if (value) {
-                    const allowedFileTypes = [
-                      "text/csv",
-                      "application/vnd.ms-excel",
-                      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    ];
-                    return allowedFileTypes.includes(value.type);
-                  }
-                  return true;
-                }),
-            })}
-            onSubmit={(values) => {
-              handleSubmit1(values);
-            }}
-          >
-            {({ handleSubmit, errors, touched, setFieldValue }) => (
-              <Form onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <label htmlFor="image">Image</label>
-                  <div
-                    className={`dropzone ${
-                      errors.image && touched.image ? "is-invalid" : ""
-                    }`}
-                    onDrop={(event) => handleDrop(event, setFieldValue)}
-                    onDragOver={(event) => event.preventDefault()}
-                  >
-                    <input
-                      type="file"
-                      id="image"
+            <Formik
+              initialValues={{
+                image: null,
+              }}
+              validationSchema={Yup.object().shape({
+                image: Yup.mixed()
+                  .required("File is required")
+                  .test("fileType", "Invalid file type", (value) => {
+                    if (value) {
+                      const allowedFileTypes = [
+                        "text/csv",
+                        "application/vnd.ms-excel",
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                      ];
+                      return allowedFileTypes.includes(value.type);
+                    }
+                    return true;
+                  }),
+              })}
+              onSubmit={(values) => {
+                handleSubmit1(values);
+              }}
+            >
+              {({ handleSubmit, errors, touched, setFieldValue }) => (
+                <Form onSubmit={handleSubmit}>
+                  <div className="form-group">
+                    <label htmlFor="image">Image</label>
+                    <div
+                      className={`dropzone ${
+                        errors.image && touched.image ? "is-invalid" : ""
+                      }`}
+                      onDrop={(event) => handleDrop(event, setFieldValue)}
+                      onDragOver={(event) => event.preventDefault()}
+                    >
+                      <input
+                        type="file"
+                        id="image"
+                        name="image"
+                        onChange={(event) =>
+                          handleImageChange(event, setFieldValue)
+                        }
+                        className="form-control"
+                      />
+                      <p>Upload image here, or click to browse</p>
+                    </div>
+                    <ErrorMessage
+                      component="div"
+                      className="invalid-feedback"
                       name="image"
-                      onChange={(event) =>
-                        handleImageChange(event, setFieldValue)
-                      }
-                      className="form-control"
                     />
-                    <p>Upload image here, or click to browse</p>
                   </div>
-                  <ErrorMessage
-                    component="div"
-                    className="invalid-feedback"
-                    name="image"
-                  />
-                </div>
 
-                <div className="text-end">
-                  <button className="btn btn-primary me-2 " type="submit">
-                    Upload
-                  </button>
-                </div>
-              </Form>
-            )}
-          </Formik>
-        </DialogContent>
-      </Dialog>
-    </div>
+                  <div className="text-end">
+                    <button className="btn btn-primary me-2 " type="submit">
+                      Upload
+                    </button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          </DialogContent>
+        </Dialog>
+      </div>
+    </>
   );
 }

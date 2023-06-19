@@ -97,7 +97,7 @@ const SiteSettings = (props) => {
           const response = await getData(`/tolerance/?site_id=${formik.values.site_id}&client_id=${formik.values.client_id}&company_id=${formik.values.company_id}`);
           const { data } = response;
           if (data) {
-            console.log(data);
+          
             formik.setValues(data.data);
             // Process the API response and update your state or perform other actions
           }
@@ -267,7 +267,7 @@ const SiteSettings = (props) => {
                         name="client_id"
                         onChange={(e) => {
                           const selectedType = e.target.value;
-                          console.log(selectedType,"selectedClientId")
+                          console.log(selectedType,"ClientId")
                           formik.setFieldValue("client_id", selectedType);
                           setSelectedClientId(selectedType);
 
@@ -281,11 +281,11 @@ const SiteSettings = (props) => {
 
                           if (selectedClient) {
                             setSelectedCompanyList(selectedClient.companies);
-                            console.log(selectedClient, "selectedClient");
-                            console.log(
-                              selectedClient.companies,
-                              "selectedClient"
-                            );
+                            // console.log(selectedClient, "selectedClient");
+                            // console.log(
+                            //   selectedClient.companies,
+                            //   "selectedClient"
+                            // );
                           }
                         }}
                       >
@@ -334,11 +334,11 @@ const SiteSettings = (props) => {
                           );
                           if (selectedCompanyData) {
                             setSelectedSiteList(selectedCompanyData.sites);
-                            console.log(selectedCompanyData, "company_id");
-                            console.log(
-                              selectedCompanyData.sites,
-                              "company_id"
-                            );
+                            // console.log(selectedCompanyData, "company_id");
+                            // console.log(
+                            //   selectedCompanyData.sites,
+                            //   "company_id"
+                            // );
                           }
                         }}
                       >
@@ -377,7 +377,7 @@ const SiteSettings = (props) => {
                         name="site_id"
                         onChange={(e) => {
                           const selectedSite = e.target.value;
-                          console.log(selectedSite,"selectedSite")
+                          console.log(selectedSite,"site_id")
                           formik.setFieldValue("site_id", selectedSite);
                           setSelectedSiteId(selectedSite);
                       
