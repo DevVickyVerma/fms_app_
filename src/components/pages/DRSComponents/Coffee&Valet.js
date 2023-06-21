@@ -9,7 +9,7 @@ import Loaderimg from "../../../Utils/Loader";
 import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 
-const FuelDelivery = (props) => {
+const CoffeeValet = (props) => {
   const { apidata, error, getData, postData, SiteID, ReportDate } = props;
 
   // const [data, setData] = useState()
@@ -66,44 +66,43 @@ const FuelDelivery = (props) => {
 
       try {
         const response = await axiosInstance.get(
-          `/fuel-delivery/list?site_id=${SiteID}&drs_date=${ReportDate}`
+          `/valet-coffee/list?site_id=${SiteID}&drs_date=${ReportDate}`
+
         );
 
 
+     
 
-
-      //   {
-      //     "id": "Q0hXRGNkeTllN1JSVWg1NFdDNjJodz09",
-      //     "fuel_name": "Super Diesel",
-      //     "tank_name": "2",
-      //     "opening": "23228.55000",
-      //     "bunkd_delivery_volume": null,
-      //     "delivery_volume": "0.00",
-      //     "return_volume": "0.00000",
-      //     "transfer_volume": null,
-      //     "sales_volume": "137.09000",
-      //     "loss_volume": null,
-      //     "book_stock": "23091.46000",
-      //     "dips_stock": "23088.50000",
-      //     "variance": "-2.96000",
-      //     "variance_approved_status": null,
-      //     "variance_approved_by": null,
-      //     "percentage_sales": "-2.159",
-      //     "variance_lt": "-25.16",
-      //     "variance_per": "3.07",
-      //     "tank_stock_movement_date": "2023-06-17",
-      //     "   "update_start_dip": false,": false,
-      //     "update_bunkd_delivery_volume": false,
-      //     "update_delivery_volume": false,
-      //      "update_end_dip": false,
-      //     "update_sales_volume": false
-      // }
 
 
         const { data } = response;
         if (data) {
           setData(data?.data?.listing ? data.data.listing : []);
           setis_editable(data?.data ? data.data : {});
+
+
+
+
+        //   {
+        //     "id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
+        //     "item_category": "test",
+        //     "opening": 200,
+        //     "closing": 0,
+        //     "tests": 0,
+        //     "adjust": 0,
+        //     "sale": 0,
+        //     "value": 0,
+        //     "com_rate": 0,
+        //     "commission": 0,
+        //     "price": 0,
+        //     "message": "Test"
+        // }
+
+
+
+
+
+
           
 
           // Create an array of form values based on the response data
@@ -112,15 +111,15 @@ const FuelDelivery = (props) => {
               return {
                 id: item.id ,
                 opening: item.opening ,
-                bunkd_delivery_volume: item.bunkd_delivery_volume,
-                delivery_volume: item.delivery_volume ,
-                dips_stock: item.dips_stock ,
-                sales_volume: item.sales_volume ,
-                book_stock: item.book_stock ,
-                variance: item.variance ,
-                percentage_sales: item.percentage_sales ,
-                variance_lt: item.variance_lt ,
-                variance_per: item.variance_per ,
+                closing: item.closing,
+                tests: item.tests ,
+                adjust: item.adjust ,
+                sale: item.sale ,
+                price: item.price ,
+                value: item.value ,
+                com_rate: item.com_rate ,
+                commission: item.commission ,
+                // value_per: item.value_per ,
                 // Add other properties as needed
               };
             })
@@ -129,6 +128,7 @@ const FuelDelivery = (props) => {
 
           // Set the formik values using setFieldValue
           formik.setFieldValue("data", formValues);
+          console.log(formValues,"formValues")
         }
       } catch (error) {
         console.error("API error:", error);
@@ -152,74 +152,30 @@ const FuelDelivery = (props) => {
     const formData = new FormData();
 
 
-    // id: item.id ,
-    // opening: item.opening ,
-    // bunkd_delivery_volume: item.bunkd_delivery_volume ,
-    // delivery_volume: item.delivery_volume ,
-    // dips_stock: item.dips_stock ,
-    // sales_volume: item.sales_volume ,
-    // book_stock: item.book_stock ,
-    // variance: item.variance ,
-    // percentage_sales: item.percentage_sales ,
-    // variance_lt: item.variance_lt ,
-    // variance_per: item.variance_per ,
 
-  
-    // values.data.forEach((obj) => {
-    //   const id = obj.id;
-    //   const opening = `opening[${id}]`;
-    //   const discountKey = `bunkd_delivery_volume[${id}]`;
-    //   const nettValueKey = `delivery_volume[${id}]`;
-    //   const dips_stock = `dips_stock[${id}]`;
-    //   const sales_volume = `sales_volume[${id}]`;
-    //   const book_stock_key = `book_stock[${id}]`;
-    //   const variance_key = `variance[${id}]`;
-    //   const variance_lt_key = `variance_lt[${id}]`;
-    //   const variance_per_key = `variance_per[${id}]`;
-  
-    //   const grossValue = obj.opening;
-    //   const discount = obj.bunkd_delivery_volume;
-    //   const nettValue = obj.delivery_volume;
-    //   const salesValue = obj.dips_stock;
-    //   const action = obj.sales_volume;
-    //   const book_stock_value = obj.book_stock;
-    //   const variance_key_value = obj.variance;
-    //   const variance_lt_value = obj.variance_lt;
-    //   const variance_per_value = obj.variance_per;
-  
-    //   formData.append(opening, grossValue);
-    //   formData.append(discountKey, discount);
-    //   formData.append(nettValueKey, nettValue);
-    //   formData.append(dips_stock, salesValue);
-    //   formData.append(sales_volume, action);
-    //   formData.append(book_stock_key, book_stock_value);
-    //   formData.append(variance_key, variance_key_value);
-    //   formData.append(variance_lt_key, variance_lt_value);
-    //   formData.append(variance_per_key, variance_per_value);
-    // });
     for (const obj of values.data) {
-      const { id, opening, bunkd_delivery_volume, delivery_volume, dips_stock, sales_volume, book_stock, variance, variance_lt, variance_per,percentage_sales } = obj;
+      const { id, opening, closing, tests, adjust, sale, price, value, commission, value_per,com_rate } = obj;
       const openingKey = `opening[${id}]`;
-      const discountKey = `bunkd_delivery_volume[${id}]`;
-      const nettValueKey = `delivery_volume[${id}]`;
-      const salesValueKey = `dips_stock[${id}]`;
-      const actionKey = `sales_volume[${id}]`;
-      const bookStockKey = `book_stock[${id}]`;
-      const varianceKey = `variance[${id}]`;
-      const varianceLtKey = `variance_lt[${id}]`;
-      const variancePerKey = `variance_per[${id}]`;
-      const percentage_salesKey = `percentage_sales[${id}]`;
+      const discountKey = `closing[${id}]`;
+      const nettValueKey = `tests[${id}]`;
+      const salesValueKey = `adjust[${id}]`;
+      const actionKey = `sale[${id}]`;
+      const bookStockKey = `price[${id}]`;
+      const valueKey = `value[${id}]`;
+      const valueLtKey = `commission[${id}]`;
+    //   const valuePerKey = `value_per[${id}]`;
+      const com_rateKey = `com_rate[${id}]`;
     
       formData.append(openingKey, opening);
-      formData.append(discountKey, bunkd_delivery_volume);
-      formData.append(nettValueKey, delivery_volume);
-      formData.append(salesValueKey, dips_stock);
-      formData.append(actionKey, sales_volume);
-      formData.append(bookStockKey, book_stock);
-      formData.append(varianceKey, variance);
-      formData.append(varianceLtKey, variance_lt);
-      formData.append(variancePerKey, variance_per);
-      formData.append(percentage_salesKey, percentage_sales);
+      formData.append(discountKey, closing);
+      formData.append(nettValueKey, tests);
+      formData.append(salesValueKey, adjust);
+      formData.append(actionKey, sale);
+      formData.append(bookStockKey, price);
+      formData.append(valueKey, value);
+      formData.append(valueLtKey, commission);
+    //   formData.append(valuePerKey, value_per);
+      formData.append(com_rateKey, com_rate);
     }
     
   
@@ -229,7 +185,7 @@ const FuelDelivery = (props) => {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/fuel-delivery/update`,
+        `${process.env.REACT_APP_BASE_URL}/valet-coffee/update`,
         {
           method: "POST",
           headers: {
@@ -260,21 +216,21 @@ const FuelDelivery = (props) => {
     // ... existing columns
 
     {
-      name: "TANK-FUEL",
-      selector: (row) => row.fuel_name,
+      name: "ITEM CATEGORY",
+      selector: (row) => row.item_category,
       sortable: false,
       width: "8%",
       center: true,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
-          {row.fuel_name !== undefined
-            ? `${row.tank_name}-${row.fuel_name}`
+          {row.item_category !== undefined
+            ? `${row.item_category}`
             : ""}
         </span>
       ),
     },
     {
-      name: "OPENING",
+      name: "opening",
       selector: (row) => row.opening,
       sortable: false,
       width: "8%",
@@ -298,8 +254,8 @@ const FuelDelivery = (props) => {
       ),
     },
     {
-      name: "BUNKER DELIVERIES",
-      selector: (row) => row.bunkd_delivery_volume,
+      name: "CLOSING ",
+      selector: (row) => row.closing,
       sortable: false,
       width: "8%",
       center: true,
@@ -307,12 +263,12 @@ const FuelDelivery = (props) => {
         <div>
           <input
             type="number"
-            id={`bunkd_delivery_volume-${index}`}
-            name={`data[${index}].bunkd_delivery_volume`}
+            id={`closing-${index}`}
+            name={`data[${index}].closing`}
             className={
               editable?.is_editable ? "table-input " : "table-input readonly "
             }
-            value={formik.values.data[index]?.bunkd_delivery_volume }
+            value={formik.values.data[index]?.closing }
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly={editable?.is_editable ? false : true}
@@ -322,8 +278,8 @@ const FuelDelivery = (props) => {
       ),
     },
     {
-      name: "DELIVERIES",
-      selector: (row) => row.delivery_volume,
+      name: "TESTS",
+      selector: (row) => row.tests,
       sortable: false,
       width: "8%",
       center: true,
@@ -331,12 +287,12 @@ const FuelDelivery = (props) => {
         <div>
           <input
             type="number"
-            id={`delivery_volume-${index}`}
-            name={`data[${index}].delivery_volume`}
+            id={`tests-${index}`}
+            name={`data[${index}].tests`}
             className={
               editable?.is_editable ? "table-input " : "table-input readonly "
             }
-            value={formik.values.data[index]?.delivery_volume }
+            value={formik.values.data[index]?.tests}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly={editable?.is_editable ? false : true}
@@ -346,8 +302,8 @@ const FuelDelivery = (props) => {
       ),
     },
     {
-      name: "DIPS STOCK",
-      selector: (row) => row.dips_stock,
+      name: "ADJUST",
+      selector: (row) => row.adjust,
       sortable: false,
       width: "8%",
       center: true,
@@ -355,12 +311,12 @@ const FuelDelivery = (props) => {
         <div>
           <input
             type="number"
-            id={`dips_stock-${index}`}
-            name={`data[${index}].dips_stock`}
+            id={`adjust-${index}`}
+            name={`data[${index}].adjust`}
             className={
               editable?.is_editable ? "table-input " : "table-input readonly "
             }
-            value={formik.values.data[index]?.dips_stock }
+            value={formik.values.data[index]?.adjust}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly={editable?.is_editable ? false : true}
@@ -371,7 +327,7 @@ const FuelDelivery = (props) => {
     },
     {
       name: "SALES",
-      selector: (row) => row.sales_volume,
+      selector: (row) => row.sale,
       sortable: false,
       width: "15%",
       center: true,
@@ -379,12 +335,12 @@ const FuelDelivery = (props) => {
         <div>
           <input
             type="number"
-            id={`sales_volume-${index}`}
-            name={`data[${index}].sales_volume`}
+            id={`sale-${index}`}
+            name={`data[${index}].sale`}
             className={
               editable?.is_editable ? "table-input " : "table-input readonly "
             }
-            value={formik.values.data[index]?.sales_volume }
+            value={formik.values.data[index]?.sale}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly={editable?.is_editable ? false : true}
@@ -394,8 +350,8 @@ const FuelDelivery = (props) => {
       ),
     },
     {
-      name: "BOOKED STOCK",
-      selector: (row) => row.book_stock,
+      name: "PRICE",
+      selector: (row) => row.price,
       sortable: false,
       width: "15%",
       center: true,
@@ -403,12 +359,12 @@ const FuelDelivery = (props) => {
         <div>
           <input
             type="number"
-            id={`book_stock-${index}`}
-            name={`data[${index}].book_stock`}
+            id={`price-${index}`}
+            name={`data[${index}].price`}
             className={
               editable?.is_editable ? "table-input " : "table-input readonly "
             }
-            value={formik.values.data[index]?.book_stock }
+            value={formik.values.data[index]?.price}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly={editable?.is_editable ? false : true}
@@ -418,8 +374,8 @@ const FuelDelivery = (props) => {
       ),
     },
     {
-      name: "VARIANCE (L)",
-      selector: (row) => row.variance,
+      name: "VALUE",
+      selector: (row) => row.value,
       sortable: false,
       width: "15%",
       center: true,
@@ -427,12 +383,12 @@ const FuelDelivery = (props) => {
         <div>
           <input
             type="number"
-            id={`variance-${index}`}
-            name={`data[${index}].variance`}
+            id={`value-${index}`}
+            name={`data[${index}].value`}
             className={
               editable?.is_editable ? "table-input " : "table-input readonly "
             }
-            value={formik.values.data[index]?.variance }
+            value={formik.values.data[index]?.value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly={editable?.is_editable ? false : true}
@@ -442,8 +398,8 @@ const FuelDelivery = (props) => {
       ),
     },
     {
-      name: "VARIANCE (%)",
-      selector: (row) => row.percentage_sales,
+      name: "COMMISSION RATE",
+      selector: (row) => row.com_rate,
       sortable: false,
       width: "15%",
       center: true,
@@ -451,12 +407,12 @@ const FuelDelivery = (props) => {
         <div>
           <input
             type="number"
-            id={`percentage_sales-${index}`}
-            name={`data[${index}].percentage_sales`}
+            id={`com_rate-${index}`}
+            name={`data[${index}].com_rate`}
             className={
               editable?.is_editable ? "table-input " : "table-input readonly "
             }
-            value={formik.values.data[index]?.percentage_sales }
+            value={formik.values.data[index]?.com_rate}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly={editable?.is_editable ? false : true}
@@ -466,8 +422,8 @@ const FuelDelivery = (props) => {
       ),
     },
     {
-      name: "VARIANCE (L) 30 DAYS",
-      selector: (row) => row.variance_lt,
+      name: "COMMISSION VALUE",
+      selector: (row) => row.commission,
       sortable: false,
       width: "15%",
       center: true,
@@ -475,12 +431,12 @@ const FuelDelivery = (props) => {
         <div>
           <input
             type="number"
-            id={`variance_lt-${index}`}
-            name={`data[${index}].variance_lt`}
+            id={`commission-${index}`}
+            name={`data[${index}].commission`}
             className={
               editable?.is_editable ? "table-input " : "table-input readonly "
             }
-            value={formik.values.data[index]?.variance_lt }
+            value={formik.values.data[index]?.commission}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly={editable?.is_editable ? false : true}
@@ -489,30 +445,30 @@ const FuelDelivery = (props) => {
         </div>
       ),
     },
-    {
-      name: "VARIANCE (%) 30 DAYS",
-      selector: (row) => row.variance_per,
-      sortable: false,
-      width: "15%",
-      center: true,
-      cell: (row, index) => (
-        <div>
-          <input
-            type="number"
-            id={`variance_per-${index}`}
-            name={`data[${index}].variance_per`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.variance_per }
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
-      ),
-    },
+    // {
+    //   name: "value (%) 30 DAYS",
+    //   selector: (row) => row.value_per,
+    //   sortable: false,
+    //   width: "15%",
+    //   center: true,
+    //   cell: (row, index) => (
+    //     <div>
+    //       <input
+    //         type="number"
+    //         id={`value_per-${index}`}
+    //         name={`data[${index}].value_per`}
+    //         className={
+    //           editable?.is_editable ? "table-input " : "table-input readonly "
+    //         }
+    //         value={formik.values.data[index]?.value_per }
+    //         onChange={formik.handleChange}
+    //         onBlur={formik.handleBlur}
+    //         readOnly={editable?.is_editable ? false : true}
+    //       />
+    //       {/* Error handling code */}
+    //     </div>
+    //   ),
+    // },
 
     // ... remaining columns
   ];
@@ -538,7 +494,7 @@ const FuelDelivery = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Fuel Delivery</h3>
+                <h3 className="card-title">Coffee & Valet Sales</h3>
               </Card.Header>
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
@@ -572,4 +528,4 @@ const FuelDelivery = (props) => {
   );
 };
 
-export default FuelDelivery;
+export default CoffeeValet;

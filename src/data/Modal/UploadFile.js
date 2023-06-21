@@ -29,8 +29,6 @@ export function FormModal(props) {
     console.log(props.PropsFile, "PropsCompanyId");
   }, []);
 
-
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -38,8 +36,6 @@ export function FormModal(props) {
   const handleClose = () => {
     setOpen(false);
   };
-
- 
 
   const SuccessToast = (message) => {
     toast.success(message, {
@@ -62,8 +58,6 @@ export function FormModal(props) {
     });
   };
 
-
-
   const handleSubmit1 = async (values) => {
     const token = localStorage.getItem("token");
 
@@ -77,8 +71,23 @@ export function FormModal(props) {
     setIsLoading(true);
 
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/drs/file/upload`,
+      let url;
+
+      if (props.PropsFile === "sales") {
+        url = `${process.env.REACT_APP_UPLOAD_FILE_BASE_URL}/upload-prism-sales`;
+      } else if (props.PropsFile === "payments") {
+        url = `${process.env.REACT_APP_UPLOAD_FILE_BASE_URL}/upload-prism-payments`;
+      } else if (props.PropsFile === "paid") {
+        url = `${process.env.REACT_APP_UPLOAD_FILE_BASE_URL}/upload-prism-paid`;
+      } else if (props.PropsFile === "tanks") {
+        url = `${process.env.REACT_APP_UPLOAD_FILE_BASE_URL}/upload-prism-tanks`;
+      } else if (props.PropsFile === "vat") {
+        url = `${process.env.REACT_APP_UPLOAD_FILE_BASE_URL}/upload-prism-vat`;
+      } else {
+        // Default URL if none of the conditions are met
+        url = 'http://example.com/default-upload';
+      }
+      const response = await await fetch(url,
         {
           method: "POST",
           headers: {

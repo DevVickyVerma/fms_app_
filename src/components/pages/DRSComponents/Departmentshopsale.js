@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
@@ -6,17 +7,18 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
-import { Slide, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { Slide, toast } from "react-toastify";
 
-const FuelSales = (props) => {
+const Departmentshopsale = (props) => {
   const { apidata, error, getData, postData, SiteID, ReportDate } = props;
 
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
-  const [Apidata, setApiData] = useState([]);
   const [editable, setis_editable] = useState();
+
   const [isLoading, setIsLoading] = useState(true);
+  
   const navigate = useNavigate();
   const SuccessToast = (message) => {
     toast.success(message, {
@@ -64,85 +66,118 @@ const FuelSales = (props) => {
       });
 
       try {
-        setIsLoading(true); // Set loading state to true before fetching data
-
         const response = await axiosInstance.get(
-          `/fuel-sale/list?site_id=${SiteID}&drs_date=${ReportDate}`
+          `/department-shop-sale/list?site_id=${SiteID}&drs_date=${ReportDate}`
+
         );
+
+
+     
+
+
 
         const { data } = response;
         if (data) {
-          setData(data.data.listing);
-          setis_editable(data.data);
+          setData(data?.data?.listing ? data.data.listing : []);
+          setis_editable(data?.data ? data.data : {});
+
+
+
+
+        //   {
+        //     "id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
+        //     "site_id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
+        //     "department_item_id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
+        //     "category_name": "Tobacco",
+        //     "gross_value": "38.37000",
+        //     "disc_value": "0.00000",
+        //     "nett_value": "31.97000",
+        //     "vat": null,
+        //     "ex_vat_value": null,
+        //     "department_sale_date": "2023-06-11",
+        //     "created_date": "2023-06-12",
+        //     "updated_date": "2023-06-13",
+        //     "update_gross_value": false,
+        //     "update_nett_value": false,
+        //     "update_disc_value": false
+        // }
+
+
+
+
+
+
+          
 
           // Create an array of form values based on the response data
-          const formValues = data.data.listing.map((item) => {
-            return {
-              id: item.id,
-              fuel_name: item.fuel_name,
-              sales_volume: item.sales_volume,
-              gross_value: item.gross_value,
-              discount: item.discount,
-              nett_value: item.nett_value,
-            };
-          });
+          const formValues = data?.data?.listing
+          ? data.data.listing.map((item) => {
+              return {
+                id: item.id ,
+                gross_value: item.gross_value ,
+                disc_value: item.disc_value,
+                nett_value: item.nett_value ,
+                adjust: item.adjust ,
+                sale: item.sale ,
+                price: item.price ,
+                value: item.value ,
+                com_rate: item.com_rate ,
+                commission: item.commission ,
+                // value_per: item.value_per ,
+                // Add other properties as needed
+              };
+            })
+          : [];
+        
 
           // Set the formik values using setFieldValue
           formik.setFieldValue("data", formValues);
+          console.log(formValues,"formValues")
         }
       } catch (error) {
         console.error("API error:", error);
         handleError(error);
       } finally {
-        setIsLoading(false); // Set loading state to false after data fetching is complete
+        setIsLoading(false);
       }
     };
 
-    if (ReportDate) {
-      fetchData();
-    }
+    fetchData();
   }, [SiteID, ReportDate]);
 
-  // if (SiteID && ReportDate) {
-  //   // console.log("client_id:", SiteID);
-  //   // console.log("start_date:", ReportDate);
 
-  //   console.log("gotSiteID and Repordtdate");
-  // }
 
   const handleSubmit = async (values) => {
     const token = localStorage.getItem("token");
 
+    console.log(values.data)
+  
     // Create a new FormData object
     const formData = new FormData();
 
-    values.data.forEach((obj) => {
-      const id = obj.id;
-      const grossValueKey = `gross_value[${id}]`;
-      const discountKey = `discount[${id}]`;
+
+
+    for (const obj of values.data) {
+      const { id, gross_value, disc_value, nett_value, adjust, sale, price, value, commission, value_per,com_rate } = obj;
+      const gross_valueKey = `gross_value[${id}]`;
+      const discountKey = `disc_value[${id}]`;
       const nettValueKey = `nett_value[${id}]`;
-      const sales_volume = `sales_volume[${id}]`;
-      // const actionKey = `action[${id}]`;
-
-      const grossValue = obj.gross_value;
-      const discount = obj.discount;
-      const nettValue = obj.nett_value;
-      const salesValue = obj.sales_volume;
-      // const action = obj.action;
-
-      formData.append(grossValueKey, grossValue);
-      formData.append(discountKey, discount);
-      formData.append(nettValueKey, nettValue);
-      formData.append(sales_volume, salesValue);
-    });
-
+   
+    
+      formData.append(gross_valueKey, gross_value);
+      formData.append(discountKey, disc_value);
+      formData.append(nettValueKey, nett_value);
+ 
+    }
+    
+  
     formData.append("site_id", SiteID);
     formData.append("drs_date", ReportDate);
-
+  
     try {
       setIsLoading(true);
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/fuel-sale/update`,
+        `${process.env.REACT_APP_BASE_URL}/department-shop-sale/update`,
         {
           method: "POST",
           headers: {
@@ -151,15 +186,15 @@ const FuelSales = (props) => {
           body: formData,
         }
       );
-
+    
       const responseData = await response.json(); // Read the response once
-
+    
       if (response.ok) {
         console.log("Done");
         SuccessToast(responseData.message);
       } else {
         ErrorToast(responseData.message);
-
+    
         console.log("API Error:", responseData);
         // Handle specific error cases if needed
       }
@@ -168,54 +203,29 @@ const FuelSales = (props) => {
       // Handle request error
     } finally {
       setIsLoading(false);
-    }
-  };
-
+    }}
   const columns = [
     // ... existing columns
 
     {
-      name: "FUEL",
-      selector: (row) => row.fuel_name,
+      name: "ITEM NAME",
+      selector: (row) => row.category_name,
       sortable: false,
-      width: "20%",
+      width: "25%",
       center: true,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
-          {row.fuel_name !== undefined ? `${row.fuel_name}` : ""}
+          {row.category_name !== undefined
+            ? `${row.category_name}`
+            : ""}
         </span>
       ),
     },
     {
-      name: "SALES VOLUME	",
-      selector: (row) => row.sales_volume,
-      sortable: false,
-      width: "20%",
-      center: true,
-      cell: (row, index) => (
-        <div>
-          <input
-            type="number"
-            id={`sales_volume-${index}`}
-            name={`data[${index}].sales_volume`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.sales_volume}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
-      ),
-    },
-    {
-      name: "GROSS VALUE	",
-
+      name: "	GROSS VALUE",
       selector: (row) => row.gross_value,
       sortable: false,
-      width: "20%",
+      width: "25%",
       center: true,
       cell: (row, index) => (
         <div>
@@ -226,7 +236,7 @@ const FuelSales = (props) => {
             className={
               editable?.is_editable ? "table-input " : "table-input readonly "
             }
-            value={formik.values.data[index]?.gross_value}
+            value={formik.values.data[index]?.gross_value }
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly={editable?.is_editable ? false : true}
@@ -236,21 +246,21 @@ const FuelSales = (props) => {
       ),
     },
     {
-      name: "DISCOUNT	",
-      selector: (row) => row.discount,
+      name: "	DISC VALUE ",
+      selector: (row) => row.disc_value,
       sortable: false,
-      width: "20%",
+      width: "25%",
       center: true,
       cell: (row, index) => (
         <div>
           <input
             type="number"
-            id={`discount-${index}`}
-            name={`data[${index}].discount`}
+            id={`disc_value-${index}`}
+            name={`data[${index}].disc_value`}
             className={
               editable?.is_editable ? "table-input " : "table-input readonly "
             }
-            value={formik.values.data[index]?.discount}
+            value={formik.values.data[index]?.disc_value }
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly={editable?.is_editable ? false : true}
@@ -260,10 +270,10 @@ const FuelSales = (props) => {
       ),
     },
     {
-      name: "NETT VALUE",
+      name: "	NETT VALUE",
       selector: (row) => row.nett_value,
       sortable: false,
-      width: "20%",
+      width: "25%",
       center: true,
       cell: (row, index) => (
         <div>
@@ -284,7 +294,6 @@ const FuelSales = (props) => {
       ),
     },
 
-    // ... remaining columns
   ];
 
   const tableDatas = {
@@ -308,7 +317,7 @@ const FuelSales = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Fuel Sales</h3>
+                <h3 className="card-title">Department Shop Sales</h3>
               </Card.Header>
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
@@ -329,7 +338,7 @@ const FuelSales = (props) => {
                   </div>
                   <div className="d-flex justify-content-end mt-3">
                     <button className="btn btn-primary" type="submit">
-                      Save
+                      Submit
                     </button>
                   </div>
                 </form>
@@ -342,4 +351,4 @@ const FuelSales = (props) => {
   );
 };
 
-export default FuelSales;
+export default Departmentshopsale;

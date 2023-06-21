@@ -25,8 +25,13 @@ import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
 import { FormModal } from "../../../data/Modal/UploadFile";
 import FuelDelivery from "../DRSComponents/FuelDelivery";
-import ShopSales from "../DRSComponents/FuelSales";
+import ShopSales from "../DRSComponents/ShopSales";
 import FuelSales from "../DRSComponents/FuelSales";
+import FuelInventry from "../DRSComponents/Fuelinventry";
+import CoffeeValet from "../DRSComponents/Coffee&Valet";
+import ChargesDeduction from "../DRSComponents/ChargesDeduction";
+import Departmentshopsale from "../DRSComponents/Departmentshopsale";
+import CashBanking from "../DRSComponents/CashBanking";
 
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -71,7 +76,56 @@ const ManageDsr = (props) => {
   const [PropsFile, setPropsFile] = useState();
   const [PropsDate, setPropsDate] = useState();
 
-
+  const cards = [
+    {
+      id: 1,
+      name: "Fuel Sales",
+    },
+    {
+      id: 2,
+      name: "Fuel-Inventory",
+    },
+    {
+      id: 3,
+      name: "Fuel Delivery",
+    },
+    {
+      id: 4,
+      name: "Valet & Coffee Sales",
+    },
+    {
+      id: 5,
+      name: "Shop Sales",
+    },
+    {
+      id: 6,
+      name: "Department Shop Sales",
+    },
+    {
+      id: 7,
+      name: "Charges & Deductions",
+    },
+    {
+      id: 8,
+      name: "Credit Card Banking",
+    },
+    {
+      id: 9,
+      name: "Cash Banking",
+    },
+    {
+      id: 10,
+      name: "Bank Deposite",
+    },
+    {
+      id: 11,
+      name: "Department Shop Summary",
+    },
+    {
+      id: 12,
+      name: "Summary",
+    },
+  ];
   const handleFetchData = async () => {
     try {
       const response = await getData("/client/commonlist");
@@ -97,8 +151,7 @@ const ManageDsr = (props) => {
       try {
         setPropsSiteId(values.site_id);
         setPropsDate(values.start_date);
-        setPropsCompanyId(values.company_id)
-       
+        setPropsCompanyId(values.company_id);
 
         const response1 = await getData(
           `/drs/modules/?site_id=${values.site_id}`
@@ -131,22 +184,20 @@ const ManageDsr = (props) => {
     }
   };
 
-
   const [showModal, setShowModal] = useState(false); // State variable to control modal visibility
 
   const handleCardClick = (item) => {
-    console.log(showModal, "upload");
+    console.log(item.code, "upload");
     setPropsFile(item.code);
     setUploadTabname(item);
     setModalTitle(item.name); // Set the modalTitle state to the itemName
     setShowModal(true); // Toggle the value of showModal
-  
+
     // Show or hide the modal based on the new value of showModal
   };
-  
-  
+
   const handleEnteryClick = (item) => {
-    console.log(item,"ssss");
+    console.log(item, "ssss");
     setUploadTabname(item.name);
 
     // Show the modal
@@ -511,11 +562,20 @@ const ManageDsr = (props) => {
           <FuelDelivery SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : UploadTabname === "Fuel Sales" ? (
           <FuelSales SiteID={PropsSiteId} ReportDate={PropsDate} />
-        ) : UploadTabname === "Bunkered Sales" ? (
-          "" /* Render component for "Upload Vat Summary" here */
+        ) : UploadTabname === "Charges & Deductions" ? (
+          <ChargesDeduction SiteID={PropsSiteId} ReportDate={PropsDate} />
+        ) : UploadTabname === "Valet & Coffee Sales" ? (
+          <CoffeeValet SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : UploadTabname === "Fuel-Inventory" ? (
-          ""
+          <FuelInventry SiteID={PropsSiteId} ReportDate={PropsDate} />
+        ) : UploadTabname === "Shop Sales" ? (
+          <ShopSales SiteID={PropsSiteId} ReportDate={PropsDate} />
+        ) : UploadTabname === "Department Shop Sales" ? (
+          <Departmentshopsale SiteID={PropsSiteId} ReportDate={PropsDate} />
+        ) : UploadTabname === "Cash Banking" ? (
+          <CashBanking SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : null}
+        <CashBanking SiteID={PropsSiteId} ReportDate={PropsDate} />
       </>
     </>
   );
