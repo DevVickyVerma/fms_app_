@@ -102,3 +102,10 @@ button.modal-effect.d-grid.mb-3.upload-btn.btn.btn-danger {
   width: 100%;
   border: 1px solid #EEE;
 }
+.Dps-data {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  border-bottom: 1px solid #ddd;
+  font-weight: 400;
+}
