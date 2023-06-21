@@ -463,6 +463,83 @@ export const MENUITEMS = [
         
         ],
       },
+      {
+        title: "Manage Site Tank",
+        icon: "money",
+        type: "sub",
+        active: false,
+        permission: "charges-list",
+        visibility: false,
+        children: [
+          {
+            path: `/managesitetank`,
+            title: "Manage Site Tank",
+            type: "link",
+            permission: "charges-list",
+            visibility: false,
+          },
+          {
+            path: `/addsitetank`,
+            title: "Add Site Tank",
+            type: "link",
+            permission: "charges-create",
+            visibility: false,
+          },
+          
+        ],
+      },
+      {
+        title: "Manage Site Pump",
+        icon: "money",
+        type: "sub",
+        active: false,
+        permission: "charges-list",
+        visibility: false,
+        children: [
+          {
+            path: `/managesitepump`,
+            title: "Manage Site Pump",
+            type: "link",
+            permission: "charges-list",
+            visibility: false,
+          },
+          {
+            path: `/addsitepump`,
+            title: "Add Site Pump",
+            type: "link",
+            permission: "charges-create",
+            visibility: false,
+          },
+          
+        ],
+      },
+      
+      
+      {
+        title: "Manage Site Nozzle",
+        icon: "money",
+        type: "sub",
+        active: false,
+        permission: "charges-list",
+        visibility: false,
+        children: [
+          {
+            path: `/managesitenozzle`,
+            title: "Manage Site Nozzle",
+            type: "link",
+            permission: "charges-list",
+            visibility: false,
+          },
+          {
+            path: `/addsitenozzle`,
+            title: "Add Site Nozzle",
+            type: "link",
+            permission: "charges-create",
+            visibility: false,
+          },
+          
+        ],
+      },
     ],
   },
 ];

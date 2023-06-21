@@ -162,6 +162,53 @@ const EditSuppliers = React.lazy(() =>
 
 // Suppliers End
 
+// Pump Start
+
+const ManageSitePump = React.lazy(() =>
+  import("./components/pages/ManageSitePump/ManageSitePump")
+);
+
+const AddSitePump = React.lazy(() =>
+  import("./components/pages/ManageSitePump/AddSitePump")
+);
+
+const EditSitePump = React.lazy(() =>
+  import("./components/pages/ManageSitePump/EditSitePump")
+);
+// Pump End
+
+// SiteTank Start
+
+const ManageSiteTank = React.lazy(() =>
+  import("./components/pages/ManageSiteTank/ManageSiteTank")
+);
+
+const AddSiteTank = React.lazy(() =>
+  import("./components/pages/ManageSiteTank/AddSiteTank")
+);
+
+const EditSiteTank = React.lazy(() =>
+  import("./components/pages/ManageSiteTank/EditSiteTank")
+);
+
+// SiteTank End
+
+// SiteNozzle Start
+
+const ManageSiteNozzle = React.lazy(() =>
+  import("./components/pages/ManageSiteNozzle/ManageSiteNozzle")
+);
+
+const AddSiteNozzle = React.lazy(() =>
+  import("./components/pages/ManageSiteNozzle/AddSiteNozzle")
+);
+
+const EditSiteNozzle = React.lazy(() =>
+  import("./components/pages/ManageSiteNozzle/EditSiteNozzle")
+);
+
+// SiteNozzle End
+
 // Category Start
 
 const ManageBusinessCategory = React.lazy(() =>
@@ -361,6 +408,22 @@ const Root = () => {
   const WrappedWorkFlows = withApi(WorkFlows);
   const WrappedSiteSettings = withApi(SiteSettings);
   const WrappedTolerances = withApi(Tolerances);
+
+
+  const WrappedManageSitePump = withApi(ManageSitePump);
+  const WrappedAddSitePump = withApi(AddSitePump);
+  const WrappedEditSitePump = withApi(EditSitePump);
+
+  const WrappedManageSiteTank = withApi(ManageSiteTank);
+  const WrappedAddSiteTank = withApi(AddSiteTank);
+  const WrappedEditSiteTank = withApi(EditSiteTank);
+
+  const WrappedManageSiteNozzle = withApi(ManageSiteNozzle);
+  const WrappedAddSiteNozzle = withApi(AddSiteNozzle);
+  const WrappedEditSiteNozzle = withApi(EditSiteNozzle);
+
+
+
   return (
     <Fragment>
       <BrowserRouter>
@@ -532,6 +595,65 @@ const Root = () => {
                   />
 
                   {/* Suppliers components end */}
+
+                {/* SitePump components start */}
+
+                <Route
+                    path={`/managesitepump`}
+                    element={<WrappedManageSitePump />}
+                  />
+
+                  <Route
+                    path={`/addsitepump`}
+                    element={<WrappedAddSitePump />}
+                  />
+                  <Route
+                    path={`/editsitepump/:id`}
+                    element={<WrappedEditSitePump />}
+                  />
+
+                  {/* SitePump components end */}
+
+                  {/* SiteTank components start */}
+
+                  <Route
+                    path={`/managesitetank`}
+                    element={<WrappedManageSiteTank />}
+                  />
+
+                  <Route
+                    path={`/addsitetank`}
+                    element={<WrappedAddSiteTank />}
+                  />
+                  <Route
+                    path={`/editsitetank/:id`}
+                    element={<WrappedEditSiteTank />}
+                  />
+
+                  {/* SiteTank components end */}
+
+                  {/* SiteNozzle components start */}
+
+                  <Route
+                    path={`/managesitenozzle`}
+                    element={<WrappedManageSiteNozzle />}
+                  />
+
+                  <Route
+                    path={`/addsitenozzle`}
+                    element={<WrappedAddSiteNozzle />}
+                  />
+                  <Route
+                    path={`/editsitenozzle/:id`}
+                    element={<WrappedEditSiteNozzle />}
+                  />
+
+                  {/* SiteNozzle components end */}
+
+
+
+
+
 
                   {/* Category components start */}
 
