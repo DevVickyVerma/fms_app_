@@ -33,6 +33,8 @@ import ChargesDeduction from "../DRSComponents/ChargesDeduction";
 import Departmentshopsale from "../DRSComponents/Departmentshopsale";
 import CashBanking from "../DRSComponents/CashBanking";
 import BankDeposit from "../DRSComponents/BankDeposit";
+import DepartmentShop from "../DRSComponents/DepartmentShop";
+
 
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -559,7 +561,8 @@ const ManageDsr = (props) => {
         </Row>
 
         {/* <FuelDelivery SiteID={PropsSiteId} ReportDate={PropsDate} */}
-        {UploadTabname === "Fuel Delivery" ? (
+        {
+          UploadTabname === "Fuel Delivery" ? (
           <FuelDelivery SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : UploadTabname === "Fuel Sales" ? (
           <FuelSales SiteID={PropsSiteId} ReportDate={PropsDate} />
@@ -577,10 +580,19 @@ const ManageDsr = (props) => {
           <CashBanking SiteID={PropsSiteId} ReportDate={PropsDate} />
         ): UploadTabname === "Bank Deposite" ? (
           <BankDeposit SiteID={PropsSiteId} ReportDate={PropsDate} />
-        )  : null}
+        ) : UploadTabname === "Department Shop Summary" ? (
+          <DepartmentShop SiteID={PropsSiteId} ReportDate={PropsDate} />
+        ) : null
+        
+        
+        
+        
+        }
       
       </>
+    
     </>
+    
   );
 };
 export default withApi(ManageDsr);
