@@ -157,7 +157,7 @@ const ShopSales = (props) => {
         name: "CHARGE GROUPS",
         selector: (row) => row.charge_name,
         sortable: false,
-        width: "25%",
+        width: "50%",
         center: false,
         cell: (row) => {
           if (row.charge_name) {
@@ -176,7 +176,7 @@ const ShopSales = (props) => {
       name: "SALES AMOUNT",
       selector: (row) => row.charge_value,
       sortable: false,
-      width: "25%",
+      width: "50%",
       center: false,
       cell: (row, index) => (
         <div className="table-input-headdiv">
@@ -200,14 +200,14 @@ const ShopSales = (props) => {
 
         {
             name: "DEDUCTION GROUPS",
-            selector: (row) => row.deduction_code,
+            selector: (row) => row.deduction_name,
             sortable: false,
             width: "25%",
             center: false,
-            cell: (row) => (
-              row.deduction_code ? (
+            cell: (row) =>  (
+              row.deduction_name ? (
                 <span className="text-muted fs-15 fw-semibold text-center">
-                  {row.deduction_code}
+                  {row.deduction_name}
                 </span>
               ) : null
             ),

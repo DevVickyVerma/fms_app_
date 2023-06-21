@@ -219,7 +219,7 @@ const CoffeeValet = (props) => {
       name: "ITEM CATEGORY",
       selector: (row) => row.item_category,
       sortable: false,
-      width: "8%",
+      width: "15%",
       center: true,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -230,10 +230,10 @@ const CoffeeValet = (props) => {
       ),
     },
     {
-      name: "opening",
+      name: "OPENING",
       selector: (row) => row.opening,
       sortable: false,
-      width: "8%",
+     width: "9.5%",
       center: true,
       cell: (row, index) => (
         <div>
@@ -257,7 +257,7 @@ const CoffeeValet = (props) => {
       name: "CLOSING ",
       selector: (row) => row.closing,
       sortable: false,
-      width: "8%",
+     width: "9.5%",
       center: true,
       cell: (row, index) => (
         <div>
@@ -281,7 +281,7 @@ const CoffeeValet = (props) => {
       name: "TESTS",
       selector: (row) => row.tests,
       sortable: false,
-      width: "8%",
+     width: "9.5%",
       center: true,
       cell: (row, index) => (
         <div>
@@ -305,7 +305,7 @@ const CoffeeValet = (props) => {
       name: "ADJUST",
       selector: (row) => row.adjust,
       sortable: false,
-      width: "8%",
+     width: "9.5%",
       center: true,
       cell: (row, index) => (
         <div>
@@ -329,7 +329,7 @@ const CoffeeValet = (props) => {
       name: "SALES",
       selector: (row) => row.sale,
       sortable: false,
-      width: "15%",
+     width: "9.5%",
       center: true,
       cell: (row, index) => (
         <div>
@@ -353,7 +353,7 @@ const CoffeeValet = (props) => {
       name: "PRICE",
       selector: (row) => row.price,
       sortable: false,
-      width: "15%",
+     width: "9.5%",
       center: true,
       cell: (row, index) => (
         <div>
@@ -377,7 +377,7 @@ const CoffeeValet = (props) => {
       name: "VALUE",
       selector: (row) => row.value,
       sortable: false,
-      width: "15%",
+     width: "9.5%",
       center: true,
       cell: (row, index) => (
         <div>
@@ -401,7 +401,7 @@ const CoffeeValet = (props) => {
       name: "COMMISSION RATE",
       selector: (row) => row.com_rate,
       sortable: false,
-      width: "15%",
+     width: "9.5%",
       center: true,
       cell: (row, index) => (
         <div>
@@ -425,7 +425,7 @@ const CoffeeValet = (props) => {
       name: "COMMISSION VALUE",
       selector: (row) => row.commission,
       sortable: false,
-      width: "15%",
+     width: "9.5%",
       center: true,
       cell: (row, index) => (
         <div>
@@ -445,32 +445,7 @@ const CoffeeValet = (props) => {
         </div>
       ),
     },
-    // {
-    //   name: "value (%) 30 DAYS",
-    //   selector: (row) => row.value_per,
-    //   sortable: false,
-    //   width: "15%",
-    //   center: true,
-    //   cell: (row, index) => (
-    //     <div>
-    //       <input
-    //         type="number"
-    //         id={`value_per-${index}`}
-    //         name={`data[${index}].value_per`}
-    //         className={
-    //           editable?.is_editable ? "table-input " : "table-input readonly "
-    //         }
-    //         value={formik.values.data[index]?.value_per }
-    //         onChange={formik.handleChange}
-    //         onBlur={formik.handleBlur}
-    //         readOnly={editable?.is_editable ? false : true}
-    //       />
-    //       {/* Error handling code */}
-    //     </div>
-    //   ),
-    // },
-
-    // ... remaining columns
+   
   ];
 
   const tableDatas = {

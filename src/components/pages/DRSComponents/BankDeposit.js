@@ -16,6 +16,7 @@ import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { FormModal } from "../../../data/Modal/Modal";
+
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
@@ -29,6 +30,7 @@ const BankDeposit = (props) => {
   const { apidata, isLoading, error, getData, postData, SiteID, ReportDate } =
     props;
   const [selectedFile, setSelectedFile] = useState(null);
+  const [Editdata, setEditData] = useState(false);
   const [data, setData] = useState();
   const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
@@ -45,41 +47,22 @@ const BankDeposit = (props) => {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        const token = localStorage.getItem("token");
-
         const formData = new FormData();
         formData.append("id", id);
-
-        const axiosInstance = axios.create({
-          baseURL: process.env.REACT_APP_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-        const DeleteRole = async () => {
-          try {
-            const response = await axiosInstance.post(
-              "drs/cash-banking/delete",
-              formData
-            );
-            setData(response.data.data);
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your item has been deleted.",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-            FetchTableData();
-          } catch (error) {
-            handleError(error);
-          } finally {
-          }
-          // setIsLoading(false);
-        };
-        DeleteRole();
+        DeleteClient(formData);
       }
     });
+  };
+  const DeleteClient = async (formData) => {
+    try {
+      const response = await postData("drs/bank-deposite/delete", formData);
+      console.log(response, "response"); // Console log the response
+      if (apidata.api_response === "success") {
+        FetchTableData();
+      }
+    } catch (error) {
+      handleError(error);
+    }
   };
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -103,7 +86,7 @@ const BankDeposit = (props) => {
   const FetchTableData = async () => {
     try {
       const response = await getData(
-        `/drs/cash-banking/?site_id=MkJWd25aSTlDekVwcWg4azgrNVh3UT09&drs_date=2023-06-17`
+        `/drs/bank-deposite/?site_id=${SiteID}&drs_date=${ReportDate}`
       );
       console.log(response.data.data, "cards");
 
@@ -138,172 +121,230 @@ const BankDeposit = (props) => {
     permissionsArray?.includes("cards-details");
   const isAssignPermissionAvailable = permissionsArray?.includes("card-assign");
 
-  const validationSchema = Yup.object({
-    reference: Yup.string().required("Refrence is required"),
-    value: Yup.string()
-      .required("Value is required")
-      .test("is-number", "Invalid value. Please enter a number", (value) =>
-        /^-?\d*\.?\d+$/.test(value)
-      ),
+  const validationSchema = Yup.object().shape({
+    
+    amount: Yup.string()
+    .required('Amount is required')
+    .test('is-number', 'Invalid Amount. Please enter a number', (amount) =>
+      /^-?\d*\.?\d+$/.test(amount)
+    ),
+    reason: Yup.string().required("Reason is required"),
   });
 
-  const initialValues = {
-    reference: "",
-    value: "",
-    image: null,
-  };
 
-  const handleEdit = (item) => {
-    console.log(item, "item");
-    formik.setValues(item);
-  };
 
-  //
   const handleSubmit = async (values, setSubmitting) => {
     const token = localStorage.getItem("token");
-
+  
     try {
       const formData = new FormData();
 
-      console.log(values.id, "editable");
 
-      formData.append("reference", values.reference);
-      formData.append("value", values.value);
+      console.log(values.created_date,"editable")
+  
+   
+      formData.append("reason", values.reason);
+      formData.append("amount", values.amount);
+      formData.append("slip", values.image);
 
-      formData.append("site_id", "MkJWd25aSTlDekVwcWg4azgrNVh3UT09");
-      formData.append("drs_date", "2023-06-17");
+      formData.append("site_id", SiteID);
+      formData.append("drs_date", ReportDate);
+      if (Editdata) {
+        formData.append("id", values.id);
+      }
+      
+  
+      const postDataUrl = Editdata  ? "/drs/bank-deposite/update" : "/drs/bank-deposite/add";
 
-      const postDataUrl = "/drs/cash-banking/add";
-
+  
       const response = await postData(postDataUrl, formData);
       console.log(response, "response"); // Console log the response
       if (apidata.api_response === "success") {
+        setEditData(false)
         FetchTableData();
+       
+      
+        formik.resetForm();
       }
-
-      //   if (response.ok ) {
-      //     FetchTableData();
-      //   }
+  
+    //   if (response.ok ) {
+    //     FetchTableData();
+    //   }
+  
+     
     } catch (error) {
       console.log(error);
       // Set the submission state to false if an error occurs
     }
   };
+  
+  const handleEdit =(item)=>{
+    console.log(item,"item")
+    formik.setValues(item);
+    setEditData(true)
+}
 
   const formik = useFormik({
-    initialValues,
-    validationSchema,
-    onSubmit: handleSubmit,
+    initialValues: {
+      amount: "",
+      reason: "",
+      image: null,
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      // Handle form submission
+      handleSubmit(values);
+    },
   });
 
-  const columns = [
-    {
-      name: "S.No",
-      selector: (row, index) => index + 1,
-      sortable: false,
-      width: "10%",
-      center: true,
-      cell: (row, index) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
-          {index + 1}
-        </span>
-      ),
-    },
-    {
-      name: "Reference",
-      selector: (row) => [row.reference],
-      sortable: true,
-      width: "20%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.reference}</h6>
-          </div>
-        </div>
-      ),
-    },
-    {
-      name: "Value",
-      selector: (row) => [row.value],
-      sortable: true,
-      width: "20%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.value}</h6>
-          </div>
-        </div>
-      ),
-    },
-    {
-      name: "Type",
-      selector: (row) => [row.type],
-      sortable: true,
-      width: "20%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.type}</h6>
-          </div>
-        </div>
-      ),
-    },
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    formik.setFieldValue("image", file);
+    formik.setFieldTouched("image", true);
+  };
 
-    {
-      name: "Action",
-      selector: (row) => [row.action],
-      sortable: false,
-      width: "20%",
-      cell: (row) => (
-        <span className="text-center">
-          {isEditPermissionAvailable ? (
-            <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
-              <Link
-                // Assuming `row.id` contains the ID
-                className="btn btn-primary btn-sm rounded-11 me-2"
-                onClick={() => handleEdit(row)}
-              >
-                <i>
-                  <svg
-                    className="table-edit"
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    width="16"
-                  >
-                    <path d="M0 0h24v24H0V0z" fill="none" />
-                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19zM20.71 5.63l-2.34-2.34c-.2-.2-.45-.29-.71-.29s-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41z" />
-                  </svg>
-                </i>
-              </Link>
-            </OverlayTrigger>
-          ) : null}
-          {isDeletePermissionAvailable ? (
-            <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
-              <Link
-                to="#"
-                className="btn btn-danger btn-sm rounded-11"
-                onClick={() => handleDelete(row.id)}
-              >
-                <i>
-                  <svg
-                    className="table-delete"
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    width="16"
-                  >
-                    <path d="M0 0h24v24H0V0z" fill="none" />
-                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
-                  </svg>
-                </i>
-              </Link>
-            </OverlayTrigger>
-          ) : null}
-        </span>
-      ),
-    },
-  ];
+  const handleDrop = (event) => {
+    event.preventDefault();
+    const file = event.dataTransfer.files[0];
+    formik.setFieldValue("image", file);
+    formik.setFieldTouched("image", true);
+  };
+
+  const previewImage = formik.values.image
+    ? URL.createObjectURL(formik.values.image)
+    : null;
+
+    const columns = [
+      {
+        name: "S.No",
+        selector: (row, index) => index + 1,
+        sortable: false,
+        width: "10%",
+        center: true,
+        cell: (row, index) => (
+          <span className="text-muted fs-15 fw-semibold text-center">
+            {index + 1}
+          </span>
+        ),
+      },
+      {
+        name: "Amount",
+        selector: (row) => [row.amount],
+        sortable: true,
+        width: "20%",
+        cell: (row, index) => (
+          <div className="d-flex">
+            <div className="ms-2 mt-0 mt-sm-2 d-block">
+              <h6 className="mb-0 fs-14 fw-semibold">{row.amount}</h6>
+            </div>
+          </div>
+        ),
+      },
+     
+      {
+          name: "Reason",
+          selector: (row) => [row.reason],
+          sortable: true,
+          width: "10%",
+          cell: (row, index) => (
+            <div className="d-flex">
+              <div className="ms-2 mt-0 mt-sm-2 d-block">
+                <h6 className="mb-0 fs-14 fw-semibold">{row.reason}</h6>
+              </div>
+            </div>
+          ),
+        },
+      {
+          name: "Created Date",
+          selector: (row) => [row.created_date],
+          sortable: true,
+          width: "20%",
+          cell: (row, index) => (
+            <div className="d-flex">
+              <div className="ms-2 mt-0 mt-sm-2 d-block">
+                <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
+              </div>
+            </div>
+          ),
+        },
+      {
+          name: "slip",
+          selector: (row) => [row.slip],
+          sortable: true,
+          width: "20%",
+
+          cell: (row, index) => (
+            <div className="d-flex align-items-center card-img">
+              <img
+                src={row.slip}
+                alt={row.slip}
+                className="mr-2"
+                style={{ width: "50px", height: "50px" }}
+              />
+              <div>
+               
+              </div>
+            </div>
+          ),
+        
+        },
+     
+  
+      {
+        name: "Action",
+        selector: (row) => [row.action],
+        sortable: false,
+        width: "20%",
+        cell: (row) => (
+          <span className="text-center">
+            {isEditPermissionAvailable ? (
+              <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
+                <Link
+                   // Assuming `row.id` contains the ID
+                  className="btn btn-primary btn-sm rounded-11 me-2"
+                  onClick={() => handleEdit(row)}
+                >
+                  <i>
+                    <svg
+                      className="table-edit"
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      width="16"
+                    >
+                      <path d="M0 0h24v24H0V0z" fill="none" />
+                      <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19zM20.71 5.63l-2.34-2.34c-.2-.2-.45-.29-.71-.29s-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41z" />
+                    </svg>
+                  </i>
+                </Link>
+              </OverlayTrigger>
+            ) : null}
+            {isDeletePermissionAvailable ? (
+              <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
+                <Link
+                  to="#"
+                  className="btn btn-danger btn-sm rounded-11"
+                  onClick={() => handleDelete(row.id)}
+                >
+                  <i>
+                    <svg
+                      className="table-delete"
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      width="16"
+                    >
+                      <path d="M0 0h24v24H0V0z" fill="none" />
+                      <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
+                    </svg>
+                  </i>
+                </Link>
+              </OverlayTrigger>
+            ) : null}
+          </span>
+        ),
+      },
+    ];
 
   const tableDatas = {
     columns,
@@ -311,6 +352,8 @@ const BankDeposit = (props) => {
   };
   const [searchText, setSearchText] = useState("");
   const [searchvalue, setSearchvalue] = useState();
+  const [isDragging, setIsDragging] = useState(false);
+  // const [previewImage, setPreviewImage] = useState(null);
 
   const handleSearch = (e) => {
     const value = e.target.value;
@@ -325,6 +368,31 @@ const BankDeposit = (props) => {
   const handleFileSelect = (event) => {
     setSelectedFile(event.target.files[0]);
   };
+  // const handleImageChange = (event, setFieldValue) => {
+  //   const file = event.currentTarget.files[0];
+  //   setFieldValue("image", file);
+
+  //   // Preview the image
+  //   const reader = new FileReader();
+  //   reader.onload = () => {
+  //     setPreviewImage(reader.result);
+  //   };
+  //   reader.readAsDataURL(file);
+  // };
+
+  // const handleDrop = (event, setFieldValue) => {
+  //   event.preventDefault();
+  //   setIsDragging(false);
+  //   const file = event.dataTransfer.files[0];
+  //   setFieldValue("image", file);
+
+  //   // Preview the image
+  //   const reader = new FileReader();
+  //   reader.onload = () => {
+  //     setPreviewImage(reader.result);
+  //   };
+  //   reader.readAsDataURL(file);
+  // };
 
   return (
     <>
@@ -341,116 +409,100 @@ const BankDeposit = (props) => {
                   <Row>
                     <Col lg={6} xl={6} md={6} sm={6}>
                       <div className="form-group">
-                        <label className="form-label mt-4" htmlFor="value">
+                        <label className="form-label mt-4" htmlFor="amount">
                           Amount<span className="text-danger">*</span>
                         </label>
                         <input
                           type="text"
                           autoComplete="off"
                           className={`input101 ${
-                            formik.errors.value && formik.touched.value
+                            formik.errors.amount && formik.touched.amount
                               ? "is-invalid"
                               : ""
                           }`}
-                          id="value"
-                          name="value"
-                          placeholder="Value"
+                          id="amount"
+                          name="amount"
+                          placeholder="Amount"
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          value={formik.values.value}
+                          value={formik.values.amount}
                         />
-                        {formik.errors.value && formik.touched.value && (
+                        {formik.errors.amount && formik.touched.amount && (
                           <div className="invalid-feedback">
-                            {formik.errors.value}
+                            {formik.errors.amount}
                           </div>
                         )}
                       </div>
                     </Col>
                     <Col lg={6} md={12}>
-                      <FormGroup>
-                        <label
-                          className=" form-label mt-4"
-                          htmlFor="card_status"
-                        >
-                          Choose Reason
-                          <span className="text-danger">*</span>
+                      <div className="form-group">
+                        <label className="form-label mt-4" htmlFor="reason">
+                          Choose Reason<span className="text-danger">*</span>
                         </label>
-                        <Field
-                          as="select"
+                        <select
                           className={`input101 ${
-                            errors.card_status && touched.card_status
+                            formik.errors.reason && formik.touched.reason
                               ? "is-invalid"
                               : ""
                           }`}
-                          id="card_status"
-                          name="card_status"
+                          id="reason"
+                          name="reason"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.reason}
                         >
-                          <option>---Select Any---</option>
+                          <option value="">---Select Any---</option>
                           <option value="1">
-                            Lommis didn't come for collection
+                            Loomis didn't come for collection
                           </option>
                           <option value="0">
                             Site operator missed the Loomis
                           </option>
                           <option value="0">Completely updated</option>
-                        </Field>
-                        <ErrorMessage
-                          component="div"
-                          className="invalid-feedback"
-                          name="card_status"
-                        />
-                      </FormGroup>
+                        </select>
+                        {formik.errors.reason && formik.touched.reason && (
+                          <div className="invalid-feedback">
+                            {formik.errors.reason}
+                          </div>
+                        )}
+                      </div>
                     </Col>
                     <Col lg={6} md={12}>
-                            <div className="form-group">
-                              <label htmlFor="image">Image
-                            
-                              </label>
-                              <div
-                                className={`dropzone ${
-                                  errors.image && touched.image
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                onDrop={(event) =>
-                                  handleDrop(event, setFieldValue)
-                                }
-                                onDragOver={(event) => event.preventDefault()}
-                              >
-                                <input
-                                  type="file"
-                                  id="image"
-                                  name="image"
-                                  onChange={(event) =>
-                                    handleImageChange(event, setFieldValue)
-                                  }
-                                  className="form-control"
-                                />
-                                <p>
-                                  Drag and drop your image here, or click to
-                                  browse
-                                </p>
-                              </div>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="image"
-                              />
-                            </div>
-                            {previewImage && (
-                              <div>
-                                <p>Preview:</p>
-                                <img src={previewImage} alt="Preview" />
-                              </div>
-                            )}
-                          </Col>
-                  </Row>
-
-                  <div className="text-end">
-                    <button type="submit" className="btn btn-primary">
+                      <div className="form-group">
+                        <label htmlFor="image">Image</label>
+                        <div
+                          className={`dropzone ${
+                            formik.errors.image && formik.touched.image
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          onDrop={(event) => handleDrop(event)}
+                          onDragOver={(event) => event.preventDefault()}
+                        >
+                          <input
+                            type="file"
+                            id="image"
+                            name="image"
+                            onChange={(event) => handleImageChange(event)}
+                            className="form-control"
+                          />
+                          <p>
+                            Drag and drop your image here, or click to browse
+                          </p>
+                        </div>
+                        {formik.errors.image && formik.touched.image && (
+                          <div className="invalid-feedback">
+                            {formik.errors.image}
+                          </div>
+                        )}
+                      </div>
+                    </Col>
+                    {   Editdata?    <button type="submit" className="btn btn-primary">
+                      Update
+                    </button>:    <button type="submit" className="btn btn-primary">
                       Add
-                    </button>
-                  </div>
+                    </button>}
+                  </Row>
                 </form>
               </Card.Body>
             </Card>

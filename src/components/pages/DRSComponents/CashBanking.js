@@ -30,10 +30,12 @@ const CashBanking = (props) => {
     props;
   const [selectedFile, setSelectedFile] = useState(null);
   const [data, setData] = useState();
+  const [Editdata, setEditData] = useState(false);
   const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
 
+ 
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -45,39 +47,26 @@ const CashBanking = (props) => {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        const token = localStorage.getItem("token");
-
         const formData = new FormData();
         formData.append("id", id);
-
-        const axiosInstance = axios.create({
-          baseURL: process.env.REACT_APP_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-        const DeleteRole = async () => {
-          try {
-            const response = await axiosInstance.post("drs/cash-banking/delete", formData);
-            setData(response.data.data);
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your item has been deleted.",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-            FetchTableData();
-          } catch (error) {
-            handleError(error);
-          } finally {
-          }
-          // setIsLoading(false);
-        };
-        DeleteRole();
+        DeleteClient(formData);
       }
     });
   };
+  const DeleteClient = async (formData) => {
+    try {
+      const response = await postData("drs/cash-banking/delete", formData);
+      console.log(response, "response"); // Console log the response
+      if (apidata.api_response === "success") {
+        FetchTableData();
+      }
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+
+
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
@@ -105,7 +94,8 @@ const CashBanking = (props) => {
   const FetchTableData = async () => {
     try {
       const response = await getData(
-        `/drs/cash-banking/?site_id=MkJWd25aSTlDekVwcWg4azgrNVh3UT09&drs_date=2023-06-17`
+    
+        `/drs/cash-banking/?site_id=${SiteID}&drs_date=${ReportDate}`
        
       );
       console.log(response.data.data, "cards");
@@ -158,6 +148,7 @@ const CashBanking = (props) => {
 const handleEdit =(item)=>{
     console.log(item,"item")
     formik.setValues(item);
+    setEditData(true)
 }
 
 
@@ -169,20 +160,32 @@ const handleEdit =(item)=>{
       const formData = new FormData();
 
 
-      console.log(values.id,"editable")
+      console.log(values.created_date,"editable")
   
       formData.append("reference", values.reference);
       formData.append("value", values.value);
   
-      formData.append("site_id", "MkJWd25aSTlDekVwcWg4azgrNVh3UT09");
-      formData.append("drs_date", "2023-06-17");
+      formData.append("site_id", SiteID);
+      formData.append("drs_date", ReportDate);
+      if (Editdata) {
+        formData.append("id", values.id);
+      }
+      
   
-      const postDataUrl = "/drs/cash-banking/add";
+      const postDataUrl = Editdata  ? "/drs/cash-banking/update" : "/drs/cash-banking/add";
+
   
       const response = await postData(postDataUrl, formData);
       console.log(response, "response"); // Console log the response
       if (apidata.api_response === "success") {
+        setEditData(false)
         FetchTableData();
+       
+        // Handle your form submission logic here
+        // ...
+    
+        // Reset the form values
+        formik.resetForm();
       }
   
     //   if (response.ok ) {
@@ -233,11 +236,24 @@ const handleEdit =(item)=>{
         name: "Value",
         selector: (row) => [row.value],
         sortable: true,
-        width: "20%",
+        width: "10%",
         cell: (row, index) => (
           <div className="d-flex">
             <div className="ms-2 mt-0 mt-sm-2 d-block">
               <h6 className="mb-0 fs-14 fw-semibold">{row.value}</h6>
+            </div>
+          </div>
+        ),
+      },
+    {
+        name: "Created Date",
+        selector: (row) => [row.created_date],
+        sortable: true,
+        width: "20%",
+        cell: (row, index) => (
+          <div className="d-flex">
+            <div className="ms-2 mt-0 mt-sm-2 d-block">
+              <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
             </div>
           </div>
         ),
@@ -404,9 +420,14 @@ const handleEdit =(item)=>{
                     </Col>
                   </Row>
                   <div className="text-end">
-                    <button type="submit" className="btn btn-primary">
+
+
+
+              {   Editdata?    <button type="submit" className="btn btn-primary">
+                      Update
+                    </button>:    <button type="submit" className="btn btn-primary">
                       Add
-                    </button>
+                    </button>}
                   </div>
                 </form>
               </Card.Body>
@@ -434,6 +455,7 @@ const handleEdit =(item)=>{
                       pagination
                       highlightOnHover
                       searchable={true}
+                      className="dsrCpt"
                     />
                   </DataTableExtensions>
                 </div>

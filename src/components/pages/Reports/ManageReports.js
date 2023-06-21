@@ -20,6 +20,7 @@ import { useSelector } from "react-redux";
 import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 
 const ManageReports = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -32,9 +33,15 @@ const ManageReports = (props) => {
   const [ReportList, setReportList] = useState([]);
   // const [selectedBusinessType, setSelectedBusinessType] = useState("");
   // const [subTypes, setSubTypes] = useState([]);
+  const [ShowButton, setShowButton] = useState(false);
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
+  const [ReportDownloadUrl, setReportDownloadUrl] = useState();
+
+
+  
+
 
   useEffect(() => {
     if (UserPermissions) {
@@ -81,8 +88,9 @@ const ManageReports = (props) => {
 
       const commonParams = `client_id=${formValues.client_id}&company_id=${formValues.company_id}&site_id[]=${formValues.site_id}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`;
 
-      var postDataUrl;
       let navigatePath = "/ManageShops";
+
+      let postDataUrl
 
       if (formValues.report === "DSMR") {
         postDataUrl = `report/stock-loss?${commonParams}`;
@@ -95,19 +103,19 @@ const ManageReports = (props) => {
       }
 
       const response = await getData(postDataUrl);
-      // Set the submission state to false after the API call is completed
+      console.log(response.status, "response"); // Console log the response
 
-      // Check if the response contains a file to download
-      // if (response && response.data && response.data.fileUrl) {
-      //   // Create a link element
-      //   const link = document.createElement('a');
-      //   link.href = response.data.fileUrl;
-      //   link.target = "_blank";
-      //   link.download = "report.pdf"; // Set the desired file name
+      if(response.status==200) {
+        setShowButton(true);
+        setReportDownloadUrl(postDataUrl);
+      }
+      if (apidata.api_response === "success") {
+        setReportDownloadUrl(postDataUrl);
+        setShowButton(true);
+    
+      }
 
-      //   // Trigger a click event on the link element to start the download
-      //   link.click();
-      // }
+   
     } catch (error) {
       console.log(error);
       // Set the submission state to false if an error occurs
@@ -204,6 +212,7 @@ const ManageReports = (props) => {
                                   setSelectedCompanyList([]);
                                   setFieldValue("company_id", "");
                                   setFieldValue("site_id", "");
+                                  setShowButton(false);
 
                                   const selectedClient = AddSiteData.data.find(
                                     (client) => client.id === selectedType
@@ -265,6 +274,7 @@ const ManageReports = (props) => {
                                 onChange={(e) => {
                                   const selectedCompany = e.target.value;
                                   setFieldValue("company_id", selectedCompany);
+                                  setShowButton(false);
                                   setSelectedSiteList([]);
                                   const selectedCompanyData =
                                     selectedCompanyList.find(
@@ -322,6 +332,12 @@ const ManageReports = (props) => {
                                 }`}
                                 id="site_id"
                                 name="site_id"
+                                onChange={(e) => {
+                                  const selectedType = e.target.value;
+
+                                  setFieldValue("site_id", selectedType);
+                                  setShowButton(false);
+                                }}
                               >
                                 <option value="">Select a Site</option>
                                 {selectedSiteList.length > 0 ? (
@@ -359,6 +375,15 @@ const ManageReports = (props) => {
                                 }`}
                                 id="start_date"
                                 name="start_date"
+                                onChange={(e) => {
+                                  const selectedstart_date = e.target.value;
+
+                                  setFieldValue(
+                                    "start_date",
+                                    selectedstart_date
+                                  );
+                                  setShowButton(false);
+                                }}
                               ></Field>
                               <ErrorMessage
                                 component="div"
@@ -385,6 +410,15 @@ const ManageReports = (props) => {
                                 }`}
                                 id="end_date"
                                 name="end_date"
+                                onChange={(e) => {
+                                  const selectedend_date_date = e.target.value;
+
+                                  setFieldValue(
+                                    "end_date",
+                                    selectedend_date_date
+                                  );
+                                  setShowButton(false);
+                                }}
                               ></Field>
                               <ErrorMessage
                                 component="div"
@@ -411,6 +445,12 @@ const ManageReports = (props) => {
                                 }`}
                                 id="report"
                                 name="report"
+                                onChange={(e) => {
+                                  const selectedreport = e.target.value;
+
+                                  setFieldValue("report", selectedreport);
+                                  setShowButton(false);
+                                }}
                               >
                                 <option value="">Select a Report</option>
                                 {ReportList.data &&
@@ -438,15 +478,36 @@ const ManageReports = (props) => {
                           </Col>
                         </Row>
                       </Card.Body>
-                      <Card.Footer className="text-end">
-                        <a
-                          href="postDataUrl"
-                          target="_blank"
-                          className="btn btn-primary me-2"
-                          type="submit"
-                        >
+                      <Card.Footer className="text-end ">
+                        {ShowButton ? (
+                          <button
+                            onClick={() => {
+                              window.open(
+                                "http://192.168.1.112:8000/v1/" +
+                                ReportDownloadUrl,
+                                "_blank",
+                                "noopener noreferrer"
+                              );
+                              console.log(
+                                ReportDownloadUrl,
+                                "ReportDownloadUrl"
+                              );
+                            }}
+                            className="btn btn-danger me-2"
+                            type="button"
+                          >
+                            {/* <span>
+    <UploadFileIcon />
+  </span> */}
+                            Download Report
+                          </button>
+                        ) : (
+                          ""
+                        )}
+
+                        <button type="submit" className="btn btn-primary">
                           Generate Report
-                        </a>
+                        </button>
                       </Card.Footer>
                     </Form>
                   )}

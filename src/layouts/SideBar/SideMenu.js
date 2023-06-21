@@ -465,7 +465,7 @@ export const MENUITEMS = [
       },
       {
         title: "Manage Site Tank",
-        icon: "money",
+        icon: "flask",
         type: "sub",
         active: false,
         permission: "charges-list",
@@ -490,7 +490,7 @@ export const MENUITEMS = [
       },
       {
         title: "Manage Site Pump",
-        icon: "money",
+        icon: "rocket",
         type: "sub",
         active: false,
         permission: "charges-list",
@@ -517,7 +517,7 @@ export const MENUITEMS = [
       
       {
         title: "Manage Site Nozzle",
-        icon: "money",
+        icon: "filter",
         type: "sub",
         active: false,
         permission: "charges-list",

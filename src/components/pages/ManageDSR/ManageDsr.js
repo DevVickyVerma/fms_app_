@@ -32,6 +32,7 @@ import CoffeeValet from "../DRSComponents/Coffee&Valet";
 import ChargesDeduction from "../DRSComponents/ChargesDeduction";
 import Departmentshopsale from "../DRSComponents/Departmentshopsale";
 import CashBanking from "../DRSComponents/CashBanking";
+import BankDeposit from "../DRSComponents/BankDeposit";
 
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -574,8 +575,10 @@ const ManageDsr = (props) => {
           <Departmentshopsale SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : UploadTabname === "Cash Banking" ? (
           <CashBanking SiteID={PropsSiteId} ReportDate={PropsDate} />
-        ) : null}
-        <CashBanking SiteID={PropsSiteId} ReportDate={PropsDate} />
+        ): UploadTabname === "Bank Deposite" ? (
+          <BankDeposit SiteID={PropsSiteId} ReportDate={PropsDate} />
+        )  : null}
+      
       </>
     </>
   );
