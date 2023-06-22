@@ -14,6 +14,7 @@ const ShopSales = (props) => {
 
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
+  const [DeductionData, setDeductionData] = useState([]);
   const [editable, setis_editable] = useState();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -71,26 +72,36 @@ const ShopSales = (props) => {
 
         const { data } = response;
         if (data) {
-            setData(data?.data?.listing ? data.data.listing : []);
+          setData(data?.data ? data.data.charges : []);
+          setDeductionData(data?.data ? data.data.deductions : []);
           setis_editable(data?.data ? data.data : {});
 
           // Create an array of form values based on the response data
-          const formValues = data?.data?.listing
-          ? data.data.listing.map((item) => {
-                return {
-                  id: item.id,
-                  charge_value: item.charge_value,
-                  deduction_value: item.deduction_value,
-
-                  // value_per: item.value_per ,
-                  // Add other properties as needed
-                };
-              })
+          const formValues = data?.data?.charges
+            ? data.data.charges.map((item) => ({
+                id: item.charge_id,
+                charge_value: item.charge_value,
+                // value_per: item.value_per,
+                // Add other properties as needed
+              }))
             : [];
 
           // Set the formik values using setFieldValue
           formik.setFieldValue("data", formValues);
-          console.log(formValues, "formValues");
+
+          // Create an array of deduction form values based on the response data
+          const deductionFormValues = data?.data?.deductions
+            ? data.data.deductions.map((item) => ({
+                id: item.deduction_id,
+                deduction_value: item.deduction_value,
+                // Add other properties as needed
+              }))
+            : [];
+
+          // Set the formik values for deductions using setFieldValue
+          formik.setFieldValue("deductions", deductionFormValues);
+
+          // Call a function or pass the deductionFormValues array to another component
         }
       } catch (error) {
         console.error("API error:", error);
@@ -103,19 +114,24 @@ const ShopSales = (props) => {
     fetchData();
   }, [SiteID, ReportDate]);
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, deductionFormValues) => {
     const token = localStorage.getItem("token");
-
-    console.log(values.data);
 
     // Create a new FormData object
     const formData = new FormData();
 
     for (const obj of values.data) {
       const { id, charge_value } = obj;
-      const charge_valueKey = `charge_value[${id}]`;
+      const charge_valueKey = `charge[${id}]`;
 
       formData.append(charge_valueKey, charge_value);
+    }
+
+    for (const deductionObj of values.deductions) {
+      const { id, deduction_value } = deductionObj;
+      const deductionValueKey = `deduction[${id}]`;
+
+      formData.append(deductionValueKey, deduction_value);
     }
 
     formData.append("site_id", SiteID);
@@ -124,7 +140,7 @@ const ShopSales = (props) => {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/valet-coffee/update`,
+        `${process.env.REACT_APP_BASE_URL}/shop-sale/update`,
         {
           method: "POST",
           headers: {
@@ -137,12 +153,10 @@ const ShopSales = (props) => {
       const responseData = await response.json(); // Read the response once
 
       if (response.ok) {
-        console.log("Done");
         SuccessToast(responseData.message);
       } else {
         ErrorToast(responseData.message);
 
-        console.log("API Error:", responseData);
         // Handle specific error cases if needed
       }
     } catch (error) {
@@ -152,101 +166,6 @@ const ShopSales = (props) => {
       setIsLoading(false);
     }
   };
-  const columns = [
-    {
-        name: "CHARGE GROUPS",
-        selector: (row) => row.charge_name,
-        sortable: false,
-        width: "50%",
-        center: false,
-        cell: (row) => {
-          if (row.charge_name) {
-            return (
-              <span className="text-muted fs-15 fw-semibold text-center">
-                {row.charge_name}
-              </span>
-            );
-          }
-          return null; // Return null if `row.charge_name` doesn't exist
-        },
-      },
-      
-      
-    {
-      name: "SALES AMOUNT",
-      selector: (row) => row.charge_value,
-      sortable: false,
-      width: "50%",
-      center: false,
-      cell: (row, index) => (
-        <div className="table-input-headdiv">
-          <input
-            type="number"
-            id={`charge_value-${index}`}
-            name={`data[${index}].charge_value`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.charge_value}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
-      ),
-    },
-        // ... existing columns
-
-        {
-            name: "DEDUCTION GROUPS",
-            selector: (row) => row.deduction_name,
-            sortable: false,
-            width: "25%",
-            center: false,
-            cell: (row) =>  (
-              row.deduction_name ? (
-                <span className="text-muted fs-15 fw-semibold text-center">
-                  {row.deduction_name}
-                </span>
-              ) : null
-            ),
-          },
-          
-          
-          {
-            name: "SALES AMOUNT",
-            selector: (row) => row.deduction_value,
-            sortable: false,
-            width: "25%",
-            center: false,
-            cell: (row, index) => (
-              <div className="table-input-headdiv">
-                <input
-                  type="number"
-                  id={`deduction_value-${index}`}
-                  name={`data[${index}].deduction_value`}
-                  className={
-                    editable?.is_editable ? "table-input " : "table-input readonly "
-                  }
-                  value={formik.values.data[index]?.deduction_value}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  readOnly={editable?.is_editable ? false : true}
-                />
-                {/* Error handling code */}
-              </div>
-            ),
-          },
-
-
-  ];
-
-
-  const tableDatas = {
-    columns,
-    data,
-  };
 
   const formik = useFormik({
     initialValues: {
@@ -255,6 +174,119 @@ const ShopSales = (props) => {
     onSubmit: handleSubmit,
     // validationSchema: validationSchema,
   });
+  const chargesColumns = [
+    {
+      name: "CHARGE GROUPS",
+   
+      selector: (row) => row.charge_name,
+      sortable: true,
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.charge_name}</h6>
+          </div>
+        </div>
+      ),
+    },
+
+    {
+      name: "	SALES AMOUNT",
+      selector: (row) => row.charge_value,
+      sortable: false,
+      width: "50%",
+      center: true,
+      // Title: "CASH METERED SALES",
+      cell: (row, index) => (
+        <div>
+          <input
+            type="number"
+            id={`charge_value-${index}`}
+            name={`data[${index}].charge_value`}
+            className={
+              editable?.is_editable ? "table-input " : "table-input readonly "
+            }
+            value={formik.values?.data[index]?.charge_value}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            readOnly={editable?.is_editable ? false : true}
+          />
+          {/* Error handling code */}
+        </div>
+      ),
+    },
+  ];
+  const deductionsColumns = [
+    {
+      name: "DEDUCTION GROUPS",
+      selector: (row) => row.deduction_name, // Update the selector to use a function
+      sortable: true,
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.deduction_name}</h6>
+          </div>
+        </div>
+      ),
+    },
+    
+
+    {
+      name: "	SALES AMOUNT",
+      selector: (row) => row.deduction_value,
+      sortable: false,
+      width: "50%",
+      center: true,
+      // Title: "CASH METERED SALES",
+      cell: (row, index) => (
+        <div>
+          <input
+            type="number"
+            id={`deduction_value-${index}`}
+            name={`deductions[${index}].deduction_value`}
+            className={
+              editable?.is_editable ? "table-input " : "table-input readonly "
+            }
+            value={formik.values?.deductions?.[index]?.deduction_value || ''}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            // readOnly={editable?.is_editable ? false : true}
+          />
+          {/* Error handling code */}
+        </div>
+      ),
+    },
+    //  {
+    //   name: "	SALES AMOUNT",
+    //   selector: (row) => row.charge_value,
+    //   sortable: false,
+    //   width: "50%",
+    //   center: true,
+    //   // Title: "CASH METERED SALES",
+    //   cell: (row, index) => (
+    //     <div>
+    //       <input
+    //         type="number"
+    //         id={`charge_value-${index}`}
+    //         name={`data[${index}].charge_value`}
+    //         className={
+    //           editable?.is_editable ? "table-input " : "table-input readonly "
+    //         }
+    //         value={formik.values?.data[index]?.charge_value}
+    //         onChange={formik.handleChange}
+    //         onBlur={formik.handleBlur}
+    //         readOnly={editable?.is_editable ? false : true}
+    //       />
+    //       {/* Error handling code */}
+    //     </div>
+    //   ),
+    // },
+  ];
+
+  const tableDatas = {
+    chargesColumns,
+    deductionsColumns,
+    data,
+  };
 
   return (
     <>
@@ -269,19 +301,28 @@ const ShopSales = (props) => {
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
                   <div className="table-responsive deleted-table">
-                    <DataTableExtensions {...tableDatas}>
-                      <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
+                  {/* <DataTableExtensions {...tableDatas}> */}
+                    <DataTable
+                      columns={chargesColumns}
+                      data={data}
+                      // pagination
+                      responsive
+                    />
+
+                    <h2></h2>
+                    <DataTable
+                      columns={deductionsColumns}
+                      data={DeductionData}
+                      noHeader
                         defaultSortField="id"
                         defaultSortAsc={false}
                         striped={true}
                         persistTableHead
                         highlightOnHover
                         searchable={false}
-                      />
-                    </DataTableExtensions>
+                      responsive
+                    />
+                         {/* </DataTableExtensions> */}
                   </div>
                   <div className="d-flex justify-content-end mt-3">
                     <button className="btn btn-primary" type="submit">

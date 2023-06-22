@@ -39,10 +39,6 @@ const ManageReports = (props) => {
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [ReportDownloadUrl, setReportDownloadUrl] = useState();
 
-
-  
-
-
   useEffect(() => {
     if (UserPermissions) {
       setPermissionsArray(UserPermissions.permissions);
@@ -88,9 +84,7 @@ const ManageReports = (props) => {
 
       const commonParams = `client_id=${formValues.client_id}&company_id=${formValues.company_id}&site_id[]=${formValues.site_id}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`;
 
-      let navigatePath = "/ManageShops";
-
-      let postDataUrl
+      let postDataUrl;
 
       if (formValues.report === "DSMR") {
         postDataUrl = `report/stock-loss?${commonParams}`;
@@ -105,17 +99,15 @@ const ManageReports = (props) => {
       const response = await getData(postDataUrl);
       console.log(response.status, "response"); // Console log the response
 
-      if(response.status==200) {
+      if (response.status == 200) {
         setShowButton(true);
+         console.log(response,"response"); // Console log the response
         setReportDownloadUrl(postDataUrl);
       }
       if (apidata.api_response === "success") {
         setReportDownloadUrl(postDataUrl);
         setShowButton(true);
-    
       }
-
-   
     } catch (error) {
       console.log(error);
       // Set the submission state to false if an error occurs
@@ -484,7 +476,7 @@ const ManageReports = (props) => {
                             onClick={() => {
                               window.open(
                                 "http://192.168.1.112:8000/v1/" +
-                                ReportDownloadUrl,
+                                  ReportDownloadUrl,
                                 "_blank",
                                 "noopener noreferrer"
                               );

@@ -34,6 +34,7 @@ import Departmentshopsale from "../DRSComponents/Departmentshopsale";
 import CashBanking from "../DRSComponents/CashBanking";
 import BankDeposit from "../DRSComponents/BankDeposit";
 import DepartmentShop from "../DRSComponents/DepartmentShop";
+import CreditCardBanking from "../DRSComponents/CreditCardBanking";
 
 
 const ManageDsr = (props) => {
@@ -79,56 +80,7 @@ const ManageDsr = (props) => {
   const [PropsFile, setPropsFile] = useState();
   const [PropsDate, setPropsDate] = useState();
 
-  const cards = [
-    {
-      id: 1,
-      name: "Fuel Sales",
-    },
-    {
-      id: 2,
-      name: "Fuel-Inventory",
-    },
-    {
-      id: 3,
-      name: "Fuel Delivery",
-    },
-    {
-      id: 4,
-      name: "Valet & Coffee Sales",
-    },
-    {
-      id: 5,
-      name: "Shop Sales",
-    },
-    {
-      id: 6,
-      name: "Department Shop Sales",
-    },
-    {
-      id: 7,
-      name: "Charges & Deductions",
-    },
-    {
-      id: 8,
-      name: "Credit Card Banking",
-    },
-    {
-      id: 9,
-      name: "Cash Banking",
-    },
-    {
-      id: 10,
-      name: "Bank Deposite",
-    },
-    {
-      id: 11,
-      name: "Department Shop Summary",
-    },
-    {
-      id: 12,
-      name: "Summary",
-    },
-  ];
+
   const handleFetchData = async () => {
     try {
       const response = await getData("/client/commonlist");
@@ -257,7 +209,7 @@ const ManageDsr = (props) => {
                     <Form onSubmit={handleSubmit}>
                       <Card.Body>
                         <Row>
-                          <Col lg={6} md={12}>
+                          <Col lg={3} md={6}>
                             <FormGroup>
                               <label
                                 htmlFor="client_id"
@@ -324,7 +276,7 @@ const ManageDsr = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                          <Col lg={6} md={12}>
+                          <Col lg={3} md={6}>
                             <FormGroup>
                               <label
                                 htmlFor="company_id"
@@ -387,7 +339,7 @@ const ManageDsr = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                          <Col lg={6} md={12}>
+                          <Col lg={3} md={6}>
                             <FormGroup>
                               <label
                                 htmlFor="site_id"
@@ -424,7 +376,7 @@ const ManageDsr = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                          <Col lg={6} md={12}>
+                          <Col lg={3} md={6}>
                             <FormGroup>
                               <label
                                 htmlFor="start_date"
@@ -582,6 +534,8 @@ const ManageDsr = (props) => {
           <BankDeposit SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : UploadTabname === "Department Shop Summary" ? (
           <DepartmentShop SiteID={PropsSiteId} ReportDate={PropsDate} />
+        ): UploadTabname === "Credit Card Banking" ? (
+          <CreditCardBanking SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : null
         
         
