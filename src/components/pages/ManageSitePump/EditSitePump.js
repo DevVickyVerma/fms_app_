@@ -147,21 +147,21 @@ const EditSitePump = (props) => {
     },
     validationSchema: Yup.object({
       code: Yup.string()
-      .required("Site Pump code is required"),
+      .required("Site Pump Name is required"),
 
-      name: Yup.string()
-        .required("Site Pump Name is required")
-        .matches(/^[a-zA-Z0-9_\- ]+$/, {
-          message: "Site Pump Name must not contain special characters",
-          excludeEmptyString: true,
-        })
-        .matches(
-          /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
-          {
-            message: "Site Pump Name must not have consecutive spaces",
-            excludeEmptyString: true,
-          }
-        ),
+      // name: Yup.string()
+      //   .required("Site Pump Name is required")
+      //   .matches(/^[a-zA-Z0-9_\- ]+$/, {
+      //     message: "Site Pump Name must not contain special characters",
+      //     excludeEmptyString: true,
+      //   })
+      //   .matches(
+      //     /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
+      //     {
+      //       message: "Site Pump Name must not have consecutive spaces",
+      //       excludeEmptyString: true,
+      //     }
+      //   ),
 
       status: Yup.string().required(" Status is required"),
     }),
@@ -236,7 +236,7 @@ const EditSitePump = (props) => {
                             }`}
                             id="name"
                             name="name"
-                            placeholder="Site Pump Code"
+                            placeholder="Site Pump Name"
                             onChange={formik.handleChange}
                             value={formik.values.name || ""}
                           />

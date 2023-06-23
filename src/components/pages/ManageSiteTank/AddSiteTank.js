@@ -174,7 +174,7 @@ const AddSitePump = (props) => {
                       .required("Site Tank Code is required")
                       .matches(/^[a-zA-Z0-9_\- ]+$/, {
                         message:
-                          "tank_code must not contain special characters",
+                          "Tank Code must not contain special characters",
                         excludeEmptyString: true,
                       })
                       .matches(

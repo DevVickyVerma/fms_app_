@@ -540,6 +540,57 @@ export const MENUITEMS = [
           
         ],
       },
+      {
+        title: "Manage Items",
+        icon: "filter",
+        type: "sub",
+        active: false,
+        permission: "charges-list",
+        visibility: false,
+        children: [
+          {
+            path: `/manageitems`,
+            title: "Manage Items",
+            type: "link",
+            permission: "charges-list",
+            visibility: false,
+          },
+          {
+            path: `/additems`,
+            title: "Add Items",
+            type: "link",
+            permission: "charges-create",
+            visibility: false,
+          },
+          
+        ],
+      },
+      {
+        title: "Manage Import Types",
+        icon: "filter",
+        type: "sub",
+        active: false,
+        permission: "charges-list",
+        visibility: false,
+        children: [
+          {
+            path: `/manageimporttypes`,
+            title: "Manage Import Types",
+            type: "link",
+            permission: "charges-list",
+            visibility: false,
+          },
+          {
+            path: `/addimporttypes`,
+            title: "Add Import Types",
+            type: "link",
+            permission: "charges-create",
+            visibility: false,
+          },
+          
+        ],
+      },
+      
     ],
   },
 ];

@@ -21,12 +21,13 @@ import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 
-const EditBussiness = (props) => {
+const EditItems = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const navigate = useNavigate();
 
   const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedBusinessType, setSelectedBusinessType] = useState("");
+  const [selectedItemTypeList, setselectedItemTypeList] = useState([]);
   const [subTypes, setSubTypes] = useState([]);
   const [EditSiteData, setEditSiteData] = useState();
 
@@ -49,60 +50,6 @@ const EditBussiness = (props) => {
     }
   }
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const formData = new FormData();
-
-    formData.append("id", id); // Use the retrieved ID from the URL
-
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axiosInstance.get(
-  //         `/business/category`
-  //       );
-  //       if (response) {
-  //         console.log(response.data.data,"Response data");
-  //         setEditSiteData(response.data.data);
-  //         formik.setValues(response.data.data);
-  //       }
-  //     } catch (error) {
-  //       handleError(error);
-  //     }
-  //   };
-
-  //   try {
-  //     fetchData();
-  //   } catch (error) {
-  //     handleError(error);
-  //   }
-  //   console.clear();
-  // }, [id]);
-  const GetSiteData = async () => {
-    try {
-      const response = await axiosInstance.get("business/category");
-      setAddSiteData(response.data);
-      // if (response.data) {
-      //   setAddSiteData(response.data.data);
-      // }
-    } catch (error) {
-      handleError(error);
-    }
-  };
-  try {
-    GetSiteData();
-  } catch (error) {
-    handleError(error);
-  }
-  // console.clear()
-}, []);
-
   const { id } = useParams();
 
   useEffect(() => {
@@ -116,11 +63,12 @@ const EditBussiness = (props) => {
 
   const FetchRoleList = async () => {
     try {
-      const response = await getData(`/business/subcategory/detail/${id}`);
+      const response = await getData(`/department-item/${id}`);
 
       if (response) {
         formik.setValues(response.data.data);
-
+        console.log(formik.values);
+        console.log(response.data.data);
         setDropdownValue(response.data.data);
       } else {
         throw new Error("No data available in the response");
@@ -129,6 +77,22 @@ const EditBussiness = (props) => {
       console.error("API error:", error);
     }
   };
+
+  const handleItemData = async () => {
+    try {
+      const response = await getData("/item-type/list");
+
+      const { data } = response;
+      if (data) {
+        setselectedItemTypeList(response.data.data);
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+  useEffect(() => {
+    handleItemData();
+  }, []);
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
@@ -143,15 +107,15 @@ const EditBussiness = (props) => {
       const formData = new FormData();
       console.log(formData, "formData");
 
-      formData.append("sub_category_name", values.sub_category_name);
-      formData.append("code", values.sub_category_code);
+      formData.append("id", values.id);
+      formData.append("name", values.name);
       formData.append("status", values.status);
-      formData.append("id", id);
-      formData.append("business_category_id", values.business_type_id);
-      console.log(values);
+      formData.append("site_id", values.site_id);
+      formData.append("item_type_id", values.item_type_id);
+      formData.append("sage_purchase_code", values.sage_purchase_code);
 
-      const postDataUrl = "/business/subcategory/update";
-      const navigatePath = "/managesubbusinesscategory";
+      const postDataUrl = "/department-item/update";
+      const navigatePath = "/manageitems";
 
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
@@ -161,35 +125,43 @@ const EditBussiness = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      sub_category_name: "",
-      sub_category_code: "",
-      business_type_id: "",
-      business_category_id: " ",
+      item_type_id: "",
+      name: "",
+      sage_purchase_code: "",
       status: "1",
     },
     validationSchema: Yup.object({
-      sub_category_name: Yup.string()
-        .max(20, "Must be 20 characters or less")
-        .required("Sub-Business Category Name is required"),
+      code: Yup.string().required("Item code is required"),
 
-      sub_category_code: Yup.string()
-        .required("Sub-Business Category Code is required")
+      name: Yup.string()
+        .required("Item Name is required")
         .matches(/^[a-zA-Z0-9_\- ]+$/, {
-          message: "Code must not contain special characters",
+          message: "Item Name must not contain special characters",
           excludeEmptyString: true,
         })
         .matches(
           /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
           {
-            message: "Code must not have consecutive spaces",
+            message: "Item Name must not have consecutive spaces",
+            excludeEmptyString: true,
+          }
+        ),
+      item_type_id: Yup.string().required("Item Type is required"),
+      sage_purchase_code: Yup.string()
+        .required("Sage Purchase Code is required")
+        .matches(/^[a-zA-Z0-9_\- ]+$/, {
+          message: "Item Code must not contain special characters",
+          excludeEmptyString: true,
+        })
+        .matches(
+          /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
+          {
+            message: "Item Code must not have consecutive spaces",
             excludeEmptyString: true,
           }
         ),
 
-      business_type_id: Yup.string().required(
-        "Sub-Business Category Type is required"
-      ),
-      status: Yup.string().required("Status is required"),
+      status: Yup.string().required(" Status is required"),
     }),
     onSubmit: handleSubmit,
   });
@@ -197,17 +169,6 @@ const EditBussiness = (props) => {
   const isInvalid = formik.errors && formik.touched.name ? "is-invalid" : "";
 
   // Use the isInvalid variable to conditionally set the class name
-  const inputClass = `form-control ${isInvalid}`;
-  const handleBusinessTypeChange = (e) => {
-    const selectedType = e.target.value;
-
-    formik.setFieldValue("business_type", selectedType);
-    setSelectedBusinessType(selectedType);
-    const selectedTypeData = AddSiteData.business_types.find(
-      (type) => type.name === selectedType
-    );
-    setSubTypes(selectedTypeData.sub_types);
-  };
 
   return (
     <>
@@ -216,7 +177,7 @@ const EditBussiness = (props) => {
         <div>
           <div className="page-header">
             <div>
-              <h1 className="page-title">Edit Sub-Business Category</h1>
+              <h1 className="page-title">Edit Items</h1>
 
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item
@@ -230,15 +191,15 @@ const EditBussiness = (props) => {
                   className="breadcrumb-item  breadcrumds"
                   aria-current="page"
                   linkAs={Link}
-                  linkProps={{ to: "/business" }}
+                  linkProps={{ to: "/manageItems" }}
                 >
-                  Manage Sub-Business Category
+                  Manage Items
                 </Breadcrumb.Item>
                 <Breadcrumb.Item
                   className="breadcrumb-item active breadcrumds"
                   aria-current="page"
                 >
-                  Edit Sub-Business Category
+                  Edit Items
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
@@ -248,7 +209,7 @@ const EditBussiness = (props) => {
             <Col lg={12} xl={12} md={12} sm={12}>
               <Card>
                 <Card.Header>
-                  <Card.Title as="h3">Edit Sub-Business Category</Card.Title>
+                  <Card.Title as="h3">Edit Items</Card.Title>
                 </Card.Header>
 
                 <div class="card-body">
@@ -256,73 +217,103 @@ const EditBussiness = (props) => {
                     <Row>
                       <Col lg={6} md={6}>
                         <div className="form-group">
-                          <label
-                            className="form-label mt-4"
-                            htmlFor="sub_category_name"
-                          >
-                            Sub-Business Category Name
-                            <span className="text-danger">*</span>
+                          <label className=" form-label mt-4" htmlFor="name">
+                            Item Name <span className="text-danger">*</span>
                           </label>
                           <input
-                            id="sub_category_name"
-                            sub_category_name="name"
                             type="text"
                             autoComplete="off"
                             className={`input101 ${
-                              formik.errors.sub_category_name &&
-                              formik.touched.sub_category_name
+                              formik.errors.name && formik.touched.name
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            placeholder="Sub-Business Category Name"
+                            id="name"
+                            name="name"
+                            placeholder="Item Name"
                             onChange={formik.handleChange}
-                            value={formik.values.sub_category_name || ""}
+                            value={formik.values.name || ""}
                           />
-                          {formik.errors.sub_category_name &&
-                            formik.touched.sub_category_name && (
-                              <div className="invalid-feedback">
-                                {formik.errors.sub_category_name}
-                              </div>
-                            )}
+                          {formik.errors.name && formik.touched.name && (
+                            <div className="invalid-feedback">
+                              {formik.errors.name}
+                            </div>
+                          )}
                         </div>
                       </Col>
                       <Col lg={6} md={6}>
                         <div className="form-group">
                           <label
-                            className=" form-label mt-4"
-                            htmlFor="sub_category_code"
+                            htmlFor="item_type_id"
+                            className="form-label mt-4"
                           >
-                            Sub-Business Category Code
+                            Select Item Type
                             <span className="text-danger">*</span>
                           </label>
-                          <input
-                            id="sub_category_code"
-                            code="sub_category_code"
-                            type="text"
-                            autoComplete="off"
-                            className={`input101 readonly ${
-                              formik.errors.sub_category_code &&
-                              formik.touched.sub_category_code
+                          <select
+                            className={`input101 ${
+                              formik.errors.item_type_id &&
+                              formik.touched.item_type_id
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            placeholder="Sub-Business Category Code"
+                            id="item_type_id"
+                            name="item_type_id"
                             onChange={formik.handleChange}
-                            value={formik.values.sub_category_code}
-                            readOnly
-                          />
-                          {formik.errors.sub_category_code &&
-                            formik.touched.sub_category_code && (
+                            onBlur={formik.handleBlur}
+                            value={formik.values.item_type_id}
+                          >
+                            <option value="">Select a Item Type</option>
+                            {selectedItemTypeList.length > 0 ? (
+                              selectedItemTypeList.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.item_name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled>No Item Type</option>
+                            )}
+                          </select>
+                          {formik.errors.item_type_id &&
+                            formik.touched.item_type_id && (
                               <div className="invalid-feedback">
-                                {formik.errors.sub_category_code}
+                                {formik.errors.item_type_id}
                               </div>
                             )}
                         </div>
                       </Col>
                       <Col lg={6} md={6}>
                         <div className="form-group">
-                          <label htmlFor="status" className="form-label mt-4">
-                            Status <span className="text-danger">*</span>
+                          <label className=" form-label mt-4" htmlFor="code">
+                            Item Code<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            id="code"
+                            code="name"
+                            type="text"
+                            autoComplete="off"
+                            className={`input101 readonly ${
+                              formik.errors.code && formik.touched.code
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            placeholder="Item Code"
+                            onChange={formik.handleChange}
+                            value={formik.values.code || ""}
+                            readOnly
+                          />
+                          {formik.errors.code && formik.touched.code && (
+                            <div className="invalid-feedback">
+                              {formik.errors.code}
+                            </div>
+                          )}
+                        </div>
+                      </Col>
+
+                      <Col lg={6} md={6}>
+                        <div className="form-group">
+                          <label className=" form-label mt-4" htmlFor="status">
+                            Item Status <span className="text-danger">*</span>
                           </label>
                           <select
                             className={`input101 ${
@@ -345,46 +336,33 @@ const EditBussiness = (props) => {
                           )}
                         </div>
                       </Col>
-                      <Col lg={4} md={6}>
+                      <Col lg={6} md={6}>
                         <div className="form-group">
                           <label
-                            htmlFor="business_type_id"
                             className=" form-label mt-4"
+                            htmlFor="sage_purchase_code"
                           >
-                            Select Business Category
-                            <span className="text-danger">*</span>
+                            Saga Purchase Code<span className="text-danger">*</span>
                           </label>
-                          <select
-                            className={`input101 ${
-                              formik.errors.business_type_id &&
-                              formik.touched.business_type_id
+                          <input
+                            id="sage_purchase_code"
+                            code="name"
+                            type="text"
+                            autoComplete="off"
+                            className={`input101  ${
+                              formik.errors.sage_purchase_code &&
+                              formik.touched.sage_purchase_code
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            id="business_type_id"
-                            name="business_type_id"
+                            placeholder="Saga Purchase Code"
                             onChange={formik.handleChange}
-                            value={formik.values.business_type_id}
-                          >
-                            <option value="">
-                                  {" "}
-                                  Select Business Category
-                                </option>
-                                {
-                                AddSiteData.data ? (
-                                  AddSiteData.data.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.category_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Sub-Business Type</option>
-                                )}
-                          </select>
-                          {formik.errors.business_type_id &&
-                            formik.touched.business_type_id && (
+                            value={formik.values.sage_purchase_code || ""}
+                          />
+                          {formik.errors.sage_purchase_code &&
+                            formik.touched.sage_purchase_code && (
                               <div className="invalid-feedback">
-                                {formik.errors.business_type_id}
+                                {formik.errors.sage_purchase_code}
                               </div>
                             )}
                         </div>
@@ -394,7 +372,7 @@ const EditBussiness = (props) => {
                       <Link
                         type="submit"
                         className="btn btn-danger me-2 "
-                        to={`/managesubbusinesscategory/`}
+                        to={`/manageitems/`}
                       >
                         Cancel
                       </Link>
@@ -413,4 +391,4 @@ const EditBussiness = (props) => {
     </>
   );
 };
-export default withApi(EditBussiness);
+export default withApi(EditItems);

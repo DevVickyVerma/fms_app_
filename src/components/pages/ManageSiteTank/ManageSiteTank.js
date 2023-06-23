@@ -35,8 +35,7 @@ const ManageSiteTank = (props) => {
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
   const [AddSiteData, setAddSiteData] = useState([]);
-  // const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  // const [subTypes, setSubTypes] = useState([]);
+
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
@@ -118,14 +117,15 @@ const ManageSiteTank = (props) => {
     const newStatus = row.status === 1 ? 0 : 1;
     formData.append("status", newStatus);
 
-    ToggleStatus(formData);
+    ToggleStatus(formData, submitSiteID);
   };
 
-  const ToggleStatus = async (formData) => {
+  const ToggleStatus = async (formData, submitSiteID) => {
     try {
       const response = await postData("/site-tank/update-status", formData);
       console.log(response, "response"); // Console log the response
-      if (apidata.api_response === "success") {
+
+      if (response.data.api_response === "success") {
         handleFetchTableData(submitSiteID);
       }
     } catch (error) {
@@ -159,7 +159,6 @@ const ManageSiteTank = (props) => {
   };
 
   const handleFetchTableData = async (values) => {
-
     const tank = {
       site_id: values.site_id,
       client_id: values.client_id,
@@ -188,8 +187,11 @@ const ManageSiteTank = (props) => {
     }
   };
 
+  
+
   useEffect(() => {
     handleFetchData();
+    handleFetchTableData();
   }, []);
 
   const permissionsToCheck = [
@@ -472,7 +474,6 @@ const ManageSiteTank = (props) => {
                   })}
                   onSubmit={(values) => {
                     handleSubmit1(values);
-                    
                   }}
                 >
                   {({ handleSubmit, errors, touched, setFieldValue }) => (
@@ -650,7 +651,6 @@ const ManageSiteTank = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
-                       
                         <button className="btn btn-primary m-2 " type="submit">
                           Submit
                         </button>
