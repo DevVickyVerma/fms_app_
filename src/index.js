@@ -208,6 +208,37 @@ const EditSiteNozzle = React.lazy(() =>
 );
 
 // SiteNozzle End
+// Items Start
+
+const ManageItems = React.lazy(() =>
+  import("./components/pages/ManageItems/ManageItems")
+);
+
+const AddItems = React.lazy(() =>
+  import("./components/pages/ManageItems/AddItems")
+);
+
+const EditItems = React.lazy(() =>
+  import("./components/pages/ManageItems/EditItems")
+);
+
+// Items End
+
+// Items Start
+
+const ManageImportTypes = React.lazy(() =>
+  import("./components/pages/ManageImportTypes/ManageImportTypes")
+);
+
+const AddImportTypes = React.lazy(() =>
+  import("./components/pages/ManageImportTypes/AddImportTypes")
+);
+
+const EditImportTypes = React.lazy(() =>
+  import("./components/pages/ManageImportTypes/EditImportTypes")
+);
+
+// Items End
 
 // Category Start
 
@@ -421,6 +452,14 @@ const Root = () => {
   const WrappedManageSiteNozzle = withApi(ManageSiteNozzle);
   const WrappedAddSiteNozzle = withApi(AddSiteNozzle);
   const WrappedEditSiteNozzle = withApi(EditSiteNozzle);
+
+  const WrappedManageItems = withApi(ManageItems);
+  const WrappedAddItems = withApi(AddItems);
+  const WrappedEditItems = withApi(EditItems);
+
+  const WrappedManageImportTypes = withApi(ManageImportTypes);
+  const WrappedAddImportTypes = withApi(AddImportTypes);
+  const WrappedEditImportTypes = withApi(EditImportTypes);
 
 
 
@@ -649,6 +688,40 @@ const Root = () => {
                   />
 
                   {/* SiteNozzle components end */}
+
+                  {/* Items components start */}
+
+                  <Route
+                    path={`/manageitems`}
+                    element={<WrappedManageItems />}
+                  />
+
+                  <Route
+                    path={`/additems`}
+                    element={<WrappedAddItems />}
+                  />
+                  <Route
+                    path={`/edititems/:id`}
+                    element={<WrappedEditItems />}
+                  />
+
+                  {/* Import Types components end */}
+
+                  <Route
+                    path={`/manageimporttypes`}
+                    element={<WrappedManageImportTypes />}
+                  />
+
+                  <Route
+                    path={`/addimporttypes`}
+                    element={<WrappedAddImportTypes />}
+                  />
+                  <Route
+                    path={`/editimporttypes/:id`}
+                    element={<WrappedEditImportTypes />}
+                  />
+
+                  {/* Import Types components end */}
 
 
 

@@ -1,49 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+
+import { Link, Navigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  OverlayTrigger,
-  Row,
-  Tooltip,
-} from "react-bootstrap";
+import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
+import SearchIcon from "@mui/icons-material/Search";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
-const ManageSubBusinessCategory = (props) => {
+const ManageItems = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
-
   const [data, setData] = useState();
+  const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
-  const navigate = useNavigate();
-  const token = localStorage.getItem("token");
-
-  const FetchTableData = async () => {
-    try {
-      const response = await getData("/business/subcategory");
-      console.log(response.data.data, "ddd");
-
-      if (response && response.data && response.data.data) {
-        setData(response.data.data);
-        setSearchvalue(response.data.data);
-      } else {
-        throw new Error("No data available in the response");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -56,24 +35,43 @@ const ManageSubBusinessCategory = (props) => {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
+        const token = localStorage.getItem("token");
+
         const formData = new FormData();
         formData.append("id", id);
-        DeleteClient(formData);
+       
+
+        const axiosInstance = axios.create({
+          baseURL: process.env.REACT_APP_BASE_URL,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
+        const DeleteRole = async () => {
+          try {
+            const response = await axiosInstance.post(
+              "/department-item/delete",
+              formData
+            );
+            setData(response.data.data);
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your item has been deleted.",
+              icon: "success",
+              confirmButtonText: "OK",
+            });
+            FetchTableData();
+          } catch (error) {
+            handleError(error);
+          } finally {
+          }
+          // setIsLoading(false);
+        };
+        DeleteRole();
       }
     });
   };
-  const DeleteClient = async (formData) => {
-    try {
-      const response = await postData("/business/subcategory/delete", formData);
-      console.log(response, "response"); // Console log the response
-      if (apidata.api_response === "success") {
-        FetchTableData();
-      }
-    } catch (error) {
-      handleError(error);
-    }
-  };
-
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
@@ -105,25 +103,46 @@ const ManageSubBusinessCategory = (props) => {
 
   const ToggleStatus = async (formData) => {
     try {
-      const response = await postData(
-        "/business/subcategory/update-status",
-        formData
-      );
+      const response = await postData("/department-item/update-status", formData);
       console.log(response, "response"); // Console log the response
       if (apidata.api_response === "success") {
         FetchTableData();
       }
     } catch (error) {
-      console.log(error);
+      handleError(error);
+    }
+  };
+
+  const token = localStorage.getItem("token");
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const FetchTableData = async () => {
+    try {
+      const response = await getData("/department-item/list");
+      console.log(response.data.data, "Items");
+
+      if (response && response.data && response.data.data) {
+        setData(response.data.data.items);
+        setSearchvalue(response.data.data.items);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
     }
   };
 
   const permissionsToCheck = [
-    "business-type-list",
-    "business-type-create",
-    "business-type-edit",
-    "business-type--detail",
-    "business-type--delete",
+    "charges-list",
+    "charges-create",
+    "charges-edit",
+    "charges-details",
+    "charges-delete",
   ];
   let isPermissionAvailable = false;
   const [permissionsArray, setPermissionsArray] = useState([]);
@@ -137,25 +156,20 @@ const ManageSubBusinessCategory = (props) => {
   }, [UserPermissions]);
 
   const isStatusPermissionAvailable = permissionsArray?.includes(
-    "business-status-update"
+    "charges-status-update"
   );
-  const isEditPermissionAvailable =
-    permissionsArray?.includes("business-type-edit");
-  const isAddPermissionAvailable = permissionsArray?.includes(
-    "business-type-create"
-  );
-  const isDeletePermissionAvailable = permissionsArray?.includes(
-    "business-type-delete"
-  );
-  const isDetailsPermissionAvailable = permissionsArray?.includes(
-    "business-type-detail"
-  );
+  const isEditPermissionAvailable = permissionsArray?.includes("charges-edit");
+  const isAddPermissionAvailable = permissionsArray?.includes("charges-create");
+  const isDeletePermissionAvailable =
+    permissionsArray?.includes("charges-delete");
+  const isDetailsPermissionAvailable =
+    permissionsArray?.includes("charges-details");
   const isAssignPermissionAvailable =
-    permissionsArray?.includes("business-assign");
+    permissionsArray?.includes("charges-assign");
 
   const columns = [
     {
-      name: "S.NO",
+      name: "S.No",
       selector: (row, index) => index + 1,
       sortable: false,
       width: "10%",
@@ -167,27 +181,28 @@ const ManageSubBusinessCategory = (props) => {
       ),
     },
     {
-      name: "Sub-Business Category",
-      selector: (row) => [row.sub_category_name],
+      name: "Name",
+      selector: (row) => [row.name],
       sortable: true,
-      width: "35%",
+      width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.sub_category_name}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
           </div>
         </div>
       ),
     },
+ 
     {
-      name: "Business Category",
-      selector: (row) => [row.business_category],
+      name: "Items Code",
+      selector: (row) => [row.code],
       sortable: true,
-      width: "35%",
+      width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.business_category}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row.code}</h6>
           </div>
         </div>
       ),
@@ -196,11 +211,11 @@ const ManageSubBusinessCategory = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: true,
-      width: "15%",
+      width: "20%",
       cell: (row, index) => (
-        <div className="d-flex">
+        <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
           </div>
         </div>
       ),
@@ -209,7 +224,7 @@ const ManageSubBusinessCategory = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: true,
-      width: "20%",
+      width: "10%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -245,6 +260,7 @@ const ManageSubBusinessCategory = (props) => {
         </span>
       ),
     },
+
     {
       name: "Action",
       selector: (row) => [row.action],
@@ -255,7 +271,7 @@ const ManageSubBusinessCategory = (props) => {
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
-                to={`/editsubbusinesscategory/${row.id}`} // Assuming `row.id` contains the ID
+                to={`/edititems/${row.id}`} // Assuming `row.id` contains the ID
                 className="btn btn-primary btn-sm rounded-11 me-2"
               >
                 <i>
@@ -312,19 +328,20 @@ const ManageSubBusinessCategory = (props) => {
     setSearchText(value);
 
     const filteredData = searchvalue.filter((item) =>
-      item.business_name.toLowerCase().includes(value.toLowerCase())
+      item.item_name.toLowerCase().includes(value.toLowerCase())
     );
     setData(filteredData);
   };
 
   return (
     <>
-      {isLoading ? <Loaderimg /> : null}
+      {isLoading ? (
+      <Loaderimg />
+      ) : null}
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title">Manage Sub-Business Category</h1>
-
+            <h1 className="page-title">Manage Items</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -337,20 +354,27 @@ const ManageSubBusinessCategory = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Manage Sub-Business Category
+                Manage Items
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
-
           <div className="ms-auto pageheader-btn">
             <div className="input-group">
+              {/* <input
+                type="text"  autoComplete="off"
+                className="form-control"
+                value={searchText}
+                onChange={handleSearch}
+                placeholder="Search..."
+                style={{ borderRadius: 0 }}
+              /> */}
               {isAddPermissionAvailable ? (
                 <Link
-                  to="/addsubbusinesscategory"
-                  className="btn btn-primary"
+                  to="/additems"
+                  className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Sub-Business Category
+                  Add Items
                 </Link>
               ) : null}
             </div>
@@ -358,35 +382,36 @@ const ManageSubBusinessCategory = (props) => {
         </div>
 
         <Row className=" row-sm">
-          <Col lg={12}>
-            <Card>
-              <Card.Header>
-                <h3 className="card-title">Manage Sub-Business Category</h3>
-              </Card.Header>
-              <Card.Body>
-                <div className="table-responsive deleted-table">
-                  <DataTableExtensions {...tableDatas}>
-                    <DataTable
-                      columns={columns}
-                      data={data}
-                      noHeader
-                      defaultSortField="id"
-                      defaultSortAsc={false}
-                      striped={true}
-                      // center={true}
-                      persistTableHead
-                      // pagination
-                      highlightOnHover
-                      searchable={true}
-                    />
-                  </DataTableExtensions>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+        <Col lg={12}>
+          <Card>
+            <Card.Header>
+              <h3 className="card-title">Manage Items</h3>
+            </Card.Header>
+            <Card.Body>
+              <div className="table-responsive deleted-table">
+    
+              <DataTableExtensions {...tableDatas}>
+          <DataTable
+            columns={columns}
+            data={data}
+            noHeader
+            defaultSortField="id"
+            defaultSortAsc={false}
+            striped={true}
+            // center={true}
+            persistTableHead
+            pagination
+            highlightOnHover
+            searchable={true}
+          />
+        </DataTableExtensions>
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
       </>
     </>
   );
 };
-export default withApi(ManageSubBusinessCategory);
+export default withApi(ManageItems);

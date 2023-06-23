@@ -136,21 +136,16 @@ const DepartmentShop = (props) => {
   //     }
   //   };
 
- 
   const _renderFunction = () => {
     return Object.keys(data).map((item, index) => {
-        return(
-             
-      <div className="Dps-data">
-  
-        <p>{item}</p>
-        <p>{data[item]}</p>
-       
-  
-        
-      </div>)
+      return (
+        <div className="Dps-data">
+          <p>{item}</p>
+          <p>{data[item]}</p>
+        </div>
+      );
     });
-  }
+  };
 
   return (
     <>
@@ -160,12 +155,12 @@ const DepartmentShop = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Department Shop Sales</h3>
+                <h3 className="card-title">Department Shop Summary</h3>
               </Card.Header>
               <Card.Body>
-              
-              <h4>SUMMARY OF TAKINGS</h4>
- {_renderFunction()}</Card.Body>
+                <h4>SUMMARY OF TAKINGS</h4>
+                {_renderFunction()}
+              </Card.Body>
             </Card>
           </Col>
         </Row>

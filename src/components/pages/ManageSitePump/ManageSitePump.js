@@ -37,8 +37,7 @@ const ManageSiteTank = (props) => {
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
   const [AddSiteData, setAddSiteData] = useState([]);
-  // const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  // const [subTypes, setSubTypes] = useState([]);
+
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
@@ -233,7 +232,7 @@ const ManageSiteTank = (props) => {
       name: "Site Name",
       selector: (row) => [row.site],
       sortable: true,
-      width: "15%",
+      width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -272,7 +271,7 @@ const ManageSiteTank = (props) => {
       name: "Site Pump Code",
       selector: (row) => [row.code],
       sortable: true,
-      width: "15%",
+      width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -285,7 +284,7 @@ const ManageSiteTank = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: true,
-      width: "10%",
+      width: "15%",
       cell: (row, index) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
