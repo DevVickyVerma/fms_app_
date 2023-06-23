@@ -542,7 +542,7 @@ export const MENUITEMS = [
       },
       {
         title: "Manage Items",
-        icon: "filter",
+        icon: "shopping-cart",
         type: "sub",
         active: false,
         permission: "charges-list",
@@ -565,31 +565,31 @@ export const MENUITEMS = [
           
         ],
       },
-      {
-        title: "Manage Import Types",
-        icon: "filter",
-        type: "sub",
-        active: false,
-        permission: "charges-list",
-        visibility: false,
-        children: [
-          {
-            path: `/manageimporttypes`,
-            title: "Manage Import Types",
-            type: "link",
-            permission: "charges-list",
-            visibility: false,
-          },
-          {
-            path: `/addimporttypes`,
-            title: "Add Import Types",
-            type: "link",
-            permission: "charges-create",
-            visibility: false,
-          },
+      // {
+      //   title: "Manage Import Types",
+      //   icon: "filter",
+      //   type: "sub",
+      //   active: false,
+      //   permission: "charges-list",
+      //   visibility: false,
+      //   children: [
+      //     {
+      //       path: `/manageimporttypes`,
+      //       title: "Manage Import Types",
+      //       type: "link",
+      //       permission: "charges-list",
+      //       visibility: false,
+      //     },
+      //     {
+      //       path: `/addimporttypes`,
+      //       title: "Add Import Types",
+      //       type: "link",
+      //       permission: "charges-create",
+      //       visibility: false,
+      //     },
           
-        ],
-      },
+      //   ],
+      // },
       
     ],
   },

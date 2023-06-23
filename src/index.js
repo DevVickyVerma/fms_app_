@@ -220,23 +220,23 @@ const AddItems = React.lazy(() =>
 
 const EditItems = React.lazy(() =>
   import("./components/pages/ManageItems/EditItems")
-);
+);      
 
 // Items End
 
 // Items Start
 
-const ManageImportTypes = React.lazy(() =>
-  import("./components/pages/ManageImportTypes/ManageImportTypes")
-);
+// const ManageImportTypes = React.lazy(() =>
+//   import("./components/pages/ManageImportTypes/ManageImportTypes")
+// );
 
-const AddImportTypes = React.lazy(() =>
-  import("./components/pages/ManageImportTypes/AddImportTypes")
-);
+// const AddImportTypes = React.lazy(() =>
+//   import("./components/pages/ManageImportTypes/AddImportTypes")
+// );
 
-const EditImportTypes = React.lazy(() =>
-  import("./components/pages/ManageImportTypes/EditImportTypes")
-);
+// const EditImportTypes = React.lazy(() =>
+//   import("./components/pages/ManageImportTypes/EditImportTypes")
+// );
 
 // Items End
 
@@ -457,9 +457,9 @@ const Root = () => {
   const WrappedAddItems = withApi(AddItems);
   const WrappedEditItems = withApi(EditItems);
 
-  const WrappedManageImportTypes = withApi(ManageImportTypes);
-  const WrappedAddImportTypes = withApi(AddImportTypes);
-  const WrappedEditImportTypes = withApi(EditImportTypes);
+  // const WrappedManageImportTypes = withApi(ManageImportTypes);
+  // const WrappedAddImportTypes = withApi(AddImportTypes);
+  // const WrappedEditImportTypes = withApi(EditImportTypes);
 
 
 
@@ -499,6 +499,8 @@ const Root = () => {
 
                   <Route path={`addsite`} element={<WrappedAddSite />} />
                   <Route path={`editsite/:id`} element={<WrappeAddEditSite />} />
+                  <Route path={`/site-setting/:id`} element={<WrappedSiteSettings />} />
+
                   <Route path={`/sites`} element={<Managesite />} />
                   {/* sites  Components End */}
 
@@ -552,7 +554,7 @@ const Root = () => {
                   <Route path={`/reports`} element={<WrappedManageReports />} />
                   {/* Reports  Components End */}
                   {/* Reports  Components Start */}
-                  <Route path={`/site-setting`} element={<WrappedSiteSettings />} />
+              
                   <Route path={`/tolerances`} element={<WrappedTolerances />} />
                   {/* Reports  Components End */}
                   {/* Charges  Components Start  */}
@@ -707,7 +709,7 @@ const Root = () => {
 
                   {/* Import Types components end */}
 
-                  <Route
+                  {/* <Route
                     path={`/manageimporttypes`}
                     element={<WrappedManageImportTypes />}
                   />
@@ -719,7 +721,7 @@ const Root = () => {
                   <Route
                     path={`/editimporttypes/:id`}
                     element={<WrappedEditImportTypes />}
-                  />
+                  /> */}
 
                   {/* Import Types components end */}
 

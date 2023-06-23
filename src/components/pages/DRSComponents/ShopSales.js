@@ -177,7 +177,7 @@ const ShopSales = (props) => {
   const chargesColumns = [
     {
       name: "CHARGE GROUPS",
-   
+      width: "50%",
       selector: (row) => row.charge_name,
       sortable: true,
       cell: (row, index) => (
@@ -220,6 +220,7 @@ const ShopSales = (props) => {
       name: "DEDUCTION GROUPS",
       selector: (row) => row.deduction_name, // Update the selector to use a function
       sortable: true,
+      width: "50%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -301,28 +302,37 @@ const ShopSales = (props) => {
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
                   <div className="table-responsive deleted-table">
-                  {/* <DataTableExtensions {...tableDatas}> */}
-                    <DataTable
-                      columns={chargesColumns}
-                      data={data}
-                      // pagination
-                      responsive
-                    />
-
-                    <h2></h2>
-                    <DataTable
-                      columns={deductionsColumns}
-                      data={DeductionData}
-                      noHeader
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        striped={true}
-                        persistTableHead
-                        highlightOnHover
-                        searchable={false}
-                      responsive
-                    />
-                         {/* </DataTableExtensions> */}
+                  <Row>
+                      <Col lg={6} md={6}>
+                        <DataTable
+                          columns={chargesColumns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </Col>
+                      <Col lg={6} md={6}>
+                        <DataTable
+                          columns={deductionsColumns}
+                          data={DeductionData}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </Col>
+                    </Row>
+            
                   </div>
                   <div className="d-flex justify-content-end mt-3">
                     <button className="btn btn-primary" type="submit">

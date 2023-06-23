@@ -480,7 +480,7 @@ const ManageSiteTank = (props) => {
                     <Form onSubmit={handleSubmit}>
                       <Card.Body>
                         <Row>
-                          <Col lg={6} md={12}>
+                          <Col lg={4} md={6}>
                             <FormGroup>
                               <label
                                 htmlFor="client_id"
@@ -547,7 +547,7 @@ const ManageSiteTank = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                          <Col lg={6} md={12}>
+                          <Col lg={4} md={6}>
                             <FormGroup>
                               <label
                                 htmlFor="company_id"
@@ -607,7 +607,7 @@ const ManageSiteTank = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                          <Col lg={6} md={12}>
+                          <Col lg={4} md={6}>
                             <FormGroup>
                               <label
                                 htmlFor="site_id"

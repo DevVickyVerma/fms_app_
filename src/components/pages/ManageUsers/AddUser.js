@@ -177,7 +177,7 @@ const AddUsers = (props) => {
             <Col lg={12} xl={12} md={12} sm={12}>
               <Card>
                 <Card.Header>
-                  <Card.Title as="h3">Add Client</Card.Title>
+                  <Card.Title as="h3">Add User</Card.Title>
                 </Card.Header>
                 <Formik
                   initialValues={{

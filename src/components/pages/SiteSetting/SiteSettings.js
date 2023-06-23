@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import {
   Col,
   Row,
@@ -10,42 +9,51 @@ import {
   ListGroup,
   Breadcrumb,
 } from "react-bootstrap";
-
-import { Formik, Field, ErrorMessage } from "formik";
+import DataTable from "react-data-table-component";
+import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import DatePicker from "react-multi-date-picker";
+import Loaderimg from "../../../Utils/Loader";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Slide, toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 
 const SiteSettings = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { apidata, error, getData, postData, SiteID, ReportDate } = props;
+
+  // const [data, setData] = useState()
+  const [data, setData] = useState([]);
+  const [DeductionData, setDeductionData] = useState([]);
+  const [BussinesModelData, setBussinesModelData] = useState([]);
+  const [editable, setis_editable] = useState();
+
+  const [isLoading, setIsLoading] = useState(true);
+
   const navigate = useNavigate();
-
-  const [Listcompany, setCompanylist] = useState([]);
-  const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  const [subTypes, setSubTypes] = useState([]);
-  const [EditSiteData, setEditSiteData] = useState("");
-  const [companyId, setCompanyId] = useState();
-
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-  const [AddSiteData, setAddSiteData] = useState([]);
-  const [ToleranceData, setToleranceData] = useState([]);
-  // const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  // const [subTypes, setSubTypes] = useState([]);
-  const [selectedClientId, setSelectedClientId] = useState("");
-  const [selectedCompanyId, setSelectedCompanyId] = useState("");
-  const [selectedSiteId, setSelectedSiteId] = useState("");
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
+  const SuccessToast = (message) => {
+    toast.success(message, {
+      autoClose: 1000,
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+    });
+  };
+  const ErrorToast = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+    });
+  };
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      SuccessToast("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -53,147 +61,346 @@ const SiteSettings = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorToast(errorMessage);
     }
   }
 
+  const { id } = useParams();
+
   useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+
+      const axiosInstance = axios.create({
+        baseURL: process.env.REACT_APP_BASE_URL,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      try {
+        const response = await axiosInstance.get(
+          `/site/get-setting-list/${id}`
+        );
+
+        const { data } = response;
+        if (data) {
+          // setData(data?.data ? data.data.charges : []);
+          // setDeductionData(data?.data ? data.data.deductions : []);
+          setBussinesModelData(data?.data ? data.data.business_models : []);
+          setis_editable(data?.data ? data.data : {});
+
+          const BussinesModelValues = data?.data?.business_models
+            ? data.data.business_models.map((item) => ({
+                id: item.charge_id,
+                BussinesModelName_name: item.item_name,
+                // value_per: item.value_per,
+                // Add other properties as needed
+              }))
+            : [];
+
+          formik.setFieldValue("business_models", BussinesModelValues);
+
+          // Create an array of deduction form values based on the response data
+          // const deductionFormValues = data?.data?.deductions
+          //   ? data.data.deductions.map((item) => ({
+          //       id: item.deduction_id,
+          //       deduction_value: item.deduction_value,
+          //       // Add other properties as needed
+          //     }))
+          //   : [];
+
+          // formik.setFieldValue("deductions", deductionFormValues);
+
+          // Call a function or pass the deductionFormValues array to another component
+        }
+      } catch (error) {
+        console.error("API error:", error);
+        handleError(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [SiteID, ReportDate]);
+
+  const handleSubmit = async (values, deductionFormValues) => {
     const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
 
-    console.clear();
-  }, []);
+    // Create a new FormData object
+    const formData = new FormData();
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     if (selectedSiteId) {
-  //       try {
-  //         const response = await getData(
-  //           `/tolerance/?site_id=${formik.values.site_id}&client_id=${formik.values.client_id}&company_id=${formik.values.company_id}`
-  //         );
-  //         const { data } = response;
-  //         if (data) {
-  //           console.log(data);
-  //           formik.setValues(data.data);
-  //           // Process the API response and update your state or perform other actions
-  //         }
-  //       } catch (error) {
-  //         console.error("API error:", error);
-  //         // Handle error if the API call fails
-  //       }
-  //     }
-  //   };
+    for (const obj of values.data) {
+      const { id, charge_value } = obj;
+      const charge_valueKey = `charge[${id}]`;
 
-  //   if (selectedSiteId !== undefined) {
-  //     fetchData();
-  //   }
-  // }, [selectedSiteId]);
+      formData.append(charge_valueKey, charge_value);
+    }
 
-  const handleSubmit = async (values) => {
-    console.log(values);
+    for (const deductionObj of values.deductions) {
+      const { id, deduction_value } = deductionObj;
+      const deductionValueKey = `deduction[${id}]`;
+
+      formData.append(deductionValueKey, deduction_value);
+    }
+
+    formData.append("site_id", SiteID);
+    formData.append("drs_date", ReportDate);
+
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/shop-sale/update`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+
+      const responseData = await response.json(); // Read the response once
+
+      if (response.ok) {
+        SuccessToast(responseData.message);
+      } else {
+        ErrorToast(responseData.message);
+
+        // Handle specific error cases if needed
+      }
+    } catch (error) {
+      console.log("Request Error:", error);
+      // Handle request error
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const formik = useFormik({
     initialValues: {
-      client_id: "",
+      data: data,
     },
-    validationSchema: Yup.object({
-      client_id: Yup.string().required("Client  is required"),
-    }),
     onSubmit: handleSubmit,
+    // validationSchema: validationSchema,
   });
+  // const chargesColumns = [
+  //   {
+  //     name: "CHARGE GROUPS",
+
+  //     selector: (row) => row.charge_name,
+  //     sortable: true,
+  //     cell: (row, index) => (
+  //       <div className="d-flex">
+  //         <div className="ms-2 mt-0 mt-sm-2 d-block">
+  //           <h6 className="mb-0 fs-14 fw-semibold">{row.charge_name}</h6>
+  //         </div>
+  //       </div>
+  //     ),
+  //   },
+
+  //   {
+  //     name: "	SALES AMOUNT",
+  //     selector: (row) => row.charge_value,
+  //     sortable: false,
+  //     width: "50%",
+  //     center: true,
+  //     // Title: "CASH METERED SALES",
+  //     cell: (row, index) => (
+  //       <div>
+  //         <input
+  //           type="number"
+  //           id={`charge_value-${index}`}
+  //           name={`data[${index}].charge_value`}
+  //           className={
+  //             editable?.is_editable ? "table-input " : "table-input readonly "
+  //           }
+  //           value={formik.values?.data[index]?.charge_value}
+  //           onChange={formik.handleChange}
+  //           onBlur={formik.handleBlur}
+  //           readOnly={editable?.is_editable ? false : true}
+  //         />
+  //         {/* Error handling code */}
+  //       </div>
+  //     ),
+  //   },
+  // ];
+  // const deductionsColumns = [
+  //   {
+  //     name: "DEDUCTION GROUPS",
+  //     selector: (row) => row.deduction_name, // Update the selector to use a function
+  //     sortable: true,
+  //     cell: (row, index) => (
+  //       <div className="d-flex">
+  //         <div className="ms-2 mt-0 mt-sm-2 d-block">
+  //           <h6 className="mb-0 fs-14 fw-semibold">{row.deduction_name}</h6>
+  //         </div>
+  //       </div>
+  //     ),
+  //   },
+
+  //   {
+  //     name: "	SALES AMOUNT",
+  //     selector: (row) => row.deduction_value,
+  //     sortable: false,
+  //     width: "50%",
+  //     center: true,
+  //     // Title: "CASH METERED SALES",
+  //     cell: (row, index) => (
+  //       <div>
+  //         <input
+  //           type="number"
+  //           id={`deduction_value-${index}`}
+  //           name={`deductions[${index}].deduction_value`}
+  //           className={
+  //             editable?.is_editable ? "table-input " : "table-input readonly "
+  //           }
+  //           value={formik.values?.deductions?.[index]?.deduction_value || ""}
+  //           onChange={formik.handleChange}
+  //           onBlur={formik.handleBlur}
+  //           // readOnly={editable?.is_editable ? false : true}
+  //         />
+  //         {/* Error handling code */}
+  //       </div>
+  //     ),
+  //   },
+  // ];
+  const BussinesModelColumn = [
+    {
+      name: "DEDUCTION GROUPS",
+      selector: (row) => row.item_name,
+      sortable: true,
+      width: "40%",
+      cell: (row) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.item_name}</h6>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Business Model 1",
+      selector: (row) => row.business_model_types[0].model_name,
+      sortable: false,
+      center: true,
+      width: "20%",
+      cell: (row) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.business_model_types[0].model_name}</h6>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Business Model 2",
+      selector: (row) => row.business_model_types[1].model_name,
+      sortable: false,
+      center: true,
+      width: "20%",
+      cell: (row) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.business_model_types[1].model_name}</h6>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Business Model 3",
+      selector: (row) => row.business_model_types[2].model_name,
+      sortable: false,
+      center: true,
+      width: "20%",
+      cell: (row) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.business_model_types[2].model_name}</h6>
+          </div>
+        </div>
+      ),
+    },
+  ];
+  
+  
+  
+  
+  
 
   return (
-    <div>
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">Tolerances</h1>
+    <>
+      {isLoading ? <Loaderimg /> : null}
+      <>
+        <div className="page-header">
+          <div>
+            <h1 className="page-title">Edit Site</h1>
 
-          <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item
-              className="breadcrumb-item"
-              linkAs={Link}
-              linkProps={{ to: "/dashboard" }}
-            >
-              Dashboard
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item  breadcrumds"
-              aria-current="page"
-              linkAs={Link}
-              linkProps={{ to: "/sites" }}
-            >
-              Tolerances
-            </Breadcrumb.Item>
-          </Breadcrumb>
+            <Breadcrumb className="breadcrumb">
+              <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/dashboard" }}
+              >
+                Dashboard
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item  breadcrumds"
+                aria-current="page"
+                linkAs={Link}
+                linkProps={{ to: "/sites" }}
+              >
+                Manage Sites
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item active breadcrumds"
+                aria-current="page"
+              >
+                Site Settings
+              </Breadcrumb.Item>
+            </Breadcrumb>
+          </div>
         </div>
-      </div>
-
-      <Row>
-        <Col lg={12} xl={12} md={12} sm={12}>
-          <Card>
-            <Card.Header>
-              <Card.Title as="h3">Tolerances</Card.Title>
-            </Card.Header>
-
-            <div class="card-body">
-              <form onSubmit={formik.handleSubmit}>
-                <Row>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label htmlFor="client_id" className="form-label mt-4">
-                        Client
-                        <span className="text-danger">*</span>
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.client_id && formik.touched.client_id
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="client_id"
-                        name="client_id"
-                     
-                        onChange={formik.handleChange}
-                      >
-                        <option value="">Select a Client</option>
-                        <option value="">User</option>
-                        <option value="">value</option>
-                    
-                      </select>
-                      {/* Replace this line with a self-closing tag */}
-                      {formik.errors.client_id && formik.touched.client_id && (
-                        <div className="invalid-feedback">
-                          {formik.errors.client_id}
-                        </div>
-                      )}
-                    </div>
-                  </Col>
-                </Row>
-                <div className="text-end">
-                  <Link
-                    type="sussbmit"
-                    className="btn btn-danger me-2 "
-                    to={`/sites/`}
-                  >
-                    Cancel
-                  </Link>
-
-                  <button type="submit" className="btn btn-primary">
-                    Submit
-                  </button>
-                </div>
-              </form>
-            </div>
-          </Card>
-        </Col>
-      </Row>
-    </div>
+        <Row className="row-sm">
+          <Col lg={12}>
+            <Card>
+              <Card.Header>
+                <h3 className="card-title">Shop Sales</h3>
+              </Card.Header>
+              <Card.Body>
+                <form onSubmit={formik.handleSubmit}>
+                  <div className="table-responsive deleted-table">
+                    <Row>
+                      <Col lg={6} md={6}>
+                        <DataTable
+                          columns={BussinesModelColumn}
+                          data={BussinesModelData}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </Col>
+                    </Row>
+                  </div>
+                  <div className="d-flex justify-content-end mt-3">
+                    <button className="btn btn-primary" type="submit">
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </>
+    </>
   );
 };
+
 export default withApi(SiteSettings);
