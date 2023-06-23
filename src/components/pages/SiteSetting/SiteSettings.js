@@ -281,47 +281,49 @@ const SiteSettings = (props) => {
       ),
     },
     {
-      name: "Business Model 1",
-      selector: (row) => row.business_model_types[0].model_name,
+      name: "Charge Rent",
+      selector: (row) => row.business_model_types[0].id,
       sortable: false,
       center: true,
       width: "20%",
       cell: (row) => (
         <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.business_model_types[0].model_name}</h6>
+          <div className="ms-auto">
+            <input type="radio" checked={row.business_model_types[0].checked} />
           </div>
         </div>
       ),
     },
     {
-      name: "Business Model 2",
-      selector: (row) => row.business_model_types[1].model_name,
+      name: "Pay Commission",
+      selector: (row) => row.business_model_types[1].id,
       sortable: false,
       center: true,
       width: "20%",
       cell: (row) => (
         <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.business_model_types[1].model_name}</h6>
+          <div className="ms-auto">
+            <input type="radio" checked={row.business_model_types[1].checked} />
           </div>
         </div>
       ),
     },
     {
-      name: "Business Model 3",
-      selector: (row) => row.business_model_types[2].model_name,
+      name: "Direct Managed",
+      selector: (row) => row.business_model_types[2].id,
       sortable: false,
       center: true,
       width: "20%",
       cell: (row) => (
         <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.business_model_types[2].model_name}</h6>
+          <div className="ms-auto">
+            <input type="radio" checked={row.business_model_types[2].checked} />
           </div>
         </div>
       ),
     },
+    
+    
   ];
   
   
