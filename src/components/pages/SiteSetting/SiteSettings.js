@@ -26,6 +26,7 @@ const SiteSettings = (props) => {
   const [data, setData] = useState([]);
   const [DeductionData, setDeductionData] = useState([]);
   const [BussinesModelData, setBussinesModelData] = useState([]);
+  const [CardsModelData, setCardsModelData] = useState([]);
   const [editable, setis_editable] = useState();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -85,10 +86,26 @@ const SiteSettings = (props) => {
 
         const { data } = response;
         if (data) {
-          // setData(data?.data ? data.data.charges : []);
-          // setDeductionData(data?.data ? data.data.deductions : []);
+          setData(data?.data ? data.data.charges : []);
+          setDeductionData(data?.data ? data.data.deductions : []);
           setBussinesModelData(data?.data ? data.data.business_models : []);
+          setCardsModelData(data?.data ? data.data.cards : []);
           setis_editable(data?.data ? data.data : {});
+
+
+          const formValues = data?.data?.charges
+          ? data.data.charges.map((item) => ({
+              id: item.charge_id,
+              charge_value: item.charge_value,
+              // value_per: item.value_per,
+              // Add other properties as needed
+            }))
+          : [];
+
+        // Set the formik values using setFieldValue
+        formik.setFieldValue("data", formValues);
+
+
 
           const BussinesModelValues = data?.data?.business_models
             ? data.data.business_models.map((item) => ({
@@ -101,16 +118,27 @@ const SiteSettings = (props) => {
 
           formik.setFieldValue("business_models", BussinesModelValues);
 
-          // Create an array of deduction form values based on the response data
-          // const deductionFormValues = data?.data?.deductions
-          //   ? data.data.deductions.map((item) => ({
-          //       id: item.deduction_id,
-          //       deduction_value: item.deduction_value,
-          //       // Add other properties as needed
-          //     }))
-          //   : [];
+          const CardsModelValues = data?.data?.cards
+            ? data.data.cards.map((item) => ({
+                id: item.charge_id,
+                card_name: item.card_name,
+                // value_per: item.value_per,
+                // Add other properties as needed
+              }))
+            : [];
 
-          // formik.setFieldValue("deductions", deductionFormValues);
+          formik.setFieldValue("card_models", CardsModelValues);
+
+        
+          const deductionFormValues = data?.data?.deductions
+            ? data.data.deductions.map((item) => ({
+                id: item.deduction_id,
+                deduction_value: item.deduction_value,
+                // Add other properties as needed
+              }))
+            : [];
+
+          formik.setFieldValue("deductions", deductionFormValues);
 
           // Call a function or pass the deductionFormValues array to another component
         }
@@ -185,90 +213,166 @@ const SiteSettings = (props) => {
     onSubmit: handleSubmit,
     // validationSchema: validationSchema,
   });
-  // const chargesColumns = [
-  //   {
-  //     name: "CHARGE GROUPS",
+  const chargesColumns = [
+    {
+      name: "CHARGE GROUPS",
+      width: "40%",
+      selector: (row) => row.charge_name,
+      sortable: true,
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.charge_name}</h6>
+          </div>
+        </div>
+      ),
+    },
 
-  //     selector: (row) => row.charge_name,
-  //     sortable: true,
-  //     cell: (row, index) => (
-  //       <div className="d-flex">
-  //         <div className="ms-2 mt-0 mt-sm-2 d-block">
-  //           <h6 className="mb-0 fs-14 fw-semibold">{row.charge_name}</h6>
-  //         </div>
-  //       </div>
-  //     ),
-  //   },
-
-  //   {
-  //     name: "	SALES AMOUNT",
-  //     selector: (row) => row.charge_value,
-  //     sortable: false,
-  //     width: "50%",
-  //     center: true,
-  //     // Title: "CASH METERED SALES",
-  //     cell: (row, index) => (
-  //       <div>
-  //         <input
-  //           type="number"
-  //           id={`charge_value-${index}`}
-  //           name={`data[${index}].charge_value`}
-  //           className={
-  //             editable?.is_editable ? "table-input " : "table-input readonly "
-  //           }
-  //           value={formik.values?.data[index]?.charge_value}
-  //           onChange={formik.handleChange}
-  //           onBlur={formik.handleBlur}
-  //           readOnly={editable?.is_editable ? false : true}
-  //         />
-  //         {/* Error handling code */}
-  //       </div>
-  //     ),
-  //   },
-  // ];
-  // const deductionsColumns = [
-  //   {
-  //     name: "DEDUCTION GROUPS",
-  //     selector: (row) => row.deduction_name, // Update the selector to use a function
-  //     sortable: true,
-  //     cell: (row, index) => (
-  //       <div className="d-flex">
-  //         <div className="ms-2 mt-0 mt-sm-2 d-block">
-  //           <h6 className="mb-0 fs-14 fw-semibold">{row.deduction_name}</h6>
-  //         </div>
-  //       </div>
-  //     ),
-  //   },
-
-  //   {
-  //     name: "	SALES AMOUNT",
-  //     selector: (row) => row.deduction_value,
-  //     sortable: false,
-  //     width: "50%",
-  //     center: true,
-  //     // Title: "CASH METERED SALES",
-  //     cell: (row, index) => (
-  //       <div>
-  //         <input
-  //           type="number"
-  //           id={`deduction_value-${index}`}
-  //           name={`deductions[${index}].deduction_value`}
-  //           className={
-  //             editable?.is_editable ? "table-input " : "table-input readonly "
-  //           }
-  //           value={formik.values?.deductions?.[index]?.deduction_value || ""}
-  //           onChange={formik.handleChange}
-  //           onBlur={formik.handleBlur}
-  //           // readOnly={editable?.is_editable ? false : true}
-  //         />
-  //         {/* Error handling code */}
-  //       </div>
-  //     ),
-  //   },
-  // ];
-  const BussinesModelColumn = [
+    {
+      name: "Amount",
+      selector: (row) => row.charge_value,
+      sortable: false,
+      width: "20%",
+      center: true,
+      // Title: "CASH METERED SALES",
+      cell: (row, index) => (
+        <div>
+          <input
+            type="number"
+            id={`charge_value-${index}`}
+            name={`data[${index}].charge_value`}
+            className={
+              "table-input"
+            }
+            value={formik.values?.data[index]?.charge_value}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            // readOnly={editable?.is_editable ? false : true}
+          />
+          {/* Error handling code */}
+        </div>
+      ),
+    },
+    {
+      name: "Admin",
+      selector: (row) => row.business_model_types[0].id,
+      sortable: false,
+      center: true,
+      width: "20%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-auto">
+            <input
+              type="radio"
+              name={`radioButton_${index}`}
+              // checked={row.business_model_types[0].checked}
+              onChange={() => handleRadioButtonChange(row, 0)}
+            />
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Operator",
+      selector: (row) => row.business_model_types[1].id,
+      sortable: false,
+      center: true,
+      width: "20%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-auto">
+            <input
+              type="radio"
+              name={`radioButton_${index}`}
+              onChange={() => handleRadioButtonChange(row, 1)}
+            />
+          </div>
+        </div>
+      ),
+    },
+   
+  ];
+  const deductionsColumns = [
     {
       name: "DEDUCTION GROUPS",
+      selector: (row) => row.deduction_name, // Update the selector to use a function
+      sortable: true,
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.deduction_name}</h6>
+          </div>
+        </div>
+      ),
+    },
+
+    {
+      name: "	Amount",
+      selector: (row) => row.charge_value,
+      sortable: false,
+      width: "20%",
+      center: true,
+      // Title: "CASH METERED SALES",
+      cell: (row, index) => (
+        <div>
+          <input
+            type="number"
+            id={`charge_value-${index}`}
+            name={`data[${index}].charge_value`}
+            className={
+              "table-input"
+            }
+            value={formik.values?.data[index]?.charge_value}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            // readOnly={editable?.is_editable ? false : true}
+          />
+          {/* Error handling code */}
+        </div>
+      ),
+    },
+    {
+      name: "Admin",
+      selector: (row) => row.business_model_types[0].id,
+      sortable: false,
+      center: true,
+      width: "20%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-auto">
+            <input
+              type="radio"
+              name={`radioButton_${index}`}
+              // checked={row.business_model_types[0].checked}
+              onChange={() => handleRadioButtonChange(row, 0)}
+            />
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Operator",
+      selector: (row) => row.business_model_types[1].id,
+      sortable: false,
+      center: true,
+      width: "20%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-auto">
+            <input
+              type="radio"
+              name={`radioButton_${index}`}
+              onChange={() => handleRadioButtonChange(row, 1)}
+            />
+          </div>
+        </div>
+      ),
+    },
+  ];
+ 
+  const BussinesModelColumn = [
+    {
+      name: "Business Models",
       selector: (row) => row.item_name,
       sortable: true,
       width: "40%",
@@ -286,10 +390,15 @@ const SiteSettings = (props) => {
       sortable: false,
       center: true,
       width: "20%",
-      cell: (row) => (
+      cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-auto">
-            <input type="radio" checked={row.business_model_types[0].checked} />
+            <input
+              type="radio"
+              name={`radioButton_${index}`}
+              // checked={row.business_model_types[0].checked}
+              onChange={() => handleRadioButtonChange(row, 0)}
+            />
           </div>
         </div>
       ),
@@ -300,10 +409,14 @@ const SiteSettings = (props) => {
       sortable: false,
       center: true,
       width: "20%",
-      cell: (row) => (
+      cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-auto">
-            <input type="radio" checked={row.business_model_types[1].checked} />
+            <input
+              type="radio"
+              name={`radioButton_${index}`}
+              onChange={() => handleRadioButtonChange(row, 1)}
+            />
           </div>
         </div>
       ),
@@ -314,22 +427,76 @@ const SiteSettings = (props) => {
       sortable: false,
       center: true,
       width: "20%",
-      cell: (row) => (
+      cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-auto">
-            <input type="radio" checked={row.business_model_types[2].checked} />
+            <input
+              type="radio"
+              name={`radioButton_${index}`}
+              onChange={() => handleRadioButtonChange(row, 2)}
+            />
           </div>
         </div>
       ),
     },
-    
-    
   ];
-  
-  
-  
-  
-  
+
+  const CardsModelColumn = [
+    {
+      name: "Cards Models",
+      selector: (row) => row.card_name,
+      sortable: true,
+      width: "80%",
+      cell: (row) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.card_name}</h6>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Charge Rent",
+      selector: (row) => row.business_model_types[0].id,
+      sortable: false,
+      center: true,
+      width: "20%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-auto">
+            <input
+              type="radio"
+              name={`radioButton_${index}`}
+              // checked={row.business_model_types[0].checked}
+              onChange={() => handleRadioButtonChange(row, 0)}
+            />
+          </div>
+        </div>
+      ),
+    },
+  ];
+
+  const handleRadioButtonChange = (row, radioButtonIndex) => {
+    const updatedData = [...BussinesModelData];
+
+    if (
+      updatedData[row.index] &&
+      updatedData[row.index].business_model_types &&
+      Array.isArray(updatedData[row.index].business_model_types)
+    ) {
+      const businessModelTypes = updatedData[row.index].business_model_types;
+
+      businessModelTypes.forEach((modelType) => {
+        modelType.checked = false;
+      });
+
+      businessModelTypes[radioButtonIndex].checked = true;
+    } else {
+      console.error("Invalid row or business_model_types property");
+    }
+
+    console.log(updatedData, "updatedData"); // Log the updated data to the console
+  };
 
   return (
     <>
@@ -337,7 +504,7 @@ const SiteSettings = (props) => {
       <>
         <div className="page-header">
           <div>
-            <h1 className="page-title">Edit Site</h1>
+            <h1 className="page-title">Site Settings</h1>
 
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -368,16 +535,60 @@ const SiteSettings = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Shop Sales</h3>
+                <h3 className="card-title">Site Settings</h3>
               </Card.Header>
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
-                  <div className="table-responsive deleted-table">
+                  <div className=" m-4">
                     <Row>
                       <Col lg={6} md={6}>
                         <DataTable
                           columns={BussinesModelColumn}
                           data={BussinesModelData}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </Col>
+                      <Col lg={6} md={6} className="module-height">
+                        <DataTable
+                          columns={CardsModelColumn}
+                          data={CardsModelData}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </Col>
+                    </Row>
+                    <Row className="mt-4">
+                    <Col lg={6} md={6} className="module-height">
+                        <DataTable
+                          columns={chargesColumns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </Col>
+                      <Col lg={6} md={6} className="module-height">
+                        <DataTable
+                          columns={deductionsColumns}
+                          data={DeductionData}
                           noHeader
                           defaultSortField="id"
                           defaultSortAsc={false}
