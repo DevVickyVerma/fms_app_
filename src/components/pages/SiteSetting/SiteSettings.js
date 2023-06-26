@@ -9,6 +9,7 @@ import {
   ListGroup,
   Breadcrumb,
 } from "react-bootstrap";
+
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
@@ -73,30 +74,27 @@ const SiteSettings = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
-
+  
       const axiosInstance = axios.create({
         baseURL: process.env.REACT_APP_BASE_URL,
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
+  
       try {
-        const response = await axiosInstance.get(
-          `/site/get-setting-list/${id}`
-        );
-
+        const response = await axiosInstance.get(`/site/get-setting-list/${id}`);
+  
         const { data } = response;
         if (data) {
           setData(data?.data ? data.data.charges : []);
           setDeductionData(data?.data ? data.data.deductions : []);
           setFuelData(data?.data ? data.data.fuels : []);
           setSiteItems(data?.data ? data.data.site_items : []);
-
           setBussinesModelData(data?.data ? data.data.business_models : []);
           setCardsModelData(data?.data ? data.data.cards : []);
           setis_editable(data?.data ? data.data : {});
-
+  
           const BussinesModelValues = data?.data?.business_models
             ? data.data.business_models.map((item) => ({
                 id: item.id,
@@ -106,7 +104,7 @@ const SiteSettings = (props) => {
               }))
             : [];
           formik.setFieldValue("business_models", BussinesModelValues);
-
+  
           const ChargesModelValues = data?.data?.charges
             ? data.data.charges.map((item) => ({
                 id: item.id,
@@ -114,41 +112,41 @@ const SiteSettings = (props) => {
                 charge_value: item.charge_value,
                 admin: item.admin,
                 operator: item.operator,
-                checked: () => item.checked,
+                checked: item.checked, // Use item.checked directly instead of a function
               }))
             : [];
-
+  
           formik.setFieldValue("data", ChargesModelValues);
-
+  
           const deductionFormValues = DeductionData.map((item) => ({
             id: item.id,
             deduction_value: item.deduction_value,
             deduction_name: item.deduction_name,
             admin: item.admin,
             operator: item.operator,
-            checked: () => item.checked,
+            checked: item.checked, // Use item.checked directly instead of a function
             // Add other properties as needed
           }));
-
+  
           formik.setFieldValue("deductions", deductionFormValues);
+  
           const FuelDataFormValues = fuelData.map((item) => ({
             id: item.id,
             fuel_name: item.fuel_name,
-
-            checked: () => item.checked,
+            checked: item.checked, // Use item.checked directly instead of a function
           }));
-
+  
           formik.setFieldValue("FuelFormik", FuelDataFormValues);
-
+  
           const SiteItemsFormValues = SiteItems.map((item, index) => ({
             id: item.id,
             dept_name: item.dept_name,
             price: item.price,
             checked: index === 0, // Set checked to true for the first item (index 0) and false for the rest
           }));
-
+  
           formik.setFieldValue("SiteItemsFormik", SiteItemsFormValues);
-
+  
           const CardsModelValues = data?.data?.cards
             ? data.data.cards.map((item) => ({
                 id: item.id,
@@ -157,14 +155,16 @@ const SiteSettings = (props) => {
                 // Add other properties as needed
               }))
             : [];
-          formik.setFieldValue("card_models", CardsModelValues);
-
+  
           const initialValues = {
             data: ChargesModelValues,
             deductions: deductionFormValues,
             FuelFormik: FuelDataFormValues,
             SiteItemsFormik: SiteItemsFormValues,
-            card_models: CardsModelValues,
+            cardList: CardsModelValues,
+            FuelList: [],
+            FuessslList: [],
+            vicky: [],
             // Add other initial values if needed
           };
           formik.setValues(initialValues);
@@ -176,15 +176,16 @@ const SiteSettings = (props) => {
         setIsLoading(false);
       }
     };
-
+  
     fetchData();
-  }, [SiteID, ReportDate]);
-
+  }, [id]); // Removed 'SiteID' and 'ReportDate' dependencies as they are not defined in the code snippet
+  
   const handleSubmit = async (values, deductionFormValues) => {
     const token = localStorage.getItem("token");
 
     // Create a new FormData object
     const formData = new FormData();
+    console.log(values,"values")
 
     for (const obj of values.data) {
       const { id, charge_value } = obj;
@@ -200,6 +201,7 @@ const SiteSettings = (props) => {
       formData.append(deductionValueKey, deduction_value);
     }
 
+    formData.append("fuels", SiteID);
     formData.append("site_id", SiteID);
     formData.append("drs_date", ReportDate);
 
@@ -235,10 +237,12 @@ const SiteSettings = (props) => {
 
   const initialValues = {
     data: data,
+  
   };
 
   const formik = useFormik({
     initialValues,
+
     onSubmit: handleSubmit,
     // ... Add other Formik configuration options as needed
   });
@@ -443,7 +447,7 @@ const SiteSettings = (props) => {
       selector: "checked",
       sortable: false,
       center: true,
-      width: "5%",
+      width: "15%",
       cell: (row) => (
         <input type="checkbox" onChange={() => handleCheckboxChange(row)} />
       ),
@@ -465,7 +469,7 @@ const SiteSettings = (props) => {
       name: "Price",
       selector: (row) => row.price,
       sortable: false,
-      width: "20%",
+      width: "30%",
       center: true,
       cell: (row, index) => (
         <div>
@@ -484,25 +488,7 @@ const SiteSettings = (props) => {
         </div>
       ),
     },
-    {
-      name: "Set",
-      selector: (row, index) => row.checked,
-      sortable: false,
-      center: true,
-      width: "20%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-auto">
-            <input
-              type="radio"
-              name={`radioButton_${index}`}
-              // checked={row.checked}
-              onChange={() => handleRadioSiteItemModel(row, index)}
-            />
-          </div>
-        </div>
-      ),
-    },
+  
   ];
 
   const BussinesModelColumn = [
@@ -510,6 +496,7 @@ const SiteSettings = (props) => {
       name: "Business Models",
       selector: (row) => row.item_name,
       sortable: true,
+      
       width: "40%",
       cell: (row) => (
         <div className="d-flex">
@@ -591,21 +578,12 @@ const SiteSettings = (props) => {
   ];
 
   const CardsModelColumn = [
-    {
-      name: "Select",
-      selector: "checked",
-      sortable: false,
-      center: true,
-      width: "5%",
-      cell: (row) => (
-        <input type="checkbox" onChange={() => handlecardCheckboxChange(row)} />
-      ),
-    },
+
     {
       name: "Card Model",
       selector: (row) => row.card_name,
       sortable: true,
-      width: "75%",
+      width: "80%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -615,40 +593,31 @@ const SiteSettings = (props) => {
       ),
     },
     {
-      name: "Charge Rent",
-      selector: (row) => row.id,
-      sortable: false,
-      center: true,
-      width: "20%",
-      cell: (row) => (
-        <div className="d-flex">
-          <div className="ms-auto">
-            <input
-              type="radio"
-              name={`radioButton_${row.id}`}
-              onChange={() => handleRadiocardButtonChange(row)}
-            />
-          </div>
-        </div>
-      ),
-    },
-  ];
-  const FuelsModelColumn = [
-    {
       name: "Select",
       selector: "checked",
       sortable: false,
+      selector: (row) => row.id,
       center: true,
-      width: "5%",
+      width: "20%",
       cell: (row) => (
-        <input type="checkbox" onChange={() => handleCheckboxChange(row)} />
+        <div>
+          <input
+            type="checkbox"
+            onChange={(event) => handlecardCheckboxChange(event, row)}
+          />
+        </div>
       ),
     },
+
+   
+   
+  ];
+  const FuelsModelColumn = [
     {
       name: "Fuel Name",
       selector: (row) => row.fuel_name,
       sortable: true,
-      width: "75%",
+      width: "60%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -658,32 +627,29 @@ const SiteSettings = (props) => {
       ),
     },
     {
-      name: "Set",
-      selector: (row, index) => row.checked,
+      name: "Select",
+     
       sortable: false,
+      selector: (row) => row.id,
       center: true,
-      width: "20%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-auto">
-            <input
-              type="radio"
-              name={`radioButton_${index}`}
-              // checked={row.checked}
-              onChange={() => handleRadioFuelModel(row, index)}
-            />
-          </div>
+      width: "40%",
+      cell: (row) => (
+        <div>
+          <input
+            type="checkbox"
+            onChange={(event) => handlefuelCheckboxChange(event, row)}
+          />
         </div>
       ),
     },
+  
+  
   ];
 
   // Define an array to store the combined objects
   let combinedObjects = [];
 
   const handleRadioBussinessmodel = (row, index) => {
-   
-
     const updatedData = BussinesModelData.map((item) => {
       if (item.id === row.id) {
         const updatedTypes = item.business_model_types.map((model, i) => {
@@ -722,7 +688,7 @@ const SiteSettings = (props) => {
 
       return item;
     });
-
+    formik.setFieldValue("data", updatedData);
     setBussinesModelData(updatedData);
 
     // ... rest of your code ...
@@ -768,12 +734,14 @@ const SiteSettings = (props) => {
   const checkedCardModels = [];
 
   const handleCheckboxChange = (row) => {
+    const checkedCardModels = [...formik.values.cardList]; // Create a copy of the cardList array
     const updatedRow = { ...row, checked: !row.checked };
     const updatedData = CardsModelData.map((item) =>
       item.id === updatedRow.id ? updatedRow : item
     );
-    formik.setFieldValue("card_models", updatedData);
-
+  
+    formik.setFieldValue("cardList", checkedCardModels);
+  
     if (updatedRow.checked) {
       console.log("Card Name (Checked):", updatedRow.card_name);
       console.log("Card ID (Checked):", updatedRow.id);
@@ -783,16 +751,16 @@ const SiteSettings = (props) => {
       console.log("Card Name (Unchecked):", updatedRow.card_name);
       console.log("Card ID (Unchecked):", updatedRow.id);
       // Remove the item from the array
-      const index = checkedCardModels.findIndex(
-        (item) => item.id === updatedRow.id
-      );
+      const index = checkedCardModels.findIndex((item) => item.id === updatedRow.id);
       if (index !== -1) {
         checkedCardModels.splice(index, 1);
       }
     }
-
-    console.log("Checked Card Models Array:", checkedCardModels);
+    
+    formik.setFieldValue("cardList", checkedCardModels);
   };
+  
+  
 
   const handleChargeCheckboxChange = (row) => {
     const newData = formik.values.data.map((item) =>
@@ -800,61 +768,75 @@ const SiteSettings = (props) => {
     );
     formik.setFieldValue("data", newData);
   };
-  const handleRadioFuelModel = (row, index) => {
-    const updatedFuels = formik.values.FuelFormik.map((fuel, i) => {
-      if (i === index) {
-        return {
-          ...fuel,
-          checked: true,
-        };
-      }
-      return {
-        ...fuel,
-        checked: false,
-      };
-    });
 
-    formik.setFieldValue("FuelFormik", updatedFuels);
-  };
-  const handleRadioSiteItemModel = (row, index) => {
-    const updatedSiteItems = SiteItems.map((item, i) => {
-      if (i === index) {
-        return {
-          ...item,
-          checked: true,
-        };
-      }
-      return {
-        ...item,
-        checked: false,
-      };
-    });
+// Define the array to store checked items outside the function scope
+let checkedcardItems = [];
 
-    console.log(updatedSiteItems, "updatedSiteItems");
+const handlecardCheckboxChange = (event, row) => {
+  const isChecked = event.target.checked;
 
-    // Additional logic or state updates can be performed here
-
-    // Updating the Formik field value
-    formik.setFieldValue("SiteItemsFormik", updatedSiteItems);
-  };
-  const handlecardCheckboxChange = (row) => {
-    const isSelected = CardsModelData.some((item) => item.id === row.id);
-    if (isSelected) {
-      // Item already exists, remove it
-      const updatedItems = CardsModelData.filter((item) => item.id !== row.id);
-      console.log(updatedItems); // Log the updated array without updating the state
-    } else {
-      // Item doesn't exist, add it
-      const newItem = { id: row.id, card_name: row.card_name };
-      console.log([...CardsModelData, newItem]); // Log the updated array without updating the state
+  if (isChecked) {
+    // Item is checked, add card_name to the array if it doesn't exist
+    if (!checkedcardItems.includes(row.card_name)) {
+      checkedcardItems.push(row.card_name);
+      console.log(`Added: Card ID: ${row.id}, Card Name: ${row.card_name}`);
+      console.log(checkedcardItems, "checkedcardItems");
     }
-  };
+  } else {
+    // Item is unchecked, remove card_name from the array if it exists
+    const itemIndex = checkedcardItems.indexOf(row.card_name);
+    if (itemIndex !== -1) {
+      checkedcardItems.splice(itemIndex, 1);
+      console.log(checkedcardItems, "checkedcardItems");
+      console.log(`Removed: Card ID: ${row.id}, Card Name: ${row.card_name}`);
+    }
+  }
   
-  
-  
+  const combinedValue = checkedcardItems.join(', '); // Combine items with a delimiter
+  formik.setFieldValue('vicky', combinedValue);
+};
 
 
 
+
+// Log all checked items after changes
+// formik.setFieldValue('vicky', checkedcardItems);
+
+
+
+let checkedfuelItems = [];
+
+
+
+const handlefuelCheckboxChange = (event, row) => {
+  const isChecked = event.target.checked;
+
+  if (isChecked) {
+    // Item is checked, add fuel_name to the array if it doesn't exist
+    if (!checkedfuelItems.includes(row.fuel_name)) {
+      checkedfuelItems.push(row.fuel_name);
+    }
+  } else {
+    // Item is unchecked, remove fuel_name from the array if it exists
+    const itemIndex = checkedfuelItems.indexOf(row.fuel_name);
+    if (itemIndex !== -1) {
+      checkedfuelItems.splice(itemIndex, 1);
+    }
+  }
+
+  // Update the formik values using setFieldValue
+
+
+  console.log(checkedfuelItems, "checkedfuelItems");
+};
+
+
+
+
+
+
+  
+  
 
   return (
     <>
