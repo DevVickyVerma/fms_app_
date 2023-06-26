@@ -18,6 +18,7 @@ import Loaderimg from "../../../Utils/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
+import { Field } from "formik";
 
 const SiteSettings = (props) => {
   const { apidata, error, getData, postData, SiteID, ReportDate } = props;
@@ -28,6 +29,8 @@ const SiteSettings = (props) => {
   const [BussinesModelData, setBussinesModelData] = useState([]);
   const [CardsModelData, setCardsModelData] = useState([]);
   const [editable, setis_editable] = useState();
+  const [fuelData, setFuelData] = useState([]);
+  const [SiteItems, setSiteItems] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -67,7 +70,6 @@ const SiteSettings = (props) => {
   }
 
   const { id } = useParams();
-
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
@@ -88,59 +90,84 @@ const SiteSettings = (props) => {
         if (data) {
           setData(data?.data ? data.data.charges : []);
           setDeductionData(data?.data ? data.data.deductions : []);
+          setFuelData(data?.data ? data.data.fuels : []);
+          setSiteItems(data?.data ? data.data.site_items : []);
+
           setBussinesModelData(data?.data ? data.data.business_models : []);
           setCardsModelData(data?.data ? data.data.cards : []);
           setis_editable(data?.data ? data.data : {});
 
-
-          const formValues = data?.data?.charges
-          ? data.data.charges.map((item) => ({
-              id: item.charge_id,
-              charge_value: item.charge_value,
-              // value_per: item.value_per,
-              // Add other properties as needed
-            }))
-          : [];
-
-        // Set the formik values using setFieldValue
-        formik.setFieldValue("data", formValues);
-
-
-
           const BussinesModelValues = data?.data?.business_models
             ? data.data.business_models.map((item) => ({
-                id: item.charge_id,
+                id: item.id,
                 BussinesModelName_name: item.item_name,
                 // value_per: item.value_per,
                 // Add other properties as needed
               }))
             : [];
-
           formik.setFieldValue("business_models", BussinesModelValues);
+
+          const ChargesModelValues = data?.data?.charges
+            ? data.data.charges.map((item) => ({
+                id: item.id,
+                charge_name: item.charge_name,
+                charge_value: item.charge_value,
+                admin: item.admin,
+                operator: item.operator,
+                checked: () => item.checked,
+              }))
+            : [];
+
+          formik.setFieldValue("data", ChargesModelValues);
+
+          const deductionFormValues = DeductionData.map((item) => ({
+            id: item.id,
+            deduction_value: item.deduction_value,
+            deduction_name: item.deduction_name,
+            admin: item.admin,
+            operator: item.operator,
+            checked: () => item.checked,
+            // Add other properties as needed
+          }));
+
+          formik.setFieldValue("deductions", deductionFormValues);
+          const FuelDataFormValues = fuelData.map((item) => ({
+            id: item.id,
+            fuel_name: item.fuel_name,
+
+            checked: () => item.checked,
+          }));
+
+          formik.setFieldValue("FuelFormik", FuelDataFormValues);
+
+          const SiteItemsFormValues = SiteItems.map((item, index) => ({
+            id: item.id,
+            dept_name: item.dept_name,
+            price: item.price,
+            checked: index === 0, // Set checked to true for the first item (index 0) and false for the rest
+          }));
+
+          formik.setFieldValue("SiteItemsFormik", SiteItemsFormValues);
 
           const CardsModelValues = data?.data?.cards
             ? data.data.cards.map((item) => ({
-                id: item.charge_id,
+                id: item.id,
                 card_name: item.card_name,
                 // value_per: item.value_per,
                 // Add other properties as needed
               }))
             : [];
-
           formik.setFieldValue("card_models", CardsModelValues);
 
-        
-          const deductionFormValues = data?.data?.deductions
-            ? data.data.deductions.map((item) => ({
-                id: item.deduction_id,
-                deduction_value: item.deduction_value,
-                // Add other properties as needed
-              }))
-            : [];
-
-          formik.setFieldValue("deductions", deductionFormValues);
-
-          // Call a function or pass the deductionFormValues array to another component
+          const initialValues = {
+            data: ChargesModelValues,
+            deductions: deductionFormValues,
+            FuelFormik: FuelDataFormValues,
+            SiteItemsFormik: SiteItemsFormValues,
+            card_models: CardsModelValues,
+            // Add other initial values if needed
+          };
+          formik.setValues(initialValues);
         }
       } catch (error) {
         console.error("API error:", error);
@@ -206,14 +233,30 @@ const SiteSettings = (props) => {
     }
   };
 
+  const initialValues = {
+    data: data,
+  };
+
   const formik = useFormik({
-    initialValues: {
-      data: data,
-    },
+    initialValues,
     onSubmit: handleSubmit,
-    // validationSchema: validationSchema,
+    // ... Add other Formik configuration options as needed
   });
+
   const chargesColumns = [
+    {
+      name: "Select",
+      selector: "checked",
+      sortable: false,
+      center: true,
+      width: "5%",
+      cell: (row) => (
+        <input
+          type="checkbox"
+          onChange={() => handleChargeCheckboxChange(row)}
+        />
+      ),
+    },
     {
       name: "CHARGE GROUPS",
       width: "40%",
@@ -227,23 +270,19 @@ const SiteSettings = (props) => {
         </div>
       ),
     },
-
     {
       name: "Amount",
       selector: (row) => row.charge_value,
       sortable: false,
       width: "20%",
       center: true,
-      // Title: "CASH METERED SALES",
       cell: (row, index) => (
         <div>
           <input
             type="number"
             id={`charge_value-${index}`}
             name={`data[${index}].charge_value`}
-            className={
-              "table-input"
-            }
+            className={"table-input"}
             value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -255,7 +294,7 @@ const SiteSettings = (props) => {
     },
     {
       name: "Admin",
-      selector: (row) => row.business_model_types[0].id,
+      selector: (row) => row.admin,
       sortable: false,
       center: true,
       width: "20%",
@@ -265,8 +304,7 @@ const SiteSettings = (props) => {
             <input
               type="radio"
               name={`radioButton_${index}`}
-              // checked={row.business_model_types[0].checked}
-              onChange={() => handleRadioButtonChange(row, 0)}
+              onChange={() => handleRadiochargesmodel(row, 0)}
             />
           </div>
         </div>
@@ -274,7 +312,7 @@ const SiteSettings = (props) => {
     },
     {
       name: "Operator",
-      selector: (row) => row.business_model_types[1].id,
+      selector: (row) => row.operator,
       sortable: false,
       center: true,
       width: "20%",
@@ -284,18 +322,49 @@ const SiteSettings = (props) => {
             <input
               type="radio"
               name={`radioButton_${index}`}
-              onChange={() => handleRadioButtonChange(row, 1)}
+              onChange={() => handleRadiochargesmodel(row, 1)}
             />
           </div>
         </div>
       ),
     },
-   
   ];
+  const handleRadiochargesmodel = (row, value) => {
+    const updatedData = formik.values.data.map((item) => {
+      if (item.id === row.id) {
+        const updatedItem = {
+          ...item,
+          admin: value === 0 ? "true" : "false",
+          operator: value === 1 ? "true" : "false",
+        };
+        console.log(updatedItem); // Log the clicked item value
+        return updatedItem;
+      }
+      return item;
+    });
+
+    formik.setFieldValue("data", updatedData);
+  };
+
+  // Rest of your code
+
   const deductionsColumns = [
     {
+      name: "Select",
+      selector: "checked",
+      sortable: false,
+      center: true,
+      width: "5%",
+      cell: (row) => (
+        <input
+          type="checkbox"
+          onChange={() => handleChargeCheckboxChange(row)}
+        />
+      ),
+    },
+    {
       name: "DEDUCTION GROUPS",
-      selector: (row) => row.deduction_name, // Update the selector to use a function
+      selector: (row) => row.deduction_name,
       sortable: true,
       cell: (row, index) => (
         <div className="d-flex">
@@ -305,24 +374,108 @@ const SiteSettings = (props) => {
         </div>
       ),
     },
-
     {
-      name: "	Amount",
-      selector: (row) => row.charge_value,
+      name: "Amount",
+      selector: (row) => row.deduction_value,
       sortable: false,
       width: "20%",
       center: true,
-      // Title: "CASH METERED SALES",
       cell: (row, index) => (
         <div>
           <input
             type="number"
-            id={`charge_value-${index}`}
-            name={`data[${index}].charge_value`}
-            className={
-              "table-input"
-            }
-            value={formik.values?.data[index]?.charge_value}
+            id={`deduction_value-${index}`}
+            name={`deductions[${index}].deduction_value`}
+            className="table-input"
+            value={formik.values?.deductions?.[index]?.deduction_value ?? 0}
+            // value={formik.values?.data[index]?.charge_value}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            // readOnly={editable?.is_editable ? false : true}
+          />
+          {/* Error handling code */}
+        </div>
+      ),
+    },
+
+    {
+      name: "Admin",
+      selector: (row) => row.business_model_types?.[0]?.id,
+      sortable: false,
+      center: true,
+      width: "20%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-auto">
+            <input
+              type="radio"
+              name={`radioButton_${index}`}
+              checked={row.business_model_types?.[0]?.checked}
+              onChange={() => handleRadioDeductionsModel(row, 0)}
+            />
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Operator",
+      selector: (row) => row.business_model_types?.[1]?.id,
+      sortable: false,
+      center: true,
+      width: "20%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-auto">
+            <input
+              type="radio"
+              name={`radioButton_${index}`}
+              checked={row.business_model_types?.[1]?.checked}
+              onChange={() => handleRadioDeductionsModel(row, 1)}
+            />
+          </div>
+        </div>
+      ),
+    },
+  ];
+  const SiteItemsColumn = [
+    {
+      name: "Select",
+      selector: "checked",
+      sortable: false,
+      center: true,
+      width: "5%",
+      cell: (row) => (
+        <input type="checkbox" onChange={() => handleCheckboxChange(row)} />
+      ),
+    },
+    {
+      name: "Department Name",
+      selector: (row) => row.dept_name,
+      sortable: true,
+      width: "55%",
+      cell: (row) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.dept_name}</h6>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Price",
+      selector: (row) => row.price,
+      sortable: false,
+      width: "20%",
+      center: true,
+      cell: (row, index) => (
+        <div>
+          <input
+            type="number"
+            id={`price-${index}`}
+            name={`SiteItemsFormik[${index}].price`}
+            className="table-input"
+            value={formik.values?.SiteItemsFormik?.[index]?.price ?? 0}
+            // value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             // readOnly={editable?.is_editable ? false : true}
@@ -332,8 +485,8 @@ const SiteSettings = (props) => {
       ),
     },
     {
-      name: "Admin",
-      selector: (row) => row.business_model_types[0].id,
+      name: "Set",
+      selector: (row, index) => row.checked,
       sortable: false,
       center: true,
       width: "20%",
@@ -343,33 +496,15 @@ const SiteSettings = (props) => {
             <input
               type="radio"
               name={`radioButton_${index}`}
-              // checked={row.business_model_types[0].checked}
-              onChange={() => handleRadioButtonChange(row, 0)}
-            />
-          </div>
-        </div>
-      ),
-    },
-    {
-      name: "Operator",
-      selector: (row) => row.business_model_types[1].id,
-      sortable: false,
-      center: true,
-      width: "20%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-auto">
-            <input
-              type="radio"
-              name={`radioButton_${index}`}
-              onChange={() => handleRadioButtonChange(row, 1)}
+              // checked={row.checked}
+              onChange={() => handleRadioSiteItemModel(row, index)}
             />
           </div>
         </div>
       ),
     },
   ];
- 
+
   const BussinesModelColumn = [
     {
       name: "Business Models",
@@ -395,9 +530,13 @@ const SiteSettings = (props) => {
           <div className="ms-auto">
             <input
               type="radio"
-              name={`radioButton_${index}`}
-              // checked={row.business_model_types[0].checked}
-              onChange={() => handleRadioButtonChange(row, 0)}
+              name={`radioButton_${row.id}_${index}`}
+              checked={
+                row.business_model_types &&
+                row.business_model_types[0] &&
+                row.business_model_types[0].checked
+              }
+              onChange={() => handleRadioBussinessmodel(row, 0)}
             />
           </div>
         </div>
@@ -414,8 +553,13 @@ const SiteSettings = (props) => {
           <div className="ms-auto">
             <input
               type="radio"
-              name={`radioButton_${index}`}
-              onChange={() => handleRadioButtonChange(row, 1)}
+              name={`radioButton_${row.id}_${index}`}
+              checked={
+                row.business_model_types &&
+                row.business_model_types[1] &&
+                row.business_model_types[1].checked
+              }
+              onChange={() => handleRadioBussinessmodel(row, 1)}
             />
           </div>
         </div>
@@ -432,8 +576,13 @@ const SiteSettings = (props) => {
           <div className="ms-auto">
             <input
               type="radio"
-              name={`radioButton_${index}`}
-              onChange={() => handleRadioButtonChange(row, 2)}
+              name={`radioButton_${row.id}_${index}`}
+              checked={
+                row.business_model_types &&
+                row.business_model_types[2] &&
+                row.business_model_types[2].checked
+              }
+              onChange={() => handleRadioBussinessmodel(row, 2)}
             />
           </div>
         </div>
@@ -443,10 +592,20 @@ const SiteSettings = (props) => {
 
   const CardsModelColumn = [
     {
-      name: "Cards Models",
+      name: "Select",
+      selector: "checked",
+      sortable: false,
+      center: true,
+      width: "5%",
+      cell: (row) => (
+        <input type="checkbox" onChange={() => handlecardCheckboxChange(row)} />
+      ),
+    },
+    {
+      name: "Card Model",
       selector: (row) => row.card_name,
       sortable: true,
-      width: "80%",
+      width: "75%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -457,7 +616,50 @@ const SiteSettings = (props) => {
     },
     {
       name: "Charge Rent",
-      selector: (row) => row.business_model_types[0].id,
+      selector: (row) => row.id,
+      sortable: false,
+      center: true,
+      width: "20%",
+      cell: (row) => (
+        <div className="d-flex">
+          <div className="ms-auto">
+            <input
+              type="radio"
+              name={`radioButton_${row.id}`}
+              onChange={() => handleRadiocardButtonChange(row)}
+            />
+          </div>
+        </div>
+      ),
+    },
+  ];
+  const FuelsModelColumn = [
+    {
+      name: "Select",
+      selector: "checked",
+      sortable: false,
+      center: true,
+      width: "5%",
+      cell: (row) => (
+        <input type="checkbox" onChange={() => handleCheckboxChange(row)} />
+      ),
+    },
+    {
+      name: "Fuel Name",
+      selector: (row) => row.fuel_name,
+      sortable: true,
+      width: "75%",
+      cell: (row) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.fuel_name}</h6>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Set",
+      selector: (row, index) => row.checked,
       sortable: false,
       center: true,
       width: "20%",
@@ -467,8 +669,8 @@ const SiteSettings = (props) => {
             <input
               type="radio"
               name={`radioButton_${index}`}
-              // checked={row.business_model_types[0].checked}
-              onChange={() => handleRadioButtonChange(row, 0)}
+              // checked={row.checked}
+              onChange={() => handleRadioFuelModel(row, index)}
             />
           </div>
         </div>
@@ -476,27 +678,183 @@ const SiteSettings = (props) => {
     },
   ];
 
-  const handleRadioButtonChange = (row, radioButtonIndex) => {
-    const updatedData = [...BussinesModelData];
+  // Define an array to store the combined objects
+  let combinedObjects = [];
 
-    if (
-      updatedData[row.index] &&
-      updatedData[row.index].business_model_types &&
-      Array.isArray(updatedData[row.index].business_model_types)
-    ) {
-      const businessModelTypes = updatedData[row.index].business_model_types;
+  const handleRadioBussinessmodel = (row, index) => {
+   
 
-      businessModelTypes.forEach((modelType) => {
-        modelType.checked = false;
+    const updatedData = BussinesModelData.map((item) => {
+      if (item.id === row.id) {
+        const updatedTypes = item.business_model_types.map((model, i) => {
+          const isChecked = i === index;
+          if (isChecked !== model.checked) {
+            // Toggle the checked property if it's different from isChecked
+            return {
+              ...model,
+              checked: isChecked,
+            };
+          }
+          return model;
+        });
+
+        // Filter and push the checked types to the array
+        const checkedTypes = updatedTypes
+          .filter((model) => model.checked)
+          .map((model) => ({
+            item_name: row.item_name,
+            id: row.id,
+            model_name: model.model_name, // Add the model_name property
+            model_id: model.id, // Add the model_id property
+          }));
+
+        // Combine the checkedTypes array with the existing combinedObjects array
+        combinedObjects = [...combinedObjects, ...checkedTypes];
+
+        console.log("Combined Objects:", combinedObjects);
+        console.log(typeof combinedObjects);
+
+        return {
+          ...item,
+          business_model_types: updatedTypes,
+        };
+      }
+
+      return item;
+    });
+
+    setBussinesModelData(updatedData);
+
+    // ... rest of your code ...
+  };
+
+  const handleRadiocardButtonChange = (row, index) => {
+    console.log(`Card ID: ${row.id}, Card Name: ${row.card_name}`);
+
+    const updatedData = CardsModelData.map((item, i) => {
+      const isChecked = i === index;
+
+      return {
+        ...item,
+        checked: isChecked,
+      };
+    });
+
+    formik.setFieldValue("card_models", updatedData);
+  };
+  const handleRadioDeductionsModel = (row, value) => {
+    const deductions = formik.values?.deductions;
+
+    if (deductions && Array.isArray(deductions)) {
+      const updatedDeductions = deductions.map((item) => {
+        if (item.id === row.id) {
+          return {
+            ...item,
+            admin: value === 0 ? "true" : "false",
+            operator: value === 1 ? "true" : "false",
+            deduction_value:
+              item.deduction_value === null ? 0 : item.deduction_value,
+          };
+        }
+        return item;
       });
-
-      businessModelTypes[radioButtonIndex].checked = true;
-    } else {
-      console.error("Invalid row or business_model_types property");
+      console.log(updatedDeductions, "updatedDeductions");
+      formik.setFieldValue("deductions", updatedDeductions);
     }
 
-    console.log(updatedData, "updatedData"); // Log the updated data to the console
+    // Rest of the code...
   };
+
+  const checkedCardModels = [];
+
+  const handleCheckboxChange = (row) => {
+    const updatedRow = { ...row, checked: !row.checked };
+    const updatedData = CardsModelData.map((item) =>
+      item.id === updatedRow.id ? updatedRow : item
+    );
+    formik.setFieldValue("card_models", updatedData);
+
+    if (updatedRow.checked) {
+      console.log("Card Name (Checked):", updatedRow.card_name);
+      console.log("Card ID (Checked):", updatedRow.id);
+      // Push the item to the array
+      checkedCardModels.push(updatedRow);
+    } else {
+      console.log("Card Name (Unchecked):", updatedRow.card_name);
+      console.log("Card ID (Unchecked):", updatedRow.id);
+      // Remove the item from the array
+      const index = checkedCardModels.findIndex(
+        (item) => item.id === updatedRow.id
+      );
+      if (index !== -1) {
+        checkedCardModels.splice(index, 1);
+      }
+    }
+
+    console.log("Checked Card Models Array:", checkedCardModels);
+  };
+
+  const handleChargeCheckboxChange = (row) => {
+    const newData = formik.values.data.map((item) =>
+      item.id === row.id ? { ...item, checked: !item.checked } : item
+    );
+    formik.setFieldValue("data", newData);
+  };
+  const handleRadioFuelModel = (row, index) => {
+    const updatedFuels = formik.values.FuelFormik.map((fuel, i) => {
+      if (i === index) {
+        return {
+          ...fuel,
+          checked: true,
+        };
+      }
+      return {
+        ...fuel,
+        checked: false,
+      };
+    });
+
+    formik.setFieldValue("FuelFormik", updatedFuels);
+  };
+  const handleRadioSiteItemModel = (row, index) => {
+    const updatedSiteItems = SiteItems.map((item, i) => {
+      if (i === index) {
+        return {
+          ...item,
+          checked: true,
+        };
+      }
+      return {
+        ...item,
+        checked: false,
+      };
+    });
+
+    console.log(updatedSiteItems, "updatedSiteItems");
+
+    // Additional logic or state updates can be performed here
+
+    // Updating the Formik field value
+    formik.setFieldValue("SiteItemsFormik", updatedSiteItems);
+  };
+  const handlecardCheckboxChange = (row) => {
+    const isSelected = CardsModelData.some((item) => item.id === row.id);
+    if (isSelected) {
+      // Item already exists, remove it
+      const updatedItems = CardsModelData.filter((item) => item.id !== row.id);
+      console.log(updatedItems); // Log the updated array without updating the state
+    } else {
+      // Item doesn't exist, add it
+      const newItem = { id: row.id, card_name: row.card_name };
+      console.log([...CardsModelData, newItem]); // Log the updated array without updating the state
+    }
+  };
+  
+  
+  
+
+
+
 
   return (
     <>
@@ -571,7 +929,7 @@ const SiteSettings = (props) => {
                       </Col>
                     </Row>
                     <Row className="mt-4">
-                    <Col lg={6} md={6} className="module-height">
+                      <Col lg={6} md={6} className="module-height">
                         <DataTable
                           columns={chargesColumns}
                           data={data}
@@ -589,6 +947,36 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={deductionsColumns}
                           data={DeductionData}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </Col>{" "}
+                    </Row>
+                    <Row className="mt-4">
+                      <Col lg={8} md={8} className="module-height">
+                        <DataTable
+                          columns={SiteItemsColumn}
+                          data={SiteItems}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </Col>
+                      <Col lg={4} md={4} className="module-height">
+                        <DataTable
+                          columns={FuelsModelColumn}
+                          data={fuelData}
                           noHeader
                           defaultSortField="id"
                           defaultSortAsc={false}

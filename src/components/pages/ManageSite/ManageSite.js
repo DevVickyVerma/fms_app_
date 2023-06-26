@@ -63,13 +63,7 @@ const ManageSite = (props) => {
     }
   }
 
-  // const Loaderimg = () => {
-  //   return (
-  //     <div id="global-loader">
-  //       <loderdata.Loadersbigsizes1 />
-  //     </div>
-  //   );
-  // };
+
 
   const handleToggleSidebar = async (row) => {
     await getSiteDetails(row);
