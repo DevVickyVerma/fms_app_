@@ -87,14 +87,14 @@ const ManageReports = (props) => {
       let postDataUrl;
 
       if (formValues.report === "DSMR") {
-        postDataUrl = `report/stock-loss?${commonParams}`;
+        postDataUrl = `/report/stock-loss?${commonParams}`;
       } else if (formValues.report === "HTCCRR") {
-        postDataUrl = `report/card-reco-essar?${commonParams}`;
+        postDataUrl = `/report/card-reco-essar?${commonParams}`;
       } else if (formValues.report === "DSRR") {
-        postDataUrl = `report/cldo?${commonParams}`;
+        postDataUrl = `/report/cldo?${commonParams}`;
       } else if (formValues.report === "MSR") {
-        postDataUrl = `report/msr?${commonParams}`;
-      }else {
+        postDataUrl = `/report/msr?${commonParams}`;
+      } else {
         postDataUrl = "shop/add-default";
       }
 
@@ -103,7 +103,7 @@ const ManageReports = (props) => {
 
       if (response.status == 200) {
         setShowButton(true);
-         console.log(response,"response"); // Console log the response
+        console.log(response, "response"); // Console log the response
         setReportDownloadUrl(postDataUrl);
       }
       if (apidata.api_response === "success") {
@@ -477,11 +477,12 @@ const ManageReports = (props) => {
                           <button
                             onClick={() => {
                               window.open(
-                                "http://192.168.1.112:8000/v1/" +
+                                process.env.REACT_APP_BASE_URL +
                                   ReportDownloadUrl,
                                 "_blank",
                                 "noopener noreferrer"
                               );
+
                               console.log(
                                 ReportDownloadUrl,
                                 "ReportDownloadUrl"
@@ -490,9 +491,7 @@ const ManageReports = (props) => {
                             className="btn btn-danger me-2"
                             type="button"
                           >
-                            {/* <span>
-    <UploadFileIcon />
-  </span> */}
+      
                             Download Report
                           </button>
                         ) : (
