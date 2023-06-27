@@ -35,6 +35,7 @@ import CashBanking from "../DRSComponents/CashBanking";
 import BankDeposit from "../DRSComponents/BankDeposit";
 import DepartmentShop from "../DRSComponents/DepartmentShop";
 import CreditCardBanking from "../DRSComponents/CreditCardBanking";
+import Summary from "../DRSComponents/Summary";
 
 
 const ManageDsr = (props) => {
@@ -536,7 +537,9 @@ const ManageDsr = (props) => {
           <DepartmentShop SiteID={PropsSiteId} ReportDate={PropsDate} />
         ): UploadTabname === "Credit Card Banking" ? (
           <CreditCardBanking SiteID={PropsSiteId} ReportDate={PropsDate} />
-        ) : null
+        ): UploadTabname === "Summary" ? (
+          <Summary SiteID={PropsSiteId} ReportDate={PropsDate} />
+        )  : null
         
         
      
