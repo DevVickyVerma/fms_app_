@@ -71,9 +71,9 @@ const DepartmentShop = (props) => {
 
         const { data } = response;
         if (data) {
-          setData(data.data);
+          setData(data.data.takings);
 
-          console.log(data.data, "formVdddalues");
+          console.log(data.data.takings, "formVdddalues");
         }
       } catch (error) {
         console.error("API error:", error);

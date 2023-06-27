@@ -489,9 +489,13 @@ const CoffeeValet = (props) => {
                     </DataTableExtensions>
                   </div>
                   <div className="d-flex justify-content-end mt-3">
-                    <button className="btn btn-primary" type="submit">
+                  {editable?
+                  <button className="btn btn-primary" type="submit" disabled>
+                      Submit
+                    </button>: <button className="btn btn-primary" type="submit">
                       Submit
                     </button>
+                 }
                   </div>
                 </form>
               </Card.Body>

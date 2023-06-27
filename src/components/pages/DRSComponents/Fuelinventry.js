@@ -15,6 +15,8 @@ const FuelInventry = (props) => {
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
   const [editable, setis_editable] = useState();
+  const [CombinedVarianceData, setCombinedVarianceData] = useState([]);
+  const [VarianceDataa, setVarianceDataa] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
   
@@ -76,6 +78,8 @@ const FuelInventry = (props) => {
         const { data } = response;
         if (data) {
           setData(data?.data?.listing ? data.data.listing : []);
+          setCombinedVarianceData(data?.data ? data.data.combined_variance_data : []);
+          setVarianceDataa(data?.data ? data.data.variance_data : []);
           setis_editable(data?.data ? data.data : {});
           
         //   {
@@ -114,6 +118,27 @@ const FuelInventry = (props) => {
               };
             })
           : [];
+
+          const Combinedvariancedata = data?.data?.combined_variance_data
+          ? data.data.combined_variance_data.map((item) => ({
+            description: item.description,
+            variance: item.variance,
+              // Add other properties as needed
+            }))
+          : [];
+          formik.setFieldValue("Combinedvariance", Combinedvariancedata);
+
+          const Variancedata = data?.data?.variance_data
+          ? data.data.variance_data.map((item) => ({
+            description: item.description,
+            variance: item.variance,
+            due_sales: item.due_sales,
+            sale_value: item.sale_value,
+              // Add other properties as needed
+            }))
+          : [];
+          formik.setFieldValue("Variancedataformik", Variancedata);
+
         
 
           // Set the formik values using setFieldValue
@@ -549,6 +574,143 @@ const FuelInventry = (props) => {
 
     // ... remaining columns
   ];
+  const CombinedVarianceColumns = [
+    {
+      name: "DESCRIPTION",
+      selector: (row) => row.description, // Update the selector to use a function
+      sortable: true,
+      width: "50%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.description}</h6>
+          </div>
+        </div>
+      ),
+    },
+    
+
+    {
+      name: "VARIANCE",
+      selector: (row) => row.variance,
+      sortable: false,
+      width: "50%",
+      center: true,
+      // Title: "CASH METERED SALES",
+      cell: (row, index) => (
+        <div>
+          <input
+            type="number"
+            id={`variance-${index}`}
+            name={`Combinedvariance[${index}].variance`}
+            className={
+              editable?.is_editable ? "table-input " : "table-input readonly "
+            }
+            value={formik.values?.Combinedvariance?.[index]?.variance || ''}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            // readOnly={editable?.is_editable ? false : true}
+          />
+          {/* Error handling code */}
+        </div>
+      ),
+    },
+ 
+  ];
+  const VarianceColumns = [
+    {
+      name: "DESCRIPTION",
+      selector: (row) => row.description, // Update the selector to use a function
+      sortable: true,
+      width: "25%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.description}</h6>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "VARIANCE",
+      selector: (row) => row.variance,
+      sortable: false,
+      width: "25%",
+      center: true,
+      // Title: "CASH METERED SALES",
+      cell: (row, index) => (
+        <div>
+          <input
+            type="number"
+            id={`variance-${index}`}
+            name={`Variancedataformik[${index}].variance`}
+            className={
+              editable?.is_editable ? "table-input " : "table-input readonly "
+            }
+            value={formik.values?.Variancedataformik?.[index]?.variance || ''}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            // readOnly={editable?.is_editable ? false : true}
+          />
+          {/* Error handling code */}
+        </div>
+      ),
+    },
+    
+
+    {
+      name: "DUE SALES",
+      selector: (row) => row.due_sales,
+      sortable: false,
+      width: "25%",
+      center: true,
+      // Title: "CASH METERED SALES",
+      cell: (row, index) => (
+        <div>
+          <input
+            type="number"
+            id={`due_sales-${index}`}
+            name={`Variancedataformik[${index}].due_sales`}
+            className={
+              editable?.is_editable ? "table-input " : "table-input readonly "
+            }
+            value={formik.values?.Variancedataformik?.[index]?.due_sales || ''}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            // readOnly={editable?.is_editable ? false : true}
+          />
+          {/* Error handling code */}
+        </div>
+      ),
+    },
+    {
+      name: "SALE VALUE",
+      selector: (row) => row.sale_value,
+      sortable: false,
+      width: "25%",
+      center: true,
+      // Title: "CASH METERED SALES",
+      cell: (row, index) => (
+        <div>
+          <input
+            type="number"
+            id={`sale_value-${index}`}
+            name={`Variancedataformik[${index}].sale_value`}
+            className={
+              editable?.is_editable ? "table-input " : "table-input readonly "
+            }
+            value={formik.values?.Variancedataformik?.[index]?.sale_value || ''}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            // readOnly={editable?.is_editable ? false : true}
+          />
+          {/* Error handling code */}
+        </div>
+      ),
+    },
+   
+ 
+  ];
 
   const tableDatas = {
     columns,
@@ -576,7 +738,10 @@ const FuelInventry = (props) => {
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
                   <div className="table-responsive deleted-table">
-                    <DataTableExtensions {...tableDatas}>
+
+                  <Row>
+                   
+                      <Col lg={12} md={12}>
                       <DataTable
                         columns={columns}
                         data={data}
@@ -588,12 +753,69 @@ const FuelInventry = (props) => {
                         highlightOnHover
                         searchable={false}
                       />
-                    </DataTableExtensions>
+                      </Col>
+                    </Row>
+                    
+                    <Row className="mt-4">
+                    <Card>
+              <Card.Header>
+                <h3 className="card-title">Variance for Report</h3>
+              </Card.Header>
+              <Card.Body>
+                      <Col lg={8} md={8}>
+                        <DataTable
+                          columns={VarianceColumns}
+                          data={VarianceDataa}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </Col>
+                      </Card.Body>
+                      </Card>
+                      </Row>
+                      <Row>
+                      <Card>
+              <Card.Header>
+                <h3 className="card-title">Combined Variance</h3>
+              </Card.Header>
+              <Card.Body>
+                      
+                      <Col lg={6} md={6}>
+                        <DataTable
+                          columns={CombinedVarianceColumns}
+                          data={CombinedVarianceData}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </Col>
+                      </Card.Body>
+                      </Card>
+                    </Row>
+               
                   </div>
                   <div className="d-flex justify-content-end mt-3">
-                    <button className="btn btn-primary" type="submit">
+                  {/* className={
+                editable?.is_editable ? "table-input" : "table-input readonly"
+              } */}
+                 {editable?
+                  <button className="btn btn-primary" type="submit" disabled>
+                      Submit
+                    </button>: <button className="btn btn-primary" type="submit">
                       Submit
                     </button>
+                 }
                   </div>
                 </form>
               </Card.Body>

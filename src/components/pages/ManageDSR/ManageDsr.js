@@ -539,9 +539,10 @@ const ManageDsr = (props) => {
         ) : null
         
         
-        
+     
         
         }
+        <FuelInventry SiteID={PropsSiteId} ReportDate={PropsDate} />
       
       </>
     
