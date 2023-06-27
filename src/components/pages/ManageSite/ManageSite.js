@@ -26,6 +26,7 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const ManageSite = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -258,7 +259,7 @@ const ManageSite = (props) => {
       name: " Client",
       selector: (row) => [row.site_name],
       sortable: false,
-      width: "20%",
+      width: "12%",
       cell: (row, index) => {
         try {
           return (
@@ -371,7 +372,7 @@ const ManageSite = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "15%",
+      width: "23%",
       cell: (row) => (
         <span className="text-center">
           {isEditPermissionAvailable ? (
@@ -383,18 +384,10 @@ const ManageSite = (props) => {
                 to={`/site-setting/${row.id}`}
                 className="btn btn-primary btn-sm rounded-11 me-2"
               >
-                <i>
-                  <svg
-                    className="table-edit"
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    width="16"
-                  >
-                    <path d="M0 0h24v24H0V0z" fill="none" />
-                    <path d="M20.71 12.04l-1.85-.14c-.26-.84-.71-1.62-1.34-2.26l1.12-1.69c.28-.42.21-1-.18-1.36l-1.57-1.57c-.36-.36-.94-.45-1.36-.18l-1.69 1.12c-.63-.63-1.42-1.08-2.26-1.34l-.14-1.85C12.07 2.09 11.52 2 11 2s-1.07.09-1.57.29l-.14 1.85c-.84.26-1.62.71-2.26 1.34L5.12 4.82c-.42-.28-1-.21-1.36.18L2.19 6.57c-.36.36-.45.94-.18 1.36l1.12 1.69c-.63.63-1.08 1.42-1.34 2.26l-1.85.14C.09 11.93 0 12.48 0 13s.09 1.07.29 1.57l1.85.14c.26.84.71 1.62 1.34 2.26l-1.12 1.69c-.28.42-.21 1 .18 1.36l1.57 1.57c.36.36.94.45 1.36.18l1.69-1.12c.63.63 1.42 1.08 2.26 1.34l.14 1.85C10.93 21.91 11.48 22 12 22s1.07-.09 1.57-.29l.14-1.85c.84-.26 1.62-.71 2.26-1.34l1.69 1.12c.42.28 1 .21 1.36-.18l1.57-1.57c.36-.36.45-.94.18-1.36l-1.12-1.69c.63-.63 1.08-1.42 1.34-2.26l1.85-.14c.2-.5.29-1.05.29-1.57s-.09-1.07-.29-1.57zm-9.71 3.96c-1.55 0-2.96-.63-3.96-1.65-.98-1.02-1.55-2.4-1.55-3.86s.57-2.84 1.55-3.86C7.25 4.63 8.66 4 10.21 4c1.55 0 2.96.63 3.96 1.65.98 1.02 1.55 2.4 1.55 3.86s-.57 2.84-1.55 3.86c-1 .99-2.41 1.65-3.96 1.65z" />
-                  </svg>
-                </i>
+               <i className="setting-icon">
+               <SettingsIcon/>
+</i>
+
               </Link>
             </OverlayTrigger>
           ) : null}

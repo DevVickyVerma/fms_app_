@@ -122,3 +122,11 @@ button.modal-effect.d-grid.mb-3.upload-btn.btn.btn-danger {
   font-weight: 600;
   color: #76839a;
 }
+.cardheader-table.card-header {
+  padding: 10px 15px;
+  background: #8b84d8;
+  color: #fff;
+}
+svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
+  font-size: 20px;
+}
