@@ -273,6 +273,7 @@ const FuelDelivery = (props) => {
         </span>
       ),
     },
+
     {
       name: "OPENING",
       selector: (row) => row.opening,
@@ -286,8 +287,12 @@ const FuelDelivery = (props) => {
             id={`opening-${index}`}
             name={`data[${index}].opening`}
             className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
+                row.update_opening
+                ? "UpdateValueInput"
+                  : editable?.is_editable
+                  ? "table-input" 
+                  : "table-input readonly"
+              }
             value={formik.values.data[index]?.opening }
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -310,8 +315,12 @@ const FuelDelivery = (props) => {
             id={`bunkd_delivery_volume-${index}`}
             name={`data[${index}].bunkd_delivery_volume`}
             className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
+                row.update_bunkd_delivery_volume
+                ? "UpdateValueInput"
+                  : editable?.is_editable
+                  ? "table-input" 
+                  : "table-input readonly"
+              }
             value={formik.values.data[index]?.bunkd_delivery_volume }
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -334,8 +343,12 @@ const FuelDelivery = (props) => {
             id={`delivery_volume-${index}`}
             name={`data[${index}].delivery_volume`}
             className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
+                row.update_delivery_volume
+                ? "UpdateValueInput"
+                  : editable?.is_editable
+                  ? "table-input" 
+                  : "table-input readonly"
+              }
             value={formik.values.data[index]?.delivery_volume }
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -358,8 +371,12 @@ const FuelDelivery = (props) => {
             id={`dips_stock-${index}`}
             name={`data[${index}].dips_stock`}
             className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
+                row.update_dips_stock
+                ? "UpdateValueInput"
+                  : editable?.is_editable
+                  ? "table-input" 
+                  : "table-input readonly"
+              }
             value={formik.values.data[index]?.dips_stock }
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -382,8 +399,12 @@ const FuelDelivery = (props) => {
             id={`sales_volume-${index}`}
             name={`data[${index}].sales_volume`}
             className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
+                row.update_sales_volume
+                ? "UpdateValueInput"
+                  : editable?.is_editable
+                  ? "table-input" 
+                  : "table-input readonly"
+              }
             value={formik.values.data[index]?.sales_volume }
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -454,8 +475,12 @@ const FuelDelivery = (props) => {
             id={`percentage_sales-${index}`}
             name={`data[${index}].percentage_sales`}
             className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
+                row.update_gross_value
+                ? "UpdateValueInput"
+                  : editable?.is_editable
+                  ? "table-input" 
+                  : "table-input readonly"
+              }
             value={formik.values.data[index]?.percentage_sales }
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -478,8 +503,12 @@ const FuelDelivery = (props) => {
             id={`variance_lt-${index}`}
             name={`data[${index}].variance_lt`}
             className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
+                row.update_gross_value
+                ? "UpdateValueInput"
+                  : editable?.is_editable
+                  ? "table-input" 
+                  : "table-input readonly"
+              }
             value={formik.values.data[index]?.variance_lt }
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -502,8 +531,12 @@ const FuelDelivery = (props) => {
             id={`variance_per-${index}`}
             name={`data[${index}].variance_per`}
             className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
+                row.update_gross_value
+                ? "UpdateValueInput"
+                  : editable?.is_editable
+                  ? "table-input" 
+                  : "table-input readonly"
+              }
             value={formik.values.data[index]?.variance_per }
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -558,13 +591,19 @@ const FuelDelivery = (props) => {
                     </DataTableExtensions>
                   </div>
                   <div className="d-flex justify-content-end mt-3">
-                  {editable?
-                  <button className="btn btn-primary" type="submit" disabled>
-                      Submit
-                    </button>: <button className="btn btn-primary" type="submit">
-                      Submit
-                    </button>
-                 }
+                    {editable ? (
+                      <button className="btn btn-primary" type="submit">
+                        Submit
+                      </button>
+                    ) : (
+                      <button
+                        className="btn btn-primary"
+                        type="submit"
+                        disabled
+                      >
+                        Submit
+                      </button>
+                    )}
                   </div>
                 </form>
               </Card.Body>

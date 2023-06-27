@@ -762,7 +762,7 @@ const FuelInventry = (props) => {
                 <h3 className="card-title">Variance for Report</h3>
               </Card.Header>
               <Card.Body>
-                      <Col lg={8} md={8}>
+                      <Col lg={12} md={12}>
                         <DataTable
                           columns={VarianceColumns}
                           data={VarianceDataa}
@@ -786,7 +786,7 @@ const FuelInventry = (props) => {
               </Card.Header>
               <Card.Body>
                       
-                      <Col lg={6} md={6}>
+              <Col lg={12} md={12}>
                         <DataTable
                           columns={CombinedVarianceColumns}
                           data={CombinedVarianceData}

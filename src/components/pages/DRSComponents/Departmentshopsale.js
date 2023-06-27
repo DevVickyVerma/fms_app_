@@ -238,8 +238,12 @@ const Departmentshopsale = (props) => {
           id={`gross_value-${index}`}
           name={`data[${index}].gross_value`}
           className={
-            editable?.is_editable ? "table-input " : "table-input readonly "
-          }
+                row.update_gross_value
+                ? "UpdateValueInput"
+                  : editable?.is_editable
+                  ? "table-input" 
+                  : "table-input readonly"
+              }
           value={formik.values.data[index]?.gross_value }
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -266,8 +270,12 @@ const Departmentshopsale = (props) => {
           id={`disc_value-${index}`}
           name={`data[${index}].disc_value`}
           className={
-            editable?.is_editable ? "table-input " : "table-input readonly "
-          }
+                row.update_disc_value
+                ? "UpdateValueInput"
+                  : editable?.is_editable
+                  ? "table-input" 
+                  : "table-input readonly"
+              }
           value={formik.values.data[index]?.disc_value }
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -294,8 +302,12 @@ const Departmentshopsale = (props) => {
             id={`nett_value-${index}`}
             name={`data[${index}].nett_value`}
             className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
+                row.update_nett_value
+                ? "UpdateValueInput"
+                  : editable?.is_editable
+                  ? "table-input" 
+                  : "table-input readonly"
+              }
             value={formik.values.data[index]?.nett_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -349,13 +361,19 @@ const Departmentshopsale = (props) => {
                     </DataTableExtensions>
                   </div>
                   <div className="d-flex justify-content-end mt-3">
-                  {editable?
-                  <button className="btn btn-primary" type="submit" disabled>
-                      Submit
-                    </button>: <button className="btn btn-primary" type="submit">
-                      Submit
-                    </button>
-                 }
+                  {editable ? (
+                      <button className="btn btn-primary" type="submit">
+                        Submit
+                      </button>
+                    ) : (
+                      <button
+                        className="btn btn-primary"
+                        type="submit"
+                        disabled
+                      >
+                        Submit
+                      </button>
+                    )}
                   </div>
                 </form>
               </Card.Body>
