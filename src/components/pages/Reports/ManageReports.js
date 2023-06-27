@@ -92,7 +92,9 @@ const ManageReports = (props) => {
         postDataUrl = `report/card-reco-essar?${commonParams}`;
       } else if (formValues.report === "DSRR") {
         postDataUrl = `report/cldo?${commonParams}`;
-      } else {
+      } else if (formValues.report === "MSR") {
+        postDataUrl = `report/msr?${commonParams}`;
+      }else {
         postDataUrl = "shop/add-default";
       }
 
