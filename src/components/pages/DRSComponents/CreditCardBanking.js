@@ -211,22 +211,26 @@ const CreditCardBanking = (props) => {
       sortable: false,
       width: "20%",
       center: true,
-      cell: (row, index) => (
+    
+      cell: (row, index) =>
+      row.card_name === "Total" ? (
+        <h4 className="bottom-toal">{row.koisk_value}</h4>
+      ) : (
         <div>
-          <input
-            type="number"
-            id={`koisk_value-${index}`}
-            name={`data[${index}].koisk_value`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.koisk_value}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
+        <input
+          type="number"
+          id={`koisk_value-${index}`}
+          name={`data[${index}].koisk_value`}
+          className={
+            editable?.is_editable ? "table-input " : "table-input readonly "
+          }
+          value={formik.values.data[index]?.koisk_value}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          readOnly={editable?.is_editable ? false : true}
+        />
+        {/* Error handling code */}
+      </div>
       ),
     },
     {
@@ -236,22 +240,26 @@ const CreditCardBanking = (props) => {
       sortable: false,
       width: "20%",
       center: true,
-      cell: (row, index) => (
+    
+      cell: (row, index) =>
+      row.card_name === "Total" ? (
+        <h4 className="bottom-toal">{row.opt_value}</h4>
+      ) : (
         <div>
-          <input
-            type="number"
-            id={`opt_value-${index}`}
-            name={`data[${index}].opt_value`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.opt_value}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
+        <input
+          type="number"
+          id={`opt_value-${index}`}
+          name={`data[${index}].opt_value`}
+          className={
+            editable?.is_editable ? "table-input " : "table-input readonly "
+          }
+          value={formik.values.data[index]?.opt_value}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          readOnly={editable?.is_editable ? false : true}
+        />
+        {/* Error handling code */}
+      </div>
       ),
     },
     {
@@ -260,7 +268,11 @@ const CreditCardBanking = (props) => {
       sortable: false,
       width: "20%",
       center: true,
-      cell: (row, index) => (
+   
+      cell: (row, index) =>
+      row.card_name === "Total" ? (
+        <h4 className="bottom-toal">{row.account_value}</h4>
+      ) : (
         <div>
           <input
             type="number"
@@ -284,22 +296,26 @@ const CreditCardBanking = (props) => {
       sortable: false,
       width: "20%",
       center: true,
-      cell: (row, index) => (
+  
+      cell: (row, index) =>
+      row.card_name === "Total" ? (
+        <h4 className="bottom-toal">{row.account_value}</h4>
+      ) : (
         <div>
-          <input
-            type="number"
-            id={`no_of_transactions-${index}`}
-            name={`data[${index}].no_of_transactions`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.no_of_transactions}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
+        <input
+          type="number"
+          id={`account_value-${index}`}
+          name={`data[${index}].account_value`}
+          className={
+            editable?.is_editable ? "table-input " : "table-input readonly "
+          }
+          value={formik.values.data[index]?.account_value}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          readOnly={editable?.is_editable ? false : true}
+        />
+        {/* Error handling code */}
+      </div>
       ),
     },
 

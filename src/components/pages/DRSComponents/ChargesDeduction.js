@@ -196,22 +196,26 @@ const ShopSales = (props) => {
       width: "50%",
       center: true,
       // Title: "CASH METERED SALES",
-      cell: (row, index) => (
+   
+      cell: (row, index) =>
+      row.charge_name === "Total" ? (
+        <h4 className="bottom-toal">{row.charge_value}</h4>
+      ) : (
         <div>
-          <input
-            type="number"
-            id={`charge_value-${index}`}
-            name={`data[${index}].charge_value`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values?.data[index]?.charge_value}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
+        <input
+          type="number"
+          id={`charge_value-${index}`}
+          name={`data[${index}].charge_value`}
+          className={
+            editable?.is_editable ? "table-input " : "table-input readonly "
+          }
+          value={formik.values?.data[index]?.charge_value}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          readOnly={editable?.is_editable ? false : true}
+        />
+        {/* Error handling code */}
+      </div>
       ),
     },
   ];
@@ -236,22 +240,26 @@ const ShopSales = (props) => {
       width: "50%",
       center: true,
       // Title: "CASH METERED SALES",
-      cell: (row, index) => (
+    
+      cell: (row, index) =>
+      row.deduction_name === "Total" ? (
+        <h4 className="bottom-toal">{row.deduction_value}</h4>
+      ) : (
         <div>
-          <input
-            type="number"
-            id={`deduction_value-${index}`}
-            name={`deductions[${index}].deduction_value`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values?.deductions?.[index]?.deduction_value || ""}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
+        <input
+          type="number"
+          id={`deduction_value-${index}`}
+          name={`deductions[${index}].deduction_value`}
+          className={
+            editable?.is_editable ? "table-input " : "table-input readonly "
+          }
+          value={formik.values?.deductions?.[index]?.deduction_value || ""}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          readOnly={editable?.is_editable ? false : true}
+        />
+        {/* Error handling code */}
+      </div>
       ),
     },
   ];

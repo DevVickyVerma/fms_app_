@@ -101,7 +101,8 @@ const CashBanking = (props) => {
       console.log(response.data.data, "cards");
 
       if (response && response.data && response.data.data) {
-        setData(response.data.data);
+        console.log(response.data.data, "cawwwwwwrds");
+        setData(response?.data?.data?.listing);
         setSearchvalue(response.data.data.cards);
       } else {
         throw new Error("No data available in the response");

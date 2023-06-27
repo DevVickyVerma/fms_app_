@@ -103,13 +103,6 @@ const FuelSales = (props) => {
     }
   }, [SiteID, ReportDate]);
 
-  // if (SiteID && ReportDate) {
-  //   // console.log("client_id:", SiteID);
-  //   // console.log("start_date:", ReportDate);
-
-  //   console.log("gotSiteID and Repordtdate");
-  // }
-
   const handleSubmit = async (values) => {
     const token = localStorage.getItem("token");
 
@@ -172,8 +165,6 @@ const FuelSales = (props) => {
   };
 
   const columns = [
-    // ... existing columns
-
     {
       name: "FUEL",
       selector: (row) => row.fuel_name,
@@ -192,23 +183,27 @@ const FuelSales = (props) => {
       sortable: false,
       width: "20%",
       center: true,
-      cell: (row, index) => (
-        <div>
-          <input
-            type="number"
-            id={`sales_volume-${index}`}
-            name={`data[${index}].sales_volume`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.sales_volume}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
-      ),
+
+      cell: (row, index) =>
+        row.fuel_name === "Total" ? (
+          <h4 className="bottom-toal">{row.sales_volume}</h4>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`sales_volume-${index}`}
+              name={`data[${index}].sales_volume`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.sales_volume}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "GROSS VALUE	",
@@ -217,23 +212,27 @@ const FuelSales = (props) => {
       sortable: false,
       width: "20%",
       center: true,
-      cell: (row, index) => (
-        <div>
-          <input
-            type="number"
-            id={`gross_value-${index}`}
-            name={`data[${index}].gross_value`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.gross_value}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
-      ),
+
+      cell: (row, index) =>
+        row.fuel_name === "Total" ? (
+          <h4 className="bottom-toal">{row.gross_value}</h4>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`gross_value-${index}`}
+              name={`data[${index}].gross_value`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.gross_value}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "DISCOUNT	",
@@ -241,22 +240,26 @@ const FuelSales = (props) => {
       sortable: false,
       width: "20%",
       center: true,
-      cell: (row, index) => (
+    
+      cell: (row, index) =>
+      row.fuel_name === "Total" ? (
+        <h4 className="bottom-toal">{row.discount}</h4>
+      ) : (
         <div>
-          <input
-            type="number"
-            id={`discount-${index}`}
-            name={`data[${index}].discount`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.discount}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
+        <input
+          type="number"
+          id={`discount-${index}`}
+          name={`data[${index}].discount`}
+          className={
+            editable?.is_editable ? "table-input " : "table-input readonly "
+          }
+          value={formik.values.data[index]?.discount}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          readOnly={editable?.is_editable ? false : true}
+        />
+        {/* Error handling code */}
+      </div>
       ),
     },
     {
@@ -265,22 +268,27 @@ const FuelSales = (props) => {
       sortable: false,
       width: "20%",
       center: true,
-      cell: (row, index) => (
+  
+         
+      cell: (row, index) =>
+      row.fuel_name === "Total" ? (
+        <h4 className="bottom-toal">{row.nett_value}</h4>
+      ) : (
         <div>
-          <input
-            type="number"
-            id={`nett_value-${index}`}
-            name={`data[${index}].nett_value`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.nett_value}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
+        <input
+          type="number"
+          id={`nett_value-${index}`}
+          name={`data[${index}].nett_value`}
+          className={
+            editable?.is_editable ? "table-input " : "table-input readonly "
+          }
+          value={formik.values.data[index]?.nett_value}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          readOnly={editable?.is_editable ? false : true}
+        />
+        {/* Error handling code */}
+      </div>
       ),
     },
 

@@ -227,22 +227,26 @@ const Departmentshopsale = (props) => {
       sortable: false,
       width: "25%",
       center: true,
-      cell: (row, index) => (
+     
+      cell: (row, index) =>
+      row.category_name === "Total" ? (
+        <h4 className="bottom-toal">{row.gross_value}</h4>
+      ) : (
         <div>
-          <input
-            type="number"
-            id={`gross_value-${index}`}
-            name={`data[${index}].gross_value`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.gross_value }
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
+        <input
+          type="number"
+          id={`gross_value-${index}`}
+          name={`data[${index}].gross_value`}
+          className={
+            editable?.is_editable ? "table-input " : "table-input readonly "
+          }
+          value={formik.values.data[index]?.gross_value }
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          readOnly={editable?.is_editable ? false : true}
+        />
+        {/* Error handling code */}
+      </div>
       ),
     },
     {
@@ -251,22 +255,26 @@ const Departmentshopsale = (props) => {
       sortable: false,
       width: "25%",
       center: true,
-      cell: (row, index) => (
+     
+      cell: (row, index) =>
+      row.category_name === "Total" ? (
+        <h4 className="bottom-toal">{row.disc_value}</h4>
+      ) : (
         <div>
-          <input
-            type="number"
-            id={`disc_value-${index}`}
-            name={`data[${index}].disc_value`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.disc_value }
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
+        <input
+          type="number"
+          id={`disc_value-${index}`}
+          name={`data[${index}].disc_value`}
+          className={
+            editable?.is_editable ? "table-input " : "table-input readonly "
+          }
+          value={formik.values.data[index]?.disc_value }
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          readOnly={editable?.is_editable ? false : true}
+        />
+    
+      </div>
       ),
     },
     {
@@ -275,7 +283,11 @@ const Departmentshopsale = (props) => {
       sortable: false,
       width: "25%",
       center: true,
-      cell: (row, index) => (
+    
+      cell: (row, index) =>
+      row.category_name === "Total" ? (
+        <h4 className="bottom-toal">{row.nett_value}</h4>
+      ) : (
         <div>
           <input
             type="number"
