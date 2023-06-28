@@ -25,6 +25,8 @@ import * as loderdata from "../../../data/Component/loderdata/loderdata";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
+// import KeyIcon from '@mui/icons-material/Key';
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
 
 const ManageClient = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -204,6 +206,37 @@ const ManageClient = (props) => {
   const isAssignPermissionAvailable =
     permissionsArray?.includes("client-assign");
 
+  // const handleClientLogin=(row)=>{
+  //   console.log(row.id,"client id")
+  // }
+
+  const handleClientLogin = async (row) => {
+    try {
+      const response = await getData(`/account-login/${row.id}`);
+
+      if (response) {
+        localStorage.setItem("token", response.data.data.access_token);
+        navigate("/dashboard");
+        const firstName = response.data.data.first_name ?? "";
+        const lastName = response.data.data.last_name ?? "";
+        const phoneNumber = response.data.data.phone_number ?? "";
+        const full_name = response.data.data.client_name ?? "";
+        const superiorRole = response.data.data.superiorRole ?? "";
+        localStorage.setItem("First_name", firstName);
+        localStorage.setItem("full_name", full_name);
+        localStorage.setItem("Last_name", lastName);
+        localStorage.setItem("Phone_Number", phoneNumber);
+        localStorage.setItem("superiorRole", superiorRole);
+        localStorage.setItem("tokenupdate", true);
+        console.log(response.data.data.access_token,"response");
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
   const columns = [
     {
       name: "S.No",
@@ -334,6 +367,20 @@ const ManageClient = (props) => {
                     <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
                   </svg>
                 </i>
+              </Link>
+            </OverlayTrigger>
+          ) : null}
+          {isDeletePermissionAvailable ? (
+            <OverlayTrigger
+              placement="top"
+              overlay={<Tooltip>Client Login</Tooltip>}
+            >
+              <Link
+                to="#"
+                className="btn btn-yellow btn-sm rounded-11 ms-2"
+                onClick={() => handleClientLogin(row)}
+              >
+                <VpnKeyIcon />
               </Link>
             </OverlayTrigger>
           ) : null}

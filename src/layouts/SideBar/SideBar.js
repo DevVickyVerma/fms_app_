@@ -10,11 +10,12 @@ const Sidebar = () => {
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
+
+
+
   useEffect(() => {
 
-    // if (MENUITEMS) {
-    //   setMainMenu(MENUITEMS);
-    // }
+
 
 
     if (UserPermissions) {

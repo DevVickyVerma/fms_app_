@@ -37,6 +37,12 @@ const Dashboard = (props) => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.data.data);
   const token = localStorage.getItem("token");
+  useEffect(() => {
+    if (localStorage.getItem("tokenupdate") === "true") {
+      window.location.reload();
+      localStorage.setItem("tokenupdate", false);
+    }
+  }, [localStorage.getItem("tokenupdate")]);
 
   useEffect(() => {
     if (token) {

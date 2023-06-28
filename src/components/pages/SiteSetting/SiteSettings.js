@@ -940,9 +940,7 @@ const SiteSettings = (props) => {
                 </Card.Body>
               </Card>
               <Card>
-                <Card.Header>
-                  <h3 className="card-title">Site Settings</h3>
-                </Card.Header>
+             
                 <Card.Body>
                   <Row>
                     <Col lg={12} md={12}>

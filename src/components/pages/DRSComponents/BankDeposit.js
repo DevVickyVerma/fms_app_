@@ -365,34 +365,7 @@ const BankDeposit = (props) => {
     setData(filteredData);
   };
 
-  const handleFileSelect = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
-  // const handleImageChange = (event, setFieldValue) => {
-  //   const file = event.currentTarget.files[0];
-  //   setFieldValue("image", file);
 
-  //   // Preview the image
-  //   const reader = new FileReader();
-  //   reader.onload = () => {
-  //     setPreviewImage(reader.result);
-  //   };
-  //   reader.readAsDataURL(file);
-  // };
-
-  // const handleDrop = (event, setFieldValue) => {
-  //   event.preventDefault();
-  //   setIsDragging(false);
-  //   const file = event.dataTransfer.files[0];
-  //   setFieldValue("image", file);
-
-  //   // Preview the image
-  //   const reader = new FileReader();
-  //   reader.onload = () => {
-  //     setPreviewImage(reader.result);
-  //   };
-  //   reader.readAsDataURL(file);
-  // };
 
   return (
     <>
@@ -402,7 +375,7 @@ const BankDeposit = (props) => {
           <Col md={12} xl={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title"> Bank Deposits</h3>
+                <h3 className="card-title"> Bank Deposit </h3>
               </Card.Header>
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
