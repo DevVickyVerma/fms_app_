@@ -204,16 +204,16 @@ const ManageSiteTank = (props) => {
   }, [UserPermissions]);
 
   const isStatusPermissionAvailable = permissionsArray?.includes(
-    "charges-status-update"
+    "nozzle-status-update"
   );
-  const isEditPermissionAvailable = permissionsArray?.includes("charges-edit");
-  const isAddPermissionAvailable = permissionsArray?.includes("charges-create");
+  const isEditPermissionAvailable = permissionsArray?.includes("nozzle-edit");
+  const isAddPermissionAvailable = permissionsArray?.includes("nozzle-create");
   const isDeletePermissionAvailable =
-    permissionsArray?.includes("charges-delete");
+    permissionsArray?.includes("nozzle-delete");
   const isDetailsPermissionAvailable =
-    permissionsArray?.includes("charges-details");
+    permissionsArray?.includes("nozzle-details");
   const isAssignPermissionAvailable =
-    permissionsArray?.includes("charges-assign");
+    permissionsArray?.includes("nozzle-assign");
 
   const columns = [
     {

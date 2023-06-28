@@ -140,12 +140,12 @@ const ManageSubBusinessCategory = (props) => {
     "business-status-update"
   );
   const isEditPermissionAvailable =
-    permissionsArray?.includes("business-type-edit");
+    permissionsArray?.includes("business-sub-category-edit");
   const isAddPermissionAvailable = permissionsArray?.includes(
-    "business-type-create"
+    "business-sub-category-create"
   );
   const isDeletePermissionAvailable = permissionsArray?.includes(
-    "business-type-delete"
+    "business-sub-category-delete"
   );
   const isDetailsPermissionAvailable = permissionsArray?.includes(
     "business-type-detail"
@@ -170,7 +170,7 @@ const ManageSubBusinessCategory = (props) => {
       name: "Sub-Business Category",
       selector: (row) => [row.sub_category_name],
       sortable: true,
-      width: "35%",
+      width: "25%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -183,7 +183,7 @@ const ManageSubBusinessCategory = (props) => {
       name: "Business Category",
       selector: (row) => [row.business_category],
       sortable: true,
-      width: "35%",
+      width: "25%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -209,7 +209,7 @@ const ManageSubBusinessCategory = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: true,
-      width: "20%",
+      width: "10%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -375,7 +375,7 @@ const ManageSubBusinessCategory = (props) => {
                       striped={true}
                       // center={true}
                       persistTableHead
-                      // pagination
+                      pagination
                       highlightOnHover
                       searchable={true}
                     />

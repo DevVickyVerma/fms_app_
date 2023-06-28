@@ -90,26 +90,7 @@ const AddSitePump = (props) => {
     }
   }, [UserPermissions]);
 
-  useEffect(() => {
-    if (isPermissionsSet) {
-      const isAddPermissionAvailable =
-        permissionsArray?.includes("charges-create");
 
-      if (permissionsArray?.length > 0) {
-        if (isAddPermissionAvailable) {
-          console.log(isAddPermissionAvailable, "AddPermissionAvailable");
-          // Perform action when permission is available
-          // Your code here
-        } else {
-          // Perform action when permission is not available
-          // Your code here
-          navigate("/errorpage403");
-        }
-      } else {
-        navigate("/errorpage403");
-      }
-    }
-  }, [isPermissionsSet, permissionsArray]);
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({

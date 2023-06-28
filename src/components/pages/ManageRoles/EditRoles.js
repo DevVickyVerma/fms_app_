@@ -103,38 +103,42 @@ const EditRoles = (props) => {
       console.error("API error:", error);
     }
   };
-
   const handleSubmit = async (values) => {
-    const body = {
-      name: values.name,
-      permissions: values.permissions,
-
-      role_id: localStorage.getItem("EditRoleID"),
-    };
-
-    const token = localStorage.getItem("token");
-
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/role/update`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
+    try {
+      const body = {
+        name: values.name,
+        permissions: values.permissions,
+        role_id: localStorage.getItem("EditRoleID"),
+      };
+  
+      const token = localStorage.getItem("token");
+  
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/role/update`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        }
+      );
+  
+      if (response.ok) {
+        const data = await response.json();
+        SuccessAlert(data.message);
+        navigate("/roles");
+      } else {
+        ErrorAlert(error.message);
+        const errorData = await response.json();
+        throw new Error(errorData.message);
       }
-    );
-
-    const data = await response.json();
-
-    if (response.ok) {
-      SuccessAlert(data.message);
-      navigate("/roles");
-    } else {
-      ErrorAlert(data.message);
+    } catch (error) {
+      handleError(error);
     }
   };
+  
 
   return (
     <>

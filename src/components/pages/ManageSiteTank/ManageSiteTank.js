@@ -212,17 +212,15 @@ const ManageSiteTank = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable = permissionsArray?.includes(
-    "charges-status-update"
-  );
-  const isEditPermissionAvailable = permissionsArray?.includes("charges-edit");
-  const isAddPermissionAvailable = permissionsArray?.includes("charges-create");
+ 
+  const isEditPermissionAvailable = permissionsArray?.includes("tank-edit");
+  const isAddPermissionAvailable = permissionsArray?.includes("tank-create");
   const isDeletePermissionAvailable =
-    permissionsArray?.includes("charges-delete");
+    permissionsArray?.includes("tank-delete");
   const isDetailsPermissionAvailable =
-    permissionsArray?.includes("charges-details");
+    permissionsArray?.includes("tank-details");
   const isAssignPermissionAvailable =
-    permissionsArray?.includes("charges-assign");
+    permissionsArray?.includes("tank-assign");
 
   const columns = [
     {

@@ -369,7 +369,7 @@ export const MENUITEMS = [
         icon: "check-square",
         type: "sub",
         active: false,
-        permission: "supplier-list",
+        permission: "business-category-list",
         visibility: false,
         children: [
           {

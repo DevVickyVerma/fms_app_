@@ -123,22 +123,7 @@ const EditSiteTank = (props) => {
     }
   }, [UserPermissions]);
 
-  useEffect(() => {
-    if (isPermissionsSet) {
-      const isEditPermissionAvailable =
-        permissionsArray?.includes("charges-edit");
 
-      if (permissionsArray?.length > 0) {
-        if (isEditPermissionAvailable) {
-          console.log(isEditPermissionAvailable, "EditPermissionAvailable");
-        } else {
-          navigate("/errorpage403");
-        }
-      } else {
-        navigate("/errorpage403");
-      }
-    }
-  }, [isPermissionsSet, permissionsArray]);
 
   const formik = useFormik({
     initialValues: {

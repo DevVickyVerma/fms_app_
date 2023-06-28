@@ -132,12 +132,12 @@ const ManageBusinessCategory = (props) => {
     permissionsArray?.includes("business-status-update");
   const isEditPermissionAvailable =
   
-    permissionsArray?.includes("business-type-edit");
+    permissionsArray?.includes("business-category-edit");
   const isAddPermissionAvailable = permissionsArray?.includes(
-    "business-type-create"
+    "business-category-create"
   );
   const isDeletePermissionAvailable = permissionsArray?.includes(
-    "business-type-delete"
+    "business-category-delete"
   );
   const isDetailsPermissionAvailable = permissionsArray?.includes(
     "business-type-detail"

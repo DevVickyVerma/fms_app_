@@ -19,7 +19,7 @@ import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 import axios from "axios";
-import { toast } from "react-toastify";
+import { Slide, toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
@@ -29,8 +29,31 @@ import Loaderimg from "../../../Utils/Loader";
     const { apidata, isLoading, error, getData, postData } = props;
   const [permissions, setPermissions] = useState([]);
   const [userpermissions, setUserPermissions] = useState([]);
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
+ 
+ 
+
+  const SuccessAlert = (message) => {
+    toast.success(message, {
+      autoClose: 1000,
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+    });
+  };
+  const ErrorAlert = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+    });
+  };
+
+
+
   const navigate = useNavigate();
   function handleError(error) {
     if (error.response && error.response.status === 401) {
