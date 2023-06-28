@@ -281,6 +281,7 @@ const ManageCompany = (props) => {
       width: "20%",
       cell: (row) => (
         <span className="text-center">
+          {isEditPermissionAvailable ? (
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <Link
               to="/editcompany"
@@ -301,6 +302,7 @@ const ManageCompany = (props) => {
               </i>
             </Link>
           </OverlayTrigger>
+          ) : null}
           {isDeletePermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link

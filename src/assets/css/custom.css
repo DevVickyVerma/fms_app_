@@ -136,3 +136,19 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
   color: #fff;
   width: 100%;
 }
+textarea#Remarks {
+  border: 3px solid #dddd;
+  width: 30%;
+  margin: 15px 0px;
+}
+div#description {
+  color: red;
+  font-size: 18px;
+  margin-right: 290px;
+  font-weight: 400;
+}
+p.warrningmessage {
+  font-size: 16px;
+  font-weight: 500;
+  padding: 13px 0px;
+}

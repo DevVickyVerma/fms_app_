@@ -8,6 +8,7 @@ import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
+import { Formik, Field, Form, ErrorMessage } from "formik";
 
 const DepartmentShop = (props) => {
   const { apidata, error, getData, postData, SiteID, ReportDate } = props;
@@ -16,6 +17,7 @@ const DepartmentShop = (props) => {
   const [data, setData] = useState([]);
   const [bankingdata, setbankingData] = useState([]);
   const [summarydata, setsummarydata] = useState([]);
+  const [remarkdata, setremarkdata] = useState();
   const [editable, setis_editable] = useState();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -76,6 +78,7 @@ const DepartmentShop = (props) => {
           setData(data.data.takings);
           setbankingData(data.data.banking);
           setsummarydata(data.data);
+          setremarkdata(data.data.summary_of_remarks);
         }
       } catch (error) {
         console.error("API error:", error);
@@ -108,6 +111,12 @@ const DepartmentShop = (props) => {
       );
     });
   };
+  const SubmitSummary = (values) => {
+    console.log(values);
+    console.log(SiteID);
+    console.log(ReportDate);
+    console.log(summarydata?.summary_of_variances);
+  };
 
   return (
     <>
@@ -117,33 +126,65 @@ const DepartmentShop = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-               <h3 className="card-title">SUMMARY OF TAKINGS</h3>
+                <h3 className="card-title">SUMMARY OF TAKINGS</h3>
               </Card.Header>
-              <Card.Body>
-         
-                {_renderFunction()}
-              </Card.Body>
+              <Card.Body>{_renderFunction()}</Card.Body>
             </Card>
             <Card>
               <Card.Header>
                 <h3 className="card-title">SUMMARY OF BAKING</h3>
               </Card.Header>
-              <Card.Body>{_renderFunction1()}
-             
-              
-              </Card.Body>
+              <Card.Body>{_renderFunction1()}</Card.Body>
             </Card>
             <Card>
               <Card.Header>
                 <h3 className="card-title">Cash Difference</h3>
               </Card.Header>
               <Card.Body>
-              <div className="Dps-data">
-              <p>Cash Difference</p>
-          <p>{summarydata.cash_difference}</p>
-      
-        </div>
-              
+                <div className="Dps-data">
+                  <p>Cash Difference</p>
+                  <p>{summarydata.cash_difference}</p>
+                </div>
+                {console.log(remarkdata, "remarkdata")}
+                {remarkdata !== null ? (
+                  <div>{remarkdata}</div>
+                ) : (
+                  <Formik
+                    initialValues={{ Remarks: "" }}
+                    validationSchema={Yup.object().shape({
+                      Remarks: Yup.string().required("*Remarks is required"),
+                    })}
+                    onSubmit={(values) => {
+                      SubmitSummary(values);
+                    }}
+                  >
+                    <Form>
+                      <div className="Dps-data">
+                        <label htmlFor="Remarks">
+                          Remarks<span className="text-danger">*</span>
+                        </label>
+                        <Field as="textarea" id="Remarks" name="Remarks" />
+                      </div>
+                      <div className="text-end">
+                        <ErrorMessage
+                          name="Remarks"
+                          component="div"
+                          id="description"
+                        />
+                      </div>
+                      <div className="text-end">
+                        <button className="btn btn-primary mt-2" type="submit">
+                          Day End
+                        </button>
+                        <p className="warrningmessage">
+                          <span className="text-danger">*</span>On clicking the
+                          Day End button, Day End process will be completed and
+                          no modification will be allowed for the closed DRS
+                        </p>
+                      </div>
+                    </Form>
+                  </Formik>
+                )}
               </Card.Body>
             </Card>
           </Col>

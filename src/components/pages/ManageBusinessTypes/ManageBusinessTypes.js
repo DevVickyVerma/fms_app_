@@ -136,7 +136,7 @@ const ManageBusinessTypes = (props) => {
     "business-type-create"
   );
   const isDeletePermissionAvailable = permissionsArray?.includes(
-    "business-type--delete"
+    "business-type-delete"
   );
   const isDetailsPermissionAvailable = permissionsArray?.includes(
     "business-type--detail"
