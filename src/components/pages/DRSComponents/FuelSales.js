@@ -108,6 +108,7 @@ const FuelSales = (props) => {
 
     // Create a new FormData object
     const formData = new FormData();
+    console.log(values.data)
 
     values.data.forEach((obj) => {
       const id = obj.id;
@@ -360,7 +361,7 @@ const FuelSales = (props) => {
                       <button
                         className="btn btn-primary"
                         type="submit"
-                        disabled
+                        
                       >
                         Submit
                       </button>

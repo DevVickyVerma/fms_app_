@@ -250,6 +250,64 @@ const SiteSettings = (props) => {
     // ... Add other Formik configuration options as needed
   });
 
+  const handleRadioBussinessmodel = (row, index) => {
+    const clickedModel = row.business_model_types[index];
+    console.log("Business Model Name:", row.item_name);
+    console.log("Clicked Value:", clickedModel);
+
+    const updatedModels = BussinesModelData.map((item) => {
+      if (item.id === row.id) {
+        const updatedModelTypes = item.business_model_types.map((model, i) => ({
+          ...model,
+          checked: i === index,
+        }));
+
+        return {
+          ...item,
+          business_model_types: updatedModelTypes,
+        };
+      }
+      return item;
+    });
+    console.log("Business Model Name:", updatedModels);
+    setBussinesModelData(updatedModels);
+  };
+  const [checkBussinesItem, setcheckBussinesItem] = useState([]);
+
+  const handleBussinesCheckChange = (row) => {
+    const checkedItems = [...checkBussinesItem];
+    const valuesArray = [];
+
+    row.business_model_types.forEach((model) => {
+      if (model.checked) {
+        console.log(row.id, "modelid");
+        console.log(row.item_name, "modeliditem_name");
+        console.log(model.id);
+        console.log(model.checked);
+
+        // Push the desired values to the valuesArray
+        valuesArray.push({
+          modelId: model.id,
+          checked: model.checked,
+          rowId: row.id,
+          itemName: row.item_name,
+        });
+      }
+    });
+
+    // Console log the values array
+    console.log(valuesArray);
+
+    // Set the combined array using formik.setFieldValue
+    formik.setFieldValue("valuesArray", valuesArray);
+
+    // Set the checked items in the state
+    setcheckBussinesItem(valuesArray.map((item) => item.modelId));
+    console.log(checkBussinesItem, "checkBussinesItem");
+  };
+
+  // Handle radio button change
+
   const BussinesModelColumn = [
     {
       name: "Select",
@@ -260,11 +318,11 @@ const SiteSettings = (props) => {
       cell: (row) => (
         <input
           type="checkbox"
-          // onChange={() => handleBussinesModelChange(row)}
+          onChange={() => handleBussinesCheckChange(row)}
         />
       ),
     },
-    
+
     {
       name: "Business Models",
       selector: (row) => row.item_name,
@@ -349,7 +407,7 @@ const SiteSettings = (props) => {
       ),
     },
   ];
-  
+
   const CardsModelColumn = [
     {
       name: "Card Model",
@@ -381,7 +439,6 @@ const SiteSettings = (props) => {
       ),
     },
   ];
-
 
   const chargesColumns = [
     {
@@ -559,7 +616,7 @@ const SiteSettings = (props) => {
       ),
     },
   ];
-  
+
   const SiteItemsColumn = [
     {
       name: "Select",
@@ -585,7 +642,7 @@ const SiteSettings = (props) => {
       ),
     },
     {
-      name: "Price",
+      name: "Meter Reading",
       selector: (row) => row.price,
       sortable: false,
       width: "30%",
@@ -640,7 +697,6 @@ const SiteSettings = (props) => {
     },
   ];
 
-
   const handleRadiochargesmodel = (row, value) => {
     const updatedData = formik.values.data.map((item) => {
       if (item.id === row.id) {
@@ -655,68 +711,19 @@ const SiteSettings = (props) => {
       }
       return item;
     });
-
-   
-    
   };
   const handleSiItemChange = (row) => {
     const updatedRow = {
       ...row,
-      checked: !row.checked // Toggle the value of row.checked
+      checked: !row.checked, // Toggle the value of row.checked
     };
-  
-    console.log(updatedRow, 'handle');
-  
-    console.log(formik.values.SiteItemsFormik, 'handle');
+
+    console.log(updatedRow, "handle");
+
+    console.log(formik.values.SiteItemsFormik, "handle");
   };
 
   // Define an array to store the combined objects
-  let combinedObjects = [];
-
-  const handleRadioBussinessmodel = (row, index) => {
-    const updatedData = BussinesModelData.map((item) => {
-      if (item.id === row.id) {
-        const updatedTypes = item.business_model_types.map((model, i) => {
-          const isChecked = i === index;
-          if (isChecked !== model.checked) {
-            // Toggle the checked property if it's different from isChecked
-            return {
-              ...model,
-              checked: isChecked,
-            };
-          }
-          return model;
-        });
-
-        // Filter and push the checked types to the array
-        const checkedTypes = updatedTypes
-          .filter((model) => model.checked)
-          .map((model) => ({
-            item_name: row.item_name,
-            id: row.id,
-            model_name: model.model_name, // Add the model_name property
-            model_id: model.id, // Add the model_id property
-          }));
-
-        // Combine the checkedTypes array with the existing combinedObjects array
-        combinedObjects = [...combinedObjects, ...checkedTypes];
-
-        console.log("Combined Objects:", combinedObjects);
-        console.log(typeof combinedObjects);
-
-        return {
-          ...item,
-          business_model_types: updatedTypes,
-        };
-      }
-
-      return item;
-    });
-    formik.setFieldValue("data", updatedData);
-    setBussinesModelData(updatedData);
-
-    // ... rest of your code ...
-  };
 
   const handleRadiocardButtonChange = (row, index) => {
     console.log(`Card ID: ${row.id}, Card Name: ${row.card_name}`);
@@ -789,31 +796,30 @@ const SiteSettings = (props) => {
 
   const handleChargeCheckboxChange = (row) => {
     const updatedChargeCheckbox = [...ChargeCheckbox];
-  
+
     // Toggle the checked property of the row
     row.checked = !row.checked;
-  
+
     if (row.checked) {
-      console.log("row.checked")
+      console.log("row.checked");
       // Add the row to the array if it doesn't exist
       if (!updatedChargeCheckbox.includes(row)) {
         updatedChargeCheckbox.push(row);
-        console.log(updatedChargeCheckbox,"updatedChargeCheckbox")
+        console.log(updatedChargeCheckbox, "updatedChargeCheckbox");
       }
     } else {
       // Remove the row from the array if it exists
-      console.log("row.checddddked")
+      console.log("row.checddddked");
       const rowIndex = updatedChargeCheckbox.findIndex((item) => item === row);
       if (rowIndex !== -1) {
         updatedChargeCheckbox.splice(rowIndex, 1);
-        console.log(updatedChargeCheckbox,"splice")
+        console.log(updatedChargeCheckbox, "splice");
       }
     }
-  
+
     setChargeCheckbox(updatedChargeCheckbox);
     formik.setFieldValue("ChargeCheckbox", updatedChargeCheckbox);
   };
-  
 
   // Define the array to store checked items outside the function scope
 
@@ -905,146 +911,168 @@ const SiteSettings = (props) => {
           </div>
         </div>
         <Row className="row-sm">
-          <Col lg={12}>
-            <Card>
-              <Card.Header>
-                <h3 className="card-title">Site Settings</h3>
-              </Card.Header>
-              <Card.Body>
-                <form onSubmit={formik.handleSubmit}>
-                  <div className=" m-4">
-                    <Row>
-                      <Col lg={6} md={6}>
-                        <Card.Header className="cardheader-table">
-                          <h3 className="card-title">Assign Business</h3>
-                        </Card.Header>
-                        <div className="module-height">
-                          <DataTable
-                            columns={BussinesModelColumn}
-                            data={BussinesModelData}
-                            noHeader
-                            defaultSortField="id"
-                            defaultSortAsc={false}
-                            striped={true}
-                            persistTableHead
-                            highlightOnHover
-                            searchable={false}
-                            responsive
-                          />
-                        </div>
-                      </Col>
-                      <Col lg={6} md={6}>
-                        <Card.Header className="cardheader-table">
-                          <h3 className="card-title">Assign Card</h3>
-                        </Card.Header>
-                        <div className="module-height">
-                          <DataTable
-                            columns={CardsModelColumn}
-                            data={CardsModelData}
-                            noHeader
-                            defaultSortField="id"
-                            defaultSortAsc={false}
-                            striped={true}
-                            persistTableHead
-                            highlightOnHover
-                            searchable={false}
-                            responsive
-                          />
-                        </div>
-                      </Col>
-                    </Row>
-                    <Row className="mt-4">
-                      <Col lg={6} md={6}>
-                        <Card.Header className="cardheader-table">
-                          <h3 className="card-title">Charges</h3>
-                        </Card.Header>
-                        <div className="module-height">
-                          <DataTable
-                            columns={chargesColumns}
-                            data={data}
-                            noHeader
-                            defaultSortField="id"
-                            defaultSortAsc={false}
-                            striped={true}
-                            persistTableHead
-                            highlightOnHover
-                            searchable={false}
-                            responsive
-                          />
-                        </div>
-                      </Col>
-                      <Col lg={6} md={6}>
-                        <Card.Header className="cardheader-table">
-                          <h3 className="card-title">Deductions</h3>
-                        </Card.Header>
-                        <div className="module-height">
-                          <DataTable
-                            columns={deductionsColumns}
-                            data={DeductionData}
-                            noHeader
-                            defaultSortField="id"
-                            defaultSortAsc={false}
-                            striped={true}
-                            persistTableHead
-                            highlightOnHover
-                            searchable={false}
-                            responsive
-                          />
-                        </div>
-                      </Col>
-                    </Row>
-                    <Row className="mt-4">
-                      <Col lg={8} md={8}>
-                        <Card.Header className="cardheader-table">
-                          <h3 className="card-title">
-                            Assign Department Items
-                          </h3>
-                        </Card.Header>
-                        <div className="module-height">
-                          <DataTable
-                            columns={SiteItemsColumn}
-                            data={SiteItems}
-                            noHeader
-                            defaultSortField="id"
-                            defaultSortAsc={false}
-                            striped={true}
-                            persistTableHead
-                            highlightOnHover
-                            searchable={false}
-                            responsive
-                          />
-                        </div>
-                      </Col>
-                      <Col lg={4} md={4}>
-                        <Card.Header className="cardheader-table">
-                          <h3 className="card-title">Assign Fuels</h3>
-                        </Card.Header>
-                        <div className="module-height">
-                          <DataTable
-                            columns={FuelsModelColumn}
-                            data={fuelData}
-                            noHeader
-                            defaultSortField="id"
-                            defaultSortAsc={false}
-                            striped={true}
-                            persistTableHead
-                            highlightOnHover
-                            searchable={false}
-                            responsive
-                          />
-                        </div>
-                      </Col>
-                    </Row>
-                  </div>
-                  <div className="d-flex justify-content-end mt-3">
-                    <button className="btn btn-primary" type="submit">
-                      Submit
-                    </button>
-                  </div>
-                </form>
-              </Card.Body>
-            </Card>
-          </Col>
+          <form onSubmit={formik.handleSubmit}>
+            <div className=" m-4">
+              <Card>
+               
+                <Card.Body>
+                  <Row>
+                    <Col lg={12} md={12}>
+                      <Card.Header className="cardheader-table">
+                        <h3 className="card-title">Assign Business</h3>
+                      </Card.Header>
+                      <div className="module-height">
+                        <DataTable
+                          columns={BussinesModelColumn}
+                          data={BussinesModelData}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
+              <Card>
+                <Card.Header>
+                  <h3 className="card-title">Site Settings</h3>
+                </Card.Header>
+                <Card.Body>
+                  <Row>
+                    <Col lg={12} md={12}>
+                      <Card.Header className="cardheader-table">
+                        <h3 className="card-title">Assign Card</h3>
+                      </Card.Header>
+                      <div className="module-height">
+                        <DataTable
+                          columns={CardsModelColumn}
+                          data={CardsModelData}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
+              <Card>
+               
+                <Card.Body>
+                  <Row className="mt-4">
+                    <Col lg={12} md={12}>
+                      <Card.Header className="cardheader-table">
+                        <h3 className="card-title">Charges</h3>
+                      </Card.Header>
+                      <div className="module-height">
+                        <DataTable
+                          columns={chargesColumns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </div>
+                    </Col>
+                  
+                  </Row>
+                </Card.Body>
+              </Card>
+              <Card>
+                
+                <Card.Body>
+                  <Row className="mt-4">
+                  <Col lg={12} md={12}>
+                      <Card.Header className="cardheader-table">
+                        <h3 className="card-title">Deductions</h3>
+                      </Card.Header>
+                      <div className="module-height">
+                        <DataTable
+                          columns={deductionsColumns}
+                          data={DeductionData}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </div>
+                    </Col>
+                  
+                  </Row>
+                </Card.Body>
+              </Card>
+              <Card>
+           
+                <Card.Body>
+                  <Row className="mt-4">
+                    <Col lg={8} md={8}>
+                      <Card.Header className="cardheader-table">
+                        <h3 className="card-title">Assign Department Items</h3>
+                      </Card.Header>
+                      <div className="module-height">
+                        <DataTable
+                          columns={SiteItemsColumn}
+                          data={SiteItems}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </div>
+                    </Col>
+                    <Col lg={4} md={4}>
+                      <Card.Header className="cardheader-table">
+                        <h3 className="card-title">Assign Fuels</h3>
+                      </Card.Header>
+                      <div className="module-height">
+                        <DataTable
+                          columns={FuelsModelColumn}
+                          data={fuelData}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
+            </div>
+            <div className="d-flex justify-content-end mt-3">
+              <button className="btn btn-primary" type="submit">
+                Submit
+              </button>
+            </div>
+          </form>
         </Row>
       </>
     </>

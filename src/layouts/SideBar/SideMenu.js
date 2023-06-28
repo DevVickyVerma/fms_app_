@@ -122,14 +122,6 @@ export const MENUITEMS = [
             permission: "site-list",
             visibility: false,
           },
-          {
-            path: `/site-setting`,
-            title: "Site-Setting",
-            type: "link",
-            permission: "site-create",
-            visibility: false,
-          },
-       
         ],
       },
       {
@@ -442,7 +434,6 @@ export const MENUITEMS = [
             permission: "supplier-create",
             visibility: false,
           },
-        
         ],
       },
       {
@@ -460,7 +451,6 @@ export const MENUITEMS = [
             permission: "supplier-create",
             visibility: false,
           },
-        
         ],
       },
       {
@@ -485,7 +475,6 @@ export const MENUITEMS = [
             permission: "charges-create",
             visibility: false,
           },
-          
         ],
       },
       {
@@ -510,11 +499,9 @@ export const MENUITEMS = [
             permission: "charges-create",
             visibility: false,
           },
-          
         ],
       },
-      
-      
+
       {
         title: "Manage Site Nozzle",
         icon: "filter",
@@ -537,7 +524,6 @@ export const MENUITEMS = [
             permission: "charges-create",
             visibility: false,
           },
-          
         ],
       },
       {
@@ -562,7 +548,6 @@ export const MENUITEMS = [
             permission: "charges-create",
             visibility: false,
           },
-          
         ],
       },
       // {
@@ -587,10 +572,9 @@ export const MENUITEMS = [
       //       permission: "charges-create",
       //       visibility: false,
       //     },
-          
+
       //   ],
       // },
-      
     ],
   },
 ];

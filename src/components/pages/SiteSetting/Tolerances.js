@@ -14,26 +14,47 @@ import {
 import { Formik, Field, ErrorMessage } from "formik";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
+
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import { Slide, toast } from "react-toastify";
 
 const SiteSettings = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const navigate = useNavigate();
 
-  const [Listcompany, setCompanylist] = useState([]);
-  const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  const [subTypes, setSubTypes] = useState([]);
-  const [EditSiteData, setEditSiteData] = useState("");
-  const [companyId, setCompanyId] = useState();
 
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const notify = (message) => {
+    toast.success(message, {
+      autoClose: 1000,
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+    });
+  };
+  const Errornotify = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+    });
+  };
+
+
+
+
+
+
+
+
+
   const [AddSiteData, setAddSiteData] = useState([]);
   const [ToleranceData, setToleranceData] = useState([]);
   // const [selectedBusinessType, setSelectedBusinessType] = useState("");
@@ -166,7 +187,7 @@ const SiteSettings = (props) => {
 
       if (response.ok) {
         notify(data.message);
-        // navigate("/sites");
+        navigate("/dashboard");
       } else {
         Errornotify(data.message);
       }
@@ -267,7 +288,7 @@ const SiteSettings = (props) => {
                         name="client_id"
                         onChange={(e) => {
                           const selectedType = e.target.value;
-                          console.log(selectedType,"ClientId")
+                      
                           formik.setFieldValue("client_id", selectedType);
                           setSelectedClientId(selectedType);
 
@@ -281,11 +302,7 @@ const SiteSettings = (props) => {
 
                           if (selectedClient) {
                             setSelectedCompanyList(selectedClient.companies);
-                            // console.log(selectedClient, "selectedClient");
-                            // console.log(
-                            //   selectedClient.companies,
-                            //   "selectedClient"
-                            // );
+                         
                           }
                         }}
                       >
@@ -325,7 +342,7 @@ const SiteSettings = (props) => {
                         name="company_id"
                         onChange={(e) => {
                           const selectedCompany = e.target.value;
-                          console.log(selectedCompany,"selectedCompany")
+                 
                           formik.setFieldValue("company_id", selectedCompany);
                           setSelectedCompanyId(selectedCompany);
                           setSelectedSiteList([]);
@@ -334,11 +351,7 @@ const SiteSettings = (props) => {
                           );
                           if (selectedCompanyData) {
                             setSelectedSiteList(selectedCompanyData.sites);
-                            // console.log(selectedCompanyData, "company_id");
-                            // console.log(
-                            //   selectedCompanyData.sites,
-                            //   "company_id"
-                            // );
+                        ;
                           }
                         }}
                       >
@@ -377,7 +390,7 @@ const SiteSettings = (props) => {
                         name="site_id"
                         onChange={(e) => {
                           const selectedSite = e.target.value;
-                          console.log(selectedSite,"site_id")
+                       
                           formik.setFieldValue("site_id", selectedSite);
                           setSelectedSiteId(selectedSite);
                       

@@ -14,7 +14,7 @@ import {
 import { Formik, Field, ErrorMessage } from "formik";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
+import { Slide, toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import DatePicker from "react-multi-date-picker";
@@ -31,8 +31,32 @@ import Loaderimg from "../../../Utils/Loader";
   const [subTypes, setSubTypes] = useState([]);
   const [EditSiteData, setEditSiteData] = useState();
 
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
+  // const notify = (message) => toast.success(message);
+  // const Errornotify = (message) => toast.error(message);
+
+
+  const notify = (message) => {
+    toast.success(message, {
+      autoClose: 1000,
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+    });
+  };
+  const Errornotify = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+    });
+  };
+
+
+
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
   function handleError(error) {
@@ -181,17 +205,8 @@ import Loaderimg from "../../../Utils/Loader";
   const isInvalid = formik.errors && formik.touched.name ? "is-invalid" : "";
 
   // Use the isInvalid variable to conditionally set the class name
-  const inputClass = `form-control ${isInvalid}`;
-  const handleBusinessTypeChange = (e) => {
-    const selectedType = e.target.value;
 
-    formik.setFieldValue("business_type", selectedType);
-    setSelectedBusinessType(selectedType);
-    const selectedTypeData = AddSiteData.busines_types.find(
-      (type) => type.name === selectedType
-    );
-    setSubTypes(selectedTypeData.sub_types);
-  };
+ 
 
   return (
     <>
