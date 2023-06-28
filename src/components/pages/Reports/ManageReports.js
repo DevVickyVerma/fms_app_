@@ -178,7 +178,7 @@ const ManageReports = (props) => {
                     <Form onSubmit={handleSubmit}>
                       <Card.Body>
                         <Row>
-                          <Col lg={6} md={12}>
+                          <Col lg={4} md={6}>
                             <FormGroup>
                               <label
                                 htmlFor="client_id"
@@ -247,7 +247,7 @@ const ManageReports = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                          <Col lg={6} md={12}>
+                          <Col lg={4} md={6}>
                             <FormGroup>
                               <label
                                 htmlFor="company_id"
@@ -308,7 +308,7 @@ const ManageReports = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                          <Col lg={6} md={12}>
+                          <Col lg={4} md={6}>
                             <FormGroup>
                               <label
                                 htmlFor="site_id"
@@ -351,7 +351,7 @@ const ManageReports = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                          <Col lg={6} md={12}>
+                          <Col lg={4} md={6}>
                             <FormGroup>
                               <label
                                 htmlFor="start_date"
@@ -386,7 +386,7 @@ const ManageReports = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                          <Col lg={6} md={12}>
+                          <Col lg={4} md={6}>
                             <FormGroup>
                               <label
                                 htmlFor="end_date"
@@ -421,7 +421,7 @@ const ManageReports = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                          <Col lg={6} md={12}>
+                          <Col lg={4} md={6}>
                             <FormGroup>
                               <label
                                 className=" form-label mt-4"
