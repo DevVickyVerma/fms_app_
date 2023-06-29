@@ -111,11 +111,75 @@ const DepartmentShop = (props) => {
       );
     });
   };
-  const SubmitSummary = (values) => {
+  const SubssmitSummary = (values) => {
     console.log(values);
     console.log(SiteID);
     console.log(ReportDate);
     console.log(summarydata?.summary_of_variances);
+   
+    const banking_difference = summarydata?.banking["Banking Difference"]
+    console.log(banking_difference,"banking_difference");
+    const cash_operator = summarydata?.banking["Cash commited by operator"]
+    console.log(cash_operator,"cash_operator");
+    const net_cash_due_banking = summarydata?.banking["Net Cash Due For Banking"]
+    console.log(net_cash_due_banking,"net_cash_due_banking");
+  };
+
+
+  const SubmitSummary = async (values) => {
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+
+      // console.log(values);
+      // console.log(SiteID);
+      // console.log(ReportDate);
+      // console.log(summarydata?.summary_of_variances);
+     
+      const banking_difference = summarydata?.banking["Banking Difference"]
+   
+      const cash_operator = summarydata?.banking["Cash commited by operator"]
+  
+      const net_cash_due_banking = summarydata?.banking["Net Cash Due For Banking"]
+  
+      const formData = new FormData();
+      formData.append("net_cash_due_banking", net_cash_due_banking);
+      formData.append("banking_difference", banking_difference);
+      formData.append("cash_operator", cash_operator);
+      formData.append("site_id", SiteID);
+      formData.append("drs_date", ReportDate);
+      formData.append("summary_remarks", values.Remarks);
+      formData.append("summary_of_variances", summarydata?.summary_of_variances);
+
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/drs/dayend`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        SuccessToast(data.message);
+        setIsLoading(false);
+      } else {
+        const errorMessage = Array.isArray(data.message)
+          ? data.message.join(" ")
+          : data.message;
+        console.log(errorMessage);
+        ErrorToast(errorMessage);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      handleError(error);
+      setIsLoading(false);
+    }
+    setIsLoading(false);
   };
 
   return (
