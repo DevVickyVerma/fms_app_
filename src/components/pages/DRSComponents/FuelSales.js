@@ -151,6 +151,7 @@ const FuelSales = (props) => {
       if (response.ok) {
         console.log("Done");
         SuccessToast(responseData.message);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         ErrorToast(responseData.message);
 

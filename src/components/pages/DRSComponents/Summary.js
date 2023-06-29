@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 
+
 const DepartmentShop = (props) => {
   const { apidata, error, getData, postData, SiteID, ReportDate } = props;
 
@@ -166,6 +167,7 @@ const DepartmentShop = (props) => {
 
       if (response.ok) {
         SuccessToast(data.message);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         setIsLoading(false);
       } else {
         const errorMessage = Array.isArray(data.message)

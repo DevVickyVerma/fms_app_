@@ -154,6 +154,7 @@ const ShopSales = (props) => {
 
       if (response.ok) {
         SuccessToast(responseData.message);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         ErrorToast(responseData.message);
 
