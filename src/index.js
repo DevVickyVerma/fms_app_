@@ -299,6 +299,9 @@ const WorkFlows = React.lazy(() =>
 
 // Other End
 
+const FUELPRICE = React.lazy(() =>
+  import("./components/pages/ManageFuelPrices/FuelPrices")
+);
 const ManageBusinessTypes = React.lazy(() =>
   import("./components/pages/ManageBusinessTypes/ManageBusinessTypes")
 );
@@ -380,6 +383,7 @@ const COMINGSOON = React.lazy(() =>
   import("./components/ErrorPages/ErrorPages/Soon/Comingsoon")
 );
 
+
 const Root = () => {
   const store = configureStore({
     reducer: {
@@ -456,6 +460,8 @@ const Root = () => {
   const WrappedManageItems = withApi(ManageItems);
   const WrappedAddItems = withApi(AddItems);
   const WrappedEditItems = withApi(EditItems);
+
+  const WrappedFUELPRICE= withApi(FUELPRICE);
 
   // const WrappedManageImportTypes = withApi(ManageImportTypes);
   // const WrappedAddImportTypes = withApi(AddImportTypes);
@@ -639,6 +645,10 @@ const Root = () => {
 
                 {/* SitePump components start */}
 
+                <Route
+                    path={`/fuelprice`}
+                    element={<WrappedFUELPRICE />}
+                  />
                 <Route
                     path={`/managesitepump`}
                     element={<WrappedManageSitePump />}

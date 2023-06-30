@@ -108,8 +108,8 @@ export const MENUITEMS = [
         ],
       },
       {
-        title: "Site Settings",
-        icon: "gear",
+        title: "Manage Tolerances",
+        icon: "handshake-o",
         type: "sub",
         active: false,
         permission: "tolerance-list",
@@ -453,8 +453,11 @@ export const MENUITEMS = [
           },
         ],
       },
+
+
+
       {
-        title: "Manage Site Tank",
+        title: " Manage Site Fules",
         icon: "flask",
         type: "sub",
         active: false,
@@ -469,47 +472,12 @@ export const MENUITEMS = [
             visibility: false,
           },
           {
-            path: `/addsitetank`,
-            title: "Add Site Tank",
-            type: "link",
-            permission: "tank-create",
-            visibility: false,
-          },
-        ],
-      },
-      {
-        title: "Manage Site Pump",
-        icon: "rocket",
-        type: "sub",
-        active: false,
-        permission: "pump-list",
-        visibility: false,
-        children: [
-          {
             path: `/managesitepump`,
             title: "Manage Site Pump",
             type: "link",
             permission: "pump-list",
             visibility: false,
           },
-          {
-            path: `/addsitepump`,
-            title: "Add Site Pump",
-            type: "link",
-            permission: "pump-create",
-            visibility: false,
-          },
-        ],
-      },
-
-      {
-        title: "Manage Site Nozzle",
-        icon: "filter",
-        type: "sub",
-        active: false,
-        permission: "nozzle-list",
-        visibility: false,
-        children: [
           {
             path: `/managesitenozzle`,
             title: "Manage Site Nozzle",
@@ -518,14 +486,63 @@ export const MENUITEMS = [
             visibility: false,
           },
           {
-            path: `/addsitenozzle`,
-            title: "Add Site Nozzle",
+            path: `/fuelprice`,
+            title: "Fule Prices",
             type: "link",
-            permission: "nozzle-create",
+            permission: "nozzle-list",
             visibility: false,
           },
         ],
       },
+      // {
+      //   title: "Manage Site Pump",
+      //   icon: "rocket",
+      //   type: "sub",
+      //   active: false,
+      //   permission: "pump-list",
+      //   visibility: false,
+      //   children: [
+      //     {
+      //       path: `/managesitepump`,
+      //       title: "Manage Site Pump",
+      //       type: "link",
+      //       permission: "pump-list",
+      //       visibility: false,
+      //     },
+      //     {
+      //       path: `/addsitepump`,
+      //       title: "Add Site Pump",
+      //       type: "link",
+      //       permission: "pump-create",
+      //       visibility: false,
+      //     },
+      //   ],
+      // },
+
+      // {
+      //   title: "Manage Site Nozzle",
+      //   icon: "filter",
+      //   type: "sub",
+      //   active: false,
+      //   permission: "nozzle-list",
+      //   visibility: false,
+      //   children: [
+      //     {
+      //       path: `/managesitenozzle`,
+      //       title: "Manage Site Nozzle",
+      //       type: "link",
+      //       permission: "nozzle-list",
+      //       visibility: false,
+      //     },
+      //     {
+      //       path: `/addsitenozzle`,
+      //       title: "Add Site Nozzle",
+      //       type: "link",
+      //       permission: "nozzle-create",
+      //       visibility: false,
+      //     },
+      //   ],
+      // },
       {
         title: "Manage Items",
         icon: "shopping-cart",

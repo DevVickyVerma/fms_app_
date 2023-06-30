@@ -152,3 +152,7 @@ p.warrningmessage {
   font-weight: 500;
   padding: 13px 0px;
 }
+input.dynamicinput {
+  padding: 10px;
+  border: 1px solid #533e3e;
+}

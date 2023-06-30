@@ -272,38 +272,64 @@ const SiteSettings = (props) => {
     console.log("Business Model Name:", updatedModels);
     setBussinesModelData(updatedModels);
   };
+
   const [checkBussinesItem, setcheckBussinesItem] = useState([]);
 
-  const handleBussinesCheckChange = (row) => {
+  const handleBussinesCheckChange = (event, row) => {
+    const isChecked = event.target.checked;
     const checkedItems = [...checkBussinesItem];
     const valuesArray = [];
 
-    row.business_model_types.forEach((model) => {
-      if (model.checked) {
-        console.log(row.id, "modelid");
-        console.log(row.item_name, "modeliditem_name");
-        console.log(model.id);
-        console.log(model.checked);
+    // Check if any radio button is already selected
+    const isAnyRadioSelected = row.business_model_types.some(
+      (model) => model.checked
+    );
 
-        // Push the desired values to the valuesArray
-        valuesArray.push({
-          modelId: model.id,
-          checked: model.checked,
-          rowId: row.id,
-          itemName: row.item_name,
-        });
+    // If no radio button is selected, check the "Charge Rent" radio button
+
+    if (isChecked) {
+      if (!isAnyRadioSelected) {
+        row.business_model_types[0].checked = true;
       }
-    });
+    } else {
+      const updatecheckedItems = checkedItems.filter(
+        (item) => item.itemName !== row.item_name
+      );
 
-    // Console log the values array
-    console.log(valuesArray);
+      setcheckBussinesItem(updatecheckedItems);
+      console.log(updatecheckedItems, "updatecheckedItems");
 
-    // Set the combined array using formik.setFieldValue
+      row.business_model_types.forEach((radio) => {
+        radio.checked = false;
+      });
+    }
+
+    if (isChecked) {
+      row.business_model_types.forEach((model) => {
+        if (model.checked) {
+          // Add the item to the checkedItems array
+          checkedItems.push({
+            modelId: model.id,
+            modelmodel_name: model.model_name,
+            checked: model.checked,
+            rowId: row.id,
+            itemName: row.item_name,
+            itemcheckedName: "cheked",
+          });
+          setcheckBussinesItem(checkedItems);
+          console.log(checkedItems, "PushedItems");
+        } else if (!isChecked) {
+          // Remove the item from the checkedItems array
+
+          const updatedItems = checkedItems.filter(
+            (item) => item.modelId !== model.id || item.rowId !== row.id
+          );
+          setcheckBussinesItem(updatedItems);
+        }
+      });
+    }
+
     formik.setFieldValue("valuesArray", valuesArray);
-
-    // Set the checked items in the state
-    setcheckBussinesItem(valuesArray.map((item) => item.modelId));
-    console.log(checkBussinesItem, "checkBussinesItem");
   };
 
   // Handle radio button change
@@ -318,7 +344,7 @@ const SiteSettings = (props) => {
       cell: (row) => (
         <input
           type="checkbox"
-          onChange={() => handleBussinesCheckChange(row)}
+          onChange={(event) => handleBussinesCheckChange(event, row)}
         />
       ),
     },
@@ -410,10 +436,24 @@ const SiteSettings = (props) => {
 
   const CardsModelColumn = [
     {
+      name: "Select",
+      selector: "checked",
+      sortable: false,
+      selector: (row) => row.id,
+      center: true,
+      width: "10%",
+      cell: (row) => (
+        <input
+          type="checkbox"
+          onChange={(event) => SelectcardCheckboxChange(event, row)}
+        />
+      ),
+    },
+    {
       name: "Card Model",
       selector: (row) => row.card_name,
       sortable: true,
-      width: "80%",
+      width: "70%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -423,17 +463,17 @@ const SiteSettings = (props) => {
       ),
     },
     {
-      name: "Select",
+      name: "For Tenant",
       selector: "checked",
       sortable: false,
-      selector: (row) => row.id,
+      selector: (row) => row,
       center: true,
       width: "20%",
       cell: (row) => (
         <div>
           <input
             type="checkbox"
-            onChange={(event) => handlecardCheckboxChange(event, row)}
+            onChange={(event) => FortalentcardCheckboxChange(event, row)}
           />
         </div>
       ),
@@ -499,8 +539,7 @@ const SiteSettings = (props) => {
         <div className="d-flex">
           <div className="ms-auto">
             <input
-              type="radio"
-              name={`radioButton_${index}`}
+              type="checkbox"
               onChange={() => handleRadiochargesmodel(row, 0)}
             />
           </div>
@@ -516,10 +555,9 @@ const SiteSettings = (props) => {
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-auto">
-            <input
-              type="radio"
-              name={`radioButton_${index}`}
-              onChange={() => handleRadiochargesmodel(row, 1)}
+          <input
+              type="checkbox"
+              onChange={() => handleRadiochargesmodel(row, 0)}
             />
           </div>
         </div>
@@ -623,7 +661,7 @@ const SiteSettings = (props) => {
       selector: "checked",
       sortable: false,
       center: true,
-      width: "15%",
+      width: "10%",
       cell: (row) => (
         <input type="checkbox" onChange={() => handleSiItemChange(row)} />
       ),
@@ -632,7 +670,7 @@ const SiteSettings = (props) => {
       name: "Department Name",
       selector: (row) => row.dept_name,
       sortable: true,
-      width: "55%",
+      width: "40%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -645,7 +683,7 @@ const SiteSettings = (props) => {
       name: "Meter Reading",
       selector: (row) => row.price,
       sortable: false,
-      width: "30%",
+      width: "25%",
       center: true,
       cell: (row, index) => (
         <div>
@@ -662,6 +700,16 @@ const SiteSettings = (props) => {
           />
           {/* Error handling code */}
         </div>
+      ),
+    },
+    {
+      name: " For Admin",
+      selector: "checked",
+      sortable: false,
+      center: true,
+      width: "20%",
+      cell: (row) => (
+        <input type="checkbox" onChange={() => handleSiItemChange(row)} />
       ),
     },
   ];
@@ -725,20 +773,6 @@ const SiteSettings = (props) => {
 
   // Define an array to store the combined objects
 
-  const handleRadiocardButtonChange = (row, index) => {
-    console.log(`Card ID: ${row.id}, Card Name: ${row.card_name}`);
-
-    const updatedData = CardsModelData.map((item, i) => {
-      const isChecked = i === index;
-
-      return {
-        ...item,
-        checked: isChecked,
-      };
-    });
-
-    formik.setFieldValue("card_models", updatedData);
-  };
   const handleRadioDeductionsModel = (row, value) => {
     const deductions = formik.values?.deductions;
 
@@ -764,34 +798,6 @@ const SiteSettings = (props) => {
 
   const checkedCardModels = [];
 
-  const handleCheckboxChange = (row) => {
-    const checkedCardModels = [...formik.values.cardList]; // Create a copy of the cardList array
-    const updatedRow = { ...row, checked: !row.checked };
-    const updatedData = CardsModelData.map((item) =>
-      item.id === updatedRow.id ? updatedRow : item
-    );
-
-    formik.setFieldValue("cardList", checkedCardModels);
-
-    if (updatedRow.checked) {
-      console.log("Card Name (Checked):", updatedRow.card_name);
-      console.log("Card ID (Checked):", updatedRow.id);
-      // Push the item to the array
-      checkedCardModels.push(updatedRow);
-    } else {
-      console.log("Card Name (Unchecked):", updatedRow.card_name);
-      console.log("Card ID (Unchecked):", updatedRow.id);
-      // Remove the item from the array
-      const index = checkedCardModels.findIndex(
-        (item) => item.id === updatedRow.id
-      );
-      if (index !== -1) {
-        checkedCardModels.splice(index, 1);
-      }
-    }
-
-    formik.setFieldValue("cardList", checkedCardModels);
-  };
   const [ChargeCheckbox, setChargeCheckbox] = useState([]);
 
   const handleChargeCheckboxChange = (row) => {
@@ -821,36 +827,6 @@ const SiteSettings = (props) => {
     formik.setFieldValue("ChargeCheckbox", updatedChargeCheckbox);
   };
 
-  // Define the array to store checked items outside the function scope
-
-  const [checkCardItem, setCheckCardItem] = useState([]);
-
-  const handlecardCheckboxChange = (event, row) => {
-    const isChecked = event.target.checked;
-    let checkedcardItems = [...checkCardItem];
-    if (isChecked) {
-      // Item is checked, add card_name to the array if it doesn't exist
-      if (!checkedcardItems.includes(row.id)) {
-        checkedcardItems.push(row.id);
-        setCheckCardItem(checkedcardItems);
-        console.log(`Added: Card ID: ${row.id}, Card Name: ${row.card_name}`);
-        console.log(checkedcardItems, "checkedcardItems");
-      }
-    } else {
-      // Item is unchecked, remove card_name from the array if it exists
-      const itemIndex = checkedcardItems.indexOf(row.id);
-      if (itemIndex !== -1) {
-        checkedcardItems.splice(itemIndex, 1);
-        setCheckCardItem(checkedcardItems);
-        console.log(checkedcardItems, "checkedcardItems");
-        console.log(`Removed: Card ID: ${row.id}, Card Name: ${row.card_name}`);
-      }
-    }
-    console.log(checkedcardItems, "checkedcardItems");
-
-    formik.setFieldValue("CheckedcardItem", checkedcardItems);
-  };
-
   const [checkFuelItem, setCheckFuelItem] = useState([]);
   const handlefuelCheckboxChange = (event, row) => {
     const isChecked = event.target.checked;
@@ -875,6 +851,49 @@ const SiteSettings = (props) => {
 
       console.log(checkedfuelItems, "checkedfuelItems");
     }
+  };
+
+  let modifiedselectcard = [];
+
+  const SelectcardCheckboxChange = (event, row) => {
+    const isChecked = event.target.checked;
+    if (isChecked) {
+      row.checked = true;
+
+      if (modifiedCardforcardtalent.some((card) => card.id === row.id)) {
+        row.for_tenant = 1;
+      } else {
+        row.for_tenant = 0;
+      }
+
+      modifiedselectcard.push(row);
+      console.log(modifiedselectcard, "modifiedselectcard");
+      console.log(modifiedCardforcardtalent, "modifiedCardforcardtalent");
+    } else {
+      modifiedselectcard = modifiedselectcard.filter(
+        (prevRow) => prevRow.card_name !== row.card_name
+      );
+      console.log(modifiedselectcard, "modifiedselectcard");
+      console.log(modifiedCardforcardtalent, "modifiedCardforcardtalent");
+    }
+  };
+
+  let modifiedCardforcardtalent = [];
+
+  const FortalentcardCheckboxChange = (event, row) => {
+    const isChecked = event.target.checked;
+    if (isChecked) {
+      row.for_tenant = 1;
+      modifiedCardforcardtalent.push(row); // Add the modified row to the array
+      console.log(modifiedCardforcardtalent, " mo ");
+    } else {
+      modifiedCardforcardtalent = modifiedCardforcardtalent.filter(
+        (prevRow) => prevRow.card_name !== row.card_name
+      );
+      console.log(modifiedCardforcardtalent, " modifiedRows ");
+    }
+
+    console.log(modifiedCardforcardtalent, "bahro");
   };
 
   return (
@@ -914,7 +933,6 @@ const SiteSettings = (props) => {
           <form onSubmit={formik.handleSubmit}>
             <div className=" m-4">
               <Card>
-               
                 <Card.Body>
                   <Row>
                     <Col lg={12} md={12}>
@@ -940,7 +958,6 @@ const SiteSettings = (props) => {
                 </Card.Body>
               </Card>
               <Card>
-             
                 <Card.Body>
                   <Row>
                     <Col lg={12} md={12}>
@@ -966,7 +983,6 @@ const SiteSettings = (props) => {
                 </Card.Body>
               </Card>
               <Card>
-               
                 <Card.Body>
                   <Row className="mt-4">
                     <Col lg={12} md={12}>
@@ -988,15 +1004,13 @@ const SiteSettings = (props) => {
                         />
                       </div>
                     </Col>
-                  
                   </Row>
                 </Card.Body>
               </Card>
               <Card>
-                
                 <Card.Body>
                   <Row className="mt-4">
-                  <Col lg={12} md={12}>
+                    <Col lg={12} md={12}>
                       <Card.Header className="cardheader-table">
                         <h3 className="card-title">Deductions</h3>
                       </Card.Header>
@@ -1015,12 +1029,10 @@ const SiteSettings = (props) => {
                         />
                       </div>
                     </Col>
-                  
                   </Row>
                 </Card.Body>
               </Card>
               <Card>
-           
                 <Card.Body>
                   <Row className="mt-4">
                     <Col lg={8} md={8}>
