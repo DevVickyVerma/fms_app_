@@ -554,6 +554,7 @@ const SiteSettings = (props) => {
           {/* Error handling code */}
         </div>
       ),
+      
     },
   ];
   const deductionsColumns = [
@@ -632,15 +633,16 @@ const SiteSettings = (props) => {
           <input
             type="checkbox"
             id={`checked-${index}`}
-            name={`deduction_value[${index}].admin`}
+            name={`FormikDeductionData[${index}].admin`}
             className="table-input"
-            checked={formik.values?.deduction_value?.[index]?.admin ?? false}
+            checked={formik.values?.FormikDeductionData?.[index]?.admin ?? false}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
           {/* Error handling code */}
         </div>
       ),
+      
     },
     {
       name: "Operator",
@@ -654,9 +656,9 @@ const SiteSettings = (props) => {
           <input
             type="checkbox"
             id={`checked-${index}`}
-            name={`deduction_value[${index}].operator`}
+            name={`FormikDeductionData[${index}].operator`}
             className="table-input"
-            checked={formik.values?.deduction_value?.[index]?.operator ?? false}
+            checked={formik.values?.FormikDeductionData?.[index]?.operator ?? false}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
@@ -666,108 +668,6 @@ const SiteSettings = (props) => {
     },
   ];
 
-  // const deductionsColumns = [
-  //   {
-  //     name: "Select",
-  //     selector: "checked",
-  //     sortable: false,
-  //     center: true,
-  //     width: "10%",
-  //     cell: (row, index) => (
-  //       <div>
-  //         <input
-  //           type="checkbox"
-  //           id={`checked-${index}`}
-  //           name={`FormikDeductionData[${index}].checked`}
-  //           className="table-input"
-  //           checked={
-  //             formik.values?.FormikDeductionData?.[index]?.checked ?? false
-  //           }
-  //           onChange={formik.handleChange}
-  //           onBlur={formik.handleBlur}
-  //         />
-  //         {/* Error handling code */}
-  //       </div>
-  //     ),
-  //   },
-  //   {
-  //     name: "DEDUCTION GROUPS",
-  //     selector: (row) => row.deduction_name,
-  //     sortable: true,
-  //     cell: (row, index) => (
-  //       <div className="d-flex">
-  //         <div className="ms-2 mt-0 mt-sm-2 d-block">
-  //           <h6 className="mb-0 fs-14 fw-semibold">{row.deduction_name}</h6>
-  //         </div>
-  //       </div>
-  //     ),
-  //   },
-
-  //   {
-  //     name: "Amount",
-  //     selector: (row) => row.deduction_value,
-  //     sortable: false,
-  //     width: "25%",
-  //     center: true,
-  //     cell: (row, index) => (
-  //       <div>
-  //         <input
-  //           type="number"
-  //           id={`deduction_value-${index}`}
-  //           name={`FormikDeductionData[${index}].deduction_value`}
-  //           className="table-input"
-  //           value={
-  //             formik.values?.FormikDeductionData?.[index]?.deduction_value ?? 0
-  //           }
-  //           // value={formik.values?.data[index]?.charge_value}
-  //           onChange={formik.handleChange}
-  //           onBlur={formik.handleBlur}
-  //           // readOnly={editable?.is_editable ? false : true}
-  //         />
-  //         {/* Error handling code */}
-  //       </div>
-  //     ),
-  //   },
-
-  //   {
-  //     name: "Admin",
-  //     selector: (row) => row.business_model_types?.[0]?.id,
-  //     sortable: false,
-  //     center: true,
-  //     width: "20%",
-  //     cell: (row, index) => (
-  //       <div className="d-flex">
-  //         <div className="ms-auto">
-  //           <input
-  //             type="radio"
-  //             name={`radioButton_${index}`}
-  //             checked={row.business_model_types?.[0]?.checked}
-  //             onChange={() => handleRadioDeductionsModel(row, 0)}
-  //           />
-  //         </div>
-  //       </div>
-  //     ),
-  //   },
-  //   {
-  //     name: "Operator",
-  //     selector: (row) => row.business_model_types?.[1]?.id,
-  //     sortable: false,
-  //     center: true,
-  //     width: "20%",
-  //     cell: (row, index) => (
-  //       <div className="d-flex">
-  //         <div className="ms-auto">
-  //           <input
-  //             type="radio"
-  //             name={`radioButton_${index}`}
-  //             checked={row.business_model_types?.[1]?.checked}
-  //             onChange={() => handleRadioDeductionsModel(row, 1)}
-  //           />
-  //         </div>
-  //       </div>
-  //     ),
-  //   },
-  // ];
 
   const SiteItemsColumn = [
     {
