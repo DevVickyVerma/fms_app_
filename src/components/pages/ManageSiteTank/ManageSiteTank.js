@@ -39,13 +39,11 @@ const ManageSiteTank = (props) => {
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
-  const [UploadTabname, setUploadTabname] = useState();
+
   const [submitSiteID, setsubmitSiteID] = useState();
-  const [Uploadtitle, setUploadtitle] = useState();
-  const [UploadList, setUploadList] = useState();
-  const [PropsSiteId, setPropsSiteId] = useState();
-  const [PropsDate, setPropsDate] = useState();
-  const [tankData, setTankdata] = useState();
+  const [localStorageSiteID, setlocalStorageSiteID] = useState();
+  const [localStorageCompanyID, setlocalStorageCompanyID] = useState();
+  const [localStorageClientID, setlocalStorageClientID] = useState();
 
   useEffect(() => {}, []);
 
@@ -133,14 +131,6 @@ const ManageSiteTank = (props) => {
     }
   };
 
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
   const handleSubmit1 = async (values) => {
     handleFetchTableData(values);
   };
@@ -165,7 +155,7 @@ const ManageSiteTank = (props) => {
       company_id: values.company_id,
     };
 
-    localStorage.setItem("dataKey", JSON.stringify(tank));
+    localStorage.setItem("SiteTAnk", JSON.stringify(tank));
 
     try {
       setsubmitSiteID(values.site_id);
@@ -178,7 +168,21 @@ const ManageSiteTank = (props) => {
       if (response && response.data && response.data.data) {
         setData(response.data.data);
         console.log(data);
-        setSearchvalue(response.data.data);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+  const FetchDatawithlocalstorage = async (values) => {
+    try {
+      const response = await getData(
+        `/site-tank/list?site_id=${localStorageSiteID}`
+      );
+
+      if (response && response.data && response.data.data) {
+        setData(response.data.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -187,40 +191,42 @@ const ManageSiteTank = (props) => {
     }
   };
 
-  
-
   useEffect(() => {
     handleFetchData();
-    handleFetchTableData();
-  }, []);
+ 
+    if(localStorageSiteID){
+      FetchDatawithlocalstorage()
+      console.log(localStorageSiteID,"localStorageSiteID")
+    }
 
-  const permissionsToCheck = [
-    "charges-list",
-    "charges-create",
-    "charges-edit",
-    "charges-details",
-    "charges-delete",
-  ];
-  let isPermissionAvailable = false;
+  }, [localStorageSiteID]);
+
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
+    
+    const localStorageData = localStorage.getItem("SiteTAnk");
+
+    // Parse the data as JSON
+    const parsedData = JSON.parse(localStorageData);
+
+    // Get the value of site_id
+    const siteId = parsedData.site_id;
+    setlocalStorageSiteID(siteId);
+ 
     if (UserPermissions) {
       setPermissionsArray(UserPermissions.permissions);
     }
   }, [UserPermissions]);
 
- 
   const isEditPermissionAvailable = permissionsArray?.includes("tank-edit");
   const isAddPermissionAvailable = permissionsArray?.includes("tank-create");
-  const isDeletePermissionAvailable =
-    permissionsArray?.includes("tank-delete");
+  const isDeletePermissionAvailable = permissionsArray?.includes("tank-delete");
   const isDetailsPermissionAvailable =
     permissionsArray?.includes("tank-details");
-  const isAssignPermissionAvailable =
-    permissionsArray?.includes("tank-assign");
+  const isAssignPermissionAvailable = permissionsArray?.includes("tank-assign");
 
   const columns = [
     {
@@ -400,18 +406,6 @@ const ManageSiteTank = (props) => {
     columns,
     data,
   };
-  const [searchText, setSearchText] = useState("");
-  const [searchvalue, setSearchvalue] = useState();
-
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchText(value);
-
-    const filteredData = searchvalue.filter((item) =>
-      item.name.toLowerCase().includes(value.toLowerCase())
-    );
-    setData(filteredData);
-  };
 
   return (
     <>
@@ -457,12 +451,11 @@ const ManageSiteTank = (props) => {
               <Card.Body>
                 <Formik
                   initialValues={{
-                    client_id:
-                      "" || JSON.parse(localStorage.getItem("tank.client_id")),
-                    company_id:
-                      "" || JSON.parse(localStorage.getItem("tank.company_id")),
-                    site_id:
-                      "" || JSON.parse(localStorage.getItem("tank.site_id")),
+                    client_id: "",
+                    company_id: "",
+
+                    site_id: "",
+
                     start_date: "",
                   }}
                   validationSchema={Yup.object({

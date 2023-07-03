@@ -129,7 +129,12 @@ const FuelPrices = (props) => {
         {item?.fuels.map((fuel, index) => (
           <td key={index}>
             {Array.isArray(fuel) ? (
-              "N/A"
+              <input
+                type="text"
+                className="table-input readonly"
+                readOnly
+              
+              />
             ) : (
               <input
                 type="text"
@@ -182,9 +187,9 @@ const FuelPrices = (props) => {
     for (const [key, value] of formData.entries()) {
       console.log(`${key}: ${value}`);
     }
-    formData.append("drs_date", selectedDrsDate);
-      formData.append("client_id", selectedClientId);
-      formData.append("company_id", selectedCompanyId);
+    formData.append("drs_date", "selectedDrsDate");
+      formData.append("client_id", "selectedClientId");
+      formData.append("company_id", "selectedCompanyId");
 
     
 
