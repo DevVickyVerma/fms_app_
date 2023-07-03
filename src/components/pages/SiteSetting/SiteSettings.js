@@ -132,142 +132,101 @@ const SiteSettings = (props) => {
   }, [id]); // Removed 'SiteID' and 'ReportDate' dependencies as they are not defined in the code snippet
 
   const handleSubmit = async (values) => {
-  
-
- 
     try {
-     
-     // Create a new FormData object
-     const formData = new FormData();
-     console.log(values, "valuehandleSubmits");
- 
-     for (const obj of values.updatedAssignFormikbussiness) {
-       const { rowId, modelId } = obj;
-       const business_models_valueKey = `business_models[${rowId}]`;
-       formData.append(business_models_valueKey, modelId);
-     }
+      // Create a new FormData object
+      const formData = new FormData();
+      console.log(values, "valuehandleSubmits");
 
-     const selectedFuelIds = [];
-     const fuel_models_valueKey = 'fuels[]';
-     
-     for (const obj of values.FormikFuelData) {
-       const { id, fuel_name, checked } = obj;
-     
-       if (checked) {
-         selectedFuelIds.push(id);
-       }
-     }
-     
-     formData.append(fuel_models_valueKey, JSON.stringify(selectedFuelIds));
-     
-     
-     
-     
- 
-     for (const obj of values.AssignFormikCards) {
-       const { id, for_tenant, checked, card_name } = obj;
-       const card_valueKey = `cards[${id}]`;
-       if (checked) {
-         formData.append(card_valueKey, for_tenant);
-       }
-     }
- 
- 
-     for (const obj of values.FormikChargesData) {
-       const { id, charge_name, charge_value, checked, admin, operator } = obj;
-       const charge_admin_valueKey = `charge_admin[${id}]`;
-       const charge_operator_valueKey = `charge_operator[${id}]`;
-       const charge_amount_valueKey = `charge_amount[${id}]`;
-       const charges = `charges[]`;
- 
-       if (checked) {
-         formData.append(charges, id);
-         formData.append(charge_amount_valueKey, charge_value);
- 
-         if (typeof admin === "string" && admin.includes("on")) {
-           formData.append(charge_admin_valueKey, 1);
-         } else if (Array.isArray(admin) && admin.includes("on")) {
-           formData.append(charge_admin_valueKey, 1);
-         } else {
-           formData.append(charge_admin_valueKey, 0);
-         }
- 
-         if (typeof operator === "string" && operator.includes("on")) {
-           formData.append(charge_operator_valueKey, 1);
-         } else if (Array.isArray(operator) && operator.includes("on")) {
-           formData.append(charge_operator_valueKey, 1);
-         } else {
-           formData.append(charge_operator_valueKey, 0);
-         }
-       }
-     }
-     for (const obj of values.FormikDeductionData) {
-       const { id, deduction_name, deduction_value, checked, admin, operator } =
-         obj;
-       const deductions_admin_valueKey = `deduction_admin[${id}]`;
-       const deductions_operator_valueKey = `deduction_operator[${id}]`;
-       const deductions_amount_valueKey = `deduction_amount[${id}]`;
-       const deductions = `deductions[]`;
- 
-       if (checked) {
-         formData.append(deductions, id);
-         formData.append(deductions_amount_valueKey, deduction_value);
- 
-         if (typeof admin === "string" && admin.includes("on")) {
-           formData.append(deductions_admin_valueKey, 1);
-         } else if (Array.isArray(admin) && admin.includes("on")) {
-           formData.append(deductions_admin_valueKey, 1);
-         } else {
-           formData.append(deductions_admin_valueKey, 0);
-         }
- 
-         if (typeof operator === "string" && operator.includes("on")) {
-           formData.append(deductions_operator_valueKey, 1);
-         } else if (Array.isArray(operator) && operator.includes("on")) {
-           formData.append(deductions_operator_valueKey, 1);
-         } else {
-           formData.append(deductions_operator_valueKey, 0);
-         }
-       }
-     }
- 
-     for (const obj of values.Formiksite_items) {
-       const { id, dept_name, price, checked, is_admin } = obj;
-       const deductions_admin_valueKey = `department_item_admin[${id}]`;
- 
-       const deductions_amount_valueKey = `deduction_amount[${id}]`;
- 
-       if (checked) {
-         formData.append(deductions_amount_valueKey, price);
- 
-         if (typeof admin === "string" && is_admin.includes("on")) {
-           formData.append(deductions_admin_valueKey, is_admin);
-         } else if (Array.isArray(is_admin) && is_admin.includes("on")) {
-           formData.append(deductions_admin_valueKey, 1);
-         } else {
-           formData.append(deductions_admin_valueKey, 0);
-         }
-       }
-     }
- 
-     formData.append("id", id);
-    
+      for (const obj of values.updatedAssignFormikbussiness) {
+        const { rowId, modelId } = obj;
+        const business_models_valueKey = `business_models[${rowId}]`;
+        formData.append(business_models_valueKey, modelId);
+      }
 
-    const postDataUrl = "/site/update-setting";
-    // const navigatePath = "/business";
-  
-    await postData(postDataUrl, formData, );
-  
-   ; // Set the submission state to false after the API call is completed
-  } catch (error) {
-    console.log(error);
- ; // Set the submission state to false if an error occurs
-  }
+      const selectedFuelIds = [];
+      const fuel_models_valueKey = "fuels[]";
 
- 
+      for (const obj of values.FormikFuelData) {
+        const { id, fuel_name, checked } = obj;
 
-   
-  
+        if (checked) {
+          selectedFuelIds.push(id);
+        }
+      }
+
+      formData.append(fuel_models_valueKey, JSON.stringify(selectedFuelIds));
+
+      for (const obj of values.AssignFormikCards) {
+        const { id, for_tenant, checked, card_name } = obj;
+        const card_valueKey = `cards[${id}]`;
+        if (checked) {
+          formData.append(card_valueKey, for_tenant);
+        }
+      }
+
+      for (const obj of values.FormikChargesData) {
+        const { id, charge_name, charge_value, checked, admin, operator } = obj;
+        const charge_admin_valueKey = `charge_admin[${id}]`;
+        const charge_operator_valueKey = `charge_operator[${id}]`;
+        const charge_amount_valueKey = `charge_amount[${id}]`;
+        const charges = `charges[]`;
+
+        if (checked) {
+          formData.append(charges, id);
+          formData.append(charge_amount_valueKey, charge_value);
+          formData.append(charge_admin_valueKey, admin);
+          formData.append(charge_operator_valueKey, operator);
+
+        
+        }
+      }
+      for (const obj of values.FormikDeductionData) {
+        const {
+          id,
+          deduction_name,
+          deduction_value,
+          checked,
+          admin,
+          operator,
+        } = obj;
+        const deductions_admin_valueKey = `deduction_admin[${id}]`;
+        const deductions_operator_valueKey = `deduction_operator[${id}]`;
+        const deductions_amount_valueKey = `deduction_amount[${id}]`;
+        const deductions = `deductions[]`;
+
+        if (checked) {
+          formData.append(deductions, id);
+          formData.append(deductions_amount_valueKey, deduction_value);
+          formData.append(deductions_admin_valueKey, admin);
+          formData.append(deductions_operator_valueKey, operator);
+
+      
+        }
+      }
+
+      for (const obj of values.Formiksite_items) {
+        const { id, dept_name, price, checked, is_admin } = obj;
+        const deductions_admin_valueKey = `department_item_admin[${id}]`;
+
+        const department_items = `department_items[${id}]`;
+
+        if (checked) {
+          formData.append(department_items, price);
+          formData.append(deductions_admin_valueKey, is_admin);
+
+       
+        }
+      }
+
+      formData.append("id", id);
+
+      const postDataUrl = "/site/update-setting";
+      // const navigatePath = "/business";
+
+      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+    } catch (error) {
+      console.log(error); // Set the submission state to false if an error occurs
+    }
   };
 
   const initialValues = {
