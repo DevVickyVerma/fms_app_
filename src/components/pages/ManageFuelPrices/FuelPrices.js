@@ -137,7 +137,7 @@ const FuelPrices = (props) => {
               />
             ) : (
               <input
-                type="text"
+                type="number"
                 className="table-input"
                 value={fuel.price}
                 id={fuel.id}

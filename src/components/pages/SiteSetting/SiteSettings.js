@@ -97,27 +97,16 @@ const SiteSettings = (props) => {
           setCardsModelData(data?.data ? data.data.cards : []);
           setis_editable(data?.data ? data.data : {});
 
-          const Assignbussiness = data?.data?.business_models
-            ? data.data.business_models.map((item) => ({
-                id: item.id,
-                item_name: item.item_name,
-                business_model_types: item.business_model_types.map(
-                  (model) => ({
-                    id: model.id,
-                    model_name: model.model_name,
-                    checked: model.checked,
-                  })
-                ),
-                // Add other properties as needed
-              }))
-            : [];
+          formik.setFieldValue(
+            "AssignFormikbussiness",
+            data?.data?.business_models
+          );
 
           formik.setFieldValue("FormikDeductionData", data?.data?.deductions);
           formik.setFieldValue("Formiksite_items", data?.data?.site_items);
           formik.setFieldValue("FormikChargesData", data?.data?.charges);
           formik.setFieldValue("FormikFuelData", data?.data?.fuels);
 
-          formik.setFieldValue("AssignFormikbussiness", Assignbussiness);
           formik.setFieldValue("AssignFormikCards", data?.data?.cards);
         }
       } catch (error) {
@@ -131,30 +120,40 @@ const SiteSettings = (props) => {
     fetchData();
   }, [id]); // Removed 'SiteID' and 'ReportDate' dependencies as they are not defined in the code snippet
 
-  const handleSubmit = async (values) => {
+  const handleSettingSubmit = async (values) => {
     try {
       // Create a new FormData object
       const formData = new FormData();
       console.log(values, "valuehandleSubmits");
+      values.AssignFormikbussiness.forEach((obj) => {
+        const { id, business_model_types, checked } = obj;
+        const business_models_valueKey = `business_models[${id}]`;
 
-      for (const obj of values.updatedAssignFormikbussiness) {
-        const { rowId, modelId } = obj;
-        const business_models_valueKey = `business_models[${rowId}]`;
-        formData.append(business_models_valueKey, modelId);
-      }
+        business_model_types.forEach((model) => {
+          const { id: modelId, checked: radiochecked } = model;
+
+          if (radiochecked && checked) {
+            formData.append(business_models_valueKey, modelId);
+          }
+        });
+      });
 
       const selectedFuelIds = [];
-      const fuel_models_valueKey = "fuels[]";
+      const fuel_models_valueKey = "fuels";
 
-      for (const obj of values.FormikFuelData) {
-        const { id, fuel_name, checked } = obj;
+      for (let i = 0; i < values.FormikFuelData.length; i++) {
+        const { id, fuel_name, checked } = values.FormikFuelData[i];
 
         if (checked) {
-          selectedFuelIds.push(id);
+          selectedFuelIds.push({ [fuel_models_valueKey + "[" + i + "]"]: id });
         }
       }
 
-      formData.append(fuel_models_valueKey, JSON.stringify(selectedFuelIds));
+      selectedFuelIds.forEach((item) => {
+        const key = Object.keys(item)[0];
+        const value = item[key];
+        formData.append(key, value);
+      });
 
       for (const obj of values.AssignFormikCards) {
         const { id, for_tenant, checked, card_name } = obj;
@@ -176,8 +175,6 @@ const SiteSettings = (props) => {
           formData.append(charge_amount_valueKey, charge_value);
           formData.append(charge_admin_valueKey, admin);
           formData.append(charge_operator_valueKey, operator);
-
-        
         }
       }
       for (const obj of values.FormikDeductionData) {
@@ -199,8 +196,6 @@ const SiteSettings = (props) => {
           formData.append(deductions_amount_valueKey, deduction_value);
           formData.append(deductions_admin_valueKey, admin);
           formData.append(deductions_operator_valueKey, operator);
-
-      
         }
       }
 
@@ -213,8 +208,6 @@ const SiteSettings = (props) => {
         if (checked) {
           formData.append(department_items, price);
           formData.append(deductions_admin_valueKey, is_admin);
-
-       
         }
       }
 
@@ -237,7 +230,7 @@ const SiteSettings = (props) => {
   const formik = useFormik({
     initialValues,
     onSubmit: (values) => {
-      handleSubmit(values);
+      handleSettingSubmit(values);
     },
     // ... Add other Formik configuration options as needed
   });
@@ -262,66 +255,9 @@ const SiteSettings = (props) => {
       return item;
     });
     console.log("Business Model Name:", updatedModels);
+
+    formik.setFieldValue("AssignFormikbussiness", updatedModels);
     setBussinesModelData(updatedModels);
-  };
-
-  const [checkBussinesItem, setcheckBussinesItem] = useState([]);
-
-  const handleBussinesCheckChange = (event, row) => {
-    const isChecked = event.target.checked;
-    const checkedItems = [...checkBussinesItem];
-    const valuesArray = [];
-
-    // Check if any radio button is already selected
-    const isAnyRadioSelected = row.business_model_types.some(
-      (model) => model.checked
-    );
-
-    // If no radio button is selected, check the "Charge Rent" radio button
-
-    if (isChecked) {
-      if (!isAnyRadioSelected) {
-        row.business_model_types[0].checked = true;
-      }
-    } else {
-      const updatecheckedItems = checkedItems.filter(
-        (item) => item.itemName !== row.item_name
-      );
-      formik.setFieldValue("updatedAssignFormikbussiness", updatecheckedItems);
-      setcheckBussinesItem(updatecheckedItems);
-
-      row.business_model_types.forEach((radio) => {
-        radio.checked = false;
-      });
-    }
-    console.log(checkBussinesItem, "updatecheckedItems");
-
-    if (isChecked) {
-      row.business_model_types.forEach((model) => {
-        if (model.checked) {
-          // Add the item to the checkedItems array
-          checkedItems.push({
-            modelId: model.id,
-            modelmodel_name: model.model_name,
-            checked: model.checked,
-            rowId: row.id,
-            itemName: row.item_name,
-            itemcheckedName: "cheked",
-          });
-          formik.setFieldValue("updatedAssignFormikbussiness", checkedItems);
-          setcheckBussinesItem(checkedItems);
-          console.log(checkedItems, "PushedItems");
-        } else if (!isChecked) {
-          // Remove the item from the checkedItems array
-
-          const updatedItems = checkedItems.filter(
-            (item) => item.modelId !== model.id || item.rowId !== row.id
-          );
-          setcheckBussinesItem(updatedItems);
-          formik.setFieldValue("updatedAssignFormikbussiness", updatedItems);
-        }
-      });
-    }
   };
 
   // Handle radio button change
@@ -332,14 +268,37 @@ const SiteSettings = (props) => {
       selector: "checked",
       sortable: false,
       center: true,
-      width: "5%",
-      cell: (row) => (
-        <input
-          type="checkbox"
-          onChange={(event) => handleBussinesCheckChange(event, row)}
-        />
+      width: "10%",
+      cell: (row, index) => (
+        <div>
+          <input
+            type="checkbox"
+            id={`checked-${index}`}
+            name={`AssignFormikbussiness[${index}].checked`}
+            className="table-input"
+            checked={
+              formik.values?.AssignFormikbussiness?.[index]?.checked ?? false
+            }
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {/* Error handling code */}
+        </div>
       ),
     },
+    // {
+    //   name: "Select",
+    //   selector: "checked",
+    //   sortable: false,
+    //   center: true,
+    //   width: "5%",
+    //   cell: (row) => (
+    //     <input
+    //       type="checkbox"
+    //       onChange={(event) => handleBussinesCheckChange(event, row)}
+    //     />
+    //   ),
+    // },
     {
       name: "Business Models",
       selector: "item_name",
@@ -554,7 +513,6 @@ const SiteSettings = (props) => {
           {/* Error handling code */}
         </div>
       ),
-      
     },
   ];
   const deductionsColumns = [
@@ -635,14 +593,15 @@ const SiteSettings = (props) => {
             id={`checked-${index}`}
             name={`FormikDeductionData[${index}].admin`}
             className="table-input"
-            checked={formik.values?.FormikDeductionData?.[index]?.admin ?? false}
+            checked={
+              formik.values?.FormikDeductionData?.[index]?.admin ?? false
+            }
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
           {/* Error handling code */}
         </div>
       ),
-      
     },
     {
       name: "Operator",
@@ -658,7 +617,9 @@ const SiteSettings = (props) => {
             id={`checked-${index}`}
             name={`FormikDeductionData[${index}].operator`}
             className="table-input"
-            checked={formik.values?.FormikDeductionData?.[index]?.operator ?? false}
+            checked={
+              formik.values?.FormikDeductionData?.[index]?.operator ?? false
+            }
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
@@ -667,7 +628,6 @@ const SiteSettings = (props) => {
       ),
     },
   ];
-
 
   const SiteItemsColumn = [
     {

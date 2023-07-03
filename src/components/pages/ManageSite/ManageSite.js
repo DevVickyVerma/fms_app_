@@ -470,7 +470,7 @@ const ManageSite = (props) => {
       const SearchList = async (row) => {
         try {
           const params = new URLSearchParams(formData).toString();
-          const response = await getData(`/client-list?${params}`);
+          const response = await getData(`/client/list?${params}`);
           console.log(response.data.data, "ddd");
 
           if (response && response.data && response.data.data) {
