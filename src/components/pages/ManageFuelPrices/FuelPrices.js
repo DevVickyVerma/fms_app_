@@ -437,21 +437,8 @@ const FuelPrices = (props) => {
                 <h3 className="card-title"> Fuel Price</h3>
               </Card.Header>
               <Card.Body>
-                {/* <div className="table-container">
-                  <table className="table">
-                    <thead>
-                      <tr>{renderTableHeader()}</tr>
-                    </thead>
-                    <tbody>{renderTableData()}</tbody>
-                  </table>
-                  <div className="text-end">
-                  <button className="btn btn-primary me-2" type="submit" onClick={handleSubmit}>
-                    Submit
-                  </button>
-                  </div>
-                  
-                </div> */}
-                <div className="table-container table-responsive">
+           
+            {data?     <div className="table-container table-responsive">
                   <table className="table">
                     <colgroup>
                       {data?.head_array.map((_, index) => (
@@ -472,7 +459,7 @@ const FuelPrices = (props) => {
                       Submit
                     </button>
                   </div>
-                </div>
+                </div> :""}
               </Card.Body>
             </Card>
           </Col>

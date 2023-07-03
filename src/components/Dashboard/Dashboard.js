@@ -86,11 +86,13 @@ const Dashboard = (props) => {
         const phoneNumber = data.data.phone_number ?? "";
         const full_name = data.data.full_name ?? "";
         const superiorRole = data.data.superiorRole ?? "";
+        const superiorId = data.data.superiorId ?? "";
         localStorage.setItem("First_name", firstName);
         localStorage.setItem("full_name", full_name);
         localStorage.setItem("Last_name", lastName);
         localStorage.setItem("Phone_Number", phoneNumber);
         localStorage.setItem("superiorRole", superiorRole);
+        localStorage.setItem("superiorId", superiorId);
       }
     } catch (error) {
       console.error("API error:", error);

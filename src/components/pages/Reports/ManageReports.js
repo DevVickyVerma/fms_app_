@@ -40,6 +40,9 @@ const ManageReports = (props) => {
   const [ReportDownloadUrl, setReportDownloadUrl] = useState();
 
   useEffect(() => {
+console.log(localStorage.getItem("superiorId"))
+
+    // Formik.setFieldValue("client_id", selectedType);
     if (UserPermissions) {
       setPermissionsArray(UserPermissions.permissions);
     }
