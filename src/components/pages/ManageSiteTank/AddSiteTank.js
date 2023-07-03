@@ -62,6 +62,13 @@ const AddSitePump = (props) => {
 
   const handleSubmit1 = async (values) => {
     try {
+      const tank = {
+        site_id: values.site_id,
+        client_id: values.client_id,
+        company_id: values.company_id,
+      };
+  
+      localStorage.setItem("SiteTAnk", JSON.stringify(tank));
       const formData = new FormData();
       formData.append("tank_name", values.tank_name);
       formData.append("tank_code", values.tank_code);

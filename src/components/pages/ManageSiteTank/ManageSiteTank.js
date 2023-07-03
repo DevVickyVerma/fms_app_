@@ -197,6 +197,8 @@ const ManageSiteTank = (props) => {
     if(localStorageSiteID){
       FetchDatawithlocalstorage()
       console.log(localStorageSiteID,"localStorageSiteID")
+      console.log(localStorageCompanyID,"localStorageCompanyID")
+      console.log(localStorageClientID,"localStorageClientID")
     }
 
   }, [localStorageSiteID]);
@@ -213,7 +215,11 @@ const ManageSiteTank = (props) => {
     const parsedData = JSON.parse(localStorageData);
 
     // Get the value of site_id
-    const siteId = parsedData.site_id;
+    const siteId = parsedData?.site_id;
+    const clientId = parsedData?.client_id;
+    const companyId = parsedData?.company_id;
+    setlocalStorageClientID(clientId)
+    setlocalStorageCompanyID(companyId)
     setlocalStorageSiteID(siteId);
  
     if (UserPermissions) {

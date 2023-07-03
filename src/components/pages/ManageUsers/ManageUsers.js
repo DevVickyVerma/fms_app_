@@ -105,7 +105,7 @@ const ManageUser = (props) => {
 
   const toggleActive = (row) => {
     const formData = new FormData();
-    formData.append("user_id", row.id);
+    formData.append("id", row.id);
 
     const newStatus = row.status === 1 ? 0 : 1;
     formData.append("status", newStatus);
@@ -115,7 +115,7 @@ const ManageUser = (props) => {
 
   const ToggleStatus = async (formData) => {
     try {
-      const response = await postData("/update-status", formData);
+      const response = await postData("/user/update-status", formData);
       console.log(response, "response"); // Console log the response
       if (apidata.api_response === "success") {
         handleFetchData();
