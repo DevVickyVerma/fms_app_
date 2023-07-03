@@ -44,6 +44,7 @@ const ManageSiteTank = (props) => {
   const [localStorageSiteID, setlocalStorageSiteID] = useState();
   const [localStorageCompanyID, setlocalStorageCompanyID] = useState();
   const [localStorageClientID, setlocalStorageClientID] = useState();
+  const [localStorageSiteName, setlocalStorageSiteName] = useState();
 
   useEffect(() => {}, []);
 
@@ -77,6 +78,7 @@ const ManageSiteTank = (props) => {
               formData
             );
             setData(response.data.data);
+
             Swal.fire({
               title: "Deleted!",
               text: "Your item has been deleted.",
@@ -149,14 +151,6 @@ const ManageSiteTank = (props) => {
   };
 
   const handleFetchTableData = async (values) => {
-    const tank = {
-      site_id: values.site_id,
-      client_id: values.client_id,
-      company_id: values.company_id,
-    };
-
-    localStorage.setItem("SiteTAnk", JSON.stringify(tank));
-
     try {
       setsubmitSiteID(values.site_id);
       const response = await getData(
@@ -165,9 +159,17 @@ const ManageSiteTank = (props) => {
 
       console.log(response.data.data, "tank-list");
 
-      if (response && response.data && response.data.data) {
+      if (response) {
         setData(response.data.data);
-        console.log(data);
+
+        const tank = {
+          site_id: values?.site_id,
+          client_id: values?.client_id,
+          company_id: values?.company_id,
+          sitename: response?.data?.data[0].site,
+        };
+
+        localStorage.setItem("SiteTAnk", JSON.stringify(tank));
       } else {
         throw new Error("No data available in the response");
       }
@@ -183,6 +185,8 @@ const ManageSiteTank = (props) => {
 
       if (response && response.data && response.data.data) {
         setData(response.data.data);
+
+        setlocalStorageSiteName(response?.data?.data[0].site);
       } else {
         throw new Error("No data available in the response");
       }
@@ -193,13 +197,7 @@ const ManageSiteTank = (props) => {
 
   useEffect(() => {
     handleFetchData();
- 
-    if(localStorageSiteID){
-      FetchDatawithlocalstorage()
-      console.log(localStorageSiteID,"localStorageSiteID")
-      console.log(localStorageCompanyID,"localStorageCompanyID")
-      console.log(localStorageClientID,"localStorageClientID")
-    }
+
 
   }, [localStorageSiteID]);
 
@@ -208,7 +206,6 @@ const ManageSiteTank = (props) => {
   const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
-    
     const localStorageData = localStorage.getItem("SiteTAnk");
 
     // Parse the data as JSON
@@ -218,10 +215,12 @@ const ManageSiteTank = (props) => {
     const siteId = parsedData?.site_id;
     const clientId = parsedData?.client_id;
     const companyId = parsedData?.company_id;
-    setlocalStorageClientID(clientId)
-    setlocalStorageCompanyID(companyId)
+    const siteName = parsedData?.sitename;
+    setlocalStorageClientID(clientId);
+    setlocalStorageCompanyID(companyId);
     setlocalStorageSiteID(siteId);
- 
+    setlocalStorageSiteName(siteName);
+
     if (UserPermissions) {
       setPermissionsArray(UserPermissions.permissions);
     }
@@ -664,7 +663,10 @@ const ManageSiteTank = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Manage Site Tank</h3>
+                <h3 className="card-title">
+                  Manage Site Tank (
+                  {localStorageSiteName ? localStorageSiteName : ""}){" "}
+                </h3>
               </Card.Header>
               <Card.Body>
                 <div className="table-responsive deleted-table">

@@ -28,9 +28,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
 
-
 const ManageSiteTank = (props) => {
-
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
   const navigate = useNavigate();
@@ -42,13 +40,8 @@ const ManageSiteTank = (props) => {
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [submitSiteID, setsubmitSiteID] = useState();
-  const [UploadTabname, setUploadTabname] = useState();
-  const [modalTitle, setModalTitle] = useState("");
-  const [Uploadtitle, setUploadtitle] = useState();
-  const [UploadList, setUploadList] = useState();
-  const [PropsSiteId, setPropsSiteId] = useState();
-  const [PropsDate, setPropsDate] = useState();
-
+  const [localStorageSiteName, setlocalStorageSiteName] = useState();
+  const [localStorageSiteID, setlocalStorageSiteID] = useState();
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -86,7 +79,6 @@ const ManageSiteTank = (props) => {
               icon: "success",
               confirmButtonText: "OK",
             });
-       
           } catch (error) {
             handleError(error);
           } finally {
@@ -111,8 +103,6 @@ const ManageSiteTank = (props) => {
       ErrorAlert(errorMessage);
     }
   }
-
-
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -145,21 +135,25 @@ const ManageSiteTank = (props) => {
     },
   });
 
-
-
-
   const handleSubmit1 = async (values) => {
     try {
-
       setsubmitSiteID(values.site_id);
-      const response = await getData(`/site-pump/list?site_id=${values.site_id}`);
+      const response = await getData(
+        `/site-pump/list?site_id=${values.site_id}`
+      );
       // site-tank/list?site_id=Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09
       console.log(response.data.data, "pump");
 
       if (response && response.data && response.data.data) {
         setData(response.data.data);
-        console.log(data);
-        setSearchvalue(response.data.data);
+        const tank = {
+          site_id: values?.site_id,
+          client_id: values?.client_id,
+          company_id: values?.company_id,
+          sitename: response?.data?.data[0].site,
+        };
+
+        localStorage.setItem("SitePump", JSON.stringify(tank));
       } else {
         throw new Error("No data available in the response");
       }
@@ -180,19 +174,47 @@ const ManageSiteTank = (props) => {
       console.error("API error:", error);
     }
   };
+  const FetchDatawithlocalstorage = async (values) => {
+    try {
+      setsubmitSiteID(values?.site_id);
+      const response = await getData(
+        `/site-pump/list?site_id=${localStorageSiteID}`
+      );
+      // site-tank/list?site_id=Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09
+      console.log(response.data.data, "pump");
+
+      if (response && response.data && response.data.data) {
+        setData(response.data.data);
+        setlocalStorageSiteName(response?.data?.data[0].site);
+
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
 
   useEffect(() => {
-    handleFetchData();
-  }, []);
+    const localStorageData = localStorage.getItem("SitePump");
 
-  const permissionsToCheck = [
-    "charges-list",
-    "charges-create",
-    "charges-edit",
-    "charges-details",
-    "charges-delete",
-  ];
-  let isPermissionAvailable = false;
+    // Parse the data as JSON
+    const parsedData = JSON.parse(localStorageData);
+
+    // Get the value of site_id
+    const siteId = parsedData?.site_id;
+
+    const siteName = parsedData?.sitename;
+
+    setlocalStorageSiteID(siteId);
+    setlocalStorageSiteName(siteName);
+
+    handleFetchData();
+    if (localStorageSiteID) {
+      FetchDatawithlocalstorage();
+    }
+  }, [localStorageSiteID]);
+
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -203,13 +225,11 @@ const ManageSiteTank = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable = permissionsArray?.includes(
-    "pump-status-update"
-  );
+  const isStatusPermissionAvailable =
+    permissionsArray?.includes("pump-status-update");
   const isEditPermissionAvailable = permissionsArray?.includes("pump-edit");
   const isAddPermissionAvailable = permissionsArray?.includes("pump-create");
-  const isDeletePermissionAvailable =
-    permissionsArray?.includes("pump-delete");
+  const isDeletePermissionAvailable = permissionsArray?.includes("pump-delete");
   const isDetailsPermissionAvailable =
     permissionsArray?.includes("pump-details");
   const isAssignPermissionAvailable =
@@ -393,18 +413,9 @@ const ManageSiteTank = (props) => {
     columns,
     data,
   };
-  const [searchText, setSearchText] = useState("");
-  const [searchvalue, setSearchvalue] = useState();
+ 
 
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchText(value);
 
-    const filteredData = searchvalue.filter((item) =>
-      item.name.toLowerCase().includes(value.toLowerCase())
-    );
-    setData(filteredData);
-  };
 
   return (
     <>
@@ -444,8 +455,6 @@ const ManageSiteTank = (props) => {
           </div>
         </div>
 
-
-
         <Row>
           <Col md={12} xl={12}>
             <Card>
@@ -461,7 +470,6 @@ const ManageSiteTank = (props) => {
                     client_id: Yup.string().required("Client is required"),
                     company_id: Yup.string().required("Company is required"),
                     site_id: Yup.string().required("Site is required"),
-                   
                   })}
                   onSubmit={(values) => {
                     handleSubmit1(values);
@@ -471,7 +479,7 @@ const ManageSiteTank = (props) => {
                     <Form onSubmit={handleSubmit}>
                       <Card.Body>
                         <Row>
-                        <Col lg={4} md={6}>
+                          <Col lg={4} md={6}>
                             <FormGroup>
                               <label
                                 htmlFor="client_id"
@@ -595,7 +603,6 @@ const ManageSiteTank = (props) => {
                                 component="div"
                                 className="invalid-feedback"
                                 name="company_id"
-                              
                               />
                             </FormGroup>
                           </Col>
@@ -617,10 +624,9 @@ const ManageSiteTank = (props) => {
                                 }`}
                                 id="site_id"
                                 name="site_id"
-                                onChange={(event)=>{
-                                  const site=event.target.value;
+                                onChange={(event) => {
+                                  const site = event.target.value;
                                   setFieldValue("site_id", site);
-                                
                                 }}
                               >
                                 <option value="">Select a Site</option>
@@ -641,7 +647,6 @@ const ManageSiteTank = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                     
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
@@ -664,12 +669,14 @@ const ManageSiteTank = (props) => {
           </Col>
         </Row>
 
-
         <Row className=" row-sm">
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Manage Site Pump</h3>
+                <h3 className="card-title">
+                  Manage Site Pump (
+                  {localStorageSiteName ? localStorageSiteName : ""}){" "}
+                </h3>
               </Card.Header>
               <Card.Body>
                 <div className="table-responsive deleted-table">

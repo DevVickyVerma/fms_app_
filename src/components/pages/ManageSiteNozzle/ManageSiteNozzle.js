@@ -42,13 +42,11 @@ const ManageSiteTank = (props) => {
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
-  const [UploadTabname, setUploadTabname] = useState();
-  const [modalTitle, setModalTitle] = useState("");
-  const [Uploadtitle, setUploadtitle] = useState();
-  const [UploadList, setUploadList] = useState();
+
   const [submitSiteID, setsubmitSiteID] = useState();
-  const [PropsSiteId, setPropsSiteId] = useState();
-  const [PropsDate, setPropsDate] = useState();
+  const [localStorageSiteName, setlocalStorageSiteName] = useState();
+  const [localStorageSiteID, setlocalStorageSiteID] = useState();
+
 
 
   const handleDelete = (id) => {
@@ -151,15 +149,41 @@ const ManageSiteTank = (props) => {
 
   const handleSubmit1 = async (values) => {
     try {
-      setsubmitSiteID(values.site_id);
-      const response = await getData(`/site-nozzle/list?site_id=${values.site_id}`);
+      setsubmitSiteID(values?.site_id);
+      const response = await getData(`/site-nozzle/list?site_id=${values?.site_id}`);
      
       console.log(response.data.data, "nozzle");
 
       if (response && response.data && response.data.data) {
+        const tank = {
+          site_id: values?.site_id,
+          client_id: values?.client_id,
+          company_id: values?.company_id,
+          sitename: response?.data?.data[0].site,
+        };
+
+        localStorage.setItem("SiteNozzle", JSON.stringify(tank));
         setData(response.data.data);
         console.log(data);
         setSearchvalue(response.data.data);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+  const FetchDatawithlocalstorage = async (values) => {
+    try {
+  
+      const response = await getData(`/site-nozzle/list?site_id=${localStorageSiteID}`);
+     
+      console.log(response.data.data, "nozzle");
+
+      if (response ) {
+  
+        setData(response.data.data);
+        setlocalStorageSiteName(response?.data?.data[0]?.site);
       } else {
         throw new Error("No data available in the response");
       }
@@ -182,17 +206,26 @@ const ManageSiteTank = (props) => {
   };
 
   useEffect(() => {
-    handleFetchData();
-  }, []);
+    const localStorageData = localStorage.getItem("SiteNozzle");
 
-  const permissionsToCheck = [
-    "charges-list",
-    "charges-create",
-    "charges-edit",
-    "charges-details",
-    "charges-delete",
-  ];
-  let isPermissionAvailable = false;
+    // Parse the data as JSON
+    const parsedData = JSON.parse(localStorageData);
+
+    // Get the value of site_id
+    const siteId = parsedData?.site_id;
+
+    const siteName = parsedData?.sitename;
+    console.log(siteId,"siteId")
+
+    setlocalStorageSiteID(siteId);
+    setlocalStorageSiteName(siteName);
+
+    handleFetchData();
+    if (localStorageSiteID) {
+      FetchDatawithlocalstorage();
+    }
+  }, [localStorageSiteID]);
+
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -684,7 +717,8 @@ const ManageSiteTank = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Manage Site Nozzle</h3>
+                <h3 className="card-title">Manage Site Nozzle (
+                  {localStorageSiteName ? localStorageSiteName : ""}){" "}</h3>
               </Card.Header>
               <Card.Body>
                 <div className="table-responsive deleted-table">
