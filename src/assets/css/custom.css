@@ -156,3 +156,64 @@ input.dynamicinput {
   padding: 10px;
   border: 1px solid #533e3e;
 }
+.table-container {
+  width: 100%;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  padding: 4px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.table th {
+  font-weight: bold;
+}
+
+tr {
+  width: 100%;
+  display: flex;
+}
+thead th {
+  width: 20%;
+}
+tbody td {
+  min-width: 15%;
+}
+.table-container.table-responsive {
+  border: 1px solid #eaedf1 !important;
+}
+.table thead th {
+  vertical-align: bottom;
+  /* border-bottom: 1px solid #eaedf1; */
+  border-bottom-width: 1px;
+  border-top: 0;
+  border: 1px solid #eaedf1 !important;
+  padding: 13px 4px;
+  min-width: 14.28% !important;
+  max-width: 14.28% !important;
+  min-height: 48px;
+}
+thead {
+  width: 100% !important;
+}
+tbody {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+.table th, .table td {
+  padding: 5px 8px;
+  text-align: left;
+  border: 1px solid #ddd;
+  max-width: 14.28%;
+  min-width: 14.28%;
+  min-height: 48px;
+}
+tbody tr {
+  padding: 0.5rem 0.5rem;
+}

@@ -34,6 +34,8 @@ const FuelPrices = (props) => {
   // const [selectedBusinessType, setSelectedBusinessType] = useState("");
   // const [subTypes, setSubTypes] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
+  const [selectedCompanyId, setSelectedCompanyId] = useState("");
+  const [selectedDrsDate, setSelectedDrsDate] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [headingData, setheadingData] = useState([]);
@@ -58,20 +60,7 @@ const FuelPrices = (props) => {
       theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
     });
   };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      SuccessToast("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorToast(errorMessage);
-    }
-  }
+ 
   useEffect(() => {
     handleFetchData();
   }, []);
@@ -88,71 +77,130 @@ const FuelPrices = (props) => {
     }
   };
   const handleSubmit1 = async (values) => {
+    setSelectedCompanyId(values.company_id)
+    setSelectedDrsDate(values.start_date)
+    console.log(values,"values.start_date")
     try {
+   
       const formData = new FormData();
       formData.append("start_date", values.start_date);
       formData.append("client_id", values.client_id);
       formData.append("company_id", values.company_id);
-  
+
       // ...
-  
+
       const response1 = await getData(
         `site/fuel-price?client_id=${values.client_id}&company_id=${values.company_id}&drs_date=${values.start_date}`
       );
-  
+
       const { data } = response1;
       if (data) {
         console.log(data.data.listing, "Drsdata");
-        setheadingData(data.data.head_array);
-  
+        setheadingData(data?.data?.head_array);
+        setData (data?.data);
+
         const responseData = data.data;
-        
-        const processedData = responseData.listing.map((item) => {
-          const rowData = [
-            item.site_name,
-            ...item.fuels.map((fuel) => {
-              const fuelPrice = fuel.price;
-              setFuelPrice(fuelPrice);
-              console.log(fuelPrice,"fuelPrice") // Set the fuel price in the state
-              return fuelPrice;
-            }),
-          ];
-          return Object.fromEntries(
-            responseData.head_array.map((key, index) => [key, rowData[index]])
-          );
-        });
-  
-        const processedColumns = responseData.head_array.map((head) => ({
-          name: head,
-          selector: head,
-        }));
-  
-        setData(processedData);
-        setColumns(processedColumns);
+
+        console.log(responseData, "data.data");
       }
     } catch (error) {
       console.error("API error:", error);
     }
   };
-  
 
-  const {
-    handleSubmit,
-    handleChange,
-    values,
-    touched,
-    errors,
-    handleBlur,
-    setFieldValue,
-  } = useFormik({
-    initialValues: {
-      fuelPrice: "",
-    },
-    onSubmit: handleSubmit1, // Use handleSubmit1 instead of handleSubmit
-  });
-  const [data, setData] = useState([]);
-  const [columns, setColumns] = useState([]);
-  const [fuelPrice, setFuelPrice] = useState("");
+
+  const [data, setData] = useState();
+
+  const renderTableHeader = () => {
+    return (
+      <tr>
+        {data?.head_array.map((item, index) => (
+          <th key={index}>{item}</th>
+        ))}
+      </tr>
+    );
+  };
+
+  const renderTableData = () => {
+    return data?.listing.map((item) => (
+      <tr key={item.id}>
+        <td > <span class="text-muted fs-15 fw-semibold text-center">{item.site_name}</span></td>
+       
+        {item?.fuels.map((fuel, index) => (
+          <td key={index}>
+            {Array.isArray(fuel) ? (
+              "N/A"
+            ) : (
+              <input
+                type="text"
+                className="table-input"
+                value={fuel.price}
+                id={fuel.id}
+                onChange={(e) => handleInputChange(e.target.id, e.target.value)}
+              />
+            )}
+          </td>
+        ))}
+      </tr>
+    ));
+  };
+
+  const handleInputChange = (id, value) => {
+    const updatedData = {
+      ...data,
+      listing: data?.listing?.map((item) => ({
+        ...item,
+        fuels: item.fuels.map((fuel) =>
+          fuel.id === id ? { ...fuel, price: value } : fuel
+        ),
+      })),
+    };
+
+    setData(updatedData);
+  };
+
+  const handleSubmit = async (values) => {
+    console.log(values,"formikvales")
+    try {
+    const formData = new FormData();
+  
+    data?.listing?.forEach((item) => {
+      const siteId = item.id;
+  
+      item.fuels.forEach((fuel) => {
+        if (!Array.isArray(fuel) && fuel.price !== undefined) {
+          const priceId = fuel.id;
+          const fieldKey = `fuels[${siteId}][${priceId}]`;
+          const fieldValue = fuel.price.toString();
+          formData.append(fieldKey, fieldValue);
+        }
+      });
+    });
+  
+ 
+ 
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+    formData.append("drs_date", selectedDrsDate);
+      formData.append("client_id", selectedClientId);
+      formData.append("company_id", selectedCompanyId);
+
+    
+
+    const postDataUrl = "/site/fuel-price/update";
+    // const navigatePath = "/business";
+  
+    await postData(postDataUrl, formData, );
+  
+   ; // Set the submission state to false after the API call is completed
+  } catch (error) {
+    console.log(error); // Set the submission state to false if an error occurs
+  }
+}
+  
+ 
+  
 
   return (
     <>
@@ -173,7 +221,7 @@ const FuelPrices = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-              Fuel Price
+                Fuel Price
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -389,39 +437,42 @@ const FuelPrices = (props) => {
                 <h3 className="card-title"> Fuel Price</h3>
               </Card.Header>
               <Card.Body>
-                <form onSubmit={handleSubmit}>
-                  <div className="table-responsive deleted-table">
-                    <Row>
-                      <Col lg={12} md={12}>
-                        <div>
-                         
-                          <DataTable
-                            columns={columns}
-                            data={data}
-                            striped
-                            highlightOnHover
-                            pagination
-                          />
-                        </div>
-                      </Col>
-                    </Row>
+                {/* <div className="table-container">
+                  <table className="table">
+                    <thead>
+                      <tr>{renderTableHeader()}</tr>
+                    </thead>
+                    <tbody>{renderTableData()}</tbody>
+                  </table>
+                  <div className="text-end">
+                  <button className="btn btn-primary me-2" type="submit" onClick={handleSubmit}>
+                    Submit
+                  </button>
                   </div>
-                  <div className="d-flex justify-content-end mt-3">
-                    {editable ? (
-                      <button
-                        className="btn btn-primary"
-                        type="submit"
-                        disabled
-                      >
-                        Submit
-                      </button>
-                    ) : (
-                      <button className="btn btn-primary" type="submit">
-                        Submit
-                      </button>
-                    )}
+                  
+                </div> */}
+                <div className="table-container table-responsive">
+                  <table className="table">
+                    <colgroup>
+                      {data?.head_array.map((_, index) => (
+                        <col key={index} />
+                      ))}
+                    </colgroup>
+                    <thead>
+                      <tr>{renderTableHeader()}</tr>
+                    </thead>
+                    <tbody>{renderTableData()}</tbody>
+                  </table>
+                  <div className="text-end">
+                    <button
+                      className="btn btn-primary me-2"
+                      type="submit"
+                      onClick={handleSubmit}
+                    >
+                      Submit
+                    </button>
                   </div>
-                </form>
+                </div>
               </Card.Body>
             </Card>
           </Col>

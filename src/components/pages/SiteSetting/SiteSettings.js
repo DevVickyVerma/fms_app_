@@ -266,7 +266,7 @@ const SiteSettings = (props) => {
 
  
 
-    // Make the API call
+   
   
   };
 
