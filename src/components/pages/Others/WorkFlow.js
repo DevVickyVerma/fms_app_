@@ -44,14 +44,43 @@ const ManageSite = (props) => {
   const [sidebardataobject, setSideDataobject] = useState();
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
+    const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
+    localStorage.getItem("superiorId")
+  );
 
-  const handleFetchData = async () => {
+ const handleFetchData = async () => {
     try {
       const response = await getData("/client/commonlist");
 
       const { data } = response;
       if (data) {
-        setAddSiteData(response.data);
+        setAddSiteData(response?.data);
+        if (
+          response?.data &&
+          localStorage.getItem("superiorRole") === "Client"
+        ) {
+          const clientId = localStorage.getItem("superiorId");
+          if (clientId) {
+          
+
+            setSelectedClientId(clientId);
+
+            setSelectedCompanyList([]);
+
+            // setShowButton(false);
+            console.log(clientId, "clientId");
+            console.log(AddSiteData, "AddSiteData");
+
+            if (response?.data) {
+              const selectedClient = response?.data?.data?.find(
+                (client) => client.id === clientId
+              );
+              if (selectedClient) {
+                setSelectedCompanyList(selectedClient?.companies);
+              }
+            }
+          }
+        }
       }
     } catch (error) {
       console.error("API error:", error);
@@ -61,8 +90,15 @@ const ManageSite = (props) => {
   const handleSubmit1 = async (values) => {
     try {
       try {
+        let clientIDCondition = "";
+        if (localStorage.getItem("superiorRole") !== "Client") {
+          clientIDCondition = `client_id=${values.client_id}&`;
+        } else {
+          clientIDCondition = `client_id=${clientIDLocalStorage}&`;
+        }
+  
         const response = await getData(
-          `/workflow/?client_id=${values.client_id}&company_id=${values.company_id}`
+          `/workflow/?${clientIDCondition}company_id=${values.company_id}`
         );
 
         const { data } = response;
@@ -77,19 +113,13 @@ const ManageSite = (props) => {
     }
   };
 
-  const permissionsToCheck = [
-    "site-list",
-    "site-create",
-    "site-status-update",
-    "site-edit",
-    "site-delete",
-  ];
-  let isPermissionAvailable = false;
+
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
+       setclientIDLocalStorage(localStorage.getItem("superiorId"));
     if (UserPermissions) {
       setPermissionsArray(UserPermissions.permissions);
     }
@@ -214,7 +244,7 @@ const ManageSite = (props) => {
                       company_id: "",
                     }}
                     validationSchema={Yup.object({
-                      client_id: Yup.string().required("Client is required"),
+                      
                       company_id: Yup.string().required("Company is required"),
                     })}
                     onSubmit={(values) => {
@@ -225,6 +255,8 @@ const ManageSite = (props) => {
                       <Form onSubmit={handleSubmit}>
                         <Card.Body>
                           <Row>
+                          {localStorage.getItem("superiorRole") !==
+                            "Client" && (
                             <Col lg={6} md={12}>
                               <FormGroup>
                                 <label
@@ -294,6 +326,7 @@ const ManageSite = (props) => {
                                 />
                               </FormGroup>
                             </Col>
+                            )}
                             <Col lg={6} md={12}>
                               <FormGroup>
                                 <label

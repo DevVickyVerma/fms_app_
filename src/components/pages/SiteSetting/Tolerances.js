@@ -64,6 +64,9 @@ const SiteSettings = (props) => {
   const [selectedSiteId, setSelectedSiteId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
+    const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
+    localStorage.getItem("superiorId")
+  );
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
@@ -80,6 +83,7 @@ const SiteSettings = (props) => {
   }
 
   useEffect(() => {
+    setclientIDLocalStorage(localStorage.getItem("superiorId"));
     const token = localStorage.getItem("token");
     const axiosInstance = axios.create({
       baseURL: process.env.REACT_APP_BASE_URL,
@@ -88,19 +92,9 @@ const SiteSettings = (props) => {
       },
     });
 
-    const GetSiteData = async () => {
-      try {
-        const response = await axiosInstance.get("site/common-data-list");
-
-        if (response.data) {
-          setAddSiteData(response.data.data);
-        }
-      } catch (error) {
-        handleError(error);
-      }
-    };
+   
     try {
-      GetSiteData();
+     
 
       handleFetchData();
     } catch (error) {
@@ -112,10 +106,19 @@ const SiteSettings = (props) => {
 
 
   useEffect(() => {
+
+
+    let clientIDCondition = "";
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      clientIDCondition = `client_id=${formik.values.client_id}&`;
+    } else {
+      clientIDCondition = `client_id=${clientIDLocalStorage}&`;
+    }
+
     const fetchData = async () => {
       if (selectedSiteId) {
         try {
-          const response = await getData(`/tolerance/?site_id=${formik.values.site_id}&client_id=${formik.values.client_id}&company_id=${formik.values.company_id}`);
+          const response = await getData(`/tolerance/?site_id=${formik.values.site_id}&${clientIDCondition}&company_id=${formik.values.company_id}`);
           const { data } = response;
           if (data) {
           
@@ -145,6 +148,32 @@ const SiteSettings = (props) => {
       const { data } = response;
       if (data) {
         setToleranceData(response.data);
+        if (
+          response?.data &&
+          localStorage.getItem("superiorRole") === "Client"
+        ) {
+          const clientId = localStorage.getItem("superiorId");
+          if (clientId) {
+          
+
+            setSelectedClientId(clientId);
+
+            setSelectedCompanyList([]);
+
+            // setShowButton(false);
+            console.log(clientId, "clientId");
+            console.log(AddSiteData, "AddSiteData");
+
+            if (response?.data) {
+              const selectedClient = response?.data?.data?.find(
+                (client) => client.id === clientId
+              );
+              if (selectedClient) {
+                setSelectedCompanyList(selectedClient?.companies);
+              }
+            }
+          }
+        }
       }
     } catch (error) {
       console.error("API error:", error);
@@ -272,6 +301,8 @@ const SiteSettings = (props) => {
             <div class="card-body">
               <form onSubmit={formik.handleSubmit}>
                 <Row>
+                {localStorage.getItem("superiorRole") !==
+                            "Client" && (
                   <Col lg={4} md={6}>
                     <div className="form-group">
                       <label htmlFor="client_id" className="form-label mt-4">
@@ -325,6 +356,7 @@ const SiteSettings = (props) => {
                       )}
                     </div>
                   </Col>
+                  )}
 
                   <Col lg={4} md={6}>
                     <div className="form-group">

@@ -38,15 +38,17 @@ const ManageReports = (props) => {
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [ReportDownloadUrl, setReportDownloadUrl] = useState();
+  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
+    localStorage.getItem("superiorId")
+  );
 
   useEffect(() => {
-console.log(localStorage.getItem("superiorId"))
+    console.log(localStorage.getItem("superiorId"));
+    setclientIDLocalStorage(localStorage.getItem("superiorId"));
 
-    // Formik.setFieldValue("client_id", selectedType);
     if (UserPermissions) {
       setPermissionsArray(UserPermissions.permissions);
     }
-    handleFetchData();
   }, [UserPermissions]);
 
   const handleFetchData = async () => {
@@ -55,7 +57,33 @@ console.log(localStorage.getItem("superiorId"))
 
       const { data } = response;
       if (data) {
-        setAddSiteData(response.data);
+        setAddSiteData(response?.data);
+        if (
+          response?.data &&
+          localStorage.getItem("superiorRole") === "Client"
+        ) {
+          const clientId = localStorage.getItem("superiorId");
+          if (clientId) {
+            FetchReportList(clientId);
+
+            setSelectedClientId(clientId);
+
+            setSelectedCompanyList([]);
+
+            // setShowButton(false);
+            console.log(clientId, "clientId");
+            console.log(AddSiteData, "AddSiteData");
+
+            if (response?.data) {
+              const selectedClient = response?.data?.data?.find(
+                (client) => client.id === clientId
+              );
+              if (selectedClient) {
+                setSelectedCompanyList(selectedClient?.companies);
+              }
+            }
+          }
+        }
       }
     } catch (error) {
       console.error("API error:", error);
@@ -79,13 +107,27 @@ console.log(localStorage.getItem("superiorId"))
       const formData = new FormData();
 
       formData.append("report", formValues.report);
-      formData.append("client_id", formValues.client_id);
+      if (localStorage.getItem("superiorRole") !== "Client") {
+        formData.append("client_id", formValues.client_id);
+      } else {
+        formData.append("client_id", clientIDLocalStorage);
+      }
+
       formData.append("company_id", formValues.company_id);
       formData.append("site_id", formValues.site_id);
       formData.append("start_date", formValues.start_date);
       formData.append("end_date", formValues.end_date);
 
-      const commonParams = `client_id=${formValues.client_id}&company_id=${formValues.company_id}&site_id[]=${formValues.site_id}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`;
+      let clientIDCondition = "";
+      if (localStorage.getItem("superiorRole") !== "Client") {
+        clientIDCondition = `client_id=${formValues.client_id}&`;
+      } else {
+        clientIDCondition = `client_id=${clientIDLocalStorage}&`;
+      }
+
+      const commonParams = `${clientIDCondition}company_id=${formValues.company_id}&site_id[]=${formValues.site_id}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`;
+
+      // const commonParams = `client_id=${clientIDLocalStorage}&company_id=${formValues.company_id}&site_id[]=${formValues.site_id}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`;
 
       let postDataUrl;
 
@@ -122,6 +164,15 @@ console.log(localStorage.getItem("superiorId"))
   function handleReportClick(item) {
     console.log(item, "item");
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await handleFetchData(); // Wait for handleFetchData to complete
+    };
+
+    fetchData();
+  }, []);
+  // Empty dependency array to run the effect only once
 
   return (
     <>
@@ -164,10 +215,8 @@ console.log(localStorage.getItem("superiorId"))
                     start_date: "",
                     end_date: "",
                   }}
-                  validationSchema={Yup.object({
-                    report: Yup.string().required(" report is required"),
-
-                    client_id: Yup.string().required("Client is required"),
+                  validationSchema={Yup.object().shape({
+                    report: Yup.string().required("Report is required"),
                     company_id: Yup.string().required("Company is required"),
                     site_id: Yup.string().required("Site is required"),
                     start_date: Yup.date().required("Start Date is required"),
@@ -181,75 +230,71 @@ console.log(localStorage.getItem("superiorId"))
                     <Form onSubmit={handleSubmit}>
                       <Card.Body>
                         <Row>
-                          <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="client_id"
-                                className=" form-label mt-4"
-                              >
-                                Client
-                                <span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${
-                                  errors.client_id && touched.client_id
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="client_id"
-                                name="client_id"
-                                onChange={(e) => {
-                                  const selectedType = e.target.value;
-                                  FetchReportList(selectedType);
-                                  setFieldValue("client_id", selectedType);
-                                  setSelectedClientId(selectedType);
+                          {localStorage.getItem("superiorRole") !==
+                            "Client" && (
+                            <Col lg={4} md={6}>
+                              <FormGroup>
+                                <label
+                                  htmlFor="client_id"
+                                  className=" form-label mt-4"
+                                >
+                                  Client
+                                  <span className="text-danger">*</span>
+                                </label>
+                                <Field
+                                  as="select"
+                                  className={`input101 ${
+                                    errors.client_id && touched.client_id
+                                      ? "is-invalid"
+                                      : ""
+                                  }`}
+                                  id="client_id"
+                                  name="client_id"
+                                  onChange={(e) => {
+                                    const selectedType = e.target.value;
+                                    FetchReportList(selectedType);
+                                    setFieldValue("client_id", selectedType);
+                                    setSelectedClientId(selectedType);
 
-                                  // Reset the selected company and site
-                                  setSelectedCompanyList([]);
-                                  setFieldValue("company_id", "");
-                                  setFieldValue("site_id", "");
-                                  setShowButton(false);
+                                    // Reset the selected company and site
+                                    setSelectedCompanyList([]);
+                                    setFieldValue("company_id", "");
+                                    setFieldValue("site_id", "");
+                                    setShowButton(false);
 
-                                  const selectedClient = AddSiteData.data.find(
-                                    (client) => client.id === selectedType
-                                  );
+                                    const selectedClient =
+                                      AddSiteData.data.find(
+                                        (client) => client.id === selectedType
+                                      );
 
-                                  if (selectedClient) {
-                                    setSelectedCompanyList(
-                                      selectedClient.companies
-                                    );
-                                    console.log(
-                                      selectedClient,
-                                      "selectedClient"
-                                    );
-                                    console.log(
-                                      selectedClient.companies,
-                                      "selectedClient"
-                                    );
-                                  }
-                                }}
-                              >
-                                <option value="">Select a Client</option>
-                                {AddSiteData.data &&
-                                AddSiteData.data.length > 0 ? (
-                                  AddSiteData.data.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.client_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Client</option>
-                                )}
-                              </Field>
+                                    if (selectedClient) {
+                                      setSelectedCompanyList(
+                                        selectedClient.companies
+                                      );
+                                    }
+                                  }}
+                                >
+                                  <option value="">Select a Client</option>
+                                  {AddSiteData.data &&
+                                  AddSiteData.data.length > 0 ? (
+                                    AddSiteData.data.map((item) => (
+                                      <option key={item.id} value={item.id}>
+                                        {item.client_name}
+                                      </option>
+                                    ))
+                                  ) : (
+                                    <option disabled>No Client</option>
+                                  )}
+                                </Field>
 
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="client_id"
-                              />
-                            </FormGroup>
-                          </Col>
+                                <ErrorMessage
+                                  component="div"
+                                  className="invalid-feedback"
+                                  name="client_id"
+                                />
+                              </FormGroup>
+                            </Col>
+                          )}
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
@@ -494,7 +539,6 @@ console.log(localStorage.getItem("superiorId"))
                             className="btn btn-danger me-2"
                             type="button"
                           >
-      
                             Download Report
                           </button>
                         ) : (

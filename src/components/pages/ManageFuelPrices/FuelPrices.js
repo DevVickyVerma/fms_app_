@@ -39,6 +39,9 @@ const FuelPrices = (props) => {
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [headingData, setheadingData] = useState([]);
+  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
+    localStorage.getItem("superiorId")
+  );
 
   const navigate = useNavigate();
   const SuccessToast = (message) => {
@@ -60,8 +63,9 @@ const FuelPrices = (props) => {
       theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
     });
   };
- 
+
   useEffect(() => {
+    setclientIDLocalStorage(localStorage.getItem("superiorId"));
     handleFetchData();
   }, []);
   const handleFetchData = async () => {
@@ -71,17 +75,40 @@ const FuelPrices = (props) => {
       const { data } = response;
       if (data) {
         setAddSiteData(response.data);
+        if (
+          response?.data &&
+          localStorage.getItem("superiorRole") === "Client"
+        ) {
+          const clientId = localStorage.getItem("superiorId");
+          if (clientId) {
+            setSelectedClientId(clientId);
+
+            setSelectedCompanyList([]);
+
+            // setShowButton(false);
+            console.log(clientId, "clientId");
+            console.log(AddSiteData, "AddSiteData");
+
+            if (response?.data) {
+              const selectedClient = response?.data?.data?.find(
+                (client) => client.id === clientId
+              );
+              if (selectedClient) {
+                setSelectedCompanyList(selectedClient?.companies);
+              }
+            }
+          }
+        }
       }
     } catch (error) {
       console.error("API error:", error);
     }
   };
   const handleSubmit1 = async (values) => {
-    setSelectedCompanyId(values.company_id)
-    setSelectedDrsDate(values.start_date)
-    console.log(values,"values.start_date")
+    setSelectedCompanyId(values.company_id);
+    setSelectedDrsDate(values.start_date);
+    console.log(values, "values.start_date");
     try {
-   
       const formData = new FormData();
       formData.append("start_date", values.start_date);
       formData.append("client_id", values.client_id);
@@ -89,15 +116,21 @@ const FuelPrices = (props) => {
 
       // ...
 
+      let clientIDCondition = "";
+      if (localStorage.getItem("superiorRole") !== "Client") {
+        clientIDCondition = `client_id=${values.client_id}&`;
+      } else {
+        clientIDCondition = `client_id=${clientIDLocalStorage}&`;
+      }
       const response1 = await getData(
-        `site/fuel-price?client_id=${values.client_id}&company_id=${values.company_id}&drs_date=${values.start_date}`
+        `site/fuel-price?${clientIDCondition}company_id=${values.company_id}&drs_date=${values.start_date}`
       );
 
       const { data } = response1;
       if (data) {
         console.log(data.data.listing, "Drsdata");
         setheadingData(data?.data?.head_array);
-        setData (data?.data);
+        setData(data?.data);
 
         const responseData = data.data;
 
@@ -107,7 +140,6 @@ const FuelPrices = (props) => {
       console.error("API error:", error);
     }
   };
-
 
   const [data, setData] = useState();
 
@@ -124,17 +156,17 @@ const FuelPrices = (props) => {
   const renderTableData = () => {
     return data?.listing.map((item) => (
       <tr key={item.id}>
-        <td > <span class="text-muted fs-15 fw-semibold text-center">{item.site_name}</span></td>
-       
+        <td>
+          {" "}
+          <span class="text-muted fs-15 fw-semibold text-center">
+            {item.site_name}
+          </span>
+        </td>
+
         {item?.fuels.map((fuel, index) => (
           <td key={index}>
             {Array.isArray(fuel) ? (
-              <input
-                type="text"
-                className="table-input readonly"
-                readOnly
-              
-              />
+              <input type="text" className="table-input readonly" readOnly />
             ) : (
               <input
                 type="number"
@@ -165,47 +197,38 @@ const FuelPrices = (props) => {
   };
 
   const handleSubmit = async (values) => {
-    console.log(values,"formikvales")
+    console.log(values, "formikvales");
     try {
-    const formData = new FormData();
-  
-    data?.listing?.forEach((item) => {
-      const siteId = item.id;
-  
-      item.fuels.forEach((fuel) => {
-        if (!Array.isArray(fuel) && fuel.price !== undefined) {
-          const priceId = fuel.id;
-          const fieldKey = `fuels[${siteId}][${priceId}]`;
-          const fieldValue = fuel.price.toString();
-          formData.append(fieldKey, fieldValue);
-        }
+      const formData = new FormData();
+
+      data?.listing?.forEach((item) => {
+        const siteId = item.id;
+
+        item.fuels.forEach((fuel) => {
+          if (!Array.isArray(fuel) && fuel.price !== undefined) {
+            const priceId = fuel.id;
+            const fieldKey = `fuels[${siteId}][${priceId}]`;
+            const fieldValue = fuel.price.toString();
+            formData.append(fieldKey, fieldValue);
+          }
+        });
       });
-    });
-  
- 
- 
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
-    formData.append("drs_date", "selectedDrsDate");
+
+      for (const [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+      }
+      formData.append("drs_date", "selectedDrsDate");
       formData.append("client_id", "selectedClientId");
       formData.append("company_id", "selectedCompanyId");
 
-    
+      const postDataUrl = "/site/fuel-price/update";
+      // const navigatePath = "/business";
 
-    const postDataUrl = "/site/fuel-price/update";
-    // const navigatePath = "/business";
-  
-    await postData(postDataUrl, formData, );
-  
-   ; // Set the submission state to false after the API call is completed
-  } catch (error) {
-    console.log(error); // Set the submission state to false if an error occurs
-  }
-}
-  
- 
-  
+      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+    } catch (error) {
+      console.log(error); // Set the submission state to false if an error occurs
+    }
+  };
 
   return (
     <>
@@ -244,7 +267,7 @@ const FuelPrices = (props) => {
                     start_date: "",
                   }}
                   validationSchema={Yup.object({
-                    client_id: Yup.string().required("Client is required"),
+               
                     company_id: Yup.string().required("Company is required"),
 
                     start_date: Yup.date().required("Start Date is required"),
@@ -257,73 +280,77 @@ const FuelPrices = (props) => {
                     <Form onSubmit={handleSubmit}>
                       <Card.Body>
                         <Row>
-                          <Col lg={3} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="client_id"
-                                className=" form-label mt-4"
-                              >
-                                Client
-                                <span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${
-                                  errors.client_id && touched.client_id
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="client_id"
-                                name="client_id"
-                                onChange={(e) => {
-                                  const selectedType = e.target.value;
-                                  setFieldValue("client_id", selectedType);
-                                  setSelectedClientId(selectedType);
+                          {localStorage.getItem("superiorRole") !==
+                            "Client" && (
+                            <Col lg={3} md={6}>
+                              <FormGroup>
+                                <label
+                                  htmlFor="client_id"
+                                  className=" form-label mt-4"
+                                >
+                                  Client
+                                  <span className="text-danger">*</span>
+                                </label>
+                                <Field
+                                  as="select"
+                                  className={`input101 ${
+                                    errors.client_id && touched.client_id
+                                      ? "is-invalid"
+                                      : ""
+                                  }`}
+                                  id="client_id"
+                                  name="client_id"
+                                  onChange={(e) => {
+                                    const selectedType = e.target.value;
+                                    setFieldValue("client_id", selectedType);
+                                    setSelectedClientId(selectedType);
 
-                                  // Reset the selected company and site
-                                  setSelectedCompanyList([]);
-                                  setFieldValue("company_id", "");
-                                  setFieldValue("site_id", "");
+                                    // Reset the selected company and site
+                                    setSelectedCompanyList([]);
+                                    setFieldValue("company_id", "");
+                                    setFieldValue("site_id", "");
 
-                                  const selectedClient = AddSiteData.data.find(
-                                    (client) => client.id === selectedType
-                                  );
+                                    const selectedClient =
+                                      AddSiteData.data.find(
+                                        (client) => client.id === selectedType
+                                      );
 
-                                  if (selectedClient) {
-                                    setSelectedCompanyList(
-                                      selectedClient.companies
-                                    );
-                                    console.log(
-                                      selectedClient,
-                                      "selectedClient"
-                                    );
-                                    console.log(
-                                      selectedClient.companies,
-                                      "selectedClient"
-                                    );
-                                  }
-                                }}
-                              >
-                                <option value="">Select a Client</option>
-                                {AddSiteData.data &&
-                                AddSiteData.data.length > 0 ? (
-                                  AddSiteData.data.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.client_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Client</option>
-                                )}
-                              </Field>
+                                    if (selectedClient) {
+                                      setSelectedCompanyList(
+                                        selectedClient.companies
+                                      );
+                                      console.log(
+                                        selectedClient,
+                                        "selectedClient"
+                                      );
+                                      console.log(
+                                        selectedClient.companies,
+                                        "selectedClient"
+                                      );
+                                    }
+                                  }}
+                                >
+                                  <option value="">Select a Client</option>
+                                  {AddSiteData.data &&
+                                  AddSiteData.data.length > 0 ? (
+                                    AddSiteData.data.map((item) => (
+                                      <option key={item.id} value={item.id}>
+                                        {item.client_name}
+                                      </option>
+                                    ))
+                                  ) : (
+                                    <option disabled>No Client</option>
+                                  )}
+                                </Field>
 
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="client_id"
-                              />
-                            </FormGroup>
-                          </Col>
+                                <ErrorMessage
+                                  component="div"
+                                  className="invalid-feedback"
+                                  name="client_id"
+                                />
+                              </FormGroup>
+                            </Col>
+                          )}
                           <Col lg={3} md={6}>
                             <FormGroup>
                               <label
@@ -442,29 +469,32 @@ const FuelPrices = (props) => {
                 <h3 className="card-title"> Fuel Price</h3>
               </Card.Header>
               <Card.Body>
-           
-            {data?     <div className="table-container table-responsive">
-                  <table className="table">
-                    <colgroup>
-                      {data?.head_array.map((_, index) => (
-                        <col key={index} />
-                      ))}
-                    </colgroup>
-                    <thead>
-                      <tr>{renderTableHeader()}</tr>
-                    </thead>
-                    <tbody>{renderTableData()}</tbody>
-                  </table>
-                  <div className="text-end">
-                    <button
-                      className="btn btn-primary me-2"
-                      type="submit"
-                      onClick={handleSubmit}
-                    >
-                      Submit
-                    </button>
+                {data ? (
+                  <div className="table-container table-responsive">
+                    <table className="table">
+                      <colgroup>
+                        {data?.head_array.map((_, index) => (
+                          <col key={index} />
+                        ))}
+                      </colgroup>
+                      <thead>
+                        <tr>{renderTableHeader()}</tr>
+                      </thead>
+                      <tbody>{renderTableData()}</tbody>
+                    </table>
+                    <div className="text-end">
+                      <button
+                        className="btn btn-primary me-2"
+                        type="submit"
+                        onClick={handleSubmit}
+                      >
+                        Submit
+                      </button>
+                    </div>
                   </div>
-                </div> :""}
+                ) : (
+                  ""
+                )}
               </Card.Body>
             </Card>
           </Col>

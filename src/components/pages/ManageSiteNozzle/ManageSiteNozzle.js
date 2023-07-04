@@ -28,9 +28,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
 
-
 const ManageSiteTank = (props) => {
-
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
   const navigate = useNavigate();
@@ -46,8 +44,9 @@ const ManageSiteTank = (props) => {
   const [submitSiteID, setsubmitSiteID] = useState();
   const [localStorageSiteName, setlocalStorageSiteName] = useState();
   const [localStorageSiteID, setlocalStorageSiteID] = useState();
-
-
+  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
+    localStorage.getItem("superiorId")
+  );
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -85,7 +84,6 @@ const ManageSiteTank = (props) => {
               icon: "success",
               confirmButtonText: "OK",
             });
-       
           } catch (error) {
             handleError(error);
           } finally {
@@ -111,8 +109,6 @@ const ManageSiteTank = (props) => {
     }
   }
 
-
-
   const toggleActive = (row) => {
     const formData = new FormData();
     formData.append("id", row.id);
@@ -128,7 +124,7 @@ const ManageSiteTank = (props) => {
       const response = await postData("/site-nozzle/update-status", formData);
       console.log(response, "response"); // Console log the response
       if (apidata.api_response === "success") {
-        handleSubmit1(submitSiteID)
+        handleSubmit1(submitSiteID);
         // FetchTableData();
       }
     } catch (error) {
@@ -144,20 +140,22 @@ const ManageSiteTank = (props) => {
     },
   });
 
-
-
-
   const handleSubmit1 = async (values) => {
     try {
       setsubmitSiteID(values?.site_id);
-      const response = await getData(`/site-nozzle/list?site_id=${values?.site_id}`);
-     
+      const response = await getData(
+        `/site-nozzle/list?site_id=${values?.site_id}`
+      );
+
       console.log(response.data.data, "nozzle");
 
       if (response && response.data && response.data.data) {
         const tank = {
           site_id: values?.site_id,
-          client_id: values?.client_id,
+          client_id:
+            localStorage.getItem("superiorRole") !== "Client"
+              ? values?.client_id
+              : clientIDLocalStorage,
           company_id: values?.company_id,
           sitename: response?.data?.data[0].site,
         };
@@ -175,13 +173,13 @@ const ManageSiteTank = (props) => {
   };
   const FetchDatawithlocalstorage = async (values) => {
     try {
-  
-      const response = await getData(`/site-nozzle/list?site_id=${localStorageSiteID}`);
-     
+      const response = await getData(
+        `/site-nozzle/list?site_id=${localStorageSiteID}`
+      );
+
       console.log(response.data.data, "nozzle");
 
-      if (response ) {
-  
+      if (response) {
         setData(response.data.data);
         setlocalStorageSiteName(response?.data?.data[0]?.site);
       } else {
@@ -200,6 +198,27 @@ const ManageSiteTank = (props) => {
       if (data) {
         setAddSiteData(response.data);
       }
+      if (response?.data && localStorage.getItem("superiorRole") === "Client") {
+        const clientId = localStorage.getItem("superiorId");
+        if (clientId) {
+          setSelectedClientId(clientId);
+
+          setSelectedCompanyList([]);
+
+          // setShowButton(false);
+          console.log(clientId, "clientId");
+          console.log(AddSiteData, "AddSiteData");
+
+          if (response?.data) {
+            const selectedClient = response?.data?.data?.find(
+              (client) => client.id === clientId
+            );
+            if (selectedClient) {
+              setSelectedCompanyList(selectedClient?.companies);
+            }
+          }
+        }
+      }
     } catch (error) {
       console.error("API error:", error);
     }
@@ -215,11 +234,11 @@ const ManageSiteTank = (props) => {
     const siteId = parsedData?.site_id;
 
     const siteName = parsedData?.sitename;
-    console.log(siteId,"siteId")
+    console.log(siteId, "siteId");
 
     setlocalStorageSiteID(siteId);
     setlocalStorageSiteName(siteName);
-
+    setclientIDLocalStorage(localStorage.getItem("superiorId"));
     handleFetchData();
     if (localStorageSiteID) {
       FetchDatawithlocalstorage();
@@ -301,7 +320,7 @@ const ManageSiteTank = (props) => {
         </div>
       ),
     },
- 
+
     {
       name: "Site Nozzle Name",
       selector: (row) => [row.name],
@@ -492,8 +511,6 @@ const ManageSiteTank = (props) => {
           </div>
         </div>
 
-
-
         <Row>
           <Col md={12} xl={12}>
             <Card>
@@ -509,7 +526,6 @@ const ManageSiteTank = (props) => {
                     client_id: Yup.string().required("Client is required"),
                     company_id: Yup.string().required("Company is required"),
                     site_id: Yup.string().required("Site is required"),
-                   
                   })}
                   onSubmit={(values) => {
                     handleSubmit1(values);
@@ -519,7 +535,9 @@ const ManageSiteTank = (props) => {
                     <Form onSubmit={handleSubmit}>
                       <Card.Body>
                         <Row>
-                        <Col lg={4} md={6}>
+                        {localStorage.getItem("superiorRole") !==
+                            "Client" && (
+                          <Col lg={4} md={6}>
                             <FormGroup>
                               <label
                                 htmlFor="client_id"
@@ -586,6 +604,7 @@ const ManageSiteTank = (props) => {
                               />
                             </FormGroup>
                           </Col>
+                          )}
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
@@ -643,7 +662,6 @@ const ManageSiteTank = (props) => {
                                 component="div"
                                 className="invalid-feedback"
                                 name="company_id"
-                              
                               />
                             </FormGroup>
                           </Col>
@@ -665,10 +683,9 @@ const ManageSiteTank = (props) => {
                                 }`}
                                 id="site_id"
                                 name="site_id"
-                                onChange={(event)=>{
-                                  const site=event.target.value;
+                                onChange={(event) => {
+                                  const site = event.target.value;
                                   setFieldValue("site_id", site);
-                                
                                 }}
                               >
                                 <option value="">Select a Site</option>
@@ -689,7 +706,6 @@ const ManageSiteTank = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                     
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
@@ -712,13 +728,14 @@ const ManageSiteTank = (props) => {
           </Col>
         </Row>
 
-
         <Row className=" row-sm">
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Manage Site Nozzle (
-                  {localStorageSiteName ? localStorageSiteName : ""}){" "}</h3>
+                <h3 className="card-title">
+                  Manage Site Nozzle (
+                  {localStorageSiteName ? localStorageSiteName : ""}){" "}
+                </h3>
               </Card.Header>
               <Card.Body>
                 <div className="table-responsive deleted-table">

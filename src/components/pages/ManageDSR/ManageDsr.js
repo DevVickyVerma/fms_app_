@@ -50,8 +50,12 @@ const ManageDsr = (props) => {
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
+    const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
+    localStorage.getItem("superiorId")
+  );
 
   useEffect(() => {
+      setclientIDLocalStorage(localStorage.getItem("superiorId"));
     if (UserPermissions) {
       setPermissionsArray(UserPermissions.permissions);
     }
@@ -89,6 +93,36 @@ const ManageDsr = (props) => {
       const { data } = response;
       if (data) {
         setAddSiteData(response.data);
+
+        if (
+          response?.data &&
+          localStorage.getItem("superiorRole") === "Client"
+        ) {
+          const clientId = localStorage.getItem("superiorId");
+          if (clientId) {
+          
+
+            setSelectedClientId(clientId);
+
+            setSelectedCompanyList([]);
+
+            // setShowButton(false);
+            console.log(clientId, "clientId");
+            console.log(AddSiteData, "AddSiteData");
+
+            if (response?.data) {
+              const selectedClient = response?.data?.data?.find(
+                (client) => client.id === clientId
+              );
+              if (selectedClient) {
+                setSelectedCompanyList(selectedClient?.companies);
+              }
+            }
+          }
+        }
+
+
+
       }
     } catch (error) {
       console.error("API error:", error);
@@ -100,7 +134,11 @@ const ManageDsr = (props) => {
       const formData = new FormData();
 
       formData.append("start_date", values.start_date);
-      formData.append("client_id", values.client_id);
+      if (localStorage.getItem("superiorRole") !== "Client") {
+        formData.append("client_id", values.client_id);
+      } else {
+        formData.append("client_id", clientIDLocalStorage);
+      }
       formData.append("company_id", values.company_id);
       formData.append("site_id", values.site_id);
 
@@ -197,7 +235,7 @@ const ManageDsr = (props) => {
                     start_date: "",
                   }}
                   validationSchema={Yup.object({
-                    client_id: Yup.string().required("Client is required"),
+                   
                     company_id: Yup.string().required("Company is required"),
                     site_id: Yup.string().required("Site is required"),
                     start_date: Yup.date().required("Start Date is required"),
@@ -210,6 +248,8 @@ const ManageDsr = (props) => {
                     <Form onSubmit={handleSubmit}>
                       <Card.Body>
                         <Row>
+                        {localStorage.getItem("superiorRole") !==
+                            "Client" && (
                           <Col lg={3} md={6}>
                             <FormGroup>
                               <label
@@ -277,6 +317,7 @@ const ManageDsr = (props) => {
                               />
                             </FormGroup>
                           </Col>
+                          )}
                           <Col lg={3} md={6}>
                             <FormGroup>
                               <label

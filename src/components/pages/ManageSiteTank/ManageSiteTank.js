@@ -45,8 +45,9 @@ const ManageSiteTank = (props) => {
   const [localStorageCompanyID, setlocalStorageCompanyID] = useState();
   const [localStorageClientID, setlocalStorageClientID] = useState();
   const [localStorageSiteName, setlocalStorageSiteName] = useState();
-
-  useEffect(() => {}, []);
+  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
+    localStorage.getItem("superiorId")
+  );
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -143,7 +144,33 @@ const ManageSiteTank = (props) => {
 
       const { data } = response;
       if (data) {
-        setAddSiteData(response.data);
+        setAddSiteData(response?.data);
+        if (
+          response?.data &&
+          localStorage.getItem("superiorRole") === "Client"
+        ) {
+          const clientId = localStorage.getItem("superiorId");
+          if (clientId) {
+          
+
+            setSelectedClientId(clientId);
+
+            setSelectedCompanyList([]);
+
+            // setShowButton(false);
+            console.log(clientId, "clientId");
+            console.log(AddSiteData, "AddSiteData");
+
+            if (response?.data) {
+              const selectedClient = response?.data?.data?.find(
+                (client) => client.id === clientId
+              );
+              if (selectedClient) {
+                setSelectedCompanyList(selectedClient?.companies);
+              }
+            }
+          }
+        }
       }
     } catch (error) {
       console.error("API error:", error);
@@ -159,20 +186,7 @@ const ManageSiteTank = (props) => {
 
       console.log(response.data.data, "tank-list");
 
-      if (response) {
-        setData(response.data.data);
-
-        const tank = {
-          site_id: values?.site_id,
-          client_id: values?.client_id,
-          company_id: values?.company_id,
-          sitename: response?.data?.data[0].site,
-        };
-
-        localStorage.setItem("SiteTAnk", JSON.stringify(tank));
-      } else {
-        throw new Error("No data available in the response");
-      }
+   
     } catch (error) {
       console.error("API error:", error);
     }
@@ -196,9 +210,9 @@ const ManageSiteTank = (props) => {
   };
 
   useEffect(() => {
+    setclientIDLocalStorage(localStorage.getItem("superiorId"));
     handleFetchData();
-
-
+    FetchDatawithlocalstorage();
   }, [localStorageSiteID]);
 
   const [permissionsArray, setPermissionsArray] = useState([]);
@@ -464,7 +478,7 @@ const ManageSiteTank = (props) => {
                     start_date: "",
                   }}
                   validationSchema={Yup.object({
-                    client_id: Yup.string().required("Client is required"),
+                   
                     company_id: Yup.string().required("Company is required"),
                     site_id: Yup.string().required("Site is required"),
                   })}
@@ -476,6 +490,8 @@ const ManageSiteTank = (props) => {
                     <Form onSubmit={handleSubmit}>
                       <Card.Body>
                         <Row>
+                        {localStorage.getItem("superiorRole") !==
+                            "Client" && (
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
@@ -543,6 +559,7 @@ const ManageSiteTank = (props) => {
                               />
                             </FormGroup>
                           </Col>
+                          )}
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
