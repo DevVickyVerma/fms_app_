@@ -255,7 +255,7 @@ const AddSite = (props) => {
                       .max(20, "Must be 20 characters or less")
                       .required("Site Code is required"),
                     site_name: Yup.string()
-                      .max(20, "Must be 20 characters or less")
+                      .max(80, "Must be 20 characters or less")
                       .required("Site Name is required"),
                     site_Address: Yup.string().required(
                       "Site Address is required"

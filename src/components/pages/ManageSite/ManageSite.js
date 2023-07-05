@@ -92,17 +92,12 @@ const ManageSite = (props) => {
     setSidebarVisible1(!sidebarVisible1);
   };
 
-  const handleDropdownChange = (event) => {
-    setDropdownValue(event.target.value);
-  };
+ 
   const handleCloseSidebar = () => {
     setSidebarVisible(true);
   };
 
-  const handleDetailsClick = (row) => {
-    localStorage.setItem("AssignSiteId", row.id);
-    setShowModal(true);
-  };
+ 
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",

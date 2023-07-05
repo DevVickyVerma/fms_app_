@@ -8,9 +8,17 @@ import { Slide, toast } from "react-toastify";
 import withApi from "../../Utils/ApiHelper";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../../Redux/dataSlice";
-
+import SearchIcon from "@mui/icons-material/Search";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import SideSearchbar from "../../data/Modal/SideSearchbar";
+import DashBordModal from "../../data/Modal/DashBordmodal";
 const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
+
+  const [sidebarVisible, setSidebarVisible] = useState(true);
+  const [sidebarVisible1, setSidebarVisible1] = useState(true);
+  const [sidebardata, setSideData] = useState();
 
   const SuccessToast = (message) => {
     toast.success(message, {
@@ -73,6 +81,10 @@ const Dashboard = (props) => {
     handleFetchData();
   }, []);
 
+  const handleToggleSidebar1 = () => {
+    setSidebarVisible1(!sidebarVisible1);
+  };
+
   const handleFetchData = async () => {
     try {
       const response = await getData("/detail");
@@ -98,6 +110,21 @@ const Dashboard = (props) => {
       console.error("API error:", error);
     }
   };
+
+  const [searchdata, setSearchdata] = useState({});
+
+  const [SearchList, setSearchList] = useState(false);
+
+  const [sidebardataobject, setSideDataobject] = useState();
+  const handleSearchReset = () => {
+    setSearchdata({});
+    setSearchList(true);
+  };
+
+  const handleSubmit = () => {
+    handleToggleSidebar1();
+  };
+
   return (
     <div>
       <div className="page-header ">
@@ -112,7 +139,46 @@ const Dashboard = (props) => {
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
+        <div className="ms-auto pageheader-btn ">
+          <span className="Search-data">
+            {Object.entries(searchdata).map(([key, value]) => (
+              <div key={key} className="badge">
+                <span className="badge-key">
+                  {key.charAt(0).toUpperCase() + key.slice(1)}:
+                </span>
+                <span className="badge-value">{value}</span>
+              </div>
+            ))}
+          </span>
+
+          <Link
+            className="btn btn-primary"
+            onClick={() => {
+              handleToggleSidebar1();
+            }}
+          >
+            Search
+            <span className="ms-2">
+              <SearchIcon />
+            </span>
+          </Link>
+          {Object.keys(searchdata).length > 0 ? (
+            <Link className="btn btn-danger ms-2" onClick={handleSearchReset}>
+              Reset <RestartAltIcon />
+            </Link>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
+
+      <DashBordModal
+        title="Search"
+        visible={sidebarVisible1}
+        onClose={handleToggleSidebar1}
+        onSubmit={handleSubmit}
+        searchListstatus={SearchList}
+      />
 
       <Row>
         <Col lg={12} md={12} sm={12} xl={12}>
