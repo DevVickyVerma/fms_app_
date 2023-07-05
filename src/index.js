@@ -302,6 +302,9 @@ const WorkFlows = React.lazy(() =>
 const FUELPRICE = React.lazy(() =>
   import("./components/pages/ManageFuelPrices/FuelPrices")
 );
+const FuelPurchasePrices = React.lazy(() =>
+  import("./components/pages/ManageFuelPrices/FuelPurchasePrices")
+);
 const ManageBusinessTypes = React.lazy(() =>
   import("./components/pages/ManageBusinessTypes/ManageBusinessTypes")
 );
@@ -462,10 +465,9 @@ const Root = () => {
   const WrappedEditItems = withApi(EditItems);
 
   const WrappedFUELPRICE= withApi(FUELPRICE);
+  const WrappedFuelPurchasePrices= withApi(FuelPurchasePrices);
 
-  // const WrappedManageImportTypes = withApi(ManageImportTypes);
-  // const WrappedAddImportTypes = withApi(AddImportTypes);
-  // const WrappedEditImportTypes = withApi(EditImportTypes);
+
 
 
 
@@ -648,6 +650,11 @@ const Root = () => {
                 <Route
                     path={`/fuelprice`}
                     element={<WrappedFUELPRICE />}
+                  />
+
+                <Route
+                    path={`/fuel-purchase-prices`}
+                    element={<WrappedFuelPurchasePrices />}
                   />
                 <Route
                     path={`/managesitepump`}

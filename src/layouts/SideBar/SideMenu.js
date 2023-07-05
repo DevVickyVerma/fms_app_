@@ -492,6 +492,13 @@ export const MENUITEMS = [
             permission: "nozzle-list",
             visibility: false,
           },
+          {
+            path: `/fuel-purchase-prices`,
+            title: "Fuel Purchase Prices",
+            type: "link",
+            permission: "nozzle-list",
+            visibility: false,
+          },
         ],
       },
       // {
