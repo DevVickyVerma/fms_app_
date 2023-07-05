@@ -305,6 +305,9 @@ const FUELPRICE = React.lazy(() =>
 const FuelPurchasePrices = React.lazy(() =>
   import("./components/pages/ManageFuelPrices/FuelPurchasePrices")
 );
+const AddFuelPurchasePrices = React.lazy(() =>
+  import("./components/pages/ManageFuelPrices/AddFuelPurchase")
+);
 const ManageBusinessTypes = React.lazy(() =>
   import("./components/pages/ManageBusinessTypes/ManageBusinessTypes")
 );
@@ -466,6 +469,7 @@ const Root = () => {
 
   const WrappedFUELPRICE= withApi(FUELPRICE);
   const WrappedFuelPurchasePrices= withApi(FuelPurchasePrices);
+  const WrappedAddFuelPurchase= withApi(AddFuelPurchasePrices);
 
 
 
@@ -655,6 +659,10 @@ const Root = () => {
                 <Route
                     path={`/fuel-purchase-prices`}
                     element={<WrappedFuelPurchasePrices />}
+                  />
+                <Route
+                    path={`/Add-purchase-prices`}
+                    element={<WrappedAddFuelPurchase />}
                   />
                 <Route
                     path={`/managesitepump`}

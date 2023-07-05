@@ -40,15 +40,12 @@ const ManageDsr = (props) => {
 
   const UserPermissions = useSelector((state) => state?.data?.data);
   const [AddSiteData, setAddSiteData] = useState([]);
-  const [AddSiteData1, setAddSiteData1] = useState([]);
+
 
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
-  const [selectedClientId1, setSelectedClientId1] = useState("");
-  const [selectedFuelName, setselectedFuelName] = useState("");
-  const [selectedCompanyList1, setSelectedCompanyList1] = useState([]);
-  const [selectedSiteList1, setSelectedSiteList1] = useState([]);
+
 
   const [editable, setis_editable] = useState(true);
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
@@ -63,18 +60,14 @@ const ManageDsr = (props) => {
   // };
 
   const [selectedItems, setSelectedItems] = useState([]);
-  const [selectedItems1, setSelectedItems1] = useState([]);
+  
 
   const handleItemClick = (event) => {
     setSelectedItems(event.target.value);
     console.log(event.target.value);
     formik.setFieldValue("sites", event.target.value);
   };
-  const handleItemClick1 = (event) => {
-    setSelectedItems1(event.target.value);
-    console.log(event.target.value);
-    formik2.setFieldValue("sites", event.target.value);
-  };
+
 
   //   const [data, setData] = useState([
   //     {
@@ -138,7 +131,7 @@ const ManageDsr = (props) => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
 
     handleFetchData();
-    handleFetchName();
+
   }, [UserPermissions]);
 
   const handleFetchData = async () => {
@@ -148,7 +141,7 @@ const ManageDsr = (props) => {
       const { data } = response;
       if (data) {
         setAddSiteData(response.data);
-        setAddSiteData1(response.data);
+     
 
         if (
           response?.data &&
@@ -179,19 +172,7 @@ const ManageDsr = (props) => {
       console.error("API error:", error);
     }
   };
-  const handleFetchName = async () => {
-    try {
-      const response = await getData("/business/subcategory");
 
-      const { data } = response;
-      if (data) {
-        console.log(data);
-        setselectedFuelName(data)
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
 
   const handleSubmit = async (values) => {
     let clientIDCondition = "";
@@ -567,76 +548,12 @@ const ManageDsr = (props) => {
 
     onSubmit: handleSubmit,
   });
-  const secondValidationSchema = Yup.object({
-    client_id1: Yup.string().required("Client is required"),
-    company_id1: Yup.string().required("Company is required"),
-    start_date1: Yup.date().required("Start Date is required"),
-    platts: Yup.string().required("Platts is required"),
-    developmentfuels: Yup.string().required("Development Fuels is required"),
-    dutty: Yup.string().required("Dutty  is required"),
-
-    vat: Yup.string().required("Vat % is required"),
-
-    premium: Yup.string().required("Premium is required"),
-    // fuel_name: Yup.string().required("Fuel is required"),
-  });
-
-  const formik2 = useFormik({
-    initialValues: {
-      client_id1: "",
-      company_id1: "",
-      site_id1: "",
-      start_date1: "",
-      platts: "",
-      developmentfuels: "",
-      dutty: "",
-      exvat: "20",
-      vat: "",
-      total: "20",
-      premium: "",
-      fuel_name: "",
-    },
-    validationSchema: secondValidationSchema,
-    onSubmit: (values) => {
-      handleSubmit2(values);
-    },
-  });
-
-  // const handleSubmit2 = async (event) => {
-  //   event.preventDefault();
-
-  //   console.log(formik.values, "ok");
-  // };
-
-  const handleSubmit2 = async (values) => {
-    console.log(values)
-    try {
-      const formData = new FormData();
+ 
 
 
-     
-      formData.append("platts_price", values.platts);
-      formData.append("premium_price", values.premium);
-      formData.append("development_fuels_price", values.developmentfuels);
-      formData.append("duty_price", values.dutty);
-      formData.append("vat_percentage_rate", values.vat);
-      formData.append("ex_vat_price", values.exvat);
-      formData.append("total", values.total);
-      formData.append("date", values.start_date1);
-      formData.append("fuel_id", values.fuel_name);
-      values.sites.forEach((siteId, index) => {
-        formData.append(`site_id[${index}]`, siteId);
-      });
-   
 
-      const postDataUrl = "/site/fuel/purchase-price/add";
-      const navigatePath = "/business";
 
-      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
-    } catch (error) {
-      console.log(error); // Set the submission state to false if an error occurs
-    }
-  };
+
 
   const handleSubmitForm1 = async (event) => {
     event.preventDefault();
@@ -715,432 +632,29 @@ const ManageDsr = (props) => {
                 Purchase Cost Prices
               </Breadcrumb.Item>
             </Breadcrumb>
+          
+          </div>
+          <div className="ms-auto pageheader-btn">
+            <div className="input-group">
+             
+                <Link
+                  to="/Add-purchase-prices"
+                  className="btn btn-primary ms-2"
+                  style={{ borderRadius: "4px" }}
+                >
+                  Add Fuel Purchase
+                </Link>
+           
+            </div>
           </div>
         </div>
 
+     
         <Row className="row-sm">
           <Col lg={12}>
             <Card>
-              <Card.Header>
-                <h3 className="card-title">Add Site Fuel Purchase price</h3>
-              </Card.Header>
-              <form onSubmit={(event) => formik2.handleSubmit(event)}>
-                <Card.Body>
-                  <Row>
-                    <Col lg={3} md={6}>
-                      <div className="form-group">
-                        <label htmlFor="client_id1" className="form-label mt-4">
-                          Client
-                          <span className="text-danger">*</span>
-                        </label>
-                        <select
-                          as="select"
-                          className={`input101 ${
-                            formik2.errors.client_id1 &&
-                            formik2.touched.client_id1
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="client_id1"
-                          name="client_id1"
-                          onChange={(e) => {
-                            const selectedType1 = e.target.value;
-                            console.log(selectedType1);
-                            formik2.setFieldValue("client_id1", selectedType1);
-                            setSelectedClientId1(selectedType1);
-
-                            // Reset the selected company and site
-                            setSelectedCompanyList1([]);
-                            formik2.setFieldValue("company_id1", "");
-                            formik2.setFieldValue("site_id1", "");
-                            console.log(AddSiteData1, "AddSiteData1");
-                            const selectedClient1 = AddSiteData1.data.find(
-                              (client) => client.id === selectedType1
-                            );
-                            console.log(selectedClient1, "selectedClient1");
-                            if (selectedClient1) {
-                              setSelectedCompanyList1(
-                                selectedClient1.companies
-                              );
-                              console.log(selectedClient1, "selectedClient");
-                              console.log(
-                                selectedClient1.companies,
-                                "selectedClient"
-                              );
-                            }
-                          }}
-                        >
-                          <option value="">Select a Client</option>
-                          {AddSiteData1.data && AddSiteData1.data.length > 0 ? (
-                            AddSiteData1.data.map((item) => (
-                              <option key={item.id} value={item.id}>
-                                {item.client_name}
-                              </option>
-                            ))
-                          ) : (
-                            <option disabled>No Client</option>
-                          )}
-                        </select>
-
-                        {formik2.errors.client_id1 &&
-                          formik2.touched.client_id1 && (
-                            <div className="invalid-feedback">
-                              {formik2.errors.client_id1}
-                            </div>
-                          )}
-                      </div>
-                    </Col>
-
-                    <Col lg={3} md={6}>
-                      <div className="form-group">
-                        <label
-                          htmlFor="company_id1"
-                          className="form-label mt-4"
-                        >
-                          Company
-                          <span className="text-danger">*</span>
-                        </label>
-                        <select
-                          as="select"
-                          className={`input101 ${
-                            formik2.errors.company_id1 &&
-                            formik2.touched.company_id1
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="company_id1"
-                          name="company_id1"
-                          onChange={(e) => {
-                            const selectedCompany1 = e.target.value;
-                            formik2.setFieldValue(
-                              "company_id1",
-                              selectedCompany1
-                            );
-
-                            setSelectedSiteList1([]);
-                            const selectedCompanyData1 =
-                              selectedCompanyList1.find(
-                                (company) => company.id === selectedCompany1
-                              );
-                            if (selectedCompanyData1) {
-                              setSelectedSiteList1(selectedCompanyData1.sites);
-                              console.log(selectedCompanyData1, "company_id");
-                              console.log(
-                                selectedCompanyData1.sites,
-                                "company_id"
-                              );
-                            }
-                          }}
-                        >
-                          <option value="">Select a Company</option>
-                          {selectedCompanyList1.length > 0 ? (
-                            selectedCompanyList1.map((company) => (
-                              <option key={company.id} value={company.id}>
-                                {company.company_name}
-                              </option>
-                            ))
-                          ) : (
-                            <option disabled>No Company</option>
-                          )}
-                        </select>
-                        {formik2.errors.company_id1 &&
-                          formik2.touched.company_id1 && (
-                            <div className="invalid-feedback">
-                              {formik2.errors.company_id1}
-                            </div>
-                          )}
-                      </div>
-                    </Col>
-
-                    <Col lg={3} md={6}>
-                      <div className="form-group">
-                        <FormControl className="width mt-4">
-                          <InputLabel>Select Sites</InputLabel>
-                          <Select
-                            multiple
-                            value={selectedItems1}
-                            onChange={handleItemClick1}
-                            renderValue={(selected) => selected.join(", ")}
-                          >
-                            {selectedSiteList1.map((item) => (
-                              <MenuItem key={item.id} value={item.id}>
-                                <Checkbox
-                                  checked={selectedItems1.includes(item.id)}
-                                />
-                                <ListItemText primary={item.site_name} />
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </div>
-                    </Col>
-                    <Col lg={3} md={6}>
-                      <div className="form-group">
-                        <label
-                          htmlFor="start_date1"
-                          className="form-label mt-4"
-                        >
-                          Date
-                          <span className="text-danger">*</span>
-                        </label>
-                        <input
-                          type="date"
-                          className={`input101 ${
-                            formik2.errors.start_date1 &&
-                            formik2.touched.start_date1
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="start_date1"
-                          name="start_date1"
-                          onChange={formik2.handleChange}
-                        />
-                        {formik2.errors.start_date1 &&
-                          formik2.touched.start_date1 && (
-                            <div className="invalid-feedback">
-                              {formik2.errors.start_date1}
-                            </div>
-                          )}
-                      </div>
-                    </Col>
-                    <Col lg={3} md={12}>
-                      <div classname="form-group">
-                        <label htmlFor="fuel_id" className="form-label mt-4">
-                          Fuel Name
-                          <span className="text-danger">*</span>
-                        </label>
-                        <select
-                          as="select"
-                          className={`input101 ${
-                            formik.errors.fuel_name && formik.touched.fuel_name
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="fuel_name"
-                          name="fuel_name"
-                          onChange={formik2.handleChange}
-                          value={formik2.values.fuel_name}
-                        >
-                          <option value="">Select Fuel Name</option>
-
-                          {selectedFuelName ? (
-                            selectedFuelName?.data.map((item) => (
-                              <option key={item.id} value={item.id}>
-                                {item.sub_category_name}
-                              </option>
-                            ))
-                          ) : (
-                            <option disabled>No Client</option>
-                          )}
-                        </select>
-                        {formik.errors.fuel_name &&
-                          formik.touched.fuel_name && (
-                            <div className="invalid-feedback">
-                              {formik.errors.fuel_name}
-                            </div>
-                          )}
-                      </div>
-                    </Col>
-                    <Col lg={3} md={6}>
-                      <div className="form-group">
-                        <label className=" form-label mt-4" htmlFor="platts">
-                          Platts<span className="text-danger">*</span>
-                        </label>
-                        <input
-                          type="number"
-                          autoComplete="off"
-                          className={`input101 ${
-                            formik2.errors.platts && formik2.touched.platts
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="platts"
-                          name="platts"
-                          placeholder="Platts"
-                          onChange={formik2.handleChange}
-                          value={formik2.values.platts}
-                        />
-                        {formik2.errors.platts && formik2.touched.platts && (
-                          <div className="invalid-feedback">
-                            {formik2.errors.platts}
-                          </div>
-                        )}
-                      </div>
-                    </Col>
-                    <Col lg={3} md={6}>
-                      <div className="form-group">
-                        <label className=" form-label mt-4" htmlFor="premium">
-                          Premium <span className="text-danger">*</span>
-                        </label>
-                        <input
-                          type="number"
-                          autoComplete="off"
-                          className={`input101 ${
-                            formik2.errors.premium && formik2.touched.premium
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="premium"
-                          name="premium"
-                          placeholder="Premium"
-                          onChange={formik2.handleChange}
-                          value={formik2.values.premium}
-                        />
-                        {formik2.errors.premium && formik2.touched.premium && (
-                          <div className="invalid-feedback">
-                            {formik2.errors.premium}
-                          </div>
-                        )}
-                      </div>
-                    </Col>
-                    <Col lg={3} md={6}>
-                      <div className="form-group">
-                        <label
-                          className=" form-label mt-4"
-                          htmlFor="developmentfuels"
-                        >
-                          Development Fuels
-                          <span className="text-danger">*</span>
-                        </label>
-                        <input
-                          type="number"
-                          autoComplete="off"
-                          className={`input101 ${
-                            formik2.errors.developmentfuels &&
-                            formik2.touched.developmentfuels
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="developmentfuels"
-                          name="developmentfuels"
-                          placeholder=" Development Fuels"
-                          onChange={formik2.handleChange}
-                          value={formik2.values.developmentfuels || ""}
-                        />
-                        {formik2.errors.developmentfuels &&
-                          formik2.touched.developmentfuels && (
-                            <div className="invalid-feedback">
-                              {formik2.errors.developmentfuels}
-                            </div>
-                          )}
-                      </div>
-                    </Col>
-                    <Col lg={3} md={6}>
-                      <div className="form-group">
-                        <label className=" form-label mt-4" htmlFor="dutty">
-                          Dutty <span className="text-danger">*</span>
-                        </label>
-                        <input
-                          type="number"
-                          autoComplete="off"
-                          className={`input101 ${
-                            formik2.errors.dutty && formik2.touched.dutty
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="dutty"
-                          name="dutty"
-                          placeholder="Dutty"
-                          onChange={formik2.handleChange}
-                          value={formik2.values.dutty || ""}
-                        />
-                        {formik2.errors.dutty && formik2.touched.dutty && (
-                          <div className="invalid-feedback">
-                            {formik2.errors.dutty}
-                          </div>
-                        )}
-                      </div>
-                    </Col>
-                    <Col lg={3} md={6}>
-                      <div className="form-group">
-                        <label className=" form-label mt-4" htmlFor="exvat">
-                          Ex Vat<span className="text-danger">*</span>
-                        </label>
-                        <input
-                          type="number"
-                          autoComplete="off"
-                          className="table-input readonly"
-                          id="exvat"
-                          name="exvat"
-                          placeholder="Ex Vat"
-                          onChange={formik2.handleChange}
-                          value={formik2.values.exvat}
-                          readOnly
-                        />
-                        {formik2.errors.exvat && formik2.touched.exvat && (
-                          <div className="invalid-feedback">
-                            {formik2.errors.exvat}
-                          </div>
-                        )}
-                      </div>
-                    </Col>
-                    <Col lg={3} md={6}>
-                      <div className="form-group">
-                        <label className=" form-label mt-4" htmlFor="vat">
-                          Vat % <span className="text-danger">*</span>
-                        </label>
-                        <input
-                          type="number"
-                          autoComplete="off"
-                          className={`input101 ${
-                            formik2.errors.vat && formik2.touched.vat
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="vat"
-                          name="vat"
-                          placeholder="Vat%"
-                          onChange={formik2.handleChange}
-                          value={formik2.values.vat}
-                        />
-                        {formik2.errors.vat && formik2.touched.vat && (
-                          <div className="invalid-feedback">
-                            {formik2.errors.vat}
-                          </div>
-                        )}
-                      </div>
-                    </Col>
-                    <Col lg={3} md={6}>
-                      <div className="form-group">
-                        <label className=" form-label mt-4" htmlFor="total">
-                          Total <span className="text-danger">*</span>
-                        </label>
-                        <input
-                          type="number"
-                          autoComplete="off"
-                          className="table-input readonly"
-                          id="total"
-                          name="total"
-                          placeholder="Total"
-                          onChange={formik2.handleChange}
-                          value={formik2.values.total}
-                          readOnly
-                        />
-                        {formik2.errors.total && formik2.touched.total && (
-                          <div className="invalid-feedback">
-                            {formik2.errors.total}
-                          </div>
-                        )}
-                      </div>
-                    </Col>
-                  </Row>
-                </Card.Body>
-                <Card.Footer className="text-end">
-                  <Link className="btn btn-danger me-2" to={`/dashboard/`}>
-                    Reset
-                  </Link>
-                  <button className="btn btn-primary me-2" type="submit">
-                    Submit
-                  </button>
-                </Card.Footer>
-              </form>
-            </Card>
-          </Col>
-        </Row>
-        <Row className="row-sm">
-          <Col lg={12}>
-            <Card>
-              <Card.Header>
+          
+            <Card.Header>
                 <h3 className="card-title">Fuel Price calculator</h3>
               </Card.Header>
               <Card.Body>
@@ -1176,7 +690,7 @@ const ManageDsr = (props) => {
                                 setSelectedCompanyList([]);
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");
-
+                                setSelectedItems([])
                                 const selectedClient = AddSiteData.data.find(
                                   (client) => client.id === selectedType
                                 );
@@ -1240,6 +754,7 @@ const ManageDsr = (props) => {
                                 "company_id",
                                 selectedCompany
                               );
+                              setSelectedItems([])
                               setSelectedSiteList([]);
                               const selectedCompanyData =
                                 selectedCompanyList.find(
@@ -1340,19 +855,20 @@ const ManageDsr = (props) => {
                     </Row>
                   </Card.Body>
                   <Card.Footer className="text-end">
-                    <Link
-                      type="submit"
-                      className="btn btn-danger me-2 "
-                      to={`/dashboard/`}
-                    >
-                      Reset
-                    </Link>
+                   
                     <button className="btn btn-primary me-2" type="submit">
                       Submit
                     </button>
                   </Card.Footer>
                 </form>
               </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+        <Row className="row-sm">
+          <Col lg={12}>
+            <Card>
+          
               <Card.Body>
                 <Col lg={6} md={6}>
                   {data ? (
@@ -1399,15 +915,9 @@ const ManageDsr = (props) => {
                     </DataTableExtensions>
                   </div>
                   <div className="d-flex justify-content-end mt-3">
-                    {editable ? (
-                      <button className="btn btn-primary" type="submit">
+                    {data ? <button className="btn btn-primary" type="submit">
                         Submit
-                      </button>
-                    ) : (
-                      <button className="btn btn-primary" type="submit">
-                        Submit
-                      </button>
-                    )}
+                      </button>:""}
                   </div>
                 </form>
               </Card.Body>
