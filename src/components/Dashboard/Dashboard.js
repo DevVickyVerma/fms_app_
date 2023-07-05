@@ -16,9 +16,8 @@ import DashBordModal from "../../data/Modal/DashBordmodal";
 const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
-  const [sidebarVisible, setSidebarVisible] = useState(true);
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
-  const [sidebardata, setSideData] = useState();
+  const [ShowTruw, setShowTruw] = useState(false);
 
   const SuccessToast = (message) => {
     toast.success(message, {
@@ -82,6 +81,8 @@ const Dashboard = (props) => {
   }, []);
 
   const handleToggleSidebar1 = () => {
+    console.log(ShowTruw, "hi");
+    setShowTruw(true);
     setSidebarVisible1(!sidebarVisible1);
   };
 
@@ -115,15 +116,10 @@ const Dashboard = (props) => {
 
   const [SearchList, setSearchList] = useState(false);
 
-  const [sidebardataobject, setSideDataobject] = useState();
-  const handleSearchReset = () => {
-    setSearchdata({});
-    setSearchList(true);
-  };
-
-  const handleSubmit = () => {
-    handleToggleSidebar1();
-  };
+  const handleFormSubmit = (values) => {
+    // Process the form values here
+    console.log(values);
+  };;
 
   return (
     <div>
@@ -163,7 +159,7 @@ const Dashboard = (props) => {
             </span>
           </Link>
           {Object.keys(searchdata).length > 0 ? (
-            <Link className="btn btn-danger ms-2" onClick={handleSearchReset}>
+            <Link className="btn btn-danger ms-2" >
               Reset <RestartAltIcon />
             </Link>
           ) : (
@@ -172,13 +168,17 @@ const Dashboard = (props) => {
         </div>
       </div>
 
-      <DashBordModal
-        title="Search"
-        visible={sidebarVisible1}
-        onClose={handleToggleSidebar1}
-        onSubmit={handleSubmit}
-        searchListstatus={SearchList}
-      />
+      {ShowTruw ? (
+        <DashBordModal
+          title="Search"
+          visible={sidebarVisible1}
+          onClose={handleToggleSidebar1}
+          onSubmit={handleFormSubmit}
+          searchListstatus={SearchList}
+        />
+      ) : (
+        ""
+      )}
 
       <Row>
         <Col lg={12} md={12} sm={12} xl={12}>
