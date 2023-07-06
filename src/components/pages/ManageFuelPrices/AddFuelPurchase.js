@@ -42,7 +42,6 @@ const ManageDsr = (props) => {
 
   const [AddSiteData1, setAddSiteData1] = useState([]);
 
-
   const [selectedClientId1, setSelectedClientId1] = useState("");
   const [selectedFuelName, setselectedFuelName] = useState("");
   const [selectedCompanyList1, setSelectedCompanyList1] = useState([]);
@@ -65,9 +64,15 @@ const ManageDsr = (props) => {
   const handleItemClick1 = (event) => {
     setSelectedItems1(event.target.value);
     console.log(event.target.value);
-    formik2.setFieldValue("sites", event.target.value);
-  };
 
+    const selectedSiteNames = event.target.value;
+    const filteredSites = selectedSiteList1.filter((item) =>
+      selectedSiteNames.includes(item.site_name)
+    );
+    console.log(filteredSites, "filteredSites");
+    formik2.setFieldValue("sites", filteredSites);
+ 
+  };
 
   const [data, setData] = useState();
   useEffect(() => {
@@ -83,10 +88,7 @@ const ManageDsr = (props) => {
 
       const { data } = response;
       if (data) {
-    
         setAddSiteData1(response.data);
-
-    
       }
     } catch (error) {
       console.error("API error:", error);
@@ -98,17 +100,12 @@ const ManageDsr = (props) => {
 
       const { data } = response;
       if (data) {
-        console.log(data);
-        setselectedFuelName(data)
+        setselectedFuelName(data);
       }
     } catch (error) {
       console.error("API error:", error);
     }
   };
-
-
-
-
 
   const secondValidationSchema = Yup.object({
     client_id1: Yup.string().required("Client is required"),
@@ -152,12 +149,9 @@ const ManageDsr = (props) => {
   // };
 
   const handleSubmit2 = async (values) => {
-    console.log(values)
     try {
       const formData = new FormData();
 
-
-     
       formData.append("platts_price", values.platts);
       formData.append("premium_price", values.premium);
       formData.append("development_fuels_price", values.developmentfuels);
@@ -167,10 +161,9 @@ const ManageDsr = (props) => {
       formData.append("total", values.total);
       formData.append("date", values.start_date1);
       formData.append("fuel_id", values.fuel_name);
-      values.sites.forEach((siteId, index) => {
-        formData.append(`site_id[${index}]`, siteId);
+      values.sites.forEach((site, index) => {
+        formData.append(`site_id[${index}]`, site.id);
       });
-   
 
       const postDataUrl = "/site/fuel/purchase-price/add";
       const navigatePath = "/business";
@@ -180,8 +173,6 @@ const ManageDsr = (props) => {
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
-
-
 
   return (
     <>
@@ -236,27 +227,22 @@ const ManageDsr = (props) => {
                           name="client_id1"
                           onChange={(e) => {
                             const selectedType1 = e.target.value;
-                            console.log(selectedType1);
+
                             formik2.setFieldValue("client_id1", selectedType1);
                             setSelectedClientId1(selectedType1);
-                            setSelectedItems1([])
+                            setSelectedItems1([]);
                             // Reset the selected company and site
                             setSelectedCompanyList1([]);
                             formik2.setFieldValue("company_id1", "");
                             formik2.setFieldValue("site_id1", "");
-                            console.log(AddSiteData1, "AddSiteData1");
+
                             const selectedClient1 = AddSiteData1.data.find(
                               (client) => client.id === selectedType1
                             );
-                            console.log(selectedClient1, "selectedClient1");
+
                             if (selectedClient1) {
                               setSelectedCompanyList1(
                                 selectedClient1.companies
-                              );
-                              console.log(selectedClient1, "selectedClient");
-                              console.log(
-                                selectedClient1.companies,
-                                "selectedClient"
                               );
                             }
                           }}
@@ -307,7 +293,7 @@ const ManageDsr = (props) => {
                               "company_id1",
                               selectedCompany1
                             );
-                            setSelectedItems1([])
+                            setSelectedItems1([]);
                             setSelectedSiteList1([]);
                             const selectedCompanyData1 =
                               selectedCompanyList1.find(
@@ -315,11 +301,6 @@ const ManageDsr = (props) => {
                               );
                             if (selectedCompanyData1) {
                               setSelectedSiteList1(selectedCompanyData1.sites);
-                              console.log(selectedCompanyData1, "company_id");
-                              console.log(
-                                selectedCompanyData1.sites,
-                                "company_id"
-                              );
                             }
                           }}
                         >
@@ -354,9 +335,14 @@ const ManageDsr = (props) => {
                             renderValue={(selected) => selected.join(", ")}
                           >
                             {selectedSiteList1.map((item) => (
-                              <MenuItem key={item.id} value={item.id}>
+                              <MenuItem
+                                key={item.site_name}
+                                value={item.site_name}
+                              >
                                 <Checkbox
-                                  checked={selectedItems1.includes(item.id)}
+                                  checked={selectedItems1.includes(
+                                    item.site_name
+                                  )}
                                 />
                                 <ListItemText primary={item.site_name} />
                               </MenuItem>
@@ -403,7 +389,8 @@ const ManageDsr = (props) => {
                         <select
                           as="select"
                           className={`input101 ${
-                            formik2.errors.fuel_name && formik2.touched.fuel_name
+                            formik2.errors.fuel_name &&
+                            formik2.touched.fuel_name
                               ? "is-invalid"
                               : ""
                           }`}
@@ -425,7 +412,7 @@ const ManageDsr = (props) => {
                           )}
                         </select>
                         {formik2.errors.fuel_name &&
-                            formik2.touched.fuel_name && (
+                          formik2.touched.fuel_name && (
                             <div className="invalid-feedback">
                               {formik2.errors.fuel_name}
                             </div>
@@ -617,7 +604,10 @@ const ManageDsr = (props) => {
                   </Row>
                 </Card.Body>
                 <Card.Footer className="text-end">
-                  <Link className="btn btn-danger me-2" to={`/fuel-purchase-prices/`}>
+                  <Link
+                    className="btn btn-danger me-2"
+                    to={`/fuel-purchase-prices/`}
+                  >
                     Cancel
                   </Link>
                   <button className="btn btn-primary me-2" type="submit">
@@ -628,7 +618,6 @@ const ManageDsr = (props) => {
             </Card>
           </Col>
         </Row>
-     
       </>
     </>
   );

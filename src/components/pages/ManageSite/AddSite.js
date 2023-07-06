@@ -114,7 +114,7 @@ const AddSite = (props) => {
     try {
       const formData = new FormData();
       formData.append("business_type_id", values.bussiness_Type);
-     
+
       formData.append("data_import_type_id", values.Select_machine_type);
       formData.append("site_code", values.site_code);
       formData.append("site_name", values.site_name);
@@ -137,7 +137,9 @@ const AddSite = (props) => {
       formData.append("paperwork_status", values.Paper_work_status);
       formData.append("company_id", values.company_id);
       formData.append("client_id", values.client_id);
-
+      formData.append("lottery_commission",0);
+      formData.append("shop_commission", 0);
+  
       const postDataUrl = "/site/add";
 
       const navigatePath = "/sites";
@@ -184,7 +186,7 @@ const AddSite = (props) => {
   return (
     <>
       {isLoading ? (
-       <Loaderimg/>
+        <Loaderimg />
       ) : (
         <>
           <div className="page-header">
@@ -229,7 +231,7 @@ const AddSite = (props) => {
                     site_name: "",
                     site_Address: "",
                     Site_Status: "",
-                  
+
                     bussiness_Type: "",
                     Select_machine_type: "",
                     supplier: "",
@@ -249,6 +251,8 @@ const AddSite = (props) => {
                     Drs_upload_status: "",
                     client_id: "",
                     company_id: "",
+                    lottery_commission: "0",
+                    shop_commission: "0",
                   }}
                   validationSchema={Yup.object({
                     site_code: Yup.string()
@@ -264,7 +268,6 @@ const AddSite = (props) => {
                       "Site Status is required"
                     ),
 
-               
                     bussiness_Type: Yup.string().required(
                       "Business Type is required"
                     ),
@@ -277,7 +280,7 @@ const AddSite = (props) => {
                     ),
                     // display_name: Yup.string().required("Display name is required"),
                     Saga_department_code: Yup.string().required(
-                      "Saga Department Code  is required"
+                      "Sage Department Code  is required"
                     ),
 
                     Saga_department_name: Yup.string().required(
@@ -287,7 +290,9 @@ const AddSite = (props) => {
                       "Drs Upload Status is required"
                     ),
                     client_id: Yup.string().required("Client is required"),
-                    Bp_nctt_site_no: Yup.string().required("Bp Nctt Site No is required"),
+                    Bp_nctt_site_no: Yup.string().required(
+                      "Bp Nctt Site No is required"
+                    ),
                     // company_id: Yup.string().required(
                     //   "Company is required"
                     // ),
@@ -316,7 +321,8 @@ const AddSite = (props) => {
                               </label>
 
                               <Field
-                                type="text"  autoComplete="off"
+                                type="text"
+                                autoComplete="off"
                                 className={`input101 ${
                                   errors.site_code && touched.site_code
                                     ? "is-invalid"
@@ -342,7 +348,8 @@ const AddSite = (props) => {
                                 Site Name<span className="text-danger">*</span>
                               </label>
                               <Field
-                                type="text"  autoComplete="off"
+                                type="text"
+                                autoComplete="off"
                                 className={`input101 ${
                                   errors.site_name && touched.site_name
                                     ? "is-invalid"
@@ -368,7 +375,8 @@ const AddSite = (props) => {
                                 Display Name
                               </label>
                               <Field
-                                type="text"  autoComplete="off"
+                                type="text"
+                                autoComplete="off"
                                 className={`input101 ${
                                   errors.display_name && touched.display_name
                                     ? "is-invalid"
@@ -496,9 +504,7 @@ const AddSite = (props) => {
                                   setSubTypes(selectedTypeData.sub_types);
                                 }}
                               >
-                                <option value="">
-                                  Select a Business Type
-                                </option>
+                                <option value="">Select a Business Type</option>
                                 {AddSiteData.busines_types &&
                                 AddSiteData.busines_types.length > 0 ? (
                                   AddSiteData.busines_types.map((item) => (
@@ -519,14 +525,14 @@ const AddSite = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                       
+
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
                                 htmlFor="Saga_department_code"
                                 className=" form-label mt-4"
                               >
-                                Saga Department Code
+                                Sage Department Code
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
@@ -541,7 +547,7 @@ const AddSite = (props) => {
                                 name="Saga_department_code"
                               >
                                 <option value="">
-                                  Select a Saga Department Code
+                                  Select a Sage Department Code
                                 </option>
                                 {AddSiteData.department_codes &&
                                 AddSiteData.department_codes.length > 0 ? (
@@ -573,7 +579,8 @@ const AddSite = (props) => {
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
-                                type="text"  autoComplete="off"
+                                type="text"
+                                autoComplete="off"
                                 className={`input101 ${
                                   errors.Saga_department_name &&
                                   touched.Saga_department_name
@@ -598,10 +605,12 @@ const AddSite = (props) => {
                                 htmlFor="Bp_nctt_site_no"
                                 className=" form-label mt-4"
                               >
-                                BP NCTT Site No <span className="text-danger">*</span>
+                                BP NCTT Site No{" "}
+                                <span className="text-danger">*</span>
                               </label>
                               <Field
-                                type="text"  autoComplete="off"
+                                type="text"
+                                autoComplete="off"
                                 className={`input101 ${
                                   errors.Bp_nctt_site_no &&
                                   touched.Bp_nctt_site_no

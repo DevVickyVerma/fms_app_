@@ -220,3 +220,34 @@ tbody tr {
 .MuiFormControl-root.width {
   width: 100%;
 }
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+  .loading-spinner {
+    width: 10px;
+    height: 10px;
+    border: 10px solid #f3f3f3;
+    border-top: 10px solid #383636;
+    border-radius: 50%;
+    -webkit-animation: spinner 1.5s linear infinite;
+    animation: spinner 1.5s linear infinite;
+  }
+
+  .spinner-container {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff; /* Add desired background color here */
+    width: 10%; /* Set the width and height to cover the entire parent container */
+    height: 10%;
+  }
+  .dashboard-box {
+    display: flex;
+    justify-content: space-between;
+}

@@ -61,13 +61,18 @@ const ManageDsr = (props) => {
 
   const [selectedItems, setSelectedItems] = useState([]);
   
-
   const handleItemClick = (event) => {
     setSelectedItems(event.target.value);
     console.log(event.target.value);
-    formik.setFieldValue("sites", event.target.value);
-  };
 
+    const selectedSiteNames = event.target.value;
+    const filteredSites = selectedSiteList.filter((item) =>
+      selectedSiteNames.includes(item.site_name)
+    );
+    console.log(filteredSites, "filteredSites");
+    formik.setFieldValue("sites", filteredSites);
+ 
+  };
 
   //   const [data, setData] = useState([
   //     {
@@ -593,8 +598,10 @@ const ManageDsr = (props) => {
         formData.append(total, total_values);
       });
 
-      formik.values.sites.forEach((siteId, index) => {
-        formData.append(`site_id[${index}]`, siteId);
+   
+
+      formik.values.sites.forEach((site, index) => {
+        formData.append(`site_id[${index}]`, site.id);
       });
 
       // formData.append("site_id", formik.values.sites);
@@ -884,9 +891,9 @@ const ManageDsr = (props) => {
                           <em>Select items</em>
                         </MenuItem>
                         {selectedSiteList.map((item) => (
-                          <MenuItem key={item.id} value={item.id}>
+                          <MenuItem key={item.site_name} value={item.site_name}>
                             <Checkbox
-                              checked={selectedItems.includes(item.id)}
+                              checked={selectedItems.includes(item.site_name)}
                             />
                             <ListItemText primary={item.site_name} />
                           </MenuItem>

@@ -48,7 +48,6 @@ export default function AddSite(props) {
     }
   }
 
-
   const { id } = useParams();
 
   useEffect(() => {
@@ -69,7 +68,7 @@ export default function AddSite(props) {
         formik.setValues(response.data.data);
         console.log(formik.values);
         console.log(response.data.data);
-        // setDropdownValue(response.data.data);
+        setAddSiteData(response.data.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -79,7 +78,6 @@ export default function AddSite(props) {
   };
   const GetSiteData = async () => {
     try {
-   
       const response = await getData(`/site/detail?id=${id}`);
 
       if (response) {
@@ -94,7 +92,6 @@ export default function AddSite(props) {
       console.error("API error:", error);
     }
   };
-
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
@@ -163,6 +160,8 @@ export default function AddSite(props) {
       fuel_commission_calc_status: "",
       bunker_upload_status: "",
       paperwork_status: "",
+      lottery_commission: "0",
+      shop_commission: "0",
     },
     validationSchema: Yup.object({
       site_code: Yup.string()
@@ -198,8 +197,6 @@ export default function AddSite(props) {
     onSubmit: handleSubmit,
   });
 
-  
-
   const isInvalid = formik.errors && formik.touched.name ? "is-invalid" : "";
 
   // Use the isInvalid variable to conditionally set the class name
@@ -229,771 +226,807 @@ export default function AddSite(props) {
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
-    <div>
-      <div className="page-header">
         <div>
-          <h1 className="page-title">Edit Site</h1>
+          <div className="page-header">
+            <div>
+              <h1 className="page-title">Edit Site</h1>
 
-          <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item
-              className="breadcrumb-item"
-              linkAs={Link}
-              linkProps={{ to: "/dashboard" }}
-            >
-              Dashboard
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item  breadcrumds"
-              aria-current="page"
-              linkAs={Link}
-              linkProps={{ to: "/sites" }}
-            >
-              Manage Sites
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item active breadcrumds"
-              aria-current="page"
-            >
-              Edit Site
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
-      </div>
-
-      <Row>
-        <Col lg={12} xl={12} md={12} sm={12}>
-          <Card>
-            <Card.Header>
-              <Card.Title as="h3">Edit Site</Card.Title>
-            </Card.Header>
-
-            <div class="card-body">
-              <form onSubmit={formik.handleSubmit}>
-                <Row>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label className="form-label mt-4" htmlFor="site_code">
-                        Site Code<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        id="site_code"
-                        name="site_code"
-                        type="text"
-                        autoComplete="off"
-                        className={`input101 readonly ${
-                          formik.errors.site_code && formik.touched.site_code
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        placeholder="Site Code"
-                        onChange={formik.handleChange}
-                        value={formik.values.site_code || ""}
-                        readOnly
-                      />
-                      {formik.errors.site_code && formik.touched.site_code && (
-                        <div className="invalid-feedback">
-                          {formik.errors.site_code}
-                        </div>
-                      )}
-                    </div>
-                  </Col>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label className="form-label mt-4" htmlFor="site_name">
-                        Site Name<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        autoComplete="off"
-                        className={`input101 ${
-                          formik.errors.site_name && formik.touched.site_name
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="site_name"
-                        name="site_name"
-                        placeholder="Site Name"
-                        onChange={formik.handleChange}
-                        value={formik.values.site_name || ""}
-                      />
-                      {formik.errors.site_name && formik.touched.site_name && (
-                        <div className="invalid-feedback">
-                          {formik.errors.site_name}
-                        </div>
-                      )}
-                    </div>
-                  </Col>
-                  <Col lg={4} md={6}>
-                    <label
-                      htmlFor="site_display_name"
-                      className="form-label mt-4"
-                    >
-                      Display Name
-                    </label>
-                    <input
-                      type="text"
-                      autoComplete="off"
-                      className={`input101 ${
-                        formik.errors.site_display_name &&
-                        formik.touched.site_display_name
-                          ? "is-invalid"
-                          : ""
-                      }`}
-                      id="site_display_name"
-                      name="site_display_name"
-                      placeholder="Display Name"
-                      onChange={formik.handleChange}
-                      value={formik.values.site_display_name || ""}
-                    />
-                    {formik.errors.site_display_name &&
-                      formik.touched.site_display_name && (
-                        <div className="invalid-feedback">
-                          {formik.errors.site_display_name}
-                        </div>
-                      )}
-                  </Col>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label htmlFor="supplier_id" className="form-label mt-4">
-                        Supplier Id<span className="text-danger">*</span>
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.supplier_id &&
-                          formik.touched.supplier_id
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="supplier_id"
-                        name="supplier_id"
-                        onChange={formik.handleChange}
-                        value={formik.values.supplier_id}
-                      >
-                        <option value="">Select a Supplier Id</option>
-                        {AddSiteData.suppliers &&
-                        AddSiteData.suppliers.length > 0 ? (
-                          AddSiteData.suppliers.map((item) => (
-                            <option key={item.id} value={item.id}>
-                              {item.supplier_name}
-                            </option>
-                          ))
-                        ) : (
-                          <option disabled>No supplier_id available</option>
-                        )}
-                      </select>
-                      {formik.errors.supplier_id &&
-                        formik.touched.supplier_id && (
-                          <div className="invalid-feedback">
-                            {formik.errors.supplier_id}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label htmlFor="site_status" className="form-label mt-4">
-                        Site Status<span className="text-danger">*</span>
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.site_status &&
-                          formik.touched.site_status
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="site_status"
-                        name="site_status"
-                        onChange={formik.handleChange}
-                        value={formik.values.site_status}
-                      >
-                        <option value="">Select a Site Status</option>
-                        {AddSiteData.site_status &&
-                        AddSiteData.site_status.length > 0 ? (
-                          AddSiteData.site_status.map((item) => (
-                            <option key={item.value} value={item.value}>
-                              {item.name}
-                            </option>
-                          ))
-                        ) : (
-                          <option disabled>No Site Status available</option>
-                        )}
-                      </select>
-                      {formik.errors.site_status &&
-                        formik.touched.site_status && (
-                          <div className="invalid-feedback">
-                            {formik.errors.site_status}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="business_type"
-                        className="form-label mt-4"
-                      >
-                        Bussiness Type<span className="text-danger">*</span>
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.business_type &&
-                          formik.touched.business_type
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="business_type"
-                        name="business_type"
-                        onChange={handleBusinessTypeChange}
-                        value={formik.values.business_type || ""}
-                      >
-                        <option value="">Select a Bussiness Type</option>
-                        {AddSiteData.busines_types &&
-                        AddSiteData.busines_types.length > 0 ? (
-                          AddSiteData.busines_types.map((item) => (
-                            <option key={item.id} value={item.name}>
-                              {item.name}
-                            </option>
-                          ))
-                        ) : (
-                          <option disabled>No Bussiness Type available</option>
-                        )}
-                      </select>
-                      {formik.errors.business_type &&
-                        formik.touched.business_type && (
-                          <div className="invalid-feedback">
-                            {formik.errors.business_type}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="sage_department_id"
-                        className="form-label mt-4"
-                      >
-                        Saga Department ID
-                        <span className="text-danger">*</span>
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.sage_department_id &&
-                          formik.touched.sage_department_id
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="sage_department_id"
-                        name="sage_department_id"
-                        onChange={formik.handleChange}
-                        value={formik.values.sage_department_id}
-                      >
-                        <option value="">Select a Saga Department ID</option>
-                        {AddSiteData.department_codes &&
-                        AddSiteData.department_codes.length > 0 ? (
-                          AddSiteData.department_codes.map((item) => (
-                            <option key={item.id} value={item.id}>
-                              {item.value}
-                            </option>
-                          ))
-                        ) : (
-                          <option disabled>
-                            No Saga Department ID available
-                          </option>
-                        )}
-                      </select>
-                      {formik.errors.sage_department_id &&
-                        formik.touched.sage_department_id && (
-                          <div className="invalid-feedback">
-                            {formik.errors.sage_department_id}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="department_sage_code"
-                        className="form-label mt-4"
-                      >
-                        Saga Department code
-                        <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        autoComplete="off"
-                        className={`input101 ${
-                          formik.errors.department_sage_code &&
-                          formik.touched.department_sage_code
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="department_sage_code"
-                        name="department_sage_code"
-                        placeholder="Saga Department code"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.department_sage_code || ""}
-                      />
-                      {formik.errors.department_sage_code &&
-                        formik.touched.department_sage_code && (
-                          <div className="invalid-feedback">
-                            {formik.errors.department_sage_code}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="bp_credit_card_site_no"
-                        className="form-label mt-4"
-                      >
-                        BP NCTT Site No<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        autoComplete="off"
-                        className={`input101 ${
-                          formik.errors.bp_credit_card_site_no &&
-                          formik.touched.bp_credit_card_site_no
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="bp_credit_card_site_no"
-                        name="bp_credit_card_site_no"
-                        placeholder="BP NCTT Site No"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.bp_credit_card_site_no || ""}
-                      />
-                      {formik.errors.bp_credit_card_site_no &&
-                        formik.touched.bp_credit_card_site_no && (
-                          <div className="invalid-feedback">
-                            {formik.errors.bp_credit_card_site_no}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label htmlFor="start_date" className="form-label mt-4">
-                        DRS Start Date<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        type="date"
-                        className={`input101 ${
-                          formik.errors.start_date && formik.touched.start_date
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="start_date"
-                        name="start_date"
-                        placeholder="DRS Start Date"
-                        value={
-                          formik.values.start_date
-                            ? formatDate(formik.values.start_date)
-                            : ""
-                        }
-                        onChange={(event) => {
-                          const date = event.target.value;
-                          formik.setFieldValue("start_date", date);
-                        }}
-                        onBlur={formik.handleBlur}
-                      />
-
-                      {formik.errors.start_date &&
-                        formik.touched.start_date && (
-                          <div className="invalid-feedback">
-                            {formik.errors.start_date}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="site_report_status"
-                        className="form-label mt-4"
-                      >
-                        Report Generation Status
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.site_report_status &&
-                          formik.touched.site_report_status
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="site_report_status"
-                        name="site_report_status"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.site_report_status}
-                      >
-                        <option value="">
-                          Select a Report Generation Status
-                        </option>
-                        <option value="1">Active</option>
-                        <option value="0">InActive</option>
-                      </select>
-                      {formik.errors.site_report_status &&
-                        formik.touched.site_report_status && (
-                          <div className="invalid-feedback">
-                            {formik.errors.site_report_status}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="site_report_date_type"
-                        className="form-label mt-4"
-                      >
-                        Report Date Type
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.site_report_date_type &&
-                          formik.touched.site_report_date_type
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="site_report_date_type"
-                        name="site_report_date_type"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.site_report_date_type}
-                      >
-                        <option value="">Select a Report Date Type</option>
-                        <option value="1">Start Date</option>
-                        <option value="2">End Date</option>
-                      </select>
-                      {formik.errors.site_report_date_type &&
-                        formik.touched.site_report_date_type && (
-                          <div className="invalid-feedback">
-                            {formik.errors.site_report_date_type}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="fuel_commission_calc_status"
-                        className="form-label mt-4"
-                      >
-                        Fuel Commission Type
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.fuel_commission_calc_status &&
-                          formik.touched.fuel_commission_calc_status
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="fuel_commission_calc_status"
-                        name="fuel_commission_calc_status"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.fuel_commission_calc_status}
-                      >
-                        <option value="">Select a Fuel Commission Type</option>
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
-                      </select>
-                      {formik.errors.fuel_commission_calc_status &&
-                        formik.touched.fuel_commission_calc_status && (
-                          <div className="invalid-feedback">
-                            {formik.errors.fuel_commission_calc_status}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="paperwork_status"
-                        className="form-label mt-4"
-                      >
-                        Paper Work Status
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.paperwork_status &&
-                          formik.touched.paperwork_status
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="paperwork_status"
-                        name="paperwork_status"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.paperwork_status}
-                      >
-                        <option value="">Select a Paper Work Status</option>
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
-                      </select>
-                      {formik.errors.paperwork_status &&
-                        formik.touched.paperwork_status && (
-                          <div className="invalid-feedback">
-                            {formik.errors.paperwork_status}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="bunker_upload_status"
-                        className="form-label mt-4"
-                      >
-                        Bunkered Sale Status
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.bunker_upload_status &&
-                          formik.touched.bunker_upload_status
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="bunker_upload_status"
-                        name="bunker_upload_status"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.bunker_upload_status}
-                      >
-                        <option value="">Select a Bunkered Sale Status</option>
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
-                      </select>
-                      {formik.errors.bunker_upload_status &&
-                        formik.touched.bunker_upload_status && (
-                          <div className="invalid-feedback">
-                            {formik.errors.bunker_upload_status}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="drs_upload_status"
-                        className="form-label mt-4"
-                      >
-                        DRS Upload Status
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.drs_upload_status &&
-                          formik.touched.drs_upload_status
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="drs_upload_status"
-                        name="drs_upload_status"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.drs_upload_status}
-                      >
-                        <option value="">Select a DRS Upload Status</option>
-                        <option value="1">Automatic</option>
-                        <option value="2">Manual</option>
-                      </select>
-                      {formik.errors.drs_upload_status &&
-                        formik.touched.drs_upload_status && (
-                          <div className="invalid-feedback">
-                            {formik.errors.drs_upload_status}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label htmlFor="site_address" className="form-label mt-4">
-                        Site Address<span className="text-danger">*</span>
-                      </label>
-                      <textarea
-                        className={`input101 ${
-                          formik.errors.site_address &&
-                          formik.touched.site_address
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="site_address"
-                        name="site_address"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.site_address || ""}
-                        placeholder="Site Address"
-                      />
-                      {formik.errors.site_address &&
-                        formik.touched.site_address && (
-                          <div className="invalid-feedback">
-                            {formik.errors.site_address}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="data_import_type_id"
-                        className="form-label mt-4"
-                      >
-                        Select Data Import Types
-                        <span className="text-danger">*</span>
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.data_import_type_id &&
-                          formik.touched.data_import_type_id
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="data_import_type_id"
-                        name="data_import_type_id"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.data_import_type_id}
-                      >
-                        <option value=""> Select Data Import Types</option>
-                        {AddSiteData.data_import_types &&
-                        AddSiteData.data_import_types.length > 0 ? (
-                          AddSiteData.data_import_types.map((item) => (
-                            <option key={item.id} value={item.id}>
-                              {item.import_type_name}
-                            </option>
-                          ))
-                        ) : (
-                          <option disabled>No Machine Type</option>
-                        )}
-                      </select>
-                      {formik.errors.data_import_type_id &&
-                        formik.touched.data_import_type_id && (
-                          <div className="invalid-feedback">
-                            {formik.errors.data_import_type_id}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-                  {/* <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="client_id"
-                        className="form-label mt-4"
-                      >
-                      Client
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.client_id &&
-                          formik.touched.client_id
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="client_id"
-                        name="client_id"
-                         
-                        onBlur={formik.handleBlur}
-                        value={formik.values.client_id}
-                        onChange={(e) => {
-                                  const selectedType = e.target.value;
-                                  if (selectedType.length > 0 && selectedType) {
-                                    fetchCompanyList(selectedType);
-                                    formik.setFieldValue("client_id", selectedType);
-                                  } else {
-                                    console.log(e.target.value, "dd");
-                                  }
-                                }}
-                      >
-                         <option value=""> Select Client</option>
-                                {AddSiteData.clients &&
-                                AddSiteData.clients.length > 0 ? (
-                                  AddSiteData.clients.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.client_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Client</option>
-                                )}
-                      </select>
-                      {formik.errors.client_id &&
-                        formik.touched.client_id && (
-                          <div className="invalid-feedback">
-                            {formik.errors.client_id}
-                          </div>
-                        )}
-                    </div>
-                  </Col>
-                  <Col lg={4} md={6}>
-                            <div className="form-group">
-                              <label
-                                htmlFor="company_id"
-                                className="form-label mt-4"
-                              >
-                                Select Company
-                              </label>
-                              <select
-                                className={`input101 ${
-                                  formik. errors.company_id &&  formik.touched.company_id
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="company_id"
-                                name="company_id"
-                                onChange={(e) => {
-                                  const selectedType = e.target.value;
-                                  if (selectedType.length > 0 && selectedType) {
-                                    formik.setFieldValue("company_id", selectedType);
-                                  }
-                                }}
-                                value={formik.values.company_id}
-                              >
-                                <option value=""> Select Company</option>
-                                {Listcompany.companies &&
-                                Listcompany.companies.length > 0 ? (
-                                  Listcompany.companies.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.company_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No clients</option>
-                                )}
-                              </select>
-                              { formik.errors.company_id &&  formik.touched.company_id && (
-                                <div className="invalid-feedback">
-                                  { formik.errors.company_id}
-                                </div>
-                              )}
-                            </div>
-                          </Col> */}
-                </Row>
-                <div className="text-end">
-                  <Link
-                    type="sussbmit"
-                    className="btn btn-danger me-2 "
-                    to={`/sites/`}
-                  >
-                    Cancel
-                  </Link>
-
-                  <button type="submit" className="btn btn-primary">
-                    Submit
-                  </button>
-                </div>
-              </form>
+              <Breadcrumb className="breadcrumb">
+                <Breadcrumb.Item
+                  className="breadcrumb-item"
+                  linkAs={Link}
+                  linkProps={{ to: "/dashboard" }}
+                >
+                  Dashboard
+                </Breadcrumb.Item>
+                <Breadcrumb.Item
+                  className="breadcrumb-item  breadcrumds"
+                  aria-current="page"
+                  linkAs={Link}
+                  linkProps={{ to: "/sites" }}
+                >
+                  Manage Sites
+                </Breadcrumb.Item>
+                <Breadcrumb.Item
+                  className="breadcrumb-item active breadcrumds"
+                  aria-current="page"
+                >
+                  Edit Site
+                </Breadcrumb.Item>
+              </Breadcrumb>
             </div>
-          </Card>
-        </Col>
-      </Row>
-    </div>
-    </>
+          </div>
+
+          <Row>
+            <Col lg={12} xl={12} md={12} sm={12}>
+              <Card>
+                <Card.Header>
+                  <Card.Title as="h3">Edit Site</Card.Title>
+                </Card.Header>
+
+                <div class="card-body">
+                  <form onSubmit={formik.handleSubmit}>
+                    <Row>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            className="form-label mt-4"
+                            htmlFor="site_code"
+                          >
+                            Site Code<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            id="site_code"
+                            name="site_code"
+                            type="text"
+                            autoComplete="off"
+                            className={`input101 readonly ${
+                              formik.errors.site_code &&
+                              formik.touched.site_code
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            placeholder="Site Code"
+                            onChange={formik.handleChange}
+                            value={formik.values.site_code || ""}
+                            readOnly
+                          />
+                          {formik.errors.site_code &&
+                            formik.touched.site_code && (
+                              <div className="invalid-feedback">
+                                {formik.errors.site_code}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            className="form-label mt-4"
+                            htmlFor="site_name"
+                          >
+                            Site Name<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            autoComplete="off"
+                            className={`input101 ${
+                              formik.errors.site_name &&
+                              formik.touched.site_name
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="site_name"
+                            name="site_name"
+                            placeholder="Site Name"
+                            onChange={formik.handleChange}
+                            value={formik.values.site_name || ""}
+                          />
+                          {formik.errors.site_name &&
+                            formik.touched.site_name && (
+                              <div className="invalid-feedback">
+                                {formik.errors.site_name}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <label
+                          htmlFor="site_display_name"
+                          className="form-label mt-4"
+                        >
+                          Display Name
+                        </label>
+                        <input
+                          type="text"
+                          autoComplete="off"
+                          className={`input101 ${
+                            formik.errors.site_display_name &&
+                            formik.touched.site_display_name
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          id="site_display_name"
+                          name="site_display_name"
+                          placeholder="Display Name"
+                          onChange={formik.handleChange}
+                          value={formik.values.site_display_name || ""}
+                        />
+                        {formik.errors.site_display_name &&
+                          formik.touched.site_display_name && (
+                            <div className="invalid-feedback">
+                              {formik.errors.site_display_name}
+                            </div>
+                          )}
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="supplier_id"
+                            className="form-label mt-4"
+                          >
+                            Supplier Id<span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.supplier_id &&
+                              formik.touched.supplier_id
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="supplier_id"
+                            name="supplier_id"
+                            onChange={formik.handleChange}
+                            value={formik.values.supplier_id}
+                          >
+                            <option value="">Select a Supplier Id</option>
+                            {AddSiteData.suppliers &&
+                            AddSiteData.suppliers.length > 0 ? (
+                              AddSiteData.suppliers.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.supplier_name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled>No supplier_id available</option>
+                            )}
+                          </select>
+                          {formik.errors.supplier_id &&
+                            formik.touched.supplier_id && (
+                              <div className="invalid-feedback">
+                                {formik.errors.supplier_id}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="site_status"
+                            className="form-label mt-4"
+                          >
+                            Site Status<span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.site_status &&
+                              formik.touched.site_status
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="site_status"
+                            name="site_status"
+                            onChange={formik.handleChange}
+                            value={formik.values.site_status}
+                          >
+                            <option value="">Select a Site Status</option>
+                            {AddSiteData.site_status &&
+                            AddSiteData.site_status.length > 0 ? (
+                              AddSiteData.site_status.map((item) => (
+                                <option key={item.value} value={item.value}>
+                                  {item.name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled>No Site Status available</option>
+                            )}
+                          </select>
+                          {formik.errors.site_status &&
+                            formik.touched.site_status && (
+                              <div className="invalid-feedback">
+                                {formik.errors.site_status}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="business_type"
+                            className="form-label mt-4"
+                          >
+                            Bussiness Type<span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.business_type &&
+                              formik.touched.business_type
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="business_type"
+                            name="business_type"
+                            onChange={handleBusinessTypeChange}
+                            value={formik.values.business_type || ""}
+                          >
+                            <option value="">Select a Bussiness Type</option>
+                            {AddSiteData.busines_types &&
+                            AddSiteData.busines_types.length > 0 ? (
+                              AddSiteData.busines_types.map((item) => (
+                                <option key={item.id} value={item.name}>
+                                  {item.name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled>
+                                No Bussiness Type available
+                              </option>
+                            )}
+                          </select>
+                          {formik.errors.business_type &&
+                            formik.touched.business_type && (
+                              <div className="invalid-feedback">
+                                {formik.errors.business_type}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="sage_department_id"
+                            className="form-label mt-4"
+                          >
+                            Sage Department ID
+                            <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.sage_department_id &&
+                              formik.touched.sage_department_id
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="sage_department_id"
+                            name="sage_department_id"
+                            onChange={formik.handleChange}
+                            value={formik.values.sage_department_id}
+                          >
+                            <option value="">
+                              Select a Sage Department ID
+                            </option>
+                            {AddSiteData.department_codes &&
+                            AddSiteData.department_codes.length > 0 ? (
+                              AddSiteData.department_codes.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.value}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled>
+                                No Sage Department ID available
+                              </option>
+                            )}
+                          </select>
+                          {formik.errors.sage_department_id &&
+                            formik.touched.sage_department_id && (
+                              <div className="invalid-feedback">
+                                {formik.errors.sage_department_id}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="department_sage_code"
+                            className="form-label mt-4"
+                          >
+                            Sage Department code
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            autoComplete="off"
+                            className={`input101 ${
+                              formik.errors.department_sage_code &&
+                              formik.touched.department_sage_code
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="department_sage_code"
+                            name="department_sage_code"
+                            placeholder="Sage Department code"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.department_sage_code || ""}
+                          />
+                          {formik.errors.department_sage_code &&
+                            formik.touched.department_sage_code && (
+                              <div className="invalid-feedback">
+                                {formik.errors.department_sage_code}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="bp_credit_card_site_no"
+                            className="form-label mt-4"
+                          >
+                            BP NCTT Site No
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            autoComplete="off"
+                            className={`input101 ${
+                              formik.errors.bp_credit_card_site_no &&
+                              formik.touched.bp_credit_card_site_no
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="bp_credit_card_site_no"
+                            name="bp_credit_card_site_no"
+                            placeholder="BP NCTT Site No"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.bp_credit_card_site_no || ""}
+                          />
+                          {formik.errors.bp_credit_card_site_no &&
+                            formik.touched.bp_credit_card_site_no && (
+                              <div className="invalid-feedback">
+                                {formik.errors.bp_credit_card_site_no}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="start_date"
+                            className="form-label mt-4"
+                          >
+                            DRS Start Date<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="date"
+                            className={`input101 ${
+                              formik.errors.start_date &&
+                              formik.touched.start_date
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="start_date"
+                            name="start_date"
+                            placeholder="DRS Start Date"
+                            value={
+                              formik.values.start_date
+                                ? formatDate(formik.values.start_date)
+                                : ""
+                            }
+                            onChange={(event) => {
+                              const date = event.target.value;
+                              formik.setFieldValue("start_date", date);
+                            }}
+                            onBlur={formik.handleBlur}
+                          />
+
+                          {formik.errors.start_date &&
+                            formik.touched.start_date && (
+                              <div className="invalid-feedback">
+                                {formik.errors.start_date}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="site_report_status"
+                            className="form-label mt-4"
+                          >
+                            Report Generation Status
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.site_report_status &&
+                              formik.touched.site_report_status
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="site_report_status"
+                            name="site_report_status"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.site_report_status}
+                          >
+                            <option value="">
+                              Select a Report Generation Status
+                            </option>
+                            <option value="1">Active</option>
+                            <option value="0">InActive</option>
+                          </select>
+                          {formik.errors.site_report_status &&
+                            formik.touched.site_report_status && (
+                              <div className="invalid-feedback">
+                                {formik.errors.site_report_status}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="site_report_date_type"
+                            className="form-label mt-4"
+                          >
+                            Report Date Type
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.site_report_date_type &&
+                              formik.touched.site_report_date_type
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="site_report_date_type"
+                            name="site_report_date_type"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.site_report_date_type}
+                          >
+                            <option value="">Select a Report Date Type</option>
+                            <option value="1">Start Date</option>
+                            <option value="2">End Date</option>
+                          </select>
+                          {formik.errors.site_report_date_type &&
+                            formik.touched.site_report_date_type && (
+                              <div className="invalid-feedback">
+                                {formik.errors.site_report_date_type}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="fuel_commission_calc_status"
+                            className="form-label mt-4"
+                          >
+                            Fuel Commission Type
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.fuel_commission_calc_status &&
+                              formik.touched.fuel_commission_calc_status
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="fuel_commission_calc_status"
+                            name="fuel_commission_calc_status"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.fuel_commission_calc_status}
+                          >
+                            <option value="">
+                              Select a Fuel Commission Type
+                            </option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                          </select>
+                          {formik.errors.fuel_commission_calc_status &&
+                            formik.touched.fuel_commission_calc_status && (
+                              <div className="invalid-feedback">
+                                {formik.errors.fuel_commission_calc_status}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="paperwork_status"
+                            className="form-label mt-4"
+                          >
+                            Paper Work Status
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.paperwork_status &&
+                              formik.touched.paperwork_status
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="paperwork_status"
+                            name="paperwork_status"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.paperwork_status}
+                          >
+                            <option value="">Select a Paper Work Status</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                          </select>
+                          {formik.errors.paperwork_status &&
+                            formik.touched.paperwork_status && (
+                              <div className="invalid-feedback">
+                                {formik.errors.paperwork_status}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="bunker_upload_status"
+                            className="form-label mt-4"
+                          >
+                            Bunkered Sale Status
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.bunker_upload_status &&
+                              formik.touched.bunker_upload_status
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="bunker_upload_status"
+                            name="bunker_upload_status"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.bunker_upload_status}
+                          >
+                            <option value="">
+                              Select a Bunkered Sale Status
+                            </option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                          </select>
+                          {formik.errors.bunker_upload_status &&
+                            formik.touched.bunker_upload_status && (
+                              <div className="invalid-feedback">
+                                {formik.errors.bunker_upload_status}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="drs_upload_status"
+                            className="form-label mt-4"
+                          >
+                            DRS Upload Status
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.drs_upload_status &&
+                              formik.touched.drs_upload_status
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="drs_upload_status"
+                            name="drs_upload_status"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.drs_upload_status}
+                          >
+                            <option value="">Select a DRS Upload Status</option>
+                            <option value="1">Automatic</option>
+                            <option value="2">Manual</option>
+                          </select>
+                          {formik.errors.drs_upload_status &&
+                            formik.touched.drs_upload_status && (
+                              <div className="invalid-feedback">
+                                {formik.errors.drs_upload_status}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="site_address"
+                            className="form-label mt-4"
+                          >
+                            Site Address<span className="text-danger">*</span>
+                          </label>
+                          <textarea
+                            className={`input101 ${
+                              formik.errors.site_address &&
+                              formik.touched.site_address
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="site_address"
+                            name="site_address"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.site_address || ""}
+                            placeholder="Site Address"
+                          />
+                          {formik.errors.site_address &&
+                            formik.touched.site_address && (
+                              <div className="invalid-feedback">
+                                {formik.errors.site_address}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="data_import_type_id"
+                            className="form-label mt-4"
+                          >
+                            Select Data Import Types
+                            <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.data_import_type_id &&
+                              formik.touched.data_import_type_id
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="data_import_type_id"
+                            name="data_import_type_id"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.data_import_type_id}
+                          >
+                            <option value=""> Select Data Import Types</option>
+                            {AddSiteData.data_import_types &&
+                            AddSiteData.data_import_types.length > 0 ? (
+                              AddSiteData.data_import_types.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.import_type_name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled>No Machine Type</option>
+                            )}
+                          </select>
+                          {formik.errors.data_import_type_id &&
+                            formik.touched.data_import_type_id && (
+                              <div className="invalid-feedback">
+                                {formik.errors.data_import_type_id}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="client_id"
+                            className="form-label mt-4"
+                          >
+                            Client
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.client_id &&
+                              formik.touched.client_id
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="client_id"
+                            name="client_id"
+                            onBlur={formik.handleBlur}
+                            value={formik.values.client_id}
+                            onChange={(e) => {
+                              const selectedType = e.target.value;
+                              if (selectedType.length > 0 && selectedType) {
+                                setCompanylist(selectedType);
+                                formik.setFieldValue("client_id", selectedType);
+                              } else {
+                                console.log(e.target.value, "dd");
+                              }
+                            }}
+                          >
+                            <option value=""> Select Client</option>
+                            {AddSiteData.clients &&
+                            AddSiteData.clients.length > 0 ? (
+                              AddSiteData.clients.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.client_name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled>No Client</option>
+                            )}
+                          </select>
+                          {formik.errors.client_id &&
+                            formik.touched.client_id && (
+                              <div className="invalid-feedback">
+                                {formik.errors.client_id}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="company_id"
+                            className="form-label mt-4"
+                          >
+                            Select Company
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.company_id &&
+                              formik.touched.company_id
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="company_id"
+                            name="company_id"
+                            onChange={(e) => {
+                              const selectedType = e.target.value;
+                              if (selectedType.length > 0 && selectedType) {
+                                formik.setFieldValue(
+                                  "company_id",
+                                  selectedType
+                                );
+                              }
+                            }}
+                            value={formik.values.company_id}
+                          >
+                            <option value=""> Select Company</option>
+                            {Listcompany.companies &&
+                            Listcompany.companies.length > 0 ? (
+                              Listcompany.companies.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.company_name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled>No clients</option>
+                            )}
+                          </select>
+                          {formik.errors.company_id &&
+                            formik.touched.company_id && (
+                              <div className="invalid-feedback">
+                                {formik.errors.company_id}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                    </Row>
+                    <div className="text-end">
+                      <Link
+                        type="sussbmit"
+                        className="btn btn-danger me-2 "
+                        to={`/sites/`}
+                      >
+                        Cancel
+                      </Link>
+
+                      <button type="submit" className="btn btn-primary">
+                        Submit
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </Card>
+            </Col>
+          </Row>
+        </div>
+      </>
     </>
   );
-};
+}

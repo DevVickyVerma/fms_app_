@@ -1,23 +1,35 @@
 import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import ReactApexChart from "react-apexcharts";
-import { Breadcrumb, Col, Row, Card } from "react-bootstrap";
+import { Breadcrumb, Col, Row, Card, Spinner } from "react-bootstrap";
 import * as dashboard from "../../data/dashboard/dashboard";
 import { Link, useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 import withApi from "../../Utils/ApiHelper";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../../Redux/dataSlice";
-import SearchIcon from "@mui/icons-material/Search";
+import SortIcon from "@mui/icons-material/Sort";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import SideSearchbar from "../../data/Modal/SideSearchbar";
 import DashBordModal from "../../data/Modal/DashBordmodal";
+import Spinners from "../../components/Dashboard/Spinner";
+// import Loader from "react-loader-spinner";
+// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import axios from "axios";
 const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
+  const [IsDashboardLoading, setIsDashboardLoading] = useState(false);
   const [ShowTruw, setShowTruw] = useState(false);
+  const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
+  const [searchdata, setSearchdata] = useState({});
+  const [SearchList, setSearchList] = useState(false);
+  const [GrossMarginValue, setGrossMarginValue] = useState();
+  const [GrossProfitValue, setGrossProfitValue] = useState();
+  const [FuelValue, setFuelValue] = useState();
+  const [GrossVolume, setGrossVolume] = useState();
 
   const SuccessToast = (message) => {
     toast.success(message, {
@@ -44,7 +56,9 @@ const Dashboard = (props) => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.data.data);
   const token = localStorage.getItem("token");
+
   useEffect(() => {
+    setClientID(localStorage.getItem("superiorId"));
     if (localStorage.getItem("tokenupdate") === "true") {
       window.location.reload();
       localStorage.setItem("tokenupdate", false);
@@ -75,10 +89,6 @@ const Dashboard = (props) => {
     }
     // console.clear();
   }, [justLoggedIn]);
-
-  useEffect(() => {
-    handleFetchData();
-  }, []);
 
   const handleToggleSidebar1 = () => {
     console.log(ShowTruw, "hi");
@@ -112,14 +122,104 @@ const Dashboard = (props) => {
     }
   };
 
-  const [searchdata, setSearchdata] = useState({});
-
-  const [SearchList, setSearchList] = useState(false);
-
   const handleFormSubmit = (values) => {
     // Process the form values here
     console.log(values);
-  };;
+  };
+
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const FetchGrossVolume = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/dashboard/gross-volume?client_id=${ClientID}`
+      );
+
+      setIsDashboardLoading(true); // Set isLoading to true to indicate the loading state
+
+      const { data } = response;
+      if (data) {
+        console.log(data);
+        // setGrossVolume(data);
+      }
+
+      // setIsDashboardLoading(false); // Set isLoading to false after the API call is complete
+    } catch (error) {
+      console.error("API error:", error);
+      setIsDashboardLoading(false); // Set isLoading to false if there is an error
+    }
+  };
+  const FetchGrossProfit = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/dashboard/gross-profit?client_id=${ClientID}`
+      );
+
+      setIsDashboardLoading(true); // Set isLoading to true to indicate the loading state
+
+      const { data } = response;
+      if (data) {
+        console.log(data);
+      }
+
+      setIsDashboardLoading(false); // Set isLoading to false after the API call is complete
+    } catch (error) {
+      console.error("API error:", error);
+      setIsDashboardLoading(false); // Set isLoading to false if there is an error
+    }
+  };
+  const Fetchgrossmargin = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/dashboard/gross-margin?client_id=${ClientID}`
+      );
+
+      setIsDashboardLoading(true); // Set isLoading to true to indicate the loading state
+
+      const { data } = response;
+      if (data) {
+        console.log(data);
+      }
+
+      setIsDashboardLoading(false); // Set isLoading to false after the API call is complete
+    } catch (error) {
+      console.error("API error:", error);
+      setIsDashboardLoading(false); // Set isLoading to false if there is an error
+    }
+  };
+  const FetchFuelSales = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/dashboard/fuel-sale?client_id=${ClientID}`
+      );
+
+      setIsDashboardLoading(true); // Set isLoading to true to indicate the loading state
+
+      const { data } = response;
+      if (data) {
+        console.log(data);
+      }
+
+      setIsDashboardLoading(false); // Set isLoading to false after the API call is complete
+    } catch (error) {
+      console.error("API error:", error);
+      setIsDashboardLoading(false); // Set isLoading to false if there is an error
+    }
+  };
+  useEffect(() => {
+    handleFetchData();
+    if (ClientID) {
+      FetchGrossVolume();
+      // FetchFuelSales();
+      // FetchGrossProfit();
+      // Fetchgrossmargin();
+    }
+  }, [ClientID]);
 
   return (
     <div>
@@ -153,13 +253,13 @@ const Dashboard = (props) => {
               handleToggleSidebar1();
             }}
           >
-            Search
+            Filter
             <span className="ms-2">
-              <SearchIcon />
+              <SortIcon />
             </span>
           </Link>
           {Object.keys(searchdata).length > 0 ? (
-            <Link className="btn btn-danger ms-2" >
+            <Link className="btn btn-danger ms-2">
               Reset <RestartAltIcon />
             </Link>
           ) : (
@@ -188,26 +288,37 @@ const Dashboard = (props) => {
                 <Card.Body className="card-body">
                   <Row>
                     <div className="col">
-                      <h6 className="">Volume</h6>
-                      <h3 className="mb-2 number-font">
-                        <CountUp
-                          end={34516}
-                          separator=","
-                          start={0}
-                          duration={2.94}
-                        />
-                      </h3>
-                      <p className="text-muted mb-0">
-                        <span className="text-primary me-1">
-                          <i className="fa fa-chevron-circle-up text-primary me-1"></i>
-                          <span>3% </span>
-                        </span>
-                        last month
-                      </p>
-                    </div>
-                    <div className="col col-auto">
-                      <div className="counter-icon bg-primary-gradient box-shadow-primary brround ms-auto">
-                        <i className="fe fe-trending-up text-white mb-5 "></i>
+                      <div className=" dashboard-box">
+                        <div>
+                          <h6 className="">Volume</h6>
+                          {IsDashboardLoading ? (
+                            <Spinners />
+                          ) : GrossVolume?.data?.gross_volume ? (
+                            <h3 className="mb-2 number-font">
+                              <CountUp
+                                end={GrossVolume?.data?.gross_volume}
+                                separator=","
+                                start={0}
+                                duration={2.94}
+                              />
+                            </h3>
+                          ) : (
+                            <h3 className="mb-2 number-font">0124</h3>
+                          )}
+
+                          <p className="text-muted mb-0 mt-4">
+                            <span className="text-primary me-1">
+                              <i className="fa fa-chevron-circle-up text-primary me-1"></i>
+                              <span>3% </span>
+                            </span>
+                            last month
+                          </p>
+                        </div>
+                        <div className="col col-auto">
+                          <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
+                            <i className="icon icon-rocket text-white mb-5 "></i>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </Row>
