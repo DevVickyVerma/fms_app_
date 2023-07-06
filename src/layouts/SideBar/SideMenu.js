@@ -501,55 +501,32 @@ export const MENUITEMS = [
           },
         ],
       },
+    
       // {
-      //   title: "Manage Site Pump",
-      //   icon: "rocket",
+      //   title: "Assign manger",
+      //   icon: "shopping-cart",
       //   type: "sub",
       //   active: false,
-      //   permission: "pump-list",
+      //   permission: "item-type-list",
       //   visibility: false,
       //   children: [
       //     {
-      //       path: `/managesitepump`,
-      //       title: "Manage Site Pump",
+      //       path: `/assignmanger`,
+      //       title: "Assign manger",
       //       type: "link",
-      //       permission: "pump-list",
+      //       permission: "item-type-list",
       //       visibility: false,
       //     },
       //     {
-      //       path: `/addsitepump`,
-      //       title: "Add Site Pump",
+      //       path: `/addmanger`,
+      //       title: "Add manger",
       //       type: "link",
-      //       permission: "pump-create",
+      //       permission: "item-type-create",
       //       visibility: false,
       //     },
       //   ],
       // },
-
-      // {
-      //   title: "Manage Site Nozzle",
-      //   icon: "filter",
-      //   type: "sub",
-      //   active: false,
-      //   permission: "nozzle-list",
-      //   visibility: false,
-      //   children: [
-      //     {
-      //       path: `/managesitenozzle`,
-      //       title: "Manage Site Nozzle",
-      //       type: "link",
-      //       permission: "nozzle-list",
-      //       visibility: false,
-      //     },
-      //     {
-      //       path: `/addsitenozzle`,
-      //       title: "Add Site Nozzle",
-      //       type: "link",
-      //       permission: "nozzle-create",
-      //       visibility: false,
-      //     },
-      //   ],
-      // },
+    
       {
         title: "Manage Items",
         icon: "shopping-cart",
@@ -574,6 +551,9 @@ export const MENUITEMS = [
           },
         ],
       },
+
+
+
       // {
       //   title: "Manage Import Types",
       //   icon: "filter",

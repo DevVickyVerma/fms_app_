@@ -26,7 +26,7 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import SettingsIcon from '@mui/icons-material/Settings';
+import SettingsIcon from "@mui/icons-material/Settings";
 
 const ManageSite = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -64,8 +64,6 @@ const ManageSite = (props) => {
     }
   }
 
-
-
   const handleToggleSidebar = async (row) => {
     await getSiteDetails(row);
     setSideData(row.site_name);
@@ -92,12 +90,10 @@ const ManageSite = (props) => {
     setSidebarVisible1(!sidebarVisible1);
   };
 
- 
   const handleCloseSidebar = () => {
     setSidebarVisible(true);
   };
 
- 
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -379,10 +375,24 @@ const ManageSite = (props) => {
                 to={`/site-setting/${row.id}`}
                 className="btn btn-primary btn-sm rounded-11 me-2"
               >
-               <i className="setting-icon">
-               <SettingsIcon/>
-</i>
-
+                <i className="setting-icon">
+                  <SettingsIcon />
+                </i>
+              </Link>
+            </OverlayTrigger>
+          ) : null}
+          {isEditPermissionAvailable ? (
+            <OverlayTrigger
+              placement="top"
+              overlay={<Tooltip>Assign Manneger</Tooltip>}
+            >
+              <Link
+                to={`/assignmanger/${row.id}`}
+                className="btn btn-primary btn-sm rounded-11 me-2"
+              >
+                <i className="setting-icon">
+                  <SettingsIcon />
+                </i>
               </Link>
             </OverlayTrigger>
           ) : null}
@@ -491,114 +501,111 @@ const ManageSite = (props) => {
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
-        <>
-          <div className="page-header ">
-            <div>
-              <h1 className="page-title">Manage Site</h1>
+      <>
+        <div className="page-header ">
+          <div>
+            <h1 className="page-title">Manage Site</h1>
 
-              <Breadcrumb className="breadcrumb">
-                <Breadcrumb.Item
-                  className="breadcrumb-item"
-                  linkAs={Link}
-                  linkProps={{ to: "/dashboard" }}
-                >
-                  Dashboard
-                </Breadcrumb.Item>
-                <Breadcrumb.Item
-                  className="breadcrumb-item active breadcrumds"
-                  aria-current="page"
-                >
-                  Manage Site
-                </Breadcrumb.Item>
-              </Breadcrumb>
-            </div>
-            <div className="ms-auto pageheader-btn ">
-              <span className="Search-data">
-                {Object.entries(searchdata).map(([key, value]) => (
-                  <div key={key} className="badge">
-                    <span className="badge-key">
-                      {key.charAt(0).toUpperCase() + key.slice(1)}:
-                    </span>
-                    <span className="badge-value">{value}</span>
-                  </div>
-                ))}
-              </span>
-
-              <Link
-                className="btn btn-primary"
-                onClick={() => {
-                  handleToggleSidebar1();
-                }}
+            <Breadcrumb className="breadcrumb">
+              <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/dashboard" }}
               >
-                Search
-                <span className="ms-2">
-                  <SearchIcon />
-                </span>
-              </Link>
-              {Object.keys(searchdata).length > 0 ? (
-                <Link
-                  className="btn btn-danger ms-2"
-                  onClick={handleSearchReset}
-                >
-                  Reset <RestartAltIcon />
-                </Link>
-              ) : (
-                ""
-              )}
-
-              {isAddPermissionAvailable ? (
-                <Link to="/addsite" className="btn btn-primary ms-2">
-                  Add Site <AddCircleOutlineIcon />
-                </Link>
-              ) : null}
-            </div>
+                Dashboard
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item active breadcrumds"
+                aria-current="page"
+              >
+                Manage Site
+              </Breadcrumb.Item>
+            </Breadcrumb>
           </div>
-          <SideSearchbar
-            title="Search"
-            visible={sidebarVisible1}
-            onClose={handleToggleSidebar1}
-            onSubmit={handleSubmit}
-            searchListstatus={SearchList}
-          />
+          <div className="ms-auto pageheader-btn ">
+            <span className="Search-data">
+              {Object.entries(searchdata).map(([key, value]) => (
+                <div key={key} className="badge">
+                  <span className="badge-key">
+                    {key.charAt(0).toUpperCase() + key.slice(1)}:
+                  </span>
+                  <span className="badge-value">{value}</span>
+                </div>
+              ))}
+            </span>
 
-          <Suspense fallback={<img src={Loaderimg} alt="Loading" />}>
-            <CommonSidebar
-              title={sidebardata}
-              sidebarContent={sidebardataobject}
-              visible={sidebarVisible}
-              onClose={handleCloseSidebar}
-            />
-          </Suspense>
-          <Row className=" row-sm">
-            <Col lg={12}>
-              <Card>
-                <Card.Header>
-                  <h3 className="card-title">Manage Site</h3>
-                </Card.Header>
-                <Card.Body>
-                  <div className="table-responsive deleted-table">
-                    <DataTableExtensions {...tableDatas}>
-                      <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        striped={true}
-                        // center={true}
-                        persistTableHead
-                        // pagination
-                        highlightOnHover
-                        searchable={false}
-                      />
-                    </DataTableExtensions>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </>
-        </>
+            <Link
+              className="btn btn-primary"
+              onClick={() => {
+                handleToggleSidebar1();
+              }}
+            >
+              Search
+              <span className="ms-2">
+                <SearchIcon />
+              </span>
+            </Link>
+            {Object.keys(searchdata).length > 0 ? (
+              <Link className="btn btn-danger ms-2" onClick={handleSearchReset}>
+                Reset <RestartAltIcon />
+              </Link>
+            ) : (
+              ""
+            )}
+
+            {isAddPermissionAvailable ? (
+              <Link to="/addsite" className="btn btn-primary ms-2">
+                Add Site <AddCircleOutlineIcon />
+              </Link>
+            ) : null}
+          </div>
+        </div>
+        <SideSearchbar
+          title="Search"
+          visible={sidebarVisible1}
+          onClose={handleToggleSidebar1}
+          onSubmit={handleSubmit}
+          searchListstatus={SearchList}
+        />
+
+        <Suspense fallback={<img src={Loaderimg} alt="Loading" />}>
+          <CommonSidebar
+            title={sidebardata}
+            sidebarContent={sidebardataobject}
+            visible={sidebarVisible}
+            onClose={handleCloseSidebar}
+          />
+        </Suspense>
+        <Row className=" row-sm">
+          <Col lg={12}>
+            <Card>
+              <Card.Header>
+                <h3 className="card-title">Manage Site</h3>
+              </Card.Header>
+              <Card.Body>
+                <div className="table-responsive deleted-table">
+                  <DataTableExtensions {...tableDatas}>
+                    <DataTable
+                      columns={columns}
+                      data={data}
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      striped={true}
+                      // center={true}
+                      persistTableHead
+                      // pagination
+                      highlightOnHover
+                      searchable={false}
+                    />
+                  </DataTableExtensions>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </>
+    </>
   );
 };
 

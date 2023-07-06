@@ -32,6 +32,7 @@ const SiteSettings = (props) => {
   const [editable, setis_editable] = useState();
   const [fuelData, setFuelData] = useState([]);
   const [SiteItems, setSiteItems] = useState([]);
+  const [ReportsData, setReportsData] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -92,6 +93,7 @@ const SiteSettings = (props) => {
           setData(data?.data ? data.data.charges : []);
           setDeductionData(data?.data ? data.data.deductions : []);
           setFuelData(data?.data ? data.data.fuels : []);
+          setReportsData(data?.data ? data.data.reports : []);
           setSiteItems(data?.data ? data.data.site_items : []);
           setBussinesModelData(data?.data ? data.data.business_models : []);
           setCardsModelData(data?.data ? data.data.cards : []);
@@ -106,6 +108,7 @@ const SiteSettings = (props) => {
           formik.setFieldValue("Formiksite_items", data?.data?.site_items);
           formik.setFieldValue("FormikChargesData", data?.data?.charges);
           formik.setFieldValue("FormikFuelData", data?.data?.fuels);
+          formik.setFieldValue("FormikreportsData", data?.data?.reports);
 
           formik.setFieldValue("AssignFormikCards", data?.data?.cards);
         }
@@ -150,6 +153,22 @@ const SiteSettings = (props) => {
       }
 
       selectedFuelIds.forEach((item) => {
+        const key = Object.keys(item)[0];
+        const value = item[key];
+        formData.append(key, value);
+      });
+      const selectedReportsIds = [];
+      const reports_models_valueKey = "reports";
+
+      for (let i = 0; i < values.FormikreportsData.length; i++) {
+        const { id, fuel_name, checked } = values.FormikreportsData[i];
+
+        if (checked) {
+          selectedReportsIds.push({ [reports_models_valueKey + "[" + i + "]"]: id });
+        }
+      }
+
+      selectedReportsIds.forEach((item) => {
         const key = Object.keys(item)[0];
         const value = item[key];
         formData.append(key, value);
@@ -715,24 +734,11 @@ const SiteSettings = (props) => {
   ];
   const FuelsModelColumn = [
     {
-      name: "Fuel Name",
-      selector: (row) => row.fuel_name,
-      sortable: true,
-      width: "60%",
-      cell: (row) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.fuel_name}</h6>
-          </div>
-        </div>
-      ),
-    },
-    {
       name: "Select",
       selector: (row) => row.checked,
       sortable: false,
       center: true,
-      width: "40%",
+      width: "20%",
       cell: (row, index) => (
         <div>
           <input
@@ -748,6 +754,57 @@ const SiteSettings = (props) => {
         </div>
       ),
     },
+    {
+      name: "Fuel Name",
+      selector: (row) => row.fuel_name,
+      sortable: true,
+      width: "80%",
+      cell: (row) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.fuel_name}</h6>
+          </div>
+        </div>
+      ),
+    },
+ 
+  ];
+  const ReportsColumn = [
+    {
+      name: "Select",
+      selector: (row) => row.checked,
+      sortable: false,
+      center: true,
+      width: "20%",
+      cell: (row, index) => (
+        <div>
+          <input
+            type="checkbox"
+            id={`checked-${index}`}
+            name={`FormikreportsData[${index}].checked`}
+            className="table-input"
+            checked={formik.values?.FormikreportsData?.[index]?.checked ?? false}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {/* Error handling code */}
+        </div>
+      ),
+    },
+    {
+      name: "Reports",
+      selector: (row) => row.report_name,
+      sortable: true,
+      width: "80%",
+      cell: (row) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.report_name}</h6>
+          </div>
+        </div>
+      ),
+    },
+  
   ];
 
   // Define an array to store the combined objects
@@ -891,7 +948,7 @@ const SiteSettings = (props) => {
               <Card>
                 <Card.Body>
                   <Row className="mt-4">
-                    <Col lg={8} md={8}>
+                    <Col lg={12} md={12}>
                       <Card.Header className="cardheader-table">
                         <h3 className="card-title">Assign Department Items</h3>
                       </Card.Header>
@@ -910,7 +967,33 @@ const SiteSettings = (props) => {
                         />
                       </div>
                     </Col>
-                    <Col lg={4} md={4}>
+                
+                  </Row>
+                </Card.Body>
+              </Card>
+              <Card>
+                <Card.Body>
+                  <Row className="mt-4">
+                    <Col lg={6} md={6}>
+                      <Card.Header className="cardheader-table">
+                        <h3 className="card-title">Reports</h3>
+                      </Card.Header>
+                      <div className="module-height">
+                        <DataTable
+                          columns={ReportsColumn}
+                          data={ReportsData}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </div>
+                    </Col>
+                    <Col lg={6} md={6}>
                       <Card.Header className="cardheader-table">
                         <h3 className="card-title">Assign Fuels</h3>
                       </Card.Header>
@@ -929,6 +1012,7 @@ const SiteSettings = (props) => {
                         />
                       </div>
                     </Col>
+                
                   </Row>
                 </Card.Body>
               </Card>

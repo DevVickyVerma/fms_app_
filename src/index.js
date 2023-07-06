@@ -162,6 +162,25 @@ const EditSuppliers = React.lazy(() =>
 
 // Suppliers End
 
+// Manneger Start
+
+const Assignmanneger = React.lazy(() =>
+  import("./components/pages/AssignManneger/Assignmanneger")
+);
+const AddManneger = React.lazy(() =>
+  import("./components/pages/AssignManneger/Addmanneger")
+);
+
+// const AddSuppliers = React.lazy(() =>
+//   import("./components/pages/ManageSuppliers/AddSuppliers")
+// );
+
+// const EditSuppliers = React.lazy(() =>
+//   import("./components/pages/ManageSuppliers/EditSuppliers")
+// );
+
+// Suppliers End
+
 // Pump Start
 
 const ManageSitePump = React.lazy(() =>
@@ -220,7 +239,7 @@ const AddItems = React.lazy(() =>
 
 const EditItems = React.lazy(() =>
   import("./components/pages/ManageItems/EditItems")
-);      
+);
 
 // Items End
 
@@ -389,7 +408,6 @@ const COMINGSOON = React.lazy(() =>
   import("./components/ErrorPages/ErrorPages/Soon/Comingsoon")
 );
 
-
 const Root = () => {
   const store = configureStore({
     reducer: {
@@ -450,7 +468,6 @@ const Root = () => {
   const WrappedSiteSettings = withApi(SiteSettings);
   const WrappedTolerances = withApi(Tolerances);
 
-
   const WrappedManageSitePump = withApi(ManageSitePump);
   const WrappedAddSitePump = withApi(AddSitePump);
   const WrappedEditSitePump = withApi(EditSitePump);
@@ -467,13 +484,11 @@ const Root = () => {
   const WrappedAddItems = withApi(AddItems);
   const WrappedEditItems = withApi(EditItems);
 
-  const WrappedFUELPRICE= withApi(FUELPRICE);
-  const WrappedFuelPurchasePrices= withApi(FuelPurchasePrices);
-  const WrappedAddFuelPurchase= withApi(AddFuelPurchasePrices);
-
-
-
-
+  const WrappedFUELPRICE = withApi(FUELPRICE);
+  const WrappedFuelPurchasePrices = withApi(FuelPurchasePrices);
+  const WrappedAddFuelPurchase = withApi(AddFuelPurchasePrices);
+  const WrappedAssignmanneger = withApi(Assignmanneger);
+  const WrappedAddManneger = withApi(AddManneger);
 
   return (
     <Fragment>
@@ -489,7 +504,7 @@ const Root = () => {
                   {/* client  Components Start */}
                   <Route path={`/clients`} element={<WrappedManageClient />} />
                   <Route
-               path={`editclient/:id`}
+                    path={`editclient/:id`}
                     element={<WrappeAddEditClient />}
                   />
                   <Route path={`addclient`} element={<WrappedAddClient />} />
@@ -510,8 +525,14 @@ const Root = () => {
                   {/* sites  Components Start */}
 
                   <Route path={`addsite`} element={<WrappedAddSite />} />
-                  <Route path={`editsite/:id`} element={<WrappeAddEditSite />} />
-                  <Route path={`/site-setting/:id`} element={<WrappedSiteSettings />} />
+                  <Route
+                    path={`editsite/:id`}
+                    element={<WrappeAddEditSite />}
+                  />
+                  <Route
+                    path={`/site-setting/:id`}
+                    element={<WrappedSiteSettings />}
+                  />
 
                   <Route path={`/sites`} element={<Managesite />} />
                   {/* sites  Components End */}
@@ -534,6 +555,14 @@ const Root = () => {
                   <Route path={`/addroles`} element={<WrappedAddRoles />} />
 
                   <Route path={`/editrole`} element={<WrappeAddEditRoles />} />
+
+                  {/* Role  Components End */}
+                  {/* Role  Components Start */}
+          
+                  <Route path={`/assignmanger/:id`} element={<WrappedAssignmanneger />} />
+                  <Route path={`/addmanger`} element={<WrappedAddManneger />} />
+
+                 
 
                   {/* Role  Components End */}
 
@@ -561,12 +590,12 @@ const Root = () => {
                   {/* Others  Components Start */}
                   <Route path={`/workflows`} element={<WrappedWorkFlows />} />
                   {/* Others  Components End */}
-                  
+
                   {/* Reports  Components Start */}
                   <Route path={`/reports`} element={<WrappedManageReports />} />
                   {/* Reports  Components End */}
                   {/* Reports  Components Start */}
-              
+
                   <Route path={`/tolerances`} element={<WrappedTolerances />} />
                   {/* Reports  Components End */}
                   {/* Charges  Components Start  */}
@@ -649,22 +678,19 @@ const Root = () => {
 
                   {/* Suppliers components end */}
 
-                {/* SitePump components start */}
+                  {/* SitePump components start */}
 
-                <Route
-                    path={`/fuelprice`}
-                    element={<WrappedFUELPRICE />}
-                  />
+                  <Route path={`/fuelprice`} element={<WrappedFUELPRICE />} />
 
-                <Route
+                  <Route
                     path={`/fuel-purchase-prices`}
                     element={<WrappedFuelPurchasePrices />}
                   />
-                <Route
+                  <Route
                     path={`/Add-purchase-prices`}
                     element={<WrappedAddFuelPurchase />}
                   />
-                <Route
+                  <Route
                     path={`/managesitepump`}
                     element={<WrappedManageSitePump />}
                   />
@@ -723,10 +749,7 @@ const Root = () => {
                     element={<WrappedManageItems />}
                   />
 
-                  <Route
-                    path={`/additems`}
-                    element={<WrappedAddItems />}
-                  />
+                  <Route path={`/additems`} element={<WrappedAddItems />} />
                   <Route
                     path={`/edititems/:id`}
                     element={<WrappedEditItems />}
@@ -749,11 +772,6 @@ const Root = () => {
                   /> */}
 
                   {/* Import Types components end */}
-
-
-
-
-
 
                   {/* Category components start */}
 
