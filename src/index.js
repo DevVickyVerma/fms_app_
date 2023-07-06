@@ -170,6 +170,9 @@ const Assignmanneger = React.lazy(() =>
 const AddManneger = React.lazy(() =>
   import("./components/pages/AssignManneger/Addmanneger")
 );
+const EditManneger = React.lazy(() =>
+  import("./components/pages/AssignManneger/EditManager")
+);
 
 // const AddSuppliers = React.lazy(() =>
 //   import("./components/pages/ManageSuppliers/AddSuppliers")
@@ -489,6 +492,7 @@ const Root = () => {
   const WrappedAddFuelPurchase = withApi(AddFuelPurchasePrices);
   const WrappedAssignmanneger = withApi(Assignmanneger);
   const WrappedAddManneger = withApi(AddManneger);
+  const WrappedEditManneger = withApi(EditManneger);
 
   return (
     <Fragment>
@@ -560,7 +564,8 @@ const Root = () => {
                   {/* Role  Components Start */}
           
                   <Route path={`/assignmanger/:id`} element={<WrappedAssignmanneger />} />
-                  <Route path={`/addmanger`} element={<WrappedAddManneger />} />
+                  <Route path={`/addmanager/:id`} element={<WrappedAddManneger />} />
+                  <Route path={`/editmanager/:id`} element={<WrappedEditManneger />} />
 
                  
 

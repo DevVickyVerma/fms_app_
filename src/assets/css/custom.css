@@ -269,3 +269,7 @@ tbody tr {
 .bg-card-false{
   Background-color:#f97171;
 }
+.module-height-Manager {
+  max-height: 150px !important;
+  overflow-y: scroll;
+}

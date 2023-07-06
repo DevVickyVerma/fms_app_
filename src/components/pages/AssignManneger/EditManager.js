@@ -20,6 +20,8 @@ import {
   ListItemText,
   InputLabel,
 } from "@material-ui/core";
+import DataTable from "react-data-table-component";
+import DataTableExtensions from "react-data-table-component-extensions";
 
 const AddCompany = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -35,43 +37,29 @@ const AddCompany = (props) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  //   const fetchClientList = async () => {
-  //     try {
-  //       const response = await axiosInstance.get("/client/list");
-
-  //       if (response.data.data.clients.length > 0) {
-  //         // setData(response.data.data.sites);
-
-  //         setDropdownValue(response.data.data);
-  //       }
-  //     } catch (error) {
-  //       if (error.response && error.response.status === 401) {
-  //         navigate("/login");
-
-  //         localStorage.clear();
-  //       } else if (error.response && error.response.data.status_code === "403") {
-  //         navigate("/errorpage403");
-  //       }
-  //     }
-  //   };
-
- 
 
   const [permissionsArray, setPermissionsArray] = useState([]);
   const [isPermissionsSet, setIsPermissionsSet] = useState(false);
   const [selectedSiteList1, setSelectedSiteList1] = useState([]);
   const { id } = useParams();
   const UserPermissions = useSelector((state) => state?.data?.data);
-
+  const [ReportsData, setReportsData] = useState([]);
+  
   const FetchmannegerList = async () => {
     try {
-      const response = await getData(`/site/manager/${id}`);
+      const response = await getData(`/site/manager/detail/${id}`);
 
       if (response && response.data) {
         console.log(response.data, "dddd");
         // setData(response.data.data.roles);
         setDropdownValue(response.data.data);
-        setSelectedSiteList1(response.data.data.reports);
+      
+        setReportsData(response?.data?.data?.reports );
+
+        formik.setFieldValue("FormikreportsData", (response?.data?.data?.reports));
+        formik.setFieldValue("AllData", (response?.data?.data));
+
+        console.log(formik.values.editmanager?.reports);
       } else {
         throw new Error("No data available in the response");
       }
@@ -88,40 +76,79 @@ const AddCompany = (props) => {
     }
   }, [UserPermissions]);
 
-  const [selectedItems1, setSelectedItems1] = useState([]);
+  const ReportsColumn = [
+    {
+      name: "Select",
+      selector: (row) => row.checked,
+      sortable: false,
+      center: true,
+      width: "20%",
+      cell: (row, index) => (
+        <div>
+          <input
+            type="checkbox"
+            id={`checked-${index}`}
+            name={`FormikreportsData[${index}].checked`}
+            className="table-input"
+            checked={formik.values?.FormikreportsData?.[index]?.checked ?? false}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {/* Error handling code */}
+        </div>
+      ),
+    },
+    {
+      name: "Reports",
+      selector: (row) => row.report_name,
+      sortable: true,
+      width: "80%",
+      cell: (row) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.report_name}</h6>
+          </div>
+        </div>
+      ),
+    },
+  
+  ];
 
-  const handleItemClick1 = (event) => {
-    setSelectedItems1(event.target.value);
-    console.log(event.target.value);
-
-    const selectedSiteNames = event.target.value;
-    const filteredSites = selectedSiteList1.filter((item) =>
-      selectedSiteNames.includes(item.report_name)
-    );
-    console.log(filteredSites, "filteredSites");
-    formik.setFieldValue("sites", filteredSites);
-  };
-
-
-
-  const handleSubmit = async (event,values) => {
+  const handleSubmit = async (event, values) => {
     // event.preventDefault();
- 
-    console.log(formik.values,"client_id");
+
+    console.log(formik.values.FormikreportsData, "user_id");
     try {
       const formData = new FormData();
 
-      formData.append("user_id", formik.values.client_id);
-      formData.append("site_id", id);
-
-      formik.values.sites.forEach((site, index) => {
-        formData.append(`reports[${index}]`, site.id);
+      formData.append("user_id", formik.values.AllData.user_id);
+      formData.append("site_id", formik.values.AllData.site_id);
+      const selectedReportsIds = [];
+      const reports_models_valueKey = "reports";
+   
+      
+      for (let i = 0; i < formik.values.FormikreportsData.length; i++) {
+        const { id, checked } = formik.values.FormikreportsData[i];
+      
+        if (checked) {
+          const reportIdKey = `${reports_models_valueKey}[${i}]`;
+          const reportIdValue = id;
+          const reportIdEntry = { [reportIdKey]: reportIdValue };
+          selectedReportsIds.push(reportIdEntry);
+        }
+      }
+      
+      selectedReportsIds.forEach((reportIdEntry) => {
+        const key = Object.keys(reportIdEntry)[0];
+        const value = reportIdEntry[key];
+        formData.append(key, value);
       });
+      
 
       const postDataUrl = "/site/manager/assign";
-      const navigatePath = `/assignmanger/${id}`;
+      const navigatePath = `/assignmanger/${formik.values.AllData.site_id}`;
 
-      await postData(postDataUrl, formData,navigatePath); // Set the submission state to false after the API call is completed
+      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
@@ -129,13 +156,15 @@ const AddCompany = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      client_id: "",
+      user_id: "",
     },
-  
+
     onSubmit: (values) => {
-        handleSubmit(values);
+      handleSubmit(values);
     },
   });
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -143,7 +172,7 @@ const AddCompany = (props) => {
         <div>
           <div className="page-header">
             <div>
-              <h1 className="page-title">Assign User</h1>
+              <h1 className="page-title">Edit User</h1>
 
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item
@@ -165,7 +194,7 @@ const AddCompany = (props) => {
                   className="breadcrumb-item active breadcrumds"
                   aria-current="page"
                 >
-                  Assign User
+                  Edit User
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
@@ -175,80 +204,68 @@ const AddCompany = (props) => {
             <Col lg={12} xl={12} md={12} sm={12}>
               <Card>
                 <Card.Header>
-                  <Card.Title as="h3">Assign User</Card.Title>
+                  <Card.Title as="h3">Edit User</Card.Title>
                 </Card.Header>
 
                 <form onSubmit={(event) => formik.handleSubmit(event)}>
                   <Card.Body>
                     <Row>
-                      <Col lg={4} md={6}>
+                      <Col lg={6} md={6}>
                         <div className="form-group">
-                          <label
-                            htmlFor="client_id"
-                            className=" form-label mt-4"
-                          >
+                          <label htmlFor="user_id" className=" form-label mt-4">
                             Client<span className="text-danger">*</span>
                           </label>
                           <select
                             as="select"
                             className={`input101 ${
-                              formik.errors.company_id1 &&
-                              formik.touched.company_id1
+                              formik.errors.user_id && formik.touched.user_id
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            id="client_id"
-                            name="client_id"
+                            id="user_id"
+                            name="user_id"
                             onChange={formik.handleChange}
+                            value={formik.values.user_id}
                           >
                             <option value=""> Select Client</option>
                             {dropdownValue.users &&
                             dropdownValue.users.length > 0 ? (
                               dropdownValue.users.map((item) => (
                                 <option key={item.id} value={item.id}>
-                                  {item.user_name}
+                                  {item.user_id}
                                 </option>
                               ))
                             ) : (
                               <option disabled>No clients</option>
                             )}
                           </select>
-                          {formik.errors.client_id &&
-                            formik.touched.client_id && (
-                              <div className="invalid-feedback">
-                                {formik.errors.client_id}
-                              </div>
-                            )}
+                          {formik.errors.user_id && formik.touched.user_id && (
+                            <div className="invalid-feedback">
+                              {formik.errors.user_id}
+                            </div>
+                          )}
                         </div>
                       </Col>
-
-                      <Col lg={3} md={6}>
-                        <div className="form-group">
-                          <FormControl className="width mt-4">
-                            <InputLabel>Select Sites</InputLabel>
-                            <Select
-                              multiple
-                              value={selectedItems1}
-                              onChange={handleItemClick1}
-                              renderValue={(selected) => selected.join(", ")}
-                            >
-                              {selectedSiteList1.map((item) => (
-                                <MenuItem
-                                  key={item.report_name}
-                                  value={item.report_name}
-                                >
-                                  <Checkbox
-                                    checked={selectedItems1.includes(
-                                      item.report_name
-                                    )}
-                                  />
-                                  <ListItemText primary={item.report_name} />
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl>
-                        </div>
-                      </Col>
+                      <Col lg={6} md={6}>
+                      <Card.Header className="cardheader-table">
+                        <h3 className="card-title">Reports</h3>
+                      </Card.Header>
+                      <div className="module-height-Manager">
+                        <DataTable
+                          columns={ReportsColumn}
+                          data={ReportsData}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </div>
+                    </Col>
+                    
                     </Row>
                   </Card.Body>
 

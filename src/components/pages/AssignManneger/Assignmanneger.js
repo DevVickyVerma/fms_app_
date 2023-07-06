@@ -23,7 +23,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 
-
 const ManageRoles = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
@@ -45,7 +44,7 @@ const ManageRoles = (props) => {
         const token = localStorage.getItem("token");
 
         const formData = new FormData();
-        formData.append("role_id", id);
+        formData.append("id", id);
 
         const axiosInstance = axios.create({
           baseURL: process.env.REACT_APP_BASE_URL,
@@ -56,7 +55,7 @@ const ManageRoles = (props) => {
         });
         const DeleteRole = async () => {
           try {
-            const response = await axiosInstance.post("/role/delete", formData);
+            const response = await axiosInstance.post("/site/manager/delete", formData);
             setData(response.data.data);
             Swal.fire({
               title: "Deleted!",
@@ -64,7 +63,7 @@ const ManageRoles = (props) => {
               icon: "success",
               confirmButtonText: "OK",
             });
-            FetchTableData();
+            FetchmannegerList();
           } catch (error) {
             handleError(error);
           } finally {
@@ -99,33 +98,13 @@ const ManageRoles = (props) => {
     },
   });
 
-  const handleEdit = (row) => {
-    console.log(row, "handleEdit");
-    localStorage.setItem("EditRoleID", row.id);
-    localStorage.setItem("EditRole_name", row.name);
-  };
-  const FetchTableData = async () => {
-    try {
-      const response = await getData("/role/list");
-
-      if (response && response.data && response.data.data.roles) {
-        setData(response.data.data.roles);
-       
-      } else {
-        throw new Error("No data available in the response");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-  const FetchmannegerList = async () => {
+ const FetchmannegerList = async () => {
     try {
       const response = await getData(`/site/manager/${id}`);
 
       if (response && response.data) {
-        console.log(response.data)
-        // setData(response.data.data.roles);
-       
+        console.log(response.data);
+        setData(response?.data?.data?.managers);
       } else {
         throw new Error("No data available in the response");
       }
@@ -139,7 +118,7 @@ const ManageRoles = (props) => {
   const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
-    FetchmannegerList()
+    FetchmannegerList();
     if (UserPermissions) {
       setPermissionsArray(UserPermissions.permissions);
     }
@@ -168,23 +147,23 @@ const ManageRoles = (props) => {
       ),
     },
     {
-      name: "Role",
-      selector: (row) => [row.name],
+      name: "Manager Name",
+      selector: (row) => [row.manager_name],
       sortable: true,
-      width: "55%",
+      width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row.manager_name}</h6>
           </div>
         </div>
       ),
     },
     {
-      name: "Created Date",
-      selector: (row) => [row.created_date],
+      name: "Reports",
+      selector: (row) => [row.reports],
       sortable: true,
-      width: "15%",
+      width: "25%",
       cell: (row, index) => (
         <div
           className="d-flex"
@@ -192,7 +171,24 @@ const ManageRoles = (props) => {
           // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold ">{row.reports}</h6>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Role",
+      selector: (row) => [row.role],
+      sortable: true,
+      width: "25%",
+      cell: (row, index) => (
+        <div
+          className="d-flex"
+          style={{ cursor: "default" }}
+          // onClick={() => handleToggleSidebar(row)}
+        >
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold ">{row.role}</h6>
           </div>
         </div>
       ),
@@ -208,9 +204,10 @@ const ManageRoles = (props) => {
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
-                to="/editrole"
+              
+                to={`/editmanager/${row.id}`}
                 className="btn btn-primary btn-sm rounded-11 me-2"
-                onClick={() => handleEdit(row)}
+              
               >
                 <i>
                   <svg
@@ -278,20 +275,19 @@ const ManageRoles = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-               Site Maneger
+                Site Maneger
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
           <div className="ms-auto pageheader-btn">
             <div className="input-group">
-        
               {isAddPermissionAvailable ? (
                 <Link
-                  to="/addmanger"
+                  to={`/addmanager/${id}`}
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                 Assign User
+                  Assign User
                 </Link>
               ) : (
                 ""

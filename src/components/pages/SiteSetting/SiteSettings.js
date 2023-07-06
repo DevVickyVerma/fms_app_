@@ -233,9 +233,9 @@ const SiteSettings = (props) => {
       formData.append("id", id);
 
       const postDataUrl = "/site/update-setting";
-      // const navigatePath = "/business";
+      const navigatePath = "/sites";
 
-      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+      await postData(postDataUrl, formData,navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
