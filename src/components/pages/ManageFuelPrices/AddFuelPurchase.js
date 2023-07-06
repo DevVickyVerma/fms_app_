@@ -71,10 +71,9 @@ const ManageDsr = (props) => {
     );
     console.log(filteredSites, "filteredSites");
     formik2.setFieldValue("sites", filteredSites);
- 
   };
 
-  const [data, setData] = useState();
+  const [SumTotal, setTotal] = useState();
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
 
@@ -118,7 +117,7 @@ const ManageDsr = (props) => {
     vat: Yup.string().required("Vat % is required"),
 
     premium: Yup.string().required("Premium is required"),
-    // fuel_name: Yup.string().required("Fuel is required"),
+    fuel_name: Yup.string().required("Fuel is required"),
   });
 
   const formik2 = useFormik({
@@ -130,9 +129,9 @@ const ManageDsr = (props) => {
       platts: "",
       developmentfuels: "",
       dutty: "",
-      exvat: "20",
+      exvat: "",
       vat: "",
-      total: "20",
+      total: "",
       premium: "",
       fuel_name: "",
     },
@@ -147,6 +146,8 @@ const ManageDsr = (props) => {
 
   //   console.log(formik.values, "ok");
   // };
+
+
 
   const handleSubmit2 = async (values) => {
     try {
@@ -174,6 +175,35 @@ const ManageDsr = (props) => {
     }
   };
 
+
+  // Calculate the total whenever the input values change
+
+
+  const sendEventWithName = (event, name) => {
+    const plattsValue = parseFloat(formik2.values.platts) || 0;
+    const premiumValue = parseFloat(formik2.values.premium) || 0;
+    const dutty = parseFloat(formik2.values.dutty) || 0;
+    const developmentfuels = parseFloat(formik2.values.developmentfuels) || 0;
+    const sum = (plattsValue + premiumValue + developmentfuels + dutty) / 100;
+    setTotal(sum)
+    formik2.setFieldValue(`exvat`, sum);
+    console.log(`Value of ${name}:`, event.target.value);
+    console.log(`Sum of platts and premium (divided by 100):`, sum);
+    console.log(`Value of ${name}:`, event.target.value);
+  };
+  
+  const sendEventWithName1 = (event, name) => {
+    console.log(SumTotal,"SumTotal")
+  
+    const plattsValue = parseFloat(formik2.values.vat) || 0;
+    const sum = (SumTotal*plattsValue) / 100;
+    formik2.setFieldValue(`total`, sum);
+    console.log(sum,"SumTotal")
+
+  };
+  
+
+  
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -382,7 +412,7 @@ const ManageDsr = (props) => {
                     </Col>
                     <Col lg={3} md={12}>
                       <div classname="form-group">
-                        <label htmlFor="fuel_id" className="form-label mt-4">
+                        <label htmlFor="fuel_name" className="form-label mt-4">
                           Fuel Name
                           <span className="text-danger">*</span>
                         </label>
@@ -437,6 +467,10 @@ const ManageDsr = (props) => {
                           placeholder="Platts"
                           onChange={formik2.handleChange}
                           value={formik2.values.platts}
+                          onBlur={(event) => {
+                            formik2.handleBlur(event);
+                            sendEventWithName(event, "platts");
+                          }}
                         />
                         {formik2.errors.platts && formik2.touched.platts && (
                           <div className="invalid-feedback">
@@ -463,6 +497,10 @@ const ManageDsr = (props) => {
                           placeholder="Premium"
                           onChange={formik2.handleChange}
                           value={formik2.values.premium}
+                          onBlur={(event) => {
+                            formik2.handleBlur(event);
+                            sendEventWithName(event, "premium");
+                          }}
                         />
                         {formik2.errors.premium && formik2.touched.premium && (
                           <div className="invalid-feedback">
@@ -493,7 +531,11 @@ const ManageDsr = (props) => {
                           name="developmentfuels"
                           placeholder=" Development Fuels"
                           onChange={formik2.handleChange}
-                          value={formik2.values.developmentfuels || ""}
+                          value={formik2.values.developmentfuels}
+                          onBlur={(event) => {
+                            formik2.handleBlur(event);
+                            sendEventWithName(event, "developmentfuels");
+                          }}
                         />
                         {formik2.errors.developmentfuels &&
                           formik2.touched.developmentfuels && (
@@ -520,7 +562,11 @@ const ManageDsr = (props) => {
                           name="dutty"
                           placeholder="Dutty"
                           onChange={formik2.handleChange}
-                          value={formik2.values.dutty || ""}
+                          value={formik2.values.dutty}
+                          onBlur={(event) => {
+                            formik2.handleBlur(event);
+                            sendEventWithName(event, "dutty");
+                          }}
                         />
                         {formik2.errors.dutty && formik2.touched.dutty && (
                           <div className="invalid-feedback">
@@ -570,6 +616,10 @@ const ManageDsr = (props) => {
                           placeholder="Vat%"
                           onChange={formik2.handleChange}
                           value={formik2.values.vat}
+                          onBlur={(event) => {
+                            formik2.handleBlur(event);
+                            sendEventWithName1(event, "dutty");
+                          }}
                         />
                         {formik2.errors.vat && formik2.touched.vat && (
                           <div className="invalid-feedback">
