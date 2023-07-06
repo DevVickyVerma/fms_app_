@@ -27,7 +27,7 @@ import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import SettingsIcon from "@mui/icons-material/Settings";
-
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 const ManageSite = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
@@ -391,7 +391,7 @@ const ManageSite = (props) => {
                 className="btn btn-primary btn-sm rounded-11 me-2"
               >
                 <i className="setting-icon">
-                  <SettingsIcon />
+                  <AssignmentTurnedInIcon />
                 </i>
               </Link>
             </OverlayTrigger>

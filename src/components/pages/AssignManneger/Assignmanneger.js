@@ -90,9 +90,7 @@ const ManageRoles = (props) => {
     }
   }
   const { id } = useParams();
-  useEffect(() => {
-    FetchTableData();
-  }, []);
+
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -267,7 +265,7 @@ const ManageRoles = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title">Manage Roles</h1>
+            <h1 className="page-title">Site Maneger </h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -280,27 +278,20 @@ const ManageRoles = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Manage Roles
+               Site Maneger
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
           <div className="ms-auto pageheader-btn">
             <div className="input-group">
-              {/* <input
-              type="text"  autoComplete="off"
-              className="form-control"
-              value={searchText}
-              onChange={handleSearch}
-              placeholder="Search..."
-              style={{ borderRadius: 0 }}
-            /> */}
+        
               {isAddPermissionAvailable ? (
                 <Link
-                  to="/addroles"
+                  to="/addmanger"
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Role
+                 Assign User
                 </Link>
               ) : (
                 ""
@@ -313,7 +304,7 @@ const ManageRoles = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Manage Roles</h3>
+                <h3 className="card-title">Site Maneger</h3>
               </Card.Header>
               <Card.Body>
                 <div className="table-responsive deleted-table">
