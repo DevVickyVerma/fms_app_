@@ -266,3 +266,6 @@ tbody tr {
   display: flex;
   justify-content: space-between;
 }
+.bg-card-false{
+  Background-color:#f97171;
+}

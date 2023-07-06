@@ -37,7 +37,6 @@ import DepartmentShop from "../DRSComponents/DepartmentShop";
 import CreditCardBanking from "../DRSComponents/CreditCardBanking";
 import Summary from "../DRSComponents/Summary";
 
-
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
@@ -50,12 +49,12 @@ const ManageDsr = (props) => {
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
-    const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
+  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
 
   useEffect(() => {
-      setclientIDLocalStorage(localStorage.getItem("superiorId"));
+    setclientIDLocalStorage(localStorage.getItem("superiorId"));
     if (UserPermissions) {
       setPermissionsArray(UserPermissions.permissions);
     }
@@ -85,7 +84,6 @@ const ManageDsr = (props) => {
   const [PropsFile, setPropsFile] = useState();
   const [PropsDate, setPropsDate] = useState();
 
-
   const handleFetchData = async () => {
     try {
       const response = await getData("/client/commonlist");
@@ -100,8 +98,6 @@ const ManageDsr = (props) => {
         ) {
           const clientId = localStorage.getItem("superiorId");
           if (clientId) {
-          
-
             setSelectedClientId(clientId);
 
             setSelectedCompanyList([]);
@@ -120,9 +116,6 @@ const ManageDsr = (props) => {
             }
           }
         }
-
-
-
       }
     } catch (error) {
       console.error("API error:", error);
@@ -148,7 +141,7 @@ const ManageDsr = (props) => {
         setPropsCompanyId(values.company_id);
 
         const response1 = await getData(
-          `/drs/modules/?site_id=${values.site_id}`
+          `/drs/modules/?site_id=${values.site_id}&drs_date=${values.start_date}`
         );
 
         const { data } = response1;
@@ -235,7 +228,6 @@ const ManageDsr = (props) => {
                     start_date: "",
                   }}
                   validationSchema={Yup.object({
-                   
                     company_id: Yup.string().required("Company is required"),
                     site_id: Yup.string().required("Site is required"),
                     start_date: Yup.date().required("Start Date is required"),
@@ -248,75 +240,76 @@ const ManageDsr = (props) => {
                     <Form onSubmit={handleSubmit}>
                       <Card.Body>
                         <Row>
-                        {localStorage.getItem("superiorRole") !==
+                          {localStorage.getItem("superiorRole") !==
                             "Client" && (
-                          <Col lg={3} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="client_id"
-                                className=" form-label mt-4"
-                              >
-                                Client
-                                <span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${
-                                  errors.client_id && touched.client_id
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="client_id"
-                                name="client_id"
-                                onChange={(e) => {
-                                  const selectedType = e.target.value;
-                                  setFieldValue("client_id", selectedType);
-                                  setSelectedClientId(selectedType);
+                            <Col lg={3} md={6}>
+                              <FormGroup>
+                                <label
+                                  htmlFor="client_id"
+                                  className=" form-label mt-4"
+                                >
+                                  Client
+                                  <span className="text-danger">*</span>
+                                </label>
+                                <Field
+                                  as="select"
+                                  className={`input101 ${
+                                    errors.client_id && touched.client_id
+                                      ? "is-invalid"
+                                      : ""
+                                  }`}
+                                  id="client_id"
+                                  name="client_id"
+                                  onChange={(e) => {
+                                    const selectedType = e.target.value;
+                                    setFieldValue("client_id", selectedType);
+                                    setSelectedClientId(selectedType);
 
-                                  // Reset the selected company and site
-                                  setSelectedCompanyList([]);
-                                  setFieldValue("company_id", "");
-                                  setFieldValue("site_id", "");
+                                    // Reset the selected company and site
+                                    setSelectedCompanyList([]);
+                                    setFieldValue("company_id", "");
+                                    setFieldValue("site_id", "");
 
-                                  const selectedClient = AddSiteData.data.find(
-                                    (client) => client.id === selectedType
-                                  );
+                                    const selectedClient =
+                                      AddSiteData.data.find(
+                                        (client) => client.id === selectedType
+                                      );
 
-                                  if (selectedClient) {
-                                    setSelectedCompanyList(
-                                      selectedClient.companies
-                                    );
-                                    console.log(
-                                      selectedClient,
-                                      "selectedClient"
-                                    );
-                                    console.log(
-                                      selectedClient.companies,
-                                      "selectedClient"
-                                    );
-                                  }
-                                }}
-                              >
-                                <option value="">Select a Client</option>
-                                {AddSiteData.data &&
-                                AddSiteData.data.length > 0 ? (
-                                  AddSiteData.data.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.client_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Client</option>
-                                )}
-                              </Field>
+                                    if (selectedClient) {
+                                      setSelectedCompanyList(
+                                        selectedClient.companies
+                                      );
+                                      console.log(
+                                        selectedClient,
+                                        "selectedClient"
+                                      );
+                                      console.log(
+                                        selectedClient.companies,
+                                        "selectedClient"
+                                      );
+                                    }
+                                  }}
+                                >
+                                  <option value="">Select a Client</option>
+                                  {AddSiteData.data &&
+                                  AddSiteData.data.length > 0 ? (
+                                    AddSiteData.data.map((item) => (
+                                      <option key={item.id} value={item.id}>
+                                        {item.client_name}
+                                      </option>
+                                    ))
+                                  ) : (
+                                    <option disabled>No Client</option>
+                                  )}
+                                </Field>
 
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="client_id"
-                              />
-                            </FormGroup>
-                          </Col>
+                                <ErrorMessage
+                                  component="div"
+                                  className="invalid-feedback"
+                                  name="client_id"
+                                />
+                              </FormGroup>
+                            </Col>
                           )}
                           <Col lg={3} md={6}>
                             <FormGroup>
@@ -535,7 +528,13 @@ const ManageDsr = (props) => {
                   {DataEnteryList && DataEnteryList.length > 0 ? (
                     DataEnteryList.map((item) => (
                       <Col md={12} xl={3} key={item.id}>
-                        <Card className="text-white bg-primary">
+                        <Card
+                          className={`text-white ${
+                            item.data_exist === false
+                              ? "bg-card-false"
+                              : "bg-primary"
+                          }`}
+                        >
                           <Card.Body
                             className="card-Div"
                             onClick={() => handleEnteryClick(item)} // Pass item.name as an argument
@@ -555,8 +554,7 @@ const ManageDsr = (props) => {
         </Row>
 
         {/* <FuelDelivery SiteID={PropsSiteId} ReportDate={PropsDate} */}
-        {
-          UploadTabname === "Fuel Delivery" ? (
+        {UploadTabname === "Fuel Delivery" ? (
           <FuelDelivery SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : UploadTabname === "Fuel Sales" ? (
           <FuelSales SiteID={PropsSiteId} ReportDate={PropsDate} />
@@ -572,26 +570,17 @@ const ManageDsr = (props) => {
           <Departmentshopsale SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : UploadTabname === "Cash Banking" ? (
           <CashBanking SiteID={PropsSiteId} ReportDate={PropsDate} />
-        ): UploadTabname === "Bank Deposite" ? (
+        ) : UploadTabname === "Bank Deposite" ? (
           <BankDeposit SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : UploadTabname === "Department Shop Summary" ? (
           <DepartmentShop SiteID={PropsSiteId} ReportDate={PropsDate} />
-        ): UploadTabname === "Credit Card Banking" ? (
+        ) : UploadTabname === "Credit Card Banking" ? (
           <CreditCardBanking SiteID={PropsSiteId} ReportDate={PropsDate} />
-        ): UploadTabname === "Summary" ? (
+        ) : UploadTabname === "Summary" ? (
           <Summary SiteID={PropsSiteId} ReportDate={PropsDate} />
-        )  : null
-        
-        
-     
-        
-        }
-      
-      
+        ) : null}
       </>
-    
     </>
-    
   );
 };
 export default withApi(ManageDsr);
