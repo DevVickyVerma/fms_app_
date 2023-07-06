@@ -21,7 +21,7 @@ const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
-  const [IsDashboardLoading, setIsDashboardLoading] = useState(false);
+  const [IsDashboardLoading, setIsDashboardLoading] = useState(true);
   const [ShowTruw, setShowTruw] = useState(false);
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
   const [searchdata, setSearchdata] = useState({});
@@ -30,6 +30,8 @@ const Dashboard = (props) => {
   const [GrossProfitValue, setGrossProfitValue] = useState();
   const [FuelValue, setFuelValue] = useState();
   const [GrossVolume, setGrossVolume] = useState();
+  const [shopsale, setshopsale] = useState();
+  const [shopmargin, setshopmargin] = useState();
 
   const SuccessToast = (message) => {
     toast.success(message, {
@@ -145,10 +147,10 @@ const Dashboard = (props) => {
       const { data } = response;
       if (data) {
         console.log(data);
-        // setGrossVolume(data);
+        setGrossVolume(data);
       }
 
-      // setIsDashboardLoading(false); // Set isLoading to false after the API call is complete
+      setIsDashboardLoading(false); // Set isLoading to false after the API call is complete
     } catch (error) {
       console.error("API error:", error);
       setIsDashboardLoading(false); // Set isLoading to false if there is an error
@@ -164,7 +166,7 @@ const Dashboard = (props) => {
 
       const { data } = response;
       if (data) {
-        console.log(data);
+        setGrossProfitValue(data);
       }
 
       setIsDashboardLoading(false); // Set isLoading to false after the API call is complete
@@ -202,7 +204,45 @@ const Dashboard = (props) => {
 
       const { data } = response;
       if (data) {
-        console.log(data);
+        setFuelValue(data);
+      }
+
+      setIsDashboardLoading(false); // Set isLoading to false after the API call is complete
+    } catch (error) {
+      console.error("API error:", error);
+      setIsDashboardLoading(false); // Set isLoading to false if there is an error
+    }
+  };
+  const FetchShopSales = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/dashboard/shop-sale?client_id=${ClientID}`
+      );
+
+      setIsDashboardLoading(true); // Set isLoading to true to indicate the loading state
+
+      const { data } = response;
+      if (data) {
+        setshopsale(data);
+      }
+
+      setIsDashboardLoading(false); // Set isLoading to false after the API call is complete
+    } catch (error) {
+      console.error("API error:", error);
+      setIsDashboardLoading(false); // Set isLoading to false if there is an error
+    }
+  };
+  const FetchShopMargin = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/dashboard/shop-margin?client_id=${ClientID}`
+      );
+
+      setIsDashboardLoading(true); // Set isLoading to true to indicate the loading state
+
+      const { data } = response;
+      if (data) {
+        setshopmargin(data);
       }
 
       setIsDashboardLoading(false); // Set isLoading to false after the API call is complete
@@ -215,9 +255,11 @@ const Dashboard = (props) => {
     handleFetchData();
     if (ClientID) {
       FetchGrossVolume();
-      // FetchFuelSales();
-      // FetchGrossProfit();
-      // Fetchgrossmargin();
+      FetchFuelSales();
+      FetchGrossProfit();
+      Fetchgrossmargin();
+      FetchShopSales();
+      FetchShopMargin();
     }
   }, [ClientID]);
 
@@ -290,20 +332,18 @@ const Dashboard = (props) => {
                     <div className="col">
                       <div className=" dashboard-box">
                         <div>
-                          <h6 className="">Volume</h6>
+                          <h6 className="">Gross Volume</h6>
+                         
                           {IsDashboardLoading ? (
                             <Spinners />
-                          ) : GrossVolume?.data?.gross_volume ? (
-                            <h3 className="mb-2 number-font">
-                              <CountUp
-                                end={GrossVolume?.data?.gross_volume}
-                                separator=","
-                                start={0}
-                                duration={2.94}
-                              />
-                            </h3>
                           ) : (
-                            <h3 className="mb-2 number-font">0124</h3>
+                          <>
+                          <h3 className="mb-2 number-font"> £
+                              {GrossVolume?.data?.gross_volume}
+                            </h3>
+                            {/* <p className="p-0">Bunkered Volume</p> */}
+                         
+                          </>
                           )}
 
                           <p className="text-muted mb-0 mt-4">
@@ -330,26 +370,30 @@ const Dashboard = (props) => {
                 <div className="card-body">
                   <Row>
                     <div className="col">
-                      <h6 className="">Gross Profit</h6>
-                      <h3 className="mb-2 number-font">
-                        <CountUp
-                          end={56992}
-                          separator=","
-                          start={0}
-                          duration={2.94}
-                        />
-                      </h3>
-                      <p className="text-muted mb-0">
-                        <span className="text-secondary me-1">
-                          <i className="fa fa-chevron-circle-up text-secondary me-1"></i>
-                          <span>3% </span>
-                        </span>
-                        last month
-                      </p>
-                    </div>
-                    <div className="col col-auto">
-                      <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
-                        <i className="icon icon-rocket text-white mb-5 "></i>
+                      <div className=" dashboard-box">
+                        <div>
+                          <h6 className="">Gross Profit</h6>
+                          {IsDashboardLoading ? (
+                            <Spinners />
+                          ) : (
+                            <h3 className="mb-2 number-font"> £
+                              {GrossProfitValue?.data?.gross_profit}
+                            </h3>
+                          )}
+
+                          <p className="text-muted mb-0 mt-4">
+                            <span className="text-primary me-1">
+                              <i className="fa fa-chevron-circle-up text-primary me-1"></i>
+                              <span>3% </span>
+                            </span>
+                            last month
+                          </p>
+                        </div>
+                        <div className="col col-auto">
+                          <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
+                            <i className="icon icon-rocket text-white mb-5 "></i>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </Row>
@@ -360,28 +404,31 @@ const Dashboard = (props) => {
               <Card className="card overflow-hidden">
                 <Card.Body className="card-body">
                   <Row>
-                    <div className="col">
-                      <h6 className="">Gross Margin</h6>
-                      <h3 className="mb-2 number-font">
-                        $
-                        <CountUp
-                          end={42567}
-                          separator=","
-                          start={0}
-                          duration={2.94}
-                        />
-                      </h3>
-                      <p className="text-muted mb-0">
-                        <span className="text-success me-1">
-                          <i className="fa fa-chevron-circle-down text-success me-1"></i>
-                          <span>0.5% </span>
-                        </span>
-                        last month
-                      </p>
-                    </div>
-                    <div className="col col-auto">
+                  <div className="col">
+                      <div className=" dashboard-box">
+                        <div>
+                          <h6 className="">Gross Margin</h6>
+                          {IsDashboardLoading ? (
+                            <Spinners />
+                          ) : (
+                            <h3 className="mb-2 number-font"> £
+                              {GrossProfitValue?.data?.gross_margin}
+                            </h3>
+                          )}
+
+                          <p className="text-muted mb-0 mt-4">
+                            <span className="text-primary me-1">
+                              <i className="fa fa-chevron-circle-up text-primary me-1"></i>
+                              <span>3% </span>
+                            </span>
+                            last month
+                          </p>
+                        </div>
+                       <div className="col col-auto">
                       <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto">
                         <i className="fe fe-dollar-sign text-white mb-5 "></i>
+                      </div>
+                    </div>
                       </div>
                     </div>
                   </Row>
@@ -391,8 +438,122 @@ const Dashboard = (props) => {
           </Row>
         </Col>
       </Row>
+
       <Row>
-        <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-6">
+        <Col lg={12} md={12} sm={12} xl={12}>
+          <Row>
+            <Col lg={6} md={12} sm={12} xl={4}>
+              <Card className=" overflow-hidden">
+                <Card.Body className="card-body">
+                  <Row>
+                    <div className="col">
+                      <div className=" dashboard-box">
+                        <div>
+                          <h6 className="">Fuel Sales </h6>
+                         
+                          {IsDashboardLoading ? (
+                            <Spinners />
+                          ) : (
+                            <h3 className="mb-2 number-font"> £
+                              {FuelValue?.data?.gross_value}
+                            </h3>
+                          )}
+
+                          <p className="text-muted mb-0 mt-4">
+                            <span className="text-primary me-1">
+                              <i className="fa fa-chevron-circle-up text-primary me-1"></i>
+                              <span>3% </span>
+                            </span>
+                            last month
+                          </p>
+                        </div>
+                        <div className="col col-auto">
+                          <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
+                            <i className="icon icon-rocket text-white mb-5 "></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Row>
+                </Card.Body>
+              </Card>
+            </Col>
+            <div className="col-lg-6 col-md-12 col-sm-12 col-xl-4">
+              <div className="card overflow-hidden">
+                <div className="card-body">
+                  <Row>
+                    <div className="col">
+                      <div className=" dashboard-box">
+                        <div>
+                          <h6 className="">Shop Sales</h6>
+                          {IsDashboardLoading ? (
+                            <Spinners />
+                          ) : (
+                            <h3 className="mb-2 number-font"> £
+                              {shopsale?.data?.shop_sales}
+                            </h3>
+                          )}
+
+                          <p className="text-muted mb-0 mt-4">
+                            <span className="text-primary me-1">
+                              <i className="fa fa-chevron-circle-up text-primary me-1"></i>
+                              <span>3% </span>
+                            </span>
+                            last month
+                          </p>
+                        </div>
+                      <div className="col col-auto">
+                      <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto">
+                  <i class="fa fa-angellist"></i>
+                      </div>
+                    </div>
+                      </div>
+                    </div>
+                  </Row>
+                </div>
+              </div>
+            </div>
+            <Col lg={6} md={12} sm={12} xl={4}>
+              <Card className="card overflow-hidden">
+                <Card.Body className="card-body">
+                  <Row>
+                  <div className="col">
+                      <div className=" dashboard-box">
+                        <div>
+                          <h6 className="">Shop Margin</h6>
+                          {IsDashboardLoading ? (
+                            <Spinners />
+                          ) : (
+                            <h3 className="mb-2 number-font"> 
+                            £{shopmargin?.data?.shop_margin}
+                            </h3>
+                          )}
+
+                          <p className="text-muted mb-0 mt-4">
+                            <span className="text-primary me-1">
+                              <i className="fa fa-chevron-circle-up text-primary me-1"></i>
+                              <span>3% </span>
+                            </span>
+                            last month
+                          </p>
+                        </div>
+                        <div className="col col-auto">
+                          <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
+                           <i class="fa fa-angellist"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Row>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+     
+      <Row>
+        <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
           <Card>
             <Card.Header className="card-header">
               <h3 className="card-title">Total Transactions</h3>
@@ -408,200 +569,6 @@ const Dashboard = (props) => {
               </div>
             </Card.Body>
           </Card>
-        </Col>
-        <Col sm={12} md={12} lg={12} xl={6}>
-          <Row>
-            <Col lg={6} md={12} sm={12} xl={6}>
-              <Card className=" overflow-hidden">
-                <Card.Body className="card-body">
-                  <Row>
-                    <div className="col">
-                      <h6 className="">COFFEE</h6>
-                      <h3 className="mb-2 number-font">
-                        <CountUp
-                          end={34516}
-                          separator=","
-                          start={0}
-                          duration={2.94}
-                        />
-                      </h3>
-                      <p className="text-muted mb-0">
-                        <span className="text-primary me-1">
-                          <i className="fa fa-chevron-circle-up text-primary me-1"></i>
-                          <span>3% </span>
-                        </span>
-                        last month
-                      </p>
-                    </div>
-                    <div className="col col-auto">
-                      <div className="counter-icon bg-primary-gradient box-shadow-primary brround ms-auto">
-                        <i className="fe fe-trending-up text-white mb-5 "></i>
-                      </div>
-                    </div>
-                  </Row>
-                </Card.Body>
-              </Card>
-            </Col>
-            <div className="col-lg-6 col-md-12 col-sm-12 col-xl-6">
-              <div className="card overflow-hidden">
-                <div className="card-body">
-                  <Row>
-                    <div className="col">
-                      <h6 className="">LOTTERY SALES</h6>
-                      <h3 className="mb-2 number-font">
-                        <CountUp
-                          end={56992}
-                          separator=","
-                          start={0}
-                          duration={2.94}
-                        />
-                      </h3>
-                      <p className="text-muted mb-0">
-                        <span className="text-secondary me-1">
-                          <i className="fa fa-chevron-circle-up text-secondary me-1"></i>
-                          <span>3% </span>
-                        </span>
-                        last month
-                      </p>
-                    </div>
-                    <div className="col col-auto">
-                      <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
-                        <i className="icon icon-rocket text-white mb-5 "></i>
-                      </div>
-                    </div>
-                  </Row>
-                </div>
-              </div>
-            </div>
-          </Row>
-          <Row>
-            <Col lg={6} md={12} sm={12} xl={6}>
-              <Card className=" overflow-hidden">
-                <Card.Body className="card-body">
-                  <Row>
-                    <div className="col">
-                      <h6 className="">VALET</h6>
-                      <h3 className="mb-2 number-font">
-                        <CountUp
-                          end={34516}
-                          separator=","
-                          start={0}
-                          duration={2.94}
-                        />
-                      </h3>
-                      <p className="text-muted mb-0">
-                        <span className="text-primary me-1">
-                          <i className="fa fa-chevron-circle-up text-primary me-1"></i>
-                          <span>3% </span>
-                        </span>
-                        last month
-                      </p>
-                    </div>
-                    <div className="col col-auto">
-                      <div className="counter-icon bg-primary-gradient box-shadow-primary brround ms-auto">
-                        <i className="fe fe-trending-up text-white mb-5 "></i>
-                      </div>
-                    </div>
-                  </Row>
-                </Card.Body>
-              </Card>
-            </Col>
-            <div className="col-lg-6 col-md-12 col-sm-12 col-xl-6">
-              <div className="card overflow-hidden">
-                <div className="card-body">
-                  <Row>
-                    <div className="col">
-                      <h6 className="">SHOP SALES</h6>
-                      <h3 className="mb-2 number-font">
-                        <CountUp
-                          end={6992}
-                          separator=","
-                          start={0}
-                          duration={2.94}
-                        />
-                      </h3>
-                      <p className="text-muted mb-0">
-                        <span className="text-secondary me-1">
-                          <i className="fa fa-chevron-circle-up text-secondary me-1"></i>
-                          <span>3% </span>
-                        </span>
-                        last month
-                      </p>
-                    </div>
-                    <div className="col col-auto">
-                      <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
-                        <i className="icon icon-rocket text-white mb-5 "></i>
-                      </div>
-                    </div>
-                  </Row>
-                </div>
-              </div>
-            </div>
-          </Row>
-          <Row>
-            <Col lg={6} md={12} sm={12} xl={6}>
-              <Card className=" overflow-hidden">
-                <Card.Body className="card-body">
-                  <Row>
-                    <div className="col">
-                      <h6 className="">SHOP FACILITY FEE</h6>
-                      <h3 className="mb-2 number-font">
-                        <CountUp
-                          end={3516}
-                          separator=","
-                          start={0}
-                          duration={2.94}
-                        />
-                      </h3>
-                      <p className="text-muted mb-0">
-                        <span className="text-primary me-1">
-                          <i className="fa fa-chevron-circle-up text-primary me-1"></i>
-                          <span>3% </span>
-                        </span>
-                        last month
-                      </p>
-                    </div>
-                    <div className="col col-auto">
-                      <div className="counter-icon bg-primary-gradient box-shadow-primary brround ms-auto">
-                        <i className="fe fe-trending-up text-white mb-5 "></i>
-                      </div>
-                    </div>
-                  </Row>
-                </Card.Body>
-              </Card>
-            </Col>
-            <div className="col-lg-6 col-md-12 col-sm-12 col-xl-6">
-              <div className="card overflow-hidden">
-                <div className="card-body">
-                  <Row>
-                    <div className="col">
-                      <h6 className="">PAYPOINT SALES</h6>
-                      <h3 className="mb-2 number-font">
-                        <CountUp
-                          end={15992}
-                          separator=","
-                          start={0}
-                          duration={2.94}
-                        />
-                      </h3>
-                      <p className="text-muted mb-0">
-                        <span className="text-secondary me-1">
-                          <i className="fa fa-chevron-circle-up text-secondary me-1"></i>
-                          <span>3% </span>
-                        </span>
-                        last month
-                      </p>
-                    </div>
-                    <div className="col col-auto">
-                      <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
-                        <i className="icon icon-rocket text-white mb-5 "></i>
-                      </div>
-                    </div>
-                  </Row>
-                </div>
-              </div>
-            </div>
-          </Row>
         </Col>
       </Row>
     </div>
