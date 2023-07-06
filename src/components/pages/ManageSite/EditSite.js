@@ -160,8 +160,8 @@ export default function AddSite(props) {
       fuel_commission_calc_status: "",
       bunker_upload_status: "",
       paperwork_status: "",
-      lottery_commission: "0",
-      shop_commission: "0",
+      lottery_commission: "",
+      shop_commission: "",
     },
     validationSchema: Yup.object({
       site_code: Yup.string()
@@ -589,6 +589,70 @@ export default function AddSite(props) {
                             formik.touched.bp_credit_card_site_no && (
                               <div className="invalid-feedback">
                                 {formik.errors.bp_credit_card_site_no}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="shop_commission"
+                            className="form-label mt-4"
+                          >
+                           Shop Cmmission
+                          </label>
+                          <input
+                            type="text"
+                            autoComplete="off"
+                            className={`input101 ${
+                              formik.errors.shop_commission &&
+                              formik.touched.shop_commission
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="shop_commission"
+                            name="shop_commission"
+                            placeholder="  Lottery Commission"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.shop_commission}
+                          />
+                          {formik.errors.shop_commission &&
+                            formik.touched.shop_commission && (
+                              <div className="invalid-feedback">
+                                {formik.errors.shop_commission}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="lottery_commission"
+                            className="form-label mt-4"
+                          >
+                            Lottery Commission
+                          </label>
+                          <input
+                            type="text"
+                            autoComplete="off"
+                            className={`input101 ${
+                              formik.errors.lottery_commission &&
+                              formik.touched.lottery_commission
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="lottery_commission"
+                            name="lottery_commission"
+                            placeholder="  Lottery Commission"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.lottery_commission}
+                          />
+                          {formik.errors.lottery_commission &&
+                            formik.touched.lottery_commission && (
+                              <div className="invalid-feedback">
+                                {formik.errors.lottery_commission}
                               </div>
                             )}
                         </div>

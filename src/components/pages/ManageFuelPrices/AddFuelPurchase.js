@@ -147,8 +147,6 @@ const ManageDsr = (props) => {
   //   console.log(formik.values, "ok");
   // };
 
-
-
   const handleSubmit2 = async (values) => {
     try {
       const formData = new FormData();
@@ -175,35 +173,41 @@ const ManageDsr = (props) => {
     }
   };
 
-
   // Calculate the total whenever the input values change
 
-
   const sendEventWithName = (event, name) => {
+    formik2.setFieldValue("total", 0);
+    formik2.setFieldValue("vat", "");
     const plattsValue = parseFloat(formik2.values.platts) || 0;
     const premiumValue = parseFloat(formik2.values.premium) || 0;
     const dutty = parseFloat(formik2.values.dutty) || 0;
     const developmentfuels = parseFloat(formik2.values.developmentfuels) || 0;
     const sum = (plattsValue + premiumValue + developmentfuels + dutty) / 100;
-    setTotal(sum)
-    formik2.setFieldValue(`exvat`, sum);
+    setTotal(sum);
+    const roundedSum = sum.toFixed(2);
+    console.log(roundedSum, "SumTotal");
+    console.log(roundedSum1, "SumTotal1111");
+    const roundedSum1 = parseFloat(sum).toFixed(2);
+    formik2.setFieldValue(`exvat`, roundedSum);
     console.log(`Value of ${name}:`, event.target.value);
     console.log(`Sum of platts and premium (divided by 100):`, sum);
     console.log(`Value of ${name}:`, event.target.value);
   };
-  
+
   const sendEventWithName1 = (event, name) => {
-    console.log(SumTotal,"SumTotal")
+    console.log(SumTotal, "SumTotal");
   
     const plattsValue = parseFloat(formik2.values.vat) || 0;
-    const sum = (SumTotal*plattsValue) / 100;
-    formik2.setFieldValue(`total`, sum);
-    console.log(sum,"SumTotal")
-
+  
+    const sum = (SumTotal * plattsValue) / 100 + SumTotal;
+    const roundedSum = Math.round(sum * 100) / 100; // Round to two decimal places
+    const formattedSum = roundedSum.toFixed(2).padEnd(5, '0');
+    formik2.setFieldValue("total", formattedSum);
+  
+    console.log(formattedSum, "SumddddddddTotal");
   };
   
 
-  
   return (
     <>
       {isLoading ? <Loaderimg /> : null}

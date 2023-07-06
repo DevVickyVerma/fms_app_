@@ -251,8 +251,8 @@ const AddSite = (props) => {
                     Drs_upload_status: "",
                     client_id: "",
                     company_id: "",
-                    lottery_commission: "0",
-                    shop_commission: "0",
+                    lottery_commission: "",
+                    shop_commission: "",
                   }}
                   validationSchema={Yup.object({
                     site_code: Yup.string()
@@ -609,7 +609,7 @@ const AddSite = (props) => {
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
-                                type="text"
+                                type="number"
                                 autoComplete="off"
                                 className={`input101 ${
                                   errors.Bp_nctt_site_no &&
@@ -625,6 +625,64 @@ const AddSite = (props) => {
                                 component="div"
                                 className="invalid-feedback"
                                 name="Bp_nctt_site_no"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="shop_commission"
+                                className=" form-label mt-4"
+                              >
+                                Shop Commission
+                           
+                              </label>
+                              <Field
+                                type="Number"
+                                autoComplete="off"
+                                className={`input101 ${
+                                  errors.shop_commission &&
+                                  touched.shop_commission
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="shop_commission"
+                                name="shop_commission"
+                                placeholder="Shop Commission"
+                              />
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="shop_commission"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="lottery_commission"
+                                className=" form-label mt-4"
+                              >
+                           Lottery Commission
+                               
+                              </label>
+                              <Field
+                                type="Number"
+                                autoComplete="off"
+                                className={`input101 ${
+                                  errors.lottery_commission &&
+                                  touched.lottery_commission
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="lottery_commission"
+                                name="lottery_commission"
+                                placeholder=" Lottery Commission"
+                              />
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="lottery_commission"
                               />
                             </FormGroup>
                           </Col>

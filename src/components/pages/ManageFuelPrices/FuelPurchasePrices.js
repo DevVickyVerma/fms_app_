@@ -258,6 +258,38 @@ const ManageDsr = (props) => {
     formik.setFieldValue(`data[${index}].total`, exVatPrice);
   };
 
+
+  // const [SumTotal, setTotal] = useState();
+  // const sendEventWithName = (event, name) => {
+  //   const plattsValue = parseFloat(formik.values.platts_price) || 0;
+  //   const premiumValue = parseFloat(formik.values.premium_price) || 0;
+  //   const dutty = parseFloat(formik.values.dutty) || 0;
+  //   const developmentfuels = parseFloat(formik.values.development_fuels_price) || 0;
+  //   const sum = (plattsValue + premiumValue + developmentfuels + dutty) / 100;
+  //   setTotal(sum)
+  //   formik.setFieldValue(`ex_vat_price`, sum);
+  //   console.log(`Value of ${name}:`, event.target.value);
+  //   console.log(`Sum of platts and premium (divided by 100):`, sum);
+  //   console.log(`Value of ${name}:`, event.target.value);
+  // }
+  // const sendEventWithName1 = (event, name) => {
+  //   console.log(SumTotal,"SumTotal")
+  
+  //   const plattsValue = parseFloat(formik.values.vat_percentage_rate) || 0;
+  //   const sum = (SumTotal*plattsValue) / 100+ SumTotal ;
+  //   formik.setFieldValue(`total`, sum);
+  //   console.log(sum,"SumTotal")
+
+  // };
+
+
+
+
+
+
+
+
+
   const columns = [
     {
       name: "FUEL NAME",
