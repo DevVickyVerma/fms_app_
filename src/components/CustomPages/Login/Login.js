@@ -69,6 +69,7 @@ export default function Login(props) {
       const data = await response.json();
       if (response.ok && data) {
         localStorage.setItem("token", data.data.access_token);
+         localStorage.setItem("superiorId", data.data.superiorId);
         navigate("/dashboard");
         localStorage.setItem("justLoggedIn", true);
         notify(data.message);

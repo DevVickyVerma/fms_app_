@@ -31,7 +31,7 @@ const DashBordModal = (props) => {
   } = props;
 
   const [keyword, setSearchQuery] = useState("");
-  const [start_date, setStartDate] = useState("");
+  const [fromdate, setStartDate] = useState("");
   const [end_date, setEndDate] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -125,13 +125,18 @@ const DashBordModal = (props) => {
                             client_id: "",
                             company_id: "",
                             site_id: "",
-                            start_date: "",
+                            fromdate: "",
+                            TOdate: "",
                           }}
                           validationSchema={Yup.object({
                             company_id: Yup.string().required(
                               "Company is required"
                             ),
+                            client_id: Yup.string().required("Client is required"),
                             site_id: Yup.string().required("Site is required"),
+                            fromdate: Yup.string().required("From  is required"),
+                             
+                            TOdate: Yup.string().required(" TO  is required"),
                           })}
                           onSubmit={(values) => {
                             console.log(values);
@@ -209,7 +214,7 @@ const DashBordModal = (props) => {
                                             AddSiteData.data.map((item) => (
                                               <option
                                                 key={item.id}
-                                                value={item.id}
+                                                value={item}
                                               >
                                                 {item.client_name}
                                               </option>
@@ -338,6 +343,58 @@ const DashBordModal = (props) => {
                                         component="div"
                                         className="invalid-feedback"
                                         name="site_id"
+                                      />
+                                    </FormGroup>
+                                  </Col>
+                                  <Col lg={3} md={6}>
+                                    <FormGroup>
+                                      <label
+                                        htmlFor="fromdate"
+                                        className="form-label mt-4"
+                                      >
+                                        From
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <Field
+                                        type="date"
+                                        className={`input101 ${
+                                          errors.fromdate && touched.fromdate
+                                            ? "is-invalid"
+                                            : ""
+                                        }`}
+                                        id="fromdate"
+                                        name="fromdate"
+                                      ></Field>
+                                      <ErrorMessage
+                                        component="div"
+                                        className="invalid-feedback"
+                                        name="fromdate"
+                                      />
+                                    </FormGroup>
+                                  </Col>
+                                  <Col lg={3} md={6}>
+                                    <FormGroup>
+                                      <label
+                                        htmlFor="TOdate"
+                                        className="form-label mt-4"
+                                      >
+                                        TO
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <Field
+                                        type="date"
+                                        className={`input101 ${
+                                          errors.TOdate && touched.TOdate
+                                            ? "is-invalid"
+                                            : ""
+                                        }`}
+                                        id="TOdate"
+                                        name="TOdate"
+                                      ></Field>
+                                      <ErrorMessage
+                                        component="div"
+                                        className="invalid-feedback"
+                                        name="TOdate"
                                       />
                                     </FormGroup>
                                   </Col>

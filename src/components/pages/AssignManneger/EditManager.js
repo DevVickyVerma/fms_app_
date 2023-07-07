@@ -44,7 +44,7 @@ const AddCompany = (props) => {
   const { id } = useParams();
   const UserPermissions = useSelector((state) => state?.data?.data);
   const [ReportsData, setReportsData] = useState([]);
-  
+
   const FetchmannegerList = async () => {
     try {
       const response = await getData(`/site/manager/detail/${id}`);
@@ -52,12 +52,15 @@ const AddCompany = (props) => {
       if (response && response.data) {
         console.log(response.data, "dddd");
         // setData(response.data.data.roles);
-        setDropdownValue(response.data.data);
-      
-        setReportsData(response?.data?.data?.reports );
+        setDropdownValue(response?.data?.data);
 
-        formik.setFieldValue("FormikreportsData", (response?.data?.data?.reports));
-        formik.setFieldValue("AllData", (response?.data?.data));
+        setReportsData(response?.data?.data?.reports);
+
+        formik.setFieldValue(
+          "FormikreportsData",
+          response?.data?.data?.reports
+        );
+        formik.setFieldValue("AllData", response?.data?.data);
 
         console.log(formik.values.editmanager?.reports);
       } else {
@@ -90,7 +93,9 @@ const AddCompany = (props) => {
             id={`checked-${index}`}
             name={`FormikreportsData[${index}].checked`}
             className="table-input"
-            checked={formik.values?.FormikreportsData?.[index]?.checked ?? false}
+            checked={
+              formik.values?.FormikreportsData?.[index]?.checked ?? false
+            }
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
@@ -111,7 +116,6 @@ const AddCompany = (props) => {
         </div>
       ),
     },
-  
   ];
 
   const handleSubmit = async (event, values) => {
@@ -121,15 +125,14 @@ const AddCompany = (props) => {
     try {
       const formData = new FormData();
 
-      formData.append("user_id", formik.values.AllData.user_id);
-      formData.append("site_id", formik.values.AllData.site_id);
+      formData.append("user_id", "VmN0Ym1wMitQS3VaeUpKNUZhUUR6Zz09");
+      formData.append("id", formik.values.AllData.id);
       const selectedReportsIds = [];
       const reports_models_valueKey = "reports";
-   
-      
+
       for (let i = 0; i < formik.values.FormikreportsData.length; i++) {
         const { id, checked } = formik.values.FormikreportsData[i];
-      
+
         if (checked) {
           const reportIdKey = `${reports_models_valueKey}[${i}]`;
           const reportIdValue = id;
@@ -137,16 +140,15 @@ const AddCompany = (props) => {
           selectedReportsIds.push(reportIdEntry);
         }
       }
-      
+
       selectedReportsIds.forEach((reportIdEntry) => {
         const key = Object.keys(reportIdEntry)[0];
         const value = reportIdEntry[key];
         formData.append(key, value);
       });
-      
 
-      const postDataUrl = "/site/manager/assign";
-      const navigatePath = `/assignmanger/${formik.values.AllData.site_id}`;
+      const postDataUrl = "/site/manager/update";
+      const navigatePath = `/assignmanger/${formik.values.AllData.id}`;
 
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
@@ -163,7 +165,6 @@ const AddCompany = (props) => {
       handleSubmit(values);
     },
   });
-
 
   return (
     <>
@@ -182,14 +183,7 @@ const AddCompany = (props) => {
                 >
                   Dashboard
                 </Breadcrumb.Item>
-                <Breadcrumb.Item
-                  className="breadcrumb-item  breadcrumds"
-                  aria-current="page"
-                  linkAs={Link}
-                  linkProps={{ to: "/managecompany" }}
-                >
-                  Manage Company
-                </Breadcrumb.Item>
+
                 <Breadcrumb.Item
                   className="breadcrumb-item active breadcrumds"
                   aria-current="page"
@@ -213,7 +207,7 @@ const AddCompany = (props) => {
                       <Col lg={6} md={6}>
                         <div className="form-group">
                           <label htmlFor="user_id" className=" form-label mt-4">
-                          User<span className="text-danger">*</span>
+                            User<span className="text-danger">*</span>
                           </label>
                           <select
                             as="select"
@@ -221,7 +215,7 @@ const AddCompany = (props) => {
                               formik.errors.user_id && formik.touched.user_id
                                 ? "is-invalid"
                                 : ""
-                            }`}
+                            }`} 
                             id="user_id"
                             name="user_id"
                             onChange={formik.handleChange}
@@ -232,7 +226,7 @@ const AddCompany = (props) => {
                             dropdownValue.users.length > 0 ? (
                               dropdownValue.users.map((item) => (
                                 <option key={item.id} value={item.id}>
-                                  {item.user_id}
+                                  {item.user_name}
                                 </option>
                               ))
                             ) : (
@@ -247,25 +241,24 @@ const AddCompany = (props) => {
                         </div>
                       </Col>
                       <Col lg={6} md={6}>
-                      <Card.Header className="cardheader-table">
-                        <h3 className="card-title">Reports</h3>
-                      </Card.Header>
-                      <div className="module-height-Manager">
-                        <DataTable
-                          columns={ReportsColumn}
-                          data={ReportsData}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          persistTableHead
-                          highlightOnHover
-                          searchable={false}
-                          responsive
-                        />
-                      </div>
-                    </Col>
-                    
+                        <Card.Header className="cardheader-table">
+                          <h3 className="card-title">Reports</h3>
+                        </Card.Header>
+                        <div className="module-height-Manager">
+                          <DataTable
+                            columns={ReportsColumn}
+                            data={ReportsData}
+                            noHeader
+                            defaultSortField="id"
+                            defaultSortAsc={false}
+                            striped={true}
+                            persistTableHead
+                            highlightOnHover
+                            searchable={false}
+                            responsive
+                          />
+                        </div>
+                      </Col>
                     </Row>
                   </Card.Body>
 

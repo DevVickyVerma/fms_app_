@@ -40,7 +40,7 @@ const EditBussiness = (props) => {
       Errornotify("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
+      // navigate("/errorpage403");
     } else {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
@@ -62,46 +62,46 @@ const EditBussiness = (props) => {
       },
     });
 
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axiosInstance.get(
-  //         `/business/category`
-  //       );
-  //       if (response) {
-  //         console.log(response.data.data,"Response data");
-  //         setEditSiteData(response.data.data);
-  //         formik.setValues(response.data.data);
-  //       }
-  //     } catch (error) {
-  //       handleError(error);
-  //     }
-  //   };
+    //   const fetchData = async () => {
+    //     try {
+    //       const response = await axiosInstance.get(
+    //         `/business/category`
+    //       );
+    //       if (response) {
+    //         console.log(response.data.data,"Response data");
+    //         setEditSiteData(response.data.data);
+    //         formik.setValues(response.data.data);
+    //       }
+    //     } catch (error) {
+    //       handleError(error);
+    //     }
+    //   };
 
-  //   try {
-  //     fetchData();
-  //   } catch (error) {
-  //     handleError(error);
-  //   }
-  //   console.clear();
-  // }, [id]);
-  const GetSiteData = async () => {
+    //   try {
+    //     fetchData();
+    //   } catch (error) {
+    //     handleError(error);
+    //   }
+    //   console.clear();
+    // }, [id]);
+    const GetSiteData = async () => {
+      try {
+        const response = await axiosInstance.get("business/category");
+        setAddSiteData(response.data);
+        // if (response.data) {
+        //   setAddSiteData(response.data.data);
+        // }
+      } catch (error) {
+        handleError(error);
+      }
+    };
     try {
-      const response = await axiosInstance.get("business/category");
-      setAddSiteData(response.data);
-      // if (response.data) {
-      //   setAddSiteData(response.data.data);
-      // }
+      GetSiteData();
     } catch (error) {
       handleError(error);
     }
-  };
-  try {
-    GetSiteData();
-  } catch (error) {
-    handleError(error);
-  }
-  // console.clear()
-}, []);
+    // console.clear()
+  }, []);
 
   const { id } = useParams();
 
@@ -119,9 +119,10 @@ const EditBussiness = (props) => {
       const response = await getData(`/business/subcategory/detail/${id}`);
 
       if (response) {
-        formik.setValues(response.data.data);
-
-        setDropdownValue(response.data.data);
+        formik.setValues(response?.data?.data);
+        console.log(formik.values," formik.setValues");
+        console.log(response?.data?.data," formik.setVdddddddddalues");
+        setDropdownValue(response?.data?.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -147,7 +148,7 @@ const EditBussiness = (props) => {
       formData.append("code", values.sub_category_code);
       formData.append("status", values.status);
       formData.append("id", id);
-      formData.append("business_category_id", values.business_type_id);
+      formData.append("business_category_id", values.business_category_id);
       console.log(values);
 
       const postDataUrl = "/business/subcategory/update";
@@ -163,7 +164,7 @@ const EditBussiness = (props) => {
     initialValues: {
       sub_category_name: "",
       sub_category_code: "",
-      business_type_id: "",
+      business_category_id: "",
       business_category_id: " ",
       status: "1",
     },
@@ -186,7 +187,7 @@ const EditBussiness = (props) => {
           }
         ),
 
-      business_type_id: Yup.string().required(
+      business_category_id: Yup.string().required(
         "Sub-Business Category Type is required"
       ),
       status: Yup.string().required("Status is required"),
@@ -197,17 +198,6 @@ const EditBussiness = (props) => {
   const isInvalid = formik.errors && formik.touched.name ? "is-invalid" : "";
 
   // Use the isInvalid variable to conditionally set the class name
-  const inputClass = `form-control ${isInvalid}`;
-  const handleBusinessTypeChange = (e) => {
-    const selectedType = e.target.value;
-
-    formik.setFieldValue("business_type", selectedType);
-    setSelectedBusinessType(selectedType);
-    const selectedTypeData = AddSiteData.business_types.find(
-      (type) => type.name === selectedType
-    );
-    setSubTypes(selectedTypeData.sub_types);
-  };
 
   return (
     <>
@@ -348,7 +338,7 @@ const EditBussiness = (props) => {
                       <Col lg={4} md={6}>
                         <div className="form-group">
                           <label
-                            htmlFor="business_type_id"
+                            htmlFor="business_category_id"
                             className=" form-label mt-4"
                           >
                             Select Business Category
@@ -356,35 +346,31 @@ const EditBussiness = (props) => {
                           </label>
                           <select
                             className={`input101 ${
-                              formik.errors.business_type_id &&
-                              formik.touched.business_type_id
+                              formik.errors.business_category_id &&
+                              formik.touched.business_category_id
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            id="business_type_id"
-                            name="business_type_id"
+                            id="business_category_id"
+                            name="business_category_id"
                             onChange={formik.handleChange}
-                            value={formik.values.business_type_id}
+                            value={formik.values.business_category_id}
                           >
-                            <option value="">
-                                  {" "}
-                                  Select Business Category
+                            <option value=""> Select Business Category</option>
+                            {AddSiteData.data ? (
+                              AddSiteData.data.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.category_name}
                                 </option>
-                                {
-                                AddSiteData.data ? (
-                                  AddSiteData.data.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.category_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Sub-Business Type</option>
-                                )}
+                              ))
+                            ) : (
+                              <option disabled>No Sub-Business Type</option>
+                            )}
                           </select>
-                          {formik.errors.business_type_id &&
-                            formik.touched.business_type_id && (
+                          {formik.errors.business_category_id &&
+                            formik.touched.business_category_id && (
                               <div className="invalid-feedback">
-                                {formik.errors.business_type_id}
+                                {formik.errors.business_category_id}
                               </div>
                             )}
                         </div>

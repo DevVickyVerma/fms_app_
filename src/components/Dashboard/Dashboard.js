@@ -260,16 +260,15 @@ const Dashboard = (props) => {
       setshopmarginLoading(false); // Set isLoading to false if there is an error
     }
   };
+
   useEffect(() => {
     handleFetchData();
-    if (ClientID) {
-      FetchGrossVolume();
-      FetchFuelSales();
-      FetchGrossProfit();
-      Fetchgrossmargin();
-      FetchShopSales();
-      FetchShopMargin();
-    }
+    FetchGrossVolume();
+    FetchFuelSales();
+    FetchGrossProfit();
+    Fetchgrossmargin();
+    FetchShopMargin()
+    FetchShopSales();
   }, [ClientID]);
 
   return (
@@ -353,11 +352,17 @@ const Dashboard = (props) => {
                               </h3>
                               {/* <p className="p-0">Bunkered Volume</p> */}
                               <p className="text-muted mb-0 mt-4">
-                                <span className="text-primary me-1">
+                                <span
+                                  className={`me-1 ${
+                                    shopmargin?.data?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                  }`}
+                                >
                                   {GrossVolume?.data?.status === "up" ? (
-                                    <i className="fa fa-chevron-circle-up text-primary me-1"></i>
+                                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                   ) : (
-                                    <i className="fa fa-chevron-circle-down text-primary me-1"></i>
+                                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                   )}
                                   <span>{GrossVolume?.data?.percentage}%</span>
                                 </span>
@@ -394,11 +399,17 @@ const Dashboard = (props) => {
                                 £{GrossProfitValue?.data?.gross_profit}
                               </h3>
                               <p className="text-muted mb-0 mt-4">
-                                <span className="text-primary me-1">
+                                <span
+                                  className={`me-1 ${
+                                    shopmargin?.data?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                  }`}
+                                >
                                   {GrossProfitValue?.data?.status === "up" ? (
-                                    <i className="fa fa-chevron-circle-up text-primary me-1"></i>
+                                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                   ) : (
-                                    <i className="fa fa-chevron-circle-down text-primary me-1"></i>
+                                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                   )}
                                   <span>
                                     {GrossProfitValue?.data?.percentage}%
@@ -437,11 +448,17 @@ const Dashboard = (props) => {
                                 £{GrossProfitValue?.data?.gross_margin}
                               </h3>
                               <p className="text-muted mb-0 mt-4">
-                                <span className="text-primary me-1">
+                                <span
+                                  className={`me-1 ${
+                                    shopmargin?.data?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                  }`}
+                                >
                                   {GrossProfitValue?.data?.status === "up" ? (
-                                    <i className="fa fa-chevron-circle-up text-primary me-1"></i>
+                                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                   ) : (
-                                    <i className="fa fa-chevron-circle-down text-primary me-1"></i>
+                                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                   )}
                                   <span>
                                     {GrossProfitValue?.data?.percentage}%
@@ -487,11 +504,17 @@ const Dashboard = (props) => {
                                 £{FuelValue?.data?.gross_value}
                               </h3>
                               <p className="text-muted mb-0 mt-4">
-                                <span className="text-primary me-1">
+                                <span
+                                  className={`me-1 ${
+                                    shopmargin?.data?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                  }`}
+                                >
                                   {FuelValue?.data?.status === "up" ? (
-                                    <i className="fa fa-chevron-circle-up text-primary me-1"></i>
+                                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                   ) : (
-                                    <i className="fa fa-chevron-circle-down text-primary me-1"></i>
+                                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                   )}
                                   <span>{FuelValue?.data?.percentage}%</span>
                                 </span>
@@ -527,11 +550,17 @@ const Dashboard = (props) => {
                                 £{shopsale?.data?.shop_sales}
                               </h3>
                               <p className="text-muted mb-0 mt-4">
-                                <span className="text-primary me-1">
+                                <span
+                                  className={`me-1 ${
+                                    shopmargin?.data?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                  }`}
+                                >
                                   {shopsale?.data?.status === "up" ? (
-                                    <i className="fa fa-chevron-circle-up text-primary me-1"></i>
+                                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                   ) : (
-                                    <i className="fa fa-chevron-circle-down text-primary me-1"></i>
+                                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                   )}
                                   <span>{shopsale?.data?.percentage}%</span>
                                 </span>
@@ -567,11 +596,17 @@ const Dashboard = (props) => {
                                 £{shopmargin?.data?.shop_margin}
                               </h3>
                               <p className="text-muted mb-0 mt-4">
-                                <span className="text-primary me-1">
+                                <span
+                                  className={`me-1 ${
+                                    shopmargin?.data?.status == "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                  }`}
+                                >
                                   {shopmargin?.data?.status === "up" ? (
-                                    <i className="fa fa-chevron-circle-up text-primary me-1"></i>
+                                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                   ) : (
-                                    <i className="fa fa-chevron-circle-down text-primary me-1"></i>
+                                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                   )}
                                   <span>{shopmargin?.data?.percentage}%</span>
                                 </span>
