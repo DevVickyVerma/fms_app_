@@ -16,8 +16,7 @@ import DashBordModal from "../../data/Modal/DashBordmodal";
 import Spinners from "../../components/Dashboard/Spinner";
 // import * as piecharts from "../../../data/charts/piecharts/piecharts"
 
-
-import * as piecharts from "../../data/charts/piecharts/piecharts"
+import * as piecharts from "../../data/charts/piecharts/piecharts";
 // import Loader from "react-loader-spinner";
 // import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import axios from "axios";
@@ -343,26 +342,29 @@ const Dashboard = (props) => {
                       <div className=" dashboard-box">
                         <div>
                           <h6 className="">Gross Volume</h6>
-                         
+
                           {GrossVolumeeLoading ? (
                             <Spinners />
                           ) : (
-                          <>
-                          <h3 className="mb-2 number-font"> £
-                              {GrossVolume?.data?.gross_volume}
-                            </h3>
-                            {/* <p className="p-0">Bunkered Volume</p> */}
-                         
-                          </>
+                            <>
+                              <h3 className="mb-2 number-font">
+                                {" "}
+                                £{GrossVolume?.data?.gross_volume}
+                              </h3>
+                              {/* <p className="p-0">Bunkered Volume</p> */}
+                              <p className="text-muted mb-0 mt-4">
+                                <span className="text-primary me-1">
+                                  {GrossVolume?.data?.status === "up" ? (
+                                    <i className="fa fa-chevron-circle-up text-primary me-1"></i>
+                                  ) : (
+                                    <i className="fa fa-chevron-circle-down text-primary me-1"></i>
+                                  )}
+                                  <span>{GrossVolume?.data?.percentage}%</span>
+                                </span>
+                                last month
+                              </p>
+                            </>
                           )}
-
-                          <p className="text-muted mb-0 mt-4">
-                            <span className="text-primary me-1">
-                              <i className="fa fa-chevron-circle-up text-primary me-1"></i>
-                              <span>3% </span>
-                            </span>
-                            last month
-                          </p>
                         </div>
                         <div className="col col-auto">
                           <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
@@ -386,18 +388,26 @@ const Dashboard = (props) => {
                           {GrossProfitValueLoading ? (
                             <Spinners />
                           ) : (
-                            <h3 className="mb-2 number-font"> £
-                              {GrossProfitValue?.data?.gross_profit}
-                            </h3>
+                            <>
+                              <h3 className="mb-2 number-font">
+                                {" "}
+                                £{GrossProfitValue?.data?.gross_profit}
+                              </h3>
+                              <p className="text-muted mb-0 mt-4">
+                                <span className="text-primary me-1">
+                                  {GrossProfitValue?.data?.status === "up" ? (
+                                    <i className="fa fa-chevron-circle-up text-primary me-1"></i>
+                                  ) : (
+                                    <i className="fa fa-chevron-circle-down text-primary me-1"></i>
+                                  )}
+                                  <span>
+                                    {GrossProfitValue?.data?.percentage}%
+                                  </span>
+                                </span>
+                                last month
+                              </p>
+                            </>
                           )}
-
-                          <p className="text-muted mb-0 mt-4">
-                            <span className="text-primary me-1">
-                              <i className="fa fa-chevron-circle-up text-primary me-1"></i>
-                              <span>3% </span>
-                            </span>
-                            last month
-                          </p>
                         </div>
                         <div className="col col-auto">
                           <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
@@ -414,31 +424,39 @@ const Dashboard = (props) => {
               <Card className="card overflow-hidden">
                 <Card.Body className="card-body">
                   <Row>
-                  <div className="col">
+                    <div className="col">
                       <div className=" dashboard-box">
                         <div>
                           <h6 className="">Gross Margin</h6>
                           {GrossMarginValueLoading ? (
                             <Spinners />
                           ) : (
-                            <h3 className="mb-2 number-font"> £
-                              {GrossProfitValue?.data?.gross_margin}
-                            </h3>
+                            <>
+                              <h3 className="mb-2 number-font">
+                                {" "}
+                                £{GrossProfitValue?.data?.gross_margin}
+                              </h3>
+                              <p className="text-muted mb-0 mt-4">
+                                <span className="text-primary me-1">
+                                  {GrossProfitValue?.data?.status === "up" ? (
+                                    <i className="fa fa-chevron-circle-up text-primary me-1"></i>
+                                  ) : (
+                                    <i className="fa fa-chevron-circle-down text-primary me-1"></i>
+                                  )}
+                                  <span>
+                                    {GrossProfitValue?.data?.percentage}%
+                                  </span>
+                                </span>
+                                last month
+                              </p>
+                            </>
                           )}
-
-                          <p className="text-muted mb-0 mt-4">
-                            <span className="text-primary me-1">
-                              <i className="fa fa-chevron-circle-up text-primary me-1"></i>
-                              <span>3% </span>
-                            </span>
-                            last month
-                          </p>
                         </div>
-                       <div className="col col-auto">
-                      <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto">
-                        <i className="fe fe-dollar-sign text-white mb-5 "></i>
-                      </div>
-                    </div>
+                        <div className="col col-auto">
+                          <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto">
+                            <i className="fe fe-dollar-sign text-white mb-5 "></i>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </Row>
@@ -460,22 +478,27 @@ const Dashboard = (props) => {
                       <div className=" dashboard-box">
                         <div>
                           <h6 className="">Fuel Sales </h6>
-                         
+
                           {FuelValueeLoading ? (
                             <Spinners />
                           ) : (
-                            <h3 className="mb-2 number-font"> £
-                              {FuelValue?.data?.gross_value}
-                            </h3>
+                            <>
+                              <h3 className="mb-2 number-font">
+                                £{FuelValue?.data?.gross_value}
+                              </h3>
+                              <p className="text-muted mb-0 mt-4">
+                                <span className="text-primary me-1">
+                                  {FuelValue?.data?.status === "up" ? (
+                                    <i className="fa fa-chevron-circle-up text-primary me-1"></i>
+                                  ) : (
+                                    <i className="fa fa-chevron-circle-down text-primary me-1"></i>
+                                  )}
+                                  <span>{FuelValue?.data?.percentage}%</span>
+                                </span>
+                                last month
+                              </p>
+                            </>
                           )}
-
-                          <p className="text-muted mb-0 mt-4">
-                            <span className="text-primary me-1">
-                              <i className="fa fa-chevron-circle-up text-primary me-1"></i>
-                              <span>3% </span>
-                            </span>
-                            last month
-                          </p>
                         </div>
                         <div className="col col-auto">
                           <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
@@ -499,24 +522,29 @@ const Dashboard = (props) => {
                           {shopsaleLoading ? (
                             <Spinners />
                           ) : (
-                            <h3 className="mb-2 number-font"> £
-                              {shopsale?.data?.shop_sales}
-                            </h3>
+                            <>
+                              <h3 className="mb-2 number-font">
+                                £{shopsale?.data?.shop_sales}
+                              </h3>
+                              <p className="text-muted mb-0 mt-4">
+                                <span className="text-primary me-1">
+                                  {shopsale?.data?.status === "up" ? (
+                                    <i className="fa fa-chevron-circle-up text-primary me-1"></i>
+                                  ) : (
+                                    <i className="fa fa-chevron-circle-down text-primary me-1"></i>
+                                  )}
+                                  <span>{shopsale?.data?.percentage}%</span>
+                                </span>
+                                last month
+                              </p>
+                            </>
                           )}
-
-                          <p className="text-muted mb-0 mt-4">
-                            <span className="text-primary me-1">
-                              <i className="fa fa-chevron-circle-up text-primary me-1"></i>
-                              <span>3% </span>
-                            </span>
-                            last month
-                          </p>
                         </div>
-                      <div className="col col-auto">
-                      <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto">
-                  <i class="fa fa-angellist"></i>
-                      </div>
-                    </div>
+                        <div className="col col-auto">
+                          <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto">
+                            <i class="fa fa-angellist"></i>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </Row>
@@ -527,29 +555,34 @@ const Dashboard = (props) => {
               <Card className="card overflow-hidden">
                 <Card.Body className="card-body">
                   <Row>
-                  <div className="col">
+                    <div className="col">
                       <div className=" dashboard-box">
                         <div>
                           <h6 className="">Shop Margin</h6>
                           {shopmarginLoading ? (
                             <Spinners />
                           ) : (
-                            <h3 className="mb-2 number-font"> 
-                            £{shopmargin?.data?.shop_margin}
-                            </h3>
+                            <>
+                              <h3 className="mb-2 number-font">
+                                £{shopmargin?.data?.shop_margin}
+                              </h3>
+                              <p className="text-muted mb-0 mt-4">
+                                <span className="text-primary me-1">
+                                  {shopmargin?.data?.status === "up" ? (
+                                    <i className="fa fa-chevron-circle-up text-primary me-1"></i>
+                                  ) : (
+                                    <i className="fa fa-chevron-circle-down text-primary me-1"></i>
+                                  )}
+                                  <span>{shopmargin?.data?.percentage}%</span>
+                                </span>
+                                last month
+                              </p>
+                            </>
                           )}
-
-                          <p className="text-muted mb-0 mt-4">
-                            <span className="text-primary me-1">
-                              <i className="fa fa-chevron-circle-up text-primary me-1"></i>
-                              <span>3% </span>
-                            </span>
-                            last month
-                          </p>
                         </div>
                         <div className="col col-auto">
                           <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
-                           <i class="fa fa-angellist"></i>
+                            <i class="fa fa-angellist"></i>
                           </div>
                         </div>
                       </div>
@@ -561,9 +594,9 @@ const Dashboard = (props) => {
           </Row>
         </Col>
       </Row>
-     
+
       <Row>
-        <Col lg={6} md={12}>
+        <Col lg={7} md={12}>
           <Card>
             <Card.Header className="card-header">
               <h3 className="card-title">Total Transactions</h3>
@@ -580,13 +613,13 @@ const Dashboard = (props) => {
             </Card.Body>
           </Card>
         </Col>
-        <Col lg={6} md={12}>
+        <Col lg={5} md={12}>
           <Card>
             <Card.Header>
               <h3 className="card-title">Pie Chart with Multiple colors</h3>
             </Card.Header>
             <Card.Body className="apexchart">
-              <piecharts.Apexcharts2/>
+              <piecharts.Apexcharts2 />
             </Card.Body>
           </Card>
         </Col>
