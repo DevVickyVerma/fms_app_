@@ -459,7 +459,7 @@ const ManageDsr = (props) => {
           </Col>
         </Row>
 
-        <Row>
+      { Uploadtitle?.b_mdl === "PRISM" ?  <Row>
           <Col md={12} xl={12}>
             <Card>
               <Card.Header>
@@ -469,22 +469,24 @@ const ManageDsr = (props) => {
               </Card.Header>
               <Card.Body>
                 <Row>
-                  {UploadList && UploadList.length > 0 ? (
-                    UploadList.map((item) => (
-                      <Col md={12} xl={3} key={item.id}>
-                        <Card className="text-white bg-primary">
-                          <Card.Body
-                            className="card-Div"
-                            onClick={() => handleCardClick(item)} // Pass item.name as an argument
-                          >
-                            <h4 className="card-title">{item.name}</h4>
-                          </Card.Body>
-                        </Card>
-                      </Col>
-                    ))
-                  ) : (
-                    <p>Please select site first......</p>
-                  )}
+                  {Uploadtitle?.b_mdl === "PRISM" ? (
+                    UploadList && UploadList.length > 0 ? (
+                      UploadList.map((item) => (
+                        <Col md={12} xl={3} key={item.id}>
+                          <Card className="text-white bg-primary">
+                            <Card.Body
+                              className="card-Div"
+                              onClick={() => handleCardClick(item)} // Pass item.name as an argument
+                            >
+                              <h4 className="card-title">{item.name}</h4>
+                            </Card.Body>
+                          </Card>
+                        </Col>
+                      ))
+                    ) : (
+                      <p>Please select site first......</p>
+                    )
+                  ) : null}
                 </Row>
               </Card.Body>
               {showModal ? (
@@ -515,7 +517,7 @@ const ManageDsr = (props) => {
               )}
             </Card>
           </Col>
-        </Row>
+        </Row> :""}
 
         <Row>
           <Col md={12} xl={12}>

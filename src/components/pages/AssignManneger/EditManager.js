@@ -213,7 +213,7 @@ const AddCompany = (props) => {
                       <Col lg={6} md={6}>
                         <div className="form-group">
                           <label htmlFor="user_id" className=" form-label mt-4">
-                            Client<span className="text-danger">*</span>
+                          User<span className="text-danger">*</span>
                           </label>
                           <select
                             as="select"
@@ -227,7 +227,7 @@ const AddCompany = (props) => {
                             onChange={formik.handleChange}
                             value={formik.values.user_id}
                           >
-                            <option value=""> Select Client</option>
+                            <option value=""> Select User</option>
                             {dropdownValue.users &&
                             dropdownValue.users.length > 0 ? (
                               dropdownValue.users.map((item) => (
@@ -236,7 +236,7 @@ const AddCompany = (props) => {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No clients</option>
+                              <option disabled>No User</option>
                             )}
                           </select>
                           {formik.errors.user_id && formik.touched.user_id && (

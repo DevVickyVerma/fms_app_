@@ -60,7 +60,7 @@ const Sidebar = () => {
             });
           }
         });
-
+        setIsLoading(true);
         setMainMenu([{ Items: menuItems }]);
       } else {
         console.log("Menu items not found.");

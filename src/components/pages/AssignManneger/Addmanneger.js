@@ -126,12 +126,16 @@ const AddCompany = (props) => {
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
-
+  const validationSchema = Yup.object({
+    client_id: Yup.string()
+      .required('Client ID is required')
+      
+  });
   const formik = useFormik({
     initialValues: {
       client_id: "",
     },
-  
+    validationSchema: validationSchema,
     onSubmit: (values) => {
         handleSubmit(values);
     },
@@ -187,13 +191,13 @@ const AddCompany = (props) => {
                             htmlFor="client_id"
                             className=" form-label mt-4"
                           >
-                            Client<span className="text-danger">*</span>
+                            User<span className="text-danger">*</span>
                           </label>
                           <select
                             as="select"
                             className={`input101 ${
-                              formik.errors.company_id1 &&
-                              formik.touched.company_id1
+                              formik.errors.client_id &&
+                              formik.touched.client_id
                                 ? "is-invalid"
                                 : ""
                             }`}
@@ -201,7 +205,7 @@ const AddCompany = (props) => {
                             name="client_id"
                             onChange={formik.handleChange}
                           >
-                            <option value=""> Select Client</option>
+                            <option value=""> Select User</option>
                             {dropdownValue.users &&
                             dropdownValue.users.length > 0 ? (
                               dropdownValue.users.map((item) => (
@@ -210,7 +214,7 @@ const AddCompany = (props) => {
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No clients</option>
+                              <option disabled>No User</option>
                             )}
                           </select>
                           {formik.errors.client_id &&
@@ -225,7 +229,7 @@ const AddCompany = (props) => {
                       <Col lg={3} md={6}>
                         <div className="form-group">
                           <FormControl className="width mt-4">
-                            <InputLabel>Select Sites</InputLabel>
+                            <InputLabel>Select Reports</InputLabel>
                             <Select
                               multiple
                               value={selectedItems1}
