@@ -125,7 +125,7 @@ const AddCompany = (props) => {
     try {
       const formData = new FormData();
 
-      formData.append("user_id", "VmN0Ym1wMitQS3VaeUpKNUZhUUR6Zz09");
+      formData.append("user_id",formik.values.AllData.user_id );
       formData.append("id", formik.values.AllData.id);
       const selectedReportsIds = [];
       const reports_models_valueKey = "reports";
