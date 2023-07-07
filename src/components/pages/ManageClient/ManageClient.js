@@ -198,6 +198,7 @@ const ManageClient = (props) => {
     "client-status-update"
   );
   const isEditPermissionAvailable = permissionsArray?.includes("client-edit");
+  const isLoginPermissionAvailable = permissionsArray?.includes("client-account-access");
   const isAddPermissionAvailable = permissionsArray?.includes("client-create");
   const isDeletePermissionAvailable =
     permissionsArray?.includes("client-delete");
@@ -370,7 +371,7 @@ const ManageClient = (props) => {
               </Link>
             </OverlayTrigger>
           ) : null}
-          {isDeletePermissionAvailable ? (
+          {isLoginPermissionAvailable ? (
             <OverlayTrigger
               placement="top"
               overlay={<Tooltip>Client Login</Tooltip>}

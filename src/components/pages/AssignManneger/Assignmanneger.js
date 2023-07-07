@@ -125,10 +125,10 @@ const ManageRoles = (props) => {
   }, [UserPermissions]);
 
   const isStatusPermissionAvailable =
-    permissionsArray?.includes("role-status-update");
-  const isEditPermissionAvailable = permissionsArray?.includes("role-edit");
-  const isAddPermissionAvailable = permissionsArray?.includes("role-create");
-  const isDeletePermissionAvailable = permissionsArray?.includes("role-delete");
+    permissionsArray?.includes("site-assign-manager");
+  const isEditPermissionAvailable = permissionsArray?.includes("site-assign-manager");
+  const isAddPermissionAvailable = permissionsArray?.includes("site-assign-manager");
+  const isDeletePermissionAvailable = permissionsArray?.includes("site-assign-manager");
   const isDetailsPermissionAvailable =
     permissionsArray?.includes("role-details");
   console.log(data?.editable === 1, "editable");
@@ -262,7 +262,7 @@ const ManageRoles = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title">Site Maneger </h1>
+            <h1 className="page-title">Site Manager  </h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -275,7 +275,7 @@ const ManageRoles = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Site Maneger
+                Site Manager 
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -300,7 +300,7 @@ const ManageRoles = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Site Maneger</h3>
+                <h3 className="card-title">Site Manager </h3>
               </Card.Header>
               <Card.Body>
                 <div className="table-responsive deleted-table">

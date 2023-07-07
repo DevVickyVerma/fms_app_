@@ -14,6 +14,10 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import SideSearchbar from "../../data/Modal/SideSearchbar";
 import DashBordModal from "../../data/Modal/DashBordmodal";
 import Spinners from "../../components/Dashboard/Spinner";
+// import * as piecharts from "../../../data/charts/piecharts/piecharts"
+
+
+import * as piecharts from "../../data/charts/piecharts/piecharts"
 // import Loader from "react-loader-spinner";
 // import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import axios from "axios";
@@ -22,6 +26,12 @@ const Dashboard = (props) => {
 
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [IsDashboardLoading, setIsDashboardLoading] = useState(true);
+  const [GrossMarginValueLoading, setGrossMarginValueLoading] = useState(true);
+  const [GrossProfitValueLoading, setGrossProfitValueLoading] = useState(true);
+  const [GrossVolumeeLoading, setGrossVolumeeLoading] = useState(true);
+  const [FuelValueeLoading, setFuelValueeLoading] = useState(true);
+  const [shopsaleLoading, setshopsaleLoading] = useState(true);
+  const [shopmarginLoading, setshopmarginLoading] = useState(true);
   const [ShowTruw, setShowTruw] = useState(false);
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
   const [searchdata, setSearchdata] = useState({});
@@ -142,7 +152,7 @@ const Dashboard = (props) => {
         `/dashboard/gross-volume?client_id=${ClientID}`
       );
 
-      setIsDashboardLoading(true); // Set isLoading to true to indicate the loading state
+      setGrossVolumeeLoading(true); // Set isLoading to true to indicate the loading state
 
       const { data } = response;
       if (data) {
@@ -150,10 +160,10 @@ const Dashboard = (props) => {
         setGrossVolume(data);
       }
 
-      setIsDashboardLoading(false); // Set isLoading to false after the API call is complete
+      setGrossVolumeeLoading(false); // Set isLoading to false after the API call is complete
     } catch (error) {
       console.error("API error:", error);
-      setIsDashboardLoading(false); // Set isLoading to false if there is an error
+      setGrossVolumeeLoading(false); // Set isLoading to false if there is an error
     }
   };
   const FetchGrossProfit = async () => {
@@ -162,17 +172,17 @@ const Dashboard = (props) => {
         `/dashboard/gross-profit?client_id=${ClientID}`
       );
 
-      setIsDashboardLoading(true); // Set isLoading to true to indicate the loading state
+      setGrossProfitValueLoading(true); // Set isLoading to true to indicate the loading state
 
       const { data } = response;
       if (data) {
         setGrossProfitValue(data);
       }
 
-      setIsDashboardLoading(false); // Set isLoading to false after the API call is complete
+      setGrossProfitValueLoading(false); // Set isLoading to false after the API call is complete
     } catch (error) {
       console.error("API error:", error);
-      setIsDashboardLoading(false); // Set isLoading to false if there is an error
+      setGrossProfitValueLoading(false); // Set isLoading to false if there is an error
     }
   };
   const Fetchgrossmargin = async () => {
@@ -181,17 +191,17 @@ const Dashboard = (props) => {
         `/dashboard/gross-margin?client_id=${ClientID}`
       );
 
-      setIsDashboardLoading(true); // Set isLoading to true to indicate the loading state
+      setGrossMarginValueLoading(true); // Set isLoading to true to indicate the loading state
 
       const { data } = response;
       if (data) {
         console.log(data);
       }
 
-      setIsDashboardLoading(false); // Set isLoading to false after the API call is complete
+      setGrossMarginValueLoading(false); // Set isLoading to false after the API call is complete
     } catch (error) {
       console.error("API error:", error);
-      setIsDashboardLoading(false); // Set isLoading to false if there is an error
+      setGrossMarginValueLoading(false); // Set isLoading to false if there is an error
     }
   };
   const FetchFuelSales = async () => {
@@ -200,17 +210,17 @@ const Dashboard = (props) => {
         `/dashboard/fuel-sale?client_id=${ClientID}`
       );
 
-      setIsDashboardLoading(true); // Set isLoading to true to indicate the loading state
+      setFuelValueeLoading(true); // Set isLoading to true to indicate the loading state
 
       const { data } = response;
       if (data) {
         setFuelValue(data);
       }
 
-      setIsDashboardLoading(false); // Set isLoading to false after the API call is complete
+      setFuelValueeLoading(false); // Set isLoading to false after the API call is complete
     } catch (error) {
       console.error("API error:", error);
-      setIsDashboardLoading(false); // Set isLoading to false if there is an error
+      setFuelValueeLoading(false); // Set isLoading to false if there is an error
     }
   };
   const FetchShopSales = async () => {
@@ -219,17 +229,17 @@ const Dashboard = (props) => {
         `/dashboard/shop-sale?client_id=${ClientID}`
       );
 
-      setIsDashboardLoading(true); // Set isLoading to true to indicate the loading state
+      setshopsaleLoading(true); // Set isLoading to true to indicate the loading state
 
       const { data } = response;
       if (data) {
         setshopsale(data);
       }
 
-      setIsDashboardLoading(false); // Set isLoading to false after the API call is complete
+      setshopsaleLoading(false); // Set isLoading to false after the API call is complete
     } catch (error) {
       console.error("API error:", error);
-      setIsDashboardLoading(false); // Set isLoading to false if there is an error
+      setshopsaleLoading(false); // Set isLoading to false if there is an error
     }
   };
   const FetchShopMargin = async () => {
@@ -238,17 +248,17 @@ const Dashboard = (props) => {
         `/dashboard/shop-margin?client_id=${ClientID}`
       );
 
-      setIsDashboardLoading(true); // Set isLoading to true to indicate the loading state
+      setshopmarginLoading(true); // Set isLoading to true to indicate the loading state
 
       const { data } = response;
       if (data) {
         setshopmargin(data);
       }
 
-      setIsDashboardLoading(false); // Set isLoading to false after the API call is complete
+      setshopmarginLoading(false); // Set isLoading to false after the API call is complete
     } catch (error) {
       console.error("API error:", error);
-      setIsDashboardLoading(false); // Set isLoading to false if there is an error
+      setshopmarginLoading(false); // Set isLoading to false if there is an error
     }
   };
   useEffect(() => {
@@ -334,7 +344,7 @@ const Dashboard = (props) => {
                         <div>
                           <h6 className="">Gross Volume</h6>
                          
-                          {IsDashboardLoading ? (
+                          {GrossVolumeeLoading ? (
                             <Spinners />
                           ) : (
                           <>
@@ -373,7 +383,7 @@ const Dashboard = (props) => {
                       <div className=" dashboard-box">
                         <div>
                           <h6 className="">Gross Profit</h6>
-                          {IsDashboardLoading ? (
+                          {GrossProfitValueLoading ? (
                             <Spinners />
                           ) : (
                             <h3 className="mb-2 number-font"> £
@@ -408,7 +418,7 @@ const Dashboard = (props) => {
                       <div className=" dashboard-box">
                         <div>
                           <h6 className="">Gross Margin</h6>
-                          {IsDashboardLoading ? (
+                          {GrossMarginValueLoading ? (
                             <Spinners />
                           ) : (
                             <h3 className="mb-2 number-font"> £
@@ -451,7 +461,7 @@ const Dashboard = (props) => {
                         <div>
                           <h6 className="">Fuel Sales </h6>
                          
-                          {IsDashboardLoading ? (
+                          {FuelValueeLoading ? (
                             <Spinners />
                           ) : (
                             <h3 className="mb-2 number-font"> £
@@ -486,7 +496,7 @@ const Dashboard = (props) => {
                       <div className=" dashboard-box">
                         <div>
                           <h6 className="">Shop Sales</h6>
-                          {IsDashboardLoading ? (
+                          {shopsaleLoading ? (
                             <Spinners />
                           ) : (
                             <h3 className="mb-2 number-font"> £
@@ -521,7 +531,7 @@ const Dashboard = (props) => {
                       <div className=" dashboard-box">
                         <div>
                           <h6 className="">Shop Margin</h6>
-                          {IsDashboardLoading ? (
+                          {shopmarginLoading ? (
                             <Spinners />
                           ) : (
                             <h3 className="mb-2 number-font"> 
@@ -553,7 +563,7 @@ const Dashboard = (props) => {
       </Row>
      
       <Row>
-        <Col className="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <Col lg={6} md={12}>
           <Card>
             <Card.Header className="card-header">
               <h3 className="card-title">Total Transactions</h3>
@@ -567,6 +577,16 @@ const Dashboard = (props) => {
                   height={300}
                 />
               </div>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col lg={6} md={12}>
+          <Card>
+            <Card.Header>
+              <h3 className="card-title">Pie Chart with Multiple colors</h3>
+            </Card.Header>
+            <Card.Body className="apexchart">
+              <piecharts.Apexcharts2/>
             </Card.Body>
           </Card>
         </Col>

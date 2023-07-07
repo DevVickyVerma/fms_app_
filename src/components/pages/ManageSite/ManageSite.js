@@ -206,6 +206,8 @@ const ManageSite = (props) => {
   }, [UserPermissions]);
 
   const isEditPermissionAvailable = permissionsArray?.includes("site-edit");
+  const isManagerPermissionAvailable = permissionsArray?.includes("site-assign-manager");
+  const issitesettingPermissionAvailable = permissionsArray?.includes("site-setting");
   const isAddPermissionAvailable = permissionsArray?.includes("site-create");
   const isDeletePermissionAvailable = permissionsArray?.includes("site-delete");
   const isDetailsPermissionAvailable =
@@ -366,7 +368,7 @@ const ManageSite = (props) => {
       width: "23%",
       cell: (row) => (
         <span className="text-center">
-          {isEditPermissionAvailable ? (
+          {issitesettingPermissionAvailable ? (
             <OverlayTrigger
               placement="top"
               overlay={<Tooltip>Settings</Tooltip>}
@@ -381,7 +383,7 @@ const ManageSite = (props) => {
               </Link>
             </OverlayTrigger>
           ) : null}
-          {isEditPermissionAvailable ? (
+          {isManagerPermissionAvailable ? (
             <OverlayTrigger
               placement="top"
               overlay={<Tooltip>Assign Manneger</Tooltip>}

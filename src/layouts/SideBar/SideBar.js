@@ -3,6 +3,7 @@ import { MENUITEMS } from "./SideMenu";
 import { Link, NavLink } from "react-router-dom";
 import Scrollbars from "react-custom-scrollbars";
 import { useSelector } from "react-redux";
+import Loaderimg from "../../Utils/Loader";
 const Sidebar = () => {
   const [mainmenu, setMainMenu] = useState(MENUITEMS);
 
@@ -10,7 +11,7 @@ const Sidebar = () => {
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
-
+  const [isLoading, setIsLoading] = useState(true);
 
 
   useEffect(() => {
@@ -23,78 +24,43 @@ const Sidebar = () => {
     }
   }, [UserPermissions, MENUITEMS]);
 
-  // useEffect(() => {
-  //   if (permissionsArray) {
-  //     permissionsArray.forEach((permission, index) => {
-  //       const menuObj = mainmenu[0]?.Items?.find(
-  //         (val) => val.permission == permission
-  //       );
-
-  //       if (menuObj) {
-  //         console.log(menuObj, "menuObj");
-  //         menuObj.visibility = true;
-  //       }
-
-  //       let childMenuObj;
-
-  //       mainmenu[0]?.Items?.forEach((item) => {
-  //         if (childMenuObj) {
-  //           return;
-  //         }
-
-  //         childMenuObj = item.children?.find(
-  //           (val) => val.permission == permission
-  //         );
-  //       });
-
-  //       if (childMenuObj) {
-  //         childMenuObj.visibility = true;
-  //         return;
-  //       }
-
-  //       console.log(`Permission ${index + 1}:`, permission);
-  //     });
-  //     console.log(mainmenu, "mainmenuper");
-  //     setMainMenu({ mainmenu: MENUITEMS });
-  //     console.log(mainmenu, "mainmenuper1");
-  //   }
-  // }, [permissionsArray,MENUITEMS]);
 
 
   useEffect(() => {
     console.log("mainmenu before update:", mainmenu);
+    setIsLoading(true);
+
     if (permissionsArray) {
       const updatedMainMenu = { ...(mainmenu || {}) };
-  
       let menuItems = updatedMainMenu?.[0]?.Items;
+
       if (!menuItems) {
         menuItems = updatedMainMenu?.mainmenu[0]?.Items;
       }
-  
+
       if (menuItems) {
         menuItems.forEach((item) => {
           const foundPermission = permissionsArray.find(
             (permission) => permission === item.permission
           );
-  
+
           if (foundPermission) {
             item.visibility = true;
           }
-  
+
           if (item.children) {
             item.children.forEach((childItem) => {
               const foundChildPermission = permissionsArray.find(
                 (permission) => permission === childItem.permission
               );
-  
+
               if (foundChildPermission) {
                 childItem.visibility = true;
               }
             });
           }
         });
-  
-    
+
         setMainMenu([{ Items: menuItems }]);
       } else {
         console.log("Menu items not found.");
@@ -102,8 +68,9 @@ const Sidebar = () => {
     } else {
       console.log("Permissions array is empty or undefined.");
     }
+
+    setIsLoading(false);
   }, [permissionsArray]);
-  
   
   
   
@@ -209,6 +176,9 @@ const Sidebar = () => {
   }
 
   return (
+    <>
+    {isLoading ? <Loaderimg /> : null}
+   
     <div className="sticky">
       <div className="app-sidebar__overlay"></div>
       <aside
@@ -462,6 +432,7 @@ const Sidebar = () => {
         </Scrollbars>
       </aside>
     </div>
+    </>
   );
 };
 

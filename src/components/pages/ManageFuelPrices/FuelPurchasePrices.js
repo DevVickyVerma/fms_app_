@@ -28,8 +28,8 @@ import {
 import { Button } from "bootstrap";
 
 import withApi from "../../../Utils/ApiHelper";
-
 import { useSelector } from "react-redux";
+
 
 import * as Yup from "yup";
 import { Dropdown } from "react-bootstrap";
@@ -38,7 +38,7 @@ import { useFormik } from "formik";
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
-  const UserPermissions = useSelector((state) => state?.data?.data);
+ 
   const [AddSiteData, setAddSiteData] = useState([]);
 
 
@@ -52,12 +52,7 @@ const ManageDsr = (props) => {
     localStorage.getItem("superiorId")
   );
 
-  // const [selectedValues, setSelectedValues] = useState([]);
 
-  // const handleChange = (event) => {
-  //   setSelectedValues(event.target.value);
-  //   console.log(event.target.value);
-  // };
 
   const [selectedItems, setSelectedItems] = useState([]);
   
@@ -74,63 +69,7 @@ const ManageDsr = (props) => {
  
   };
 
-  //   const [data, setData] = useState([
-  //     {
-  //       id: "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
-  //       fuel_name: "Unleaded",
-  //       platts_price: "0.000",
-  //       premium_price: "0.000",
-  //       development_fuels_price: "0.000",
-  //       duty_price: "0.000",
-  //       vat_percentage_rate: "0.000",
-  //       ex_vat_price: "0.000",
-  //       total: "0.000",
-  //     },
-  //     {
-  //       id: "VEttejdBRlRMWDRnUTdlRkdLK1hrZz09",
-  //       fuel_name: "Supreme Unleaded",
-  //       platts_price: 56.12,
-  //       premium_price: 0.9,
-  //       development_fuels_price: 52.95,
-  //       duty_price: "0.000",
-  //       vat_percentage_rate: 20,
-  //       ex_vat_price: 1.27,
-  //       total: 1.27,
-  //     },
-  //     {
-  //       id: "U2wrWHB3T0FOSXRvV2lDUXg3cktUdz09",
-  //       fuel_name: "Diesel",
-  //       platts_price: "0.000",
-  //       premium_price: "0.000",
-  //       development_fuels_price: "0.000",
-  //       duty_price: "0.000",
-  //       vat_percentage_rate: "0.000",
-  //       ex_vat_price: "0.000",
-  //       total: "0.000",
-  //     },
-  //     {
-  //       id: "Q0hXRGNkeTllN1JSVWg1NFdDNjJodz09",
-  //       fuel_name: "Supreme Diesel",
-  //       platts_price: "0.000",
-  //       premium_price: "0.000",
-  //       development_fuels_price: "0.000",
-  //       duty_price: "0.000",
-  //       vat_percentage_rate: "0.000",
-  //       ex_vat_price: "0.000",
-  //       total: "0.000",
-  //     },
-  //     {
-  //       id: "WmFLUWpCN2YrYnNpYVh3SkI0cDJ0UT09",
-  //       fuel_name: "Adblue",
-  //       platts_price: "0.000",
-  //       premium_price: "0.000",
-  //       development_fuels_price: "0.000",
-  //       duty_price: "0.000",
-  //       vat_percentage_rate: "0.000",
-  //       ex_vat_price: "0.000",
-  //       total: "0.000",
-  //     },
-  //   ]);
+
   const [data, setData] = useState();
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
@@ -259,28 +198,6 @@ const ManageDsr = (props) => {
   };
 
 
-  // const [SumTotal, setTotal] = useState();
-  // const sendEventWithName = (event, name) => {
-  //   const plattsValue = parseFloat(formik.values.platts_price) || 0;
-  //   const premiumValue = parseFloat(formik.values.premium_price) || 0;
-  //   const dutty = parseFloat(formik.values.dutty) || 0;
-  //   const developmentfuels = parseFloat(formik.values.development_fuels_price) || 0;
-  //   const sum = (plattsValue + premiumValue + developmentfuels + dutty) / 100;
-  //   setTotal(sum)
-  //   formik.setFieldValue(`ex_vat_price`, sum);
-  //   console.log(`Value of ${name}:`, event.target.value);
-  //   console.log(`Sum of platts and premium (divided by 100):`, sum);
-  //   console.log(`Value of ${name}:`, event.target.value);
-  // }
-  // const sendEventWithName1 = (event, name) => {
-  //   console.log(SumTotal,"SumTotal")
-  
-  //   const plattsValue = parseFloat(formik.values.vat_percentage_rate) || 0;
-  //   const sum = (SumTotal*plattsValue) / 100+ SumTotal ;
-  //   formik.setFieldValue(`total`, sum);
-  //   console.log(sum,"SumTotal")
-
-  // };
 
 
 
@@ -648,6 +565,30 @@ const ManageDsr = (props) => {
     }
   };
 
+
+
+
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data)
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions.permissions);
+    }
+  }, [UserPermissions]);
+
+  const isEditPermissionAvailable = permissionsArray?.includes("fuel-purchase-update");
+  const isManagerPermissionAvailable = permissionsArray?.includes("site-assign-manager");
+  const issitesettingPermissionAvailable = permissionsArray?.includes("site-setting");
+  const isAddPermissionAvailable = permissionsArray?.includes("fuel-purchase-add");
+  const isDeletePermissionAvailable = permissionsArray?.includes("site-delete");
+  const isDetailsPermissionAvailable =
+    permissionsArray?.includes("site-detail");
+  const isAssignPermissionAvailable = permissionsArray?.includes("site-assign");
+
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -675,7 +616,7 @@ const ManageDsr = (props) => {
           </div>
           <div className="ms-auto pageheader-btn">
             <div className="input-group">
-             
+               {isAddPermissionAvailable ? (
                 <Link
                   to="/Add-purchase-prices"
                   className="btn btn-primary ms-2"
@@ -683,7 +624,7 @@ const ManageDsr = (props) => {
                 >
                   Add Fuel Purchase
                 </Link>
-           
+              ) : null}
             </div>
           </div>
         </div>
@@ -953,11 +894,11 @@ const ManageDsr = (props) => {
                       />
                     </DataTableExtensions>
                   </div>
-                  <div className="d-flex justify-content-end mt-3">
+              { isEditPermissionAvailable?   <div className="d-flex justify-content-end mt-3">
                     {data ? <button className="btn btn-primary" type="submit">
                         Submit
                       </button>:""}
-                  </div>
+                  </div> :""}
                 </form>
               </Card.Body>
             </Card>
