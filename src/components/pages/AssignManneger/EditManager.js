@@ -62,7 +62,7 @@ const AddCompany = (props) => {
         );
         formik.setFieldValue("AllData", response?.data?.data);
 
-        console.log(formik.values.editmanager?.reports);
+        console.log(formik?.values?.AllData,"dsdsdsd");
       } else {
         throw new Error("No data available in the response");
       }
@@ -121,7 +121,7 @@ const AddCompany = (props) => {
   const handleSubmit = async (event, values) => {
     // event.preventDefault();
 
-    console.log(formik.values.FormikreportsData, "user_id");
+    console.log(formik.values, "user_id");
     try {
       const formData = new FormData();
 
@@ -150,7 +150,7 @@ const AddCompany = (props) => {
       const postDataUrl = "/site/manager/update";
       const navigatePath = `/assignmanger/${formik.values.AllData.id}`;
 
-      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
+      await postData(postDataUrl, formData, ); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }

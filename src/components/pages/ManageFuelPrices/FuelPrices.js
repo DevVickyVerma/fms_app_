@@ -217,9 +217,9 @@ const FuelPrices = (props) => {
       for (const [key, value] of formData.entries()) {
         console.log(`${key}: ${value}`);
       }
-      formData.append("drs_date", "selectedDrsDate");
-      formData.append("client_id", "selectedClientId");
-      formData.append("company_id", "selectedCompanyId");
+      formData.append("drs_date", selectedDrsDate);
+      formData.append("client_id", selectedClientId);
+      formData.append("company_id", selectedCompanyId);
 
       const postDataUrl = "/site/fuel-price/update";
       // const navigatePath = "/business";
