@@ -368,9 +368,7 @@ const ManageDsr = (props) => {
                                 component="div"
                                 className="invalid-feedback"
                                 name="company_id"
-                                onChange={(e) => {
-                                  const selectedCompany = e.target.value;
-                                }}
+                            
                               />
                             </FormGroup>
                           </Col>

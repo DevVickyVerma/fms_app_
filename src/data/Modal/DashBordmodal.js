@@ -95,6 +95,21 @@ const DashBordModal = (props) => {
       setIsLoading(false); // Set isLoading to false if there is an error
     }
   };
+  const handlesubmitvalues = (values) => {
+    const tank = {
+      site_id: values.site_id,
+      client_id: values.client_id,
+      company_id: values.company_id,
+      TOdate: values.TOdate,
+      fromdate: values.fromdate,
+    };
+  
+    localStorage.setItem("GetDashboardData", JSON.stringify(tank));
+    onClose();
+  
+    // Invoke the onSubmit callback with the form values
+    onSubmit(values);
+  };
 
   useEffect(() => {
     handleFetchData();
@@ -132,14 +147,13 @@ const DashBordModal = (props) => {
                             company_id: Yup.string().required(
                               "Company is required"
                             ),
-                            client_id: Yup.string().required("Client is required"),
-                            site_id: Yup.string().required("Site is required"),
-                            fromdate: Yup.string().required("From  is required"),
-                             
-                            TOdate: Yup.string().required(" TO  is required"),
+                            client_id:
+                              Yup.string().required("Client is required"),
+                            
+                        
                           })}
                           onSubmit={(values) => {
-                            console.log(values);
+                            handlesubmitvalues(values);
                           }}
                         >
                           {({
@@ -153,7 +167,7 @@ const DashBordModal = (props) => {
                                 <Row>
                                   {localStorage.getItem("superiorRole") !==
                                     "Client" && (
-                                    <Col lg={4} md={6}>
+                                    <Col lg={3} md={6}>
                                       <FormGroup>
                                         <label
                                           htmlFor="client_id"
@@ -214,7 +228,7 @@ const DashBordModal = (props) => {
                                             AddSiteData.data.map((item) => (
                                               <option
                                                 key={item.id}
-                                                value={item}
+                                                value={item.id}
                                               >
                                                 {item.client_name}
                                               </option>
@@ -232,7 +246,7 @@ const DashBordModal = (props) => {
                                       </FormGroup>
                                     </Col>
                                   )}
-                                  <Col lg={4} md={6}>
+                                  <Col lg={3} md={6}>
                                     <FormGroup>
                                       <label
                                         htmlFor="company_id"
@@ -299,10 +313,6 @@ const DashBordModal = (props) => {
                                         component="div"
                                         className="invalid-feedback"
                                         name="company_id"
-                                        onChange={(e) => {
-                                          const selectedCompany =
-                                            e.target.value;
-                                        }}
                                       />
                                     </FormGroup>
                                   </Col>
@@ -313,7 +323,7 @@ const DashBordModal = (props) => {
                                         className="form-label mt-4"
                                       >
                                         Site
-                                        <span className="text-danger">*</span>
+                                     
                                       </label>
                                       <Field
                                         as="select"
@@ -353,7 +363,7 @@ const DashBordModal = (props) => {
                                         className="form-label mt-4"
                                       >
                                         From
-                                        <span className="text-danger">*</span>
+                                    
                                       </label>
                                       <Field
                                         type="date"
@@ -378,8 +388,8 @@ const DashBordModal = (props) => {
                                         htmlFor="TOdate"
                                         className="form-label mt-4"
                                       >
-                                        TO
-                                        <span className="text-danger">*</span>
+                                        To
+                                       
                                       </label>
                                       <Field
                                         type="date"

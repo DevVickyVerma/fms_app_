@@ -60,9 +60,11 @@ const AddCompany = (props) => {
           "FormikreportsData",
           response?.data?.data?.reports
         );
+        formik.setFieldValue("userSelcetedid", response?.data?.data?.user_id);
         formik.setFieldValue("AllData", response?.data?.data);
+        formik.setFieldValue("userSelcetedid", response?.data?.data?.user_id);
 
-        console.log(formik?.values?.AllData,"dsdsdsd");
+        console.log(formik?.values?.userSelcetedid, "vickssssssy");
       } else {
         throw new Error("No data available in the response");
       }
@@ -125,7 +127,7 @@ const AddCompany = (props) => {
     try {
       const formData = new FormData();
 
-      formData.append("user_id",formik.values.AllData.user_id );
+      formData.append("user_id",formik?.values?.userSelcetedid);
       formData.append("id", formik.values.AllData.id);
       const selectedReportsIds = [];
       const reports_models_valueKey = "reports";
@@ -148,9 +150,9 @@ const AddCompany = (props) => {
       });
 
       const postDataUrl = "/site/manager/update";
-      const navigatePath = `/assignmanger/${formik.values.AllData.id}`;
+      const navigatePath = `/assignmanger/${formik.values.AllData.site_id}`;
 
-      await postData(postDataUrl, formData, ); // Set the submission state to false after the API call is completed
+      await postData(postDataUrl, formData,navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
@@ -158,9 +160,12 @@ const AddCompany = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      user_id: "",
+      userSelectedid: "",
     },
-
+    validationSchema: Yup.object({
+      userSelectedid: Yup.string()
+        .max(20, "Must be 20 characters or less"),
+    }),
     onSubmit: (values) => {
       handleSubmit(values);
     },
@@ -206,20 +211,20 @@ const AddCompany = (props) => {
                     <Row>
                       <Col lg={6} md={6}>
                         <div className="form-group">
-                          <label htmlFor="user_id" className=" form-label mt-4">
+                          <label htmlFor="userSelcetedid" className=" form-label mt-4">
                             User<span className="text-danger">*</span>
                           </label>
                           <select
                             as="select"
                             className={`input101 ${
-                              formik.errors.user_id && formik.touched.user_id
+                              formik.errors.userSelcetedid && formik.touched.userSelcetedid
                                 ? "is-invalid"
                                 : ""
-                            }`} 
-                            id="user_id"
-                            name="user_id"
+                            }`}
+                            id="userSelcetedid"
+                            name="userSelcetedid"
                             onChange={formik.handleChange}
-                            value={formik.values.user_id}
+                            value={formik?.values?.userSelcetedid}
                           >
                             <option value=""> Select User</option>
                             {dropdownValue.users &&
@@ -233,9 +238,9 @@ const AddCompany = (props) => {
                               <option disabled>No User</option>
                             )}
                           </select>
-                          {formik.errors.user_id && formik.touched.user_id && (
+                          {formik.errors.userSelcetedid && formik.touched.userSelcetedid && (
                             <div className="invalid-feedback">
-                              {formik.errors.user_id}
+                              {formik.errors.userSelcetedid}
                             </div>
                           )}
                         </div>

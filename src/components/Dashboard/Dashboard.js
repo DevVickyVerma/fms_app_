@@ -20,6 +20,7 @@ import * as piecharts from "../../data/charts/piecharts/piecharts";
 // import Loader from "react-loader-spinner";
 // import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import axios from "axios";
+import Loaderimg from "../../Utils/Loader";
 const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
@@ -28,6 +29,7 @@ const Dashboard = (props) => {
   const [GrossMarginValueLoading, setGrossMarginValueLoading] = useState(true);
   const [GrossProfitValueLoading, setGrossProfitValueLoading] = useState(true);
   const [GrossVolumeeLoading, setGrossVolumeeLoading] = useState(true);
+  const [Loading, setLoading] = useState(true);
   const [FuelValueeLoading, setFuelValueeLoading] = useState(true);
   const [shopsaleLoading, setshopsaleLoading] = useState(true);
   const [shopmarginLoading, setshopmarginLoading] = useState(true);
@@ -133,11 +135,6 @@ const Dashboard = (props) => {
     }
   };
 
-  const handleFormSubmit = (values) => {
-    // Process the form values here
-    console.log(values);
-  };
-
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
     headers: {
@@ -145,13 +142,16 @@ const Dashboard = (props) => {
     },
   });
 
-  const FetchGrossVolume = async () => {
+  const FetchGrossVolume = async (values) => {
     try {
       const response = await axiosInstance.get(
-        `/dashboard/gross-volume?client_id=${ClientID}`
+        values
+          ? `dashboard/gross-volume?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}`
+          : `/dashboard/gross-volume?client_id=${ClientID}`
       );
 
       setGrossVolumeeLoading(true); // Set isLoading to true to indicate the loading state
+      setLoading(true); // Set isLoading to true to indicate the loading state
 
       const { data } = response;
       if (data) {
@@ -160,15 +160,19 @@ const Dashboard = (props) => {
       }
 
       setGrossVolumeeLoading(false); // Set isLoading to false after the API call is complete
+      setLoading(false); // Set isLoading to false after the API call is complete
     } catch (error) {
       console.error("API error:", error);
       setGrossVolumeeLoading(false); // Set isLoading to false if there is an error
+      setLoading(false); // Set isLoading to false if there is an error
     }
   };
-  const FetchGrossProfit = async () => {
+  const FetchGrossProfit = async (values) => {
     try {
       const response = await axiosInstance.get(
-        `/dashboard/gross-profit?client_id=${ClientID}`
+        values
+          ? `dashboard/gross-profit?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}`
+          : `/dashboard/gross-profit?client_id=${ClientID}`
       );
 
       setGrossProfitValueLoading(true); // Set isLoading to true to indicate the loading state
@@ -184,10 +188,12 @@ const Dashboard = (props) => {
       setGrossProfitValueLoading(false); // Set isLoading to false if there is an error
     }
   };
-  const Fetchgrossmargin = async () => {
+  const Fetchgrossmargin = async (values) => {
     try {
       const response = await axiosInstance.get(
-        `/dashboard/gross-margin?client_id=${ClientID}`
+        values
+          ? `dashboard/gross-margin?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}`
+          : `/dashboard/gross-margin?client_id=${ClientID}`
       );
 
       setGrossMarginValueLoading(true); // Set isLoading to true to indicate the loading state
@@ -203,10 +209,12 @@ const Dashboard = (props) => {
       setGrossMarginValueLoading(false); // Set isLoading to false if there is an error
     }
   };
-  const FetchFuelSales = async () => {
+  const FetchFuelSales = async (values) => {
     try {
       const response = await axiosInstance.get(
-        `/dashboard/fuel-sale?client_id=${ClientID}`
+        values
+          ? `dashboard/fuel-sale?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}`
+          : `/dashboard/fuel-sale?client_id=${ClientID}`
       );
 
       setFuelValueeLoading(true); // Set isLoading to true to indicate the loading state
@@ -222,10 +230,12 @@ const Dashboard = (props) => {
       setFuelValueeLoading(false); // Set isLoading to false if there is an error
     }
   };
-  const FetchShopSales = async () => {
+  const FetchShopSales = async (values) => {
     try {
       const response = await axiosInstance.get(
-        `/dashboard/shop-sale?client_id=${ClientID}`
+        values
+          ? `dashboard/shop-sale?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}`
+          : `/dashboard/shop-sale?client_id=${ClientID}`
       );
 
       setshopsaleLoading(true); // Set isLoading to true to indicate the loading state
@@ -241,10 +251,12 @@ const Dashboard = (props) => {
       setshopsaleLoading(false); // Set isLoading to false if there is an error
     }
   };
-  const FetchShopMargin = async () => {
+  const FetchShopMargin = async (values) => {
     try {
       const response = await axiosInstance.get(
-        `/dashboard/shop-margin?client_id=${ClientID}`
+        values
+          ? `dashboard/shop-margin?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}`
+          : `/dashboard/shop-margin?client_id=${ClientID}`
       );
 
       setshopmarginLoading(true); // Set isLoading to true to indicate the loading state
@@ -267,11 +279,33 @@ const Dashboard = (props) => {
     FetchFuelSales();
     FetchGrossProfit();
     Fetchgrossmargin();
-    FetchShopMargin()
+    FetchShopMargin();
     FetchShopSales();
   }, [ClientID]);
 
+  const handleFormSubmit = async (values) => {
+    try {
+      setLoading(true); // Set loading to true before making API calls
+  
+      await FetchGrossVolume(values);
+      await handleFetchData(values);
+      await FetchFuelSales(values);
+      await FetchGrossProfit(values);
+      await Fetchgrossmargin(values);
+      await FetchShopMargin(values);
+      await FetchShopSales(values);
+  
+      setLoading(false); // Set loading to false after API calls are completed
+    } catch (error) {
+      console.log(error); // Handle any errors that occurred during the API calls
+      setLoading(false); // Make sure to set loading to false in case of error
+    }
+  };
+  
+
   return (
+    <>
+    {Loading ? <Loaderimg /> : null}
     <div>
       <div className="page-header ">
         <div>
@@ -660,6 +694,7 @@ const Dashboard = (props) => {
         </Col>
       </Row>
     </div>
+    </>
   );
 };
 
