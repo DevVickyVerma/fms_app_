@@ -21,6 +21,7 @@ import * as piecharts from "../../data/charts/piecharts/piecharts";
 // import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
+
 const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
@@ -43,7 +44,7 @@ const Dashboard = (props) => {
   const [GrossVolume, setGrossVolume] = useState();
   const [shopsale, setshopsale] = useState();
   const [shopmargin, setshopmargin] = useState();
-
+  const navigate = useNavigate();
   const SuccessToast = (message) => {
     toast.success(message, {
       autoClose: 500,
@@ -63,6 +64,20 @@ const Dashboard = (props) => {
       theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
     });
   };
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      SuccessToast("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      const errorMessage = Array.isArray(error.response.data.message)
+        ? error.response.data.message.join(" ")
+        : error.response.data.message;
+        Errornotify(errorMessage);
+    }
+  }
 
   const [justLoggedIn, setJustLoggedIn] = useState(false);
 
@@ -130,7 +145,7 @@ const Dashboard = (props) => {
         localStorage.setItem("superiorRole", superiorRole);
         localStorage.setItem("superiorId", superiorId);
       }
-    } catch (error) {
+    } catch (error) {    handleError(error);
       console.error("API error:", error);
     }
   };
@@ -161,8 +176,9 @@ const Dashboard = (props) => {
 
       setGrossVolumeeLoading(false); // Set isLoading to false after the API call is complete
       setLoading(false); // Set isLoading to false after the API call is complete
-    } catch (error) {
+    } catch (error) {    handleError(error);
       console.error("API error:", error);
+      
       setGrossVolumeeLoading(false); // Set isLoading to false if there is an error
       setLoading(false); // Set isLoading to false if there is an error
     }
@@ -183,7 +199,7 @@ const Dashboard = (props) => {
       }
 
       setGrossProfitValueLoading(false); // Set isLoading to false after the API call is complete
-    } catch (error) {
+    } catch (error) {    handleError(error);
       console.error("API error:", error);
       setGrossProfitValueLoading(false); // Set isLoading to false if there is an error
     }
@@ -204,7 +220,7 @@ const Dashboard = (props) => {
       }
 
       setGrossMarginValueLoading(false); // Set isLoading to false after the API call is complete
-    } catch (error) {
+    } catch (error) {    handleError(error);
       console.error("API error:", error);
       setGrossMarginValueLoading(false); // Set isLoading to false if there is an error
     }
@@ -225,7 +241,7 @@ const Dashboard = (props) => {
       }
 
       setFuelValueeLoading(false); // Set isLoading to false after the API call is complete
-    } catch (error) {
+    } catch (error) {    handleError(error);
       console.error("API error:", error);
       setFuelValueeLoading(false); // Set isLoading to false if there is an error
     }
@@ -246,7 +262,7 @@ const Dashboard = (props) => {
       }
 
       setshopsaleLoading(false); // Set isLoading to false after the API call is complete
-    } catch (error) {
+    } catch (error) {    handleError(error);
       console.error("API error:", error);
       setshopsaleLoading(false); // Set isLoading to false if there is an error
     }
@@ -267,7 +283,7 @@ const Dashboard = (props) => {
       }
 
       setshopmarginLoading(false); // Set isLoading to false after the API call is complete
-    } catch (error) {
+    } catch (error) {    handleError(error);
       console.error("API error:", error);
       setshopmarginLoading(false); // Set isLoading to false if there is an error
     }
@@ -298,14 +314,13 @@ const Dashboard = (props) => {
       await FetchShopSales(values);
 
       setLoading(false); // Set loading to false after API calls are completed
-    } catch (error) {
+    } catch (error) {    handleError(error);
       console.log(error); // Handle any errors that occurred during the API calls
       setLoading(false); // Make sure to set loading to false in case of error
     }
   };
 
   const ResetForm = async (values) => {
-   
     try {
       setLoading(true);
       setSearchdata({});
@@ -316,7 +331,7 @@ const Dashboard = (props) => {
       Fetchgrossmargin();
       FetchShopMargin();
       FetchShopSales();
-    } catch (error) {
+    } catch (error) {    handleError(error);
       console.log(error); // Handle any errors that occurred during the API calls
       setLoading(false); // Make sure to set loading to false in case of error
     }
@@ -347,7 +362,8 @@ const Dashboard = (props) => {
                     key === "company_name" ||
                     key === "site_name" ||
                     key === "fromdate") &&
-                  value !== null
+                  value != null && // Check if value is not null or undefined
+                  value !== ""
                 ) {
                   const formattedKey = key
                     .toLowerCase()
@@ -362,7 +378,7 @@ const Dashboard = (props) => {
                     </div>
                   );
                 } else {
-                  return null; // Skip rendering if value is null or key is not in the specified list
+                  return null; // Skip rendering if value is null or undefined, or key is not in the specified list
                 }
               })}
             </span>

@@ -72,7 +72,7 @@ const ManageDsr = (props) => {
   const isDetailsPermissionAvailable =
     permissionsArray?.includes("supplier-details");
   const isAssignPermissionAvailable =
-    permissionsArray?.includes("supplier-assign");
+    permissionsArray?.includes("dena drs-hit-api");
 
   const [UploadTabname, setUploadTabname] = useState();
   const [modalTitle, setModalTitle] = useState("");
@@ -83,6 +83,9 @@ const ManageDsr = (props) => {
   const [PropsCompanyId, setPropsCompanyId] = useState();
   const [PropsFile, setPropsFile] = useState();
   const [PropsDate, setPropsDate] = useState();
+  const [getDataBtn, setgetDataBtn] = useState();
+  const [SiteId, setSiteId] = useState();
+  const [DRSDate, setDRSDate] = useState();
 
   const handleFetchData = async () => {
     try {
@@ -122,6 +125,21 @@ const ManageDsr = (props) => {
     }
   };
 
+  const getDRSData = async () => {
+    console.log(SiteId, DRSDate, "API getData");
+    try {
+      const formData = new FormData();
+      formData.append("site_id", SiteId);
+      formData.append("drs_date", DRSDate);
+
+      const postDataUrl = "/drs/get-data";
+
+      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+    } catch (error) {
+      console.log(error); // Set the submission state to false if an error occurs
+    }
+  };
+
   const handleSubmit1 = async (values) => {
     try {
       const formData = new FormData();
@@ -148,6 +166,8 @@ const ManageDsr = (props) => {
         if (data) {
           setUploadList(response1?.data?.data.list);
           setDataEnteryList(response1?.data?.data.cards);
+          console.log(response1?.data?.data, "edwdwdw");
+          setgetDataBtn(response1?.data?.data.showBtn);
           setUploadtitle(response1?.data?.data);
         }
       } catch (error) {
@@ -389,6 +409,11 @@ const ManageDsr = (props) => {
                                 }`}
                                 id="site_id"
                                 name="site_id"
+                                onChange={(e) => {
+                                  const selectedCompany = e.target.value;
+                                  setFieldValue("site_id", selectedCompany);
+                                  setSiteId(selectedCompany);
+                                }}
                               >
                                 <option value="">Select a Site</option>
                                 {selectedSiteList.length > 0 ? (
@@ -426,6 +451,11 @@ const ManageDsr = (props) => {
                                 }`}
                                 id="start_date"
                                 name="start_date"
+                                onChange={(e) => {
+                                  const selectedCompany = e.target.value;
+                                  setFieldValue("start_date", selectedCompany);
+                                  setDRSDate(selectedCompany);
+                                }}
                               ></Field>
                               <ErrorMessage
                                 component="div"
@@ -447,6 +477,18 @@ const ManageDsr = (props) => {
                         <button className="btn btn-primary me-2" type="submit">
                           Submit
                         </button>
+
+                        {getDataBtn === "True" &&
+                        isAssignPermissionAvailable ? (
+                          <Link
+                            onClick={() => getDRSData()}
+                            className="btn btn-success me-2"
+                          >
+                            Get Data
+                          </Link>
+                        ) : (
+                          ""
+                        )}
                       </Card.Footer>
                     </Form>
                   )}
@@ -537,7 +579,7 @@ const ManageDsr = (props) => {
                               ? "bg-card-amber"
                               : item.bgColor === "green"
                               ? "bg-card-green"
-                              :item.bgColor === "red"
+                              : item.bgColor === "red"
                               ? "bg-card-red"
                               : "bg-primary"
                           }`}
