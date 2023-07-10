@@ -27,6 +27,7 @@ import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 // import KeyIcon from '@mui/icons-material/Key';
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 
 const ManageClient = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -199,6 +200,7 @@ const ManageClient = (props) => {
   );
   const isEditPermissionAvailable = permissionsArray?.includes("client-edit");
   const isLoginPermissionAvailable = permissionsArray?.includes("client-account-access");
+  const isAddonPermissionAvailable = permissionsArray?.includes("addons-assign");
   const isAddPermissionAvailable = permissionsArray?.includes("client-create");
   const isDeletePermissionAvailable =
     permissionsArray?.includes("client-delete");
@@ -255,11 +257,24 @@ const ManageClient = (props) => {
       name: "Client",
       selector: (row) => [row.full_name],
       sortable: true,
-      width: "45%",
+      width: "25%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.full_name}</h6>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Addons",
+      selector: (row) => [row.addons],
+      sortable: true,
+      width: "20%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.addons}</h6>
           </div>
         </div>
       ),
@@ -382,6 +397,20 @@ const ManageClient = (props) => {
                 onClick={() => handleClientLogin(row)}
               >
                 <VpnKeyIcon />
+              </Link>
+            </OverlayTrigger>
+          ) : null}
+          {isAddonPermissionAvailable ? (
+            <OverlayTrigger
+              placement="top"
+              overlay={<Tooltip>Assign Addon</Tooltip>}
+            >
+              <Link
+                to={`/assignclientaddon/${row.id}`}
+                className="btn btn-success btn-sm rounded-11 ms-2"
+            
+              >
+                <AssignmentIndIcon />
               </Link>
             </OverlayTrigger>
           ) : null}

@@ -125,7 +125,7 @@ export const MENUITEMS = [
         ],
       },
       {
-        title: "Manage commission",
+        title: "Manage Commission",
         icon: "tags",
         type: "sub",
         active: false,

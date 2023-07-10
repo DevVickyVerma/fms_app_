@@ -303,6 +303,12 @@ const Managecommission = React.lazy(() =>
 const valetcommission = React.lazy(() =>
   import("./components/pages/ManageComisions/ValetCommission")
 );
+const Assignaddon = React.lazy(() =>
+  import("./components/pages/AddonList/AddonList")
+);
+const AssignUseraddon = React.lazy(() =>
+  import("./components/pages/AddonList/UserAddon")
+);
 
 // DSR End
 // Reports Start
@@ -505,6 +511,8 @@ const Root = () => {
   const WrappedEditManneger = withApi(EditManneger);
   const WrappedManagecommission = withApi(Managecommission);
   const Wrappedvaletcommission = withApi(valetcommission);
+  const WrappedAssignaddon = withApi(Assignaddon);
+  const WrappedAssignUseraddon = withApi(AssignUseraddon);
 
   return (
     <Fragment>
@@ -573,7 +581,11 @@ const Root = () => {
                   <Route path={`/editrole`} element={<WrappeAddEditRoles />} />
 
                   {/* Role  Components End */}
+                  <Route path={`/assignclientaddon/:id`} element={<WrappedAssignaddon />} />
+                  <Route path={`/assigusernaddon/:id`} element={<WrappedAssignUseraddon />} />
                   {/* Role  Components Start */}
+          
+                
           
                   <Route path={`/assignmanger/:id`} element={<WrappedAssignmanneger />} />
                   <Route path={`/addmanager/:id`} element={<WrappedAddManneger />} />

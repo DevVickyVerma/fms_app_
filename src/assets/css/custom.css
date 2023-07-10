@@ -279,3 +279,7 @@ tbody tr {
   max-height: 150px !important;
   overflow-y: scroll;
 }
+.module-height-Addon {
+  max-height: 250px !important;
+  overflow-y: scroll;
+}

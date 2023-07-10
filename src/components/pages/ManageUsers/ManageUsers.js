@@ -7,6 +7,7 @@ import { Breadcrumb, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react
 import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 
 import { toast } from "react-toastify";
 
@@ -138,6 +139,7 @@ const ManageUser = (props) => {
   const isStatusPermissionAvailable =
     permissionsArray?.includes("user-status-update");
   const isEditPermissionAvailable = permissionsArray?.includes("user-edit");
+  const isAddonPermissionAvailable = permissionsArray?.includes("addons-assign");
   const isAddPermissionAvailable = permissionsArray?.includes("user-create");
   const isDeletePermissionAvailable = permissionsArray?.includes("user-delete");
   const isDetailsPermissionAvailable =
@@ -287,6 +289,20 @@ const ManageUser = (props) => {
                     <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
                   </svg>
                 </i>
+              </Link>
+            </OverlayTrigger>
+          ) : null}
+          {isAddonPermissionAvailable ? (
+            <OverlayTrigger
+              placement="top"
+              overlay={<Tooltip>Assign Addon</Tooltip>}
+            >
+              <Link
+                to={`/assignclientaddon/${row.id}`}
+                className="btn btn-success btn-sm rounded-11 ms-2"
+            
+              >
+                <AssignmentIndIcon />
               </Link>
             </OverlayTrigger>
           ) : null}
