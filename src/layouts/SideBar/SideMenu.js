@@ -125,8 +125,8 @@ export const MENUITEMS = [
         ],
       },
       {
-        title: "Managecommission",
-        icon: "handshake-o",
+        title: "Manage commission",
+        icon: "tags",
         type: "sub",
         active: false,
         permission: "shop-item-commission-list",

@@ -368,7 +368,6 @@ const ManageDsr = (props) => {
                                 component="div"
                                 className="invalid-feedback"
                                 name="company_id"
-                            
                               />
                             </FormGroup>
                           </Col>
@@ -457,65 +456,69 @@ const ManageDsr = (props) => {
           </Col>
         </Row>
 
-      { Uploadtitle?.b_mdl === "PRISM" ?  <Row>
-          <Col md={12} xl={12}>
-            <Card>
-              <Card.Header>
-                <h3 className="card-title">
-                  Upload Files {Uploadtitle ? `(${Uploadtitle.b_mdl})` : ""}
-                </h3>
-              </Card.Header>
-              <Card.Body>
-                <Row>
-                  {Uploadtitle?.b_mdl === "PRISM" ? (
-                    UploadList && UploadList.length > 0 ? (
-                      UploadList.map((item) => (
-                        <Col md={12} xl={3} key={item.id}>
-                          <Card className="text-white bg-primary">
-                            <Card.Body
-                              className="card-Div"
-                              onClick={() => handleCardClick(item)} // Pass item.name as an argument
-                            >
-                              <h4 className="card-title">{item.name}</h4>
-                            </Card.Body>
-                          </Card>
-                        </Col>
-                      ))
-                    ) : (
-                      <p>Please select site first......</p>
-                    )
-                  ) : null}
-                </Row>
-              </Card.Body>
-              {showModal ? (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "10vh",
-                  }}
-                >
-                  <Col md={3} xl={3}>
-                    <FormModal
-                      open={showModal}
-                      PropsSiteId={PropsSiteId}
-                      PropsCompanyId={PropsCompanyId}
-                      selectedClientId={selectedClientId}
-                      PropsFile={PropsFile}
-                      onClose={() => setShowModal(false)}
-                      modalTitle={modalTitle} // Use the modalTitle variable
-                      modalCancelButtonLabel="Cancel"
-                      modalSaveButtonLabel="Save"
-                    />
-                  </Col>
-                </div>
-              ) : (
-                ""
-              )}
-            </Card>
-          </Col>
-        </Row> :""}
+        {Uploadtitle?.b_mdl === "PRISM" ? (
+          <Row>
+            <Col md={12} xl={12}>
+              <Card>
+                <Card.Header>
+                  <h3 className="card-title">
+                    Upload Files {Uploadtitle ? `(${Uploadtitle.b_mdl})` : ""}
+                  </h3>
+                </Card.Header>
+                <Card.Body>
+                  <Row>
+                    {Uploadtitle?.b_mdl === "PRISM" ? (
+                      UploadList && UploadList.length > 0 ? (
+                        UploadList.map((item) => (
+                          <Col md={12} xl={3} key={item.id}>
+                            <Card className="text-white bg-primary">
+                              <Card.Body
+                                className="card-Div"
+                                onClick={() => handleCardClick(item)} // Pass item.name as an argument
+                              >
+                                <h4 className="card-title">{item.name}</h4>
+                              </Card.Body>
+                            </Card>
+                          </Col>
+                        ))
+                      ) : (
+                        <p>Please select site first......</p>
+                      )
+                    ) : null}
+                  </Row>
+                </Card.Body>
+                {showModal ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "10vh",
+                    }}
+                  >
+                    <Col md={3} xl={3}>
+                      <FormModal
+                        open={showModal}
+                        PropsSiteId={PropsSiteId}
+                        PropsCompanyId={PropsCompanyId}
+                        selectedClientId={selectedClientId}
+                        PropsFile={PropsFile}
+                        onClose={() => setShowModal(false)}
+                        modalTitle={modalTitle} // Use the modalTitle variable
+                        modalCancelButtonLabel="Cancel"
+                        modalSaveButtonLabel="Save"
+                      />
+                    </Col>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </Card>
+            </Col>
+          </Row>
+        ) : (
+          ""
+        )}
 
         <Row>
           <Col md={12} xl={12}>
@@ -530,8 +533,12 @@ const ManageDsr = (props) => {
                       <Col md={12} xl={3} key={item.id}>
                         <Card
                           className={`text-white ${
-                            item.data_exist === false
-                              ? "bg-card-false"
+                            item.bgColor === "amber"
+                              ? "bg-card-amber"
+                              : item.bgColor === "green"
+                              ? "bg-card-green"
+                              :item.bgColor === "red"
+                              ? "bg-card-red"
                               : "bg-primary"
                           }`}
                         >

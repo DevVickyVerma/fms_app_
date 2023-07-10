@@ -266,7 +266,13 @@ tbody tr {
   display: flex;
   justify-content: space-between;
 }
-.bg-card-false{
+.bg-card-amber{
+  Background-color:#FFBF00;
+}
+.bg-card-green{
+  Background-color:#47ad34;
+}
+.bg-card-red{
   Background-color:#f97171;
 }
 .module-height-Manager {
