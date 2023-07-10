@@ -131,9 +131,9 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
   font-size: 20px;
 }
 .UpdateValueInput {
-  background: #f97171;
+  border: 1px solid #e23434;
   padding: 10px;
-  color: #fff;
+  color: #e23434;
   width: 100%;
 }
 textarea#Remarks {
