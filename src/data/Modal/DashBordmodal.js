@@ -103,10 +103,10 @@ const DashBordModal = (props) => {
       TOdate: values.TOdate,
       fromdate: values.fromdate,
     };
-  
+
     localStorage.setItem("GetDashboardData", JSON.stringify(tank));
     onClose();
-  
+
     // Invoke the onSubmit callback with the form values
     onSubmit(values);
   };
@@ -138,6 +138,7 @@ const DashBordModal = (props) => {
                         <Formik
                           initialValues={{
                             client_id: "",
+                            client_name: "",
                             company_id: "",
                             site_id: "",
                             fromdate: "",
@@ -149,8 +150,6 @@ const DashBordModal = (props) => {
                             ),
                             client_id:
                               Yup.string().required("Client is required"),
-                            
-                        
                           })}
                           onSubmit={(values) => {
                             handlesubmitvalues(values);
@@ -209,13 +208,13 @@ const DashBordModal = (props) => {
                                               setSelectedCompanyList(
                                                 selectedClient.companies
                                               );
-                                              console.log(
-                                                selectedClient,
-                                                "selectedClient"
+                                              setFieldValue(
+                                                "client_name",
+                                                selectedClient.client_name
                                               );
                                               console.log(
-                                                selectedClient.companies,
-                                                "selectedClient"
+                                                selectedClient.client_name,
+                                                " selectedClient.client_name"
                                               );
                                             }
                                           }}
@@ -282,8 +281,12 @@ const DashBordModal = (props) => {
                                             setSelectedSiteList(
                                               selectedCompanyData.sites
                                             );
+                                            setFieldValue(
+                                              "company_name",
+                                              selectedCompanyData.company_name
+                                            );
                                             console.log(
-                                              selectedCompanyData,
+                                              selectedCompanyData.company_name,
                                               "company_id"
                                             );
                                             console.log(
@@ -323,7 +326,6 @@ const DashBordModal = (props) => {
                                         className="form-label mt-4"
                                       >
                                         Site
-                                     
                                       </label>
                                       <Field
                                         as="select"
@@ -334,6 +336,28 @@ const DashBordModal = (props) => {
                                         }`}
                                         id="site_id"
                                         name="site_id"
+                                        onChange={(e) => {
+                                          const selectedSite = e.target.value;
+                                          setFieldValue(
+                                            "site_id",
+                                            selectedSite
+                                          );
+
+                                          const selectedSiteData =
+                                            selectedSiteList.find(
+                                              (site) => site.id === selectedSite
+                                            );
+                                          if (selectedSiteData) {
+                                            setFieldValue(
+                                              "site_name",
+                                              selectedSiteData.site_name
+                                            ); // Set site_name using setFieldValue
+                                            console.log(
+                                              selectedSiteData.site_name,
+                                              "site_name"
+                                            );
+                                          }
+                                        }}
                                       >
                                         <option value="">Select a Site</option>
                                         {selectedSiteList.length > 0 ? (
@@ -363,7 +387,6 @@ const DashBordModal = (props) => {
                                         className="form-label mt-4"
                                       >
                                         From
-                                    
                                       </label>
                                       <Field
                                         type="date"
@@ -389,7 +412,6 @@ const DashBordModal = (props) => {
                                         className="form-label mt-4"
                                       >
                                         To
-                                       
                                       </label>
                                       <Field
                                         type="date"
