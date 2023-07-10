@@ -125,6 +125,30 @@ export const MENUITEMS = [
         ],
       },
       {
+        title: "Managecommission",
+        icon: "handshake-o",
+        type: "sub",
+        active: false,
+        permission: "shop-item-commission-list",
+        visibility: false,
+        children: [
+          {
+            path: `/Managecommission`,
+            title: "Shop Commission",
+            type: "link",
+            permission: "shop-item-commission-list",
+            visibility: false,
+          },
+          {
+            path: `/valetcommission`,
+            title: "Valet Commission",
+            type: "link",
+            permission: "valet-item-commission-list",
+            visibility: false,
+          },
+        ],
+      },
+      {
         title: "Manage Roles",
         icon: "unlock-alt",
         type: "sub",

@@ -30,10 +30,7 @@ const DashBordModal = (props) => {
     searchListstatus,
   } = props;
 
-  const [keyword, setSearchQuery] = useState("");
-  const [fromdate, setStartDate] = useState("");
-  const [end_date, setEndDate] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+
 
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
@@ -96,15 +93,7 @@ const DashBordModal = (props) => {
     }
   };
   const handlesubmitvalues = (values) => {
-    const tank = {
-      site_id: values.site_id,
-      client_id: values.client_id,
-      company_id: values.company_id,
-      TOdate: values.TOdate,
-      fromdate: values.fromdate,
-    };
-
-    localStorage.setItem("GetDashboardData", JSON.stringify(tank));
+  
     onClose();
 
     // Invoke the onSubmit callback with the form values
@@ -115,6 +104,13 @@ const DashBordModal = (props) => {
     handleFetchData();
   }, [title]);
 
+
+
+
+  const resetForm =() => {
+ 
+    onClose();
+  }
   return (
     <>
       {isLoading ? (
@@ -436,7 +432,7 @@ const DashBordModal = (props) => {
                                 <Link
                                   type="submit"
                                   className="btn btn-danger me-2 "
-                                  to={`/dashboard/`}
+                             onClick={resetForm}
                                 >
                                   Reset
                                 </Link>

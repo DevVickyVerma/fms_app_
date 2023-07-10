@@ -24,7 +24,8 @@ export default function AddSite(props) {
   const navigate = useNavigate();
   const { apidata, isLoading, error, getData, postData } = props;
   const [AddSiteData, setAddSiteData] = useState([]);
-  const [Listcompany, setCompanylist] = useState([]);
+  const [AddSiteData1, setAddSiteData1] = useState([]);
+  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedBusinessType, setSelectedBusinessType] = useState("");
   const [subTypes, setSubTypes] = useState([]);
   const [EditSiteData, setEditSiteData] = useState("");
@@ -53,6 +54,7 @@ export default function AddSite(props) {
   useEffect(() => {
     try {
       FetchRoleList();
+      handleFetchData();
       GetSiteData();
     } catch (error) {
       handleError(error);
@@ -76,6 +78,20 @@ export default function AddSite(props) {
       console.error("API error:", error);
     }
   };
+  const handleFetchData = async () => {
+    try {
+      const response = await getData(`/client/commonlist`);
+
+      if (response) {
+        setAddSiteData1(response.data);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
   const GetSiteData = async () => {
     try {
       const response = await getData(`/site/detail?id=${id}`);
@@ -599,7 +615,7 @@ export default function AddSite(props) {
                             htmlFor="shop_commission"
                             className="form-label mt-4"
                           >
-                           Shop Cmmission
+                            Shop Cmmission
                           </label>
                           <input
                             type="text"
@@ -994,18 +1010,36 @@ export default function AddSite(props) {
                             value={formik.values.client_id}
                             onChange={(e) => {
                               const selectedType = e.target.value;
-                              if (selectedType.length > 0 && selectedType) {
-                                setCompanylist(selectedType);
-                                formik.setFieldValue("client_id", selectedType);
-                              } else {
-                                console.log(e.target.value, "dd");
+                              formik.setFieldValue("client_id", selectedType);
+
+                              // Reset the selected company and site
+                              setSelectedCompanyList([]);
+                              formik.setFieldValue("company_id", "");
+                              formik.setFieldValue("site_id", "");
+
+                              const selectedClient = AddSiteData1.data.find(
+                                (client) => client.id === selectedType
+                              );
+
+                              if (selectedClient) {
+                                setSelectedCompanyList(
+                                  selectedClient.companies
+                                );
+                                formik.setFieldValue(
+                                  "client_name",
+                                  selectedClient.client_name
+                                );
+                                console.log(
+                                  selectedClient.client_name,
+                                  " selectedClient.client_name"
+                                );
                               }
                             }}
                           >
-                            <option value=""> Select Client</option>
-                            {AddSiteData.clients &&
-                            AddSiteData.clients.length > 0 ? (
-                              AddSiteData.clients.map((item) => (
+                            <option value="">Select a Client</option>
+                            {AddSiteData1.data &&
+                            AddSiteData1.data.length > 0 ? (
+                              AddSiteData1.data.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.client_name}
                                 </option>
@@ -1040,26 +1074,42 @@ export default function AddSite(props) {
                             id="company_id"
                             name="company_id"
                             onChange={(e) => {
-                              const selectedType = e.target.value;
-                              if (selectedType.length > 0 && selectedType) {
+                              const selectedCompany = e.target.value;
+                              formik.setFieldValue(
+                                "company_id",
+                                selectedCompany
+                              );
+
+                              const selectedCompanyData =
+                                selectedCompanyList.find(
+                                  (company) => company.id === selectedCompany
+                                );
+                              if (selectedCompanyData) {
                                 formik.setFieldValue(
-                                  "company_id",
-                                  selectedType
+                                  "company_name",
+                                  selectedCompanyData.company_name
+                                );
+                                console.log(
+                                  selectedCompanyData.company_name,
+                                  "company_id"
+                                );
+                                console.log(
+                                  selectedCompanyData.sites,
+                                  "company_id"
                                 );
                               }
                             }}
                             value={formik.values.company_id}
                           >
-                            <option value=""> Select Company</option>
-                            {Listcompany.companies &&
-                            Listcompany.companies.length > 0 ? (
-                              Listcompany.companies.map((item) => (
-                                <option key={item.id} value={item.id}>
-                                  {item.company_name}
+                            <option value="">Select a Company</option>
+                            {selectedCompanyList.length > 0 ? (
+                              selectedCompanyList.map((company) => (
+                                <option key={company.id} value={company.id}>
+                                  {company.company_name}
                                 </option>
                               ))
                             ) : (
-                              <option disabled>No clients</option>
+                              <option disabled>No Company</option>
                             )}
                           </select>
                           {formik.errors.company_id &&

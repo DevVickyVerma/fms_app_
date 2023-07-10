@@ -295,6 +295,16 @@ const ManageDsr = React.lazy(() =>
 );
 
 // DSR End
+// commisons Start
+
+const Managecommission = React.lazy(() =>
+  import("./components/pages/ManageComisions/ManageComision")
+);
+const valetcommission = React.lazy(() =>
+  import("./components/pages/ManageComisions/ValetCommission")
+);
+
+// DSR End
 // Reports Start
 
 const ManageReports = React.lazy(() =>
@@ -493,6 +503,8 @@ const Root = () => {
   const WrappedAssignmanneger = withApi(Assignmanneger);
   const WrappedAddManneger = withApi(AddManneger);
   const WrappedEditManneger = withApi(EditManneger);
+  const WrappedManagecommission = withApi(Managecommission);
+  const Wrappedvaletcommission = withApi(valetcommission);
 
   return (
     <Fragment>
@@ -585,6 +597,16 @@ const Root = () => {
                   <Route
                     path={`/advancedElements/headers`}
                     element={<WrappeHeader />}
+                  />
+                  {/* Header  Components End */}
+                  {/* Header  Components Start */}
+                  <Route
+                    path={`/Managecommission`}
+                    element={<WrappedManagecommission />}
+                  />
+                  <Route
+                    path={`/valetcommission`}
+                    element={<Wrappedvaletcommission />}
                   />
                   {/* Header  Components End */}
 

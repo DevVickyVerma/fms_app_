@@ -304,6 +304,24 @@ const Dashboard = (props) => {
     }
   };
 
+  const ResetForm = async (values) => {
+   
+    try {
+      setLoading(true);
+      setSearchdata({});
+      handleFetchData();
+      FetchGrossVolume();
+      FetchFuelSales();
+      FetchGrossProfit();
+      Fetchgrossmargin();
+      FetchShopMargin();
+      FetchShopSales();
+    } catch (error) {
+      console.log(error); // Handle any errors that occurred during the API calls
+      setLoading(false); // Make sure to set loading to false in case of error
+    }
+  };
+
   return (
     <>
       {Loading ? <Loaderimg /> : null}
@@ -360,16 +378,18 @@ const Dashboard = (props) => {
                 <SortIcon />
               </span>
             </Link>
-            {/* {Object.keys(searchdata).length > 0 ? (
+            {Object.keys(searchdata).length > 0 ? (
               <Link
                 className="btn btn-danger ms-2"
-                onClick={() => setSearchdata({})}
+                onClick={() => {
+                  ResetForm();
+                }}
               >
                 Reset <RestartAltIcon />
               </Link>
             ) : (
               ""
-            )} */}
+            )}
           </div>
         </div>
 
