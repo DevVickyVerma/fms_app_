@@ -283,7 +283,7 @@ const ManageClient = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: true,
-      width: "15%",
+      width: "13%",
       cell: (row, index) => (
         <div
           className="d-flex"
@@ -300,7 +300,7 @@ const ManageClient = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: true,
-      width: "10%",
+      width: "8%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -340,7 +340,7 @@ const ManageClient = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: true,
-      width: "20%",
+      width: "24%",
       cell: (row) => (
         <span className="text-center">
           {isEditPermissionAvailable ? (

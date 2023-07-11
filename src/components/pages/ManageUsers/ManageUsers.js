@@ -3,11 +3,19 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import { Breadcrumb, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  Form,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 
 import { toast } from "react-toastify";
 
@@ -139,7 +147,8 @@ const ManageUser = (props) => {
   const isStatusPermissionAvailable =
     permissionsArray?.includes("user-status-update");
   const isEditPermissionAvailable = permissionsArray?.includes("user-edit");
-  const isAddonPermissionAvailable = permissionsArray?.includes("addons-assign");
+  const isAddonPermissionAvailable =
+    permissionsArray?.includes("addons-assign");
   const isAddPermissionAvailable = permissionsArray?.includes("user-create");
   const isDeletePermissionAvailable = permissionsArray?.includes("user-delete");
   const isDetailsPermissionAvailable =
@@ -189,7 +198,7 @@ const ManageUser = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: true,
-      width: "15%",
+      width: "13%",
       cell: (row, index) => (
         <div
           className="d-flex"
@@ -206,7 +215,7 @@ const ManageUser = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: true,
-      width: "10%",
+      width: "8%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -246,7 +255,7 @@ const ManageUser = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: true,
-      width: "15%",
+      width: "19%",
       cell: (row) => (
         <span className="text-center">
           {isEditPermissionAvailable ? (
@@ -298,9 +307,8 @@ const ManageUser = (props) => {
               overlay={<Tooltip>Assign Addon</Tooltip>}
             >
               <Link
-                to={`/assignclientaddon/${row.id}`}
+                to={`/assigusernaddon/${row.id}`}
                 className="btn btn-success btn-sm rounded-11 ms-2"
-            
               >
                 <AssignmentIndIcon />
               </Link>
@@ -318,82 +326,72 @@ const ManageUser = (props) => {
 
   return (
     <>
+      {isLoading ? <Loaderimg /> : null}
+      <>
+        <div className="page-header ">
+          <div>
+            <h1 className="page-title">Manage Users</h1>
+            <Breadcrumb className="breadcrumb">
+              <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/dashboard" }}
+              >
+                Dashboard
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item active breadcrumds"
+                aria-current="page"
+              >
+                Manage Users
+              </Breadcrumb.Item>
+            </Breadcrumb>
+          </div>
 
-
-      {isLoading ? (
-       <Loaderimg />
-      ) : null}
-        <>
-          <div className="page-header ">
-            <div>
-              <h1 className="page-title">Manage Users</h1>
-              <Breadcrumb className="breadcrumb">
-                <Breadcrumb.Item
-                  className="breadcrumb-item"
-                  linkAs={Link}
-                  linkProps={{ to: "/dashboard" }}
+          <div className="ms-auto pageheader-btn">
+            <div className="input-group">
+              {isAddPermissionAvailable ? (
+                <Link
+                  to="/addusers"
+                  className="btn btn-primary ms-2"
+                  style={{ borderRadius: "4px" }}
                 >
-                  Dashboard
-                </Breadcrumb.Item>
-                <Breadcrumb.Item
-                  className="breadcrumb-item active breadcrumds"
-                  aria-current="page"
-                >
-                  Manage Users
-                </Breadcrumb.Item>
-              </Breadcrumb>
-            </div>
-           
-              <div className="ms-auto pageheader-btn">
-              <div className="input-group">
-          
-                {isAddPermissionAvailable ? (
-                 
-                    <Link
-                    to="/addusers"
-                    className="btn btn-primary ms-2"
-                    style={{ borderRadius: "4px" }}
-                  >
-                    Add Users
-                    <AddCircleOutlineIcon />
-                  </Link>
-                ) : null}
-              </div>
-
+                  Add Users
+                  <AddCircleOutlineIcon />
+                </Link>
+              ) : null}
             </div>
           </div>
-   
-                <Row className=" row-sm">
-        <Col lg={12}>
-          <Card>
-            <Card.Header>
-              <h3 className="card-title">Manage Users</h3>
-            </Card.Header>
-            <Card.Body>
-              <div className="table-responsive deleted-table">
-              
-     
-        <DataTableExtensions {...tableDatas}>
-          <DataTable
-            columns={columns}
-            data={data}
-            noHeader
-            defaultSortField="id"
-            defaultSortAsc={false}
-            striped={true}
-            // center={true}
-            persistTableHead
-            pagination
-            highlightOnHover
-            searchable={true}
-          />
-        </DataTableExtensions>
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+        </div>
 
+        <Row className=" row-sm">
+          <Col lg={12}>
+            <Card>
+              <Card.Header>
+                <h3 className="card-title">Manage Users</h3>
+              </Card.Header>
+              <Card.Body>
+                <div className="table-responsive deleted-table">
+                  <DataTableExtensions {...tableDatas}>
+                    <DataTable
+                      columns={columns}
+                      data={data}
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      striped={true}
+                      // center={true}
+                      persistTableHead
+                      pagination
+                      highlightOnHover
+                      searchable={true}
+                    />
+                  </DataTableExtensions>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
       </>
     </>
   );
