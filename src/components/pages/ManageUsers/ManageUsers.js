@@ -160,7 +160,7 @@ const ManageUser = (props) => {
       name: "S.No",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      width: "8%",
       center: true,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -172,7 +172,7 @@ const ManageUser = (props) => {
       name: "Full Name",
       selector: (row) => [row.full_name],
       sortable: true,
-      width: "25%",
+      width: "17%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -185,11 +185,24 @@ const ManageUser = (props) => {
       name: "Role",
       selector: (row) => [row.role],
       sortable: true,
-      width: "25%",
+      width: "17%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.role}</h6>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Addons",
+      selector: (row) => [row.addons],
+      sortable: true,
+      width: "17%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.addons}</h6>
           </div>
         </div>
       ),
@@ -255,7 +268,7 @@ const ManageUser = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: true,
-      width: "19%",
+      width: "20%",
       cell: (row) => (
         <span className="text-center">
           {isEditPermissionAvailable ? (

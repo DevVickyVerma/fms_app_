@@ -72,7 +72,7 @@ const ManageDsr = (props) => {
   const isDetailsPermissionAvailable =
     permissionsArray?.includes("supplier-details");
   const isAssignPermissionAvailable =
-    permissionsArray?.includes("dena drs-hit-api");
+    permissionsArray?.includes("drs-hit-api");
 
   const [UploadTabname, setUploadTabname] = useState();
   const [modalTitle, setModalTitle] = useState("");
@@ -596,12 +596,12 @@ const ManageDsr = (props) => {
             <Card>
               <Card.Header className="d-flex justify-content-space-between">
                 <h3 className="card-title">Data Entry</h3>
-                {getDataBtn === "True" && isAssignPermissionAvailable ? (
+                {getDataBtn === true && isAssignPermissionAvailable ? (
                   <Link
                     onClick={() => getDRSData()}
-                    className="btn btn-success me-2"
+                    className="btn btn-warning me-2"
                   >
-                    Get Data
+                   Get Data from EVOBOS
                   </Link>
                 ) : (
                   ""

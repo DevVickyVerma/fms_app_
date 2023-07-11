@@ -132,14 +132,18 @@ const ManageReports = (props) => {
       let postDataUrl;
 
       if (formValues.report === "DSMR") {
-        postDataUrl = `/report/stock-loss?${commonParams}`;
-      } else if (formValues.report === "HTCCRR") {
-        postDataUrl = `/report/card-reco-essar?${commonParams}`;
+        postDataUrl = `/report/dsmr?${commonParams}`;
       } else if (formValues.report === "DSRR") {
         postDataUrl = `/report/cldo?${commonParams}`;
       } else if (formValues.report === "MSR") {
         postDataUrl = `/report/msr?${commonParams}`;
-      } else {
+      }else if (formValues.report === "escrr") {
+        postDataUrl = `/report/escrr?${commonParams}`;
+      } else if (formValues.report === "CMSR") {
+        postDataUrl = `/report/cmsr?${commonParams}`;
+      }else if (formValues.report === "DFDR") {
+        postDataUrl = `/report/dfdr?${commonParams}`;
+      }else {
         postDataUrl = "shop/add-default";
       }
 
