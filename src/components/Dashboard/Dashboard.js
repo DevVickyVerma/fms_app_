@@ -744,7 +744,7 @@ const Dashboard = (props) => {
           <Col lg={5} md={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Pie Chart with Multiple colors</h3>
+                <h3 className="card-title">Overall Stats</h3>
               </Card.Header>
               <Card.Body className="apexchart">
                 <piecharts.Apexcharts2 />

@@ -68,7 +68,7 @@ const ManageDsr = (props) => {
   const isAddPermissionAvailable =
     permissionsArray?.includes("supplier-create");
   const isDeletePermissionAvailable =
-    permissionsArray?.includes("supplier-delete");
+    permissionsArray?.includes("drs-delete-data");
   const isDetailsPermissionAvailable =
     permissionsArray?.includes("supplier-details");
   const isAssignPermissionAvailable =
@@ -133,6 +133,20 @@ const ManageDsr = (props) => {
       formData.append("drs_date", DRSDate);
 
       const postDataUrl = "/drs/get-data";
+
+      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+    } catch (error) {
+      console.log(error); // Set the submission state to false if an error occurs
+    }
+  };
+  const DRSDeleteData = async () => {
+    console.log(SiteId, DRSDate, "API getData");
+    try {
+      const formData = new FormData();
+      formData.append("site_id", SiteId);
+      formData.append("drs_date", DRSDate);
+
+      const postDataUrl = "/drs/delete-data";
 
       await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
     } catch (error) {
@@ -467,6 +481,33 @@ const ManageDsr = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
+                        {isDeletePermissionAvailable && DataEnteryList ? (
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={<Tooltip>Delete</Tooltip>}
+                          >
+                            <Link
+                              to="#"
+                              className="btn btn-danger me-2 rounded-11"
+                              onClick={() => DRSDeleteData()}
+                            >
+                              <i>
+                                <svg
+                                  className="table-delete"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  height="20"
+                                  viewBox="0 0 24 24"
+                                  width="16"
+                                >
+                                  <path d="M0 0h24v24H0V0z" fill="none" />
+                                  <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
+                                </svg>
+                              </i>
+                            </Link>
+                          </OverlayTrigger>
+                        ) : (
+                          ""
+                        )}
                         <Link
                           type="submit"
                           className="btn btn-danger me-2 "
@@ -477,18 +518,6 @@ const ManageDsr = (props) => {
                         <button className="btn btn-primary me-2" type="submit">
                           Submit
                         </button>
-
-                        {getDataBtn === "True" &&
-                        isAssignPermissionAvailable ? (
-                          <Link
-                            onClick={() => getDRSData()}
-                            className="btn btn-success me-2"
-                          >
-                            Get Data
-                          </Link>
-                        ) : (
-                          ""
-                        )}
                       </Card.Footer>
                     </Form>
                   )}
@@ -565,8 +594,18 @@ const ManageDsr = (props) => {
         <Row>
           <Col md={12} xl={12}>
             <Card>
-              <Card.Header>
+              <Card.Header className="d-flex justify-content-space-between">
                 <h3 className="card-title">Data Entry</h3>
+                {getDataBtn === "True" && isAssignPermissionAvailable ? (
+                  <Link
+                    onClick={() => getDRSData()}
+                    className="btn btn-success me-2"
+                  >
+                    Get Data
+                  </Link>
+                ) : (
+                  ""
+                )}
               </Card.Header>
               <Card.Body>
                 <Row>

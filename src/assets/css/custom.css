@@ -283,3 +283,6 @@ tbody tr {
   max-height: 250px !important;
   overflow-y: scroll;
 }
+.justify-content-space-between {
+  justify-content: space-between;
+}

@@ -989,7 +989,7 @@ export default function AddSite(props) {
                             )}
                         </div>
                       </Col>
-                      <Col lg={4} md={6}>
+                      {/* <Col lg={4} md={6}>
                         <div className="form-group">
                           <label
                             htmlFor="client_id"
@@ -1119,7 +1119,7 @@ export default function AddSite(props) {
                               </div>
                             )}
                         </div>
-                      </Col>
+                      </Col> */}
                     </Row>
                     <div className="text-end">
                       <Link

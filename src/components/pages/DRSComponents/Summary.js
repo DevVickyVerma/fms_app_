@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 
-
 const DepartmentShop = (props) => {
   const { apidata, error, getData, postData, SiteID, ReportDate } = props;
 
@@ -20,6 +19,7 @@ const DepartmentShop = (props) => {
   const [summarydata, setsummarydata] = useState([]);
   const [remarkdata, setremarkdata] = useState();
   const [editable, setis_editable] = useState();
+  const [summaryRemarks, setSummaryRemarks] = useState(null);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -76,9 +76,20 @@ const DepartmentShop = (props) => {
 
         const { data } = response;
         if (data) {
+          console.log(
+            data?.data?.summary_of_remarks.summary_remarks,
+            "summary_of_remarks"
+          );
+          setData(data?.data?.takings);
+          setbankingData(data?.data?.banking);
+          setsummarydata(data?.data); //pending
+          setSummaryRemarks(data?.data?.summary_of_remarks.summary_remarks);
+          // setremarkdata(data?.data?.summary_of_remarks);
+        }
+        if (!data) {
           setData(data.data.takings);
           setbankingData(data.data.banking);
-          setsummarydata(data.data);
+          setsummarydata(data.data); //pending
           setremarkdata(data.data.summary_of_remarks);
         }
       } catch (error) {
@@ -117,15 +128,15 @@ const DepartmentShop = (props) => {
     console.log(SiteID);
     console.log(ReportDate);
     console.log(summarydata?.summary_of_variances);
-   
-    const banking_difference = summarydata?.banking["Banking Difference"]
-    console.log(banking_difference,"banking_difference");
-    const cash_operator = summarydata?.banking["Cash commited by operator"]
-    console.log(cash_operator,"cash_operator");
-    const net_cash_due_banking = summarydata?.banking["Net Cash Due For Banking"]
-    console.log(net_cash_due_banking,"net_cash_due_banking");
-  };
 
+    const banking_difference = summarydata?.banking["Banking Difference"];
+    console.log(banking_difference, "banking_difference");
+    const cash_operator = summarydata?.banking["Cash commited by operator"];
+    console.log(cash_operator, "cash_operator");
+    const net_cash_due_banking =
+      summarydata?.banking["Net Cash Due For Banking"];
+    console.log(net_cash_due_banking, "net_cash_due_banking");
+  };
 
   const SubmitSummary = async (values) => {
     setIsLoading(true);
@@ -136,13 +147,14 @@ const DepartmentShop = (props) => {
       // console.log(SiteID);
       // console.log(ReportDate);
       // console.log(summarydata?.summary_of_variances);
-     
-      const banking_difference = summarydata?.banking["Banking Difference"]
-   
-      const cash_operator = summarydata?.banking["Cash commited by operator"]
-  
-      const net_cash_due_banking = summarydata?.banking["Net Cash Due For Banking"]
-  
+
+      const banking_difference = summarydata?.banking["Banking Difference"];
+
+      const cash_operator = summarydata?.banking["Cash commited by operator"];
+
+      const net_cash_due_banking =
+        summarydata?.banking["Net Cash Due For Banking"];
+
       const formData = new FormData();
       formData.append("net_cash_due_banking", net_cash_due_banking);
       formData.append("banking_difference", banking_difference);
@@ -150,7 +162,10 @@ const DepartmentShop = (props) => {
       formData.append("site_id", SiteID);
       formData.append("drs_date", ReportDate);
       formData.append("summary_remarks", values.Remarks);
-      formData.append("summary_of_variances", summarydata?.summary_of_variances);
+      formData.append(
+        "summary_of_variances",
+        summarydata?.summary_of_variances
+      );
 
       const response = await fetch(
         `${process.env.REACT_APP_BASE_URL}/drs/dayend`,
@@ -167,7 +182,7 @@ const DepartmentShop = (props) => {
 
       if (response.ok) {
         SuccessToast(data.message);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: "smooth" });
         setIsLoading(false);
       } else {
         const errorMessage = Array.isArray(data.message)
@@ -183,7 +198,8 @@ const DepartmentShop = (props) => {
     }
     setIsLoading(false);
   };
-
+  const isSummaryRemarksNull = summaryRemarks === null;
+  console.log(isSummaryRemarksNull, "isSummaryRemarksNull");
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -198,7 +214,7 @@ const DepartmentShop = (props) => {
             </Card>
             <Card>
               <Card.Header>
-                <h3 className="card-title">SUMMARY OF BAKING</h3>
+                <h3 className="card-title">SUMMARY OF BANKING</h3>
               </Card.Header>
               <Card.Body>{_renderFunction1()}</Card.Body>
             </Card>
@@ -209,11 +225,14 @@ const DepartmentShop = (props) => {
               <Card.Body>
                 <div className="Dps-data">
                   <p>Cash Difference</p>
-                  <p>{summarydata.cash_difference}</p>
+                  <p>{summarydata?.cash_difference}</p>
                 </div>
                 {console.log(remarkdata, "remarkdata")}
-                {remarkdata !== null ? (
-                  <div>{remarkdata}</div>
+                {!isSummaryRemarksNull ? (
+                  <div className="Dps-data">
+                    <p>Remarks</p>
+                    <p>{summaryRemarks}</p>
+                  </div>
                 ) : (
                   <Formik
                     initialValues={{ Remarks: "" }}
@@ -238,16 +257,24 @@ const DepartmentShop = (props) => {
                           id="description"
                         />
                       </div>
-                      <div className="text-end">
-                        <button className="btn btn-primary mt-2" type="submit">
-                          Day End
-                        </button>
-                        <p className="warrningmessage">
-                          <span className="text-danger">*</span>On clicking the
-                          Day End button, Day End process will be completed and
-                          no modification will be allowed for the closed DRS
-                        </p>
-                      </div>
+                      {summarydata.dayend === true ? (
+                        ""
+                      ) : (
+                        <div className="text-end">
+                          <button
+                            className="btn btn-primary mt-2"
+                            type="submit"
+                          >
+                            Day End
+                          </button>
+                          <p className="warrningmessage">
+                            <span className="text-danger">*</span>On clicking
+                            the Day End button, Day End process will be
+                            completed and no modification will be allowed for
+                            the closed DRS
+                          </p>
+                        </div>
+                      )}
                     </Form>
                   </Formik>
                 )}
