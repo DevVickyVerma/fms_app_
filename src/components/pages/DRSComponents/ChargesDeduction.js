@@ -306,11 +306,11 @@ const ShopSales = (props) => {
                     />
                     {/* </DataTableExtensions> */}
                   </div>
-                  {/* <div className="d-flex justify-content-end mt-3">
+                  <div className="d-flex justify-content-end mt-3">
                     <button className="btn btn-primary" type="submit">
                       Submit
                     </button>
-                  </div> */}
+                  </div>
                 </form>
               </Card.Body>
             </Card>

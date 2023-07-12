@@ -75,7 +75,7 @@ const Dashboard = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-        Errornotify(errorMessage);
+      Errornotify(errorMessage);
     }
   }
 
@@ -111,6 +111,8 @@ const Dashboard = (props) => {
   }, []);
 
   useEffect(() => {
+    Getlinegraph();
+    piechart();
     if (justLoggedIn) {
       SuccessToast("Login Successfully");
       setJustLoggedIn(false);
@@ -145,7 +147,8 @@ const Dashboard = (props) => {
         localStorage.setItem("superiorRole", superiorRole);
         localStorage.setItem("superiorId", superiorId);
       }
-    } catch (error) {    handleError(error);
+    } catch (error) {
+      handleError(error);
       console.error("API error:", error);
     }
   };
@@ -176,10 +179,51 @@ const Dashboard = (props) => {
 
       setGrossVolumeeLoading(false); // Set isLoading to false after the API call is complete
       setLoading(false); // Set isLoading to false after the API call is complete
-    } catch (error) {    handleError(error);
+    } catch (error) {
+      handleError(error);
       console.error("API error:", error);
-      
+
       setGrossVolumeeLoading(false); // Set isLoading to false if there is an error
+      setLoading(false); // Set isLoading to false if there is an error
+    }
+  };
+  const Getlinegraph = async () => {
+    try {
+      const response = await axiosInstance.get(`dashboard/line-graph`);
+
+      setLoading(true); // Set isLoading to true to indicate the loading state
+
+      const { data } = response;
+      if (data) {
+        console.log(data);
+      }
+      // Set isLoading to false after the API call is complete
+      setLoading(false); // Set isLoading to false after the API call is complete
+    } catch (error) {
+      handleError(error);
+      console.error("API error:", error);
+
+      // Set isLoading to false if there is an error
+      setLoading(false); // Set isLoading to false if there is an error
+    }
+  };
+  const piechart = async () => {
+    try {
+      const response = await axiosInstance.get(`dashboard/pie-chart`);
+
+      setLoading(true); // Set isLoading to true to indicate the loading state
+
+      const { data } = response;
+      if (data) {
+        console.log(data);
+      }
+      // Set isLoading to false after the API call is complete
+      setLoading(false); // Set isLoading to false after the API call is complete
+    } catch (error) {
+      handleError(error);
+      console.error("API error:", error);
+
+      // Set isLoading to false if there is an error
       setLoading(false); // Set isLoading to false if there is an error
     }
   };
@@ -199,7 +243,8 @@ const Dashboard = (props) => {
       }
 
       setGrossProfitValueLoading(false); // Set isLoading to false after the API call is complete
-    } catch (error) {    handleError(error);
+    } catch (error) {
+      handleError(error);
       console.error("API error:", error);
       setGrossProfitValueLoading(false); // Set isLoading to false if there is an error
     }
@@ -220,7 +265,8 @@ const Dashboard = (props) => {
       }
 
       setGrossMarginValueLoading(false); // Set isLoading to false after the API call is complete
-    } catch (error) {    handleError(error);
+    } catch (error) {
+      handleError(error);
       console.error("API error:", error);
       setGrossMarginValueLoading(false); // Set isLoading to false if there is an error
     }
@@ -241,7 +287,8 @@ const Dashboard = (props) => {
       }
 
       setFuelValueeLoading(false); // Set isLoading to false after the API call is complete
-    } catch (error) {    handleError(error);
+    } catch (error) {
+      handleError(error);
       console.error("API error:", error);
       setFuelValueeLoading(false); // Set isLoading to false if there is an error
     }
@@ -262,7 +309,8 @@ const Dashboard = (props) => {
       }
 
       setshopsaleLoading(false); // Set isLoading to false after the API call is complete
-    } catch (error) {    handleError(error);
+    } catch (error) {
+      handleError(error);
       console.error("API error:", error);
       setshopsaleLoading(false); // Set isLoading to false if there is an error
     }
@@ -283,7 +331,8 @@ const Dashboard = (props) => {
       }
 
       setshopmarginLoading(false); // Set isLoading to false after the API call is complete
-    } catch (error) {    handleError(error);
+    } catch (error) {
+      handleError(error);
       console.error("API error:", error);
       setshopmarginLoading(false); // Set isLoading to false if there is an error
     }
@@ -314,7 +363,8 @@ const Dashboard = (props) => {
       await FetchShopSales(values);
 
       setLoading(false); // Set loading to false after API calls are completed
-    } catch (error) {    handleError(error);
+    } catch (error) {
+      handleError(error);
       console.log(error); // Handle any errors that occurred during the API calls
       setLoading(false); // Make sure to set loading to false in case of error
     }
@@ -331,7 +381,8 @@ const Dashboard = (props) => {
       Fetchgrossmargin();
       FetchShopMargin();
       FetchShopSales();
-    } catch (error) {    handleError(error);
+    } catch (error) {
+      handleError(error);
       console.log(error); // Handle any errors that occurred during the API calls
       setLoading(false); // Make sure to set loading to false in case of error
     }
@@ -747,7 +798,7 @@ const Dashboard = (props) => {
                 <h3 className="card-title">Overall Stats</h3>
               </Card.Header>
               <Card.Body className="apexchart">
-                <piecharts.Apexcharts2 />
+               
               </Card.Body>
             </Card>
           </Col>

@@ -511,7 +511,7 @@ export const MENUITEMS = [
           },
           {
             path: `/fuelprice`,
-            title: "Fule Prices",
+            title: "Fuel Prices",
             type: "link",
             permission: "fuel-price-update",
             visibility: false,

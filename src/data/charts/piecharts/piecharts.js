@@ -44,51 +44,64 @@ export class Apexcharts extends React.Component {
         }
       }
 
-export class Apexcharts2 extends React.Component {
-        constructor(props) {
-          super(props);
-
-          this.state = {
-          
-            series: [21, 65, 33, 43,],
-                 
-            options: {
-              chart: {
-                width: 380,
-                type: 'pie',
-              },
-              labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
-              responsive: [{
-                breakpoint: 480,
-                options: {
-                  chart: {
-                   width: 380
-                  },
-                  legend: {
-                    position: 'bottom'
-                  }
-                }
-              }]
-            },
-          
-          
-          };
-        }
-
+      // class Apexcharts2 extends React.Component {
+      //   constructor(props) {
+      //     super(props);
       
-
-        render() {
-          return (
-            
-
-      <div id="chart">
-  <ReactApexChart options={this.state.options} series={this.state.series} type="pie" width={380} />
-</div>
-    
-
-          );
-        }
-      }
+      //     this.state = {
+      //       series: [],
+      //       options: {
+      //         chart: {
+      //           width: 380,
+      //           type: 'pie',
+      //         },
+      //         labels: [],
+      //         responsive: [
+      //           {
+      //             breakpoint: 480,
+      //             options: {
+      //               chart: {
+      //                 width: 380,
+      //               },
+      //               legend: {
+      //                 position: 'bottom',
+      //               },
+      //             },
+      //           },
+      //         ],
+      //       },
+      //     };
+      //   }
+      
+      //   componentDidMount() {
+      //     const { data } = this.props;
+      //     const keys = Object.keys(data);
+      //     const values = Object.values(data);
+      
+      //     this.setState({
+      //       series: values,
+      //       options: {
+      //         ...this.state.options,
+      //         labels: keys,
+      //       },
+      //     });
+      //   }
+      
+      //   render() {
+      //     return (
+      //       <div id="chart">
+      //         <ReactApexChart
+      //           options={this.state.options}
+      //           series={this.state.series}
+      //           type="pie"
+      //           width={380}
+      //         />
+      //       </div>
+      //     );
+      //   }
+      // }
+      
+      // export default Apexcharts2;
 export class Apexcharts3 extends React.Component {
         constructor(props) {
           super(props);
@@ -168,6 +181,7 @@ export class Apexcharts4 extends React.Component {
       
 
         render() {
+          // const { series } = this.props;
           return (
             
 

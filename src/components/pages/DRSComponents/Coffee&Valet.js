@@ -17,7 +17,7 @@ const CoffeeValet = (props) => {
   const [editable, setis_editable] = useState();
 
   const [isLoading, setIsLoading] = useState(true);
-  
+
   const navigate = useNavigate();
   const SuccessToast = (message) => {
     toast.success(message, {
@@ -67,68 +67,51 @@ const CoffeeValet = (props) => {
       try {
         const response = await axiosInstance.get(
           `/valet-coffee/list?site_id=${SiteID}&drs_date=${ReportDate}`
-
         );
-
-
-     
-
-
 
         const { data } = response;
         if (data) {
           setData(data?.data?.listing ? data.data.listing : []);
           setis_editable(data?.data ? data.data : {});
 
-
-
-
-        //   {
-        //     "id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
-        //     "item_category": "test",
-        //     "opening": 200,
-        //     "closing": 0,
-        //     "tests": 0,
-        //     "adjust": 0,
-        //     "sale": 0,
-        //     "value": 0,
-        //     "com_rate": 0,
-        //     "commission": 0,
-        //     "price": 0,
-        //     "message": "Test"
-        // }
-
-
-
-
-
-
-          
+          //   {
+          //     "id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
+          //     "item_category": "test",
+          //     "opening": 200,
+          //     "closing": 0,
+          //     "tests": 0,
+          //     "adjust": 0,
+          //     "sale": 0,
+          //     "value": 0,
+          //     "com_rate": 0,
+          //     "commission": 0,
+          //     "price": 0,
+          //     "message": "Test"
+          // }
 
           // Create an array of form values based on the response data
           const formValues = data?.data?.listing
-          ? data.data.listing.map((item) => {
-              return {
-                id: item.id ,
-                opening: item.opening ,
-                closing: item.closing,
-                tests: item.tests ,
-                adjust: item.adjust ,
-                sale: item.sale ,
-                price: item.price ,
-                value: item.value ,
-                com_rate: item.com_rate ,
-                commission: item.commission ,
-                // value_per: item.value_per ,
-                // Add other properties as needed
-              };
-            })
-          : [];
-        
+            ? data.data.listing.map((item) => {
+                return {
+                  id: item.id,
+                  opening: item.opening,
+                  closing: item.closing,
+                  tests: item.tests,
+                  adjust: item.adjust,
+                  sale: item.sale,
+                  price: item.price,
+                  value: item.value,
+                  com_rate: item.com_rate,
+                  commission: item.commission,
+                  // value_per: item.value_per ,
+                  // Add other properties as needed
+                };
+              })
+            : [];
 
           // Set the formik values using setFieldValue
           formik.setFieldValue("data", formValues);
-          console.log(formValues,"formValues")
+          console.log(formValues, "formValues");
         }
       } catch (error) {
         console.error("API error:", error);
@@ -141,20 +124,30 @@ const CoffeeValet = (props) => {
     fetchData();
   }, [SiteID, ReportDate]);
 
-
-
   const handleSubmit = async (values) => {
     const token = localStorage.getItem("token");
 
-    console.log(values.data)
-  
+    console.log(values.data);
+
     // Create a new FormData object
     const formData = new FormData();
 
-
-
-    for (const obj of values.data) {
-      const { id, opening, closing, tests, adjust, sale, price, value, commission, value_per,com_rate } = obj;
+    const processedIds = [];
+    for ( let index = 0; index < values.data.length; index++ ) {
+      const obj = values.data[index];
+      const {
+        id,
+        opening,
+        closing,
+        tests,
+        adjust,
+        sale,
+        price,
+        value,
+        commission,
+        value_per,
+        com_rate,
+      } = obj;
       const openingKey = `opening[${id}]`;
       const discountKey = `closing[${id}]`;
       const nettValueKey = `tests[${id}]`;
@@ -163,25 +156,46 @@ const CoffeeValet = (props) => {
       const bookStockKey = `price[${id}]`;
       const valueKey = `value[${id}]`;
       const valueLtKey = `commission[${id}]`;
-    //   const valuePerKey = `value_per[${id}]`;
+      //   const valuePerKey = `value_per[${id}]`;
       const com_rateKey = `com_rate[${id}]`;
-    
-      formData.append(openingKey, opening);
-      formData.append(discountKey, closing);
-      formData.append(nettValueKey, tests);
-      formData.append(salesValueKey, adjust);
-      formData.append(actionKey, sale);
-      formData.append(bookStockKey, price);
-      formData.append(valueKey, value);
-      formData.append(valueLtKey, commission);
-    //   formData.append(valuePerKey, value_per);
-      formData.append(com_rateKey, com_rate);
+      if (!processedIds.includes(id) && id!== undefined ) {
+        formData.append(`valet_sale_id[${index}]`, id);
+        processedIds.push(id); // Add ID to the processedIds array
+      }
+  
+      if (openingKey && opening !== undefined) {
+        formData.append(openingKey, opening);
+      }
+      if (discountKey && closing !== undefined) {
+        formData.append(discountKey, closing);
+      }
+      if (nettValueKey && tests !== undefined) {
+        formData.append(nettValueKey, tests);
+      }
+      if (salesValueKey && adjust !== undefined) {
+        formData.append(salesValueKey, adjust);
+      }
+      if (actionKey && opening !== undefined) {
+        formData.append(actionKey, sale);
+      }
+      if (bookStockKey && price !== undefined) {
+        formData.append(bookStockKey, price);
+      }
+      if (valueKey && opening !== undefined) {
+        formData.append(valueKey, value);
+      }
+      if (valueLtKey && opening !== undefined) {
+        formData.append(valueLtKey, commission);
+      }
+      if (com_rateKey && com_rate !== undefined) {
+        formData.append(com_rateKey, com_rate);
+      }
     }
-    
-  
+
     formData.append("site_id", SiteID);
+
     formData.append("drs_date", ReportDate);
-  
+
     try {
       setIsLoading(true);
       const response = await fetch(
@@ -194,15 +208,15 @@ const CoffeeValet = (props) => {
           body: formData,
         }
       );
-    
+
       const responseData = await response.json(); // Read the response once
-    
+
       if (response.ok) {
         console.log("Done");
         SuccessToast(responseData.message);
       } else {
         ErrorToast(responseData.message);
-    
+
         console.log("API Error:", responseData);
         // Handle specific error cases if needed
       }
@@ -211,7 +225,8 @@ const CoffeeValet = (props) => {
       // Handle request error
     } finally {
       setIsLoading(false);
-    }}
+    }
+  };
   const columns = [
     // ... existing columns
 
@@ -223,9 +238,7 @@ const CoffeeValet = (props) => {
       center: true,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
-          {row.item_category !== undefined
-            ? `${row.item_category}`
-            : ""}
+          {row.item_category !== undefined ? `${row.item_category}` : ""}
         </span>
       ),
     },
@@ -233,219 +246,245 @@ const CoffeeValet = (props) => {
       name: "OPENING",
       selector: (row) => row.opening,
       sortable: false,
-     width: "9.5%",
+      width: "9.5%",
       center: true,
-      cell: (row, index) => (
-        <div>
-          <input
-            type="number"
-            id={`opening-${index}`}
-            name={`data[${index}].opening`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.opening }
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
-      ),
+      cell: (row, index) =>
+        row.item_category === "Total" ? (
+          <h4 className="bottom-toal">{row.opening}</h4>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`opening-${index}`}
+              name={`data[${index}].opening`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.opening}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "CLOSING ",
       selector: (row) => row.closing,
       sortable: false,
-     width: "9.5%",
+      width: "9.5%",
       center: true,
-      cell: (row, index) => (
-        <div>
-          <input
-            type="number"
-            id={`closing-${index}`}
-            name={`data[${index}].closing`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.closing }
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
-      ),
+      cell: (row, index) =>
+        row.item_category === "Total" ? (
+          <h4 className="bottom-toal">{row.closing}</h4>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`closing-${index}`}
+              name={`data[${index}].closing`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.closing}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "TESTS",
       selector: (row) => row.tests,
       sortable: false,
-     width: "9.5%",
+      width: "9.5%",
       center: true,
-      cell: (row, index) => (
-        <div>
-          <input
-            type="number"
-            id={`tests-${index}`}
-            name={`data[${index}].tests`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.tests}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
-      ),
+      cell: (row, index) =>
+        row.item_category === "Total" ? (
+          <h4 className="bottom-toal">{row.tests}</h4>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`tests-${index}`}
+              name={`data[${index}].tests`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.tests}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "ADJUST",
       selector: (row) => row.adjust,
       sortable: false,
-     width: "9.5%",
+      width: "9.5%",
       center: true,
-      cell: (row, index) => (
-        <div>
-          <input
-            type="number"
-            id={`adjust-${index}`}
-            name={`data[${index}].adjust`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.adjust}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
-      ),
+      cell: (row, index) =>
+        row.item_category === "Total" ? (
+          <h4 className="bottom-toal">{row.adjust}</h4>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`adjust-${index}`}
+              name={`data[${index}].adjust`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.adjust}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "SALES",
       selector: (row) => row.sale,
       sortable: false,
-     width: "9.5%",
+      width: "9.5%",
       center: true,
-      cell: (row, index) => (
-        <div>
-          <input
-            type="number"
-            id={`sale-${index}`}
-            name={`data[${index}].sale`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.sale}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
-      ),
+      cell: (row, index) =>
+        row.item_category === "Total" ? (
+          <h4 className="bottom-toal">{row.sale}</h4>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`sale-${index}`}
+              name={`data[${index}].sale`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.sale}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "PRICE",
       selector: (row) => row.price,
       sortable: false,
-     width: "9.5%",
+      width: "9.5%",
       center: true,
-      cell: (row, index) => (
-        <div>
-          <input
-            type="number"
-            id={`price-${index}`}
-            name={`data[${index}].price`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.price}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
-      ),
+      cell: (row, index) =>
+        row.item_category === "Total" ? (
+          <h4 className="bottom-toal">{row.price}</h4>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`price-${index}`}
+              name={`data[${index}].price`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.price}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "VALUE",
       selector: (row) => row.value,
       sortable: false,
-     width: "9.5%",
+      width: "9.5%",
       center: true,
-      cell: (row, index) => (
-        <div>
-          <input
-            type="number"
-            id={`value-${index}`}
-            name={`data[${index}].value`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.value}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
-      ),
+      cell: (row, index) =>
+        row.item_category === "Total" ? (
+          <h4 className="bottom-toal">{row.value}</h4>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`value-${index}`}
+              name={`data[${index}].value`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.value}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "COMMISSION RATE",
       selector: (row) => row.com_rate,
       sortable: false,
-     width: "9.5%",
+      width: "9.5%",
       center: true,
-      cell: (row, index) => (
-        <div>
-          <input
-            type="number"
-            id={`com_rate-${index}`}
-            name={`data[${index}].com_rate`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.com_rate}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
-      ),
+      cell: (row, index) =>
+        row.item_category === "Total" ? (
+          <h4 className="bottom-toal">{row.com_rate}</h4>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`com_rate-${index}`}
+              name={`data[${index}].com_rate`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.com_rate}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "COMMISSION VALUE",
       selector: (row) => row.commission,
       sortable: false,
-     width: "9.5%",
+      width: "9.5%",
       center: true,
-      cell: (row, index) => (
-        <div>
-          <input
-            type="number"
-            id={`commission-${index}`}
-            name={`data[${index}].commission`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.commission}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
-      ),
+      cell: (row, index) =>
+        row.item_category === "Total" ? (
+          <h4 className="bottom-toal">{row.commission}</h4>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`commission-${index}`}
+              name={`data[${index}].commission`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.commission}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
-   
   ];
 
   const tableDatas = {
@@ -489,13 +528,19 @@ const CoffeeValet = (props) => {
                     </DataTableExtensions>
                   </div>
                   <div className="d-flex justify-content-end mt-3">
-                  {editable?
-                  <button className="btn btn-primary" type="submit" >
-                      Submit
-                    </button>: <button className="btn btn-primary" type="submit" disabled>
-                      Submit
-                    </button>
-                 }
+                    {editable ? (
+                      <button className="btn btn-primary" type="submit">
+                        Submit
+                      </button>
+                    ) : (
+                      <button
+                        className="btn btn-primary"
+                        type="submit"
+                        disabled
+                      >
+                        Submit
+                      </button>
+                    )}
                   </div>
                 </form>
               </Card.Body>
