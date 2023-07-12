@@ -336,7 +336,7 @@ const ShopSales = (props) => {
             
                   </div>
                   <div className="d-flex justify-content-end mt-3">
-                  {editable?.permission.is_editable?
+                  {editable?.is_editable?
                   <button className="btn btn-primary" type="submit" >
                       Submit
                     </button>: <button className="btn btn-primary" type="submit" disabled>
