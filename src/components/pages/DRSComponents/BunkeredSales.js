@@ -15,7 +15,7 @@ const DepartmentShop = (props) => {
 
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
-
+  const [dataList, setDataList] = useState();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -67,18 +67,15 @@ const DepartmentShop = (props) => {
 
       try {
         const response = await axiosInstance.get(
-          `/drs/summary/?site_id=${SiteID}&drs_date=${ReportDate}`
+          `/bunkered-sale/details/?site_id=U2dXNXN4OG5rSkdsOGZ0TXhTR0ZQZz09&drs_date=2023-07-01`
         );
 
         const { data } = response;
         if (data) {
-          console.log(
-            data?.data?.summary_of_remarks.summary_remarks,
-            "summary_of_remarks"
-          );
-       
+          setDataList(data);
+          setData(data);
+          console.log(data, "datadatadata");
         }
-     
       } catch (error) {
         console.error("API error:", error);
         handleError(error);
@@ -90,11 +87,164 @@ const DepartmentShop = (props) => {
     fetchData();
   }, [SiteID, ReportDate]);
 
-
-
- 
-
-
+  const chargesColumns = [
+    {
+      name: "SUPPLIER",
+      width: "16.6%",
+      selector: (row) => row.charge_name,
+      sortable: true,
+      cell: (row, index) => (
+        <h1>hlo</h1>
+        // <select
+        //   className="input101"
+        //   id="client_id"
+        //   name="client_id"
+        
+        // >
+        //   <option value="">Select a Client</option>
+        //   {dataList.fuelSuppliers && dataList.fuelSuppliers.length > 0 ? (
+        //     dataList.fuelSuppliers.map((item) => (
+        //       <option key={item.id} value={item.id}>
+        //         {item.supplier_name}
+        //       </option>
+        //     ))
+        //   ) : (
+        //     <option disabled>No Client</option>
+        //   )}
+        // </select>
+      ),
+    },
+    {
+      name: "TANK",
+      width: "16.6%",
+      selector: (row) => row.charge_name,
+      sortable: true,
+      cell: (row, index) => (
+        <h1>hlo</h1>
+        // <select
+        //   className="input101"
+        //   id="client_id"
+        //   name="client_id"
+        
+        // >
+        //   <option value="">Select a Client</option>
+        //   {dataList.fuelSuppliers && dataList.fuelSuppliers.length > 0 ? (
+        //     dataList.fuelSuppliers.map((item) => (
+        //       <option key={item.id} value={item.id}>
+        //         {item.supplier_name}
+        //       </option>
+        //     ))
+        //   ) : (
+        //     <option disabled>No Client</option>
+        //   )}
+        // </select>
+      ),
+    },
+    {
+      name: "FUEL",
+      width: "16.6%",
+      selector: (row) => row.charge_name,
+      sortable: true,
+      cell: (row, index) => (
+        <h1>hlo</h1>
+        // <select
+        //   className="input101"
+        //   id="client_id"
+        //   name="client_id"
+        
+        // >
+        //   <option value="">Select a Client</option>
+        //   {dataList.fuelSuppliers && dataList.fuelSuppliers.length > 0 ? (
+        //     dataList.fuelSuppliers.map((item) => (
+        //       <option key={item.id} value={item.id}>
+        //         {item.supplier_name}
+        //       </option>
+        //     ))
+        //   ) : (
+        //     <option disabled>No Client</option>
+        //   )}
+        // </select>
+      ),
+    },
+    {
+      name: "VOLUME",
+      width: "16.6%",
+      selector: (row) => row.charge_name,
+      sortable: true,
+      cell: (row, index) => (
+        <h1>hlo</h1>
+        // <select
+        //   className="input101"
+        //   id="client_id"
+        //   name="client_id"
+        
+        // >
+        //   <option value="">Select a Client</option>
+        //   {dataList.fuelSuppliers && dataList.fuelSuppliers.length > 0 ? (
+        //     dataList.fuelSuppliers.map((item) => (
+        //       <option key={item.id} value={item.id}>
+        //         {item.supplier_name}
+        //       </option>
+        //     ))
+        //   ) : (
+        //     <option disabled>No Client</option>
+        //   )}
+        // </select>
+      ),
+    },
+    {
+      name: "VALUE",
+      width: "16.6%",
+      selector: (row) => row.charge_name,
+      sortable: true,
+      cell: (row, index) => (
+        <h1>hlo</h1>
+        // <select
+        //   className="input101"
+        //   id="client_id"
+        //   name="client_id"
+        
+        // >
+        //   <option value="">Select a Client</option>
+        //   {dataList.fuelSuppliers && dataList.fuelSuppliers.length > 0 ? (
+        //     dataList.fuelSuppliers.map((item) => (
+        //       <option key={item.id} value={item.id}>
+        //         {item.supplier_name}
+        //       </option>
+        //     ))
+        //   ) : (
+        //     <option disabled>No Client</option>
+        //   )}
+        // </select>
+      ),
+    },
+    {
+      name: "ACTION",
+      width: "16.6%",
+      selector: (row) => row.charge_name,
+      sortable: true,
+      cell: (row, index) => (
+        <h1>hlo</h1>
+        // <select
+        //   className="input101"
+        //   id="client_id"
+        //   name="client_id"
+        
+        // >
+        //   <option value="">Select a Client</option>
+        //   {dataList.fuelSuppliers && dataList.fuelSuppliers.length > 0 ? (
+        //     dataList.fuelSuppliers.map((item) => (
+        //       <option key={item.id} value={item.id}>
+        //         {item.supplier_name}
+        //       </option>
+        //     ))
+        //   ) : (
+        //     <option disabled>No Client</option>
+        //   )}
+        // </select>
+      ),
+    },
+  ];
 
   return (
     <>
@@ -107,10 +257,24 @@ const DepartmentShop = (props) => {
                 <h3 className="card-title"> Bunkered Sales</h3>
               </Card.Header>
               <Card.Body>
-                
+                <Row>
+                  <Col lg={6} md={6}>
+                    <DataTable
+                      columns={chargesColumns}
+                      data={data}
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      striped={true}
+                      persistTableHead
+                      highlightOnHover
+                      searchable={false}
+                      responsive
+                    />
+                  </Col>
+                </Row>
               </Card.Body>
             </Card>
-           
           </Col>
         </Row>
       </>

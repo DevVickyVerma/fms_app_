@@ -666,10 +666,11 @@ const ManageDsr = (props) => {
         ) : UploadTabname === "Credit Card Banking" ? (
           <CreditCardBanking SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : UploadTabname === "Summary" ? (
-          <BunkeredSales SiteID={PropsSiteId} ReportDate={PropsDate} />
+          <Summary SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : UploadTabname === "Bunkered Sales" ? (
           <BunkeredSales SiteID={PropsSiteId} ReportDate={PropsDate} />
         ): null}
+        {/* <BunkeredSales SiteID={PropsSiteId} ReportDate={PropsDate} /> */}
       </>
     </>
   );

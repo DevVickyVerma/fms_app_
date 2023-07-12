@@ -86,12 +86,7 @@ const DepartmentShop = (props) => {
           setSummaryRemarks(data?.data?.summary_of_remarks.summary_remarks);
           // setremarkdata(data?.data?.summary_of_remarks);
         }
-        if (!data) {
-          setData(data.data.takings);
-          setbankingData(data.data.banking);
-          setsummarydata(data.data); //pending
-          setremarkdata(data.data.summary_of_remarks);
-        }
+   
       } catch (error) {
         console.error("API error:", error);
         handleError(error);
