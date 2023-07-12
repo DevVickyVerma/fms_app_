@@ -13,10 +13,9 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import SideSearchbar from "../../data/Modal/SideSearchbar";
 import DashBordModal from "../../data/Modal/DashBordmodal";
+import PieDashboardChart from "../../components/pages/DashBoardChart/PieDashboardChart";
 import Spinners from "../../components/Dashboard/Spinner";
-// import * as piecharts from "../../../data/charts/piecharts/piecharts"
 
-import * as piecharts from "../../data/charts/piecharts/piecharts";
 // import Loader from "react-loader-spinner";
 // import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import axios from "axios";
@@ -44,6 +43,7 @@ const Dashboard = (props) => {
   const [GrossVolume, setGrossVolume] = useState();
   const [shopsale, setshopsale] = useState();
   const [shopmargin, setshopmargin] = useState();
+  const [piechartValues, setpiechartValues] = useState();
   const navigate = useNavigate();
   const SuccessToast = (message) => {
     toast.success(message, {
@@ -86,6 +86,9 @@ const Dashboard = (props) => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
+
+
+
     setClientID(localStorage.getItem("superiorId"));
     if (localStorage.getItem("tokenupdate") === "true") {
       window.location.reload();
@@ -111,6 +114,7 @@ const Dashboard = (props) => {
   }, []);
 
   useEffect(() => {
+    console.log(dashboard.totalTransactions.series,"dashboard.totalTransactions.series")
     Getlinegraph();
     piechart();
     if (justLoggedIn) {
@@ -215,7 +219,9 @@ const Dashboard = (props) => {
 
       const { data } = response;
       if (data) {
-        console.log(data);
+        console.log(data, "piechart");
+        console.log(data?.data,"piechartValues")
+        setpiechartValues(data?.data);
       }
       // Set isLoading to false after the API call is complete
       setLoading(false); // Set isLoading to false after the API call is complete
@@ -798,7 +804,7 @@ const Dashboard = (props) => {
                 <h3 className="card-title">Overall Stats</h3>
               </Card.Header>
               <Card.Body className="apexchart">
-               
+                <PieDashboardChart data={piechartValues} />
               </Card.Body>
             </Card>
           </Col>
