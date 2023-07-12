@@ -360,7 +360,7 @@ const Departmentshopsale = (props) => {
                       />
                     </DataTableExtensions>
                   </div>
-                  <div className="d-flex justify-content-end mt-3">
+             {data.length>0?     <div className="d-flex justify-content-end mt-3">
                   {editable ? (
                       <button className="btn btn-primary" type="submit">
                         Submit
@@ -374,7 +374,7 @@ const Departmentshopsale = (props) => {
                         Submit
                       </button>
                     )}
-                  </div>
+                  </div>:""}
                 </form>
               </Card.Body>
             </Card>

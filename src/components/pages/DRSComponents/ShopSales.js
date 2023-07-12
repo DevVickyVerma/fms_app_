@@ -204,12 +204,12 @@ const ShopSales = (props) => {
             id={`charge_value-${index}`}
             name={`data[${index}].charge_value`}
             className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
+              row.is_field_editable ? "table-input " : "table-input readonly "
             }
             value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
+            readOnly={row.is_field_editable?false  : true}
           />
           {/* Error handling code */}
         </div>
@@ -246,12 +246,12 @@ const ShopSales = (props) => {
             id={`deduction_value-${index}`}
             name={`deductions[${index}].deduction_value`}
             className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
+              row.is_field_editable ? "table-input " : "table-input readonly "
             }
             value={formik.values?.deductions?.[index]?.deduction_value || ''}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            // readOnly={editable?.is_editable ? false : true}
+            readOnly={row.is_field_editable?false  : true}
           />
           {/* Error handling code */}
         </div>
@@ -336,10 +336,10 @@ const ShopSales = (props) => {
             
                   </div>
                   <div className="d-flex justify-content-end mt-3">
-                  {editable?
-                  <button className="btn btn-primary" type="submit" disabled>
+                  {editable?.permission.is_editable?
+                  <button className="btn btn-primary" type="submit" >
                       Submit
-                    </button>: <button className="btn btn-primary" type="submit">
+                    </button>: <button className="btn btn-primary" type="submit" disabled>
                       Submit
                     </button>
                  }

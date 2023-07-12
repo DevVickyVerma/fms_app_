@@ -659,7 +659,7 @@ const ManageDsr = (props) => {
           <Departmentshopsale SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : UploadTabname === "Cash Banking" ? (
           <CashBanking SiteID={PropsSiteId} ReportDate={PropsDate} />
-        ) : UploadTabname === "Bank Deposite" ? (
+        ) : UploadTabname === "Bank Deposit" ? (
           <BankDeposit SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : UploadTabname === "Department Shop Summary" ? (
           <DepartmentShop SiteID={PropsSiteId} ReportDate={PropsDate} />

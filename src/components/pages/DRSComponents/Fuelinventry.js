@@ -807,16 +807,9 @@ const FuelInventry = (props) => {
                
                   </div>
                   <div className="d-flex justify-content-end mt-3">
-                  {/* className={
-                editable?.is_editable ? "table-input" : "table-input readonly"
-              } */}
-                 {editable?
-                  <button className="btn btn-primary" type="submit" disabled>
+                 {data.length>0 ? <button className="btn btn-primary" type="submit" >
                       Submit
-                    </button>: <button className="btn btn-primary" type="submit">
-                      Submit
-                    </button>
-                 }
+                    </button> :""}
                   </div>
                 </form>
               </Card.Body>
