@@ -431,14 +431,14 @@ export const MENUITEMS = [
         icon: "globe",
         type: "sub",
         active: false,
-        permission: "supplier-create",
+        permission: "drs-menu-list",
         visibility: false,
         children: [
           {
             path: `/data-entry`,
             title: "Manage DRS",
             type: "link",
-            permission: "supplier-create",
+            permission: "drs-menu-list",
             visibility: false,
           },
         ],
