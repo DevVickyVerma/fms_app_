@@ -36,6 +36,7 @@ import BankDeposit from "../DRSComponents/BankDeposit";
 import DepartmentShop from "../DRSComponents/DepartmentShop";
 import CreditCardBanking from "../DRSComponents/CreditCardBanking";
 import Summary from "../DRSComponents/Summary";
+import BunkeredSales from "../DRSComponents/BunkeredSales";
 
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -665,8 +666,10 @@ const ManageDsr = (props) => {
         ) : UploadTabname === "Credit Card Banking" ? (
           <CreditCardBanking SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : UploadTabname === "Summary" ? (
-          <Summary SiteID={PropsSiteId} ReportDate={PropsDate} />
-        ) : null}
+          <BunkeredSales SiteID={PropsSiteId} ReportDate={PropsDate} />
+        ) : UploadTabname === "Bunkered Sales" ? (
+          <BunkeredSales SiteID={PropsSiteId} ReportDate={PropsDate} />
+        ): null}
       </>
     </>
   );

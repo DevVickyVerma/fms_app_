@@ -144,8 +144,7 @@ const DashBordModal = (props) => {
                             company_id: Yup.string().required(
                               "Company is required"
                             ),
-                            client_id:
-                              Yup.string().required("Client is required"),
+                           
                           })}
                           onSubmit={(values) => {
                             handlesubmitvalues(values);
