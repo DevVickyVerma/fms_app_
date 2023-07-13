@@ -44,7 +44,7 @@ const Dashboard = (props) => {
   const [shopsale, setshopsale] = useState();
   const [shopmargin, setshopmargin] = useState();
   const [piechartValues, setpiechartValues] = useState();
-  const [LinechartValues, setLinechartValues] = useState();
+  const [LinechartValues, setLinechartValues] = useState([]);
   const navigate = useNavigate();
   const SuccessToast = (message) => {
     toast.success(message, {
@@ -791,13 +791,13 @@ const Dashboard = (props) => {
               </Card.Header>
               <Card.Body className="card-body pb-0">
                 <div id="chartArea" className="chart-donut">
-                  <ReactApexChart
-                    options={dashboard.totalTransactions.options}
-                    // series={dashboard.totalTransactions.series}
-                    series={LinechartValues}
-                    type="area"
-                    height={300}
-                  />
+                <ReactApexChart
+  options={dashboard && dashboard.totalTransactions && dashboard.totalTransactions.options}
+  series={LinechartValues}
+  type="area"
+  height={300}
+/>
+
                 </div>
               </Card.Body>
             </Card>
