@@ -451,7 +451,7 @@ const AddSite = (props) => {
                                 id="Site_Status"
                                 name="Site_Status"
                               >
-                                {/* <option value="">Select a Site Status</option> */}
+                                <option value="">Select a Site Status</option>
                                 {AddSiteData.site_status &&
                                 AddSiteData.site_status.length > 0 ? (
                                   AddSiteData.site_status.map((item) => (
@@ -575,7 +575,7 @@ const AddSite = (props) => {
                                 htmlFor="Saga_department_name"
                                 className=" form-label mt-4"
                               >
-                                Saga Department Name
+                                Sage Department Name
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
@@ -589,7 +589,7 @@ const AddSite = (props) => {
                                 }`}
                                 id="Saga_department_name"
                                 name="Saga_department_name"
-                                placeholder="Saga Department Name"
+                                placeholder="Sage Department Name"
                               />
                               <ErrorMessage
                                 component="div"

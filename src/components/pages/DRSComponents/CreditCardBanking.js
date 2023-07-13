@@ -174,7 +174,7 @@ const CreditCardBanking = (props) => {
       const responseData = await response.json(); // Read the response once
 
       if (response.ok) {
-        console.log("Done");
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         SuccessToast(responseData.message);
       } else {
         ErrorToast(responseData.message);

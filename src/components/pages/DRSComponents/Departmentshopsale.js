@@ -191,6 +191,7 @@ const Departmentshopsale = (props) => {
     
       if (response.ok) {
         console.log("Done");
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         SuccessToast(responseData.message);
       } else {
         ErrorToast(responseData.message);

@@ -76,17 +76,13 @@ const DepartmentShop = (props) => {
 
         const { data } = response;
         if (data) {
-          console.log(
-            data?.data?.summary_of_remarks.summary_remarks,
-            "summary_of_remarks"
-          );
+          console.log(data?.data?.takings, "data?.data?.takings");
           setData(data?.data?.takings);
           setbankingData(data?.data?.banking);
           setsummarydata(data?.data); //pending
           setSummaryRemarks(data?.data?.summary_of_remarks.summary_remarks);
           // setremarkdata(data?.data?.summary_of_remarks);
         }
-   
       } catch (error) {
         console.error("API error:", error);
         handleError(error);
@@ -108,6 +104,10 @@ const DepartmentShop = (props) => {
       );
     });
   };
+
+  console.log(_renderFunction(), "_renderFunction");
+  console.log(data, "data_renderFunction");
+
   const _renderFunction1 = () => {
     return Object.keys(bankingdata).map((item, index) => {
       return (
@@ -252,9 +252,7 @@ const DepartmentShop = (props) => {
                           id="description"
                         />
                       </div>
-                      {summarydata.dayend === true ? (
-                        ""
-                      ) : (
+                      {summarydata?.dayend === true ? (
                         <div className="text-end">
                           <button
                             className="btn btn-primary mt-2"
@@ -269,6 +267,8 @@ const DepartmentShop = (props) => {
                             the closed DRS
                           </p>
                         </div>
+                      ) : (
+                        ""
                       )}
                     </Form>
                   </Formik>

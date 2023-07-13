@@ -37,6 +37,9 @@ import DepartmentShop from "../DRSComponents/DepartmentShop";
 import CreditCardBanking from "../DRSComponents/CreditCardBanking";
 import Summary from "../DRSComponents/Summary";
 import BunkeredSales from "../DRSComponents/BunkeredSales";
+import { Slide, toast } from "react-toastify";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -72,8 +75,7 @@ const ManageDsr = (props) => {
     permissionsArray?.includes("drs-delete-data");
   const isDetailsPermissionAvailable =
     permissionsArray?.includes("supplier-details");
-  const isAssignPermissionAvailable =
-    permissionsArray?.includes("drs-hit-api");
+  const isAssignPermissionAvailable = permissionsArray?.includes("drs-hit-api");
 
   const [UploadTabname, setUploadTabname] = useState();
   const [modalTitle, setModalTitle] = useState("");
@@ -87,6 +89,41 @@ const ManageDsr = (props) => {
   const [getDataBtn, setgetDataBtn] = useState();
   const [SiteId, setSiteId] = useState();
   const [DRSDate, setDRSDate] = useState();
+  const navigate = useNavigate();
+  const notify = (message) => {
+    toast.success(message, {
+      autoClose: 1000,
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+    });
+  };
+  const ErrorAlert = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+    });
+  };
+
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      ErrorAlert("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      const errorMessage = Array.isArray(error.response.data.message)
+        ? error.response.data.message.join(" ")
+        : error.response.data.message;
+      ErrorAlert(errorMessage);
+    }
+  }
 
   const handleFetchData = async () => {
     try {
@@ -140,19 +177,70 @@ const ManageDsr = (props) => {
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
-  const DRSDeleteData = async () => {
-    console.log(SiteId, DRSDate, "API getData");
-    try {
-      const formData = new FormData();
-      formData.append("site_id", SiteId);
-      formData.append("drs_date", DRSDate);
 
-      const postDataUrl = "/drs/delete-data";
+  const handleDelete = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will not be able to recover this item!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const token = localStorage.getItem("token");
 
-      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
-    } catch (error) {
-      console.log(error); // Set the submission state to false if an error occurs
-    }
+        const formData = new FormData();
+        formData.append("site_id", SiteId);
+        formData.append("drs_date", DRSDate);
+
+        const axiosInstance = axios.create({
+          baseURL: process.env.REACT_APP_BASE_URL,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
+        const DeleteRole = async () => {
+          try {
+            const response = await axiosInstance.post(
+              "/drs/delete-data",
+              formData
+            );
+
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your item has been deleted.",
+              icon: "success",
+              confirmButtonText: "OK",
+            });
+          } catch (error) {
+            handleError(error);
+          } finally {
+          }
+          // setIsLoading(false);
+        };
+        // const DRSDeleteData = async () => {
+
+        //   try {
+        //     const formData = new FormData();
+        //     formData.append("site_id", SiteId);
+        //     formData.append("drs_date", DRSDate);
+
+        //     const postDataUrl = "/drs/delete-data";
+
+        //     await postData(postDataUrl, formData);
+        //     if (apidata.api_response === "success") {
+        //  console.log(postDataUrl,"postDataUrl")
+        //     } // Set the submission state to false after the API call is completed
+        //   } catch (error) {
+        //     console.log(error); // Set the submission state to false if an error occurs
+        //   }
+        // };
+        DeleteRole();
+      }
+    });
   };
 
   const handleSubmit1 = async (values) => {
@@ -219,9 +307,13 @@ const ManageDsr = (props) => {
   };
 
   const handleEnteryClick = (item) => {
-    console.log(item, "ssss");
-    setUploadTabname(item.name);
 
+
+    setUploadTabname(item.name);
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth' // You can use 'auto' instead of 'smooth' for instant scrolling
+    });
     // Show the modal
   };
 
@@ -490,7 +582,7 @@ const ManageDsr = (props) => {
                             <Link
                               to="#"
                               className="btn btn-danger me-2 rounded-11"
-                              onClick={() => DRSDeleteData()}
+                              onClick={() => handleDelete()}
                             >
                               <i>
                                 <svg
@@ -602,7 +694,7 @@ const ManageDsr = (props) => {
                     onClick={() => getDRSData()}
                     className="btn btn-warning me-2"
                   >
-                   Get Data from EVOBOS
+                    Get Data from EVOBOS
                   </Link>
                 ) : (
                   ""
@@ -669,7 +761,7 @@ const ManageDsr = (props) => {
           <Summary SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : UploadTabname === "Bunkered Sales" ? (
           <BunkeredSales SiteID={PropsSiteId} ReportDate={PropsDate} />
-        ): null}
+        ) : null}
         {/* <BunkeredSales SiteID={PropsSiteId} ReportDate={PropsDate} /> */}
       </>
     </>

@@ -286,3 +286,7 @@ tbody tr {
 .justify-content-space-between {
   justify-content: space-between;
 }
+.border-left {
+  border-left: 2px solid #0d0c22;
+  margin-left: 6px;
+}

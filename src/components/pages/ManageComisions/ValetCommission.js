@@ -155,32 +155,7 @@ const ManageDsr = (props) => {
       ),
     },
     {
-      name: "COMMISSION",
-      selector: (row) => row.commission,
-      sortable: false,
-      width: "40%",
-      center: true,
-
-      cell: (row, index) =>
-        row.fuel_name === "Total" ? (
-          <h4 className="bottom-toal">{row.commission}</h4>
-        ) : (
-          <div>
-            <input
-              type="number"
-              id={`commission-${index}`}
-              name={`data[${index}].commission`}
-              className=" table-input"
-              value={formik.values.data[index]?.commission}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {/* Error handling code */}
-          </div>
-        ),
-    },
-    {
-      name: "PRICE",
+      name: "PRICE($)",
       selector: (row) => row.price,
       sortable: false,
       width: "40%",
@@ -204,6 +179,32 @@ const ManageDsr = (props) => {
           </div>
         ),
     },
+    {
+      name: "COMMISSION(%)",
+      selector: (row) => row.commission,
+      sortable: false,
+      width: "40%",
+      center: true,
+
+      cell: (row, index) =>
+        row.fuel_name === "Total" ? (
+          <h4 className="bottom-toal">{row.commission}</h4>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`commission-${index}`}
+              name={`data[${index}].commission`}
+              className=" table-input"
+              value={formik.values.data[index]?.commission}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
+    },
+  
 
     // ... remaining columns
   ];

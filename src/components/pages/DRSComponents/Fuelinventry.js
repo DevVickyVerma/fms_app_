@@ -82,22 +82,7 @@ const FuelInventry = (props) => {
           setVarianceDataa(data?.data ? data.data.variance_data : []);
           setis_editable(data?.data ? data.data : {});
           
-        //   {
-        //     "id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
-        //     "description": "Supreme Unleaded",
-        //     "fuel_price": 1.657,
-        //     "metered_sale": 1015.04,
-        //     "metered_sale_value": 1682.92,
-        //     "adjustment": 0,
-        //     "adjustment_euro": 0,
-        //     "adjusted_sale": 1015.04,
-        //     "adjusted_sale_value": 0,
-        //     "bunkered_sale": 0,
-        //     "tests": 507.52,
-        //     "actual_sales": 507.52,
-        //     "due_sales": 840.96064,
-        //     "variance": -841.95936
-        // }
+     
         
           const formValues = data?.data?.listing
           ? data.data.listing.map((item) => {
@@ -580,6 +565,7 @@ const FuelInventry = (props) => {
       name: "DESCRIPTION",
       selector: (row) => row.description, // Update the selector to use a function
       sortable: true,
+      center: true,
       width: "50%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -623,6 +609,7 @@ const FuelInventry = (props) => {
       name: "DESCRIPTION",
       selector: (row) => row.description, // Update the selector to use a function
       sortable: true,
+      center: true,
       width: "25%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -632,31 +619,7 @@ const FuelInventry = (props) => {
         </div>
       ),
     },
-    {
-      name: "VARIANCE",
-      selector: (row) => row.variance,
-      sortable: false,
-      width: "25%",
-      center: true,
-      // Title: "CASH METERED SALES",
-      cell: (row, index) => (
-        <div>
-          <input
-            type="number"
-            id={`variance-${index}`}
-            name={`Variancedataformik[${index}].variance`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values?.Variancedataformik?.[index]?.variance || ''}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            // readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
-      ),
-    },
+  
     
 
     {
@@ -673,11 +636,12 @@ const FuelInventry = (props) => {
             id={`due_sales-${index}`}
             name={`Variancedataformik[${index}].due_sales`}
             className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
+           "table-input readonly "
             }
             value={formik.values?.Variancedataformik?.[index]?.due_sales || ''}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            readOnly
             // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
@@ -698,17 +662,45 @@ const FuelInventry = (props) => {
             id={`sale_value-${index}`}
             name={`Variancedataformik[${index}].sale_value`}
             className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
+           "table-input readonly "
             }
             value={formik.values?.Variancedataformik?.[index]?.sale_value || ''}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            readOnly
             // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
       ),
     },
+    {
+      name: "VARIANCE",
+      selector: (row) => row.variance,
+      sortable: false,
+      width: "25%",
+      center: true,
+      // Title: "CASH METERED SALES",
+      cell: (row, index) => (
+        <div>
+          <input
+            type="number"
+            id={`variance-${index}`}
+            name={`Variancedataformik[${index}].variance`}
+            className={
+           "table-input readonly "
+            }
+            value={formik.values?.Variancedataformik?.[index]?.variance || ''}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            readOnly
+            // readOnly={editable?.is_editable ? false : true}
+          />
+          {/* Error handling code */}
+        </div>
+      ),
+    },
+  
    
  
   ];

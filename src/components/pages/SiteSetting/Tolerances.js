@@ -590,7 +590,7 @@ const SiteSettings = (props) => {
                           onBlur={formik.handleBlur}
                           value={formik.values.max_bunkering_variance}
                         />
-                        <h2 className="ms-2">P</h2>
+                      
                       </div>
 
                       {formik.errors.max_bunkering_variance &&

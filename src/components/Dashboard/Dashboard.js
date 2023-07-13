@@ -87,9 +87,6 @@ const Dashboard = (props) => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-
-
-
     setClientID(localStorage.getItem("superiorId"));
     if (localStorage.getItem("tokenupdate") === "true") {
       window.location.reload();
@@ -115,8 +112,14 @@ const Dashboard = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log(dashboard.totalTransactions.series,"dashboard.totalTransactions.series")
-    console.log(dashboard.totalTransactions.options,"dashboard.totalTransactions.serieswww")
+    console.log(
+      dashboard.totalTransactions.series,
+      "dashboard.totalTransactions.series"
+    );
+    console.log(
+      dashboard.totalTransactions.options,
+      "dashboard.totalTransactions.serieswww"
+    );
     Getlinegraph();
     piechart();
     if (justLoggedIn) {
@@ -193,16 +196,20 @@ const Dashboard = (props) => {
       setLoading(false); // Set isLoading to false if there is an error
     }
   };
-  const Getlinegraph = async () => {
+  const Getlinegraph = async (values) => {
     try {
-      const response = await axiosInstance.get(`dashboard/line-graph`);
+      const response = await axiosInstance.get(
+        values
+          ? `dashboard/line-graph?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}`
+          : `/dashboard/line-graph`
+      );
 
       setLoading(true); // Set isLoading to true to indicate the loading state
 
       const { data } = response;
       if (data) {
-        setLinechartValues(data?.data)
-        console.log(data.data ,"line graph");
+        setLinechartValues(data?.data);
+        console.log(data.data, "line graph");
       }
       // Set isLoading to false after the API call is complete
       setLoading(false); // Set isLoading to false after the API call is complete
@@ -214,16 +221,20 @@ const Dashboard = (props) => {
       setLoading(false); // Set isLoading to false if there is an error
     }
   };
-  const piechart = async () => {
+  const piechart = async (values) => {
     try {
-      const response = await axiosInstance.get(`dashboard/pie-chart`);
+      const response = await axiosInstance.get(
+        values
+          ? `dashboard/pie-chart?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}`
+          : `/dashboard/pie-chart`
+      );
 
       setLoading(true); // Set isLoading to true to indicate the loading state
 
       const { data } = response;
       if (data) {
         console.log(data, "piechart");
-        console.log(data?.data,"piechartValues")
+        console.log(data?.data, "piechartValues");
         setpiechartValues(data?.data);
       }
       // Set isLoading to false after the API call is complete
@@ -370,6 +381,8 @@ const Dashboard = (props) => {
       await Fetchgrossmargin(values);
       await FetchShopMargin(values);
       await FetchShopSales(values);
+      await piechart(values);
+      await Getlinegraph(values);
 
       setLoading(false); // Set loading to false after API calls are completed
     } catch (error) {
@@ -491,16 +504,28 @@ const Dashboard = (props) => {
                       <div className="col">
                         <div className=" dashboard-box">
                           <div>
-                            <h6 className="">Gross Volume</h6>
-
                             {GrossVolumeeLoading ? (
                               <Spinners />
                             ) : (
                               <>
-                                <h3 className="mb-2 number-font">
-                                  {" "}
-                                  £{GrossVolume?.data?.gross_volume}
-                                </h3>
+                                <div className="d-flex">
+                                  <div>
+                                    <h6 className="">Gross Volume</h6>
+                                    <h3 className="mb-2 number-font">
+                                      {" "}
+                                      ℓ{GrossVolume?.data?.gross_volume}
+                                    </h3>
+                                  </div>
+                                  <div className="border-left"></div>
+                                  <div className="ms-4">
+                                    <h6 className="">Bunkered Volume</h6>
+                                    <h3 className="mb-2 number-font">
+                                  
+                                      ℓ{GrossVolume?.data?.bunkered_volume}
+                                    </h3>
+                                  </div>
+                                </div>
+
                                 {/* <p className="p-0">Bunkered Volume</p> */}
                                 <p className="text-muted mb-0 mt-4">
                                   <span
@@ -575,7 +600,9 @@ const Dashboard = (props) => {
                           </div>
                           <div className="col col-auto">
                             <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
-                              <i className="icon icon-rocket text-white mb-5 "></i>
+                              <i className="icon icon-pound-sign text-white mb-5 ">
+                                &#163;
+                              </i>
                             </div>
                           </div>
                         </div>
@@ -624,7 +651,9 @@ const Dashboard = (props) => {
                           </div>
                           <div className="col col-auto">
                             <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto">
-                              <i className="fe fe-dollar-sign text-white mb-5 "></i>
+                              <i className="icon icon-pound-sign text-white mb-5 ">
+                                &#163;
+                              </i>
                             </div>
                           </div>
                         </div>
@@ -647,15 +676,30 @@ const Dashboard = (props) => {
                       <div className="col">
                         <div className=" dashboard-box">
                           <div>
-                            <h6 className="">Fuel Sales </h6>
+                          
 
                             {FuelValueeLoading ? (
                               <Spinners />
                             ) : (
                               <>
-                                <h3 className="mb-2 number-font">
-                                  £{FuelValue?.data?.gross_value}
-                                </h3>
+                           
+                                <div className="d-flex">
+                                  <div>
+                                    <h6 className="">Fuel Sales</h6>
+                                    <h3 className="mb-2 number-font">
+                                   
+                                      £{FuelValue?.data?.gross_value}
+                                    </h3>
+                                  </div>
+                                  <div className="border-left"></div>
+                                  <div className="ms-4">
+                                    <h6 className="">Bunkered Volue</h6>
+                                    <h3 className="mb-2 number-font">
+                                  
+                                    £{FuelValue?.data?.bunkered_value}
+                                    </h3>
+                                  </div>
+                                </div>
                                 <p className="text-muted mb-0 mt-4">
                                   <span
                                     className={`me-1 ${
@@ -678,7 +722,9 @@ const Dashboard = (props) => {
                           </div>
                           <div className="col col-auto">
                             <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
-                              <i className="icon icon-rocket text-white mb-5 "></i>
+                              <i className="icon icon-pound-sign text-white mb-5 ">
+                                &#163;
+                              </i>
                             </div>
                           </div>
                         </div>
@@ -724,7 +770,9 @@ const Dashboard = (props) => {
                           </div>
                           <div className="col col-auto">
                             <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto">
-                              <i class="fa fa-angellist"></i>
+                              <i className="icon icon-pound-sign text-white mb-5 ">
+                                &#163;
+                              </i>
                             </div>
                           </div>
                         </div>
@@ -770,7 +818,9 @@ const Dashboard = (props) => {
                           </div>
                           <div className="col col-auto">
                             <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
-                              <i class="fa fa-angellist"></i>
+                              <i className="icon icon-pound-sign text-white mb-5 ">
+                                &#163;
+                              </i>
                             </div>
                           </div>
                         </div>
@@ -791,13 +841,16 @@ const Dashboard = (props) => {
               </Card.Header>
               <Card.Body className="card-body pb-0">
                 <div id="chartArea" className="chart-donut">
-                <ReactApexChart
-  options={dashboard && dashboard.totalTransactions && dashboard.totalTransactions.options}
-  series={LinechartValues}
-  type="area"
-  height={300}
-/>
-
+                  <ReactApexChart
+                    options={
+                      dashboard &&
+                      dashboard.totalTransactions &&
+                      dashboard.totalTransactions.options
+                    }
+                    series={LinechartValues}
+                    type="area"
+                    height={300}
+                  />
                 </div>
               </Card.Body>
             </Card>

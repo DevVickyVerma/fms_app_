@@ -278,7 +278,7 @@ const ShopSales = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title"></h3>
+                <h3 className="card-title">Charges & Deductions</h3>
               </Card.Header>
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
@@ -306,11 +306,11 @@ const ShopSales = (props) => {
                     />
                     {/* </DataTableExtensions> */}
                   </div>
-                  <div className="d-flex justify-content-end mt-3">
+                  {/* <div className="d-flex justify-content-end mt-3">
                     <button className="btn btn-primary" type="submit">
                       Submit
                     </button>
-                  </div>
+                  </div> */}
                 </form>
               </Card.Body>
             </Card>
