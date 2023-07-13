@@ -18,17 +18,17 @@ export const totalTransactions = {
   series: [{
     name: "Total Orders",
     type: 'line',
-    data:[0, 45, 30, 75, 15, 94, 40, 115, 30, 105, 65, 110]
+    data:[0, 45, 30, 75, 15, 94, 40,]
     
   },{
     name: "Total Sales",
     type: 'line',
-    data: [0, 60, 20, 130, 75, 130, 75, 140, 64, 130, 85, 120]
+    data: [0, 60, 20, 130, 75, 130, 75,]
     
   }, {
-    name: "",
-    type: 'area',
-    data: [0, 105, 70, 175, 85, 154, 90, 185, 120, 145, 185, 130]
+    name: "Total Total",
+    type: 'line',
+    data: [0, 105, 70, 175, 85, 154, 90]
   }],
 
   options: {

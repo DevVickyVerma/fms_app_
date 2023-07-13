@@ -44,6 +44,7 @@ const Dashboard = (props) => {
   const [shopsale, setshopsale] = useState();
   const [shopmargin, setshopmargin] = useState();
   const [piechartValues, setpiechartValues] = useState();
+  const [LinechartValues, setLinechartValues] = useState();
   const navigate = useNavigate();
   const SuccessToast = (message) => {
     toast.success(message, {
@@ -115,6 +116,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     console.log(dashboard.totalTransactions.series,"dashboard.totalTransactions.series")
+    console.log(dashboard.totalTransactions.options,"dashboard.totalTransactions.serieswww")
     Getlinegraph();
     piechart();
     if (justLoggedIn) {
@@ -199,7 +201,8 @@ const Dashboard = (props) => {
 
       const { data } = response;
       if (data) {
-        console.log(data);
+        setLinechartValues(data?.data)
+        console.log(data.data ,"line graph");
       }
       // Set isLoading to false after the API call is complete
       setLoading(false); // Set isLoading to false after the API call is complete
@@ -790,7 +793,8 @@ const Dashboard = (props) => {
                 <div id="chartArea" className="chart-donut">
                   <ReactApexChart
                     options={dashboard.totalTransactions.options}
-                    series={dashboard.totalTransactions.series}
+                    // series={dashboard.totalTransactions.series}
+                    series={LinechartValues}
                     type="area"
                     height={300}
                   />
