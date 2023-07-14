@@ -466,7 +466,7 @@ const FuelInventry = (props) => {
         ),
     },
     {
-      name: "ADJUSTED SALES `${<br>}` VALUE(£)",
+      name: "ADJUSTED SALES<br>VALUE(&pound;)",
       selector: (row) => row.adjusted_sale_value,
       sortable: false,
       width: "8%",

@@ -24,12 +24,11 @@ import {
   ListItemText,
   InputLabel,
 } from "@material-ui/core";
-
+import debounce from "lodash/debounce";
 import { Button } from "bootstrap";
 
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
-
 
 import * as Yup from "yup";
 import { Dropdown } from "react-bootstrap";
@@ -38,24 +37,19 @@ import { useFormik } from "formik";
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
- 
   const [AddSiteData, setAddSiteData] = useState([]);
-
 
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
-
 
   const [editable, setis_editable] = useState(true);
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
 
-
-
   const [selectedItems, setSelectedItems] = useState([]);
-  
+
   const handleItemClick = (event) => {
     setSelectedItems(event.target.value);
     console.log(event.target.value);
@@ -66,16 +60,13 @@ const ManageDsr = (props) => {
     );
     console.log(filteredSites, "filteredSites");
     formik.setFieldValue("sites", filteredSites);
- 
   };
-
 
   const [data, setData] = useState();
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
 
     handleFetchData();
-
   }, [UserPermissions]);
 
   const handleFetchData = async () => {
@@ -85,7 +76,6 @@ const ManageDsr = (props) => {
       const { data } = response;
       if (data) {
         setAddSiteData(response.data);
-     
 
         if (
           response?.data &&
@@ -116,7 +106,6 @@ const ManageDsr = (props) => {
       console.error("API error:", error);
     }
   };
-
 
   const handleSubmit = async (values) => {
     let clientIDCondition = "";
@@ -160,52 +149,20 @@ const ManageDsr = (props) => {
       // Handle error if the API call fails
     }
   };
-  const calculateExVatPrice = (index) => {
-    const plattsPrice = parseFloat(formik.values.data[index].platts_price) || 0;
-    const premiumPrice =
-      parseFloat(formik.values.data[index].premium_price) || 0;
-    const developmentFuelsPrice =
-      parseFloat(formik.values.data[index].development_fuels_price) || 0;
-    const dutyPrice = parseFloat(formik.values.data[index].duty_price) || 0;
-
-    const sum = plattsPrice + premiumPrice + developmentFuelsPrice + dutyPrice;
-    console.log(sum, "sum");
-    const exVatPrice = (sum * 1.2).toFixed(2);
-
-    formik.setFieldValue(`data[${index}].ex_vat_price`, exVatPrice);
-  };
-  const calculateExVatPrice1 = (index) => {
-    const data = formik.values.data[index];
-
-    // Perform the calculations
-    const plattsPrice = parseFloat(data.platts_price) || 0;
-    const premiumPrice = parseFloat(data.premium_price) || 0;
-    const developmentFuelsPrice = parseFloat(data.development_fuels_price) || 0;
-    const dutyPrice = parseFloat(data.duty_price) || 0;
-    const vatPercentageRate = parseFloat(data.vat_percentage_rate) || 0;
-
-    const sum = plattsPrice + premiumPrice + developmentFuelsPrice + dutyPrice;
-
-    console.log("Sum:", sum); // Log the value of sum to the console
-
-    let exVatPrice = 0;
-    if (vatPercentageRate !== 0) {
-      exVatPrice = sum / 100 / vatPercentageRate;
-    }
-
-    // Update the formik values with the calculated result
-    formik.setFieldValue(`data[${index}].total`, exVatPrice);
-  };
-
-
-
-
-
-
-
-
-
-
+  const calculateTotal = debounce((index) => {
+    const plattsPrice = formik.values.data[index]?.platts_price || 0;
+    const premiumPrice = formik.values.data[index]?.premium_price || 0;
+    const development_fuels_price =
+      formik.values.data[index]?.development_fuels_price || 0;
+    const duty_price = formik.values.data[index]?.duty_price || 0;
+    const total =
+      plattsPrice + premiumPrice + duty_price + development_fuels_price;
+    console.log(total, "premtotalium price");
+    console.log(premiumPrice, "premium price");
+    console.log(plattsPrice, "plattsPrice price");
+    console.log(console.log(formik.values), "plattsPrice price");
+    // formik.setFieldValue(`data[${index}].total`, total);
+  }, 300);
 
   const columns = [
     {
@@ -228,34 +185,25 @@ const ManageDsr = (props) => {
       center: true,
 
       cell: (row, index) =>
-        row.fuel_name === "Total" ? (
-          <h4 className="bottom-toal">{row.platts_price}</h4>
-        ) : (
-          <div>
-            <input
-              type="number"
-              id={`platts_price-${index}`}
-              name={`data[${index}].platts_price`}
-              className="table-input"
-              //   className={
-              //     row.update_platts_price
-              //       ? "UpdateValueInput"
-              //       : editable?.is_editable
-              //       ? "table-input"
-              //       : "table-input readonly"
-              //   }
-              value={
-                formik?.values?.data && formik.values.data[index]?.platts_price
-              }
-              onChange={(event) => {
-                formik.handleChange(event);
-                calculateExVatPrice(index);
-              }}
-              onBlur={formik.handleBlur}
-            />
-            {/* Error handling code */}
-          </div>
-        ),
+      <div>
+      <input
+        type="number"
+        id={`platts_price-${index}`}
+        name={`data[${index}].platts_price`}
+        className="table-input"
+        value={
+          formik?.values?.data && formik.values.data[index]?.platts_price
+        }
+        onChange={(e) => {
+          console.log(e.target.value,"platts_price")
+          const newValue = parseFloat(e.target.value) || 0;
+          formik.setFieldValue(`data[${index}].platts_price`, newValue);
+          calculateTotal(index);
+        }}
+        onBlur={formik.handleBlur}
+      />
+      {/* Error handling code */}
+    </div>
     },
     {
       name: "PREMIUM",
@@ -275,19 +223,13 @@ const ManageDsr = (props) => {
               id={`premium_price-${index}`}
               name={`data[${index}].premium_price`}
               className="table-input"
-              //   className={
-              //     row.update_premium_price
-              //       ? "UpdateValueInput"
-              //       : editable?.is_editable
-              //       ? "table-input"
-              //       : "table-input readonly"
-              //   }
               value={
                 formik?.values?.data && formik.values.data[index]?.premium_price
               }
-              onChange={(event) => {
-                formik.handleChange(event);
-                calculateExVatPrice(index);
+              onChange={(e) => {
+                const newValue = parseFloat(e.target.value) || 0;
+                formik.setFieldValue(`data[${index}].premium_price`, newValue);
+                calculateTotal(index);
               }}
               onBlur={formik.handleBlur}
             />
@@ -312,20 +254,17 @@ const ManageDsr = (props) => {
               id={`development_fuels_price-${index}`}
               name={`data[${index}].development_fuels_price`}
               className="table-input"
-              //   className={
-              //     row.update_development_fuels_price
-              //       ? "UpdateValueInput"
-              //       : editable?.is_editable
-              //       ? "table-input"
-              //       : "table-input readonly"
-              //   }
               value={
                 formik?.values?.data &&
                 formik.values.data[index]?.development_fuels_price
               }
-              onChange={(event) => {
-                formik.handleChange(event);
-                calculateExVatPrice(index);
+              onChange={(e) => {
+                const newValue = parseFloat(e.target.value) || 0;
+                formik.setFieldValue(
+                  `data[${index}].development_fuels_price`,
+                  newValue
+                );
+                calculateTotal(index);
               }}
               onBlur={formik.handleBlur}
             />
@@ -350,19 +289,13 @@ const ManageDsr = (props) => {
               id={`duty_price-${index}`}
               name={`data[${index}].duty_price`}
               className="table-input"
-              //   className={
-              //     row.update_duty_price
-              //       ? "UpdateValueInput"
-              //       : editable?.is_editable
-              //       ? "table-input"
-              //       : "table-input readonly"
-              //   }
               value={
                 formik?.values?.data && formik.values.data[index]?.duty_price
               }
-              onChange={(event) => {
-                formik.handleChange(event);
-                calculateExVatPrice(index);
+              onChange={(e) => {
+                const newValue = parseFloat(e.target.value) || 0;
+                formik.setFieldValue(`data[${index}].duty_price`, newValue);
+                calculateTotal(index);
               }}
               onBlur={formik.handleBlur}
             />
@@ -423,23 +356,12 @@ const ManageDsr = (props) => {
               id={`vat_percentage_rate-${index}`}
               name={`data[${index}].vat_percentage_rate`}
               className="table-input readonly"
-              //   className={
-              //     row.vat_percentage_rate
-              //       ? "UpdateValueInput"
-              //       : editable?.is_editable
-              //       ? "table-input"
-              //       : "table-input readonly"
-              //   }
               value={
                 formik?.values?.data &&
                 formik.values.data[index]?.vat_percentage_rate
               }
               //   onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              onChange={(event) => {
-                formik.handleChange(event);
-                calculateExVatPrice1(index);
-              }}
             />
             {/* Error handling code */}
           </div>
@@ -462,13 +384,6 @@ const ManageDsr = (props) => {
               id={`total-${index}`}
               name={`data[${index}].total`}
               className="table-input readonly"
-              //   className={
-              //     row.total
-              //       ? "UpdateValueInput"
-              //       : editable?.is_editable
-              //       ? "table-input"
-              //       : "table-input readonly"
-              //   }
               value={formik?.values?.data && formik.values.data[index]?.total}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -502,12 +417,6 @@ const ManageDsr = (props) => {
 
     onSubmit: handleSubmit,
   });
- 
-
-
-
-
-
 
   const handleSubmitForm1 = async (event) => {
     event.preventDefault();
@@ -547,8 +456,6 @@ const ManageDsr = (props) => {
         formData.append(total, total_values);
       });
 
-   
-
       formik.values.sites.forEach((site, index) => {
         formData.append(`site_id[${index}]`, site.id);
       });
@@ -565,12 +472,9 @@ const ManageDsr = (props) => {
     }
   };
 
-
-
-
   const [permissionsArray, setPermissionsArray] = useState([]);
 
-  const UserPermissions = useSelector((state) => state?.data?.data)
+  const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
     if (UserPermissions) {
@@ -578,16 +482,20 @@ const ManageDsr = (props) => {
     }
   }, [UserPermissions]);
 
-  const isEditPermissionAvailable = permissionsArray?.includes("fuel-purchase-update");
-  const isManagerPermissionAvailable = permissionsArray?.includes("site-assign-manager");
-  const issitesettingPermissionAvailable = permissionsArray?.includes("site-setting");
-  const isAddPermissionAvailable = permissionsArray?.includes("fuel-purchase-add");
+  const isEditPermissionAvailable = permissionsArray?.includes(
+    "fuel-purchase-update"
+  );
+  const isManagerPermissionAvailable = permissionsArray?.includes(
+    "site-assign-manager"
+  );
+  const issitesettingPermissionAvailable =
+    permissionsArray?.includes("site-setting");
+  const isAddPermissionAvailable =
+    permissionsArray?.includes("fuel-purchase-add");
   const isDeletePermissionAvailable = permissionsArray?.includes("site-delete");
   const isDetailsPermissionAvailable =
     permissionsArray?.includes("site-detail");
   const isAssignPermissionAvailable = permissionsArray?.includes("site-assign");
-
-
 
   return (
     <>
@@ -612,11 +520,10 @@ const ManageDsr = (props) => {
                 Purchase Cost Prices
               </Breadcrumb.Item>
             </Breadcrumb>
-          
           </div>
           <div className="ms-auto pageheader-btn">
             <div className="input-group">
-               {isAddPermissionAvailable ? (
+              {isAddPermissionAvailable ? (
                 <Link
                   to="/Add-purchase-prices"
                   className="btn btn-primary ms-2"
@@ -629,12 +536,10 @@ const ManageDsr = (props) => {
           </div>
         </div>
 
-     
         <Row className="row-sm">
           <Col lg={12}>
             <Card>
-          
-            <Card.Header>
+              <Card.Header>
                 <h3 className="card-title">Fuel Price calculator</h3>
               </Card.Header>
               <Card.Body>
@@ -670,7 +575,7 @@ const ManageDsr = (props) => {
                                 setSelectedCompanyList([]);
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");
-                                setSelectedItems([])
+                                setSelectedItems([]);
                                 const selectedClient = AddSiteData.data.find(
                                   (client) => client.id === selectedType
                                 );
@@ -734,7 +639,7 @@ const ManageDsr = (props) => {
                                 "company_id",
                                 selectedCompany
                               );
-                              setSelectedItems([])
+                              setSelectedItems([]);
                               setSelectedSiteList([]);
                               const selectedCompanyData =
                                 selectedCompanyList.find(
@@ -835,7 +740,6 @@ const ManageDsr = (props) => {
                     </Row>
                   </Card.Body>
                   <Card.Footer className="text-end">
-                   
                     <button className="btn btn-primary me-2" type="submit">
                       Submit
                     </button>
@@ -848,7 +752,6 @@ const ManageDsr = (props) => {
         <Row className="row-sm">
           <Col lg={12}>
             <Card>
-          
               <Card.Body>
                 <Col lg={6} md={6}>
                   {data ? (
@@ -894,11 +797,19 @@ const ManageDsr = (props) => {
                       />
                     </DataTableExtensions>
                   </div>
-              { isEditPermissionAvailable?   <div className="d-flex justify-content-end mt-3">
-                    {data ? <button className="btn btn-primary" type="submit">
-                        Submit
-                      </button>:""}
-                  </div> :""}
+                  {isEditPermissionAvailable ? (
+                    <div className="d-flex justify-content-end mt-3">
+                      {data ? (
+                        <button className="btn btn-primary" type="submit">
+                          Submit
+                        </button>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </form>
               </Card.Body>
             </Card>

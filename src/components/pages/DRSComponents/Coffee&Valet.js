@@ -263,12 +263,12 @@ const CoffeeValet = (props) => {
               id={`opening-${index}`}
               name={`data[${index}].opening`}
               className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
+                "table-input readonly "
               }
               value={formik.values.data[index]?.opening}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              readOnly
             />
             {/* Error handling code */}
           </div>
@@ -327,12 +327,12 @@ const CoffeeValet = (props) => {
               id={`tests-${index}`}
               name={`data[${index}].tests`}
               className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
+                "table-input readonly "
               }
               value={formik.values.data[index]?.tests}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              readOnly
             />
             {/* Error handling code */}
           </div>
@@ -359,12 +359,12 @@ const CoffeeValet = (props) => {
               id={`adjust-${index}`}
               name={`data[${index}].adjust`}
               className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
+                "table-input readonly "
               }
               value={formik.values.data[index]?.adjust}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              readOnly
             />
             {/* Error handling code */}
           </div>
@@ -391,12 +391,12 @@ const CoffeeValet = (props) => {
               id={`sale-${index}`}
               name={`data[${index}].sale`}
               className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
+                "table-input readonly "
               }
               value={formik.values.data[index]?.sale}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              readOnly
             />
             {/* Error handling code */}
           </div>
@@ -423,12 +423,12 @@ const CoffeeValet = (props) => {
               id={`price-${index}`}
               name={`data[${index}].price`}
               className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
+                "table-input readonly "
               }
               value={formik.values.data[index]?.price}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              readOnly
             />
             {/* Error handling code */}
           </div>
@@ -455,12 +455,12 @@ const CoffeeValet = (props) => {
               id={`value-${index}`}
               name={`data[${index}].value`}
               className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
+                "table-input readonly "
               }
               value={formik.values.data[index]?.value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              readOnly
             />
             {/* Error handling code */}
           </div>
@@ -487,12 +487,12 @@ const CoffeeValet = (props) => {
               id={`com_rate-${index}`}
               name={`data[${index}].com_rate`}
               className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
+                "table-input readonly "
               }
               value={formik.values.data[index]?.com_rate}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              readOnly
             />
             {/* Error handling code */}
           </div>
@@ -519,12 +519,12 @@ const CoffeeValet = (props) => {
               id={`commission-${index}`}
               name={`data[${index}].commission`}
               className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
+                "table-input readonly "
               }
               value={formik.values.data[index]?.commission}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              readOnly
             />
             {/* Error handling code */}
           </div>

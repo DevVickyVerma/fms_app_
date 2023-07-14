@@ -265,7 +265,7 @@ const FuelDelivery = (props) => {
       selector: (row) => row.fuel_name,
       sortable: false,
       width: "15%",
-      center: true,
+      center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           {row.fuel_name !== undefined
