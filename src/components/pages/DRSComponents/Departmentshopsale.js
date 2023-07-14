@@ -191,7 +191,6 @@ const Departmentshopsale = (props) => {
     
       if (response.ok) {
         console.log("Done");
-        window.scrollTo({ top: 0, behavior: 'smooth' });
         SuccessToast(responseData.message);
       } else {
         ErrorToast(responseData.message);
@@ -213,7 +212,7 @@ const Departmentshopsale = (props) => {
       selector: (row) => row.category_name,
       sortable: false,
       width: "25%",
-      center: true,
+      center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           {row.category_name !== undefined
@@ -231,7 +230,13 @@ const Departmentshopsale = (props) => {
      
       cell: (row, index) =>
       row.category_name === "Total" ? (
-        <h4 className="bottom-toal">{row.gross_value}</h4>
+        <input
+        type="number"
+       className="table-input readonly total-input"
+        value={row.gross_value}
+        readOnly
+      />
+        
       ) : (
         <div>
         <input
@@ -263,7 +268,12 @@ const Departmentshopsale = (props) => {
      
       cell: (row, index) =>
       row.category_name === "Total" ? (
-        <h4 className="bottom-toal">{row.disc_value}</h4>
+        <input
+        type="number"
+        className="table-input readonly total-input"
+        value={row.disc_value}
+        readOnly
+      />
       ) : (
         <div>
         <input
@@ -295,7 +305,12 @@ const Departmentshopsale = (props) => {
     
       cell: (row, index) =>
       row.category_name === "Total" ? (
-        <h4 className="bottom-toal">{row.nett_value}</h4>
+        <input
+        type="number"
+       className="table-input readonly total-input"
+        value={row.nett_value}
+        readOnly
+      />
       ) : (
         <div>
           <input

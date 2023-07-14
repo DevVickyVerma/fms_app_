@@ -198,7 +198,7 @@ const CreditCardBanking = (props) => {
       selector: (row) => row.card_name,
       sortable: false,
       width: "20%",
-      center: true,
+      center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           {row.card_name !== undefined ? `${row.card_name}` : ""}
@@ -214,7 +214,12 @@ const CreditCardBanking = (props) => {
     
       cell: (row, index) =>
       row.card_name === "Total" ? (
-        <h4 className="bottom-toal">{row.koisk_value}</h4>
+        <input
+        type="number"
+        className="table-input readonly total-input"
+        value={row.koisk_value}
+        readOnly
+      />
       ) : (
         <div>
         <input
@@ -243,7 +248,12 @@ const CreditCardBanking = (props) => {
     
       cell: (row, index) =>
       row.card_name === "Total" ? (
-        <h4 className="bottom-toal">{row.opt_value}</h4>
+        <input
+        type="number"
+        className="table-input readonly total-input"
+        value={row.opt_value}
+        readOnly
+      />
       ) : (
         <div>
         <input
@@ -271,7 +281,12 @@ const CreditCardBanking = (props) => {
    
       cell: (row, index) =>
       row.card_name === "Total" ? (
-        <h4 className="bottom-toal">{row.account_value}</h4>
+        <input
+        type="number"
+        className="table-input readonly total-input"
+        value={row.account_value}
+        readOnly
+      />
       ) : (
         <div>
           <input
@@ -299,17 +314,22 @@ const CreditCardBanking = (props) => {
   
       cell: (row, index) =>
       row.card_name === "Total" ? (
-        <h4 className="bottom-toal">{row.account_value}</h4>
+        <input
+        type="number"
+        className="table-input readonly total-input"
+        value={row.no_of_transactions}
+        readOnly
+      />
       ) : (
         <div>
         <input
           type="number"
-          id={`account_value-${index}`}
-          name={`data[${index}].account_value`}
+          id={`no_of_transactions-${index}`}
+          name={`data[${index}].no_of_transactions`}
           className={
             editable?.is_editable ? "table-input " : "table-input readonly "
           }
-          value={formik.values.data[index]?.account_value}
+          value={formik.values.data[index]?.no_of_transactions}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           readOnly={editable?.is_editable ? false : true}

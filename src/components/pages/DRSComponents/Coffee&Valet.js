@@ -235,7 +235,7 @@ const CoffeeValet = (props) => {
       selector: (row) => row.item_category,
       sortable: false,
       width: "15%",
-      center: true,
+      center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           {row.item_category !== undefined ? `${row.item_category}` : ""}
@@ -250,7 +250,12 @@ const CoffeeValet = (props) => {
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
-          <h4 className="bottom-toal">{row.opening}</h4>
+          <input
+          type="number"
+          className="table-input readonly total-input"
+          value={row.opening}
+          readOnly
+        />
         ) : (
           <div>
             <input
@@ -277,7 +282,12 @@ const CoffeeValet = (props) => {
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
-          <h4 className="bottom-toal">{row.closing}</h4>
+          <input
+          type="number"
+          className="table-input readonly total-input"
+          value={row.closing}
+          readOnly
+        />
         ) : (
           <div>
             <input
@@ -304,7 +314,12 @@ const CoffeeValet = (props) => {
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
-          <h4 className="bottom-toal">{row.tests}</h4>
+          <input
+          type="number"
+          className="table-input readonly total-input"
+          value={row.tests}
+          readOnly
+        />
         ) : (
           <div>
             <input
@@ -331,7 +346,12 @@ const CoffeeValet = (props) => {
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
-          <h4 className="bottom-toal">{row.adjust}</h4>
+          <input
+          type="number"
+          className="table-input readonly total-input"
+          value={row.adjust}
+          readOnly
+        />
         ) : (
           <div>
             <input
@@ -358,7 +378,12 @@ const CoffeeValet = (props) => {
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
-          <h4 className="bottom-toal">{row.sale}</h4>
+          <input
+          type="number"
+          className="table-input readonly total-input"
+          value={row.sale}
+          readOnly
+        />
         ) : (
           <div>
             <input
@@ -385,7 +410,12 @@ const CoffeeValet = (props) => {
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
-          <h4 className="bottom-toal">{row.price}</h4>
+          <input
+          type="number"
+          className="table-input readonly total-input"
+          value={row.price}
+          readOnly
+        />
         ) : (
           <div>
             <input
@@ -412,7 +442,12 @@ const CoffeeValet = (props) => {
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
-          <h4 className="bottom-toal">{row.value}</h4>
+          <input
+          type="number"
+          className="table-input readonly total-input"
+          value={row.value}
+          readOnly
+        />
         ) : (
           <div>
             <input
@@ -439,7 +474,12 @@ const CoffeeValet = (props) => {
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
-          <h4 className="bottom-toal">{row.com_rate}</h4>
+          <input
+          type="number"
+          className="table-input readonly total-input"
+          value={row.com_rate}
+          readOnly
+        />
         ) : (
           <div>
             <input
@@ -466,7 +506,12 @@ const CoffeeValet = (props) => {
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
-          <h4 className="bottom-toal">{row.commission}</h4>
+          <input
+          type="number"
+          className="table-input readonly total-input"
+          value={row.commission}
+          readOnly
+        />
         ) : (
           <div>
             <input

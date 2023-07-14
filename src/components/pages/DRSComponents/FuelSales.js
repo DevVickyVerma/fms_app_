@@ -172,7 +172,7 @@ const FuelSales = (props) => {
       selector: (row) => row.fuel_name,
       sortable: false,
       width: "20%",
-      center: true,
+      center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           {row.fuel_name !== undefined ? `${row.fuel_name}` : ""}
@@ -188,7 +188,13 @@ const FuelSales = (props) => {
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
-          <h4 className="bottom-toal">{row.sales_volume}</h4>
+       
+           <input
+        type="number"
+       className="table-input readonly total-input"
+        value={row.sales_volume}
+        readOnly
+        />
         ) : (
           <div>
             <input
@@ -221,7 +227,13 @@ const FuelSales = (props) => {
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
-          <h4 className="bottom-toal">{row.gross_value}</h4>
+        
+          <input
+          type="number"
+         className="table-input readonly total-input"
+          value={row.gross_value}
+          readOnly
+          />
         ) : (
           <div>
             <input
@@ -253,7 +265,12 @@ const FuelSales = (props) => {
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
-          <h4 className="bottom-toal">{row.discount}</h4>
+          <input
+          type="number"
+         className="table-input readonly total-input"
+          value={row.discount}
+          readOnly
+          />
         ) : (
           <div>
             <input
@@ -286,7 +303,12 @@ const FuelSales = (props) => {
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
-          <h4 className="bottom-toal">{row.nett_value}</h4>
+          <input
+          type="number"
+         className="table-input readonly total-input"
+          value={row.nett_value}
+          readOnly
+          />
         ) : (
           <div>
             <input

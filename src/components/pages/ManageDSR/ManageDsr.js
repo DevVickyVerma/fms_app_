@@ -305,10 +305,12 @@ const ManageDsr = (props) => {
 
     // Show or hide the modal based on the new value of showModal
   };
+  const [selectedItem, setSelectedItem] = useState(null);
+
 
   const handleEnteryClick = (item) => {
 
-
+    setSelectedItem(item);
     setUploadTabname(item.name);
     window.scrollTo({
       top: document.documentElement.scrollHeight,
@@ -717,7 +719,7 @@ const ManageDsr = (props) => {
                           }`}
                         >
                           <Card.Body
-                            className="card-Div"
+                             className={`card-Div ${selectedItem === item ? 'selected' : ''}`}
                             onClick={() => handleEnteryClick(item)} // Pass item.name as an argument
                           >
                             <h4 className="card-title">{item.name}</h4>

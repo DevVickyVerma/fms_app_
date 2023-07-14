@@ -147,7 +147,7 @@ const ManageDsr = (props) => {
       selector: (row) => row.name,
       sortable: false,
       width: "20%",
-      center: true,
+      center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           {row.name !== undefined ? `${row.name}` : ""}
@@ -155,7 +155,7 @@ const ManageDsr = (props) => {
       ),
     },
     {
-      name: "PRICE($)",
+      name: "PRICE(£)",
       selector: (row) => row.price,
       sortable: false,
       width: "40%",

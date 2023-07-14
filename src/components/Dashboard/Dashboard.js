@@ -173,7 +173,7 @@ const Dashboard = (props) => {
     try {
       const response = await axiosInstance.get(
         values
-          ? `dashboard/gross-volume?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}`
+          ? `dashboard/gross-volume?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
           : `/dashboard/gross-volume?client_id=${ClientID}`
       );
 
@@ -200,7 +200,7 @@ const Dashboard = (props) => {
     try {
       const response = await axiosInstance.get(
         values
-          ? `dashboard/line-graph?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}`
+          ? `dashboard/line-graph?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
           : `/dashboard/line-graph`
       );
 
@@ -225,7 +225,7 @@ const Dashboard = (props) => {
     try {
       const response = await axiosInstance.get(
         values
-          ? `dashboard/pie-chart?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}`
+          ? `dashboard/pie-chart?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
           : `/dashboard/pie-chart`
       );
 
@@ -251,7 +251,7 @@ const Dashboard = (props) => {
     try {
       const response = await axiosInstance.get(
         values
-          ? `dashboard/gross-profit?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}`
+          ? `dashboard/gross-profit?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
           : `/dashboard/gross-profit?client_id=${ClientID}`
       );
 
@@ -273,7 +273,7 @@ const Dashboard = (props) => {
     try {
       const response = await axiosInstance.get(
         values
-          ? `dashboard/gross-margin?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}`
+          ? `dashboard/gross-margin?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
           : `/dashboard/gross-margin?client_id=${ClientID}`
       );
 
@@ -295,7 +295,7 @@ const Dashboard = (props) => {
     try {
       const response = await axiosInstance.get(
         values
-          ? `dashboard/fuel-sale?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}`
+          ? `dashboard/fuel-sale?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
           : `/dashboard/fuel-sale?client_id=${ClientID}`
       );
 
@@ -317,7 +317,7 @@ const Dashboard = (props) => {
     try {
       const response = await axiosInstance.get(
         values
-          ? `dashboard/shop-sale?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}`
+          ? `dashboard/shop-sale?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
           : `/dashboard/shop-sale?client_id=${ClientID}`
       );
 
@@ -339,7 +339,7 @@ const Dashboard = (props) => {
     try {
       const response = await axiosInstance.get(
         values
-          ? `dashboard/shop-margin?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}`
+          ? `dashboard/shop-margin?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
           : `/dashboard/shop-margin?client_id=${ClientID}`
       );
 
@@ -520,7 +520,6 @@ const Dashboard = (props) => {
                                   <div className="ms-4">
                                     <h6 className="">Bunkered Volume</h6>
                                     <h3 className="mb-2 number-font">
-                                  
                                       ℓ{GrossVolume?.data?.bunkered_volume}
                                     </h3>
                                   </div>
@@ -676,18 +675,14 @@ const Dashboard = (props) => {
                       <div className="col">
                         <div className=" dashboard-box">
                           <div>
-                          
-
                             {FuelValueeLoading ? (
                               <Spinners />
                             ) : (
                               <>
-                           
                                 <div className="d-flex">
                                   <div>
                                     <h6 className="">Fuel Sales</h6>
                                     <h3 className="mb-2 number-font">
-                                   
                                       £{FuelValue?.data?.gross_value}
                                     </h3>
                                   </div>
@@ -695,8 +690,7 @@ const Dashboard = (props) => {
                                   <div className="ms-4">
                                     <h6 className="">Bunkered Volue</h6>
                                     <h3 className="mb-2 number-font">
-                                  
-                                    £{FuelValue?.data?.bunkered_value}
+                                      £{FuelValue?.data?.bunkered_value}
                                     </h3>
                                   </div>
                                 </div>

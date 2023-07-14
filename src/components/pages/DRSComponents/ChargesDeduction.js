@@ -199,7 +199,12 @@ const ShopSales = (props) => {
    
       cell: (row, index) =>
       row.charge_name === "Total" ? (
-        <h4 className="bottom-toal">{row.charge_value}</h4>
+        <input
+        type="number"
+        className="table-input readonly total-input"
+        value={row.charge_value}
+        readOnly
+      />
       ) : (
         <div>
         <input
@@ -224,6 +229,7 @@ const ShopSales = (props) => {
       name: "DEDUCTION GROUPS",
       selector: (row) => row.deduction_name, // Update the selector to use a function
       sortable: true,
+      center: false,
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -243,7 +249,12 @@ const ShopSales = (props) => {
     
       cell: (row, index) =>
       row.deduction_name === "Total" ? (
-        <h4 className="bottom-toal">{row.deduction_value}</h4>
+        <input
+        type="number"
+        className="table-input readonly total-input"
+        value={row.deduction_value}
+        readOnly
+      />
       ) : (
         <div>
         <input

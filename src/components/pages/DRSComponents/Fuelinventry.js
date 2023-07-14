@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 
 const FuelInventry = (props) => {
-  const {  SiteID, ReportDate } = props;
+  const { SiteID, ReportDate } = props;
 
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
@@ -19,7 +19,7 @@ const FuelInventry = (props) => {
   const [VarianceDataa, setVarianceDataa] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
-  
+
   const navigate = useNavigate();
   const SuccessToast = (message) => {
     toast.success(message, {
@@ -71,60 +71,54 @@ const FuelInventry = (props) => {
           `/fuel-inventory/list?site_id=${SiteID}&drs_date=${ReportDate}`
         );
 
-
-
-
-
         const { data } = response;
         if (data) {
           setData(data?.data?.listing ? data.data.listing : []);
-          setCombinedVarianceData(data?.data ? data.data.combined_variance_data : []);
+          setCombinedVarianceData(
+            data?.data ? data.data.combined_variance_data : []
+          );
           setVarianceDataa(data?.data ? data.data.variance_data : []);
           setis_editable(data?.data ? data.data : {});
-          
-     
-        
+
           const formValues = data?.data?.listing
-          ? data.data.listing.map((item) => {
-              return {
-                id: item.id ,
-                fuel_price: item.fuel_price ,
-                metered_sale: item.metered_sale,
-                metered_sale_value: item.metered_sale_value ,
-                adjustment: item.adjustment ,
-                adjustment_euro: item.adjustment_euro ,
-                adjusted_sale: item.adjusted_sale ,
-                adjusted_sale_value: item.adjusted_sale_value ,
-                tests: item.tests ,
-                actual_sales: item.actual_sales ,
-                due_sales: item.due_sales ,
-                bunkered_sale: item.bunkered_sale ,
-                // Add other properties as needed
-              };
-            })
-          : [];
+            ? data.data.listing.map((item) => {
+                return {
+                  id: item.id,
+                  fuel_price: item.fuel_price,
+                  metered_sale: item.metered_sale,
+                  metered_sale_value: item.metered_sale_value,
+                  adjustment: item.adjustment,
+                  adjustment_euro: item.adjustment_euro,
+                  adjusted_sale: item.adjusted_sale,
+                  adjusted_sale_value: item.adjusted_sale_value,
+                  tests: item.tests,
+                  actual_sales: item.actual_sales,
+                  due_sales: item.due_sales,
+                  bunkered_sale: item.bunkered_sale,
+                  // Add other properties as needed
+                };
+              })
+            : [];
 
           const Combinedvariancedata = data?.data?.combined_variance_data
-          ? data.data.combined_variance_data.map((item) => ({
-            description: item.description,
-            variance: item.variance,
-              // Add other properties as needed
-            }))
-          : [];
+            ? data.data.combined_variance_data.map((item) => ({
+                description: item.description,
+                variance: item.variance,
+                // Add other properties as needed
+              }))
+            : [];
           formik.setFieldValue("Combinedvariance", Combinedvariancedata);
 
           const Variancedata = data?.data?.variance_data
-          ? data.data.variance_data.map((item) => ({
-            description: item.description,
-            variance: item.variance,
-            due_sales: item.due_sales,
-            sale_value: item.sale_value,
-              // Add other properties as needed
-            }))
-          : [];
+            ? data.data.variance_data.map((item) => ({
+                description: item.description,
+                variance: item.variance,
+                due_sales: item.due_sales,
+                sale_value: item.sale_value,
+                // Add other properties as needed
+              }))
+            : [];
           formik.setFieldValue("Variancedataformik", Variancedata);
-
-        
 
           // Set the formik values using setFieldValue
           formik.setFieldValue("data", formValues);
@@ -140,20 +134,29 @@ const FuelInventry = (props) => {
     fetchData();
   }, [SiteID, ReportDate]);
 
-
-
   const handleSubmit = async (values) => {
     const token = localStorage.getItem("token");
 
-    console.log(values.data)
-  
+    console.log(values.data);
+
     // Create a new FormData object
     const formData = new FormData();
 
-
-
     for (const obj of values.data) {
-      const { id, fuel_price, metered_sale, metered_sale_value, adjustment, adjustment_euro, adjusted_sale, adjusted_sale_value, actual_sales, due_sales,tests,bunkered_sale } = obj;
+      const {
+        id,
+        fuel_price,
+        metered_sale,
+        metered_sale_value,
+        adjustment,
+        adjustment_euro,
+        adjusted_sale,
+        adjusted_sale_value,
+        actual_sales,
+        due_sales,
+        tests,
+        bunkered_sale,
+      } = obj;
       const fuel_priceKey = `fuel_price[${id}]`;
       const discountKey = `metered_sale[${id}]`;
       const nettValueKey = `metered_sale_value[${id}]`;
@@ -165,7 +168,7 @@ const FuelInventry = (props) => {
       const adjusted_sale_valuePerKey = `due_sales[${id}]`;
       const testsKey = `tests[${id}]`;
       const bunkered_saleKey = `bunkered_sale[${id}]`;
-    
+
       formData.append(fuel_priceKey, fuel_price);
       formData.append(discountKey, metered_sale);
       formData.append(nettValueKey, metered_sale_value);
@@ -178,11 +181,10 @@ const FuelInventry = (props) => {
       formData.append(testsKey, tests);
       formData.append(bunkered_saleKey, bunkered_sale);
     }
-    
-  
+
     formData.append("site_id", SiteID);
     formData.append("drs_date", ReportDate);
-  
+
     try {
       setIsLoading(true);
       const response = await fetch(
@@ -195,16 +197,16 @@ const FuelInventry = (props) => {
           body: formData,
         }
       );
-    
+
       const responseData = await response.json(); // Read the response once
-    
+
       if (response.ok) {
         console.log("Done");
         SuccessToast(responseData.message);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
         ErrorToast(responseData.message);
-    
+
         console.log("API Error:", responseData);
         // Handle specific error cases if needed
       }
@@ -213,7 +215,8 @@ const FuelInventry = (props) => {
       // Handle request error
     } finally {
       setIsLoading(false);
-    }}
+    }
+  };
   const columns = [
     // ... existing columns
 
@@ -222,12 +225,10 @@ const FuelInventry = (props) => {
       selector: (row) => row.description,
       sortable: false,
       width: "12%",
-      center: true,
+      center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
-          {row.description !== undefined
-            ? `${row.description}`
-            : ""}
+          {row.description !== undefined ? `${row.description}` : ""}
         </span>
       ),
     },
@@ -239,7 +240,12 @@ const FuelInventry = (props) => {
       center: true,
       cell: (row, index) =>
         row.description === "Total" ? (
-          <h4 className="bottom-toal">{row.fuel_price}</h4>
+          <input
+            type="number"
+            className="table-input readonly total-input"
+            value={row.fuel_price}
+            readOnly
+          />
         ) : (
           <div>
             <input
@@ -258,7 +264,7 @@ const FuelInventry = (props) => {
           </div>
         ),
     },
-    
+
     {
       name: "	CASH METERED SALES VOL.(ℓ)",
       selector: (row) => row.metered_sale,
@@ -266,27 +272,32 @@ const FuelInventry = (props) => {
       width: "8%",
       center: true,
       // Title: "CASH METERED SALES",
-    
+
       cell: (row, index) =>
-      row.description === "Total" ? (
-        <h4 className="bottom-toal">{row.metered_sale}</h4>
-      ) : (
-        <div>
+        row.description === "Total" ? (
           <input
             type="number"
-            id={`metered_sale-${index}`}
-            name={`data[${index}].metered_sale`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.metered_sale }
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
+            className="table-input readonly total-input"
+            value={row.metered_sale}
+            readOnly
           />
-          {/* Error handling code */}
-        </div>
-      ),
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`metered_sale-${index}`}
+              name={`data[${index}].metered_sale`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.metered_sale}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "CASH METERED SALES VALUE(£)",
@@ -294,27 +305,32 @@ const FuelInventry = (props) => {
       sortable: false,
       width: "8%",
       center: true,
-  
+
       cell: (row, index) =>
-      row.description === "Total" ? (
-        <h4 className="bottom-toal">{row.metered_sale_value}</h4>
-      ) : (
-        <div>
-        <input
-          type="number"
-          id={`metered_sale_value-${index}`}
-          name={`data[${index}].metered_sale_value`}
-          className={
-            editable?.is_editable ? "table-input " : "table-input readonly "
-          }
-          value={formik.values.data[index]?.metered_sale_value }
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          readOnly={editable?.is_editable ? false : true}
-        />
-        {/* Error handling code */}
-      </div>
-      ),
+        row.description === "Total" ? (
+          <input
+            type="number"
+            className="table-input readonly total-input"
+            value={row.metered_sale_value}
+            readOnly
+          />
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`metered_sale_value-${index}`}
+              name={`data[${index}].metered_sale_value`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.metered_sale_value}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "ADJ(ℓ)",
@@ -322,240 +338,263 @@ const FuelInventry = (props) => {
       sortable: false,
       width: "8%",
       center: true,
-   
-        
+
       cell: (row, index) =>
-      row.description === "Total" ? (
-        <h4 className="bottom-toal">{row.adjustment}</h4>
-      ) : (
-        <div>
-        <input
-          type="number"
-          id={`adjustment-${index}`}
-          name={`data[${index}].adjustment`}
-          className={
-            editable?.is_editable ? "table-input " : "table-input readonly "
-          }
-          value={formik.values.data[index]?.adjustment }
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          readOnly={editable?.is_editable ? false : true}
-        />
-        {/* Error handling code */}
-      </div>
-      ),
+        row.description === "Total" ? (
+          <input
+            type="number"
+            className="table-input readonly total-input"
+            value={row.adjustment}
+            readOnly
+          />
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`adjustment-${index}`}
+              name={`data[${index}].adjustment`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.adjustment}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "ADJ(£)",
       selector: (row) => row.adjustment_euro,
       sortable: false,
-     width: "8%",
+      width: "8%",
       center: true,
-    
+
       cell: (row, index) =>
-      row.description === "Total" ? (
-        <h4 className="bottom-toal">{row.adjustment_euro}</h4>
-      ) : (
-        <div>
-        <input
-          type="number"
-          id={`adjustment_euro-${index}`}
-          name={`data[${index}].adjustment_euro`}
-          className={
-            editable?.is_editable ? "table-input " : "table-input readonly "
-          }
-          value={formik.values.data[index]?.adjustment_euro }
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          readOnly={editable?.is_editable ? false : true}
-        />
-        {/* Error handling code */}
-      </div>
-      ),
+        row.description === "Total" ? (
+          <input
+            type="number"
+            className="table-input readonly total-input"
+            value={row.adjustment_euro}
+            readOnly
+          />
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`adjustment_euro-${index}`}
+              name={`data[${index}].adjustment_euro`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.adjustment_euro}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "ADJUSTED SALES VOL.(ℓ)",
       selector: (row) => row.adjusted_sale,
       sortable: false,
-     width: "8%",
+      width: "8%",
       center: true,
-      cell: (row, index) => (
-        <div>
+
+      cell: (row, index) =>
+        row.description === "Total" ? (
           <input
             type="number"
-            id={`adjusted_sale-${index}`}
-            name={`data[${index}].adjusted_sale`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.adjusted_sale }
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
+            className="table-input readonly total-input"
+            value={row.metered_sale_value}
+            readOnly
           />
-          {/* Error handling code */}
-        </div>
-      ),
-      cell: (row, index) =>
-      row.description === "Total" ? (
-        <h4 className="bottom-toal">{row.metered_sale_value}</h4>
-      ) : (
-        <div>
-        <input
-          type="number"
-          id={`metered_sale_value-${index}`}
-          name={`data[${index}].metered_sale_value`}
-          className={
-            editable?.is_editable ? "table-input " : "table-input readonly "
-          }
-          value={formik.values.data[index]?.metered_sale_value }
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          readOnly={editable?.is_editable ? false : true}
-        />
-        {/* Error handling code */}
-      </div>
-      ),
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`metered_sale_value-${index}`}
+              name={`data[${index}].metered_sale_value`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.metered_sale_value}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "BUNKERED SALES VOL.(ℓ)",
       selector: (row) => row.bunkered_sale,
       sortable: false,
-     width: "8%",
+      width: "8%",
       center: true,
-   
+
       cell: (row, index) =>
-      row.description === "Total" ? (
-        <h4 className="bottom-toal">{row.bunkered_sale}</h4>
-      ) : (
-        <div>
+        row.description === "Total" ? (
           <input
-            type="number"
-            id={`bunkered_sale-${index}`}
-            name={`data[${index}].bunkered_sale`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.bunkered_sale }
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
-      ),
+          type="number"
+          className="table-input readonly total-input"
+          value={row.adjustment_euro}
+          readOnly
+        />
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`bunkered_sale-${index}`}
+              name={`data[${index}].bunkered_sale`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.bunkered_sale}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "ADJUSTED SALES VALUE(£)",
       selector: (row) => row.adjusted_sale_value,
       sortable: false,
-     width: "8%",
+      width: "8%",
       center: true,
-    
+
       cell: (row, index) =>
-      row.description === "Total" ? (
-        <h4 className="bottom-toal">{row.adjusted_sale_value}</h4>
-      ) : (
-        <div>
-        <input
+        row.description === "Total" ? (
+          <input
           type="number"
-          id={`adjusted_sale_value-${index}`}
-          name={`data[${index}].adjusted_sale_value`}
-          className={
-            editable?.is_editable ? "table-input " : "table-input readonly "
-          }
-          value={formik.values.data[index]?.adjusted_sale_value }
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          readOnly={editable?.is_editable ? false : true}
+          className="table-input readonly total-input"
+          value={row.adjusted_sale_value}
+          readOnly
         />
-        {/* Error handling code */}
-      </div>
-      ),
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`adjusted_sale_value-${index}`}
+              name={`data[${index}].adjusted_sale_value`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.adjusted_sale_value}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "TEST(ℓ)",
       selector: (row) => row.tests,
       sortable: false,
-     width: "8%",
+      width: "8%",
       center: true,
-   
+
       cell: (row, index) =>
-      row.description === "Total" ? (
-        <h4 className="bottom-toal">{row.tests}</h4>
-      ) : (
-        <div>
-        <input
+        row.description === "Total" ? (
+          <input
           type="number"
-          id={`tests-${index}`}
-          name={`data[${index}].tests`}
-          className={
-            editable?.is_editable ? "table-input " : "table-input readonly "
-          }
-          value={formik.values.data[index]?.tests }
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          readOnly={editable?.is_editable ? false : true}
+          className="table-input readonly total-input"
+          value={row.tests}
+          readOnly
         />
-        {/* Error handling code */}
-      </div>
-      ),
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`tests-${index}`}
+              name={`data[${index}].tests`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.tests}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "ACTUAL SALES VOL.(ℓ)",
       selector: (row) => row.actual_sales,
       sortable: false,
-     width: "8%",
+      width: "8%",
       center: true,
-    
+
       cell: (row, index) =>
-      row.description === "Total" ? (
-        <h4 className="bottom-toal">{row.actual_sales}</h4>
-      ) : (
-        <div>
+        row.description === "Total" ? (
           <input
-            type="number"
-            id={`actual_sales-${index}`}
-            name={`data[${index}].actual_sales`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.actual_sales }
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
-      ),
+          type="number"
+          className="table-input readonly total-input"
+          value={row.actual_sales}
+          readOnly
+        />
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`actual_sales-${index}`}
+              name={`data[${index}].actual_sales`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.actual_sales}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "DUE SALES (£)(ACTUAL SALES VOL. X PRICE)",
       selector: (row) => row.due_sales,
       sortable: false,
-     width: "8%",
+      width: "8%",
       center: true,
-  
+
       cell: (row, index) =>
-      row.description === "Total" ? (
-        <h4 className="bottom-toal">{row.due_sales}</h4>
-      ) : (
-        <div>
-        <input
+        row.description === "Total" ? (
+          <input
           type="number"
-          id={`due_sales-${index}`}
-          name={`data[${index}].due_sales`}
-          className={
-            editable?.is_editable ? "table-input " : "table-input readonly "
-          }
-          value={formik.values.data[index]?.due_sales }
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          readOnly={editable?.is_editable ? false : true}
+          className="table-input readonly total-input"
+          value={row.due_sales}
+          readOnly
         />
-        {/* Error handling code */}
-      </div>
-      ),
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`due_sales-${index}`}
+              name={`data[${index}].due_sales`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.due_sales}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
 
     // ... remaining columns
@@ -565,7 +604,7 @@ const FuelInventry = (props) => {
       name: "DESCRIPTION",
       selector: (row) => row.description, // Update the selector to use a function
       sortable: true,
-      center: true,
+      center: false,
       width: "50%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -575,7 +614,6 @@ const FuelInventry = (props) => {
         </div>
       ),
     },
-    
 
     {
       name: "VARIANCE",
@@ -590,26 +628,23 @@ const FuelInventry = (props) => {
             type="number"
             id={`variance-${index}`}
             name={`Combinedvariance[${index}].variance`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values?.Combinedvariance?.[index]?.variance || ''}
+            className={" table-input readonly"}
+            value={formik.values?.Combinedvariance?.[index]?.variance || ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            // readOnly={editable?.is_editable ? false : true}
+            readOnly
           />
           {/* Error handling code */}
         </div>
       ),
     },
- 
   ];
   const VarianceColumns = [
     {
       name: "DESCRIPTION",
       selector: (row) => row.description, // Update the selector to use a function
       sortable: true,
-      center: true,
+      center: false,
       width: "25%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -619,8 +654,6 @@ const FuelInventry = (props) => {
         </div>
       ),
     },
-  
-    
 
     {
       name: "DUE SALES",
@@ -635,10 +668,8 @@ const FuelInventry = (props) => {
             type="number"
             id={`due_sales-${index}`}
             name={`Variancedataformik[${index}].due_sales`}
-            className={
-           "table-input readonly "
-            }
-            value={formik.values?.Variancedataformik?.[index]?.due_sales || ''}
+            className={"table-input readonly "}
+            value={formik.values?.Variancedataformik?.[index]?.due_sales || ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly
@@ -661,10 +692,8 @@ const FuelInventry = (props) => {
             type="number"
             id={`sale_value-${index}`}
             name={`Variancedataformik[${index}].sale_value`}
-            className={
-           "table-input readonly "
-            }
-            value={formik.values?.Variancedataformik?.[index]?.sale_value || ''}
+            className={"table-input readonly "}
+            value={formik.values?.Variancedataformik?.[index]?.sale_value || ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly
@@ -687,10 +716,8 @@ const FuelInventry = (props) => {
             type="number"
             id={`variance-${index}`}
             name={`Variancedataformik[${index}].variance`}
-            className={
-           "table-input readonly "
-            }
-            value={formik.values?.Variancedataformik?.[index]?.variance || ''}
+            className={"table-input readonly "}
+            value={formik.values?.Variancedataformik?.[index]?.variance || ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly
@@ -700,9 +727,6 @@ const FuelInventry = (props) => {
         </div>
       ),
     },
-  
-   
- 
   ];
 
   const tableDatas = {
@@ -731,77 +755,77 @@ const FuelInventry = (props) => {
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
                   <div className="table-responsive deleted-table">
+                    <Row>
+                      <Col lg={12} md={12}>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                        />
+                      </Col>
+                    </Row>
 
-                  <Row>
-                   
-                      <Col lg={12} md={12}>
-                      <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        striped={true}
-                        persistTableHead
-                        highlightOnHover
-                        searchable={false}
-                      />
-                      </Col>
-                    </Row>
-                    
                     <Row className="mt-4">
-                    <Card>
-              <Card.Header>
-                <h3 className="card-title">Variance for Report</h3>
-              </Card.Header>
-              <Card.Body>
-                      <Col lg={12} md={12}>
-                        <DataTable
-                          columns={VarianceColumns}
-                          data={VarianceDataa}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          persistTableHead
-                          highlightOnHover
-                          searchable={false}
-                          responsive
-                        />
-                      </Col>
-                      </Card.Body>
-                      </Card>
-                      </Row>
-                      <Row>
                       <Card>
-              <Card.Header>
-                <h3 className="card-title">Combined Variance</h3>
-              </Card.Header>
-              <Card.Body>
-                      
-              <Col lg={12} md={12}>
-                        <DataTable
-                          columns={CombinedVarianceColumns}
-                          data={CombinedVarianceData}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          persistTableHead
-                          highlightOnHover
-                          searchable={false}
-                          responsive
-                        />
-                      </Col>
-                      </Card.Body>
+                        <Card.Header>
+                          <h3 className="card-title">Variance for Report</h3>
+                        </Card.Header>
+                        <Card.Body>
+                          <Col lg={12} md={12}>
+                            <DataTable
+                              columns={VarianceColumns}
+                              data={VarianceDataa}
+                              noHeader
+                              defaultSortField="id"
+                              defaultSortAsc={false}
+                              striped={true}
+                              persistTableHead
+                              highlightOnHover
+                              searchable={false}
+                              responsive
+                            />
+                          </Col>
+                        </Card.Body>
                       </Card>
                     </Row>
-               
+                    <Row>
+                      <Card>
+                        <Card.Header>
+                          <h3 className="card-title">Combined Variance</h3>
+                        </Card.Header>
+                        <Card.Body>
+                          <Col lg={12} md={12}>
+                            <DataTable
+                              columns={CombinedVarianceColumns}
+                              data={CombinedVarianceData}
+                              noHeader
+                              defaultSortField="id"
+                              defaultSortAsc={false}
+                              striped={true}
+                              persistTableHead
+                              highlightOnHover
+                              searchable={false}
+                              responsive
+                            />
+                          </Col>
+                        </Card.Body>
+                      </Card>
+                    </Row>
                   </div>
                   <div className="d-flex justify-content-end mt-3">
-                 {data.length>0 ? <button className="btn btn-primary" type="submit" >
-                      Submit
-                    </button> :""}
+                    {data.length > 0 ? (
+                      <button className="btn btn-primary" type="submit">
+                        Submit
+                      </button>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </form>
               </Card.Body>

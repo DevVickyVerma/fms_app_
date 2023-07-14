@@ -35,23 +35,22 @@ h3.SidebarSearch-title {
 }
 .badge {
   display: inline-block;
-  background-color:#898989;
+  background-color: #898989;
   border-color: none;
-  
-  padding: 12px 9px;
+  padding: 11px;
   border-radius: 7px;
-  margin-right: 10px;
+  margin-right: 2px;
   color: #fff;
 }
 .badge-key {
   font-weight: bold;
-  font-size: 13px;
+  font-size: 10px;
   font-weight: 500;
 }
 
 .badge-value {
   margin-left: 5px;
-  font-size: 13px;
+  font-size: 10px;
 }
 .bg-success {
   background: #09ad0e !important;
@@ -90,6 +89,7 @@ h3.SidebarSearch-title {
 }
 .card-Div.card-body {
   cursor: pointer;
+
 }
 button.modal-effect.d-grid.mb-3.upload-btn.btn.btn-danger {
   font-size: 18px;
@@ -289,4 +289,10 @@ tbody tr {
 .border-left {
   border-left: 2px solid #0d0c22;
   margin-left: 6px;
+}
+.selected {
+  border: 2px solid #000; /* Customize the border style as per your requirement */
+}
+input.table-input.readonly.total-input {
+  width: 100%;
 }

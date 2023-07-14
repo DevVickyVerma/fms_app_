@@ -181,6 +181,7 @@ const ShopSales = (props) => {
       width: "50%",
       selector: (row) => row.charge_name,
       sortable: true,
+      center: false,
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -221,6 +222,7 @@ const ShopSales = (props) => {
       name: "DEDUCTION GROUPS",
       selector: (row) => row.deduction_name, // Update the selector to use a function
       sortable: true,
+      center: false,
       width: "50%",
       cell: (row, index) => (
         <div className="d-flex">
