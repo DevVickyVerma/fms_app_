@@ -573,7 +573,7 @@ const CoffeeValet = (props) => {
                     </DataTableExtensions>
                   </div>
                   <div className="d-flex justify-content-end mt-3">
-                    {editable ? (
+                    {editable?.is_editable ? (
                       <button className="btn btn-primary" type="submit">
                         Submit
                       </button>

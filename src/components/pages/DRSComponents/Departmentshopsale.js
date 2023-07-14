@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
@@ -18,7 +17,7 @@ const Departmentshopsale = (props) => {
   const [editable, setis_editable] = useState();
 
   const [isLoading, setIsLoading] = useState(true);
-  
+
   const navigate = useNavigate();
   const SuccessToast = (message) => {
     toast.success(message, {
@@ -68,71 +67,54 @@ const Departmentshopsale = (props) => {
       try {
         const response = await axiosInstance.get(
           `/department-shop-sale/list?site_id=${SiteID}&drs_date=${ReportDate}`
-
         );
-
-
-     
-
-
 
         const { data } = response;
         if (data) {
           setData(data?.data?.listing ? data.data.listing : []);
           setis_editable(data?.data ? data.data : {});
 
-
-
-
-        //   {
-        //     "id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
-        //     "site_id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
-        //     "department_item_id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
-        //     "category_name": "Tobacco",
-        //     "gross_value": "38.37000",
-        //     "disc_value": "0.00000",
-        //     "nett_value": "31.97000",
-        //     "vat": null,
-        //     "ex_vat_value": null,
-        //     "department_sale_date": "2023-06-11",
-        //     "created_date": "2023-06-12",
-        //     "updated_date": "2023-06-13",
-        //     "update_gross_value": false,
-        //     "update_nett_value": false,
-        //     "update_disc_value": false
-        // }
-
-
-
-
-
-
-          
+          //   {
+          //     "id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
+          //     "site_id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
+          //     "department_item_id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
+          //     "category_name": "Tobacco",
+          //     "gross_value": "38.37000",
+          //     "disc_value": "0.00000",
+          //     "nett_value": "31.97000",
+          //     "vat": null,
+          //     "ex_vat_value": null,
+          //     "department_sale_date": "2023-06-11",
+          //     "created_date": "2023-06-12",
+          //     "updated_date": "2023-06-13",
+          //     "update_gross_value": false,
+          //     "update_nett_value": false,
+          //     "update_disc_value": false
+          // }
 
           // Create an array of form values based on the response data
           const formValues = data?.data?.listing
-          ? data.data.listing.map((item) => {
-              return {
-                id: item.id ,
-                gross_value: item.gross_value ,
-                disc_value: item.disc_value,
-                nett_value: item.nett_value ,
-                adjust: item.adjust ,
-                sale: item.sale ,
-                price: item.price ,
-                value: item.value ,
-                com_rate: item.com_rate ,
-                commission: item.commission ,
-                // value_per: item.value_per ,
-                // Add other properties as needed
-              };
-            })
-          : [];
-        
+            ? data.data.listing.map((item) => {
+                return {
+                  id: item.id,
+                  gross_value: item.gross_value,
+                  disc_value: item.disc_value,
+                  nett_value: item.nett_value,
+                  adjust: item.adjust,
+                  sale: item.sale,
+                  price: item.price,
+                  value: item.value,
+                  com_rate: item.com_rate,
+                  commission: item.commission,
+                  // value_per: item.value_per ,
+                  // Add other properties as needed
+                };
+              })
+            : [];
 
           // Set the formik values using setFieldValue
           formik.setFieldValue("data", formValues);
-          console.log(formValues,"formValues")
+          console.log(formValues, "formValues");
         }
       } catch (error) {
         console.error("API error:", error);
@@ -145,35 +127,40 @@ const Departmentshopsale = (props) => {
     fetchData();
   }, [SiteID, ReportDate]);
 
-
-
   const handleSubmit = async (values) => {
     const token = localStorage.getItem("token");
 
-    console.log(values.data)
-  
+    console.log(values.data);
+
     // Create a new FormData object
     const formData = new FormData();
 
-
-
     for (const obj of values.data) {
-      const { id, gross_value, disc_value, nett_value, adjust, sale, price, value, commission, value_per,com_rate } = obj;
+      const {
+        id,
+        gross_value,
+        disc_value,
+        nett_value,
+        adjust,
+        sale,
+        price,
+        value,
+        commission,
+        value_per,
+        com_rate,
+      } = obj;
       const gross_valueKey = `gross_value[${id}]`;
       const discountKey = `disc_value[${id}]`;
       const nettValueKey = `nett_value[${id}]`;
-   
-    
+
       formData.append(gross_valueKey, gross_value);
       formData.append(discountKey, disc_value);
       formData.append(nettValueKey, nett_value);
- 
     }
-    
-  
+
     formData.append("site_id", SiteID);
     formData.append("drs_date", ReportDate);
-  
+
     try {
       setIsLoading(true);
       const response = await fetch(
@@ -186,15 +173,15 @@ const Departmentshopsale = (props) => {
           body: formData,
         }
       );
-    
+
       const responseData = await response.json(); // Read the response once
-    
+
       if (response.ok) {
         console.log("Done");
         SuccessToast(responseData.message);
       } else {
         ErrorToast(responseData.message);
-    
+
         console.log("API Error:", responseData);
         // Handle specific error cases if needed
       }
@@ -203,7 +190,8 @@ const Departmentshopsale = (props) => {
       // Handle request error
     } finally {
       setIsLoading(false);
-    }}
+    }
+  };
   const columns = [
     // ... existing columns
 
@@ -215,9 +203,7 @@ const Departmentshopsale = (props) => {
       center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
-          {row.category_name !== undefined
-            ? `${row.category_name}`
-            : ""}
+          {row.category_name !== undefined ? `${row.category_name}` : ""}
         </span>
       ),
     },
@@ -227,37 +213,36 @@ const Departmentshopsale = (props) => {
       sortable: false,
       width: "25%",
       center: true,
-     
+
       cell: (row, index) =>
-      row.category_name === "Total" ? (
-        <input
-        type="number"
-       className="table-input readonly total-input"
-        value={row.gross_value}
-        readOnly
-      />
-        
-      ) : (
-        <div>
-        <input
-          type="number"
-          id={`gross_value-${index}`}
-          name={`data[${index}].gross_value`}
-          className={
+        row.category_name === "Total" ? (
+          <input
+            type="number"
+            className="table-input readonly total-input"
+            value={row.gross_value}
+            readOnly
+          />
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`gross_value-${index}`}
+              name={`data[${index}].gross_value`}
+              className={
                 row.update_gross_value
-                ? "UpdateValueInput"
+                  ? "UpdateValueInput"
                   : editable?.is_editable
-                  ? "table-input" 
+                  ? "table-input"
                   : "table-input readonly"
               }
-          value={formik.values.data[index]?.gross_value }
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          readOnly={editable?.is_editable ? false : true}
-        />
-        {/* Error handling code */}
-      </div>
-      ),
+              value={formik.values.data[index]?.gross_value}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "	DISC VALUE ",
@@ -265,36 +250,35 @@ const Departmentshopsale = (props) => {
       sortable: false,
       width: "25%",
       center: true,
-     
+
       cell: (row, index) =>
-      row.category_name === "Total" ? (
-        <input
-        type="number"
-        className="table-input readonly total-input"
-        value={row.disc_value}
-        readOnly
-      />
-      ) : (
-        <div>
-        <input
-          type="number"
-          id={`disc_value-${index}`}
-          name={`data[${index}].disc_value`}
-          className={
+        row.category_name === "Total" ? (
+          <input
+            type="number"
+            className="table-input readonly total-input"
+            value={row.disc_value}
+            readOnly
+          />
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`disc_value-${index}`}
+              name={`data[${index}].disc_value`}
+              className={
                 row.update_disc_value
-                ? "UpdateValueInput"
+                  ? "UpdateValueInput"
                   : editable?.is_editable
-                  ? "table-input" 
+                  ? "table-input"
                   : "table-input readonly"
               }
-          value={formik.values.data[index]?.disc_value }
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          readOnly={editable?.is_editable ? false : true}
-        />
-    
-      </div>
-      ),
+              value={formik.values.data[index]?.disc_value}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+          </div>
+        ),
     },
     {
       name: "	NETT VALUE",
@@ -302,38 +286,37 @@ const Departmentshopsale = (props) => {
       sortable: false,
       width: "25%",
       center: true,
-    
+
       cell: (row, index) =>
-      row.category_name === "Total" ? (
-        <input
-        type="number"
-       className="table-input readonly total-input"
-        value={row.nett_value}
-        readOnly
-      />
-      ) : (
-        <div>
+        row.category_name === "Total" ? (
           <input
             type="number"
-            id={`nett_value-${index}`}
-            name={`data[${index}].nett_value`}
-            className={
+            className="table-input readonly total-input"
+            value={row.nett_value}
+            readOnly
+          />
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`nett_value-${index}`}
+              name={`data[${index}].nett_value`}
+              className={
                 row.update_nett_value
-                ? "UpdateValueInput"
+                  ? "UpdateValueInput"
                   : editable?.is_editable
-                  ? "table-input" 
+                  ? "table-input"
                   : "table-input readonly"
               }
-            value={formik.values.data[index]?.nett_value}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
-      ),
+              value={formik.values.data[index]?.nett_value}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
-
   ];
 
   const tableDatas = {
@@ -346,7 +329,6 @@ const Departmentshopsale = (props) => {
       data: data,
     },
     onSubmit: handleSubmit,
-
   });
 
   return (
@@ -376,21 +358,25 @@ const Departmentshopsale = (props) => {
                       />
                     </DataTableExtensions>
                   </div>
-             {data.length>0?     <div className="d-flex justify-content-end mt-3">
-                  {editable ? (
-                      <button className="btn btn-primary" type="submit">
-                        Submit
-                      </button>
-                    ) : (
-                      <button
-                        className="btn btn-primary"
-                        type="submit"
-                        disabled
-                      >
-                        Submit
-                      </button>
-                    )}
-                  </div>:""}
+                  {data.length > 0 ? (
+                    <div className="d-flex justify-content-end mt-3">
+                      {editable?.is_editable ? (
+                        <button className="btn btn-primary" type="submit">
+                          Submit
+                        </button>
+                      ) : (
+                        <button
+                          className="btn btn-primary"
+                          type="submit"
+                          disabled
+                        >
+                          Submit
+                        </button>
+                      )}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </form>
               </Card.Body>
             </Card>

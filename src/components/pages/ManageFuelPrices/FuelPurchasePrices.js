@@ -157,9 +157,12 @@ const ManageDsr = (props) => {
     const duty_price = formik.values.data[index]?.duty_price || 0;
     const total =
       plattsPrice + premiumPrice + duty_price + development_fuels_price;
-    console.log(total, "premtotalium price");
-    console.log(premiumPrice, "premium price");
+    console.log(total, " total price");
+  
     console.log(plattsPrice, "plattsPrice price");
+    console.log(development_fuels_price, "development_fuels_price price");
+    console.log(premiumPrice, "premium price");
+    console.log(duty_price, "duty_price price");
     console.log(console.log(formik.values), "plattsPrice price");
     // formik.setFieldValue(`data[${index}].total`, total);
   }, 300);

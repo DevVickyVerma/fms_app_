@@ -82,7 +82,7 @@ const BankDeposit = (props) => {
   useEffect(() => {
     FetchTableData();
   }, []);
-
+  const [editable, setis_editable] = useState();
   const FetchTableData = async () => {
     try {
       const response = await getData(
@@ -91,7 +91,9 @@ const BankDeposit = (props) => {
       console.log(response.data.data, "cards");
 
       if (response && response.data && response.data.data) {
-        setData(response.data.data);
+        setData(response?.data?.data?.listing ? response?.data.data.listing : [])
+        // setData(data?.data?.listing ? data.data.listing : []);
+        setis_editable(response?.data?.data ? data.data : {});
         setSearchvalue(response.data.data.cards);
       } else {
         throw new Error("No data available in the response");
@@ -370,7 +372,7 @@ const BankDeposit = (props) => {
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
-      <>
+      <> {editable?.is_editable ? (
         <Row>
           <Col md={12} xl={12}>
             <Card>
@@ -480,7 +482,7 @@ const BankDeposit = (props) => {
               </Card.Body>
             </Card>
           </Col>
-        </Row>
+        </Row>):""}
         <Row className=" row-sm">
           <Col lg={12}>
             <Card>

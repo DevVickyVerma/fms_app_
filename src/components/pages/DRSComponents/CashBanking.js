@@ -34,7 +34,7 @@ const CashBanking = (props) => {
   const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
-
+  const [editable, setis_editable] = useState();
  
   const handleDelete = (id) => {
     Swal.fire({
@@ -102,6 +102,8 @@ const CashBanking = (props) => {
 
       if (response && response.data && response.data.data) {
         console.log(response.data.data, "cawwwwwwrds");
+        setis_editable(response?.data?.data);
+        console.log(response?.data?.data,"ssssis_editable")
         setData(response?.data?.data?.listing);
         setSearchvalue(response.data.data.cards);
       } else {
@@ -347,14 +349,13 @@ const handleEdit =(item)=>{
     setData(filteredData);
   };
 
-  const handleFileSelect = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
+console.log(editable,"editable?.is_editable")
 
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
+      {editable?.is_editable ? (
         <Row>
           <Col md={12} xl={12}>
             <Card>
@@ -434,7 +435,7 @@ const handleEdit =(item)=>{
               </Card.Body>
             </Card>
           </Col>
-        </Row>
+        </Row>):""}
         <Row className=" row-sm">
           <Col lg={12}>
             <Card>

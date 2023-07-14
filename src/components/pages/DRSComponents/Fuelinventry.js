@@ -236,7 +236,7 @@ const FuelInventry = (props) => {
       name: "PRICE",
       selector: (row) => row.fuel_price,
       sortable: false,
-      width: "8%",
+      width: "11.11%",
       center: true,
       cell: (row, index) =>
         row.description === "Total" ? (
@@ -269,7 +269,7 @@ const FuelInventry = (props) => {
       name: "	CASH METERED SALES VOL.(ℓ)",
       selector: (row) => row.metered_sale,
       sortable: false,
-      width: "8%",
+      width: "11.11%",
       center: true,
       // Title: "CASH METERED SALES",
 
@@ -304,7 +304,7 @@ const FuelInventry = (props) => {
       name: "CASH METERED SALES VALUE(£)",
       selector: (row) => row.metered_sale_value,
       sortable: false,
-      width: "8%",
+      width: "11.11%",
       center: true,
 
       cell: (row, index) =>
@@ -337,7 +337,7 @@ const FuelInventry = (props) => {
       name: "ADJ(ℓ)",
       selector: (row) => row.adjustment,
       sortable: false,
-      width: "8%",
+      width: "11.11%",
       center: true,
 
       cell: (row, index) =>
@@ -366,77 +366,13 @@ const FuelInventry = (props) => {
           </div>
         ),
     },
-    {
-      name: "ADJ(£)",
-      selector: (row) => row.adjustment_euro,
-      sortable: false,
-      width: "8%",
-      center: true,
-
-      cell: (row, index) =>
-        row.description === "Total" ? (
-          <input
-            type="number"
-            className="table-input readonly total-input"
-            value={row.adjustment_euro}
-            readOnly
-          />
-        ) : (
-          <div>
-            <input
-              type="number"
-              id={`adjustment_euro-${index}`}
-              name={`data[${index}].adjustment_euro`}
-              className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
-              }
-              value={formik.values.data[index]?.adjustment_euro}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
-            />
-            {/* Error handling code */}
-          </div>
-        ),
-    },
-    {
-      name: "ADJUSTED SALES VOL.(ℓ)",
-      selector: (row) => row.adjusted_sale,
-      sortable: false,
-      width: "8%",
-      center: true,
-
-      cell: (row, index) =>
-        row.description === "Total" ? (
-          <input
-            type="number"
-            className="table-input readonly total-input"
-            value={row.metered_sale_value}
-            readOnly
-          />
-        ) : (
-          <div>
-            <input
-              type="number"
-              id={`metered_sale_value-${index}`}
-              name={`data[${index}].metered_sale_value`}
-              className={
-                "table-input readonly "
-              }
-              value={formik.values.data[index]?.metered_sale_value}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              readOnly
-            />
-            {/* Error handling code */}
-          </div>
-        ),
-    },
+   
+  
     {
       name: "BUNKERED SALES VOL.(ℓ)",
       selector: (row) => row.bunkered_sale,
       sortable: false,
-      width: "8%",
+      width: "11.11%",
       center: true,
 
       cell: (row, index) =>
@@ -465,44 +401,12 @@ const FuelInventry = (props) => {
           </div>
         ),
     },
-    {
-      name: "ADJUSTED SALES<br>VALUE(&pound;)",
-      selector: (row) => row.adjusted_sale_value,
-      sortable: false,
-      width: "8%",
-      center: true,
-
-      cell: (row, index) =>
-        row.description === "Total" ? (
-          <input
-          type="number"
-          className="table-input readonly total-input"
-          value={row.adjusted_sale_value}
-          readOnly
-        />
-        ) : (
-          <div>
-            <input
-              type="number"
-              id={`adjusted_sale_value-${index}`}
-              name={`data[${index}].adjusted_sale_value`}
-              className={
-                "table-input readonly "
-              }
-              value={formik.values.data[index]?.adjusted_sale_value}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              readOnly
-            />
-            {/* Error handling code */}
-          </div>
-        ),
-    },
+  
     {
       name: "TEST(ℓ)",
       selector: (row) => row.tests,
       sortable: false,
-      width: "8%",
+      width: "11.11%",
       center: true,
 
       cell: (row, index) =>
@@ -535,7 +439,7 @@ const FuelInventry = (props) => {
       name: "ACTUAL SALES VOL.(ℓ)",
       selector: (row) => row.actual_sales,
       sortable: false,
-      width: "8%",
+      width: "11.11%",
       center: true,
 
       cell: (row, index) =>
@@ -568,7 +472,7 @@ const FuelInventry = (props) => {
       name: "DUE SALES (£)(ACTUAL SALES VOL. X PRICE)",
       selector: (row) => row.due_sales,
       sortable: false,
-      width: "8%",
+      width: "11.11%",
       center: true,
 
       cell: (row, index) =>
@@ -820,12 +724,18 @@ const FuelInventry = (props) => {
                     </Row>
                   </div>
                   <div className="d-flex justify-content-end mt-3">
-                    {data.length > 0 ? (
+                  {editable?.is_editable ? (
                       <button className="btn btn-primary" type="submit">
                         Submit
                       </button>
                     ) : (
-                      ""
+                      <button
+                        className="btn btn-primary"
+                        type="submit"
+                        disabled
+                      >
+                        Submit
+                      </button>
                     )}
                   </div>
                 </form>
