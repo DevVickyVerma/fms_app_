@@ -212,12 +212,12 @@ const ShopSales = (props) => {
           id={`charge_value-${index}`}
           name={`data[${index}].charge_value`}
           className={
-            editable?.is_editable ? "table-input " : "table-input readonly "
-          }
+                  "table-input readonly"
+              }
           value={formik.values?.data[index]?.charge_value}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          readOnly={editable?.is_editable ? false : true}
+        readOnly
         />
         {/* Error handling code */}
       </div>
@@ -262,12 +262,12 @@ const ShopSales = (props) => {
           id={`deduction_value-${index}`}
           name={`deductions[${index}].deduction_value`}
           className={
-            editable?.is_editable ? "table-input " : "table-input readonly "
-          }
+                  "table-input readonly"
+              }
           value={formik.values?.deductions?.[index]?.deduction_value || ""}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          readOnly={editable?.is_editable ? false : true}
+        readOnly
         />
         {/* Error handling code */}
       </div>

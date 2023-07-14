@@ -253,12 +253,12 @@ const FuelInventry = (props) => {
               id={`fuel_price-${index}`}
               name={`data[${index}].fuel_price`}
               className={
-                editable?.is_editable ? "table-input" : "table-input readonly"
+                  "table-input readonly"
               }
               value={formik.values.data[index]?.fuel_price}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={!editable?.is_editable}
+              readOnly
             />
             {/* Error handling code */}
           </div>
@@ -288,12 +288,13 @@ const FuelInventry = (props) => {
               id={`metered_sale-${index}`}
               name={`data[${index}].metered_sale`}
               className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
+                  "table-input readonly"
               }
+              
               value={formik.values.data[index]?.metered_sale}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              readOnly
             />
             {/* Error handling code */}
           </div>
@@ -321,12 +322,12 @@ const FuelInventry = (props) => {
               id={`metered_sale_value-${index}`}
               name={`data[${index}].metered_sale_value`}
               className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
+                  "table-input readonly"
               }
               value={formik.values.data[index]?.metered_sale_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              readOnly
             />
             {/* Error handling code */}
           </div>
@@ -420,12 +421,12 @@ const FuelInventry = (props) => {
               id={`metered_sale_value-${index}`}
               name={`data[${index}].metered_sale_value`}
               className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
+                "table-input readonly "
               }
               value={formik.values.data[index]?.metered_sale_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              readOnly
             />
             {/* Error handling code */}
           </div>
@@ -465,7 +466,7 @@ const FuelInventry = (props) => {
         ),
     },
     {
-      name: "ADJUSTED SALES VALUE(£)",
+      name: "ADJUSTED SALES `${<br>}` VALUE(£)",
       selector: (row) => row.adjusted_sale_value,
       sortable: false,
       width: "8%",
@@ -486,12 +487,12 @@ const FuelInventry = (props) => {
               id={`adjusted_sale_value-${index}`}
               name={`data[${index}].adjusted_sale_value`}
               className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
+                "table-input readonly "
               }
               value={formik.values.data[index]?.adjusted_sale_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              readOnly
             />
             {/* Error handling code */}
           </div>
@@ -552,12 +553,12 @@ const FuelInventry = (props) => {
               id={`actual_sales-${index}`}
               name={`data[${index}].actual_sales`}
               className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
+                  "table-input readonly"
               }
               value={formik.values.data[index]?.actual_sales}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              readOnly
             />
             {/* Error handling code */}
           </div>
@@ -585,12 +586,12 @@ const FuelInventry = (props) => {
               id={`due_sales-${index}`}
               name={`data[${index}].due_sales`}
               className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
+                  "table-input readonly"
               }
               value={formik.values.data[index]?.due_sales}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+              readOnly
             />
             {/* Error handling code */}
           </div>

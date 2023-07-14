@@ -201,17 +201,13 @@ const FuelSales = (props) => {
               type="number"
               id={`sales_volume-${index}`}
               name={`data[${index}].sales_volume`}
-                className={
-                row.update_sales_volume
-                  ? "UpdateValueInput"
-                  : editable?.is_editable
-                  ? "table-input" 
-                  : "table-input readonly"
+              className={
+                  "table-input readonly"
               }
               value={formik.values.data[index]?.sales_volume}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+            readOnly
             />
             {/* Error handling code */}
           </div>
@@ -240,17 +236,13 @@ const FuelSales = (props) => {
               type="number"
               id={`gross_value-${index}`}
               name={`data[${index}].gross_value`}
-                className={
-                row.update_gross_value
-                ? "UpdateValueInput"
-                  : editable?.is_editable
-                  ? "table-input" 
-                  : "table-input readonly"
+              className={
+                  "table-input readonly"
               }
               value={formik.values.data[index]?.gross_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+            readOnly
             />
             {/* Error handling code */}
           </div>
@@ -279,16 +271,12 @@ const FuelSales = (props) => {
               name={`data[${index}].discount`}
           
               className={
-                row.update_discount
-                ? "UpdateValueInput"
-                  : editable?.is_editable
-                  ? "table-input" 
-                  : "table-input readonly"
+                  "table-input readonly"
               }
               value={formik.values.data[index]?.discount}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+            readOnly
             />
             {/* Error handling code */}
           </div>
@@ -316,16 +304,12 @@ const FuelSales = (props) => {
               id={`nett_value-${index}`}
               name={`data[${index}].nett_value`}
                 className={
-                row.update_nett_value
-                ? "UpdateValueInput"
-                  : editable?.is_editable
-                  ? "table-input" 
-                  : "table-input readonly"
+                  "table-input readonly"
               }
               value={formik.values.data[index]?.nett_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly={editable?.is_editable ? false : true}
+            readOnly
             />
             {/* Error handling code */}
           </div>
@@ -375,7 +359,7 @@ const FuelSales = (props) => {
                       />
                     </DataTableExtensions>
                   </div>
-                {data.length>0 ?  <div className="d-flex justify-content-end mt-3">
+                {/* {data.length>0 ?  <div className="d-flex justify-content-end mt-3">
                     {editable ? (
                       <button className="btn btn-primary" type="submit">
                         Submit
@@ -389,7 +373,7 @@ const FuelSales = (props) => {
                         Submit
                       </button>
                     )}
-                  </div> :""}
+                  </div> :""} */}
                 </form>
               </Card.Body>
             </Card>
