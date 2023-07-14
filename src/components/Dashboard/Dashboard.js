@@ -15,9 +15,6 @@ import SideSearchbar from "../../data/Modal/SideSearchbar";
 import DashBordModal from "../../data/Modal/DashBordmodal";
 import PieDashboardChart from "../../components/pages/DashBoardChart/PieDashboardChart";
 import Spinners from "../../components/Dashboard/Spinner";
-
-// import Loader from "react-loader-spinner";
-// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
 
@@ -85,49 +82,48 @@ const Dashboard = (props) => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.data.data);
   const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    setClientID(localStorage.getItem("superiorId"));
-    if (localStorage.getItem("tokenupdate") === "true") {
-      window.location.reload();
-      localStorage.setItem("tokenupdate", false);
-    }
-  }, [localStorage.getItem("tokenupdate")]);
-
-  useEffect(() => {
-    if (token) {
-      dispatch(fetchData());
-    } else {
-      // Handle the case when there is no token
-    }
-  }, [dispatch, token]);
-
   useEffect(() => {
     const loggedInFlag = localStorage.getItem("justLoggedIn");
-
+    const tokenUpdated = localStorage.getItem("tokenupdate") === "true";
+    const storedToken = localStorage.getItem("token");
+  
+    setClientID(localStorage.getItem("superiorId"));
+  
+    if (tokenUpdated) {
+      localStorage.setItem("tokenupdate", "false"); // Update the value to string "false"
+      // Handle token update logic without page reload
+    }
+  
     if (loggedInFlag) {
       setJustLoggedIn(true);
       localStorage.removeItem("justLoggedIn"); // clear the flag
     }
-  }, []);
-
-  useEffect(() => {
-    console.log(
-      dashboard.totalTransactions.series,
-      "dashboard.totalTransactions.series"
-    );
-    console.log(
-      dashboard.totalTransactions.options,
-      "dashboard.totalTransactions.serieswww"
-    );
+  
+    if (token && storedToken) {
+      dispatch(fetchData());
+    } else {
+      // Handle the case when there is no token
+    }
+  
+    handleFetchData();
+    FetchGrossVolume();
+    FetchFuelSales();
+    FetchGrossProfit();
+    Fetchgrossmargin();
+    FetchShopMargin();
+    FetchShopSales();
+  
+    console.log(dashboard.totalTransactions.series, "dashboard.totalTransactions.series");
+    console.log(dashboard.totalTransactions.options, "dashboard.totalTransactions.serieswww");
     Getlinegraph();
     piechart();
+  
     if (justLoggedIn) {
       SuccessToast("Login Successfully");
       setJustLoggedIn(false);
     }
-    // console.clear();
-  }, [justLoggedIn]);
+  }, [ClientID, dispatch, justLoggedIn, token]);
+  
 
   const handleToggleSidebar1 = () => {
     console.log(ShowTruw, "hi");
@@ -171,31 +167,32 @@ const Dashboard = (props) => {
 
   const FetchGrossVolume = async (values) => {
     try {
+      setGrossVolumeeLoading(true); // Set isLoading to true before making the API call
+      setLoading(true); // Set isLoading to true before making the API call
+  
       const response = await axiosInstance.get(
         values
           ? `dashboard/gross-volume?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
           : `/dashboard/gross-volume?client_id=${ClientID}`
       );
-
-      setGrossVolumeeLoading(true); // Set isLoading to true to indicate the loading state
-      setLoading(true); // Set isLoading to true to indicate the loading state
-
+  
       const { data } = response;
       if (data) {
         console.log(data);
         setGrossVolume(data);
       }
-
+  
       setGrossVolumeeLoading(false); // Set isLoading to false after the API call is complete
       setLoading(false); // Set isLoading to false after the API call is complete
     } catch (error) {
       handleError(error);
       console.error("API error:", error);
-
+  
       setGrossVolumeeLoading(false); // Set isLoading to false if there is an error
       setLoading(false); // Set isLoading to false if there is an error
     }
   };
+  
   const Getlinegraph = async (values) => {
     try {
       const response = await axiosInstance.get(
@@ -249,124 +246,136 @@ const Dashboard = (props) => {
   };
   const FetchGrossProfit = async (values) => {
     try {
+      setLoading(true); // Set isLoading to true to indicate the loading state
+      setGrossProfitValueLoading(true); // Set isLoading to true to indicate the loading state
+  
       const response = await axiosInstance.get(
         values
           ? `dashboard/gross-profit?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
           : `/dashboard/gross-profit?client_id=${ClientID}`
       );
-
-      setGrossProfitValueLoading(true); // Set isLoading to true to indicate the loading state
-
+  
       const { data } = response;
       if (data) {
         setGrossProfitValue(data);
       }
-
+  
       setGrossProfitValueLoading(false); // Set isLoading to false after the API call is complete
+      setLoading(false); // Set isLoading to false after the API call is complete
     } catch (error) {
       handleError(error);
       console.error("API error:", error);
       setGrossProfitValueLoading(false); // Set isLoading to false if there is an error
+      setLoading(false); // Set isLoading to false if there is an error
     }
   };
+  
   const Fetchgrossmargin = async (values) => {
     try {
+      setLoading(true); // Set isLoading to true to indicate the loading state
+      setGrossMarginValueLoading(true); // Set isLoading to true to indicate the loading state
+  
       const response = await axiosInstance.get(
         values
           ? `dashboard/gross-margin?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
           : `/dashboard/gross-margin?client_id=${ClientID}`
       );
-
-      setGrossMarginValueLoading(true); // Set isLoading to true to indicate the loading state
-
+  
       const { data } = response;
       if (data) {
         console.log(data);
       }
-
+  
       setGrossMarginValueLoading(false); // Set isLoading to false after the API call is complete
+      setLoading(false); // Set isLoading to false after the API call is complete
     } catch (error) {
       handleError(error);
       console.error("API error:", error);
       setGrossMarginValueLoading(false); // Set isLoading to false if there is an error
+      setLoading(false); // Set isLoading to false if there is an error
     }
   };
+  
   const FetchFuelSales = async (values) => {
     try {
+      setLoading(true); // Set isLoading to true to indicate the loading state
+      setFuelValueeLoading(true); // Set isLoading to true to indicate the loading state
+  
       const response = await axiosInstance.get(
         values
           ? `dashboard/fuel-sale?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
           : `/dashboard/fuel-sale?client_id=${ClientID}`
       );
-
-      setFuelValueeLoading(true); // Set isLoading to true to indicate the loading state
-
+  
       const { data } = response;
       if (data) {
         setFuelValue(data);
       }
-
+  
       setFuelValueeLoading(false); // Set isLoading to false after the API call is complete
+      setLoading(false); // Set isLoading to false after the API call is complete
     } catch (error) {
       handleError(error);
       console.error("API error:", error);
       setFuelValueeLoading(false); // Set isLoading to false if there is an error
+      setLoading(false); // Set isLoading to false if there is an error
     }
   };
+  
   const FetchShopSales = async (values) => {
     try {
+      setLoading(true); // Set isLoading to true to indicate the loading state
+      setshopsaleLoading(true); // Set isLoading to true to indicate the loading state
+  
       const response = await axiosInstance.get(
         values
           ? `dashboard/shop-sale?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
           : `/dashboard/shop-sale?client_id=${ClientID}`
       );
-
-      setshopsaleLoading(true); // Set isLoading to true to indicate the loading state
-
+  
       const { data } = response;
       if (data) {
         setshopsale(data);
       }
-
+  
       setshopsaleLoading(false); // Set isLoading to false after the API call is complete
+      setLoading(false); // Set isLoading to false after the API call is complete
     } catch (error) {
       handleError(error);
       console.error("API error:", error);
       setshopsaleLoading(false); // Set isLoading to false if there is an error
+      setLoading(false); // Set isLoading to false if there is an error
     }
   };
+  
   const FetchShopMargin = async (values) => {
     try {
+      setLoading(true); // Set isLoading to true to indicate the loading state
+      setshopmarginLoading(true); // Set isLoading to true to indicate the loading state
+  
       const response = await axiosInstance.get(
         values
           ? `dashboard/shop-margin?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
           : `/dashboard/shop-margin?client_id=${ClientID}`
       );
-
-      setshopmarginLoading(true); // Set isLoading to true to indicate the loading state
-
+  
       const { data } = response;
       if (data) {
         setshopmargin(data);
       }
-
+  
       setshopmarginLoading(false); // Set isLoading to false after the API call is complete
+      setLoading(false); // Set isLoading to false after the API call is complete
     } catch (error) {
       handleError(error);
       console.error("API error:", error);
       setshopmarginLoading(false); // Set isLoading to false if there is an error
+      setLoading(false); // Set isLoading to false if there is an error
     }
   };
+  
 
-  useEffect(() => {
-    handleFetchData();
-    FetchGrossVolume();
-    FetchFuelSales();
-    FetchGrossProfit();
-    Fetchgrossmargin();
-    FetchShopMargin();
-    FetchShopSales();
-  }, [ClientID]);
+
 
   const handleFormSubmit = async (values) => {
     console.log(values, "valuessss");
