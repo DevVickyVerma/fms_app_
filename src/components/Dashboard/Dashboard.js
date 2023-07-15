@@ -520,14 +520,14 @@ const Dashboard = (props) => {
                                 <div className="d-flex">
                                   <div>
                                     <h6 className="">Gross Volume</h6>
-                                    <h3 className="mb-2 number-font">
+                                    <h4 className="mb-2 number-font">
                                       {" "}
                                       ℓ{GrossVolume?.data?.gross_volume}
-                                    </h3>
+                                    </h4>
                                   </div>
                                   <div className="border-left"></div>
-                                  <div className="ms-4">
-                                    <h6 className="">Bunkered Volume</h6>
+                                  <div className="ms-3">
+                                    <h5 className="">Bunkered Volume</h5>
                                     <h3 className="mb-2 number-font">
                                       ℓ{GrossVolume?.data?.bunkered_volume}
                                     </h3>
@@ -696,7 +696,7 @@ const Dashboard = (props) => {
                                     </h3>
                                   </div>
                                   <div className="border-left"></div>
-                                  <div className="ms-4">
+                                  <div className="ms-3">
                                     <h6 className="">Bunkered Volue</h6>
                                     <h3 className="mb-2 number-font">
                                       £{FuelValue?.data?.bunkered_value}

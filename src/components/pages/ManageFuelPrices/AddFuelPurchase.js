@@ -185,9 +185,7 @@ const ManageDsr = (props) => {
     const sum = (plattsValue + premiumValue + developmentfuels + dutty) / 100;
     setTotal(sum);
     const roundedSum = sum.toFixed(2);
-    console.log(roundedSum, "SumTotal");
-    console.log(roundedSum1, "SumTotal1111");
-    const roundedSum1 = parseFloat(sum).toFixed(2);
+ 
     formik2.setFieldValue(`exvat`, roundedSum);
     console.log(`Value of ${name}:`, event.target.value);
     console.log(`Sum of platts and premium (divided by 100):`, sum);

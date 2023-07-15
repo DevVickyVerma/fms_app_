@@ -149,23 +149,52 @@ const ManageDsr = (props) => {
       // Handle error if the API call fails
     }
   };
-  const calculateTotal = debounce((index) => {
-    const plattsPrice = formik.values.data[index]?.platts_price || 0;
-    const premiumPrice = formik.values.data[index]?.premium_price || 0;
-    const development_fuels_price =
-      formik.values.data[index]?.development_fuels_price || 0;
-    const duty_price = formik.values.data[index]?.duty_price || 0;
-    const total =
-      plattsPrice + premiumPrice + duty_price + development_fuels_price;
-    console.log(total, " total price");
-  
-    console.log(plattsPrice, "plattsPrice price");
-    console.log(development_fuels_price, "development_fuels_price price");
-    console.log(premiumPrice, "premium price");
-    console.log(duty_price, "duty_price price");
-    console.log(console.log(formik.values), "plattsPrice price");
-    // formik.setFieldValue(`data[${index}].total`, total);
-  }, 300);
+  function calculateSum(index) {
+    const plattsPrice =
+      formik?.values?.data && formik.values.data[index]?.platts_price;
+    const developmentfuels_price =
+      formik?.values?.data &&
+      formik.values.data[index]?.development_fuels_price;
+    const dutyprice =
+      formik?.values?.data && formik.values.data[index]?.duty_price;
+    const premiumPrice =
+      formik?.values?.data && formik.values.data[index]?.premium_price;
+
+    if (
+      plattsPrice !== undefined &&
+      premiumPrice !== undefined &&
+      developmentfuels_price !== undefined &&
+      dutyprice !== undefined
+    ) {
+      const sum =
+        (plattsPrice + premiumPrice + developmentfuels_price + dutyprice) / 100;
+      console.log("Sum:", sum);
+      const roundedSum = sum.toFixed(2);
+      formik.setFieldValue(`data[${index}].ex_vat_price`, roundedSum);
+    }
+  }
+  const sendEventWithName1 = (event, name, index) => {
+    const plattsValue =
+      parseFloat(
+        formik?.values?.data && formik.values.data[index]?.vat_percentage_rate
+      ) || 0;
+
+    const SumTotal = parseFloat(
+      formik?.values?.data && formik.values.data[index]?.ex_vat_price
+    );
+    console.log(formik.values.data, "formik.values.data");
+    console.log(SumTotal, "SumTotal");
+    // const sum = (SumTotal * plattsValue) / 100 + SumTotal;
+    console.log(plattsValue, "plattsValue");
+    console.log(SumTotal, "SumTotal");
+
+    const sum = (SumTotal * plattsValue) / 100 + SumTotal;
+    console.log(sum, "sum");
+    const roundedSum = Math.round(sum * 100) / 100; // Round to two decimal places
+    const formattedSum = roundedSum.toFixed(2).padEnd(5, "0");
+
+    formik.setFieldValue(`data[${index}].total`, formattedSum);
+  };
 
   const columns = [
     {
@@ -187,26 +216,25 @@ const ManageDsr = (props) => {
       width: "12.5%",
       center: true,
 
-      cell: (row, index) =>
-      <div>
-      <input
-        type="number"
-        id={`platts_price-${index}`}
-        name={`data[${index}].platts_price`}
-        className="table-input"
-        value={
-          formik?.values?.data && formik.values.data[index]?.platts_price
-        }
-        onChange={(e) => {
-          console.log(e.target.value,"platts_price")
-          const newValue = parseFloat(e.target.value) || 0;
-          formik.setFieldValue(`data[${index}].platts_price`, newValue);
-          calculateTotal(index);
-        }}
-        onBlur={formik.handleBlur}
-      />
-      {/* Error handling code */}
-    </div>
+      cell: (row, index) => (
+        <div>
+          <input
+            type="number"
+            id={`platts_price-${index}`}
+            name={`data[${index}].platts_price`}
+            className="table-input"
+            value={
+              formik?.values?.data && formik.values.data[index]?.platts_price
+            }
+            onChange={formik.handleChange}
+            onBlur={(e) => {
+              formik.handleBlur(e);
+              calculateSum(index);
+            }}
+          />
+          {/* Error handling code */}
+        </div>
+      ),
     },
     {
       name: "PREMIUM",
@@ -229,12 +257,11 @@ const ManageDsr = (props) => {
               value={
                 formik?.values?.data && formik.values.data[index]?.premium_price
               }
-              onChange={(e) => {
-                const newValue = parseFloat(e.target.value) || 0;
-                formik.setFieldValue(`data[${index}].premium_price`, newValue);
-                calculateTotal(index);
+              onChange={formik.handleChange}
+              onBlur={(e) => {
+                formik.handleBlur(e);
+                calculateSum(index);
               }}
-              onBlur={formik.handleBlur}
             />
             {/* Error handling code */}
           </div>
@@ -261,15 +288,11 @@ const ManageDsr = (props) => {
                 formik?.values?.data &&
                 formik.values.data[index]?.development_fuels_price
               }
-              onChange={(e) => {
-                const newValue = parseFloat(e.target.value) || 0;
-                formik.setFieldValue(
-                  `data[${index}].development_fuels_price`,
-                  newValue
-                );
-                calculateTotal(index);
+              onChange={formik.handleChange}
+              onBlur={(e) => {
+                formik.handleBlur(e);
+                calculateSum(index);
               }}
-              onBlur={formik.handleBlur}
             />
             {/* Error handling code */}
           </div>
@@ -295,12 +318,11 @@ const ManageDsr = (props) => {
               value={
                 formik?.values?.data && formik.values.data[index]?.duty_price
               }
-              onChange={(e) => {
-                const newValue = parseFloat(e.target.value) || 0;
-                formik.setFieldValue(`data[${index}].duty_price`, newValue);
-                calculateTotal(index);
+              onChange={formik.handleChange}
+              onBlur={(e) => {
+                formik.handleBlur(e);
+                calculateSum(index);
               }}
-              onBlur={formik.handleBlur}
             />
             {/* Error handling code */}
           </div>
@@ -324,13 +346,6 @@ const ManageDsr = (props) => {
               id={`ex_vat_price-${index}`}
               name={`data[${index}].ex_vat_price`}
               className="table-input readonly"
-              //   className={
-              //     row.ex_vat_price
-              //       ? "UpdateValueInput"
-              //       : editable?.is_editable
-              //       ? "table-input"
-              //       : "table-input readonly"
-              //   }
               value={
                 formik?.values?.data && formik.values.data[index]?.ex_vat_price
               }
@@ -363,8 +378,11 @@ const ManageDsr = (props) => {
                 formik?.values?.data &&
                 formik.values.data[index]?.vat_percentage_rate
               }
-              //   onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              onBlur={(event) => {
+                formik.handleBlur(event);
+                sendEventWithName1(event, "vat_percentage_rate", index); // Call sendEventWithName1 with the event, name, and index parameters
+              }}
             />
             {/* Error handling code */}
           </div>
@@ -459,10 +477,11 @@ const ManageDsr = (props) => {
         formData.append(total, total_values);
       });
 
-      formik.values.sites.forEach((site, index) => {
-        formData.append(`site_id[${index}]`, site.id);
-      });
-
+      // formik.values.sites.forEach((site, index) => {
+      //   formData.append(`site_id[${index}]`, site.id);
+      // });
+      console.log(formik.values,"formik.values.site_id")
+      formData.append(`site_id[0]`, formik.values.site_id);
       // formData.append("site_id", formik.values.sites);
       formData.append("date", formik.values.start_date);
 
@@ -691,6 +710,14 @@ const ManageDsr = (props) => {
                             }`}
                             id="site_id"
                             name="site_id"
+                            onChange={(e) => {
+                              const selectedsite_id = e.target.value;
+                              formik.setFieldValue(
+                                "site_id",
+                                selectedsite_id
+                              );
+                           
+                            }}
                           >
                             <option value="">Select a Site</option>
                             {selectedSiteList.length > 0 ? (
