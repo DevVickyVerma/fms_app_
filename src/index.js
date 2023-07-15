@@ -68,6 +68,18 @@ const AddUser = React.lazy(() =>
   import("./components/pages/ManageUsers/AddUser")
 );
 // User End
+
+// User PPLRate
+const ManagePPL = React.lazy(() =>
+  import("./components/pages/ManagePPLRate/ManagePPlRate")
+);
+const EditPPL = React.lazy(() =>
+  import("./components/pages/ManagePPLRate/EditPPLRate")
+);
+const AddPPL = React.lazy(() =>
+  import("./components/pages/ManagePPLRate/ManagePPlEAdd")
+);
+// User PPLRate
 // Site Start
 const Managesite = React.lazy(() =>
   import("./components/pages/ManageSite/ManageSite")
@@ -513,6 +525,9 @@ const Root = () => {
   const Wrappedvaletcommission = withApi(valetcommission);
   const WrappedAssignaddon = withApi(Assignaddon);
   const WrappedAssignUseraddon = withApi(AssignUseraddon);
+  const WrappedAssignManagePPL = withApi(ManagePPL);
+  const WrappedAssignEditPPL = withApi(EditPPL);
+  const WrappedAssignAddPPL = withApi(AddPPL);
 
   return (
     <Fragment>
@@ -581,17 +596,28 @@ const Root = () => {
                   <Route path={`/editrole`} element={<WrappeAddEditRoles />} />
 
                   {/* Role  Components End */}
-                  <Route path={`/assignclientaddon/:id`} element={<WrappedAssignaddon />} />
-                  <Route path={`/assigusernaddon/:id`} element={<WrappedAssignUseraddon />} />
+                  <Route
+                    path={`/assignclientaddon/:id`}
+                    element={<WrappedAssignaddon />}
+                  />
+                  <Route
+                    path={`/assigusernaddon/:id`}
+                    element={<WrappedAssignUseraddon />}
+                  />
                   {/* Role  Components Start */}
-          
-                
-          
-                  <Route path={`/assignmanger/:id`} element={<WrappedAssignmanneger />} />
-                  <Route path={`/addmanager/:id`} element={<WrappedAddManneger />} />
-                  <Route path={`/editmanager/:id`} element={<WrappedEditManneger />} />
 
-                 
+                  <Route
+                    path={`/assignmanger/:id`}
+                    element={<WrappedAssignmanneger />}
+                  />
+                  <Route
+                    path={`/addmanager/:id`}
+                    element={<WrappedAddManneger />}
+                  />
+                  <Route
+                    path={`/editmanager/:id`}
+                    element={<WrappedEditManneger />}
+                  />
 
                   {/* Role  Components End */}
 
@@ -741,6 +767,19 @@ const Root = () => {
                   <Route
                     path={`/editsitepump/:id`}
                     element={<WrappedEditSitePump />}
+                  />
+
+                  <Route
+                    path={`/assignppl`}
+                    element={<WrappedAssignManagePPL />}
+                  />
+                  <Route
+                    path={`/addppl`}
+                    element={<WrappedAssignAddPPL />}
+                  />
+                  <Route
+                    path={`/editppl/:id`}
+                    element={<WrappedAssignEditPPL/>}
                   />
 
                   {/* SitePump components end */}

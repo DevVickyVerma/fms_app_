@@ -523,6 +523,13 @@ export const MENUITEMS = [
             permission: "fuel-purchase-price",
             visibility: false,
           },
+          {
+            path: `/assignppl`,
+            title: "Site PPL Rate",
+            type: "link",
+            permission: "fuel-purchase-price",
+            visibility: false,
+          },
         ],
       },
     
