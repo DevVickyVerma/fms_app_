@@ -528,9 +528,9 @@ const Dashboard = (props) => {
                                   <div className="border-left"></div>
                                   <div className="ms-3">
                                     <h5 className="">Bunkered Volume</h5>
-                                    <h3 className="mb-2 number-font">
+                                    <h4 className="mb-2 number-font">
                                       ℓ{GrossVolume?.data?.bunkered_volume}
-                                    </h3>
+                                    </h4>
                                   </div>
                                 </div>
 
@@ -580,10 +580,10 @@ const Dashboard = (props) => {
                               <Spinners />
                             ) : (
                               <>
-                                <h3 className="mb-2 number-font">
+                                <h4 className="mb-2 number-font">
                                   {" "}
                                   £{GrossProfitValue?.data?.gross_profit}
-                                </h3>
+                                </h4>
                                 <p className="text-muted mb-0 mt-4">
                                   <span
                                     className={`me-1 ${
@@ -631,10 +631,10 @@ const Dashboard = (props) => {
                               <Spinners />
                             ) : (
                               <>
-                                <h3 className="mb-2 number-font">
+                                <h4 className="mb-2 number-font">
                                   {" "}
                                   £{GrossProfitValue?.data?.gross_margin}
-                                </h3>
+                                </h4>
                                 <p className="text-muted mb-0 mt-4">
                                   <span
                                     className={`me-1 ${
@@ -691,16 +691,16 @@ const Dashboard = (props) => {
                                 <div className="d-flex">
                                   <div>
                                     <h6 className="">Fuel Sales</h6>
-                                    <h3 className="mb-2 number-font">
+                                    <h4 className="mb-2 number-font">
                                       £{FuelValue?.data?.gross_value}
-                                    </h3>
+                                    </h4>
                                   </div>
                                   <div className="border-left"></div>
                                   <div className="ms-3">
                                     <h6 className="">Bunkered Volue</h6>
-                                    <h3 className="mb-2 number-font">
+                                    <h4 className="mb-2 number-font">
                                       £{FuelValue?.data?.bunkered_value}
-                                    </h3>
+                                    </h4>
                                   </div>
                                 </div>
                                 <p className="text-muted mb-0 mt-4">
@@ -748,9 +748,9 @@ const Dashboard = (props) => {
                               <Spinners />
                             ) : (
                               <>
-                                <h3 className="mb-2 number-font">
+                                <h4 className="mb-2 number-font">
                                   £{shopsale?.data?.shop_sales}
-                                </h3>
+                                </h4>
                                 <p className="text-muted mb-0 mt-4">
                                   <span
                                     className={`me-1 ${
@@ -796,9 +796,9 @@ const Dashboard = (props) => {
                               <Spinners />
                             ) : (
                               <>
-                                <h3 className="mb-2 number-font">
+                                <h4 className="mb-2 number-font">
                                   £{shopmargin?.data?.shop_margin}
-                                </h3>
+                                </h4>
                                 <p className="text-muted mb-0 mt-4">
                                   <span
                                     className={`me-1 ${
@@ -840,7 +840,7 @@ const Dashboard = (props) => {
           <Col lg={7} md={12}>
             <Card>
               <Card.Header className="card-header">
-                <h3 className="card-title">Total Transactions</h3>
+                <h4 className="card-title">Total Transactions</h4>
               </Card.Header>
               <Card.Body className="card-body pb-0">
                 <div id="chartArea" className="chart-donut">
@@ -861,7 +861,7 @@ const Dashboard = (props) => {
           <Col lg={5} md={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Overall Stats</h3>
+                <h4 className="card-title">Overall Stats</h4>
               </Card.Header>
               <Card.Body className="apexchart">
                 <PieDashboardChart data={piechartValues} />

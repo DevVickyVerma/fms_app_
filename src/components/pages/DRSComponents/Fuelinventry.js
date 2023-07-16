@@ -122,6 +122,7 @@ const FuelInventry = (props) => {
 
           // Set the formik values using setFieldValue
           formik.setFieldValue("data", formValues);
+          formik.setFieldValue("data2", formValues);
         }
       } catch (error) {
         console.error("API error:", error);
@@ -217,6 +218,38 @@ const FuelInventry = (props) => {
       setIsLoading(false);
     }
   };
+
+  
+  function calculateSum(index) {
+    const plattsPrice = Number(formik?.values?.data?.[index]?.adjustment);
+    const bunkeredsale = Number(formik?.values?.data?.[index]?.bunkered_sale);
+    const tests = Number(formik?.values?.data?.[index]?.tests);
+    const MeterSale2 = Number(formik?.values?.data2?.[index]?.metered_sale);
+    const MeterSale = Number(formik?.values?.data?.[index]?.metered_sale);
+ 
+  
+    if (
+      !isNaN(plattsPrice) &&
+      !isNaN(bunkeredsale) &&
+      !isNaN(tests) &&
+      !isNaN(MeterSale)
+    ) {
+      const finalTotal = plattsPrice + bunkeredsale + tests;
+      const finalAmount = MeterSale2 - finalTotal ;
+      formik.setFieldValue(`data[${index}].metered_sale`, finalAmount);
+  
+  
+      console.log(MeterSale2, "MeterSale2");
+      console.log(MeterSale, "MeterSale");
+      console.log(finalTotal, "finalTotal");
+      console.log(finalAmount, "finalAmount");
+    
+    } else {
+      console.log("Invalid or missing numeric values");
+    }
+  }
+  
+
   const columns = [
     // ... existing columns
 
@@ -252,9 +285,7 @@ const FuelInventry = (props) => {
               type="number"
               id={`fuel_price-${index}`}
               name={`data[${index}].fuel_price`}
-              className={
-                  "table-input readonly"
-              }
+              className={"table-input readonly"}
               value={formik.values.data[index]?.fuel_price}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -287,10 +318,7 @@ const FuelInventry = (props) => {
               type="number"
               id={`metered_sale-${index}`}
               name={`data[${index}].metered_sale`}
-              className={
-                  "table-input readonly"
-              }
-              
+              className={"table-input readonly"}
               value={formik.values.data[index]?.metered_sale}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -321,9 +349,7 @@ const FuelInventry = (props) => {
               type="number"
               id={`metered_sale_value-${index}`}
               name={`data[${index}].metered_sale_value`}
-              className={
-                  "table-input readonly"
-              }
+              className={"table-input readonly"}
               value={formik.values.data[index]?.metered_sale_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -359,15 +385,17 @@ const FuelInventry = (props) => {
               }
               value={formik.values.data[index]?.adjustment}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              onBlur={(e) => {
+                formik.handleBlur(e);
+                calculateSum(index);
+              }}
               readOnly={editable?.is_editable ? false : true}
             />
             {/* Error handling code */}
           </div>
         ),
     },
-   
-  
+
     {
       name: "BUNKERED SALES VOL.(ℓ)",
       selector: (row) => row.bunkered_sale,
@@ -378,11 +406,11 @@ const FuelInventry = (props) => {
       cell: (row, index) =>
         row.description === "Total" ? (
           <input
-          type="number"
-          className="table-input readonly total-input"
-          value={row.adjustment_euro}
-          readOnly
-        />
+            type="number"
+            className="table-input readonly total-input"
+            value={row.adjustment_euro}
+            readOnly
+          />
         ) : (
           <div>
             <input
@@ -394,14 +422,17 @@ const FuelInventry = (props) => {
               }
               value={formik.values.data[index]?.bunkered_sale}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              onBlur={(e) => {
+                formik.handleBlur(e);
+                calculateSum(index);
+              }}
               readOnly={editable?.is_editable ? false : true}
             />
             {/* Error handling code */}
           </div>
         ),
     },
-  
+
     {
       name: "TEST(ℓ)",
       selector: (row) => row.tests,
@@ -412,11 +443,11 @@ const FuelInventry = (props) => {
       cell: (row, index) =>
         row.description === "Total" ? (
           <input
-          type="number"
-          className="table-input readonly total-input"
-          value={row.tests}
-          readOnly
-        />
+            type="number"
+            className="table-input readonly total-input"
+            value={row.tests}
+            readOnly
+          />
         ) : (
           <div>
             <input
@@ -428,7 +459,10 @@ const FuelInventry = (props) => {
               }
               value={formik.values.data[index]?.tests}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              onBlur={(e) => {
+                formik.handleBlur(e);
+                calculateSum(index);
+              }}
               readOnly={editable?.is_editable ? false : true}
             />
             {/* Error handling code */}
@@ -445,20 +479,18 @@ const FuelInventry = (props) => {
       cell: (row, index) =>
         row.description === "Total" ? (
           <input
-          type="number"
-          className="table-input readonly total-input"
-          value={row.actual_sales}
-          readOnly
-        />
+            type="number"
+            className="table-input readonly total-input"
+            value={row.actual_sales}
+            readOnly
+          />
         ) : (
           <div>
             <input
               type="number"
               id={`actual_sales-${index}`}
               name={`data[${index}].actual_sales`}
-              className={
-                  "table-input readonly"
-              }
+              className={"table-input readonly"}
               value={formik.values.data[index]?.actual_sales}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -478,20 +510,18 @@ const FuelInventry = (props) => {
       cell: (row, index) =>
         row.description === "Total" ? (
           <input
-          type="number"
-          className="table-input readonly total-input"
-          value={row.due_sales}
-          readOnly
-        />
+            type="number"
+            className="table-input readonly total-input"
+            value={row.due_sales}
+            readOnly
+          />
         ) : (
           <div>
             <input
               type="number"
               id={`due_sales-${index}`}
               name={`data[${index}].due_sales`}
-              className={
-                  "table-input readonly"
-              }
+              className={"table-input readonly"}
               value={formik.values.data[index]?.due_sales}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -724,7 +754,7 @@ const FuelInventry = (props) => {
                     </Row>
                   </div>
                   <div className="d-flex justify-content-end mt-3">
-                  {editable?.is_editable ? (
+                    {editable?.is_editable ? (
                       <button className="btn btn-primary" type="submit">
                         Submit
                       </button>
