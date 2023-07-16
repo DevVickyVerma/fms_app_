@@ -226,19 +226,28 @@ const FuelInventry = (props) => {
     const tests = Number(formik?.values?.data?.[index]?.tests);
     const MeterSale2 = Number(formik?.values?.data2?.[index]?.metered_sale);
     const MeterSale = Number(formik?.values?.data?.[index]?.metered_sale);
+    const actualsales = Number(formik?.values?.data?.[index]?.actual_sales);
+    const fuelprice = Number(formik?.values?.data?.[index]?.fuel_price);
  
   
     if (
       !isNaN(plattsPrice) &&
       !isNaN(bunkeredsale) &&
       !isNaN(tests) &&
+      !isNaN(actualsales) &&
+      !isNaN(fuelprice) &&
       !isNaN(MeterSale)
     ) {
       const finalTotal = plattsPrice + bunkeredsale + tests;
       const finalAmount = MeterSale2 - finalTotal ;
-      formik.setFieldValue(`data[${index}].metered_sale`, finalAmount);
+      const finalAmount2 = fuelprice * finalAmount ;
+      formik.setFieldValue(`data[${index}].actual_sales`, finalAmount);
+      formik.setFieldValue(`data[${index}].due_sales`, finalAmount2);
   
   
+      console.log(finalAmount2, "finalAmount2");
+      console.log(actualsales, "actualsales");
+      console.log(fuelprice, "fuelprice");
       console.log(MeterSale2, "MeterSale2");
       console.log(MeterSale, "MeterSale");
       console.log(finalTotal, "finalTotal");

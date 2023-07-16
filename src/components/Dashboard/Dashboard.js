@@ -850,6 +850,8 @@ const Dashboard = (props) => {
                       dashboard.totalTransactions &&
                       dashboard.totalTransactions.options
                     }
+                  
+                  // series={dashboard.totalTransactions.series}
                     series={LinechartValues}
                     type="area"
                     height={300}
