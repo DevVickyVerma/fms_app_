@@ -544,7 +544,11 @@ const CoffeeValet = (props) => {
     const priceAmount = Number(formik?.values?.data?.[index]?.price);
     const comrate = Number(formik?.values?.data?.[index]?.com_rate);
  
- 
+    for (let index = 0; index < formik?.values?.data?.length; index++) {
+      console.log(`Sale at index ${index}:`, formik?.values?.data[index]?.sale);
+    }
+    
+    
   
     if (
       !isNaN(closingAmount) &&
@@ -578,6 +582,8 @@ const CoffeeValet = (props) => {
       console.log("Invalid or missing numeric values");
     }
   }
+
+  
   document.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
       event.preventDefault();

@@ -93,7 +93,7 @@ const BankDeposit = (props) => {
       if (response && response.data && response.data.data) {
         setData(response?.data?.data?.listing ? response?.data.data.listing : [])
         // setData(data?.data?.listing ? data.data.listing : []);
-        setis_editable(response?.data?.data ? data.data : {});
+        setis_editable(response?.data?.data);
         setSearchvalue(response.data.data.cards);
       } else {
         throw new Error("No data available in the response");
@@ -357,15 +357,7 @@ const BankDeposit = (props) => {
   const [isDragging, setIsDragging] = useState(false);
   // const [previewImage, setPreviewImage] = useState(null);
 
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchText(value);
 
-    const filteredData = searchvalue.filter((item) =>
-      item.card_name.toLowerCase().includes(value.toLowerCase())
-    );
-    setData(filteredData);
-  };
 
   document.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
@@ -492,7 +484,7 @@ const BankDeposit = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Cash Banking</h3>
+                <h3 className="card-title">Bank Deposit</h3>
               </Card.Header>
               <Card.Body>
                 <div className="table-responsive deleted-table">

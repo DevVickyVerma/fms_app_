@@ -109,6 +109,13 @@ button.modal-effect.d-grid.mb-3.upload-btn.btn.btn-danger {
   border-bottom: 1px solid #ddd;
   font-weight: 400;
 }
+.Dps-data:hover{
+  background: #e4e4e4;
+}
+.Dps-data p {
+  margin: 0px;
+  padding: 10px;
+}
 .module-height {
   max-height: 290px !important;
  
