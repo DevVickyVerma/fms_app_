@@ -105,8 +105,12 @@ const DepartmentShop = (props) => {
     });
   };
 
-  console.log(_renderFunction(), "_renderFunction");
-  console.log(data, "data_renderFunction");
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+     
+    }
+  });
 
   const _renderFunction1 = () => {
     return Object.keys(bankingdata).map((item, index) => {

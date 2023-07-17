@@ -527,7 +527,7 @@ export const MENUITEMS = [
             path: `/assignppl`,
             title: "Site PPL Rate",
             type: "link",
-            permission: "fuel-purchase-price",
+            permission: "ppl-list",
             visibility: false,
           },
         ],

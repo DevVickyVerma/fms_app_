@@ -80,6 +80,7 @@ const Header = (props) => {
  
   const isProfileUpdatePermissionAvailable = permissionsArray?.includes("profile-update-profile");
   const isUpdatePasswordPermissionAvailable = permissionsArray?.includes("profile-update-password");
+  const isSettingsPermissionAvailable = permissionsArray?.includes("config-setting");
 
 
   //full screen
@@ -349,11 +350,12 @@ const Header = (props) => {
                         Password
                       </Dropdown.Item>
                       ) : null}
-
+                      {isSettingsPermissionAvailable ? (
                       <Dropdown.Item as={Link} to="/settings">
                         <i className="dropdown-icon fe fe-settings"></i>
                         Settings
                       </Dropdown.Item>
+                      ) : null}
 
                       <Dropdown.Item
                         // href="logout"

@@ -52,7 +52,12 @@ const DepartmentShop = (props) => {
       ErrorToast(errorMessage);
     }
   }
-
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+     
+    }
+  });
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");

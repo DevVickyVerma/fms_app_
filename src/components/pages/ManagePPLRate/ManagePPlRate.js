@@ -105,29 +105,6 @@ const ManageSiteTank = (props) => {
     }
   }
 
-  const toggleActive = (row) => {
-    const formData = new FormData();
-    formData.append("id", row.id);
-
-    const newStatus = row.status === 1 ? 0 : 1;
-    formData.append("status", newStatus);
-
-    ToggleStatus(formData);
-  };
-
-  const ToggleStatus = async (formData) => {
-    try {
-      const response = await postData("/site-pump/update-status", formData);
-      console.log(response, "response"); // Console log the response
-      if (apidata.api_response === "success") {
-        handleSubmit1(submitSiteID);
-        // FetchTableData();
-      }
-    } catch (error) {
-      handleError(error);
-    }
-  };
-
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -225,15 +202,9 @@ const ManageSiteTank = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable =
-    permissionsArray?.includes("pump-status-update");
   const isEditPermissionAvailable = permissionsArray?.includes("ppl-edit");
   const isAddPermissionAvailable = permissionsArray?.includes("ppl-create");
   const isDeletePermissionAvailable = permissionsArray?.includes("ppl-delete");
-  const isDetailsPermissionAvailable =
-    permissionsArray?.includes("pump-details");
-  const isAssignPermissionAvailable =
-    permissionsArray?.includes("charpumpges-assign");
 
   const columns = [
     {
@@ -261,7 +232,7 @@ const ManageSiteTank = (props) => {
         </div>
       ),
     },
- 
+
     {
       name: "Client  Name",
       selector: (row) => [row.client],
@@ -394,7 +365,7 @@ const ManageSiteTank = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title">Manage Site Pump</h1>
+            <h1 className="page-title">Manage Site PPL Rate</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"

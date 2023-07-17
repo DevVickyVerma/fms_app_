@@ -90,8 +90,11 @@ const Dashboard = (props) => {
     setClientID(localStorage.getItem("superiorId"));
   
     if (tokenUpdated) {
+      window.location.reload();
+
       localStorage.setItem("tokenupdate", "false"); // Update the value to string "false"
       // Handle token update logic without page reload
+  
     }
   
     if (loggedInFlag) {
@@ -697,7 +700,7 @@ const Dashboard = (props) => {
                                   </div>
                                   <div className="border-left"></div>
                                   <div className="ms-3">
-                                    <h6 className="">Bunkered Volue</h6>
+                                    <h6 className="">Bunkered Value</h6>
                                     <h4 className="mb-2 number-font">
                                       £{FuelValue?.data?.bunkered_value}
                                     </h4>

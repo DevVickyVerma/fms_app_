@@ -339,15 +339,12 @@ const handleEdit =(item)=>{
   const [searchText, setSearchText] = useState("");
   const [searchvalue, setSearchvalue] = useState();
 
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchText(value);
-
-    const filteredData = searchvalue.filter((item) =>
-      item.card_name.toLowerCase().includes(value.toLowerCase())
-    );
-    setData(filteredData);
-  };
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+     
+    }
+  });
 
 console.log(editable,"editable?.is_editable")
 

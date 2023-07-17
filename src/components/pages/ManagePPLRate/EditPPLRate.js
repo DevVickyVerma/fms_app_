@@ -152,7 +152,7 @@ const EditSitePump = (props) => {
         <div>
           <div className="page-header">
             <div>
-              <h1 className="page-title">Edit Site Pump</h1>
+              <h1 className="page-title">Edit Site PPL Rate</h1>
 
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item
@@ -168,13 +168,13 @@ const EditSitePump = (props) => {
                   linkAs={Link}
                   linkProps={{ to: "/managecharges" }}
                 >
-                  Manage Site Pump
+                  Manage Site PPL Rate
                 </Breadcrumb.Item>
                 <Breadcrumb.Item
                   className="breadcrumb-item active breadcrumds"
                   aria-current="page"
                 >
-                  Edit Site Pump
+                  Edit Site PPL Rate
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
@@ -184,7 +184,7 @@ const EditSitePump = (props) => {
             <Col lg={12} xl={12} md={12} sm={12}>
               <Card>
                 <Card.Header>
-                  <Card.Title as="h3">Edit Site Pump</Card.Title>
+                  <Card.Title as="h3">Edit Site PPL Rate</Card.Title>
                 </Card.Header>
 
                 <div class="card-body">

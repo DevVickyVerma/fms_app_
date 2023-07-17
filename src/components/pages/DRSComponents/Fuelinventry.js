@@ -135,10 +135,26 @@ const FuelInventry = (props) => {
     fetchData();
   }, [SiteID, ReportDate]);
 
-  const handleSubmit = async (values) => {
-    const token = localStorage.getItem("token");
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  };
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+     
+    }
+  });
 
-    console.log(values.data);
+  const handleSubmit = async (values,event) => {
+    const token = localStorage.getItem("token");
+  
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      console.log(event,"event");
+    }
+    console.log(event,"event");
 
     // Create a new FormData object
     const formData = new FormData();
@@ -693,7 +709,7 @@ const FuelInventry = (props) => {
                 <h3 className="card-title">Fuel-Inventory</h3>
               </Card.Header>
               <Card.Body>
-                <form onSubmit={formik.handleSubmit}>
+                <form onSubmit={formik.handleSubmit} >
                   <div className="table-responsive deleted-table">
                     <Row>
                       <Col lg={12} md={12}>

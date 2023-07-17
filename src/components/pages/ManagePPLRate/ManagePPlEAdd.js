@@ -48,17 +48,6 @@ const AddSitePump = (props) => {
     handleFetchData();
   }, []);
 
-  const handleFuelChange = async (id) => {
-    try {
-      const response = await axiosInstance.get(`/site/fuel/list?site_id=${id}`);
-
-      if (response.data) {
-        setSelectedFuelList(response.data);
-      }
-    } catch (error) {
-      // handleError(error);
-    }
-  };
 
   const handleSubmit1 = async (values) => {
     try {
@@ -67,12 +56,12 @@ const AddSitePump = (props) => {
         client_id: values.client_id,
         company_id: values.company_id,
       };
-  
+
       localStorage.setItem("SiteTAnk", JSON.stringify(tank));
       const formData = new FormData();
       formData.append("sales_volume", values.sales_volume);
       formData.append("pence_per_liter", values.pence_per_liter);
-  
+
       formData.append("site_id", values.site_id);
       formData.append("client_id", values.client_id);
       formData.append("company_id", values.company_id);
@@ -98,8 +87,6 @@ const AddSitePump = (props) => {
     }
   }, [UserPermissions]);
 
-
-
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -115,7 +102,7 @@ const AddSitePump = (props) => {
         <div>
           <div className="page-header">
             <div>
-              <h1 className="page-title">Add Site Tank</h1>
+              <h1 className="page-title">Add Site PPL Rate</h1>
 
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item
@@ -129,7 +116,7 @@ const AddSitePump = (props) => {
                   className="breadcrumb-item active breadcrumds"
                   aria-current="page"
                 >
-                  Manage Site Tank
+                  Manage Site PPL Rate
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
@@ -139,7 +126,7 @@ const AddSitePump = (props) => {
             <Col lg={12} xl={12} md={12} sm={12}>
               <Card>
                 <Card.Header>
-                  <Card.Title as="h3">Add Site Tank</Card.Title>
+                  <Card.Title as="h3">Add Site PPL Rate</Card.Title>
                 </Card.Header>
                 <Formik
                   initialValues={{
@@ -153,7 +140,6 @@ const AddSitePump = (props) => {
                     client_id: Yup.string().required("Client is required"),
                     company_id: Yup.string().required("Company is required"),
                     site_id: Yup.string().required("Site is required"),
-                  
 
                     sales_volume: Yup.string()
                       .max(15, "Must be 15 characters or less")
@@ -174,8 +160,6 @@ const AddSitePump = (props) => {
                           excludeEmptyString: true,
                         }
                       ),
-
-                 
                   })}
                   onSubmit={(values) => {
                     handleSubmit1(values);
@@ -337,7 +321,6 @@ const AddSitePump = (props) => {
                                     "selectedFuelList"
                                   );
 
-                                 
                                   setFieldValue("site_id", site);
                                 }}
                               >
@@ -365,14 +348,15 @@ const AddSitePump = (props) => {
                                 className=" form-label mt-4"
                                 htmlFor="pence_per_liter"
                               >
-                               Pence Per Liter
+                                Pence Per Liter
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
                                 type="number"
                                 autoComplete="off"
                                 className={`input101 ${
-                                  errors.pence_per_liter && touched.pence_per_liter
+                                  errors.pence_per_liter &&
+                                  touched.pence_per_liter
                                     ? "is-invalid"
                                     : ""
                                 }`}
@@ -388,9 +372,9 @@ const AddSitePump = (props) => {
                             </FormGroup>
                           </Col>
                         </Row>
-                       
+
                         <Row>
-                        <Col lg={6} md={12}>
+                          <Col lg={6} md={12}>
                             <FormGroup>
                               <label
                                 className=" form-label mt-4"

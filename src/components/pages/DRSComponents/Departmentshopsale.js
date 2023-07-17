@@ -126,7 +126,12 @@ const Departmentshopsale = (props) => {
 
     fetchData();
   }, [SiteID, ReportDate]);
-
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+     
+    }
+  });
   const handleSubmit = async (values) => {
     const token = localStorage.getItem("token");
 
