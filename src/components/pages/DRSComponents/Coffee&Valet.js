@@ -74,22 +74,7 @@ const CoffeeValet = (props) => {
           setData(data?.data?.listing ? data.data.listing : []);
           setis_editable(data?.data ? data.data : {});
 
-          //   {
-          //     "id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
-          //     "item_category": "test",
-          //     "opening": 200,
-          //     "closing": 0,
-          //     "tests": 0,
-          //     "adjust": 0,
-          //     "sale": 0,
-          //     "value": 0,
-          //     "com_rate": 0,
-          //     "commission": 0,
-          //     "price": 0,
-          //     "message": "Test"
-          // }
-
-          // Create an array of form values based on the response data
+      
           const formValues = data?.data?.listing
             ? data.data.listing.map((item) => {
                 return {
@@ -299,7 +284,10 @@ const CoffeeValet = (props) => {
               }
               value={formik.values.data[index]?.closing}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              onBlur={(e) => {
+                formik.handleBlur(e);
+                calculateSum(index);
+              }}
               readOnly={editable?.is_editable ? false : true}
             />
             {/* Error handling code */}
@@ -544,6 +532,44 @@ const CoffeeValet = (props) => {
     onSubmit: handleSubmit,
     // validationSchema: validationSchema,
   });
+
+  function calculateSum(index) {
+    const closingAmount = Number(formik?.values?.data?.[index]?.closing);
+    const openingAmount = Number(formik?.values?.data?.[index]?.opening);
+    const saleAmount = Number(formik?.values?.data?.[index]?.sale);
+    const priceAmount = Number(formik?.values?.data?.[index]?.price);
+ 
+ 
+  
+    if (
+      !isNaN(closingAmount) &&
+      !isNaN(saleAmount) &&
+      !isNaN(openingAmount) 
+    
+    ) {
+      const finalTotal = closingAmount - openingAmount ;
+      const ValueTotal = saleAmount * priceAmount ;
+    
+      formik.setFieldValue(`data[${index}].sale`, finalTotal);
+  
+  
+  
+      console.log(ValueTotal, "ValueTotal");
+      console.log(saleAmount, "saleAmount");
+      console.log(priceAmount, "priceAmount");
+      console.log(finalTotal, "finalTotal");
+      console.log(closingAmount, "closingAmount");
+      console.log(openingAmount, "openingAmount");
+   
+    
+    
+    } else {
+      console.log("Invalid or missing numeric values");
+    }
+  }
+  
+
+
 
   return (
     <>
