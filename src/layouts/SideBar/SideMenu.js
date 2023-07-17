@@ -482,6 +482,13 @@ export const MENUITEMS = [
             permission: "ppl-list",
             visibility: false,
           },
+          {
+            path: `/dailyfacilityfees`,
+            title: "Daily Facility Fees",
+            type: "link",
+            permission: "shop-facility-fees",
+            visibility: false,
+          },
         ],
       },
 

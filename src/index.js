@@ -401,6 +401,9 @@ const EditBusiness = React.lazy(() =>
 const Settings = React.lazy(() =>
   import("./components/pages/Settings/Settings")
 );
+const DailyFacilityFees = React.lazy(() =>
+  import("./components/pages/DailyFacilityFees/DailyFacilityFees")
+);
 
 const FAQS = React.lazy(() => import("./components/pages/FAQS/FAQS"));
 const Terms = React.lazy(() => import("./components/pages/Terms/Terms"));
@@ -528,6 +531,7 @@ const Root = () => {
   const WrappedAssignManagePPL = withApi(ManagePPL);
   const WrappedAssignEditPPL = withApi(EditPPL);
   const WrappedAssignAddPPL = withApi(AddPPL);
+  const WrappedDailyFacilityFees = withApi(DailyFacilityFees);
 
   return (
     <Fragment>
@@ -574,6 +578,7 @@ const Root = () => {
                   />
 
                   <Route path={`/sites`} element={<Managesite />} />
+                  <Route path={`/dailyfacilityfees`} element={<WrappedDailyFacilityFees />} />
                   {/* sites  Components End */}
 
                   {/* Company  Components Start */}

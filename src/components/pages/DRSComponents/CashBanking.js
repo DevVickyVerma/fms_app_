@@ -101,7 +101,9 @@ const CashBanking = (props) => {
       console.log(response.data.data, "cards");
 
       if (response && response.data && response.data.data) {
-        console.log(response.data.data, "cawwwwwwrds");
+        console.log(response.data.data.cash_value, "cawwwwwwrds");
+        formik.setFieldValue("value", response?.data?.data?.cash_value);
+        console.log(formik.values, "cash_value");
         setis_editable(response?.data?.data);
         console.log(response?.data?.data,"ssssis_editable")
         setData(response?.data?.data?.listing);
