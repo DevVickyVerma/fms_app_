@@ -296,7 +296,7 @@ const FuelInventry = (props) => {
         row.description === "Total" ? (
           <input
             type="number"
-            className="table-input readonly total-input"
+            className="table-input readonly total-input-inventry"
             value={row.fuel_price}
             readOnly
           />
@@ -329,7 +329,7 @@ const FuelInventry = (props) => {
         row.description === "Total" ? (
           <input
             type="number"
-            className="table-input readonly total-input"
+            className="table-input readonly total-input-inventry"
             value={row.metered_sale}
             readOnly
           />
@@ -360,7 +360,7 @@ const FuelInventry = (props) => {
         row.description === "Total" ? (
           <input
             type="number"
-            className="table-input readonly total-input"
+            className="table-input readonly total-input-inventry"
             value={row.metered_sale_value}
             readOnly
           />
@@ -391,7 +391,7 @@ const FuelInventry = (props) => {
         row.description === "Total" ? (
           <input
             type="number"
-            className="table-input readonly total-input"
+            className="table-input readonly total-input-inventry-inventry"
             value={row.adjustment}
             readOnly
           />
@@ -433,7 +433,7 @@ const FuelInventry = (props) => {
         row.description === "Total" ? (
           <input
             type="number"
-            className="table-input readonly total-input"
+            className="table-input readonly total-input-inventry"
             value={row.adjustment_euro}
             readOnly
           />
@@ -474,7 +474,7 @@ const FuelInventry = (props) => {
         row.description === "Total" ? (
           <input
             type="number"
-            className="table-input readonly total-input"
+            className="table-input readonly total-input-inventry"
             value={row.tests}
             readOnly
           />
@@ -514,7 +514,7 @@ const FuelInventry = (props) => {
         row.description === "Total" ? (
           <input
             type="number"
-            className="table-input readonly total-input"
+            className="table-input readonly total-input-inventry"
             value={row.actual_sales}
             readOnly
           />
@@ -551,7 +551,7 @@ const FuelInventry = (props) => {
         row.description === "Total" ? (
           <input
             type="number"
-            className="table-input readonly total-input"
+            className="table-input readonly total-input-inventry"
             value={row.due_sales}
             readOnly
           />

@@ -223,7 +223,7 @@ const Departmentshopsale = (props) => {
         row.category_name === "Total" ? (
           <input
             type="number"
-            className="table-input readonly total-input"
+            className="table-input readonly total-input-department"
             value={row.gross_value}
             readOnly
           />
@@ -260,7 +260,7 @@ const Departmentshopsale = (props) => {
         row.category_name === "Total" ? (
           <input
             type="number"
-            className="table-input readonly total-input"
+            className="table-input readonly total-input-department"
             value={row.disc_value}
             readOnly
           />
@@ -296,7 +296,7 @@ const Departmentshopsale = (props) => {
         row.category_name === "Total" ? (
           <input
             type="number"
-            className="table-input readonly total-input"
+            className="table-input readonly total-input-department"
             value={row.nett_value}
             readOnly
           />

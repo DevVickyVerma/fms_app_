@@ -237,7 +237,7 @@ const CoffeeValet = (props) => {
         row.item_category === "Total" ? (
           <input
           type="number"
-          className="table-input readonly total-input"
+          className="table-input readonly total-input-coffe"
           value={row.opening}
           readOnly
         />
@@ -273,7 +273,7 @@ const CoffeeValet = (props) => {
         row.item_category === "Total" ? (
           <input
           type="number"
-          className="table-input readonly total-input"
+          className="table-input readonly total-input-coffe"
           value={row.closing}
           readOnly
         />
@@ -308,7 +308,7 @@ const CoffeeValet = (props) => {
         row.item_category === "Total" ? (
           <input
           type="number"
-          className="table-input readonly total-input"
+          className="table-input readonly total-input-coffe"
           value={row.tests}
           readOnly
         />
@@ -340,7 +340,7 @@ const CoffeeValet = (props) => {
         row.item_category === "Total" ? (
           <input
           type="number"
-          className="table-input readonly total-input"
+          className="table-input readonly total-input-coffe"
           value={row.adjust}
           readOnly
         />
@@ -372,7 +372,7 @@ const CoffeeValet = (props) => {
         row.item_category === "Total" ? (
           <input
           type="number"
-          className="table-input readonly total-input"
+          className="table-input readonly total-input-coffe"
           value={row.sale}
           readOnly
         />
@@ -404,7 +404,7 @@ const CoffeeValet = (props) => {
         row.item_category === "Total" ? (
           <input
           type="number"
-          className="table-input readonly total-input"
+          className="table-input readonly total-input-coffe"
           value={row.price}
           readOnly
         />
@@ -436,7 +436,7 @@ const CoffeeValet = (props) => {
         row.item_category === "Total" ? (
           <input
           type="number"
-          className="table-input readonly total-input"
+          className="table-input readonly total-input-coffe"
           value={row.value}
           readOnly
         />
@@ -468,7 +468,7 @@ const CoffeeValet = (props) => {
         row.item_category === "Total" ? (
           <input
           type="number"
-          className="table-input readonly total-input"
+          className="table-input readonly total-input-coffe"
           value={row.com_rate}
           readOnly
         />
@@ -500,7 +500,7 @@ const CoffeeValet = (props) => {
         row.item_category === "Total" ? (
           <input
           type="number"
-          className="table-input readonly total-input"
+          className="table-input readonly total-input-coffe"
           value={row.commission}
           readOnly
         />

@@ -198,7 +198,7 @@ const FuelSales = (props) => {
        
            <input
         type="number"
-       className="table-input readonly total-input"
+       className="table-input readonly total-input-FuelSales"
         value={row.sales_volume}
         readOnly
         />
@@ -233,7 +233,7 @@ const FuelSales = (props) => {
         
           <input
           type="number"
-         className="table-input readonly total-input"
+         className="table-input readonly total-input-FuelSales"
           value={row.gross_value}
           readOnly
           />
@@ -266,7 +266,7 @@ const FuelSales = (props) => {
         row.fuel_name === "Total" ? (
           <input
           type="number"
-         className="table-input readonly total-input"
+         className="table-input readonly total-input-FuelSales"
           value={row.discount}
           readOnly
           />
@@ -300,7 +300,7 @@ const FuelSales = (props) => {
         row.fuel_name === "Total" ? (
           <input
           type="number"
-         className="table-input readonly total-input"
+         className="table-input readonly total-input-FuelSales"
           value={row.nett_value}
           readOnly
           />
