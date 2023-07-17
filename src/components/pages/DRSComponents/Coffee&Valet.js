@@ -248,8 +248,12 @@ const CoffeeValet = (props) => {
               id={`opening-${index}`}
               name={`data[${index}].opening`}
               className={
-                "table-input readonly "
-              }
+              row.update_delivery_volume
+                ? "UpdateValueInput"
+                : editable?.is_editable
+                ? "table-input"
+                : "table-input readonly"
+            }
               value={formik.values.data[index]?.opening}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -552,7 +556,7 @@ const CoffeeValet = (props) => {
     ) {
       const SalesAmount = closingAmount - openingAmount ;
       const ValueAmount = SalesAmount * priceAmount ;
-      const comrateAmount = ValueAmount * comrate ;
+      const comrateAmount = (ValueAmount * comrate)/100 ;
      
       const sale = SalesAmount.toFixed(2);
       const value = ValueAmount.toFixed(2);

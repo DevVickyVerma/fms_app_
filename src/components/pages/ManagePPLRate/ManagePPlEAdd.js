@@ -147,19 +147,8 @@ const AddSitePump = (props) => {
 
                     pence_per_liter: Yup.string()
                       .required(" Pence Per Liter is required")
-                      .matches(/^[a-zA-Z0-9_\- ]+$/, {
-                        message:
-                          "Tank Code must not contain special characters",
-                        excludeEmptyString: true,
-                      })
-                      .matches(
-                        /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
-                        {
-                          message:
-                            "Site Tank Code must not have consecutive spaces",
-                          excludeEmptyString: true,
-                        }
-                      ),
+                    
+                    
                   })}
                   onSubmit={(values) => {
                     handleSubmit1(values);

@@ -475,6 +475,13 @@ export const MENUITEMS = [
             permission: "workflow-list",
             visibility: false,
           },
+          {
+            path: `/assignppl`,
+            title: "Site PPL Rate",
+            type: "link",
+            permission: "ppl-list",
+            visibility: false,
+          },
         ],
       },
 
@@ -523,13 +530,7 @@ export const MENUITEMS = [
             permission: "fuel-purchase-price",
             visibility: false,
           },
-          {
-            path: `/assignppl`,
-            title: "Site PPL Rate",
-            type: "link",
-            permission: "ppl-list",
-            visibility: false,
-          },
+        
         ],
       },
     

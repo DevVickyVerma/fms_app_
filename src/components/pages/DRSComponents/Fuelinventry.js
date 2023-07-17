@@ -401,9 +401,14 @@ const FuelInventry = (props) => {
               type="number"
               id={`adjustment-${index}`}
               name={`data[${index}].adjustment`}
+            
               className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
-              }
+              row.update_adjustment
+                ? "UpdateValueInput"
+                : editable?.is_editable
+                ? "table-input"
+                : "table-input readonly"
+            }
               value={formik.values.data[index]?.adjustment}
               onChange={formik.handleChange}
               onBlur={(e) => {
@@ -439,8 +444,12 @@ const FuelInventry = (props) => {
               id={`bunkered_sale-${index}`}
               name={`data[${index}].bunkered_sale`}
               className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
-              }
+              row.update_bunkered_sale
+                ? "UpdateValueInput"
+                : editable?.is_editable
+                ? "table-input"
+                : "table-input readonly"
+            }
               value={formik.values.data[index]?.bunkered_sale}
               onChange={formik.handleChange}
               onBlur={(e) => {
@@ -476,8 +485,12 @@ const FuelInventry = (props) => {
               id={`tests-${index}`}
               name={`data[${index}].tests`}
               className={
-                editable?.is_editable ? "table-input " : "table-input readonly "
-              }
+              row.update_tests
+                ? "UpdateValueInput"
+                : editable?.is_editable
+                ? "table-input"
+                : "table-input readonly"
+            }
               value={formik.values.data[index]?.tests}
               onChange={formik.handleChange}
               onBlur={(e) => {
@@ -511,7 +524,13 @@ const FuelInventry = (props) => {
               type="number"
               id={`actual_sales-${index}`}
               name={`data[${index}].actual_sales`}
-              className={"table-input readonly"}
+              className={
+              row.update_actual_sales
+                ? "UpdateValueInput"
+                : editable?.is_editable
+                ? "table-input"
+                : "table-input readonly"
+            }
               value={formik.values.data[index]?.actual_sales}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -542,7 +561,13 @@ const FuelInventry = (props) => {
               type="number"
               id={`due_sales-${index}`}
               name={`data[${index}].due_sales`}
-              className={"table-input readonly"}
+              className={
+              row.update_due_sales
+                ? "UpdateValueInput"
+                : editable?.is_editable
+                ? "table-input"
+                : "table-input readonly"
+            }
               value={formik.values.data[index]?.due_sales}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
