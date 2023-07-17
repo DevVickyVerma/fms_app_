@@ -241,17 +241,13 @@ const FuelInventry = (props) => {
       const finalTotal = plattsPrice + bunkeredsale + tests;
       const finalAmount = MeterSale2 - finalTotal ;
       const finalAmount2 = fuelprice * finalAmount ;
-      formik.setFieldValue(`data[${index}].actual_sales`, finalAmount);
-      formik.setFieldValue(`data[${index}].due_sales`, finalAmount2);
+      const actualsales = finalAmount.toFixed(2);
+      const duesales = finalAmount2.toFixed(2);
+      formik.setFieldValue(`data[${index}].actual_sales`, actualsales);
+      formik.setFieldValue(`data[${index}].due_sales`, duesales);
   
   
-      console.log(finalAmount2, "finalAmount2");
-      console.log(actualsales, "actualsales");
-      console.log(fuelprice, "fuelprice");
-      console.log(MeterSale2, "MeterSale2");
-      console.log(MeterSale, "MeterSale");
-      console.log(finalTotal, "finalTotal");
-      console.log(finalAmount, "finalAmount");
+   
     
     } else {
       console.log("Invalid or missing numeric values");

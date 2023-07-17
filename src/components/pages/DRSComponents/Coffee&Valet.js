@@ -538,28 +538,35 @@ const CoffeeValet = (props) => {
     const openingAmount = Number(formik?.values?.data?.[index]?.opening);
     const saleAmount = Number(formik?.values?.data?.[index]?.sale);
     const priceAmount = Number(formik?.values?.data?.[index]?.price);
+    const comrate = Number(formik?.values?.data?.[index]?.com_rate);
  
  
   
     if (
       !isNaN(closingAmount) &&
       !isNaN(saleAmount) &&
+      !isNaN(priceAmount) &&
+      !isNaN(comrate) &&
       !isNaN(openingAmount) 
     
     ) {
-      const finalTotal = closingAmount - openingAmount ;
-      const ValueTotal = saleAmount * priceAmount ;
-    
-      formik.setFieldValue(`data[${index}].sale`, finalTotal);
+      const SalesAmount = closingAmount - openingAmount ;
+      const ValueAmount = SalesAmount * priceAmount ;
+      const comrateAmount = ValueAmount * comrate ;
+     
+      const sale = SalesAmount.toFixed(2);
+      const value = ValueAmount.toFixed(2);
+      const commission = comrateAmount.toFixed(2);
+      formik.setFieldValue(`data[${index}].sale`, sale);
+      formik.setFieldValue(`data[${index}].value`, value);
+      formik.setFieldValue(`data[${index}].commission`, commission);
   
   
   
-      console.log(ValueTotal, "ValueTotal");
-      console.log(saleAmount, "saleAmount");
-      console.log(priceAmount, "priceAmount");
-      console.log(finalTotal, "finalTotal");
-      console.log(closingAmount, "closingAmount");
-      console.log(openingAmount, "openingAmount");
+      console.log(SalesAmount, "SalesAmount");
+      console.log(ValueAmount, "ValueAmount");
+      console.log(comrateAmount, "comrateAmount");
+
    
     
     
