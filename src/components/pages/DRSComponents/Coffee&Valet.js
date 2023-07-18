@@ -235,12 +235,14 @@ const CoffeeValet = (props) => {
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
+          <div>
           <input
-          type="number"
-          className="table-input readonly total-input-coffe"
-          value={row.opening}
-          readOnly
-        />
+         type="number"
+         className="table-input readonly total-input"
+         value={row.opening}
+         readOnly
+       />
+      </div>
         ) : (
           <div>
             <input
@@ -271,12 +273,14 @@ const CoffeeValet = (props) => {
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
+          <div>
           <input
-          type="number"
-          className="table-input readonly total-input-coffe"
-          value={row.closing}
-          readOnly
-        />
+         type="number"
+         className="table-input readonly total-input"
+         value={row.closing}
+         readOnly
+       />
+      </div>
         ) : (
           <div>
             <input
@@ -306,12 +310,14 @@ const CoffeeValet = (props) => {
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
+          <div>
           <input
-          type="number"
-          className="table-input readonly total-input-coffe"
-          value={row.tests}
-          readOnly
-        />
+         type="number"
+         className="table-input readonly total-input"
+         value={row.tests}
+         readOnly
+       />
+      </div>
         ) : (
           <div>
             <input
@@ -338,12 +344,14 @@ const CoffeeValet = (props) => {
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
+          <div>
           <input
-          type="number"
-          className="table-input readonly total-input-coffe"
-          value={row.adjust}
-          readOnly
-        />
+         type="number"
+         className="table-input readonly total-input"
+         value={row.adjust}
+         readOnly
+       />
+      </div>
         ) : (
           <div>
             <input
@@ -370,12 +378,14 @@ const CoffeeValet = (props) => {
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
+          <div>
           <input
-          type="number"
-          className="table-input readonly total-input-coffe"
-          value={row.sale}
-          readOnly
-        />
+         type="number"
+         className="table-input readonly total-input"
+         value={row.sale}
+         readOnly
+       />
+      </div>
         ) : (
           <div>
             <input
@@ -402,12 +412,14 @@ const CoffeeValet = (props) => {
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
+          <div>
           <input
-          type="number"
-          className="table-input readonly total-input-coffe"
-          value={row.price}
-          readOnly
-        />
+         type="number"
+         className="table-input readonly total-input"
+         value={row.price}
+         readOnly
+       />
+      </div>
         ) : (
           <div>
             <input
@@ -434,12 +446,14 @@ const CoffeeValet = (props) => {
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
+          <div>
           <input
-          type="number"
-          className="table-input readonly total-input-coffe"
-          value={row.value}
-          readOnly
-        />
+         type="number"
+         className="table-input readonly total-input"
+         value={row.value}
+         readOnly
+       />
+      </div>
         ) : (
           <div>
             <input
@@ -466,12 +480,14 @@ const CoffeeValet = (props) => {
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
+          <div>
           <input
-          type="number"
-          className="table-input readonly total-input-coffe"
-          value={row.com_rate}
-          readOnly
-        />
+         type="number"
+         className="table-input readonly total-input"
+         value={row.com_rate}
+         readOnly
+       />
+      </div>
         ) : (
           <div>
             <input
@@ -498,12 +514,14 @@ const CoffeeValet = (props) => {
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
+          <div>
           <input
-          type="number"
-          className="table-input readonly total-input-coffe"
-          value={row.commission}
-          readOnly
-        />
+         type="number"
+         className="table-input readonly total-input"
+         value={row.commission}
+         readOnly
+       />
+      </div>
         ) : (
           <div>
             <input

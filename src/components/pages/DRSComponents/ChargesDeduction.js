@@ -199,12 +199,14 @@ const ShopSales = (props) => {
    
       cell: (row, index) =>
       row.charge_name === "Total" ? (
+        <div>
         <input
-        type="number"
-        className="table-input readonly total-input"
-        value={row.charge_value}
-        readOnly
-      />
+       type="number"
+       className="table-input readonly total-input"
+       value={row.charge_value}
+       readOnly
+     />
+    </div>
       ) : (
         <div>
         <input
@@ -249,12 +251,14 @@ const ShopSales = (props) => {
     
       cell: (row, index) =>
       row.deduction_name === "Total" ? (
+        <div>
         <input
-        type="number"
-        className="table-input readonly total-input"
-        value={row.deduction_value}
-        readOnly
-      />
+       type="number"
+       className="table-input readonly total-input"
+       value={row.deduction_value}
+       readOnly
+     />
+    </div>
       ) : (
         <div>
         <input

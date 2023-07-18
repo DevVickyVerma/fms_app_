@@ -108,7 +108,7 @@ const FuelSales = (props) => {
 
     // Create a new FormData object
     const formData = new FormData();
-    console.log(values.data)
+    console.log(values.data);
 
     values.data.forEach((obj) => {
       const id = obj.id;
@@ -151,7 +151,7 @@ const FuelSales = (props) => {
       if (response.ok) {
         console.log("Done");
         SuccessToast(responseData.message);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
         ErrorToast(responseData.message);
 
@@ -166,10 +166,9 @@ const FuelSales = (props) => {
     }
   };
 
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
       event.preventDefault();
-     
     }
   });
 
@@ -195,26 +194,25 @@ const FuelSales = (props) => {
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
-       
-           <input
-        type="number"
-       className="table-input readonly total-input-FuelSales"
-        value={row.sales_volume}
-        readOnly
-        />
+          <div>
+          <input
+            type="number"
+            className={"table-input readonly"}
+            value={row.sales_volume}
+            readOnly
+          />
+           </div>
         ) : (
           <div>
             <input
               type="number"
               id={`sales_volume-${index}`}
               name={`data[${index}].sales_volume`}
-              className={
-                  "table-input readonly"
-              }
+              className={"table-input readonly"}
               value={formik.values.data[index]?.sales_volume}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-            readOnly
+              readOnly
             />
             {/* Error handling code */}
           </div>
@@ -230,26 +228,25 @@ const FuelSales = (props) => {
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
-        
+          <div>
           <input
-          type="number"
-         className="table-input readonly total-input-FuelSales"
-          value={row.gross_value}
-          readOnly
+            type="number"
+            className={"table-input readonly"}
+            value={row.gross_value}
+            readOnly
           />
+           </div>
         ) : (
           <div>
             <input
               type="number"
               id={`gross_value-${index}`}
               name={`data[${index}].gross_value`}
-              className={
-                  "table-input readonly"
-              }
+              className={"table-input readonly"}
               value={formik.values.data[index]?.gross_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-            readOnly
+              readOnly
             />
             {/* Error handling code */}
           </div>
@@ -264,26 +261,25 @@ const FuelSales = (props) => {
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
+          <div>
           <input
-          type="number"
-         className="table-input readonly total-input-FuelSales"
-          value={row.discount}
-          readOnly
+            type="number"
+            className={"table-input readonly"}
+            value={row.discount}
+            readOnly
           />
+           </div>
         ) : (
           <div>
             <input
               type="number"
               id={`discount-${index}`}
               name={`data[${index}].discount`}
-          
-              className={
-                  "table-input readonly"
-              }
+              className={"table-input readonly"}
               value={formik.values.data[index]?.discount}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-            readOnly
+              readOnly
             />
             {/* Error handling code */}
           </div>
@@ -298,25 +294,25 @@ const FuelSales = (props) => {
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
+          <div>
           <input
-          type="number"
-         className="table-input readonly total-input-FuelSales"
-          value={row.nett_value}
-          readOnly
+            type="number"
+            className={"table-input readonly"}
+            value={row.nett_value}
+            readOnly
           />
+           </div>
         ) : (
           <div>
             <input
               type="number"
               id={`nett_value-${index}`}
               name={`data[${index}].nett_value`}
-                className={
-                  "table-input readonly"
-              }
+              className={"table-input readonly"}
               value={formik.values.data[index]?.nett_value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-            readOnly
+              readOnly
             />
             {/* Error handling code */}
           </div>
@@ -366,7 +362,7 @@ const FuelSales = (props) => {
                       />
                     </DataTableExtensions>
                   </div>
-                {/* {data.length>0 ?  <div className="d-flex justify-content-end mt-3">
+                  {/* {data.length>0 ?  <div className="d-flex justify-content-end mt-3">
                     {editable ? (
                       <button className="btn btn-primary" type="submit">
                         Submit

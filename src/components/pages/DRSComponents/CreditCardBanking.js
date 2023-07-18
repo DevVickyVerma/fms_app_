@@ -214,12 +214,14 @@ const CreditCardBanking = (props) => {
     
       cell: (row, index) =>
       row.card_name === "Total" ? (
+        <div>
         <input
-        type="number"
-        className="table-input readonly total-input-card"
-        value={row.koisk_value}
-        readOnly
-      />
+       type="number"
+       className="table-input readonly total-input"
+       value={row.koisk_value}
+       readOnly
+     />
+    </div>
       ) : (
         <div>
         <input
@@ -248,12 +250,14 @@ const CreditCardBanking = (props) => {
     
       cell: (row, index) =>
       row.card_name === "Total" ? (
+        <div>
         <input
-        type="number"
-        className="table-input readonly total-input-card"
-        value={row.opt_value}
-        readOnly
-      />
+       type="number"
+       className="table-input readonly total-input"
+       value={row.opt_value}
+       readOnly
+     />
+    </div>
       ) : (
         <div>
         <input
@@ -281,12 +285,14 @@ const CreditCardBanking = (props) => {
    
       cell: (row, index) =>
       row.card_name === "Total" ? (
+        <div>
         <input
-        type="number"
-        className="table-input readonly total-input-card"
-        value={row.account_value}
-        readOnly
-      />
+       type="number"
+       className="table-input readonly total-input"
+       value={row.account_value}
+       readOnly
+     />
+    </div>
       ) : (
         <div>
           <input
@@ -314,12 +320,14 @@ const CreditCardBanking = (props) => {
   
       cell: (row, index) =>
       row.card_name === "Total" ? (
+        <div>
         <input
-        type="number"
-        className="table-input readonly total-input-card"
-        value={row.no_of_transactions}
-        readOnly
-      />
+       type="number"
+       className="table-input readonly total-input"
+       value={row.no_of_transactions}
+       readOnly
+     />
+    </div>
       ) : (
         <div>
         <input

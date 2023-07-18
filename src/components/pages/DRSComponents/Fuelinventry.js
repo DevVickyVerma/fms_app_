@@ -294,12 +294,14 @@ const FuelInventry = (props) => {
       center: true,
       cell: (row, index) =>
         row.description === "Total" ? (
-          <input
-            type="number"
-            className="table-input readonly total-input-inventry"
-            value={row.fuel_price}
-            readOnly
-          />
+       <div>
+           <input
+          type="number"
+          className="table-input readonly total-input"
+          value={row.fuel_price}
+          readOnly
+        />
+       </div>
         ) : (
           <div>
             <input
@@ -327,12 +329,14 @@ const FuelInventry = (props) => {
 
       cell: (row, index) =>
         row.description === "Total" ? (
+          <div>
           <input
-            type="number"
-            className="table-input readonly total-input-inventry"
-            value={row.metered_sale}
-            readOnly
-          />
+         type="number"
+         className="table-input readonly total-input"
+         value={row.metered_sale}
+         readOnly
+       />
+      </div>
         ) : (
           <div>
             <input
@@ -358,12 +362,14 @@ const FuelInventry = (props) => {
 
       cell: (row, index) =>
         row.description === "Total" ? (
+          <div>
           <input
-            type="number"
-            className="table-input readonly total-input-inventry"
-            value={row.metered_sale_value}
-            readOnly
-          />
+         type="number"
+         className="table-input readonly total-input"
+         value={row.metered_sale_value}
+         readOnly
+       />
+      </div>
         ) : (
           <div>
             <input
@@ -389,12 +395,14 @@ const FuelInventry = (props) => {
 
       cell: (row, index) =>
         row.description === "Total" ? (
+          <div>
           <input
-            type="number"
-            className="table-input readonly total-input-inventry-inventry"
-            value={row.adjustment}
-            readOnly
-          />
+         type="number"
+         className="table-input readonly total-input"
+         value={row.adjustment}
+         readOnly
+       />
+      </div> 
         ) : (
           <div>
             <input
@@ -431,12 +439,14 @@ const FuelInventry = (props) => {
 
       cell: (row, index) =>
         row.description === "Total" ? (
+          <div>
           <input
-            type="number"
-            className="table-input readonly total-input-inventry"
-            value={row.adjustment_euro}
-            readOnly
-          />
+         type="number"
+         className="table-input readonly total-input"
+         value={row.bunkered_sale}
+         readOnly
+       />
+      </div> 
         ) : (
           <div>
             <input
@@ -472,12 +482,14 @@ const FuelInventry = (props) => {
 
       cell: (row, index) =>
         row.description === "Total" ? (
+          <div>
           <input
-            type="number"
-            className="table-input readonly total-input-inventry"
-            value={row.tests}
-            readOnly
-          />
+         type="number"
+         className="table-input readonly total-input"
+         value={row.tests}
+         readOnly
+       />
+      </div> 
         ) : (
           <div>
             <input
@@ -512,12 +524,14 @@ const FuelInventry = (props) => {
 
       cell: (row, index) =>
         row.description === "Total" ? (
+          <div>
           <input
-            type="number"
-            className="table-input readonly total-input-inventry"
-            value={row.actual_sales}
-            readOnly
-          />
+         type="number"
+         className="table-input readonly total-input"
+         value={row.actual_sales}
+         readOnly
+       />
+      </div> 
         ) : (
           <div>
             <input
@@ -549,12 +563,14 @@ const FuelInventry = (props) => {
 
       cell: (row, index) =>
         row.description === "Total" ? (
+          <div>
           <input
-            type="number"
-            className="table-input readonly total-input-inventry"
-            value={row.due_sales}
-            readOnly
-          />
+         type="number"
+         className="table-input readonly total-input"
+         value={row.due_sales}
+         readOnly
+       />
+      </div>
         ) : (
           <div>
             <input

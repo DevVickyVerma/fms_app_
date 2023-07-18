@@ -221,12 +221,14 @@ const Departmentshopsale = (props) => {
 
       cell: (row, index) =>
         row.category_name === "Total" ? (
+          <div>
           <input
-            type="number"
-            className="table-input readonly total-input-department"
-            value={row.gross_value}
-            readOnly
-          />
+         type="number"
+         className="table-input readonly total-input"
+         value={row.gross_value}
+         readOnly
+       />
+      </div>
         ) : (
           <div>
             <input
@@ -258,12 +260,14 @@ const Departmentshopsale = (props) => {
 
       cell: (row, index) =>
         row.category_name === "Total" ? (
+          <div>
           <input
-            type="number"
-            className="table-input readonly total-input-department"
-            value={row.disc_value}
-            readOnly
-          />
+         type="number"
+         className="table-input readonly total-input"
+         value={row.disc_value}
+         readOnly
+       />
+      </div>
         ) : (
           <div>
             <input
@@ -294,12 +298,14 @@ const Departmentshopsale = (props) => {
 
       cell: (row, index) =>
         row.category_name === "Total" ? (
+          <div>
           <input
-            type="number"
-            className="table-input readonly total-input-department"
-            value={row.nett_value}
-            readOnly
-          />
+         type="number"
+         className="table-input readonly total-input"
+         value={row.nett_value}
+         readOnly
+       />
+      </div>
         ) : (
           <div>
             <input

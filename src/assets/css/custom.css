@@ -301,7 +301,7 @@ tbody tr {
   border: 2px solid #000; /* Customize the border style as per your requirement */
 }
 
-input.table-input.readonly.total-input {
+/* input.table-input.readonly.total-input {
   width: 20%;
 }
 input.table-input.readonly.total-input-FuelSales {
@@ -312,4 +312,4 @@ input.table-input.readonly.total-input-department {
 }
 input.table-input.readonly.total-input-card {
   width: 53%;
-}
+} */
