@@ -71,7 +71,7 @@ const DepartmentShop = (props) => {
 
       try {
         const response = await axiosInstance.get(
-          `/bunkered-sale/details/?site_id=L3J6ckhTNy9ZdmFxU3djM3BwK0VBZz09&drs_date=2023-07-01`
+          `/bunkered-sale/details/?site_id=${SiteID}&drs_date=${ReportDate}`
         );
 
         const { data } = response;
@@ -178,7 +178,7 @@ const DepartmentShop = (props) => {
       } else {
         // There are validation errors, handle them accordingly
         // You can update the UI to display the error messages or take any other appropriate action
-        console.log(formik.errors,"erros"); // Log the validation errors to the console
+        console.log(formik.errors, "erros"); // Log the validation errors to the console
       }
     });
   };
@@ -248,12 +248,11 @@ const DepartmentShop = (props) => {
                                       <option disabled>No Card</option>
                                     )}
                                   </select>
-                                  { formik.errors.selectcardID && (
-  <div className="invalid-feedback">
-    {formik.errors.selectcardID}
-  </div>
-)}
-
+                                  {formik.errors.selectcardID && (
+                                    <div className="invalid-feedback">
+                                      {formik.errors.selectcardID}
+                                    </div>
+                                  )}
                                 </div>
                               </Col>
                               <Col lg={2} md={2}>
@@ -759,7 +758,7 @@ const DepartmentShop = (props) => {
                                     )}
                                 </div>
                               </Col>
-                              <Col lg={1} md={1}>
+                              <Col lg={2} md={2}>
                                 <div className="form-group">
                                   <label
                                     className=" form-label mt-4"
@@ -931,7 +930,7 @@ const DepartmentShop = (props) => {
                                 </div>
                               </Col>
 
-                              <Col lg={1} md={1}>
+                              <Col lg={2} md={2}>
                                 <div className="form-group">
                                   <label
                                     className=" form-label mt-4"

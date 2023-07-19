@@ -764,7 +764,7 @@ const ManageDsr = (props) => {
         ) : UploadTabname === "Bunkered Sales" ? (
           <BunkeredSales SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : null}
-        <BunkeredSales SiteID={PropsSiteId} ReportDate={PropsDate} />
+        {/* <BunkeredSales SiteID={PropsSiteId} ReportDate={PropsDate} /> */}
       </>
     </>
   );
