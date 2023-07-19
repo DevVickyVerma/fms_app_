@@ -313,3 +313,7 @@ input.table-input.readonly.total-input-department {
 input.table-input.readonly.total-input-card {
   width: 53%;
 } */
+.label-color {
+  display: flex;
+  justify-content: end;
+}

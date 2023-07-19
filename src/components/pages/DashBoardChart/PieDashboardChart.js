@@ -41,7 +41,12 @@ const Apexcharts2 = ({ data }) => {
         },
       },
     ],
+    colors: ["#FF0000", "#00FF00", "#0000FF", "#FFFF00"], // Example colors for each series
   };
+
+  const realColors = options.colors.map((color) => {
+    return color.startsWith("#") ? color : "#" + color;
+  });
 
   return (
     <div id="chart">
@@ -51,6 +56,24 @@ const Apexcharts2 = ({ data }) => {
         type="pie"
         width={380}
       />
+   <div className="d-flex">
+  {labels.map((label, index) => {
+    const formattedLabel = label.charAt(0).toUpperCase() + label.slice(1).replace(/_/g, ' ');
+    return (
+      <div className="label-color" key={index}>
+        <h6 className="mx-2">{formattedLabel}</h6>
+        <div 
+          style={{
+            backgroundColor: realColors[index],
+            width: "20px",
+            height: "20px",
+          }}
+        />
+      </div>
+    );
+  })}
+</div>
+
     </div>
   );
 };
