@@ -56,13 +56,16 @@ const ManageDsr = (props) => {
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
+  useEffect(()=>{
+    handleFetchData();
+  },[])
 
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
     if (UserPermissions) {
       setPermissionsArray(UserPermissions.permissions);
     }
-    handleFetchData();
+  
   }, [UserPermissions]);
 
   const isStatusPermissionAvailable = permissionsArray?.includes(
@@ -277,18 +280,7 @@ const ManageDsr = (props) => {
         console.error("API error:", error);
       }
 
-      try {
-        const response2 = await getData(
-          `/fuel-delivery/list?site_id=${values.site_id}&drs_date=${values.start_date}`
-        );
-
-        const { data } = response2;
-        if (data) {
-          console.log(data);
-        }
-      } catch (error) {
-        console.error("API error:", error);
-      }
+     
     } catch (error) {
       console.error("Error:", error);
     }

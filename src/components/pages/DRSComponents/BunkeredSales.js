@@ -72,6 +72,7 @@ const DepartmentShop = (props) => {
       try {
         const response = await axiosInstance.get(
           `/bunkered-sale/details/?site_id=${SiteID}&drs_date=${ReportDate}`
+          // `/bunkered-sale/details/?site_id=L3J6ckhTNy9ZdmFxU3djM3BwK0VBZz09&drs_date=2023-07-01`
         );
 
         const { data } = response;
@@ -88,13 +89,28 @@ const DepartmentShop = (props) => {
       } finally {
         setIsLoading(false);
       }
+      try {
+        const response = await axiosInstance.get(
+          // `/bunkered-sale/list/?site_id=L3J6ckhTNy9ZdmFxU3djM3BwK0VBZz09&drs_date=2023-07-01`
+          `bunkered-sale/list?site_id=${SiteID}&drs_date=${ReportDate}`
+        );
+
+        const { data } = response;
+        if (data) {
+          console.log(data?.data?.listing?.bunkered_Sales, "listing");
+          formik.setFieldValue("bunkeredSales", data?.data?.listing?.bunkered_Sales);
+        }
+      } catch (error) {
+        console.error("API error:", error);
+        handleError(error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchData();
   }, [SiteID, ReportDate]);
-  const initialValues = {
-    data: data,
-  };
+
 
   document.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
