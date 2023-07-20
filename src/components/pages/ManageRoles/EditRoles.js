@@ -104,25 +104,21 @@ const EditRoles = (props) => {
         // Loop through each category in data.permissions
         for (const category in data.permissions) {
           const categoryData = data.permissions[category];
-        
+
           // Filter the names with "checked": true and add them to the filteredNames array
           const names = categoryData.names
-            .filter(item => item.checked === true)
-            .map(item => item.name);
-        
+            .filter((item) => item.checked === true)
+            .map((item) => item.name);
+
           filteredNames.push(...names);
         }
-        
+
         // Log the combined filtered names array
-        console.log(filteredNames,"filteredNames");
-        formik.setFieldValue(
-          "permissions",
-          filteredNames
-        );
-        
+        console.log(filteredNames, "filteredNames");
+        formik.setFieldValue("permissions", filteredNames);
+
         // Log the filtered permissions
         // console.log(filteredPermissions1,"filteredPermissions1");
-      
       }
     } catch (error) {
       console.error("API error:", error);
@@ -195,7 +191,25 @@ const EditRoles = (props) => {
       handleError(error);
     }
   };
+  const [selectAllChecked, setSelectAllChecked] = useState(false);
+  const handleHeadingCheckboxChange = (heading, isChecked) => {
+    const headingPermissions = permissions[heading]?.names;
 
+    if (headingPermissions) {
+      // Get the names of the children items for the selected heading
+      const childrenNames = headingPermissions.map((item) => item.name);
+
+      // Update the permissionArray based on the heading checkbox state
+      const updatedPermissionArray = isChecked
+        ? [...permissionArray, ...childrenNames]
+        : permissionArray.filter((name) => !childrenNames.includes(name));
+
+      // Update the state and form field with the new permissionArray
+      setPermissionArray(updatedPermissionArray);
+      console.log(updatedPermissionArray);
+      formik.setFieldValue("permissions", updatedPermissionArray);
+    }
+  };
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -271,8 +285,29 @@ const EditRoles = (props) => {
                       {Object.keys(permissions).length > 0 ? (
                         Object.keys(permissions).map((heading) => (
                           <div key={heading}>
-                            <div className="table-heading">
-                              <h2>{heading}</h2>
+                            <div className="table-heading d-flex">
+                              <div className="heading-input ">
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  name={`heading_${heading}`}
+                                  id={`heading_${heading}`}
+                                  checked={
+                                    permissions[heading]?.names.every((item) =>
+                                      permissionArray.includes(item.name)
+                                    ) || false
+                                  }
+                                  onChange={(e) =>
+                                    handleHeadingCheckboxChange(
+                                      heading,
+                                      e.target.checked
+                                    )
+                                  }
+                                />
+                              </div>
+                              <div>
+                                <h2>{heading}</h2>
+                              </div>
                             </div>
                             <div className="form-group">
                               {permissions[heading].names.map((nameItem) => (
