@@ -15,8 +15,6 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import { Formik, Field, ErrorMessage } from "formik";
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -25,11 +23,9 @@ import { toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 
-
-  const EditAddon = (props) => {
-    const { apidata, isLoading, error, getData, postData } = props;
+const EditAddon = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
   const [AddonpermissionsList, setPermissions] = useState([]);
-
   const [userpermissions, setUserPermissions] = useState([]);
   const [edituserDetails, setEdituserDetails] = useState("");
   const [editName, seteditName] = useState("");
@@ -38,7 +34,6 @@ import Loaderimg from "../../../Utils/Loader";
   const navigate = useNavigate();
 
   const [permissionArray, setPermissionArray] = useState([]);
-  const [permissionArray1, setPermissionArray1] = useState([]);
 
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -79,43 +74,8 @@ import Loaderimg from "../../../Utils/Loader";
     const formData = new FormData();
     formData.append("addon_id", addonId);
 
-    FetchPermisionList()
+    FetchPermisionList();
   }, []);
-
-  // const getAddonDetails = async () => {
-  //   try {
-  //     const response = await axiosInstance.get("/addon/detail", formData);
-  //     const { data } = response;
-
-  //     const permissionArray = [];
-  //     for (const key of Object.keys(data.data.addon_permissions)) {
-  //       let array = [];
-  //       for (const item of data?.data?.addon_permissions[key].names) {
-  //         if (item.checked) {
-  //           array.push(item.permission_name);
-  //         }
-  //       }
-  //       permissionArray.push(...array);
-  //     }
-
-  //     setPermissionArray([...new Set(permissionArray)]);
-
-  //     if (data) {
-  //       setEdituserDetails(data.data.addon_name);
-  //       setPermissions(data);
-  //     } else {
-  //       if (data && data.message && Array.isArray(data.message)) {
-  //         data.message.forEach((errorMsg) => {
-  //           ErrorAlert(errorMsg);
-  //         });
-  //       } else {
-  //         throw new Error("An error occurred.");
-  //       }
-  //     }
-  //   } catch (error) {
-  //     handleError(error);
-  //   }
-  // };
 
   const FetchPermisionList = async () => {
     try {
@@ -141,6 +101,22 @@ import Loaderimg from "../../../Utils/Loader";
       if (response && response.data) {
         setEdituserDetails(data.data.addon_name);
         setPermissions(data);
+        console.log(data?.data?.addon_permissions,"datadatadatadata")
+        const enabledPermissions = [];
+
+        // Loop through each category and check for enabled permissions
+        Object.keys(data?.data?.addon_permissions).forEach((category) => {
+          data?.data?.addon_permissions[category].names.forEach((permission) => {
+            if (permission.checked) {
+              enabledPermissions.push(permission.permission_name);
+            }
+          });
+        });
+        formik.setFieldValue(
+          "permissionsList",
+          enabledPermissions
+        );
+        console.log(enabledPermissions,"enabledPermissions");
       }
     } catch (error) {
       console.error("API error:", error);
@@ -149,8 +125,38 @@ import Loaderimg from "../../../Utils/Loader";
 
   useEffect(() => {
     setEdituserDetails();
-    console.clear();
+    // console.clear();
   }, [edituserDetails]);
+
+  const formik = useFormik({
+    initialValues: {
+      name: localStorage.getItem("EditAddon_name") || "",
+      permissionsList: [],
+    },
+    validationSchema: Yup.object().shape({
+      name: Yup.string()
+        .required("Addon is required")
+        .matches(/^[a-zA-Z0-9_\- ]+$/, {
+          message: "Addon Name must not contain special characters",
+          excludeEmptyString: true,
+        })
+        .matches(
+          /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
+          {
+            message: "Addon Name must not have consecutive spaces",
+            excludeEmptyString: true,
+          }
+        )
+        .min(3, "The addon name must be at least 3 characters."),
+      permissionsList: Yup.array()
+        .required("At least one role is required")
+        .min(1, "At least one role is required"),
+    }),
+    enableReinitialize: true,
+    onSubmit: (values) => {
+      handleSubmit(values);
+    },
+  });
 
   const handleSubmit = async (values) => {
     const body = {
@@ -183,247 +189,187 @@ import Loaderimg from "../../../Utils/Loader";
     }
   };
 
-
   return (
     <>
-    {isLoading ? (
-      <Loaderimg/>
-    ) :null}
-    
+      {isLoading ? <Loaderimg /> : null}
       <>
-      <div className="page-header ">
-        <div>
-          <h1 className="page-title">Edit Addon</h1>
-          <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item
-              className="breadcrumb-item"
-              linkAs={Link}
-              linkProps={{ to: "/dashboard" }}
-            >
-              Dashboard
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item  breadcrumds"
-              aria-current="page"
-              linkAs={Link}
-              linkProps={{ to: "/manageaddon" }}
-            >
-              Manage Addons
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item active breadcrumds"
-              aria-current="page"
-            >
-              Edit Addon
-            </Breadcrumb.Item>
-          </Breadcrumb>
+        <div className="page-header ">
+          <div>
+            <h1 className="page-title">Edit Addon</h1>
+            <Breadcrumb className="breadcrumb">{/* ... */}</Breadcrumb>
+          </div>
         </div>
-      </div>
 
-      <Row>
-        <div className="col-lg-12 col-xl-12 col-md-12 col-sm-12">
-          <Card>
-            <Card.Header>
-              <h4 className="card-title">Edit Addon    <span className="text-danger danger-title">
-                                * Atleast One Permission is Required{" "}
-                              </span></h4>
-            </Card.Header>
-            <Card.Body>
-              <Row>
-                <div className="col-lg- col-md-12">
-                  <Formik
-                    initialValues={{
-                      name: localStorage.getItem("EditAddon_name") || "",
-                      permissionsList: [],
-                    }}
-                    validationSchema={Yup.object().shape({
-                      name: Yup.string()
-                        .required("Addon is required")
-                        .matches(/^[a-zA-Z0-9_\- ]+$/, {
-                          message:
-                            "Addon Name must not contain special characters",
-                          excludeEmptyString: true,
-                        })
-                        .matches(
-                          /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
-                          {
-                            message:
-                              "Addon Name must not have consecutive spaces",
-                            excludeEmptyString: true,
-                          }
-                        )
-                        .min(3, "The addon name must be at least 3 characters."),
-                      permissionsList: Yup.array()
-                        .required("At least one role is required")
-                        .min(1, "At least one role is required"),
-                    })}
-                    enableReinitialize={true}
-                    onSubmit={(values, { setSubmitting }) => {
-                      handleSubmit(values);
-                      setSubmitting(false);
-                    }}
-                  >
-                    {({
-                      values,
-                      errors,
-                      touched,
-                      handleSubmit,
-                      setFieldValue,
-                    }) => (
-                      <Form onSubmit={handleSubmit}>
-                        <div className="form-group">
-                          <label  className=" form-label mt-4" htmlFor="name"> Edit Addon</label>
-                          <Field
-                            type="text"  autoComplete="off"
-                            id="name"
-                            name="name"
-                            placeholder="Addonname"
-                            className={`input101 ${
-                              touched.name && errors.name ? "is-invalid" : ""
-                            }`}
-                          />
-                          <ErrorMessage
-                            name="name"
-                            component="div"
-                            className="invalid-feedback"
-                          />
-                        </div>
+        <Row>
+          <div className="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <Card>
+              <Card.Header>
+                <h4 className="card-title">
+                  Edit Addon{" "}
+                  <span className="text-danger danger-title">
+                    * Atleast One Permission is Required{" "}
+                  </span>
+                </h4>
+              </Card.Header>
+              <Card.Body>
+                <Row>
+                  <div className="col-lg- col-md-12">
+                    <Form onSubmit={formik.handleSubmit}>
+                      <div className="form-group">
+                        <label className="form-label mt-4" htmlFor="name">
+                          Edit Addon
+                        </label>
+                        <input
+                          type="text"
+                          autoComplete="off"
+                          id="name"
+                          name="name"
+                          placeholder="Addonname"
+                          className={`input101 ${
+                            formik.touched.name && formik.errors.name
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          {...formik.getFieldProps("name")}
+                        />
+                        {formik.touched.name && formik.errors.name && (
+                          <div className="invalid-feedback">
+                            {formik.errors.name}
+                          </div>
+                        )}
+                      </div>
 
-                        <div className="form-group">
-                       
-                          {AddonpermissionsList.data &&
-                            AddonpermissionsList.data.addon_permissions && (
-                              <div>
-                                {/* Add the filteredPermissions constant here */}
+                      <div className="form-group">
+                        {AddonpermissionsList.data &&
+                          AddonpermissionsList.data.addon_permissions && (
+                            <div>
+                              {/* Add the filteredPermissions constant here */}
 
-                                {Object.keys(
-                                  AddonpermissionsList.data.addon_permissions
-                                ).map((heading) => (
-                                  <div key={heading}>
-                                    <div className="table-heading">
-                                      <h2>{heading}</h2>
-                                    </div>
-                                    <div className="form-group">
-                                      {AddonpermissionsList.data.addon_permissions[
-                                        heading
-                                      ].names.map((nameItem) => (
-                                        <div
-                                          key={nameItem.id}
-                                          className="form-check form-check-inline"
-                                        >
-                                          <Field
-                                            className={`form-check-input ${
-                                              touched.permissionsList &&
-                                              errors.permissionsList
-                                                ? "is-invalid"
-                                                : ""
-                                            }`}
-                                            type="checkbox"
-                                            name={`permissionsList.${nameItem.permission_name}`}
-                                            id={`permissionsList-${nameItem.id}`}
-                                            checked={permissionArray.find(
-                                              (item) =>
-                                                item ===
-                                                nameItem.permission_name
-                                            )}
-                                            onChange={(e) => {
-                                              // Get the name of the permission being changed from the current element
-                                              const permissionName =
-                                                nameItem.permission_name;
-
-                                              // Create a new array from the current state of permissionArray
-                                              const updatedPermissionArray = [
-                                                ...permissionArray,
-                                              ];
-
-                                              // Find the index of the permissionName in the updatedPermissionArray
-                                              const findInd =
-                                                updatedPermissionArray.findIndex(
-                                                  (item) =>
-                                                    item === permissionName
-                                                );
-
-                                              // If the permissionName is already in the array, remove it
-                                              if (findInd >= 0) {
-                                                updatedPermissionArray.splice(
-                                                  findInd,
-                                                  1
-                                                );
-                                              }
-                                              // Otherwise, add the permissionName to the array
-                                              else {
-                                                updatedPermissionArray.push(
-                                                  permissionName
-                                                );
-                                              }
-
-                                              // console.log(
-                                              //   updatedPermissionArray,
-                                              //   "updatedPermissionArray"
-                                              // );
-
-                                              // Update the state of permissionArray with the updatedPermissionArray
-                                              setPermissionArray(
-                                                updatedPermissionArray
-                                              );
-
-                                              // Update the form field "permissionsList" with the updatedPermissionArray
-                                              setFieldValue(
-                                                "permissionsList",
-                                                updatedPermissionArray
-                                              );
-                                            }}
-                                          />
-
-                                          <label
-                                            className="form-check-label"
-                                            htmlFor={`permissionsList-${nameItem.id}`}
-                                          >
-                                            {nameItem.display_name}
-                                          </label>
-                                          {/* <p>{nameItem.permission_name}</p> */}
-                                        </div>
-                                      ))}
-                                    </div>
+                              {Object.keys(
+                                AddonpermissionsList.data.addon_permissions
+                              ).map((heading) => (
+                                <div key={heading}>
+                                  <div className="table-heading">
+                                    <h2>{heading}</h2>
                                   </div>
-                                ))}
-                              </div>
-                            )}
+                                  <div className="form-group">
+                                    {AddonpermissionsList.data.addon_permissions[
+                                      heading
+                                    ].names.map((nameItem) => (
+                                      <div
+                                        key={nameItem.id}
+                                        className="form-check form-check-inline"
+                                      >
+                                        <input
+                                          className={`form-check-input ${
+                                            formik.touched.permissionsList &&
+                                            formik.errors.permissionsList
+                                              ? "is-invalid"
+                                              : ""
+                                          }`}
+                                          type="checkbox"
+                                          name={`permissionsList.${nameItem.permission_name}`}
+                                          id={`permissionsList-${nameItem.id}`}
+                                          checked={permissionArray.find(
+                                            (item) =>
+                                              item === nameItem.permission_name
+                                          )}
+                                          onChange={(e) => {
+                                            // Get the name of the permission being changed from the current element
+                                            const permissionName =
+                                              nameItem.permission_name;
 
-                          <ErrorMessage
-                            name="permissions"
-                            component="div"
-                            className="invalid-feedback"
-                          />
-                        </div>
+                                            
+                                            const updatedPermissionArray = [
+                                              ...permissionArray,
+                                            ];
 
-                        <div className="text-end">
-                          <Link
-                            type="submit"
-                            className="btn btn-danger me-2 "
-                            to={`/manageaddon/`}
-                          >
-                            Cancel
-                          </Link>
-                          <button
-                            type="submit"
-                            className="btn btn-primary me-2 "
-                            disabled={Object.keys(errors).length > 0}
-                          >
-                            Update
-                          </button>
-                        </div>
-                      </Form>
-                    )}
-                  </Formik>
-                </div>
-              </Row>
-            </Card.Body>
-          </Card>
-        </div>
-      </Row>
+                                           
+                                            const findInd =
+                                              updatedPermissionArray.findIndex(
+                                                (item) =>
+                                                  item === permissionName
+                                              );
+
+                                            // If the permissionName is already in the array, remove it
+                                            if (findInd >= 0) {
+                                              updatedPermissionArray.splice(
+                                                findInd,
+                                                1
+                                              );
+                                            }
+                                            // Otherwise, add the permissionName to the array
+                                            else {
+                                              updatedPermissionArray.push(
+                                                permissionName
+                                              );
+                                            }
+
+                                            // console.log(
+                                            //   updatedPermissionArray,
+                                            //   "updatedPermissionArray"
+                                            // );
+
+                                            // Update the state of permissionArray with the updatedPermissionArray
+                                            setPermissionArray(
+                                              updatedPermissionArray
+                                            );
+
+                                            // Update the form field "permissionsList" with the updatedPermissionArray
+                                            formik.setFieldValue(
+                                              "permissionsList",
+                                              updatedPermissionArray
+                                            );
+                                            console.log(updatedPermissionArray,"updatedPermissionArray")
+                                          }}
+                                        />
+
+                                        <label
+                                          className="form-check-label"
+                                          htmlFor={`permissionsList-${nameItem.id}`}
+                                        >
+                                          {nameItem.display_name}
+                                        </label>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                        {formik.touched.permissionsList &&
+                          formik.errors.permissionsList && (
+                            <div className="invalid-feedback">
+                              {formik.errors.permissionsList}
+                            </div>
+                          )}
+                      </div>
+
+                      <div className="text-end">
+                        <Link
+                          type="submit"
+                          className="btn btn-danger me-2 "
+                          to={`/manageaddon/`}
+                        >
+                          Cancel
+                        </Link>
+                        <button
+                          type="submit"
+                          className="btn btn-primary me-2 "
+                          disabled={Object.keys(formik.errors).length > 0}
+                        >
+                          Update
+                        </button>
+                      </div>
+                    </Form>
+                  </div>
+                </Row>
+              </Card.Body>
+            </Card>
+          </div>
+        </Row>
       </>
-    
     </>
   );
 };

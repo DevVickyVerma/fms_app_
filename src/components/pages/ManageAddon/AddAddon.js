@@ -15,7 +15,7 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import { Formik, Field, ErrorMessage } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import axios from "axios";
@@ -24,13 +24,10 @@ import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 
-
-  const AddAddon = (props) => {
-    const { apidata, isLoading, error, getData, postData } = props;
+const AddAddon = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
   const [permissions, setPermissions] = useState([]);
   const [userpermissions, setUserPermissions] = useState([]);
- 
- 
 
   const SuccessAlert = (message) => {
     toast.success(message, {
@@ -52,8 +49,6 @@ import Loaderimg from "../../../Utils/Loader";
     });
   };
 
-
-
   const navigate = useNavigate();
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -66,10 +61,9 @@ import Loaderimg from "../../../Utils/Loader";
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-        ErrorAlert(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
-
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -123,222 +117,207 @@ import Loaderimg from "../../../Utils/Loader";
 
   const [permissionsArray, setPermissionsArray] = useState([]);
   const [isPermissionsSet, setIsPermissionsSet] = useState(false);
-  
+
   const UserPermissions = useSelector((state) => state?.data?.data);
-  
+
   useEffect(() => {
     if (UserPermissions) {
       setPermissionsArray(UserPermissions?.permissions);
       setIsPermissionsSet(true);
     }
   }, [UserPermissions]);
-  
-  useEffect(() => {
-    if (isPermissionsSet) {
-      const isAddPermissionAvailable = permissionsArray?.includes("addons-create");
-    
-      if (permissionsArray?.length > 0) {
-        if (isAddPermissionAvailable) {
-          console.log(isAddPermissionAvailable, "AddPermissionAvailable");
-          // Perform action when permission is available
-          // Your code here
-        } else {
-          // Perform action when permission is not available
-          // Your code here
-          navigate("/errorpage403");
-        }
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      permissions: [],
+    },
+    validationSchema: Yup.object().shape({
+      name: Yup.string()
+        .required("Addon is required")
+        .matches(/^[a-zA-Z0-9_\- ]+$/, {
+          message: "Addon Name must not contain special characters",
+          excludeEmptyString: true,
+        })
+        .matches(
+          /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
+          {
+            message: "Addon Name must not have consecutive spaces",
+            excludeEmptyString: true,
+          }
+        )
+        .min(3, "The addon name must be at least 3 characters."),
+
+      permissions: Yup.array()
+        .required("At least one role is required")
+        .min(1, "At least one role is required"),
+    }),
+    onSubmit: async (values, { setSubmitting }) => {
+      if (values.permissions.length === 0) {
+        setSubmitting(false);
       } else {
-        navigate("/errorpage403");
+        handleSubmit(values);
+        setSubmitting(false);
       }
-    }
-  }, [isPermissionsSet, permissionsArray]);
-  
-
-
+    },
+  });
 
   return (
     <>
-     {isLoading ? (
-      <Loaderimg />
-      ) : null}
+      {isLoading ? <Loaderimg /> : null}
       <>
-      <div className="page-header ">
-        <div>
-          <h1 className="page-title">Add Addon</h1>
-          <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item
-              className="breadcrumb-item"
-              linkAs={Link}
-              linkProps={{ to: "/dashboard" }}
-            >
-              Dashboard
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item  breadcrumds"
-              aria-current="page"
-              linkAs={Link}
-              linkProps={{ to: "/manageaddon" }}
-            >
-              Manage Addons
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item active breadcrumds"
-              aria-current="page"
-            >
-              Add Addon
-            </Breadcrumb.Item>
-          </Breadcrumb>
+        <div className="page-header ">
+          <div>
+            <h1 className="page-title">Add Addon</h1>
+            <Breadcrumb className="breadcrumb">
+              <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/dashboard" }}
+              >
+                Dashboard
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item  breadcrumds"
+                aria-current="page"
+                linkAs={Link}
+                linkProps={{ to: "/manageaddon" }}
+              >
+                Manage Addons
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item active breadcrumds"
+                aria-current="page"
+              >
+                Add Addon
+              </Breadcrumb.Item>
+            </Breadcrumb>
+          </div>
         </div>
-      </div>
-      <Row>
-        <div className="col-lg-12 col-xl-12 col-md-12 col-sm-12">
-          <Card>
-            <Card.Header>
-              <h4 className="card-title">Add Addon    <span className="text-danger danger-title">
-                                * Atleast One Permission is Required{" "}
-                              </span></h4>
-            </Card.Header>
-            <Card.Body>
-              <Row>
-                <div className="col-lg- col-md-12">
-                  <Formik
-                    initialValues={{ name: "", permissions: [] }}
-                    validationSchema={Yup.object().shape({
-                      name: Yup.string()
-                        .required("Addon is required")
-                        .matches(/^[a-zA-Z0-9_\- ]+$/, {
-                          message:
-                            "Addon Name must not contain special characters",
-                          excludeEmptyString: true,
-                        })
-                        .matches(
-                          /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
-                          {
-                            message:
-                              "Addon Name must not have consecutive spaces",
-                            excludeEmptyString: true,
-                          }
-                        )
-                        .min(3, "The addon name must be at least 3 characters."),
+        <Row>
+          <div className="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <Card>
+              <Card.Header>
+                <h4 className="card-title">
+                  Add Addon{" "}
+                  <span className="text-danger danger-title">
+                    * Atleast One Permission is Required{" "}
+                  </span>
+                </h4>
+              </Card.Header>
+              <Card.Body>
+                <Row>
+                  <div className="col-lg- col-md-12">
+                    <Form onSubmit={formik.handleSubmit}>
+                      <div className="form-group">
+                        <label className="form-label mt-4" htmlFor="name">
+                          {" "}
+                          Add Addon
+                        </label>
+                        <input
+                          type="text"
+                          autoComplete="off"
+                          id="name"
+                          name="name"
+                          placeholder="Addon Name"
+                          className={`input101 ${
+                            formik.touched.name && formik.errors.name
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          {...formik.getFieldProps("name")}
+                        />
+                        {formik.touched.name && formik.errors.name && (
+                          <div className="invalid-feedback">
+                            {formik.errors.name}
+                          </div>
+                        )}
+                      </div>
 
-                      permissions: Yup.array()
-                        .required("At least one role is required")
-                        .min(1, "At least one role is required"),
-                    })}
-                    onSubmit={(values, { setSubmitting }) => {
-                      setTimeout(() => {
-                        if (values.permissions.length === 0) {
-                          setSubmitting(false);
-                        } else {
-                          handleSubmit(values);
-                          setSubmitting(false);
-                        }
-                      }, 400);
-                    }}
-                  >
-                    {({ errors, touched, handleSubmit }) => (
-                      <Form onSubmit={handleSubmit}>
-                        <div className="form-group">
-                          <label  className=" form-label mt-4" htmlFor="name"> Add Addon</label>
-                          <Field
-                            type="text"  autoComplete="off"
-                            id="name"
-                            name="name"
-                            placeholder="Addon Name"
-                            className={`input101 ${
-                              touched.name && errors.name ? "is-invalid" : ""
-                            }`}
-                          />
-                          <ErrorMessage
-                            name="name"
-                            component="div"
-                            className="invalid-feedback"
-                          />
-                        </div>
-
-                        <div className="form-group">
-                     
-                          {permissions.data &&
-                          Object.keys(permissions.data).length > 0 ? (
-                            <div>
-                              
-                              {Object.keys(permissions.data).map((heading) => (
-                                <div key={heading}>
-                                  <div className="table-heading">
-                                    <h2>{heading}</h2>
-                                  </div>
-                                  <div className="form-group">
-                                    {permissions.data[heading].names.map(
-                                      (nameItem) => (
-                                        <div
-                                          key={nameItem.id}
-                                          className="form-check form-check-inline"
-                                        >
-                                          <Field
-                                            className={`form-check-input ${
-                                              touched.permissions &&
-                                              errors.permissions
-                                                ? "is-invalid"
-                                                : ""
-                                            }`}
-                                            type="checkbox"
-                                            name="permissions"
-                                            value={nameItem.name}
-                                            id={`permission-${nameItem.id}`}
-                                          />
-                                          <label
-                                          
-                                            className="form-check-label"
-                                            htmlFor={`permission-${nameItem.id}`}
-                                          >
-                                            {nameItem.display_name}
-                                          </label>
-                                        </div>
-                                      )
-                                    )}
-                                  </div>
+                      <div className="form-group">
+                        {permissions.data &&
+                        Object.keys(permissions.data).length > 0 ? (
+                          <div>
+                            {Object.keys(permissions.data).map((heading) => (
+                              <div key={heading}>
+                                <div className="table-heading">
+                                  <h2>{heading}</h2>
                                 </div>
-                              ))}
+                                <div className="form-group">
+                                  {permissions.data[heading].names.map(
+                                    (nameItem) => (
+                                      <div
+                                        key={nameItem.id}
+                                        className="form-check form-check-inline"
+                                      >
+                                        <input
+                                          className={`form-check-input ${
+                                            formik.touched.permissions &&
+                                            formik.errors.permissions
+                                              ? "is-invalid"
+                                              : ""
+                                          }`}
+                                          type="checkbox"
+                                          name="permissions"
+                                          value={nameItem.name}
+                                          id={`permission-${nameItem.id}`}
+                                          onChange={formik.handleChange}
+                                          onBlur={formik.handleBlur}
+                                          checked={formik.values.permissions.includes(
+                                            nameItem.name
+                                          )}
+                                        />
+                                        <label
+                                          className="form-check-label"
+                                          htmlFor={`permission-${nameItem.id}`}
+                                        >
+                                          {nameItem.display_name}
+                                        </label>
+                                      </div>
+                                    )
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <div>No permissions available.</div>
+                        )}
+
+                        {formik.touched.permissions &&
+                          formik.errors.permissions && (
+                            <div className="invalid-feedback">
+                              {formik.errors.permissions}
                             </div>
-                          ) : (
-                            <div>No permissions available.</div>
                           )}
+                      </div>
 
-                          <ErrorMessage
-                            name="permissions"
-                            component="div"
-                            className="invalid-feedback"
-                          />
-                        </div>
-
-                        <div className="text-end">
-                          <Link
-                            type="submit"
-                            className="btn btn-danger me-2 "
-                            to={`/manageaddon/`}
-                          >
-                            Cancel
-                          </Link>
-                          <button
-                            type="submit"
-                            className="btn btn-primary me-2 "
-                            disabled={Object.keys(errors).length > 0}
-                          >
-                            Save
-                          </button>
-                        </div>
-                      </Form>
-                    )}
-                  </Formik>
-                </div>
-              </Row>
-            </Card.Body>
-          </Card>
-        </div>
-      </Row>
+                      <div className="text-end">
+                        <Link
+                          type="submit"
+                          className="btn btn-danger me-2 "
+                          to={`/manageaddon/`}
+                        >
+                          Cancel
+                        </Link>
+                        <button
+                          type="submit"
+                          className="btn btn-primary me-2 "
+                          // disabled={Object.keys(formik.errors).length > 0}
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </Form>
+                  </div>
+                </Row>
+              </Card.Body>
+            </Card>
+          </div>
+        </Row>
       </>
     </>
   );
-}
+};
 
-  export default withApi(AddAddon);
+export default withApi(AddAddon);
