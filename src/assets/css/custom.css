@@ -317,3 +317,11 @@ input.table-input.readonly.total-input-card {
   display: flex;
   justify-content: end;
 }
+.heading-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 16px;
+  margin-bottom: 5px;
+  margin-right: 10px;
+}

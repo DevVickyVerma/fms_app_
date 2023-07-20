@@ -161,6 +161,39 @@ const AddAddon = (props) => {
       }
     },
   });
+  // Add these states
+  const [selectAllPermissions, setSelectAllPermissions] = useState({});
+
+  useEffect(() => {
+    if (permissions.data && Object.keys(permissions.data).length > 0) {
+      const initialSelectAllState = {};
+      Object.keys(permissions.data).forEach((heading) => {
+        initialSelectAllState[heading] = false;
+      });
+      setSelectAllPermissions(initialSelectAllState);
+    }
+  }, [permissions.data]);
+
+  const handleSelectAllPermissions = (heading, event) => {
+    const newSelectAllState = { ...selectAllPermissions };
+    newSelectAllState[heading] = event.target.checked;
+
+    // Select/deselect all permissions in the group
+    const permissionsInGroup = permissions.data[heading]?.names.map(
+      (nameItem) => nameItem.name
+    );
+    formik.setFieldValue(`permissions`, [
+      ...formik.values.permissions.filter(
+        (permission) => !permissionsInGroup.includes(permission)
+      ),
+      ...(event.target.checked ? permissionsInGroup : []),
+    ]);
+
+    // Log the children names in the console
+    console.log(formik.values.permissions, "formik.values.permissions");
+
+    setSelectAllPermissions(newSelectAllState);
+  };
 
   return (
     <>
@@ -240,8 +273,33 @@ const AddAddon = (props) => {
                           <div>
                             {Object.keys(permissions.data).map((heading) => (
                               <div key={heading}>
-                                <div className="table-heading">
-                                  <h2>{heading}</h2>
+                              
+                                <div className="table-heading d-flex">
+                               
+
+                                  <div className="heading-input ">
+                                  <input
+                                      className={`form-check-input ${
+                                        formik.touched.permissions &&
+                                        formik.errors.permissions
+                                          ? "is-invalid"
+                                          : ""
+                                      }`}
+                                      type="checkbox"
+                                      checked={
+                                        selectAllPermissions[heading] || false
+                                      }
+                                      onChange={(event) =>
+                                        handleSelectAllPermissions(
+                                          heading,
+                                          event
+                                        )
+                                      }
+                                    />
+                                  </div>
+                                  <div>
+                                <h2>{heading}</h2>
+                                </div>
                                 </div>
                                 <div className="form-group">
                                   {permissions.data[heading].names.map(
