@@ -136,6 +136,14 @@ const ManageSiteTank = (props) => {
 
   const handleSubmit1 = async (values) => {
     handleFetchTableData(values);
+    const tank = {
+      site_id: values.site_id,
+      client_id: values.client_id,
+      company_id: values.company_id,
+    };
+    localStorage.setItem("SiteTAnk", JSON.stringify(tank));
+    setlocalStorageSiteID(values.site_id)
+ 
   };
 
   const handleFetchData = async () => {
@@ -185,7 +193,10 @@ const ManageSiteTank = (props) => {
       );
 
       console.log(response.data.data, "tank-list");
-
+  
+  
+   
+      setData(response?.data?.data);
    
     } catch (error) {
       console.error("API error:", error);
@@ -197,8 +208,9 @@ const ManageSiteTank = (props) => {
         `/site-tank/list?site_id=${localStorageSiteID}`
       );
 
-      if (response && response.data && response.data.data) {
+      if (response && response.data ) {
         setData(response.data.data);
+        console.log(response.data,"localStorages")
 
         setlocalStorageSiteName(response?.data?.data[0].site);
       } else {
