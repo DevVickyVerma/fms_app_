@@ -101,22 +101,21 @@ const EditAddon = (props) => {
       if (response && response.data) {
         setEdituserDetails(data.data.addon_name);
         setPermissions(data);
-        console.log(data?.data?.addon_permissions,"datadatadatadata")
+        console.log(data?.data?.addon_permissions, "datadatadatadata");
         const enabledPermissions = [];
 
         // Loop through each category and check for enabled permissions
         Object.keys(data?.data?.addon_permissions).forEach((category) => {
-          data?.data?.addon_permissions[category].names.forEach((permission) => {
-            if (permission.checked) {
-              enabledPermissions.push(permission.permission_name);
+          data?.data?.addon_permissions[category].names.forEach(
+            (permission) => {
+              if (permission.checked) {
+                enabledPermissions.push(permission.permission_name);
+              }
             }
-          });
+          );
         });
-        formik.setFieldValue(
-          "permissionsList",
-          enabledPermissions
-        );
-        console.log(enabledPermissions,"enabledPermissions");
+        formik.setFieldValue("permissionsList", enabledPermissions);
+        console.log(enabledPermissions, "enabledPermissions");
       }
     } catch (error) {
       console.error("API error:", error);
@@ -189,6 +188,40 @@ const EditAddon = (props) => {
     }
   };
 
+  const [selectAllPermissions, setSelectAllPermissions] = useState({});
+  const handleSelectAllPermissions = (heading, checked) => {
+    const updatedPermissions = { ...selectAllPermissions };
+    updatedPermissions[heading] = checked;
+
+    // If the "Select All" input is checked, add all permissions to the permissionArray for that heading
+    if (checked) {
+      const permissionsToAdd = AddonpermissionsList.data.addon_permissions[
+        heading
+      ].names.map((nameItem) => nameItem.permission_name);
+
+      formik.setFieldValue("permissionsList", permissionsToAdd);
+      console.log(permissionsToAdd, "permissionsToAdd");
+      setPermissionArray((prevPermissionArray) => [
+        ...prevPermissionArray,
+        ...permissionsToAdd,
+      ]);
+    } else {
+      // If the "Select All" input is unchecked, remove all permissions of that heading from the permissionArray
+      const permissionsToRemove = AddonpermissionsList.data.addon_permissions[
+        heading
+      ].names.map((nameItem) => nameItem.permission_name);
+      formik.setFieldValue("permissionsList", permissionsToRemove);
+      
+      setPermissionArray((prevPermissionArray) =>
+        prevPermissionArray.filter(
+          (permission) => !permissionsToRemove.includes(permission)
+        )
+      );
+    }
+
+    setSelectAllPermissions(updatedPermissions);
+  };
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -249,9 +282,34 @@ const EditAddon = (props) => {
                                 AddonpermissionsList.data.addon_permissions
                               ).map((heading) => (
                                 <div key={heading}>
-                                  <div className="table-heading">
-                                    <h2>{heading}</h2>
-                                  </div>
+                               
+                                  <div className="table-heading d-flex">
+                               
+
+                               <div className="heading-input ">
+                               <input
+                                    className={`form-check-input ${
+                                        formik.touched.permissions &&
+                                        formik.errors.permissions
+                                          ? "is-invalid"
+                                          : ""
+                                      }`}
+                                        type="checkbox"
+                                        checked={
+                                          selectAllPermissions[heading] || false
+                                        }
+                                        onChange={(e) =>
+                                          handleSelectAllPermissions(
+                                            heading,
+                                            e.target.checked
+                                          )
+                                        }
+                                      />
+                               </div>
+                               <div>
+                             <h2>{heading}</h2>
+                             </div>
+                             </div>
                                   <div className="form-group">
                                     {AddonpermissionsList.data.addon_permissions[
                                       heading
@@ -279,12 +337,10 @@ const EditAddon = (props) => {
                                             const permissionName =
                                               nameItem.permission_name;
 
-                                            
                                             const updatedPermissionArray = [
                                               ...permissionArray,
                                             ];
 
-                                           
                                             const findInd =
                                               updatedPermissionArray.findIndex(
                                                 (item) =>
@@ -320,7 +376,10 @@ const EditAddon = (props) => {
                                               "permissionsList",
                                               updatedPermissionArray
                                             );
-                                            console.log(updatedPermissionArray,"updatedPermissionArray")
+                                            console.log(
+                                              updatedPermissionArray,
+                                              "updatedPermissionArray"
+                                            );
                                           }}
                                         />
 
