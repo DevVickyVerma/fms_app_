@@ -612,7 +612,7 @@ const Dashboard = (props) => {
                                       </>
                                     ) : (
                                       <>
-                                        <i className="fa fa-chevron-circle-up text-danger me-1"></i>
+                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                         <span className="text-danger">
                                           {GrossProfitValue?.data?.percentage}%
                                         </span>
@@ -673,7 +673,7 @@ const Dashboard = (props) => {
                                       </>
                                     ) : (
                                       <>
-                                        <i className="fa fa-chevron-circle-up text-danger me-1"></i>
+                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                         <span className="text-danger">
                                           {GrossProfitValue?.data?.percentage}%
                                         </span>
@@ -751,7 +751,7 @@ const Dashboard = (props) => {
                                       </>
                                     ) : (
                                       <>
-                                        <i className="fa fa-chevron-circle-up text-danger me-1"></i>
+                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                         <span className="text-danger">
                                           {FuelValue?.data?.percentage}%
                                         </span>
@@ -809,7 +809,7 @@ const Dashboard = (props) => {
                                       </>
                                     ) : (
                                       <>
-                                        <i className="fa fa-chevron-circle-up text-danger me-1"></i>
+                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                         <span className="text-danger">
                                           {shopsale?.data?.percentage}%
                                         </span>
@@ -867,7 +867,7 @@ const Dashboard = (props) => {
                                       </>
                                     ) : (
                                       <>
-                                        <i className="fa fa-chevron-circle-up text-danger me-1"></i>
+                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                         <span className="text-danger">
                                           {shopmargin?.data?.percentage}%
                                         </span>
