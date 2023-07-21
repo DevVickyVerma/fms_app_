@@ -44,11 +44,11 @@ const ManageSite = (props) => {
   const [sidebardataobject, setSideDataobject] = useState();
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
-    const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
+  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
 
- const handleFetchData = async () => {
+  const handleFetchData = async () => {
     try {
       const response = await getData("/client/commonlist");
 
@@ -61,8 +61,6 @@ const ManageSite = (props) => {
         ) {
           const clientId = localStorage.getItem("superiorId");
           if (clientId) {
-          
-
             setSelectedClientId(clientId);
 
             setSelectedCompanyList([]);
@@ -96,7 +94,7 @@ const ManageSite = (props) => {
         } else {
           clientIDCondition = `client_id=${clientIDLocalStorage}&`;
         }
-  
+
         const response = await getData(
           `/workflow/?${clientIDCondition}company_id=${values.company_id}`
         );
@@ -113,13 +111,12 @@ const ManageSite = (props) => {
     }
   };
 
-
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
-       setclientIDLocalStorage(localStorage.getItem("superiorId"));
+    setclientIDLocalStorage(localStorage.getItem("superiorId"));
     if (UserPermissions) {
       setPermissionsArray(UserPermissions.permissions);
     }
@@ -166,7 +163,17 @@ const ManageSite = (props) => {
       cell: (row, index) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold ">{row.work_flow}</h6>
+            {row.work_flow === "Not Done" ? (
+              <h6 className="mb-0 fs-14 fw-semibold work-flow-danger-status ">
+                {row.work_flow}
+              </h6>
+            ) : row.work_flow === "Done" ? (
+              <h6 className="mb-0 fs-14 fw-semibold work-flow-sucess-status ">
+                {row.work_flow}
+              </h6>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       ),
@@ -179,7 +186,17 @@ const ManageSite = (props) => {
       cell: (row, index) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold ">{row.approval}</h6>
+          {row.approval === "No" ? (
+              <h6 className="mb-0 fs-14 fw-semibold badge bg-success  ">
+                {row.approval}
+              </h6>
+            ) : row.approval === "Yes" ? (
+              <h6 className="mb-0 fs-14 fw-semibold badge bg-danger  ">
+                {row.approval}
+              </h6>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       ),
@@ -244,7 +261,6 @@ const ManageSite = (props) => {
                       company_id: "",
                     }}
                     validationSchema={Yup.object({
-                      
                       company_id: Yup.string().required("Company is required"),
                     })}
                     onSubmit={(values) => {
@@ -255,77 +271,77 @@ const ManageSite = (props) => {
                       <Form onSubmit={handleSubmit}>
                         <Card.Body>
                           <Row>
-                          {localStorage.getItem("superiorRole") !==
-                            "Client" && (
-                            <Col lg={6} md={12}>
-                              <FormGroup>
-                                <label
-                                  htmlFor="client_id"
-                                  className=" form-label mt-4"
-                                >
-                                  Client
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <Field
-                                  as="select"
-                                  className={`input101 ${
-                                    errors.client_id && touched.client_id
-                                      ? "is-invalid"
-                                      : ""
-                                  }`}
-                                  id="client_id"
-                                  name="client_id"
-                                  onChange={(e) => {
-                                    const selectedType = e.target.value;
+                            {localStorage.getItem("superiorRole") !==
+                              "Client" && (
+                              <Col lg={6} md={12}>
+                                <FormGroup>
+                                  <label
+                                    htmlFor="client_id"
+                                    className=" form-label mt-4"
+                                  >
+                                    Client
+                                    <span className="text-danger">*</span>
+                                  </label>
+                                  <Field
+                                    as="select"
+                                    className={`input101 ${
+                                      errors.client_id && touched.client_id
+                                        ? "is-invalid"
+                                        : ""
+                                    }`}
+                                    id="client_id"
+                                    name="client_id"
+                                    onChange={(e) => {
+                                      const selectedType = e.target.value;
 
-                                    setFieldValue("client_id", selectedType);
-                                    setSelectedClientId(selectedType);
+                                      setFieldValue("client_id", selectedType);
+                                      setSelectedClientId(selectedType);
 
-                                    // Reset the selected company and site
-                                    setSelectedCompanyList([]);
-                                    setFieldValue("company_id", "");
-                                    setFieldValue("site_id", "");
+                                      // Reset the selected company and site
+                                      setSelectedCompanyList([]);
+                                      setFieldValue("company_id", "");
+                                      setFieldValue("site_id", "");
 
-                                    const selectedClient =
-                                      AddSiteData.data.find(
-                                        (client) => client.id === selectedType
-                                      );
+                                      const selectedClient =
+                                        AddSiteData.data.find(
+                                          (client) => client.id === selectedType
+                                        );
 
-                                    if (selectedClient) {
-                                      setSelectedCompanyList(
-                                        selectedClient.companies
-                                      );
-                                      console.log(
-                                        selectedClient,
-                                        "selectedClient"
-                                      );
-                                      console.log(
-                                        selectedClient.companies,
-                                        "selectedClient"
-                                      );
-                                    }
-                                  }}
-                                >
-                                  <option value="">Select a Client</option>
-                                  {AddSiteData.data &&
-                                  AddSiteData.data.length > 0 ? (
-                                    AddSiteData.data.map((item) => (
-                                      <option key={item.id} value={item.id}>
-                                        {item.client_name}
-                                      </option>
-                                    ))
-                                  ) : (
-                                    <option disabled>No Client</option>
-                                  )}
-                                </Field>
+                                      if (selectedClient) {
+                                        setSelectedCompanyList(
+                                          selectedClient.companies
+                                        );
+                                        console.log(
+                                          selectedClient,
+                                          "selectedClient"
+                                        );
+                                        console.log(
+                                          selectedClient.companies,
+                                          "selectedClient"
+                                        );
+                                      }
+                                    }}
+                                  >
+                                    <option value="">Select a Client</option>
+                                    {AddSiteData.data &&
+                                    AddSiteData.data.length > 0 ? (
+                                      AddSiteData.data.map((item) => (
+                                        <option key={item.id} value={item.id}>
+                                          {item.client_name}
+                                        </option>
+                                      ))
+                                    ) : (
+                                      <option disabled>No Client</option>
+                                    )}
+                                  </Field>
 
-                                <ErrorMessage
-                                  component="div"
-                                  className="invalid-feedback"
-                                  name="client_id"
-                                />
-                              </FormGroup>
-                            </Col>
+                                  <ErrorMessage
+                                    component="div"
+                                    className="invalid-feedback"
+                                    name="client_id"
+                                  />
+                                </FormGroup>
+                              </Col>
                             )}
                             <Col lg={6} md={12}>
                               <FormGroup>
@@ -448,13 +464,3 @@ const ManageSite = (props) => {
 };
 
 export default withApi(ManageSite);
-
-
-
-
-
-
-
-
-
- 

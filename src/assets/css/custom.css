@@ -325,3 +325,9 @@ input.table-input.readonly.total-input-card {
   margin-bottom: 5px;
   margin-right: 10px;
 }
+.work-flow-danger-status {
+  color: #ea2424;
+}
+.work-flow-sucess-status {
+  color: #27a723;
+}
