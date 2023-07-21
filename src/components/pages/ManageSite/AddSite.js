@@ -139,6 +139,7 @@ const AddSite = (props) => {
       formData.append("client_id", values.client_id);
       formData.append("lottery_commission",0);
       formData.append("shop_commission", 0);
+      formData.append("paidout",values.paidout );
   
       const postDataUrl = "/site/add";
 
@@ -253,6 +254,7 @@ const AddSite = (props) => {
                     company_id: "",
                     lottery_commission: "",
                     shop_commission: "",
+                    paidout: "",
                   }}
                   validationSchema={Yup.object({
                     site_code: Yup.string()
@@ -1076,6 +1078,38 @@ const AddSite = (props) => {
                                 </div>
                               )}
                             </div>
+                          </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor=" paidout"
+                                className=" form-label mt-4"
+                              >
+                              Paidout
+                                
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${
+                                  errors.paidout && touched.paidout
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="paidout"
+                                name="paidout"
+                              >
+                                 <option value="">
+                                  Select a paidout
+                                </option>
+                                <option value="0">Yes</option>
+                                <option value="1">No</option>
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="paidout"
+                              />
+                            </FormGroup>
                           </Col>
                         </Row>
                       </Card.Body>

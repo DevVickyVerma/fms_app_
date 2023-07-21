@@ -178,6 +178,7 @@ export default function AddSite(props) {
       paperwork_status: "",
       lottery_commission: "",
       shop_commission: "",
+      paidout: "",
     },
     validationSchema: Yup.object({
       site_code: Yup.string()
@@ -985,6 +986,41 @@ export default function AddSite(props) {
                             formik.touched.data_import_type_id && (
                               <div className="invalid-feedback">
                                 {formik.errors.data_import_type_id}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="paidout"
+                            className="form-label mt-4"
+                          >
+                            Paidout
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.paidout &&
+                              formik.touched.paidout
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="paidout"
+                            name="paidout"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.paidout}
+                          >
+                            <option value="">
+                              Select a Paidout
+                            </option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                          </select>
+                          {formik.errors.paidout &&
+                            formik.touched.paidout && (
+                              <div className="invalid-feedback">
+                                {formik.errors.paidout}
                               </div>
                             )}
                         </div>
