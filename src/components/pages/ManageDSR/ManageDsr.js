@@ -275,6 +275,8 @@ const ManageDsr = (props) => {
           console.log(response1?.data?.data, "edwdwdw");
           setgetDataBtn(response1?.data?.data.showBtn);
           setUploadtitle(response1?.data?.data);
+          setUploadTabname()
+          // console.log(UploadTabname,"setUploadTabname")
         }
       } catch (error) {
         console.error("API error:", error);
