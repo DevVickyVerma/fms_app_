@@ -285,7 +285,7 @@ const handleEdit =(item)=>{
       width: "20%",
       cell: (row) => (
         <span className="text-center">
-          {isEditPermissionAvailable ? (
+          {isEditPermissionAvailable && editable?.is_editable  ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
                  // Assuming `row.id` contains the ID

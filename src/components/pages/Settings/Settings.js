@@ -202,8 +202,8 @@ export default function Settings() {
 
     pagination: Yup.string()
       .matches(
-        /^(?:100|[0-9][0-9]?|0)$/,
-        "Pagination must be a number between 0 and 100"
+        /^(?:500|[0-9][0-9]?|0)$/,
+        "Pagination must be a number between 0 and 500"
       )
 
       .required("Pagination is required"),

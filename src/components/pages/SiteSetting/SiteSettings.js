@@ -33,6 +33,7 @@ const SiteSettings = (props) => {
   const [fuelData, setFuelData] = useState([]);
   const [SiteItems, setSiteItems] = useState([]);
   const [ReportsData, setReportsData] = useState([]);
+  const [CashDayData, setCashDayData] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -97,6 +98,7 @@ const SiteSettings = (props) => {
           setSiteItems(data?.data ? data.data.site_items : []);
           setBussinesModelData(data?.data ? data.data.business_models : []);
           setCardsModelData(data?.data ? data.data.cards : []);
+          setCashDayData(data?.data ? data.data.cash_days : []);
           setis_editable(data?.data ? data.data : {});
 
           formik.setFieldValue(
@@ -111,6 +113,7 @@ const SiteSettings = (props) => {
           formik.setFieldValue("FormikreportsData", data?.data?.reports);
 
           formik.setFieldValue("AssignFormikCards", data?.data?.cards);
+          formik.setFieldValue("CahsDayFormikData", data?.data?.cash_days);
         }
       } catch (error) {
         console.error("API error:", error);
@@ -153,6 +156,22 @@ const SiteSettings = (props) => {
       }
 
       selectedFuelIds.forEach((item) => {
+        const key = Object.keys(item)[0];
+        const value = item[key];
+        formData.append(key, value);
+      });
+      const selectedCashDayIds = [];
+      const cashday_models_valueKey = "days";
+
+      for (let i = 0; i < values.CahsDayFormikData.length; i++) {
+        const { day, checked } = values.CahsDayFormikData[i];
+
+        if (checked) {
+          selectedCashDayIds.push({ [cashday_models_valueKey + "[" + i + "]"]: day });
+        }
+      }
+
+      selectedCashDayIds.forEach((item) => {
         const key = Object.keys(item)[0];
         const value = item[key];
         formData.append(key, value);
@@ -769,6 +788,43 @@ const SiteSettings = (props) => {
     },
  
   ];
+  const CashDatModelColumn = [
+    {
+      name: "Select",
+      selector: (row) => row.checked,
+      sortable: false,
+      center: true,
+      width: "20%",
+      cell: (row, index) => (
+        <div>
+          <input
+            type="checkbox"
+            id={`checked-${index}`}
+            name={`CahsDayFormikData[${index}].checked`}
+            className="table-input"
+            checked={formik.values?.CahsDayFormikData?.[index]?.checked ?? false}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {/* Error handling code */}
+        </div>
+      ),
+    },
+    {
+      name: "Cash Day",
+      selector: (row) => row.day,
+      sortable: true,
+      width: "80%",
+      cell: (row) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.day}</h6>
+          </div>
+        </div>
+      ),
+    },
+ 
+  ];
   const ReportsColumn = [
     {
       name: "Select",
@@ -873,7 +929,7 @@ const SiteSettings = (props) => {
               <Card>
                 <Card.Body>
                   <Row>
-                    <Col lg={12} md={12}>
+                    <Col lg={6} md={6}>
                       <Card.Header className="cardheader-table">
                         <h3 className="card-title">Assign Card</h3>
                       </Card.Header>
@@ -881,6 +937,25 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={CardsModelColumn}
                           data={CardsModelData}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </div>
+                    </Col>
+                    <Col lg={6} md={6}>
+                      <Card.Header className="cardheader-table">
+                        <h3 className="card-title">Cash  Day</h3>
+                      </Card.Header>
+                      <div className="module-height">
+                        <DataTable
+                          columns={CashDatModelColumn}
+                          data={CashDayData}
                           noHeader
                           defaultSortField="id"
                           defaultSortAsc={false}
