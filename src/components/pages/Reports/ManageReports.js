@@ -13,6 +13,14 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
+import {
+  FormControl,
+  Select,
+  MenuItem,
+  Checkbox,
+  ListItemText,
+  InputLabel,
+} from "@material-ui/core";
 
 import withApi from "../../../Utils/ApiHelper";
 
@@ -41,6 +49,7 @@ const ManageReports = (props) => {
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
+  const [selectedItems, setSelectedItems] = useState([]);
 
   useEffect(() => {
     console.log(localStorage.getItem("superiorId"));
@@ -114,7 +123,10 @@ const ManageReports = (props) => {
       }
 
       formData.append("company_id", formValues.company_id);
-      formData.append("site_id", formValues.site_id);
+      // console.log( formValues.sites," formValues.sites")
+      // formValues.sites.forEach((site, index) => {
+      //   formData.append(`site_id[${index}]`, site.id);
+      // });
       formData.append("start_date", formValues.start_date);
       formData.append("end_date", formValues.end_date);
 
@@ -125,7 +137,11 @@ const ManageReports = (props) => {
         clientIDCondition = `client_id=${clientIDLocalStorage}&`;
       }
 
-      const commonParams = `${clientIDCondition}company_id=${formValues.company_id}&site_id[]=${formValues.site_id}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`;
+      const siteIds = formValues.sites.map((site) => site.id);
+      const siteIdParams = siteIds.map((id) => `site_id[]=${id}`).join("&");
+      console.log(siteIds, "siteIds");
+
+      const commonParams = `${clientIDCondition}company_id=${formValues.company_id}&${siteIdParams}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`;
 
       // const commonParams = `client_id=${clientIDLocalStorage}&company_id=${formValues.company_id}&site_id[]=${formValues.site_id}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`;
 
@@ -137,13 +153,13 @@ const ManageReports = (props) => {
         postDataUrl = `/report/cldo?${commonParams}`;
       } else if (formValues.report === "MSR") {
         postDataUrl = `/report/msr?${commonParams}`;
-      }else if (formValues.report === "escrr") {
+      } else if (formValues.report === "escrr") {
         postDataUrl = `/report/escrr?${commonParams}`;
       } else if (formValues.report === "CMSR") {
         postDataUrl = `/report/cmsr?${commonParams}`;
-      }else if (formValues.report === "DFDR") {
+      } else if (formValues.report === "DFDR") {
         postDataUrl = `/report/dfdr?${commonParams}`;
-      }else {
+      } else {
         postDataUrl = "shop/add-default";
       }
 
@@ -215,14 +231,14 @@ const ManageReports = (props) => {
                     report: "1",
                     client_id: "",
                     company_id: "",
-                    site_id: "",
+                    sites: [],
                     start_date: "",
                     end_date: "",
                   }}
                   validationSchema={Yup.object().shape({
                     report: Yup.string().required("Report is required"),
                     company_id: Yup.string().required("Company is required"),
-                    site_id: Yup.string().required("Site is required"),
+              
                     start_date: Yup.date().required("Start Date is required"),
                     end_date: Yup.date().required("End Date is required"),
                   })}
@@ -321,6 +337,7 @@ const ManageReports = (props) => {
                                   const selectedCompany = e.target.value;
                                   setFieldValue("company_id", selectedCompany);
                                   setShowButton(false);
+                                  setSelectedItems([]);
                                   setSelectedSiteList([]);
                                   const selectedCompanyData =
                                     selectedCompanyList.find(
@@ -361,48 +378,49 @@ const ManageReports = (props) => {
                             </FormGroup>
                           </Col>
                           <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="site_id"
-                                className="form-label mt-4"
-                              >
-                                Site
-                                <span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${
-                                  errors.site_id && touched.site_id
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="site_id"
-                                name="site_id"
-                                onChange={(e) => {
-                                  const selectedType = e.target.value;
+                            <FormControl className="width">
+                              <InputLabel>Select Sites</InputLabel>
+                              <Select
+                                multiple
+                                value={selectedItems}
+                                onChange={(event) => {
+                                  setSelectedItems(event.target.value);
+                                  console.log(event.target.value);
 
-                                  setFieldValue("site_id", selectedType);
+                                  const selectedSiteNames = event.target.value;
+                                  const filteredSites = selectedSiteList.filter(
+                                    (item) =>
+                                      selectedSiteNames.includes(item.site_name)
+                                  );
+                                  console.log(filteredSites, "filteredSites");
+                                  setFieldValue("sites", filteredSites);
                                   setShowButton(false);
                                 }}
+                                renderValue={(selected) => selected.join(", ")}
                               >
-                                <option value="">Select a Site</option>
-                                {selectedSiteList.length > 0 ? (
-                                  selectedSiteList.map((site) => (
-                                    <option key={site.id} value={site.id}>
-                                      {site.site_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Site</option>
-                                )}
-                              </Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="site_id"
-                              />
-                            </FormGroup>
+                                <MenuItem disabled value="">
+                                  <em>Select items</em>
+                                </MenuItem>
+                                {selectedSiteList.map((item) => (
+                                  <MenuItem
+                                    key={item.site_name}
+                                    value={item.site_name}
+                                  >
+                                    <Checkbox
+                                      checked={selectedItems.includes(
+                                        item.site_name
+                                      )}
+                                    />
+                                    <ListItemText primary={item.site_name} />
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                            {touched.sites && errors.sites && (
+                              <div className="error">{errors.sites}</div>
+                            )}
                           </Col>
+
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label

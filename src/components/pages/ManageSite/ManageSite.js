@@ -27,7 +27,7 @@ import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import SettingsIcon from "@mui/icons-material/Settings";
-import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 const ManageSite = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
@@ -206,8 +206,11 @@ const ManageSite = (props) => {
   }, [UserPermissions]);
 
   const isEditPermissionAvailable = permissionsArray?.includes("site-edit");
-  const isManagerPermissionAvailable = permissionsArray?.includes("site-assign-manager");
-  const issitesettingPermissionAvailable = permissionsArray?.includes("site-setting");
+  const isManagerPermissionAvailable = permissionsArray?.includes(
+    "site-assign-manager"
+  );
+  const issitesettingPermissionAvailable =
+    permissionsArray?.includes("site-setting");
   const isAddPermissionAvailable = permissionsArray?.includes("site-create");
   const isDeletePermissionAvailable = permissionsArray?.includes("site-delete");
   const isDetailsPermissionAvailable =
@@ -386,7 +389,7 @@ const ManageSite = (props) => {
           {isManagerPermissionAvailable ? (
             <OverlayTrigger
               placement="top"
-              overlay={<Tooltip>Assign Manneger</Tooltip>}
+              overlay={<Tooltip>Assign Manager</Tooltip>}
             >
               <Link
                 to={`/assignmanger/${row.id}`}
