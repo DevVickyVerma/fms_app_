@@ -2261,14 +2261,23 @@ div.conv-form-wrapper div.options div.option.selected {
     }
 }
 
+// .counter-icon {
+//     margin-bottom: 1rem;
+//     width: 4rem;
+//     height: 4rem;
+//     line-height: 4rem;
+//     text-align: center;
+//     font-size: 24px;
+// }
 .counter-icon {
-    margin-bottom: 1rem;
-    width: 4rem;
-    height: 4rem;
-    line-height: 4rem;
+    /* margin-bottom: 1rem; */
+    width: 40px;
+    height: 40px;
+    line-height: 2rem !important;
     text-align: center;
-    font-size: 24px;
+    font-size: 33px;
 }
+
 
 .light-logo,
 .light-logo1,

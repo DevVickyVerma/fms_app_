@@ -56,7 +56,7 @@ const Apexcharts2 = ({ data }) => {
         type="pie"
         width={380}
       />
-   <div className="d-flex">
+   <div className="d-flex chart-items">
   {labels.map((label, index) => {
     const formattedLabel = label.charAt(0).toUpperCase() + label.slice(1).replace(/_/g, ' ');
     return (

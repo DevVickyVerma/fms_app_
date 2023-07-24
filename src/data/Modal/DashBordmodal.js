@@ -30,8 +30,6 @@ const DashBordModal = (props) => {
     searchListstatus,
   } = props;
 
-
-
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
@@ -93,7 +91,6 @@ const DashBordModal = (props) => {
     }
   };
   const handlesubmitvalues = (values) => {
-  
     onClose();
 
     // Invoke the onSubmit callback with the form values
@@ -104,13 +101,9 @@ const DashBordModal = (props) => {
     handleFetchData();
   }, [title]);
 
-
-
-
-  const resetForm =() => {
- 
+  const resetForm = () => {
     onClose();
-  }
+  };
   return (
     <>
       {isLoading ? (
@@ -125,12 +118,13 @@ const DashBordModal = (props) => {
                   <FontAwesomeIcon icon={faTimes} />
                 </button>
               </div>
+              </div>
 
-              <Card>
-                <Row>
-                  <Col md={12} xl={12}>
-                    <Card>
-                      <Card.Body>
+           
+                <Card>
+                  <Card.Body>
+                    <Row>
+                      <Col md={12} xl={12}>
                         <Formik
                           initialValues={{
                             client_id: "",
@@ -144,7 +138,6 @@ const DashBordModal = (props) => {
                             company_id: Yup.string().required(
                               "Company is required"
                             ),
-                           
                           })}
                           onSubmit={(values) => {
                             handlesubmitvalues(values);
@@ -431,7 +424,7 @@ const DashBordModal = (props) => {
                                 <Link
                                   type="submit"
                                   className="btn btn-danger me-2 "
-                             onClick={resetForm}
+                                  onClick={resetForm}
                                 >
                                   Reset
                                 </Link>
@@ -445,12 +438,12 @@ const DashBordModal = (props) => {
                             </Form>
                           )}
                         </Formik>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                </Row>
-              </Card>
-            </div>
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                </Card>
+             
+      
           </div>
         </>
       )}

@@ -331,3 +331,7 @@ input.table-input.readonly.total-input-card {
 .work-flow-sucess-status {
   color: #27a723;
 }
+.d-flex.chart-items {
+  width: 60%;
+  margin-left: auto;
+}

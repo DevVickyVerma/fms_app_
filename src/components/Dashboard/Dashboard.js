@@ -570,7 +570,9 @@ const Dashboard = (props) => {
                           </div>
                           <div className="col col-auto">
                             <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
-                              <i className="icon icon-rocket text-white mb-5 "></i>
+                            <i className="icon icon-pound-sign text-white mb-5 ">
+                                &#163;
+                              </i>
                             </div>
                           </div>
                         </div>

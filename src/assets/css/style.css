@@ -17292,12 +17292,13 @@ div.conv-form-wrapper div.options div.option.selected {
 
 .counter-icon {
   margin-bottom: 1rem;
-  width: 4rem;
-  height: 4rem;
-  line-height: 4rem;
+  width: 40px;
+  height: 40px;
+
   text-align: center;
   font-size: 24px;
 }
+
 
 .light-logo,
 .light-logo1,

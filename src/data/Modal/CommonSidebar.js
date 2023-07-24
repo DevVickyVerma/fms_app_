@@ -47,6 +47,8 @@ const CommonSidebar = (props) => {
                         "supplier_id",
                         "data_import_type_id",
                         "clients",
+                        "client_id",
+                        "company_id",
                       ].includes(key)
                   )
                   .slice(0, Math.ceil(Object.keys(sidebarContent).length / 2))
