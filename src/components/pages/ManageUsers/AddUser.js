@@ -83,7 +83,7 @@ const AddUsers = (props) => {
 
   const [isChecked, setIsChecked] = useState(false);
 
-  const handleCheckboxChange1 = (event) => {
+  const SendMail = (event) => {
     setIsChecked(event.target.checked);
   };
 
@@ -340,7 +340,7 @@ const AddUsers = (props) => {
                               <input
                                 type="checkbox"
                                 checked={isChecked}
-                                onChange={handleCheckboxChange1}
+                                onChange={SendMail}
                               />
                               <span className="ms-1">Yes</span>
                               <ErrorMessage

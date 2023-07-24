@@ -42,6 +42,7 @@ const FuelPrices = (props) => {
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
+  const [isChecked, setIsChecked] = useState(false);
 
   const navigate = useNavigate();
   const SuccessToast = (message) => {
@@ -217,6 +218,7 @@ const FuelPrices = (props) => {
       for (const [key, value] of formData.entries()) {
         console.log(`${key}: ${value}`);
       }
+      formData.append("notify_operator", isChecked);
       formData.append("drs_date", selectedDrsDate);
       formData.append("client_id", selectedClientId);
       formData.append("company_id", selectedCompanyId);
@@ -228,6 +230,10 @@ const FuelPrices = (props) => {
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
+  };
+
+  const SendNotification = (event) => {
+    setIsChecked(event.target.checked);
   };
 
   return (
@@ -267,7 +273,6 @@ const FuelPrices = (props) => {
                     start_date: "",
                   }}
                   validationSchema={Yup.object({
-               
                     company_id: Yup.string().required("Company is required"),
 
                     start_date: Yup.date().required("Start Date is required"),
@@ -482,20 +487,37 @@ const FuelPrices = (props) => {
                       </thead>
                       <tbody>{renderTableData()}</tbody>
                     </table>
-                    <div className="text-end">
-                      <button
-                        className="btn btn-primary me-2"
-                        type="submit"
-                        onClick={handleSubmit}
-                      >
-                        Submit
-                      </button>
-                    </div>
                   </div>
                 ) : (
                   ""
                 )}
               </Card.Body>
+              <Card.Footer>
+                {data ? (
+                  <div className="text-end notification-class">
+                    <div className="Notification">
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={SendNotification}
+
+                      />
+                      <label htmlFor="email" className="form-label ms-2 ">
+                        Send Notification
+                      </label>
+                    </div>
+                    <button
+                      className="btn btn-primary me-2"
+                      type="submit"
+                      onClick={handleSubmit}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </Card.Footer>
             </Card>
           </Col>
         </Row>
