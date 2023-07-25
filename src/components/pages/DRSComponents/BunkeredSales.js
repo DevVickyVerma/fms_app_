@@ -94,8 +94,34 @@ const DepartmentShop = (props) => {
 
       const { data } = response;
       if (data) {
-        console.log(data?.data?.listing ? data.data.listing : []);
+        console.log(data?.data?.listing ? data.data.listing : [], "api");
         setListingData(data?.data?.listing ? data.data : []);
+        if (data?.data?.listing) {
+          const bunkeredSalesValues = data?.data?.listing?.bunkered_Sales.map(
+            (sale) => ({
+              diesel: sale.fuel_name,
+              volume: sale.volume || "",
+              value: sale.value || "",
+              opening: sale.opening_stock || "",
+              closing: sale.closing_stock || "",
+            })
+          );
+
+          formik.setFieldValue("bunkeredSales", bunkeredSalesValues);
+          console.log(bunkeredSalesValues, "bunkeredSalesValues");
+
+          const nonbunkeredsalesValues =
+            data?.data?.listing?.non_bunkered_sales.map((sale) => ({
+              fuel: sale.fuel_id,
+              volume: sale.volume || "",
+              value: sale.value || "",
+            }));
+          formik2.setFieldValue(
+            "nonbunkeredsalesvalue",
+            nonbunkeredsalesValues
+          );
+          console.log(nonbunkeredsalesValues, "nonbunkeredsalesValues");
+        }
       }
     } catch (error) {
       console.error("API error:", error);
@@ -111,21 +137,21 @@ const DepartmentShop = (props) => {
   }, [SiteID, ReportDate]);
 
   const initialValues = {
-    bunkeredDeliveries: [
-      {
-        fuel: null,
-        tank: "",
-        supplier: "",
-        volume: "",
-        value: "",
-      },
-    ],
-
     bunkeredSales: [
       {
-        fuel: null,
-        tank: "",
-        supplier: "",
+        volume: "",
+        value: "",
+        opening: "",
+        closing: "",
+        diesel: "Diesel",
+      },
+    ],
+  };
+
+  const nonbunkeredsales = {
+    nonbunkeredsalesvalue: [
+      {
+        fuel: "",
         volume: "",
         value: "",
       },
@@ -133,7 +159,7 @@ const DepartmentShop = (props) => {
   };
 
   const validationSchema = Yup.object().shape({
-    bunkeredDeliveries: Yup.array().of(
+    bunkeredSales: Yup.array().of(
       Yup.object().shape({
         fuel: Yup.string().required("Please select a fuel"),
         supplier: Yup.string().required("Please select a supplier"),
@@ -150,51 +176,110 @@ const DepartmentShop = (props) => {
     ),
   });
 
+  const nonbunkeredsalesValidationSchema = Yup.object().shape({
+    nonbunkeredsalesvalue: Yup.array().of(
+      Yup.object().shape({
+        fuel: Yup.string().required("Please select a fuel"),
+        volume: Yup.number()
+          .typeError("Volume must be a number")
+          .positive("Volume must be a positive number")
+          .required("Volume is required"),
+        value: Yup.number()
+          .typeError("Value must be a number")
+          .positive("Value must be a positive number")
+          .required("Value is required"),
+      })
+    ),
+  });
+
   const onSubmit = (values, { resetForm }) => {
-    console.log(values);
+    console.log("Bunkered Sales Form Values:", values);
     // Handle form submission here, e.g., API call or other operations
     // After successful submission, reset the form and add a new row
     resetForm();
-    pushbunkeredDeliveriesRow();
+    // pushbunkeredSalesRow();
+    SuccessToast("Data submitted successfully!");
+  };
+
+  const nonbunkeredsalesonSubmit = (values, { resetForm }) => {
+    console.log("Non Bunkered Sales Form Values:", values);
+    // Handle form submission here, e.g., API call or other operations
+    // After successful submission, reset the form and add a new row
+    resetForm();
+    pushnonbunkeredSalesRow();
     SuccessToast("Data submitted successfully!");
   };
 
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit,
+    onSubmit: onSubmit,
   });
 
-  const handleFuelChange = (index, selectedOption) => {
-    formik.setFieldValue(
-      `bunkeredDeliveries[${index}].fuel`,
-      selectedOption ? selectedOption.value : null
-    );
-  };
+  const formik2 = useFormik({
+    initialValues: nonbunkeredsales,
+    validationSchema: nonbunkeredsalesValidationSchema,
+    onSubmit: nonbunkeredsalesonSubmit,
+  });
 
-  const pushbunkeredDeliveriesRow = () => {
-    // Check if the form is valid before adding a new row
-    console.log(formik.values);
+  const pushbunkeredSalesRow = () => {
+    console.log(formik.values, "pushbunkeredSalesRow");
     if (formik.isValid) {
-      formik.values.bunkeredDeliveries.push({
-        fuel: "",
-        supplier: "",
+      formik.values.bunkeredSales.push({
         volume: "",
         value: "",
+        opening: "",
+        closing: "",
+        diesel: "",
       });
-      formik.setFieldValue(
-        "bunkeredDeliveries",
-        formik.values.bunkeredDeliveries
-      );
+      formik.setFieldValue("bunkeredSales", formik.values.bunkeredSales);
     } else {
       ErrorToast("Please fill all fields correctly before adding a new row.");
     }
   };
 
-  const removebunkeredDeliveriesRow = (index) => {
-    const updatedRows = [...formik.values.bunkeredDeliveries];
+  const pushnonbunkeredSalesRow = () => {
+    console.log(formik2.values, "pushnonbunkeredSalesRow");
+    console.log(
+      formik2.values.nonbunkeredsalesvalue,
+      "valueformik2.values.nonbunkeredsalesvalue"
+    );
+    if (formik2.isValid) {
+      formik2.values.nonbunkeredsalesvalue.push({
+        fuel: null,
+        volume: "",
+        value: "",
+      });
+      formik2.setFieldValue(
+        "nonbunkeredsalesvalue",
+        formik2.values.nonbunkeredsalesvalue
+      );
+    } else {
+      ErrorToast(
+        "Please fill all fields correctly before adding a new non-bunkered sales row."
+      );
+    }
+  };
+
+  const removebunkeredSalesRow = (index) => {
+    const updatedRows = [...formik.values.bunkeredSales];
     updatedRows.splice(index, 1);
-    formik.setFieldValue("bunkeredDeliveries", updatedRows);
+    formik.setFieldValue("bunkeredSales", updatedRows);
+  };
+
+  const removenonbunkeredSalesRow = (index) => {
+    const updatedRows = [...formik2.values.nonbunkeredsalesvalue];
+    updatedRows.splice(index, 1);
+    formik2.setFieldValue("nonbunkeredsalesvalue", updatedRows);
+  };
+  const combinedOnSubmit = () => {
+    // Combine both form data here
+    const formData = {
+      bunkeredSales: formik.values.bunkeredSales,
+      nonbunkeredsalesvalue: formik2.values.nonbunkeredsalesvalue,
+    };
+
+    console.log("Combined Form Data:", formData);
   };
 
   return (
@@ -204,199 +289,157 @@ const DepartmentShop = (props) => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <h3 className="card-title"> FUEL DELIVERIES:</h3>
+              <h3 className="card-title"> BUNKERED SALES:</h3>
             </Card.Header>
             <Card.Body>
               <Form onSubmit={formik.handleSubmit}>
                 {/* All columns wrapped inside a single Row */}
                 <Row>
-                  {formik.values.bunkeredDeliveries.map((delivery, index) => (
+                  {formik.values.bunkeredSales.map((delivery, index) => (
                     <React.Fragment key={index}>
                       <Col lg={2} md={2}>
                         <Form.Group
-                          controlId={`bunkeredDeliveries[${index}].supplier`}
+                          controlId={`bunkeredSales[${index}].diesel`}
                         >
-                          <Form.Label>Select a Supplier:</Form.Label>
+                          <Form.Label>Fuel:</Form.Label>
                           <Form.Control
-                            as="select"
+                            type="text"
                             className={`input101 ${
-                              formik.errors.bunkeredDeliveries?.[index]
-                                ?.supplier &&
-                              formik.touched[
-                                `bunkeredDeliveries[${index}].supplier`
-                              ]
+                              formik.errors.bunkeredSales?.[index]?.diesel &&
+                              formik.touched[`bunkeredSales[${index}].diesel`]
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            name={`bunkeredDeliveries[${index}].supplier`}
+                            name={`bunkeredSales[${index}].diesel`}
                             onChange={formik.handleChange}
                             value={
-                              formik?.values?.bunkeredDeliveries?.[index]
-                                ?.supplier || ""
+                              formik?.values?.bunkeredSales?.[index]?.diesel ||
+                              "diesel"
                             }
-                          >
-                            <option value="">Select a Supplier</option>
-                            {data?.fuelSuppliers?.map((supplier) => (
-                              <option key={supplier.id} value={supplier.id}>
-                                {supplier.supplier_name}
-                              </option>
-                            ))}
-                          </Form.Control>
-                          {formik.errors.bunkeredDeliveries?.[index]
-                            ?.supplier &&
+                            readOnly
+                          />
+                          {formik.errors.bunkeredSales?.[index]?.diesel &&
                             formik.touched[
-                              `bunkeredDeliveries[${index}].supplier`
+                              `bunkeredSales[${index}].diesel`
                             ] && (
                               <div className="invalid-feedback">
-                                {
-                                  formik.errors.bunkeredDeliveries[index]
-                                    .supplier
-                                }
+                                {formik.errors.bunkeredSales[index].diesel}
                               </div>
                             )}
                         </Form.Group>
                       </Col>
                       <Col lg={2} md={2}>
                         <Form.Group
-                          controlId={`bunkeredDeliveries[${index}].tank`}
+                          controlId={`bunkeredSales[${index}].volume`}
                         >
-                          <Form.Label>Select a tank:</Form.Label>
-                          <Form.Control
-                            as="select"
-                            className={`input101 ${
-                              formik.errors.bunkeredDeliveries?.[index]?.tank &&
-                              formik.touched[
-                                `bunkeredDeliveries[${index}].tank`
-                              ]
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            name={`bunkeredDeliveries[${index}].tank`}
-                            onChange={formik.handleChange}
-                            value={
-                              formik?.values?.bunkeredDeliveries?.[index]
-                                ?.tank || ""
-                            }
-                          >
-                            <option value="">Select a tank</option>
-                            {data?.siteTanks?.map((tank) => (
-                              <option key={tank.id} value={tank.id}>
-                                {tank.tank_name}
-                              </option>
-                            ))}
-                          </Form.Control>
-                          {formik.errors.bunkeredDeliveries?.[index]?.tank &&
-                            formik.touched[
-                              `bunkeredDeliveries[${index}].tank`
-                            ] && (
-                              <div className="invalid-feedback">
-                                {formik.errors.bunkeredDeliveries[index].tank}
-                              </div>
-                            )}
-                        </Form.Group>
-                      </Col>
-                      <Col lg={2} md={2}>
-                        <Form.Group
-                          controlId={`bunkeredDeliveries[${index}].fuel`}
-                        >
-                          <Form.Label>Select a Fuel:</Form.Label>
-                          <Form.Control
-                            as="select"
-                            className={`input101 ${
-                              formik.errors.bunkeredDeliveries?.[index]?.fuel &&
-                              formik.touched[
-                                `bunkeredDeliveries[${index}].fuel`
-                              ]
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            name={`bunkeredDeliveries[${index}].fuel`}
-                            onChange={formik.handleChange}
-                            value={
-                              formik?.values?.bunkeredDeliveries?.[index]
-                                ?.fuel || ""
-                            }
-                          >
-                            <option value="">Select a Fuel</option>
-                            {data?.siteFuels?.map((fuel) => (
-                              <option key={fuel.id} value={fuel.id}>
-                                {fuel.fuel_name}
-                              </option>
-                            ))}
-                          </Form.Control>
-                          {formik.errors.bunkeredDeliveries?.[index]?.fuel &&
-                            formik.touched[
-                              `bunkeredDeliveries[${index}].fuel`
-                            ] && (
-                              <div className="invalid-feedback">
-                                {formik.errors.bunkeredDeliveries[index].fuel}
-                              </div>
-                            )}
-                        </Form.Group>
-                      </Col>
-
-                      <Col lg={2} md={2}>
-                        <Form.Group
-                          controlId={`bunkeredDeliveries[${index}].volume`}
-                        >
-                          <Form.Label>Quantity:</Form.Label>
+                          <Form.Label>volume:</Form.Label>
                           <Form.Control
                             type="number"
                             className={`input101 ${
-                              formik.errors.bunkeredDeliveries?.[index]
-                                ?.volume &&
-                              formik.touched[
-                                `bunkeredDeliveries[${index}].volume`
-                              ]
+                              formik.errors.bunkeredSales?.[index]?.volume &&
+                              formik.touched[`bunkeredSales[${index}].volume`]
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            name={`bunkeredDeliveries[${index}].volume`}
+                            name={`bunkeredSales[${index}].volume`}
                             onChange={formik.handleChange}
                             value={
-                              formik?.values?.bunkeredDeliveries?.[index]
-                                ?.volume || ""
+                              formik?.values?.bunkeredSales?.[index]?.volume ||
+                              ""
                             }
                           />
-                          {formik.errors.bunkeredDeliveries?.[index]?.volume &&
+                          {formik.errors.bunkeredSales?.[index]?.volume &&
                             formik.touched[
-                              `bunkeredDeliveries[${index}].volume`
+                              `bunkeredSales[${index}].volume`
                             ] && (
                               <div className="invalid-feedback">
-                                {formik.errors.bunkeredDeliveries[index].volume}
+                                {formik.errors.bunkeredSales[index].volume}
                               </div>
                             )}
                         </Form.Group>
                       </Col>
                       <Col lg={2} md={2}>
-                        <Form.Group
-                          controlId={`bunkeredDeliveries[${index}].value`}
-                        >
+                        <Form.Group controlId={`bunkeredSales[${index}].value`}>
                           <Form.Label>Value:</Form.Label>
                           <Form.Control
                             type="number"
                             className={`input101 ${
-                              formik.errors.bunkeredDeliveries?.[index]
-                                ?.value &&
-                              formik.touched[
-                                `bunkeredDeliveries[${index}].value`
-                              ]
+                              formik.errors.bunkeredSales?.[index]?.value &&
+                              formik.touched[`bunkeredSales[${index}].value`]
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            name={`bunkeredDeliveries[${index}].value`}
+                            name={`bunkeredSales[${index}].value`}
                             onChange={formik.handleChange}
                             value={
-                              formik?.values?.bunkeredDeliveries?.[index]
-                                ?.value || ""
+                              formik?.values?.bunkeredSales?.[index]?.value ||
+                              ""
                             }
                           />
-                          {formik.errors.bunkeredDeliveries?.[index]?.value &&
+                          {formik.errors.bunkeredSales?.[index]?.value &&
+                            formik.touched[`bunkeredSales[${index}].value`] && (
+                              <div className="invalid-feedback">
+                                {formik.errors.bunkeredSales[index].value}
+                              </div>
+                            )}
+                        </Form.Group>
+                      </Col>
+                      <Col lg={2} md={2}>
+                        <Form.Group
+                          controlId={`bunkeredSales[${index}].opening`}
+                        >
+                          <Form.Label>opening:</Form.Label>
+                          <Form.Control
+                            type="number"
+                            className={`input101 ${
+                              formik.errors.bunkeredSales?.[index]?.opening &&
+                              formik.touched[`bunkeredSales[${index}].opening`]
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            name={`bunkeredSales[${index}].opening`}
+                            onChange={formik.handleChange}
+                            value={
+                              formik?.values?.bunkeredSales?.[index]?.opening ||
+                              ""
+                            }
+                          />
+                          {formik.errors.bunkeredSales?.[index]?.opening &&
                             formik.touched[
-                              `bunkeredDeliveries[${index}].value`
+                              `bunkeredSales[${index}].opening`
                             ] && (
                               <div className="invalid-feedback">
-                                {formik.errors.bunkeredDeliveries[index].value}
+                                {formik.errors.bunkeredSales[index].opening}
+                              </div>
+                            )}
+                        </Form.Group>
+                      </Col>
+                      <Col lg={2} md={2}>
+                        <Form.Group
+                          controlId={`bunkeredSales[${index}].closing`}
+                        >
+                          <Form.Label>closing:</Form.Label>
+                          <Form.Control
+                            type="number"
+                            className={`input101 ${
+                              formik.errors.bunkeredSales?.[index]?.closing &&
+                              formik.touched[`bunkeredSales[${index}].closing`]
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            name={`bunkeredSales[${index}].closing`}
+                            onChange={formik.handleChange}
+                            value={
+                              formik?.values?.bunkeredSales?.[index]?.closing ||
+                              ""
+                            }
+                          />
+                          {formik.errors.bunkeredSales?.[index]?.closing &&
+                            formik.touched[
+                              `bunkeredSales[${index}].closing`
+                            ] && (
+                              <div className="invalid-feedback">
+                                {formik.errors.bunkeredSales[index].closing}
                               </div>
                             )}
                         </Form.Group>
@@ -405,14 +448,14 @@ const DepartmentShop = (props) => {
                         <div className="text-end">
                           <button
                             className="btn btn-primary me-2"
-                            onClick={() => removebunkeredDeliveriesRow(index)}
+                            onClick={() => removebunkeredSalesRow(index)}
                           >
                             <RemoveCircleIcon />
                           </button>
                           <button
                             className="btn btn-primary me-2"
                             type="button"
-                            onClick={pushbunkeredDeliveriesRow}
+                            onClick={pushbunkeredSalesRow}
                           >
                             <AddBoxIcon />
                           </button>
@@ -426,12 +469,163 @@ const DepartmentShop = (props) => {
           </Card>
         </Col>
       </Row>
-
-      <div className="text-end">
-        <button className="btn btn-primary me-2" type="submit">
-          Submit
-        </button>
-      </div>
+      <Row className="row-sm">
+        <Col lg={12}>
+          <Card>
+            <Card.Header>
+              <h3 className="card-title"> NON BUNKERED SALES:</h3>
+            </Card.Header>
+            <Card.Body>
+              <Form onSubmit={formik2.handleSubmit}>
+                {/* All columns wrapped inside a single Row */}
+                <Row>
+                  {formik2.values.nonbunkeredsalesvalue.map((item, index) => (
+                    <React.Fragment key={index}>
+                      <Col lg={3} md={3}>
+                        <Form.Group
+                          controlId={`nonbunkeredsalesvalue[${index}].fuel`}
+                        >
+                          <Form.Label>Select a Fuel:</Form.Label>
+                          <Form.Control
+                            as="select"
+                            className={`input101 ${
+                              formik2.errors.nonbunkeredsalesvalue?.[index]
+                                ?.fuel &&
+                              formik2.touched[
+                                `nonbunkeredsalesvalue[${index}].fuel`
+                              ]
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            name={`nonbunkeredsalesvalue[${index}].fuel`}
+                            onChange={formik2.handleChange}
+                            value={item?.fuel || ""}
+                          >
+                            <option value="">Select a Fuel</option>
+                            {data?.siteFuels?.map((fuel) => (
+                              <option key={fuel.id} value={fuel.id}>
+                                {fuel.fuel_name}
+                              </option>
+                            ))}
+                          </Form.Control>
+                          {formik2.errors.nonbunkeredsalesvalue?.[index]
+                            ?.fuel &&
+                            formik2.touched[
+                              `nonbunkeredsalesvalue[${index}].fuel`
+                            ] && (
+                              <div className="invalid-feedback">
+                                {
+                                  formik2.errors.nonbunkeredsalesvalue[index]
+                                    .fuel
+                                }
+                              </div>
+                            )}
+                        </Form.Group>
+                      </Col>
+                      <Col lg={3} md={3}>
+                        <Form.Group
+                          controlId={`nonbunkeredsalesvalue[${index}].volume`}
+                        >
+                          <Form.Label>volume:</Form.Label>
+                          <Form.Control
+                            type="number"
+                            className={`input101 ${
+                              formik2.errors.nonbunkeredsalesvalue?.[index]
+                                ?.volume &&
+                              formik2.touched[
+                                `nonbunkeredsalesvalue[${index}].volume`
+                              ]
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            name={`nonbunkeredsalesvalue[${index}].volume`}
+                            onChange={formik2.handleChange}
+                            value={item?.volume || ""}
+                          />
+                          {formik2.errors.nonbunkeredsalesvalue?.[index]
+                            ?.volume &&
+                            formik2.touched[
+                              `nonbunkeredsalesvalue[${index}].volume`
+                            ] && (
+                              <div className="invalid-feedback">
+                                {
+                                  formik2.errors.nonbunkeredsalesvalue[index]
+                                    .volume
+                                }
+                              </div>
+                            )}
+                        </Form.Group>
+                      </Col>
+                      <Col lg={3} md={3}>
+                        <Form.Group
+                          controlId={`nonbunkeredsalesvalue[${index}].value`}
+                        >
+                          <Form.Label>Value:</Form.Label>
+                          <Form.Control
+                            type="number"
+                            className={`input101 ${
+                              formik2.errors.nonbunkeredsalesvalue?.[index]
+                                ?.value &&
+                              formik2.touched[
+                                `nonbunkeredsalesvalue[${index}].value`
+                              ]
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            name={`nonbunkeredsalesvalue[${index}].value`}
+                            onChange={formik2.handleChange}
+                            value={item?.value || ""}
+                          />
+                          {formik2.errors.nonbunkeredsalesvalue?.[index]
+                            ?.value &&
+                            formik2.touched[
+                              `nonbunkeredsalesvalue[${index}].value`
+                            ] && (
+                              <div className="invalid-feedback">
+                                {
+                                  formik2.errors.nonbunkeredsalesvalue[index]
+                                    .value
+                                }
+                              </div>
+                            )}
+                        </Form.Group>
+                      </Col>
+                      <Col lg={3} md={3}>
+                        <div className="text-end">
+                          <button
+                            className="btn btn-primary me-2"
+                            onClick={() => removenonbunkeredSalesRow(index)}
+                          >
+                            <RemoveCircleIcon />
+                          </button>
+                          <button
+                            className="btn btn-primary me-2"
+                            type="button"
+                            onClick={pushnonbunkeredSalesRow}
+                          >
+                            <AddBoxIcon />
+                          </button>
+                        </div>
+                      </Col>
+                    </React.Fragment>
+                  ))}
+                </Row>
+                <div className="text-end">
+                  <div className="text-end mt-3">
+                    <button
+                      className="btn btn-primary"
+                      type="button"
+                      onClick={combinedOnSubmit}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     </>
   );
 };
