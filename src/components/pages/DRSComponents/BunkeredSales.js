@@ -104,6 +104,10 @@ const DepartmentShop = (props) => {
               value: sale.value || "",
               opening: sale.opening_stock || "",
               closing: sale.closing_stock || "",
+              fuel_id: sale.fuel_id || "",
+              opening: sale.opening_stock || "",
+              closing: sale.closing_stock || "",
+              id: sale.id || "",
             })
           );
 
@@ -115,12 +119,27 @@ const DepartmentShop = (props) => {
               fuel: sale.fuel_id,
               volume: sale.volume || "",
               value: sale.value || "",
+              id: sale.id || "",
+              fuel_name: sale.fuel_name || "",
+             
+           
             }));
           formik2.setFieldValue(
             "nonbunkeredsalesvalue",
             nonbunkeredsalesValues
           );
           console.log(nonbunkeredsalesValues, "nonbunkeredsalesValues");
+          const creditcardvalues =
+            data?.data?.listing?.bunkered_creditcardsales.map((sale) => ({
+              card: sale.card_id,
+              koisk: sale.koisk_value || "",
+              optvalue: sale.opt_value || "",
+              accountvalue: sale.account_value || "",
+              transactionsvalue: sale.no_of_transactions || "",
+              id: sale.id || "",
+            }));
+          formik3.setFieldValue("creditcardvalue", creditcardvalues);
+          console.log(creditcardvalues, "creditcardvalues");
         }
       }
     } catch (error) {
@@ -154,6 +173,17 @@ const DepartmentShop = (props) => {
         fuel: "",
         volume: "",
         value: "",
+      },
+    ],
+  };
+  const creditcard = {
+    creditcardvalue: [
+      {
+        card: "",
+        koisk: "",
+        optvalue: "",
+        accountvalue: "",
+        transactionsvalue: "",
       },
     ],
   };
@@ -191,6 +221,29 @@ const DepartmentShop = (props) => {
       })
     ),
   });
+  const creditcardValidationSchema = Yup.object().shape({
+    nonbunkeredsalesvalue: Yup.array().of(
+      Yup.object().shape({
+        card: Yup.string().required("Please select a fuel"),
+        koisk: Yup.number()
+          .typeError("Volume must be a number")
+          .positive("Volume must be a positive number")
+          .required("Volume is required"),
+        optvalue: Yup.number()
+          .typeError("Value must be a number")
+          .positive("Value must be a positive number")
+          .required("Value is required"),
+        accountvalue: Yup.number()
+          .typeError("Value must be a number")
+          .positive("Value must be a positive number")
+          .required("Value is required"),
+        transactionsvalue: Yup.number()
+          .typeError("Value must be a number")
+          .positive("Value must be a positive number")
+          .required("Value is required"),
+      })
+    ),
+  });
 
   const onSubmit = (values, { resetForm }) => {
     console.log("Bunkered Sales Form Values:", values);
@@ -209,6 +262,14 @@ const DepartmentShop = (props) => {
     pushnonbunkeredSalesRow();
     SuccessToast("Data submitted successfully!");
   };
+  const creditcardonSubmit = (values, { resetForm }) => {
+    console.log("creditcardonSubmit Form Values:", values);
+    // Handle form submission here, e.g., API call or other operations
+    // After successful submission, reset the form and add a new row
+    resetForm();
+    pushnoncreditcardRow();
+    SuccessToast("Data submitted successfully!");
+  };
 
   const formik = useFormik({
     initialValues,
@@ -220,6 +281,11 @@ const DepartmentShop = (props) => {
     initialValues: nonbunkeredsales,
     validationSchema: nonbunkeredsalesValidationSchema,
     onSubmit: nonbunkeredsalesonSubmit,
+  });
+  const formik3 = useFormik({
+    initialValues: creditcard,
+    validationSchema: creditcardValidationSchema,
+    onSubmit: creditcardonSubmit,
   });
 
   const pushbunkeredSalesRow = () => {
@@ -260,6 +326,35 @@ const DepartmentShop = (props) => {
       );
     }
   };
+  const pushnoncreditcardRow = () => {
+    console.log(formik3.values, "pushnoncreditcardRow");
+    console.log(
+      formik3.values.creditcardvalue,
+      "valueformik2.values.creditcardvalue"
+    );
+    if (formik3.isValid) {
+      formik3.values.creditcardvalue.push({
+        card: "",
+        koisk: "",
+        optvalue: "",
+        accountvalue: "",
+        transactionsvalue: "",
+      });
+
+      // Update the creditcardvalue array in the formik values
+      formik3.setFieldValue("creditcardvalue", formik3.values.creditcardvalue);
+    } else {
+      ErrorToast(
+        "Please fill all fields correctly before adding a new non-bunkered sales row."
+      );
+    }
+  };
+
+  const removecreditcardRow = (index) => {
+    const updatedRows = [...formik3.values.creditcardvalue];
+    updatedRows.splice(index, 1);
+    formik3.setFieldValue("creditcardvalue", updatedRows);
+  };
 
   const removebunkeredSalesRow = (index) => {
     const updatedRows = [...formik.values.bunkeredSales];
@@ -272,16 +367,240 @@ const DepartmentShop = (props) => {
     updatedRows.splice(index, 1);
     formik2.setFieldValue("nonbunkeredsalesvalue", updatedRows);
   };
-  const combinedOnSubmit = () => {
-    // Combine both form data here
-    const formData = {
-      bunkeredSales: formik.values.bunkeredSales,
-      nonbunkeredsalesvalue: formik2.values.nonbunkeredsalesvalue,
-    };
+ 
 
-    console.log("Combined Form Data:", formData);
+  const combinedOnSubmit = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const baseURL = process.env.REACT_APP_BASE_URL; // Replace with your actual base URL
+  
+      const formData = new FormData();
+  
+      // Append data from formik.values.bunkeredSales
+      for (const obj of formik.values?.bunkeredSales) {
+        const { id, fuel_id, volume, value, opening, closing } = obj;
+  
+        formData.append(`bunkered_sale_id[0]`, id);
+        formData.append(`bunkered_sale_fuel_id[${id}]`, fuel_id);
+        formData.append(`bunkered_sale_volume[${id}]`, volume);
+        formData.append(`bunkered_sale_value[${id}]`, value);
+        formData.append(`bunkered_sale_opening_stock[${id}]`, opening);
+        formData.append(`bunkered_sale_closing_stock[${id}]`, closing);
+      }
+  
+      // Append data from formik3.values.creditcardvalue
+      for (const obj of formik3.values?.creditcardvalue) {
+        const { id, card, koisk, optvalue, accountvalue, transactionsvalue } = obj;
+  
+        formData.append(`bunkered_credit_card_sales_id[0]`, id);
+        formData.append(`bunkered_credit_card_sales_card_id[${id}]`, card);
+        formData.append(`bunkered_credit_card_sales_koisk_value[${id}]`, koisk);
+        formData.append(`bunkered_credit_card_sales_opt_value[${id}]`, optvalue);
+        formData.append(`bunkered_credit_card_sales_account_value[${id}]`, accountvalue);
+        formData.append(`bunkered_credit_card_sales_no_of_transactions[${id}]`, transactionsvalue);
+      }
+  
+      // Append data from formik2.values.nonbunkeredsalesvalue
+      for (const obj of formik2.values?.nonbunkeredsalesvalue) {
+        const { id, fuel, volume, value } = obj;
+  
+        formData.append(`nonbunkered_id[0]`, id);
+        formData.append(`nonbunkered_fuel_id[${id}]`, fuel);
+        formData.append(`nonbunkered_volume[${id}]`, volume);
+        formData.append(`nonbunkered_value[${id}]`, value);
+      }
+      formData.append("site_id", SiteID);
+      formData.append("drs_date", ReportDate);
+      console.log('Combined Form Data:', formData);
+  
+      setIsLoading(true);
+      const response = await fetch(`${baseURL}/bunkered-sale/update`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+  
+      const responseData = await response.json();
+  
+      if (response.ok) {
+        console.log('Done');
+        // Call your success toast function here
+        // Replace SuccessToast with your actual function that shows a success message
+        SuccessToast(responseData.message);
+      } else {
+        // Call your error toast function here
+        // Replace ErrorToast with your actual function that shows an error message
+        ErrorToast(responseData.message);
+        console.log('API Error:', responseData);
+        // Handle specific error cases if needed
+      }
+    } catch (error) {
+      console.log('Request Error:', error);
+      // Handle request error
+    } finally {
+      setIsLoading(false);
+    }
   };
 
+
+  useEffect(()=>{
+    const data111 = {
+      "tenderLines": [
+        {
+          "lineItemSequenceNumber": 2,
+          "voidedFlag": false,
+          "startTime": null,
+          "endTime": null,
+          "fiscalReceipt": true,
+          "methodOfPayment": {
+            "id": "0165",
+            "type": "OTHER",
+            "description": "Coupon",
+            "currencyID": 16,
+            "currencySymbol": "£",
+            "currencyIsoAlpha": "GBP",
+            "currencyIsoNumeric": "826",
+         
+            "unitCountRequired": false,
+            "currencyAvailableForChange": false,
+      
+            "companyID": 1220
+          },
+          "tenderAmount": 5,
+          "foreignCurrencyAmount": 0,
+     
+        },
+        {
+          "lineItemSequenceNumber": 3,
+          "voidedFlag": false,
+          "startTime": null,
+          "endTime": null,
+          "fiscalReceipt": true,
+          "methodOfPayment": {
+            "id": "0107",
+            "type": "PAYMENTTERMINAL",
+            "description": "Mastercard",
+            "currencyID": 16,
+            "currencySymbol": "£",
+          
+            "maximumAmount": 50000,
+            "openCashDrawer": false,
+     
+            "currencyAvailableForChange": false,
+            "printReceiptWithAddress": false,
+            "tenderUsageType": "STANDARD",
+            "roundToDenominationType": "UNNECESSARY",
+            "denormalisedDescription": "AS_TND.DE_TND.0107:1220",
+            "isApplicable": true,
+            "accountNominal": null,
+            "companyID": 1220
+          },
+          "tenderAmount": 20.01,
+          "foreignCurrencyAmount": 0,
+       
+        }],
+        "tenderLines": [
+          {
+            "lineItemSequenceNumber": 2,
+            "voidedFlag": false,
+            "startTime": null,
+            "endTime": null,
+            "fiscalReceipt": true,
+            "methodOfPayment": {
+              "id": "0165",
+              "type": "OTHER",
+              "description": "Coupon",
+              "currencyID": 16,
+              "currencySymbol": "£",
+              "currencyIsoAlpha": "GBP",
+       
+              "prohibitPartialPayment": false,
+              "paymentAmountVerificationRequired": true,
+              "maximumChange": 0,
+           
+              "tenderUsageType": "STANDARD",
+              "roundToDenominationType": "UNNECESSARY",
+              "denormalisedDescription": "AS_TND.DE_TND.0165:1220",
+              "isApplicable": true,
+              "accountNominal": "",
+              "companyID": 1220
+            },
+            "tenderAmount": 5,
+            "foreignCurrencyAmount": 0,
+      
+            "donationBaseTenderId": null
+          },
+          {
+            "lineItemSequenceNumber": 3,
+            "voidedFlag": false,
+            "startTime": null,
+            "endTime": null,
+            "fiscalReceipt": true,
+            "methodOfPayment": {
+              "id": "0107",
+              "type": "PAYMENTTERMINAL",
+              "description": "Couponssssssssssssssssssssss",
+              "currencyID": 1888888,
+              "currencySymbol": "£",
+              "currencyIsoAlpha": "GBP",
+              "checkSettlementDiscrepancy": true,
+              "denominationMaskAvailable": true,
+              "amountEntryRequired": false,
+              "prohibitPartialPayment": false,
+              "paymentAmountVerificationRequired": false,
+              "maximumChange": 0,
+              "pickupAllowed": false,
+              "fiscalTenderCode": null,
+              "paymentTerminalRequired": true,
+              "cashTender": false,
+              "volumetricTender": false,
+              "unitCountRequired": false,
+              "currencyAvailableForChange": false,
+              "printReceiptWithAddress": false,
+              "tenderUsageType": "STANDARD",
+              "roundToDenominationType": "UNNECESSARY",
+              "denormalisedDescription": "AS_TND.DE_TND.0107:1220",
+              "isApplicable": true,
+              "accountNominal": null,
+              "companyID": 1220
+            },
+            "tenderAmount": 20.01,
+            "foreignCurrencyAmount": 0,
+            "cardDetails": null,
+            "changeLine": false,
+            "voucherBarcode": null,
+            "donation": false,
+            "donationBaseTenderId": null
+          },
+        // Add more tenderLine objects here if needed
+      ]
+    };
+    console.log("TenderLines with different data111:", data111);
+
+    // Function to check if all "description" values in the array are the same
+    function areDescriptionsSame(tenderLines) {
+      const firstDescription = tenderLines[0].methodOfPayment.description;
+      return tenderLines.every((line) => line.methodOfPayment.description === firstDescription);
+    }
+   
+    // Checking if "description" values are not the same and logging the items
+    if (!areDescriptionsSame(data111.tenderLines)) {
+      console.log("TenderLines with different data111:", areDescriptionsSame);
+      const differentDescriptions = data111.tenderLines.filter((line) => {
+        return line.methodOfPayment.description !== data111.tenderLines[0].methodOfPayment.description;
+      });
+  
+      console.log("TenderLines with different descriptions:", differentDescriptions);
+    }
+    
+  },[])
+  
+  
+    // Call the submitData function when the combinedOnSubmit function is invoked
+  
+  
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -602,6 +921,216 @@ const DepartmentShop = (props) => {
                             className="btn btn-primary me-2"
                             type="button"
                             onClick={pushnonbunkeredSalesRow}
+                          >
+                            <AddBoxIcon />
+                          </button>
+                        </div>
+                      </Col>
+                    </React.Fragment>
+                  ))}
+                </Row>
+                {/* <div className="text-end">
+                  <div className="text-end mt-3">
+                    <button
+                      className="btn btn-primary"
+                      type="button"
+                      onClick={combinedOnSubmit}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div> */}
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+      <Row className="row-sm">
+        <Col lg={12}>
+          <Card>
+            <Card.Header>
+              <h3 className="card-title"> BUNKERED CREDIT CARD SALES:</h3>
+            </Card.Header>
+            <Card.Body>
+              <Form onSubmit={formik3.handleSubmit}>
+                {/* All columns wrapped inside a single Row */}
+                <Row>
+                  {formik3.values.creditcardvalue.map((item, index) => (
+                    <React.Fragment key={index}>
+                      <Col lg={2} md={2}>
+                        <Form.Group
+                          controlId={`creditcardvalue[${index}].card`}
+                        >
+                          <Form.Label>Select a card:</Form.Label>
+                          <Form.Control
+                            as="select"
+                            className={`input101 ${
+                              formik3.errors.creditcardvalue?.[index]?.card &&
+                              formik3.touched[`creditcardvalue[${index}].card`]
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            name={`creditcardvalue[${index}].card`}
+                            onChange={formik3.handleChange}
+                            value={item?.card || ""}
+                          >
+                            <option value="">Select a card</option>
+                            {data?.cardsList?.map((card) => (
+                              <option key={card.id} value={card.id}>
+                                {card.card_name}
+                              </option>
+                            ))}
+                          </Form.Control>
+                          {formik3.errors.creditcardvalue?.[index]?.card &&
+                            formik3.touched[
+                              `creditcardvalue[${index}].card`
+                            ] && (
+                              <div className="invalid-feedback">
+                                {formik3.errors.creditcardvalue[index].card}
+                              </div>
+                            )}
+                        </Form.Group>
+                      </Col>
+                      <Col lg={2} md={2}>
+                        <Form.Group
+                          controlId={`creditcardvalue[${index}].koisk`}
+                        >
+                          <Form.Label>koisk:</Form.Label>
+                          <Form.Control
+                            type="number"
+                            className={`input101 ${
+                              formik3.errors.creditcardvalue?.[index]?.koisk &&
+                              formik3.touched[`creditcardvalue[${index}].koisk`]
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            name={`creditcardvalue[${index}].koisk`}
+                            onChange={formik3.handleChange}
+                            value={item?.koisk || ""}
+                          />
+                          {formik3.errors.creditcardvalue?.[index]?.koisk &&
+                            formik3.touched[
+                              `creditcardvalue[${index}].koisk`
+                            ] && (
+                              <div className="invalid-feedback">
+                                {formik3.errors.creditcardvalue[index].koisk}
+                              </div>
+                            )}
+                        </Form.Group>
+                      </Col>
+                      <Col lg={2} md={2}>
+                        <Form.Group
+                          controlId={`creditcardvalue[${index}].optvalue`}
+                        >
+                          <Form.Label>optvalue:</Form.Label>
+                          <Form.Control
+                            type="number"
+                            className={`input101 ${
+                              formik3.errors.creditcardvalue?.[index]
+                                ?.optvalue &&
+                              formik3.touched[
+                                `creditcardvalue[${index}].optvalue`
+                              ]
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            name={`creditcardvalue[${index}].optvalue`}
+                            onChange={formik3.handleChange}
+                            value={item?.optvalue || ""}
+                          />
+                          {formik3.errors.creditcardvalue?.[index]?.optvalue &&
+                            formik3.touched[
+                              `creditcardvalue[${index}].optvalue`
+                            ] && (
+                              <div className="invalid-feedback">
+                                {formik3.errors.creditcardvalue[index].optvalue}
+                              </div>
+                            )}
+                        </Form.Group>
+                      </Col>
+                      <Col lg={2} md={2}>
+                        <Form.Group
+                          controlId={`creditcardvalue[${index}].accountvalue`}
+                        >
+                          <Form.Label>accountvalue:</Form.Label>
+                          <Form.Control
+                            type="number"
+                            className={`input101 ${
+                              formik3.errors.creditcardvalue?.[index]
+                                ?.accountvalue &&
+                              formik3.touched[
+                                `creditcardvalue[${index}].accountvalue`
+                              ]
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            name={`creditcardvalue[${index}].accountvalue`}
+                            onChange={formik3.handleChange}
+                            value={item?.accountvalue || ""}
+                          />
+                          {formik3.errors.creditcardvalue?.[index]
+                            ?.accountvalue &&
+                            formik3.touched[
+                              `creditcardvalue[${index}].accountvalue`
+                            ] && (
+                              <div className="invalid-feedback">
+                                {
+                                  formik3.errors.creditcardvalue[index]
+                                    .accountvalue
+                                }
+                              </div>
+                            )}
+                        </Form.Group>
+                      </Col>
+                      <Col lg={2} md={2}>
+                        <Form.Group
+                          controlId={`creditcardvalue[${index}].transactionsvalue`}
+                        >
+                          <Form.Label>transactionsvalue:</Form.Label>
+                          <Form.Control
+                            type="number"
+                            className={`input101 ${
+                              formik3.errors.creditcardvalue?.[index]
+                                ?.transactionsvalue &&
+                              formik3.touched[
+                                `creditcardvalue[${index}].transactionsvalue`
+                              ]
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            name={`creditcardvalue[${index}].transactionsvalue`}
+                            onChange={formik3.handleChange}
+                            value={item?.transactionsvalue || ""}
+                          />
+                          {formik3.errors.creditcardvalue?.[index]
+                            ?.transactionsvalue &&
+                            formik3.touched[
+                              `creditcardvalue[${index}].transactionsvalue`
+                            ] && (
+                              <div className="invalid-feedback">
+                                {
+                                  formik3.errors.creditcardvalue[index]
+                                    .transactionsvalue
+                                }
+                              </div>
+                            )}
+                        </Form.Group>
+                      </Col>
+
+                      <Col lg={2} md={2}>
+                        <div className="text-end">
+                          <button
+                            className="btn btn-primary me-2"
+                            onClick={() => removecreditcardRow(index)}
+                            type="button"
+                          >
+                            <RemoveCircleIcon />
+                          </button>
+
+                          <button
+                            className="btn btn-primary me-2"
+                            type="button"
+                            onClick={pushnoncreditcardRow}
                           >
                             <AddBoxIcon />
                           </button>

@@ -117,50 +117,7 @@ const FuelDelivery = (props) => {
     // Create a new FormData object
     const formData = new FormData();
 
-    // id: item.id ,
-    // opening: item.opening ,
-    // bunkd_delivery_volume: item.bunkd_delivery_volume ,
-    // delivery_volume: item.delivery_volume ,
-    // dips_stock: item.dips_stock ,
-    // sales_volume: item.sales_volume ,
-    // book_stock: item.book_stock ,
-    // variance: item.variance ,
-    // percentage_sales: item.percentage_sales ,
-    // variance_lt: item.variance_lt ,
-    // variance_per: item.variance_per ,
-
-    // values.data.forEach((obj) => {
-    //   const id = obj.id;
-    //   const opening = `opening[${id}]`;
-    //   const discountKey = `bunkd_delivery_volume[${id}]`;
-    //   const nettValueKey = `delivery_volume[${id}]`;
-    //   const dips_stock = `dips_stock[${id}]`;
-    //   const sales_volume = `sales_volume[${id}]`;
-    //   const book_stock_key = `book_stock[${id}]`;
-    //   const variance_key = `variance[${id}]`;
-    //   const variance_lt_key = `variance_lt[${id}]`;
-    //   const variance_per_key = `variance_per[${id}]`;
-
-    //   const grossValue = obj.opening;
-    //   const discount = obj.bunkd_delivery_volume;
-    //   const nettValue = obj.delivery_volume;
-    //   const salesValue = obj.dips_stock;
-    //   const action = obj.sales_volume;
-    //   const book_stock_value = obj.book_stock;
-    //   const variance_key_value = obj.variance;
-    //   const variance_lt_value = obj.variance_lt;
-    //   const variance_per_value = obj.variance_per;
-
-    //   formData.append(opening, grossValue);
-    //   formData.append(discountKey, discount);
-    //   formData.append(nettValueKey, nettValue);
-    //   formData.append(dips_stock, salesValue);
-    //   formData.append(sales_volume, action);
-    //   formData.append(book_stock_key, book_stock_value);
-    //   formData.append(variance_key, variance_key_value);
-    //   formData.append(variance_lt_key, variance_lt_value);
-    //   formData.append(variance_per_key, variance_per_value);
-    // });
+ 
     for (const obj of values.data) {
       const {
         id,
