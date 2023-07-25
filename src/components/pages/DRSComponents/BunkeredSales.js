@@ -16,6 +16,7 @@ const DepartmentShop = (props) => {
   const [data, setData] = useState([]);
   const [Listingdata, setListingData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [editable, setis_editable] = useState();
 
   const navigate = useNavigate();
   const SuccessToast = (message) => {
@@ -97,6 +98,7 @@ const DepartmentShop = (props) => {
         console.log(data?.data?.listing ? data.data.listing : [], "api");
         setListingData(data?.data?.listing ? data.data : []);
         if (data?.data?.listing) {
+          setis_editable(response?.data?.data);
           const bunkeredSalesValues = data?.data?.listing?.bunkered_Sales.map(
             (sale) => ({
               diesel: sale.fuel_name,
@@ -121,8 +123,6 @@ const DepartmentShop = (props) => {
               value: sale.value || "",
               id: sale.id || "",
               fuel_name: sale.fuel_name || "",
-             
-           
             }));
           formik2.setFieldValue(
             "nonbunkeredsalesvalue",
@@ -222,7 +222,7 @@ const DepartmentShop = (props) => {
     ),
   });
   const creditcardValidationSchema = Yup.object().shape({
-    nonbunkeredsalesvalue: Yup.array().of(
+    creditcardvalue: Yup.array().of(
       Yup.object().shape({
         card: Yup.string().required("Please select a fuel"),
         koisk: Yup.number()
@@ -255,20 +255,12 @@ const DepartmentShop = (props) => {
   };
 
   const nonbunkeredsalesonSubmit = (values, { resetForm }) => {
-    console.log("Non Bunkered Sales Form Values:", values);
-    // Handle form submission here, e.g., API call or other operations
-    // After successful submission, reset the form and add a new row
     resetForm();
     pushnonbunkeredSalesRow();
-    SuccessToast("Data submitted successfully!");
   };
   const creditcardonSubmit = (values, { resetForm }) => {
-    console.log("creditcardonSubmit Form Values:", values);
-    // Handle form submission here, e.g., API call or other operations
-    // After successful submission, reset the form and add a new row
     resetForm();
     pushnoncreditcardRow();
-    SuccessToast("Data submitted successfully!");
   };
 
   const formik = useFormik({
@@ -345,7 +337,7 @@ const DepartmentShop = (props) => {
       formik3.setFieldValue("creditcardvalue", formik3.values.creditcardvalue);
     } else {
       ErrorToast(
-        "Please fill all fields correctly before adding a new non-bunkered sales row."
+        "Please fill all fields correctly before adding a new credit card  sales row."
       );
     }
   };
@@ -367,65 +359,109 @@ const DepartmentShop = (props) => {
     updatedRows.splice(index, 1);
     formik2.setFieldValue("nonbunkeredsalesvalue", updatedRows);
   };
- 
 
   const combinedOnSubmit = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const baseURL = process.env.REACT_APP_BASE_URL; // Replace with your actual base URL
-  
+
       const formData = new FormData();
-  
+
       // Append data from formik.values.bunkeredSales
       for (const obj of formik.values?.bunkeredSales) {
         const { id, fuel_id, volume, value, opening, closing } = obj;
-  
-        formData.append(`bunkered_sale_id[0]`, id);
-        formData.append(`bunkered_sale_fuel_id[${id}]`, fuel_id);
-        formData.append(`bunkered_sale_volume[${id}]`, volume);
-        formData.append(`bunkered_sale_value[${id}]`, value);
-        formData.append(`bunkered_sale_opening_stock[${id}]`, opening);
-        formData.append(`bunkered_sale_closing_stock[${id}]`, closing);
+
+        formData.append(`bunkered_sale_id[0]`, id ? id : 0);
+        formData.append(`bunkered_sale_fuel_id[${id ? id : 0}]`, fuel_id);
+        formData.append(`bunkered_sale_volume[${id ? id : 0}]`, volume);
+        formData.append(`bunkered_sale_value[${id ? id : 0}]`, value);
+        formData.append(`bunkered_sale_opening_stock[${id ? id : 0}]`, opening);
+        formData.append(`bunkered_sale_closing_stock[${id ? id : 0}]`, closing);
       }
-  
+
       // Append data from formik3.values.creditcardvalue
       for (const obj of formik3.values?.creditcardvalue) {
-        const { id, card, koisk, optvalue, accountvalue, transactionsvalue } = obj;
-  
-        formData.append(`bunkered_credit_card_sales_id[0]`, id);
-        formData.append(`bunkered_credit_card_sales_card_id[${id}]`, card);
-        formData.append(`bunkered_credit_card_sales_koisk_value[${id}]`, koisk);
-        formData.append(`bunkered_credit_card_sales_opt_value[${id}]`, optvalue);
-        formData.append(`bunkered_credit_card_sales_account_value[${id}]`, accountvalue);
-        formData.append(`bunkered_credit_card_sales_no_of_transactions[${id}]`, transactionsvalue);
+        const { id, card, koisk, optvalue, accountvalue, transactionsvalue } =
+          obj;
+        if (id !== null && id !== "") {
+          formData.append(`bunkered_credit_card_sales_id[]`, id ? id : 0);
+        }
+
+        if (card !== null && card !== "") {
+          formData.append(
+            `bunkered_credit_card_sales_card_id[${id ? id : 0}]`,
+            card
+          );
+        }
+
+        if (koisk !== null && koisk !== "") {
+          formData.append(
+            `bunkered_credit_card_sales_koisk_value[${id ? id : 0}]`,
+            koisk
+          );
+        }
+
+        if (optvalue !== null && optvalue !== "") {
+          formData.append(
+            `bunkered_credit_card_sales_opt_value[${id ? id : 0}]`,
+            optvalue
+          );
+        }
+
+        if (accountvalue !== null && accountvalue !== "") {
+          formData.append(
+            `bunkered_credit_card_sales_account_value[${id ? id : 0}]`,
+            accountvalue
+          );
+        }
+
+        if (transactionsvalue !== null && transactionsvalue !== "") {
+          formData.append(
+            `bunkered_credit_card_sales_no_of_transactions[${id ? id : 0}]`,
+            transactionsvalue
+          );
+        }
       }
-  
+
       // Append data from formik2.values.nonbunkeredsalesvalue
       for (const obj of formik2.values?.nonbunkeredsalesvalue) {
         const { id, fuel, volume, value } = obj;
-  
-        formData.append(`nonbunkered_id[0]`, id);
-        formData.append(`nonbunkered_fuel_id[${id}]`, fuel);
-        formData.append(`nonbunkered_volume[${id}]`, volume);
-        formData.append(`nonbunkered_value[${id}]`, value);
+
+        // Assuming you have the variables id, fuel, volume, and value with their respective values
+
+        if (id !== null && id !== "") {
+          formData.append(`nonbunkered_id[0]`, id ? id : 0);
+        }
+
+        if (fuel !== null && fuel !== "") {
+          formData.append(`nonbunkered_fuel_id[${id ? id : 0}]`, fuel);
+        }
+
+        if (volume !== null && volume !== "") {
+          formData.append(`nonbunkered_volume[${id ? id : 0}]`, volume);
+        }
+
+        if (value !== null && value !== "") {
+          formData.append(`nonbunkered_value[${id ? id : 0}]`, value);
+        }
       }
       formData.append("site_id", SiteID);
       formData.append("drs_date", ReportDate);
-      console.log('Combined Form Data:', formData);
-  
+      console.log("Combined Form Data:", formData);
+
       setIsLoading(true);
       const response = await fetch(`${baseURL}/bunkered-sale/update`, {
-        method: 'POST',
+        method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
         },
         body: formData,
       });
-  
+
       const responseData = await response.json();
-  
+
       if (response.ok) {
-        console.log('Done');
+        console.log("Done");
         // Call your success toast function here
         // Replace SuccessToast with your actual function that shows a success message
         SuccessToast(responseData.message);
@@ -433,174 +469,177 @@ const DepartmentShop = (props) => {
         // Call your error toast function here
         // Replace ErrorToast with your actual function that shows an error message
         ErrorToast(responseData.message);
-        console.log('API Error:', responseData);
+        console.log("API Error:", responseData);
         // Handle specific error cases if needed
       }
     } catch (error) {
-      console.log('Request Error:', error);
+      console.log("Request Error:", error);
       // Handle request error
     } finally {
       setIsLoading(false);
     }
   };
 
-
-  useEffect(()=>{
+  useEffect(() => {
     const data111 = {
-      "tenderLines": [
+      tenderLines: [
         {
-          "lineItemSequenceNumber": 2,
-          "voidedFlag": false,
-          "startTime": null,
-          "endTime": null,
-          "fiscalReceipt": true,
-          "methodOfPayment": {
-            "id": "0165",
-            "type": "OTHER",
-            "description": "Coupon",
-            "currencyID": 16,
-            "currencySymbol": "£",
-            "currencyIsoAlpha": "GBP",
-            "currencyIsoNumeric": "826",
-         
-            "unitCountRequired": false,
-            "currencyAvailableForChange": false,
-      
-            "companyID": 1220
+          lineItemSequenceNumber: 2,
+          voidedFlag: false,
+          startTime: null,
+          endTime: null,
+          fiscalReceipt: true,
+          methodOfPayment: {
+            id: "0165",
+            type: "OTHER",
+            description: "Coupon",
+            currencyID: 16,
+            currencySymbol: "£",
+            currencyIsoAlpha: "GBP",
+            currencyIsoNumeric: "826",
+
+            unitCountRequired: false,
+            currencyAvailableForChange: false,
+
+            companyID: 1220,
           },
-          "tenderAmount": 5,
-          "foreignCurrencyAmount": 0,
-     
+          tenderAmount: 5,
+          foreignCurrencyAmount: 0,
         },
         {
-          "lineItemSequenceNumber": 3,
-          "voidedFlag": false,
-          "startTime": null,
-          "endTime": null,
-          "fiscalReceipt": true,
-          "methodOfPayment": {
-            "id": "0107",
-            "type": "PAYMENTTERMINAL",
-            "description": "Mastercard",
-            "currencyID": 16,
-            "currencySymbol": "£",
-          
-            "maximumAmount": 50000,
-            "openCashDrawer": false,
-     
-            "currencyAvailableForChange": false,
-            "printReceiptWithAddress": false,
-            "tenderUsageType": "STANDARD",
-            "roundToDenominationType": "UNNECESSARY",
-            "denormalisedDescription": "AS_TND.DE_TND.0107:1220",
-            "isApplicable": true,
-            "accountNominal": null,
-            "companyID": 1220
+          lineItemSequenceNumber: 3,
+          voidedFlag: false,
+          startTime: null,
+          endTime: null,
+          fiscalReceipt: true,
+          methodOfPayment: {
+            id: "0107",
+            type: "PAYMENTTERMINAL",
+            description: "Mastercard",
+            currencyID: 16,
+            currencySymbol: "£",
+
+            maximumAmount: 50000,
+            openCashDrawer: false,
+
+            currencyAvailableForChange: false,
+            printReceiptWithAddress: false,
+            tenderUsageType: "STANDARD",
+            roundToDenominationType: "UNNECESSARY",
+            denormalisedDescription: "AS_TND.DE_TND.0107:1220",
+            isApplicable: true,
+            accountNominal: null,
+            companyID: 1220,
           },
-          "tenderAmount": 20.01,
-          "foreignCurrencyAmount": 0,
-       
-        }],
-        "tenderLines": [
-          {
-            "lineItemSequenceNumber": 2,
-            "voidedFlag": false,
-            "startTime": null,
-            "endTime": null,
-            "fiscalReceipt": true,
-            "methodOfPayment": {
-              "id": "0165",
-              "type": "OTHER",
-              "description": "Coupon",
-              "currencyID": 16,
-              "currencySymbol": "£",
-              "currencyIsoAlpha": "GBP",
-       
-              "prohibitPartialPayment": false,
-              "paymentAmountVerificationRequired": true,
-              "maximumChange": 0,
-           
-              "tenderUsageType": "STANDARD",
-              "roundToDenominationType": "UNNECESSARY",
-              "denormalisedDescription": "AS_TND.DE_TND.0165:1220",
-              "isApplicable": true,
-              "accountNominal": "",
-              "companyID": 1220
-            },
-            "tenderAmount": 5,
-            "foreignCurrencyAmount": 0,
-      
-            "donationBaseTenderId": null
+          tenderAmount: 20.01,
+          foreignCurrencyAmount: 0,
+        },
+      ],
+      tenderLines: [
+        {
+          lineItemSequenceNumber: 2,
+          voidedFlag: false,
+          startTime: null,
+          endTime: null,
+          fiscalReceipt: true,
+          methodOfPayment: {
+            id: "0165",
+            type: "OTHER",
+            description: "Coupon",
+            currencyID: 16,
+            currencySymbol: "£",
+            currencyIsoAlpha: "GBP",
+
+            prohibitPartialPayment: false,
+            paymentAmountVerificationRequired: true,
+            maximumChange: 0,
+
+            tenderUsageType: "STANDARD",
+            roundToDenominationType: "UNNECESSARY",
+            denormalisedDescription: "AS_TND.DE_TND.0165:1220",
+            isApplicable: true,
+            accountNominal: "",
+            companyID: 1220,
           },
-          {
-            "lineItemSequenceNumber": 3,
-            "voidedFlag": false,
-            "startTime": null,
-            "endTime": null,
-            "fiscalReceipt": true,
-            "methodOfPayment": {
-              "id": "0107",
-              "type": "PAYMENTTERMINAL",
-              "description": "Couponssssssssssssssssssssss",
-              "currencyID": 1888888,
-              "currencySymbol": "£",
-              "currencyIsoAlpha": "GBP",
-              "checkSettlementDiscrepancy": true,
-              "denominationMaskAvailable": true,
-              "amountEntryRequired": false,
-              "prohibitPartialPayment": false,
-              "paymentAmountVerificationRequired": false,
-              "maximumChange": 0,
-              "pickupAllowed": false,
-              "fiscalTenderCode": null,
-              "paymentTerminalRequired": true,
-              "cashTender": false,
-              "volumetricTender": false,
-              "unitCountRequired": false,
-              "currencyAvailableForChange": false,
-              "printReceiptWithAddress": false,
-              "tenderUsageType": "STANDARD",
-              "roundToDenominationType": "UNNECESSARY",
-              "denormalisedDescription": "AS_TND.DE_TND.0107:1220",
-              "isApplicable": true,
-              "accountNominal": null,
-              "companyID": 1220
-            },
-            "tenderAmount": 20.01,
-            "foreignCurrencyAmount": 0,
-            "cardDetails": null,
-            "changeLine": false,
-            "voucherBarcode": null,
-            "donation": false,
-            "donationBaseTenderId": null
+          tenderAmount: 5,
+          foreignCurrencyAmount: 0,
+
+          donationBaseTenderId: null,
+        },
+        {
+          lineItemSequenceNumber: 3,
+          voidedFlag: false,
+          startTime: null,
+          endTime: null,
+          fiscalReceipt: true,
+          methodOfPayment: {
+            id: "0107",
+            type: "PAYMENTTERMINAL",
+            description: "Couponssssssssssssssssssssss",
+            currencyID: 1888888,
+            currencySymbol: "£",
+            currencyIsoAlpha: "GBP",
+            checkSettlementDiscrepancy: true,
+            denominationMaskAvailable: true,
+            amountEntryRequired: false,
+            prohibitPartialPayment: false,
+            paymentAmountVerificationRequired: false,
+            maximumChange: 0,
+            pickupAllowed: false,
+            fiscalTenderCode: null,
+            paymentTerminalRequired: true,
+            cashTender: false,
+            volumetricTender: false,
+            unitCountRequired: false,
+            currencyAvailableForChange: false,
+            printReceiptWithAddress: false,
+            tenderUsageType: "STANDARD",
+            roundToDenominationType: "UNNECESSARY",
+            denormalisedDescription: "AS_TND.DE_TND.0107:1220",
+            isApplicable: true,
+            accountNominal: null,
+            companyID: 1220,
           },
+          tenderAmount: 20.01,
+          foreignCurrencyAmount: 0,
+          cardDetails: null,
+          changeLine: false,
+          voucherBarcode: null,
+          donation: false,
+          donationBaseTenderId: null,
+        },
         // Add more tenderLine objects here if needed
-      ]
+      ],
     };
     console.log("TenderLines with different data111:", data111);
 
     // Function to check if all "description" values in the array are the same
     function areDescriptionsSame(tenderLines) {
       const firstDescription = tenderLines[0].methodOfPayment.description;
-      return tenderLines.every((line) => line.methodOfPayment.description === firstDescription);
+      return tenderLines.every(
+        (line) => line.methodOfPayment.description === firstDescription
+      );
     }
-   
+
     // Checking if "description" values are not the same and logging the items
     if (!areDescriptionsSame(data111.tenderLines)) {
       console.log("TenderLines with different data111:", areDescriptionsSame);
       const differentDescriptions = data111.tenderLines.filter((line) => {
-        return line.methodOfPayment.description !== data111.tenderLines[0].methodOfPayment.description;
+        return (
+          line.methodOfPayment.description !==
+          data111.tenderLines[0].methodOfPayment.description
+        );
       });
-  
-      console.log("TenderLines with different descriptions:", differentDescriptions);
+
+      console.log(
+        "TenderLines with different descriptions:",
+        differentDescriptions
+      );
     }
-    
-  },[])
-  
-  
-    // Call the submitData function when the combinedOnSubmit function is invoked
-  
-  
+  }, []);
+
+  // Call the submitData function when the combinedOnSubmit function is invoked
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -620,7 +659,7 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`bunkeredSales[${index}].diesel`}
                         >
-                          <Form.Label>Fuel:</Form.Label>
+                          <Form.Label>FUEL:</Form.Label>
                           <Form.Control
                             type="text"
                             className={`input101 ${
@@ -651,7 +690,7 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`bunkeredSales[${index}].volume`}
                         >
-                          <Form.Label>volume:</Form.Label>
+                          <Form.Label>VOLUME:</Form.Label>
                           <Form.Control
                             type="number"
                             className={`input101 ${
@@ -666,6 +705,7 @@ const DepartmentShop = (props) => {
                               formik?.values?.bunkeredSales?.[index]?.volume ||
                               ""
                             }
+                            readOnly={editable?.is_editable ? false : true}
                           />
                           {formik.errors.bunkeredSales?.[index]?.volume &&
                             formik.touched[
@@ -679,7 +719,7 @@ const DepartmentShop = (props) => {
                       </Col>
                       <Col lg={2} md={2}>
                         <Form.Group controlId={`bunkeredSales[${index}].value`}>
-                          <Form.Label>Value:</Form.Label>
+                          <Form.Label>VALUE:</Form.Label>
                           <Form.Control
                             type="number"
                             className={`input101 ${
@@ -694,6 +734,7 @@ const DepartmentShop = (props) => {
                               formik?.values?.bunkeredSales?.[index]?.value ||
                               ""
                             }
+                            readOnly={editable?.is_editable ? false : true}
                           />
                           {formik.errors.bunkeredSales?.[index]?.value &&
                             formik.touched[`bunkeredSales[${index}].value`] && (
@@ -707,7 +748,7 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`bunkeredSales[${index}].opening`}
                         >
-                          <Form.Label>opening:</Form.Label>
+                          <Form.Label> OPENING STOCK:</Form.Label>
                           <Form.Control
                             type="number"
                             className={`input101 ${
@@ -718,6 +759,7 @@ const DepartmentShop = (props) => {
                             }`}
                             name={`bunkeredSales[${index}].opening`}
                             onChange={formik.handleChange}
+                            readOnly={editable?.is_editable ? false : true}
                             value={
                               formik?.values?.bunkeredSales?.[index]?.opening ||
                               ""
@@ -737,7 +779,7 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`bunkeredSales[${index}].closing`}
                         >
-                          <Form.Label>closing:</Form.Label>
+                          <Form.Label>CLOSING STOCK:</Form.Label>
                           <Form.Control
                             type="number"
                             className={`input101 ${
@@ -748,6 +790,7 @@ const DepartmentShop = (props) => {
                             }`}
                             name={`bunkeredSales[${index}].closing`}
                             onChange={formik.handleChange}
+                            readOnly={editable?.is_editable ? false : true}
                             value={
                               formik?.values?.bunkeredSales?.[index]?.closing ||
                               ""
@@ -763,8 +806,8 @@ const DepartmentShop = (props) => {
                             )}
                         </Form.Group>
                       </Col>
-                      <Col lg={2} md={2}>
-                        <div className="text-end">
+                      {/* <Col lg={2} md={2}>
+                        <div className="bunkered-action">
                           <button
                             className="btn btn-primary me-2"
                             onClick={() => removebunkeredSalesRow(index)}
@@ -779,7 +822,7 @@ const DepartmentShop = (props) => {
                             <AddBoxIcon />
                           </button>
                         </div>
-                      </Col>
+                      </Col> */}
                     </React.Fragment>
                   ))}
                 </Row>
@@ -804,7 +847,7 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`nonbunkeredsalesvalue[${index}].fuel`}
                         >
-                          <Form.Label>Select a Fuel:</Form.Label>
+                          <Form.Label>FUEL:</Form.Label>
                           <Form.Control
                             as="select"
                             className={`input101 ${
@@ -845,7 +888,7 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`nonbunkeredsalesvalue[${index}].volume`}
                         >
-                          <Form.Label>volume:</Form.Label>
+                          <Form.Label>VOLUME:</Form.Label>
                           <Form.Control
                             type="number"
                             className={`input101 ${
@@ -879,7 +922,7 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`nonbunkeredsalesvalue[${index}].value`}
                         >
-                          <Form.Label>Value:</Form.Label>
+                          <Form.Label>VALUE:</Form.Label>
                           <Form.Control
                             type="number"
                             className={`input101 ${
@@ -910,26 +953,31 @@ const DepartmentShop = (props) => {
                         </Form.Group>
                       </Col>
                       <Col lg={3} md={3}>
-                        <div className="text-end">
+                        <Form.Label>ACTION</Form.Label>
+
+                        <div className="bunkered-action">
                           <button
                             className="btn btn-primary me-2"
                             onClick={() => removenonbunkeredSalesRow(index)}
                           >
                             <RemoveCircleIcon />
                           </button>
-                          <button
-                            className="btn btn-primary me-2"
-                            type="button"
-                            onClick={pushnonbunkeredSalesRow}
-                          >
-                            <AddBoxIcon />
-                          </button>
+                          {index ===
+                            formik2.values.nonbunkeredsalesvalue.length - 1 && (
+                            <button
+                              className="btn btn-primary me-2"
+                              type="button"
+                              onClick={pushnonbunkeredSalesRow}
+                            >
+                              <AddBoxIcon />
+                            </button>
+                          )}
                         </div>
                       </Col>
                     </React.Fragment>
                   ))}
                 </Row>
-                {/* <div className="text-end">
+                {/* <div className="bunkered-action">
                   <div className="text-end mt-3">
                     <button
                       className="btn btn-primary"
@@ -961,7 +1009,7 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`creditcardvalue[${index}].card`}
                         >
-                          <Form.Label>Select a card:</Form.Label>
+                          <Form.Label>CARD NAME:</Form.Label>
                           <Form.Control
                             as="select"
                             className={`input101 ${
@@ -995,7 +1043,7 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`creditcardvalue[${index}].koisk`}
                         >
-                          <Form.Label>koisk:</Form.Label>
+                          <Form.Label>KOISK VALUE:</Form.Label>
                           <Form.Control
                             type="number"
                             className={`input101 ${
@@ -1022,7 +1070,7 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`creditcardvalue[${index}].optvalue`}
                         >
-                          <Form.Label>optvalue:</Form.Label>
+                          <Form.Label>OPT VALUE:</Form.Label>
                           <Form.Control
                             type="number"
                             className={`input101 ${
@@ -1052,7 +1100,7 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`creditcardvalue[${index}].accountvalue`}
                         >
-                          <Form.Label>accountvalue:</Form.Label>
+                          <Form.Label> ACCOUNT VALUE:</Form.Label>
                           <Form.Control
                             type="number"
                             className={`input101 ${
@@ -1086,7 +1134,7 @@ const DepartmentShop = (props) => {
                         <Form.Group
                           controlId={`creditcardvalue[${index}].transactionsvalue`}
                         >
-                          <Form.Label>transactionsvalue:</Form.Label>
+                          <Form.Label> NO. OF TRANSACTIONS :</Form.Label>
                           <Form.Control
                             type="number"
                             className={`input101 ${
@@ -1118,7 +1166,8 @@ const DepartmentShop = (props) => {
                       </Col>
 
                       <Col lg={2} md={2}>
-                        <div className="text-end">
+                        <Form.Label>ACTION</Form.Label>
+                        <div className="bunkered-action">
                           <button
                             className="btn btn-primary me-2"
                             onClick={() => removecreditcardRow(index)}
@@ -1127,19 +1176,22 @@ const DepartmentShop = (props) => {
                             <RemoveCircleIcon />
                           </button>
 
-                          <button
-                            className="btn btn-primary me-2"
-                            type="button"
-                            onClick={pushnoncreditcardRow}
-                          >
-                            <AddBoxIcon />
-                          </button>
+                          {index ===
+                            formik3.values.creditcardvalue.length - 1 && (
+                            <button
+                              className="btn btn-primary me-2"
+                              type="button"
+                              onClick={pushnoncreditcardRow}
+                            >
+                              <AddBoxIcon />
+                            </button>
+                          )}
                         </div>
                       </Col>
                     </React.Fragment>
                   ))}
                 </Row>
-                <div className="text-end">
+                <div className="bunkered-action">
                   <div className="text-end mt-3">
                     <button
                       className="btn btn-primary"

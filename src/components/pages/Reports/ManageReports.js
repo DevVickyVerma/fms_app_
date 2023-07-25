@@ -30,6 +30,8 @@ import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 
+import { Slide, toast } from "react-toastify";
+
 const ManageReports = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
@@ -50,6 +52,17 @@ const ManageReports = (props) => {
     localStorage.getItem("superiorId")
   );
   const [selectedItems, setSelectedItems] = useState([]);
+  const ErrorToast = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      theme: "colored",
+    });
+  };
+
+
+
 
   useEffect(() => {
     console.log(localStorage.getItem("superiorId"));
@@ -104,7 +117,7 @@ const ManageReports = (props) => {
 
       const { data } = response;
       if (data) {
-        setReportList(response.data);
+        setReportList(response?.data);
       }
     } catch (error) {
       console.error("API error:", error);
@@ -141,7 +154,7 @@ const ManageReports = (props) => {
       const siteIdParams = siteIds.map((id) => `site_id[]=${id}`).join("&");
       console.log(siteIds, "siteIds");
 
-      const commonParams = `${clientIDCondition}company_id=${formValues.company_id}&${siteIdParams}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`;
+      const commonParams = `${clientIDCondition}company_id=${formValues.company_id}&${siteIdParams}&from_date=${formValues.start_date}&to_date=${formValues.end_date}&month=${formValues.reportmonth}`;
 
       // const commonParams = `client_id=${clientIDLocalStorage}&company_id=${formValues.company_id}&site_id[]=${formValues.site_id}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`;
 
@@ -163,18 +176,28 @@ const ManageReports = (props) => {
         postDataUrl = "shop/add-default";
       }
 
-      const response = await getData(postDataUrl);
-      console.log(response.status, "response"); // Console log the response
-
-      if (response.status == 200) {
-        setShowButton(true);
-        console.log(response, "response"); // Console log the response
-        setReportDownloadUrl(postDataUrl);
+      if (postDataUrl === "shop/add-default") {
+        ErrorToast("For this site, the report is not available.");
+      } else {
+        try {
+          const response = await getData(postDataUrl);
+          console.log(response.status, "response"); // Console log the response
+      
+          if (response.status === 200) {
+            setShowButton(true);
+            console.log(response, "response"); // Console log the response
+            setReportDownloadUrl(postDataUrl);
+          }
+      
+          if (apidata && apidata.api_response === "success") {
+            setReportDownloadUrl(postDataUrl);
+            setShowButton(true);
+          }
+        } catch (error) {
+          console.error("Error occurred while fetching data:", error);
+        }
       }
-      if (apidata.api_response === "success") {
-        setReportDownloadUrl(postDataUrl);
-        setShowButton(true);
-      }
+      
     } catch (error) {
       console.log(error);
       // Set the submission state to false if an error occurs
@@ -234,13 +257,15 @@ const ManageReports = (props) => {
                     sites: [],
                     start_date: "",
                     end_date: "",
+                    reportmonth: "",
                   }}
                   validationSchema={Yup.object().shape({
                     report: Yup.string().required("Report is required"),
                     company_id: Yup.string().required("Company is required"),
               
-                    start_date: Yup.date().required("Start Date is required"),
-                    end_date: Yup.date().required("End Date is required"),
+                    // start_date: Yup.date().required("Start Date is required"),
+                    // end_date: Yup.date().required("End Date is required"),
+                    // reportmonth: Yup.date().required("reportmonth is required"),
                   })}
                   onSubmit={(values) => {
                     handleSubmit1(values);
@@ -428,7 +453,7 @@ const ManageReports = (props) => {
                                 className="form-label mt-4"
                               >
                                 Start Date
-                                <span className="text-danger">*</span>
+                          
                               </label>
                               <Field
                                 type="date"
@@ -463,7 +488,7 @@ const ManageReports = (props) => {
                                 className="form-label mt-4"
                               >
                                 End Date
-                                <span className="text-danger">*</span>
+                             
                               </label>
                               <Field
                                 type="date"
@@ -518,8 +543,8 @@ const ManageReports = (props) => {
                               >
                                 <option value="">Select a Report</option>
                                 {ReportList.data &&
-                                ReportList.data.length > 0 ? (
-                                  ReportList.data.map((item) => (
+                                ReportList?.data?.reports.length > 0 ? (
+                                  ReportList?.data?.reports.map((item) => (
                                     <option
                                       key={item.id}
                                       value={item.report_code}
@@ -537,6 +562,55 @@ const ManageReports = (props) => {
                                 component="div"
                                 className="invalid-feedback"
                                 name="report"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                className=" form-label mt-4"
+                                htmlFor="reportmonth"
+                              >
+                                Months
+                             
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${
+                                  errors.reportmonth && touched.reportmonth
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="reportmonth"
+                                name="reportmonth"
+                                onChange={(e) => {
+                                  const selectedmonth = e.target.value;
+
+                                  setFieldValue("reportmonth", selectedmonth);
+                                  setShowButton(false);
+                                }}
+                              >
+                                <option value="">Select a reportmonth</option>
+                                {ReportList.data &&
+                                ReportList?.data?.months.length > 0 ? (
+                                  ReportList?.data?.months.map((item) => (
+                                    <option
+                                      key={item.value}
+                                      value={item.value}
+                                      onClick={() => handleReportClick(item)} // Modified line
+                                    >
+                                      {item.display}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option disabled>No reportmonth</option>
+                                )}
+                              </Field>
+
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="reportmonth"
                               />
                             </FormGroup>
                           </Col>
