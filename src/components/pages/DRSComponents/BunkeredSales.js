@@ -153,6 +153,8 @@ const DepartmentShop = (props) => {
   useEffect(() => {
     fetchDetails();
     fetchListing();
+    
+    
   }, [SiteID, ReportDate]);
 
   const initialValues = {
@@ -480,164 +482,6 @@ const DepartmentShop = (props) => {
     }
   };
 
-  useEffect(() => {
-    const data111 = {
-      tenderLines: [
-        {
-          lineItemSequenceNumber: 2,
-          voidedFlag: false,
-          startTime: null,
-          endTime: null,
-          fiscalReceipt: true,
-          methodOfPayment: {
-            id: "0165",
-            type: "OTHER",
-            description: "Coupon",
-            currencyID: 16,
-            currencySymbol: "£",
-            currencyIsoAlpha: "GBP",
-            currencyIsoNumeric: "826",
-
-            unitCountRequired: false,
-            currencyAvailableForChange: false,
-
-            companyID: 1220,
-          },
-          tenderAmount: 5,
-          foreignCurrencyAmount: 0,
-        },
-        {
-          lineItemSequenceNumber: 3,
-          voidedFlag: false,
-          startTime: null,
-          endTime: null,
-          fiscalReceipt: true,
-          methodOfPayment: {
-            id: "0107",
-            type: "PAYMENTTERMINAL",
-            description: "Mastercard",
-            currencyID: 16,
-            currencySymbol: "£",
-
-            maximumAmount: 50000,
-            openCashDrawer: false,
-
-            currencyAvailableForChange: false,
-            printReceiptWithAddress: false,
-            tenderUsageType: "STANDARD",
-            roundToDenominationType: "UNNECESSARY",
-            denormalisedDescription: "AS_TND.DE_TND.0107:1220",
-            isApplicable: true,
-            accountNominal: null,
-            companyID: 1220,
-          },
-          tenderAmount: 20.01,
-          foreignCurrencyAmount: 0,
-        },
-      ],
-      tenderLines: [
-        {
-          lineItemSequenceNumber: 2,
-          voidedFlag: false,
-          startTime: null,
-          endTime: null,
-          fiscalReceipt: true,
-          methodOfPayment: {
-            id: "0165",
-            type: "OTHER",
-            description: "Coupon",
-            currencyID: 16,
-            currencySymbol: "£",
-            currencyIsoAlpha: "GBP",
-
-            prohibitPartialPayment: false,
-            paymentAmountVerificationRequired: true,
-            maximumChange: 0,
-
-            tenderUsageType: "STANDARD",
-            roundToDenominationType: "UNNECESSARY",
-            denormalisedDescription: "AS_TND.DE_TND.0165:1220",
-            isApplicable: true,
-            accountNominal: "",
-            companyID: 1220,
-          },
-          tenderAmount: 5,
-          foreignCurrencyAmount: 0,
-
-          donationBaseTenderId: null,
-        },
-        {
-          lineItemSequenceNumber: 3,
-          voidedFlag: false,
-          startTime: null,
-          endTime: null,
-          fiscalReceipt: true,
-          methodOfPayment: {
-            id: "0107",
-            type: "PAYMENTTERMINAL",
-            description: "Couponssssssssssssssssssssss",
-            currencyID: 1888888,
-            currencySymbol: "£",
-            currencyIsoAlpha: "GBP",
-            checkSettlementDiscrepancy: true,
-            denominationMaskAvailable: true,
-            amountEntryRequired: false,
-            prohibitPartialPayment: false,
-            paymentAmountVerificationRequired: false,
-            maximumChange: 0,
-            pickupAllowed: false,
-            fiscalTenderCode: null,
-            paymentTerminalRequired: true,
-            cashTender: false,
-            volumetricTender: false,
-            unitCountRequired: false,
-            currencyAvailableForChange: false,
-            printReceiptWithAddress: false,
-            tenderUsageType: "STANDARD",
-            roundToDenominationType: "UNNECESSARY",
-            denormalisedDescription: "AS_TND.DE_TND.0107:1220",
-            isApplicable: true,
-            accountNominal: null,
-            companyID: 1220,
-          },
-          tenderAmount: 20.01,
-          foreignCurrencyAmount: 0,
-          cardDetails: null,
-          changeLine: false,
-          voucherBarcode: null,
-          donation: false,
-          donationBaseTenderId: null,
-        },
-        // Add more tenderLine objects here if needed
-      ],
-    };
-    console.log("TenderLines with different data111:", data111);
-
-    // Function to check if all "description" values in the array are the same
-    function areDescriptionsSame(tenderLines) {
-      const firstDescription = tenderLines[0].methodOfPayment.description;
-      return tenderLines.every(
-        (line) => line.methodOfPayment.description === firstDescription
-      );
-    }
-
-    // Checking if "description" values are not the same and logging the items
-    if (!areDescriptionsSame(data111.tenderLines)) {
-      console.log("TenderLines with different data111:", areDescriptionsSame);
-      const differentDescriptions = data111.tenderLines.filter((line) => {
-        return (
-          line.methodOfPayment.description !==
-          data111.tenderLines[0].methodOfPayment.description
-        );
-      });
-
-      console.log(
-        "TenderLines with different descriptions:",
-        differentDescriptions
-      );
-    }
-  }, []);
-
   // Call the submitData function when the combinedOnSubmit function is invoked
 
   return (
@@ -654,7 +498,10 @@ const DepartmentShop = (props) => {
                 {/* All columns wrapped inside a single Row */}
                 <Row>
                   {formik.values.bunkeredSales.map((delivery, index) => (
+
+                 
                     <React.Fragment key={index}>
+                    { console.log(formik.values.bunkeredSales,"formik.values.bunkeredSales")}
                       <Col lg={2} md={2}>
                         <Form.Group
                           controlId={`bunkeredSales[${index}].diesel`}
@@ -977,17 +824,7 @@ const DepartmentShop = (props) => {
                     </React.Fragment>
                   ))}
                 </Row>
-                {/* <div className="bunkered-action">
-                  <div className="text-end mt-3">
-                    <button
-                      className="btn btn-primary"
-                      type="button"
-                      onClick={combinedOnSubmit}
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </div> */}
+               
               </Form>
             </Card.Body>
           </Card>
@@ -1191,17 +1028,21 @@ const DepartmentShop = (props) => {
                     </React.Fragment>
                   ))}
                 </Row>
-                <div className="bunkered-action">
-                  <div className="text-end mt-3">
-                    <button
-                      className="btn btn-primary"
-                      type="button"
-                      onClick={combinedOnSubmit}
-                    >
-                      Submit
-                    </button>
+                {editable?.is_editable ? (
+                  <div className="bunkered-action">
+                    <div className="text-end mt-3">
+                      <button
+                        className="btn btn-primary"
+                        type="button"
+                        onClick={combinedOnSubmit}
+                      >
+                        Submit
+                      </button>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  ""
+                )}
               </Form>
             </Card.Body>
           </Card>

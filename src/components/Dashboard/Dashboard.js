@@ -42,6 +42,28 @@ const Dashboard = (props) => {
   const [shopmargin, setshopmargin] = useState();
   const [piechartValues, setpiechartValues] = useState();
   const [LinechartValues, setLinechartValues] = useState([]);
+  const handleFetchSiteData = async () => {
+    try {
+      const response = await getData("/dashboard/stats");
+
+      const { data } = response;
+      if (data) {
+        console.log(data?.data, "dashboarddashboard");
+        setLinechartValues(data?.data?.line_graph);
+        setpiechartValues(data?.data?.pi_graph);
+        setGrossVolume(data?.data?.gross_volume);
+        setGrossProfitValue(data?.data?.gross_profit);
+        setFuelValue(data?.data?.fuel_sales);
+        setshopsale(data?.data?.shop_sales);
+
+        setshopmargin(data?.data?.shop_margin);
+        console.log(data?.data?.shop_margin, "data?.data?.shop_margin");
+      }
+    } catch (error) {
+      handleError(error);
+      console.error("API error:", error);
+    }
+  };
   const navigate = useNavigate();
   const SuccessToast = (message) => {
     toast.success(message, {
@@ -83,6 +105,7 @@ const Dashboard = (props) => {
   const data = useSelector((state) => state.data.data);
   const token = localStorage.getItem("token");
   useEffect(() => {
+    handleFetchSiteData();
     const loggedInFlag = localStorage.getItem("justLoggedIn");
     const tokenUpdated = localStorage.getItem("tokenupdate") === "true";
     const storedToken = localStorage.getItem("token");
@@ -107,25 +130,6 @@ const Dashboard = (props) => {
       // Handle the case when there is no token
     }
 
-    handleFetchData();
-    FetchGrossVolume();
-    FetchFuelSales();
-    FetchGrossProfit();
-    Fetchgrossmargin();
-    FetchShopMargin();
-    FetchShopSales();
-
-    console.log(
-      dashboard.totalTransactions.series,
-      "dashboard.totalTransactions.series"
-    );
-    console.log(
-      dashboard.totalTransactions.options,
-      "dashboard.totalTransactions.serieswww"
-    );
-    Getlinegraph();
-    piechart();
-
     if (justLoggedIn) {
       SuccessToast("Login Successfully");
       setJustLoggedIn(false);
@@ -138,294 +142,45 @@ const Dashboard = (props) => {
     setSidebarVisible1(!sidebarVisible1);
   };
 
-  const handleFetchData = async () => {
-    try {
-      const response = await getData("/detail");
 
-      const { data } = response;
-      if (data) {
-        // const resData = JSON.stringify( data.data);
-        // dispatch(setuser(resData));
-        const firstName = data.data.first_name ?? "";
-        const lastName = data.data.last_name ?? "";
-        const phoneNumber = data.data.phone_number ?? "";
-        const full_name = data.data.full_name ?? "";
-        const superiorRole = data.data.superiorRole ?? "";
-        const superiorId = data.data.superiorId ?? "";
-        localStorage.setItem("First_name", firstName);
-        localStorage.setItem("full_name", full_name);
-        localStorage.setItem("Last_name", lastName);
-        localStorage.setItem("Phone_Number", phoneNumber);
-        localStorage.setItem("superiorRole", superiorRole);
-        localStorage.setItem("superiorId", superiorId);
-      }
-    } catch (error) {
-      handleError(error);
-      console.error("API error:", error);
-    }
-  };
 
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
 
-  const FetchGrossVolume = async (values) => {
-    try {
-      setGrossVolumeeLoading(true); // Set isLoading to true before making the API call
-      setLoading(true); // Set isLoading to true before making the API call
 
-      const response = await axiosInstance.get(
-        values
-          ? `dashboard/gross-volume?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
-          : `/dashboard/gross-volume?client_id=${ClientID}`
-      );
 
-      const { data } = response;
-      if (data) {
-        console.log(data);
-        setGrossVolume(data);
-      }
-
-      setGrossVolumeeLoading(false); // Set isLoading to false after the API call is complete
-      setLoading(false); // Set isLoading to false after the API call is complete
-    } catch (error) {
-      handleError(error);
-      console.error("API error:", error);
-
-      setGrossVolumeeLoading(false); // Set isLoading to false if there is an error
-      setLoading(false); // Set isLoading to false if there is an error
-    }
-  };
-
-  const Getlinegraph = async (values) => {
-    try {
-      const response = await axiosInstance.get(
-        values
-          ? `dashboard/line-graph?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
-          : `/dashboard/line-graph`
-      );
-
-      setLoading(true); // Set isLoading to true to indicate the loading state
-
-      const { data } = response;
-      if (data) {
-        setLinechartValues(data?.data);
-        console.log(data.data, "line graph");
-      }
-      // Set isLoading to false after the API call is complete
-      setLoading(false); // Set isLoading to false after the API call is complete
-    } catch (error) {
-      handleError(error);
-      console.error("API error:", error);
-
-      // Set isLoading to false if there is an error
-      setLoading(false); // Set isLoading to false if there is an error
-    }
-  };
-  const piechart = async (values) => {
-    try {
-      const response = await axiosInstance.get(
-        values
-          ? `dashboard/pie-chart?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
-          : `/dashboard/pie-chart`
-      );
-
-      setLoading(true); // Set isLoading to true to indicate the loading state
-
-      const { data } = response;
-      if (data) {
-        console.log(data, "piechart");
-        console.log(data?.data, "piechartValues");
-        setpiechartValues(data?.data);
-      }
-      // Set isLoading to false after the API call is complete
-      setLoading(false); // Set isLoading to false after the API call is complete
-    } catch (error) {
-      handleError(error);
-      console.error("API error:", error);
-
-      // Set isLoading to false if there is an error
-      setLoading(false); // Set isLoading to false if there is an error
-    }
-  };
-  const FetchGrossProfit = async (values) => {
-    try {
-      setLoading(true); // Set isLoading to true to indicate the loading state
-      setGrossProfitValueLoading(true); // Set isLoading to true to indicate the loading state
-
-      const response = await axiosInstance.get(
-        values
-          ? `dashboard/gross-profit?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
-          : `/dashboard/gross-profit?client_id=${ClientID}`
-      );
-
-      const { data } = response;
-      if (data) {
-        setGrossProfitValue(data);
-      }
-
-      setGrossProfitValueLoading(false); // Set isLoading to false after the API call is complete
-      setLoading(false); // Set isLoading to false after the API call is complete
-    } catch (error) {
-      handleError(error);
-      console.error("API error:", error);
-      setGrossProfitValueLoading(false); // Set isLoading to false if there is an error
-      setLoading(false); // Set isLoading to false if there is an error
-    }
-  };
-
-  const Fetchgrossmargin = async (values) => {
-    try {
-      setLoading(true); // Set isLoading to true to indicate the loading state
-      setGrossMarginValueLoading(true); // Set isLoading to true to indicate the loading state
-
-      const response = await axiosInstance.get(
-        values
-          ? `dashboard/gross-margin?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
-          : `/dashboard/gross-margin?client_id=${ClientID}`
-      );
-
-      const { data } = response;
-      if (data) {
-        console.log(data);
-      }
-
-      setGrossMarginValueLoading(false); // Set isLoading to false after the API call is complete
-      setLoading(false); // Set isLoading to false after the API call is complete
-    } catch (error) {
-      handleError(error);
-      console.error("API error:", error);
-      setGrossMarginValueLoading(false); // Set isLoading to false if there is an error
-      setLoading(false); // Set isLoading to false if there is an error
-    }
-  };
-
-  const FetchFuelSales = async (values) => {
-    try {
-      setLoading(true); // Set isLoading to true to indicate the loading state
-      setFuelValueeLoading(true); // Set isLoading to true to indicate the loading state
-
-      const response = await axiosInstance.get(
-        values
-          ? `dashboard/fuel-sale?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
-          : `/dashboard/fuel-sale?client_id=${ClientID}`
-      );
-
-      const { data } = response;
-      if (data) {
-        setFuelValue(data);
-      }
-
-      setFuelValueeLoading(false); // Set isLoading to false after the API call is complete
-      setLoading(false); // Set isLoading to false after the API call is complete
-    } catch (error) {
-      handleError(error);
-      console.error("API error:", error);
-      setFuelValueeLoading(false); // Set isLoading to false if there is an error
-      setLoading(false); // Set isLoading to false if there is an error
-    }
-  };
-
-  const FetchShopSales = async (values) => {
-    try {
-      setLoading(true); // Set isLoading to true to indicate the loading state
-      setshopsaleLoading(true); // Set isLoading to true to indicate the loading state
-
-      const response = await axiosInstance.get(
-        values
-          ? `dashboard/shop-sale?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
-          : `/dashboard/shop-sale?client_id=${ClientID}`
-      );
-
-      const { data } = response;
-      if (data) {
-        setshopsale(data);
-      }
-
-      setshopsaleLoading(false); // Set isLoading to false after the API call is complete
-      setLoading(false); // Set isLoading to false after the API call is complete
-    } catch (error) {
-      handleError(error);
-      console.error("API error:", error);
-      setshopsaleLoading(false); // Set isLoading to false if there is an error
-      setLoading(false); // Set isLoading to false if there is an error
-    }
-  };
-
-  const FetchShopMargin = async (values) => {
-    try {
-      setLoading(true); // Set isLoading to true to indicate the loading state
-      setshopmarginLoading(true); // Set isLoading to true to indicate the loading state
-
-      const response = await axiosInstance.get(
-        values
-          ? `dashboard/shop-margin?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
-          : `/dashboard/shop-margin?client_id=${ClientID}`
-      );
-
-      const { data } = response;
-      if (data) {
-        setshopmargin(data);
-      }
-
-      setshopmarginLoading(false); // Set isLoading to false after the API call is complete
-      setLoading(false); // Set isLoading to false after the API call is complete
-    } catch (error) {
-      handleError(error);
-      console.error("API error:", error);
-      setshopmarginLoading(false); // Set isLoading to false if there is an error
-      setLoading(false); // Set isLoading to false if there is an error
-    }
-  };
 
   const handleFormSubmit = async (values) => {
     console.log(values, "valuessss");
     setSearchdata(values);
     try {
-      setLoading(true); // Set loading to true before making API calls
+      const response = await getData(`dashboard/stats?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`);
 
-      await FetchGrossVolume(values);
-      await handleFetchData(values);
-      await FetchFuelSales(values);
-      await FetchGrossProfit(values);
-      await Fetchgrossmargin(values);
-      await FetchShopMargin(values);
-      await FetchShopSales(values);
-      await piechart(values);
-      await Getlinegraph(values);
+      const { data } = response;
+      if (data) {
+        console.log(data?.data, "handleFormSubmit");
+        setLinechartValues(data?.data?.line_graph);
+        setpiechartValues(data?.data?.pi_graph);
+        setGrossVolume(data?.data?.gross_volume);
+        setGrossProfitValue(data?.data?.gross_profit);
+        setFuelValue(data?.data?.fuel_sales);
+        setshopsale(data?.data?.shop_sales);
 
-      setLoading(false); // Set loading to false after API calls are completed
+        setshopmargin(data?.data?.shop_margin);
+        console.log(data?.data?.shop_margin, "data?.data?.shop_margin");
+      }
     } catch (error) {
       handleError(error);
-      console.log(error); // Handle any errors that occurred during the API calls
-      setLoading(false); // Make sure to set loading to false in case of error
+      console.error("API error:", error);
     }
   };
 
-  const ResetForm = async (values) => {
-    try {
-      setLoading(true);
-      setSearchdata({});
-      handleFetchData();
-      FetchGrossVolume();
-      FetchFuelSales();
-      FetchGrossProfit();
-      Fetchgrossmargin();
-      FetchShopMargin();
-      FetchShopSales();
-    } catch (error) {
-      handleError(error);
-      console.log(error); // Handle any errors that occurred during the API calls
-      setLoading(false); // Make sure to set loading to false in case of error
-    }
+  const ResetForm =  () => {
+    setSearchdata({})
+    handleFetchSiteData()
   };
 
   return (
     <>
-      {Loading ? <Loaderimg /> : null}
+      {isLoading ? <Loaderimg /> : null}
       <div>
         <div className="page-header ">
           <div>
@@ -517,7 +272,7 @@ const Dashboard = (props) => {
                       <div className="col">
                         <div className=" dashboard-box">
                           <div>
-                            {GrossVolumeeLoading ? (
+                            {isLoading ? (
                               <Spinners />
                             ) : (
                               <>
@@ -526,14 +281,14 @@ const Dashboard = (props) => {
                                     <h6 className="">Gross Volume</h6>
                                     <h4 className="mb-2 number-font">
                                       {" "}
-                                      ℓ{GrossVolume?.data?.gross_volume}
+                                      ℓ{GrossVolume?.gross_volume}
                                     </h4>
                                   </div>
                                   <div className="border-left"></div>
                                   <div className="ms-3">
                                     <h5 className="">Bunkered Volume</h5>
                                     <h4 className="mb-2 number-font">
-                                      ℓ{GrossVolume?.data?.bunkered_volume}
+                                      ℓ{GrossVolume?.bunkered_volume}
                                     </h4>
                                   </div>
                                 </div>
@@ -542,23 +297,23 @@ const Dashboard = (props) => {
                                 <p className="text-muted mb-0 mt-4">
                                   <span
                                     className={`me-1 ${
-                                      shopmargin?.data?.status === "up"
+                                      shopmargin?.status === "up"
                                         ? "text-success"
                                         : "text-danger"
                                     }`}
                                   >
-                                    {GrossVolume?.data?.status === "up" ? (
+                                    {GrossVolume?.status === "up" ? (
                                       <>
                                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                         <span className="text-success">
-                                          {GrossVolume?.data?.percentage}%
+                                          {GrossVolume?.percentage}%
                                         </span>
                                       </>
                                     ) : (
                                       <>
                                         <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                         <span className="text-danger">
-                                          {GrossVolume?.data?.percentage}%
+                                          {GrossVolume?.percentage}%
                                         </span>
                                       </>
                                     )}
@@ -570,7 +325,7 @@ const Dashboard = (props) => {
                           </div>
                           <div className="col col-auto">
                             <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
-                            <i className="icon icon-pound-sign text-white mb-5 ">
+                              <i className="icon icon-pound-sign text-white mb-5 ">
                                 &#163;
                               </i>
                             </div>
@@ -589,39 +344,39 @@ const Dashboard = (props) => {
                         <div className=" dashboard-box">
                           <div>
                             <h6 className="">Gross Profit</h6>
-                            {GrossProfitValueLoading ? (
+                            {isLoading ? (
                               <Spinners />
                             ) : (
                               <>
                                 <h4 className="mb-2 number-font">
                                   {" "}
-                                  £{GrossProfitValue?.data?.gross_profit}
+                                  £{GrossProfitValue?.gross_profit}
                                 </h4>
                                 <p className="text-muted mb-0 mt-4">
                                   <span
                                     className={`me-1 ${
-                                      shopmargin?.data?.status === "up"
+                                      GrossProfitValue?.status === "up"
                                         ? "text-success"
                                         : "text-danger"
                                     }`}
                                   >
-                                    {GrossProfitValue?.data?.status === "up" ? (
+                                    {GrossProfitValue?.status === "up" ? (
                                       <>
                                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                         <span className="text-success">
-                                          {GrossProfitValue?.data?.percentage}%
+                                          {GrossProfitValue?.percentage}%
                                         </span>
                                       </>
                                     ) : (
                                       <>
                                         <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                         <span className="text-danger">
-                                          {GrossProfitValue?.data?.percentage}%
+                                          {GrossProfitValue?.percentage}%
                                         </span>
                                       </>
                                     )}
                                     {/* <span>
-                                      {GrossProfitValue?.data?.percentage}%
+                                      {GrossProfitValue?.percentage}%
                                     </span> */}
                                   </span>
                                   last month
@@ -650,39 +405,39 @@ const Dashboard = (props) => {
                         <div className=" dashboard-box">
                           <div>
                             <h6 className="">Gross Margin</h6>
-                            {GrossMarginValueLoading ? (
+                            {isLoading ? (
                               <Spinners />
                             ) : (
                               <>
                                 <h4 className="mb-2 number-font">
                                   {" "}
-                                  £{GrossProfitValue?.data?.gross_margin}
+                                  £{GrossProfitValue?.gross_margin}
                                 </h4>
                                 <p className="text-muted mb-0 mt-4">
                                   <span
                                     className={`me-1 ${
-                                      shopmargin?.data?.status === "up"
+                                      shopmargin?.status === "up"
                                         ? "text-success"
                                         : "text-danger"
                                     }`}
                                   >
-                                    {GrossProfitValue?.data?.status === "up" ? (
+                                    {GrossProfitValue?.status === "up" ? (
                                       <>
                                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                         <span className="text-success">
-                                          {GrossProfitValue?.data?.percentage}%
+                                          {GrossProfitValue?.percentage}%
                                         </span>
                                       </>
                                     ) : (
                                       <>
                                         <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                         <span className="text-danger">
-                                          {GrossProfitValue?.data?.percentage}%
+                                          {GrossProfitValue?.percentage}%
                                         </span>
                                       </>
                                     )}
                                     {/* <span>
-                                      {GrossProfitValue?.data?.percentage}%
+                                      {GrossProfitValue?.percentage}%
                                     </span> */}
                                   </span>
                                   last month
@@ -717,7 +472,7 @@ const Dashboard = (props) => {
                       <div className="col">
                         <div className=" dashboard-box">
                           <div>
-                            {FuelValueeLoading ? (
+                            {isLoading ? (
                               <Spinners />
                             ) : (
                               <>
@@ -725,41 +480,41 @@ const Dashboard = (props) => {
                                   <div>
                                     <h6 className="">Fuel Sales</h6>
                                     <h4 className="mb-2 number-font">
-                                      £{FuelValue?.data?.gross_value}
+                                      £{FuelValue?.gross_value}
                                     </h4>
                                   </div>
                                   <div className="border-left"></div>
                                   <div className="ms-3">
                                     <h6 className="">Bunkered Value</h6>
                                     <h4 className="mb-2 number-font">
-                                      £{FuelValue?.data?.bunkered_value}
+                                      £{FuelValue?.bunkered_value}
                                     </h4>
                                   </div>
                                 </div>
                                 <p className="text-muted mb-0 mt-4">
                                   <span
                                     className={`me-1 ${
-                                      shopmargin?.data?.status === "up"
+                                      shopmargin?.status === "up"
                                         ? "text-success"
                                         : "text-danger"
                                     }`}
                                   >
-                                    {FuelValue?.data?.status === "up" ? (
+                                    {FuelValue?.status === "up" ? (
                                       <>
                                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                         <span className="text-success">
-                                          {FuelValue?.data?.percentage}%
+                                          {FuelValue?.percentage}%
                                         </span>
                                       </>
                                     ) : (
                                       <>
                                         <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                         <span className="text-danger">
-                                          {FuelValue?.data?.percentage}%
+                                          {FuelValue?.percentage}%
                                         </span>
                                       </>
                                     )}
-                                    {/* <span>{FuelValue?.data?.percentage}%</span> */}
+                                    {/* <span>{FuelValue?.percentage}%</span> */}
                                   </span>
                                   last month
                                 </p>
@@ -787,37 +542,37 @@ const Dashboard = (props) => {
                         <div className=" dashboard-box">
                           <div>
                             <h6 className="">Shop Sales</h6>
-                            {shopsaleLoading ? (
+                            {isLoading ? (
                               <Spinners />
                             ) : (
                               <>
                                 <h4 className="mb-2 number-font">
-                                  £{shopsale?.data?.shop_sales}
+                                  £{shopsale?.shop_sales}
                                 </h4>
                                 <p className="text-muted mb-0 mt-4">
                                   <span
                                     className={`me-1 ${
-                                      shopmargin?.data?.status === "up"
+                                      shopmargin?.status === "up"
                                         ? "text-success"
                                         : "text-danger"
                                     }`}
                                   >
-                                    {shopsale?.data?.status === "up" ? (
+                                    {shopsale?.status === "up" ? (
                                       <>
                                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                         <span className="text-success">
-                                          {shopsale?.data?.percentage}%
+                                          {shopsale?.percentage}%
                                         </span>
                                       </>
                                     ) : (
                                       <>
                                         <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                         <span className="text-danger">
-                                          {shopsale?.data?.percentage}%
+                                          {shopsale?.percentage}%
                                         </span>
                                       </>
                                     )}
-                                    {/* <span>{shopsale?.data?.percentage}%</span> */}
+                                    {/* <span>{shopsale?.percentage}%</span> */}
                                   </span>
                                   last month
                                 </p>
@@ -845,37 +600,37 @@ const Dashboard = (props) => {
                         <div className=" dashboard-box">
                           <div>
                             <h6 className="">Shop Margin</h6>
-                            {shopmarginLoading ? (
+                            {isLoading ? (
                               <Spinners />
                             ) : (
                               <>
                                 <h4 className="mb-2 number-font">
-                                  £{shopmargin?.data?.shop_margin}
+                                  £{shopmargin?.shop_margin}
                                 </h4>
                                 <p className="text-muted mb-0 mt-4">
                                   <span
                                     className={`me-1 ${
-                                      shopmargin?.data?.status == "up"
+                                      shopmargin?.status == "up"
                                         ? "text-success"
                                         : "text-danger"
                                     }`}
                                   >
-                                    {shopmargin?.data?.status === "up" ? (
+                                    {shopmargin?.status === "up" ? (
                                       <>
                                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                         <span className="text-success">
-                                          {shopmargin?.data?.percentage}%
+                                          {shopmargin?.percentage}%
                                         </span>
                                       </>
                                     ) : (
                                       <>
                                         <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                         <span className="text-danger">
-                                          {shopmargin?.data?.percentage}%
+                                          {shopmargin?.percentage}%
                                         </span>
                                       </>
                                     )}
-                                    {/* <span>{shopmargin?.data?.percentage}%</span> */}
+                                    {/* <span>{shopmargin?.percentage}%</span> */}
                                   </span>
                                   last month
                                 </p>
