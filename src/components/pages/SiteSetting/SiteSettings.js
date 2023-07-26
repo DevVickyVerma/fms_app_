@@ -31,6 +31,7 @@ const SiteSettings = (props) => {
   const [CardsModelData, setCardsModelData] = useState([]);
   const [editable, setis_editable] = useState();
   const [fuelData, setFuelData] = useState([]);
+  const [DrsData, setDrsData] = useState([]);
   const [SiteItems, setSiteItems] = useState([]);
   const [ReportsData, setReportsData] = useState([]);
   const [CashDayData, setCashDayData] = useState([]);
@@ -94,6 +95,7 @@ const SiteSettings = (props) => {
           setData(data?.data ? data.data.charges : []);
           setDeductionData(data?.data ? data.data.deductions : []);
           setFuelData(data?.data ? data.data.fuels : []);
+          setDrsData(data?.data ? data.data.drsCard : []);
           setReportsData(data?.data ? data.data.reports : []);
           setSiteItems(data?.data ? data.data.site_items : []);
           setBussinesModelData(data?.data ? data.data.business_models : []);
@@ -110,6 +112,7 @@ const SiteSettings = (props) => {
           formik.setFieldValue("Formiksite_items", data?.data?.site_items);
           formik.setFieldValue("FormikChargesData", data?.data?.charges);
           formik.setFieldValue("FormikFuelData", data?.data?.fuels);
+          formik.setFieldValue("FormikDRSData", data?.data?.drsCard);
           formik.setFieldValue("FormikreportsData", data?.data?.reports);
 
           formik.setFieldValue("AssignFormikCards", data?.data?.cards);
@@ -154,8 +157,23 @@ const SiteSettings = (props) => {
           selectedFuelIds.push({ [fuel_models_valueKey + "[" + i + "]"]: id });
         }
       }
-
       selectedFuelIds.forEach((item) => {
+        const key = Object.keys(item)[0];
+        const value = item[key];
+        formData.append(key, value);
+      });
+      const selectedDrsIds = [];
+      const Drs_models_valueKey = "drs_card_id";
+
+      for (let i = 0; i < values.FormikDRSData.length; i++) {
+        const { id, fuel_name, checked } = values.FormikDRSData[i];
+
+        if (checked) {
+          selectedDrsIds.push({ [Drs_models_valueKey + "[" + i + "]"]: id });
+        }
+      }
+
+      selectedDrsIds.forEach((item) => {
         const key = Object.keys(item)[0];
         const value = item[key];
         formData.append(key, value);
@@ -788,6 +806,43 @@ const SiteSettings = (props) => {
     },
  
   ];
+  const DRSModelColumn = [
+    {
+      name: "Select",
+      selector: (row) => row.checked,
+      sortable: false,
+      center: true,
+      width: "20%",
+      cell: (row, index) => (
+        <div>
+          <input
+            type="checkbox"
+            id={`checked-${index}`}
+            name={`FormikDRSData[${index}].checked`}
+            className="table-input"
+            checked={formik.values?.FormikDRSData?.[index]?.checked ?? false}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {/* Error handling code */}
+        </div>
+      ),
+    },
+    {
+      name: "Fuel Name",
+      selector: (row) => row.drs_card_name,
+      sortable: true,
+      width: "80%",
+      cell: (row) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.drs_card_name}</h6>
+          </div>
+        </div>
+      ),
+    },
+ 
+  ];
   const CashDatModelColumn = [
     {
       name: "Select",
@@ -1049,7 +1104,7 @@ const SiteSettings = (props) => {
               <Card>
                 <Card.Body>
                   <Row className="mt-4">
-                    <Col lg={6} md={6}>
+                  <Col lg={4} md={4}>
                       <Card.Header className="cardheader-table">
                         <h3 className="card-title">Reports</h3>
                       </Card.Header>
@@ -1068,7 +1123,7 @@ const SiteSettings = (props) => {
                         />
                       </div>
                     </Col>
-                    <Col lg={6} md={6}>
+                    <Col lg={4} md={4}>
                       <Card.Header className="cardheader-table">
                         <h3 className="card-title">Assign Fuels</h3>
                       </Card.Header>
@@ -1076,6 +1131,25 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={FuelsModelColumn}
                           data={fuelData}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </div>
+                    </Col>
+                    <Col lg={4} md={4}>
+                      <Card.Header className="cardheader-table">
+                        <h3 className="card-title">Assign DRS Cards</h3>
+                      </Card.Header>
+                      <div className="module-height">
+                        <DataTable
+                          columns={DRSModelColumn}
+                          data={DrsData}
                           noHeader
                           defaultSortField="id"
                           defaultSortAsc={false}
