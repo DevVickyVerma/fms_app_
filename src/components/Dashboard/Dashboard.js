@@ -104,12 +104,10 @@ const Dashboard = (props) => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.data.data);
   const token = localStorage.getItem("token");
+  const loggedInFlag = localStorage.getItem("justLoggedIn");
+  const tokenUpdated = localStorage.getItem("tokenupdate") === "true";
+  const storedToken = localStorage.getItem("token");
   useEffect(() => {
-    handleFetchSiteData();
-    const loggedInFlag = localStorage.getItem("justLoggedIn");
-    const tokenUpdated = localStorage.getItem("tokenupdate") === "true";
-    const storedToken = localStorage.getItem("token");
-
     setClientID(localStorage.getItem("superiorId"));
 
     if (tokenUpdated) {
@@ -124,17 +122,18 @@ const Dashboard = (props) => {
       localStorage.removeItem("justLoggedIn"); // clear the flag
     }
 
-    if (token && storedToken) {
-      dispatch(fetchData());
-    } else {
-      // Handle the case when there is no token
-    }
-
     if (justLoggedIn) {
       SuccessToast("Login Successfully");
       setJustLoggedIn(false);
     }
   }, [ClientID, dispatch, justLoggedIn, token]);
+
+  useEffect(() => {
+    handleFetchSiteData();
+    if (token && storedToken) {
+      dispatch(fetchData());
+    }
+  }, [token]);
 
   const handleToggleSidebar1 = () => {
     console.log(ShowTruw, "hi");
@@ -142,17 +141,13 @@ const Dashboard = (props) => {
     setSidebarVisible1(!sidebarVisible1);
   };
 
-
-
-
-
-
-
   const handleFormSubmit = async (values) => {
     console.log(values, "valuessss");
     setSearchdata(values);
     try {
-      const response = await getData(`dashboard/stats?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`);
+      const response = await getData(
+        `dashboard/stats?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
+      );
 
       const { data } = response;
       if (data) {
@@ -173,9 +168,9 @@ const Dashboard = (props) => {
     }
   };
 
-  const ResetForm =  () => {
-    setSearchdata({})
-    handleFetchSiteData()
+  const ResetForm = () => {
+    setSearchdata({});
+    handleFetchSiteData();
   };
 
   return (
