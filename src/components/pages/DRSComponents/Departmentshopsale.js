@@ -10,7 +10,23 @@ import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 
 const Departmentshopsale = (props) => {
-  const { apidata, error, getData, postData, SiteID, ReportDate } = props;
+  const { apidata, error, getData, postData,  company_id,
+    client_id,
+    site_id,
+    start_date,
+    sendDataToParent, } = props;
+    
+  const handleButtonClick = () => {
+    const allPropsData = {
+      company_id,
+      client_id,
+      site_id,
+      start_date,
+    };
+
+    // Call the callback function with the object containing all the props
+    sendDataToParent(allPropsData);
+  };
 
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
@@ -66,7 +82,7 @@ const Departmentshopsale = (props) => {
 
       try {
         const response = await axiosInstance.get(
-          `/department-shop-sale/list?site_id=${SiteID}&drs_date=${ReportDate}`
+          `/department-shop-sale/list?site_id=${site_id}&drs_date=${start_date}`
         );
 
         const { data } = response;
@@ -125,7 +141,7 @@ const Departmentshopsale = (props) => {
     };
 
     fetchData();
-  }, [SiteID, ReportDate]);
+  }, [site_id, start_date]);
   document.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -163,8 +179,8 @@ const Departmentshopsale = (props) => {
       formData.append(nettValueKey, nett_value);
     }
 
-    formData.append("site_id", SiteID);
-    formData.append("drs_date", ReportDate);
+    formData.append("site_id", site_id);
+    formData.append("drs_date", start_date);
 
     try {
       setIsLoading(true);
@@ -183,6 +199,7 @@ const Departmentshopsale = (props) => {
 
       if (response.ok) {
         console.log("Done");
+        handleButtonClick()
         SuccessToast(responseData.message);
       } else {
         ErrorToast(responseData.message);

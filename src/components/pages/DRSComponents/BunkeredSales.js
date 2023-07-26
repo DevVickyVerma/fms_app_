@@ -11,7 +11,32 @@ import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
 const DepartmentShop = (props) => {
-  const { apidata, error, getData, postData, SiteID, ReportDate } = props;
+  const {
+    apidata,
+    error,
+    company_id,
+    client_id,
+    site_id,
+    start_date,
+    sendDataToParent,
+  } = props;
+
+  const handleButtonClick = () => {
+    const allPropsData = {
+      company_id,
+      client_id,
+      site_id,
+      start_date,
+    };
+
+    // Call the callback function with the object containing all the props
+    sendDataToParent(allPropsData);
+  };
+
+  useEffect(() => {
+    fetchDetails();
+    fetchListing();
+  }, []);
 
   const [data, setData] = useState([]);
   const [Listingdata, setListingData] = useState([]);
@@ -64,7 +89,7 @@ const DepartmentShop = (props) => {
 
     try {
       const response = await axiosInstance.get(
-        `/bunkered-sale/details/?site_id=${SiteID}&drs_date=${ReportDate}`
+        `/bunkered-sale/details/?site_id=${site_id}&drs_date=${start_date}`
       );
 
       const { data } = response;
@@ -90,7 +115,7 @@ const DepartmentShop = (props) => {
 
     try {
       const response = await axiosInstance.get(
-        `/bunkered-sale/list/?site_id=${SiteID}&drs_date=${ReportDate}`
+        `/bunkered-sale/list/?site_id=${site_id}&drs_date=${start_date}`
       );
 
       const { data } = response;
@@ -149,13 +174,6 @@ const DepartmentShop = (props) => {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchDetails();
-    fetchListing();
-    
-    
-  }, [SiteID, ReportDate]);
 
   const initialValues = {
     bunkeredSales: [
@@ -282,21 +300,21 @@ const DepartmentShop = (props) => {
     onSubmit: creditcardonSubmit,
   });
 
-  const pushbunkeredSalesRow = () => {
-    console.log(formik.values, "pushbunkeredSalesRow");
-    if (formik.isValid) {
-      formik.values.bunkeredSales.push({
-        volume: "",
-        value: "",
-        opening: "",
-        closing: "",
-        diesel: "",
-      });
-      formik.setFieldValue("bunkeredSales", formik.values.bunkeredSales);
-    } else {
-      ErrorToast("Please fill all fields correctly before adding a new row.");
-    }
-  };
+  // const pushbunkeredSalesRow = () => {
+  //   console.log(formik.values, "pushbunkeredSalesRow");
+  //   if (formik.isValid) {
+  //     formik.values.bunkeredSales.push({
+  //       volume: "",
+  //       value: "",
+  //       opening: "",
+  //       closing: "",
+  //       diesel: "",
+  //     });
+  //     formik.setFieldValue("bunkeredSales", formik.values.bunkeredSales);
+  //   } else {
+  //     ErrorToast("Please fill all fields correctly before adding a new row.");
+  //   }
+  // };
 
   const pushnonbunkeredSalesRow = () => {
     console.log(formik2.values, "pushnonbunkeredSalesRow");
@@ -447,8 +465,8 @@ const DepartmentShop = (props) => {
           formData.append(`nonbunkered_value[${id ? id : 0}]`, value);
         }
       }
-      formData.append("site_id", SiteID);
-      formData.append("drs_date", ReportDate);
+      formData.append("site_id", site_id);
+      formData.append("drs_date", start_date);
       console.log("Combined Form Data:", formData);
 
       setIsLoading(true);
@@ -464,6 +482,7 @@ const DepartmentShop = (props) => {
 
       if (response.ok) {
         console.log("Done");
+        handleButtonClick();
         // Call your success toast function here
         // Replace SuccessToast with your actual function that shows a success message
         SuccessToast(responseData.message);
@@ -498,10 +517,11 @@ const DepartmentShop = (props) => {
                 {/* All columns wrapped inside a single Row */}
                 <Row>
                   {formik.values.bunkeredSales.map((delivery, index) => (
-
-                 
                     <React.Fragment key={index}>
-                    { console.log(formik.values.bunkeredSales,"formik.values.bunkeredSales")}
+                      {console.log(
+                        formik.values.bunkeredSales,
+                        "formik.values.bunkeredSales"
+                      )}
                       <Col lg={2} md={2}>
                         <Form.Group
                           controlId={`bunkeredSales[${index}].diesel`}
@@ -824,7 +844,6 @@ const DepartmentShop = (props) => {
                     </React.Fragment>
                   ))}
                 </Row>
-               
               </Form>
             </Card.Body>
           </Card>

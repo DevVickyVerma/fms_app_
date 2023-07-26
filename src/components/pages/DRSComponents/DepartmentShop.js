@@ -10,7 +10,27 @@ import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 
 const DepartmentShop = (props) => {
-  const { apidata, error, getData, postData, SiteID, ReportDate } = props;
+  const {
+    apidata,
+    error,
+    company_id,
+    client_id,
+    site_id,
+    start_date,
+    sendDataToParent,
+  } = props;
+
+  const handleButtonClick = () => {
+    const allPropsData = {
+      company_id,
+      client_id,
+      site_id,
+      start_date,
+    };
+
+    // Call the callback function with the object containing all the props
+    sendDataToParent(allPropsData);
+  };
 
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
@@ -71,7 +91,7 @@ const DepartmentShop = (props) => {
 
       try {
         const response = await axiosInstance.get(
-          `/drs/summary/shop?site_id=${SiteID}&drs_date=${ReportDate}`
+          `/drs/summary/shop?site_id=${site_id}&drs_date=${start_date}`
         );
 
         const { data } = response;
@@ -89,7 +109,7 @@ const DepartmentShop = (props) => {
     };
 
     fetchData();
-  }, [SiteID, ReportDate]);
+  }, [site_id, client_id]);
 
   //   const handleSubmit = async (values) => {
   //     const token = localStorage.getItem("token");
@@ -106,8 +126,8 @@ const DepartmentShop = (props) => {
   //       formData.append(charge_valueKey, charge_value);
   //     }
 
-  //     formData.append("site_id", SiteID);
-  //     formData.append("drs_date", ReportDate);
+  //     formData.append("site_id", site_id);
+  //     formData.append("drs_date", client_id);
 
   //     try {
   //       setIsLoading(true);

@@ -10,7 +10,22 @@ import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 
 const ShopSales = (props) => {
-  const { apidata, error, getData, postData, SiteID, ReportDate } = props;
+  const { apidata, error, getData, postData,     company_id,
+    client_id,
+    site_id,
+    start_date,
+    sendDataToParent,} = props;
+      const handleButtonClick = () => {
+    const allPropsData = {
+      company_id,
+      client_id,
+      site_id,
+      start_date,
+    };
+
+    // Call the callback function with the object containing all the props
+    sendDataToParent(allPropsData);
+  };
 
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
@@ -67,7 +82,7 @@ const ShopSales = (props) => {
 
       try {
         const response = await axiosInstance.get(
-          `/charge-deduction/list?site_id=${SiteID}&drs_date=${ReportDate}`
+          `/charge-deduction/list?site_id=${site_id}&drs_date=${start_date}`
         );
 
         const { data } = response;
@@ -113,7 +128,7 @@ const ShopSales = (props) => {
     };
 
     fetchData();
-  }, [SiteID, ReportDate]);
+  }, [site_id, start_date]);
 
   const handleSubmit = async (values, deductionFormValues) => {
     const token = localStorage.getItem("token");
@@ -135,8 +150,8 @@ const ShopSales = (props) => {
       formData.append(deductionValueKey, deduction_value);
     }
 
-    formData.append("site_id", SiteID);
-    formData.append("drs_date", ReportDate);
+    formData.append("site_id", site_id);
+    formData.append("drs_date", start_date);
 
     try {
       setIsLoading(true);
@@ -155,6 +170,7 @@ const ShopSales = (props) => {
 
       if (response.ok) {
         SuccessToast(responseData.message);
+        handleButtonClick()
       } else {
         ErrorToast(responseData.message);
 

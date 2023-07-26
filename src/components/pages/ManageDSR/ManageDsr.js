@@ -56,16 +56,15 @@ const ManageDsr = (props) => {
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
-  useEffect(()=>{
+  useEffect(() => {
     handleFetchData();
-  },[])
+  }, []);
 
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
     if (UserPermissions) {
       setPermissionsArray(UserPermissions.permissions);
     }
-  
   }, [UserPermissions]);
 
   const isStatusPermissionAvailable = permissionsArray?.includes(
@@ -87,6 +86,7 @@ const ManageDsr = (props) => {
   const [DataEnteryList, setDataEnteryList] = useState();
   const [PropsSiteId, setPropsSiteId] = useState();
   const [PropsCompanyId, setPropsCompanyId] = useState();
+  const [PropsClientId, setPropsClientId] = useState();
   const [PropsFile, setPropsFile] = useState();
   const [PropsDate, setPropsDate] = useState();
   const [getDataBtn, setgetDataBtn] = useState();
@@ -246,15 +246,24 @@ const ManageDsr = (props) => {
     });
   };
 
+  const handleDataFromBunkeredSales = (data) => {
+    // Do something with the data received from BunkeredSales
+    console.log("Data received from BunkeredSales:", data);
+    handleSubmit1(data);
+  };
+
   const handleSubmit1 = async (values) => {
+    console.log(values, "handleSubmit1handleSubmit1");
     try {
       const formData = new FormData();
 
       formData.append("start_date", values.start_date);
       if (localStorage.getItem("superiorRole") !== "Client") {
         formData.append("client_id", values.client_id);
+        setPropsClientId(values.client_id);
       } else {
         formData.append("client_id", clientIDLocalStorage);
+        setPropsClientId(clientIDLocalStorage);
       }
       formData.append("company_id", values.company_id);
       formData.append("site_id", values.site_id);
@@ -275,14 +284,12 @@ const ManageDsr = (props) => {
           console.log(response1?.data?.data, "edwdwdw");
           setgetDataBtn(response1?.data?.data.showBtn);
           setUploadtitle(response1?.data?.data);
-          setUploadTabname()
+          setUploadTabname();
           // console.log(UploadTabname,"setUploadTabname")
         }
       } catch (error) {
         console.error("API error:", error);
       }
-
-     
     } catch (error) {
       console.error("Error:", error);
     }
@@ -301,14 +308,12 @@ const ManageDsr = (props) => {
   };
   const [selectedItem, setSelectedItem] = useState(null);
 
-
   const handleEnteryClick = (item) => {
-
     setSelectedItem(item);
     setUploadTabname(item.name);
     window.scrollTo({
       top: document.documentElement.scrollHeight,
-      behavior: 'smooth' // You can use 'auto' instead of 'smooth' for instant scrolling
+      behavior: "smooth", // You can use 'auto' instead of 'smooth' for instant scrolling
     });
     // Show the modal
   };
@@ -513,9 +518,9 @@ const ManageDsr = (props) => {
                                 id="site_id"
                                 name="site_id"
                                 onChange={(e) => {
-                                  const selectedCompany = e.target.value;
-                                  setFieldValue("site_id", selectedCompany);
-                                  setSiteId(selectedCompany);
+                                  const selectedsite_id = e.target.value;
+                                  setFieldValue("site_id", selectedsite_id);
+                                  setSiteId(selectedsite_id);
                                 }}
                               >
                                 <option value="">Select a Site</option>
@@ -713,7 +718,9 @@ const ManageDsr = (props) => {
                           }`}
                         >
                           <Card.Body
-                             className={`card-Div ${selectedItem === item ? 'selected' : ''}`}
+                            className={`card-Div ${
+                              selectedItem === item ? "selected" : ""
+                            }`}
                             onClick={() => handleEnteryClick(item)} // Pass item.name as an argument
                           >
                             <h4 className="card-title">{item.name}</h4>
@@ -732,31 +739,79 @@ const ManageDsr = (props) => {
 
         {/* <FuelDelivery SiteID={PropsSiteId} ReportDate={PropsDate} */}
         {UploadTabname === "Fuel Delivery" ? (
-          <FuelDelivery SiteID={PropsSiteId} ReportDate={PropsDate} />
+          <FuelDelivery
+            client_id={PropsClientId}
+            company_id={PropsCompanyId}
+            site_id={PropsSiteId}
+            start_date={PropsDate}
+            sendDataToParent={handleDataFromBunkeredSales}
+          />
         ) : UploadTabname === "Fuel Sales" ? (
-          <FuelSales SiteID={PropsSiteId} ReportDate={PropsDate} />
+          <FuelSales   client_id={PropsClientId}
+            company_id={PropsCompanyId}
+            site_id={PropsSiteId}
+            start_date={PropsDate}
+            sendDataToParent={handleDataFromBunkeredSales} />
         ) : UploadTabname === "Charges & Deductions" ? (
-          <ChargesDeduction SiteID={PropsSiteId} ReportDate={PropsDate} />
+          <ChargesDeduction client_id={PropsClientId}
+            company_id={PropsCompanyId}
+            site_id={PropsSiteId}
+            start_date={PropsDate}
+            sendDataToParent={handleDataFromBunkeredSales} />
         ) : UploadTabname === "Valet & Coffee Sales" ? (
-          <CoffeeValet SiteID={PropsSiteId} ReportDate={PropsDate} />
+          <CoffeeValet client_id={PropsClientId}
+            company_id={PropsCompanyId}
+            site_id={PropsSiteId}
+            start_date={PropsDate}
+            sendDataToParent={handleDataFromBunkeredSales} />
         ) : UploadTabname === "Fuel-Inventory" ? (
-          <FuelInventry SiteID={PropsSiteId} ReportDate={PropsDate} />
+          <FuelInventry client_id={PropsClientId}
+            company_id={PropsCompanyId}
+            site_id={PropsSiteId}
+            start_date={PropsDate}
+            sendDataToParent={handleDataFromBunkeredSales} />
         ) : UploadTabname === "Shop Sales" ? (
-          <ShopSales SiteID={PropsSiteId} ReportDate={PropsDate} />
+          <ShopSales client_id={PropsClientId}
+            company_id={PropsCompanyId}
+            site_id={PropsSiteId}
+            start_date={PropsDate}
+            sendDataToParent={handleDataFromBunkeredSales} />
         ) : UploadTabname === "Department Shop Sales" ? (
-          <Departmentshopsale SiteID={PropsSiteId} ReportDate={PropsDate} />
+          <Departmentshopsale client_id={PropsClientId}
+            company_id={PropsCompanyId}
+            site_id={PropsSiteId}
+            start_date={PropsDate}
+            sendDataToParent={handleDataFromBunkeredSales} />
         ) : UploadTabname === "Cash Banking" ? (
           <CashBanking SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : UploadTabname === "Bank Deposit" ? (
           <BankDeposit SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : UploadTabname === "Department Shop Summary" ? (
-          <DepartmentShop SiteID={PropsSiteId} ReportDate={PropsDate} />
+          <DepartmentShop client_id={PropsClientId}
+            company_id={PropsCompanyId}
+            site_id={PropsSiteId}
+            start_date={PropsDate}
+            sendDataToParent={handleDataFromBunkeredSales} />
         ) : UploadTabname === "Credit Card Banking" ? (
-          <CreditCardBanking SiteID={PropsSiteId} ReportDate={PropsDate} />
+          <CreditCardBanking client_id={PropsClientId}
+            company_id={PropsCompanyId}
+            site_id={PropsSiteId}
+            start_date={PropsDate}
+            sendDataToParent={handleDataFromBunkeredSales} />
         ) : UploadTabname === "Summary" ? (
-          <Summary SiteID={PropsSiteId} ReportDate={PropsDate} />
+          <Summary client_id={PropsClientId}
+            company_id={PropsCompanyId}
+            site_id={PropsSiteId}
+            start_date={PropsDate}
+            sendDataToParent={handleDataFromBunkeredSales} />
         ) : UploadTabname === "Bunkered Sales" ? (
-          <BunkeredSales SiteID={PropsSiteId} ReportDate={PropsDate} />
+          <BunkeredSales
+            client_id={PropsClientId}
+            company_id={PropsCompanyId}
+            site_id={PropsSiteId}
+            start_date={PropsDate}
+            sendDataToParent={handleDataFromBunkeredSales}
+          />
         ) : null}
         {/* <BunkeredSales SiteID={PropsSiteId} ReportDate={PropsDate} /> */}
       </>

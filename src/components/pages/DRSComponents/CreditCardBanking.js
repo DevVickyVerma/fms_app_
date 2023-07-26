@@ -10,7 +10,27 @@ import { Slide, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const CreditCardBanking = (props) => {
-  const { apidata, error, getData, postData, SiteID, ReportDate } = props;
+  const {
+    apidata,
+    error,
+    company_id,
+    client_id,
+    site_id,
+    start_date,
+    sendDataToParent,
+  } = props;
+
+  const handleButtonClick = () => {
+    const allPropsData = {
+      company_id,
+      client_id,
+      site_id,
+      start_date,
+    };
+
+    // Call the callback function with the object containing all the props
+    sendDataToParent(allPropsData);
+  }
 
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
@@ -67,7 +87,7 @@ const CreditCardBanking = (props) => {
         setIsLoading(true); // Set loading state to true before fetching data
 
         const response = await axiosInstance.get(
-          `/card-banking/list?site_id=${SiteID}&drs_date=${ReportDate}`
+          `/card-banking/list?site_id=${site_id}&drs_date=${start_date}`
         );
 
         const { data } = response;
@@ -117,14 +137,14 @@ const CreditCardBanking = (props) => {
       }
     };
 
-    if (ReportDate) {
+    if (start_date) {
       fetchData();
     }
-  }, [SiteID, ReportDate]);
+  }, [site_id, start_date]);
 
-  // if (SiteID && ReportDate) {
-  //   // console.log("client_id:", SiteID);
-  //   // console.log("start_date:", ReportDate);
+  // if (site_id && start_date) {
+  //   // console.log("client_id:", site_id);
+  //   // console.log("start_date:", start_date);
 
   //   console.log("gotSiteID and Repordtdate");
   // }
@@ -155,8 +175,8 @@ const CreditCardBanking = (props) => {
       formData.append(koisk_value, salesValue);
     });
 
-    formData.append("site_id", SiteID);
-    formData.append("drs_date", ReportDate);
+    formData.append("site_id", site_id);
+    formData.append("drs_date", start_date);
 
     try {
       setIsLoading(true);
@@ -176,6 +196,7 @@ const CreditCardBanking = (props) => {
       if (response.ok) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         SuccessToast(responseData.message);
+        handleButtonClick()
       } else {
         ErrorToast(responseData.message);
 

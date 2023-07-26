@@ -10,7 +10,20 @@ import { Slide, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const FuelSales = (props) => {
-  const { apidata, error, getData, postData, SiteID, ReportDate } = props;
+  const { apidata, error, getData, postData, company_id,
+    client_id, site_id, start_date,sendDataToParent } = props;
+    
+  const handleButtonClick = () => {
+    const allPropsData = {
+      company_id,
+      client_id,
+      site_id,
+      start_date,
+    };
+
+    // Call the callback function with the object containing all the props
+    sendDataToParent(allPropsData);
+  };
 
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
@@ -67,7 +80,7 @@ const FuelSales = (props) => {
         setIsLoading(true); // Set loading state to true before fetching data
 
         const response = await axiosInstance.get(
-          `/fuel-sale/list?site_id=${SiteID}&drs_date=${ReportDate}`
+          `/fuel-sale/list?site_id=${site_id}&drs_date=${start_date}`
         );
 
         const { data } = response;
@@ -98,10 +111,10 @@ const FuelSales = (props) => {
       }
     };
 
-    if (ReportDate) {
+    if (start_date) {
       fetchData();
     }
-  }, [SiteID, ReportDate]);
+  }, [site_id, start_date]);
 
   const handleSubmit = async (values) => {
     const token = localStorage.getItem("token");
@@ -130,8 +143,8 @@ const FuelSales = (props) => {
       formData.append(sales_volume, salesValue);
     });
 
-    formData.append("site_id", SiteID);
-    formData.append("drs_date", ReportDate);
+    formData.append("site_id", site_id);
+    formData.append("drs_date", start_date);
 
     try {
       setIsLoading(true);
@@ -151,6 +164,7 @@ const FuelSales = (props) => {
       if (response.ok) {
         console.log("Done");
         SuccessToast(responseData.message);
+        handleButtonClick()
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
         ErrorToast(responseData.message);

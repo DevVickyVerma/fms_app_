@@ -11,7 +11,27 @@ import { Slide, toast } from "react-toastify";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 
 const DepartmentShop = (props) => {
-  const { apidata, error, getData, postData, SiteID, ReportDate } = props;
+  const {
+    apidata,
+    error,
+    company_id,
+    client_id,
+    site_id,
+    start_date,
+    sendDataToParent,
+  } = props;
+
+  const handleButtonClick = () => {
+    const allPropsData = {
+      company_id,
+      client_id,
+      site_id,
+      start_date,
+    };
+
+    // Call the callback function with the object containing all the props
+    sendDataToParent(allPropsData);
+  };
 
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
@@ -71,7 +91,7 @@ const DepartmentShop = (props) => {
 
       try {
         const response = await axiosInstance.get(
-          `/drs/summary/?site_id=${SiteID}&drs_date=${ReportDate}`
+          `/drs/summary/?site_id=${site_id}&drs_date=${start_date}`
         );
 
         const { data } = response;
@@ -92,7 +112,7 @@ const DepartmentShop = (props) => {
     };
 
     fetchData();
-  }, [SiteID, ReportDate]);
+  }, [site_id, start_date]);
 
   const _renderFunction = () => {
     return Object.keys(data).map((item, index) => {
@@ -105,10 +125,9 @@ const DepartmentShop = (props) => {
     });
   };
 
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
       event.preventDefault();
-     
     }
   });
 
@@ -124,8 +143,8 @@ const DepartmentShop = (props) => {
   };
   const SubssmitSummary = (values) => {
     console.log(values);
-    console.log(SiteID);
-    console.log(ReportDate);
+    console.log(site_id);
+    console.log(start_date);
     console.log(summarydata?.summary_of_variances);
 
     const banking_difference = summarydata?.banking["Banking Difference"];
@@ -143,8 +162,8 @@ const DepartmentShop = (props) => {
       const token = localStorage.getItem("token");
 
       // console.log(values);
-      // console.log(SiteID);
-      // console.log(ReportDate);
+      // console.log(site_id);
+      // console.log(start_date);
       // console.log(summarydata?.summary_of_variances);
 
       const banking_difference = summarydata?.banking["Banking Difference"];
@@ -158,8 +177,8 @@ const DepartmentShop = (props) => {
       formData.append("net_cash_due_banking", net_cash_due_banking);
       formData.append("banking_difference", banking_difference);
       formData.append("cash_operator", cash_operator);
-      formData.append("site_id", SiteID);
-      formData.append("drs_date", ReportDate);
+      formData.append("site_id", site_id);
+      formData.append("drs_date", start_date);
       formData.append("summary_remarks", values.Remarks);
       formData.append(
         "summary_of_variances",
@@ -183,6 +202,7 @@ const DepartmentShop = (props) => {
         SuccessToast(data.message);
         window.scrollTo({ top: 0, behavior: "smooth" });
         setIsLoading(false);
+        handleButtonClick()
       } else {
         const errorMessage = Array.isArray(data.message)
           ? data.message.join(" ")

@@ -10,7 +10,27 @@ import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 
 const CoffeeValet = (props) => {
-  const { apidata, error, getData, postData, SiteID, ReportDate } = props;
+   const {
+    apidata,
+    error,
+    company_id,
+    client_id,
+    site_id,
+    start_date,
+    sendDataToParent,
+  } = props;
+
+  const handleButtonClick = () => {
+    const allPropsData = {
+      company_id,
+      client_id,
+      site_id,
+      start_date,
+    };
+
+    // Call the callback function with the object containing all the props
+    sendDataToParent(allPropsData);
+  };
 
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
@@ -66,7 +86,7 @@ const CoffeeValet = (props) => {
 
       try {
         const response = await axiosInstance.get(
-          `/valet-coffee/list?site_id=${SiteID}&drs_date=${ReportDate}`
+          `/valet-coffee/list?site_id=${site_id}&drs_date=${start_date}`
         );
 
         const { data } = response;
@@ -107,7 +127,7 @@ const CoffeeValet = (props) => {
     };
 
     fetchData();
-  }, [SiteID, ReportDate]);
+  }, [site_id, start_date]);
 
   const handleSubmit = async (values) => {
     const token = localStorage.getItem("token");
@@ -177,9 +197,9 @@ const CoffeeValet = (props) => {
       }
     }
 
-    formData.append("site_id", SiteID);
+    formData.append("site_id", site_id);
 
-    formData.append("drs_date", ReportDate);
+    formData.append("drs_date", start_date);
 
     try {
       setIsLoading(true);
@@ -199,6 +219,7 @@ const CoffeeValet = (props) => {
       if (response.ok) {
         console.log("Done");
         SuccessToast(responseData.message);
+        handleButtonClick()
       } else {
         ErrorToast(responseData.message);
 

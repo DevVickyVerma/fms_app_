@@ -10,7 +10,25 @@ import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 
 const FuelInventry = (props) => {
-  const { SiteID, ReportDate } = props;
+  const {  company_id,
+    client_id,
+    site_id,
+    start_date,
+    sendDataToParent,} = props;
+
+
+  const handleButtonClick = () => {
+    const allPropsData = {
+      company_id,
+      client_id,
+      site_id,
+      start_date,
+    };
+
+    // Call the callback function with the object containing all the props
+    sendDataToParent(allPropsData);
+  };
+
 
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
@@ -68,7 +86,7 @@ const FuelInventry = (props) => {
 
       try {
         const response = await axiosInstance.get(
-          `/fuel-inventory/list?site_id=${SiteID}&drs_date=${ReportDate}`
+          `/fuel-inventory/list?site_id=${site_id}&drs_date=${start_date}`
         );
 
         const { data } = response;
@@ -133,7 +151,7 @@ const FuelInventry = (props) => {
     };
 
     fetchData();
-  }, [SiteID, ReportDate]);
+  }, [site_id, start_date]);
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
@@ -199,8 +217,8 @@ const FuelInventry = (props) => {
       formData.append(bunkered_saleKey, bunkered_sale);
     }
 
-    formData.append("site_id", SiteID);
-    formData.append("drs_date", ReportDate);
+    formData.append("site_id", site_id);
+    formData.append("drs_date", start_date);
 
     try {
       setIsLoading(true);
@@ -220,6 +238,7 @@ const FuelInventry = (props) => {
       if (response.ok) {
         console.log("Done");
         SuccessToast(responseData.message);
+        handleButtonClick()
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
         ErrorToast(responseData.message);
