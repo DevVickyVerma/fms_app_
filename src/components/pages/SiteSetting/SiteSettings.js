@@ -1164,13 +1164,16 @@ const SiteSettings = (props) => {
                 
                   </Row>
                 </Card.Body>
-              </Card>
-            </div>
-            <div className="d-flex justify-content-end mt-3">
+                <Card.Footer>
+                <div className="d-flex justify-content-end mt-3">
               <button className="btn btn-primary" type="submit">
                 Submit
               </button>
             </div>
+                </Card.Footer>
+              </Card>
+            </div>
+            
           </form>
         </Row>
       </>

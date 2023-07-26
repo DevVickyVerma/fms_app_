@@ -368,7 +368,7 @@ const DashBordModal = (props) => {
                                       />
                                     </FormGroup>
                                   </Col>
-                                  <Col lg={3} md={6}>
+                                  {/* <Col lg={3} md={6}>
                                     <FormGroup>
                                       <label
                                         htmlFor="fromdate"
@@ -417,7 +417,7 @@ const DashBordModal = (props) => {
                                         name="TOdate"
                                       />
                                     </FormGroup>
-                                  </Col>
+                                  </Col> */}
                                 </Row>
                               </Card.Body>
                               <Card.Footer className="text-end">
