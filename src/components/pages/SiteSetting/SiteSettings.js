@@ -331,7 +331,7 @@ const SiteSettings = (props) => {
             type="checkbox"
             id={`checked-${index}`}
             name={`AssignFormikbussiness[${index}].checked`}
-            className="table-input"
+            className="table-checkbox-input"
             checked={
               formik.values?.AssignFormikbussiness?.[index]?.checked ?? false
             }
@@ -411,7 +411,7 @@ const SiteSettings = (props) => {
             type="checkbox"
             id={`checked-${index}`}
             name={`AssignFormikCards[${index}].checked`}
-            className="table-input"
+            className="table-checkbox-input"
             checked={
               formik.values?.AssignFormikCards?.[index]?.checked ?? false
             }
@@ -449,7 +449,7 @@ const SiteSettings = (props) => {
             type="checkbox"
             id={`for_tenant-${index}`}
             name={`AssignFormikCards[${index}].for_tenant`}
-            className="table-input"
+            className="table-checkbox-input"
             checked={
               formik.values?.AssignFormikCards?.[index]?.for_tenant ?? false
             }
@@ -475,7 +475,7 @@ const SiteSettings = (props) => {
             type="checkbox"
             id={`checked-${index}`}
             name={`FormikChargesData[${index}].checked`}
-            className="table-input"
+            className="table-checkbox-input"
             checked={
               formik.values?.FormikChargesData?.[index]?.checked ?? false
             }
@@ -537,7 +537,7 @@ const SiteSettings = (props) => {
             type="checkbox"
             id={`checked-${index}`}
             name={`FormikChargesData[${index}].admin`}
-            className="table-input"
+            className="table-checkbox-input"
             checked={formik.values?.FormikChargesData?.[index]?.admin ?? false}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -559,7 +559,7 @@ const SiteSettings = (props) => {
             type="checkbox"
             id={`checked-${index}`}
             name={`FormikChargesData[${index}].operator`}
-            className="table-input"
+            className="table-checkbox-input"
             checked={
               formik.values?.FormikChargesData?.[index]?.operator ?? false
             }
@@ -584,7 +584,7 @@ const SiteSettings = (props) => {
             type="checkbox"
             id={`checked-${index}`}
             name={`FormikDeductionData[${index}].checked`}
-            className="table-input"
+            className="table-checkbox-input"
             checked={
               formik.values?.FormikDeductionData?.[index]?.checked ?? false
             }
@@ -648,7 +648,7 @@ const SiteSettings = (props) => {
             type="checkbox"
             id={`checked-${index}`}
             name={`FormikDeductionData[${index}].admin`}
-            className="table-input"
+            className="table-checkbox-input"
             checked={
               formik.values?.FormikDeductionData?.[index]?.admin ?? false
             }
@@ -672,7 +672,7 @@ const SiteSettings = (props) => {
             type="checkbox"
             id={`checked-${index}`}
             name={`FormikDeductionData[${index}].operator`}
-            className="table-input"
+            className="table-checkbox-input"
             checked={
               formik.values?.FormikDeductionData?.[index]?.operator ?? false
             }
@@ -698,7 +698,7 @@ const SiteSettings = (props) => {
             type="checkbox"
             id={`checked-${index}`}
             name={`Formiksite_items[${index}].checked`}
-            className="table-input"
+            className="table-checkbox-input"
             checked={formik.values?.Formiksite_items?.[index]?.checked ?? false}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -757,7 +757,7 @@ const SiteSettings = (props) => {
             type="checkbox"
             id={`checked-${index}`}
             name={`Formiksite_items[${index}].is_admin`}
-            className="table-input"
+            className="table-checkbox-input"
             checked={
               formik.values?.Formiksite_items?.[index]?.is_admin ?? false
             }
@@ -782,7 +782,7 @@ const SiteSettings = (props) => {
             type="checkbox"
             id={`checked-${index}`}
             name={`FormikFuelData[${index}].checked`}
-            className="table-input"
+            className="table-checkbox-input"
             checked={formik.values?.FormikFuelData?.[index]?.checked ?? false}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -819,7 +819,7 @@ const SiteSettings = (props) => {
             type="checkbox"
             id={`checked-${index}`}
             name={`FormikDRSData[${index}].checked`}
-            className="table-input"
+            className="table-checkbox-input"
             checked={formik.values?.FormikDRSData?.[index]?.checked ?? false}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -856,7 +856,7 @@ const SiteSettings = (props) => {
             type="checkbox"
             id={`checked-${index}`}
             name={`CahsDayFormikData[${index}].checked`}
-            className="table-input"
+            className="table-checkbox-input"
             checked={formik.values?.CahsDayFormikData?.[index]?.checked ?? false}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -893,7 +893,7 @@ const SiteSettings = (props) => {
             type="checkbox"
             id={`checked-${index}`}
             name={`FormikreportsData[${index}].checked`}
-            className="table-input"
+            className="table-checkbox-input"
             checked={formik.values?.FormikreportsData?.[index]?.checked ?? false}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}

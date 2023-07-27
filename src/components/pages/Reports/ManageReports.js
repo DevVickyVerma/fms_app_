@@ -11,6 +11,7 @@ import {
   FormGroup,
   OverlayTrigger,
   Row,
+  ToggleButton,
   Tooltip,
 } from "react-bootstrap";
 import {
@@ -31,6 +32,7 @@ import Loaderimg from "../../../Utils/Loader";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 
 import { Slide, toast } from "react-toastify";
+import Switch from "react-switch";
 
 const ManageReports = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -51,7 +53,13 @@ const ManageReports = (props) => {
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
+  const [selectedReport, setSelectedReport] = useState(0);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [toggleValue, setToggleValue] = useState(false); // State for the toggle
+  const handleToggleChange = (checked) => {
+    setToggleValue(checked);
+    console.log(checked);
+  };
   const ErrorToast = (message) => {
     toast.error(message, {
       position: toast.POSITION.TOP_RIGHT,
@@ -60,9 +68,6 @@ const ManageReports = (props) => {
       theme: "colored",
     });
   };
-
-
-
 
   useEffect(() => {
     console.log(localStorage.getItem("superiorId"));
@@ -182,13 +187,13 @@ const ManageReports = (props) => {
         try {
           const response = await getData(postDataUrl);
           console.log(response.status, "response"); // Console log the response
-      
+
           if (response.status === 200) {
             setShowButton(true);
             console.log(response, "response"); // Console log the response
             setReportDownloadUrl(postDataUrl);
           }
-      
+
           if (apidata && apidata.api_response === "success") {
             setReportDownloadUrl(postDataUrl);
             setShowButton(true);
@@ -197,7 +202,6 @@ const ManageReports = (props) => {
           console.error("Error occurred while fetching data:", error);
         }
       }
-      
     } catch (error) {
       console.log(error);
       // Set the submission state to false if an error occurs
@@ -262,7 +266,7 @@ const ManageReports = (props) => {
                   validationSchema={Yup.object().shape({
                     report: Yup.string().required("Report is required"),
                     company_id: Yup.string().required("Company is required"),
-              
+
                     // start_date: Yup.date().required("Start Date is required"),
                     // end_date: Yup.date().required("End Date is required"),
                     // reportmonth: Yup.date().required("reportmonth is required"),
@@ -402,6 +406,7 @@ const ManageReports = (props) => {
                               />
                             </FormGroup>
                           </Col>
+                        
                           <Col lg={4} md={6}>
                             <FormControl className="width">
                               <InputLabel>Select Sites</InputLabel>
@@ -445,77 +450,81 @@ const ManageReports = (props) => {
                               <div className="error">{errors.sites}</div>
                             )}
                           </Col>
+                          {toggleValue? (
+                            <>
+                              <Col lg={4} md={6}>
+                                <FormGroup>
+                                  <label
+                                    htmlFor="start_date"
+                                    className="form-label mt-4"
+                                  >
+                                    Start Date
+                                  </label>
+                                  <Field
+                                    type="date"
+                                    min={"2023-01-01"}
+                                    className={`input101 ${
+                                      errors.start_date && touched.start_date
+                                        ? "is-invalid"
+                                        : ""
+                                    }`}
+                                    id="start_date"
+                                    name="start_date"
+                                    onChange={(e) => {
+                                      const selectedstart_date = e.target.value;
 
-                          <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="start_date"
-                                className="form-label mt-4"
-                              >
-                                Start Date
-                          
-                              </label>
-                              <Field
-                                  type="date"   min={"2023-01-01"}
-                                className={`input101 ${
-                                  errors.start_date && touched.start_date
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="start_date"
-                                name="start_date"
-                                onChange={(e) => {
-                                  const selectedstart_date = e.target.value;
+                                      setFieldValue(
+                                        "start_date",
+                                        selectedstart_date
+                                      );
+                                      setShowButton(false);
+                                    }}
+                                  ></Field>
+                                  <ErrorMessage
+                                    component="div"
+                                    className="invalid-feedback"
+                                    name="start_date"
+                                  />
+                                </FormGroup>
+                              </Col>
+                              <Col lg={4} md={6}>
+                                <FormGroup>
+                                  <label
+                                    htmlFor="end_date"
+                                    className="form-label mt-4"
+                                  >
+                                    End Date
+                                  </label>
+                                  <Field
+                                    type="date"
+                                    min={"2023-01-01"}
+                                    className={`input101 ${
+                                      errors.end_date && touched.end_date
+                                        ? "is-invalid"
+                                        : ""
+                                    }`}
+                                    id="end_date"
+                                    name="end_date"
+                                    onChange={(e) => {
+                                      const selectedend_date_date =
+                                        e.target.value;
 
-                                  setFieldValue(
-                                    "start_date",
-                                    selectedstart_date
-                                  );
-                                  setShowButton(false);
-                                }}
-                              ></Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="start_date"
-                              />
-                            </FormGroup>
-                          </Col>
-                          <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="end_date"
-                                className="form-label mt-4"
-                              >
-                                End Date
-                             
-                              </label>
-                              <Field
-                                  type="date"   min={"2023-01-01"}
-                                className={`input101 ${
-                                  errors.end_date && touched.end_date
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="end_date"
-                                name="end_date"
-                                onChange={(e) => {
-                                  const selectedend_date_date = e.target.value;
-
-                                  setFieldValue(
-                                    "end_date",
-                                    selectedend_date_date
-                                  );
-                                  setShowButton(false);
-                                }}
-                              ></Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="end_date"
-                              />
-                            </FormGroup>
-                          </Col>
+                                      setFieldValue(
+                                        "end_date",
+                                        selectedend_date_date
+                                      );
+                                      setShowButton(false);
+                                    }}
+                                  ></Field>
+                                  <ErrorMessage
+                                    component="div"
+                                    className="invalid-feedback"
+                                    name="end_date"
+                                  />
+                                </FormGroup>
+                              </Col>
+                            </>
+                          ):""}
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
@@ -565,52 +574,63 @@ const ManageReports = (props) => {
                               />
                             </FormGroup>
                           </Col>
+                          {!toggleValue?(
+                            <Col lg={4} md={6}>
+                              <FormGroup>
+                                <label
+                                  className=" form-label mt-4"
+                                  htmlFor="reportmonth"
+                                >
+                                  Months
+                                </label>
+                                <Field
+                                  as="select"
+                                  className={`input101 ${
+                                    errors.reportmonth && touched.reportmonth
+                                      ? "is-invalid"
+                                      : ""
+                                  }`}
+                                  id="reportmonth"
+                                  name="reportmonth"
+                                  onChange={(e) => {
+                                    const selectedmonth = e.target.value;
+
+                                    setFieldValue("reportmonth", selectedmonth);
+                                    setShowButton(false);
+                                  }}
+                                >
+                                  <option value="">Select a Month</option>
+                                  {ReportList.data &&
+                                  ReportList?.data?.months.length > 0 ? (
+                                    ReportList?.data?.months.map((item) => (
+                                      <option
+                                        key={item.value}
+                                        value={item.value}
+                                        onClick={() => handleReportClick(item)} // Modified line
+                                      >
+                                        {item.display}
+                                      </option>
+                                    ))
+                                  ) : (
+                                    <option disabled>No reportmonth</option>
+                                  )}
+                                </Field>
+
+                                <ErrorMessage
+                                  component="div"
+                                  className="invalid-feedback"
+                                  name="reportmonth"
+                                />
+                              </FormGroup>
+                            </Col>
+                          ):""}
                           <Col lg={4} md={6}>
                             <FormGroup>
-                              <label
-                                className=" form-label mt-4"
-                                htmlFor="reportmonth"
-                              >
-                                Months
-                             
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${
-                                  errors.reportmonth && touched.reportmonth
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="reportmonth"
-                                name="reportmonth"
-                                onChange={(e) => {
-                                  const selectedmonth = e.target.value;
-
-                                  setFieldValue("reportmonth", selectedmonth);
-                                  setShowButton(false);
-                                }}
-                              >
-                                <option value="">Select a reportmonth</option>
-                                {ReportList.data &&
-                                ReportList?.data?.months.length > 0 ? (
-                                  ReportList?.data?.months.map((item) => (
-                                    <option
-                                      key={item.value}
-                                      value={item.value}
-                                      onClick={() => handleReportClick(item)} // Modified line
-                                    >
-                                      {item.display}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No reportmonth</option>
-                                )}
-                              </Field>
-
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="reportmonth"
+                              <label className="form-label mt-4">Get Reports By Date </label>
+                              <Switch
+                                id="customToggle"
+                                checked={toggleValue}
+                                onChange={handleToggleChange}
                               />
                             </FormGroup>
                           </Col>

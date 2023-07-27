@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Loaderimg from "../../Utils/Loader";
 import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import {
   Breadcrumb,
@@ -19,6 +19,7 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
+import { Slide, toast } from "react-toastify";
 
 const DashBordModal = (props) => {
   const {
@@ -38,7 +39,44 @@ const DashBordModal = (props) => {
   );
   const [AddSiteData, setAddSiteData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+  const notify = (message) => {
+    toast.success(message, {
+      autoClose: 1000,
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+    });
+  };
+  const Errornotify = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+    });
+  };
 
+  function handleError(error) {
+    if (error.response && error.response.deduction_status === 401) {
+      navigate("/login");
+      Errornotify("Invalid access token");
+      localStorage.clear();
+    } else if (
+      error.response &&
+      error.response.data.deduction_status_code === "403"
+    ) {
+      navigate("/errorpage403");
+    } else {
+      const errorMessage = Array.isArray(error.response.data.message)
+        ? error.response.data.message.join(" ")
+        : error.response.data.message;
+      Errornotify(errorMessage);
+    }
+  }
   const handleFetchData = async () => {
     const token = localStorage.getItem("token");
 
@@ -86,6 +124,7 @@ const DashBordModal = (props) => {
 
       setIsLoading(false); // Set isLoading to false after the API call is complete
     } catch (error) {
+      handleError(error);
       console.error("API error:", error);
       setIsLoading(false); // Set isLoading to false if there is an error
     }
