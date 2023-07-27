@@ -129,14 +129,13 @@ const DepartmentShop = (props) => {
       if (data) {
         setData(data?.data ? data.data : []);
         console.log(data?.data?.siteFuels, "data?.data");
-      
 
         const filteredDieselIds = data?.data?.siteFuels
-        .filter((fuel) => fuel.fuel_name === "Diesel")
-        .map((fuel) => fuel.id);
-      
-      console.log(filteredDieselIds,"filteredDieselIds");
-      setDieselID(filteredDieselIds)
+          .filter((fuel) => fuel.fuel_name === "Diesel")
+          .map((fuel) => fuel.id);
+
+        console.log(filteredDieselIds, "filteredDieselIds");
+        setDieselID(filteredDieselIds);
       }
     } catch (error) {
       console.error("API error:", error);
@@ -782,6 +781,7 @@ const DepartmentShop = (props) => {
                             name={`nonbunkeredsalesvalue[${index}].fuel`}
                             onChange={formik2.handleChange}
                             value={item?.fuel || ""}
+                            disabled={!editable?.is_editable} 
                           >
                             <option value="">Select a Fuel</option>
                             {data?.siteFuels?.map((fuel) => (
@@ -823,6 +823,7 @@ const DepartmentShop = (props) => {
                             name={`nonbunkeredsalesvalue[${index}].volume`}
                             onChange={formik2.handleChange}
                             value={item?.volume || ""}
+                            readOnly={editable?.is_editable ? false : true}
                           />
                           {formik2.errors.nonbunkeredsalesvalue?.[index]
                             ?.volume &&
@@ -857,6 +858,7 @@ const DepartmentShop = (props) => {
                             name={`nonbunkeredsalesvalue[${index}].value`}
                             onChange={formik2.handleChange}
                             value={item?.value || ""}
+                            readOnly={editable?.is_editable ? false : true}
                           />
                           {formik2.errors.nonbunkeredsalesvalue?.[index]
                             ?.value &&
@@ -872,28 +874,33 @@ const DepartmentShop = (props) => {
                             )}
                         </Form.Group>
                       </Col>
-                      <Col lg={3} md={3}>
-                        <Form.Label>ACTION</Form.Label>
+                      {editable?.is_editable ? (
+                        <Col lg={3} md={3}>
+                          <Form.Label>ACTION</Form.Label>
 
-                        <div className="bunkered-action">
-                          <button
-                            className="btn btn-primary me-2"
-                            onClick={() => removenonbunkeredSalesRow(index)}
-                          >
-                            <RemoveCircleIcon />
-                          </button>
-                          {index ===
-                            formik2.values.nonbunkeredsalesvalue.length - 1 && (
+                          <div className="bunkered-action">
                             <button
                               className="btn btn-primary me-2"
-                              type="button"
-                              onClick={pushnonbunkeredSalesRow}
+                              onClick={() => removenonbunkeredSalesRow(index)}
                             >
-                              <AddBoxIcon />
+                              <RemoveCircleIcon />
                             </button>
-                          )}
-                        </div>
-                      </Col>
+                            {index ===
+                              formik2.values.nonbunkeredsalesvalue.length -
+                                1 && (
+                              <button
+                                className="btn btn-primary me-2"
+                                type="button"
+                                onClick={pushnonbunkeredSalesRow}
+                              >
+                                <AddBoxIcon />
+                              </button>
+                            )}
+                          </div>
+                        </Col>
+                      ) : (
+                        ""
+                      )}
                     </React.Fragment>
                   ))}
                 </Row>
@@ -930,6 +937,7 @@ const DepartmentShop = (props) => {
                             name={`creditcardvalue[${index}].card`}
                             onChange={formik3.handleChange}
                             value={item?.card || ""}
+                            disabled={!editable?.is_editable} 
                           >
                             <option value="">Select a card</option>
                             {data?.cardsList?.map((card) => (
@@ -964,6 +972,7 @@ const DepartmentShop = (props) => {
                             name={`creditcardvalue[${index}].koisk`}
                             onChange={formik3.handleChange}
                             value={item?.koisk || ""}
+                            readOnly={editable?.is_editable ? false : true}
                           />
                           {formik3.errors.creditcardvalue?.[index]?.koisk &&
                             formik3.touched[
@@ -994,6 +1003,7 @@ const DepartmentShop = (props) => {
                             name={`creditcardvalue[${index}].optvalue`}
                             onChange={formik3.handleChange}
                             value={item?.optvalue || ""}
+                            readOnly={editable?.is_editable ? false : true}
                           />
                           {formik3.errors.creditcardvalue?.[index]?.optvalue &&
                             formik3.touched[
@@ -1024,6 +1034,7 @@ const DepartmentShop = (props) => {
                             name={`creditcardvalue[${index}].accountvalue`}
                             onChange={formik3.handleChange}
                             value={item?.accountvalue || ""}
+                            readOnly={editable?.is_editable ? false : true}
                           />
                           {formik3.errors.creditcardvalue?.[index]
                             ?.accountvalue &&
@@ -1058,6 +1069,7 @@ const DepartmentShop = (props) => {
                             name={`creditcardvalue[${index}].transactionsvalue`}
                             onChange={formik3.handleChange}
                             value={item?.transactionsvalue || ""}
+                            readOnly={editable?.is_editable ? false : true}
                           />
                           {formik3.errors.creditcardvalue?.[index]
                             ?.transactionsvalue &&
@@ -1073,29 +1085,38 @@ const DepartmentShop = (props) => {
                             )}
                         </Form.Group>
                       </Col>
-
                       <Col lg={2} md={2}>
-                        <Form.Label>ACTION</Form.Label>
-                        <div className="bunkered-action">
-                          <button
-                            className="btn btn-primary me-2"
-                            onClick={() => removecreditcardRow(index)}
-                            type="button"
-                          >
-                            <RemoveCircleIcon />
-                          </button>
+                        {editable?.is_editable ? (
+                          <>
+                            <Form.Label>ACTION</Form.Label>
+                            <div className="bunkered-action">
+                              <button
+                                className="btn btn-primary me-2"
+                                onClick={() =>
+                                  editable?.is_editable
+                                    ? removecreditcardRow(index)
+                                    : null
+                                }
+                                type="button"
+                              >
+                                <RemoveCircleIcon />
+                              </button>
 
-                          {index ===
-                            formik3.values.creditcardvalue.length - 1 && (
-                            <button
-                              className="btn btn-primary me-2"
-                              type="button"
-                              onClick={pushnoncreditcardRow}
-                            >
-                              <AddBoxIcon />
-                            </button>
-                          )}
-                        </div>
+                              {index ===
+                                formik3.values.creditcardvalue.length - 1 && (
+                                <button
+                                  className="btn btn-primary me-2"
+                                  type="button"
+                                  onClick={pushnoncreditcardRow}
+                                >
+                                  <AddBoxIcon />
+                                </button>
+                              )}
+                            </div>
+                          </>
+                        ) : (
+                          ""
+                        )}
                       </Col>
                     </React.Fragment>
                   ))}

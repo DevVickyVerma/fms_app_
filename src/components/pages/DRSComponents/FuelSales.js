@@ -173,9 +173,9 @@ const FuelSales = (props) => {
         // Handle specific error cases if needed
       }
     } catch (error) {
-      console.log("Request Error:", error);
-      // Handle request error
-    } finally {
+      console.error("API error:", error);
+      handleError(error);
+    }finally {
       setIsLoading(false);
     }
   };

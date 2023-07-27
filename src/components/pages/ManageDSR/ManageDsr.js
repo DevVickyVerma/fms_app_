@@ -177,7 +177,12 @@ const ManageDsr = (props) => {
 
       const postDataUrl = "/drs/get-data";
 
-      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+      await postData(postDataUrl, formData);
+      if (apidata.api_response === "success") {
+        console.log(apidata.api_response, "apidata.api_response");
+        setIsTimerRunning(true);
+        setTimeLeft(40);
+      } // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
@@ -318,6 +323,44 @@ const ManageDsr = (props) => {
       behavior: "smooth", // You can use 'auto' instead of 'smooth' for instant scrolling
     });
     // Show the modal
+  };
+  const [timeLeft, setTimeLeft] = useState(40);
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
+
+  useEffect(() => {
+    let timer;
+    if (isTimerRunning && timeLeft > 0) {
+      timer = setInterval(() => {
+        setTimeLeft((prevTime) => prevTime - 1);
+      }, 1000);
+    } else if (timeLeft === 0) {
+      setIsTimerRunning(false);
+      // Perform the action you want after the 1-minute countdown ends
+      // For example, call a function or update the UI accordingly.
+      // You can add your `getDRSData()` function call here.
+    }
+
+
+    if (timeLeft === 1) {
+      const current = {
+        "client_id": PropsClientId,
+        "company_id": PropsCompanyId,
+        "site_id": SiteId,
+        "start_date": DRSDate,
+      };
+      console.log(current, "formikvalue");
+      handleSubmit1(current);
+      console.log("done");
+    }
+    
+    return () => clearInterval(timer);
+  }, [isTimerRunning, timeLeft]);
+
+  const handleButtonClick = () => {
+    if (!isTimerRunning) {
+      console.log(isTimerRunning, "isTimerRunning");
+      getDRSData(); // Assuming you have a function to fetch data called getDRSData()
+    }
   };
 
   return (
@@ -558,7 +601,8 @@ const ManageDsr = (props) => {
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
-                                  type="date"   min={"2023-01-01"}
+                                type="date"
+                                min={"2023-01-01"}
                                 className={`input101 ${
                                   errors.start_date && touched.start_date
                                     ? "is-invalid"
@@ -566,7 +610,7 @@ const ManageDsr = (props) => {
                                 }`}
                                 id="start_date"
                                 name="start_date"
-                               // Set the minimum date value here
+                                // Set the minimum date value here
                                 onChange={(e) => {
                                   const selectedCompany = e.target.value;
                                   setFieldValue("start_date", selectedCompany);
@@ -699,12 +743,19 @@ const ManageDsr = (props) => {
               <Card.Header className="d-flex justify-content-space-between">
                 <h3 className="card-title">Data Entry</h3>
                 {getDataBtn === true && isAssignPermissionAvailable ? (
-                  <Link
-                    onClick={() => getDRSData()}
-                    className="btn btn-warning me-2"
-                  >
-                    Get Data from EVOBOS
-                  </Link>
+                  <>
+                    <Link
+                      onClick={handleButtonClick}
+                      className="btn btn-warning me-2"
+                      disabled={isTimerRunning}
+                    >
+                      {isTimerRunning
+                        ? `Wait (${timeLeft} sec)`
+                        : "Get Data from EVOBOS"}
+                    </Link>
+                    {/* You can also display the remaining time as text if needed */}
+                    {/* <p>Time Left: {timeLeft} seconds</p> */}
+                  </>
                 ) : (
                   ""
                 )}
