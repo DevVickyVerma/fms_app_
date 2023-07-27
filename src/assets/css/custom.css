@@ -336,9 +336,9 @@ input.table-input.readonly.total-input-card {
   margin-left: auto;
 }
 .text-end.notification-class {
-  width: 15%;
+  width: 25%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   float: right;
 }
 .Notification {

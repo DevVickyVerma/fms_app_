@@ -154,7 +154,7 @@ const DashBordModal = (props) => {
                                 <Row>
                                   {localStorage.getItem("superiorRole") !==
                                     "Client" && (
-                                    <Col lg={3} md={6}>
+                                    <Col lg={4} md={4}>
                                       <FormGroup>
                                         <label
                                           htmlFor="client_id"
@@ -233,7 +233,7 @@ const DashBordModal = (props) => {
                                       </FormGroup>
                                     </Col>
                                   )}
-                                  <Col lg={3} md={6}>
+                                  <Col lg={4} md={4}>
                                     <FormGroup>
                                       <label
                                         htmlFor="company_id"
@@ -368,7 +368,7 @@ const DashBordModal = (props) => {
                                       />
                                     </FormGroup>
                                   </Col>
-                                  {/* <Col lg={3} md={6}>
+                                  {/* <Col lg={4} md={4}>
                                     <FormGroup>
                                       <label
                                         htmlFor="fromdate"
@@ -377,7 +377,7 @@ const DashBordModal = (props) => {
                                         From
                                       </label>
                                       <Field
-                                        type="date"
+                                          type="date"   min={"2023-01-01"}
                                         className={`input101 ${
                                           errors.fromdate && touched.fromdate
                                             ? "is-invalid"
@@ -393,7 +393,7 @@ const DashBordModal = (props) => {
                                       />
                                     </FormGroup>
                                   </Col>
-                                  <Col lg={3} md={6}>
+                                  <Col lg={4} md={4}>
                                     <FormGroup>
                                       <label
                                         htmlFor="TOdate"
@@ -402,7 +402,7 @@ const DashBordModal = (props) => {
                                         To
                                       </label>
                                       <Field
-                                        type="date"
+                                          type="date"   min={"2023-01-01"}
                                         className={`input101 ${
                                           errors.TOdate && touched.TOdate
                                             ? "is-invalid"

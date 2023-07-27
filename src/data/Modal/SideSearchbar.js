@@ -99,7 +99,7 @@ const handleSubmit = async (event) => {
                   Start Date:
                 </label>
                 <input
-                  type="date"
+                    type="date"   min={"2023-01-01"}
                   id="start-date"
                   className="form-control"
                   value={start_date}
@@ -112,7 +112,7 @@ const handleSubmit = async (event) => {
                   End Date:
                 </label>
                 <input
-                  type="date"
+                    type="date"   min={"2023-01-01"}
                   id="end-date"
                   className="form-control"
                   value={end_date}

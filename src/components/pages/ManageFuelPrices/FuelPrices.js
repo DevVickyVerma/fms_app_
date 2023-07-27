@@ -275,7 +275,12 @@ const FuelPrices = (props) => {
                   validationSchema={Yup.object({
                     company_id: Yup.string().required("Company is required"),
 
-                    start_date: Yup.date().required("Start Date is required"),
+                    start_date: Yup.date()
+                      .required("Start Date is required")
+                      .min(
+                        new Date("2023-01-01"),
+                        "Start Date cannot be before January 1, 2023"
+                      ),
                   })}
                   onSubmit={(values) => {
                     handleSubmit1(values);
@@ -430,7 +435,7 @@ const FuelPrices = (props) => {
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
-                                type="date"
+                                  type="date"   min={"2023-01-01"}
                                 className={`input101 ${
                                   errors.start_date && touched.start_date
                                     ? "is-invalid"

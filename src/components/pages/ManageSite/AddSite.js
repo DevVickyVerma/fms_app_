@@ -698,7 +698,7 @@ const AddSite = (props) => {
                                 <span className="text-danger">*</span>
                               </label>
                               <input
-                                type="date"
+                                  type="date"   min={"2023-01-01"}
                                 className={`input101  ${
                                   errors.DRS_Start_Date &&
                                   touched.DRS_Start_Date

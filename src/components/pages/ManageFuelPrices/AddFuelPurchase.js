@@ -109,7 +109,12 @@ const ManageDsr = (props) => {
   const secondValidationSchema = Yup.object({
     client_id1: Yup.string().required("Client is required"),
     company_id1: Yup.string().required("Company is required"),
-    start_date1: Yup.date().required("Start Date is required"),
+    start_date1: Yup.date()
+    .required("Start Date is required")
+    .min(
+      new Date("2023-01-01"),
+      "Start Date cannot be before January 1, 2023"
+    ),
     platts: Yup.string().required("Platts is required"),
     developmentfuels: Yup.string().required("Development Fuels is required"),
     dutty: Yup.string().required("Dutty  is required"),
@@ -393,7 +398,7 @@ const ManageDsr = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <input
-                          type="date"
+                            type="date"   min={"2023-01-01"}
                           className={`input101 ${
                             formik2.errors.start_date1 &&
                             formik2.touched.start_date1
@@ -401,6 +406,7 @@ const ManageDsr = (props) => {
                               : ""
                           }`}
                           id="start_date1"
+                  
                           name="start_date1"
                           onChange={formik2.handleChange}
                         />

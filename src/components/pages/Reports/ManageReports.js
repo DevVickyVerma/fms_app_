@@ -456,7 +456,7 @@ const ManageReports = (props) => {
                           
                               </label>
                               <Field
-                                type="date"
+                                  type="date"   min={"2023-01-01"}
                                 className={`input101 ${
                                   errors.start_date && touched.start_date
                                     ? "is-invalid"
@@ -491,7 +491,7 @@ const ManageReports = (props) => {
                              
                               </label>
                               <Field
-                                type="date"
+                                  type="date"   min={"2023-01-01"}
                                 className={`input101 ${
                                   errors.end_date && touched.end_date
                                     ? "is-invalid"

@@ -92,6 +92,8 @@ const ManageDsr = (props) => {
   const [getDataBtn, setgetDataBtn] = useState();
   const [SiteId, setSiteId] = useState();
   const [DRSDate, setDRSDate] = useState();
+  const [initialDate, setInitialDate] = useState("2023-01-01");
+
   const navigate = useNavigate();
   const notify = (message) => {
     toast.success(message, {
@@ -358,7 +360,12 @@ const ManageDsr = (props) => {
                   validationSchema={Yup.object({
                     company_id: Yup.string().required("Company is required"),
                     site_id: Yup.string().required("Site is required"),
-                    start_date: Yup.date().required("Start Date is required"),
+                    start_date: Yup.date()
+                      .required("Start Date is required")
+                      .min(
+                        new Date("2023-01-01"),
+                        "Start Date cannot be before January 1, 2023"
+                      ),
                   })}
                   onSubmit={(values) => {
                     handleSubmit1(values);
@@ -551,7 +558,7 @@ const ManageDsr = (props) => {
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
-                                type="date"
+                                  type="date"   min={"2023-01-01"}
                                 className={`input101 ${
                                   errors.start_date && touched.start_date
                                     ? "is-invalid"
@@ -559,6 +566,7 @@ const ManageDsr = (props) => {
                                 }`}
                                 id="start_date"
                                 name="start_date"
+                               // Set the minimum date value here
                                 onChange={(e) => {
                                   const selectedCompany = e.target.value;
                                   setFieldValue("start_date", selectedCompany);
@@ -747,63 +755,81 @@ const ManageDsr = (props) => {
             sendDataToParent={handleDataFromBunkeredSales}
           />
         ) : UploadTabname === "Fuel Sales" ? (
-          <FuelSales   client_id={PropsClientId}
+          <FuelSales
+            client_id={PropsClientId}
             company_id={PropsCompanyId}
             site_id={PropsSiteId}
             start_date={PropsDate}
-            sendDataToParent={handleDataFromBunkeredSales} />
+            sendDataToParent={handleDataFromBunkeredSales}
+          />
         ) : UploadTabname === "Charges & Deductions" ? (
-          <ChargesDeduction client_id={PropsClientId}
+          <ChargesDeduction
+            client_id={PropsClientId}
             company_id={PropsCompanyId}
             site_id={PropsSiteId}
             start_date={PropsDate}
-            sendDataToParent={handleDataFromBunkeredSales} />
+            sendDataToParent={handleDataFromBunkeredSales}
+          />
         ) : UploadTabname === "Valet & Coffee Sales" ? (
-          <CoffeeValet client_id={PropsClientId}
+          <CoffeeValet
+            client_id={PropsClientId}
             company_id={PropsCompanyId}
             site_id={PropsSiteId}
             start_date={PropsDate}
-            sendDataToParent={handleDataFromBunkeredSales} />
+            sendDataToParent={handleDataFromBunkeredSales}
+          />
         ) : UploadTabname === "Fuel-Inventory" ? (
-          <FuelInventry client_id={PropsClientId}
+          <FuelInventry
+            client_id={PropsClientId}
             company_id={PropsCompanyId}
             site_id={PropsSiteId}
             start_date={PropsDate}
-            sendDataToParent={handleDataFromBunkeredSales} />
+            sendDataToParent={handleDataFromBunkeredSales}
+          />
         ) : UploadTabname === "Shop Sales" ? (
-          <ShopSales client_id={PropsClientId}
+          <ShopSales
+            client_id={PropsClientId}
             company_id={PropsCompanyId}
             site_id={PropsSiteId}
             start_date={PropsDate}
-            sendDataToParent={handleDataFromBunkeredSales} />
+            sendDataToParent={handleDataFromBunkeredSales}
+          />
         ) : UploadTabname === "Department Shop Sales" ? (
-          <Departmentshopsale client_id={PropsClientId}
+          <Departmentshopsale
+            client_id={PropsClientId}
             company_id={PropsCompanyId}
             site_id={PropsSiteId}
             start_date={PropsDate}
-            sendDataToParent={handleDataFromBunkeredSales} />
+            sendDataToParent={handleDataFromBunkeredSales}
+          />
         ) : UploadTabname === "Cash Banking" ? (
           <CashBanking SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : UploadTabname === "Bank Deposit" ? (
           <BankDeposit SiteID={PropsSiteId} ReportDate={PropsDate} />
         ) : UploadTabname === "Department Shop Summary" ? (
-          <DepartmentShop client_id={PropsClientId}
+          <DepartmentShop
+            client_id={PropsClientId}
             company_id={PropsCompanyId}
             site_id={PropsSiteId}
             start_date={PropsDate}
-            sendDataToParent={handleDataFromBunkeredSales} />
+            sendDataToParent={handleDataFromBunkeredSales}
+          />
         ) : UploadTabname === "Credit Card Banking" ? (
-          <CreditCardBanking client_id={PropsClientId}
+          <CreditCardBanking
+            client_id={PropsClientId}
             company_id={PropsCompanyId}
             site_id={PropsSiteId}
             start_date={PropsDate}
-            sendDataToParent={handleDataFromBunkeredSales} />
+            sendDataToParent={handleDataFromBunkeredSales}
+          />
         ) : UploadTabname === "Summary" ? (
-          <Summary client_id={PropsClientId}
+          <Summary
+            client_id={PropsClientId}
             company_id={PropsCompanyId}
             site_id={PropsSiteId}
             start_date={PropsDate}
-            sendDataToParent={handleDataFromBunkeredSales} />
+            sendDataToParent={handleDataFromBunkeredSales}
+          />
         ) : UploadTabname === "Bunkered Sales" ? (
           <BunkeredSales
             client_id={PropsClientId}

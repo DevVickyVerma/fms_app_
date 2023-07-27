@@ -683,7 +683,7 @@ export default function AddSite(props) {
                             DRS Start Date<span className="text-danger">*</span>
                           </label>
                           <input
-                            type="date"
+                              type="date"   min={"2023-01-01"}
                             className={`input101 ${
                               formik.errors.start_date &&
                               formik.touched.start_date
