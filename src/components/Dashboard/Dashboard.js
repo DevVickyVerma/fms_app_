@@ -17,6 +17,7 @@ import PieDashboardChart from "../../components/pages/DashBoardChart/PieDashboar
 import Spinners from "../../components/Dashboard/Spinner";
 import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
+import OilBarrelIcon from '@mui/icons-material/OilBarrel';
 
 const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -406,7 +407,7 @@ const Dashboard = (props) => {
                               <>
                                 <h4 className="mb-2 number-font">
                                   {" "}
-                                  £{GrossProfitValue?.gross_margin}
+                                  {GrossProfitValue?.gross_margin}ppl
                                 </h4>
                                 <p className="text-muted mb-0 mt-4">
                                   <span
@@ -441,10 +442,10 @@ const Dashboard = (props) => {
                             )}
                           </div>
                           <div className="col col-auto">
-                            <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto">
-                              <i className="icon icon-pound-sign text-white mb-5 ">
-                                &#163;
-                              </i>
+                            <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto text-white">
+                          <OilBarrelIcon/>
+                            
+                              
                             </div>
                           </div>
                         </div>

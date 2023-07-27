@@ -166,8 +166,15 @@ const ManageDsr = (props) => {
       developmentfuels_price !== undefined &&
       dutyprice !== undefined
     ) {
-      const sum =
-        (plattsPrice + premiumPrice + developmentfuels_price + dutyprice) / 100;
+
+      console.log("plattsPrice:", plattsPrice);
+      console.log("developmentfuels_price:", developmentfuels_price);
+      console.log("dutyprice:", dutyprice);
+      console.log("premiumPrice:", premiumPrice);
+
+ 
+const sum = (parseFloat(plattsPrice) + parseFloat(premiumPrice) + parseFloat(developmentfuels_price) + parseFloat(dutyprice)) / 100;
+
       console.log("Sum:", sum);
       const roundedSum = sum.toFixed(2);
       formik.setFieldValue(`data[${index}].ex_vat_price`, roundedSum);
@@ -232,7 +239,7 @@ const ManageDsr = (props) => {
               calculateSum(index);
             }}
           />
-          {/* Error handling code */}
+         
         </div>
       ),
     },
@@ -434,11 +441,11 @@ const ManageDsr = (props) => {
       company_id: Yup.string().required("Company is required"),
 
       start_date: Yup.date()
-      .required("Start Date is required")
-      .min(
-        new Date("2023-01-01"),
-        "Start Date cannot be before January 1, 2023"
-      ),
+        .required("Start Date is required")
+        .min(
+          new Date("2023-01-01"),
+          "Start Date cannot be before January 1, 2023"
+        ),
     }),
 
     onSubmit: handleSubmit,
@@ -485,7 +492,7 @@ const ManageDsr = (props) => {
       // formik.values.sites.forEach((site, index) => {
       //   formData.append(`site_id[${index}]`, site.id);
       // });
-      console.log(formik.values,"formik.values.site_id")
+      console.log(formik.values, "formik.values.site_id");
       formData.append(`site_id[0]`, formik.values.site_id);
       // formData.append("site_id", formik.values.sites);
       formData.append("date", formik.values.start_date);
@@ -717,11 +724,7 @@ const ManageDsr = (props) => {
                             name="site_id"
                             onChange={(e) => {
                               const selectedsite_id = e.target.value;
-                              formik.setFieldValue(
-                                "site_id",
-                                selectedsite_id
-                              );
-                           
+                              formik.setFieldValue("site_id", selectedsite_id);
                             }}
                           >
                             <option value="">Select a Site</option>
@@ -753,14 +756,14 @@ const ManageDsr = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <input
-                              type="date"   min={"2023-01-01"}
+                            type="date"
+                            min={"2023-01-01"}
                             className={`input101 ${
                               formik.errors.start_date &&
                               formik.touched.start_date
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            
                             id="start_date"
                             name="start_date"
                             onChange={formik.handleChange}
