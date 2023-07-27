@@ -407,7 +407,7 @@ const Dashboard = (props) => {
                               <>
                                 <h4 className="mb-2 number-font">
                                   {" "}
-                                  {GrossProfitValue?.gross_margin}ppl
+                                  {GrossProfitValue?.gross_margin} ppl
                                 </h4>
                                 <p className="text-muted mb-0 mt-4">
                                   <span

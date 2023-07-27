@@ -166,14 +166,17 @@ const ManageDsr = (props) => {
       developmentfuels_price !== undefined &&
       dutyprice !== undefined
     ) {
-
       console.log("plattsPrice:", plattsPrice);
       console.log("developmentfuels_price:", developmentfuels_price);
       console.log("dutyprice:", dutyprice);
       console.log("premiumPrice:", premiumPrice);
 
- 
-const sum = (parseFloat(plattsPrice) + parseFloat(premiumPrice) + parseFloat(developmentfuels_price) + parseFloat(dutyprice)) / 100;
+      const sum =
+        (parseFloat(plattsPrice) +
+          parseFloat(premiumPrice) +
+          parseFloat(developmentfuels_price) +
+          parseFloat(dutyprice)) /
+        100;
 
       console.log("Sum:", sum);
       const roundedSum = sum.toFixed(2);
@@ -239,7 +242,6 @@ const sum = (parseFloat(plattsPrice) + parseFloat(premiumPrice) + parseFloat(dev
               calculateSum(index);
             }}
           />
-         
         </div>
       ),
     },
@@ -489,11 +491,11 @@ const sum = (parseFloat(plattsPrice) + parseFloat(premiumPrice) + parseFloat(dev
         formData.append(total, total_values);
       });
 
-      // formik.values.sites.forEach((site, index) => {
-      //   formData.append(`site_id[${index}]`, site.id);
-      // });
+      formik.values.sites.forEach((site, index) => {
+        formData.append(`site_id[${index}]`, site.id);
+      });
       console.log(formik.values, "formik.values.site_id");
-      formData.append(`site_id[0]`, formik.values.site_id);
+      // formData.append(`site_id[0]`, formik.values.site_id);
       // formData.append("site_id", formik.values.sites);
       formData.append("date", formik.values.start_date);
 
