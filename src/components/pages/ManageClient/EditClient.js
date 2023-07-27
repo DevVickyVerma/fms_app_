@@ -118,12 +118,21 @@ const EditClient = (props) => {
 
 
   const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const handleMaOptionChange = (value) => {
+    const maOptionArray = [...formik.values.ma_option];
+    const index = maOptionArray.indexOf(value);
+  
+    if (index === -1) {
+      // If the value is not in the array, add it
+      maOptionArray.push(value);
+    } else {
+      // If the value is in the array, remove it
+      maOptionArray.splice(index, 1);
+    }
+  
+    formik.setFieldValue("ma_option", maOptionArray);
+  };
+  
 
 
 
@@ -563,57 +572,50 @@ const EditClient = (props) => {
                         </div>
                       </Col>
                       <Col lg={4} md={6}>
-                        <div className="form-group">
-                          <label
+                      <div>
+                      <label
                             htmlFor="ma_option"
                             className="form-label mt-4"
                           >
                             MA Options
                             <span className="text-danger">*</span>
                           </label>
-                          <div>
-                            <label>
-                              <input
-                                type="checkbox"
-                                name="ma_option"
-                                value="1"
-                                checked={formik.values.ma_option.includes("1")}
-                                onChange={() => handleCheckBoxChange("1")}
-                              />
-                              Actual
-                            </label>
-                          </div>
-                          <div>
-                            <label>
-                              <input
-                                type="checkbox"
-                                name="ma_option"
-                                value="2"
-                                checked={formik.values.ma_option.includes("2")}
-                                onChange={() => handleCheckBoxChange("2")}
-                              />
-                              Forecast
-                            </label>
-                          </div>
-                          <div>
-                            <label>
-                              <input
-                                type="checkbox"
-                                name="ma_option"
-                                value="3"
-                                checked={formik.values.ma_option.includes("3")}
-                                onChange={() => handleCheckBoxChange("3")}
-                              />
-                              Variance
-                            </label>
-                          </div>
-                          {formik.errors.ma_option &&
-                            formik.touched.ma_option && (
-                              <div className="invalid-feedback">
-                                {formik.errors.ma_option}
-                              </div>
-                            )}
-                        </div>
+  <label>
+    <input
+      type="checkbox"
+      name="ma_option"
+      value="1"
+      checked={formik.values.ma_option.includes("1")}
+      onChange={() => handleMaOptionChange("1")}
+    />
+    Actual
+  </label>
+</div>
+<div>
+  <label>
+    <input
+      type="checkbox"
+      name="ma_option"
+      value="2"
+      checked={formik.values.ma_option.includes("2")}
+      onChange={() => handleMaOptionChange("2")}
+    />
+    Forecast
+  </label>
+</div>
+<div>
+  <label>
+    <input
+      type="checkbox"
+      name="ma_option"
+      value="3"
+      checked={formik.values.ma_option.includes("3")}
+      onChange={() => handleMaOptionChange("3")}
+    />
+    Variance
+  </label>
+</div>
+
                       </Col>
                     </Row>
 

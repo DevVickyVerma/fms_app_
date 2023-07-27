@@ -108,42 +108,18 @@ export const MENUITEMS = [
         ],
       },
       {
-        title: "Manage Tolerances",
-        icon: "handshake-o",
+        title: "Manage DRS",
+        icon: "globe",
         type: "sub",
         active: false,
-        permission: "tolerance-list",
+        permission: "drs-menu-list",
         visibility: false,
         children: [
           {
-            path: `/tolerances`,
-            title: "Tolerances",
+            path: `/data-entry`,
+            title: "Manage DRS",
             type: "link",
-            permission: "tolerance-list",
-            visibility: false,
-          },
-        ],
-      },
-      {
-        title: "Manage Commissions",
-        icon: "tags",
-        type: "sub",
-        active: false,
-        permission: "shop-item-commission-list",
-        visibility: false,
-        children: [
-          {
-            path: `/Managecommission`,
-            title: "Shop Commission",
-            type: "link",
-            permission: "shop-item-commission-list",
-            visibility: false,
-          },
-          {
-            path: `/valetcommission`,
-            title: "Valet Commission",
-            type: "link",
-            permission: "valet-item-commission-list",
+            permission: "drs-menu-list",
             visibility: false,
           },
         ],
@@ -197,6 +173,48 @@ export const MENUITEMS = [
           },
         ],
       },
+      {
+        title: "Manage Tolerances",
+        icon: "handshake-o",
+        type: "sub",
+        active: false,
+        permission: "tolerance-list",
+        visibility: false,
+        children: [
+          {
+            path: `/tolerances`,
+            title: "Tolerances",
+            type: "link",
+            permission: "tolerance-list",
+            visibility: false,
+          },
+        ],
+      },
+      {
+        title: "Manage Commissions",
+        icon: "tags",
+        type: "sub",
+        active: false,
+        permission: "shop-item-commission-list",
+        visibility: false,
+        children: [
+          {
+            path: `/Managecommission`,
+            title: "Shop Commission",
+            type: "link",
+            permission: "shop-item-commission-list",
+            visibility: false,
+          },
+          {
+            path: `/valetcommission`,
+            title: "Valet Commission",
+            type: "link",
+            permission: "valet-item-commission-list",
+            visibility: false,
+          },
+        ],
+      },
+
       {
         title: "Manage Business Types",
         icon: "th-large",
@@ -426,23 +444,7 @@ export const MENUITEMS = [
           },
         ],
       },
-      {
-        title: "Manage DRS",
-        icon: "globe",
-        type: "sub",
-        active: false,
-        permission: "drs-menu-list",
-        visibility: false,
-        children: [
-          {
-            path: `/data-entry`,
-            title: "Manage DRS",
-            type: "link",
-            permission: "drs-menu-list",
-            visibility: false,
-          },
-        ],
-      },
+
       {
         title: "Manage Reports",
         icon: "pie-chart",
