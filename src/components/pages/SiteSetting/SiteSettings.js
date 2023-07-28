@@ -133,7 +133,10 @@ const SiteSettings = (props) => {
     try {
       // Create a new FormData object
       const formData = new FormData();
-      console.log(values, "valuehandleSubmits");
+      console.log(
+        values.AssignFormikbussiness,
+        " values.AssignFormikbussiness"
+      );
       values.AssignFormikbussiness.forEach((obj) => {
         const { id, business_model_types, checked } = obj;
         const business_models_valueKey = `business_models[${id}]`;
@@ -321,10 +324,76 @@ const SiteSettings = (props) => {
   };
 
   // Handle radio button change
+  const [selectAllChecked, setSelectAllChecked] = useState(false);
+  const [selectAllCheckedCards, setSelectAllCheckedCards] = useState(false);
+  const [selectAllCheckedDays, setSelectAllCheckedCardsDays] = useState(false);
+  const [selectAllCheckedCharges, setSelectAllCheckedCharges] = useState(false);
+  const [selectAllCheckedDeductions, setSelectAllCheckedDeductions] = useState(false);
+  const handleselectAllCheckbox = () => {
+    const updatedRowData = BussinesModelData.map((row) => ({
+      ...row,
+      checked: !selectAllChecked,
+    }));
+    formik.setFieldValue("AssignFormikbussiness", updatedRowData);
+    setSelectAllChecked(!selectAllChecked);
+
+    console.log("Row data when header checkbox is clicked:", updatedRowData);
+    console.log("Row data when header checkbox is clicked:", formik.values);
+  };
+  const handleSelectAllCheckboxChange = () => {
+    const updatedRowData = CardsModelData.map((row) => ({
+      ...row,
+      checked: !selectAllCheckedCards,
+    }));
+    formik.setFieldValue("AssignFormikCards", updatedRowData);
+    setSelectAllCheckedCards(!selectAllCheckedCards);
+    console.log("Row data when header checkbox is clicked:", updatedRowData);
+    formik.setFieldValue("AssignFormikCards", updatedRowData);
+  };
+  const handleSelectAllDays = () => {
+    const updatedRowData = CashDayData.map((row) => ({
+      ...row,
+      checked: !selectAllCheckedDays,
+    }));
+    formik.setFieldValue("CahsDayFormikData", updatedRowData);
+    setSelectAllCheckedCardsDays(!selectAllCheckedDays);
+    console.log("Row data when header checkbox is clicked:", updatedRowData);
+    formik.setFieldValue("CahsDayFormikData", updatedRowData);
+  };
+  const handleSelectAllCharges = () => {
+    const updatedRowData = data.map((row) => ({
+      ...row,
+      checked: !selectAllCheckedCharges,
+    }));
+    formik.setFieldValue("FormikChargesData", updatedRowData);
+    setSelectAllCheckedCharges(!selectAllCheckedCharges);
+    console.log("Row data when header checkbox is clicked:", updatedRowData);
+    formik.setFieldValue("FormikChargesData", updatedRowData);
+  };
+  const handleSelectAllDeductions = () => {
+    const updatedRowData = DeductionData.map((row) => ({
+      ...row,
+      checked: !selectAllCheckedDeductions,
+    }));
+    formik.setFieldValue("FormikDeductionData", updatedRowData);
+    setSelectAllCheckedDeductions(!selectAllCheckedDeductions);
+    console.log("Row data when header checkbox is clicked:", updatedRowData);
+    formik.setFieldValue("FormikDeductionData", updatedRowData);
+  };
 
   const BussinesModelColumn = [
     {
-      name: "Select",
+      name: (
+        <input
+          type="checkbox"
+          id="selectAllCheckbox"
+          name="selectAllCheckbox"
+          className="table-checkbox-input"
+          checked={selectAllChecked}
+          onChange={handleselectAllCheckbox}
+        />
+      ),
+
       selector: "checked",
       sortable: false,
       center: true,
@@ -390,9 +459,24 @@ const SiteSettings = (props) => {
     });
   }
 
+
+
+
   const CardsModelColumn = [
     {
-      name: "Select",
+      name: (
+ 
+          <input
+            type="checkbox"
+            id="selectAllCheckboxCards"
+            name="selectAllCheckboxCards"
+            className="table-checkbox-input"
+            checked={selectAllCheckedCards}
+            onChange={handleSelectAllCheckboxChange}
+          />
+          
+       
+      ),
       selector: "checked",
       sortable: false,
       center: true,
@@ -456,7 +540,19 @@ const SiteSettings = (props) => {
 
   const chargesColumns = [
     {
-      name: "Select",
+      name: (
+ 
+        <input
+          type="checkbox"
+          id="selectAllCheckboxCharges"
+          name="selectAllCheckboxCharges"
+          className="table-checkbox-input"
+          checked={selectAllCheckedCharges}
+          onChange={handleSelectAllCharges}
+        />
+        
+     
+    ),
       selector: "checked",
       sortable: false,
       center: true,
@@ -565,7 +661,19 @@ const SiteSettings = (props) => {
   ];
   const deductionsColumns = [
     {
-      name: "Select",
+      name: (
+ 
+        <input
+          type="checkbox"
+          id="selectAllCheckboxDeductions"
+          name="selectAllCheckboxDeductions"
+          className="table-checkbox-input"
+          checked={selectAllCheckedDeductions}
+          onChange={handleSelectAllDeductions}
+        />
+        
+     
+    ),
       selector: "checked",
       sortable: false,
       center: true,
@@ -774,7 +882,6 @@ const SiteSettings = (props) => {
       width: "20%",
       cell: (row, index) => (
         <div>
-          {console.log(row.checked, "Rowwwww")}
           <input
             type="checkbox"
             id={`checked-${index}`}
@@ -840,7 +947,19 @@ const SiteSettings = (props) => {
   ];
   const CashDatModelColumn = [
     {
-      name: "Select",
+      name: (
+ 
+        <input
+          type="checkbox"
+          id="selectAllCheckboxDays"
+          name="selectAllCheckboxDays"
+          className="table-checkbox-input"
+          checked={selectAllCheckedDays}
+          onChange={handleSelectAllDays}
+        />
+        
+     
+    ),
       selector: (row) => row.checked,
       sortable: false,
       center: true,
@@ -964,7 +1083,6 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={BussinesModelColumn}
                           data={BussinesModelData}
-                          
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -989,7 +1107,6 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={CardsModelColumn}
                           data={CardsModelData}
-                          
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1008,7 +1125,6 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={CashDatModelColumn}
                           data={CashDayData}
-                          
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1033,7 +1149,6 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={chargesColumns}
                           data={data}
-                          
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1058,7 +1173,6 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={deductionsColumns}
                           data={DeductionData}
-                          
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1083,7 +1197,6 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={SiteItemsColumn}
                           data={SiteItems}
-                          
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1108,7 +1221,6 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={ReportsColumn}
                           data={ReportsData}
-                          
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1127,7 +1239,7 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={FuelsModelColumn}
                           data={fuelData}
-                          // 
+                          //
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1146,7 +1258,7 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={DRSModelColumn}
                           data={DrsData}
-                          // 
+                          //
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
