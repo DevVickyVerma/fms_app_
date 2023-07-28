@@ -325,14 +325,15 @@ const SiteSettings = (props) => {
 
   // Handle radio button change
   const [selectAllChecked, setSelectAllChecked] = useState(false);
-  const [selectAllCheckedCards, setSelectAllCheckedCards] = useState(false);
-  const [selectAllCheckedDays, setSelectAllCheckedCardsDays] = useState(false);
-  const [selectAllCheckedCharges, setSelectAllCheckedCharges] = useState(false);
-  const [selectAllCheckedDeductions, setSelectAllCheckedDeductions] = useState(false);
-  const [selectAllCheckedDepItems, setSelectAllCheckedDepItems] = useState(false);
+  // const [selectAllCheckedCards, setSelectAllCheckedCards] = useState(false);
+  // const [selectAllCheckedDays, setSelectAllCheckedCardsDays] = useState(false);
+  // const [selectAllCheckedCharges, setSelectAllCheckedCharges] = useState(false);
+  // const [selectAllCheckedDeductions, setSelectAllCheckedDeductions] = useState(false);
+  // const [selectAllCheckedDepItems, setSelectAllCheckedDepItems] = useState(false);
   const [selectAllCheckedReports, setSelectAllCheckedReports] = useState(false);
   const [selectAllCheckedFuels, setSelectAllCheckedFuels] = useState(false);
-  const [selectAllCheckedDrsCards, setSelectAllCheckedDrsCards] = useState(false);
+  const [selectAllCheckedDrsCards, setSelectAllCheckedDrsCards] =
+    useState(false);
   const handleselectAllCheckbox = () => {
     const updatedRowData = BussinesModelData.map((row) => ({
       ...row,
@@ -344,56 +345,56 @@ const SiteSettings = (props) => {
     console.log("Row data when header checkbox is clicked:", updatedRowData);
     console.log("Row data when header checkbox is clicked:", formik.values);
   };
-  const handleSelectAllCheckboxChange = () => {
-    const updatedRowData = CardsModelData.map((row) => ({
-      ...row,
-      checked: !selectAllCheckedCards,
-    }));
-    formik.setFieldValue("AssignFormikCards", updatedRowData);
-    setSelectAllCheckedCards(!selectAllCheckedCards);
-    console.log("Row data when header checkbox is clicked:", updatedRowData);
-    formik.setFieldValue("AssignFormikCards", updatedRowData);
-  };
-  const handleSelectAllDays = () => {
-    const updatedRowData = CashDayData.map((row) => ({
-      ...row,
-      checked: !selectAllCheckedDays,
-    }));
-    formik.setFieldValue("CahsDayFormikData", updatedRowData);
-    setSelectAllCheckedCardsDays(!selectAllCheckedDays);
-    console.log("Row data when header checkbox is clicked:", updatedRowData);
-    formik.setFieldValue("CahsDayFormikData", updatedRowData);
-  };
-  const handleSelectAllCharges = () => {
-    const updatedRowData = data.map((row) => ({
-      ...row,
-      checked: !selectAllCheckedCharges,
-    }));
-    formik.setFieldValue("FormikChargesData", updatedRowData);
-    setSelectAllCheckedCharges(!selectAllCheckedCharges);
-    console.log("Row data when header checkbox is clicked:", updatedRowData);
-    formik.setFieldValue("FormikChargesData", updatedRowData);
-  };
-  const handleSelectAllDeductions = () => {
-    const updatedRowData = DeductionData.map((row) => ({
-      ...row,
-      checked: !selectAllCheckedDeductions,
-    }));
-    formik.setFieldValue("FormikDeductionData", updatedRowData);
-    setSelectAllCheckedDeductions(!selectAllCheckedDeductions);
-    console.log("Row data when header checkbox is clicked:", updatedRowData);
-    formik.setFieldValue("FormikDeductionData", updatedRowData);
-  };
-  const handleSelectAllDepItems = () => {
-    const updatedRowData = SiteItems.map((row) => ({
-      ...row,
-      checked: !selectAllCheckedDepItems,
-    }));
-    formik.setFieldValue("Formiksite_items", updatedRowData);
-    setSelectAllCheckedDepItems(!selectAllCheckedDepItems);
-    console.log("Row data when header checkbox is clicked:", updatedRowData);
-    formik.setFieldValue("Formiksite_items", updatedRowData);
-  };
+  // const handleSelectAllCheckboxChange = () => {
+  //   const updatedRowData = CardsModelData.map((row) => ({
+  //     ...row,
+  //     checked: !selectAllCheckedCards,
+  //   }));
+  //   formik.setFieldValue("AssignFormikCards", updatedRowData);
+  //   setSelectAllCheckedCards(!selectAllCheckedCards);
+  //   console.log("Row data when header checkbox is clicked:", updatedRowData);
+  //   formik.setFieldValue("AssignFormikCards", updatedRowData);
+  // };
+  // const handleSelectAllDays = () => {
+  //   const updatedRowData = CashDayData.map((row) => ({
+  //     ...row,
+  //     checked: !selectAllCheckedDays,
+  //   }));
+  //   formik.setFieldValue("CahsDayFormikData", updatedRowData);
+  //   setSelectAllCheckedCardsDays(!selectAllCheckedDays);
+  //   console.log("Row data when header checkbox is clicked:", updatedRowData);
+  //   formik.setFieldValue("CahsDayFormikData", updatedRowData);
+  // };
+  // const handleSelectAllCharges = () => {
+  //   const updatedRowData = data.map((row) => ({
+  //     ...row,
+  //     checked: !selectAllCheckedCharges,
+  //   }));
+  //   formik.setFieldValue("FormikChargesData", updatedRowData);
+  //   setSelectAllCheckedCharges(!selectAllCheckedCharges);
+  //   console.log("Row data when header checkbox is clicked:", updatedRowData);
+  //   formik.setFieldValue("FormikChargesData", updatedRowData);
+  // };
+  // const handleSelectAllDeductions = () => {
+  //   const updatedRowData = DeductionData.map((row) => ({
+  //     ...row,
+  //     checked: !selectAllCheckedDeductions,
+  //   }));
+  //   formik.setFieldValue("FormikDeductionData", updatedRowData);
+  //   setSelectAllCheckedDeductions(!selectAllCheckedDeductions);
+  //   console.log("Row data when header checkbox is clicked:", updatedRowData);
+  //   formik.setFieldValue("FormikDeductionData", updatedRowData);
+  // };
+  // const handleSelectAllDepItems = () => {
+  //   const updatedRowData = SiteItems.map((row) => ({
+  //     ...row,
+  //     checked: !selectAllCheckedDepItems,
+  //   }));
+  //   formik.setFieldValue("Formiksite_items", updatedRowData);
+  //   setSelectAllCheckedDepItems(!selectAllCheckedDepItems);
+  //   console.log("Row data when header checkbox is clicked:", updatedRowData);
+  //   formik.setFieldValue("Formiksite_items", updatedRowData);
+  // };
   const handleSelectAllReports = () => {
     const updatedRowData = ReportsData.map((row) => ({
       ...row,
@@ -503,24 +504,9 @@ const SiteSettings = (props) => {
     });
   }
 
-
-
-
   const CardsModelColumn = [
     {
-      name: (
- 
-          <input
-            type="checkbox"
-            id="selectAllCheckboxCards"
-            name="selectAllCheckboxCards"
-            className="table-checkbox-input"
-            checked={selectAllCheckedCards}
-            onChange={handleSelectAllCheckboxChange}
-          />
-          
-       
-      ),
+      name: "Select",
       selector: "checked",
       sortable: false,
       center: true,
@@ -584,19 +570,7 @@ const SiteSettings = (props) => {
 
   const chargesColumns = [
     {
-      name: (
- 
-        <input
-          type="checkbox"
-          id="selectAllCheckboxCharges"
-          name="selectAllCheckboxCharges"
-          className="table-checkbox-input"
-          checked={selectAllCheckedCharges}
-          onChange={handleSelectAllCharges}
-        />
-        
-     
-    ),
+      name: "Select",
       selector: "checked",
       sortable: false,
       center: true,
@@ -705,19 +679,7 @@ const SiteSettings = (props) => {
   ];
   const deductionsColumns = [
     {
-      name: (
- 
-        <input
-          type="checkbox"
-          id="selectAllCheckboxDeductions"
-          name="selectAllCheckboxDeductions"
-          className="table-checkbox-input"
-          checked={selectAllCheckedDeductions}
-          onChange={handleSelectAllDeductions}
-        />
-        
-     
-    ),
+      name: "Select",
       selector: "checked",
       sortable: false,
       center: true,
@@ -831,19 +793,7 @@ const SiteSettings = (props) => {
 
   const SiteItemsColumn = [
     {
-      name: (
- 
-        <input
-          type="checkbox"
-          id="selectAllCheckboxDepItems"
-          name="selectAllCheckboxDepItems"
-          className="table-checkbox-input"
-          checked={selectAllCheckedDepItems}
-          onChange={handleSelectAllDepItems}
-        />
-        
-     
-    ),
+      name: "Select",
       selector: "checked",
       sortable: false,
       center: true,
@@ -931,7 +881,6 @@ const SiteSettings = (props) => {
   const FuelsModelColumn = [
     {
       name: (
- 
         <input
           type="checkbox"
           id="selectAllCheckboxFuels"
@@ -940,9 +889,7 @@ const SiteSettings = (props) => {
           checked={selectAllCheckedFuels}
           onChange={handleSelectAllFuels}
         />
-        
-     
-    ),
+      ),
 
       selector: (row) => row.checked,
       sortable: false,
@@ -980,7 +927,6 @@ const SiteSettings = (props) => {
   const DRSModelColumn = [
     {
       name: (
- 
         <input
           type="checkbox"
           id="selectAllCheckboxDrsData"
@@ -989,9 +935,7 @@ const SiteSettings = (props) => {
           checked={selectAllCheckedDrsCards}
           onChange={handleSelectAllDrsCards}
         />
-        
-     
-    ),
+      ),
       selector: (row) => row.checked,
       sortable: false,
       center: true,
@@ -1027,19 +971,7 @@ const SiteSettings = (props) => {
   ];
   const CashDatModelColumn = [
     {
-      name: (
- 
-        <input
-          type="checkbox"
-          id="selectAllCheckboxDays"
-          name="selectAllCheckboxDays"
-          className="table-checkbox-input"
-          checked={selectAllCheckedDays}
-          onChange={handleSelectAllDays}
-        />
-        
-     
-    ),
+      name: "Select",
       selector: (row) => row.checked,
       sortable: false,
       center: true,
@@ -1078,7 +1010,6 @@ const SiteSettings = (props) => {
   const ReportsColumn = [
     {
       name: (
- 
         <input
           type="checkbox"
           id="selectAllCheckboxReports"
@@ -1087,9 +1018,7 @@ const SiteSettings = (props) => {
           checked={selectAllCheckedReports}
           onChange={handleSelectAllReports}
         />
-        
-     
-    ),
+      ),
       selector: (row) => row.checked,
       sortable: false,
       center: true,
