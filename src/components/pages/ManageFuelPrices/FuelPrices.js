@@ -68,7 +68,7 @@ const FuelPrices = (props) => {
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
     handleFetchData();
-  }, []);
+  console.clear()  }, []);
   const handleFetchData = async () => {
     try {
       const response = await getData("/client/commonlist");

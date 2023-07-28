@@ -68,7 +68,7 @@ export default function FullCalendars() {
         };
       },
     });
-  }, []);
+  console.clear()  }, []);
 
   function renderEventContent(eventInfo) {
     return (

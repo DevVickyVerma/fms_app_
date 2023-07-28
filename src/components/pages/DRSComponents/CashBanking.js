@@ -84,7 +84,7 @@ const CashBanking = (props) => {
 
     useEffect(() => {
       FetchTableData();
-    }, []);
+    console.clear()  }, []);
 
 
  

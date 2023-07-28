@@ -82,7 +82,7 @@ const AddSite = (props) => {
       handleError(error);
     }
     // console.clear()
-  }, []);
+  console.clear()  }, []);
 
   const fetchCompanyList = async (id) => {
     const token = localStorage.getItem("token");

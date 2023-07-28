@@ -101,7 +101,7 @@ const EditBussiness = (props) => {
       handleError(error);
     }
     // console.clear()
-  }, []);
+  console.clear()  }, []);
 
   const { id } = useParams();
 

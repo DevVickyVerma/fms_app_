@@ -73,7 +73,7 @@ const AddRoles = (props) => {
   }
   useEffect(() => {
     FetchTableData();
-  }, []);
+  console.clear()  }, []);
   const FetchTableData = async () => {
     try {
       const response = await getData("/permission-list");

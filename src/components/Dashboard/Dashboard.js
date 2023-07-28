@@ -136,6 +136,7 @@ const Dashboard = (props) => {
       SuccessToast("Login Successfully");
       setJustLoggedIn(false);
     }
+    console.clear()
   }, [ClientID, dispatch, justLoggedIn, token]);
 
   useEffect(() => {
@@ -143,6 +144,7 @@ const Dashboard = (props) => {
     if (token && storedToken) {
       dispatch(fetchData());
     }
+    console.clear()
   }, [token]);
 
   const handleToggleSidebar1 = () => {

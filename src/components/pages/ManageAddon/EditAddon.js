@@ -75,7 +75,7 @@ const EditAddon = (props) => {
     formData.append("addon_id", addonId);
 
     FetchPermisionList();
-  }, []);
+  console.clear()  }, []);
 
   const FetchPermisionList = async () => {
     try {

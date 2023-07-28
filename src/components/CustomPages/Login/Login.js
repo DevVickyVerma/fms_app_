@@ -14,7 +14,7 @@ export default function Login(props) {
 
   useEffect(() => {
     console.clear();
-  }, []);
+  console.clear()  }, []);
   if (localStorage.getItem("myKey") === null) {
     if (!localStorage.getItem("refreshed")) {
       localStorage.setItem("refreshed", "true");

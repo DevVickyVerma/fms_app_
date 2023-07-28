@@ -84,7 +84,7 @@ const AddSitePump = (props) => {
 
   useEffect(() => {
     handleFetchData();
-  }, []);
+  console.clear()  }, []);
 
   return (
     <>

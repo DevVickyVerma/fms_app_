@@ -68,7 +68,7 @@ const AddSubBussiness = (props) => {
 
   useEffect(() => {
     handleFetchData();
-  }, []);
+  console.clear()  }, []);
 
   const handleFetchData = async () => {
     try {

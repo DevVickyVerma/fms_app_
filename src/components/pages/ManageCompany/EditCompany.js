@@ -109,11 +109,11 @@ import Loaderimg from "../../../Utils/Loader";
       handleError(error);
     }
     // console.clear()
-  }, []);
+  console.clear()  }, []);
   useEffect(() => {
     handleFetchData();
     console.clear();
-  }, []);
+  console.clear()  }, []);
   const token = localStorage.getItem("token");
 
   const handleFetchData = async () => {

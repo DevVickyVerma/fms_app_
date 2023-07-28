@@ -113,7 +113,7 @@ const ManageCompany = (props) => {
 
   useEffect(() => {
     FetchTableData();
-  }, []);
+  console.clear()  }, []);
 
   const FetchTableData = async () => {
     try {

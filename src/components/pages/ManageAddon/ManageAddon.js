@@ -90,7 +90,7 @@ const ManageAddon = (props) => {
 
   useEffect(() => {
     FetchTableData();
-  }, []);
+  console.clear()  }, []);
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({

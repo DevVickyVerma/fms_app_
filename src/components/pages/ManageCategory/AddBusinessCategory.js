@@ -115,7 +115,7 @@ const AddBusinessCategory = (props) => {
       handleError(error);
     }
     // console.clear()
-  }, []);
+  console.clear()  }, []);
   return (
     <>
       {isLoading ? <Loaderimg /> : null}

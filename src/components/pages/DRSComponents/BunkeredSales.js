@@ -36,7 +36,7 @@ const DepartmentShop = (props) => {
   useEffect(() => {
     fetchDetails();
     fetchListing();
-  }, []);
+  console.clear()  }, []);
 
   const [data, setData] = useState([]);
   const [DieselID, setDieselID] = useState([]);

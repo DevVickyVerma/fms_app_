@@ -64,7 +64,7 @@ export default function Settings() {
   useEffect(() => {
     fetchData();
     configsetting();
-  }, []);
+  console.clear()  }, []);
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({

@@ -72,7 +72,7 @@ const EditRoles = (props) => {
   useEffect(() => {
     FetchPermisionList();
     console.clear();
-  }, []);
+  console.clear()  }, []);
   const FetchPermisionList = async () => {
     try {
       const EditRoleId = localStorage.getItem("EditRoleID");

@@ -54,7 +54,7 @@ export function Middle() {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     }; 
-  }, []);
+  console.clear()  }, []);
   return <>{timer}</>;
 }
 
@@ -84,7 +84,7 @@ const IntervalTimerFunctional = () => {
       setTime((t) => t + 1);
     }, 1000);
     return () => clearInterval(timerId);
-  }, []);
+  console.clear()  }, []);
 
   return <Timer time={time} />;
 };

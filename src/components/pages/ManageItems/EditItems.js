@@ -92,7 +92,7 @@ const EditItems = (props) => {
   };
   useEffect(() => {
     handleItemData();
-  }, []);
+  console.clear()  }, []);
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({

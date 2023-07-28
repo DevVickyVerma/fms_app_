@@ -98,11 +98,11 @@ const AddItems = (props) => {
 
   useEffect(() => {
     handleFetchData();
-  }, []);
+  console.clear()  }, []);
 
   useEffect(() => {
     handleItemData();
-  }, []);
+  console.clear()  }, []);
 
   return (
     <>

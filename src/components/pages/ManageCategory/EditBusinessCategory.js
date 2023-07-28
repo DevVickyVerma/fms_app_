@@ -108,7 +108,7 @@ const EditBussiness = (props) => {
       handleError(error);
     }
     // console.clear()
-  }, []);
+  console.clear()  }, []);
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({

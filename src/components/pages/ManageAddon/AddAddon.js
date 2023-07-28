@@ -83,7 +83,7 @@ const AddAddon = (props) => {
       .catch((error) => {
         handleError(error);
       });
-  }, []);
+  console.clear()  }, []);
 
   const handleSubmit = async (values) => {
     const body = {

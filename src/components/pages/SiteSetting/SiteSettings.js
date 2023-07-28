@@ -127,6 +127,7 @@ const SiteSettings = (props) => {
     };
 
     fetchData();
+    console.clear()
   }, [id]); // Removed 'SiteID' and 'ReportDate' dependencies as they are not defined in the code snippet
 
   const handleSettingSubmit = async (values) => {

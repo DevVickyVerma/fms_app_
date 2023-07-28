@@ -89,7 +89,7 @@ const FuelSales = (props) => {
 
 //   useEffect(() => {
 //     handleFetchData();
-//   }, []);
+//   console.clear()  }, []);
 
 
 
@@ -113,7 +113,7 @@ const FuelSales = (props) => {
 
 useEffect(() => {
     handleFetchData();
-  }, []);
+  console.clear()  }, []);
 
   const handleFetchData = async () => {
     try {

@@ -56,7 +56,7 @@ const EditUsers = (props) => {
     fetchClientList();
     FetchRoleList();
     console.clear();
-  }, []);
+  console.clear()  }, []);
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({

@@ -27,7 +27,7 @@ export function FormModal(props) {
     console.log(props.PropsSiteId, "PropsSiteId");
     console.log(props.PropsCompanyId, "PropsCompanyId");
     console.log(props.PropsFile, "PropsCompanyId");
-  }, []);
+  console.clear()  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);

@@ -84,7 +84,7 @@ const ManageBusinessTypes = (props) => {
 
   useEffect(() => {
     FetchTableData();
-  }, []);
+  console.clear()  }, []);
 
   const toggleActive = (row) => {
     const formData = new FormData();

@@ -46,7 +46,7 @@ const AddSitePump = (props) => {
 
   useEffect(() => {
     handleFetchData();
-  }, []);
+  console.clear()  }, []);
 
 
   const handleSubmit1 = async (values) => {

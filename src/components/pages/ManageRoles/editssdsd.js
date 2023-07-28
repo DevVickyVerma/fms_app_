@@ -92,7 +92,7 @@ export default function EditRoles() {
         handleError(error);
       });
     console.clear();
-  }, []);
+  console.clear()  }, []);
 
   const handleSubmit1 = async (values) => {
     const body = {

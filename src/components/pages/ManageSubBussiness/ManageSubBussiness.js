@@ -40,7 +40,7 @@ const ManageSubBusinessTypes = (props) => {
 
   useEffect(() => {
     handleFetchData(); 
-  }, []);
+  console.clear()  }, []);
   const [searchText, setSearchText] = useState("");
   const [searchvalue, setSearchvalue] = useState();
 

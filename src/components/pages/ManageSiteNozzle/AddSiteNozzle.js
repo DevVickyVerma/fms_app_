@@ -96,7 +96,7 @@ const AddSiteNozzle = (props) => {
 
   useEffect(() => {
     handleFetchData();
-  }, []);
+  console.clear()  }, []);
 
   const handleFuelChange = async (id) => {
     try {

@@ -138,9 +138,6 @@ const ManageSite = (props) => {
       }
     });
   };
-  const handleEdit = (id) => {
-    localStorage.setItem("Edit_Site", id);
-  };
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -203,6 +200,7 @@ const ManageSite = (props) => {
     if (UserPermissions) {
       setPermissionsArray(UserPermissions.permissions);
     }
+    console.clear()
   }, [UserPermissions]);
 
   const isEditPermissionAvailable = permissionsArray?.includes("site-edit");
@@ -457,9 +455,9 @@ const ManageSite = (props) => {
 
   useEffect(() => {
     FetchTableData();
-
+    console.clear()
     // console.clear();
-  }, []);
+  console.clear()  }, []);
 
   const handleSearchReset = () => {
     FetchTableData();

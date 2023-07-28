@@ -102,7 +102,7 @@ const SiteSettings = (props) => {
     }
 
     console.clear();
-  }, []);
+  console.clear()  }, []);
 
 
   useEffect(() => {

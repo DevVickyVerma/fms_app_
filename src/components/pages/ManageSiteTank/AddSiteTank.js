@@ -46,7 +46,7 @@ const AddSitePump = (props) => {
 
   useEffect(() => {
     handleFetchData();
-  }, []);
+  console.clear()  }, []);
 
   const handleFuelChange = async (id) => {
     try {

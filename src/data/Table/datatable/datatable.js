@@ -219,7 +219,7 @@ export const DataTables = () => {
 
   const handleRowSelected = React.useCallback((state) => {
     setSelectedRows(state.selectedRows);
-  }, []);
+  console.clear()  }, []);
 
   const columns = [
     {
@@ -534,7 +534,7 @@ export const ExportCSV = () => {
   let selectdata = [];
   const handleRowSelected = React.useCallback((state) => {
     setSelectedRows(state.selectedRows);
-  }, []);
+  console.clear()  }, []);
   const contextActions = React.useMemo(() => {
     const Selectdata = () => {
       if (window.confirm(`download:\r ${selectedRows.map((r) => r.SNO)}?`)) {

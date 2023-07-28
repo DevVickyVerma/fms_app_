@@ -82,7 +82,7 @@ import withApi from "../Utils/ApiHelper";
       window.removeEventListener('scroll', handleUserActivity);
       clearTimeout(inactivityTimeout);
     };
-  }, []);
+  console.clear()  }, []);
   const handleConfirm = () => {
     logout()
     console.log('Delete confirmed');

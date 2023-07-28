@@ -212,7 +212,7 @@ const ManageSite = (props) => {
     handleFetchData();
 
     // console.clear();
-  }, []);
+  console.clear()  }, []);
 
   return (
     <>

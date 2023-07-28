@@ -12,7 +12,7 @@ const withApi = (WrappedComponent) => {
     // useEffect((url) => {
     //     console.log(url,"dsadas")
     //   getData();
-    // }, []);
+    // console.clear()  }, []);
     const navigate = useNavigate();
     const SuccessToast = (message) => {
       toast.success(message, {
