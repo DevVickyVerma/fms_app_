@@ -324,7 +324,7 @@ const SiteSettings = (props) => {
   };
 
   // Handle radio button change
-  const [selectAllChecked, setSelectAllChecked] = useState(false);
+  // const [selectAllChecked, setSelectAllChecked] = useState(false);
   // const [selectAllCheckedCards, setSelectAllCheckedCards] = useState(false);
   // const [selectAllCheckedDays, setSelectAllCheckedCardsDays] = useState(false);
   // const [selectAllCheckedCharges, setSelectAllCheckedCharges] = useState(false);
@@ -334,17 +334,17 @@ const SiteSettings = (props) => {
   const [selectAllCheckedFuels, setSelectAllCheckedFuels] = useState(false);
   const [selectAllCheckedDrsCards, setSelectAllCheckedDrsCards] =
     useState(false);
-  const handleselectAllCheckbox = () => {
-    const updatedRowData = BussinesModelData.map((row) => ({
-      ...row,
-      checked: !selectAllChecked,
-    }));
-    formik.setFieldValue("AssignFormikbussiness", updatedRowData);
-    setSelectAllChecked(!selectAllChecked);
+  // const handleselectAllCheckbox = () => {
+  //   const updatedRowData = BussinesModelData.map((row) => ({
+  //     ...row,
+  //     checked: !selectAllChecked,
+  //   }));
+  //   formik.setFieldValue("AssignFormikbussiness", updatedRowData);
+  //   setSelectAllChecked(!selectAllChecked);
 
-    console.log("Row data when header checkbox is clicked:", updatedRowData);
-    console.log("Row data when header checkbox is clicked:", formik.values);
-  };
+  //   console.log("Row data when header checkbox is clicked:", updatedRowData);
+  //   console.log("Row data when header checkbox is clicked:", formik.values);
+  // };
   // const handleSelectAllCheckboxChange = () => {
   //   const updatedRowData = CardsModelData.map((row) => ({
   //     ...row,
@@ -428,16 +428,7 @@ const SiteSettings = (props) => {
 
   const BussinesModelColumn = [
     {
-      name: (
-        <input
-          type="checkbox"
-          id="selectAllCheckbox"
-          name="selectAllCheckbox"
-          className="table-checkbox-input"
-          checked={selectAllChecked}
-          onChange={handleselectAllCheckbox}
-        />
-      ),
+      name: "Select",
 
       selector: "checked",
       sortable: false,
