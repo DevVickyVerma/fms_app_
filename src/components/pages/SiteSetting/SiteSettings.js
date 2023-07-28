@@ -329,6 +329,7 @@ const SiteSettings = (props) => {
   const [selectAllCheckedDays, setSelectAllCheckedCardsDays] = useState(false);
   const [selectAllCheckedCharges, setSelectAllCheckedCharges] = useState(false);
   const [selectAllCheckedDeductions, setSelectAllCheckedDeductions] = useState(false);
+  const [selectAllCheckedDepItems, setSelectAllCheckedDepItems] = useState(false);
   const handleselectAllCheckbox = () => {
     const updatedRowData = BussinesModelData.map((row) => ({
       ...row,
@@ -379,6 +380,16 @@ const SiteSettings = (props) => {
     setSelectAllCheckedDeductions(!selectAllCheckedDeductions);
     console.log("Row data when header checkbox is clicked:", updatedRowData);
     formik.setFieldValue("FormikDeductionData", updatedRowData);
+  };
+  const handleSelectAllDepItems = () => {
+    const updatedRowData = SiteItems.map((row) => ({
+      ...row,
+      checked: !selectAllCheckedDepItems,
+    }));
+    formik.setFieldValue("Formiksite_items", updatedRowData);
+    setSelectAllCheckedDepItems(!selectAllCheckedDepItems);
+    console.log("Row data when header checkbox is clicked:", updatedRowData);
+    formik.setFieldValue("Formiksite_items", updatedRowData);
   };
 
   const BussinesModelColumn = [
@@ -787,7 +798,19 @@ const SiteSettings = (props) => {
 
   const SiteItemsColumn = [
     {
-      name: "Select",
+      name: (
+ 
+        <input
+          type="checkbox"
+          id="selectAllCheckboxDepItems"
+          name="selectAllCheckboxDepItems"
+          className="table-checkbox-input"
+          checked={selectAllCheckedDepItems}
+          onChange={handleSelectAllDepItems}
+        />
+        
+     
+    ),
       selector: "checked",
       sortable: false,
       center: true,
