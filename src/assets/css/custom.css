@@ -364,7 +364,13 @@ input.table-input.readonly.total-input-card {
 
 .Dashboard-card {
   height: 126px !important;
-  border-top: 5px solid #8013cf !important;
+ 
+}
+.Dashboard-success-border {
+  border-top: 3px solid #09ad95 !important;
+}
+.Dashboard-loss-border {
+  border-top: 3px solid #bb0000 !important;
 }
 .fuel-card {
   height: 95%;

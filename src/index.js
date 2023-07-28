@@ -3,16 +3,15 @@ import ReactDOM from "react-dom/client";
 import "./index.scss";
 import { Navigate, BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./Utils/PrivateRoutes";
-import * as loderdata from "./data/Component/loderdata/loderdata";
+
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import dataReducer, { fetchData } from "./Redux/dataSlice";
 
-
 import withApi from "./Utils/ApiHelper";
 import Loaderimg from "./Utils/Loader";
 
-const Switcherlayout = React.lazy(() => import("./components/switcherlayout"));
+
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -20,21 +19,10 @@ const Custompages = React.lazy(() => import("./components/custompages"));
 //Dashboard
 const Dashboard = React.lazy(() => import("./components/Dashboard/Dashboard"));
 
-const Accordions = React.lazy(() =>
-  import("./components/Advanced-Elements/Accordion/Accordions")
-);
-const Charts = React.lazy(() =>
-  import("./components/Advanced-Elements/Charts/Charts")
-);
-const Footer = React.lazy(() =>
-  import("./components/Advanced-Elements/Footers/Footers")
-);
-const Header = React.lazy(() =>
-  import("./components/Advanced-Elements/Headers/Headers")
-);
+
 
 //pages
-const Profile = React.lazy(() => import("./components/pages/Profile/Profile"));
+
 const EditProfile = React.lazy(() =>
   import("./components/pages/EditProfile/EditProfile")
 );
@@ -407,7 +395,6 @@ const DailyFacilityFees = React.lazy(() =>
 );
 
 const FAQS = React.lazy(() => import("./components/pages/FAQS/FAQS"));
-const Terms = React.lazy(() => import("./components/pages/Terms/Terms"));
 
 //custom Pages
 const Login = React.lazy(() => import("./components/CustomPages/Login/Login"));
@@ -473,7 +460,7 @@ const Root = () => {
   const WrappedManageAddon = withApi(ManageAddon);
   const WrappedAddAddon = withApi(AddAddon);
   const WrappeAddEditAddon = withApi(EditAddon);
-  const WrappeHeader = withApi(Header);
+  // const WrappeHeader = withApi(Header);
   const WrappedManageCharges = withApi(ManageCharges);
   const WrappedAddCharges = withApi(AddCharges);
   const WrappedEditCharges = withApi(EditCharges);
@@ -579,7 +566,10 @@ const Root = () => {
                   />
 
                   <Route path={`/sites`} element={<Managesite />} />
-                  <Route path={`/dailyfacilityfees`} element={<WrappedDailyFacilityFees />} />
+                  <Route
+                    path={`/dailyfacilityfees`}
+                    element={<WrappedDailyFacilityFees />}
+                  />
                   {/* sites  Components End */}
 
                   {/* Company  Components Start */}
@@ -638,10 +628,10 @@ const Root = () => {
 
                   {/* Addon  Components End */}
                   {/* Header  Components Start */}
-                  <Route
+                  {/* <Route
                     path={`/advancedElements/headers`}
                     element={<WrappeHeader />}
-                  />
+                  /> */}
                   {/* Header  Components End */}
                   {/* Header  Components Start */}
                   <Route
@@ -779,13 +769,10 @@ const Root = () => {
                     path={`/assignppl`}
                     element={<WrappedAssignManagePPL />}
                   />
-                  <Route
-                    path={`/addppl`}
-                    element={<WrappedAssignAddPPL />}
-                  />
+                  <Route path={`/addppl`} element={<WrappedAssignAddPPL />} />
                   <Route
                     path={`/editppl/:id`}
-                    element={<WrappedAssignEditPPL/>}
+                    element={<WrappedAssignEditPPL />}
                   />
 
                   {/* SitePump components end */}
@@ -891,19 +878,19 @@ const Root = () => {
                   {/* Category components end */}
 
                   <Route>
-                    <Route
+                    {/* <Route
                       path={`/advancedElements/accordions`}
                       element={<Accordions />}
-                    />
+                    /> */}
 
-                    <Route
+                    {/* <Route
                       path={`/advancedElements/footers`}
                       element={<Footer />}
-                    />
+                    /> */}
                   </Route>
 
                   <Route>
-                    <Route path={`/pages/profile`} element={<Profile />} />
+                    
 
                     <Route path={`/editprofile`} element={<EditProfile />} />
 
@@ -934,8 +921,6 @@ const Root = () => {
                     <Route path={`/settings`} element={<Settings />} />
 
                     <Route path={`/pages/faqs`} element={<FAQS />} />
-
-                    <Route path={`/pages/terms`} element={<Terms />} />
                   </Route>
                 </Route>
               </Route>

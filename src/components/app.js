@@ -3,7 +3,7 @@ import Header from "../layouts/Header/Header";
 import Sidebar from "../layouts/SideBar/SideBar";
 import Footer from "../layouts/Footer/Footer";
 import Switcher from "../layouts/Switcher/Switcher";
-import RightSidebar from "../layouts/RightSidebar/RightSidebar";
+
 import * as Switcherdata from "../data/Switcher/Switcherdata";
 import { Outlet, useLocation } from "react-router-dom";
 import TabToTop from "../layouts/TabToTop/TabToTop";
@@ -144,7 +144,7 @@ import withApi from "../Utils/ApiHelper";
               </div>
             </div>
           </div>
-          <RightSidebar />
+        
           <Switcher />
           <Footer />
         </div>
