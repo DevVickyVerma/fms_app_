@@ -18,7 +18,7 @@ import Spinners from "../../components/Dashboard/Spinner";
 import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
 import OilBarrelIcon from "@mui/icons-material/OilBarrel";
-import { dispatch } from "d3";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   Breadcrumb,
@@ -116,6 +116,7 @@ const Dashboard = (props) => {
   const loggedInFlag = localStorage.getItem("justLoggedIn");
   const tokenUpdated = localStorage.getItem("tokenupdate") === "true";
   const storedToken = localStorage.getItem("token");
+  const dispatch = useDispatch();
   useEffect(() => {
     setClientID(localStorage.getItem("superiorId"));
 
