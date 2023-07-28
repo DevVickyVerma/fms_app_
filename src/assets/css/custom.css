@@ -118,8 +118,8 @@ button.modal-effect.d-grid.mb-3.upload-btn.btn.btn-danger {
 }
 .module-height {
   max-height: 290px !important;
-/*  
-  overflow-y: scroll; */
+ 
+  overflow-y: scroll;
 }
 .bottom-toal {
   font-size: 16px;

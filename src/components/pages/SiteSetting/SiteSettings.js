@@ -964,7 +964,7 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={BussinesModelColumn}
                           data={BussinesModelData}
-                          fixedHeader
+                          
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -989,7 +989,7 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={CardsModelColumn}
                           data={CardsModelData}
-                          fixedHeader
+                          
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1008,7 +1008,7 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={CashDatModelColumn}
                           data={CashDayData}
-                          fixedHeader
+                          
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1033,7 +1033,7 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={chargesColumns}
                           data={data}
-                          fixedHeader
+                          
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1058,7 +1058,7 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={deductionsColumns}
                           data={DeductionData}
-                          fixedHeader
+                          
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1083,7 +1083,7 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={SiteItemsColumn}
                           data={SiteItems}
-                          fixedHeader
+                          
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1108,7 +1108,7 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={ReportsColumn}
                           data={ReportsData}
-                          fixedHeader
+                          
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1127,7 +1127,7 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={FuelsModelColumn}
                           data={fuelData}
-                          fixedHeader
+                          // 
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1146,7 +1146,7 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={DRSModelColumn}
                           data={DrsData}
-                          fixedHeader
+                          // 
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
