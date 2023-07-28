@@ -332,7 +332,7 @@ const SiteSettings = (props) => {
   // const [selectAllCheckedDeductions, setSelectAllCheckedDeductions] = useState(false);
   // const [selectAllCheckedDepItems, setSelectAllCheckedDepItems] = useState(false);
   const [selectAllCheckedReports, setSelectAllCheckedReports] = useState(false);
-  const [selectAllCheckedFuels, setSelectAllCheckedFuels] = useState(false);
+  // const [selectAllCheckedFuels, setSelectAllCheckedFuels] = useState(false);
   const [selectAllCheckedDrsCards, setSelectAllCheckedDrsCards] =
     useState(false);
   // const handleselectAllCheckbox = () => {
@@ -416,16 +416,16 @@ const SiteSettings = (props) => {
     console.log("Row data when header checkbox is clicked:", updatedRowData);
     formik.setFieldValue("FormikDRSData", updatedRowData);
   };
-  const handleSelectAllFuels = () => {
-    const updatedRowData = fuelData.map((row) => ({
-      ...row,
-      checked: !selectAllCheckedFuels,
-    }));
-    formik.setFieldValue("FormikFuelData", updatedRowData);
-    setSelectAllCheckedFuels(!selectAllCheckedFuels);
-    console.log("Row data when header checkbox is clicked:", updatedRowData);
-    formik.setFieldValue("FormikFuelData", updatedRowData);
-  };
+  // const handleSelectAllFuels = () => {
+  //   const updatedRowData = fuelData.map((row) => ({
+  //     ...row,
+  //     checked: !selectAllCheckedFuels,
+  //   }));
+  //   formik.setFieldValue("FormikFuelData", updatedRowData);
+  //   setSelectAllCheckedFuels(!selectAllCheckedFuels);
+  //   console.log("Row data when header checkbox is clicked:", updatedRowData);
+  //   formik.setFieldValue("FormikFuelData", updatedRowData);
+  // };
 
   const BussinesModelColumn = [
     {
@@ -872,16 +872,7 @@ const SiteSettings = (props) => {
   // };
   const FuelsModelColumn = [
     {
-      name: (
-        <input
-          type="checkbox"
-          id="selectAllCheckboxFuels"
-          name="selectAllCheckboxFuels"
-          className="table-checkbox-input"
-          checked={selectAllCheckedFuels}
-          onChange={handleSelectAllFuels}
-        />
-      ),
+      name: "Select",
 
       selector: (row) => row.checked,
       sortable: false,
