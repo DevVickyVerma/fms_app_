@@ -10,8 +10,12 @@ import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 
 const FuelInventry = (props) => {
-  const { company_id, client_id, site_id, start_date, sendDataToParent } =
-    props;
+  const {  company_id,
+    client_id,
+    site_id,
+    start_date,
+    sendDataToParent,} = props;
+
 
   const handleButtonClick = () => {
     const allPropsData = {
@@ -24,6 +28,7 @@ const FuelInventry = (props) => {
     // Call the callback function with the object containing all the props
     sendDataToParent(allPropsData);
   };
+
 
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
@@ -67,100 +72,107 @@ const FuelInventry = (props) => {
       ErrorToast(errorMessage);
     }
   }
-  const fetchData = async () => {
-    const token = localStorage.getItem("token");
 
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    try {
-      const response = await axiosInstance.get(
-        `/fuel-inventory/list?site_id=${site_id}&drs_date=${start_date}`
-      );
-
-      const { data } = response;
-      if (data) {
-        setData(data?.data?.listing ? data.data.listing : []);
-        setCombinedVarianceData(
-          data?.data ? data.data.combined_variance_data : []
-        );
-        setVarianceDataa(data?.data ? data.data.variance_data : []);
-        setis_editable(data?.data ? data.data : {});
-
-        const formValues = data?.data?.listing
-          ? data.data.listing.map((item) => {
-              return {
-                id: item.id,
-                fuel_price: item.fuel_price,
-                metered_sale: item.metered_sale,
-                metered_sale_value: item.metered_sale_value,
-                adjustment: item.adjustment,
-                adjustment_euro: item.adjustment_euro,
-                adjusted_sale: item.adjusted_sale,
-                adjusted_sale_value: item.adjusted_sale_value,
-                tests: item.tests,
-                actual_sales: item.actual_sales,
-                due_sales: item.due_sales,
-                bunkered_sale: item.bunkered_sale,
-                // Add other properties as needed
-              };
-            })
-          : [];
-
-        const Combinedvariancedata = data?.data?.combined_variance_data
-          ? data.data.combined_variance_data.map((item) => ({
-              description: item.description,
-              variance: item.variance,
-              // Add other properties as needed
-            }))
-          : [];
-        formik.setFieldValue("Combinedvariance", Combinedvariancedata);
-
-        const Variancedata = data?.data?.variance_data
-          ? data.data.variance_data.map((item) => ({
-              description: item.description,
-              variance: item.variance,
-              due_sales: item.due_sales,
-              sale_value: item.sale_value,
-              // Add other properties as needed
-            }))
-          : [];
-        formik.setFieldValue("Variancedataformik", Variancedata);
-
-        // Set the formik values using setFieldValue
-        formik.setFieldValue("data", formValues);
-        formik.setFieldValue("data2", formValues);
-      }
-    } catch (error) {
-      console.error("API error:", error);
-      handleError(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
   useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+
+      const axiosInstance = axios.create({
+        baseURL: process.env.REACT_APP_BASE_URL,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      try {
+        const response = await axiosInstance.get(
+          `/fuel-inventory/list?site_id=${site_id}&drs_date=${start_date}`
+        );
+
+        const { data } = response;
+        if (data) {
+          setData(data?.data?.listing ? data.data.listing : []);
+          setCombinedVarianceData(
+            data?.data ? data.data.combined_variance_data : []
+          );
+          setVarianceDataa(data?.data ? data.data.variance_data : []);
+          setis_editable(data?.data ? data.data : {});
+
+          const formValues = data?.data?.listing
+            ? data.data.listing.map((item) => {
+                return {
+                  id: item.id,
+                  fuel_price: item.fuel_price,
+                  metered_sale: item.metered_sale,
+                  metered_sale_value: item.metered_sale_value,
+                  adjustment: item.adjustment,
+                  adjustment_euro: item.adjustment_euro,
+                  adjusted_sale: item.adjusted_sale,
+                  adjusted_sale_value: item.adjusted_sale_value,
+                  tests: item.tests,
+                  actual_sales: item.actual_sales,
+                  due_sales: item.due_sales,
+                  bunkered_sale: item.bunkered_sale,
+                  // Add other properties as needed
+                };
+              })
+            : [];
+
+          const Combinedvariancedata = data?.data?.combined_variance_data
+            ? data.data.combined_variance_data.map((item) => ({
+                description: item.description,
+                variance: item.variance,
+                // Add other properties as needed
+              }))
+            : [];
+          formik.setFieldValue("Combinedvariance", Combinedvariancedata);
+
+          const Variancedata = data?.data?.variance_data
+            ? data.data.variance_data.map((item) => ({
+                description: item.description,
+                variance: item.variance,
+                due_sales: item.due_sales,
+                sale_value: item.sale_value,
+                // Add other properties as needed
+              }))
+            : [];
+          formik.setFieldValue("Variancedataformik", Variancedata);
+
+          // Set the formik values using setFieldValue
+          formik.setFieldValue("data", formValues);
+          formik.setFieldValue("data2", formValues);
+        }
+      } catch (error) {
+        console.error("API error:", error);
+        handleError(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     fetchData();
   }, [site_id, start_date]);
 
-
-  document.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
       event.preventDefault();
+    }
+  };
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+     
     }
   });
 
-  const FuelInventrySubmit = async (values, event) => {
+  const handleSubmit = async (values,event) => {
     const token = localStorage.getItem("token");
-
-    if (event.key === "Enter") {
+  
+    if (event.key === 'Enter') {
       event.preventDefault();
-      console.log(event, "event");
+      console.log(event,"event");
     }
-    console.log(event, "event");
+    console.log(event,"event");
 
     // Create a new FormData object
     const formData = new FormData();
@@ -226,7 +238,7 @@ const FuelInventry = (props) => {
       if (response.ok) {
         console.log("Done");
         SuccessToast(responseData.message);
-        handleButtonClick();
+        handleButtonClick()
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
         ErrorToast(responseData.message);
@@ -242,6 +254,7 @@ const FuelInventry = (props) => {
     }
   };
 
+  
   function calculateSum(index) {
     const plattsPrice = Number(formik?.values?.data?.[index]?.adjustment);
     const bunkeredsale = Number(formik?.values?.data?.[index]?.bunkered_sale);
@@ -250,7 +263,8 @@ const FuelInventry = (props) => {
     const MeterSale = Number(formik?.values?.data?.[index]?.metered_sale);
     const actualsales = Number(formik?.values?.data?.[index]?.actual_sales);
     const fuelprice = Number(formik?.values?.data?.[index]?.fuel_price);
-
+ 
+  
     if (
       !isNaN(plattsPrice) &&
       !isNaN(bunkeredsale) &&
@@ -260,16 +274,21 @@ const FuelInventry = (props) => {
       !isNaN(MeterSale)
     ) {
       const finalTotal = plattsPrice + bunkeredsale + tests;
-      const finalAmount = MeterSale2 - finalTotal;
-      const finalAmount2 = fuelprice * finalAmount;
+      const finalAmount = MeterSale2 - finalTotal ;
+      const finalAmount2 = fuelprice * finalAmount ;
       const actualsales = finalAmount.toFixed(2);
       const duesales = finalAmount2.toFixed(2);
       formik.setFieldValue(`data[${index}].actual_sales`, actualsales);
       formik.setFieldValue(`data[${index}].due_sales`, duesales);
+  
+  
+   
+    
     } else {
       console.log("Invalid or missing numeric values");
     }
   }
+  
 
   const columns = [
     // ... existing columns
@@ -294,14 +313,14 @@ const FuelInventry = (props) => {
       center: true,
       cell: (row, index) =>
         row.description === "Total" ? (
-          <div>
-            <input
-              type="number"
-              className="table-input readonly total-input"
-              value={row.fuel_price}
-              readOnly
-            />
-          </div>
+       <div>
+           <input
+          type="number"
+          className="table-input readonly total-input"
+          value={row.fuel_price}
+          readOnly
+        />
+       </div>
         ) : (
           <div>
             <input
@@ -330,13 +349,13 @@ const FuelInventry = (props) => {
       cell: (row, index) =>
         row.description === "Total" ? (
           <div>
-            <input
-              type="number"
-              className="table-input readonly total-input"
-              value={row.metered_sale}
-              readOnly
-            />
-          </div>
+          <input
+         type="number"
+         className="table-input readonly total-input"
+         value={row.metered_sale}
+         readOnly
+       />
+      </div>
         ) : (
           <div>
             <input
@@ -363,13 +382,13 @@ const FuelInventry = (props) => {
       cell: (row, index) =>
         row.description === "Total" ? (
           <div>
-            <input
-              type="number"
-              className="table-input readonly total-input"
-              value={row.metered_sale_value}
-              readOnly
-            />
-          </div>
+          <input
+         type="number"
+         className="table-input readonly total-input"
+         value={row.metered_sale_value}
+         readOnly
+       />
+      </div>
         ) : (
           <div>
             <input
@@ -396,26 +415,27 @@ const FuelInventry = (props) => {
       cell: (row, index) =>
         row.description === "Total" ? (
           <div>
-            <input
-              type="number"
-              className="table-input readonly total-input"
-              value={row.adjustment}
-              readOnly
-            />
-          </div>
+          <input
+         type="number"
+         className="table-input readonly total-input"
+         value={row.adjustment}
+         readOnly
+       />
+      </div> 
         ) : (
           <div>
             <input
               type="number"
               id={`adjustment-${index}`}
               name={`data[${index}].adjustment`}
+            
               className={
-                row.update_adjustment
-                  ? "UpdateValueInput"
-                  : editable?.is_editable
-                  ? "table-input"
-                  : "table-input readonly"
-              }
+              row.update_adjustment
+                ? "UpdateValueInput"
+                : editable?.is_editable
+                ? "table-input"
+                : "table-input readonly"
+            }
               value={formik.values.data[index]?.adjustment}
               onChange={formik.handleChange}
               onBlur={(e) => {
@@ -439,13 +459,13 @@ const FuelInventry = (props) => {
       cell: (row, index) =>
         row.description === "Total" ? (
           <div>
-            <input
-              type="number"
-              className="table-input readonly total-input"
-              value={row.bunkered_sale}
-              readOnly
-            />
-          </div>
+          <input
+         type="number"
+         className="table-input readonly total-input"
+         value={row.bunkered_sale}
+         readOnly
+       />
+      </div> 
         ) : (
           <div>
             <input
@@ -453,12 +473,12 @@ const FuelInventry = (props) => {
               id={`bunkered_sale-${index}`}
               name={`data[${index}].bunkered_sale`}
               className={
-                row.update_bunkered_sale
-                  ? "UpdateValueInput"
-                  : editable?.is_editable
-                  ? "table-input"
-                  : "table-input readonly"
-              }
+              row.update_bunkered_sale
+                ? "UpdateValueInput"
+                : editable?.is_editable
+                ? "table-input"
+                : "table-input readonly"
+            }
               value={formik.values.data[index]?.bunkered_sale}
               onChange={formik.handleChange}
               onBlur={(e) => {
@@ -482,13 +502,13 @@ const FuelInventry = (props) => {
       cell: (row, index) =>
         row.description === "Total" ? (
           <div>
-            <input
-              type="number"
-              className="table-input readonly total-input"
-              value={row.tests}
-              readOnly
-            />
-          </div>
+          <input
+         type="number"
+         className="table-input readonly total-input"
+         value={row.tests}
+         readOnly
+       />
+      </div> 
         ) : (
           <div>
             <input
@@ -496,12 +516,12 @@ const FuelInventry = (props) => {
               id={`tests-${index}`}
               name={`data[${index}].tests`}
               className={
-                row.update_tests
-                  ? "UpdateValueInput"
-                  : editable?.is_editable
-                  ? "table-input"
-                  : "table-input readonly"
-              }
+              row.update_tests
+                ? "UpdateValueInput"
+                : editable?.is_editable
+                ? "table-input"
+                : "table-input readonly"
+            }
               value={formik.values.data[index]?.tests}
               onChange={formik.handleChange}
               onBlur={(e) => {
@@ -524,13 +544,13 @@ const FuelInventry = (props) => {
       cell: (row, index) =>
         row.description === "Total" ? (
           <div>
-            <input
-              type="number"
-              className="table-input readonly total-input"
-              value={row.actual_sales}
-              readOnly
-            />
-          </div>
+          <input
+         type="number"
+         className="table-input readonly total-input"
+         value={row.actual_sales}
+         readOnly
+       />
+      </div> 
         ) : (
           <div>
             <input
@@ -538,12 +558,12 @@ const FuelInventry = (props) => {
               id={`actual_sales-${index}`}
               name={`data[${index}].actual_sales`}
               className={
-                row.update_actual_sales
-                  ? "UpdateValueInput"
-                  : editable?.is_editable
-                  ? "table-input"
-                  : "table-input readonly"
-              }
+              row.update_actual_sales
+                ? "UpdateValueInput"
+                : editable?.is_editable
+                ? "table-input"
+                : "table-input readonly"
+            }
               value={formik.values.data[index]?.actual_sales}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -563,13 +583,13 @@ const FuelInventry = (props) => {
       cell: (row, index) =>
         row.description === "Total" ? (
           <div>
-            <input
-              type="number"
-              className="table-input readonly total-input"
-              value={row.due_sales}
-              readOnly
-            />
-          </div>
+          <input
+         type="number"
+         className="table-input readonly total-input"
+         value={row.due_sales}
+         readOnly
+       />
+      </div>
         ) : (
           <div>
             <input
@@ -577,12 +597,12 @@ const FuelInventry = (props) => {
               id={`due_sales-${index}`}
               name={`data[${index}].due_sales`}
               className={
-                row.update_due_sales
-                  ? "UpdateValueInput"
-                  : editable?.is_editable
-                  ? "table-input"
-                  : "table-input readonly"
-              }
+              row.update_due_sales
+                ? "UpdateValueInput"
+                : editable?.is_editable
+                ? "table-input"
+                : "table-input readonly"
+            }
               value={formik.values.data[index]?.due_sales}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -734,7 +754,7 @@ const FuelInventry = (props) => {
     initialValues: {
       data: data,
     },
-    onSubmit: FuelInventrySubmit,
+    onSubmit: handleSubmit,
     // validationSchema: validationSchema,
   });
 
@@ -749,7 +769,7 @@ const FuelInventry = (props) => {
                 <h3 className="card-title">Fuel-Inventory</h3>
               </Card.Header>
               <Card.Body>
-                <form onSubmit={formik.FuelInventrySubmit}>
+                <form onSubmit={formik.handleSubmit} >
                   <div className="table-responsive deleted-table">
                     <Row>
                       <Col lg={12} md={12}>
