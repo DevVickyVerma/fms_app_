@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import ReactApexChart from "react-apexcharts";
-import { Breadcrumb, Col, Row, Card, Spinner } from "react-bootstrap";
+
 import * as dashboard from "../../data/dashboard/dashboard";
 import { Link, useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 import withApi from "../../Utils/ApiHelper";
-import { useDispatch, useSelector } from "react-redux";
+
 import { fetchData } from "../../Redux/dataSlice";
 import SortIcon from "@mui/icons-material/Sort";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -17,7 +17,19 @@ import PieDashboardChart from "../../components/pages/DashBoardChart/PieDashboar
 import Spinners from "../../components/Dashboard/Spinner";
 import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
-import OilBarrelIcon from '@mui/icons-material/OilBarrel';
+import OilBarrelIcon from "@mui/icons-material/OilBarrel";
+import { dispatch } from "d3";
+
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  Form,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+  Spinner,
+} from "react-bootstrap";
 
 const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -49,7 +61,6 @@ const Dashboard = (props) => {
 
       const { data } = response;
       if (data) {
-        console.log(data?.data, "dashboarddashboard");
         setLinechartValues(data?.data?.line_graph);
         setpiechartValues(data?.data?.pi_graph);
         setGrossVolume(data?.data?.gross_volume);
@@ -58,7 +69,6 @@ const Dashboard = (props) => {
         setshopsale(data?.data?.shop_sales);
 
         setshopmargin(data?.data?.shop_margin);
-        console.log(data?.data?.shop_margin, "data?.data?.shop_margin");
       }
     } catch (error) {
       handleError(error);
@@ -102,8 +112,6 @@ const Dashboard = (props) => {
 
   const [justLoggedIn, setJustLoggedIn] = useState(false);
 
-  const dispatch = useDispatch();
-  const data = useSelector((state) => state.data.data);
   const token = localStorage.getItem("token");
   const loggedInFlag = localStorage.getItem("justLoggedIn");
   const tokenUpdated = localStorage.getItem("tokenupdate") === "true";
@@ -137,13 +145,11 @@ const Dashboard = (props) => {
   }, [token]);
 
   const handleToggleSidebar1 = () => {
-    console.log(ShowTruw, "hi");
     setShowTruw(true);
     setSidebarVisible1(!sidebarVisible1);
   };
 
   const handleFormSubmit = async (values) => {
-    console.log(values, "valuessss");
     setSearchdata(values);
     try {
       const response = await getData(
@@ -152,7 +158,6 @@ const Dashboard = (props) => {
 
       const { data } = response;
       if (data) {
-        console.log(data?.data, "handleFormSubmit");
         setLinechartValues(data?.data?.line_graph);
         setpiechartValues(data?.data?.pi_graph);
         setGrossVolume(data?.data?.gross_volume);
@@ -161,7 +166,7 @@ const Dashboard = (props) => {
         setshopsale(data?.data?.shop_sales);
 
         setshopmargin(data?.data?.shop_margin);
-        console.log(data?.data?.shop_margin, "data?.data?.shop_margin");
+       
       }
     } catch (error) {
       handleError(error);
@@ -262,8 +267,8 @@ const Dashboard = (props) => {
           <Col lg={12} md={12} sm={12} xl={12}>
             <Row>
               <Col lg={6} md={12} sm={12} xl={4}>
-                <Card className=" overflow-hidden">
-                  <Card.Body className="card-body">
+                <Card className=" overflow-hidden Dashboard-card">
+                 <Card.Body > 
                     <Row>
                       <div className="col">
                         <div className=" dashboard-box">
@@ -274,7 +279,7 @@ const Dashboard = (props) => {
                               <>
                                 <div className="d-flex">
                                   <div>
-                                    <h6 className="">Gross Volume</h6>
+                                    <h6 >Gross Volume</h6>
                                     <h4 className="mb-2 number-font">
                                       {" "}
                                       ℓ{GrossVolume?.gross_volume}
@@ -282,7 +287,7 @@ const Dashboard = (props) => {
                                   </div>
                                   <div className="border-left"></div>
                                   <div className="ms-3">
-                                    <h5 className="">Bunkered Volume</h5>
+                                  <h6 >Bunkered Volume</h6>
                                     <h4 className="mb-2 number-font">
                                       ℓ{GrossVolume?.bunkered_volume}
                                     </h4>
@@ -290,32 +295,40 @@ const Dashboard = (props) => {
                                 </div>
 
                                 {/* <p className="p-0">Bunkered Volume</p> */}
-                                <p className="text-muted mb-0 mt-4">
-                                  <span
-                                    className={`me-1 ${
-                                      shopmargin?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
-                                  >
-                                    {GrossVolume?.status === "up" ? (
-                                      <>
-                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                        <span className="text-success">
-                                          {GrossVolume?.percentage}%
-                                        </span>
-                                      </>
-                                    ) : (
-                                      <>
-                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                        <span className="text-danger">
-                                          {GrossVolume?.percentage}%
-                                        </span>
-                                      </>
-                                    )}
-                                  </span>
-                                  last month
-                                </p>
+                                <OverlayTrigger
+                                  placement="top"
+                                  overlay={
+                                    <Tooltip>{`${GrossVolume?.percentage}%`}</Tooltip>
+                                  }
+                                >
+                                  <p className="text-muted mb-0 mt-4">
+                                    <span
+                                      className={`me-1 ${
+                                        shopmargin?.status === "up"
+                                          ? "text-success"
+                                          : "text-danger"
+                                      }`}
+                                      data-tip={`${GrossVolume?.percentage}%`}
+                                    >
+                                      {GrossVolume?.status === "up" ? (
+                                        <>
+                                          <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                                          <span className="text-success">
+                                            {GrossVolume?.percentage}%
+                                          </span>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                                          <span className="text-danger">
+                                            {GrossVolume?.percentage}%
+                                          </span>
+                                        </>
+                                      )}
+                                    </span>
+                                    last month
+                                  </p>
+                                </OverlayTrigger>
                               </>
                             )}
                           </div>
@@ -333,13 +346,13 @@ const Dashboard = (props) => {
                 </Card>
               </Col>
               <div className="col-lg-6 col-md-12 col-sm-12 col-xl-4">
-                <div className="card overflow-hidden">
-                  <div className="card-body">
+                <div className="card overflow-hidden  Dashboard-card">
+                  <div className="card-body ">
                     <Row>
                       <div className="col">
-                        <div className=" dashboard-box">
+                        <div className=" dashboard-box ">
                           <div>
-                            <h6 className="">Gross Profit</h6>
+                            <h6 >Gross Profit</h6>
                             {isLoading ? (
                               <Spinners />
                             ) : (
@@ -394,13 +407,13 @@ const Dashboard = (props) => {
                 </div>
               </div>
               <Col lg={6} md={12} sm={12} xl={4}>
-                <Card className="card overflow-hidden">
-                  <Card.Body className="card-body">
+                <Card className="card overflow-hidden  Dashboard-card">
+                  <Card.Body >
                     <Row>
                       <div className="col">
                         <div className=" dashboard-box">
                           <div>
-                            <h6 className="">Gross Margin</h6>
+                            <h6 >Gross Margin</h6>
                             {isLoading ? (
                               <Spinners />
                             ) : (
@@ -443,9 +456,7 @@ const Dashboard = (props) => {
                           </div>
                           <div className="col col-auto">
                             <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto text-white">
-                          <OilBarrelIcon/>
-                            
-                              
+                              <OilBarrelIcon />
                             </div>
                           </div>
                         </div>
@@ -462,8 +473,8 @@ const Dashboard = (props) => {
           <Col lg={12} md={12} sm={12} xl={12}>
             <Row>
               <Col lg={6} md={12} sm={12} xl={4}>
-                <Card className=" overflow-hidden">
-                  <Card.Body className="card-body">
+                <Card className=" overflow-hidden Dashboard-card">
+                  <Card.Body >
                     <Row>
                       <div className="col">
                         <div className=" dashboard-box">
@@ -474,14 +485,14 @@ const Dashboard = (props) => {
                               <>
                                 <div className="d-flex">
                                   <div>
-                                    <h6 className="">Fuel Sales</h6>
+                                    <h6 >Fuel Sales</h6>
                                     <h4 className="mb-2 number-font">
                                       £{FuelValue?.gross_value}
                                     </h4>
                                   </div>
                                   <div className="border-left"></div>
                                   <div className="ms-3">
-                                    <h6 className="">Bunkered Value</h6>
+                                    <h6 >Bunkered Value</h6>
                                     <h4 className="mb-2 number-font">
                                       £{FuelValue?.bunkered_value}
                                     </h4>
@@ -531,13 +542,13 @@ const Dashboard = (props) => {
                 </Card>
               </Col>
               <div className="col-lg-6 col-md-12 col-sm-12 col-xl-4">
-                <div className="card overflow-hidden">
-                  <div className="card-body">
+                <div className="card overflow-hidden  Dashboard-card">
+                  <div className="card-body ">
                     <Row>
                       <div className="col">
                         <div className=" dashboard-box">
                           <div>
-                            <h6 className="">Shop Sales</h6>
+                            <h6 >Shop Sales</h6>
                             {isLoading ? (
                               <Spinners />
                             ) : (
@@ -589,13 +600,13 @@ const Dashboard = (props) => {
                 </div>
               </div>
               <Col lg={6} md={12} sm={12} xl={4}>
-                <Card className="card overflow-hidden">
-                  <Card.Body className="card-body">
+                <Card className="card overflow-hidden  Dashboard-card">
+                  <Card.Body >
                     <Row>
                       <div className="col">
                         <div className=" dashboard-box">
                           <div>
-                            <h6 className="">Shop Margin</h6>
+                            <h6 >Shop Margin</h6>
                             {isLoading ? (
                               <Spinners />
                             ) : (
@@ -652,7 +663,7 @@ const Dashboard = (props) => {
 
         <Row>
           <Col lg={7} md={12}>
-            <Card>
+            <Card className="fuel-card">
               <Card.Header className="card-header">
                 <h4 className="card-title">Total Transactions</h4>
               </Card.Header>

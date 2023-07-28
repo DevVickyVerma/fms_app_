@@ -185,7 +185,9 @@ const SiteSettings = (props) => {
         const { day, checked } = values.CahsDayFormikData[i];
 
         if (checked) {
-          selectedCashDayIds.push({ [cashday_models_valueKey + "[" + i + "]"]: day });
+          selectedCashDayIds.push({
+            [cashday_models_valueKey + "[" + i + "]"]: day,
+          });
         }
       }
 
@@ -201,7 +203,9 @@ const SiteSettings = (props) => {
         const { id, fuel_name, checked } = values.FormikreportsData[i];
 
         if (checked) {
-          selectedReportsIds.push({ [reports_models_valueKey + "[" + i + "]"]: id });
+          selectedReportsIds.push({
+            [reports_models_valueKey + "[" + i + "]"]: id,
+          });
         }
       }
 
@@ -272,7 +276,7 @@ const SiteSettings = (props) => {
       const postDataUrl = "/site/update-setting";
       const navigatePath = "/sites";
 
-      await postData(postDataUrl, formData,navigatePath); // Set the submission state to false after the API call is completed
+      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
@@ -342,24 +346,12 @@ const SiteSettings = (props) => {
         </div>
       ),
     },
-    // {
-    //   name: "Select",
-    //   selector: "checked",
-    //   sortable: false,
-    //   center: true,
-    //   width: "5%",
-    //   cell: (row) => (
-    //     <input
-    //       type="checkbox"
-    //       onChange={(event) => handleBussinesCheckChange(event, row)}
-    //     />
-    //   ),
-    // },
+
     {
       name: "Business Models",
       selector: "item_name",
       sortable: true,
-      width: "35%",
+      width: "45%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -380,7 +372,7 @@ const SiteSettings = (props) => {
         selector: (row) => row.business_model_types[index]?.id,
         sortable: false,
         center: true,
-        width: "20%",
+        width: "15%",
         cell: (row) => (
           <div className="d-flex">
             <div className="ms-auto">
@@ -404,7 +396,7 @@ const SiteSettings = (props) => {
       selector: "checked",
       sortable: false,
       center: true,
-      width: "10%",
+      width: "15%",
       cell: (row, index) => (
         <div>
           <input
@@ -426,7 +418,7 @@ const SiteSettings = (props) => {
       name: "Card Model",
       selector: (row) => row.card_name,
       sortable: true,
-      width: "70%",
+      width: "85%",
       cell: (row) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -436,30 +428,30 @@ const SiteSettings = (props) => {
       ),
     },
 
-    {
-      name: "For Tenant",
+    // {
+    //   name: "For Tenant",
 
-      selector: (row) => row.for_tenant,
-      sortable: false,
-      center: true,
-      width: "10%",
-      cell: (row, index) => (
-        <div>
-          <input
-            type="checkbox"
-            id={`for_tenant-${index}`}
-            name={`AssignFormikCards[${index}].for_tenant`}
-            className="table-checkbox-input"
-            checked={
-              formik.values?.AssignFormikCards?.[index]?.for_tenant ?? false
-            }
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {/* Error handling code */}
-        </div>
-      ),
-    },
+    //   selector: (row) => row.for_tenant,
+    //   sortable: false,
+    //   center: true,
+    //   width: "10%",
+    //   cell: (row, index) => (
+    //     <div>
+    //       <input
+    //         type="checkbox"
+    //         id={`for_tenant-${index}`}
+    //         name={`AssignFormikCards[${index}].for_tenant`}
+    //         className="table-checkbox-input"
+    //         checked={
+    //           formik.values?.AssignFormikCards?.[index]?.for_tenant ?? false
+    //         }
+    //         onChange={formik.handleChange}
+    //         onBlur={formik.handleBlur}
+    //       />
+    //       {/* Error handling code */}
+    //     </div>
+    //   ),
+    // },
   ];
 
   const chargesColumns = [
@@ -769,15 +761,20 @@ const SiteSettings = (props) => {
       ),
     },
   ];
+  // const handleCardClick = (row) => {
+  //   console.log(row, "row");
+  // };
   const FuelsModelColumn = [
     {
       name: "Select",
+
       selector: (row) => row.checked,
       sortable: false,
       center: true,
       width: "20%",
       cell: (row, index) => (
         <div>
+          {console.log(row.checked, "Rowwwww")}
           <input
             type="checkbox"
             id={`checked-${index}`}
@@ -804,7 +801,6 @@ const SiteSettings = (props) => {
         </div>
       ),
     },
- 
   ];
   const DRSModelColumn = [
     {
@@ -841,7 +837,6 @@ const SiteSettings = (props) => {
         </div>
       ),
     },
- 
   ];
   const CashDatModelColumn = [
     {
@@ -857,7 +852,9 @@ const SiteSettings = (props) => {
             id={`checked-${index}`}
             name={`CahsDayFormikData[${index}].checked`}
             className="table-checkbox-input"
-            checked={formik.values?.CahsDayFormikData?.[index]?.checked ?? false}
+            checked={
+              formik.values?.CahsDayFormikData?.[index]?.checked ?? false
+            }
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
@@ -878,7 +875,6 @@ const SiteSettings = (props) => {
         </div>
       ),
     },
- 
   ];
   const ReportsColumn = [
     {
@@ -894,7 +890,9 @@ const SiteSettings = (props) => {
             id={`checked-${index}`}
             name={`FormikreportsData[${index}].checked`}
             className="table-checkbox-input"
-            checked={formik.values?.FormikreportsData?.[index]?.checked ?? false}
+            checked={
+              formik.values?.FormikreportsData?.[index]?.checked ?? false
+            }
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           />
@@ -915,7 +913,6 @@ const SiteSettings = (props) => {
         </div>
       ),
     },
-  
   ];
 
   // Define an array to store the combined objects
@@ -967,7 +964,7 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={BussinesModelColumn}
                           data={BussinesModelData}
-                          noHeader
+                          fixedHeader
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -992,7 +989,7 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={CardsModelColumn}
                           data={CardsModelData}
-                          noHeader
+                          fixedHeader
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1005,13 +1002,13 @@ const SiteSettings = (props) => {
                     </Col>
                     <Col lg={6} md={6}>
                       <Card.Header className="cardheader-table">
-                        <h3 className="card-title">Cash  Day</h3>
+                        <h3 className="card-title">Cash Day</h3>
                       </Card.Header>
                       <div className="module-height">
                         <DataTable
                           columns={CashDatModelColumn}
                           data={CashDayData}
-                          noHeader
+                          fixedHeader
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1036,7 +1033,7 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={chargesColumns}
                           data={data}
-                          noHeader
+                          fixedHeader
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1061,7 +1058,7 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={deductionsColumns}
                           data={DeductionData}
-                          noHeader
+                          fixedHeader
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1086,7 +1083,7 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={SiteItemsColumn}
                           data={SiteItems}
-                          noHeader
+                          fixedHeader
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1097,14 +1094,13 @@ const SiteSettings = (props) => {
                         />
                       </div>
                     </Col>
-                
                   </Row>
                 </Card.Body>
               </Card>
               <Card>
                 <Card.Body>
                   <Row className="mt-4">
-                  <Col lg={4} md={4}>
+                    <Col lg={4} md={4}>
                       <Card.Header className="cardheader-table">
                         <h3 className="card-title">Reports</h3>
                       </Card.Header>
@@ -1112,7 +1108,7 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={ReportsColumn}
                           data={ReportsData}
-                          noHeader
+                          fixedHeader
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1131,7 +1127,7 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={FuelsModelColumn}
                           data={fuelData}
-                          noHeader
+                          fixedHeader
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1150,7 +1146,7 @@ const SiteSettings = (props) => {
                         <DataTable
                           columns={DRSModelColumn}
                           data={DrsData}
-                          noHeader
+                          fixedHeader
                           defaultSortField="id"
                           defaultSortAsc={false}
                           striped={true}
@@ -1161,19 +1157,17 @@ const SiteSettings = (props) => {
                         />
                       </div>
                     </Col>
-                
                   </Row>
                 </Card.Body>
                 <Card.Footer>
-                <div className="d-flex justify-content-end mt-3">
-              <button className="btn btn-primary" type="submit">
-                Submit
-              </button>
-            </div>
+                  <div className="d-flex justify-content-end mt-3">
+                    <button className="btn btn-primary" type="submit">
+                      Submit
+                    </button>
+                  </div>
                 </Card.Footer>
               </Card>
             </div>
-            
           </form>
         </Row>
       </>

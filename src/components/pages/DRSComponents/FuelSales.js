@@ -10,9 +10,18 @@ import { Slide, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const FuelSales = (props) => {
-  const { apidata, error, getData, postData, company_id,
-    client_id, site_id, start_date,sendDataToParent } = props;
-    
+  const {
+    apidata,
+    error,
+    getData,
+    postData,
+    company_id,
+    client_id,
+    site_id,
+    start_date,
+    sendDataToParent,
+  } = props;
+
   const handleButtonClick = () => {
     const allPropsData = {
       company_id,
@@ -64,59 +73,58 @@ const FuelSales = (props) => {
       ErrorToast(errorMessage);
     }
   }
+  const fetchData = async () => {
+    const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
+    const axiosInstance = axios.create({
+      baseURL: process.env.REACT_APP_BASE_URL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      const axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_BASE_URL,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    try {
+      setIsLoading(true); // Set loading state to true before fetching data
 
-      try {
-        setIsLoading(true); // Set loading state to true before fetching data
+      const response = await axiosInstance.get(
+        `/fuel-sale/list?site_id=${site_id}&drs_date=${start_date}`
+      );
 
-        const response = await axiosInstance.get(
-          `/fuel-sale/list?site_id=${site_id}&drs_date=${start_date}`
-        );
+      const { data } = response;
+      if (data) {
+        setData(data.data.listing);
+        setis_editable(data.data);
 
-        const { data } = response;
-        if (data) {
-          setData(data.data.listing);
-          setis_editable(data.data);
+        // Create an array of form values based on the response data
+        const formValues = data.data.listing.map((item) => {
+          return {
+            id: item.id,
+            fuel_name: item.fuel_name,
+            sales_volume: item.sales_volume,
+            gross_value: item.gross_value,
+            discount: item.discount,
+            nett_value: item.nett_value,
+          };
+        });
 
-          // Create an array of form values based on the response data
-          const formValues = data.data.listing.map((item) => {
-            return {
-              id: item.id,
-              fuel_name: item.fuel_name,
-              sales_volume: item.sales_volume,
-              gross_value: item.gross_value,
-              discount: item.discount,
-              nett_value: item.nett_value,
-            };
-          });
-
-          // Set the formik values using setFieldValue
-          formik.setFieldValue("data", formValues);
-        }
-      } catch (error) {
-        console.error("API error:", error);
-        handleError(error);
-      } finally {
-        setIsLoading(false); // Set loading state to false after data fetching is complete
+        // Set the formik values using setFieldValue
+        formik.setFieldValue("data", formValues);
       }
-    };
-
+    } catch (error) {
+      console.error("API error:", error);
+      handleError(error);
+    } finally {
+      setIsLoading(false); // Set loading state to false after data fetching is complete
+    }
+  };
+  useEffect(() => {
     if (start_date) {
       fetchData();
     }
+    console.clear();
   }, [site_id, start_date]);
 
-  const handleSubmit = async (values) => {
+  const SubmitFuelSalesForm = async (values) => {
     const token = localStorage.getItem("token");
 
     // Create a new FormData object
@@ -164,7 +172,7 @@ const FuelSales = (props) => {
       if (response.ok) {
         console.log("Done");
         SuccessToast(responseData.message);
-        handleButtonClick()
+        handleButtonClick();
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
         ErrorToast(responseData.message);
@@ -175,7 +183,7 @@ const FuelSales = (props) => {
     } catch (error) {
       console.error("API error:", error);
       handleError(error);
-    }finally {
+    } finally {
       setIsLoading(false);
     }
   };
@@ -209,13 +217,13 @@ const FuelSales = (props) => {
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
           <div>
-          <input
-            type="number"
-            className={"table-input readonly"}
-            value={row.sales_volume}
-            readOnly
-          />
-           </div>
+            <input
+              type="number"
+              className={"table-input readonly"}
+              value={row.sales_volume}
+              readOnly
+            />
+          </div>
         ) : (
           <div>
             <input
@@ -243,13 +251,13 @@ const FuelSales = (props) => {
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
           <div>
-          <input
-            type="number"
-            className={"table-input readonly"}
-            value={row.gross_value}
-            readOnly
-          />
-           </div>
+            <input
+              type="number"
+              className={"table-input readonly"}
+              value={row.gross_value}
+              readOnly
+            />
+          </div>
         ) : (
           <div>
             <input
@@ -276,13 +284,13 @@ const FuelSales = (props) => {
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
           <div>
-          <input
-            type="number"
-            className={"table-input readonly"}
-            value={row.discount}
-            readOnly
-          />
-           </div>
+            <input
+              type="number"
+              className={"table-input readonly"}
+              value={row.discount}
+              readOnly
+            />
+          </div>
         ) : (
           <div>
             <input
@@ -309,13 +317,13 @@ const FuelSales = (props) => {
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
           <div>
-          <input
-            type="number"
-            className={"table-input readonly"}
-            value={row.nett_value}
-            readOnly
-          />
-           </div>
+            <input
+              type="number"
+              className={"table-input readonly"}
+              value={row.nett_value}
+              readOnly
+            />
+          </div>
         ) : (
           <div>
             <input
@@ -345,7 +353,7 @@ const FuelSales = (props) => {
     initialValues: {
       data: data,
     },
-    onSubmit: handleSubmit,
+    onSubmit: SubmitFuelSalesForm,
     // validationSchema: validationSchema,
   });
 
@@ -360,7 +368,7 @@ const FuelSales = (props) => {
                 <h3 className="card-title">Fuel Sales</h3>
               </Card.Header>
               <Card.Body>
-                <form onSubmit={formik.handleSubmit}>
+                <form onSubmit={formik.SubmitFuelSalesForm}>
                   <div className="table-responsive deleted-table">
                     <DataTableExtensions {...tableDatas}>
                       <DataTable

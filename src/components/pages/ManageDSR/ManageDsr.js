@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Link, Navigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
-import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
+
 import Loaderimg from "../../../Utils/Loader";
 import {
   Breadcrumb,
@@ -15,11 +14,10 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import { Button } from "bootstrap";
 
 import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
-import SearchIcon from "@mui/icons-material/Search";
+
 import { useSelector } from "react-redux";
 import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
@@ -48,37 +46,13 @@ const ManageDsr = (props) => {
 
   const UserPermissions = useSelector((state) => state?.data?.data);
   const [AddSiteData, setAddSiteData] = useState([]);
-  // const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  // const [subTypes, setSubTypes] = useState([]);
+
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
-  useEffect(() => {
-    handleFetchData();
-  }, []);
-
-  useEffect(() => {
-    setclientIDLocalStorage(localStorage.getItem("superiorId"));
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions.permissions);
-    }
-  }, [UserPermissions]);
-
-  const isStatusPermissionAvailable = permissionsArray?.includes(
-    "supplier-status-update"
-  );
-  const isEditPermissionAvailable = permissionsArray?.includes("supplier-edit");
-  const isAddPermissionAvailable =
-    permissionsArray?.includes("supplier-create");
-  const isDeletePermissionAvailable =
-    permissionsArray?.includes("drs-delete-data");
-  const isDetailsPermissionAvailable =
-    permissionsArray?.includes("supplier-details");
-  const isAssignPermissionAvailable = permissionsArray?.includes("drs-hit-api");
-
   const [UploadTabname, setUploadTabname] = useState();
   const [modalTitle, setModalTitle] = useState("");
   const [Uploadtitle, setUploadtitle] = useState();
@@ -92,19 +66,26 @@ const ManageDsr = (props) => {
   const [getDataBtn, setgetDataBtn] = useState();
   const [SiteId, setSiteId] = useState();
   const [DRSDate, setDRSDate] = useState();
-  const [initialDate, setInitialDate] = useState("2023-01-01");
+  const [showModal, setShowModal] = useState(false); // State variable to control modal visibility
+  const [timeLeft, setTimeLeft] = useState(40);
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  useEffect(() => {
+    FetchCommonData();
+    setclientIDLocalStorage(localStorage.getItem("superiorId"));
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions.permissions);
+    }
+  }, [UserPermissions]);
+
+  const isDeletePermissionAvailable =
+    permissionsArray?.includes("drs-delete-data");
+
+  const isAssignPermissionAvailable = permissionsArray?.includes("drs-hit-api");
 
   const navigate = useNavigate();
-  const notify = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
+
   const ErrorAlert = (message) => {
     toast.error(message, {
       position: toast.POSITION.TOP_RIGHT,
@@ -130,7 +111,7 @@ const ManageDsr = (props) => {
     }
   }
 
-  const handleFetchData = async () => {
+  const FetchCommonData = async () => {
     try {
       const response = await getData("/client/commonlist");
 
@@ -147,10 +128,6 @@ const ManageDsr = (props) => {
             setSelectedClientId(clientId);
 
             setSelectedCompanyList([]);
-
-            // setShowButton(false);
-            console.log(clientId, "clientId");
-            console.log(AddSiteData, "AddSiteData");
 
             if (response?.data) {
               const selectedClient = response?.data?.data?.find(
@@ -169,7 +146,6 @@ const ManageDsr = (props) => {
   };
 
   const getDRSData = async () => {
-    console.log(SiteId, DRSDate, "API getData");
     try {
       const formData = new FormData();
       formData.append("site_id", SiteId);
@@ -179,7 +155,6 @@ const ManageDsr = (props) => {
 
       await postData(postDataUrl, formData);
       if (apidata.api_response === "success") {
-        console.log(apidata.api_response, "apidata.api_response");
         setIsTimerRunning(true);
         setTimeLeft(40);
       } // Set the submission state to false after the API call is completed
@@ -218,7 +193,14 @@ const ManageDsr = (props) => {
               "/drs/delete-data",
               formData
             );
+            const current = {
+              client_id: PropsClientId,
+              company_id: PropsCompanyId,
+              site_id: SiteId,
+              start_date: DRSDate,
+            };
 
+            GetDataWithClient(current);
             Swal.fire({
               title: "Deleted!",
               text: "Your item has been deleted.",
@@ -231,36 +213,17 @@ const ManageDsr = (props) => {
           }
           // setIsLoading(false);
         };
-        // const DRSDeleteData = async () => {
 
-        //   try {
-        //     const formData = new FormData();
-        //     formData.append("site_id", SiteId);
-        //     formData.append("drs_date", DRSDate);
-
-        //     const postDataUrl = "/drs/delete-data";
-
-        //     await postData(postDataUrl, formData);
-        //     if (apidata.api_response === "success") {
-        //  console.log(postDataUrl,"postDataUrl")
-        //     } // Set the submission state to false after the API call is completed
-        //   } catch (error) {
-        //     console.log(error); // Set the submission state to false if an error occurs
-        //   }
-        // };
         DeleteRole();
       }
     });
   };
 
   const handleDataFromBunkeredSales = (data) => {
-    // Do something with the data received from BunkeredSales
-    console.log("Data received from BunkeredSales:", data);
-    handleSubmit1(data);
+    GetDataWithClient(data);
   };
 
-  const handleSubmit1 = async (values) => {
-    console.log(values, "handleSubmit1handleSubmit1");
+  const GetDataWithClient = async (values) => {
     try {
       const formData = new FormData();
 
@@ -288,11 +251,10 @@ const ManageDsr = (props) => {
         if (data) {
           setUploadList(response1?.data?.data.list);
           setDataEnteryList(response1?.data?.data.cards);
-          console.log(response1?.data?.data, "edwdwdw");
+
           setgetDataBtn(response1?.data?.data.showBtn);
           setUploadtitle(response1?.data?.data);
           setUploadTabname();
-          // console.log(UploadTabname,"setUploadTabname")
         }
       } catch (error) {
         console.error("API error:", error);
@@ -302,10 +264,7 @@ const ManageDsr = (props) => {
     }
   };
 
-  const [showModal, setShowModal] = useState(false); // State variable to control modal visibility
-
   const handleCardClick = (item) => {
-    console.log(item.code, "upload");
     setPropsFile(item.code);
     setUploadTabname(item);
     setModalTitle(item.name); // Set the modalTitle state to the itemName
@@ -313,7 +272,6 @@ const ManageDsr = (props) => {
 
     // Show or hide the modal based on the new value of showModal
   };
-  const [selectedItem, setSelectedItem] = useState(null);
 
   const handleEnteryClick = (item) => {
     setSelectedItem(item);
@@ -324,8 +282,6 @@ const ManageDsr = (props) => {
     });
     // Show the modal
   };
-  const [timeLeft, setTimeLeft] = useState(40);
-  const [isTimerRunning, setIsTimerRunning] = useState(false);
 
   useEffect(() => {
     let timer;
@@ -335,30 +291,27 @@ const ManageDsr = (props) => {
       }, 1000);
     } else if (timeLeft === 0) {
       setIsTimerRunning(false);
-      // Perform the action you want after the 1-minute countdown ends
-      // For example, call a function or update the UI accordingly.
-      // You can add your `getDRSData()` function call here.
     }
-
 
     if (timeLeft === 1) {
       const current = {
-        "client_id": PropsClientId,
-        "company_id": PropsCompanyId,
-        "site_id": SiteId,
-        "start_date": DRSDate,
+        client_id: PropsClientId,
+        company_id: PropsCompanyId,
+        site_id: SiteId,
+        start_date: DRSDate,
       };
-      console.log(current, "formikvalue");
-      handleSubmit1(current);
-      console.log("done");
+
+      GetDataWithClient(current);
     }
-    
+
     return () => clearInterval(timer);
+
+    console.clear();
+
   }, [isTimerRunning, timeLeft]);
 
   const handleButtonClick = () => {
     if (!isTimerRunning) {
-      console.log(isTimerRunning, "isTimerRunning");
       getDRSData(); // Assuming you have a function to fetch data called getDRSData()
     }
   };
@@ -411,7 +364,7 @@ const ManageDsr = (props) => {
                       ),
                   })}
                   onSubmit={(values) => {
-                    handleSubmit1(values);
+                    GetDataWithClient(values);
                   }}
                 >
                   {({ handleSubmit, errors, touched, setFieldValue }) => (
@@ -456,14 +409,6 @@ const ManageDsr = (props) => {
                                     if (selectedClient) {
                                       setSelectedCompanyList(
                                         selectedClient.companies
-                                      );
-                                      console.log(
-                                        selectedClient,
-                                        "selectedClient"
-                                      );
-                                      console.log(
-                                        selectedClient.companies,
-                                        "selectedClient"
                                       );
                                     }
                                   }}
@@ -519,14 +464,6 @@ const ManageDsr = (props) => {
                                   if (selectedCompanyData) {
                                     setSelectedSiteList(
                                       selectedCompanyData.sites
-                                    );
-                                    console.log(
-                                      selectedCompanyData,
-                                      "company_id"
-                                    );
-                                    console.log(
-                                      selectedCompanyData.sites,
-                                      "company_id"
                                     );
                                   }
                                 }}

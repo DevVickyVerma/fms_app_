@@ -118,8 +118,8 @@ button.modal-effect.d-grid.mb-3.upload-btn.btn.btn-danger {
 }
 .module-height {
   max-height: 290px !important;
- 
-  overflow-y: scroll;
+/*  
+  overflow-y: scroll; */
 }
 .bottom-toal {
   font-size: 16px;
@@ -357,4 +357,18 @@ input.table-input.readonly.total-input-card {
   padding: 18px;
   height: 17px;
   width: 34px;
+}
+/* .react-switch-handle {
+  background: rgb(128 19 207) !important;
+} */
+
+.Dashboard-card {
+  height: 126px !important;
+  border-top: 5px solid #8013cf !important;
+}
+.fuel-card {
+  height: 95%;
+}
+.react-switch-bg {
+  background: rgb(128 19 207) !important;
 }

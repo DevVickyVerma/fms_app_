@@ -27,7 +27,7 @@ const Sidebar = () => {
 
 
   useEffect(() => {
-    console.log("mainmenu before update:", mainmenu);
+  
     setIsLoading(true);
 
     if (permissionsArray) {

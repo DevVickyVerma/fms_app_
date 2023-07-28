@@ -182,6 +182,7 @@ section {
 
 .number-font {
   font-weight: 600 !important;
+  font-size: 14px;
 }
 
 [tabindex="-1"]:focus {

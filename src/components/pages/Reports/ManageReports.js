@@ -53,7 +53,7 @@ const ManageReports = (props) => {
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
-  const [selectedReport, setSelectedReport] = useState(0);
+
   const [selectedItems, setSelectedItems] = useState([]);
   const [toggleValue, setToggleValue] = useState(false); // State for the toggle
   const handleToggleChange = (checked) => {
@@ -159,7 +159,14 @@ const ManageReports = (props) => {
       const siteIdParams = siteIds.map((id) => `site_id[]=${id}`).join("&");
       console.log(siteIds, "siteIds");
 
-      const commonParams = `${clientIDCondition}company_id=${formValues.company_id}&${siteIdParams}&from_date=${formValues.start_date}&to_date=${formValues.end_date}&month=${formValues.reportmonth}`;
+
+
+
+      const commonParams = toggleValue
+      ?`${clientIDCondition}company_id=${formValues.company_id}&${siteIdParams}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`
+      :`${clientIDCondition}company_id=${formValues.company_id}&${siteIdParams}&month=${formValues.reportmonth}`
+    
+
 
       // const commonParams = `client_id=${clientIDLocalStorage}&company_id=${formValues.company_id}&site_id[]=${formValues.site_id}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`;
 
@@ -406,7 +413,7 @@ const ManageReports = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                        
+
                           <Col lg={4} md={6}>
                             <FormControl className="width">
                               <InputLabel>Select Sites</InputLabel>
@@ -450,7 +457,7 @@ const ManageReports = (props) => {
                               <div className="error">{errors.sites}</div>
                             )}
                           </Col>
-                          {toggleValue? (
+                          {toggleValue ? (
                             <>
                               <Col lg={4} md={6}>
                                 <FormGroup>
@@ -524,7 +531,9 @@ const ManageReports = (props) => {
                                 </FormGroup>
                               </Col>
                             </>
-                          ):""}
+                          ) : (
+                            ""
+                          )}
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
@@ -574,7 +583,7 @@ const ManageReports = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                          {!toggleValue?(
+                          {!toggleValue ? (
                             <Col lg={4} md={6}>
                               <FormGroup>
                                 <label
@@ -623,10 +632,14 @@ const ManageReports = (props) => {
                                 />
                               </FormGroup>
                             </Col>
-                          ):""}
+                          ) : (
+                            ""
+                          )}
                           <Col lg={4} md={6}>
                             <FormGroup>
-                              <label className="form-label mt-4">Get Reports By Date </label>
+                              <label className="form-label mt-4">
+                                Get Reports By Date{" "}
+                              </label>
                               <Switch
                                 id="customToggle"
                                 checked={toggleValue}
