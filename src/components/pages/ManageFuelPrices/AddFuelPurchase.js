@@ -168,9 +168,13 @@ const ManageDsr = (props) => {
       values.sites.forEach((site, index) => {
         formData.append(`site_id[${index}]`, site.id);
       });
+      console.log(selectedSiteList1,"selectedSiteList1")
+      if(selectedSiteList1.length > 0) {
+        console.log("selected")
+      }
 
       const postDataUrl = "/site/fuel/purchase-price/add";
-      const navigatePath = "/business";
+    
 
       await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
     } catch (error) {

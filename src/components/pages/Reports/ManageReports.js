@@ -154,7 +154,13 @@ const ManageReports = (props) => {
       } else {
         clientIDCondition = `client_id=${clientIDLocalStorage}&`;
       }
-
+      if (
+        formValues.sites === undefined ||
+        formValues.sites === null ||
+        (Array.isArray(formValues.sites) && formValues.sites.length === 0)
+      ) {
+        ErrorToast("Please select at-least one site");
+      }
       const siteIds = formValues.sites.map((site) => site.id);
       const siteIdParams = siteIds.map((id) => `site_id[]=${id}`).join("&");
       console.log(siteIds, "siteIds");

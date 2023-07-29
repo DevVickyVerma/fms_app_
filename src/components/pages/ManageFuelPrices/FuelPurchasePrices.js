@@ -34,6 +34,7 @@ import * as Yup from "yup";
 import { Dropdown } from "react-bootstrap";
 
 import { useFormik } from "formik";
+import { Slide, toast } from "react-toastify";
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
@@ -139,8 +140,6 @@ const ManageDsr = (props) => {
         });
 
         formik.setFieldValue("data", formValues);
-
-        console.log(formik.values.data, "valuesss");
       } else {
         throw new Error("No data available in the response");
       }
@@ -452,10 +451,25 @@ const ManageDsr = (props) => {
 
     onSubmit: handleSubmit,
   });
-
+  const ErrorToast = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+    });
+  };
   const handleSubmitForm1 = async (event) => {
     event.preventDefault();
-    console.log(formik.values, "ok");
+    if (
+      formik.values.sites === undefined ||
+      formik.values.sites === null ||
+      (Array.isArray(formik.values.sites) && formik.values.sites.length === 0)
+    ) {
+      ErrorToast("Please select at-least one site");
+    }
+    
 
     try {
       const formData = new FormData();
@@ -494,18 +508,25 @@ const ManageDsr = (props) => {
       formik.values.sites.forEach((site, index) => {
         formData.append(`site_id[${index}]`, site.id);
       });
-      console.log(formik.values, "formik.values.site_id");
-      // formData.append(`site_id[0]`, formik.values.site_id);
-      // formData.append("site_id", formik.values.sites);
+
       formData.append("date", formik.values.start_date);
 
       const postDataUrl = "/site/fuel/purchase-price/update";
-      const navigatePath = "/business";
 
       await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
+
+    // if (
+    //   formik.values.sites === undefined ||
+    //   formik.values.sites === null ||
+    //   (Array.isArray(formik.values.sites) && formik.values.sites.length === 0)
+    // ) {
+    //   ErrorToast("Please Select a Site");
+    // }else{
+
+    // }
   };
 
   const [permissionsArray, setPermissionsArray] = useState([]);
@@ -794,35 +815,37 @@ const ManageDsr = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Body>
-                <Col lg={6} md={6}>
-                  {data ? (
-                    <FormControl className="width">
-                      <InputLabel>Select Sites</InputLabel>
-                      <Select
-                        multiple
-                        value={selectedItems}
-                        onChange={handleItemClick}
-                        renderValue={(selected) => selected.join(", ")}
-                      >
-                        <MenuItem disabled value="">
-                          <em>Select items</em>
-                        </MenuItem>
-                        {selectedSiteList.map((item) => (
-                          <MenuItem key={item.site_name} value={item.site_name}>
-                            <Checkbox
-                              checked={selectedItems.includes(item.site_name)}
-                            />
-                            <ListItemText primary={item.site_name} />
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  ) : (
-                    ""
-                  )}
-                </Col>
-
                 <form onSubmit={handleSubmitForm1}>
+                  <Col lg={6} md={6}>
+                    {data ? (
+                      <FormControl className="width">
+                        <InputLabel>Select Sites</InputLabel>
+                        <Select
+                          multiple
+                          value={selectedItems}
+                          onChange={handleItemClick}
+                          renderValue={(selected) => selected.join(", ")}
+                        >
+                          <MenuItem disabled value="">
+                            <em>Select items</em>
+                          </MenuItem>
+                          {selectedSiteList.map((item) => (
+                            <MenuItem
+                              key={item.site_name}
+                              value={item.site_name}
+                            >
+                              <Checkbox
+                                checked={selectedItems.includes(item.site_name)}
+                              />
+                              <ListItemText primary={item.site_name} />
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    ) : (
+                      ""
+                    )}
+                  </Col>
                   <div className="table-responsive deleted-table">
                     <DataTableExtensions {...tableDatas}>
                       <DataTable
