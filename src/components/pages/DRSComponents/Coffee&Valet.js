@@ -270,13 +270,7 @@ const CoffeeValet = (props) => {
               type="number"
               id={`opening-${index}`}
               name={`data[${index}].opening`}
-              className={
-              row.update_delivery_volume
-                ? "UpdateValueInput"
-                : editable?.is_editable
-                ? "table-input"
-                : "table-input readonly"
-            }
+              className="table-input readonly"
               value={formik.values.data[index]?.opening}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -351,7 +345,7 @@ const CoffeeValet = (props) => {
               value={formik.values.data[index]?.tests}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly
+              readOnly={editable?.is_editable ? false : true}
             />
             {/* Error handling code */}
           </div>
@@ -380,12 +374,12 @@ const CoffeeValet = (props) => {
               id={`adjust-${index}`}
               name={`data[${index}].adjust`}
               className={
-                "table-input readonly "
+                editable?.is_editable ? "table-input " : "table-input readonly "
               }
               value={formik.values.data[index]?.adjust}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              readOnly
+              readOnly={editable?.is_editable ? false : true}
             />
             {/* Error handling code */}
           </div>
