@@ -232,7 +232,7 @@ const Dashboard = (props) => {
     },
 
     title: {
-      text: "Traffic Sources",
+      text: "",
     },
     dataLabels: {
       enabled: true,
@@ -254,13 +254,13 @@ const Dashboard = (props) => {
     yaxis: [
       {
         title: {
-          text: "Website Blog",
+          text: "Fuel Volume",
         },
       },
       {
         opposite: true,
         title: {
-          text: "Social Media",
+          text: "Fuel Margin",
         },
       },
     ],
@@ -461,6 +461,12 @@ const Dashboard = (props) => {
                                   {" "}
                                   £{GrossProfitValue?.gross_profit}
                                 </h4>
+                                <OverlayTrigger
+                                  placement="top"
+                                  overlay={
+                                    <Tooltip>{`${GrossProfitValue?.percentage}%`}</Tooltip>
+                                  }
+                                >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
                                     className={`me-1 ${
@@ -490,6 +496,7 @@ const Dashboard = (props) => {
                                   </span>
                                   last month
                                 </p>
+                              </OverlayTrigger>
                               </>
                             )}
                           </div>
@@ -528,6 +535,12 @@ const Dashboard = (props) => {
                                   {" "}
                                   {GrossProfitValue?.gross_margin} ppl
                                 </h4>
+                                <OverlayTrigger
+                                  placement="top"
+                                  overlay={
+                                    <Tooltip>{`${GrossProfitValue?.percentage}%`}</Tooltip>
+                                  }
+                                >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
                                     className={`me-1 ${
@@ -557,6 +570,7 @@ const Dashboard = (props) => {
                                   </span>
                                   last month
                                 </p>
+                                </OverlayTrigger>
                               </>
                             )}
                           </div>
@@ -610,6 +624,12 @@ const Dashboard = (props) => {
                                     </h4>
                                   </div>
                                 </div>
+                                <OverlayTrigger
+                                  placement="top"
+                                  overlay={
+                                    <Tooltip>{`${FuelValue?.percentage}%`}</Tooltip>
+                                  }
+                                >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
                                     className={`me-1 ${
@@ -637,6 +657,7 @@ const Dashboard = (props) => {
                                   </span>
                                   last month
                                 </p>
+                                </OverlayTrigger>
                               </>
                             )}
                           </div>
@@ -674,6 +695,12 @@ const Dashboard = (props) => {
                                 <h4 className="mb-2 number-font">
                                   £{shopsale?.shop_sales}
                                 </h4>
+                                <OverlayTrigger
+                                  placement="top"
+                                  overlay={
+                                    <Tooltip>{`${shopsale?.percentage}%`}</Tooltip>
+                                  }
+                                >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
                                     className={`me-1 ${
@@ -701,6 +728,7 @@ const Dashboard = (props) => {
                                   </span>
                                   last month
                                 </p>
+                                </OverlayTrigger>
                               </>
                             )}
                           </div>
@@ -738,6 +766,12 @@ const Dashboard = (props) => {
                                 <h4 className="mb-2 number-font">
                                   £{shopmargin?.shop_margin}
                                 </h4>
+                                <OverlayTrigger
+                                  placement="top"
+                                  overlay={
+                                    <Tooltip>{`${shopmargin?.percentage}%`}</Tooltip>
+                                  }
+                                >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
                                     className={`me-1 ${
@@ -765,6 +799,7 @@ const Dashboard = (props) => {
                                   </span>
                                   last month
                                 </p>
+                                </OverlayTrigger>
                               </>
                             )}
                           </div>
