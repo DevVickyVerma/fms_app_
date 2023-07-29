@@ -55,13 +55,16 @@ const Dashboard = (props) => {
   const [shopmargin, setshopmargin] = useState();
   const [piechartValues, setpiechartValues] = useState();
   const [LinechartValues, setLinechartValues] = useState([]);
+ 
   const handleFetchSiteData = async () => {
     try {
       const response = await getData("/dashboard/stats");
 
       const { data } = response;
       if (data) {
-        setLinechartValues(data?.data?.line_graph);
+        console.log(data?.data?.line_graph,"data?.data?.line_graph")
+        setLinechartValues(data?.data?.line_graph?.series);
+      
         setpiechartValues(data?.data?.pi_graph);
         setGrossVolume(data?.data?.gross_volume);
         setGrossProfitValue(data?.data?.gross_profit);
@@ -136,7 +139,7 @@ const Dashboard = (props) => {
       SuccessToast("Login Successfully");
       setJustLoggedIn(false);
     }
-    console.clear()
+    console.clear();
   }, [ClientID, dispatch, justLoggedIn, token]);
 
   useEffect(() => {
@@ -144,7 +147,7 @@ const Dashboard = (props) => {
     if (token && storedToken) {
       dispatch(fetchData());
     }
-    console.clear()
+    console.clear();
   }, [token]);
 
   const handleToggleSidebar1 = () => {
@@ -169,7 +172,6 @@ const Dashboard = (props) => {
         setshopsale(data?.data?.shop_sales);
 
         setshopmargin(data?.data?.shop_margin);
-       
       }
     } catch (error) {
       handleError(error);
@@ -181,6 +183,89 @@ const Dashboard = (props) => {
     setSearchdata({});
     handleFetchSiteData();
   };
+  const [series] = useState([
+    {
+      name: "Fuel Volume",
+      type: "line",
+      data: [
+        "3603748.97",
+        "3773655.95",
+        "4432385.55",
+        "4625445.53",
+        "4928706.67",
+        "4861556.06",
+        "3678807.2",
+      ],
+    },
+    {
+      name: "Fuel Margin",
+      type: "line",
+      data: [
+        "136.7458",
+        "134.57002",
+        "133.24867",
+        "130.55916",
+        "126.50245",
+        "122.73388",
+        "119.84596",
+      ],
+    },
+    {
+      name: "Shop Sales",
+      type: "line",
+      data: [
+        "645595.61",
+        "675761.99",
+        "866782.68",
+        "1009859.18",
+        "1111385.53",
+        "1134722.21",
+        "825244.2",
+      ],
+    },
+  ]);
+
+  const [options] = useState({
+    chart: {
+      height: 350,
+      type: "line",
+    },
+
+    title: {
+      text: "Traffic Sources",
+    },
+    dataLabels: {
+      enabled: true,
+      enabledOnSeries: [],
+    },
+    labels: [
+      "01 Jan 2023",
+      "01 Feb 2023",
+      "01 Mar 2023",
+      "01 Apr 2023",
+      "01 May 2023",
+      "01 Jun 2023",
+      "01 Jul 2023",
+     
+    ],
+    xaxis: {
+      type: "datetime",
+    },
+    yaxis: [
+      {
+        title: {
+          text: "Website Blog",
+        },
+      },
+      {
+        opposite: true,
+        title: {
+          text: "Social Media",
+        },
+      },
+    ],
+  });
+
 
   return (
     <>
@@ -270,8 +355,14 @@ const Dashboard = (props) => {
           <Col lg={12} md={12} sm={12} xl={12}>
             <Row>
               <Col lg={6} md={12} sm={12} xl={4}>
-                <Card className={`card overflow-hidden Dashboard-card ${GrossVolume?.status === "up" ? "Dashboard-success-border" : "Dashboard-loss-border"}`}>
-                <Card.Body > 
+                <Card
+                  className={`card overflow-hidden Dashboard-card ${
+                    GrossVolume?.status === "up"
+                      ? "Dashboard-success-border"
+                      : "Dashboard-loss-border"
+                  }`}
+                >
+                  <Card.Body>
                     <Row>
                       <div className="col">
                         <div className=" dashboard-box">
@@ -282,7 +373,7 @@ const Dashboard = (props) => {
                               <>
                                 <div className="d-flex">
                                   <div>
-                                    <h6 >Gross Volume</h6>
+                                    <h6>Gross Volume</h6>
                                     <h4 className="mb-2 number-font">
                                       {" "}
                                       ℓ{GrossVolume?.gross_volume}
@@ -290,7 +381,7 @@ const Dashboard = (props) => {
                                   </div>
                                   <div className="border-left"></div>
                                   <div className="ms-3">
-                                  <h6 >Bunkered Volume</h6>
+                                    <h6>Bunkered Volume</h6>
                                     <h4 className="mb-2 number-font">
                                       ℓ{GrossVolume?.bunkered_volume}
                                     </h4>
@@ -349,14 +440,19 @@ const Dashboard = (props) => {
                 </Card>
               </Col>
               <div className="col-lg-6 col-md-12 col-sm-12 col-xl-4">
-                <div  className={`card overflow-hidden Dashboard-card ${GrossProfitValue?.status === "up" ? "Dashboard-success-border" : "Dashboard-loss-border"}`}>
-               
+                <div
+                  className={`card overflow-hidden Dashboard-card ${
+                    GrossProfitValue?.status === "up"
+                      ? "Dashboard-success-border"
+                      : "Dashboard-loss-border"
+                  }`}
+                >
                   <div className="card-body ">
                     <Row>
                       <div className="col">
                         <div className=" dashboard-box ">
                           <div>
-                            <h6 >Gross Profit</h6>
+                            <h6>Gross Profit</h6>
                             {isLoading ? (
                               <Spinners />
                             ) : (
@@ -411,13 +507,19 @@ const Dashboard = (props) => {
                 </div>
               </div>
               <Col lg={6} md={12} sm={12} xl={4}>
-                <Card className={`card overflow-hidden Dashboard-card ${GrossProfitValue?.status === "up" ? "Dashboard-success-border" : "Dashboard-loss-border"}`}>
-                 <Card.Body >
+                <Card
+                  className={`card overflow-hidden Dashboard-card ${
+                    GrossProfitValue?.status === "up"
+                      ? "Dashboard-success-border"
+                      : "Dashboard-loss-border"
+                  }`}
+                >
+                  <Card.Body>
                     <Row>
                       <div className="col">
                         <div className=" dashboard-box">
                           <div>
-                            <h6 >Gross Margin</h6>
+                            <h6>Gross Margin</h6>
                             {isLoading ? (
                               <Spinners />
                             ) : (
@@ -477,8 +579,14 @@ const Dashboard = (props) => {
           <Col lg={12} md={12} sm={12} xl={12}>
             <Row>
               <Col lg={6} md={12} sm={12} xl={4}>
-                <Card className={`card overflow-hidden Dashboard-card ${FuelValue?.status === "up" ? "Dashboard-success-border" : "Dashboard-loss-border"}`}>
-                  <Card.Body >
+                <Card
+                  className={`card overflow-hidden Dashboard-card ${
+                    FuelValue?.status === "up"
+                      ? "Dashboard-success-border"
+                      : "Dashboard-loss-border"
+                  }`}
+                >
+                  <Card.Body>
                     <Row>
                       <div className="col">
                         <div className=" dashboard-box">
@@ -489,14 +597,14 @@ const Dashboard = (props) => {
                               <>
                                 <div className="d-flex">
                                   <div>
-                                    <h6 >Fuel Sales</h6>
+                                    <h6>Fuel Sales</h6>
                                     <h4 className="mb-2 number-font">
                                       £{FuelValue?.gross_value}
                                     </h4>
                                   </div>
                                   <div className="border-left"></div>
                                   <div className="ms-3">
-                                    <h6 >Bunkered Value</h6>
+                                    <h6>Bunkered Value</h6>
                                     <h4 className="mb-2 number-font">
                                       £{FuelValue?.bunkered_value}
                                     </h4>
@@ -546,13 +654,19 @@ const Dashboard = (props) => {
                 </Card>
               </Col>
               <div className="col-lg-6 col-md-12 col-sm-12 col-xl-4">
-                <div className={`card overflow-hidden Dashboard-card ${shopsale?.status === "up" ? "Dashboard-success-border" : "Dashboard-loss-border"}`}>
-                <div className="card-body ">
+                <div
+                  className={`card overflow-hidden Dashboard-card ${
+                    shopsale?.status === "up"
+                      ? "Dashboard-success-border"
+                      : "Dashboard-loss-border"
+                  }`}
+                >
+                  <div className="card-body ">
                     <Row>
                       <div className="col">
                         <div className=" dashboard-box">
                           <div>
-                            <h6 >Shop Sales</h6>
+                            <h6>Shop Sales</h6>
                             {isLoading ? (
                               <Spinners />
                             ) : (
@@ -604,13 +718,19 @@ const Dashboard = (props) => {
                 </div>
               </div>
               <Col lg={6} md={12} sm={12} xl={4}>
-                <Card className={`card overflow-hidden Dashboard-card ${shopmargin?.status === "up" ? "Dashboard-success-border" : "Dashboard-loss-border"}`}>
-                <Card.Body >
+                <Card
+                  className={`card overflow-hidden Dashboard-card ${
+                    shopmargin?.status === "up"
+                      ? "Dashboard-success-border"
+                      : "Dashboard-loss-border"
+                  }`}
+                >
+                  <Card.Body>
                     <Row>
                       <div className="col">
                         <div className=" dashboard-box">
                           <div>
-                            <h6 >Shop Margin</h6>
+                            <h6>Shop Margin</h6>
                             {isLoading ? (
                               <Spinners />
                             ) : (
@@ -672,7 +792,7 @@ const Dashboard = (props) => {
                 <h4 className="card-title">Total Transactions</h4>
               </Card.Header>
               <Card.Body className="card-body pb-0">
-                <div id="chartArea" className="chart-donut">
+                {/* <div id="chartArea" className="chart-donut">
                   <ReactApexChart
                     options={
                       dashboard &&
@@ -684,6 +804,20 @@ const Dashboard = (props) => {
                     type="area"
                     height={300}
                   />
+                </div> */}
+                <div id="chart">
+                  <ReactApexChart
+                    options={options}
+                    series={LinechartValues}
+                    type="line"
+                    height={350}
+                  />
+                  {/* <ReactApexChart
+                    options={options}
+                    series={LinechartValues}
+                    type="line"
+                    height={350}
+                  /> */}
                 </div>
               </Card.Body>
             </Card>

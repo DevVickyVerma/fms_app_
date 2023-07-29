@@ -366,12 +366,26 @@ input.table-input.readonly.total-input-card {
   height: 126px !important;
  
 }
+/* Original styles */
 .Dashboard-success-border {
   border-top: 3px solid #09ad95 !important;
 }
+
 .Dashboard-loss-border {
   border-top: 3px solid #bb0000 !important;
 }
+
+
+.Dashboard-success-border:hover {
+
+background-color: #1bc62729 !important;
+}
+
+.Dashboard-loss-border:hover {
+ 
+  background-color: #e6888829 !important;
+}
+
 .fuel-card {
   height: 95%;
 }
