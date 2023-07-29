@@ -382,7 +382,7 @@ const ManageDsr = (props) => {
               type="number"
               id={`vat_percentage_rate-${index}`}
               name={`data[${index}].vat_percentage_rate`}
-              className="table-input readonly"
+              className="table-input"
               value={
                 formik?.values?.data &&
                 formik.values.data[index]?.vat_percentage_rate

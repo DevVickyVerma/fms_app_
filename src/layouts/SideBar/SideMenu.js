@@ -497,7 +497,7 @@ export const MENUITEMS = [
 
 
       {
-        title: " Manage Site Fules",
+        title: " Manage Site Fuels",
         icon: "flask",
         type: "sub",
         active: false,
