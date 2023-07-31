@@ -4,17 +4,18 @@ import ReactApexChart from "react-apexcharts";
 const Apexcharts2 = ({ data }) => {
   const [series, setSeries] = useState([10, 15, 33, 43]);
 
- 
+  console.log(data, "Apexcharts2");
+
   let labels = [];
   let consolevalues = [];
   if (data && typeof data === "object") {
     consolevalues = Object.values(data).map((value) =>
       parseFloat(value.replace(/'/g, ""))
     );
+
     labels = Object.keys(data).map(
       (key) => key.charAt(0).toUpperCase() + key.slice(1)
     );
-   
   }
 
   const options = {
@@ -51,24 +52,27 @@ const Apexcharts2 = ({ data }) => {
         type="pie"
         width={380}
       />
-   <div className="d-flex chart-items">
-  {labels.map((label, index) => {
-    const formattedLabel = label.charAt(0).toUpperCase() + label.slice(1).replace(/_/g, ' ');
-    return (
-      <div className="label-color" key={index}>
-        <h6 className="mx-2">{formattedLabel}</h6>
-        <div 
-          style={{
-            backgroundColor: realColors[index],
-            width: "20px",
-            height: "20px",
-          }}
-        />
-      </div>
-    );
-  })}
-</div>
+      <div className="d-flex chart-items">
+        {labels.map((label, index) => {
+          const formattedLabel = label
+            .replace(/_/g, " ")
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
 
+          return (
+            <div   style={{ margin: 0 }}  className="label-color" key={index}>
+              <h6 className="mx-2">{formattedLabel}</h6>
+              <div
+                className="chart-color-radius"
+                style={{
+                  backgroundColor: realColors[index],
+                }}
+              />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

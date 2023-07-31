@@ -70,6 +70,7 @@ export default function Login(props) {
       if (response.ok && data) {
         localStorage.setItem("token", data.data.access_token);
          localStorage.setItem("superiorId", data.data.superiorId);
+         localStorage.setItem("superiorRole", data.data.superiorRole);
         navigate("/dashboard");
         localStorage.setItem("justLoggedIn", true);
         notify(data.message);

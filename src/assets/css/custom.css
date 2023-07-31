@@ -332,7 +332,7 @@ input.table-input.readonly.total-input-card {
   color: #27a723;
 }
 .d-flex.chart-items {
-  width: 60%;
+  width: 80%;
   margin-left: auto;
 }
 .text-end.notification-class {
@@ -384,6 +384,7 @@ background-color: #1bc62729 !important;
 .Dashboard-loss-border:hover {
  
   background-color: #e6888829 !important;
+
 }
 
 .fuel-card {
@@ -391,4 +392,13 @@ background-color: #1bc62729 !important;
 }
 .react-switch-bg {
   background: rgb(128 19 207) !important;
+}
+.chart-color-radius {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+}
+.d-flex.chart-items > div:first-child {
+  margin-right: 0;
+  margin-left: 0;
 }

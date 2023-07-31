@@ -30,7 +30,8 @@ body {
 	/*Global Font*/
 	/*Floating*/
 	/*Section Fix*/
-	font-family: 'Nunito', sans-serif;
+	/* font-family: 'Nunito', sans-serif; */
+	font-family:  'DM Sans',sans-serif !important;
 	font-size: 16px;
 	-webkit-font-smoothing: antialiased;
 	color:#3e396b;

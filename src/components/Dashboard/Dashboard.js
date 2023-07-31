@@ -35,14 +35,7 @@ const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
-  const [IsDashboardLoading, setIsDashboardLoading] = useState(true);
-  const [GrossMarginValueLoading, setGrossMarginValueLoading] = useState(true);
-  const [GrossProfitValueLoading, setGrossProfitValueLoading] = useState(true);
-  const [GrossVolumeeLoading, setGrossVolumeeLoading] = useState(true);
-  const [Loading, setLoading] = useState(true);
-  const [FuelValueeLoading, setFuelValueeLoading] = useState(true);
-  const [shopsaleLoading, setshopsaleLoading] = useState(true);
-  const [shopmarginLoading, setshopmarginLoading] = useState(true);
+
   const [ShowTruw, setShowTruw] = useState(false);
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
   const [searchdata, setSearchdata] = useState({});
@@ -55,6 +48,7 @@ const Dashboard = (props) => {
   const [shopmargin, setshopmargin] = useState();
   const [piechartValues, setpiechartValues] = useState();
   const [LinechartValues, setLinechartValues] = useState([]);
+  const [LinechartOption, setLinechartOption] = useState();
  
   const handleFetchSiteData = async () => {
     try {
@@ -64,6 +58,7 @@ const Dashboard = (props) => {
       if (data) {
         console.log(data?.data?.line_graph,"data?.data?.line_graph")
         setLinechartValues(data?.data?.line_graph?.series);
+        setLinechartOption(data?.data?.line_graph?.option?.labels);
       
         setpiechartValues(data?.data?.pi_graph);
         setGrossVolume(data?.data?.gross_volume);
@@ -164,7 +159,7 @@ const Dashboard = (props) => {
 
       const { data } = response;
       if (data) {
-        setLinechartValues(data?.data?.line_graph);
+        setLinechartValues(data?.data?.line_graph?.series);
         setpiechartValues(data?.data?.pi_graph);
         setGrossVolume(data?.data?.gross_volume);
         setGrossProfitValue(data?.data?.gross_profit);
@@ -225,6 +220,7 @@ const Dashboard = (props) => {
     },
   ]);
 
+  console.log(LinechartOption,"LinechartOption")
   const [options] = useState({
     chart: {
       height: 350,
