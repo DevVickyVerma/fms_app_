@@ -121,7 +121,7 @@ const AddAddon = (props) => {
               }}
               validationSchema={Yup.object({
                 business_name: Yup.string()
-                  .max(15, "Must be 15 characters or less")
+                 
                   .required(" Business Type Name is required"),
 
                   slug: Yup.string()

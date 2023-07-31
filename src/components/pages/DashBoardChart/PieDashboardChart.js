@@ -4,9 +4,10 @@ import ReactApexChart from "react-apexcharts";
 const Apexcharts2 = ({ data }) => {
   const [series, setSeries] = useState([10, 15, 33, 43]);
 
-  console.log(data, "Apexcharts2");
+
 
   let labels = [];
+  let formattedLabellabels = [];
   let consolevalues = [];
   if (data && typeof data === "object") {
     consolevalues = Object.values(data).map((value) =>
@@ -16,6 +17,21 @@ const Apexcharts2 = ({ data }) => {
     labels = Object.keys(data).map(
       (key) => key.charAt(0).toUpperCase() + key.slice(1)
     );
+
+
+
+// Update the labels array with the capitalized keyslabels.map((label, index) => {
+  formattedLabellabels = Object.keys(data)
+  .map((key) =>
+    key
+      .replace(/_/g, " ")
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ")
+  );
+
+
+
   }
 
   const options = {
@@ -23,7 +39,7 @@ const Apexcharts2 = ({ data }) => {
       width: 380,
       type: "pie",
     },
-    labels: labels,
+    labels: formattedLabellabels,
     responsive: [
       {
         breakpoint: 480,
@@ -62,13 +78,14 @@ const Apexcharts2 = ({ data }) => {
 
           return (
             <div   style={{ margin: 0 }}  className="label-color" key={index}>
-              <h6 className="mx-2">{formattedLabel}</h6>
+          
               <div
                 className="chart-color-radius"
                 style={{
                   backgroundColor: realColors[index],
                 }}
               />
+                  <h6 className="mx-1">{formattedLabel}</h6>
             </div>
           );
         })}

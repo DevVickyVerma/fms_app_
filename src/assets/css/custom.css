@@ -58,7 +58,7 @@ h3.SidebarSearch-title {
 #global-loader {
   position: fixed;
   z-index: 50000;
-     background: none !important;
+  background: none !important;
   left: 0;
   top: 0;
   right: 0;
@@ -89,7 +89,6 @@ h3.SidebarSearch-title {
 }
 .card-Div.card-body {
   cursor: pointer;
-
 }
 button.modal-effect.d-grid.mb-3.upload-btn.btn.btn-danger {
   font-size: 18px;
@@ -109,7 +108,7 @@ button.modal-effect.d-grid.mb-3.upload-btn.btn.btn-danger {
   border-bottom: 1px solid #ddd;
   font-weight: 400;
 }
-.Dps-data:hover{
+.Dps-data:hover {
   background: #e4e4e4;
 }
 .Dps-data p {
@@ -118,7 +117,7 @@ button.modal-effect.d-grid.mb-3.upload-btn.btn.btn-danger {
 }
 .module-height {
   max-height: 290px !important;
- 
+
   overflow-y: scroll;
 }
 .bottom-toal {
@@ -151,7 +150,7 @@ textarea#Remarks {
 div#description {
   color: red;
   font-size: 18px;
- 
+
   font-weight: 400;
 }
 p.warrningmessage {
@@ -172,7 +171,8 @@ input.dynamicinput {
   border-collapse: collapse;
 }
 
-.table th, .table td {
+.table th,
+.table td {
   padding: 4px;
   text-align: left;
   border: 1px solid #ddd;
@@ -213,7 +213,8 @@ tbody {
   max-width: 100% !important;
   width: 100% !important;
 }
-.table th, .table td {
+.table th,
+.table td {
   padding: 5px 8px;
   text-align: left;
   border: 1px solid #ddd;
@@ -273,14 +274,14 @@ tbody tr {
   display: flex;
   justify-content: space-between;
 }
-.bg-card-amber{
-  Background-color:#FFBF00;
+.bg-card-amber {
+  background-color: #ffbf00;
 }
-.bg-card-green{
-  Background-color:#47ad34;
+.bg-card-green {
+  background-color: #47ad34;
 }
-.bg-card-red{
-  Background-color:#f97171;
+.bg-card-red {
+  background-color: #f97171;
 }
 .module-height-Manager {
   max-height: 150px !important;
@@ -332,8 +333,9 @@ input.table-input.readonly.total-input-card {
   color: #27a723;
 }
 .d-flex.chart-items {
-  width: 80%;
-  margin-left: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 .text-end.notification-class {
   width: 25%;
@@ -364,7 +366,6 @@ input.table-input.readonly.total-input-card {
 
 .Dashboard-card {
   height: 126px !important;
- 
 }
 /* Original styles */
 .Dashboard-success-border {
@@ -375,16 +376,12 @@ input.table-input.readonly.total-input-card {
   border-top: 3px solid #bb0000 !important;
 }
 
-
 .Dashboard-success-border:hover {
-
-background-color: #1bc62729 !important;
+  background-color: #1bc62729 !important;
 }
 
 .Dashboard-loss-border:hover {
- 
   background-color: #e6888829 !important;
-
 }
 
 .fuel-card {

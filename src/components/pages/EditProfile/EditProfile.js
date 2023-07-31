@@ -291,7 +291,7 @@ export default function EditProfile() {
                   }}
                   validationSchema={Yup.object({
                     first_name: Yup.string()
-                      .max(15, "Must be 15 characters or less")
+                     
                       .required("First name is required"),
 
                     last_name: Yup.string()

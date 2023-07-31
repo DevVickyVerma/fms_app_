@@ -35387,7 +35387,7 @@ body.rtl {
   display: flex;
   z-index: 999 !important;
   border-bottom: 1px solid #eaedf1;
-  background: #8013cf;
+  background: linear-gradient(90deg, rgba(128,19,207,1) 0%, rgba(149,60,213,1) 58%, rgba(202,129,255,1) 100%);
   transition: padding-left 0.3s ease;
 }
 

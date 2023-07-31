@@ -105,7 +105,7 @@ const AddDeductions = (props) => {
                   }}
                   validationSchema={Yup.object({
                     deduction_name: Yup.string()
-                      .max(15, "Must be 15 characters or less")
+                     
                       .required(" Deduction Name is required"),
 
                     deduction_code: Yup.string()

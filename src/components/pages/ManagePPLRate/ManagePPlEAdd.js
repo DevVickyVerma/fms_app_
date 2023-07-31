@@ -142,7 +142,7 @@ const AddSitePump = (props) => {
                     site_id: Yup.string().required("Site is required"),
 
                     sales_volume: Yup.string()
-                      .max(15, "Must be 15 characters or less")
+                     
                       .required("  Sales Volume is required"),
 
                     pence_per_liter: Yup.string()

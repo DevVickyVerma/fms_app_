@@ -117,7 +117,7 @@ const AddCharges = (props) => {
                     }}
                     validationSchema={Yup.object({
                       charge_name: Yup.string()
-                        .max(15, "Must be 15 characters or less")
+                       
                         .required(" Charge Name is required"),
 
                       charge_code: Yup.string()

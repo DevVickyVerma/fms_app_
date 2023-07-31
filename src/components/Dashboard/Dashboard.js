@@ -49,7 +49,7 @@ const Dashboard = (props) => {
   const [piechartValues, setpiechartValues] = useState();
   const [LinechartValues, setLinechartValues] = useState([]);
   const [LinechartOption, setLinechartOption] = useState();
- 
+  let  LinechartOptions= []
   const handleFetchSiteData = async () => {
     try {
       const response = await getData("/dashboard/stats");
@@ -57,6 +57,8 @@ const Dashboard = (props) => {
       const { data } = response;
       if (data) {
         console.log(data?.data?.line_graph,"data?.data?.line_graph")
+        LinechartOptions = data?.data?.line_graph?.option?.labels;
+        console.log(LinechartOptions,"data?.data?.line_graph")
         setLinechartValues(data?.data?.line_graph?.series);
         setLinechartOption(data?.data?.line_graph?.option?.labels);
       
@@ -219,14 +221,20 @@ const Dashboard = (props) => {
       ],
     },
   ]);
+  const defaultLabels = [
+    "01 Jan 2023",
+    "01 Feb 2023",
+    "01 Mar 2023",
+    "01 Apr 2023",
+    "01 May 2023",
+   
+  ];
 
-  console.log(LinechartOption,"LinechartOption")
-  const [options] = useState({
+  const [options, setOptions] = useState({
     chart: {
       height: 350,
       type: "line",
     },
-
     title: {
       text: "",
     },
@@ -234,16 +242,7 @@ const Dashboard = (props) => {
       enabled: true,
       enabledOnSeries: [],
     },
-    labels: [
-      "01 Jan 2023",
-      "01 Feb 2023",
-      "01 Mar 2023",
-      "01 Apr 2023",
-      "01 May 2023",
-      "01 Jun 2023",
-      "01 Jul 2023",
-     
-    ],
+    labels: defaultLabels, // Use defaultLabels instead of LinechartOption here
     xaxis: {
       type: "datetime",
     },
@@ -262,6 +261,24 @@ const Dashboard = (props) => {
     ],
   });
 
+  // Function to update the options
+  const updateOptions = (newOptions) => {
+    setOptions((prevOptions) => ({ ...prevOptions, ...newOptions }));
+  };
+
+  // Check if LinechartOption exists and update the labels accordingly
+  useEffect(() => {
+    if (LinechartOption) {
+      updateOptions({ labels: LinechartOption });
+    }
+  }, [LinechartOption]);
+
+  // Place the console.log here or wherever needed in the component
+  console.log(options, "data?.data?.line_graphoptions");
+ 
+  console.log(LinechartOptions,"LinechartOptions")
+  console.log(defaultLabels,"defaultLabels")
+ 
 
   return (
     <>

@@ -136,7 +136,7 @@ const AddShops = (props) => {
                   }}
                   validationSchema={Yup.object({
                     shop_name: Yup.string()
-                      .max(15, "Must be 15 characters or less")
+                     
                       .required(" Shop Name is required"),
 
                     code: Yup.string()

@@ -158,7 +158,7 @@ const AddBusinessCategory = (props) => {
                   }}
                   validationSchema={Yup.object({
                     business_name: Yup.string()
-                      .max(15, "Must be 15 characters or less")
+                     
                       .required(" Business Category Name is required"),
 
                     business_category_code: Yup.string()

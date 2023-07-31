@@ -176,7 +176,7 @@ const AddSiteNozzle = (props) => {
                     ),
 
                     name: Yup.string()
-                      .max(15, "Must be 15 characters or less")
+                     
                       .required(" Site Nozzle Name is required"),
 
                     code: Yup.string()

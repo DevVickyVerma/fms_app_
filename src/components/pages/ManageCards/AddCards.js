@@ -164,7 +164,7 @@ const AddCards = (props) => {
                   }}
                   validationSchema={Yup.object({
                     card_name: Yup.string()
-                      .max(15, "Must be 15 characters or less")
+                     
                       .required(" Card Name is required"),
 
                     card_code: Yup.string()

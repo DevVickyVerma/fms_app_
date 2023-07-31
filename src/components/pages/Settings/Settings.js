@@ -197,7 +197,7 @@ export default function Settings() {
   };
   const validationSchema2 = Yup.object({
     date_format: Yup.string()
-      .max(15, "Must be 15 characters or less")
+     
       .required("Date Format is required"),
 
     pagination: Yup.string()

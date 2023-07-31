@@ -155,7 +155,7 @@ const AddSitePump = (props) => {
                     fuel_id: Yup.string().required("Fuel Name is required"),
 
                     tank_name: Yup.string()
-                      .max(15, "Must be 15 characters or less")
+                     
                       .required(" Site Tank Name is required"),
 
                     tank_code: Yup.string()
