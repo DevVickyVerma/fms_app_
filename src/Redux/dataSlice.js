@@ -23,6 +23,14 @@ export const fetchData = createAsyncThunk("data/fetchData", async (_, thunkAPI) 
       },
     });
     const data = await response.json();
+    if(data){
+      localStorage.setItem("superiorId", data?.data?.superiorId);
+      localStorage.setItem("superiorRole", data?.data?.superiorRole);
+  
+  
+  }
+    
+ 
     // Check the structure of the data
     return data.data;
   } catch (error) {
