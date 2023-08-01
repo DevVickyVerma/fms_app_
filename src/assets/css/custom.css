@@ -275,13 +275,13 @@ tbody tr {
   justify-content: space-between;
 }
 .bg-card-amber {
-  background-color: #ffbf00;
+  background-color: #f7b731;
 }
 .bg-card-green {
-  background-color: #47ad34;
+  background-color: #33a433;
 }
 .bg-card-red {
-  background-color: #f97171;
+  background-color:#d24e4e;
 }
 .module-height-Manager {
   max-height: 150px !important;
