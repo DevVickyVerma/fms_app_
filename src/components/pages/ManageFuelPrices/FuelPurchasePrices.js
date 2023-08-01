@@ -438,7 +438,6 @@ const ManageDsr = (props) => {
       start_date: "",
     },
     validationSchema: Yup.object({
-      client_id: Yup.string().required("Client is required"),
       company_id: Yup.string().required("Company is required"),
 
       start_date: Yup.date()
@@ -469,7 +468,6 @@ const ManageDsr = (props) => {
     ) {
       ErrorToast("Please select at-least one site");
     }
-    
 
     try {
       const formData = new FormData();

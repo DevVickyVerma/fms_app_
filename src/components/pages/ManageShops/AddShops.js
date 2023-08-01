@@ -156,7 +156,7 @@ const AddShops = (props) => {
 
                     status: Yup.string().required(" Status is required"),
 
-                    client_id: Yup.string().required("Client is required"),
+                  
                     company_id: Yup.string().required("Company is required"),
                     site_id: Yup.string().required("Site is required"),
                   })}

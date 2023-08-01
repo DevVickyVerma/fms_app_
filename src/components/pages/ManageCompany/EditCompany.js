@@ -195,7 +195,7 @@ import Loaderimg from "../../../Utils/Loader";
         .required("Company Name is required"),
 
       address: Yup.string().required("Address is required"),
-      client_id: Yup.string().required("Client is required"),
+    
 
       website: Yup.string().required("website is required"),
     }),

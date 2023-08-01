@@ -167,7 +167,7 @@ const AddSiteNozzle = (props) => {
                     site_pump_id: "",
                   }}
                   validationSchema={Yup.object({
-                    client_id: Yup.string().required("Client is required"),
+                  
                     company_id: Yup.string().required("Company is required"),
                     site_id: Yup.string().required("Site is required"),
                     fuel_id: Yup.string().required("Fuel Name is required"),

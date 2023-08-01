@@ -291,7 +291,7 @@ const AddSite = (props) => {
                     Drs_upload_status: Yup.string().required(
                       "Drs Upload Status is required"
                     ),
-                    client_id: Yup.string().required("Client is required"),
+                  
                     Bp_nctt_site_no: Yup.string().required(
                       "Bp Nctt Site No is required"
                     ),

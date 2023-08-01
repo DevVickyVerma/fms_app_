@@ -523,7 +523,7 @@ const ManageSiteTank = (props) => {
                     start_date: "",
                   }}
                   validationSchema={Yup.object({
-                    client_id: Yup.string().required("Client is required"),
+                  
                     company_id: Yup.string().required("Company is required"),
                     site_id: Yup.string().required("Site is required"),
                   })}
