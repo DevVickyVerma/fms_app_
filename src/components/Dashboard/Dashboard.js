@@ -636,7 +636,7 @@ const Dashboard = (props) => {
                                   </div>
                                   <div className="border-left"></div>
                                   <div className="ms-3">
-                                    <h6>Bunkered Value</h6>
+                                    <h6>Bunkered Sales</h6>
                                     <h4 className="mb-2 number-font">
                                       £{FuelValue?.bunkered_value}
                                     </h4>
@@ -680,10 +680,8 @@ const Dashboard = (props) => {
                             )}
                           </div>
                           <div className="col col-auto">
-                            <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
-                              <i className="icon icon-pound-sign text-white mb-5 ">
-                                &#163;
-                              </i>
+                          <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto text-white">
+                              <OilBarrelIcon />
                             </div>
                           </div>
                         </div>

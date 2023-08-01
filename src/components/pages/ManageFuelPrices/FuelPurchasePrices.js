@@ -118,7 +118,7 @@ const ManageDsr = (props) => {
 
     try {
       const response = await getData(
-        `site/fuel/purchase-price?client_id=${values.client_id}=&company_id=${values.company_id}&date=${values.start_date}&site_id${values.site_id}`
+        `site/fuel/purchase-price?${clientIDCondition}&company_id=${values.company_id}&date=${values.start_date}&site_id${values.site_id}`
       );
       const { data } = response;
       if (data) {

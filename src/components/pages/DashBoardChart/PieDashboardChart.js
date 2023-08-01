@@ -53,12 +53,14 @@ const Apexcharts2 = ({ data }) => {
         },
       },
     ],
-    colors: ["#FF0000", "#00FF00", "#0000FF", "#FFFF00"], // Example colors for each series
+    colors: [ "#e1af3b" , "#25e4a0","#26a0fc" ,], // Example colors for each series
+    // colors: ["#26a0fc", "#febc3b", "#26a0fc", "#6699ff"], // Example colors for each series
   };
 
   const realColors = options.colors.map((color) => {
     return color.startsWith("#") ? color : "#" + color;
   });
+console.log(realColors,"realColors")
 
   return (
     <div id="chart">
