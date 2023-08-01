@@ -156,7 +156,8 @@ const Dashboard = (props) => {
     setSearchdata(values);
     try {
       const response = await getData(
-        `dashboard/stats?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
+        localStorage.getItem("superiorRole") !== "Client"? 
+        `dashboard/stats?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`:`dashboard/stats?client_id=${ClientID}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
       );
 
       const { data } = response;
@@ -222,11 +223,13 @@ const Dashboard = (props) => {
     },
   ]);
   const defaultLabels = [
-    "01 Jan 2023",
-    "01 Feb 2023",
-    "01 Mar 2023",
-    "01 Apr 2023",
-    "01 May 2023",
+    "30 Jan 2023",
+    "28 Feb 2023",
+    "31 Mar 2023",
+    "30 Apr 2023",
+    "31 May 2023",
+    "30 Jun 2023",
+    "31 July 2023",
    
   ];
 
@@ -266,6 +269,8 @@ const Dashboard = (props) => {
     setOptions((prevOptions) => ({ ...prevOptions, ...newOptions }));
   };
 
+
+  console.log(options,"options")
   // Check if LinechartOption exists and update the labels accordingly
   useEffect(() => {
     if (LinechartOption) {
@@ -273,12 +278,7 @@ const Dashboard = (props) => {
     }
   }, [LinechartOption]);
 
-  // Place the console.log here or wherever needed in the component
-  console.log(options, "data?.data?.line_graphoptions");
- 
-  console.log(LinechartOptions,"LinechartOptions")
-  console.log(defaultLabels,"defaultLabels")
- 
+
 
   return (
     <>
@@ -296,7 +296,8 @@ const Dashboard = (props) => {
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
-          <div className="ms-auto pageheader-btn ">
+
+          {localStorage.getItem("role") !== "Operator"? <div className="ms-auto pageheader-btn ">
             <span className="Search-data">
               {Object.entries(searchdata).map(([key, value]) => {
                 if (
@@ -349,7 +350,9 @@ const Dashboard = (props) => {
             ) : (
               ""
             )}
-          </div>
+          </div>:""}
+
+         
         </div>
 
         {ShowTruw ? (
@@ -840,19 +843,7 @@ const Dashboard = (props) => {
                 <h4 className="card-title">Total Transactions</h4>
               </Card.Header>
               <Card.Body className="card-body pb-0">
-                {/* <div id="chartArea" className="chart-donut">
-                  <ReactApexChart
-                    options={
-                      dashboard &&
-                      dashboard.totalTransactions &&
-                      dashboard.totalTransactions.options
-                    }
-                    // series={dashboard.totalTransactions.series}
-                    series={LinechartValues}
-                    type="area"
-                    height={300}
-                  />
-                </div> */}
+            
                 <div id="chart">
                   <ReactApexChart
                     options={options}
@@ -860,12 +851,7 @@ const Dashboard = (props) => {
                     type="line"
                     height={350}
                   />
-                  {/* <ReactApexChart
-                    options={options}
-                    series={LinechartValues}
-                    type="line"
-                    height={350}
-                  /> */}
+             
                 </div>
               </Card.Body>
             </Card>

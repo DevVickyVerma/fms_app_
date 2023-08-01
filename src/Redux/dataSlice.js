@@ -26,6 +26,7 @@ export const fetchData = createAsyncThunk("data/fetchData", async (_, thunkAPI) 
     if(data){
       localStorage.setItem("superiorId", data?.data?.superiorId);
       localStorage.setItem("superiorRole", data?.data?.superiorRole);
+      localStorage.setItem("role", data?.data?.role);
   
   
   }
