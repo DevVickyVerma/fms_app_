@@ -163,6 +163,7 @@ const Dashboard = (props) => {
 
       const { data } = response;
       if (data) {
+        setGrossMarginValue(data?.data?.gross_margin_);
         setLinechartValues(data?.data?.line_graph?.series);
         setpiechartValues(data?.data?.pi_graph);
         setGrossVolume(data?.data?.gross_volume);
