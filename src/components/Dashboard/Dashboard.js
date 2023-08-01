@@ -63,6 +63,7 @@ const Dashboard = (props) => {
         setLinechartOption(data?.data?.line_graph?.option?.labels);
       
         setpiechartValues(data?.data?.pi_graph);
+        setGrossMarginValue(data?.data?.gross_margin_);
         setGrossVolume(data?.data?.gross_volume);
         setGrossProfitValue(data?.data?.gross_profit);
         setFuelValue(data?.data?.fuel_sales);
@@ -549,34 +550,34 @@ const Dashboard = (props) => {
                               <>
                                 <h4 className="mb-2 number-font">
                                   {" "}
-                                  {GrossProfitValue?.gross_margin} ppl
+                                  {GrossMarginValue?.gross_margin} ppl
                                 </h4>
                                 <OverlayTrigger
                                   placement="top"
                                   overlay={
-                                    <Tooltip>{`${GrossProfitValue?.percentage}%`}</Tooltip>
+                                    <Tooltip>{`${GrossMarginValue?.percentage}%`}</Tooltip>
                                   }
                                 >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
                                     className={`me-1 ${
-                                      shopmargin?.status === "up"
+                                      GrossMarginValue?.status === "up"
                                         ? "text-success"
                                         : "text-danger"
                                     }`}
                                   >
-                                    {GrossProfitValue?.status === "up" ? (
+                                    {GrossMarginValue?.status === "up" ? (
                                       <>
                                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                         <span className="text-success">
-                                          {GrossProfitValue?.percentage}%
+                                          {GrossMarginValue?.percentage}%
                                         </span>
                                       </>
                                     ) : (
                                       <>
                                         <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                         <span className="text-danger">
-                                          {GrossProfitValue?.percentage}%
+                                          {GrossMarginValue?.percentage}%
                                         </span>
                                       </>
                                     )}

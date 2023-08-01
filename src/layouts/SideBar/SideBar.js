@@ -30,6 +30,7 @@ const Sidebar = () => {
   
     setIsLoading(true);
 
+    console.log("permissionsArray", permissionsArray);
     if (permissionsArray) {
       const updatedMainMenu = { ...(mainmenu || {}) };
       let menuItems = updatedMainMenu?.[0]?.Items;
@@ -58,6 +59,10 @@ const Sidebar = () => {
                 childItem.visibility = true;
               }
             });
+
+            if(item.children.some(childItem => childItem.visibility === true)) {
+              item.visibility = true;
+            }
           }
         });
         setIsLoading(true);
