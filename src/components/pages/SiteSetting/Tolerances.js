@@ -112,7 +112,7 @@ const SiteSettings = (props) => {
     if (localStorage.getItem("superiorRole") !== "Client") {
       clientIDCondition = `client_id=${formik.values.client_id}&`;
     } else {
-      clientIDCondition = `client_id=${clientIDLocalStorage}&`;
+      clientIDCondition = `client_id=${clientIDLocalStorage}`;
     }
 
     const fetchData = async () => {
@@ -216,7 +216,7 @@ const SiteSettings = (props) => {
 
       if (response.ok) {
         notify(data.message);
-        navigate("/dashboard");
+        // navigate("/dashboard");
       } else {
         Errornotify(data.message);
       }
@@ -456,7 +456,7 @@ const SiteSettings = (props) => {
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"
+                        type="number"
                         autoComplete="off"
                         className={`input101 ${
                           formik.errors.max_banking_variance &&
@@ -487,7 +487,7 @@ const SiteSettings = (props) => {
                       <input
                         id="max_dip_gain_loss_variance"
                         name="max_dip_gain_loss_variance"
-                        type="text"
+                        type="number"
                         autoComplete="off"
                         className={`input101 ${
                           formik.errors.max_dip_gain_loss_variance && formik.touched.max_dip_gain_loss_variance
@@ -511,7 +511,7 @@ const SiteSettings = (props) => {
                       Max Fuel Inventory/Sales Variance
                     </label>
                     <input
-                      type="text"
+                        type="number"
                       autoComplete="off"
                       className={`input101 ${
                         formik.errors.max_fuel_inv_sale_variance && formik.touched.max_fuel_inv_sale_variance
@@ -541,7 +541,7 @@ const SiteSettings = (props) => {
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"
+                         type="number"
                         autoComplete="off"
                         className={`input101 ${
                           formik.errors.low_tank_limit &&
@@ -575,7 +575,7 @@ const SiteSettings = (props) => {
                       </label>
                       <div className="d-flex">
                         <input
-                          type="text"
+                        type="number"
                           autoComplete="off"
                           className={`input101 ${
                             formik.errors.max_bunkering_variance &&
@@ -608,6 +608,7 @@ const SiteSettings = (props) => {
                         Vat Rate<span className="text-danger">*</span>
                       </label>
                       <textarea
+                        type="number"
                         className={`input101 ${
                           formik.errors.vat_rate && formik.touched.vat_rate
                             ? "is-invalid"
