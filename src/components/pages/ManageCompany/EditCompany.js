@@ -26,13 +26,11 @@ import Loaderimg from "../../../Utils/Loader";
     const { apidata, isLoading, error, getData, postData } = props;
   const navigate = useNavigate();
 
-  const [AddSiteData, setAddSiteData] = useState([]);
-  const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  const [subTypes, setSubTypes] = useState([]);
-  const [EditSiteData, setEditSiteData] = useState();
+   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
+    localStorage.getItem("superiorId")
+  );
 
-  // const notify = (message) => toast.success(message);
-  // const Errornotify = (message) => toast.error(message);
+
 
 
   const notify = (message) => {
@@ -95,7 +93,7 @@ import Loaderimg from "../../../Utils/Loader";
         const response = await axiosInstance.post("/company/detail", formData);
         if (response) {
           console.log(response.data.data);
-          setEditSiteData(response.data.data);
+      
           formik.setValues(response.data.data);
         }
       } catch (error) {
@@ -111,7 +109,11 @@ import Loaderimg from "../../../Utils/Loader";
     // console.clear()
   console.clear()  }, []);
   useEffect(() => {
-    handleFetchData();
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      // Call the fetchClientList() function
+      handleFetchData();
+    }
+   
     console.clear();
   console.clear()  }, []);
   const token = localStorage.getItem("token");
@@ -337,6 +339,8 @@ import Loaderimg from "../../../Utils/Loader";
                         </div>
                       )}
                   </Col>
+                  {localStorage.getItem("superiorRole") !==
+                                    "Client" && (
                   <Col lg={4} md={6}>
                     <div className="form-group">
                       <label htmlFor="client_id" className="form-label mt-4">
@@ -372,6 +376,7 @@ import Loaderimg from "../../../Utils/Loader";
                       )}
                     </div>
                   </Col>
+                  )}
                   <Col lg={4} md={6}>
                     <div className="form-group">
                       <label htmlFor="address" className="form-label mt-4">

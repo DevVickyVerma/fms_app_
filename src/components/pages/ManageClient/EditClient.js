@@ -53,36 +53,7 @@ const EditClient = (props) => {
     }
   }
 
-  // useEffect(() => {
-  //   fetchClientList();
-  // console.clear()  }, []);
 
-  // const token = localStorage.getItem("token");
-  // const axiosInstance = axios.create({
-  //   baseURL: process.env.REACT_APP_BASE_URL,
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // });
-
-  // const fetchClientList = async () => {
-  //   try {
-  //     const response = await axiosInstance.get("/client-detail", {
-  //       params: {
-  //         id: id,
-  //       },
-  //     });
-  //     console.log(response.data.data);
-  //     if (response) {
-  //       formik.setValues(response.data.data);
-  //       console.log(formik.values);
-  //       console.log(response.data.data);
-  //       setDropdownValue(response.data.data);
-  //     }
-  //   } catch (error) {
-  //     handleError(error);
-  //   }
-  // };
 
   const { id } = useParams();
 

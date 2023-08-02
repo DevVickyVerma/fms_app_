@@ -534,7 +534,7 @@ const Dashboard = (props) => {
               <Col lg={6} md={12} sm={12} xl={4}>
                 <Card
                   className={`card overflow-hidden Dashboard-card ${
-                    GrossProfitValue?.status === "up"
+                    GrossMarginValue?.status === "up"
                       ? "Dashboard-success-border"
                       : "Dashboard-loss-border"
                   }`}

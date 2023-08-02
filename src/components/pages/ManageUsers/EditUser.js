@@ -27,14 +27,11 @@ const EditUsers = (props) => {
 
   const navigate = useNavigate();
 
-  const [AddSiteData, setAddSiteData] = useState([]);
-  const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  const [subTypes, setSubTypes] = useState([]);
-  const [EditSiteData, setEditSiteData] = useState();
+ 
 
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+ 
   const [dropdownValue, setDropdownValue] = useState([]);
   const [roleitems, setRoleItems] = useState("");
   function handleError(error) {
@@ -87,21 +84,21 @@ const EditUsers = (props) => {
     try {
       const formData = new FormData();
 
-      formData.append("client_id", values.client_id);
-      formData.append("created_date", values.created_date);
+     
+     
       formData.append("first_name", values.first_name);
 
       formData.append("last_name", values.last_name);
-      formData.append("email", values.email);
-      formData.append("password", values.first_name);
+  
 
-      formData.append("full_name", values.full_name);
-      formData.append("id", values.id);
+     
+      formData.append("id", id);
 
       formData.append("role_id", values.role_id);
+      formData.append("status", values.status);
 
-      const postDataUrl = "/update-client";
-      const navigatePath = "/clients";
+      const postDataUrl = "/user/update";
+      const navigatePath = "/users";
 
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
@@ -115,8 +112,8 @@ const EditUsers = (props) => {
   // };
   const formik = useFormik({
     initialValues: {
-      created_date: "",
-      email: "",
+ 
+   
 
       first_name: "",
       id: "",
@@ -126,10 +123,8 @@ const EditUsers = (props) => {
       status: "1",
     },
     validationSchema: Yup.object({
-      created_date: Yup.string().required("Client Code is required"),
-      email: Yup.string()
-        .required(" Email is required")
-        .email("Invalid email format"),
+    
+
 
         role_id: Yup.string().required("Role is required"),
       first_name: Yup.string()
@@ -161,22 +156,6 @@ const EditUsers = (props) => {
     }
   };
 
-  const handleCheckBoxChange = (value) => {
-    console.log(value, "value");
-    const { ma_option } = formik.values;
-    console.log(ma_option, "ma_option");
-
-    let updateOptions = [];
-    if (ma_option.includes("value")) {
-      updateOptions.push("value");
-      console.log(ma_option, "value");
-    } else {
-      updateOptions.pop(value);
-      console.log(ma_option, "value");
-    }
-
-    formik.setFieldValue("ma_option", updateOptions);
-  };
 
   return (
     <>
@@ -277,31 +256,31 @@ const EditUsers = (props) => {
                   </Col>
 
                   <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label className="form-label mt-4" htmlFor="email">
-                        Email<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        type="text"  autoComplete="off"
-                        className={`input101 ${
-                          formik.errors.email && formik.touched.email
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="email"
-                        name="email"
-                        placeholder="Company Name"
-                        // onChange={formik.handleChange}
-                        value={formik.values.email || ""}
-                        readonly
-                      />
-                      {formik.errors.email && formik.touched.email && (
-                        <div className="invalid-feedback">
-                          {formik.errors.email}
+                        <div className="form-group">
+                          <label htmlFor="status" className="form-label mt-4">
+                            Status<span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.status && formik.touched.status
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="status"
+                            name="status"
+                            onChange={formik.handleChange}
+                            value={formik.values.status}
+                          >
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
+                          </select>
+                          {formik.errors.status && formik.touched.status && (
+                            <div className="invalid-feedback">
+                              {formik.errors.status}
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
-                  </Col>
+                      </Col>
             
 
                
