@@ -106,10 +106,7 @@ const EditUsers = (props) => {
     }
   };
 
-  // const handleSubmit = (values) => {
 
-  //   console.log(formData, "formData");
-  // };
   const formik = useFormik({
     initialValues: {
  

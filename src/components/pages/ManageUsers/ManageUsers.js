@@ -153,7 +153,7 @@ const ManageUser = (props) => {
   const isDeletePermissionAvailable = permissionsArray?.includes("user-delete");
   const isDetailsPermissionAvailable =
     permissionsArray?.includes("user-details");
-  const isAssignPermissionAvailable = permissionsArray?.includes("user-assign");
+  const isstatusPermissionAvailable = permissionsArray?.includes("user-change-status");
 
   const columns = [
     {
@@ -236,7 +236,7 @@ const ManageUser = (props) => {
               <button
                 className="badge bg-success"
                 onClick={
-                  isEditPermissionAvailable ? () => toggleActive(row) : null
+                  isstatusPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Active
@@ -245,7 +245,7 @@ const ManageUser = (props) => {
               <button
                 className="badge bg-danger"
                 onClick={
-                  isEditPermissionAvailable ? () => toggleActive(row) : null
+                  isstatusPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Inactive
@@ -254,7 +254,7 @@ const ManageUser = (props) => {
               <button
                 className="badge"
                 onClick={
-                  isEditPermissionAvailable ? () => toggleActive(row) : null
+                  isstatusPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Unknown

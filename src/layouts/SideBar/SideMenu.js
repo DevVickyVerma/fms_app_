@@ -569,25 +569,25 @@ export const MENUITEMS = [
       // },
     
       {
-        title: "Manage Items",
+        title: "Manage Department Items",
         icon: "shopping-cart",
         type: "sub",
         active: false,
-        permission: "item-type-list",
+        permission: "department-item-list",
         visibility: false,
         children: [
           {
             path: `/manageitems`,
-            title: "Manage Items",
+            title: "Manage Department Items",
             type: "link",
-            permission: "item-type-list",
+            permission: "department-item-list",
             visibility: false,
           },
           {
             path: `/additems`,
-            title: "Add Items",
+            title: "Add Department Items",
             type: "link",
-            permission: "item-type-create",
+            permission: "department-item-create",
             visibility: false,
           },
         ],

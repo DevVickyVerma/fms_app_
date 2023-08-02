@@ -21,6 +21,7 @@ import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { Slide, toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const SiteSettings = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -181,47 +182,29 @@ const SiteSettings = (props) => {
   };
 
   const handleSubmit = async (values) => {
-    const token = localStorage.getItem("token");
-
-    const formData = new FormData();
-  
-    formData.append("max_dip_gain_loss_variance", values.max_dip_gain_loss_variance);
-    formData.append("max_banking_variance", values.max_banking_variance);
-    formData.append("max_fuel_inv_sale_variance", values.max_fuel_inv_sale_variance);
-    formData.append("max_bunkering_variance", values.max_bunkering_variance);
-    formData.append("low_tank_limit", values.low_tank_limit);
-    formData.append("vat_rate", values.vat_rate);
-    formData.append("client_id", selectedClientId);
-    formData.append("company_id", selectedCompanyId);
-    formData.append("site_id", selectedSiteId);
-    formData.append("average_ppl", values.average_ppl);
-    formData.append("max_dip_gain_loss_variance_lt","0");
    
-  
-
- 
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/tolerance/update`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
+      const formData = new FormData();
+   
+      formData.append("max_dip_gain_loss_variance", values.max_dip_gain_loss_variance);
+      formData.append("max_banking_variance", values.max_banking_variance);
+      formData.append("max_fuel_inv_sale_variance", values.max_fuel_inv_sale_variance);
+      formData.append("max_bunkering_variance", values.max_bunkering_variance);
+      formData.append("low_tank_limit", values.low_tank_limit);
+      formData.append("vat_rate", values.vat_rate);
+      formData.append("client_id", selectedClientId);
+      formData.append("company_id", selectedCompanyId);
+      formData.append("site_id", selectedSiteId);
+      formData.append("average_ppl", values.average_ppl);
+      formData.append("max_dip_gain_loss_variance_lt","0");
+     
 
-      const data = await response.json();
+      const postDataUrl = "tolerance/update";
 
-      if (response.ok) {
-        notify(data.message);
-        // navigate("/dashboard");
-      } else {
-        Errornotify(data.message);
-      }
+   
+      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
     } catch (error) {
-      handleError(error);
+      console.log(error); // Set the submission state to false if an error occurs
     }
   };
 
@@ -261,6 +244,20 @@ const SiteSettings = (props) => {
     onSubmit: handleSubmit,
   });
 
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions?.permissions);
+    }
+  }, [UserPermissions]);
+
+  const isStatusPermissionAvailable = permissionsArray?.includes(
+    "cards-status-update"
+  );
+  const isEditPermissionAvailable = permissionsArray?.includes("tolerance-update");
 
   return (
       <>
@@ -551,7 +548,7 @@ const SiteSettings = (props) => {
                         }`}
                         id="low_tank_limit"
                         name="low_tank_limit"
-                        placeholder="Saga Department code"
+                        placeholder="Low Tank Limit"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.low_tank_limit}
@@ -668,10 +665,10 @@ const SiteSettings = (props) => {
                   >
                     Cancel
                   </Link>
-
-                  <button type="submit" className="btn btn-primary">
+{isEditPermissionAvailable?  <button type="submit" className="btn btn-primary">
                     Submit
-                  </button>
+                  </button> :""}
+                 
                 </div>
               </form>
             </div>

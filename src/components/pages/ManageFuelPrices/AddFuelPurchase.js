@@ -52,12 +52,7 @@ const ManageDsr = (props) => {
     localStorage.getItem("superiorId")
   );
 
-  // const [selectedValues, setSelectedValues] = useState([]);
-
-  // const handleChange = (event) => {
-  //   setSelectedValues(event.target.value);
-  //   console.log(event.target.value);
-  // };
+;
 
   const [selectedItems1, setSelectedItems1] = useState([]);
 
@@ -88,6 +83,30 @@ const ManageDsr = (props) => {
       const { data } = response;
       if (data) {
         setAddSiteData1(response.data);
+        if (
+          response?.data &&
+          localStorage.getItem("superiorRole") === "Client"
+        ) {
+          const clientId = localStorage.getItem("superiorId");
+          if (clientId) {
+            setSelectedClientId1(clientId);
+
+            setSelectedCompanyList1([]);
+
+            // setShowButton(false);
+            console.log(clientId, "clientId");
+            console.log(AddSiteData1, "AddSiteData");
+
+            if (response?.data) {
+              const selectedClient = response?.data?.data?.find(
+                (client) => client.id === clientId
+              );
+              if (selectedClient) {
+                setSelectedCompanyList1(selectedClient?.companies);
+              }
+            }
+          }
+        }
       }
     } catch (error) {
       console.error("API error:", error);
@@ -107,7 +126,7 @@ const ManageDsr = (props) => {
   };
 
   const secondValidationSchema = Yup.object({
-    client_id1: Yup.string().required("Client is required"),
+  
     company_id1: Yup.string().required("Company is required"),
     start_date1: Yup.date()
     .required("Start Date is required")
@@ -175,8 +194,8 @@ const ManageDsr = (props) => {
 
       const postDataUrl = "/site/fuel/purchase-price/add";
     
-
-      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+      const navigatePath = `/fuel-purchase-prices`;
+      await postData(postDataUrl, formData,navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
@@ -250,6 +269,8 @@ const ManageDsr = (props) => {
               <form onSubmit={(event) => formik2.handleSubmit(event)}>
                 <Card.Body>
                   <Row>
+                    {localStorage.getItem("superiorRole") !==
+                            "Client" && (
                     <Col lg={3} md={6}>
                       <div className="form-group">
                         <label htmlFor="client_id1" className="form-label mt-4">
@@ -308,7 +329,7 @@ const ManageDsr = (props) => {
                           )}
                       </div>
                     </Col>
-
+                    )}
                     <Col lg={3} md={6}>
                       <div className="form-group">
                         <label

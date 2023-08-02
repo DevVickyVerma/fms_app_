@@ -44624,6 +44624,7 @@ iframe {
   padding: 0.375rem 0.75rem;
   border-radius: 5px;
   border: 1px solid #ecf0fa;
+  box-shadow: 1px 1px #e3e3e3;
 }
 .dark-mode .input101 {
   color: #dedefd !important;

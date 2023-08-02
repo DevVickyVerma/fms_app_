@@ -26,7 +26,7 @@ const AddCards = (props) => {
       formData.append("card_status", values.card_status);
 
       formData.append("logo", values.image);
-
+    
       const postDataUrl = "card/add";
 
       const navigatePath = "/ManageCards";
@@ -50,15 +50,6 @@ const AddCards = (props) => {
     }
   }, [UserPermissions]);
 
-  const CheckImg = ({ onClick, fileName, src }) => {
-    return (
-      <div onClick={onClick}>
-        {!src && <button onClick={onClick}>Choose Image</button>}
-        {src && <img src={src} alt="Preview" />}
-        <p>{fileName}</p>
-      </div>
-    );
-  };
 
   useEffect(() => {
     if (isPermissionsSet) {
@@ -108,19 +99,7 @@ const AddCards = (props) => {
     reader.readAsDataURL(file);
   };
 
-  const handleDragEnter = (event) => {
-    event.preventDefault();
-    setIsDragging(true);
-  };
 
-  const handleDragLeave = (event) => {
-    event.preventDefault();
-    setIsDragging(false);
-  };
-
-  const handleDragOver = (event) => {
-    event.preventDefault();
-  };
 
   return (
     <>
@@ -285,7 +264,7 @@ const AddCards = (props) => {
                           </Col>
                           <Col lg={6} md={12}>
                             <div className="form-group">
-                              <label htmlFor="image">Image
+                              <label     className=" form-label mt-4" htmlFor="image">Card Logo
                             
                               </label>
                               <div
@@ -309,7 +288,7 @@ const AddCards = (props) => {
                                   className="form-control"
                                 />
                                 <p>
-                                  Drag and drop your image here, or click to
+                                  Drag and drop your Card Logo here, or click to
                                   browse
                                 </p>
                               </div>

@@ -156,12 +156,12 @@ const ManageItems = (props) => {
   }, [UserPermissions]);
 
   const isStatusPermissionAvailable = permissionsArray?.includes(
-    "charges-status-update"
+    "department-item--update"
   );
-  const isEditPermissionAvailable = permissionsArray?.includes("charges-edit");
-  const isAddPermissionAvailable = permissionsArray?.includes("charges-create");
+  const isEditPermissionAvailable = permissionsArray?.includes("department-item-edit");
+  const isAddPermissionAvailable = permissionsArray?.includes("department-item-create");
   const isDeletePermissionAvailable =
-    permissionsArray?.includes("charges-delete");
+    permissionsArray?.includes("department-item-delete");
   const isDetailsPermissionAvailable =
     permissionsArray?.includes("charges-details");
   const isAssignPermissionAvailable =
@@ -341,7 +341,7 @@ const ManageItems = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title">Manage Items</h1>
+            <h1 className="page-title">Manage Department Items</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -354,7 +354,7 @@ const ManageItems = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Manage Items
+                Manage Department Items
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -374,7 +374,7 @@ const ManageItems = (props) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Items
+                  Add Department Items
                 </Link>
               ) : null}
             </div>
@@ -385,7 +385,7 @@ const ManageItems = (props) => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <h3 className="card-title">Manage Items</h3>
+              <h3 className="card-title">Manage Department Items</h3>
             </Card.Header>
             <Card.Body>
               <div className="table-responsive deleted-table">

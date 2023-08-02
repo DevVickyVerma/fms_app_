@@ -99,6 +99,7 @@ const EditSitePump = (props) => {
       formData.append("pence_per_liter", values.pence_per_liter);
     
       formData.append("id", values.id);
+      formData.append("site_id", values.site_id);
 
       const postDataUrl = "/site-ppl/update";
       const navigatePath = "/assignppl";

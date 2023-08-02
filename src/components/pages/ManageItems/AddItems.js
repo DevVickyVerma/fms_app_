@@ -13,11 +13,10 @@ import { useSelector } from "react-redux";
 
 const AddItems = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
+
   const [selectedItemTypeList, setselectedItemTypeList] = useState([]);
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [selectedClientId, setSelectedClientId] = useState("");
-  const [AddSiteData, setAddSiteData] = useState([]);
+
+ 
   const navigate = useNavigate();
 
   const handleSubmit1 = async (values) => {
@@ -50,39 +49,8 @@ const AddItems = (props) => {
     }
   }, [UserPermissions]);
 
-  useEffect(() => {
-    if (isPermissionsSet) {
-      const isAddPermissionAvailable =
-        permissionsArray?.includes("deduction-create");
 
-      if (permissionsArray?.length > 0) {
-        if (isAddPermissionAvailable) {
-          console.log(isAddPermissionAvailable, "AddPermissionAvailable");
-          // Perform action when permission is available
-          // Your code here
-        } else {
-          // Perform action when permission is not available
-          // Your code here
-          navigate("/errorpage403");
-        }
-      } else {
-        navigate("/errorpage403");
-      }
-    }
-  }, [isPermissionsSet, permissionsArray]);
-
-  const handleFetchData = async () => {
-    try {
-      const response = await getData("/client/commonlist");
-
-      const { data } = response;
-      if (data) {
-        setAddSiteData(response.data);
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
+ 
   const handleItemData = async () => {
     try {
       const response = await getData("/item-type/list");
@@ -96,9 +64,7 @@ const AddItems = (props) => {
     }
   };
 
-  useEffect(() => {
-    handleFetchData();
-  console.clear()  }, []);
+
 
   useEffect(() => {
     handleItemData();

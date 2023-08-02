@@ -220,7 +220,7 @@ const AddSuppliers = (props) => {
                         <Row>
                           <Col lg={6} md={12}>
                             <FormGroup>
-                              <label htmlFor="supplier_status">
+                              <label     className=" form-label mt-4" htmlFor="supplier_status">
                                 Supplier Status
                                 <span className="text-danger">*</span>
                               </label>
@@ -248,7 +248,7 @@ const AddSuppliers = (props) => {
 
                           <Col lg={6} md={12}>
                             <div className="form-group">
-                              <label htmlFor="image">Image</label>
+                              <label     className=" form-label mt-4" htmlFor="image">Supplier Logo</label>
                               <div
                                 className={`dropzone ${
                                   errors.image && touched.image
@@ -270,7 +270,7 @@ const AddSuppliers = (props) => {
                                   className="form-control"
                                 />
                                 <p>
-                                  Drag and drop your image here, or click to
+                                  Drag and drop your Supplier Logo here, or click to
                                   browse
                                 </p>
                               </div>

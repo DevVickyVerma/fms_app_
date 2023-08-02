@@ -32,16 +32,9 @@ const AddUsers = (props) => {
 
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
-  const [selectedItems, setSelectedItems] = useState(["1"]);
+ 
 
-  const handleCheckboxChange = (checkboxId) => {
-    if (selectedItems.includes(checkboxId)) {
-      setSelectedItems(selectedItems.filter((item) => item !== checkboxId));
-    } else {
-      setSelectedItems([...selectedItems, checkboxId]);
-    }
-    console.log(selectedItems, selectedItems);
-  };
+ 
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
@@ -253,33 +246,7 @@ const AddUsers = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                          <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="password "
-                                className=" form-label mt-4"
-                              >
-                                Password<span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                type="password"
-                                className={`input101 ${
-                                  errors.password && touched.password
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="password"
-                                name="password"
-                                placeholder="Password"
-                              />
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="password"
-                              />
-                            </FormGroup>
-                          </Col>
-
+                      
                        
                        
                           <Col lg={4} md={6}>
@@ -309,6 +276,33 @@ const AddUsers = (props) => {
                               />
                             </FormGroup>
                           </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="password "
+                                className=" form-label mt-4"
+                              >
+                                Password<span className="text-danger">*</span>
+                              </label>
+                              <Field
+                                type="password"
+                                className={`input101 ${
+                                  errors.password && touched.password
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="password"
+                                name="password"
+                                placeholder="Password"
+                              />
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="password"
+                              />
+                            </FormGroup>
+                          </Col>
+
                          
                           <Col lg={4} md={6}>
                             <FormGroup>

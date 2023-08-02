@@ -117,11 +117,7 @@ const ManageCards = (props) => {
     },
   });
 
-  const handleEdit = (row) => {
-    console.log(row, "handleEdit");
-    localStorage.setItem("EditRoleID", row.id);
-    localStorage.setItem("EditRole_name", row.name);
-  };
+
   const FetchTableData = async () => {
     try {
       const response = await getData("card/list");

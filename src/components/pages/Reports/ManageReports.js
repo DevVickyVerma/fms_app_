@@ -463,6 +463,55 @@ const ManageReports = (props) => {
                               <div className="error">{errors.sites}</div>
                             )}
                           </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                className=" form-label mt-4"
+                                htmlFor="report"
+                              >
+                                Report
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${
+                                  errors.report && touched.report
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="report"
+                                name="report"
+                                onChange={(e) => {
+                                  const selectedreport = e.target.value;
+
+                                  setFieldValue("report", selectedreport);
+                                  setShowButton(false);
+                                }}
+                              >
+                                <option value="">Select a Report</option>
+                                {ReportList.data &&
+                                ReportList?.data?.reports.length > 0 ? (
+                                  ReportList?.data?.reports.map((item) => (
+                                    <option
+                                      key={item.id}
+                                      value={item.report_code}
+                                      onClick={() => handleReportClick(item)} // Modified line
+                                    >
+                                      {item.report_name}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option disabled>No Report</option>
+                                )}
+                              </Field>
+
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="report"
+                              />
+                            </FormGroup>
+                          </Col>
                           {toggleValue ? (
                             <>
                               <Col lg={4} md={6}>
@@ -540,55 +589,8 @@ const ManageReports = (props) => {
                           ) : (
                             ""
                           )}
-                          <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label
-                                className=" form-label mt-4"
-                                htmlFor="report"
-                              >
-                                Report
-                                <span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${
-                                  errors.report && touched.report
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="report"
-                                name="report"
-                                onChange={(e) => {
-                                  const selectedreport = e.target.value;
-
-                                  setFieldValue("report", selectedreport);
-                                  setShowButton(false);
-                                }}
-                              >
-                                <option value="">Select a Report</option>
-                                {ReportList.data &&
-                                ReportList?.data?.reports.length > 0 ? (
-                                  ReportList?.data?.reports.map((item) => (
-                                    <option
-                                      key={item.id}
-                                      value={item.report_code}
-                                      onClick={() => handleReportClick(item)} // Modified line
-                                    >
-                                      {item.report_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Report</option>
-                                )}
-                              </Field>
-
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="report"
-                              />
-                            </FormGroup>
-                          </Col>
+                      
+                         
                           {!toggleValue ? (
                             <Col lg={4} md={6}>
                               <FormGroup>
@@ -641,7 +643,10 @@ const ManageReports = (props) => {
                           ) : (
                             ""
                           )}
-                          <Col lg={4} md={6}>
+                        
+                        </Row>
+                        <Row>
+                        <Col lg={12} md={12}>
                             <FormGroup>
                               <label className="form-label mt-4">
                                 Get Reports By Date{" "}

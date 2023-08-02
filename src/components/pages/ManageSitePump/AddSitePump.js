@@ -26,7 +26,9 @@ const AddSitePump = (props) => {
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
   const [AddSiteData, setAddSiteData] = useState([]);
-
+  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
+    localStorage.getItem("superiorId")
+  );
   const navigate = useNavigate();
 
   const handleSubmit1 = async (values) => {
@@ -76,6 +78,30 @@ const AddSitePump = (props) => {
       const { data } = response;
       if (data) {
         setAddSiteData(response.data);
+        if (
+          response?.data &&
+          localStorage.getItem("superiorRole") === "Client"
+        ) {
+          const clientId = localStorage.getItem("superiorId");
+          if (clientId) {
+            setSelectedClientId(clientId);
+
+            setSelectedCompanyList([]);
+
+            // setShowButton(false);
+            console.log(clientId, "clientId");
+            console.log(AddSiteData, "AddSiteData");
+
+            if (response?.data) {
+              const selectedClient = response?.data?.data?.find(
+                (client) => client.id === clientId
+              );
+              if (selectedClient) {
+                setSelectedCompanyList(selectedClient?.companies);
+              }
+            }
+          }
+        }
       }
     } catch (error) {
       console.error("API error:", error);
@@ -84,6 +110,7 @@ const AddSitePump = (props) => {
 
   useEffect(() => {
     handleFetchData();
+     setclientIDLocalStorage(localStorage.getItem("superiorId"));
   console.clear()  }, []);
 
   return (
@@ -164,6 +191,8 @@ const AddSitePump = (props) => {
                     <Form onSubmit={handleSubmit}>
                       <Card.Body>
                         <Row>
+                        {localStorage.getItem("superiorRole") !==
+                            "Client" && (
                           <Col lg={6} md={12}>
                             <FormGroup>
                               <label
@@ -231,6 +260,7 @@ const AddSitePump = (props) => {
                               />
                             </FormGroup>
                           </Col>
+                          )}
                           <Col lg={6} md={12}>
                             <FormGroup>
                               <label
