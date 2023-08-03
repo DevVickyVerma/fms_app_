@@ -30,7 +30,6 @@ const Sidebar = () => {
   
     setIsLoading(true);
 
-    console.log("permissionsArray", permissionsArray);
     if (permissionsArray) {
       const updatedMainMenu = { ...(mainmenu || {}) };
       let menuItems = updatedMainMenu?.[0]?.Items;

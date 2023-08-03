@@ -60,7 +60,7 @@ const Apexcharts2 = ({ data }) => {
   const realColors = options.colors.map((color) => {
     return color.startsWith("#") ? color : "#" + color;
   });
-console.log(realColors,"realColors")
+
 
   return (
     <div id="chart">

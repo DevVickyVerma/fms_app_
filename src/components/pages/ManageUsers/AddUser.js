@@ -304,27 +304,7 @@ const AddUsers = (props) => {
                           </Col>
 
                          
-                          <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="email"
-                                className="form-label mt-4"
-                              >
-                                Send Welcome Email
-                              </label>
-                              <input
-                                type="checkbox"
-                                checked={isChecked}
-                                onChange={SendMail}
-                              />
-                              <span className="ms-1">Yes</span>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="email"
-                              />
-                            </FormGroup>
-                          </Col>
+                      
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
@@ -359,6 +339,27 @@ const AddUsers = (props) => {
                                 component="div"
                                 className="invalid-feedback"
                                 name="role"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup className="sendemail">
+                              <label
+                                htmlFor="email"
+                                className="form-label mt-4"
+                              >
+                                Send Welcome Email
+                              </label>
+                              <input
+                                type="checkbox"
+                                checked={isChecked}
+                                onChange={SendMail}
+                              />
+                              <span className="ms-1">Yes</span>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="email"
                               />
                             </FormGroup>
                           </Col>

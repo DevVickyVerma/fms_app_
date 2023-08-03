@@ -4,20 +4,18 @@ import Sidebar from "../layouts/SideBar/SideBar";
 import Footer from "../layouts/Footer/Footer";
 import Switcher from "../layouts/Switcher/Switcher";
 
-import * as Switcherdata from "../data/Switcher/Switcherdata";
+
 import { Outlet, useLocation } from "react-router-dom";
 import TabToTop from "../layouts/TabToTop/TabToTop";
 import { useNavigate } from "react-router-dom";
 import TopLoadingBar from "react-top-loading-bar";
 
-import SweetAlert from 'sweetalert2';
+import SweetAlert from "sweetalert2";
 import Swal from "sweetalert2";
 import withApi from "../Utils/ApiHelper";
 
-
-
-  const App = (props) => {
-    const { apidata, isLoading, error, getData, postData } = props;
+const App = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
   const loadingBarRef = useRef();
   const navigate = useNavigate();
   const location = useLocation();
@@ -32,8 +30,6 @@ import withApi from "../Utils/ApiHelper";
         setTimeout(() => {
           window.location.replace("/");
         }, 500);
-
-      
       } else {
         throw new Error("No data available in the response");
       }
@@ -42,7 +38,6 @@ import withApi from "../Utils/ApiHelper";
       // Handle the error here, such as displaying an error message or performing other actions
     }
   };
-
 
   const simulateLoadingAndNavigate = () => {
     loadingBarRef.current.continuousStart();
@@ -59,7 +54,6 @@ import withApi from "../Utils/ApiHelper";
     // console.clear();
   }, [location.pathname]);
 
-
   const [isInactive, setIsInactive] = useState(false);
   let inactivityTimeout;
 
@@ -70,38 +64,39 @@ import withApi from "../Utils/ApiHelper";
   };
 
   useEffect(() => {
-    window.addEventListener('mousemove', handleUserActivity);
-    window.addEventListener('keydown', handleUserActivity);
-    window.addEventListener('scroll', handleUserActivity);
+    window.addEventListener("mousemove", handleUserActivity);
+    window.addEventListener("keydown", handleUserActivity);
+    window.addEventListener("scroll", handleUserActivity);
 
     inactivityTimeout = setTimeout(() => setIsInactive(true), 300000);
 
     return () => {
-      window.removeEventListener('mousemove', handleUserActivity);
-      window.removeEventListener('keydown', handleUserActivity);
-      window.removeEventListener('scroll', handleUserActivity);
+      window.removeEventListener("mousemove", handleUserActivity);
+      window.removeEventListener("keydown", handleUserActivity);
+      window.removeEventListener("scroll", handleUserActivity);
       clearTimeout(inactivityTimeout);
     };
-  console.clear()  }, []);
+    console.clear();
+  }, []);
   const handleConfirm = () => {
-    logout()
-    console.log('Delete confirmed');
+    logout();
+    console.log("Delete confirmed");
   };
 
   const handleCancel = () => {
     // Logic to handle cancellation
-    console.log('Deletion canceled');
+    console.log("Deletion canceled");
   };
 
   useEffect(() => {
     if (isInactive) {
       Swal.fire({
-        title: 'Inactivity Alert',
-        text: 'Oops, there is no activity from last 5 minutes, would you like to stay logged in or logout?',
-        icon: 'warning',
+        title: "Inactivity Alert",
+        text: "Oops, there is no activity from last 5 minutes, would you like to stay logged in or logout?",
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonText: 'Logout!',
-        cancelButtonText: 'Stay Loggedin',
+        confirmButtonText: "Logout!",
+        cancelButtonText: "Stay Loggedin",
         reverseButtons: true,
       }).then((result) => {
         if (result.isConfirmed) {
@@ -110,12 +105,10 @@ import withApi from "../Utils/ApiHelper";
           handleCancel();
         }
       });
-  
-      console.log('Inactivity Alert');
+
+      console.log("Inactivity Alert");
     }
   }, [isInactive, handleConfirm, handleCancel]);
-  ;
-
   return (
     <Fragment>
       <div className="horizontalMenucontainer">
@@ -134,22 +127,19 @@ import withApi from "../Utils/ApiHelper";
               <div className="side-app">
                 <div
                   className="main-container container-fluid"
-                  onClick={() => {
-                    Switcherdata.responsiveSidebarclose();
-                    Switcherdata.Horizontalmenudefultclose();
-                  }}
+              
                 >
                   <Outlet />
                 </div>
               </div>
             </div>
           </div>
-        
+
           <Switcher />
           <Footer />
         </div>
       </div>
     </Fragment>
   );
-}
+};
 export default withApi(App);

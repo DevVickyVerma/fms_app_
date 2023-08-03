@@ -400,3 +400,6 @@ input.table-input.readonly.total-input-card {
   margin-right: 0;
   margin-left: 0;
 }
+.sendemail {
+  margin-top: 24px !important;
+}
