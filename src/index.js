@@ -11,15 +11,12 @@ import dataReducer, { fetchData } from "./Redux/dataSlice";
 import withApi from "./Utils/ApiHelper";
 import Loaderimg from "./Utils/Loader";
 
-
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
 
 //Dashboard
 const Dashboard = React.lazy(() => import("./components/Dashboard/Dashboard"));
-
-
 
 //pages
 
@@ -890,8 +887,6 @@ const Root = () => {
                   </Route>
 
                   <Route>
-                    
-
                     <Route path={`/editprofile`} element={<EditProfile />} />
 
                     <Route

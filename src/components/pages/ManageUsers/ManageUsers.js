@@ -95,7 +95,8 @@ const ManageUser = (props) => {
 
   useEffect(() => {
     handleFetchData();
-  console.clear()  }, []);
+  console.clear()
+  }, []);
 
   const handleFetchData = async () => {
     try {

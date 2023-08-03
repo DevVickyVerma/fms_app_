@@ -30,6 +30,8 @@ import {
   Tooltip,
   Spinner,
 } from "react-bootstrap";
+import BarChart from "./BarChart";
+import LineChart from "./LineChart";
 
 const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -302,7 +304,11 @@ const Dashboard = (props) => {
       updateOptions({ labels: LinechartOption });
     }
   }, [LinechartOption]);
-
+  const piechartValuesss = {
+    shop_sales: '1159784.81',
+    fuel_sales: '7800693.4',
+    bunkered_sales: '13461.94',
+  };
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -860,7 +866,7 @@ const Dashboard = (props) => {
             </Row>
           </Col>
         </Row>
-
+                                        {/* Line chart */}
         <Row>
           <Col lg={7} md={12}>
             <Card className="fuel-card">
@@ -869,12 +875,7 @@ const Dashboard = (props) => {
               </Card.Header>
               <Card.Body className="card-body pb-0">
                 <div id="chart">
-                  <ReactApexChart
-                   options={{ ...options, labels: isoDateLabels }}
-                    series={LinechartValues}
-                    type="line"
-                    height={350}
-                  />
+                <LineChart LinechartValues={LinechartValues} LinechartOption={LinechartOption} />
                 </div>
               </Card.Body>
             </Card>
@@ -885,11 +886,13 @@ const Dashboard = (props) => {
                 <h4 className="card-title">Overall Stats</h4>
               </Card.Header>
               <Card.Body className="apexchart">
-                <PieDashboardChart data={piechartValues} />
+              <BarChart piechartValues={piechartValuesss}   />
               </Card.Body>
             </Card>
           </Col>
         </Row>
+
+    
       </div>
     </>
   );
