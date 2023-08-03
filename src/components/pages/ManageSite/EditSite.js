@@ -238,6 +238,17 @@ export default function AddSite(props) {
     const day = String(selectedDate.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate() - 1).padStart(2, "0"); // Subtract one day from the current date
+    return `${year}-${month}-${day}`;
+  };
+  const hadndleShowDate =( )=>{
+    const inputDateElement = document.querySelector('input[type="date"]');
+    inputDateElement.showPicker();
+}
 
   return (
     <>
@@ -683,7 +694,8 @@ export default function AddSite(props) {
                             DRS Start Date<span className="text-danger">*</span>
                           </label>
                           <input
-                              type="date"   min={"2023-01-01"}
+                              type="date"    min={"2023-01-01"}     max={getCurrentDate()}
+                                onClick={hadndleShowDate}
                             className={`input101 ${
                               formik.errors.start_date &&
                               formik.touched.start_date

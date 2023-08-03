@@ -234,6 +234,17 @@ const ManageReports = (props) => {
   console.clear()  }, []);
   // Empty dependency array to run the effect only once
 
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate() - 1).padStart(2, "0"); // Subtract one day from the current date
+    return `${year}-${month}-${day}`;
+  };
+  const hadndleShowDate =( )=>{
+    const inputDateElement = document.querySelector('input[type="date"]');
+    inputDateElement.showPicker();
+}
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -524,7 +535,8 @@ const ManageReports = (props) => {
                                   </label>
                                   <Field
                                     type="date"
-                                    min={"2023-01-01"}
+                                     min={"2023-01-01"}     max={getCurrentDate()}
+                                onClick={hadndleShowDate}
                                     className={`input101 ${
                                       errors.start_date && touched.start_date
                                         ? "is-invalid"
@@ -559,7 +571,8 @@ const ManageReports = (props) => {
                                   </label>
                                   <Field
                                     type="date"
-                                    min={"2023-01-01"}
+                                     min={"2023-01-01"}     max={getCurrentDate()}
+                                onClick={hadndleShowDate}
                                     className={`input101 ${
                                       errors.end_date && touched.end_date
                                         ? "is-invalid"

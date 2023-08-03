@@ -253,7 +253,17 @@ const ManageDsr = (props) => {
     onSubmit: handleSubmit,
     // validationSchema: validationSchema,
   });
-
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate() - 1).padStart(2, "0"); // Subtract one day from the current date
+    return `${year}-${month}-${day}`;
+  };
+  const hadndleShowDate =( )=>{
+    const inputDateElement = document.querySelector('input[type="date"]');
+    inputDateElement.showPicker();
+}
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -294,11 +304,15 @@ const ManageDsr = (props) => {
                   validationSchema={Yup.object({
                     company_id: Yup.string().required("Company is required"),
                     site_id: Yup.string().required("Site is required"),
-                    start_date: Yup.date()
+                       start_date: Yup.date()
                       .required("Start Date is required")
                       .min(
                         new Date("2023-01-01"),
                         "Start Date cannot be before January 1, 2023"
+                      )
+                      .max(
+                        new Date(new Date().setDate(new Date().getDate() - 1)),
+                        "Start Date cannot be after the current date"
                       ),
                   })}
                   onSubmit={(values) => {
@@ -487,7 +501,8 @@ const ManageDsr = (props) => {
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
-                                  type="date"   min={"2023-01-01"}
+                                  type="date"    min={"2023-01-01"}     max={getCurrentDate()}
+                                onClick={hadndleShowDate}
                                 className={`input101 ${
                                   errors.start_date && touched.start_date
                                     ? "is-invalid"

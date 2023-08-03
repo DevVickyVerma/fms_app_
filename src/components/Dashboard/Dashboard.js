@@ -49,19 +49,19 @@ const Dashboard = (props) => {
   const [piechartValues, setpiechartValues] = useState();
   const [LinechartValues, setLinechartValues] = useState([]);
   const [LinechartOption, setLinechartOption] = useState();
-  let  LinechartOptions= []
+  let LinechartOptions = [];
   const handleFetchSiteData = async () => {
     try {
       const response = await getData("/dashboard/stats");
 
       const { data } = response;
       if (data) {
-        console.log(data?.data?.line_graph,"data?.data?.line_graph")
+        console.log(data?.data?.line_graph, "data?.data?.line_graph");
         LinechartOptions = data?.data?.line_graph?.option?.labels;
-        console.log(LinechartOptions,"data?.data?.line_graph")
+        console.log(LinechartOptions, "data?.data?.line_graph");
         setLinechartValues(data?.data?.line_graph?.series);
         setLinechartOption(data?.data?.line_graph?.option?.labels);
-      
+
         setpiechartValues(data?.data?.pi_graph);
         setGrossMarginValue(data?.data?.gross_margin_);
         setGrossVolume(data?.data?.gross_volume);
@@ -157,8 +157,9 @@ const Dashboard = (props) => {
     setSearchdata(values);
     try {
       const response = await getData(
-        localStorage.getItem("superiorRole") !== "Client"? 
-        `dashboard/stats?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`:`dashboard/stats?client_id=${ClientID}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
+        localStorage.getItem("superiorRole") !== "Client"
+          ? `dashboard/stats?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
+          : `dashboard/stats?client_id=${ClientID}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
       );
 
       const { data } = response;
@@ -231,8 +232,7 @@ const Dashboard = (props) => {
     "30 Apr 2023",
     "31 May 2023",
     "30 Jun 2023",
-    "31 July 2023",
-   
+    "31 Jul 2023",
   ];
 
   const [options, setOptions] = useState({
@@ -247,9 +247,9 @@ const Dashboard = (props) => {
       enabled: true,
       enabledOnSeries: [],
     },
-    labels: defaultLabels, // Use defaultLabels instead of LinechartOption here
+    labels: defaultLabels,
     xaxis: {
-      type: "datetime",
+      type: "datetime", // Set the xaxis type to "datetime"
     },
     yaxis: [
       {
@@ -271,16 +271,37 @@ const Dashboard = (props) => {
     setOptions((prevOptions) => ({ ...prevOptions, ...newOptions }));
   };
 
+  const isoDateLabels = defaultLabels.map((label) => {
+    const [day, month, year] = label.split(" ");
+    const monthIndex = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ].indexOf(month) + 1;
+    const zeroPaddedDay = day.padStart(2, "0");
+    const zeroPaddedMonth = monthIndex.toString().padStart(2, "0");
+    return `${year}-${zeroPaddedMonth}-${zeroPaddedDay}`;
+  });
 
-  console.log(options,"options")
+  console.log("isoDateLabels", isoDateLabels);
+
+
+  console.log(options, "options");
   // Check if LinechartOption exists and update the labels accordingly
   useEffect(() => {
     if (LinechartOption) {
       updateOptions({ labels: LinechartOption });
     }
   }, [LinechartOption]);
-
-
 
   return (
     <>
@@ -299,62 +320,66 @@ const Dashboard = (props) => {
             </Breadcrumb>
           </div>
 
-          {localStorage.getItem("role") !== "Operator"? <div className="ms-auto pageheader-btn ">
-            <span className="Search-data">
-              {Object.entries(searchdata).map(([key, value]) => {
-                if (
-                  (key === "client_name" ||
-                    key === "TOdate" ||
-                    key === "company_name" ||
-                    key === "site_name" ||
-                    key === "fromdate") &&
-                  value != null && // Check if value is not null or undefined
-                  value !== ""
-                ) {
-                  const formattedKey = key
-                    .toLowerCase()
-                    .split("_")
-                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(" ");
+          {localStorage.getItem("role") !== "Operator" ? (
+            <div className="ms-auto pageheader-btn ">
+              <span className="Search-data">
+                {Object.entries(searchdata).map(([key, value]) => {
+                  if (
+                    (key === "client_name" ||
+                      key === "TOdate" ||
+                      key === "company_name" ||
+                      key === "site_name" ||
+                      key === "fromdate") &&
+                    value != null && // Check if value is not null or undefined
+                    value !== ""
+                  ) {
+                    const formattedKey = key
+                      .toLowerCase()
+                      .split("_")
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ");
 
-                  return (
-                    <div key={key} className="badge">
-                      <span className="badge-key">{formattedKey}:</span>
-                      <span className="badge-value">{value}</span>
-                    </div>
-                  );
-                } else {
-                  return null; // Skip rendering if value is null or undefined, or key is not in the specified list
-                }
-              })}
-            </span>
-
-            <Link
-              className="btn btn-primary"
-              onClick={() => {
-                handleToggleSidebar1();
-              }}
-            >
-              Filter
-              <span className="ms-2">
-                <SortIcon />
+                    return (
+                      <div key={key} className="badge">
+                        <span className="badge-key">{formattedKey}:</span>
+                        <span className="badge-value">{value}</span>
+                      </div>
+                    );
+                  } else {
+                    return null; // Skip rendering if value is null or undefined, or key is not in the specified list
+                  }
+                })}
               </span>
-            </Link>
-            {Object.keys(searchdata).length > 0 ? (
+
               <Link
-                className="btn btn-danger ms-2"
+                className="btn btn-primary"
                 onClick={() => {
-                  ResetForm();
+                  handleToggleSidebar1();
                 }}
               >
-                Reset <RestartAltIcon />
+                Filter
+                <span className="ms-2">
+                  <SortIcon />
+                </span>
               </Link>
-            ) : (
-              ""
-            )}
-          </div>:""}
-
-         
+              {Object.keys(searchdata).length > 0 ? (
+                <Link
+                  className="btn btn-danger ms-2"
+                  onClick={() => {
+                    ResetForm();
+                  }}
+                >
+                  Reset <RestartAltIcon />
+                </Link>
+              ) : (
+                ""
+              )}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
 
         {ShowTruw ? (
@@ -485,36 +510,36 @@ const Dashboard = (props) => {
                                     <Tooltip>{`${GrossProfitValue?.percentage}%`}</Tooltip>
                                   }
                                 >
-                                <p className="text-muted mb-0 mt-4">
-                                  <span
-                                    className={`me-1 ${
-                                      GrossProfitValue?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
-                                  >
-                                    {GrossProfitValue?.status === "up" ? (
-                                      <>
-                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                        <span className="text-success">
-                                          {GrossProfitValue?.percentage}%
-                                        </span>
-                                      </>
-                                    ) : (
-                                      <>
-                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                        <span className="text-danger">
-                                          {GrossProfitValue?.percentage}%
-                                        </span>
-                                      </>
-                                    )}
-                                    {/* <span>
+                                  <p className="text-muted mb-0 mt-4">
+                                    <span
+                                      className={`me-1 ${
+                                        GrossProfitValue?.status === "up"
+                                          ? "text-success"
+                                          : "text-danger"
+                                      }`}
+                                    >
+                                      {GrossProfitValue?.status === "up" ? (
+                                        <>
+                                          <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                                          <span className="text-success">
+                                            {GrossProfitValue?.percentage}%
+                                          </span>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                                          <span className="text-danger">
+                                            {GrossProfitValue?.percentage}%
+                                          </span>
+                                        </>
+                                      )}
+                                      {/* <span>
                                       {GrossProfitValue?.percentage}%
                                     </span> */}
-                                  </span>
-                                  last month
-                                </p>
-                              </OverlayTrigger>
+                                    </span>
+                                    last month
+                                  </p>
+                                </OverlayTrigger>
                               </>
                             )}
                           </div>
@@ -559,35 +584,35 @@ const Dashboard = (props) => {
                                     <Tooltip>{`${GrossMarginValue?.percentage}%`}</Tooltip>
                                   }
                                 >
-                                <p className="text-muted mb-0 mt-4">
-                                  <span
-                                    className={`me-1 ${
-                                      GrossMarginValue?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
-                                  >
-                                    {GrossMarginValue?.status === "up" ? (
-                                      <>
-                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                        <span className="text-success">
-                                          {GrossMarginValue?.percentage}%
-                                        </span>
-                                      </>
-                                    ) : (
-                                      <>
-                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                        <span className="text-danger">
-                                          {GrossMarginValue?.percentage}%
-                                        </span>
-                                      </>
-                                    )}
-                                    {/* <span>
+                                  <p className="text-muted mb-0 mt-4">
+                                    <span
+                                      className={`me-1 ${
+                                        GrossMarginValue?.status === "up"
+                                          ? "text-success"
+                                          : "text-danger"
+                                      }`}
+                                    >
+                                      {GrossMarginValue?.status === "up" ? (
+                                        <>
+                                          <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                                          <span className="text-success">
+                                            {GrossMarginValue?.percentage}%
+                                          </span>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                                          <span className="text-danger">
+                                            {GrossMarginValue?.percentage}%
+                                          </span>
+                                        </>
+                                      )}
+                                      {/* <span>
                                       {GrossProfitValue?.percentage}%
                                     </span> */}
-                                  </span>
-                                  last month
-                                </p>
+                                    </span>
+                                    last month
+                                  </p>
                                 </OverlayTrigger>
                               </>
                             )}
@@ -648,39 +673,39 @@ const Dashboard = (props) => {
                                     <Tooltip>{`${FuelValue?.percentage}%`}</Tooltip>
                                   }
                                 >
-                                <p className="text-muted mb-0 mt-4">
-                                  <span
-                                    className={`me-1 ${
-                                      FuelValue?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
-                                  >
-                                    {FuelValue?.status === "up" ? (
-                                      <>
-                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                        <span className="text-success">
-                                          {FuelValue?.percentage}%
-                                        </span>
-                                      </>
-                                    ) : (
-                                      <>
-                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                        <span className="text-danger">
-                                          {FuelValue?.percentage}%
-                                        </span>
-                                      </>
-                                    )}
-                                    {/* <span>{FuelValue?.percentage}%</span> */}
-                                  </span>
-                                  last month
-                                </p>
+                                  <p className="text-muted mb-0 mt-4">
+                                    <span
+                                      className={`me-1 ${
+                                        FuelValue?.status === "up"
+                                          ? "text-success"
+                                          : "text-danger"
+                                      }`}
+                                    >
+                                      {FuelValue?.status === "up" ? (
+                                        <>
+                                          <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                                          <span className="text-success">
+                                            {FuelValue?.percentage}%
+                                          </span>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                                          <span className="text-danger">
+                                            {FuelValue?.percentage}%
+                                          </span>
+                                        </>
+                                      )}
+                                      {/* <span>{FuelValue?.percentage}%</span> */}
+                                    </span>
+                                    last month
+                                  </p>
                                 </OverlayTrigger>
                               </>
                             )}
                           </div>
                           <div className="col col-auto">
-                          <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto text-white">
+                            <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto text-white">
                               <OilBarrelIcon />
                             </div>
                           </div>
@@ -717,33 +742,33 @@ const Dashboard = (props) => {
                                     <Tooltip>{`${shopsale?.percentage}%`}</Tooltip>
                                   }
                                 >
-                                <p className="text-muted mb-0 mt-4">
-                                  <span
-                                    className={`me-1 ${
-                                      shopsale?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
-                                  >
-                                    {shopsale?.status === "up" ? (
-                                      <>
-                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                        <span className="text-success">
-                                          {shopsale?.percentage}%
-                                        </span>
-                                      </>
-                                    ) : (
-                                      <>
-                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                        <span className="text-danger">
-                                          {shopsale?.percentage}%
-                                        </span>
-                                      </>
-                                    )}
-                                    {/* <span>{shopsale?.percentage}%</span> */}
-                                  </span>
-                                  last month
-                                </p>
+                                  <p className="text-muted mb-0 mt-4">
+                                    <span
+                                      className={`me-1 ${
+                                        shopsale?.status === "up"
+                                          ? "text-success"
+                                          : "text-danger"
+                                      }`}
+                                    >
+                                      {shopsale?.status === "up" ? (
+                                        <>
+                                          <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                                          <span className="text-success">
+                                            {shopsale?.percentage}%
+                                          </span>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                                          <span className="text-danger">
+                                            {shopsale?.percentage}%
+                                          </span>
+                                        </>
+                                      )}
+                                      {/* <span>{shopsale?.percentage}%</span> */}
+                                    </span>
+                                    last month
+                                  </p>
                                 </OverlayTrigger>
                               </>
                             )}
@@ -788,33 +813,33 @@ const Dashboard = (props) => {
                                     <Tooltip>{`${shopmargin?.percentage}%`}</Tooltip>
                                   }
                                 >
-                                <p className="text-muted mb-0 mt-4">
-                                  <span
-                                    className={`me-1 ${
-                                      shopmargin?.status == "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
-                                  >
-                                    {shopmargin?.status === "up" ? (
-                                      <>
-                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                        <span className="text-success">
-                                          {shopmargin?.percentage}%
-                                        </span>
-                                      </>
-                                    ) : (
-                                      <>
-                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                        <span className="text-danger">
-                                          {shopmargin?.percentage}%
-                                        </span>
-                                      </>
-                                    )}
-                                    {/* <span>{shopmargin?.percentage}%</span> */}
-                                  </span>
-                                  last month
-                                </p>
+                                  <p className="text-muted mb-0 mt-4">
+                                    <span
+                                      className={`me-1 ${
+                                        shopmargin?.status == "up"
+                                          ? "text-success"
+                                          : "text-danger"
+                                      }`}
+                                    >
+                                      {shopmargin?.status === "up" ? (
+                                        <>
+                                          <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                                          <span className="text-success">
+                                            {shopmargin?.percentage}%
+                                          </span>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                                          <span className="text-danger">
+                                            {shopmargin?.percentage}%
+                                          </span>
+                                        </>
+                                      )}
+                                      {/* <span>{shopmargin?.percentage}%</span> */}
+                                    </span>
+                                    last month
+                                  </p>
                                 </OverlayTrigger>
                               </>
                             )}
@@ -843,15 +868,13 @@ const Dashboard = (props) => {
                 <h4 className="card-title">Total Transactions</h4>
               </Card.Header>
               <Card.Body className="card-body pb-0">
-            
                 <div id="chart">
                   <ReactApexChart
-                    options={options}
+                   options={{ ...options, labels: isoDateLabels }}
                     series={LinechartValues}
                     type="line"
                     height={350}
                   />
-             
                 </div>
               </Card.Body>
             </Card>
