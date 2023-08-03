@@ -123,6 +123,7 @@ const ManageReports = (props) => {
       const { data } = response;
       if (data) {
         setReportList(response?.data);
+        console.log(response,"responseresponseresponseresponseresponse")
       }
     } catch (error) {
       console.error("API error:", error);
@@ -165,14 +166,9 @@ const ManageReports = (props) => {
       const siteIdParams = siteIds.map((id) => `site_id[]=${id}`).join("&");
       console.log(siteIds, "siteIds");
 
-
-
-
       const commonParams = toggleValue
-      ?`${clientIDCondition}company_id=${formValues.company_id}&${siteIdParams}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`
-      :`${clientIDCondition}company_id=${formValues.company_id}&${siteIdParams}&month=${formValues.reportmonth}`
-    
-
+        ? `${clientIDCondition}company_id=${formValues.company_id}&${siteIdParams}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`
+        : `${clientIDCondition}company_id=${formValues.company_id}&${siteIdParams}&month=${formValues.reportmonth}`;
 
       // const commonParams = `client_id=${clientIDLocalStorage}&company_id=${formValues.company_id}&site_id[]=${formValues.site_id}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`;
 
@@ -231,7 +227,8 @@ const ManageReports = (props) => {
     };
 
     fetchData();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
   // Empty dependency array to run the effect only once
 
   const getCurrentDate = () => {
@@ -241,10 +238,10 @@ const ManageReports = (props) => {
     const day = String(today.getDate() - 1).padStart(2, "0"); // Subtract one day from the current date
     return `${year}-${month}-${day}`;
   };
-  const hadndleShowDate =( )=>{
+  const hadndleShowDate = () => {
     const inputDateElement = document.querySelector('input[type="date"]');
     inputDateElement.showPicker();
-}
+  };
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -535,8 +532,9 @@ const ManageReports = (props) => {
                                   </label>
                                   <Field
                                     type="date"
-                                     min={"2023-01-01"}     max={getCurrentDate()}
-                                onClick={hadndleShowDate}
+                                    min={"2023-01-01"}
+                                    max={getCurrentDate()}
+                                    onClick={hadndleShowDate}
                                     className={`input101 ${
                                       errors.start_date && touched.start_date
                                         ? "is-invalid"
@@ -571,8 +569,9 @@ const ManageReports = (props) => {
                                   </label>
                                   <Field
                                     type="date"
-                                     min={"2023-01-01"}     max={getCurrentDate()}
-                                onClick={hadndleShowDate}
+                                    min={"2023-01-01"}
+                                    max={getCurrentDate()}
+                                    onClick={hadndleShowDate}
                                     className={`input101 ${
                                       errors.end_date && touched.end_date
                                         ? "is-invalid"
@@ -602,8 +601,7 @@ const ManageReports = (props) => {
                           ) : (
                             ""
                           )}
-                      
-                         
+
                           {!toggleValue ? (
                             <Col lg={4} md={6}>
                               <FormGroup>
@@ -656,10 +654,9 @@ const ManageReports = (props) => {
                           ) : (
                             ""
                           )}
-                        
                         </Row>
                         <Row>
-                        <Col lg={12} md={12}>
+                          <Col lg={12} md={12}>
                             <FormGroup>
                               <label className="form-label mt-4">
                                 Get Reports By Date{" "}

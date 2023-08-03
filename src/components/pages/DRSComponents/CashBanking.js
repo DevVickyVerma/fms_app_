@@ -35,7 +35,7 @@ const CashBanking = (props) => {
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
   const [editable, setis_editable] = useState();
- 
+
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -56,7 +56,7 @@ const CashBanking = (props) => {
   const DeleteClient = async (formData) => {
     try {
       const response = await postData("drs/cash-banking/delete", formData);
-      console.log(response, "response"); // Console log the response
+
       if (apidata.api_response === "success") {
         FetchTableData();
       }
@@ -64,8 +64,6 @@ const CashBanking = (props) => {
       handleError(error);
     }
   };
-
-
 
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -82,30 +80,22 @@ const CashBanking = (props) => {
     }
   }
 
-    useEffect(() => {
-      FetchTableData();
-    console.clear()  }, []);
-
-
- 
-
-
+  useEffect(() => {
+    FetchTableData();
+    console.clear();
+  }, []);
 
   const FetchTableData = async () => {
     try {
       const response = await getData(
-    
         `/drs/cash-banking/?site_id=${SiteID}&drs_date=${ReportDate}`
-       
       );
-      console.log(response.data.data, "cards");
 
       if (response && response.data && response.data.data) {
-        console.log(response.data.data.cash_value, "cawwwwwwrds");
         formik.setFieldValue("value", response?.data?.data?.cash_value);
-        console.log(formik.values, "cash_value");
+
         setis_editable(response?.data?.data);
-        console.log(response?.data?.data,"ssssis_editable")
+
         setData(response?.data?.data?.listing);
         setSearchvalue(response.data.data.cards);
       } else {
@@ -126,84 +116,58 @@ const CashBanking = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable = permissionsArray?.includes(
-    "cards-status-update"
-  );
-  const isEditPermissionAvailable = permissionsArray?.includes("card-edit");
-  const isAddPermissionAvailable = permissionsArray?.includes("card-create");
-  const isDeletePermissionAvailable = permissionsArray?.includes("card-delete");
-  const isDetailsPermissionAvailable =
-    permissionsArray?.includes("cards-details");
-  const isAssignPermissionAvailable = permissionsArray?.includes("card-assign");
-
   const validationSchema = Yup.object({
     reference: Yup.string().required("Refrence is required"),
     value: Yup.string()
-    .required('Value is required')
-    .test('is-number', 'Invalid value. Please enter a number', (value) =>
-      /^-?\d*\.?\d+$/.test(value)
-    ),
-});
+      .required("Value is required")
+      .test("is-number", "Invalid value. Please enter a number", (value) =>
+        /^-?\d*\.?\d+$/.test(value)
+      ),
+  });
 
   const initialValues = {
     reference: "",
     value: "",
   };
 
-const handleEdit =(item)=>{
-    console.log(item,"item")
+  const handleEdit = (item) => {
     formik.setValues(item);
-    setEditData(true)
-}
-
+    setEditData(true);
+  };
 
   //
   const handleSubmit = async (values, setSubmitting) => {
-    const token = localStorage.getItem("token");
-  
     try {
       const formData = new FormData();
 
-
-      console.log(values.created_date,"editable")
-  
       formData.append("reference", values.reference);
       formData.append("value", values.value);
-  
+
       formData.append("site_id", SiteID);
       formData.append("drs_date", ReportDate);
       if (Editdata) {
         formData.append("id", values.id);
       }
-      
-  
-      const postDataUrl = Editdata  ? "/drs/cash-banking/update" : "/drs/cash-banking/add";
 
-  
+      const postDataUrl = Editdata
+        ? "/drs/cash-banking/update"
+        : "/drs/cash-banking/add";
+
       const response = await postData(postDataUrl, formData);
-      console.log(response, "response"); // Console log the response
+
       if (apidata.api_response === "success") {
-        setEditData(false)
+        setEditData(false);
         FetchTableData();
-       
-        // Handle your form submission logic here
-        // ...
-    
-        // Reset the form values
+        localStorage.setItem("addbanking", "Done");
+
         formik.resetForm();
       }
-  
-    //   if (response.ok ) {
-    //     FetchTableData();
-    //   }
-  
-     
+
     } catch (error) {
       console.log(error);
       // Set the submission state to false if an error occurs
     }
   };
-  
 
   const formik = useFormik({
     initialValues,
@@ -238,45 +202,44 @@ const handleEdit =(item)=>{
       ),
     },
     {
-        name: "Value",
-        selector: (row) => [row.value],
-        sortable: true,
-        width: "10%",
-        cell: (row, index) => (
-          <div className="d-flex">
-            <div className="ms-2 mt-0 mt-sm-2 d-block">
-              <h6 className="mb-0 fs-14 fw-semibold">{row.value}</h6>
-            </div>
+      name: "Value",
+      selector: (row) => [row.value],
+      sortable: true,
+      width: "10%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.value}</h6>
           </div>
-        ),
-      },
+        </div>
+      ),
+    },
     {
-        name: "Created Date",
-        selector: (row) => [row.created_date],
-        sortable: true,
-        width: "20%",
-        cell: (row, index) => (
-          <div className="d-flex">
-            <div className="ms-2 mt-0 mt-sm-2 d-block">
-              <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
-            </div>
+      name: "Created Date",
+      selector: (row) => [row.created_date],
+      sortable: true,
+      width: "20%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
           </div>
-        ),
-      },
+        </div>
+      ),
+    },
     {
-        name: "Type",
-        selector: (row) => [row.type],
-        sortable: true,
-        width: "20%",
-        cell: (row, index) => (
-          <div className="d-flex">
-            <div className="ms-2 mt-0 mt-sm-2 d-block">
-              <h6 className="mb-0 fs-14 fw-semibold">{row.type}</h6>
-            </div>
+      name: "Type",
+      selector: (row) => [row.type],
+      sortable: true,
+      width: "20%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.type}</h6>
           </div>
-        ),
-      },
-   
+        </div>
+      ),
+    },
 
     {
       name: "Action",
@@ -285,10 +248,10 @@ const handleEdit =(item)=>{
       width: "20%",
       cell: (row) => (
         <span className="text-center">
-          {isEditPermissionAvailable && editable?.is_editable  ? (
+          {editable?.is_editable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
-                 // Assuming `row.id` contains the ID
+                // Assuming `row.id` contains the ID
                 className="btn btn-primary btn-sm rounded-11 me-2"
                 onClick={() => handleEdit(row)}
               >
@@ -307,7 +270,7 @@ const handleEdit =(item)=>{
               </Link>
             </OverlayTrigger>
           ) : null}
-          {isDeletePermissionAvailable ? (
+          {editable?.is_editable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"
@@ -341,100 +304,104 @@ const handleEdit =(item)=>{
   const [searchText, setSearchText] = useState("");
   const [searchvalue, setSearchvalue] = useState();
 
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
       event.preventDefault();
-     
     }
   });
-
-console.log(editable,"editable?.is_editable")
 
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
-      {editable?.is_editable ? (
-        <Row>
-          <Col md={12} xl={12}>
-            <Card>
-              <Card.Header>
-                <h3 className="card-title"> Add Cash Banking</h3>
-              </Card.Header>
-              <Card.Body>
-                <form onSubmit={formik.handleSubmit}>
-                  <Row>
-                    <Col lg={6} xl={6} md={6} sm={6}>
-                      <div className="form-group">
-                        <label className="form-label mt-4" htmlFor="reference">
-                          Refrence<span className="text-danger">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.reference && formik.touched.reference
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="reference"
-                          name="reference"
-                          placeholder="Refrence"
-                          onChange={formik.handleChange}
-                          value={formik.values.reference}
-                        />
-                        {formik.errors.reference &&
-                          formik.touched.reference && (
-                            <div className="invalid-feedback">
-                              {formik.errors.reference}
-                            </div>
-                          )}
-                      </div>
-                    </Col>
-                    <Col lg={6} xl={6} md={6} sm={6}>
-                      <div className="form-group">
-                        <label className="form-label mt-4" htmlFor="value">
-                          Value<span className="text-danger">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.value && formik.touched.value
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="value"
-                          name="value"
-                          placeholder="Value"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.value}
-                        />
-                         {formik.errors.value &&
-                          formik.touched.value && (
+        {editable?.is_editable ? (
+          <Row>
+            <Col md={12} xl={12}>
+              <Card>
+                <Card.Header>
+                  <h3 className="card-title"> Add Cash Banking</h3>
+                </Card.Header>
+                <Card.Body>
+                  <form onSubmit={formik.handleSubmit}>
+                    <Row>
+                      <Col lg={6} xl={6} md={6} sm={6}>
+                        <div className="form-group">
+                          <label
+                            className="form-label mt-4"
+                            htmlFor="reference"
+                          >
+                            Refrence<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            autoComplete="off"
+                            className={`input101 ${
+                              formik.errors.reference &&
+                              formik.touched.reference
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="reference"
+                            name="reference"
+                            placeholder="Refrence"
+                            onChange={formik.handleChange}
+                            value={formik.values.reference}
+                          />
+                          {formik.errors.reference &&
+                            formik.touched.reference && (
+                              <div className="invalid-feedback">
+                                {formik.errors.reference}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={6} xl={6} md={6} sm={6}>
+                        <div className="form-group">
+                          <label className="form-label mt-4" htmlFor="value">
+                            Value<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            autoComplete="off"
+                            className={`input101 ${
+                              formik.errors.value && formik.touched.value
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="value"
+                            name="value"
+                            placeholder="Value"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.value}
+                          />
+                          {formik.errors.value && formik.touched.value && (
                             <div className="invalid-feedback">
                               {formik.errors.value}
                             </div>
                           )}
-                      </div>
-                    </Col>
-                  </Row>
-                  <div className="text-end">
-
-
-
-              {   Editdata?    <button type="submit" className="btn btn-primary">
-                      Update
-                    </button>:    <button type="submit" className="btn btn-primary">
-                      Add
-                    </button>}
-                  </div>
-                </form>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>):""}
+                        </div>
+                      </Col>
+                    </Row>
+                    <div className="text-end">
+                      {Editdata ? (
+                        <button type="submit" className="btn btn-primary">
+                          Update
+                        </button>
+                      ) : (
+                        <button type="submit" className="btn btn-primary">
+                          Add
+                        </button>
+                      )}
+                    </div>
+                  </form>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        ) : (
+          ""
+        )}
         <Row className=" row-sm">
           <Col lg={12}>
             <Card>
