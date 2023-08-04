@@ -5,7 +5,6 @@ import { Line } from "react-chartjs-2";
 // import { Utils } from "chart.js";
 
 const LineChart = ({ LinechartValues, LinechartOption }) => {
-
   let firstData = LinechartValues?.[0]?.data;
   let secondData = LinechartValues?.[1]?.data;
   let thirdData = LinechartValues?.[2]?.data;
@@ -100,6 +99,11 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
 
   return (
     <div>
+      <Line
+        data={data}
+        options={options}
+        // actions={actions}
+      />
       <Line
         data={data}
         options={options}
