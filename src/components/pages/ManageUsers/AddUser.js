@@ -73,9 +73,12 @@ const AddUsers = (props) => {
       formData.append("role_id", values.role);
       formData.append("send_mail", isChecked);
   
-      SelectedClient.forEach((client, index) => {
-        formData.append(`assign_client[${index}]`, client);
-      });
+      if (SelectedClient !== null && SelectedClient !== undefined) {
+        SelectedClient.forEach((client, index) => {
+          formData.append(`assign_client[${index}]`, client);
+        });
+      }
+      
       // const resultString = SelectedClient.map((value, index) => `assign_client[${index}]:${value},`).join('');
 
       console.log(SelectedClient, "SelectedClient");
