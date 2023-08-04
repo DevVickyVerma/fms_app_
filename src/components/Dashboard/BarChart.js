@@ -31,11 +31,14 @@ const BarChart = ({ piechartValues }) => {
   const config = {
     type: "pie",
     data: data,
+    options: {
+      responsive: true,
+    }
   };
   return (
     <>
   
-      <Pie data={data} options={config} />
+      <Pie data={data} options={config}  />
     </>
   );
 };

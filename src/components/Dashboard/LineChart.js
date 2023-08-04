@@ -6,11 +6,12 @@ import { Line } from "react-chartjs-2";
 
 const LineChart = ({ LinechartValues, LinechartOption }) => {
 
-
   let firstData = LinechartValues?.[0]?.data;
   let secondData = LinechartValues?.[1]?.data;
   let thirdData = LinechartValues?.[2]?.data;
   
+  console.log("LineChart values", LinechartValues);
+  console.log("LineChart options", LinechartOption);
 
   let firstLabel = LinechartValues?.[0]?.name;
   let secondLabel = LinechartValues?.[1]?.name;
@@ -66,12 +67,12 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
       intersect: false,
     },
     stacked: false,
-    plugins: {
-      title: {
-        display: true,
-        text: "Chart.js Line Chart - Multi Axis",
-      },
-    },
+    // plugins: {
+    //   // title: {
+    //   //   display: true,
+    //   //   // text: "Chart.js Line Chart - Multi Axis",
+    //   // },
+    // },
     scales: {
       y: {
         type: "linear",
@@ -106,7 +107,7 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
   return (
     <div>
       <Line data={data} options={options} 
-      // actions={actions}
+      actions={actions}
        />
     </div>
   );
