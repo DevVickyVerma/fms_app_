@@ -5,25 +5,19 @@ import { Line } from "react-chartjs-2";
 // import { Utils } from "chart.js";
 
 const LineChart = ({ LinechartValues, LinechartOption }) => {
-
-
   let firstData = LinechartValues?.[0]?.data;
   let secondData = LinechartValues?.[1]?.data;
   let thirdData = LinechartValues?.[2]?.data;
-  
 
   let firstLabel = LinechartValues?.[0]?.name;
   let secondLabel = LinechartValues?.[1]?.name;
   let thirdLabel = LinechartValues?.[2]?.name;
 
   const DATA_COUNT = 17;
- 
 
- 
   const labels = LinechartOption?.map((label) => label);
 
   let myLabels = LinechartValues;
-
 
   const data = {
     labels: labels,
@@ -31,16 +25,16 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
     datasets: [
       {
         label: firstLabel,
-       
-        data: secondData,
+
+        data: firstData,
         borderColor: "rgba(255, 99, 132, 1)",
         backgroundColor: "rgba(255, 99, 132, 0.2)",
         yAxisID: "y",
       },
       {
         label: secondLabel,
-       
-        data: firstData,
+
+        data: secondData,
         borderColor: "rgba(54, 162, 235, 1)",
         backgroundColor: "rgba(54, 162, 235, 0.2)",
         yAxisID: "y1",
@@ -105,9 +99,11 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
 
   return (
     <div>
-      <Line data={data} options={options} 
-      // actions={actions}
-       />
+      <Line
+        data={data}
+        options={options}
+        // actions={actions}
+      />
     </div>
   );
 };

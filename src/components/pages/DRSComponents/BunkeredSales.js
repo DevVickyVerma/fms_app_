@@ -706,10 +706,10 @@ const DepartmentShop = (props) => {
                             )}
                         </Form.Group>
                       </Col>
-                      {editable?.is_editable ? (
+                    
                         <Col lg={2} md={2}>
                           <Form.Label>ACTION</Form.Label>
-
+                          {editable?.is_editable ? (
                           <div className="bunkered-action">
                             <button
                               className="btn btn-primary me-2"
@@ -729,10 +729,11 @@ const DepartmentShop = (props) => {
                               </button>
                             )}
                           </div>
-                        </Col>
-                      ) : (
+                          ) : (
                         ""
                       )}
+                        </Col>
+                     
                     </React.Fragment>
                   ))}
                 </Row>
@@ -907,10 +908,10 @@ const DepartmentShop = (props) => {
                             )}
                         </Form.Group>
                       </Col>
-                      {editable?.is_editable ? (
+                      
                         <Col lg={2} md={2}>
                           <Form.Label>ACTION</Form.Label>
-
+                          {editable?.is_editable ? (
                           <div className="bunkered-action">
                             <button
                               className="btn btn-primary me-2"
@@ -930,10 +931,11 @@ const DepartmentShop = (props) => {
                               </button>
                             )}
                           </div>
-                        </Col>
-                      ) : (
+                          ) : (
                         ""
                       )}
+                        </Col>
+                   
                     </React.Fragment>
                   ))}
                 </Row>
@@ -1119,9 +1121,10 @@ const DepartmentShop = (props) => {
                         </Form.Group>
                       </Col>
                       <Col lg={2} md={2}>
-                        {editable?.is_editable ? (
+                     
                           <>
                             <Form.Label>ACTION</Form.Label>
+                            {editable?.is_editable ? (
                             <div className="bunkered-action">
                               <button
                                 className="btn btn-primary me-2"
@@ -1146,10 +1149,11 @@ const DepartmentShop = (props) => {
                                 </button>
                               )}
                             </div>
-                          </>
-                        ) : (
+                            ) : (
                           ""
                         )}
+                          </>
+                       
                       </Col>
                     </React.Fragment>
                   ))}

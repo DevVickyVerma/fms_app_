@@ -101,7 +101,7 @@ const ManageSite = (props) => {
 
         const { data } = response;
         if (data) {
-          setData(data.data);
+          setData(data?.data);
         }
       } catch (error) {
         console.error("API error:", error);
@@ -216,9 +216,8 @@ const ManageSite = (props) => {
 
   return (
     <>
-      {isLoading ? (
-        <Loaderimg />
-      ) : (
+    {isLoading ? <Loaderimg /> : null}
+  
         <>
           <div className="page-header ">
             <div>
@@ -447,7 +446,7 @@ const ManageSite = (props) => {
                         striped={true}
                         // center={true}
                         persistTableHead
-                        // pagination
+                        pagination
                         highlightOnHover
                         searchable={false}
                       />
@@ -458,7 +457,7 @@ const ManageSite = (props) => {
             </Col>
           </Row>
         </>
-      )}
+  
     </>
   );
 };

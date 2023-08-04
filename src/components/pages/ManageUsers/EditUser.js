@@ -20,7 +20,6 @@ import {
   InputLabel,
 } from "@material-ui/core";
 
-import { Formik, Field, ErrorMessage } from "formik";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
@@ -77,6 +76,7 @@ const EditUsers = (props) => {
     console.clear();
     console.clear();
   }, []);
+  
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
@@ -86,6 +86,7 @@ const EditUsers = (props) => {
     },
   });
   const { id } = useParams();
+  let combinedClientNames = [];
   const fetchClientList = async () => {
     try {
       const response = await axiosInstance.get(`/user/detail?id=${id}`);
@@ -96,13 +97,13 @@ const EditUsers = (props) => {
         console.log(response.data.data);
         setDropdownValue(response.data.data);
 
-        const combinedClientNames = [];
+      
 
         response?.data?.data?.clients.forEach((client) => {
           console.log(client.client_name);
           combinedClientNames.push(client.client_name);
         });
-
+        console.log(combinedClientNames,"combinedClientNames")
         setSelectedItems(combinedClientNames);
       }
     } catch (error) {
@@ -110,6 +111,7 @@ const EditUsers = (props) => {
     }
   };
 
+  console.log(combinedClientNames,"combinedClientNamescombinedClientNames")
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
@@ -238,7 +240,7 @@ const EditUsers = (props) => {
                             }`}
                             id="first_name"
                             name="first_name"
-                            placeholder="Company Name"
+                            placeholder="First Name Name"
                             onChange={formik.handleChange}
                             value={formik.values.first_name}
                           />
@@ -264,7 +266,7 @@ const EditUsers = (props) => {
                           }`}
                           id="last_name"
                           name="last_name"
-                          placeholder=" Company Details"
+                          placeholder="  Last Name"
                           onChange={formik.handleChange}
                           value={formik.values.last_name || ""}
                         />
@@ -346,14 +348,7 @@ const EditUsers = (props) => {
                             value={selectedItems}
                             onChange={(event) => {
                               setSelectedItems(event.target.value);
-                              console.log(
-                                event.target.value,
-                                "combinedClientNames"
-                              );
-                              console.log(
-                                selectedItems,
-                                "combinedClientNamesselectedItems"
-                              );
+                           
                               const selectedSiteNames = event.target.value;
                               const filteredSites = AddSiteData?.data?.filter(
                                 (item) =>
@@ -369,19 +364,26 @@ const EditUsers = (props) => {
                             <MenuItem disabled value="">
                               <em>Select items</em>
                             </MenuItem>
-                            {AddSiteData?.data?.map((item) => (
-                              <MenuItem
-                                key={item.client_name}
-                                value={item.client_name}
-                              >
-                                <Checkbox
-                                  checked={selectedItems.includes(
-                                    item.client_name
-                                  )}
-                                />
-                                <ListItemText primary={item.client_name} />
-                              </MenuItem>
-                            ))}
+                            {AddSiteData?.data?.map((item) => {
+                              console.log(selectedItems,`selectedItemsmap`);
+                              const isItemSelected = selectedItems.includes(
+                                item.id
+                              );
+                              console.log(
+                                `Item "${item.id}" is selected: ${isItemSelected}`
+                              );
+                           
+                              console.log(selectedItems,`selectedItems`);
+                              return (
+                                <MenuItem
+                                  key={item.client_name}
+                                  value={item.client_name}
+                                >
+                                  <Checkbox checked={isItemSelected} />
+                                  <ListItemText primary={item.client_name} />
+                                </MenuItem>
+                              );
+                            })}
                           </Select>
                         </FormControl>
                       </Col>
