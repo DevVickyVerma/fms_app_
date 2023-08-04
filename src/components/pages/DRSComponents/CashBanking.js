@@ -26,15 +26,41 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const CashBanking = (props) => {
-  const { apidata, isLoading, error, getData, postData, SiteID, ReportDate } =
-    props;
+  const {
+    apidata,
+    isLoading,
+    error,
+    getData,
+    postData,
+    SiteID,
+    ReportDate,
+    sendDataToParent,
+    company_id,
+    client_id,
+    site_id,
+    start_date,
+  } = props;
   const [selectedFile, setSelectedFile] = useState(null);
   const [data, setData] = useState();
+  const [checkState, setCheckState] = useState(true)
   const [Editdata, setEditData] = useState(false);
   const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
   const [editable, setis_editable] = useState();
+
+  const handleButtonClick = () => {
+    const allPropsData = {
+      company_id,
+      client_id,
+      site_id,
+      start_date,
+      checkState,
+      
+    };
+    // Call the callback function with the object containing all the props
+    sendDataToParent(allPropsData);
+  };
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -97,7 +123,6 @@ const CashBanking = (props) => {
         setis_editable(response?.data?.data);
 
         setData(response?.data?.data?.listing);
-        setSearchvalue(response.data.data.cards);
       } else {
         throw new Error("No data available in the response");
       }
@@ -158,11 +183,9 @@ const CashBanking = (props) => {
       if (apidata.api_response === "success") {
         setEditData(false);
         FetchTableData();
-   
-
+        handleButtonClick()
         formik.resetForm();
       }
-
     } catch (error) {
       console.log(error);
       // Set the submission state to false if an error occurs
@@ -301,8 +324,6 @@ const CashBanking = (props) => {
     columns,
     data,
   };
-  const [searchText, setSearchText] = useState("");
-  const [searchvalue, setSearchvalue] = useState();
 
   document.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
@@ -330,7 +351,7 @@ const CashBanking = (props) => {
                             className="form-label mt-4"
                             htmlFor="reference"
                           >
-                            Refrence<span className="text-danger">*</span>
+                            Reference<span className="text-danger">*</span>
                           </label>
                           <input
                             type="text"
