@@ -124,9 +124,12 @@ const EditUsers = (props) => {
 
       formData.append("role_id", values.role_id);
       formData.append("status", values.status);
-      SelectedClient.forEach((client, index) => {
-        formData.append(`assign_client[${index}]`, client);
-      });
+      if (SelectedClient !== null && SelectedClient !== undefined) {
+        SelectedClient.forEach((client, index) => {
+          formData.append(`assign_client[${index}]`, client);
+        });
+      }
+    
       const postDataUrl = "/user/update";
       const navigatePath = "/users";
 
