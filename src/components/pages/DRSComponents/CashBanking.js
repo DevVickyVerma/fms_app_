@@ -158,7 +158,7 @@ const CashBanking = (props) => {
       if (apidata.api_response === "success") {
         setEditData(false);
         FetchTableData();
-        localStorage.setItem("addbanking", "Done");
+   
 
         formik.resetForm();
       }
