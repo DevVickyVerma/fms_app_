@@ -38,6 +38,7 @@ import BunkeredSales from "../DRSComponents/BunkeredSales";
 import { Slide, toast } from "react-toastify";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { log } from "nvd3";
 
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -221,6 +222,16 @@ const ManageDsr = (props) => {
 
   const handleDataFromBunkeredSales = (data) => {
     GetDataWithClient(data);
+  
+    if(data?.checkStateForBankDeposit){
+      setUploadTabname("Bank Deposit");
+      // console.log("Checking for bank deposit", data?.checkStateForBankDeposit);
+    }else if( data?.checkState){
+      data?.checkState ? setUploadTabname("Cash Banking") : setUploadTabname();
+      // console.log("checking Loading is true or false", data.checkState);
+    }else{
+      setUploadTabname();
+    }
   };
 
   const GetDataWithClient = async (values) => {
@@ -254,7 +265,7 @@ const ManageDsr = (props) => {
 
           setgetDataBtn(response1?.data?.data.showBtn);
           setUploadtitle(response1?.data?.data);
-          setUploadTabname();
+          // setUploadTabname();
         }
       } catch (error) {
         console.error("API error:", error);
@@ -325,7 +336,6 @@ const ManageDsr = (props) => {
     const inputDateElement = document.querySelector('input[type="date"]');
     inputDateElement.showPicker();
   };
-
 
   return (
     <>
@@ -812,9 +822,25 @@ const ManageDsr = (props) => {
             sendDataToParent={handleDataFromBunkeredSales}
           />
         ) : UploadTabname === "Cash Banking" ? (
-          <CashBanking SiteID={PropsSiteId} ReportDate={PropsDate} />
+          <CashBanking
+            SiteID={PropsSiteId}
+            ReportDate={PropsDate}
+            client_id={PropsClientId}
+            company_id={PropsCompanyId}
+            site_id={PropsSiteId}
+            start_date={PropsDate}
+            sendDataToParent={handleDataFromBunkeredSales}
+          />
         ) : UploadTabname === "Bank Deposit" ? (
-          <BankDeposit SiteID={PropsSiteId} ReportDate={PropsDate} />
+          <BankDeposit
+            SiteID={PropsSiteId}
+            ReportDate={PropsDate}
+            client_id={PropsClientId}
+            company_id={PropsCompanyId}
+            site_id={PropsSiteId}
+            start_date={PropsDate}
+            sendDataToParent={handleDataFromBunkeredSales}
+          />
         ) : UploadTabname === "Department Shop Summary" ? (
           <DepartmentShop
             client_id={PropsClientId}
