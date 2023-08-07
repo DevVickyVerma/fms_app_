@@ -33,7 +33,7 @@ const CommonSidebar = (props) => {
                   listStyleType: "none",
                   padding: 0,
                   marginRight: "10px",
-                  width: "50%",
+                  width: "60%",
                 }}
               >
                 {Object.keys(sidebarContent)

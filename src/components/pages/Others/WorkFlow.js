@@ -30,6 +30,7 @@ const ManageSite = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
   const [data, setData] = useState();
+  // console.log("my props data", props);
 
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
@@ -449,6 +450,7 @@ const ManageSite = (props) => {
                         pagination
                         highlightOnHover
                         searchable={false}
+                        responsive={true}
                       />
                     </DataTableExtensions>
                   </div>
