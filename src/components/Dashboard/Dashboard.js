@@ -415,7 +415,7 @@ const Dashboard = (props) => {
 
           {/* Dashboard Top Table section */}
         
-          <DashTopTableSection  />
+          {/* <DashTopTableSection  /> */}
 
         {/*  chart Section */}
         <Row style={{marginBottom : "10px"}}>
