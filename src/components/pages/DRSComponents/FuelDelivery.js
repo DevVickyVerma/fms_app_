@@ -406,7 +406,11 @@ const FuelDelivery = (props) => {
             id={`variance-${index}`}
             name={`data[${index}].variance`}
             className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
+              row.update_variance 
+              ? "UpdateValueInput"
+              : editable?.is_editable 
+              ? "table-input " 
+              : "table-input readonly "
             }
             value={formik.values.data[index]?.variance}
             onChange={formik.handleChange}

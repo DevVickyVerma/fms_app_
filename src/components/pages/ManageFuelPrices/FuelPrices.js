@@ -108,7 +108,7 @@ const FuelPrices = (props) => {
   const handleSubmit1 = async (values) => {
     setSelectedCompanyId(values.company_id);
     setSelectedDrsDate(values.start_date);
-    console.log(values, "values.start_date");
+    // console.log(values, "values.start_date");
     try {
       const formData = new FormData();
       formData.append("start_date", values.start_date);
@@ -129,13 +129,14 @@ const FuelPrices = (props) => {
 
       const { data } = response1;
       if (data) {
-        console.log(data.data.listing, "Drsdata");
+        console.log("drs response data", data);
+        // console.log(data.data.listing, "Drsdata");
         setheadingData(data?.data?.head_array);
         setData(data?.data);
 
-        const responseData = data.data;
+        // const responseData = data.data;
 
-        console.log(responseData, "data.data");
+        // console.log(responseData, "data.data");
       }
     } catch (error) {
       console.error("API error:", error);
@@ -181,7 +182,11 @@ const FuelPrices = (props) => {
             ) : (
               <input
                 type="number"
-                className="table-input"
+                // className="table-input"
+                className={`table-input ${
+                 fuel?.status === "UP" ? "table-inputGreen" :
+                   fuel?.status === "DOWN" ? "table-inputRed" : ""
+                  }`}
                 value={fuel.price}
                 id={fuel.id}
                 onChange={(e) => handleInputChange(e.target.id, e.target.value)}
@@ -192,6 +197,8 @@ const FuelPrices = (props) => {
       </tr>
     ));
   };
+
+  // console.log("data listing check",data?.listing); 
 
   const handleInputChange = (id, value) => {
     const updatedData = {
@@ -343,14 +350,14 @@ const FuelPrices = (props) => {
                                       setSelectedCompanyList(
                                         selectedClient.companies
                                       );
-                                      console.log(
-                                        selectedClient,
-                                        "selectedClient"
-                                      );
-                                      console.log(
-                                        selectedClient.companies,
-                                        "selectedClient"
-                                      );
+                                      // console.log(
+                                      //   selectedClient,
+                                      //   "selectedClient"
+                                      // );
+                                      // console.log(
+                                      //   selectedClient.companies,
+                                      //   "selectedClient"
+                                      // );
                                     }
                                   }}
                                 >
@@ -406,14 +413,14 @@ const FuelPrices = (props) => {
                                     setSelectedSiteList(
                                       selectedCompanyData.sites
                                     );
-                                    console.log(
-                                      selectedCompanyData,
-                                      "company_id"
-                                    );
-                                    console.log(
-                                      selectedCompanyData.sites,
-                                      "company_id"
-                                    );
+                                    // console.log(
+                                    //   selectedCompanyData,
+                                    //   "company_id"
+                                    // );
+                                    // console.log(
+                                    //   selectedCompanyData.sites,
+                                    //   "company_id"
+                                    // );
                                   }
                                 }}
                               >
@@ -503,7 +510,9 @@ const FuelPrices = (props) => {
                         ))}
                       </colgroup>
                       <thead>
-                        <tr>{renderTableHeader()}</tr>
+                        <tr>
+                        {renderTableHeader()}
+                        </tr>
                       </thead>
                       <tbody>{renderTableData()}</tbody>
                     </table>

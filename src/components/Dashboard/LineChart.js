@@ -103,12 +103,7 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
         data={data}
         options={options}
         // actions={actions}
-      />
-      <Line
-        data={data}
-        options={options}
-        // actions={actions}
-      />
+      /> 
     </div>
   );
 };

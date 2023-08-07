@@ -123,6 +123,7 @@ const EditClient = (props) => {
       formData.append("password", values.first_name);
       formData.append("status", values.status);
       formData.append("loomis_status", values.loomis_status);
+      formData.append("work_flow", values.work_flow);
       formData.append("full_name", values.full_name);
       formData.append("id", values.id);
       formData.append("ma_option", values.ma_option);
@@ -153,6 +154,7 @@ const EditClient = (props) => {
 
       last_name: "",
       loomis_status: "",
+      work_flow: "",
       ma_option: [],
       status: "1",
     },
@@ -542,6 +544,40 @@ const EditClient = (props) => {
                             )}
                         </div>
                       </Col>
+                      {/* Work FLow status Start */}
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="work_flow"
+                            className="form-label mt-4"
+                          >
+                            Work Flow
+                            {/* <span className="text-danger">*</span> */}
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.work_flow &&
+                              formik.touched.work_flow
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="work_flow"
+                            name="work_flow"
+                            onChange={formik.handleChange}
+                            value={formik.values.work_flow}
+                          >
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
+                          </select>
+                          {formik.errors.work_flow &&
+                            formik.touched.work_flow && (
+                              <div className="invalid-feedback">
+                                {formik.errors.work_flow}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      {/* Work Flow Status End */}
                       <Col lg={4} md={6}>
                       <div>
                       <label
