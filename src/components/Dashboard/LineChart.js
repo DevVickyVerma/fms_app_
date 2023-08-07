@@ -60,12 +60,12 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
       intersect: false,
     },
     stacked: false,
-    plugins: {
-      title: {
-        display: true,
-        text: "Chart.js Line Chart - Multi Axis",
-      },
-    },
+    // plugins: {
+    //   // title: {
+    //   //   display: true,
+    //   //   // text: "Chart.js Line Chart - Multi Axis",
+    //   // },
+    // },
     scales: {
       y: {
         type: "linear",
@@ -103,7 +103,7 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
         data={data}
         options={options}
         // actions={actions}
-      />
+      /> 
     </div>
   );
 };

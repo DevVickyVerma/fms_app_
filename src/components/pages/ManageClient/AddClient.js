@@ -70,6 +70,7 @@ const AddClient = (props) => {
       formData.append("financial_start_month", values.financial_start_month);
       formData.append("financial_end_month", values.financial_end_month);
       formData.append("lommis_status", values.lommis_status);
+      formData.append("work_flow", values.work_flow);
 
       formData.append("send_mail", isChecked);
       formData.append("ma_option", JSON.stringify(selectedItems));
@@ -201,6 +202,7 @@ const AddClient = (props) => {
                   status: "",
 
                   lommis_status: "1",
+                  work_flow: "0",
                   send_mail: "1",
                 }}
                 validationSchema={Yup.object({
@@ -403,7 +405,7 @@ const AddClient = (props) => {
                               name="lommis_status"
                             >
                               <option value="1">Active</option>
-                              <option value="0">InActive</option>
+                              <option value="0">Inactive</option>
                             </Field>
                             <ErrorMessage
                               component="div"
@@ -412,6 +414,37 @@ const AddClient = (props) => {
                             />
                           </FormGroup>
                         </Col>
+                        {/* Work FLow status Start */}
+                        <Col lg={4} md={6}>
+                          <FormGroup>
+                            <label
+                              htmlFor="work_flow"
+                              className=" form-label mt-4"
+                            >
+                              Work Flow
+                              {/* <span className="text-danger">*</span> */}
+                            </label>
+                            <Field
+                              as="select"
+                              className={`input101 ${
+                                errors.work_flow && touched.work_flow
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              id="work_flow"
+                              name="work_flow"
+                            >
+                              <option value="1">Active</option>
+                              <option value="0">Inactive</option>
+                            </Field>
+                            <ErrorMessage
+                              component="div"
+                              className="invalid-feedback"
+                              name="work_flow"
+                            />
+                          </FormGroup>
+                        </Col>
+                        {/* Work Flow Status End */}
                         <Col lg={4} md={6}>
                           <FormGroup>
                             <label

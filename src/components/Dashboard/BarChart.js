@@ -3,7 +3,7 @@ import { Bar, Pie } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
 
 const BarChart = ({ piechartValues }) => {
-  console.log(piechartValues, "piechartValues");
+  // console.log(piechartValues, "piechartValues");
   const shop_sales = parseFloat(piechartValues.shop_sales);
   const fuel_sales = parseFloat(piechartValues.fuel_sales);
   const bunkered_sales = parseFloat(piechartValues.bunkered_sales);
@@ -31,11 +31,14 @@ const BarChart = ({ piechartValues }) => {
   const config = {
     type: "pie",
     data: data,
+    options: {
+      responsive: true,
+    }
   };
   return (
     <>
   
-      <Pie data={data} options={config} />
+      <Pie data={data} options={config}  />
     </>
   );
 };

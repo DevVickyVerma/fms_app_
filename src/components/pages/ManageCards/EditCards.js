@@ -179,6 +179,7 @@ const EditCards = (props) => {
       formData.append("card_code", values.card_code);
       formData.append("card_name", values.card_name);
       formData.append("card_status", values.card_status);
+      formData.append("is_bunkering",values.is_bunkering);
       formData.append("id", values.id);
       formData.append("logo", values.image);
 
@@ -196,6 +197,7 @@ const EditCards = (props) => {
       card_code: "",
       card_name: "",
       card_status: "",
+      is_bunkering: "",
       image: null,
     },
     validationSchema: Yup.object({
@@ -376,7 +378,41 @@ const EditCards = (props) => {
                             )}
                         </div>
                       </Col>
-                      <Col lg={6} md={12}>
+                      {/* Bunkering Status Edit Start  */}
+                      <Col lg={6} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="is_bunkering"
+                            className="form-label mt-4"
+                          >
+                            Bunkering Status 
+                            {/* <span className="text-danger">*</span> */}
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.is_bunkering &&
+                              formik.touched.is_bunkering
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="is_bunkering"
+                            name="is_bunkering"
+                            onChange={formik.handleChange}
+                            value={formik.values.is_bunkering}
+                          >
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
+                          </select>
+                          {formik.errors.is_bunkering &&
+                            formik.touched.is_bunkering && (
+                              <div className="invalid-feedback">
+                                {formik.errors.is_bunkering}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      {/* Bunkering Status Edit End */}
+                         <Col lg={6} md={12}>
                         <div className="form-group">
                           <label htmlFor="image">Image</label>
                           <div

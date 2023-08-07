@@ -24,7 +24,7 @@ const AddCards = (props) => {
       formData.append("card_name", values.card_name);
       formData.append("card_code", values.card_code);
       formData.append("card_status", values.card_status);
-
+      formData.append("is_bunkering", values.is_bunkering);
       formData.append("logo", values.image);
     
       const postDataUrl = "card/add";
@@ -139,6 +139,7 @@ const AddCards = (props) => {
                     card_name: "",
                     card_code: "",
                     card_status: "1",
+                    is_bunkering: "0",
                     image: null,
                   }}
                   validationSchema={Yup.object({
@@ -262,11 +263,42 @@ const AddCards = (props) => {
                               />
                             </FormGroup>
                           </Col>
+                          {/* IS Bunkering Section Start */}
+                          <Col lg={6} md={12}>
+                            <FormGroup>
+                              <label
+                                className=" form-label mt-4"
+                                htmlFor="is_bunkering"
+                              >
+                                Bunkering Status
+                                {/* <span className="text-danger">*</span> */}
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${
+                                  errors.is_bunkering && touched.is_bunkering
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="is_bunkering"
+                                name="is_bunkering"
+                              >
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="is_bunkering"
+                              />
+                            </FormGroup>
+                          </Col>
+                          {/* IS Bunkering Section End */}
                           <Col lg={6} md={12}>
                             <div className="form-group">
-                              <label     className=" form-label mt-4" htmlFor="image">Card Logo
-                            
-                              </label>
+                              <label     className=" form-label mt-4" htmlFor="image">
+                              Card Logo
+                             </label>
                               <div
                                 className={`dropzone ${
                                   errors.image && touched.image

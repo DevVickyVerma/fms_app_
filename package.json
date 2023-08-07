@@ -69,6 +69,7 @@
     "react-dual-listbox": "^2.2.0",
     "react-fullpage-custom-loader": "^0.1.6",
     "react-hook-form": "^7.29.0",
+    "react-icons": "^4.10.1",
     "react-input-color": "^4.0.0",
     "react-intl-tel-input": "^8.2.0",
     "react-leaflet": "^3.2.5",

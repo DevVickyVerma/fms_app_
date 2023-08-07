@@ -139,9 +139,25 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
 .UpdateValueInput {
   border: 1px solid #e23434;
   padding: 10px;
-  color: #e23434;
+  /* color: #e23434; */
+  width: 100%;
+  border-top: 3px solid #e23434;
+}
+
+.table-inputGreen{
+  border: 1px solid green;
+  border-top: 3px solid green;
+  padding: 10px;
   width: 100%;
 }
+
+.table-inputRed{
+  border: 1px solid #e23434;
+  border-top: 3px solid #e23434;
+  padding: 10px;
+  width: 100%;
+}
+
 textarea#Remarks {
   border: 3px solid #dddd;
   width: 30%;
