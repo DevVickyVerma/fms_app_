@@ -179,6 +179,7 @@ export default function AddSite(props) {
       lottery_commission: "",
       shop_commission: "",
       paidout: "",
+      auto_dayend:"",
     },
     validationSchema: Yup.object({
       site_code: Yup.string()
@@ -1037,6 +1038,43 @@ export default function AddSite(props) {
                             )}
                         </div>
                       </Col>
+                      {/* auto Dayend Start */}
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="auto_dayend"
+                            className="form-label mt-4"
+                          >
+                           DRS Auto Dayend
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.auto_dayend &&
+                              formik.touched.auto_dayend
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="auto_dayend"
+                            name="auto_dayend"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.auto_dayend}
+                          >
+                            <option value="">
+                              Select a Auto Dayend
+                            </option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                          </select>
+                          {formik.errors.auto_dayend &&
+                            formik.touched.auto_dayend && (
+                              <div className="invalid-feedback">
+                                {formik.errors.auto_dayend}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      {/* auto Dayend end */}
                       {/* <Col lg={4} md={6}>
                         <div className="form-group">
                           <label

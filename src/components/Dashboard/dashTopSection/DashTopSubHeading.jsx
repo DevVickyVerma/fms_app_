@@ -1,12 +1,14 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import {BsDroplet} from "react-icons/bs";
-import { AiOutlineEuroCircle, AiOutlinePauseCircle} from "react-icons/ai";
-import {HiOutlineCircleStack} from "react-icons/hi2"
+import { AiOutlineBarChart, AiOutlineEuroCircle, AiOutlinePauseCircle } from "react-icons/ai";
+import {HiOutlineCircleStack} from "react-icons/hi2";
+import { Padding } from "@mui/icons-material";
 
 
 const DashTopSubHeading = (props) => {
   return (
+    <div style={{marginBottom:"20px"}}>
     <Box
       width={"100%"}
       height={"60px"}
@@ -61,7 +63,7 @@ const DashTopSubHeading = (props) => {
         pr={"20px"}
 
       >
-        <HiOutlineCircleStack size={"22px"} color="red" />
+        <AiOutlineBarChart size={"22px"} color="red" />
 
         <Box flexGrow={1} ml={2}>
           <Typography variant="body3" sx={{ opacity: 0.5 }} >Your Text</Typography>
@@ -81,6 +83,7 @@ const DashTopSubHeading = (props) => {
         <Typography variant="body1">75%</Typography>
       </Box>
     </Box>
+    </div>
   );
 };
 
