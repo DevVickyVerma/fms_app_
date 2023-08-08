@@ -337,7 +337,7 @@ const ManageClient = (props) => {
       width: "24%",
       cell: (row) => (
         <span className="text-center">
-          <Dropdown className="dropdown btn-group" >
+          <Dropdown className="dropdown btn-group">
             <Dropdown.Toggle
               variant="Primary"
               type="button"
@@ -358,7 +358,7 @@ const ManageClient = (props) => {
               ) : null}
               {isAddonPermissionAvailable ? (
                 <Dropdown.Item className="dropdown-item">
-                  <Link   to={`/assignclientaddon/${row.id}`}>
+                  <Link to={`/assignclientaddon/${row.id}`}>
                     <i className="setting-icon">
                       <AssignmentIndIcon />
                     </i>
@@ -491,11 +491,11 @@ const ManageClient = (props) => {
                       defaultSortField="id"
                       defaultSortAsc={false}
                       striped={true}
-                      // center={true}
                       persistTableHead
                       pagination
                       highlightOnHover
                       searchable={false}
+                      // className="custom-datatable" // Add your custom class here
                     />
                   </DataTableExtensions>
                 </div>

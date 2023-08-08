@@ -437,3 +437,16 @@ input.table-input.readonly.total-input-card {
 .sendemail {
   margin-top: 24px !important;
 }
+.custom-datatable {
+  background-color: lightgray;
+  font-size: 16px;
+  /* Other styles */
+}
+.iLyphs .rdt_Table {
+  position: relative;
+  width: 100%;
+  border-radius: inherit;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-height: 305px;
+}
