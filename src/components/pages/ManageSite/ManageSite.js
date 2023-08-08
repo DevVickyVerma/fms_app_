@@ -283,7 +283,7 @@ const ManageSite = (props) => {
       name: "Company",
       selector: (row) => [row.site_name],
       sortable: false,
-      width: "15%",
+      width: "19%",
       cell: (row, index) => {
         try {
           return (
@@ -328,7 +328,7 @@ const ManageSite = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: false,
-      width: "10%",
+      width: "13%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>

@@ -649,6 +649,14 @@ const AddClient = (props) => {
                     </Card.Body>
 
                     <Card.Footer className="text-end">
+                      <button
+                        type="submit"
+                        className="btn btn-primary me-2 "
+                        // disabled={Object.keys(errors).length > 0}
+                      >
+                        Save
+                      </button>
+
                       <Link
                         type="submit"
                         className="btn btn-danger me-2 "
@@ -657,13 +665,7 @@ const AddClient = (props) => {
                         Cancel
                       </Link>
 
-                      <button
-                        type="submit"
-                        className="btn btn-primary me-2 "
-                        // disabled={Object.keys(errors).length > 0}
-                      >
-                        Save
-                      </button>
+                   
                     </Card.Footer>
                   </Form>
                 )}
