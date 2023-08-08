@@ -100,7 +100,7 @@ const DashTopTableSection = (props) => {
         pointerOnHover={true}
         striped={true} 
         // subHeader={true}
-        selectableRows={true}
+        // selectableRows={true}
         selectableRowsHighlight={true}
       />
     </Row>

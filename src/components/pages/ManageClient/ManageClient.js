@@ -11,6 +11,7 @@ import {
   OverlayTrigger,
   Row,
   Tooltip,
+  Dropdown,
 } from "react-bootstrap";
 import { Button } from "bootstrap";
 import axios from "axios";
@@ -27,8 +28,9 @@ import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 // import KeyIcon from '@mui/icons-material/Key';
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import DeleteIcon from "@mui/icons-material/Delete";
 const ManageClient = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
@@ -134,7 +136,8 @@ const ManageClient = (props) => {
 
   useEffect(() => {
     handleFetchData();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
 
   const handleFetchData = async () => {
     try {
@@ -172,18 +175,6 @@ const ManageClient = (props) => {
     }
   };
 
-  const handleEdit = (row) => {
-    localStorage.setItem("Client_id", row.id);
-  };
-
-  const permissionsToCheck = [
-    "client-list",
-    "client-create",
-    "client-status-update",
-    "client-edit",
-    "client-delete",
-  ];
-
   let isPermissionAvailable = false;
   const [permissionsArray, setPermissionsArray] = useState([]);
 
@@ -199,8 +190,11 @@ const ManageClient = (props) => {
     "client-status-update"
   );
   const isEditPermissionAvailable = permissionsArray?.includes("client-edit");
-  const isLoginPermissionAvailable = permissionsArray?.includes("client-account-access");
-  const isAddonPermissionAvailable = permissionsArray?.includes("addons-assign");
+  const isLoginPermissionAvailable = permissionsArray?.includes(
+    "client-account-access"
+  );
+  const isAddonPermissionAvailable =
+    permissionsArray?.includes("addons-assign");
   const isAddPermissionAvailable = permissionsArray?.includes("client-create");
   const isDeletePermissionAvailable =
     permissionsArray?.includes("client-delete");
@@ -231,7 +225,7 @@ const ManageClient = (props) => {
         localStorage.setItem("Phone_Number", phoneNumber);
         localStorage.setItem("superiorRole", superiorRole);
         localStorage.setItem("tokenupdate", true);
-        console.log(response.data.data.access_token,"response");
+        console.log(response.data.data.access_token, "response");
       } else {
         throw new Error("No data available in the response");
       }
@@ -343,77 +337,57 @@ const ManageClient = (props) => {
       width: "24%",
       cell: (row) => (
         <span className="text-center">
-          {isEditPermissionAvailable ? (
-            <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
-              <Link
-                to={`/editclient/${row.id}`}
-                className="btn btn-primary btn-sm rounded-11 me-2"
-              >
-                <i>
-                  <svg
-                    className="table-edit"
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    width="16"
-                  >
-                    <path d="M0 0h24v24H0V0z" fill="none" />
-                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19zM20.71 5.63l-2.34-2.34c-.2-.2-.45-.29-.71-.29s-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41z" />
-                  </svg>
-                </i>
-              </Link>
-            </OverlayTrigger>
-          ) : null}
-          {isDeletePermissionAvailable ? (
-            <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
-              <Link
-                to="#"
-                className="btn btn-danger btn-sm rounded-11"
-                onClick={() => handleDelete(row.id)}
-              >
-                <i>
-                  <svg
-                    className="table-delete"
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    width="16"
-                  >
-                    <path d="M0 0h24v24H0V0z" fill="none" />
-                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
-                  </svg>
-                </i>
-              </Link>
-            </OverlayTrigger>
-          ) : null}
-          {isLoginPermissionAvailable ? (
-            <OverlayTrigger
-              placement="top"
-              overlay={<Tooltip>Client Login</Tooltip>}
+          <Dropdown className="dropdown btn-group" >
+            <Dropdown.Toggle
+              variant="Primary"
+              type="button"
+              className="btn btn-primary dropdown-toggle"
             >
-              <Link
-                to="#"
-                className="btn btn-yellow btn-sm rounded-11 ms-2"
-                onClick={() => handleClientLogin(row)}
-              >
-                <VpnKeyIcon />
-              </Link>
-            </OverlayTrigger>
-          ) : null}
-          {isAddonPermissionAvailable ? (
-            <OverlayTrigger
-              placement="top"
-              overlay={<Tooltip>Assign Addon</Tooltip>}
-            >
-              <Link
-                to={`/assignclientaddon/${row.id}`}
-                className="btn btn-success btn-sm rounded-11 ms-2"
-            
-              >
-                <AssignmentIndIcon />
-              </Link>
-            </OverlayTrigger>
-          ) : null}
+              Actions
+            </Dropdown.Toggle>
+            <Dropdown.Menu className="dropdown-menu">
+              {isLoginPermissionAvailable ? (
+                <Dropdown.Item className="dropdown-item">
+                  <Link to="#" onClick={() => handleClientLogin(row)}>
+                    <i className="setting-icon">
+                      <VpnKeyIcon />
+                    </i>
+                    Client Login
+                  </Link>
+                </Dropdown.Item>
+              ) : null}
+              {isAddonPermissionAvailable ? (
+                <Dropdown.Item className="dropdown-item">
+                  <Link   to={`/assignclientaddon/${row.id}`}>
+                    <i className="setting-icon">
+                      <AssignmentIndIcon />
+                    </i>
+                    Assign Addon
+                  </Link>
+                </Dropdown.Item>
+              ) : null}
+              {isEditPermissionAvailable ? (
+                <Dropdown.Item className="dropdown-item">
+                  <Link to={`/editclient/${row.id}`}>
+                    <i className="setting-icon">
+                      <ModeEditIcon />
+                    </i>
+                    Edit
+                  </Link>
+                </Dropdown.Item>
+              ) : null}
+              {isDeletePermissionAvailable ? (
+                <Dropdown.Item className="dropdown-item">
+                  <Link to="#" onClick={() => handleDelete(row.id)}>
+                    <i className="setting-icon">
+                      <DeleteIcon />
+                    </i>
+                    Delete
+                  </Link>
+                </Dropdown.Item>
+              ) : null}
+            </Dropdown.Menu>
+          </Dropdown>
         </span>
       ),
     },

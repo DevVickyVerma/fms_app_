@@ -297,10 +297,7 @@ const FuelPrices = (props) => {
                         new Date("2023-01-01"),
                         "Start Date cannot be before January 1, 2023"
                       )
-                      .max(
-                        new Date(new Date().setDate(new Date().getDate() - 1)),
-                        "Start Date cannot be after the current date"
-                      ),
+                    
                   })}
                   onSubmit={(values) => {
                     handleSubmit1(values);
@@ -455,7 +452,7 @@ const FuelPrices = (props) => {
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
-                                  type="date"    min={"2023-01-01"}     max={getCurrentDate()}
+                                  type="date"    min={"2023-01-01"}    
                                 onClick={hadndleShowDate}
                                 className={`input101 ${
                                   errors.start_date && touched.start_date

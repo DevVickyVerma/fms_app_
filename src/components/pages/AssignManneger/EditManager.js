@@ -199,8 +199,7 @@ const AddCompany = (props) => {
             </div>
           </div>
 
-          <Row>
-            <Col lg={12} xl={12} md={12} sm={12}>
+          
               <Card>
                 <Card.Header>
                   <Card.Title as="h3">Edit User</Card.Title>
@@ -245,7 +244,10 @@ const AddCompany = (props) => {
                           )}
                         </div>
                       </Col>
-                      <Col lg={6} md={6}>
+                   
+                    </Row>
+                    <Row>
+                    <Col lg={6} md={6}>
                         <Card.Header className="cardheader-table">
                           <h3 className="card-title">Reports</h3>
                         </Card.Header>
@@ -274,8 +276,7 @@ const AddCompany = (props) => {
                   </Card.Footer>
                 </form>
               </Card>
-            </Col>
-          </Row>
+         
         </div>
       </>
     </>

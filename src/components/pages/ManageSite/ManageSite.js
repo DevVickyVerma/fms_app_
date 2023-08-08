@@ -11,6 +11,7 @@ import {
   OverlayTrigger,
   Row,
   Tooltip,
+  Dropdown,
 } from "react-bootstrap";
 import * as loderdata from "../../../data/Component/loderdata/loderdata";
 import axios from "axios";
@@ -28,6 +29,8 @@ import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import DeleteIcon from "@mui/icons-material/Delete";
 const ManageSite = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
@@ -200,7 +203,7 @@ const ManageSite = (props) => {
     if (UserPermissions) {
       setPermissionsArray(UserPermissions.permissions);
     }
-    console.clear()
+    console.clear();
   }, [UserPermissions]);
 
   const isEditPermissionAvailable = permissionsArray?.includes("site-edit");
@@ -232,7 +235,7 @@ const ManageSite = (props) => {
       name: "Site",
       selector: (row) => [row.site_name],
       sortable: false,
-      width: "15%",
+      width: "20%",
       cell: (row, index) => (
         <div
           className="d-flex"
@@ -253,7 +256,7 @@ const ManageSite = (props) => {
       name: " Client",
       selector: (row) => [row.site_name],
       sortable: false,
-      width: "12%",
+      width: "17%",
       cell: (row, index) => {
         try {
           return (
@@ -366,83 +369,60 @@ const ManageSite = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "23%",
+      width: "13%",
       cell: (row) => (
         <span className="text-center">
-          {issitesettingPermissionAvailable ? (
-            <OverlayTrigger
-              placement="top"
-              overlay={<Tooltip>Settings</Tooltip>}
+          <Dropdown className="dropdown btn-group">
+            <Dropdown.Toggle
+              variant="Primary"
+              type="button"
+              className="btn btn-primary dropdown-toggle"
             >
-              <Link
-                to={`/site-setting/${row.id}`}
-                className="btn btn-primary btn-sm rounded-11 me-2"
-              >
-                <i className="setting-icon">
-                  <SettingsIcon />
-                </i>
-              </Link>
-            </OverlayTrigger>
-          ) : null}
-          {isManagerPermissionAvailable ? (
-            <OverlayTrigger
-              placement="top"
-              overlay={<Tooltip>Assign Manager</Tooltip>}
-            >
-              <Link
-                to={`/assignmanger/${row.id}`}
-                className="btn btn-primary btn-sm rounded-11 me-2"
-              >
-                <i className="setting-icon">
-                  <AssignmentTurnedInIcon />
-                </i>
-              </Link>
-            </OverlayTrigger>
-          ) : null}
-          {isEditPermissionAvailable ? (
-            <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
-              <Link
-                to={`/editsite/${row.id}`}
-                className="btn btn-primary btn-sm rounded-11 me-2"
-              >
-                <i>
-                  <svg
-                    className="table-edit"
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    width="16"
-                  >
-                    <path d="M0 0h24v24H0V0z" fill="none" />
-                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19zM20.71 5.63l-2.34-2.34c-.2-.2-.45-.29-.71-.29s-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41z" />
-                  </svg>
-                </i>
-              </Link>
-            </OverlayTrigger>
-          ) : null}
-
-          {isDeletePermissionAvailable ? (
-            <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
-              <Link
-                to="#"
-                className="btn btn-danger btn-sm rounded-11"
-                onClick={() => handleDelete(row.id)}
-              >
-                <i>
-                  <svg
-                    className="table-delete"
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    width="16"
-                  >
-                    <path d="M0 0h24v24H0V0z" fill="none" />
-                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
-                  </svg>
-                </i>
-              </Link>
-            </OverlayTrigger>
-          ) : null}
+              Actions
+            </Dropdown.Toggle>
+            <Dropdown.Menu className="dropdown-menu">
+              {issitesettingPermissionAvailable ? (
+                <Dropdown.Item className="dropdown-item">
+                  <Link to={`/site-setting/${row.id}`}>
+                    <i className="setting-icon">
+                      <SettingsIcon />
+                    </i>
+                    Settings
+                  </Link>
+                </Dropdown.Item>
+              ) : null}
+              {isManagerPermissionAvailable ? (
+                <Dropdown.Item className="dropdown-item">
+                  <Link to={`/assignmanger/${row.id}`}>
+                    <i className="setting-icon">
+                      <AssignmentTurnedInIcon />
+                    </i>
+                    Assign Manager
+                  </Link>
+                </Dropdown.Item>
+              ) : null}
+              {isEditPermissionAvailable ? (
+                <Dropdown.Item className="dropdown-item">
+                  <Link to={`/editsite/${row.id}`}>
+                    <i className="setting-icon">
+                      <ModeEditIcon />
+                    </i>
+                    Edit
+                  </Link>
+                </Dropdown.Item>
+              ) : null}
+              {isDeletePermissionAvailable ? (
+                <Dropdown.Item className="dropdown-item">
+                  <Link to="#" onClick={() => handleDelete(row.id)}>
+                    <i className="setting-icon">
+                      <DeleteIcon />
+                    </i>
+                    Delete
+                  </Link>
+                </Dropdown.Item>
+              ) : null}
+            </Dropdown.Menu>
+          </Dropdown>
         </span>
       ),
     },
@@ -455,9 +435,10 @@ const ManageSite = (props) => {
 
   useEffect(() => {
     FetchTableData();
-    console.clear()
+    console.clear();
     // console.clear();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
 
   const handleSearchReset = () => {
     FetchTableData();

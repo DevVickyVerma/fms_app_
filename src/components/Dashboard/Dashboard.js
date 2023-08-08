@@ -413,14 +413,10 @@ const Dashboard = (props) => {
           shopsale={shopsale}
         />
 
-          {/* Dashboard Top Table section */}
-        
-          {/* <DashTopTableSection  /> */}
-
-        {/*  chart Section */}
+    <DashTopTableSection  />         
         <Row style={{marginBottom : "10px" , marginTop: "20px"}}>
           <Col lg={7} md={12}>
-            <Card className="fuel-card">
+            <Card >
               <Card.Header className="card-header">
                 <h4 className="card-title">Total Transactions</h4>
               </Card.Header>

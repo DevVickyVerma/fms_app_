@@ -29,15 +29,12 @@ const AddSite = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
   const navigate = useNavigate();
-  const [dropdownItems, setDropdownItems] = useState([]);
+  
   const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedBusinessType, setSelectedBusinessType] = useState("");
   const [subTypes, setSubTypes] = useState([]);
-  const [Calendervalue, SetCalenderonChange] = useState(new Date());
 
-  const [UserRole, setUserRole] = useState(
-    localStorage.getItem("superiorRole")
-  );
+
   const [Listcompany, setCompanylist] = useState([]);
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
