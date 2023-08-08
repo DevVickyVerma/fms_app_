@@ -4794,6 +4794,17 @@ input[type="button"].btn-block {
   position: relative;
 }
 
+@media screen and (max-width: 490px) {
+  .card-body {
+    padding: 20px;
+  }
+  .card-footer{
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .card-subtitle {
   margin-top: -0.75rem;
   margin-bottom: 0;
@@ -15939,12 +15950,29 @@ a.chip:hover {
 }
 
 #back-to-top i {
-  padding-top: 15px;
+  /* padding-top: 15px; */
   font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
-
 #back-to-top:hover {
   background: #fff !important;
+  .fa{
+    height: 100%;
+    scale: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media screen and( max-width : 490px) {
+#back-to-top {
+    height: 40px;
+    width: 40px;
+ }
 }
 
 .features {
@@ -16862,9 +16890,12 @@ div.conv-form-wrapper div.options div.option.selected {
     right: 0;
     text-align: center;
     position: absolute;
-    top: 17px;
+    top: 10px;
   }
-
+  
+  img.mobile-logo {
+    max-height: 50px;
+}
   .leftmenu-styles {
     display: none;
   }
@@ -56597,6 +56628,12 @@ svg.table-Details {
     transition: transform 0.3s ease-in-out;
     transition: transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
     z-index: 1000;
+}
+
+@media screen and (max-width: 490px) {
+  .common-sidebar{
+    width: 60%;
+  }
 }
 h3.Sidebar-title {
   font-size: 30px;

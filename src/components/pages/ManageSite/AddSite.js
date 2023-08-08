@@ -140,7 +140,7 @@ const AddSite = (props) => {
       formData.append("lottery_commission",0);
       formData.append("shop_commission", 0);
       formData.append("paidout",values.paidout );
-  
+      formData.append("auto_dayend", values.auto_dayend);
       const postDataUrl = "/site/add";
 
       const navigatePath = "/sites";
@@ -266,6 +266,7 @@ const AddSite = (props) => {
                     lottery_commission: "",
                     shop_commission: "",
                     paidout: "",
+                    auto_dayend:"",
                   }}
                   validationSchema={Yup.object({
                     site_code: Yup.string()
@@ -1123,6 +1124,40 @@ const AddSite = (props) => {
                               />
                             </FormGroup>
                           </Col>
+                          {/* Auto dayend Option Start */}
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor=" auto_dayend"
+                                className=" form-label mt-4"
+                              >
+                             DRS Auto Dayend                                
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${
+                                  errors.auto_dayend && touched.auto_dayend
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="auto_dayend"
+                                name="auto_dayend"
+                              >
+                                 <option value="">
+                                  Select a Dayend
+                                </option>
+                                <option value="0">Yes</option>
+                                <option value="1">No</option>
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="auto_dayend"
+                              />
+                            </FormGroup>
+                          </Col>
+                          {/* auto dayend end */}
+
                         </Row>
                       </Card.Body>
 

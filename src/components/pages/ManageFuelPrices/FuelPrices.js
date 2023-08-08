@@ -129,7 +129,6 @@ const FuelPrices = (props) => {
 
       const { data } = response1;
       if (data) {
-        console.log("drs response data", data);
         // console.log(data.data.listing, "Drsdata");
         setheadingData(data?.data?.head_array);
         setData(data?.data);

@@ -551,7 +551,7 @@ const EditClient = (props) => {
                             htmlFor="work_flow"
                             className="form-label mt-4"
                           >
-                            Work Flow
+                            Workflow Notification
                             {/* <span className="text-danger">*</span> */}
                           </label>
                           <select
@@ -566,8 +566,8 @@ const EditClient = (props) => {
                             onChange={formik.handleChange}
                             value={formik.values.work_flow}
                           >
-                            <option value="1">Active</option>
-                            <option value="0">Inactive</option>
+                            <option value="1">Enable</option>
+                            <option value="0">Disable</option>
                           </select>
                           {formik.errors.work_flow &&
                             formik.touched.work_flow && (

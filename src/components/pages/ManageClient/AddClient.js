@@ -421,7 +421,7 @@ const AddClient = (props) => {
                               htmlFor="work_flow"
                               className=" form-label mt-4"
                             >
-                              Work Flow
+                              Workflow Notification
                               {/* <span className="text-danger">*</span> */}
                             </label>
                             <Field
@@ -434,8 +434,8 @@ const AddClient = (props) => {
                               id="work_flow"
                               name="work_flow"
                             >
-                              <option value="1">Active</option>
-                              <option value="0">Inactive</option>
+                              <option value="1">Enable</option>
+                              <option value="0">Disable</option>
                             </Field>
                             <ErrorMessage
                               component="div"

@@ -418,7 +418,7 @@ const Dashboard = (props) => {
           {/* <DashTopTableSection  /> */}
 
         {/*  chart Section */}
-        <Row style={{marginBottom : "10px"}}>
+        <Row style={{marginBottom : "10px" , marginTop: "20px"}}>
           <Col lg={7} md={12}>
             <Card className="fuel-card">
               <Card.Header className="card-header">
