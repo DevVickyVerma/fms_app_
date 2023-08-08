@@ -181,6 +181,7 @@ const FuelPrices = (props) => {
             ) : (
               <input
                 type="number"
+                step="0.001"
                 // className="table-input"
                 className={`table-input ${
                  fuel?.status === "UP" ? "table-inputGreen" :

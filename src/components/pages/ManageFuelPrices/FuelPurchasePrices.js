@@ -232,6 +232,7 @@ const ManageDsr = (props) => {
             id={`platts_price-${index}`}
             name={`data[${index}].platts_price`}
             className="table-input"
+            step="0.01"
             value={
               formik?.values?.data && formik.values.data[index]?.platts_price
             }
@@ -259,6 +260,7 @@ const ManageDsr = (props) => {
           <div>
             <input
               type="number"
+              step="0.01"
               id={`premium_price-${index}`}
               name={`data[${index}].premium_price`}
               className="table-input"
@@ -289,6 +291,7 @@ const ManageDsr = (props) => {
           <div>
             <input
               type="number"
+              step="0.01"
               id={`development_fuels_price-${index}`}
               name={`data[${index}].development_fuels_price`}
               className="table-input"
@@ -320,6 +323,7 @@ const ManageDsr = (props) => {
           <div>
             <input
               type="number"
+              step="0.01"
               id={`duty_price-${index}`}
               name={`data[${index}].duty_price`}
               className="table-input"
@@ -351,6 +355,7 @@ const ManageDsr = (props) => {
           <div>
             <input
               type="number"
+              step="0.01"
               id={`ex_vat_price-${index}`}
               name={`data[${index}].ex_vat_price`}
               className="table-input readonly"
@@ -379,6 +384,7 @@ const ManageDsr = (props) => {
           <div>
             <input
               type="number"
+              step="0.01"
               id={`vat_percentage_rate-${index}`}
               name={`data[${index}].vat_percentage_rate`}
               className="table-input"

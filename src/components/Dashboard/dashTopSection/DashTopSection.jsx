@@ -100,7 +100,7 @@ const DashTopSection = (props) => {
                         <div className="col col-auto">
                           <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
                             <i className="icon icon-pound-sign text-white mb-5 ">
-                              &#163;
+                            ℓ
                             </i>
                           </div>
                         </div>

@@ -198,8 +198,8 @@ const ManageClient = (props) => {
   const isAddPermissionAvailable = permissionsArray?.includes("client-create");
   const isDeletePermissionAvailable =
     permissionsArray?.includes("client-delete");
-  const isDetailsPermissionAvailable =
-    permissionsArray?.includes("client-details");
+  const isReportsPermissionAvailable =
+    permissionsArray?.includes("report-assign");
   const isAssignPermissionAvailable =
     permissionsArray?.includes("client-assign");
 
@@ -346,6 +346,26 @@ const ManageClient = (props) => {
               Actions
             </Dropdown.Toggle>
             <Dropdown.Menu className="dropdown-menu">
+              {isEditPermissionAvailable ? (
+                <Dropdown.Item className="dropdown-item">
+                  <Link to={`/editclient/${row.id}`}>
+                    <i className="setting-icon">
+                      <ModeEditIcon />
+                    </i>
+                    Edit
+                  </Link>
+                </Dropdown.Item>
+              ) : null}
+              {isDeletePermissionAvailable ? (
+                <Dropdown.Item className="dropdown-item">
+                  <Link to="#" onClick={() => handleDelete(row.id)}>
+                    <i className="setting-icon">
+                      <DeleteIcon />
+                    </i>
+                    Delete
+                  </Link>
+                </Dropdown.Item>
+              ) : null}
               {isLoginPermissionAvailable ? (
                 <Dropdown.Item className="dropdown-item">
                   <Link to="#" onClick={() => handleClientLogin(row)}>
@@ -366,23 +386,16 @@ const ManageClient = (props) => {
                   </Link>
                 </Dropdown.Item>
               ) : null}
-              {isEditPermissionAvailable ? (
+              {isReportsPermissionAvailable ? (
                 <Dropdown.Item className="dropdown-item">
-                  <Link to={`/editclient/${row.id}`}>
+                  <Link
+                    className="settingicon"
+                    to={`/assignreport/${row.id}`}
+                  >
                     <i className="setting-icon">
-                      <ModeEditIcon />
+                      <AssignmentIndIcon />
                     </i>
-                    Edit
-                  </Link>
-                </Dropdown.Item>
-              ) : null}
-              {isDeletePermissionAvailable ? (
-                <Dropdown.Item className="dropdown-item">
-                  <Link to="#" onClick={() => handleDelete(row.id)}>
-                    <i className="setting-icon">
-                      <DeleteIcon />
-                    </i>
-                    Delete
+                    <span>Report Assign</span>
                   </Link>
                 </Dropdown.Item>
               ) : null}

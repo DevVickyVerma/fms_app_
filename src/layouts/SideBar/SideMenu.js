@@ -122,6 +122,13 @@ export const MENUITEMS = [
             permission: "drs-menu-list",
             visibility: false,
           },
+          {
+            path: `/workflows`,
+            title: "WorkFlows",
+            type: "link",
+            permission: "workflow-list",
+            visibility: false,
+          },
         ],
       },
       {
@@ -470,13 +477,7 @@ export const MENUITEMS = [
         permission: "workflow-list",
         visibility: false,
         children: [
-          {
-            path: `/workflows`,
-            title: "WorkFlows",
-            type: "link",
-            permission: "workflow-list",
-            visibility: false,
-          },
+       
           {
             path: `/assignppl`,
             title: "Site PPL Rate",

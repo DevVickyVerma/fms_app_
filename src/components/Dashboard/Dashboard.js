@@ -56,14 +56,25 @@ const Dashboard = (props) => {
   let LinechartOptions = [];
   const handleFetchSiteData = async () => {
     try {
-      const response = await getData("/dashboard/stats");
+      const superiorRole = localStorage.getItem("superiorRole");
+      const role = localStorage.getItem("role");
 
+      let url = "";
+
+      if (superiorRole === "Administrator") {
+        url = "/dashboard/stats";
+      } else if (superiorRole === "Client") {
+        url = `/dashboard/stats?client_id=${ClientID}`;
+      } else if (superiorRole === "Client" && role === "Operator") {
+        url = "/dashboard/stats";
+      }
+    
+      const response = await getData(url);
       const { data } = response;
-      console.log("datasadskajda", data);
+
       if (data) {
-        // console.log(data?.data?.line_graph, "data?.data?.line_graph");
         LinechartOptions = data?.data?.line_graph?.option?.labels;
-        // console.log(LinechartOptions, "data?.data?.line_graph");
+
         setLinechartValues(data?.data?.line_graph?.series);
         setLinechartOption(data?.data?.line_graph?.option?.labels);
 
@@ -329,7 +340,9 @@ const Dashboard = (props) => {
             </Breadcrumb>
           </div>
 
-          {localStorage.getItem("role") !== "Operator" ? (
+          {localStorage.getItem("superiorRole") === "Client" && localStorage.getItem("role") === "Operator" ? (
+           ""
+          ) : (
             <div className="ms-auto pageheader-btn ">
               <span className="Search-data">
                 {Object.entries(searchdata).map(([key, value]) => {
@@ -386,8 +399,6 @@ const Dashboard = (props) => {
                 ""
               )}
             </div>
-          ) : (
-            ""
           )}
         </div>
 
@@ -413,10 +424,10 @@ const Dashboard = (props) => {
           shopsale={shopsale}
         />
 
-    {/* <DashTopTableSection  />          */}
-        <Row style={{marginBottom : "10px" , marginTop: "20px"}}>
+        {/* <DashTopTableSection  />          */}
+        <Row style={{ marginBottom: "10px", marginTop: "20px" }}>
           <Col lg={7} md={12}>
-            <Card >
+            <Card>
               <Card.Header className="card-header">
                 <h4 className="card-title">Total Transactions</h4>
               </Card.Header>

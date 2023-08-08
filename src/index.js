@@ -304,6 +304,9 @@ const valetcommission = React.lazy(() =>
 const Assignaddon = React.lazy(() =>
   import("./components/pages/AddonList/AddonList")
 );
+const Assignreport = React.lazy(() =>
+  import("./components/pages/AssignReports/AssignReports")
+);
 const AssignUseraddon = React.lazy(() =>
   import("./components/pages/AddonList/UserAddon")
 );
@@ -512,6 +515,7 @@ const Root = () => {
   const WrappedManagecommission = withApi(Managecommission);
   const Wrappedvaletcommission = withApi(valetcommission);
   const WrappedAssignaddon = withApi(Assignaddon);
+  const WrappedAssignreport = withApi(Assignreport);
   const WrappedAssignUseraddon = withApi(AssignUseraddon);
   const WrappedAssignManagePPL = withApi(ManagePPL);
   const WrappedAssignEditPPL = withApi(EditPPL);
@@ -592,6 +596,10 @@ const Root = () => {
                   <Route
                     path={`/assignclientaddon/:id`}
                     element={<WrappedAssignaddon />}
+                  />
+                  <Route
+                    path={`/assignreport/:id`}
+                    element={<WrappedAssignreport />}
                   />
                   <Route
                     path={`/assigusernaddon/:id`}
