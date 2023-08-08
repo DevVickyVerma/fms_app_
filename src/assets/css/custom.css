@@ -263,6 +263,12 @@ tbody tr {
   position: relative;
   animation: spinner 1.5s linear infinite;
 }
+@media screen and (min-width: 990px) {
+  .forgot-body{
+    width: 317px !important;
+  }  
+}
+
 
 .loading-spinner::before {
   content: "";
@@ -304,7 +310,7 @@ tbody tr {
   background-color:#d24e4e;
 }
 .module-height-Manager {
-  max-height: 150px !important;
+  max-height: 50px !important;
   overflow-y: scroll;
 }
 .module-height-Addon {

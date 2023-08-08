@@ -143,7 +143,7 @@ const Header = (props) => {
             onClick={() => openCloseSidebar()}
           ></Link>
           <div className="responsive-logo">
-            <Link to={`/dashboard/`} className="header-logo">
+            <Link to={`/dashboard/`} className="header-logo" >
               <img
                 src={require("../../assets/images/brand/logo-3.png")}
                 className="mobile-logo logo-1"
@@ -170,21 +170,25 @@ const Header = (props) => {
           </Link>
 
           <div className="d-flex order-lg-2 ms-auto header-right-icons">
-            <Navbar.Toggle
+            {/* <Navbar.Toggle
               aria-controls="navbarScroll"
               className="navresponsive-toggler d-lg-none ms-auto"
               type="button"
             >
               <span className="navbar-toggler-icon fe fe-more-vertical text-dark"></span>
-            </Navbar.Toggle>
+            </Navbar.Toggle> */}
 
-            <div className="navbar navbar-collapse responsive-navbar p-0">
-              <Navbar.Collapse
-                className="navbar-collapse"
+
+            {/* <div className="navbar navbar-collapse responsive-navbar p-0"> */}
+            {/* <div className="navbar p-0"> */}
+            <div>
+              {/* <Navbar.Collapse
+                 className="navbar-collapse"
                 id="navbarSupportedContent-4"
-              >
+              > */}
+              <Navbar  id="navbarSupportedContent-4">
                 <div className="d-flex order-lg-2">
-                  <div className="dropdown d-block d-lg-none">
+                  {/* <div className="dropdown d-block d-lg-none">
                     <Link
                       to="#"
                       className="nav-link icon"
@@ -204,7 +208,7 @@ const Header = (props) => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   {/* <div className="dropdown d-md-flex">
                     <Link
                       to="#"
@@ -219,7 +223,7 @@ const Header = (props) => {
                       </span>
                     </Link>
                   </div> */}
-                  <div className="dropdown d-md-flex">
+                  {/* <div className="dropdown d-md-flex">
                     <Link
                       to="#"
                       className="nav-link icon full-screen-link nav-link-bg"
@@ -227,7 +231,7 @@ const Header = (props) => {
                     >
                       <i className="fe fe-minimize fullscreen-button"></i>
                     </Link>
-                  </div>
+                  </div> */}
                   {/* <Dropdown className="d-md-flex notifications">
                     <Dropdown.Toggle className="nav-link icon " variant="">
                       <i className="fe fe-bell"></i>
@@ -358,7 +362,6 @@ const Header = (props) => {
                       ) : null}
 
                       <Dropdown.Item
-                        // href="logout"
                         onClick={logout}
                       >
                         <i className="dropdown-icon fe fe-alert-circle"></i>
@@ -368,7 +371,8 @@ const Header = (props) => {
                   </Dropdown>
                   <ToastContainer />
                 </div>
-              </Navbar.Collapse>
+                </Navbar>
+              {/*  </Navbar.Collapse> */}
             </div>
           </div>
         </div>
