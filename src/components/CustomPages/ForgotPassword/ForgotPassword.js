@@ -5,8 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import Loaderimg from "../../../Utils/Loader";
-
-
+import { Box } from "@material-ui/core";
 
 
 
@@ -99,9 +98,10 @@ export default function ForgotPassword() {
                   }}
                 >
                   {({ errors, touched }) => (
-                    <Form className="card shadow-none" method="post">
-                      <Card.Body>
-                        <div className="text-center">
+                    <Form className="card shadow-none " method="post">
+                      <Card.Body className="mx-auto">
+                      <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} width={"271px"} className="forgot-body">
+                        <div className="text-center ">
                           <span className="login100-form-title">
                             Forgot Password
                           </span>
@@ -109,7 +109,7 @@ export default function ForgotPassword() {
                             Enter the email address registered on your account
                           </p>
                         </div>
-                        <div className="pt-3" id="forgot">
+                        <div className="pt-3 w-100" id="forgot">
                           <div className="form-group">
                             <label className="form-label" htmlFor="email">
                               E-Mail
@@ -147,6 +147,7 @@ export default function ForgotPassword() {
                             </p>
                           </div>
                         </div>
+                        </Box>
                       </Card.Body>
                     </Form>
                   )}

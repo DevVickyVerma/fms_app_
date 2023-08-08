@@ -2688,7 +2688,7 @@ ol.progtrckr li.progtrckr-todo:before{color: $transparent-body;background: $tran
     top: 70px !important;
   }
   .collapse:not(.show) {
-    display: none !important;
+    // display: none !important;
   }
   .transparent-mode .navresponsive-toggler span {
     background-color: transparent !important;

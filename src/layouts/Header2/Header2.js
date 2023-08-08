@@ -108,7 +108,7 @@ import { Link } from "react-router-dom";
 
             <div className="navbar navbar-collapse responsive-navbar p-0">
               <Navbar.Collapse
-                className="navbar-collapse"
+                // className="navbar-collapse"
                 id="navbarSupportedContent-4"
               >
                 <div className="d-flex order-lg-2">

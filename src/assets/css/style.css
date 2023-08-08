@@ -16890,7 +16890,7 @@ div.conv-form-wrapper div.options div.option.selected {
     right: 0;
     text-align: center;
     position: absolute;
-    top: 10px;
+    top: 17px;
   }
   
   img.mobile-logo {
@@ -20850,6 +20850,10 @@ img {
     position: initial;
   }
 
+  .d-block {
+    display: none !important;
+  }
+
   .responsive-navbar .nav-link.icon {
     padding: 10px !important;
     margin: 0px;
@@ -22196,7 +22200,7 @@ body.fixed-header .header {
   /* height: 3.125rem; */
   line-height: 2rem;
   vertical-align: middle;
-  margin-right: 0.5rem;
+  /* margin-right: 0.5rem; */
   /* width: auto; */
   border-radius: 7px;
     width: 170px;
@@ -22252,9 +22256,12 @@ body.fixed-header .header {
     display: none !important;
   }
 
-  .header-brand-img {
+  /* .header-brand-img {
     margin-right: 0;
     margin-left: 1.5rem;
+  } */
+  .header-brand-img{
+    width: 312px;
   }
 
   .mobile-header .header-brand-img {
@@ -36347,7 +36354,7 @@ body.rtl {
   -webkit-transition: left 0.2s ease, width 0.2s ease;
   -o-transition: left 0.2s ease, width 0.2s ease;
   transition: left 0.2s ease, width 0.2s ease;
-  height: 75px;
+  height: 87px;
   background: #8013cf;
 }
 
@@ -52885,7 +52892,7 @@ button.bg-lime:focus {
   }
 
   .d-md-block {
-    display: block !important;
+    display: none !important;
   }
 
   .d-md-table {
@@ -56539,10 +56546,22 @@ textarea.form-control {
 .login-logo img {
   background: #fff;
   padding: 20px;
-  width: 365px;
+  width: 320px;
   height: 140px;
   border-radius: 4px;
   text-align: center !important;
+}
+
+@media screen and (min-width: 990px) {
+  .login-logo img{
+    width: 367px;
+  }
+}
+
+@media screen and (max-width: 495px) {
+  .login-logo img{
+    width: 309px;
+  }
 }
 /* .data-table-extensions {
   display: none !important;
@@ -56711,6 +56730,10 @@ li.li-row {
   /* Add more styles as needed */
 }
 
+
+.d-block {
+  /* display: none !important; */
+}
 
 .css-bhp9pd-MuiPaper-root-MuiCard-root {
   background-color: rgb(0 0 0 / 0%) !important;

@@ -82,7 +82,9 @@ const Sidebar = () => {
   
   
   
-  
+  const openCloseSidebar = () => {
+    document.querySelector(".app").classList.toggle("sidenav-toggled");
+  };
 
 
 
@@ -143,6 +145,9 @@ const Sidebar = () => {
     if (window.innerWidth <= 991) {
       if (item.type === "sub") {
       }
+    }
+    if (window.innerWidth < 700) {
+      openCloseSidebar()   
     }
     if (!item.active) {
       MENUITEMS.map((a) => {
