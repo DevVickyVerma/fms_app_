@@ -269,7 +269,7 @@ const ManageUser = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: true,
-      width: "20%",
+      width: "24%",
       cell: (row) => (
         <span className="text-center">
           {isEditPermissionAvailable ? (
@@ -399,6 +399,7 @@ const ManageUser = (props) => {
                       pagination
                       highlightOnHover
                       searchable={true}
+                      responsive={true}
                     />
                   </DataTableExtensions>
                 </div>

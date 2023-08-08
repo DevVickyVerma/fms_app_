@@ -15970,8 +15970,9 @@ a.chip:hover {
 
 @media screen and( max-width : 490px) {
 #back-to-top {
-    height: 40px;
-    width: 40px;
+    /* height: 40px;
+    width: 40px; */
+    display: none !important;
  }
 }
 
@@ -30071,6 +30072,7 @@ body.rtl {
   left: 20px;
   right: inherit;
 }
+
 
 .rtl .action-header {
   padding: 15px 13px 15px 17px;

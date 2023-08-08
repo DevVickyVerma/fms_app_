@@ -151,7 +151,7 @@ const ManageRoles = (props) => {
       name: "Role",
       selector: (row) => [row.name],
       sortable: true,
-      width: "55%",
+      width: "30%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -164,7 +164,7 @@ const ManageRoles = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: true,
-      width: "15%",
+      width: "35%",
       cell: (row, index) => (
         <div
           className="d-flex"
@@ -182,7 +182,7 @@ const ManageRoles = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "20%",
+      width: "19%",
       cell: (row) => (
         <span className="text-center">
           {isEditPermissionAvailable ? (
@@ -322,6 +322,7 @@ const ManageRoles = (props) => {
           pagination
           highlightOnHover
           searchable={true}
+          responsive={true}
         />
       </DataTableExtensions>
               </div>

@@ -244,6 +244,15 @@ tbody {
 tbody tr {
   padding: 0.5rem 0.5rem;
 }
+@media screen and (max-width: 768px) {
+  .table th, 
+  .table td{
+    min-width: 22.28% !important;
+  }
+  .table thead th {
+    min-width: 22.28%  !important;
+  }
+}
 .MuiFormControl-root.width {
   width: 100%;
   margin-top: 17px;
