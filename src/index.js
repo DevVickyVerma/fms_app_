@@ -10,6 +10,9 @@ import dataReducer, { fetchData } from "./Redux/dataSlice";
 
 import withApi from "./Utils/ApiHelper";
 import Loaderimg from "./Utils/Loader";
+import DashTopTableSection from "./components/Dashboard/dashTopSection/DashTopTableSection";
+import DashBoardChild from "./components/Dashboard/dashTopSection/DashBoardChild";
+import DashBoardSubChild from "./components/Dashboard/dashTopSection/DashBoardSubChild";
 
 //App
 const App = React.lazy(() => import("./components/app"));
@@ -521,6 +524,8 @@ const Root = () => {
   const WrappedAssignEditPPL = withApi(EditPPL);
   const WrappedAssignAddPPL = withApi(AddPPL);
   const WrappedDailyFacilityFees = withApi(DailyFacilityFees);
+  const WrappedDashBoardChild = withApi(DashBoardChild);
+  const WrappedDashBoardSubChild = withApi(DashBoardSubChild);
 
   return (
     <Fragment>
@@ -866,6 +871,9 @@ const Root = () => {
                     element={<WrappedAddBusinessCategory />}
                   />
 
+                  <Route path={`/dashboardChild`} element={<WrappedDashBoardChild />} />
+                  <Route path={`/dashboardSubChild`} element={<WrappedDashBoardSubChild />} />
+
                   <Route
                     path={`/addsubbusinesscategory`}
                     element={<WrappedAddSubBusinessCategory />}
@@ -953,6 +961,7 @@ const Root = () => {
                   path={`/custompages/errorpages/errorpage500`}
                   element={<Errorpage500 />}
                 />
+                
                 <Route
                   path={`/custompages/errorpages/errorpage503`}
                   element={<Errorpage503 />}
