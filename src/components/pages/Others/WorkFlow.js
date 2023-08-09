@@ -129,6 +129,29 @@ const ManageSite = (props) => {
   const isDetailsPermissionAvailable =
     permissionsArray?.includes("site-detail");
   const isAssignPermissionAvailable = permissionsArray?.includes("site-assign");
+  const [dataToSend, setDataToSend] = useState(null);
+  const PerformAction = (row) => {
+    console.log(row, "receivedData");
+    const dataToSend = {
+      client_id: row.client_id,
+      company_id: row.company_id,
+      start_date: row.drs_date,
+      site_id: row.id,
+    };
+
+    // Encode the data and create the query parameter string
+    const queryParam = encodeURIComponent(JSON.stringify(dataToSend));
+
+    // Construct the link URL with the encoded query parameter
+    const linkUrl = `/data-entry?data=${queryParam}`;
+
+    // Navigate to the desired route
+    window.location.href = linkUrl;
+  };
+  // useEffect(() => {
+   
+  //   setDataToSend(dataToSend)
+  // }, [dataToSend]); // The effect will be triggered whenever 'count' changes
 
   const columns = [
     {
@@ -157,7 +180,7 @@ const ManageSite = (props) => {
       ),
     },
     {
-      name: " WorkFlow",
+      name: "WorkFlow",
       selector: (row) => [row.work_flow],
       sortable: false,
       width: "25%",
@@ -165,11 +188,17 @@ const ManageSite = (props) => {
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             {row.work_flow === "Not Done" ? (
-              <h6 className="mb-0 fs-14 fw-semibold work-flow-danger-status ">
-                {row.work_flow}
-              </h6>
+              <>
+                <Link
+                  className="badge bg-danger"
+                  onClick={() => PerformAction(row)}
+                
+                >
+                  {row.work_flow}
+                </Link>
+              </>
             ) : row.work_flow === "Done" ? (
-              <h6 className="mb-0 fs-14 fw-semibold work-flow-sucess-status ">
+              <h6 className="mb-0 fs-14 fw-semibold work-flow-sucess-status">
                 {row.work_flow}
               </h6>
             ) : (
@@ -179,6 +208,7 @@ const ManageSite = (props) => {
         </div>
       ),
     },
+
     {
       name: " Approval Required",
       selector: (row) => [row.approval],
@@ -187,7 +217,7 @@ const ManageSite = (props) => {
       cell: (row, index) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-          {row.approval === "No" ? (
+            {row.approval === "No" ? (
               <h6 className="mb-0 fs-14 fw-semibold badge bg-success  ">
                 {row.approval}
               </h6>
@@ -213,253 +243,244 @@ const ManageSite = (props) => {
     handleFetchData();
 
     // console.clear();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
 
   return (
     <>
-    {isLoading ? <Loaderimg /> : null}
-  
-        <>
-          <div className="page-header ">
-            <div>
-              <h1 className="page-title">WorkFlows</h1>
+      {isLoading ? <Loaderimg /> : null}
 
-              <Breadcrumb className="breadcrumb">
-                <Breadcrumb.Item
-                  className="breadcrumb-item"
-                  linkAs={Link}
-                  linkProps={{ to: "/dashboard" }}
-                >
-                  Dashboard
-                </Breadcrumb.Item>
-                <Breadcrumb.Item
-                  className="breadcrumb-item active breadcrumds"
-                  aria-current="page"
-                >
-                  Others
-                </Breadcrumb.Item>
-                <Breadcrumb.Item
-                  className="breadcrumb-item active breadcrumds"
-                  aria-current="page"
-                >
-                  WorkFlows
-                </Breadcrumb.Item>
-              </Breadcrumb>
-            </div>
+      <>
+        <div className="page-header ">
+          <div>
+            <h1 className="page-title">WorkFlows</h1>
+
+            <Breadcrumb className="breadcrumb">
+              <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/dashboard" }}
+              >
+                Dashboard
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item active breadcrumds"
+                aria-current="page"
+              >
+                Others
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item active breadcrumds"
+                aria-current="page"
+              >
+                WorkFlows
+              </Breadcrumb.Item>
+            </Breadcrumb>
           </div>
+        </div>
 
-          <Row>
-            <Col md={12} xl={12}>
-              <Card>
-                <Card.Header>
-                  <h3 className="card-title"> Filter Data</h3>
-                </Card.Header>
-                <Card.Body>
-                  <Formik
-                    initialValues={{
-                      client_id: "",
-                      company_id: "",
-                    }}
-                    validationSchema={Yup.object({
-                      company_id: Yup.string().required("Company is required"),
-                    })}
-                    onSubmit={(values) => {
-                      handleSubmit1(values);
-                    }}
-                  >
-                    {({ handleSubmit, errors, touched, setFieldValue }) => (
-                      <Form onSubmit={handleSubmit}>
-                        <Card.Body>
-                          <Row>
-                            {localStorage.getItem("superiorRole") !==
-                              "Client" && (
-                              <Col lg={6} md={12}>
-                                <FormGroup>
-                                  <label
-                                    htmlFor="client_id"
-                                    className=" form-label mt-4"
-                                  >
-                                    Client
-                                    <span className="text-danger">*</span>
-                                  </label>
-                                  <Field
-                                    as="select"
-                                    className={`input101 ${
-                                      errors.client_id && touched.client_id
-                                        ? "is-invalid"
-                                        : ""
-                                    }`}
-                                    id="client_id"
-                                    name="client_id"
-                                    onChange={(e) => {
-                                      const selectedType = e.target.value;
-
-                                      setFieldValue("client_id", selectedType);
-                                      setSelectedClientId(selectedType);
-
-                                      // Reset the selected company and site
-                                      setSelectedCompanyList([]);
-                                      setFieldValue("company_id", "");
-                                      setFieldValue("site_id", "");
-
-                                      const selectedClient =
-                                        AddSiteData.data.find(
-                                          (client) => client.id === selectedType
-                                        );
-
-                                      if (selectedClient) {
-                                        setSelectedCompanyList(
-                                          selectedClient.companies
-                                        );
-                                        console.log(
-                                          selectedClient,
-                                          "selectedClient"
-                                        );
-                                        console.log(
-                                          selectedClient.companies,
-                                          "selectedClient"
-                                        );
-                                      }
-                                    }}
-                                  >
-                                    <option value="">Select a Client</option>
-                                    {AddSiteData.data &&
-                                    AddSiteData.data.length > 0 ? (
-                                      AddSiteData.data.map((item) => (
-                                        <option key={item.id} value={item.id}>
-                                          {item.client_name}
-                                        </option>
-                                      ))
-                                    ) : (
-                                      <option disabled>No Client</option>
-                                    )}
-                                  </Field>
-
-                                  <ErrorMessage
-                                    component="div"
-                                    className="invalid-feedback"
-                                    name="client_id"
-                                  />
-                                </FormGroup>
-                              </Col>
-                            )}
+        <Row>
+          <Col md={12} xl={12}>
+            <Card>
+              <Card.Header>
+                <h3 className="card-title"> Filter Data</h3>
+              </Card.Header>
+              <Card.Body>
+                <Formik
+                  initialValues={{
+                    client_id: "",
+                    company_id: "",
+                  }}
+                  validationSchema={Yup.object({
+                    company_id: Yup.string().required("Company is required"),
+                  })}
+                  onSubmit={(values) => {
+                    handleSubmit1(values);
+                  }}
+                >
+                  {({ handleSubmit, errors, touched, setFieldValue }) => (
+                    <Form onSubmit={handleSubmit}>
+                      <Card.Body>
+                        <Row>
+                          {localStorage.getItem("superiorRole") !==
+                            "Client" && (
                             <Col lg={6} md={12}>
                               <FormGroup>
                                 <label
-                                  htmlFor="company_id"
-                                  className="form-label mt-4"
+                                  htmlFor="client_id"
+                                  className=" form-label mt-4"
                                 >
-                                  Company
+                                  Client
                                   <span className="text-danger">*</span>
                                 </label>
                                 <Field
                                   as="select"
                                   className={`input101 ${
-                                    errors.company_id && touched.company_id
+                                    errors.client_id && touched.client_id
                                       ? "is-invalid"
                                       : ""
                                   }`}
-                                  id="company_id"
-                                  name="company_id"
+                                  id="client_id"
+                                  name="client_id"
                                   onChange={(e) => {
-                                    const selectedCompany = e.target.value;
+                                    const selectedType = e.target.value;
 
-                                    setFieldValue(
-                                      "company_id",
-                                      selectedCompany
-                                    );
-                                    setSelectedSiteList([]);
-                                    const selectedCompanyData =
-                                      selectedCompanyList.find(
-                                        (company) =>
-                                          company.id === selectedCompany
+                                    setFieldValue("client_id", selectedType);
+                                    setSelectedClientId(selectedType);
+
+                                    // Reset the selected company and site
+                                    setSelectedCompanyList([]);
+                                    setFieldValue("company_id", "");
+                                    setFieldValue("site_id", "");
+
+                                    const selectedClient =
+                                      AddSiteData.data.find(
+                                        (client) => client.id === selectedType
                                       );
-                                    if (selectedCompanyData) {
-                                      setSelectedSiteList(
-                                        selectedCompanyData.sites
+
+                                    if (selectedClient) {
+                                      setSelectedCompanyList(
+                                        selectedClient.companies
                                       );
                                       console.log(
-                                        selectedCompanyData,
-                                        "company_id"
+                                        selectedClient,
+                                        "selectedClient"
                                       );
                                       console.log(
-                                        selectedCompanyData.sites,
-                                        "company_id"
+                                        selectedClient.companies,
+                                        "selectedClient"
                                       );
                                     }
                                   }}
                                 >
-                                  <option value="">Select a Company</option>
-                                  {selectedCompanyList.length > 0 ? (
-                                    selectedCompanyList.map((company) => (
-                                      <option
-                                        key={company.id}
-                                        value={company.id}
-                                      >
-                                        {company.company_name}
+                                  <option value="">Select a Client</option>
+                                  {AddSiteData.data &&
+                                  AddSiteData.data.length > 0 ? (
+                                    AddSiteData.data.map((item) => (
+                                      <option key={item.id} value={item.id}>
+                                        {item.client_name}
                                       </option>
                                     ))
                                   ) : (
-                                    <option disabled>No Company</option>
+                                    <option disabled>No Client</option>
                                   )}
                                 </Field>
+
                                 <ErrorMessage
                                   component="div"
                                   className="invalid-feedback"
-                                  name="company_id"
+                                  name="client_id"
                                 />
                               </FormGroup>
                             </Col>
-                          </Row>
-                        </Card.Body>
-                        <Card.Footer className="text-end">
-                          <button
-                            className="btn btn-primary me-2"
-                            type="submit"
-                          >
-                            Submit
-                          </button>
-                        </Card.Footer>
-                      </Form>
-                    )}
-                  </Formik>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
+                          )}
+                          <Col lg={6} md={12}>
+                            <FormGroup>
+                              <label
+                                htmlFor="company_id"
+                                className="form-label mt-4"
+                              >
+                                Company
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${
+                                  errors.company_id && touched.company_id
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="company_id"
+                                name="company_id"
+                                onChange={(e) => {
+                                  const selectedCompany = e.target.value;
 
-          <Row className=" row-sm">
-            <Col lg={12}>
-              <Card>
-                <Card.Header>
-                  <h3 className="card-title"> WorkFlows</h3>
-                </Card.Header>
+                                  setFieldValue("company_id", selectedCompany);
+                                  setSelectedSiteList([]);
+                                  const selectedCompanyData =
+                                    selectedCompanyList.find(
+                                      (company) =>
+                                        company.id === selectedCompany
+                                    );
+                                  if (selectedCompanyData) {
+                                    setSelectedSiteList(
+                                      selectedCompanyData.sites
+                                    );
+                                    console.log(
+                                      selectedCompanyData,
+                                      "company_id"
+                                    );
+                                    console.log(
+                                      selectedCompanyData.sites,
+                                      "company_id"
+                                    );
+                                  }
+                                }}
+                              >
+                                <option value="">Select a Company</option>
+                                {selectedCompanyList.length > 0 ? (
+                                  selectedCompanyList.map((company) => (
+                                    <option key={company.id} value={company.id}>
+                                      {company.company_name}
+                                    </option>
+                                  ))
+                                ) : (
+                                  <option disabled>No Company</option>
+                                )}
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="company_id"
+                              />
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                      </Card.Body>
+                      <Card.Footer className="text-end">
+                        <button className="btn btn-primary me-2" type="submit">
+                          Submit
+                        </button>
+                      </Card.Footer>
+                    </Form>
+                  )}
+                </Formik>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
 
-                <Card.Body>
-                  <div className="table-responsive deleted-table">
-                    <DataTableExtensions {...tableDatas}>
-                      <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        striped={true}
-                        // center={true}
-                        persistTableHead
-                        pagination
-                        highlightOnHover
-                        searchable={false}
-                        responsive={true}
-                      />
-                    </DataTableExtensions>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </>
-  
+        <Row className=" row-sm">
+          <Col lg={12}>
+            <Card>
+              <Card.Header>
+                <h3 className="card-title"> WorkFlows</h3>
+              </Card.Header>
+
+              <Card.Body>
+                <div className="table-responsive deleted-table">
+                  <DataTableExtensions {...tableDatas}>
+                    <DataTable
+                      columns={columns}
+                      data={data}
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      striped={true}
+                      // center={true}
+                      persistTableHead
+                      pagination
+                      highlightOnHover
+                      searchable={false}
+                      responsive={true}
+                    />
+                  </DataTableExtensions>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </>
     </>
   );
 };

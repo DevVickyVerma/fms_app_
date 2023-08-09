@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 
 import Loaderimg from "../../../Utils/Loader";
@@ -38,10 +38,34 @@ import BunkeredSales from "../DRSComponents/BunkeredSales";
 import { Slide, toast } from "react-toastify";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { log } from "nvd3";
+
 
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
+  // const receivedData = props?.location?.state;
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location?.search);
+    const encodedData = searchParams?.get('data');
+
+    if (encodedData) {
+      try {
+        const decodedData = JSON.parse(decodeURIComponent(encodedData));
+        console.log(decodedData.client_id, "decodedData");
+        console.log(decodedData, "decodedData");
+
+        GetDataWithClient(decodedData);
+      } catch (error) {
+        console.error('Error decoding or parsing data:', error);
+      }
+    } else {
+      console.log('No data found in query parameters.');
+    }
+  }, [navigate, location])
+
+
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
@@ -85,7 +109,7 @@ const ManageDsr = (props) => {
 
   const isAssignPermissionAvailable = permissionsArray?.includes("drs-hit-api");
 
-  const navigate = useNavigate();
+  
 
   const ErrorAlert = (message) => {
     toast.error(message, {

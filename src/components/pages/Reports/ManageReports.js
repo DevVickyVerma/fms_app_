@@ -123,7 +123,7 @@ const ManageReports = (props) => {
       const { data } = response;
       if (data) {
         setReportList(response?.data);
-        console.log(response,"responseresponseresponseresponseresponse")
+       
       }
     } catch (error) {
       console.error("API error:", error);
@@ -180,12 +180,16 @@ const ManageReports = (props) => {
         postDataUrl = `/report/cldo?${commonParams}`;
       } else if (formValues.report === "MSR") {
         postDataUrl = `/report/msr?${commonParams}`;
-      } else if (formValues.report === "escrr") {
+      } else if (formValues.report === "ESCRR") {
         postDataUrl = `/report/escrr?${commonParams}`;
       } else if (formValues.report === "CMSR") {
         postDataUrl = `/report/cmsr?${commonParams}`;
       } else if (formValues.report === "DFDR") {
         postDataUrl = `/report/dfdr?${commonParams}`;
+      } else if (formValues.report === "RDMR") {
+        postDataUrl = `/report/rdmr?${commonParams}`;
+      } else if (formValues.report === "ECRR") {
+        postDataUrl = `/report/ecrr?${commonParams}`;
       } else {
         postDataUrl = "shop/add-default";
       }
@@ -227,7 +231,7 @@ const ManageReports = (props) => {
     };
 
     fetchData();
-    console.clear();
+    // console.clear();
   }, []);
   // Empty dependency array to run the effect only once
 
@@ -491,7 +495,7 @@ const ManageReports = (props) => {
                                 name="report"
                                 onChange={(e) => {
                                   const selectedreport = e.target.value;
-
+console.log(selectedreport,"selectedreport")
                                   setFieldValue("report", selectedreport);
                                   setShowButton(false);
                                 }}
@@ -503,7 +507,7 @@ const ManageReports = (props) => {
                                     <option
                                       key={item.id}
                                       value={item.report_code}
-                                      onClick={() => handleReportClick(item)} // Modified line
+                                      onClick={() => handleReportClick(item)} 
                                     >
                                       {item.report_name}
                                     </option>
@@ -646,7 +650,7 @@ const ManageReports = (props) => {
 
                                 <ErrorMessage
                                   component="div"
-                                className="invalid-feedback"
+                                  className="invalid-feedback"
                                   name="reportmonth"
                                 />
                               </FormGroup>
@@ -671,7 +675,7 @@ const ManageReports = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end ">
-                      <button type="submit" className="btn btn-primary">
+                        <button type="submit" className="btn btn-primary">
                           Generate Report
                         </button>
                         {ShowButton ? (
@@ -696,7 +700,7 @@ const ManageReports = (props) => {
                           </button>
                         ) : (
                           ""
-                        )}                      
+                        )}
                       </Card.Footer>
                     </Form>
                   )}
