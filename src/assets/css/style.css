@@ -56595,6 +56595,12 @@ textarea.form-control {
   width: 1.5em;
   height: 1.5em;
 }
+
+@media screen and (max-width : 500px) {
+  .form-check-inline{
+    min-width: 83px;
+  }
+}
 /* body {
     margin: 0;
     padding: 0;
@@ -56653,7 +56659,7 @@ svg.table-Details {
 
 @media screen and (max-width: 490px) {
   .common-sidebar{
-    width: 60%;
+    width: 73%;
   }
 }
 h3.Sidebar-title {

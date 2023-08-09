@@ -34,6 +34,7 @@ import BarChart from "./BarChart";
 import LineChart from "./LineChart";
 import DashTopSection from "./dashTopSection/DashTopSection";
 import DashTopTableSection from "./dashTopSection/DashTopTableSection";
+import { Box } from "@material-ui/core";
 
 const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -61,6 +62,7 @@ const Dashboard = (props) => {
 
       let url = "";
 
+
       if (superiorRole === "Administrator") {
         url = "/dashboard/stats";
       } else if (superiorRole === "Client") {
@@ -68,7 +70,7 @@ const Dashboard = (props) => {
       } else if (superiorRole === "Client" && role === "Operator") {
         url = "/dashboard/stats";
       }
-    
+
       const response = await getData(url);
       const { data } = response;
 
@@ -327,24 +329,31 @@ const Dashboard = (props) => {
     <>
       {isLoading ? <Loaderimg /> : null}
       <div>
-        <div className="page-header ">
+        <Box
+         display={"flex"} justifyContent={"space-between"} alignItems={"center"} minHeight={"90px"}
+        //  className="page-header "
+         >
           <div>
             <h1 className="page-title">Dashboard</h1>
-            <Breadcrumb className="breadcrumb">
+            {/* <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
                 Dashboard
               </Breadcrumb.Item>
-            </Breadcrumb>
+            </Breadcrumb> */}
           </div>
 
-          {localStorage.getItem("superiorRole") === "Client" && localStorage.getItem("role") === "Operator" ? (
-           ""
+          {localStorage.getItem("superiorRole") === "Client" &&
+          localStorage.getItem("role") === "Operator" ? (
+            ""
           ) : (
-            <div className="ms-auto pageheader-btn ">
-              <span className="Search-data">
+            <Box 
+             display={"flex"} justifyContent={"center"} alignItems={"baseline"} my={"20px"} flexDirection={"column"} gap={"5px"} mx={"10px"}
+            // className="ms-auto pageheader-btn "
+            >
+              <span className="Search-data" style={{marginTop:"10px", marginBottom:"10px", display:"flex", gap:"5px", flexDirection:"column",  }}>
                 {Object.entries(searchdata).map(([key, value]) => {
                   if (
                     (key === "client_name" ||
@@ -374,7 +383,7 @@ const Dashboard = (props) => {
                   }
                 })}
               </span>
-
+              <Box display={"flex"}>
               <Link
                 className="btn btn-primary"
                 onClick={() => {
@@ -386,6 +395,7 @@ const Dashboard = (props) => {
                   <SortIcon />
                 </span>
               </Link>
+            
               {Object.keys(searchdata).length > 0 ? (
                 <Link
                   className="btn btn-danger ms-2"
@@ -398,9 +408,10 @@ const Dashboard = (props) => {
               ) : (
                 ""
               )}
-            </div>
+            </Box>
+            </Box>
           )}
-        </div>
+        </Box>
 
         {ShowTruw ? (
           <DashBordModal

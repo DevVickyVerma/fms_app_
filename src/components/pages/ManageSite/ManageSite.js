@@ -369,7 +369,7 @@ const ManageSite = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "13%",
+      width: "33%",
       cell: (row) => (
         <span className="text-center">
           <Dropdown className="dropdown btn-group">

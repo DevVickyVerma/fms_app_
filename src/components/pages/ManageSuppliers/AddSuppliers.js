@@ -269,7 +269,7 @@ const AddSuppliers = (props) => {
                                   }
                                   className="form-control"
                                 />
-                                <p>
+                                <p style={{margin:"6px", color:"#4d5875"}}>
                                   Drag and drop your Supplier Logo here, or click to
                                   browse
                                 </p>
@@ -290,6 +290,9 @@ const AddSuppliers = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
+                      <button className="btn btn-primary me-2" type="submit">
+                          Add
+                        </button>
                         <Link
                           type="submit"
                           className="btn btn-danger me-2 "
@@ -297,9 +300,7 @@ const AddSuppliers = (props) => {
                         >
                           Cancel
                         </Link>
-                        <button className="btn btn-primary me-2" type="submit">
-                          Add
-                        </button>
+                       
                       </Card.Footer>
                     </Form>
                   )}

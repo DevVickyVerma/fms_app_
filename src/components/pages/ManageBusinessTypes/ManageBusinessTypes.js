@@ -149,7 +149,7 @@ const ManageBusinessTypes = (props) => {
       name: "S.NO",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      width: "15%",
       center: true,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -161,7 +161,7 @@ const ManageBusinessTypes = (props) => {
       name: "Business",
       selector: (row) => [row.business_name],
       sortable: true,
-      width: "35%",
+      width: "30%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -174,7 +174,7 @@ const ManageBusinessTypes = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: true,
-      width: "15%",
+      width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">

@@ -209,15 +209,15 @@ const ManageSiteTank = (props) => {
       );
 
       if (response && response.data ) {
-        setData(response.data.data);
-        console.log(response.data,"localStorages")
+        setData(response?.data?.data);
+        console.log(response?.data,"localStorages")
 
         setlocalStorageSiteName(response?.data?.data[0].site);
       } else {
         throw new Error("No data available in the response");
       }
     } catch (error) {
-      console.error("API error:", error);
+      console?.error("API error:", error);
     }
   };
 

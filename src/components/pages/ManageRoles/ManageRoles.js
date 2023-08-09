@@ -182,7 +182,7 @@ const ManageRoles = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "19%",
+      width: "29%",
       cell: (row) => (
         <span className="text-center">
           {isEditPermissionAvailable ? (

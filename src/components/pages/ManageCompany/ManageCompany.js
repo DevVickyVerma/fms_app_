@@ -237,7 +237,7 @@ const ManageCompany = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: false,
-      width: "10%",
+      width: "15%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>

@@ -135,7 +135,7 @@ const ManageSite = (props) => {
       name: "S.No",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      width: "15%",
       center: true,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -147,7 +147,7 @@ const ManageSite = (props) => {
       name: "Site",
       selector: (row) => [row.site_name],
       sortable: false,
-      width: "50%",
+      width: "40%",
       cell: (row, index) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -160,7 +160,7 @@ const ManageSite = (props) => {
       name: " WorkFlow",
       selector: (row) => [row.work_flow],
       sortable: false,
-      width: "20%",
+      width: "25%",
       cell: (row, index) => (
         <div className="d-flex" style={{ cursor: "default" }}>
           <div className="ms-2 mt-0 mt-sm-2 d-block">
