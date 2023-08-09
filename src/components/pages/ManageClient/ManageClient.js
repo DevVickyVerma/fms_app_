@@ -264,7 +264,7 @@ const ManageClient = (props) => {
       name: "Addons",
       selector: (row) => [row.addons],
       sortable: true,
-      width: "20%",
+      width: "15%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -277,7 +277,7 @@ const ManageClient = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: true,
-      width: "13%",
+      width: "15%",
       cell: (row, index) => (
         <div
           className="d-flex"
@@ -294,7 +294,7 @@ const ManageClient = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: true,
-      width: "8%",
+      width: "18%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -334,7 +334,7 @@ const ManageClient = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: true,
-      width: "24%",
+      width: "44%",
       cell: (row) => (
         <span className="text-center">
           <Dropdown className="dropdown btn-group">

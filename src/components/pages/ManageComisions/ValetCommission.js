@@ -146,7 +146,7 @@ const ManageDsr = (props) => {
       name: " CATEGORY NAME",
       selector: (row) => row.name,
       sortable: false,
-      width: "20%",
+      width: "25%",
       center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -521,6 +521,9 @@ const ManageDsr = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
+                      <button className="btn btn-primary me-2" type="submit">
+                          Submit
+                        </button>
                         <Link
                           type="submit"
                           className="btn btn-danger me-2 "
@@ -528,9 +531,7 @@ const ManageDsr = (props) => {
                         >
                           Reset
                         </Link>
-                        <button className="btn btn-primary me-2" type="submit">
-                          Submit
-                        </button>
+                        
                       </Card.Footer>
                     </Form>
                   )}

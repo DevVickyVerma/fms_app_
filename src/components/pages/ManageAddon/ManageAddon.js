@@ -160,7 +160,7 @@ const isAssignPermissionAvailable = permissionsArray?.includes("addons-assign");
       name: "S.No",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      width: "15%",
       center: true,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -172,7 +172,7 @@ const isAssignPermissionAvailable = permissionsArray?.includes("addons-assign");
       name: "Addon",
       selector: (row) => [row.name],
       sortable: true,
-      width: "50%",
+      width: "40%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -185,7 +185,7 @@ const isAssignPermissionAvailable = permissionsArray?.includes("addons-assign");
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: true,
-      width: "20%",
+      width: "25%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -199,7 +199,7 @@ const isAssignPermissionAvailable = permissionsArray?.includes("addons-assign");
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "20%",
+      width: "30%",
       cell: (row) => (
         <span className="text-center">
         {isEditPermissionAvailable ? (

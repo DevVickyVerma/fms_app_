@@ -82,9 +82,9 @@ const SiteSettings = (props) => {
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
     } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
+      const errorMessage = Array?.isArray(error?.response?.data?.message)
+        ? error?.response?.data?.message?.join(" ")
+        : error?.response?.data?.message;
       Errornotify(errorMessage);
     }
   }

@@ -646,7 +646,7 @@ const ManageReports = (props) => {
 
                                 <ErrorMessage
                                   component="div"
-                                  className="invalid-feedback"
+                                className="invalid-feedback"
                                   name="reportmonth"
                                 />
                               </FormGroup>
@@ -671,6 +671,9 @@ const ManageReports = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end ">
+                      <button type="submit" className="btn btn-primary">
+                          Generate Report
+                        </button>
                         {ShowButton ? (
                           <button
                             onClick={() => {
@@ -693,11 +696,7 @@ const ManageReports = (props) => {
                           </button>
                         ) : (
                           ""
-                        )}
-
-                        <button type="submit" className="btn btn-primary">
-                          Generate Report
-                        </button>
+                        )}                      
                       </Card.Footer>
                     </Form>
                   )}
