@@ -160,7 +160,7 @@ const DashBordModal = (props) => {
         <Loaderimg />
       ) : (
         <>
-          <div className={`common-sidebar ${visible ? "visible" : ""}`} style={{width: "78%"}} >
+          <div className={`common-sidebar ${visible ? "visible" : ""}`}  >
             <div className="card">
               <div className="card-header text-center SidebarSearchheader">
                 <h3 className="SidebarSearch-title m-0">{title}</h3>
