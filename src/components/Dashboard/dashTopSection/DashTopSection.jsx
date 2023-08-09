@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import Spinners from "../Spinner";
 import OilBarrelIcon from "@mui/icons-material/OilBarrel";
+import DashTopTableSection from "./DashTopTableSection";
+import { Link, useNavigate } from "react-router-dom";
 
 const DashTopSection = (props) => {
   const {
@@ -16,6 +18,14 @@ const DashTopSection = (props) => {
 
   const [UploadTabname, setUploadTabname] = useState();
   console.log("UploadTabname:", UploadTabname);
+
+  const navigate = useNavigate();
+
+  const handleNavigateClick = (cardName) =>{
+    console.log("card name", cardName);
+    navigate(`/dashboardChild`)
+  }
+
   return (
     <div>
       <Row>
@@ -35,7 +45,8 @@ const DashTopSection = (props) => {
                       <div
                         className=" dashboard-box"
                         onClick={() => {
-                          setUploadTabname("Gross Volume");
+                          setUploadTabname("GrossVolume");
+                          handleNavigateClick(UploadTabname)               
                         }}
                       >
                         <div>
@@ -125,6 +136,7 @@ const DashTopSection = (props) => {
                         className=" dashboard-box "
                         onClick={() => {
                           setUploadTabname("Gross Profit");
+                          handleNavigateClick(UploadTabname) 
                         }}
                       >
                         <div>
@@ -204,6 +216,7 @@ const DashTopSection = (props) => {
                         className=" dashboard-box"
                         onClick={() => {
                           setUploadTabname("Gross Margin");
+                          handleNavigateClick(UploadTabname) 
                         }}
                       >
                         <div>
@@ -288,6 +301,7 @@ const DashTopSection = (props) => {
                         className=" dashboard-box"
                         onClick={() => {
                           setUploadTabname("Fuel Sales");
+                          handleNavigateClick(UploadTabname) 
                         }}
                       >
                         <div>
@@ -373,6 +387,7 @@ const DashTopSection = (props) => {
                         className=" dashboard-box"
                         onClick={() => {
                           setUploadTabname("Shop Sales");
+                          handleNavigateClick(UploadTabname) 
                         }}
                       >
                         <div>
@@ -449,6 +464,7 @@ const DashTopSection = (props) => {
                         className=" dashboard-box"
                         onClick={() => {
                           setUploadTabname("Shop Margin");
+                          handleNavigateClick(UploadTabname) 
                         }}
                       >
                         <div>
@@ -469,7 +485,7 @@ const DashTopSection = (props) => {
                                 <p className="text-muted mb-0 mt-4">
                                   <span
                                     className={`me-1 ${
-                                      shopmargin?.status == "up"
+                                      shopmargin?.status === "up"
                                         ? "text-success"
                                         : "text-danger"
                                     }`}

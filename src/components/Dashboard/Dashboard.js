@@ -436,6 +436,7 @@ const Dashboard = (props) => {
         />
 
         {/* <DashTopTableSection  />          */}
+
         <Row style={{ marginBottom: "10px", marginTop: "20px" }}>
           <Col lg={7} md={12}>
             <Card>

@@ -41,11 +41,13 @@ const BarChart = ({ piechartValues }) => {
       style={{
         display: "flex",
         justifyContent: "center",
-        // alignItems: "center",
+        alignItems: "center",
       
       }}
     >
-      <div style={{ width: "70%" }}>
+      <div
+      //  style={{ width: "70%" }}
+      >
         <Pie data={data} options={config} />
       </div>
     </div>
