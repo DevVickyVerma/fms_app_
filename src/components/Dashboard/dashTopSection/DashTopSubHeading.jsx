@@ -4,9 +4,16 @@ import {BsDroplet} from "react-icons/bs";
 import { AiOutlineBarChart, AiOutlineEuroCircle, AiOutlinePauseCircle } from "react-icons/ai";
 import {HiOutlineCircleStack} from "react-icons/hi2";
 import { Padding } from "@mui/icons-material";
+import { useLocation } from "react-router-dom";
 
 
 const DashTopSubHeading = (props) => {
+  // const location = useLocation();
+  // console.log(location , "my location");
+  // const {passData} = location.state;
+  // if (passData.length) {
+  //   console.log("my data us passed or not ", passData); 
+  // }
   return (
     <div style={{marginBottom:"20px"}}>
     <Box

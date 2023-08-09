@@ -18,6 +18,13 @@ const DashBoardSubChild = () => {
               Dashboard
             </Breadcrumb.Item>
             <Breadcrumb.Item
+              className="breadcrumb-item"
+              linkAs={Link}
+              linkProps={{ to: "/dashboardChild" }}
+            >
+              Dashboard Child
+            </Breadcrumb.Item>
+            <Breadcrumb.Item
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
