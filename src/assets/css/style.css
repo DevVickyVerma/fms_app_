@@ -56657,6 +56657,15 @@ svg.table-Details {
     z-index: 1000;
 }
 
+@media screen and (max-width: 750px) {
+  .filter-responsive{
+    flex-direction: column-reverse;
+    align-items: end;
+    margin-left: 0;
+  }
+
+}
+
 @media screen and (max-width: 490px) {
   .common-sidebar{
     width: 73%;

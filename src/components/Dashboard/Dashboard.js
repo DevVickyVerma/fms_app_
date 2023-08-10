@@ -333,8 +333,8 @@ const Dashboard = (props) => {
          display={"flex"} justifyContent={"space-between"} alignItems={"center"} minHeight={"90px"}
         //  className="page-header "
          >
-          <div>
-            <h1 className="page-title">Dashboard</h1>
+          <Box alignSelf={"flex-start"} mt={"26px"}>
+            <h1 className="page-title"  >Dashboard</h1>
             {/* <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"
@@ -343,17 +343,17 @@ const Dashboard = (props) => {
                 Dashboard
               </Breadcrumb.Item>
             </Breadcrumb> */}
-          </div>
+          </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
           localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box 
-             display={"flex"} justifyContent={"center"} alignItems={"baseline"} my={"20px"} flexDirection={"column"} gap={"5px"} mx={"10px"}
+             display={"flex"} justifyContent={"center"} alignItems={"baseline"} my={"20px"} gap={"5px"} mx={"10px"} className="filter-responsive" 
             // className="ms-auto pageheader-btn "
             >
-              <span className="Search-data" style={{marginTop:"10px", marginBottom:"10px", display:"flex", gap:"5px", flexDirection:"column",  }}>
+              <span className="Search-data" style={{marginTop:"10px", marginBottom:"10px", display:"flex", gap:"5px", flexDirection:"row", flexWrap:"wrap",  }}>
                 {Object.entries(searchdata).map(([key, value]) => {
                   if (
                     (key === "client_name" ||
@@ -383,7 +383,7 @@ const Dashboard = (props) => {
                   }
                 })}
               </span>
-              <Box display={"flex"}>
+              <Box display={"flex"} ml={"4px"} >
               <Link
                 className="btn btn-primary"
                 onClick={() => {

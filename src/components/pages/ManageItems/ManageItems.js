@@ -224,7 +224,7 @@ const ManageItems = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: true,
-      width: "10%",
+      width: "12%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
