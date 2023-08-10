@@ -17,7 +17,6 @@ const BarChart = ({ piechartValues }) => {
     labels: labels,
     datasets: [
       {
-       
         data: [shop_sales, fuel_sales, bunkered_sales],
         backgroundColor: [
           "rgb(255, 99, 132)",
@@ -46,7 +45,7 @@ const BarChart = ({ piechartValues }) => {
       }}
     >
       <div
-      //  style={{ width: "70%" }}
+       style={{ width: "67%" }}
       >
         <Pie data={data} options={config} />
       </div>

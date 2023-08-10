@@ -161,7 +161,7 @@ const ManageUser = (props) => {
       name: "S.No",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "8%",
+      width: "10%",
       center: true,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -173,7 +173,7 @@ const ManageUser = (props) => {
       name: "Full Name",
       selector: (row) => [row.full_name],
       sortable: true,
-      width: "17%",
+      width: "18%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -186,7 +186,7 @@ const ManageUser = (props) => {
       name: "Role",
       selector: (row) => [row.role],
       sortable: true,
-      width: "17%",
+      width: "13%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -199,7 +199,7 @@ const ManageUser = (props) => {
       name: "Addons",
       selector: (row) => [row.addons],
       sortable: true,
-      width: "17%",
+      width: "16%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -212,7 +212,7 @@ const ManageUser = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: true,
-      width: "13%",
+      width: "12%",
       cell: (row, index) => (
         <div
           className="d-flex"
@@ -229,7 +229,7 @@ const ManageUser = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: true,
-      width: "8%",
+      width: "11%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -269,7 +269,7 @@ const ManageUser = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: true,
-      width: "24%",
+      width: "20%",
       cell: (row) => (
         <span className="text-center">
           {isEditPermissionAvailable ? (
@@ -399,7 +399,7 @@ const ManageUser = (props) => {
                       pagination
                       highlightOnHover
                       searchable={true}
-                      responsive={true}
+                      // responsive={true}
                     />
                   </DataTableExtensions>
                 </div>

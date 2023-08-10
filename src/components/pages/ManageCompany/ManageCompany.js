@@ -169,7 +169,7 @@ const ManageCompany = (props) => {
       name: "S.No",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      width: "7%",
       center: true,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -220,7 +220,7 @@ const ManageCompany = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "15%",
+      width: "12%",
       cell: (row, index) => (
         <div
           className="d-flex"
@@ -237,7 +237,7 @@ const ManageCompany = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: false,
-      width: "15%",
+      width: "12%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -278,7 +278,7 @@ const ManageCompany = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "20%",
+      width: "23%",
       cell: (row) => (
         <span className="text-center">
           {isEditPermissionAvailable ? (

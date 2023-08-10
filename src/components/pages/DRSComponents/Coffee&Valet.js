@@ -293,6 +293,7 @@ const CoffeeValet = (props) => {
          type="number"
          className="table-input readonly total-input"
          value={row.closing}
+        
          readOnly
        />
       </div>
@@ -300,6 +301,7 @@ const CoffeeValet = (props) => {
           <div>
             <input
               type="number"
+              min={row.closing}
               id={`closing-${index}`}
               name={`data[${index}].closing`}
               className={
