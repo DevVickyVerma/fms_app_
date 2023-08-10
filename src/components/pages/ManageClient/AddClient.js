@@ -278,6 +278,57 @@ const AddClient = (props) => {
                         </Col>
                         <Col lg={4} md={6}>
                           <FormGroup>
+                            <label htmlFor="email" className=" form-label mt-4">
+                              Email
+                              <span className="text-danger">*</span>
+                            </label>
+                            <Field
+                              type="text"
+                              autoComplete="off"
+                              className={`input101 ${
+                                errors.email && touched.email
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              id="email"
+                              name="email"
+                              placeholder="Email"
+                            />
+                            <ErrorMessage
+                              component="div"
+                              className="invalid-feedback"
+                              name="email"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg={4} md={6}>
+                          <FormGroup>
+                            <label
+                              htmlFor="password "
+                              className=" form-label mt-4"
+                            >
+                              Password<span className="text-danger">*</span>
+                            </label>
+                            <Field
+                              type="password"
+                              className={`input101 ${
+                                errors.password && touched.password
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              id="password"
+                              name="password"
+                              placeholder="Password"
+                            />
+                            <ErrorMessage
+                              component="div"
+                              className="invalid-feedback"
+                              name="password"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg={4} md={6}>
+                          <FormGroup>
                             <label
                               className=" form-label mt-4"
                               htmlFor="first_name"
@@ -330,32 +381,7 @@ const AddClient = (props) => {
                             />
                           </FormGroup>
                         </Col>
-                        <Col lg={4} md={6}>
-                          <FormGroup>
-                            <label
-                              htmlFor="password "
-                              className=" form-label mt-4"
-                            >
-                              Password<span className="text-danger">*</span>
-                            </label>
-                            <Field
-                              type="password"
-                              className={`input101 ${
-                                errors.password && touched.password
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
-                              id="password"
-                              name="password"
-                              placeholder="Password"
-                            />
-                            <ErrorMessage
-                              component="div"
-                              className="invalid-feedback"
-                              name="password"
-                            />
-                          </FormGroup>
-                        </Col>
+                      
 
                         <Col lg={4} md={6}>
                           <FormGroup>
@@ -531,31 +557,7 @@ const AddClient = (props) => {
                             />
                           </FormGroup>
                         </Col>
-                        <Col lg={4} md={6}>
-                          <FormGroup>
-                            <label htmlFor="email" className=" form-label mt-4">
-                              Email
-                              <span className="text-danger">*</span>
-                            </label>
-                            <Field
-                              type="text"
-                              autoComplete="off"
-                              className={`input101 ${
-                                errors.email && touched.email
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
-                              id="email"
-                              name="email"
-                              placeholder="Email"
-                            />
-                            <ErrorMessage
-                              component="div"
-                              className="invalid-feedback"
-                              name="email"
-                            />
-                          </FormGroup>
-                        </Col>
+                       
                         <Col lg={4} md={6}>
                           <FormGroup>
                             <label htmlFor="email" className=" form-label mt-4">
@@ -605,46 +607,7 @@ const AddClient = (props) => {
                             />
                           </FormGroup>
                         </Col>
-                        {/* <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="role"
-                                className=" form-label mt-4"
-                              >
-                                Role
-                                <span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${
-                                  errors.role && touched.role
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="role"
-                                name="role"
-                              >
-                                <option value="">
-                                  Select a Role
-                                </option>
-                                {
-                                roleitems? (
-                                  roleitems.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Role</option>
-                                )}
-                              </Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="role"
-                              />
-                            </FormGroup>
-                          </Col> */}
+                     
                       </Row>
                     </Card.Body>
 

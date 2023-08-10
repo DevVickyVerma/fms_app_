@@ -256,7 +256,7 @@ const ManageSite = (props) => {
       name: " Client",
       selector: (row) => [row.site_name],
       sortable: false,
-      width: "14%",
+      width: "15%",
       cell: (row, index) => {
         try {
           return (
@@ -328,7 +328,7 @@ const ManageSite = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: false,
-      width: "13%",
+      width: "12%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -369,7 +369,7 @@ const ManageSite = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "30%",
+      width: "17%",
       cell: (row) => (
         <span className="text-center">
           <Dropdown className="dropdown btn-group">
