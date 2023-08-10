@@ -129,8 +129,6 @@ const ManageDsr = (props) => {
         if (encodedData) {
           try {
             const decodedData = JSON.parse(decodeURIComponent(encodedData));
-            console.log(decodedData.client_id, "decodedData");
-            console.log(decodedData, "decodedData");
 
             formik.setFieldValue("company_id", decodedData.company_id);
 
@@ -138,10 +136,9 @@ const ManageDsr = (props) => {
 
             formik.setFieldValue("site_id", decodedData.site_id);
             formik.setFieldValue("start_date", decodedData.start_date);
-         
+
             if (decodedData.client_id) {
               setSelectedClientId(decodedData.client_id);
-             
 
               setSelectedCompanyList([]);
 

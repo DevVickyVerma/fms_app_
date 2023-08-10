@@ -149,7 +149,7 @@ const ManageSite = (props) => {
     window.location.href = linkUrl;
   };
   // useEffect(() => {
-   
+
   //   setDataToSend(dataToSend)
   // }, [dataToSend]); // The effect will be triggered whenever 'count' changes
 
@@ -189,13 +189,15 @@ const ManageSite = (props) => {
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             {row.work_flow === "Not Done" ? (
               <>
-                <Link
-                  className="badge bg-danger"
+                <h6
+                  style={{
+                    cursor: "pointer",
+                  }}
+                  className="mb-0 fs-14 fw-semibold badge bg-danger"
                   onClick={() => PerformAction(row)}
-                
                 >
                   {row.work_flow}
-                </Link>
+                </h6>
               </>
             ) : row.work_flow === "Done" ? (
               <h6 className="mb-0 fs-14 fw-semibold work-flow-sucess-status">
