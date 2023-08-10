@@ -22,8 +22,19 @@ const DashTopSection = (props) => {
   const navigate = useNavigate();
 
   const handleNavigateClick = (cardName) =>{
+    let myvalueTest  = 1;
+    const passData = {
+      isLoading,
+      GrossVolume,
+      shopmargin,
+      GrossProfitValue,
+      GrossMarginValue,
+      FuelValue,
+      shopsale,
+      myvalueTest
+    }
     console.log("card name", cardName);
-    navigate(`/dashboardChild`)
+    navigate(`/dashboardChild`, { state: passData });
   }
 
   return (

@@ -1,10 +1,15 @@
 import React from "react";
 import { Breadcrumb, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import DashTopSection from "./DashTopSection";
 import DashTopTableSection from "./DashTopTableSection";
 
 const DashBoardChild = () => {
+  const location = useLocation();
+  // const {myvalueTest} = location.state;
+  
+  console.log("CHILD LOCATION DATA", location);
+  // console.log("CHILD LOCATION DATA", myvalueTest);
   return (
     <>
       <div className="page-header ">
@@ -27,21 +32,6 @@ const DashBoardChild = () => {
           </Breadcrumb>
         </div>
 
-        <div className="ms-auto pageheader-btn">
-          <div className="input-group">
-            {/* {isAddPermissionAvailable ? (
-                <Link
-                  to="/addusers"
-                  className="btn btn-primary ms-2"
-                  style={{ borderRadius: "4px" }}
-                >
-                  Add Users
-                  <AddCircleOutlineIcon />
-                </Link>
-              ) : null} */}
-            For Future Update
-          </div>
-        </div>
       </div>
       <Row>
         <DashTopSection />
