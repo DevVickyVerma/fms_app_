@@ -45,30 +45,9 @@ const ManageDsr = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location?.search);
-    const encodedData = searchParams?.get("data");
+  // useEffect(() => {
 
-    if (encodedData) {
-      try {
-        const decodedData = JSON.parse(decodeURIComponent(encodedData));
-        console.log(decodedData.client_id, "decodedData");
-        console.log(decodedData, "decodedData");
-      
-        formik.setFieldValue("company_id", decodedData.company_id);
-      
-        formik.setFieldValue("client_id", decodedData.client_id);
-      
-        formik.setFieldValue("site_id", decodedData.site_id);
-        formik.setFieldValue("start_date", decodedData.start_date);
-        GetDataWithClient(decodedData);
-      } catch (error) {
-        console.error("Error decoding or parsing data:", error);
-      }
-    } else {
-      console.log("No data found in query parameters.");
-    }
-  }, [navigate, location]);
+  // }, [navigate, location]);
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
@@ -144,6 +123,54 @@ const ManageDsr = (props) => {
       const { data } = response;
       if (data) {
         setAddSiteData(response.data);
+        const searchParams = new URLSearchParams(location?.search);
+        const encodedData = searchParams?.get("data");
+
+        if (encodedData) {
+          try {
+            const decodedData = JSON.parse(decodeURIComponent(encodedData));
+            console.log(decodedData.client_id, "decodedData");
+            console.log(decodedData, "decodedData");
+
+            formik.setFieldValue("company_id", decodedData.company_id);
+
+            formik.setFieldValue("client_id", decodedData.client_id);
+
+            formik.setFieldValue("site_id", decodedData.site_id);
+            formik.setFieldValue("start_date", decodedData.start_date);
+         
+            if (decodedData.client_id) {
+              setSelectedClientId(decodedData.client_id);
+             
+
+              setSelectedCompanyList([]);
+
+              if (response?.data) {
+                const selectedClient = response?.data?.data?.find(
+                  (client) => client.id === decodedData.client_id
+                );
+                if (selectedClient) {
+                  setSelectedCompanyList(selectedClient?.companies);
+                }
+                setSelectedSiteList([]);
+                const selectedCompanyData = selectedClient?.companies.find(
+                  (company) => company.id === decodedData.company_id
+                );
+                console.log(selectedCompanyData, "selectedCompanyData");
+                if (selectedCompanyData) {
+                  setSelectedSiteList(selectedCompanyData.sites);
+                }
+              }
+            }
+
+            GetDataWithClient(decodedData);
+          } catch (error) {
+            console.error("Error decoding or parsing data:", error);
+          }
+        } else {
+          console.log("No data found in query parameters.");
+        }
+        console.log(response.data, "(response.data);");
 
         if (
           response?.data &&
@@ -172,7 +199,6 @@ const ManageDsr = (props) => {
   };
 
   const getDRSData = async () => {
-   
     try {
       const formData = new FormData();
       formData.append("site_id", SiteId);
@@ -261,7 +287,7 @@ const ManageDsr = (props) => {
   };
 
   const GetDataWithClient = async (values) => {
-    console.log(values,"values")
+    console.log(values, "values");
     try {
       const formData = new FormData();
 
