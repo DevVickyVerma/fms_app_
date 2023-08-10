@@ -675,7 +675,7 @@ console.log(selectedreport,"selectedreport")
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end ">
-                        <button type="submit" className="btn btn-primary">
+                        <button type="submit" className="btn btn-primary mx-2">
                           Generate Report
                         </button>
                         {ShowButton ? (

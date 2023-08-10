@@ -230,17 +230,17 @@ const AddDeductions = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
-                       
-                        <button className="btn btn-primary me-2" type="submit">
-                          Add
-                        </button>
-                        <Link
+                      <Link
                           type="submit"
                           className="btn btn-danger me-2 "
                           to={`/managedeductions/`}
                         >
                           Cancel
                         </Link>
+                        <button className="btn btn-primary me-2" type="submit">
+                          Add
+                        </button>
+                        
                       </Card.Footer>
                     </Form>
                   )}

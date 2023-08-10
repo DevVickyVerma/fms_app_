@@ -819,6 +819,13 @@ const ManageDsr = (props) => {
                     </Row>
                   </Card.Body>
                   <Card.Footer className="text-end">
+                  <Link
+                          type="submit"
+                          className="btn btn-danger me-2 "
+                          to={`/dashboard`}
+                        >
+                          Cancel
+                        </Link>
                     <button className="btn btn-primary me-2" type="submit">
                       Submit
                     </button>
@@ -881,12 +888,16 @@ const ManageDsr = (props) => {
                   {isEditPermissionAvailable ? (
                     <div className="d-flex justify-content-end mt-3">
                       {data ? (
+                        <>
+                    
                         <button className="btn btn-primary" type="submit">
                           Submit
                         </button>
+                        </>
                       ) : (
                         ""
                       )}
+                    
                     </div>
                   ) : (
                     ""

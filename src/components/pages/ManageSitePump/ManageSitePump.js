@@ -667,13 +667,13 @@ const ManageSiteTank = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
-                        {/* <Link
+                      <Link
                           type="submit"
                           className="btn btn-danger me-2 "
-                          to={`/managesitepump/`}
+                          to={`/dashboard`}
                         >
-                          Reset
-                        </Link> */}
+                          Cancel
+                        </Link>
                         <button className="btn btn-primary me-2" type="submit">
                           Submit
                         </button>
