@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 
 import { useSelector } from "react-redux";
-import { ErrorMessage, Field, Formik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FormModal } from "../../../data/Modal/UploadFile";
 import FuelDelivery from "../DRSComponents/FuelDelivery";
@@ -39,7 +39,6 @@ import { Slide, toast } from "react-toastify";
 import Swal from "sweetalert2";
 import axios from "axios";
 
-
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   // const receivedData = props?.location?.state;
@@ -48,24 +47,28 @@ const ManageDsr = (props) => {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location?.search);
-    const encodedData = searchParams?.get('data');
+    const encodedData = searchParams?.get("data");
 
     if (encodedData) {
       try {
         const decodedData = JSON.parse(decodeURIComponent(encodedData));
         console.log(decodedData.client_id, "decodedData");
         console.log(decodedData, "decodedData");
-
+      
+        formik.setFieldValue("company_id", decodedData.company_id);
+      
+        formik.setFieldValue("client_id", decodedData.client_id);
+      
+        formik.setFieldValue("site_id", decodedData.site_id);
+        formik.setFieldValue("start_date", decodedData.start_date);
         GetDataWithClient(decodedData);
       } catch (error) {
-        console.error('Error decoding or parsing data:', error);
+        console.error("Error decoding or parsing data:", error);
       }
     } else {
-      console.log('No data found in query parameters.');
+      console.log("No data found in query parameters.");
     }
-  }, [navigate, location])
-
-
+  }, [navigate, location]);
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
@@ -108,8 +111,6 @@ const ManageDsr = (props) => {
     permissionsArray?.includes("drs-delete-data");
 
   const isAssignPermissionAvailable = permissionsArray?.includes("drs-hit-api");
-
-  
 
   const ErrorAlert = (message) => {
     toast.error(message, {
@@ -171,6 +172,7 @@ const ManageDsr = (props) => {
   };
 
   const getDRSData = async () => {
+   
     try {
       const formData = new FormData();
       formData.append("site_id", SiteId);
@@ -246,19 +248,20 @@ const ManageDsr = (props) => {
 
   const handleDataFromBunkeredSales = (data) => {
     GetDataWithClient(data);
-  
-    if(data?.checkStateForBankDeposit){
+
+    if (data?.checkStateForBankDeposit) {
       setUploadTabname("Bank Deposit");
       // console.log("Checking for bank deposit", data?.checkStateForBankDeposit);
-    }else if( data?.checkState){
+    } else if (data?.checkState) {
       data?.checkState ? setUploadTabname("Cash Banking") : setUploadTabname();
       // console.log("checking Loading is true or false", data.checkState);
-    }else{
+    } else {
       setUploadTabname();
     }
   };
 
   const GetDataWithClient = async (values) => {
+    console.log(values,"values")
     try {
       const formData = new FormData();
 
@@ -361,6 +364,31 @@ const ManageDsr = (props) => {
     inputDateElement.showPicker();
   };
 
+  const validationSchema = Yup.object({
+    company_id: Yup.string().required("Company is required"),
+    site_id: Yup.string().required("Site is required"),
+    start_date: Yup.date()
+      .required("Start Date is required")
+      .min(
+        new Date("2023-01-01"),
+        "Start Date cannot be before January 1, 2023"
+      )
+      .max(new Date(), "Start Date cannot be after the current date"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      client_id: "",
+      company_id: "",
+      site_id: "",
+      start_date: "",
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      GetDataWithClient(values);
+    },
+  });
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -391,276 +419,228 @@ const ManageDsr = (props) => {
           <Col md={12} xl={12}>
             <Card>
               <Card.Body>
-                <Formik
-                  initialValues={{
-                    client_id: "",
-                    company_id: "",
-                    site_id: "",
-                    start_date: "",
-                  }}
-                  validationSchema={Yup.object({
-                    company_id: Yup.string().required("Company is required"),
-                    site_id: Yup.string().required("Site is required"),
-                    start_date: Yup.date()
-                      .required("Start Date is required")
-                      .min(
-                        new Date("2023-01-01"),
-                        "Start Date cannot be before January 1, 2023"
-                      )
-                      .max(
-                        new Date(new Date().setDate(new Date().getDate() - 1)),
-                        "Start Date cannot be after the current date"
-                      )
-                      .max(
-                        new Date(new Date().setDate(new Date().getDate() - 1)),
-                        "Start Date cannot be after the current date"
-                      ),
-                  })}
-                  onSubmit={(values) => {
-                    GetDataWithClient(values);
-                  }}
-                >
-                  {({ handleSubmit, errors, touched, setFieldValue }) => (
-                    <Form onSubmit={handleSubmit}>
-                      <Card.Body>
-                        <Row>
-                          {localStorage.getItem("superiorRole") !==
-                            "Client" && (
-                            <Col lg={3} md={6}>
-                              <FormGroup>
-                                <label
-                                  htmlFor="client_id"
-                                  className=" form-label mt-4"
-                                >
-                                  Client
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <Field
-                                  as="select"
-                                  className={`input101 ${
-                                    errors.client_id && touched.client_id
-                                      ? "is-invalid"
-                                      : ""
-                                  }`}
-                                  id="client_id"
-                                  name="client_id"
-                                  onChange={(e) => {
-                                    const selectedType = e.target.value;
-                                    setFieldValue("client_id", selectedType);
-                                    setSelectedClientId(selectedType);
-
-                                    // Reset the selected company and site
-                                    setSelectedCompanyList([]);
-                                    setFieldValue("company_id", "");
-                                    setFieldValue("site_id", "");
-
-                                    const selectedClient =
-                                      AddSiteData.data.find(
-                                        (client) => client.id === selectedType
-                                      );
-
-                                    if (selectedClient) {
-                                      setSelectedCompanyList(
-                                        selectedClient.companies
-                                      );
-                                    }
-                                  }}
-                                >
-                                  <option value="">Select a Client</option>
-                                  {AddSiteData.data &&
-                                  AddSiteData.data.length > 0 ? (
-                                    AddSiteData.data.map((item) => (
-                                      <option key={item.id} value={item.id}>
-                                        {item.client_name}
-                                      </option>
-                                    ))
-                                  ) : (
-                                    <option disabled>No Client</option>
-                                  )}
-                                </Field>
-
-                                <ErrorMessage
-                                  component="div"
-                                  className="invalid-feedback"
-                                  name="client_id"
-                                />
-                              </FormGroup>
-                            </Col>
-                          )}
-                          <Col lg={3} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="company_id"
-                                className="form-label mt-4"
-                              >
-                                Company
-                                <span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${
-                                  errors.company_id && touched.company_id
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="company_id"
-                                name="company_id"
-                                onChange={(e) => {
-                                  const selectedCompany = e.target.value;
-                                  setFieldValue("company_id", selectedCompany);
-                                  setSelectedSiteList([]);
-                                  const selectedCompanyData =
-                                    selectedCompanyList.find(
-                                      (company) =>
-                                        company.id === selectedCompany
-                                    );
-                                  if (selectedCompanyData) {
-                                    setSelectedSiteList(
-                                      selectedCompanyData.sites
-                                    );
-                                  }
-                                }}
-                              >
-                                <option value="">Select a Company</option>
-                                {selectedCompanyList.length > 0 ? (
-                                  selectedCompanyList.map((company) => (
-                                    <option key={company.id} value={company.id}>
-                                      {company.company_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Company</option>
-                                )}
-                              </Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="company_id"
-                              />
-                            </FormGroup>
-                          </Col>
-                          <Col lg={3} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="site_id"
-                                className="form-label mt-4"
-                              >
-                                Site
-                                <span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${
-                                  errors.site_id && touched.site_id
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="site_id"
-                                name="site_id"
-                                onChange={(e) => {
-                                  const selectedsite_id = e.target.value;
-                                  setFieldValue("site_id", selectedsite_id);
-                                  setSiteId(selectedsite_id);
-                                }}
-                              >
-                                <option value="">Select a Site</option>
-                                {selectedSiteList.length > 0 ? (
-                                  selectedSiteList.map((site) => (
-                                    <option key={site.id} value={site.id}>
-                                      {site.site_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Site</option>
-                                )}
-                              </Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="site_id"
-                              />
-                            </FormGroup>
-                          </Col>
-                          <Col lg={3} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="start_date"
-                                className="form-label mt-4"
-                              >
-                                Date
-                                <span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                type="date"
-                                min={"2023-01-01"}
-                                max={getCurrentDate()}
-                                onClick={hadndleShowDate}
-                                className={`input101 ${
-                                  errors.start_date && touched.start_date
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="start_date"
-                                name="start_date"
-                                // Set the minimum date value here
-                                onChange={(e) => {
-                                  const selectedCompany = e.target.value;
-                                  setFieldValue("start_date", selectedCompany);
-                                  setDRSDate(selectedCompany);
-                                }}
-                              ></Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="start_date"
-                              />
-                            </FormGroup>
-                          </Col>
-                        </Row>
-                      </Card.Body>
-                      <Card.Footer className="text-end">
-                        {isDeletePermissionAvailable && DataEnteryList ? (
-                          <OverlayTrigger
-                            placement="top"
-                            overlay={<Tooltip>Delete</Tooltip>}
+                <form onSubmit={formik.handleSubmit}>
+                  <Row>
+                    {localStorage.getItem("superiorRole") !== "Client" && (
+                      <Col lg={3} md={3}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="client_id"
+                            className="form-label mt-4"
                           >
-                            <Link
-                              to="#"
-                              className="btn btn-danger me-2 rounded-11"
-                              onClick={() => handleDelete()}
-                            >
-                              <i>
-                                <svg
-                                  className="table-delete"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  height="20"
-                                  viewBox="0 0 24 24"
-                                  width="16"
-                                >
-                                  <path d="M0 0h24v24H0V0z" fill="none" />
-                                  <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
-                                </svg>
-                              </i>
-                            </Link>
-                          </OverlayTrigger>
-                        ) : (
-                          ""
-                        )}
-                        <button className="btn btn-primary me-2" type="submit">
-                          Submit
-                        </button>
-                        <Link
-                          type="submit"
-                          className="btn btn-danger me-2 "
-                          to={`/dashboard/`}
+                            Client <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.client_id &&
+                              formik.touched.client_id
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="client_id"
+                            name="client_id"
+                            onChange={(e) => {
+                              formik.handleChange(e);
+                              setSelectedCompanyList([]);
+                              formik.setFieldValue("company_id", "");
+                              formik.setFieldValue("site_id", "");
+
+                              const selectedClient = AddSiteData.data.find(
+                                (client) => client.id === e.target.value
+                              );
+
+                              if (selectedClient) {
+                                setSelectedCompanyList(
+                                  selectedClient.companies
+                                );
+                              }
+                            }}
+                            value={formik.values.client_id}
+                          >
+                            <option value="">Select a Client</option>
+                            {AddSiteData.data && AddSiteData.data.length > 0 ? (
+                              AddSiteData.data.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.client_name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled>No Client</option>
+                            )}
+                          </select>
+                          {formik.errors.client_id &&
+                            formik.touched.client_id && (
+                              <div className="invalid-feedback">
+                                {formik.errors.client_id}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                    )}
+                    <Col lg={3} md={3}>
+                      <div className="form-group">
+                        <label htmlFor="company_id" className="form-label mt-4">
+                          Company
+                          <span className="text-danger">*</span>
+                        </label>
+                        <select
+                          className={`input101 ${
+                            formik.errors.company_id &&
+                            formik.touched.company_id
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          id="company_id"
+                          name="company_id"
+                          value={formik.values.company_id}
+                          onChange={(e) => {
+                            const selectedCompany = e.target.value;
+                            formik.setFieldValue("company_id", selectedCompany);
+                            setSelectedSiteList([]);
+                            const selectedCompanyData =
+                              selectedCompanyList.find(
+                                (company) => company.id === selectedCompany
+                              );
+                            if (selectedCompanyData) {
+                              setSelectedSiteList(selectedCompanyData.sites);
+                            }
+                          }}
                         >
-                          Reset
+                          <option value="">Select a Company</option>
+                          {selectedCompanyList.length > 0 ? (
+                            selectedCompanyList.map((company) => (
+                              <option key={company.id} value={company.id}>
+                                {company.company_name}
+                              </option>
+                            ))
+                          ) : (
+                            <option disabled>No Company</option>
+                          )}
+                        </select>
+                        {formik.errors.company_id &&
+                          formik.touched.company_id && (
+                            <div className="invalid-feedback">
+                              {formik.errors.company_id}
+                            </div>
+                          )}
+                      </div>
+                    </Col>
+
+                    <Col lg={3} md={3}>
+                      <div classname="form-group">
+                        <label htmlFor="site_id" className="form-label mt-4">
+                          Site
+                        </label>
+                        <select
+                          as="select"
+                          className={`input101 ${
+                            formik.errors.site_id && formik.touched.site_id
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          id="site_id"
+                          name="site_id"
+                          value={formik.values.site_id}
+                          onChange={(e) => {
+                            const selectedsite_id = e.target.value;
+                            formik.setFieldValue("site_id", selectedsite_id);
+                            setSiteId(selectedsite_id);
+                          }}
+                        >
+                          <option value="">Select a Site</option>
+                          {selectedSiteList.length > 0 ? (
+                            selectedSiteList.map((site) => (
+                              <option key={site.id} value={site.id}>
+                                {site.site_name}
+                              </option>
+                            ))
+                          ) : (
+                            <option disabled>No Site</option>
+                          )}
+                        </select>
+                        {formik.errors.site_id && formik.touched.site_id && (
+                          <div className="invalid-feedback">
+                            {formik.errors.site_id}
+                          </div>
+                        )}
+                      </div>
+                    </Col>
+
+                    <Col lg={3} md={3}>
+                      <div classname="form-group">
+                        <label htmlFor="start_date" className="form-label mt-4">
+                          Date
+                          <span className="text-danger">*</span>
+                        </label>
+                        <input
+                          type="date"
+                          min={"2023-01-01"}
+                          max={getCurrentDate()}
+                          onClick={hadndleShowDate}
+                          className={`input101 ${
+                            formik.errors.start_date &&
+                            formik.touched.start_date
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          value={formik.values.start_date}
+                          id="start_date"
+                          name="start_date"
+                          onChange={(e) => {
+                            const selectedCompany = e.target.value;
+                            formik.setFieldValue("start_date", selectedCompany);
+                            setDRSDate(selectedCompany);
+                          }}
+                        ></input>
+                        {formik.errors.start_date &&
+                          formik.touched.start_date && (
+                            <div className="invalid-feedback">
+                              {formik.errors.start_date}
+                            </div>
+                          )}
+                      </div>
+                    </Col>
+                  </Row>
+                  <div className="text-end">
+                    {isDeletePermissionAvailable && DataEnteryList ? (
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={<Tooltip>Delete</Tooltip>}
+                      >
+                        <Link
+                          to="#"
+                          className="btn btn-danger me-2 rounded-11"
+                          onClick={() => handleDelete()}
+                        >
+                          <i>
+                            <svg
+                              className="table-delete"
+                              xmlns="http://www.w3.org/2000/svg"
+                              height="20"
+                              viewBox="0 0 24 24"
+                              width="16"
+                            >
+                              <path d="M0 0h24v24H0V0z" fill="none" />
+                              <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
+                            </svg>
+                          </i>
                         </Link>
-                       
-                      </Card.Footer>
-                    </Form>
-                  )}
-                </Formik>
+                      </OverlayTrigger>
+                    ) : (
+                      ""
+                    )}
+                    <button className="btn btn-primary me-2" type="submit">
+                      Submit
+                    </button>
+                    <Link
+                      type="submit"
+                      className="btn btn-danger me-2 "
+                      to={`/dashboard/`}
+                    >
+                      Reset
+                    </Link>
+                  </div>
+                </form>
               </Card.Body>
             </Card>
           </Col>
