@@ -16,6 +16,7 @@ const DashTopSection = (props) => {
     shopsale,
   } = props;
 
+
   const [UploadTabname, setUploadTabname] = useState();
   console.log("UploadTabname:", UploadTabname);
 
@@ -34,6 +35,9 @@ const DashTopSection = (props) => {
       myvalueTest
     }
     console.log("card name", cardName);
+    const passDataString =  JSON.stringify(passData);
+    localStorage.setItem("passData", passDataString);
+    console.log(passDataString , "pass data string");
     navigate(`/dashboardChild`, { state: passData });
   }
 

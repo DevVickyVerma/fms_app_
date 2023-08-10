@@ -16895,7 +16895,9 @@ div.conv-form-wrapper div.options div.option.selected {
   }
   
   img.mobile-logo {
-    max-height: 50px;
+    max-height: 39px;
+    margin: -10px;
+    border-radius: 5px;
 }
   .leftmenu-styles {
     display: none;
@@ -22204,8 +22206,8 @@ body.fixed-header .header {
   /* margin-right: 0.5rem; */
   /* width: auto; */
   border-radius: 7px;
-    width: 170px;
-    height: 60px;
+    width: 128px;
+    height: 48px;
     margin-top: -12px;
 }
 
@@ -35429,6 +35431,10 @@ body.rtl {
   border-bottom: 1px solid #eaedf1;
   background: linear-gradient(90deg, rgba(128,19,207,1) 0%, rgba(149,60,213,1) 58%, rgba(202,129,255,1) 100%);
   transition: padding-left 0.3s ease;
+  height: 62px;
+  margin: 0;
+  padding: 0;
+  padding-left : 13px;
 }
 
 @media (min-width: 992px) {
@@ -36356,7 +36362,7 @@ body.rtl {
   -webkit-transition: left 0.2s ease, width 0.2s ease;
   -o-transition: left 0.2s ease, width 0.2s ease;
   transition: left 0.2s ease, width 0.2s ease;
-  height: 87px;
+  height: 62px;
   background: #8013cf;
 }
 
