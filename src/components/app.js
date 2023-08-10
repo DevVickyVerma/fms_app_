@@ -117,7 +117,7 @@ const App = (props) => {
           <div className="page-main">
             <TopLoadingBar
               style={{ height: "4px" }}
-              color="#6259ca"
+              color="#fff"
               ref={loadingBarRef}
             />
 
