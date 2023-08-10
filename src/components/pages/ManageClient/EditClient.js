@@ -53,14 +53,9 @@ const EditClient = (props) => {
     }
   }
 
-
-
   const { id } = useParams();
 
- 
-
   useEffect(() => {
- 
     try {
       FetchRoleList();
     } catch (error) {
@@ -69,9 +64,8 @@ const EditClient = (props) => {
     console.clear();
   }, [id]);
 
-
   const FetchRoleList = async () => {
-   try {
+    try {
       const response = await getData(`/client-detail?id=${id}`);
 
       if (response) {
@@ -87,12 +81,11 @@ const EditClient = (props) => {
     }
   };
 
-
   const token = localStorage.getItem("token");
   const handleMaOptionChange = (value) => {
     const maOptionArray = [...formik.values.ma_option];
     const index = maOptionArray.indexOf(value);
-  
+
     if (index === -1) {
       // If the value is not in the array, add it
       maOptionArray.push(value);
@@ -100,13 +93,9 @@ const EditClient = (props) => {
       // If the value is in the array, remove it
       maOptionArray.splice(index, 1);
     }
-  
+
     formik.setFieldValue("ma_option", maOptionArray);
   };
-  
-
-
-
 
   const handleSubmit = async (values) => {
     try {
@@ -120,6 +109,7 @@ const EditClient = (props) => {
       formData.append("financial_start_month", values.financial_start_month);
       formData.append("last_name", values.last_name);
       formData.append("email", values.email);
+      formData.append("fairbank_email", values.fairbank_email);
       formData.append("password", values.first_name);
       formData.append("status", values.status);
       formData.append("loomis_status", values.loomis_status);
@@ -151,7 +141,7 @@ const EditClient = (props) => {
       financial_start_month: "",
       first_name: "",
       id: "",
-
+      fairbank_email: "",
       last_name: "",
       loomis_status: "",
       work_flow: "",
@@ -371,31 +361,37 @@ const EditClient = (props) => {
                           )}
                         </div>
                       </Col>
-                      {/* <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label className="form-label mt-4" htmlFor="password">
-                        password<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        type="password"
-                        className={`input101 ${
-                          formik.errors.password && formik.touched.password
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="password"
-                        name="password"
-                        placeholder="Company Name"
-                        onChange={formik.handleChange}
-                        value={formik.values.password || ""}
-                      />
-                      {formik.errors.password && formik.touched.password && (
-                        <div className="invalid-feedback">
-                          {formik.errors.password}
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            className="form-label mt-4"
+                            htmlFor="fairbank_email"
+                          >
+                            Fairbank Email<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            autoComplete="off"
+                            className={`input101 ${
+                              formik.errors.fairbank_email &&
+                              formik.touched.fairbank_email
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="fairbank_email"
+                            name="fairbank_email"
+                            placeholder="Fairbank Email"
+                            onChange={formik.handleChange}
+                            value={formik.values.fairbank_email || ""}
+                          />
+                          {formik.errors.fairbank_email &&
+                            formik.touched.fairbank_email && (
+                              <div className="invalid-feedback">
+                                {formik.errors.fairbank_email}
+                              </div>
+                            )}
                         </div>
-                      )}
-                    </div>
-                  </Col> */}
+                      </Col>
 
                       <Col lg={4} md={6}>
                         <div className="form-group">
@@ -579,50 +575,49 @@ const EditClient = (props) => {
                       </Col>
                       {/* Work Flow Status End */}
                       <Col lg={4} md={6}>
-                      <div>
-                      <label
+                        <div>
+                          <label
                             htmlFor="ma_option"
                             className="form-label mt-4"
                           >
                             MA Options
                             <span className="text-danger">*</span>
                           </label>
-  <label>
-    <input
-      type="checkbox"
-      name="ma_option"
-      value="1"
-      checked={formik.values.ma_option.includes("1")}
-      onChange={() => handleMaOptionChange("1")}
-    />
-    Actual
-  </label>
-</div>
-<div>
-  <label>
-    <input
-      type="checkbox"
-      name="ma_option"
-      value="2"
-      checked={formik.values.ma_option.includes("2")}
-      onChange={() => handleMaOptionChange("2")}
-    />
-    Forecast
-  </label>
-</div>
-<div>
-  <label>
-    <input
-      type="checkbox"
-      name="ma_option"
-      value="3"
-      checked={formik.values.ma_option.includes("3")}
-      onChange={() => handleMaOptionChange("3")}
-    />
-    Variance
-  </label>
-</div>
-
+                          <label>
+                            <input
+                              type="checkbox"
+                              name="ma_option"
+                              value="1"
+                              checked={formik.values.ma_option.includes("1")}
+                              onChange={() => handleMaOptionChange("1")}
+                            />
+                            Actual
+                          </label>
+                        </div>
+                        <div>
+                          <label>
+                            <input
+                              type="checkbox"
+                              name="ma_option"
+                              value="2"
+                              checked={formik.values.ma_option.includes("2")}
+                              onChange={() => handleMaOptionChange("2")}
+                            />
+                            Forecast
+                          </label>
+                        </div>
+                        <div>
+                          <label>
+                            <input
+                              type="checkbox"
+                              name="ma_option"
+                              value="3"
+                              checked={formik.values.ma_option.includes("3")}
+                              onChange={() => handleMaOptionChange("3")}
+                            />
+                            Variance
+                          </label>
+                        </div>
                       </Col>
                     </Row>
 
