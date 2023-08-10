@@ -458,4 +458,5 @@ input.table-input.readonly.total-input-card {
   overflow-x: auto;
   overflow-y: hidden;
   min-height: 405px;
+  overflow: hidden;
 }
