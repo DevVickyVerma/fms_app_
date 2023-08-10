@@ -6,10 +6,31 @@ import DashTopTableSection from "./DashTopTableSection";
 
 const DashBoardChild = () => {
   const location = useLocation();
-  // const {myvalueTest} = location.state;
   
-  console.log("CHILD LOCATION DATA", location);
-  // console.log("CHILD LOCATION DATA", myvalueTest);
+    // const {
+    //   GrossVolume,
+    //   shopmargin,
+    //   GrossProfitValue,
+    //   GrossMarginValue,
+    //   FuelValue,
+    //   shopsale,
+    //   } = location?.state;
+    
+      const GrossVolume = location.state ? location.state.GrossVolume : null;
+      const shopmargin = location.state ? location.state.shopmargin : null;
+      const GrossProfitValue = location.state ? location.state.GrossProfitValue : null;
+      const GrossMarginValue = location.state ? location.state.GrossMarginValue : null;
+      const FuelValue = location.state ? location.state.FuelValue : null;
+      const shopsale = location.state ? location.state.shopsale : null;
+
+  const passDataString = localStorage.getItem("passData");
+
+  console.log(passDataString , "getting from local storage");
+  // if (passDataString){
+  //   return 
+  // }
+  console.log("CHILD LOCATION DTA", location?.state);
+  // console.log("CHILD LOCATION gross volume", GrossVolume );
   return (
     <>
       <div className="page-header ">
@@ -34,7 +55,12 @@ const DashBoardChild = () => {
 
       </div>
       <Row>
-        <DashTopSection />
+        <DashTopSection  GrossVolume={GrossVolume}
+          shopmargin={shopmargin}
+          GrossProfitValue={GrossProfitValue}
+          GrossMarginValue={GrossMarginValue}
+          FuelValue={FuelValue}
+          shopsale={shopsale} />
       </Row>
 
       <Row>

@@ -243,12 +243,12 @@ const Sidebar = () => {
                 <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" />
               </svg>
             </div>
-            <ul className="side-menu" id="sidebar-main">
+            <ul className="side-menu mt-3" id="sidebar-main">
               {MENUITEMS.map((Item, i) => (
                 <Fragment key={i}>
-                  <li className="sub-category">
+                  {/* <li className="sub-category">
                     <h3>{Item.menutitle}</h3>
-                  </li>
+                  </li> */}
                   {Item.Items.map((menuItem, i) =>
                     menuItem.visibility ? (
                       <li
