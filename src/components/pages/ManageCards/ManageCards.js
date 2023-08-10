@@ -218,7 +218,7 @@ const ManageCards = (props) => {
       name: "Status",
       selector: (row) => [row.card_status],
       sortable: true,
-      width: "10%",
+      width: "13%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>

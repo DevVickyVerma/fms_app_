@@ -223,7 +223,7 @@ const ManageSite = (props) => {
       name: "S.No",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      width: "7%",
       center: true,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -235,7 +235,7 @@ const ManageSite = (props) => {
       name: "Site",
       selector: (row) => [row.site_name],
       sortable: false,
-      width: "20%",
+      width: "18%",
       cell: (row, index) => (
         <div
           className="d-flex"
@@ -256,7 +256,7 @@ const ManageSite = (props) => {
       name: " Client",
       selector: (row) => [row.site_name],
       sortable: false,
-      width: "17%",
+      width: "14%",
       cell: (row, index) => {
         try {
           return (
@@ -310,7 +310,7 @@ const ManageSite = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "15%",
+      width: "12%",
       cell: (row, index) => (
         <div
           className="d-flex"
@@ -369,7 +369,7 @@ const ManageSite = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "33%",
+      width: "30%",
       cell: (row) => (
         <span className="text-center">
           <Dropdown className="dropdown btn-group">

@@ -264,7 +264,7 @@ const ManageSiteTank = (props) => {
       name: "S.No",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      width: "8%",
       center: true,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -276,7 +276,7 @@ const ManageSiteTank = (props) => {
       name: "Site Name",
       selector: (row) => [row.site],
       sortable: true,
-      width: "15%",
+      width: "14%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
