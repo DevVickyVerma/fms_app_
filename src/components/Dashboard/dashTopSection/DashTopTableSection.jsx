@@ -44,7 +44,7 @@ const DashTopTableSection = (props) => {
       name: "S.No",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      width: "5%",
       center: true,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -56,7 +56,7 @@ const DashTopTableSection = (props) => {
       name: "Client",
       selector: (row) => [row.name],
       sortable: true,
-      width: "15%",
+      width: "19%",
       cell: (row, index) => (
         <Link to={"/DashBoardSubChild"}>
           <div className="d-flex">
@@ -71,7 +71,7 @@ const DashTopTableSection = (props) => {
       name: "Fuel Volume",
       selector: (row) => [row.fuel_volume.gross_volume],
       sortable: true,
-      width: "15%",
+      width: "19%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -111,7 +111,7 @@ const DashTopTableSection = (props) => {
       name: "Fuel Sales",
       selector: (row) => [row.fuel_sales.total_value],
       sortable: true,
-      width: "15%",
+      width: "19%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -150,7 +150,7 @@ const DashTopTableSection = (props) => {
       name: "Gross Profit",
       selector: (row) => [row.gross_profit.gross_profit],
       sortable: true,
-      width: "15%",
+      width: "19%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -189,7 +189,7 @@ const DashTopTableSection = (props) => {
       name: "Shop Sales",
       selector: (row) => [row.shop_sales.shop_sales],
       sortable: true,
-      width: "25%",
+      width: "19%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
