@@ -72,20 +72,21 @@ const AddUsers = (props) => {
       formData.append("last_name", values.last_name);
       formData.append("role_id", values.role);
       formData.append("send_mail", isChecked);
-  
+      {localStorage.getItem("superiorRole") ===
+      "Client" && (
+      formData.append("work_flow", values.work_flow))}
+
       if (SelectedClient !== null && SelectedClient !== undefined) {
         SelectedClient.forEach((client, index) => {
           formData.append(`assign_client[${index}]`, client);
         });
       }
-      
-      // const resultString = SelectedClient.map((value, index) => `assign_client[${index}]:${value},`).join('');
 
       console.log(SelectedClient, "SelectedClient");
       const postDataUrl = "/user/add";
       const navigatePath = "/users";
 
-      await postData(postDataUrl, formData,navigatePath);
+      await postData(postDataUrl, formData, navigatePath);
 
       setSubmitting(false); // Set the submission state to false after the API call is completed
     } catch (error) {
@@ -139,7 +140,6 @@ const AddUsers = (props) => {
     }
   };
 
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -191,6 +191,7 @@ const AddUsers = (props) => {
                   password: "",
 
                   send_mail: "1",
+                  work_flow: "",
                 }}
                 validationSchema={Yup.object({
                   first_name: Yup.string()
@@ -401,6 +402,38 @@ const AddUsers = (props) => {
                             </Select>
                           </FormControl>
                         </Col>
+                        {localStorage.getItem("superiorRole") ===
+                            "Client" && (
+                        <Col lg={4} md={6}>
+                          <FormGroup>
+                            <label
+                              htmlFor="work_flow"
+                              className=" form-label mt-4"
+                            >
+                              Workflow Notification
+                            </label>
+                            <Field
+                              as="select"
+                              className={`input101 ${
+                                errors.work_flow && touched.work_flow
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              id="work_flow"
+                              name="work_flow"
+                            >
+                              <option value="">Select a Work Flow</option>
+                              <option value="1">Enable</option>
+                              <option value="0">Disable</option>
+                            </Field>
+                            <ErrorMessage
+                              component="div"
+                              className="invalid-feedback"
+                              name="work_flow"
+                            />
+                          </FormGroup>
+                        </Col>
+                        )}
                         <Col lg={4} md={6}>
                           <FormGroup className="sendemail">
                             <label htmlFor="email" className="form-label mt-4">
@@ -437,8 +470,6 @@ const AddUsers = (props) => {
                       >
                         Cancel
                       </Link>
-
-                      
                     </Card.Footer>
                   </Form>
                 )}

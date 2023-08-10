@@ -76,7 +76,6 @@ const EditUsers = (props) => {
     console.clear();
     console.clear();
   }, []);
-  
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
@@ -97,13 +96,11 @@ const EditUsers = (props) => {
         console.log(response.data.data);
         setDropdownValue(response.data.data);
 
-      
-
         response?.data?.data?.clients.forEach((client) => {
           console.log(client.client_name);
           combinedClientNames.push(client.client_name);
         });
-        console.log(combinedClientNames,"combinedClientNames")
+        console.log(combinedClientNames, "combinedClientNames");
         setSelectedItems(combinedClientNames);
       }
     } catch (error) {
@@ -111,7 +108,7 @@ const EditUsers = (props) => {
     }
   };
 
-  console.log(combinedClientNames,"combinedClientNamescombinedClientNames")
+  console.log(combinedClientNames, "combinedClientNamescombinedClientNames");
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
@@ -123,13 +120,17 @@ const EditUsers = (props) => {
       formData.append("id", id);
 
       formData.append("role_id", values.role_id);
+      {
+        localStorage.getItem("superiorRole") === "Client" &&
+          formData.append("work_flow", values.work_flow);
+      }
       formData.append("status", values.status);
       if (SelectedClient !== null && SelectedClient !== undefined) {
         SelectedClient.forEach((client, index) => {
           formData.append(`assign_client[${index}]`, client);
         });
       }
-    
+
       const postDataUrl = "/user/update";
       const navigatePath = "/users";
 
@@ -145,6 +146,7 @@ const EditUsers = (props) => {
       id: "",
       role_id: "",
       last_name: "",
+      work_flow: "",
 
       status: "1",
     },
@@ -351,7 +353,7 @@ const EditUsers = (props) => {
                             value={selectedItems}
                             onChange={(event) => {
                               setSelectedItems(event.target.value);
-                           
+
                               const selectedSiteNames = event.target.value;
                               const filteredSites = AddSiteData?.data?.filter(
                                 (item) =>
@@ -368,15 +370,15 @@ const EditUsers = (props) => {
                               <em>Select items</em>
                             </MenuItem>
                             {AddSiteData?.data?.map((item) => {
-                              console.log(selectedItems,`selectedItemsmap`);
+                              console.log(selectedItems, `selectedItemsmap`);
                               const isItemSelected = selectedItems.includes(
                                 item.id
                               );
                               console.log(
                                 `Item "${item.id}" is selected: ${isItemSelected}`
                               );
-                           
-                              console.log(selectedItems,`selectedItems`);
+
+                              console.log(selectedItems, `selectedItems`);
                               return (
                                 <MenuItem
                                   key={item.client_name}
@@ -390,6 +392,40 @@ const EditUsers = (props) => {
                           </Select>
                         </FormControl>
                       </Col>
+                      {localStorage.getItem("superiorRole") === "Client" && (
+                        <Col lg={4} md={6}>
+                          <div className="form-group">
+                            <label
+                              htmlFor="work_flow"
+                              className="form-label mt-4"
+                            >
+                              Workflow Notification
+                              {/* <span className="text-danger">*</span> */}
+                            </label>
+                            <select
+                              className={`input101 ${
+                                formik.errors.work_flow &&
+                                formik.touched.work_flow
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              id="work_flow"
+                              name="work_flow"
+                              onChange={formik.handleChange}
+                              value={formik.values.work_flow}
+                            >
+                              <option value="1">Enable</option>
+                              <option value="0">Disable</option>
+                            </select>
+                            {formik.errors.work_flow &&
+                              formik.touched.work_flow && (
+                                <div className="invalid-feedback">
+                                  {formik.errors.work_flow}
+                                </div>
+                              )}
+                          </div>
+                        </Col>
+                      )}
                     </Row>
 
                     <div className="text-end">

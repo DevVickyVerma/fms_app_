@@ -419,6 +419,8 @@ const ManageClient = (props) => {
   //   );
   // };
 
+ 
+  const dynamicClass = "dynamicClass" /* your dynamic class */;
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -508,6 +510,7 @@ const ManageClient = (props) => {
                       pagination
                       highlightOnHover
                       searchable={false}
+                      className={dynamicClass}
                       // className="custom-datatable" // Add your custom class here
                     />
                   </DataTableExtensions>

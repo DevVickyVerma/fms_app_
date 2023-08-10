@@ -451,7 +451,7 @@ input.table-input.readonly.total-input-card {
   font-size: 16px;
   /* Other styles */
 }
-.iLyphs .rdt_Table {
+.rdt_Table{
   position: relative;
   width: 100%;
   border-radius: inherit;
@@ -459,4 +459,10 @@ input.table-input.readonly.total-input-card {
   overflow-y: hidden;
   min-height: 405px;
   overflow: hidden;
+}
+[data-role="table"] {
+  /* Your custom styles here */
+  background-color: #000;
+  border: 1px solid #ddd;
+  /* ... */
 }
