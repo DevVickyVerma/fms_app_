@@ -456,6 +456,13 @@ const AddUsers = (props) => {
                     </Card.Body>
 
                     <Card.Footer className="text-end">
+                    <Link
+                        type="submit"
+                        className="btn btn-danger me-2 "
+                        to={`/users/`}
+                      >
+                        Cancel
+                      </Link>
                       <button
                         type="submit"
                         className="btn btn-primary me-2 "
@@ -463,13 +470,7 @@ const AddUsers = (props) => {
                       >
                         Save
                       </button>
-                      <Link
-                        type="submit"
-                        className="btn btn-danger me-2 "
-                        to={`/users/`}
-                      >
-                        Cancel
-                      </Link>
+                   
                     </Card.Footer>
                   </Form>
                 )}

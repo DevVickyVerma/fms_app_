@@ -652,9 +652,6 @@ const ManageDsr = (props) => {
                     ) : (
                       ""
                     )}
-                    <button className="btn btn-primary me-2" type="submit">
-                      Submit
-                    </button>
                     <Link
                       type="submit"
                       className="btn btn-danger me-2 "
@@ -662,6 +659,10 @@ const ManageDsr = (props) => {
                     >
                       Reset
                     </Link>
+                    <button className="btn btn-primary me-2" type="submit">
+                      Submit
+                    </button>
+                    
                   </div>
                 </form>
               </Card.Body>

@@ -716,6 +716,13 @@ const ManageSiteTank = (props) => {
                         >
                           Reset
                         </Link> */}
+                        <Link
+                          type="submit"
+                          className="btn btn-danger me-2 "
+                          to={`/dashboard`}
+                        >
+                          Cancel
+                        </Link>
                         <button className="btn btn-primary me-2" type="submit">
                           Submit
                         </button>

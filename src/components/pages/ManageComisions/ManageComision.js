@@ -453,16 +453,17 @@ const ManageDsr = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
-                      <button className="btn btn-primary me-2" type="submit">
-                          Submit
-                        </button>
-                        <Link
+                      <Link
                           type="submit"
                           className="btn btn-danger me-2 "
                           to={`/dashboard/`}
                         >
                           Reset
                         </Link>
+                      <button className="btn btn-primary me-2" type="submit">
+                          Submit
+                        </button>
+                        
                       
                       </Card.Footer>
                     </Form>

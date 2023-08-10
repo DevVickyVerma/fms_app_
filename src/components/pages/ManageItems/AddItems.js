@@ -16,7 +16,6 @@ const AddItems = (props) => {
 
   const [selectedItemTypeList, setselectedItemTypeList] = useState([]);
 
- 
   const navigate = useNavigate();
 
   const handleSubmit1 = async (values) => {
@@ -49,8 +48,6 @@ const AddItems = (props) => {
     }
   }, [UserPermissions]);
 
-
- 
   const handleItemData = async () => {
     try {
       const response = await getData("/item-type/list");
@@ -64,11 +61,10 @@ const AddItems = (props) => {
     }
   };
 
-
-
   useEffect(() => {
     handleItemData();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
 
   return (
     <>
@@ -112,9 +108,7 @@ const AddItems = (props) => {
                     status: "1",
                   }}
                   validationSchema={Yup.object({
-                    name: Yup.string()
-                     
-                      .required(" Site Item Name is required"),
+                    name: Yup.string().required(" Site Item Name is required"),
 
                     code: Yup.string()
                       .required("Site Item Code is required")
@@ -229,7 +223,6 @@ const AddItems = (props) => {
                           </Col>
                         </Row>
                         <Row>
-                          
                           <Col lg={6} md={12}>
                             <FormGroup>
                               <label
@@ -291,7 +284,6 @@ const AddItems = (props) => {
                           </Col>
                         </Row>
                         <Row>
-                          
                           <Col lg={6} md={12}>
                             <FormGroup>
                               <label
@@ -324,10 +316,6 @@ const AddItems = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
-                      
-                        <button className="btn btn-primary me-2" type="submit">
-                          Add
-                        </button>
                         <Link
                           type="submit"
                           className="btn btn-danger me-2 "
@@ -335,6 +323,10 @@ const AddItems = (props) => {
                         >
                           Cancel
                         </Link>
+
+                        <button className="btn btn-primary me-2" type="submit">
+                          Add
+                        </button>
                       </Card.Footer>
                     </Form>
                   )}
