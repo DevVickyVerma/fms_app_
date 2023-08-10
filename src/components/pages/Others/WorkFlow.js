@@ -471,7 +471,7 @@ const ManageSite = (props) => {
                       striped={true}
                       // center={true}
                       persistTableHead
-                      pagination
+                      paginationPerPage={20}
                       highlightOnHover
                       searchable={false}
                       responsive={true}
