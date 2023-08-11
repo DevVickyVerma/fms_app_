@@ -42,7 +42,7 @@ const CashBanking = (props) => {
   } = props;
   const [selectedFile, setSelectedFile] = useState(null);
   const [data, setData] = useState();
-  const [checkState, setCheckState] = useState(true)
+  const [checkState, setCheckState] = useState(true);
   const [Editdata, setEditData] = useState(false);
   const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
@@ -56,7 +56,6 @@ const CashBanking = (props) => {
       site_id,
       start_date,
       checkState,
-      
     };
     // Call the callback function with the object containing all the props
     sendDataToParent(allPropsData);
@@ -183,7 +182,7 @@ const CashBanking = (props) => {
       if (apidata.api_response === "success") {
         setEditData(false);
         FetchTableData();
-        handleButtonClick()
+        handleButtonClick();
         formik.resetForm();
       }
     } catch (error) {
@@ -442,6 +441,7 @@ const CashBanking = (props) => {
                       // center={true}
                       persistTableHead
                       pagination
+                      paginationPerPage={20}
                       highlightOnHover
                       searchable={true}
                       className="dsrCpt"

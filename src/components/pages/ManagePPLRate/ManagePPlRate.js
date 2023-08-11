@@ -153,8 +153,6 @@ const ManageSiteTank = (props) => {
         ) {
           const clientId = localStorage.getItem("superiorId");
           if (clientId) {
-          
-
             setSelectedClientId(clientId);
 
             setSelectedCompanyList([]);
@@ -435,7 +433,6 @@ const ManageSiteTank = (props) => {
                     start_date: "",
                   }}
                   validationSchema={Yup.object({
-                 
                     company_id: Yup.string().required("Company is required"),
                     site_id: Yup.string().required("Site is required"),
                   })}
@@ -447,7 +444,7 @@ const ManageSiteTank = (props) => {
                     <Form onSubmit={handleSubmit}>
                       <Card.Body>
                         <Row>
-                        {localStorage.getItem("superiorRole") !==
+                          {localStorage.getItem("superiorRole") !==
                             "Client" && (
                             <Col lg={6} md={12}>
                               <FormGroup>
@@ -518,7 +515,7 @@ const ManageSiteTank = (props) => {
                                 />
                               </FormGroup>
                             </Col>
-                            )}
+                          )}
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
@@ -664,6 +661,7 @@ const ManageSiteTank = (props) => {
                       // center={true}
                       persistTableHead
                       pagination
+                      paginationPerPage={20}
                       highlightOnHover
                       searchable={true}
                     />

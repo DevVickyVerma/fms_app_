@@ -1793,14 +1793,14 @@ fieldset:disabled a.btn {
 
 .btn-success {
   color: #fff;
-  background: #13bfa6 !important;
-  border-color: #35b9a6;
+  background: #058308  !important;
+  border-color: #058308 ;
 }
 
 .btn-success:hover {
   color: #fff;
-  background-color: #13bfa6;
-  border-color: #13bfa6;
+  background-color: #058308 ;
+  border-color: #058308 ;
 }
 
 .btn-success:focus,
@@ -1811,21 +1811,21 @@ fieldset:disabled a.btn {
 .btn-success.disabled,
 .btn-success:disabled {
   color: #fff;
-  background-color: #13bfa6;
-  border-color: #13bfa6;
+  background-color: #058308 ;
+  border-color: #058308 ;
 }
 
 .btn-success:not(:disabled):not(.disabled):active,
 .btn-success:not(:disabled):not(.disabled).active {
   color: #fff;
-  background-color: #13bfa6;
-  border-color: #13bfa6;
+  background-color: #058308 ;
+  border-color: #058308 ;
 }
 
 .show > .btn-success.dropdown-toggle {
   color: #fff;
-  background-color: #13bfa6;
-  border-color: #32cab4;
+  background-color: #058308 ;
+  border-color: #43be5f;
 }
 
 .btn-success:not(:disabled):not(.disabled):active:focus,
@@ -2048,8 +2048,8 @@ fieldset:disabled a.btn {
 
 .btn-success-light:hover {
   color: #fff;
-  background-color: #13bfa6 !important;
-  border-color: #13bfa6;
+  background-color: #058308  !important;
+  border-color: #058308 ;
 }
 
 .btn-success-light:focus,
@@ -2611,16 +2611,16 @@ fieldset:disabled a.btn {
 }
 
 .btn-outline-success {
-  color: #13bfa6;
+  color: #058308 ;
   background-color: transparent;
   background-image: none;
-  border-color: #13bfa6;
+  border-color: #058308 ;
 }
 
 .btn-outline-success:hover {
   color: #fff;
-  background-color: #13bfa6;
-  border-color: #13bfa6;
+  background-color: #058308 ;
+  border-color: #058308 ;
 }
 
 .btn-outline-success:focus,
@@ -2630,21 +2630,21 @@ fieldset:disabled a.btn {
 
 .btn-outline-success.disabled,
 .btn-outline-success:disabled {
-  color: #13bfa6;
+  color: #058308 ;
   background-color: transparent;
 }
 
 .btn-outline-success:not(:disabled):not(.disabled):active,
 .btn-outline-success:not(:disabled):not(.disabled).active {
   color: #fff;
-  background-color: #13bfa6;
-  border-color: #13bfa6;
+  background-color: #058308 ;
+  border-color: #058308 ;
 }
 
 .show > .btn-outline-success.dropdown-toggle {
   color: #fff;
-  background-color: #13bfa6;
-  border-color: #13bfa6;
+  background-color: #058308 ;
+  border-color: #058308 ;
 }
 
 .btn-outline-success:not(:disabled):not(.disabled):active:focus,

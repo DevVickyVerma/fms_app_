@@ -91,7 +91,8 @@ const ManageSubBusinessCategory = (props) => {
 
   useEffect(() => {
     FetchTableData();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -139,8 +140,9 @@ const ManageSubBusinessCategory = (props) => {
   const isStatusPermissionAvailable = permissionsArray?.includes(
     "business-status-update"
   );
-  const isEditPermissionAvailable =
-    permissionsArray?.includes("business-sub-category-edit");
+  const isEditPermissionAvailable = permissionsArray?.includes(
+    "business-sub-category-edit"
+  );
   const isAddPermissionAvailable = permissionsArray?.includes(
     "business-sub-category-create"
   );
@@ -215,7 +217,7 @@ const ManageSubBusinessCategory = (props) => {
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
             {row.status === 1 ? (
               <button
-                className="badge bg-success"
+                className="btn btn-success btn-sm"
                 onClick={
                   isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
@@ -224,7 +226,7 @@ const ManageSubBusinessCategory = (props) => {
               </button>
             ) : row.status === 0 ? (
               <button
-                className="badge bg-danger"
+                className="btn btn-danger btn-sm"
                 onClick={
                   isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
@@ -376,6 +378,7 @@ const ManageSubBusinessCategory = (props) => {
                       // center={true}
                       persistTableHead
                       pagination
+                      paginationPerPage={20}
                       highlightOnHover
                       searchable={true}
                     />

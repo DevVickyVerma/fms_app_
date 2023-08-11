@@ -334,7 +334,7 @@ const ManageSite = (props) => {
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
             {row.site_status === 1 ? (
               <button
-                className="badge bg-success"
+                className="btn btn-success btn-sm"
                 onClick={
                   isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
@@ -343,7 +343,7 @@ const ManageSite = (props) => {
               </button>
             ) : row.site_status === 0 ? (
               <button
-                className="badge bg-danger"
+                className="btn btn-danger btn-sm"
                 onClick={
                   isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
@@ -579,6 +579,7 @@ const ManageSite = (props) => {
                       // center={true}
                       persistTableHead
                       pagination
+                      paginationPerPage={20}
                       highlightOnHover
                       searchable={false}
                     />

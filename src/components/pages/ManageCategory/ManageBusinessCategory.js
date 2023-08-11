@@ -3,7 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -84,7 +91,8 @@ const ManageBusinessCategory = (props) => {
 
   useEffect(() => {
     FetchTableData();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -98,7 +106,10 @@ const ManageBusinessCategory = (props) => {
 
   const ToggleStatus = async (formData) => {
     try {
-      const response = await postData("business/category/update-status", formData);
+      const response = await postData(
+        "business/category/update-status",
+        formData
+      );
       console.log(response, "response"); // Console log the response
       if (apidata.api_response === "success") {
         FetchTableData();
@@ -107,8 +118,6 @@ const ManageBusinessCategory = (props) => {
       console.log(error);
     }
   };
-
- 
 
   const permissionsToCheck = [
     "business-type-list",
@@ -128,11 +137,12 @@ const ManageBusinessCategory = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable =
-    permissionsArray?.includes("business-status-update");
-  const isEditPermissionAvailable =
-  
-    permissionsArray?.includes("business-category-edit");
+  const isStatusPermissionAvailable = permissionsArray?.includes(
+    "business-status-update"
+  );
+  const isEditPermissionAvailable = permissionsArray?.includes(
+    "business-category-edit"
+  );
   const isAddPermissionAvailable = permissionsArray?.includes(
     "business-category-create"
   );
@@ -194,18 +204,18 @@ const ManageBusinessCategory = (props) => {
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
             {row.status === 1 ? (
               <button
-                className="badge bg-success"
+                className="btn btn-success btn-sm"
                 onClick={
-                  isEditPermissionAvailable? () => toggleActive(row) : null
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Active
               </button>
             ) : row.status === 0 ? (
               <button
-                className="badge bg-danger"
+                className="btn btn-danger btn-sm"
                 onClick={
-                  isEditPermissionAvailable? () => toggleActive(row) : null
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Inactive
@@ -214,7 +224,7 @@ const ManageBusinessCategory = (props) => {
               <button
                 className="badge"
                 onClick={
-                  isEditPermissionAvailable? () => toggleActive(row) : null
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Unknown
@@ -298,76 +308,74 @@ const ManageBusinessCategory = (props) => {
 
   return (
     <>
-      {isLoading ? (
-        <Loaderimg />
-      ) :null} 
-        <>
-          <div className="page-header ">
-            <div>
-              <h1 className="page-title">Manage Business Category</h1>
+      {isLoading ? <Loaderimg /> : null}
+      <>
+        <div className="page-header ">
+          <div>
+            <h1 className="page-title">Manage Business Category</h1>
 
-              <Breadcrumb className="breadcrumb">
-                <Breadcrumb.Item
-                  className="breadcrumb-item"
-                  linkAs={Link}
-                  linkProps={{ to: "/dashboard" }}
-                >
-                  Dashboard
-                </Breadcrumb.Item>
-                <Breadcrumb.Item
-                  className="breadcrumb-item active breadcrumds"
-                  aria-current="page"
-                >
-                  Manage Business Category
-                </Breadcrumb.Item>
-              </Breadcrumb>
-            </div>
-
-            <div className="ms-auto pageheader-btn">
-              <div className="input-group">
-               
-                {isAddPermissionAvailable ? (
-                  <Link to="/addbusinesscategory" className="btn btn-primary"
-                  style={{borderRadius:"4px"}}>
-                    Add Business Category
-                  </Link>
-                ) : null}
-              </div>
-            </div>
+            <Breadcrumb className="breadcrumb">
+              <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/dashboard" }}
+              >
+                Dashboard
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item active breadcrumds"
+                aria-current="page"
+              >
+                Manage Business Category
+              </Breadcrumb.Item>
+            </Breadcrumb>
           </div>
 
-          <Row className=" row-sm">
-        <Col lg={12}>
-          <Card>
-            <Card.Header>
-              <h3 className="card-title">Manage  Business Category</h3>
-            </Card.Header>
-            <Card.Body>
-              <div className="table-responsive deleted-table">
-              
-       
-              <DataTableExtensions {...tableDatas}>
-            <DataTable
-              columns={columns}
-              data={data}
-              noHeader
-              defaultSortField="id"
-              defaultSortAsc={false}
-              striped={true}
-              // center={true}
-              persistTableHead
-              pagination
-              highlightOnHover
-              searchable={true}
-            />
-          </DataTableExtensions>
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-        </>
-      
+          <div className="ms-auto pageheader-btn">
+            <div className="input-group">
+              {isAddPermissionAvailable ? (
+                <Link
+                  to="/addbusinesscategory"
+                  className="btn btn-primary"
+                  style={{ borderRadius: "4px" }}
+                >
+                  Add Business Category
+                </Link>
+              ) : null}
+            </div>
+          </div>
+        </div>
+
+        <Row className=" row-sm">
+          <Col lg={12}>
+            <Card>
+              <Card.Header>
+                <h3 className="card-title">Manage Business Category</h3>
+              </Card.Header>
+              <Card.Body>
+                <div className="table-responsive deleted-table">
+                  <DataTableExtensions {...tableDatas}>
+                    <DataTable
+                      columns={columns}
+                      data={data}
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      striped={true}
+                      // center={true}
+                      persistTableHead
+                      pagination
+                      paginationPerPage={20}
+                      highlightOnHover
+                      searchable={true}
+                    />
+                  </DataTableExtensions>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </>
     </>
   );
 };

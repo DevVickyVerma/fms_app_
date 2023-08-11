@@ -91,7 +91,8 @@ const ManageShops = (props) => {
 
   useEffect(() => {
     FetchTableData();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -225,7 +226,7 @@ const ManageShops = (props) => {
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
             {row.status === 1 ? (
               <button
-                className="badge bg-success"
+                className="btn btn-success btn-sm"
                 onClick={
                   isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
@@ -234,7 +235,7 @@ const ManageShops = (props) => {
               </button>
             ) : row.status === 0 ? (
               <button
-                className="badge bg-danger"
+                className="btn btn-danger btn-sm"
                 onClick={
                   isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
@@ -397,6 +398,7 @@ const ManageShops = (props) => {
                       // center={true}
                       persistTableHead
                       pagination
+                      paginationPerPage={20}
                       highlightOnHover
                       searchable={true}
                     />

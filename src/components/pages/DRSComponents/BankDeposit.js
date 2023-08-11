@@ -43,22 +43,23 @@ const BankDeposit = (props) => {
   } = props;
   const [selectedFile, setSelectedFile] = useState(null);
   const [Editdata, setEditData] = useState(false);
-  const [checkStateForBankDeposit, setCheckStateForBankDeposit] = useState(true);
+  const [checkStateForBankDeposit, setCheckStateForBankDeposit] =
+    useState(true);
   const [data, setData] = useState();
   const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
 
-  const handleButtonClick = () =>{
+  const handleButtonClick = () => {
     const allPropsData = {
       company_id,
       client_id,
       site_id,
       start_date,
       checkStateForBankDeposit,
-    }
+    };
     sendDataToParent(allPropsData);
-  }
+  };
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -520,6 +521,7 @@ const BankDeposit = (props) => {
                       // center={true}
                       persistTableHead
                       pagination
+                      paginationPerPage={20}
                       highlightOnHover
                       searchable={true}
                     />
