@@ -9,15 +9,21 @@ import { Slide, toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 
 const DashTopTableSection = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { apidata, isLoading, error, getData, postData, searchdata } = props;
+  console.log(searchdata, "searchdatasearchdataisLoading");
 
   const [data, setData] = useState();
-
+  const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
   const navigate = useNavigate();
   // http://192.168.1.169:5000/get-details?client_id=3&company_id=1&end_date=2023-07-31&start_date=2023-07-01
   const FetchTableData = async () => {
+    console.log();
     try {
-      const response = await getData("/dashboard/get-details");
+      const response = await getData(
+        localStorage.getItem("superiorRole") !== "Client"
+          ? `dashboard/get-details?client_id=${searchdata?.client_id}&company_id=${searchdata?.company_id}&site_id=${searchdata?.site_id}`
+          : `dashboard/get-details?client_id=${ClientID}&company_id=${searchdata.company_id}&site_id=${searchdata.site_id}`
+      );
       // const data = response?.data?.data?.data?.sites
       // console.log(response.data.data.data.sites, "my response");
 

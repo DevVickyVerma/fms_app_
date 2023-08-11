@@ -72,7 +72,8 @@ const EditRoles = (props) => {
   useEffect(() => {
     FetchPermisionList();
     console.clear();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
   const FetchPermisionList = async () => {
     try {
       const EditRoleId = localStorage.getItem("EditRoleID");
@@ -399,23 +400,25 @@ const EditRoles = (props) => {
                   </div>
                 </Row>
               </Card.Body>
+              <Card.Footer>
+                <div className="text-end">
+                  <Link className="btn btn-danger me-2 " to={`/roles/`}>
+                    Cancel
+                  </Link>
+
+                  <button
+                    type="submit"
+                    className="btn btn-primary me-2 "
+                    disabled={Object.keys(formik.errors).length > 0}
+                    onClick={formik.handleSubmit}
+                  >
+                    Save
+                  </button>
+                </div>
+              </Card.Footer>
             </Card>
           </div>
         </Row>
-        <div className="text-end">
-          <Link className="btn btn-danger me-2 " to={`/roles/`}>
-            Cancel
-          </Link>
-
-          <button
-            type="submit"
-            className="btn btn-primary me-2 "
-            disabled={Object.keys(formik.errors).length > 0}
-            onClick={formik.handleSubmit}
-          >
-            Save
-          </button>
-        </div>
       </>
     </>
   );

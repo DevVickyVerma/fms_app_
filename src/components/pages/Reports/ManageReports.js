@@ -53,6 +53,7 @@ const ManageReports = (props) => {
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
+  const [ReportCode, setReportCode] = useState("");
 
   const [selectedItems, setSelectedItems] = useState([]);
   const [toggleValue, setToggleValue] = useState(false); // State for the toggle
@@ -123,7 +124,6 @@ const ManageReports = (props) => {
       const { data } = response;
       if (data) {
         setReportList(response?.data);
-       
       }
     } catch (error) {
       console.error("API error:", error);
@@ -133,7 +133,9 @@ const ManageReports = (props) => {
   const handleSubmit1 = async (formValues) => {
     try {
       const formData = new FormData();
-
+      console.log(formValues, "formValues");
+      formData.append("report", formValues.report);
+      console.log(ReportCode, "ReportCode");
       formData.append("report", formValues.report);
       if (localStorage.getItem("superiorRole") !== "Client") {
         formData.append("client_id", formValues.client_id);
@@ -142,10 +144,7 @@ const ManageReports = (props) => {
       }
 
       formData.append("company_id", formValues.company_id);
-      // console.log( formValues.sites," formValues.sites")
-      // formValues.sites.forEach((site, index) => {
-      //   formData.append(`site_id[${index}]`, site.id);
-      // });
+
       formData.append("start_date", formValues.start_date);
       formData.append("end_date", formValues.end_date);
 
@@ -167,53 +166,25 @@ const ManageReports = (props) => {
       console.log(siteIds, "siteIds");
 
       const commonParams = toggleValue
-        ? `${clientIDCondition}company_id=${formValues.company_id}&${siteIdParams}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`
-        : `${clientIDCondition}company_id=${formValues.company_id}&${siteIdParams}&month=${formValues.reportmonth}`;
+        ? `/report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${siteIdParams}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`
+        : `/report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${siteIdParams}&month=${formValues.reportmonth}`;
 
-      // const commonParams = `client_id=${clientIDLocalStorage}&company_id=${formValues.company_id}&site_id[]=${formValues.site_id}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`;
+      try {
+        const response = await getData(commonParams);
+        console.log(response.status, "response"); // Console log the response
 
-      let postDataUrl;
-
-      if (formValues.report === "DSMR") {
-        postDataUrl = `/report/dsmr?${commonParams}`;
-      } else if (formValues.report === "DSRR") {
-        postDataUrl = `/report/cldo?${commonParams}`;
-      } else if (formValues.report === "MSR") {
-        postDataUrl = `/report/msr?${commonParams}`;
-      } else if (formValues.report === "ESCRR") {
-        postDataUrl = `/report/escrr?${commonParams}`;
-      } else if (formValues.report === "CMSR") {
-        postDataUrl = `/report/cmsr?${commonParams}`;
-      } else if (formValues.report === "DFDR") {
-        postDataUrl = `/report/dfdr?${commonParams}`;
-      } else if (formValues.report === "RDMR") {
-        postDataUrl = `/report/rdmr?${commonParams}`;
-      } else if (formValues.report === "ECRR") {
-        postDataUrl = `/report/ecrr?${commonParams}`;
-      } else {
-        postDataUrl = "shop/add-default";
-      }
-
-      if (postDataUrl === "shop/add-default") {
-        ErrorToast("For this site, the report is not available.");
-      } else {
-        try {
-          const response = await getData(postDataUrl);
-          console.log(response.status, "response"); // Console log the response
-
-          if (response.status === 200) {
-            setShowButton(true);
-            console.log(response, "response"); // Console log the response
-            setReportDownloadUrl(postDataUrl);
-          }
-
-          if (apidata && apidata.api_response === "success") {
-            setReportDownloadUrl(postDataUrl);
-            setShowButton(true);
-          }
-        } catch (error) {
-          console.error("Error occurred while fetching data:", error);
+        if (response.status === 200) {
+          setShowButton(true);
+          console.log(response, "response"); // Console log the response
+          setReportDownloadUrl(commonParams);
         }
+
+        if (apidata && apidata.api_response === "success") {
+          setReportDownloadUrl(commonParams);
+          setShowButton(true);
+        }
+      } catch (error) {
+        console.error("Error occurred while fetching data:", error);
       }
     } catch (error) {
       console.log(error);
@@ -495,7 +466,7 @@ const ManageReports = (props) => {
                                 name="report"
                                 onChange={(e) => {
                                   const selectedreport = e.target.value;
-console.log(selectedreport,"selectedreport")
+                                  setReportCode(e.target.value);
                                   setFieldValue("report", selectedreport);
                                   setShowButton(false);
                                 }}
@@ -507,7 +478,7 @@ console.log(selectedreport,"selectedreport")
                                     <option
                                       key={item.id}
                                       value={item.report_code}
-                                      onClick={() => handleReportClick(item)} 
+                                      onClick={() => handleReportClick(item)}
                                     >
                                       {item.report_name}
                                     </option>

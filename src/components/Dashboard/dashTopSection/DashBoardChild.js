@@ -35,12 +35,8 @@ const DashBoardChild = () => {
 
   const passDataString = localStorage.getItem("passData");
 
-  // console.log(passDataString , "getting from local storage");
-  // if (passDataString){
-  //   return
-  // }
-  console.log("CHILD LOCATION DTA", location?.state);
-  // console.log("CHILD LOCATION gross volume", GrossVolume );
+  console.log("CHILD LOCATION DTA", searchdata);
+
   return (
     <>
       <div className="page-header ">
@@ -75,7 +71,7 @@ const DashBoardChild = () => {
       </Row>
 
       <Row>
-        <DashTopTableSection />
+        <DashTopTableSection searchdata={searchdata} />
       </Row>
     </>
   );

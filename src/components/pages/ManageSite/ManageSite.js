@@ -540,6 +540,7 @@ const ManageSite = (props) => {
 
             <Link
               // className="btn btn-primary"
+              style={{ marginBottom: "7px" }}
               onClick={() => {
                 handleToggleSidebar1();
               }}

@@ -6,7 +6,8 @@ export const MENUITEMS = [
         icon: "home",
         type: "link",
         active: true,
-        permission: "",
+
+        permission: "dashboard-view",
         visibility: true,
         title: "Dashboard",
       },
@@ -477,7 +478,6 @@ export const MENUITEMS = [
         permission: "workflow-list",
         visibility: false,
         children: [
-       
           {
             path: `/assignppl`,
             title: "Site PPL Rate",
@@ -494,8 +494,6 @@ export const MENUITEMS = [
           },
         ],
       },
-
-
 
       {
         title: " Manage Site Fuels",
@@ -540,10 +538,9 @@ export const MENUITEMS = [
             permission: "fuel-purchase-price",
             visibility: false,
           },
-        
         ],
       },
-    
+
       // {
       //   title: "Assign manger",
       //   icon: "shopping-cart",
@@ -568,7 +565,7 @@ export const MENUITEMS = [
       //     },
       //   ],
       // },
-    
+
       {
         title: "Manage Department Items",
         icon: "shopping-cart",
@@ -593,8 +590,6 @@ export const MENUITEMS = [
           },
         ],
       },
-
-
 
       // {
       //   title: "Manage Import Types",
