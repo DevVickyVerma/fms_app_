@@ -31,6 +31,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CenterSearchmodal from "../../../data/Modal/CenterSearchmodal";
 const ManageSite = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
@@ -224,6 +225,7 @@ const ManageSite = (props) => {
     isDeletePermissionAvailable ||
     isAssignPermissionAvailable ||
     issitesettingPermissionAvailable;
+
   const columns = [
     {
       name: "S.No",
@@ -430,7 +432,9 @@ const ManageSite = (props) => {
                 ) : null}
               </Dropdown.Menu>
             </Dropdown>
-          ) : null}
+          ) : (
+            ""
+          )}
         </span>
       ),
     },
@@ -467,11 +471,11 @@ const ManageSite = (props) => {
       const SearchList = async (row) => {
         try {
           const params = new URLSearchParams(formData).toString();
-          const response = await getData(`/client/list?${params}`);
+          const response = await getData(`/site/list?${params}`);
           console.log(response.data.data, "ddd");
 
           if (response && response.data && response.data.data) {
-            setData(response.data.data.clients);
+            setData(response.data.data.sites);
           } else {
             throw new Error("No data available in the response");
           }
@@ -514,7 +518,15 @@ const ManageSite = (props) => {
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
-          <div className="ms-auto pageheader-btn ">
+          <div
+            className="ms-auto pageheader-btn"
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
             <span className="Search-data">
               {Object.entries(searchdata).map(([key, value]) => (
                 <div key={key} className="badge">
@@ -527,14 +539,27 @@ const ManageSite = (props) => {
             </span>
 
             <Link
-              className="btn btn-primary"
+              // className="btn btn-primary"
               onClick={() => {
                 handleToggleSidebar1();
               }}
             >
-              Search
+              {/* Search
               <span className="ms-2">
                 <SearchIcon />
+              </span> */}
+              <span className="ms-2">
+                <CenterSearchmodal
+                  title="Search"
+                  visible={sidebarVisible1}
+                  onClick={() => {
+                    handleToggleSidebar1();
+                  }}
+                  onClose={handleToggleSidebar1}
+                  onSubmit={handleSubmit}
+                  searchListstatus={SearchList}
+                />{" "}
+                {/* Search <SearchIcon /> */}
               </span>
             </Link>
             {Object.keys(searchdata).length > 0 ? (
@@ -546,19 +571,30 @@ const ManageSite = (props) => {
             )}
 
             {isAddPermissionAvailable ? (
-              <Link to="/addsite" className="btn btn-primary ms-2">
+              <Link to="/addsite" className="btn btn-primary">
                 Add Site <AddCircleOutlineIcon />
               </Link>
             ) : null}
           </div>
         </div>
-        <SideSearchbar
+        {/* <SideSearchbar
           title="Search"
           visible={sidebarVisible1}
           onClose={handleToggleSidebar1}
           onSubmit={handleSubmit}
           searchListstatus={SearchList}
-        />
+        /> */}
+
+        {/* <CenterSearchmodal
+          title="Search"
+          visible={sidebarVisible1}
+          onClick={() => {
+            handleToggleSidebar1();
+          }}
+          onClose={handleToggleSidebar1}
+          onSubmit={handleSubmit}
+          searchListstatus={SearchList}
+        /> */}
 
         <Suspense fallback={<img src={Loaderimg} alt="Loading" />}>
           <CommonSidebar
