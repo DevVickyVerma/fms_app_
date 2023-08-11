@@ -217,7 +217,13 @@ const ManageSite = (props) => {
   const isDetailsPermissionAvailable =
     permissionsArray?.includes("site-detail");
   const isAssignPermissionAvailable = permissionsArray?.includes("site-assign");
-
+  const anyPermissionAvailable =
+    isEditPermissionAvailable ||
+    isDetailsPermissionAvailable ||
+    isAddPermissionAvailable ||
+    isDeletePermissionAvailable ||
+    isAssignPermissionAvailable ||
+    issitesettingPermissionAvailable;
   const columns = [
     {
       name: "S.No",
@@ -372,57 +378,59 @@ const ManageSite = (props) => {
       width: "17%",
       cell: (row) => (
         <span className="text-center">
-          <Dropdown className="dropdown btn-group">
-            <Dropdown.Toggle
-              variant="Primary"
-              type="button"
-              className="btn btn-primary dropdown-toggle"
-            >
-              Actions
-            </Dropdown.Toggle>
-            <Dropdown.Menu className="dropdown-menu">
-              {issitesettingPermissionAvailable ? (
-                <Dropdown.Item className="dropdown-item">
-                  <Link to={`/site-setting/${row.id}`}>
-                    <i className="setting-icon">
-                      <SettingsIcon />
-                    </i>
-                    Settings
-                  </Link>
-                </Dropdown.Item>
-              ) : null}
-              {isManagerPermissionAvailable ? (
-                <Dropdown.Item className="dropdown-item">
-                  <Link to={`/assignmanger/${row.id}`}>
-                    <i className="setting-icon">
-                      <AssignmentTurnedInIcon />
-                    </i>
-                    Assign Manager
-                  </Link>
-                </Dropdown.Item>
-              ) : null}
-              {isEditPermissionAvailable ? (
-                <Dropdown.Item className="dropdown-item">
-                  <Link to={`/editsite/${row.id}`}>
-                    <i className="setting-icon">
-                      <ModeEditIcon />
-                    </i>
-                    Edit
-                  </Link>
-                </Dropdown.Item>
-              ) : null}
-              {isDeletePermissionAvailable ? (
-                <Dropdown.Item className="dropdown-item">
-                  <Link to="#" onClick={() => handleDelete(row.id)}>
-                    <i className="setting-icon">
-                      <DeleteIcon />
-                    </i>
-                    Delete
-                  </Link>
-                </Dropdown.Item>
-              ) : null}
-            </Dropdown.Menu>
-          </Dropdown>
+          {anyPermissionAvailable ? (
+            <Dropdown className="dropdown btn-group">
+              <Dropdown.Toggle
+                variant="Primary"
+                type="button"
+                className="btn btn-primary dropdown-toggle"
+              >
+                Actions
+              </Dropdown.Toggle>
+              <Dropdown.Menu className="dropdown-menu">
+                {issitesettingPermissionAvailable ? (
+                  <Dropdown.Item className="dropdown-item">
+                    <Link to={`/site-setting/${row.id}`}>
+                      <i className="setting-icon">
+                        <SettingsIcon />
+                      </i>
+                      Settings
+                    </Link>
+                  </Dropdown.Item>
+                ) : null}
+                {isManagerPermissionAvailable ? (
+                  <Dropdown.Item className="dropdown-item">
+                    <Link to={`/assignmanger/${row.id}`}>
+                      <i className="setting-icon">
+                        <AssignmentTurnedInIcon />
+                      </i>
+                      Assign Manager
+                    </Link>
+                  </Dropdown.Item>
+                ) : null}
+                {isEditPermissionAvailable ? (
+                  <Dropdown.Item className="dropdown-item">
+                    <Link to={`/editsite/${row.id}`}>
+                      <i className="setting-icon">
+                        <ModeEditIcon />
+                      </i>
+                      Edit
+                    </Link>
+                  </Dropdown.Item>
+                ) : null}
+                {isDeletePermissionAvailable ? (
+                  <Dropdown.Item className="dropdown-item">
+                    <Link to="#" onClick={() => handleDelete(row.id)}>
+                      <i className="setting-icon">
+                        <DeleteIcon />
+                      </i>
+                      Delete
+                    </Link>
+                  </Dropdown.Item>
+                ) : null}
+              </Dropdown.Menu>
+            </Dropdown>
+          ) : null}
         </span>
       ),
     },

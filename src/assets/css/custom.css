@@ -469,3 +469,16 @@ input.table-input.readonly.total-input-card {
   display: flex;
   height: 100%;
 }
+span.ModalTitle {
+  font-size: 20px;
+  font-weight: 700;
+  padding: 0px 15px;
+  margin-bottom: 0px;
+  color: #fff;
+  background: linear-gradient(
+    90deg,
+    rgb(128, 19, 207) 0%,
+    rgb(149, 60, 213) 58%,
+    rgb(202, 129, 255) 100%
+  );
+}

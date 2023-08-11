@@ -203,7 +203,14 @@ const ManageClient = (props) => {
     permissionsArray?.includes("report-assign");
   const isAssignPermissionAvailable =
     permissionsArray?.includes("client-assign");
-
+  const anyPermissionAvailable =
+    isStatusPermissionAvailable ||
+    isEditPermissionAvailable ||
+    isLoginPermissionAvailable ||
+    isAddonPermissionAvailable ||
+    isAddPermissionAvailable ||
+    isDeletePermissionAvailable ||
+    isReportsPermissionAvailable;
   // const handleClientLogin=(row)=>{
   //   console.log(row.id,"client id")
   // }
@@ -331,6 +338,7 @@ const ManageClient = (props) => {
         </span>
       ),
     },
+
     {
       name: "Action",
       selector: (row) => [row.action],
@@ -338,67 +346,72 @@ const ManageClient = (props) => {
       width: "20%",
       cell: (row) => (
         <span className="text-center">
-          <Dropdown className="dropdown btn-group">
-            <Dropdown.Toggle
-              variant="Primary"
-              type="button"
-              className="btn btn-primary dropdown-toggle"
-            >
-              Actions
-            </Dropdown.Toggle>
-            <Dropdown.Menu className="dropdown-menu">
-              {isEditPermissionAvailable ? (
-                <Dropdown.Item className="dropdown-item">
-                  <Link to={`/editclient/${row.id}`}>
-                    <i className="setting-icon">
-                      <ModeEditIcon />
-                    </i>
-                    Edit
-                  </Link>
-                </Dropdown.Item>
-              ) : null}
-              {isDeletePermissionAvailable ? (
-                <Dropdown.Item className="dropdown-item">
-                  <Link to="#" onClick={() => handleDelete(row.id)}>
-                    <i className="setting-icon">
-                      <DeleteIcon />
-                    </i>
-                    Delete
-                  </Link>
-                </Dropdown.Item>
-              ) : null}
-              {isLoginPermissionAvailable ? (
-                <Dropdown.Item className="dropdown-item">
-                  <Link to="#" onClick={() => handleClientLogin(row)}>
-                    <i className="setting-icon">
-                      <VpnKeyIcon />
-                    </i>
-                    Client Login
-                  </Link>
-                </Dropdown.Item>
-              ) : null}
-              {isAddonPermissionAvailable ? (
-                <Dropdown.Item className="dropdown-item">
-                  <Link to={`/assignclientaddon/${row.id}`}>
-                    <i className="setting-icon">
-                      <AssignmentIndIcon />
-                    </i>
-                    Assign Addon
-                  </Link>
-                </Dropdown.Item>
-              ) : null}
-              {isReportsPermissionAvailable ? (
-                <Dropdown.Item className="dropdown-item">
-                  <Link className="settingicon" to={`/assignreport/${row.id}`}>
-                    <i className="setting-icon">
-                      <AssignmentIndIcon />
-                    </i>
-                    <span>Report Assign</span>
-                  </Link>
-                </Dropdown.Item>
-              ) : null}
-            </Dropdown.Menu>
-          </Dropdown>
+          {anyPermissionAvailable ? (
+            <Dropdown className="dropdown btn-group">
+              <Dropdown.Toggle
+                variant="Primary"
+                type="button"
+                className="btn btn-primary dropdown-toggle"
+              >
+                Actions
+              </Dropdown.Toggle>
+              <Dropdown.Menu className="dropdown-menu">
+                {isEditPermissionAvailable ? (
+                  <Dropdown.Item className="dropdown-item">
+                    <Link to={`/editclient/${row.id}`}>
+                      <i className="setting-icon">
+                        <ModeEditIcon />
+                      </i>
+                      Edit
+                    </Link>
+                  </Dropdown.Item>
+                ) : null}
+                {isDeletePermissionAvailable ? (
+                  <Dropdown.Item className="dropdown-item">
+                    <Link to="#" onClick={() => handleDelete(row.id)}>
+                      <i className="setting-icon">
+                        <DeleteIcon />
+                      </i>
+                      Delete
+                    </Link>
+                  </Dropdown.Item>
+                ) : null}
+                {isLoginPermissionAvailable ? (
+                  <Dropdown.Item className="dropdown-item">
+                    <Link to="#" onClick={() => handleClientLogin(row)}>
+                      <i className="setting-icon">
+                        <VpnKeyIcon />
+                      </i>
+                      Client Login
+                    </Link>
+                  </Dropdown.Item>
+                ) : null}
+                {isAddonPermissionAvailable ? (
+                  <Dropdown.Item className="dropdown-item">
+                    <Link to={`/assignclientaddon/${row.id}`}>
+                      <i className="setting-icon">
+                        <AssignmentIndIcon />
+                      </i>
+                      Assign Addon
+                    </Link>
+                  </Dropdown.Item>
+                ) : null}
+                {isReportsPermissionAvailable ? (
+                  <Dropdown.Item className="dropdown-item">
+                    <Link
+                      className="settingicon"
+                      to={`/assignreport/${row.id}`}
+                    >
+                      <i className="setting-icon">
+                        <AssignmentIndIcon />
+                      </i>
+                      <span>Report Assign</span>
+                    </Link>
+                  </Dropdown.Item>
+                ) : null}
+              </Dropdown.Menu>
+            </Dropdown>
+          ) : null}
         </span>
       ),
     },

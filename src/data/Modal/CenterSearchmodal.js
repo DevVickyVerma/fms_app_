@@ -115,7 +115,7 @@ const CenterSearchmodal = (props) => {
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id="responsive-dialog-title">Search</DialogTitle>
+        <span className="ModalTitle">Search</span>
         <hr />
         <DialogContent>
           <DialogContentText>
@@ -124,101 +124,60 @@ const CenterSearchmodal = (props) => {
                 <Loaderimg />
               ) : (
                 <>
-                  <div
-                  // className={`common-sidebar ${visible ? "visible" : ""}`}
-                  >
-                    <div className="card">
-                      {/* <div className="card-header text-center SidebarSearchheader">
-                        <h3 className="SidebarSearch-title m-0">{title}</h3>
-                        <button className="close-button" onClick={onClose}>
-                          <FontAwesomeIcon icon={faTimes} />
-                        </button>
-                      </div> */}
-                      <div className="card-body">
-                        <form>
-                          <div className="form-group">
-                            <label
-                              className=" form-label mt-4"
-                              htmlFor="Search"
-                            >
-                              Search:
-                            </label>
-                            <input
-                              type="text"
-                              autoComplete="off"
-                              className="form-control"
-                              placeholder="Enter your search item"
-                              value={keyword}
-                              onChange={(e) => setSearchQuery(e.target.value)}
-                            />
-                          </div>
-                          <div className="d-flex ">
-                            <div
-                              className="form-group"
-                              style={{ width: "50%" }}
-                            >
-                              <label
-                                className=" form-label mt-4"
-                                htmlFor="start-date"
-                              >
-                                Start Date:
-                              </label>
-                              <input
-                                type="date"
-                                min={"2023-01-01"}
-                                max={getCurrentDate()}
-                                onClick={hadndleShowDate}
-                                id="start-date"
-                                className="form-control"
-                                value={start_date}
-                                onChange={(e) => setStartDate(e.target.value)}
-                              />
-                            </div>
+                  <form>
+                    <div className="form-group">
+                      <label className=" form-label mt-4" htmlFor="Search">
+                        Search:
+                      </label>
+                      <input
+                        type="text"
+                        autoComplete="off"
+                        className="form-control"
+                        placeholder="Enter your search item"
+                        value={keyword}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                      />
+                    </div>
+                    <div className="d-flex ">
+                      <div className="form-group" style={{ width: "50%" }}>
+                        <label
+                          className=" form-label mt-4"
+                          htmlFor="start-date"
+                        >
+                          Start Date:
+                        </label>
+                        <input
+                          type="date"
+                          min={"2023-01-01"}
+                          max={getCurrentDate()}
+                          onClick={hadndleShowDate}
+                          id="start-date"
+                          className="form-control"
+                          value={start_date}
+                          onChange={(e) => setStartDate(e.target.value)}
+                        />
+                      </div>
 
-                            <div
-                              className="form-group ms-2"
-                              style={{ width: "50%" }}
-                            >
-                              <label
-                                className=" form-label mt-4"
-                                htmlFor="end-date"
-                              >
-                                End Date:
-                              </label>
-                              <input
-                                type="date"
-                                min={"2023-01-01"}
-                                max={getCurrentDate()}
-                                onClick={hadndleShowDate}
-                                id="end-date"
-                                className="form-control"
-                                value={end_date}
-                                onChange={(e) => setEndDate(e.target.value)}
-                              />
-                            </div>
-                          </div>
-                          {errorMessage && (
-                            <div className="error-message">{errorMessage}</div>
-                          )}
-                        </form>
-                        {/* <div className="text-end">
-                          <button
-                            type="Search"
-                            className="btn btn-primary"
-                            onClick={handleSubmit}
-                          >
-                            Search
-                          </button>
-                          <button
-                            className="btn btn-danger ms-2"
-                            onClick={onClose}
-                          >
-                            Cancel
-                          </button>
-                        </div> */}
+                      <div className="form-group ms-2" style={{ width: "50%" }}>
+                        <label className=" form-label mt-4" htmlFor="end-date">
+                          End Date:
+                        </label>
+                        <input
+                          type="date"
+                          min={"2023-01-01"}
+                          max={getCurrentDate()}
+                          // onClick={hadndleShowDate}
+                          id="end-date"
+                          className="form-control"
+                          value={end_date}
+                          onChange={(e) => setEndDate(e.target.value)}
+                        />
                       </div>
                     </div>
-                  </div>
+                    {errorMessage && (
+                      <div className="error-message">{errorMessage}</div>
+                    )}
+                  </form>
                 </>
               )}
             </>
