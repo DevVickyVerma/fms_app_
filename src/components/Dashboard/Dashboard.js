@@ -35,6 +35,7 @@ import LineChart from "./LineChart";
 import DashTopSection from "./dashTopSection/DashTopSection";
 import DashTopTableSection from "./dashTopSection/DashTopTableSection";
 import { Box } from "@material-ui/core";
+import { useMyContext } from "../../Utils/MyContext";
 
 const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -43,7 +44,7 @@ const Dashboard = (props) => {
 
   const [ShowTruw, setShowTruw] = useState(false);
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
-  const [searchdata, setSearchdata] = useState({});
+  // const [searchdata, setSearchdata] = useState({});
   const [SearchList, setSearchList] = useState(false);
   const [GrossMarginValue, setGrossMarginValue] = useState();
   const [GrossProfitValue, setGrossProfitValue] = useState();
@@ -55,13 +56,14 @@ const Dashboard = (props) => {
   const [LinechartValues, setLinechartValues] = useState([]);
   const [LinechartOption, setLinechartOption] = useState();
   let LinechartOptions = [];
+
+  const { searchdata, setSearchdata } = useMyContext();
   const handleFetchSiteData = async () => {
     try {
       const superiorRole = localStorage.getItem("superiorRole");
       const role = localStorage.getItem("role");
 
       let url = "";
-
 
       if (superiorRole === "Administrator") {
         url = "/dashboard/stats";
@@ -173,6 +175,7 @@ const Dashboard = (props) => {
 
   const handleFormSubmit = async (values) => {
     setSearchdata(values);
+    // console.log("my values while submitting", values);
     try {
       const response = await getData(
         localStorage.getItem("superiorRole") !== "Client"
@@ -330,11 +333,14 @@ const Dashboard = (props) => {
       {isLoading ? <Loaderimg /> : null}
       <div>
         <Box
-         display={"flex"} justifyContent={"space-between"} alignItems={"center"} minHeight={"90px"}
-        //  className="page-header "
-         >
+          display={"flex"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+          minHeight={"90px"}
+          //  className="page-header "
+        >
           <Box alignSelf={"flex-start"} mt={"26px"}>
-            <h1 className="page-title"  >Dashboard</h1>
+            <h1 className="page-title">Dashboard</h1>
             {/* <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"
@@ -349,11 +355,27 @@ const Dashboard = (props) => {
           localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
-            <Box 
-             display={"flex"} justifyContent={"center"} alignItems={"baseline"} my={"20px"} gap={"5px"} mx={"10px"} className="filter-responsive" 
-            // className="ms-auto pageheader-btn "
+            <Box
+              display={"flex"}
+              justifyContent={"center"}
+              alignItems={"baseline"}
+              my={"20px"}
+              gap={"5px"}
+              mx={"10px"}
+              className="filter-responsive"
+              // className="ms-auto pageheader-btn "
             >
-              <span className="Search-data" style={{marginTop:"10px", marginBottom:"10px", display:"flex", gap:"5px", flexDirection:"row", flexWrap:"wrap",  }}>
+              <span
+                className="Search-data"
+                style={{
+                  marginTop: "10px",
+                  marginBottom: "10px",
+                  display: "flex",
+                  gap: "5px",
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                }}
+              >
                 {Object.entries(searchdata).map(([key, value]) => {
                   if (
                     (key === "client_name" ||
@@ -383,32 +405,32 @@ const Dashboard = (props) => {
                   }
                 })}
               </span>
-              <Box display={"flex"} ml={"4px"} >
-              <Link
-                className="btn btn-primary"
-                onClick={() => {
-                  handleToggleSidebar1();
-                }}
-              >
-                Filter
-                <span className="ms-2">
-                  <SortIcon />
-                </span>
-              </Link>
-            
-              {Object.keys(searchdata).length > 0 ? (
+              <Box display={"flex"} ml={"4px"}>
                 <Link
-                  className="btn btn-danger ms-2"
+                  className="btn btn-primary"
                   onClick={() => {
-                    ResetForm();
+                    handleToggleSidebar1();
                   }}
                 >
-                  Reset <RestartAltIcon />
+                  Filter
+                  <span className="ms-2">
+                    <SortIcon />
+                  </span>
                 </Link>
-              ) : (
-                ""
-              )}
-            </Box>
+
+                {Object.keys(searchdata).length > 0 ? (
+                  <Link
+                    className="btn btn-danger ms-2"
+                    onClick={() => {
+                      ResetForm();
+                    }}
+                  >
+                    Reset <RestartAltIcon />
+                  </Link>
+                ) : (
+                  ""
+                )}
+              </Box>
             </Box>
           )}
         </Box>
@@ -433,6 +455,7 @@ const Dashboard = (props) => {
           GrossMarginValue={GrossMarginValue}
           FuelValue={FuelValue}
           shopsale={shopsale}
+          searchdata={searchdata}
         />
 
         {/* <DashTopTableSection  />          */}

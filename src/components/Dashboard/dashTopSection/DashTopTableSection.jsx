@@ -15,8 +15,6 @@ const DashTopTableSection = (props) => {
 
   const navigate = useNavigate();
   // http://192.168.1.169:5000/get-details?client_id=3&company_id=1&end_date=2023-07-31&start_date=2023-07-01
-
-  console.log();
   const FetchTableData = async () => {
     try {
       const response = await getData("/dashboard/get-details");
@@ -236,7 +234,6 @@ const DashTopTableSection = (props) => {
           columns={columns}
           data={data}
           pagination
-          paginationPerPage={20}
           // paginationPerPage={5}
           highlightOnHover={true}
           fixedHeader={true}

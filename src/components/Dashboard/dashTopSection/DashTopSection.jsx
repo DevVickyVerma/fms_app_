@@ -14,16 +14,16 @@ const DashTopSection = (props) => {
     GrossMarginValue,
     FuelValue,
     shopsale,
+    searchdata,
   } = props;
-
 
   const [UploadTabname, setUploadTabname] = useState();
   console.log("UploadTabname:", UploadTabname);
 
   const navigate = useNavigate();
 
-  const handleNavigateClick = (cardName) =>{
-    let myvalueTest  = 1;
+  const handleNavigateClick = (cardName) => {
+    let myvalueTest = 1;
     const passData = {
       isLoading,
       GrossVolume,
@@ -32,14 +32,16 @@ const DashTopSection = (props) => {
       GrossMarginValue,
       FuelValue,
       shopsale,
-      myvalueTest
-    }
+      searchdata,
+      myvalueTest,
+    };
     console.log("card name", cardName);
-    const passDataString =  JSON.stringify(passData);
+    const passDataString = JSON.stringify(passData);
     localStorage.setItem("passData", passDataString);
-    console.log(passDataString , "pass data string");
+    // console.log(passDataString , "pass data string");
     navigate(`/dashboardChild`, { state: passData });
-  }
+  };
+  console.log("my searched data from filter:", searchdata);
 
   return (
     <div>
@@ -61,7 +63,7 @@ const DashTopSection = (props) => {
                         className=" dashboard-box"
                         onClick={() => {
                           setUploadTabname("GrossVolume");
-                          handleNavigateClick(UploadTabname)               
+                          handleNavigateClick(UploadTabname);
                         }}
                       >
                         <div>
@@ -126,7 +128,7 @@ const DashTopSection = (props) => {
                         <div className="col col-auto">
                           <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
                             <i className="icon icon-pound-sign text-white mb-5 ">
-                            ℓ
+                              ℓ
                             </i>
                           </div>
                         </div>
@@ -151,7 +153,7 @@ const DashTopSection = (props) => {
                         className=" dashboard-box "
                         onClick={() => {
                           setUploadTabname("Gross Profit");
-                          handleNavigateClick(UploadTabname) 
+                          handleNavigateClick(UploadTabname);
                         }}
                       >
                         <div>
@@ -231,7 +233,7 @@ const DashTopSection = (props) => {
                         className=" dashboard-box"
                         onClick={() => {
                           setUploadTabname("Gross Margin");
-                          handleNavigateClick(UploadTabname) 
+                          handleNavigateClick(UploadTabname);
                         }}
                       >
                         <div>
@@ -316,7 +318,7 @@ const DashTopSection = (props) => {
                         className=" dashboard-box"
                         onClick={() => {
                           setUploadTabname("Fuel Sales");
-                          handleNavigateClick(UploadTabname) 
+                          handleNavigateClick(UploadTabname);
                         }}
                       >
                         <div>
@@ -402,7 +404,7 @@ const DashTopSection = (props) => {
                         className=" dashboard-box"
                         onClick={() => {
                           setUploadTabname("Shop Sales");
-                          handleNavigateClick(UploadTabname) 
+                          handleNavigateClick(UploadTabname);
                         }}
                       >
                         <div>
@@ -479,7 +481,7 @@ const DashTopSection = (props) => {
                         className=" dashboard-box"
                         onClick={() => {
                           setUploadTabname("Shop Margin");
-                          handleNavigateClick(UploadTabname) 
+                          handleNavigateClick(UploadTabname);
                         }}
                       >
                         <div>
