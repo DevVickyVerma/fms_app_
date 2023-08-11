@@ -5,10 +5,10 @@ export const MENUITEMS = [
         path: `/dashboard`,
         icon: "home",
         type: "link",
-        active: true,
+        active: false,
 
         permission: "dashboard-view",
-        visibility: true,
+        visibility: false,
         title: "Dashboard",
       },
       {

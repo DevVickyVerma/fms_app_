@@ -14,7 +14,8 @@ export default function Login(props) {
 
   useEffect(() => {
     console.clear();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
   if (localStorage.getItem("myKey") === null) {
     if (!localStorage.getItem("refreshed")) {
       localStorage.setItem("refreshed", "true");
@@ -52,8 +53,6 @@ export default function Login(props) {
     });
   };
 
-
-
   const handleSubmit = async (values) => {
     setLoading(true);
 
@@ -69,10 +68,11 @@ export default function Login(props) {
       const data = await response.json();
       if (response.ok && data) {
         localStorage.setItem("token", data.data.access_token);
-         localStorage.setItem("superiorId", data.data.superiorId);
-         localStorage.setItem("superiorRole", data.data.superiorRole);
-         localStorage.setItem("role", data.data.role);
-        navigate("/dashboard");
+        localStorage.setItem("superiorId", data.data.superiorId);
+        localStorage.setItem("superiorRole", data.data.superiorRole);
+        localStorage.setItem("role", data.data.role);
+        console.log(data.data.role);
+        navigate(data?.data?.route);
         localStorage.setItem("justLoggedIn", true);
         notify(data.message);
         setLoading(false);
@@ -98,9 +98,7 @@ export default function Login(props) {
 
   return (
     <>
-      {isLoading ?(
-       <Loaderimg />) 
-       : null}
+      {isLoading ? <Loaderimg /> : null}
       <>
         <div className="login-img">
           <div className="page">
@@ -134,7 +132,7 @@ export default function Login(props) {
                                   ? "is-invalid"
                                   : ""
                               }`}
-                              type="text"  
+                              type="text"
                               name="email"
                               placeholder="Email"
                             />

@@ -146,7 +146,7 @@ const ManageUser = (props) => {
   }, [UserPermissions]);
 
   const isStatusPermissionAvailable =
-    permissionsArray?.includes("user-status-update");
+    permissionsArray?.includes("dashboard-view");
   const isEditPermissionAvailable = permissionsArray?.includes("user-edit");
   const isAddonPermissionAvailable =
     permissionsArray?.includes("addons-assign");
@@ -156,7 +156,9 @@ const ManageUser = (props) => {
     permissionsArray?.includes("user-details");
   const isstatusPermissionAvailable =
     permissionsArray?.includes("user-change-status");
-
+  if (isStatusPermissionAvailable) {
+    console.log("Please");
+  }
   const columns = [
     {
       name: "S.No",

@@ -328,6 +328,29 @@ const Dashboard = (props) => {
     fuel_sales: "7800693.4",
     bunkered_sales: "13461.94",
   };
+
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+  const DashboardPermissions = useSelector((state) => state?.data?.data);
+  console.log(DashboardPermissions, "DashboardPermissions");
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions?.permissions);
+    }
+  }, [UserPermissions]);
+
+  const isStatusPermissionAvailable =
+    permissionsArray?.includes("dashboard-view");
+  const Pleasesssssss = DashboardPermissions?.route;
+  console.log(Pleasesssssss, "DashboardPermissions");
+  navigate(DashboardPermissions?.route);
+  if (isStatusPermissionAvailable) {
+    navigate(DashboardPermissions?.route);
+    console.log(Pleasesssssss, "DashboardPermissions");
+  }
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
