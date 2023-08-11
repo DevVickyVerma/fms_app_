@@ -189,7 +189,7 @@ const CenterSearchmodal = (props) => {
                                 type="date"
                                 min={"2023-01-01"}
                                 max={getCurrentDate()}
-                                // onClick={hadndleShowDate}
+                                onClick={hadndleShowDate}
                                 id="end-date"
                                 className="form-control"
                                 value={end_date}

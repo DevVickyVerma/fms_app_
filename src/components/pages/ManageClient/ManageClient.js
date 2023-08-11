@@ -301,7 +301,7 @@ const ManageClient = (props) => {
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
             {row.status === 1 ? (
               <button
-                className="badge bg-success"
+                className="btn btn-success btn-sm"
                 onClick={
                   isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
@@ -310,7 +310,7 @@ const ManageClient = (props) => {
               </button>
             ) : row.status === 0 ? (
               <button
-                className="badge bg-danger"
+                className="btn btn-danger btn-sm"
                 onClick={
                   isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
@@ -472,14 +472,20 @@ const ManageClient = (props) => {
             </Link>
 
             {Object.keys(searchdata).length > 0 ? (
-              <Link className="btn btn-danger ms-2" onClick={handleSearchReset}>
+              <Link
+                className="btn btn-danger ms-2 addclientbtn"
+                onClick={handleSearchReset}
+              >
                 Reset <RestartAltIcon />
               </Link>
             ) : (
               ""
             )}
             {isAddPermissionAvailable ? (
-              <Link to="/addclient" className="btn btn-primary ms-2 d-flex">
+              <Link
+                to="/addclient"
+                className="btn btn-primary ms-2 addclientbtn"
+              >
                 Add Client
                 <AddCircleOutlineIcon />
               </Link>

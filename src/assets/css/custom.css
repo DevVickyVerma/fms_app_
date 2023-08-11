@@ -144,14 +144,14 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
   border-top: 3px solid #e23434;
 }
 
-.table-inputGreen{
+.table-inputGreen {
   border: 1px solid green;
   border-top: 3px solid green;
   padding: 10px;
   width: 100%;
 }
 
-.table-inputRed{
+.table-inputRed {
   border: 1px solid #e23434;
   border-top: 3px solid #e23434;
   padding: 10px;
@@ -237,7 +237,7 @@ tbody {
   max-width: 14.28%;
   min-width: 14.28%;
   min-height: 48px;
-      /* display: flex;
+  /* display: flex;
       justify-content: center;
       align-items: center; */
 }
@@ -245,12 +245,12 @@ tbody tr {
   padding: 0.5rem 0.5rem;
 }
 @media screen and (max-width: 768px) {
-  .table th, 
-  .table td{
+  .table th,
+  .table td {
     min-width: 22.28% !important;
   }
   .table thead th {
-    min-width: 22.28%  !important;
+    min-width: 22.28% !important;
   }
 }
 .MuiFormControl-root.width {
@@ -273,11 +273,10 @@ tbody tr {
   animation: spinner 1.5s linear infinite;
 }
 @media screen and (min-width: 990px) {
-  .forgot-body{
+  .forgot-body {
     width: 317px !important;
-  }  
+  }
 }
-
 
 .loading-spinner::before {
   content: "";
@@ -316,7 +315,7 @@ tbody tr {
   background-color: #33a433;
 }
 .bg-card-red {
-  background-color:#d24e4e;
+  background-color: #d24e4e;
 }
 .module-height-Manager {
   max-height: 50px !important;
@@ -377,7 +376,7 @@ input.table-input.readonly.total-input-card {
   display: flex;
   justify-content: space-evenly;
   float: right;
-  gap:12px;
+  gap: 12px;
   align-items: center;
 }
 .Notification {
@@ -393,7 +392,7 @@ input.table-input.readonly.total-input-card {
   width: 20px;
 }
 
-.Notification label{
+.Notification label {
   align-self: center;
   display: flex;
   margin: 0;
@@ -451,7 +450,7 @@ input.table-input.readonly.total-input-card {
   font-size: 16px;
   /* Other styles */
 }
-.rdt_Table{
+.rdt_Table {
   position: relative;
   width: 100%;
   border-radius: inherit;
@@ -465,4 +464,8 @@ input.table-input.readonly.total-input-card {
   background-color: #000;
   border: 1px solid #ddd;
   /* ... */
+}
+.addclientbtn {
+  display: flex;
+  height: 100%;
 }
