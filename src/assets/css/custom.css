@@ -141,14 +141,16 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
   padding: 10px;
   /* color: #e23434; */
   width: 100%;
-  border-top: 3px solid #e23434;
+  /* border-top: 3px solid #e23434; */
+  color: #e23434;
 }
 
 .table-inputGreen {
   border: 1px solid green;
-  border-top: 3px solid green;
+  /* border-top: 3px solid green; */
   padding: 10px;
   width: 100%;
+  color: green;
 }
 
 .table-inputRed {
