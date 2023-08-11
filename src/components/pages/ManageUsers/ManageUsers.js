@@ -95,7 +95,7 @@ const ManageUser = (props) => {
 
   useEffect(() => {
     handleFetchData();
-  console.clear()
+    console.clear();
   }, []);
 
   const handleFetchData = async () => {
@@ -154,7 +154,8 @@ const ManageUser = (props) => {
   const isDeletePermissionAvailable = permissionsArray?.includes("user-delete");
   const isDetailsPermissionAvailable =
     permissionsArray?.includes("user-details");
-  const isstatusPermissionAvailable = permissionsArray?.includes("user-change-status");
+  const isstatusPermissionAvailable =
+    permissionsArray?.includes("user-change-status");
 
   const columns = [
     {
@@ -235,7 +236,7 @@ const ManageUser = (props) => {
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
             {row.status === 1 ? (
               <button
-                className="badge bg-success"
+                className="btn btn-success btn-sm"
                 onClick={
                   isstatusPermissionAvailable ? () => toggleActive(row) : null
                 }
@@ -244,7 +245,7 @@ const ManageUser = (props) => {
               </button>
             ) : row.status === 0 ? (
               <button
-                className="badge bg-danger"
+                className="btn btn-danger btn-sm"
                 onClick={
                   isstatusPermissionAvailable ? () => toggleActive(row) : null
                 }
@@ -397,9 +398,10 @@ const ManageUser = (props) => {
                       // center={true}
                       persistTableHead
                       pagination
+                      paginationPerPage={20}
                       highlightOnHover
                       searchable={true}
-                      // responsive={true}
+                      responsive={true}
                     />
                   </DataTableExtensions>
                 </div>

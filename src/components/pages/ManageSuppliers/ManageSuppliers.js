@@ -4,7 +4,14 @@ import { Link, Navigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -88,7 +95,8 @@ const ManageSuppliers = (props) => {
 
   useEffect(() => {
     FetchTableData();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -149,7 +157,8 @@ const ManageSuppliers = (props) => {
     "supplier-status-update"
   );
   const isEditPermissionAvailable = permissionsArray?.includes("supplier-edit");
-  const isAddPermissionAvailable = permissionsArray?.includes("supplier-create");
+  const isAddPermissionAvailable =
+    permissionsArray?.includes("supplier-create");
   const isDeletePermissionAvailable =
     permissionsArray?.includes("supplier-delete");
   const isDetailsPermissionAvailable =
@@ -223,7 +232,7 @@ const ManageSuppliers = (props) => {
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
             {row.supplier_status === 1 ? (
               <button
-                className="badge bg-success"
+                className="btn btn-success btn-sm"
                 onClick={
                   isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
@@ -232,7 +241,7 @@ const ManageSuppliers = (props) => {
               </button>
             ) : row.supplier_status === 0 ? (
               <button
-                className="badge bg-danger"
+                className="btn btn-danger btn-sm"
                 onClick={
                   isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
@@ -391,6 +400,7 @@ const ManageSuppliers = (props) => {
                       // center={true}
                       persistTableHead
                       pagination
+                      paginationPerPage={20}
                       highlightOnHover
                       searchable={true}
                     />

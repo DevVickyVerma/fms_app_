@@ -10,12 +10,18 @@ import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 
 const ShopSales = (props) => {
-  const { apidata, error, getData, postData,     company_id,
+  const {
+    apidata,
+    error,
+    getData,
+    postData,
+    company_id,
     client_id,
     site_id,
     start_date,
-    sendDataToParent,} = props;
-      const handleButtonClick = () => {
+    sendDataToParent,
+  } = props;
+  const handleButtonClick = () => {
     const allPropsData = {
       company_id,
       client_id,
@@ -170,7 +176,7 @@ const ShopSales = (props) => {
 
       if (response.ok) {
         SuccessToast(responseData.message);
-        handleButtonClick()
+        handleButtonClick();
       } else {
         ErrorToast(responseData.message);
 
@@ -213,34 +219,32 @@ const ShopSales = (props) => {
       width: "50%",
       center: true,
       // Title: "CASH METERED SALES",
-   
+
       cell: (row, index) =>
-      row.charge_name === "Total" ? (
-        <div>
-        <input
-       type="number"
-       className="table-input readonly total-input"
-       value={row.charge_value}
-       readOnly
-     />
-    </div>
-      ) : (
-        <div>
-        <input
-          type="number"
-          id={`charge_value-${index}`}
-          name={`data[${index}].charge_value`}
-          className={
-                  "table-input readonly"
-              }
-          value={formik.values?.data[index]?.charge_value}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-        readOnly
-        />
-        {/* Error handling code */}
-      </div>
-      ),
+        row.charge_name === "Total" ? (
+          <div>
+            <input
+              type="number"
+              className="table-input readonly total-input"
+              value={row.charge_value}
+              readOnly
+            />
+          </div>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`charge_value-${index}`}
+              name={`data[${index}].charge_value`}
+              className={"table-input readonly"}
+              value={formik.values?.data[index]?.charge_value}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
   ];
   const deductionsColumns = [
@@ -265,40 +269,37 @@ const ShopSales = (props) => {
       width: "50%",
       center: true,
       // Title: "CASH METERED SALES",
-    
+
       cell: (row, index) =>
-      row.deduction_name === "Total" ? (
-        <div>
-        <input
-       type="number"
-       className="table-input readonly total-input"
-       value={row.deduction_value}
-       readOnly
-     />
-    </div>
-      ) : (
-        <div>
-        <input
-          type="number"
-          id={`deduction_value-${index}`}
-          name={`deductions[${index}].deduction_value`}
-          className={
-                  "table-input readonly"
-              }
-          value={formik.values?.deductions?.[index]?.deduction_value || ""}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-        readOnly
-        />
-        {/* Error handling code */}
-      </div>
-      ),
+        row.deduction_name === "Total" ? (
+          <div>
+            <input
+              type="number"
+              className="table-input readonly total-input"
+              value={row.deduction_value}
+              readOnly
+            />
+          </div>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`deduction_value-${index}`}
+              name={`deductions[${index}].deduction_value`}
+              className={"table-input readonly"}
+              value={formik.values?.deductions?.[index]?.deduction_value || ""}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
   ];
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
       event.preventDefault();
-     
     }
   });
   const tableDatas = {
@@ -325,6 +326,7 @@ const ShopSales = (props) => {
                       columns={chargesColumns}
                       data={data}
                       // pagination
+                      // paginationPerPage={20}
                       responsive
                     />
 

@@ -113,7 +113,8 @@ const ManageCompany = (props) => {
 
   useEffect(() => {
     FetchTableData();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
 
   const FetchTableData = async () => {
     try {
@@ -243,7 +244,7 @@ const ManageCompany = (props) => {
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
             {row.status === 1 ? (
               <button
-                className="badge bg-success"
+                className="btn btn-success btn-sm"
                 onClick={
                   isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
@@ -252,7 +253,7 @@ const ManageCompany = (props) => {
               </button>
             ) : row.status === 0 ? (
               <button
-                className="badge bg-danger"
+                className="btn btn-danger btn-sm"
                 onClick={
                   isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
@@ -282,26 +283,26 @@ const ManageCompany = (props) => {
       cell: (row) => (
         <span className="text-center">
           {isEditPermissionAvailable ? (
-          <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
-            <Link
-              to="/editcompany"
-              className="btn btn-primary btn-sm rounded-11 me-2"
-              onClick={() => handleEdit(row)}
-            >
-              <i>
-                <svg
-                  className="table-edit"
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  width="16"
-                >
-                  <path d="M0 0h24v24H0V0z" fill="none" />
-                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19zM20.71 5.63l-2.34-2.34c-.2-.2-.45-.29-.71-.29s-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41z" />
-                </svg>
-              </i>
-            </Link>
-          </OverlayTrigger>
+            <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
+              <Link
+                to="/editcompany"
+                className="btn btn-primary btn-sm rounded-11 me-2"
+                onClick={() => handleEdit(row)}
+              >
+                <i>
+                  <svg
+                    className="table-edit"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    width="16"
+                  >
+                    <path d="M0 0h24v24H0V0z" fill="none" />
+                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19zM20.71 5.63l-2.34-2.34c-.2-.2-.45-.29-.71-.29s-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41z" />
+                  </svg>
+                </i>
+              </Link>
+            </OverlayTrigger>
           ) : null}
           {isDeletePermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
@@ -373,7 +374,7 @@ const ManageCompany = (props) => {
               <Card.Header>
                 <h3 className="card-title">Manage Companies</h3>
               </Card.Header>
-              
+
               <Card.Body>
                 <div className="table-responsive deleted-table">
                   <DataTableExtensions {...tableDatas}>
@@ -386,7 +387,8 @@ const ManageCompany = (props) => {
                       striped={true}
                       // center={true}
                       persistTableHead
-                      // pagination
+                      pagination
+                      paginationPerPage={20}
                       highlightOnHover
                       searchable={true}
                     />

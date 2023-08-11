@@ -142,8 +142,7 @@ const ManageSiteTank = (props) => {
       company_id: values.company_id,
     };
     localStorage.setItem("SiteTAnk", JSON.stringify(tank));
-    setlocalStorageSiteID(values.site_id)
- 
+    setlocalStorageSiteID(values.site_id);
   };
 
   const handleFetchData = async () => {
@@ -159,8 +158,6 @@ const ManageSiteTank = (props) => {
         ) {
           const clientId = localStorage.getItem("superiorId");
           if (clientId) {
-          
-
             setSelectedClientId(clientId);
 
             setSelectedCompanyList([]);
@@ -193,11 +190,8 @@ const ManageSiteTank = (props) => {
       );
 
       console.log(response.data.data, "tank-list");
-  
-  
-   
+
       setData(response?.data?.data);
-   
     } catch (error) {
       console.error("API error:", error);
     }
@@ -208,9 +202,9 @@ const ManageSiteTank = (props) => {
         `/site-tank/list?site_id=${localStorageSiteID}`
       );
 
-      if (response && response.data ) {
+      if (response && response.data) {
         setData(response?.data?.data);
-        console.log(response?.data,"localStorages")
+        console.log(response?.data, "localStorages");
 
         setlocalStorageSiteName(response?.data?.data[0].site);
       } else {
@@ -347,7 +341,7 @@ const ManageSiteTank = (props) => {
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
             {row.status === 1 ? (
               <button
-                className="badge bg-success"
+                className="btn btn-success btn-sm"
                 onClick={
                   isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
@@ -356,7 +350,7 @@ const ManageSiteTank = (props) => {
               </button>
             ) : row.status === 0 ? (
               <button
-                className="badge bg-danger"
+                className="btn btn-danger btn-sm"
                 onClick={
                   isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
@@ -490,7 +484,6 @@ const ManageSiteTank = (props) => {
                     start_date: "",
                   }}
                   validationSchema={Yup.object({
-                   
                     company_id: Yup.string().required("Company is required"),
                     site_id: Yup.string().required("Site is required"),
                   })}
@@ -502,75 +495,76 @@ const ManageSiteTank = (props) => {
                     <Form onSubmit={handleSubmit}>
                       <Card.Body>
                         <Row>
-                        {localStorage.getItem("superiorRole") !==
+                          {localStorage.getItem("superiorRole") !==
                             "Client" && (
-                          <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="client_id"
-                                className=" form-label mt-4"
-                              >
-                                Client
-                                <span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${
-                                  errors.client_id && touched.client_id
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="client_id"
-                                name="client_id"
-                                onChange={(e) => {
-                                  const selectedType = e.target.value;
-                                  setFieldValue("client_id", selectedType);
-                                  setSelectedClientId(selectedType);
+                            <Col lg={4} md={6}>
+                              <FormGroup>
+                                <label
+                                  htmlFor="client_id"
+                                  className=" form-label mt-4"
+                                >
+                                  Client
+                                  <span className="text-danger">*</span>
+                                </label>
+                                <Field
+                                  as="select"
+                                  className={`input101 ${
+                                    errors.client_id && touched.client_id
+                                      ? "is-invalid"
+                                      : ""
+                                  }`}
+                                  id="client_id"
+                                  name="client_id"
+                                  onChange={(e) => {
+                                    const selectedType = e.target.value;
+                                    setFieldValue("client_id", selectedType);
+                                    setSelectedClientId(selectedType);
 
-                                  // Reset the selected company and site
-                                  setSelectedCompanyList([]);
-                                  setFieldValue("company_id", "");
-                                  setFieldValue("site_id", "");
+                                    // Reset the selected company and site
+                                    setSelectedCompanyList([]);
+                                    setFieldValue("company_id", "");
+                                    setFieldValue("site_id", "");
 
-                                  const selectedClient = AddSiteData.data.find(
-                                    (client) => client.id === selectedType
-                                  );
+                                    const selectedClient =
+                                      AddSiteData.data.find(
+                                        (client) => client.id === selectedType
+                                      );
 
-                                  if (selectedClient) {
-                                    setSelectedCompanyList(
-                                      selectedClient.companies
-                                    );
-                                    console.log(
-                                      selectedClient,
-                                      "selectedClient"
-                                    );
-                                    console.log(
-                                      selectedClient.companies,
-                                      "selectedClient"
-                                    );
-                                  }
-                                }}
-                              >
-                                <option value="">Select a Client</option>
-                                {AddSiteData.data &&
-                                AddSiteData.data.length > 0 ? (
-                                  AddSiteData.data.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.client_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Client</option>
-                                )}
-                              </Field>
+                                    if (selectedClient) {
+                                      setSelectedCompanyList(
+                                        selectedClient.companies
+                                      );
+                                      console.log(
+                                        selectedClient,
+                                        "selectedClient"
+                                      );
+                                      console.log(
+                                        selectedClient.companies,
+                                        "selectedClient"
+                                      );
+                                    }
+                                  }}
+                                >
+                                  <option value="">Select a Client</option>
+                                  {AddSiteData.data &&
+                                  AddSiteData.data.length > 0 ? (
+                                    AddSiteData.data.map((item) => (
+                                      <option key={item.id} value={item.id}>
+                                        {item.client_name}
+                                      </option>
+                                    ))
+                                  ) : (
+                                    <option disabled>No Client</option>
+                                  )}
+                                </Field>
 
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="client_id"
-                              />
-                            </FormGroup>
-                          </Col>
+                                <ErrorMessage
+                                  component="div"
+                                  className="invalid-feedback"
+                                  name="client_id"
+                                />
+                              </FormGroup>
+                            </Col>
                           )}
                           <Col lg={4} md={6}>
                             <FormGroup>
@@ -676,7 +670,7 @@ const ManageSiteTank = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
-                      <Link
+                        <Link
                           type="submit"
                           className="btn btn-danger me-2 "
                           to={`/dashboard`}
@@ -717,6 +711,7 @@ const ManageSiteTank = (props) => {
                       // center={true}
                       persistTableHead
                       pagination
+                      paginationPerPage={20}
                       highlightOnHover
                       searchable={true}
                     />

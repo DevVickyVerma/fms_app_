@@ -63,6 +63,7 @@ const AddClient = (props) => {
 
       const formData = new FormData();
       formData.append("email", values.email);
+      formData.append("fairbank_email", values.fairbank_email);
       formData.append("password", values.password);
       formData.append("first_name", values.first_name);
       formData.append("last_name", values.last_name);
@@ -128,21 +129,6 @@ const AddClient = (props) => {
     }
   }, [isPermissionsSet, permissionsArray, navigate]);
 
-  // const FetchRoleList = async () => {
-  //   try {
-  //     const response = await getData("/role/list");
-
-  //     if (response && response.data && response.data.data.addons) {
-  //       setRoleItems(response.data.data.addons);
-  //       console.log(response.data.data.addons[0].name, "response.data")
-  //     } else {
-  //       throw new Error("No data available in the response");
-  //     }
-  //   } catch (error) {
-  //     console.error("API error:", error);
-  //   }
-  // };
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -197,6 +183,7 @@ const AddClient = (props) => {
 
                   // financial_start_month: "",
                   email: "",
+                  fairbank_email: "",
                   password: "",
 
                   status: "",
@@ -229,6 +216,9 @@ const AddClient = (props) => {
 
                   email: Yup.string()
                     .required(" Email is required")
+                    .email("Invalid email format"),
+                  fairbank_email: Yup.string()
+                    .required(" Fairbank Email is required")
                     .email("Invalid email format"),
 
                   password: Yup.string().required("Password is required"),
@@ -298,6 +288,34 @@ const AddClient = (props) => {
                               component="div"
                               className="invalid-feedback"
                               name="email"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg={4} md={6}>
+                          <FormGroup>
+                            <label
+                              htmlFor="fairbank_email"
+                              className=" form-label mt-4"
+                            >
+                              Fairbank Email
+                              <span className="text-danger">*</span>
+                            </label>
+                            <Field
+                              type="text"
+                              autoComplete="off"
+                              className={`input101 ${
+                                errors.fairbank_email && touched.fairbank_email
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              id="fairbank_email"
+                              name="fairbank_email"
+                              placeholder="Fairbank Email"
+                            />
+                            <ErrorMessage
+                              component="div"
+                              className="invalid-feedback"
+                              name="fairbank_email"
                             />
                           </FormGroup>
                         </Col>
@@ -381,7 +399,6 @@ const AddClient = (props) => {
                             />
                           </FormGroup>
                         </Col>
-                      
 
                         <Col lg={4} md={6}>
                           <FormGroup>
@@ -557,7 +574,7 @@ const AddClient = (props) => {
                             />
                           </FormGroup>
                         </Col>
-                       
+
                         <Col lg={4} md={6}>
                           <FormGroup>
                             <label htmlFor="email" className=" form-label mt-4">
@@ -607,19 +624,10 @@ const AddClient = (props) => {
                             />
                           </FormGroup>
                         </Col>
-                     
                       </Row>
                     </Card.Body>
 
                     <Card.Footer className="text-end">
-                      <button
-                        type="submit"
-                        className="btn btn-primary me-2 "
-                        // disabled={Object.keys(errors).length > 0}
-                      >
-                        Save
-                      </button>
-
                       <Link
                         type="submit"
                         className="btn btn-danger me-2 "
@@ -627,8 +635,13 @@ const AddClient = (props) => {
                       >
                         Cancel
                       </Link>
-
-                   
+                      <button
+                        type="submit"
+                        className="btn btn-primary me-2 "
+                        // disabled={Object.keys(errors).length > 0}
+                      >
+                        Save
+                      </button>
                     </Card.Footer>
                   </Form>
                 )}

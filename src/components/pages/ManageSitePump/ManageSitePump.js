@@ -212,7 +212,6 @@ const ManageSiteTank = (props) => {
       if (response && response.data && response.data.data) {
         setData(response.data.data);
         setlocalStorageSiteName(response?.data?.data[0].site);
-
       } else {
         throw new Error("No data available in the response");
       }
@@ -223,7 +222,7 @@ const ManageSiteTank = (props) => {
 
   useEffect(() => {
     const localStorageData = localStorage.getItem("SitePump");
- setclientIDLocalStorage(localStorage.getItem("superiorId"));
+    setclientIDLocalStorage(localStorage.getItem("superiorId"));
     // Parse the data as JSON
     const parsedData = JSON.parse(localStorageData);
 
@@ -337,7 +336,7 @@ const ManageSiteTank = (props) => {
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
             {row.status === 1 ? (
               <button
-                className="badge bg-success"
+                className="btn btn-success btn-sm"
                 onClick={
                   isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
@@ -346,7 +345,7 @@ const ManageSiteTank = (props) => {
               </button>
             ) : row.status === 0 ? (
               <button
-                className="badge bg-danger"
+                className="btn btn-danger btn-sm"
                 onClick={
                   isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
@@ -427,9 +426,6 @@ const ManageSiteTank = (props) => {
     columns,
     data,
   };
- 
-
-
 
   return (
     <>
@@ -481,7 +477,6 @@ const ManageSiteTank = (props) => {
                     start_date: "",
                   }}
                   validationSchema={Yup.object({
-                  
                     company_id: Yup.string().required("Company is required"),
                     site_id: Yup.string().required("Site is required"),
                   })}
@@ -495,74 +490,75 @@ const ManageSiteTank = (props) => {
                         <Row>
                           {localStorage.getItem("superiorRole") !==
                             "Client" && (
-                          <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="client_id"
-                                className=" form-label mt-4"
-                              >
-                                Client
-                                <span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${
-                                  errors.client_id && touched.client_id
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="client_id"
-                                name="client_id"
-                                onChange={(e) => {
-                                  const selectedType = e.target.value;
-                                  setFieldValue("client_id", selectedType);
-                                  setSelectedClientId(selectedType);
+                            <Col lg={4} md={6}>
+                              <FormGroup>
+                                <label
+                                  htmlFor="client_id"
+                                  className=" form-label mt-4"
+                                >
+                                  Client
+                                  <span className="text-danger">*</span>
+                                </label>
+                                <Field
+                                  as="select"
+                                  className={`input101 ${
+                                    errors.client_id && touched.client_id
+                                      ? "is-invalid"
+                                      : ""
+                                  }`}
+                                  id="client_id"
+                                  name="client_id"
+                                  onChange={(e) => {
+                                    const selectedType = e.target.value;
+                                    setFieldValue("client_id", selectedType);
+                                    setSelectedClientId(selectedType);
 
-                                  // Reset the selected company and site
-                                  setSelectedCompanyList([]);
-                                  setFieldValue("company_id", "");
-                                  setFieldValue("site_id", "");
+                                    // Reset the selected company and site
+                                    setSelectedCompanyList([]);
+                                    setFieldValue("company_id", "");
+                                    setFieldValue("site_id", "");
 
-                                  const selectedClient = AddSiteData.data.find(
-                                    (client) => client.id === selectedType
-                                  );
+                                    const selectedClient =
+                                      AddSiteData.data.find(
+                                        (client) => client.id === selectedType
+                                      );
 
-                                  if (selectedClient) {
-                                    setSelectedCompanyList(
-                                      selectedClient.companies
-                                    );
-                                    console.log(
-                                      selectedClient,
-                                      "selectedClient"
-                                    );
-                                    console.log(
-                                      selectedClient.companies,
-                                      "selectedClient"
-                                    );
-                                  }
-                                }}
-                              >
-                                <option value="">Select a Client</option>
-                                {AddSiteData.data &&
-                                AddSiteData.data.length > 0 ? (
-                                  AddSiteData.data.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.client_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Client</option>
-                                )}
-                              </Field>
+                                    if (selectedClient) {
+                                      setSelectedCompanyList(
+                                        selectedClient.companies
+                                      );
+                                      console.log(
+                                        selectedClient,
+                                        "selectedClient"
+                                      );
+                                      console.log(
+                                        selectedClient.companies,
+                                        "selectedClient"
+                                      );
+                                    }
+                                  }}
+                                >
+                                  <option value="">Select a Client</option>
+                                  {AddSiteData.data &&
+                                  AddSiteData.data.length > 0 ? (
+                                    AddSiteData.data.map((item) => (
+                                      <option key={item.id} value={item.id}>
+                                        {item.client_name}
+                                      </option>
+                                    ))
+                                  ) : (
+                                    <option disabled>No Client</option>
+                                  )}
+                                </Field>
 
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="client_id"
-                              />
-                            </FormGroup>
-                          </Col>
-                                )}
+                                <ErrorMessage
+                                  component="div"
+                                  className="invalid-feedback"
+                                  name="client_id"
+                                />
+                              </FormGroup>
+                            </Col>
+                          )}
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
@@ -667,7 +663,7 @@ const ManageSiteTank = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
-                      <Link
+                        <Link
                           type="submit"
                           className="btn btn-danger me-2 "
                           to={`/dashboard`}
@@ -708,6 +704,7 @@ const ManageSiteTank = (props) => {
                       // center={true}
                       persistTableHead
                       pagination
+                      paginationPerPage={20}
                       highlightOnHover
                       searchable={true}
                     />

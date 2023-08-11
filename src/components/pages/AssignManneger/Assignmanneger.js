@@ -55,7 +55,10 @@ const ManageRoles = (props) => {
         });
         const DeleteRole = async () => {
           try {
-            const response = await axiosInstance.post("/site/manager/delete", formData);
+            const response = await axiosInstance.post(
+              "/site/manager/delete",
+              formData
+            );
             setData(response.data.data);
             Swal.fire({
               title: "Deleted!",
@@ -98,7 +101,7 @@ const ManageRoles = (props) => {
     },
   });
 
- const FetchmannegerList = async () => {
+  const FetchmannegerList = async () => {
     try {
       const response = await getData(`/site/manager/${id}`);
 
@@ -124,11 +127,18 @@ const ManageRoles = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable =
-    permissionsArray?.includes("site-assign-manager");
-  const isEditPermissionAvailable = permissionsArray?.includes("site-assign-manager");
-  const isAddPermissionAvailable = permissionsArray?.includes("site-assign-manager");
-  const isDeletePermissionAvailable = permissionsArray?.includes("site-assign-manager");
+  const isStatusPermissionAvailable = permissionsArray?.includes(
+    "site-assign-manager"
+  );
+  const isEditPermissionAvailable = permissionsArray?.includes(
+    "site-assign-manager"
+  );
+  const isAddPermissionAvailable = permissionsArray?.includes(
+    "site-assign-manager"
+  );
+  const isDeletePermissionAvailable = permissionsArray?.includes(
+    "site-assign-manager"
+  );
   const isDetailsPermissionAvailable =
     permissionsArray?.includes("role-details");
   console.log(data?.editable === 1, "editable");
@@ -204,10 +214,8 @@ const ManageRoles = (props) => {
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
-              
                 to={`/editmanager/${row.id}`}
                 className="btn btn-primary btn-sm rounded-11 me-2"
-              
               >
                 <i>
                   <svg
@@ -262,7 +270,7 @@ const ManageRoles = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title">Site Manager  </h1>
+            <h1 className="page-title">Site Manager </h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -275,7 +283,7 @@ const ManageRoles = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Site Manager 
+                Site Manager
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -315,6 +323,7 @@ const ManageRoles = (props) => {
                       // center={true}
                       persistTableHead
                       pagination
+                      paginationPerPage={20}
                       highlightOnHover
                       searchable={true}
                     />

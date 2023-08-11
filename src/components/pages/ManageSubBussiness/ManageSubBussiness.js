@@ -39,8 +39,9 @@ const ManageSubBusinessTypes = (props) => {
   };
 
   useEffect(() => {
-    handleFetchData(); 
-  console.clear()  }, []);
+    handleFetchData();
+    console.clear();
+  }, []);
   const [searchText, setSearchText] = useState("");
   const [searchvalue, setSearchvalue] = useState();
 
@@ -69,8 +70,6 @@ const ManageSubBusinessTypes = (props) => {
       console.error("API error:", error);
     }
   };
-
-  
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -123,32 +122,33 @@ const ManageSubBusinessTypes = (props) => {
   };
   const navigate = useNavigate();
   //permissions check
-const [permissionsArray, setPermissionsArray] = useState([]);
+  const [permissionsArray, setPermissionsArray] = useState([]);
 
-const UserPermissions = useSelector((state) => state?.data?.data);
+  const UserPermissions = useSelector((state) => state?.data?.data);
 
-useEffect(() => {
-  if (UserPermissions) {
-    setPermissionsArray(UserPermissions.permissions);
-  }
-}, [UserPermissions]);
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions.permissions);
+    }
+  }, [UserPermissions]);
 
-const isStatusPermissionAvailable = permissionsArray?.includes(
-  "shop-status-update"
-);
-const isEditPermissionAvailable = permissionsArray?.includes("business-sub-type-edit");
-const isAddPermissionAvailable = permissionsArray?.includes("business-sub-type-create");
-const isDeletePermissionAvailable = permissionsArray?.includes("business-sub-type-delete");
-const isDetailsPermissionAvailable =
-  permissionsArray?.includes("business-sub-type-detail");
-const isAssignPermissionAvailable = permissionsArray?.includes("business-sub-type-assign");
-
-
-
-
-
-
-  
+  const isStatusPermissionAvailable =
+    permissionsArray?.includes("shop-status-update");
+  const isEditPermissionAvailable = permissionsArray?.includes(
+    "business-sub-type-edit"
+  );
+  const isAddPermissionAvailable = permissionsArray?.includes(
+    "business-sub-type-create"
+  );
+  const isDeletePermissionAvailable = permissionsArray?.includes(
+    "business-sub-type-delete"
+  );
+  const isDetailsPermissionAvailable = permissionsArray?.includes(
+    "business-sub-type-detail"
+  );
+  const isAssignPermissionAvailable = permissionsArray?.includes(
+    "business-sub-type-assign"
+  );
 
   const columns = [
     {
@@ -213,26 +213,29 @@ const isAssignPermissionAvailable = permissionsArray?.includes("business-sub-typ
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
             {row.status === 1 ? (
               <button
-                className="badge bg-success"
+                className="btn btn-success btn-sm"
                 onClick={
-                  isEditPermissionAvailable? () => toggleActive(row) : null
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Active
               </button>
             ) : row.status === 0 ? (
               <button
-                className="badge bg-danger"
+                className="btn btn-danger btn-sm"
                 onClick={
-                  isEditPermissionAvailable? () => toggleActive(row) : null
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
               >
                 Inactive
               </button>
             ) : (
-              <button className="badge"  onClick={
-                  isEditPermissionAvailable? () => toggleActive(row) : null
-                }>
+              <button
+                className="badge"
+                onClick={
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
+                }
+              >
                 Unknown
               </button>
             )}
@@ -248,51 +251,50 @@ const isAssignPermissionAvailable = permissionsArray?.includes("business-sub-typ
       width: "20%",
       cell: (row) => (
         <span className="text-center">
-            {isEditPermissionAvailable ? (
-          <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
-            <Link
-              to={`/editsub-business/${row.id}`}
-              className="btn btn-primary btn-sm rounded-11 me-2"
-            >
-              <i>
-                <svg
-                  className="table-edit"
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  width="16"
-                >
-                  <path d="M0 0h24v24H0V0z" fill="none" />
-                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19zM20.71 5.63l-2.34-2.34c-.2-.2-.45-.29-.71-.29s-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41z" />
-                </svg>
-              </i>
-            </Link>
-          </OverlayTrigger>
+          {isEditPermissionAvailable ? (
+            <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
+              <Link
+                to={`/editsub-business/${row.id}`}
+                className="btn btn-primary btn-sm rounded-11 me-2"
+              >
+                <i>
+                  <svg
+                    className="table-edit"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    width="16"
+                  >
+                    <path d="M0 0h24v24H0V0z" fill="none" />
+                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19zM20.71 5.63l-2.34-2.34c-.2-.2-.45-.29-.71-.29s-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41z" />
+                  </svg>
+                </i>
+              </Link>
+            </OverlayTrigger>
           ) : null}
           {isDeletePermissionAvailable ? (
-          <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
-            <Link
-              to="#"
-              className="btn btn-danger btn-sm rounded-11"
-              onClick={() => handleDelete(row.id)}
-            >
-              <i>
-                <svg
-                  className="table-delete"
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  width="16"
-                >
-                  <path d="M0 0h24v24H0V0z" fill="none" />
-                  <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
-                </svg>
-              </i>
-            </Link>
-          </OverlayTrigger>
+            <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
+              <Link
+                to="#"
+                className="btn btn-danger btn-sm rounded-11"
+                onClick={() => handleDelete(row.id)}
+              >
+                <i>
+                  <svg
+                    className="table-delete"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    width="16"
+                  >
+                    <path d="M0 0h24v24H0V0z" fill="none" />
+                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
+                  </svg>
+                </i>
+              </Link>
+            </OverlayTrigger>
           ) : null}
         </span>
-          
       ),
     },
   ];
@@ -338,17 +340,18 @@ const isAssignPermissionAvailable = permissionsArray?.includes("business-sub-typ
             <div className="ms-auto pageheader-btn">
               <div className="input-group">
                 <input
-                  type="text"  autoComplete="off"
+                  type="text"
+                  autoComplete="off"
                   className="form-control"
                   value={searchText}
                   onChange={handleSearch}
                   placeholder="Search..."
                   style={{ borderRadius: 0 }}
                 />
-                  {isAddPermissionAvailable ? (
-                <Link to="/addsub-business" className="btn btn-primary ms-2">
-                  Add Sub-Business Types <AddCircleOutlineIcon />
-                </Link>
+                {isAddPermissionAvailable ? (
+                  <Link to="/addsub-business" className="btn btn-primary ms-2">
+                    Add Sub-Business Types <AddCircleOutlineIcon />
+                  </Link>
                 ) : null}
               </div>
             </div>
@@ -365,6 +368,7 @@ const isAssignPermissionAvailable = permissionsArray?.includes("business-sub-typ
               // center={true}
               persistTableHead
               pagination
+              paginationPerPage={20}
               highlightOnHover
               searchable={true}
             />

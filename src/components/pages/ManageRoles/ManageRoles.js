@@ -4,7 +4,14 @@ import { Link, Navigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -15,7 +22,6 @@ import withApi from "../../../Utils/ApiHelper";
 import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-
 
 const ManageRoles = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -85,7 +91,8 @@ const ManageRoles = (props) => {
 
   useEffect(() => {
     FetchTableData();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -114,7 +121,6 @@ const ManageRoles = (props) => {
     }
   };
 
-
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -128,11 +134,11 @@ const ManageRoles = (props) => {
   const isStatusPermissionAvailable =
     permissionsArray?.includes("role-status-update");
   const isEditPermissionAvailable = permissionsArray?.includes("role-edit");
-  const isAddPermissionAvailable = permissionsArray?.includes("role-create") ;
+  const isAddPermissionAvailable = permissionsArray?.includes("role-create");
   const isDeletePermissionAvailable = permissionsArray?.includes("role-delete");
   const isDetailsPermissionAvailable =
     permissionsArray?.includes("role-details");
-    console.log(data?.editable === 1,"editable");
+  console.log(data?.editable === 1, "editable");
 
   const columns = [
     {
@@ -207,7 +213,7 @@ const ManageRoles = (props) => {
               </Link>
             </OverlayTrigger>
           ) : null}
-          {isDeletePermissionAvailable? (
+          {isDeletePermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"
@@ -243,44 +249,42 @@ const ManageRoles = (props) => {
 
   const handleSearch = (e) => {
     const value = e.target.value;
-    console.log(value)
+    console.log(value);
     setSearchText(value);
 
     const filteredData = tableDatas.filter((item) =>
       item.name.toLowerCase().includes(value.toLowerCase())
     );
-    console.log(filteredData)
+    console.log(filteredData);
     setData(filteredData);
   };
 
   return (
     <>
-      {isLoading ? (
-       <Loaderimg />
-      ) : null}
-    <>
-      <div className="page-header ">
-        <div>
-          <h1 className="page-title">Manage Roles</h1>
-          <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item
-              className="breadcrumb-item"
-              linkAs={Link}
-              linkProps={{ to: "/dashboard" }}
-            >
-              Dashboard
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item active breadcrumds"
-              aria-current="page"
-            >
-              Manage Roles
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
-        <div className="ms-auto pageheader-btn">
-          <div className="input-group">
-            {/* <input
+      {isLoading ? <Loaderimg /> : null}
+      <>
+        <div className="page-header ">
+          <div>
+            <h1 className="page-title">Manage Roles</h1>
+            <Breadcrumb className="breadcrumb">
+              <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/dashboard" }}
+              >
+                Dashboard
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item active breadcrumds"
+                aria-current="page"
+              >
+                Manage Roles
+              </Breadcrumb.Item>
+            </Breadcrumb>
+          </div>
+          <div className="ms-auto pageheader-btn">
+            <div className="input-group">
+              {/* <input
               type="text"  autoComplete="off"
               className="form-control"
               value={searchText}
@@ -288,51 +292,53 @@ const ManageRoles = (props) => {
               placeholder="Search..."
               style={{ borderRadius: 0 }}
             /> */}
-            {isAddPermissionAvailable?
-            <Link
-              to="/addroles"
-              className="btn btn-primary ms-2"
-              style={{ borderRadius: "4px" }}
-            >
-              Add Role
-            </Link>:""}
+              {isAddPermissionAvailable ? (
+                <Link
+                  to="/addroles"
+                  className="btn btn-primary ms-2"
+                  style={{ borderRadius: "4px" }}
+                >
+                  Add Role
+                </Link>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
         </div>
-      </div>
 
-  
-               <Row className=" row-sm">
-        <Col lg={12}>
-          <Card>
-            <Card.Header>
-              <h3 className="card-title">Manage Roles</h3>
-            </Card.Header>
-            <Card.Body>
-              <div className="table-responsive deleted-table">
-              <DataTableExtensions {...tableDatas}>
-        <DataTable
-          columns={columns}
-          data={data}
-          noHeader
-          defaultSortField="id"
-          defaultSortAsc={false}
-          striped={true}
-          // center={true}
-          persistTableHead
-          pagination
-          highlightOnHover
-          searchable={true}
-          responsive={true}
-        />
-      </DataTableExtensions>
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+        <Row className=" row-sm">
+          <Col lg={12}>
+            <Card>
+              <Card.Header>
+                <h3 className="card-title">Manage Roles</h3>
+              </Card.Header>
+              <Card.Body>
+                <div className="table-responsive deleted-table">
+                  <DataTableExtensions {...tableDatas}>
+                    <DataTable
+                      columns={columns}
+                      data={data}
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      striped={true}
+                      // center={true}
+                      persistTableHead
+                      pagination
+                      paginationPerPage={20}
+                      highlightOnHover
+                      searchable={true}
+                      responsive={true}
+                    />
+                  </DataTableExtensions>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
       </>
-      
-      </>
-    );
-  };
+    </>
+  );
+};
 export default withApi(ManageRoles);

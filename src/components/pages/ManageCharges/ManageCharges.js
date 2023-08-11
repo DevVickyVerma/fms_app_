@@ -4,7 +4,14 @@ import { Link, Navigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -88,7 +95,8 @@ const ManageCharges = (props) => {
 
   useEffect(() => {
     FetchTableData();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -228,7 +236,7 @@ const ManageCharges = (props) => {
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
             {row.charge_status === 1 ? (
               <button
-                className="badge bg-success"
+                className="btn btn-success btn-sm"
                 onClick={
                   isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
@@ -237,7 +245,7 @@ const ManageCharges = (props) => {
               </button>
             ) : row.charge_status === 0 ? (
               <button
-                className="badge bg-danger"
+                className="btn btn-danger btn-sm"
                 onClick={
                   isEditPermissionAvailable ? () => toggleActive(row) : null
                 }
@@ -333,9 +341,7 @@ const ManageCharges = (props) => {
 
   return (
     <>
-      {isLoading ? (
-      <Loaderimg />
-      ) : null}
+      {isLoading ? <Loaderimg /> : null}
       <>
         <div className="page-header ">
           <div>
@@ -380,34 +386,34 @@ const ManageCharges = (props) => {
         </div>
 
         <Row className=" row-sm">
-        <Col lg={12}>
-          <Card>
-            <Card.Header>
-              <h3 className="card-title">Manage Charges</h3>
-            </Card.Header>
-            <Card.Body>
-              <div className="table-responsive deleted-table">
-    
-              <DataTableExtensions {...tableDatas}>
-          <DataTable
-            columns={columns}
-            data={data}
-            noHeader
-            defaultSortField="id"
-            defaultSortAsc={false}
-            striped={true}
-            // center={true}
-            persistTableHead
-            pagination
-            highlightOnHover
-            searchable={true}
-          />
-        </DataTableExtensions>
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+          <Col lg={12}>
+            <Card>
+              <Card.Header>
+                <h3 className="card-title">Manage Charges</h3>
+              </Card.Header>
+              <Card.Body>
+                <div className="table-responsive deleted-table">
+                  <DataTableExtensions {...tableDatas}>
+                    <DataTable
+                      columns={columns}
+                      data={data}
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      striped={true}
+                      // center={true}
+                      persistTableHead
+                      pagination
+                      paginationPerPage={20}
+                      highlightOnHover
+                      searchable={true}
+                    />
+                  </DataTableExtensions>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
       </>
     </>
   );
