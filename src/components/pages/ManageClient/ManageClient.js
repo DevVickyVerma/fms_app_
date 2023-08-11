@@ -31,6 +31,7 @@ import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CenterSearchmodal from "../../../data/Modal/CenterSearchmodal";
 const ManageClient = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
@@ -388,10 +389,7 @@ const ManageClient = (props) => {
               ) : null}
               {isReportsPermissionAvailable ? (
                 <Dropdown.Item className="dropdown-item">
-                  <Link
-                    className="settingicon"
-                    to={`/assignreport/${row.id}`}
-                  >
+                  <Link className="settingicon" to={`/assignreport/${row.id}`}>
                     <i className="setting-icon">
                       <AssignmentIndIcon />
                     </i>
@@ -419,8 +417,7 @@ const ManageClient = (props) => {
   //   );
   // };
 
- 
-  const dynamicClass = "dynamicClass" /* your dynamic class */;
+  const dynamicClass = "dynamicClass"; /* your dynamic class */
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -445,7 +442,7 @@ const ManageClient = (props) => {
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
-          <div className="ms-auto pageheader-btn">
+          <div className="ms-auto pageheader-btn d-flex">
             <span className="Search-data">
               {Object.entries(searchdata).map(([key, value]) => (
                 <div key={key} className="badge">
@@ -457,16 +454,23 @@ const ManageClient = (props) => {
               ))}
             </span>
             <Link
-              className="btn btn-primary"
+              // className="btn btn-primary sbsbo"
               onClick={() => {
                 handleToggleSidebar1();
               }}
             >
-              Search
-              <span className="ms-2">
-                <SearchIcon />
-              </span>
+              <CenterSearchmodal
+                title="Search"
+                visible={sidebarVisible1}
+                onClick={() => {
+                  handleToggleSidebar1();
+                }}
+                onClose={handleToggleSidebar1}
+                onSubmit={handleSubmit}
+                searchListstatus={SearchList}
+              />
             </Link>
+
             {Object.keys(searchdata).length > 0 ? (
               <Link className="btn btn-danger ms-2" onClick={handleSearchReset}>
                 Reset <RestartAltIcon />
@@ -475,20 +479,31 @@ const ManageClient = (props) => {
               ""
             )}
             {isAddPermissionAvailable ? (
-              <Link to="/addclient" className="btn btn-primary ms-2">
+              <Link to="/addclient" className="btn btn-primary ms-2 d-flex">
                 Add Client
                 <AddCircleOutlineIcon />
               </Link>
             ) : null}
           </div>
         </div>
-        <SideSearchbar
+        {/* <SideSearchbar
           title="Search"
           visible={sidebarVisible1}
           onClose={handleToggleSidebar1}
           onSubmit={handleSubmit}
           searchListstatus={SearchList}
-        />
+        /> */}
+
+        {/* <CenterSearchmodal
+          title="Search"
+          visible={sidebarVisible1}
+          onClick={() => {
+            handleToggleSidebar1();
+          }}
+          onClose={handleToggleSidebar1}
+          onSubmit={handleSubmit}
+          searchListstatus={SearchList}
+        /> */}
 
         <Row className=" row-sm">
           <Col lg={12}>

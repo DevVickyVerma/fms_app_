@@ -4,7 +4,6 @@ import Sidebar from "../layouts/SideBar/SideBar";
 import Footer from "../layouts/Footer/Footer";
 import Switcher from "../layouts/Switcher/Switcher";
 
-
 import { Outlet, useLocation } from "react-router-dom";
 import TabToTop from "../layouts/TabToTop/TabToTop";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +12,7 @@ import TopLoadingBar from "react-top-loading-bar";
 import SweetAlert from "sweetalert2";
 import Swal from "sweetalert2";
 import withApi from "../Utils/ApiHelper";
+import { MyProvider } from "../Utils/MyContext";
 
 const App = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -110,36 +110,35 @@ const App = (props) => {
     }
   }, [isInactive, handleConfirm, handleCancel]);
   return (
-    <Fragment>
-      <div className="horizontalMenucontainer">
-        <TabToTop />
-        <div className="page">
-          <div className="page-main">
-            <TopLoadingBar
-              style={{ height: "4px" }}
-              color="#fff"
-              ref={loadingBarRef}
-            />
+    <MyProvider>
+      <Fragment>
+        <div className="horizontalMenucontainer">
+          <TabToTop />
+          <div className="page">
+            <div className="page-main">
+              <TopLoadingBar
+                style={{ height: "4px" }}
+                color="#fff"
+                ref={loadingBarRef}
+              />
 
-            <Header />
-            <Sidebar />
-            <div className="main-content app-content ">
-              <div className="side-app">
-                <div
-                  className="main-container container-fluid"
-              
-                >
-                  <Outlet />
+              <Header />
+              <Sidebar />
+              <div className="main-content app-content ">
+                <div className="side-app">
+                  <div className="main-container container-fluid">
+                    <Outlet />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <Switcher />
-          <Footer />
+            <Switcher />
+            <Footer />
+          </div>
         </div>
-      </div>
-    </Fragment>
+      </Fragment>
+    </MyProvider>
   );
 };
 export default withApi(App);

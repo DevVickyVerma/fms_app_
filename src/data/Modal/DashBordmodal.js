@@ -20,6 +20,7 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import { Slide, toast } from "react-toastify";
+import { logDOM } from "@testing-library/react";
 
 const DashBordModal = (props) => {
   const {
@@ -134,6 +135,7 @@ const DashBordModal = (props) => {
 
     // Invoke the onSubmit callback with the form values
     onSubmit(values);
+    console.log("my values while submitting", values);
   };
 
   useEffect(() => {
@@ -150,17 +152,17 @@ const DashBordModal = (props) => {
     const day = String(today.getDate() - 1).padStart(2, "0"); // Subtract one day from the current date
     return `${year}-${month}-${day}`;
   };
-  const hadndleShowDate =( )=>{
+  const hadndleShowDate = () => {
     const inputDateElement = document.querySelector('input[type="date"]');
     inputDateElement.showPicker();
-}
+  };
   return (
     <>
       {isLoading ? (
         <Loaderimg />
       ) : (
         <>
-          <div className={`common-sidebar ${visible ? "visible" : ""}`}  >
+          <div className={`common-sidebar ${visible ? "visible" : ""}`}>
             <div className="card">
               <div className="card-header text-center SidebarSearchheader">
                 <h3 className="SidebarSearch-title m-0">{title}</h3>
@@ -168,257 +170,235 @@ const DashBordModal = (props) => {
                   <FontAwesomeIcon icon={faTimes} />
                 </button>
               </div>
-              </div>
+            </div>
 
-           
-                <Card>
-                  <Card.Body>
-                    <Row>
-                      <Col md={12} xl={12}>
-                        <Formik
-                          initialValues={{
-                            client_id: "",
-                            client_name: "",
-                            company_id: "",
-                            site_id: "",
-                            fromdate: "",
-                            TOdate: "",
-                          }}
-                          validationSchema={Yup.object({
-                            company_id: Yup.string().required(
-                              "Company is required"
-                            ),
-                          })}
-                          onSubmit={(values) => {
-                            handlesubmitvalues(values);
-                          }}
-                        >
-                          {({
-                            handleSubmit,
-                            errors,
-                            touched,
-                            setFieldValue,
-                          }) => (
-                            <Form onSubmit={handleSubmit}>
-                              <Card.Body>
-                                <Row>
-                                  {localStorage.getItem("superiorRole") !==
-                                    "Client" && (
-                                    <Col lg={4} md={4}>
-                                      <FormGroup>
-                                        <label
-                                          htmlFor="client_id"
-                                          className=" form-label mt-4"
-                                        >
-                                          Client
-                                          <span className="text-danger">*</span>
-                                        </label>
-                                        <Field
-                                          as="select"
-                                          className={`input101 ${
-                                            errors.client_id &&
-                                            touched.client_id
-                                              ? "is-invalid"
-                                              : ""
-                                          }`}
-                                          id="client_id"
-                                          name="client_id"
-                                          onChange={(e) => {
-                                            const selectedType = e.target.value;
-                                            setFieldValue(
-                                              "client_id",
-                                              selectedType
-                                            );
-                                            setSelectedClientId(selectedType);
+            <Card>
+              <Card.Body>
+                <Row>
+                  <Col md={12} xl={12}>
+                    <Formik
+                      initialValues={{
+                        client_id: "",
+                        client_name: "",
+                        company_id: "",
+                        site_id: "",
+                        fromdate: "",
+                        TOdate: "",
+                      }}
+                      validationSchema={Yup.object({
+                        company_id: Yup.string().required(
+                          "Company is required"
+                        ),
+                      })}
+                      onSubmit={(values) => {
+                        handlesubmitvalues(values);
+                      }}
+                    >
+                      {({ handleSubmit, errors, touched, setFieldValue }) => (
+                        <Form onSubmit={handleSubmit}>
+                          <Card.Body>
+                            <Row>
+                              {localStorage.getItem("superiorRole") !==
+                                "Client" && (
+                                <Col lg={4} md={4}>
+                                  <FormGroup>
+                                    <label
+                                      htmlFor="client_id"
+                                      className=" form-label mt-4"
+                                    >
+                                      Client
+                                      <span className="text-danger">*</span>
+                                    </label>
+                                    <Field
+                                      as="select"
+                                      className={`input101 ${
+                                        errors.client_id && touched.client_id
+                                          ? "is-invalid"
+                                          : ""
+                                      }`}
+                                      id="client_id"
+                                      name="client_id"
+                                      onChange={(e) => {
+                                        const selectedType = e.target.value;
+                                        setFieldValue(
+                                          "client_id",
+                                          selectedType
+                                        );
+                                        setSelectedClientId(selectedType);
 
-                                            // Reset the selected company and site
-                                            setSelectedCompanyList([]);
-                                            setFieldValue("company_id", "");
-                                            setFieldValue("site_id", "");
+                                        // Reset the selected company and site
+                                        setSelectedCompanyList([]);
+                                        setFieldValue("company_id", "");
+                                        setFieldValue("site_id", "");
 
-                                            const selectedClient =
-                                              AddSiteData.data.find(
-                                                (client) =>
-                                                  client.id === selectedType
-                                              );
+                                        const selectedClient =
+                                          AddSiteData.data.find(
+                                            (client) =>
+                                              client.id === selectedType
+                                          );
 
-                                            if (selectedClient) {
-                                              setSelectedCompanyList(
-                                                selectedClient.companies
-                                              );
-                                              setFieldValue(
-                                                "client_name",
-                                                selectedClient.client_name
-                                              );
-                                              console.log(
-                                                selectedClient.client_name,
-                                                " selectedClient.client_name"
-                                              );
-                                            }
-                                          }}
-                                        >
-                                          <option value="">
-                                            Select a Client
+                                        if (selectedClient) {
+                                          setSelectedCompanyList(
+                                            selectedClient.companies
+                                          );
+                                          setFieldValue(
+                                            "client_name",
+                                            selectedClient.client_name
+                                          );
+                                          console.log(
+                                            selectedClient.client_name,
+                                            " selectedClient.client_name"
+                                          );
+                                        }
+                                      }}
+                                    >
+                                      <option value="">Select a Client</option>
+                                      {AddSiteData.data &&
+                                      AddSiteData.data.length > 0 ? (
+                                        AddSiteData.data.map((item) => (
+                                          <option key={item.id} value={item.id}>
+                                            {item.client_name}
                                           </option>
-                                          {AddSiteData.data &&
-                                          AddSiteData.data.length > 0 ? (
-                                            AddSiteData.data.map((item) => (
-                                              <option
-                                                key={item.id}
-                                                value={item.id}
-                                              >
-                                                {item.client_name}
-                                              </option>
-                                            ))
-                                          ) : (
-                                            <option disabled>No Client</option>
-                                          )}
-                                        </Field>
+                                        ))
+                                      ) : (
+                                        <option disabled>No Client</option>
+                                      )}
+                                    </Field>
 
-                                        <ErrorMessage
-                                          component="div"
-                                          className="invalid-feedback"
-                                          name="client_id"
-                                        />
-                                      </FormGroup>
-                                    </Col>
-                                  )}
-                                  <Col lg={4} md={4}>
-                                    <FormGroup>
-                                      <label
-                                        htmlFor="company_id"
-                                        className="form-label mt-4"
-                                      >
-                                        Company
-                                        <span className="text-danger">*</span>
-                                      </label>
-                                      <Field
-                                        as="select"
-                                        className={`input101 ${
-                                          errors.company_id &&
-                                          touched.company_id
-                                            ? "is-invalid"
-                                            : ""
-                                        }`}
-                                        id="company_id"
-                                        name="company_id"
-                                        onChange={(e) => {
-                                          const selectedCompany =
-                                            e.target.value;
-                                          setFieldValue(
-                                            "company_id",
-                                            selectedCompany
-                                          );
-                                          setSelectedSiteList([]);
-                                          const selectedCompanyData =
-                                            selectedCompanyList.find(
-                                              (company) =>
-                                                company.id === selectedCompany
-                                            );
-                                          if (selectedCompanyData) {
-                                            setSelectedSiteList(
-                                              selectedCompanyData.sites
-                                            );
-                                            setFieldValue(
-                                              "company_name",
-                                              selectedCompanyData.company_name
-                                            );
-                                            console.log(
-                                              selectedCompanyData.company_name,
-                                              "company_id"
-                                            );
-                                            console.log(
-                                              selectedCompanyData.sites,
-                                              "company_id"
-                                            );
-                                          }
-                                        }}
-                                      >
-                                        <option value="">
-                                          Select a Company
+                                    <ErrorMessage
+                                      component="div"
+                                      className="invalid-feedback"
+                                      name="client_id"
+                                    />
+                                  </FormGroup>
+                                </Col>
+                              )}
+                              <Col lg={4} md={4}>
+                                <FormGroup>
+                                  <label
+                                    htmlFor="company_id"
+                                    className="form-label mt-4"
+                                  >
+                                    Company
+                                    <span className="text-danger">*</span>
+                                  </label>
+                                  <Field
+                                    as="select"
+                                    className={`input101 ${
+                                      errors.company_id && touched.company_id
+                                        ? "is-invalid"
+                                        : ""
+                                    }`}
+                                    id="company_id"
+                                    name="company_id"
+                                    onChange={(e) => {
+                                      const selectedCompany = e.target.value;
+                                      setFieldValue(
+                                        "company_id",
+                                        selectedCompany
+                                      );
+                                      setSelectedSiteList([]);
+                                      const selectedCompanyData =
+                                        selectedCompanyList.find(
+                                          (company) =>
+                                            company.id === selectedCompany
+                                        );
+                                      if (selectedCompanyData) {
+                                        setSelectedSiteList(
+                                          selectedCompanyData.sites
+                                        );
+                                        setFieldValue(
+                                          "company_name",
+                                          selectedCompanyData.company_name
+                                        );
+                                        console.log(
+                                          selectedCompanyData.company_name,
+                                          "company_id"
+                                        );
+                                        console.log(
+                                          selectedCompanyData.sites,
+                                          "company_id"
+                                        );
+                                      }
+                                    }}
+                                  >
+                                    <option value="">Select a Company</option>
+                                    {selectedCompanyList.length > 0 ? (
+                                      selectedCompanyList.map((company) => (
+                                        <option
+                                          key={company.id}
+                                          value={company.id}
+                                        >
+                                          {company.company_name}
                                         </option>
-                                        {selectedCompanyList.length > 0 ? (
-                                          selectedCompanyList.map((company) => (
-                                            <option
-                                              key={company.id}
-                                              value={company.id}
-                                            >
-                                              {company.company_name}
-                                            </option>
-                                          ))
-                                        ) : (
-                                          <option disabled>No Company</option>
-                                        )}
-                                      </Field>
-                                      <ErrorMessage
-                                        component="div"
-                                        className="invalid-feedback"
-                                        name="company_id"
-                                      />
-                                    </FormGroup>
-                                  </Col>
-                                  <Col lg={4} md={6}>
-                                    <FormGroup>
-                                      <label
-                                        htmlFor="site_id"
-                                        className="form-label mt-4"
-                                      >
-                                        Site
-                                      </label>
-                                      <Field
-                                        as="select"
-                                        className={`input101 ${
-                                          errors.site_id && touched.site_id
-                                            ? "is-invalid"
-                                            : ""
-                                        }`}
-                                        id="site_id"
-                                        name="site_id"
-                                        onChange={(e) => {
-                                          const selectedSite = e.target.value;
-                                          setFieldValue(
-                                            "site_id",
-                                            selectedSite
-                                          );
+                                      ))
+                                    ) : (
+                                      <option disabled>No Company</option>
+                                    )}
+                                  </Field>
+                                  <ErrorMessage
+                                    component="div"
+                                    className="invalid-feedback"
+                                    name="company_id"
+                                  />
+                                </FormGroup>
+                              </Col>
+                              <Col lg={4} md={6}>
+                                <FormGroup>
+                                  <label
+                                    htmlFor="site_id"
+                                    className="form-label mt-4"
+                                  >
+                                    Site
+                                  </label>
+                                  <Field
+                                    as="select"
+                                    className={`input101 ${
+                                      errors.site_id && touched.site_id
+                                        ? "is-invalid"
+                                        : ""
+                                    }`}
+                                    id="site_id"
+                                    name="site_id"
+                                    onChange={(e) => {
+                                      const selectedSite = e.target.value;
+                                      setFieldValue("site_id", selectedSite);
 
-                                          const selectedSiteData =
-                                            selectedSiteList.find(
-                                              (site) => site.id === selectedSite
-                                            );
-                                          if (selectedSiteData) {
-                                            setFieldValue(
-                                              "site_name",
-                                              selectedSiteData.site_name
-                                            ); // Set site_name using setFieldValue
-                                            console.log(
-                                              selectedSiteData.site_name,
-                                              "site_name"
-                                            );
-                                          }
-                                        }}
-                                      >
-                                        <option value="">Select a Site</option>
-                                        {selectedSiteList.length > 0 ? (
-                                          selectedSiteList.map((site) => (
-                                            <option
-                                              key={site.id}
-                                              value={site.id}
-                                            >
-                                              {site.site_name}
-                                            </option>
-                                          ))
-                                        ) : (
-                                          <option disabled>No Site</option>
-                                        )}
-                                      </Field>
-                                      <ErrorMessage
-                                        component="div"
-                                        className="invalid-feedback"
-                                        name="site_id"
-                                      />
-                                    </FormGroup>
-                                  </Col>
-                                  {/* <Col lg={4} md={4}>
+                                      const selectedSiteData =
+                                        selectedSiteList.find(
+                                          (site) => site.id === selectedSite
+                                        );
+                                      if (selectedSiteData) {
+                                        setFieldValue(
+                                          "site_name",
+                                          selectedSiteData.site_name
+                                        ); // Set site_name using setFieldValue
+                                        console.log(
+                                          selectedSiteData.site_name,
+                                          "site_name"
+                                        );
+                                      }
+                                    }}
+                                  >
+                                    <option value="">Select a Site</option>
+                                    {selectedSiteList.length > 0 ? (
+                                      selectedSiteList.map((site) => (
+                                        <option key={site.id} value={site.id}>
+                                          {site.site_name}
+                                        </option>
+                                      ))
+                                    ) : (
+                                      <option disabled>No Site</option>
+                                    )}
+                                  </Field>
+                                  <ErrorMessage
+                                    component="div"
+                                    className="invalid-feedback"
+                                    name="site_id"
+                                  />
+                                </FormGroup>
+                              </Col>
+                              {/* <Col lg={4} md={4}>
                                     <FormGroup>
                                       <label
                                         htmlFor="fromdate"
@@ -470,32 +450,30 @@ const DashBordModal = (props) => {
                                       />
                                     </FormGroup>
                                   </Col> */}
-                                </Row>
-                              </Card.Body>
-                              <Card.Footer className="text-end">
-                                <Link
-                                  type="submit"
-                                  className="btn btn-danger me-2 "
-                                  onClick={resetForm}
-                                >
-                                  Reset
-                                </Link>
-                                <button
-                                  className="btn btn-primary me-2"
-                                  type="submit"
-                                >
-                                  Submit
-                                </button>
-                              </Card.Footer>
-                            </Form>
-                          )}
-                        </Formik>
-                      </Col>
-                    </Row>
-                  </Card.Body>
-                </Card>
-             
-      
+                            </Row>
+                          </Card.Body>
+                          <Card.Footer className="text-end">
+                            <Link
+                              type="submit"
+                              className="btn btn-danger me-2 "
+                              onClick={resetForm}
+                            >
+                              Reset
+                            </Link>
+                            <button
+                              className="btn btn-primary me-2"
+                              type="submit"
+                            >
+                              Submit
+                            </button>
+                          </Card.Footer>
+                        </Form>
+                      )}
+                    </Formik>
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
           </div>
         </>
       )}
