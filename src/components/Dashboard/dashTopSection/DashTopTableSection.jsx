@@ -60,14 +60,14 @@ const DashTopTableSection = (props) => {
     },
     {
       name: "Client",
-      selector: (row) => [row.name],
+      selector: (row) => [row?.name],
       sortable: true,
       width: "19%",
       cell: (row, index) => (
         <Link to={"/DashBoardSubChild"}>
           <div className="d-flex">
             <div className="ms-2 mt-0 mt-sm-2 d-block">
-              <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
+              <h6 className="mb-0 fs-14 fw-semibold">{row?.name}</h6>
             </div>
           </div>
         </Link>
@@ -75,14 +75,14 @@ const DashTopTableSection = (props) => {
     },
     {
       name: "Fuel Volume",
-      selector: (row) => [row.fuel_volume.gross_volume],
+      selector: (row) => [row?.fuel_volume?.gross_volume],
       sortable: true,
       width: "19%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">
-              {row.fuel_volume.gross_volume}
+              {row?.fuel_volume?.gross_volume}
             </h6>
 
             <p
@@ -91,20 +91,20 @@ const DashTopTableSection = (props) => {
                   ? "text-success"
                   : "text-danger"
               }`}
-              data-tip={`${row.fuel_volume.percentage}%`}
+              data-tip={`${row?.fuel_volume?.percentage}%`}
             >
-              {row.fuel_volume?.status === "up" ? (
+              {row?.fuel_volume?.status === "up" ? (
                 <>
                   <i className="fa fa-chevron-circle-up text-success me-1"></i>
                   <span className="text-success">
-                    {row.fuel_volume.percentage}%
+                    {row?.fuel_volume?.percentage}%
                   </span>
                 </>
               ) : (
                 <>
                   <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                   <span className="text-danger">
-                    {row.fuel_volume.percentage}%
+                    {row?.fuel_volume?.percentage}%
                   </span>
                 </>
               )}
@@ -115,33 +115,35 @@ const DashTopTableSection = (props) => {
     },
     {
       name: "Fuel Sales",
-      selector: (row) => [row.fuel_sales.total_value],
+      selector: (row) => [row?.fuel_sales?.total_value],
       sortable: true,
       width: "19%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
-              {row.fuel_sales.total_value}
+              {row?.fuel_sales?.total_value}
             </h6>
             <p
               className={`me-1 ${
-                row.fuel_sales?.status === "up" ? "text-success" : "text-danger"
+                row?.fuel_sales?.status === "up"
+                  ? "text-success"
+                  : "text-danger"
               }`}
-              data-tip={`${row.fuel_sales.percentage}%`}
+              data-tip={`${row?.fuel_sales?.percentage}%`}
             >
-              {row.fuel_sales?.status === "up" ? (
+              {row?.fuel_sales?.status === "up" ? (
                 <>
                   <i className="fa fa-chevron-circle-up text-success me-1"></i>
                   <span className="text-success">
-                    {row.fuel_sales.percentage}%
+                    {row?.fuel_sales?.percentage}%
                   </span>
                 </>
               ) : (
                 <>
                   <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                   <span className="text-danger">
-                    {row.fuel_sales.percentage}%
+                    {row?.fuel_sales?.percentage}%
                   </span>
                 </>
               )}
@@ -152,35 +154,35 @@ const DashTopTableSection = (props) => {
     },
     {
       name: "Gross Profit",
-      selector: (row) => [row.gross_profit.gross_profit],
+      selector: (row) => [row?.gross_profit?.gross_profit],
       sortable: true,
       width: "19%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
-              {row.gross_profit.gross_profit}
+              {row?.gross_profit?.gross_profit}
             </h6>
             <p
               className={`me-1 ${
-                row.gross_profit?.status === "up"
+                row?.gross_profit?.status === "up"
                   ? "text-success"
                   : "text-danger"
               }`}
-              data-tip={`${row.gross_profit.percentage}%`}
+              data-tip={`${row?.gross_profit?.percentage}%`}
             >
-              {row.gross_profit?.status === "up" ? (
+              {row?.gross_profit?.status === "up" ? (
                 <>
                   <i className="fa fa-chevron-circle-up text-success me-1"></i>
                   <span className="text-success">
-                    {row.gross_profit.percentage}%
+                    {row?.gross_profit?.percentage}%
                   </span>
                 </>
               ) : (
                 <>
                   <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                   <span className="text-danger">
-                    {row.gross_profit.percentage}%
+                    {row?.gross_profit?.percentage}%
                   </span>
                 </>
               )}
@@ -191,33 +193,35 @@ const DashTopTableSection = (props) => {
     },
     {
       name: "Shop Sales",
-      selector: (row) => [row.shop_sales.shop_sales],
+      selector: (row) => [row?.shop_sales?.shop_sales],
       sortable: true,
       width: "19%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
-              {row.shop_sales.shop_sales}
+              {row?.shop_sales?.shop_sales}
             </h6>
             <p
               className={`me-1 ${
-                row.shop_sales?.status === "up" ? "text-success" : "text-danger"
+                row?.shop_sales?.status === "up"
+                  ? "text-success"
+                  : "text-danger"
               }`}
-              data-tip={`${row.shop_sales.percentage}%`}
+              data-tip={`${row?.shop_sales?.percentage}%`}
             >
-              {row.shop_sales?.status === "up" ? (
+              {row?.shop_sales?.status === "up" ? (
                 <>
                   <i className="fa fa-chevron-circle-up text-success me-1"></i>
                   <span className="text-success">
-                    {row.shop_sales.percentage}%
+                    {row?.shop_sales?.percentage}%
                   </span>
                 </>
               ) : (
                 <>
                   <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                   <span className="text-danger">
-                    {row.shop_sales.percentage}%
+                    {row?.shop_sales?.percentage}%
                   </span>
                 </>
               )}

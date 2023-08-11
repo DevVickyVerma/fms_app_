@@ -114,13 +114,13 @@ const CenterSearchmodal = (props) => {
         </Button>
       </div>
       <Dialog
-        //   fullScreen={fullScreen}
         open={open}
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
+        className="ModalTitle"
       >
         <span className="ModalTitle">Search</span>
-        <hr />
+
         <DialogContent>
           <DialogContentText>
             <>

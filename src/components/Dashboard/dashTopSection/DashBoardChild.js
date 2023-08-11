@@ -21,15 +21,15 @@ const DashBoardChild = () => {
   settestIsWorking(true);
   console.log(testIsWorking, "testIsWorking  working after true");
 
-  const GrossVolume = location.state ? location.state.GrossVolume : null;
-  const shopmargin = location.state ? location.state.shopmargin : null;
+  const GrossVolume = location.state ? location?.state?.GrossVolume : null;
+  const shopmargin = location.state ? location?.state?.shopmargin : null;
   const GrossProfitValue = location.state
-    ? location.state.GrossProfitValue
+    ? location?.state?.GrossProfitValue
     : null;
   const GrossMarginValue = location.state
-    ? location.state.GrossMarginValue
+    ? location?.state?.GrossMarginValue
     : null;
-  const FuelValue = location.state ? location.state.FuelValue : null;
+  const FuelValue = location.state ? location?.state?.FuelValue : null;
   const shopsale = location.state ? location.state.shopsale : null;
   const searchdata = location.state ? location.state.searchdata : null;
 
