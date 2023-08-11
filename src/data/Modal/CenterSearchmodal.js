@@ -82,7 +82,11 @@ const CenterSearchmodal = (props) => {
     return `${year}-${month}-${day}`;
   };
   const hadndleShowDate = () => {
-    const inputDateElement = document.querySelector('input[type="date"]');
+    const inputDateElement = document.querySelector('#start-date[type="date"]');
+    inputDateElement.showPicker();
+  };
+  const hadndleShowDate2 = () => {
+    const inputDateElement = document.querySelector('#end-date[type="date"]');
     inputDateElement.showPicker();
   };
 
@@ -166,7 +170,7 @@ const CenterSearchmodal = (props) => {
                           type="date"
                           min={"2023-01-01"}
                           max={getCurrentDate()}
-                          // onClick={hadndleShowDate}
+                          onClick={hadndleShowDate2}
                           id="end-date"
                           className="form-control"
                           value={end_date}

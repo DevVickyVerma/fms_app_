@@ -70,11 +70,10 @@ const SideSearchbar = (props) => {
     const day = String(today.getDate() - 1).padStart(2, "0"); // Subtract one day from the current date
     return `${year}-${month}-${day}`;
   };
-  const hadndleShowDate =( )=>{
+  const hadndleShowDate = () => {
     const inputDateElement = document.querySelector('input[type="date"]');
     inputDateElement.showPicker();
-}
-
+  };
 
   return (
     <>
@@ -113,13 +112,12 @@ const SideSearchbar = (props) => {
                       <input
                         type="date"
                         min={"2023-01-01"}
-                           max={getCurrentDate()}
-                                onClick={hadndleShowDate}
+                        max={getCurrentDate()}
+                        onClick={hadndleShowDate}
                         id="start-date"
                         className="form-control"
                         value={start_date}
                         onChange={(e) => setStartDate(e.target.value)}
-                 
                       />
                     </div>
 
@@ -130,13 +128,12 @@ const SideSearchbar = (props) => {
                       <input
                         type="date"
                         min={"2023-01-01"}
-                           max={getCurrentDate()}
-                                onClick={hadndleShowDate}
+                        max={getCurrentDate()}
+                        onClick={hadndleShowDate}
                         id="end-date"
                         className="form-control"
                         value={end_date}
                         onChange={(e) => setEndDate(e.target.value)}
-                    
                       />
                     </div>
                   </div>
