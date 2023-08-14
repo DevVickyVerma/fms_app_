@@ -221,7 +221,7 @@ const ManageClient = (props) => {
 
       if (response) {
         localStorage.setItem("token", response.data.data.access_token);
-        navigate("/dashboard");
+        navigate(UserPermissions?.route);
         const firstName = response.data.data.first_name ?? "";
         const lastName = response.data.data.last_name ?? "";
         const phoneNumber = response.data.data.phone_number ?? "";

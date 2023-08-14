@@ -159,9 +159,13 @@ const Dashboard = (props) => {
     }
     console.clear();
   }, [ClientID, dispatch, justLoggedIn, token]);
-
+  const isStatusPermissionAvailable =
+    permissionsArray?.includes("dashboard-view");
   useEffect(() => {
-    handleFetchSiteData();
+    if (isStatusPermissionAvailable) {
+      handleFetchSiteData();
+    }
+
     if (token && storedToken) {
       dispatch(fetchData());
     }
@@ -332,24 +336,13 @@ const Dashboard = (props) => {
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
-  const DashboardPermissions = useSelector((state) => state?.data?.data);
-  console.log(DashboardPermissions, "DashboardPermissions");
 
   useEffect(() => {
     if (UserPermissions) {
       setPermissionsArray(UserPermissions?.permissions);
     }
+    navigate(UserPermissions?.route);
   }, [UserPermissions]);
-
-  const isStatusPermissionAvailable =
-    permissionsArray?.includes("dashboard-view");
-  const Pleasesssssss = DashboardPermissions?.route;
-  console.log(Pleasesssssss, "DashboardPermissions");
-  navigate(DashboardPermissions?.route);
-  if (isStatusPermissionAvailable) {
-    navigate(DashboardPermissions?.route);
-    console.log(Pleasesssssss, "DashboardPermissions");
-  }
 
   return (
     <>
