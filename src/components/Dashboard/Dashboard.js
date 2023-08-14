@@ -159,18 +159,6 @@ const Dashboard = (props) => {
     }
     console.clear();
   }, [ClientID, dispatch, justLoggedIn, token]);
-  const isStatusPermissionAvailable =
-    permissionsArray?.includes("dashboard-view");
-  useEffect(() => {
-    if (isStatusPermissionAvailable) {
-      handleFetchSiteData();
-    }
-
-    if (token && storedToken) {
-      dispatch(fetchData());
-    }
-    console.clear();
-  }, [token]);
 
   const handleToggleSidebar1 = () => {
     setShowTruw(true);
@@ -343,6 +331,22 @@ const Dashboard = (props) => {
     }
     navigate(UserPermissions?.route);
   }, [UserPermissions]);
+  const isStatusPermissionAvailable =
+    permissionsArray?.includes("dashboard-view");
+  useEffect(() => {
+    if (token && storedToken) {
+      dispatch(fetchData());
+    }
+    console.clear();
+  }, [token]);
+
+  useEffect(() => {
+    if (isStatusPermissionAvailable) {
+      handleFetchSiteData();
+      console.log(permissionsArray, "permissionsArray");
+    }
+    console.clear();
+  }, [permissionsArray]);
 
   return (
     <>

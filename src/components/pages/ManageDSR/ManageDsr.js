@@ -18,7 +18,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FormModal } from "../../../data/Modal/UploadFile";
@@ -38,6 +38,7 @@ import BunkeredSales from "../DRSComponents/BunkeredSales";
 import { Slide, toast } from "react-toastify";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { fetchData } from "../../../Redux/dataSlice";
 
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -77,6 +78,14 @@ const ManageDsr = (props) => {
   const [timeLeft, setTimeLeft] = useState(40);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const dispatch = useDispatch();
+  const storedToken = localStorage.getItem("token");
+  useEffect(() => {
+    if (storedToken) {
+      dispatch(fetchData());
+    }
+    console.clear();
+  }, [storedToken]);
 
   useEffect(() => {
     FetchCommonData();
@@ -662,7 +671,6 @@ const ManageDsr = (props) => {
                     <button className="btn btn-primary me-2" type="submit">
                       Submit
                     </button>
-                    
                   </div>
                 </form>
               </Card.Body>
