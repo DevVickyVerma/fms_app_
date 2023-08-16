@@ -181,8 +181,9 @@ const Header = (props) => {
                       variant=""
                     >
                       <h5 className="header-name mb-0">
-      { "Welcome" + (headingusername ? " " + headingusername : " Admin") }
-    </h5>
+                        {"Welcome," + " " +
+                          (headingusername ?  headingusername : " Admin")}
+                      </h5>
                       <i className="fa fa-chevron-circle-down  ms-2"></i>
                     </Dropdown.Toggle>
                     <Dropdown.Menu
