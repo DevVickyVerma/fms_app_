@@ -75,6 +75,7 @@ const Dashboard = (props) => {
 
       const response = await getData(url);
       const { data } = response;
+      // console.log("my response: " ,data);
 
       if (data) {
         LinechartOptions = data?.data?.line_graph?.option?.labels;
@@ -96,6 +97,7 @@ const Dashboard = (props) => {
       console.error("API error:", error);
     }
   };
+  // console.log("pi chart values", piechartValues);
   const navigate = useNavigate();
   const SuccessToast = (message) => {
     toast.success(message, {
@@ -176,6 +178,7 @@ const Dashboard = (props) => {
       );
 
       const { data } = response;
+      console.log("data my for pi", data);
       if (data) {
         setGrossMarginValue(data?.data?.gross_margin_);
         setLinechartValues(data?.data?.line_graph?.series);
@@ -315,10 +318,12 @@ const Dashboard = (props) => {
       updateOptions({ labels: LinechartOption });
     }
   }, [LinechartOption]);
+
+  // console.log("pi bunkerd sales",data.pi_graph.bunkered_sales);
   const piechartValuesss = {
-    shop_sales: "1159784.81",
-    fuel_sales: "7800693.4",
-    bunkered_sales: "13461.94",
+    shop_sales: piechartValues?.shop_sales,
+    fuel_sales: piechartValues?.fuel_sales,
+    bunkered_sales: piechartValues?.bunkered_sales,
   };
 
   const [permissionsArray, setPermissionsArray] = useState([]);
