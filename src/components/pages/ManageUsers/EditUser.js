@@ -428,7 +428,7 @@ const EditUsers = (props) => {
                       )}
                     </Row>
 
-                    <div className="text-end">
+                    <div className="text-end my-5 text-end-small-screen">
                       <Link
                         type="submit"
                         className="btn btn-danger me-2 "

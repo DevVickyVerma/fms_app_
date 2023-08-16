@@ -195,7 +195,7 @@ const Sidebar = () => {
         onMouseOver={() => Onhover()}
         onMouseOut={() => Outhover()}
       >
-        <Scrollbars>
+        <Scrollbars style={{paddingBottom:"60px"}}>
           <div className="header side-header">
             <Link to={`/dashboard/`} className="header-brand1">
               <img
