@@ -18,11 +18,20 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-
+import { useFormik } from "formik";
 export default function EditProfile() {
   const [userDetails, setUserDetails] = useState("");
+    const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
+    useEffect(() => {
+    if (UserPermissions) {
+      console.log(UserPermissions);
+      formik.setValues(UserPermissions);
+    }
+  }, [UserPermissions]);
 
   const validationSchema = Yup.object().shape({
     old_password: Yup.string().required("Current Password is required"),
@@ -123,8 +132,8 @@ export default function EditProfile() {
     const formData = new FormData();
     formData.append("first_name", values.first_name);
     formData.append("last_name", values.last_name);
-    formData.append("role", values.role);
-    formData.append("phone_number", values.phone_number);
+    // formData.append("role", values.role);
+    // formData.append("phone_number", values.phone_number);
 
     const response = await fetch(
       `${process.env.REACT_APP_BASE_URL}/update-profile`,
@@ -155,7 +164,25 @@ export default function EditProfile() {
     setLoading(false);
   };
   // const data = useSelector((state) => state.userData.data);
-
+  const formik = useFormik({
+    initialValues: {
+      first_name:  "",
+      last_name:  "",
+      // phone_number:  "",
+    },
+    validationSchema: Yup.object({
+      first_name: Yup.string().required("First name is required"),
+      last_name: Yup.string()
+        .max(20, "Must be 20 characters or less")
+        .required("Last name is required"),
+      // phone_number: Yup.string()
+      //   .matches(/^\d{10}$/, "Phone number must be exactly 10 digits")
+      //   .required("Phone number is required"),
+    }),
+    onSubmit: (values, { setSubmitting }) => {
+      handleSubmit1(values, setSubmitting);
+    },
+  });
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -198,8 +225,6 @@ export default function EditProfile() {
                     <Card className="profile-edit">
                       <Card.Header>
                         <Card.Title as="h3">Edit Password</Card.Title>
-                        {/* <p>cat fact: {data.fact}</p>
-                    <p>cat fact: {data.length}</p> */}
                       </Card.Header>
                       <Card.Body>
                         <FormGroup>
@@ -283,133 +308,121 @@ export default function EditProfile() {
                 <Card.Header>
                   <Card.Title as="h3">Edit Profile</Card.Title>
                 </Card.Header>
-                <Formik
-                  initialValues={{
-                    first_name: localStorage.getItem("First_name") || "",
-                    last_name: localStorage.getItem("Last_name") || "",
-                    phone_number: localStorage.getItem("Phone_Number") || "",
-                  }}
-                  validationSchema={Yup.object({
-                    first_name: Yup.string()
-                     
-                      .required("First name is required"),
-
-                    last_name: Yup.string()
-                      .max(20, "Must be 20 characters or less")
-                      .required("Last name is required"),
-                    phone_number: Yup.string()
-                      .matches(
-                        /^\d{10}$/,
-                        "Phone number must be exactly 10 digits"
-                      )
-                      .required("Phone number is required"),
-                  })}
-                  onSubmit={(values, { setSubmitting }) => {
-                    handleSubmit1(values, setSubmitting);
-                  }}
-                >
-                  {({ handleSubmit, isSubmitting, errors, touched }) => (
-                    <Form onSubmit={handleSubmit}>
-                      <Card.Body>
-                        <Row>
-                          <Col lg={6} md={12}>
-                            <FormGroup>
-                              <label
-                                className=" form-label mt-4"
-                                htmlFor="first_name"
-                              >
-                                First Name
-                              </label>
-                              <Field
-                                type="text"
-                                autoComplete="off"
-                                // className="form-control"
-                                className={`input101 ${
-                                  errors.first_name && touched.first_name
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="first_name"
-                                name="first_name"
-                                placeholder="First Name"
-                              />
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="first_name"
-                              />
-                            </FormGroup>
-                          </Col>
-                          <Col lg={6} md={12}>
-                            <FormGroup>
-                              <label
-                                className=" form-label mt-4"
-                                htmlFor="last_name"
-                              >
-                                Last Name
-                              </label>
-                              <Field
-                                type="text"
-                                autoComplete="off"
-                                className={`input101 ${
-                                  errors.last_name && touched.last_name
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="last_name"
-                                name="last_name"
-                                placeholder="Last Name"
-                              />
-                              <ErrorMessage
-                                name="last_name"
-                                component="div"
-                                className="invalid-feedback"
-                              />
-                            </FormGroup>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col lg={6} md={12}>
-                            <FormGroup>
-                              <label
-                                className=" form-label mt-4"
-                                htmlFor="phone_number"
-                              >
-                                Phone Number
-                              </label>
-                              <Field
-                                type="text"
-                                autoComplete="off"
-                                className={`input101 ${
-                                  errors.phone_number && touched.phone_number
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="phone_number"
-                                name="phone_number"
-                                placeholder="Phone Number"
-                              />
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="phone_number"
-                              />
-                            </FormGroup>
-                          </Col>
-                        </Row>
-                      </Card.Body>
-                      <Card.Footer className="text-end">
-                        <button
-                          className="btn btn-primary me-2"
-                          type="submit"
-                          disabled={isSubmitting}
-                        >
-                          Update
-                        </button>
-                      </Card.Footer>
-                    </Form>
-                  )}
-                </Formik>
+                <form onSubmit={formik.handleSubmit}>
+                  <Card.Body>
+                    <Row>
+                      <Col lg={6} md={12}>
+                      <div className="form-group">
+                          <label
+                            className=" form-label mt-4"
+                            htmlFor="first_name"
+                          >
+                            First Name
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            autoComplete="off"
+                            className={`input101 ${
+                              formik.errors.first_name &&
+                              formik.touched.first_name
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="first_name"
+                            name="first_name"
+                            onChange={formik.handleChange}
+                            placeholder="First Name"
+                            value={formik.values.first_name}
+                            
+                          />
+                          {formik.errors.first_name &&
+                            formik.touched.first_name && (
+                              <div className="invalid-feedback">
+                                {formik.errors.first_name}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={6} md={12}>
+                      <div className="form-group">
+                          <label
+                            className=" form-label mt-4"
+                            htmlFor="last_name"
+                          >
+                            Last Name
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            autoComplete="off"
+                            className={`input101 ${
+                              formik.errors.last_name &&
+                              formik.touched.last_name
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="last_name"
+                            name="last_name"
+                            placeholder="Last Name"
+                            value={formik.values.last_name}
+                            onChange={formik.handleChange}
+                         
+                          />
+                          {formik.errors.last_name &&
+                            formik.touched.last_name && (
+                              <div className="invalid-feedback">
+                                {formik.errors.last_name}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                    </Row>
+                    {/* <Row>
+                      <Col lg={6} md={12}>
+                      <div className="form-group">
+                          <label
+                            className=" form-label mt-4"
+                            htmlFor="phone_number"
+                          >
+                            Phone Number
+                              <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="number"
+                            autoComplete="off"
+                            className={`input101 ${
+                              formik.errors.phone_number &&
+                              formik.touched.phone_number
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="phone_number"
+                            name="phone_number"
+                            placeholder="Phone Number"
+                            value={formik.values.phone_number}
+                            onChange={formik.handleChange}
+                          />
+                          {formik.errors.phone_number &&
+                            formik.touched.phone_number && (
+                              <div className="invalid-feedback">
+                                {formik.errors.phone_number}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                    </Row> */}
+                  </Card.Body>
+                  <Card.Footer className="text-end">
+                    <button
+                      className="btn btn-primary me-2"
+                      type="submit"
+                      disabled={formik.isSubmitting}
+                    >
+                      Update
+                    </button>
+                  </Card.Footer>
+                </form>
               </Card>
             </Col>
           </Row>

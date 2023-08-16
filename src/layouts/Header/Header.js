@@ -13,7 +13,6 @@ const Header = (props) => {
 
   // Fetch the API response when the component mounts or whenever needed
 
-  
   const SuccessAlert = (message) => {
     toast.success(message, {
       autoClose: 500,
@@ -32,11 +31,11 @@ const Header = (props) => {
       autoClose: 1000,
       theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
     });
-  }
-
+  };
 
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState();
+  const [headingusername, setHeadingUsername] = useState();
 
   const logout = async (row) => {
     try {
@@ -71,17 +70,20 @@ const Header = (props) => {
 
   useEffect(() => {
     if (UserPermissions) {
-     
       setPermissionsArray(UserPermissions.permissions);
       setUsername(UserPermissions.full_name);
+      setHeadingUsername(UserPermissions.first_name);
     }
   }, [UserPermissions]);
 
- 
-  const isProfileUpdatePermissionAvailable = permissionsArray?.includes("profile-update-profile");
-  const isUpdatePasswordPermissionAvailable = permissionsArray?.includes("profile-update-password");
-  const isSettingsPermissionAvailable = permissionsArray?.includes("config-setting");
-
+  const isProfileUpdatePermissionAvailable = permissionsArray?.includes(
+    "profile-update-profile"
+  );
+  const isUpdatePasswordPermissionAvailable = permissionsArray?.includes(
+    "profile-update-password"
+  );
+  const isSettingsPermissionAvailable =
+    permissionsArray?.includes("config-setting");
 
   //full screen
   function Fullscreen() {
@@ -143,7 +145,7 @@ const Header = (props) => {
             onClick={() => openCloseSidebar()}
           ></Link>
           <div className="responsive-logo">
-            <Link to={`/dashboard/`} className="header-logo" >
+            <Link to={`/dashboard/`} className="header-logo">
               <img
                 src={require("../../assets/images/brand/logo-3.png")}
                 className="mobile-logo logo-1"
@@ -170,157 +172,18 @@ const Header = (props) => {
           </Link>
 
           <div className="d-flex order-lg-2 ms-auto header-right-icons">
-            {/* <Navbar.Toggle
-              aria-controls="navbarScroll"
-              className="navresponsive-toggler d-lg-none ms-auto"
-              type="button"
-            >
-              <span className="navbar-toggler-icon fe fe-more-vertical text-dark"></span>
-            </Navbar.Toggle> */}
-
-
-            {/* <div className="navbar navbar-collapse responsive-navbar p-0"> */}
-            {/* <div className="navbar p-0"> */}
             <div>
-              {/* <Navbar.Collapse
-                 className="navbar-collapse"
-                id="navbarSupportedContent-4"
-              > */}
-              <Navbar  id="navbarSupportedContent-4">
+              <Navbar id="navbarSupportedContent-4">
                 <div className="d-flex order-lg-2">
-                  {/* <div className="dropdown d-block d-lg-none">
-                    <Link
-                      to="#"
-                      className="nav-link icon"
-                      onClick={() => responsivesearch()}
-                    >
-                      <i className="fe fe-search"></i>
-                    </Link>
-                    <div className="dropdown-menu header-search dropdown-menu-start">
-                      <div className="input-group w-100 p-2 border">
-                        <input
-                          type="text"  autoComplete="off"
-                          className="form-control"
-                          placeholder="Search...."
-                        />
-                        <div className="input-group-text btn btn-primary">
-                          <i className="fa fa-search" aria-hidden="true"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div> */}
-                  {/* <div className="dropdown d-md-flex">
-                    <Link
-                      to="#"
-                      className="nav-link icon theme-layout nav-link-bg layout-setting"
-                      onClick={() => Darkmode()}
-                    >
-                      <span className="dark-layout">
-                        <i className={`fe ${"fe-moon"}`}></i>
-                      </span>
-                      <span className="light-layout">
-                        <i className={`fe ${"fe-sun"}`}></i>
-                      </span>
-                    </Link>
-                  </div> */}
-                  {/* <div className="dropdown d-md-flex">
-                    <Link
-                      to="#"
-                      className="nav-link icon full-screen-link nav-link-bg"
-                      onClick={Fullscreen}
-                    >
-                      <i className="fe fe-minimize fullscreen-button"></i>
-                    </Link>
-                  </div> */}
-                  {/* <Dropdown className="d-md-flex notifications">
-                    <Dropdown.Toggle className="nav-link icon " variant="">
-                      <i className="fe fe-bell"></i>
-                      <span className=" pulse"></span>
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu
-                      className=" dropdown-menu-end dropdown-menu-arrow "
-                      style={{ margin: 0 }}
-                    >
-                      <div className="drop-heading border-bottom">
-                        <div className="d-flex">
-                          <h6 className="mt-1 mb-0 fs-16 fw-semibold">
-                            You have Notifications
-                          </h6>
-                          <div className="ms-auto">
-                            <span className="badge bg-success rounded-pill">
-                              3
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="notifications-menu">
-                        <Dropdown.Item
-                          className=" d-flex"
-                          href={`/components/defaultChat/`}
-                        >
-                          <div className="me-3 notifyimg  bg-primary-gradient brround box-shadow-primary">
-                            <i className="fe fe-message-square"></i>
-                          </div>
-                          <div className="mt-1">
-                            <h5 className="notification-label mb-1">
-                              New review received
-                            </h5>
-                            <span className="notification-subtext">
-                              2 hours ago
-                            </span>
-                          </div>
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          className=" d-flex"
-                          href={`/components/defaultChat/`}
-                        >
-                          <div className="me-3 notifyimg  bg-secondary-gradient brround box-shadow-primary">
-                            <i className="fe fe-mail"></i>
-                          </div>
-                          <div className="mt-1">
-                            <h5 className="notification-label mb-1">
-                              New Mails Received
-                            </h5>
-                            <span className="notification-subtext">
-                              1 week ago
-                            </span>
-                          </div>
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          className=" d-flex"
-                          href={`/pages/e-commerce/shoppingCart/`}
-                        >
-                          <div className="me-3 notifyimg  bg-success-gradient brround box-shadow-primary">
-                            <i className="fe fe-shopping-cart"></i>
-                          </div>
-                          <div className="mt-1">
-                            <h5 className="notification-label mb-1">
-                              New Order Received
-                            </h5>
-                            <span className="notification-subtext">
-                              1 day ago
-                            </span>
-                          </div>
-                        </Dropdown.Item>
-                      </div>
-                      <div className="dropdown-divider m-0"></div>
-                      <Link
-                        to="#"
-                        className=" dropdown-item text-center p-3 text-muted"
-                      >
-                        View all Notification
-                      </Link>
-                    </Dropdown.Menu>
-                  </Dropdown> */}
-
                   <Dropdown className=" d-md-flex profile-1">
                     <Dropdown.Toggle
-                      className="nav-link profile leading-none d-flex px-1"
+                      className="nav-link profile profile-box leading-none d-flex px-1"
                       variant=""
                     >
-                      <span className="avatar  profile-user brround cover-image">
-                        <i className="fe fe-user"></i>
-                      </span>
+                      <h5 className="header-name mb-0">
+      { "Welcome" + (headingusername ? " " + headingusername : " Admin") }
+    </h5>
+                      <i className="fa fa-chevron-circle-down  ms-2"></i>
                     </Dropdown.Toggle>
                     <Dropdown.Menu
                       className="dropdown-menu-end dropdown-menu-arrow"
@@ -329,41 +192,31 @@ const Header = (props) => {
                       <div className="drop-heading">
                         <div className="text-center">
                           <h5 className="text-dark mb-0">
-                            {username
-                              ? username
-                              : "Admin"}
+                            {username ? username : "Admin"}
                           </h5>
-                          {/* {apiResponseData && (
-                            <h5 className="text-dark mb-0">
-                           { apiResponseData.data &&
-                                  apiResponseData.data.full_name}
-                            </h5>
-                          )} */}
                         </div>
                       </div>
                       <div className="dropdown-divider m-0"></div>
                       {isProfileUpdatePermissionAvailable ? (
-                      <Dropdown.Item as={Link} to="/editprofile">
-                        <i className="dropdown-icon fe fe-user"></i> Edit
-                        Profile
-                      </Dropdown.Item>
+                        <Dropdown.Item as={Link} to="/editprofile">
+                          <i className="dropdown-icon fe fe-user"></i> Edit
+                          Profile
+                        </Dropdown.Item>
                       ) : null}
                       {isUpdatePasswordPermissionAvailable ? (
-                      <Dropdown.Item as={Link} to="/editprofile">
-                        <i className="dropdown-icon fe fe-user"></i>Change
-                        Password
-                      </Dropdown.Item>
+                        <Dropdown.Item as={Link} to="/editprofile">
+                          <i className="dropdown-icon fe fe-user"></i>Change
+                          Password
+                        </Dropdown.Item>
                       ) : null}
                       {isSettingsPermissionAvailable ? (
-                      <Dropdown.Item as={Link} to="/settings">
-                        <i className="dropdown-icon fe fe-settings"></i>
-                        Settings
-                      </Dropdown.Item>
+                        <Dropdown.Item as={Link} to="/settings">
+                          <i className="dropdown-icon fe fe-settings"></i>
+                          Settings
+                        </Dropdown.Item>
                       ) : null}
 
-                      <Dropdown.Item
-                        onClick={logout}
-                      >
+                      <Dropdown.Item onClick={logout}>
                         <i className="dropdown-icon fe fe-alert-circle"></i>
                         Sign out
                       </Dropdown.Item>
@@ -371,7 +224,7 @@ const Header = (props) => {
                   </Dropdown>
                   <ToastContainer />
                 </div>
-                </Navbar>
+              </Navbar>
               {/*  </Navbar.Collapse> */}
             </div>
           </div>

@@ -21945,6 +21945,7 @@ ul.timeline > li:before {
   border-top: 1px solid #eaedf1;
   font-size: 0.875rem;
   padding: 1.25rem 1.25rem;
+  z-index: 222;
 }
 
 .footer .container {
@@ -35672,6 +35673,7 @@ body.rtl {
   -o-transition: left 0.2s ease, width 0.2s ease;
   transition: left 0.2s ease, width 0.2s ease;
   border-right: 1px solid #eaedf1;
+  margin-bottom: 60px;
 }
 
 .app-sidebar::-webkit-scrollbar {
@@ -55947,6 +55949,15 @@ textarea {
   text-align: center !important;
 }
 
+@media screen and (max-width : 763px) {
+  .text-end-small-screen{
+    display: flex;
+    justify-content: center;
+    flex-direction: column-reverse;
+    gap: 10px;
+    margin-top: 10px
+}  
+}
 @media (min-width: 576px) {
   .text-sm-left {
     text-align: left !important;
