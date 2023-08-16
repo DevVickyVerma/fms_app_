@@ -17,9 +17,8 @@ const DashBoardChild = () => {
   //   } = location?.state;
 
   const { testIsWorking, settestIsWorking } = useMyContext();
-  console.log("testIsWorking is or is working", testIsWorking);
+
   settestIsWorking(true);
-  console.log(testIsWorking, "testIsWorking  working after true");
 
   const GrossVolume = location.state ? location?.state?.GrossVolume : null;
   const shopmargin = location.state ? location?.state?.shopmargin : null;
@@ -34,8 +33,6 @@ const DashBoardChild = () => {
   const searchdata = location.state ? location.state.searchdata : null;
 
   const passDataString = localStorage.getItem("passData");
-
-  console.log("CHILD LOCATION DTA", searchdata);
 
   return (
     <>

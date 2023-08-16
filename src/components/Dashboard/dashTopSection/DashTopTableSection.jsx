@@ -29,6 +29,10 @@ const DashTopTableSection = (props) => {
 
       if (response && response.data && response.data.data) {
         setData(response?.data?.data?.data?.sites);
+        console.log(
+          "gross_volumegross_volumsitese",
+          response?.data?.data?.data?.sites
+        );
         // setSearchvalue(response.data.data.charges);
       } else {
         throw new Error("No data available in the response");
@@ -43,7 +47,8 @@ const DashTopTableSection = (props) => {
     console.log("checking");
   }, []);
 
-  console.log(",my fatched data available in the response", data);
+  console.log("gross_volumegross_volume", data);
+  console.log("gross_volume", data?.fuel_volume?.gross_volume);
 
   const columns = [
     {
@@ -80,9 +85,10 @@ const DashTopTableSection = (props) => {
       width: "19%",
       cell: (row, index) => (
         <div className="d-flex">
+          {console.log(row.fuel_volume?.gross_volume, "sdaaaaaaaaaa")}
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">
-              {row?.fuel_volume?.gross_volume}
+              {row.fuel_volume?.status}
             </h6>
 
             <p
@@ -244,7 +250,7 @@ const DashTopTableSection = (props) => {
           columns={columns}
           data={data}
           pagination
-          // paginationPerPage={5}
+          paginationPerPage={20}
           highlightOnHover={true}
           fixedHeader={true}
           responsive={true}

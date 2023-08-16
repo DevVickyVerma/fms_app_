@@ -1793,14 +1793,14 @@ fieldset:disabled a.btn {
 
 .btn-success {
   color: #fff;
-  background: #058308  !important;
-  border-color: #058308 ;
+  background: #058308 !important;
+  border-color: #058308;
 }
 
 .btn-success:hover {
   color: #fff;
-  background-color: #058308 ;
-  border-color: #058308 ;
+  background-color: #058308;
+  border-color: #058308;
 }
 
 .btn-success:focus,
@@ -1811,20 +1811,20 @@ fieldset:disabled a.btn {
 .btn-success.disabled,
 .btn-success:disabled {
   color: #fff;
-  background-color: #058308 ;
-  border-color: #058308 ;
+  background-color: #058308;
+  border-color: #058308;
 }
 
 .btn-success:not(:disabled):not(.disabled):active,
 .btn-success:not(:disabled):not(.disabled).active {
   color: #fff;
-  background-color: #058308 ;
-  border-color: #058308 ;
+  background-color: #058308;
+  border-color: #058308;
 }
 
 .show > .btn-success.dropdown-toggle {
   color: #fff;
-  background-color: #058308 ;
+  background-color: #058308;
   border-color: #43be5f;
 }
 
@@ -1938,7 +1938,7 @@ fieldset:disabled a.btn {
 .btn-danger {
   color: #fff;
   background: #f82649 !important;
-  border-color: #e62a45;
+  border-color: #e62a45 !important;
 }
 
 .btn-danger:hover {
@@ -2048,8 +2048,8 @@ fieldset:disabled a.btn {
 
 .btn-success-light:hover {
   color: #fff;
-  background-color: #058308  !important;
-  border-color: #058308 ;
+  background-color: #058308 !important;
+  border-color: #058308;
 }
 
 .btn-success-light:focus,
@@ -2611,16 +2611,16 @@ fieldset:disabled a.btn {
 }
 
 .btn-outline-success {
-  color: #058308 ;
+  color: #058308;
   background-color: transparent;
   background-image: none;
-  border-color: #058308 ;
+  border-color: #058308;
 }
 
 .btn-outline-success:hover {
   color: #fff;
-  background-color: #058308 ;
-  border-color: #058308 ;
+  background-color: #058308;
+  border-color: #058308;
 }
 
 .btn-outline-success:focus,
@@ -2630,21 +2630,21 @@ fieldset:disabled a.btn {
 
 .btn-outline-success.disabled,
 .btn-outline-success:disabled {
-  color: #058308 ;
+  color: #058308;
   background-color: transparent;
 }
 
 .btn-outline-success:not(:disabled):not(.disabled):active,
 .btn-outline-success:not(:disabled):not(.disabled).active {
   color: #fff;
-  background-color: #058308 ;
-  border-color: #058308 ;
+  background-color: #058308;
+  border-color: #058308;
 }
 
 .show > .btn-outline-success.dropdown-toggle {
   color: #fff;
-  background-color: #058308 ;
-  border-color: #058308 ;
+  background-color: #058308;
+  border-color: #058308;
 }
 
 .btn-outline-success:not(:disabled):not(.disabled):active:focus,
@@ -4798,7 +4798,7 @@ input[type="button"].btn-block {
   .card-body {
     padding: 20px;
   }
-  .card-footer{
+  .card-footer {
     gap: 10px;
     display: flex;
     flex-direction: column;
@@ -5962,7 +5962,6 @@ a.card-tabs-item.active {
   position: relative;
   margin-bottom: 1.5rem;
   width: 100%;
-  
 }
 
 .card .card {
@@ -15959,7 +15958,7 @@ a.chip:hover {
 }
 #back-to-top:hover {
   background: #fff !important;
-  .fa{
+  .fa {
     height: 100%;
     scale: 2;
     display: flex;
@@ -15969,11 +15968,11 @@ a.chip:hover {
 }
 
 @media screen and( max-width : 490px) {
-#back-to-top {
+  #back-to-top {
     /* height: 40px;
     width: 40px; */
     display: none !important;
- }
+  }
 }
 
 .features {
@@ -16893,12 +16892,12 @@ div.conv-form-wrapper div.options div.option.selected {
     position: absolute;
     top: 17px;
   }
-  
+
   img.mobile-logo {
     max-height: 39px;
     margin: -10px;
     border-radius: 5px;
-}
+  }
   .leftmenu-styles {
     display: none;
   }
@@ -17333,7 +17332,6 @@ div.conv-form-wrapper div.options div.option.selected {
   text-align: center;
   font-size: 24px;
 }
-
 
 .light-logo,
 .light-logo1,
@@ -22206,9 +22204,9 @@ body.fixed-header .header {
   /* margin-right: 0.5rem; */
   /* width: auto; */
   border-radius: 7px;
-    width: 128px;
-    height: 48px;
-    margin-top: -12px;
+  width: 128px;
+  height: 48px;
+  margin-top: -12px;
 }
 
 .header-avatar {
@@ -22263,7 +22261,7 @@ body.fixed-header .header {
     margin-right: 0;
     margin-left: 1.5rem;
   } */
-  .header-brand-img{
+  .header-brand-img {
     width: 312px;
   }
 
@@ -30075,7 +30073,6 @@ body.rtl {
   right: inherit;
 }
 
-
 .rtl .action-header {
   padding: 15px 13px 15px 17px;
 }
@@ -35424,17 +35421,17 @@ body.rtl {
   right: 0;
   top: 0;
   width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   z-index: 999 !important;
   border-bottom: 1px solid #eaedf1;
-  background: linear-gradient(90deg, rgba(128,19,207,1) 0%, rgba(149,60,213,1) 58%, rgba(202,129,255,1) 100%);
+  /* background: linear-gradient(to bottom right, #6259ca 0%, var(--primary06) 100%);
+  background: linear-gradient(to bottom right, var(--primary-bg-color) 0%, var(--primary06) 100%); */
+  background-color: #6259ca;
   transition: padding-left 0.3s ease;
   height: 62px;
   margin: 0;
   padding: 0;
-  padding-left : 13px;
+  padding-left: 13px;
 }
 
 @media (min-width: 992px) {
@@ -35770,7 +35767,7 @@ body.rtl {
   margin-bottom: 0;
   padding: 0 15px 0 0px;
   line-height: 25px;
-  font-size:12px;
+  font-size: 12px;
 }
 
 .side-menu__item {
@@ -35795,11 +35792,7 @@ body.rtl {
 .side-menu__item.active {
   text-decoration: none;
   color: #ffffff;
-  background: linear-gradient(
-    to bottom right,
-    var(--primary-bg-color) 0%,
-    var(--primary06) 100%
-  );
+  background: #6259ca;
   border-radius: 0 0px 0px 0;
   box-shadow: 0 7px 12px 0 rgba(95, 118, 232, 0.21);
 }
@@ -35808,11 +35801,7 @@ body.rtl {
 .side-menu__item.active:focus {
   text-decoration: none;
   color: #ffffff;
-  background: linear-gradient(
-    to bottom right,
-    var(--primary-bg-color) 0%,
-    var(--primary06) 100%
-  ) !important;
+  background: #6259ca !important;
   border-radius: 0 0px 0px 0;
   box-shadow: 0 7px 12px 0 rgba(95, 118, 232, 0.21);
 }
@@ -36363,7 +36352,7 @@ body.rtl {
   -o-transition: left 0.2s ease, width 0.2s ease;
   transition: left 0.2s ease, width 0.2s ease;
   height: 62px;
-  background: #8013cf;
+  background: #6259ca;
 }
 
 .sidebar-mini.sidenav-toggled .app-sidebar__toggle {
@@ -56561,13 +56550,13 @@ textarea.form-control {
 }
 
 @media screen and (min-width: 990px) {
-  .login-logo img{
+  .login-logo img {
     width: 367px;
   }
 }
 
 @media screen and (max-width: 495px) {
-  .login-logo img{
+  .login-logo img {
     width: 309px;
   }
 }
@@ -56602,8 +56591,8 @@ textarea.form-control {
   height: 1.5em;
 }
 
-@media screen and (max-width : 500px) {
-  .form-check-inline{
+@media screen and (max-width: 500px) {
+  .form-check-inline {
     min-width: 83px;
   }
 }
@@ -56623,7 +56612,7 @@ textarea.form-control {
   left: 0;
   width: 100%;
   height: 100%;
- background-color: rgb(0 0 0 / 30%) !important;
+  background-color: rgb(0 0 0 / 30%) !important;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56650,30 +56639,29 @@ svg.table-Details {
   fill: #fff !important;
 }
 .common-sidebar {
-    position: fixed;
-    right: 0%;
-    top: 0;
-    bottom: 0;
-    width: 50%;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    transition: -webkit-transform 0.3s ease-in-out;
-    transition: transform 0.3s ease-in-out;
-    transition: transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
-    z-index: 1000;
+  position: fixed;
+  right: 0%;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: -webkit-transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
+  z-index: 1000;
 }
 
 @media screen and (max-width: 750px) {
-  .filter-responsive{
+  .filter-responsive {
     flex-direction: column-reverse;
     align-items: end;
     margin-left: 0;
   }
-
 }
 
 @media screen and (max-width: 490px) {
-  .common-sidebar{
+  .common-sidebar {
     width: 73%;
   }
 }
@@ -56712,10 +56700,9 @@ h3.Sidebar-title {
   border-radius: 0 0px 0px 0;
   box-shadow: 0 7px 12px 0 rgba(95, 118, 232, 0.21);
   display: flex;
-    justify-content: space-between;
+  justify-content: space-between;
 }
 button.close-button {
- 
   height: 30px;
   width: 30px;
   text-decoration: none;
@@ -56752,7 +56739,6 @@ li.li-row {
   border-radius: 5px;
   /* Add more styles as needed */
 }
-
 
 .d-block {
   /* display: none !important; */
