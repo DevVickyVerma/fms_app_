@@ -180,9 +180,15 @@ const Header = (props) => {
                       className="nav-link profile profile-box leading-none d-flex px-1"
                       variant=""
                     >
-                      <h5 className="header-name mb-0">
-                        {"Welcome," + " " +
+                      <h5 className="header-name mb-0 d-flex">
+                      <span className="header-welcome-text">
+                          {`Welcome,  ${" "}`}&nbsp; 
+                      </span>
+                       <span className="header-welcome-text-title">
+                       {
                           (headingusername ?  headingusername : " Admin")}
+                       </span>
+                       
                       </h5>
                       <i className="fa fa-chevron-circle-down  ms-2"></i>
                     </Dropdown.Toggle>

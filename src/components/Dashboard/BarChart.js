@@ -4,15 +4,17 @@ import { Chart as ChartJS } from "chart.js/auto";
 
 const BarChart = ({ piechartValues }) => {
   // console.log(piechartValues, "piechartValues");
-  const shop_sales = parseFloat(piechartValues.shop_sales);
-  const fuel_sales = parseFloat(piechartValues.fuel_sales);
-  const bunkered_sales = parseFloat(piechartValues.bunkered_sales);
+  const shop_sales = parseFloat(piechartValues?.shop_sales);
+  const fuel_sales = parseFloat(piechartValues?.fuel_sales);
+  const bunkered_sales = parseFloat(piechartValues?.bunkered_sales);
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
   const labels = Object.keys(piechartValues).map((key) =>
   capitalizeFirstLetter(key.replace('_', ' '))
 );
+
+
   const data = {
     labels: labels,
     datasets: [

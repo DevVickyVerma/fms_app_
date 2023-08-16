@@ -32410,6 +32410,20 @@ body.rtl {
   }
 }
 
+@media (max-width: 760px) {
+  .header-welcome-text{
+    display:none;
+  }
+}
+
+.header-welcome-text-title{
+  display: inline-block;
+    max-width: 82px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
 @media (min-width: 768px) {
   .rtl .float-md-start {
     float: right !important;
