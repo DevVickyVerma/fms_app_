@@ -42,7 +42,7 @@ const FuelPrices = (props) => {
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(true);
 
   const navigate = useNavigate();
   const SuccessToast = (message) => {
