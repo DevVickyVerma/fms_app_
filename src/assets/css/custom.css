@@ -477,3 +477,16 @@ span.ModalTitle {
   font-weight: 400;
   padding: 10px;
 }
+.react-multi-email.empty {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #000;
+  display: block;
+  width: 100%;
+  background: #ffffff;
+  height: 45px;
+  padding: 0.375rem 0.75rem;
+  border-radius: 5px;
+  border: 1px solid #ecf0fa;
+  box-shadow: 1px 1px #e3e3e3;;
+}

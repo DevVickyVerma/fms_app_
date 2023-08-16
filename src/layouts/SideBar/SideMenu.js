@@ -590,6 +590,26 @@ export const MENUITEMS = [
           },
         ],
       },
+      {
+        title: "Email Logs",
+    
+        icon: "envelope-o",
+        type: "sub",
+        active: false,
+        permission: "email-logs",
+        visibility: false,
+        children: [
+          {
+            path: `/email-logs`,
+            title: "Email Logs",
+            type: "link",
+            permission: "email-logs",
+            visibility: false,
+          },
+      
+        ],
+      
+      },
 
       // {
       //   title: "Manage Import Types",

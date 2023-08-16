@@ -393,6 +393,9 @@ const EditBusiness = React.lazy(() =>
 const Settings = React.lazy(() =>
   import("./components/pages/Settings/Settings")
 );
+const Emaillogs = React.lazy(() =>
+  import("./components/pages/Emaillogs/Emaillogs")
+);
 const DailyFacilityFees = React.lazy(() =>
   import("./components/pages/DailyFacilityFees/DailyFacilityFees")
 );
@@ -526,6 +529,7 @@ const Root = () => {
   const WrappedDailyFacilityFees = withApi(DailyFacilityFees);
   const WrappedDashBoardChild = withApi(DashBoardChild);
   const WrappedDashBoardSubChild = withApi(DashBoardSubChild);
+  const WrappedEmaillogs = withApi(Emaillogs);
 
   return (
     <Fragment>
@@ -637,6 +641,10 @@ const Root = () => {
                   <Route path={`EditAddon`} element={<WrappeAddEditAddon />} />
 
                   {/* Addon  Components End */}
+                  <Route
+                    path={`/email-logs`}
+                    element={<WrappedEmaillogs />}
+                  />
                   {/* Header  Components Start */}
                   {/* <Route
                     path={`/advancedElements/headers`}
