@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Row } from "react-bootstrap";
+import { Button, Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import DashTopSubHeading from "./DashTopSubHeading";
 import axios from "axios";
@@ -88,7 +88,7 @@ const DashTopTableSection = (props) => {
           {console.log(row.fuel_volume?.gross_volume, "sdaaaaaaaaaa")}
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">
-              {row.fuel_volume?.status}
+              {row.fuel_volume?.gross_volume}
             </h6>
 
             <p
@@ -242,10 +242,17 @@ const DashTopTableSection = (props) => {
     <>
       {isLoading ? <Loaderimg /> : null}
 
-      <Row class="mb-5 ">
-        {/* <DashTopSubHeading /> */}
-
-        <DataTable
+     
+      <Row >
+          <Col lg={12}>
+            <Card>
+              {/* <Card.Header>
+                <h3 className="card-title">Fuel Sales</h3>
+              </Card.Header> */}
+              <Card.Body>
+              
+                  <div className="table-responsive deleted-table">
+                  <DataTable
           // title="Station List"
           columns={columns}
           data={data}
@@ -260,7 +267,13 @@ const DashTopTableSection = (props) => {
           // selectableRows={true}
           selectableRowsHighlight={true}
         />
-      </Row>
+                  </div>
+             
+               
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
     </>
   );
 };

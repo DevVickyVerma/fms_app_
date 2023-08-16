@@ -67,9 +67,9 @@ const DashBoardChild = () => {
         />
       </Row>
 
-      <Row>
+      {/* <Row> */}
         <DashTopTableSection searchdata={searchdata} />
-      </Row>
+      {/* </Row> */}
     </>
   );
 };
