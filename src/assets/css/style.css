@@ -21944,7 +21944,8 @@ ul.timeline > li:before {
   background: #fff;
   border-top: 1px solid #eaedf1;
   font-size: 0.875rem;
-  padding: 1.25rem 1.25rem;
+  padding: 1rem 1rem;
+  position: relative;
   z-index: 222;
 }
 
@@ -36615,6 +36616,7 @@ body.rtl {
 
 .sidebar-mini .app-sidebar {
   width: 270px;
+  height: 100%;
 }
 
 @media (min-width: 992px) {
