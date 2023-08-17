@@ -32414,6 +32414,9 @@ body.rtl {
   .header-welcome-text{
     display:none;
   }
+  .center-filter-modal-responsive{
+    flex-direction: column;
+  }
 }
 
 .header-welcome-text-title{

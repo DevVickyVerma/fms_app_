@@ -18,7 +18,7 @@ const DashTopSection = (props) => {
   } = props;
 
   const [UploadTabname, setUploadTabname] = useState();
-  console.log("UploadTabname:", UploadTabname);
+  
 
   const navigate = useNavigate();
 
@@ -41,7 +41,7 @@ const DashTopSection = (props) => {
     // console.log(passDataString , "pass data string");
     navigate(`/dashboardChild`, { state: passData });
   };
-  console.log("my searched data from filter:", searchdata);
+
 
   return (
     <div>
@@ -61,10 +61,10 @@ const DashTopSection = (props) => {
                     <div className="col">
                       <div
                         className=" dashboard-box"
-                        // onClick={() => {
-                        //   setUploadTabname("GrossVolume");
-                        //   handleNavigateClick(UploadTabname);
-                        // }}
+                        onClick={() => {
+                          setUploadTabname("GrossVolume");
+                          handleNavigateClick(UploadTabname);
+                        }}
                       >
                         <div>
                           {isLoading ? (
@@ -151,10 +151,10 @@ const DashTopSection = (props) => {
                     <div className="col">
                       <div
                         className=" dashboard-box "
-                        // onClick={() => {
-                        //   setUploadTabname("Gross Profit");
-                        //   handleNavigateClick(UploadTabname);
-                        // }}
+                        onClick={() => {
+                          setUploadTabname("Gross Profit");
+                          handleNavigateClick(UploadTabname);
+                        }}
                       >
                         <div>
                           <h6>Gross Profit</h6>
@@ -231,10 +231,10 @@ const DashTopSection = (props) => {
                     <div className="col">
                       <div
                         className=" dashboard-box"
-                        // onClick={() => {
-                        //   setUploadTabname("Gross Margin");
-                        //   handleNavigateClick(UploadTabname);
-                        // }}
+                        onClick={() => {
+                          setUploadTabname("Gross Margin");
+                          handleNavigateClick(UploadTabname);
+                        }}
                       >
                         <div>
                           <h6>Gross Margin</h6>
@@ -316,10 +316,10 @@ const DashTopSection = (props) => {
                     <div className="col">
                       <div
                         className=" dashboard-box"
-                        // onClick={() => {
-                        //   setUploadTabname("Fuel Sales");
-                        //   handleNavigateClick(UploadTabname);
-                        // }}
+                        onClick={() => {
+                          setUploadTabname("Fuel Sales");
+                          handleNavigateClick(UploadTabname);
+                        }}
                       >
                         <div>
                           {isLoading ? (
@@ -402,10 +402,10 @@ const DashTopSection = (props) => {
                     <div className="col">
                       <div
                         className=" dashboard-box"
-                        // onClick={() => {
-                        //   setUploadTabname("Shop Sales");
-                        //   handleNavigateClick(UploadTabname);
-                        // }}
+                        onClick={() => {
+                          setUploadTabname("Shop Sales");
+                          handleNavigateClick(UploadTabname);
+                        }}
                       >
                         <div>
                           <h6>Shop Sales</h6>
@@ -479,10 +479,10 @@ const DashTopSection = (props) => {
                     <div className="col">
                       <div
                         className=" dashboard-box"
-                        // onClick={() => {
-                        //   setUploadTabname("Shop Margin");
-                        //   handleNavigateClick(UploadTabname);
-                        // }}
+                        onClick={() => {
+                          setUploadTabname("Shop Margin");
+                          handleNavigateClick(UploadTabname);
+                        }}
                       >
                         <div>
                           <h6>Shop Margin</h6>

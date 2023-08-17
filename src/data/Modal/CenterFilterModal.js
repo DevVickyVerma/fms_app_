@@ -1,24 +1,31 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import * as Yup from "yup";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Slide,
-} from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import Loaderimg from "../../Utils/Loader";
-import { Form, Link, useNavigate } from "react-router-dom";
-import { Card, Col, FormGroup, Row } from "react-bootstrap";
-import { ErrorMessage, Field, Formik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { toast } from "react-toastify";
-import axios from "axios";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import Loaderimg from "../../Utils/Loader";
+import { ErrorMessage, Field, Formik } from "formik";
+import * as Yup from "yup";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
+import SortIcon from "@mui/icons-material/Sort";
+import axios from "axios";
+import {
+  Breadcrumb,
+  Button,
+  Card,
+  Col,
+  Form,
+  FormGroup,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
+import { Slide, toast } from "react-toastify";
+import { logDOM } from "@testing-library/react";
+import { Dialog, DialogContent, DialogContentText } from "@mui/material";
+import { useMyContext } from "../../Utils/MyContext";
 
 const CenterFilterModal = (props) => {
   const {
@@ -29,16 +36,17 @@ const CenterFilterModal = (props) => {
     onSubmit,
     searchListstatus,
   } = props;
-  const [open, setOpen] = useState(false);
-
+  // console.log("on submit", onSubmit);
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
+  const [open, setOpen] = useState(false);
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
   const [AddSiteData, setAddSiteData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { searchdata, setSearchdata } = useMyContext();
   const navigate = useNavigate();
   const notify = (message) => {
     toast.success(message, {
@@ -130,8 +138,10 @@ const CenterFilterModal = (props) => {
     }
   };
   const handlesubmitvalues = (values) => {
+    setSearchdata(values)
+    handleClose();
     onClose();
-
+    // console.log("my calues on submitvalues");
     // Invoke the onSubmit callback with the form values
     onSubmit(values);
     console.log("my values while submitting", values);
@@ -142,7 +152,8 @@ const CenterFilterModal = (props) => {
   }, [title]);
 
   const resetForm = () => {
-    onClose();
+    // onClose();
+    navigate("/dashboard");
   };
   const getCurrentDate = () => {
     const today = new Date();
@@ -162,25 +173,43 @@ const CenterFilterModal = (props) => {
   const handleClose = () => {
     setOpen(false);
   };
-
   return (
     <div>
-      <Button
-        variant="primary"
-        className="modal-effect d-grid mb-3"
-        href="#modaldemo8"
-        onClick={handleClickOpen}
-      >
-        Scale
-      </Button>
+      <div className="d-flex searchbar-top">
+        <Button
+          variant="primary"
+          className="modal-effect d-grid  d-flex"
+          href="#modaldemo8"
+          onClick={handleClickOpen}
+        >
+          Filter{" "}
+          <span className="ms-2">
+            {/* <SearchIcon />  */}
+            <SortIcon />
+          </span>
+        </Button>
+      </div>
       <Dialog
-        // fullScreen={fullScreen}
         open={open}
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
+        className="ModalTitle"
       >
-        <DialogTitle id="responsive-dialog-title">Message Preview</DialogTitle>
-        <hr />
+      <span style={{width:"100%", display:"flex", justifyContent:"space-between"}} className="ModalTitle">
+        <span 
+        // className="ModalTitle"
+        >Filter</span>
+        <span 
+        // className="ModalTitle" 
+        onClick={handleClose}
+        >
+        
+        <button className="close-button">
+                  <FontAwesomeIcon icon={faTimes} />
+        </button>
+        </span>
+        </span>
+        
         <DialogContent>
           <DialogContentText>
             <>
@@ -188,15 +217,21 @@ const CenterFilterModal = (props) => {
                 <Loaderimg />
               ) : (
                 <>
-                  <div className={`common-sidebar ${visible ? "visible" : ""}`}>
-                    <div className="card">
-                      <div className="card-header text-center SidebarSearchheader">
-                        <h3 className="SidebarSearch-title m-0">{title}</h3>
-                        <button className="close-button" onClick={onClose}>
-                          <FontAwesomeIcon icon={faTimes} />
-                        </button>
-                      </div>
-                    </div>
+                  <div
+                    //  common-sidebar
+                    className={`
+            ${visible ? "visible" : ""}`}
+                  >
+                    {/* <div className="card">
+              <div className="card-header text-center
+               SidebarSearchheader
+               ">
+                <h3 className="SidebarSearch-title m-0">{title}</h3>
+                <button className="close-button" onClick={onClose}>
+                  <FontAwesomeIcon icon={faTimes} />
+                </button>
+              </div>
+            </div> */}
 
                     <Card>
                       <Card.Body>
@@ -231,7 +266,7 @@ const CenterFilterModal = (props) => {
                                     <Row>
                                       {localStorage.getItem("superiorRole") !==
                                         "Client" && (
-                                        <Col lg={4} md={4}>
+                                        <Col lg={12} md={12}>
                                           <FormGroup>
                                             <label
                                               htmlFor="client_id"
@@ -317,7 +352,7 @@ const CenterFilterModal = (props) => {
                                           </FormGroup>
                                         </Col>
                                       )}
-                                      <Col lg={4} md={4}>
+                                      <Col lg={6} md={6}>
                                         <FormGroup>
                                           <label
                                             htmlFor="company_id"
@@ -398,7 +433,7 @@ const CenterFilterModal = (props) => {
                                           />
                                         </FormGroup>
                                       </Col>
-                                      <Col lg={4} md={6}>
+                                      <Col lg={6} md={6}>
                                         <FormGroup>
                                           <label
                                             htmlFor="site_id"
@@ -518,13 +553,13 @@ const CenterFilterModal = (props) => {
                                     </Row>
                                   </Card.Body>
                                   <Card.Footer className="text-end">
-                                    <Link
-                                      type="submit"
-                                      className="btn btn-danger me-2 "
-                                      onClick={resetForm}
-                                    >
-                                      Reset
-                                    </Link>
+                                    {/* <Link
+                              type="submit"
+                              className="btn btn-danger me-2 "
+                              onClick={resetForm}
+                            >
+                              Reset
+                            </Link> */}
                                     <button
                                       className="btn btn-primary me-2"
                                       type="submit"
@@ -545,15 +580,6 @@ const CenterFilterModal = (props) => {
             </>
           </DialogContentText>
         </DialogContent>
-        <hr />
-        <DialogActions>
-          <Button variant="secondary" className="me-1" onClick={handleClose}>
-            Save changes
-          </Button>
-          <Button onClick={handleClose} className="me-1" variant="success">
-            Close
-          </Button>
-        </DialogActions>
       </Dialog>
     </div>
   );

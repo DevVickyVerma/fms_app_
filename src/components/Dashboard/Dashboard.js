@@ -36,6 +36,8 @@ import DashTopSection from "./dashTopSection/DashTopSection";
 import DashTopTableSection from "./dashTopSection/DashTopTableSection";
 import { Box } from "@material-ui/core";
 import { useMyContext } from "../../Utils/MyContext";
+import CenterFilterModal from "../../data/Modal/CenterFilterModal";
+import CenterSearchmodal from "../../data/Modal/CenterSearchmodal";
 
 const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -55,6 +57,7 @@ const Dashboard = (props) => {
   const [piechartValues, setpiechartValues] = useState();
   const [LinechartValues, setLinechartValues] = useState([]);
   const [LinechartOption, setLinechartOption] = useState();
+  const [myData, setMyData] = useState();
   let LinechartOptions = [];
 
   const { searchdata, setSearchdata } = useMyContext();
@@ -163,11 +166,14 @@ const Dashboard = (props) => {
   }, [ClientID, dispatch, justLoggedIn, token]);
 
   const handleToggleSidebar1 = () => {
+    console.log(ShowTruw,"Toggle sidebar")
+    console.log(sidebarVisible1,"Toggle sidebar")
     setShowTruw(true);
     setSidebarVisible1(!sidebarVisible1);
   };
 
   const handleFormSubmit = async (values) => {
+
     setSearchdata(values);
     // console.log("my values while submitting", values);
     try {
@@ -353,18 +359,59 @@ const Dashboard = (props) => {
     console.clear();
   }, [permissionsArray]);
 
+  // const handleSubmit = (formData) => {
+  //   const filteredFormData = Object.fromEntries(
+  //     Object.entries(formData).filter(
+  //       ([key, value]) => value !== null && value !== ""
+  //     )
+  //   );
+
+  //   if (Object.values(filteredFormData).length > 0) {
+  //     setSearchdata(filteredFormData);
+  //     const axiosInstance = axios.create({
+  //       baseURL: process.env.REACT_APP_BASE_URL,
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: formData,
+  //     });
+  //     const SearchList = async (row) => {
+  //       try {
+  //         const params = new URLSearchParams(formData).toString();
+  //         const response = await getData(`/client/list?${params}`);
+  //         console.log(response.data.data, "ddd");
+
+  //         if (response && response.data && response.data.data) {
+  //           setMyData(response.data.data.clients);
+  //         } else {
+  //           throw new Error("No data available in the response");
+  //         }
+  //       } catch (error) {
+  //         console.error("API error:", error);
+  //         // Handle the error here, such as displaying an error message or performing other actions
+  //       }
+  //     };
+
+  //     SearchList();
+  //   }
+
+  //   handleToggleSidebar1();
+  // };
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
       <div>
+      {/* <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"}> */}
         <Box
           display={"flex"}
           justifyContent={"space-between"}
           alignItems={"center"}
           minHeight={"90px"}
+          className="center-filter-modal-responsive"
           //  className="page-header "
         >
-          <Box alignSelf={"flex-start"} mt={"26px"}>
+          <Box alignSelf={"flex-start"} mt={"33px"}>
             <h1 className="page-title">Dashboard</h1>
             {/* <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -387,6 +434,7 @@ const Dashboard = (props) => {
               my={"20px"}
               gap={"5px"}
               mx={"10px"}
+              flexDirection={"inherit"}
               className="filter-responsive"
               // className="ms-auto pageheader-btn "
             >
@@ -430,18 +478,62 @@ const Dashboard = (props) => {
                   }
                 })}
               </span>
-              <Box display={"flex"} ml={"4px"}>
+              <Box display={"flex"} ml={"4px"} alignSelf={"center"}>
                 <Link
                   className="btn btn-primary"
                   onClick={() => {
                     handleToggleSidebar1();
                   }}
+                  // onClick={setShowTruw(true)}
+                  title="filter"
+              visible={sidebarVisible1}
+              onClose={handleToggleSidebar1}
+              onSubmit={handleFormSubmit}
+              searchListstatus={SearchList}
                 >
                   Filter
                   <span className="ms-2">
                     <SortIcon />
                   </span>
                 </Link>
+              
+                {/* <Link >
+              <CenterFilterModal
+                title="filter"
+                visible={sidebarVisible1}
+                onClick={() => {
+                  handleToggleSidebar1();
+                }}
+                onClose={handleToggleSidebar1}
+                onSubmit={handleFormSubmit}
+                searchListstatus={SearchList}
+                // sendDataToParent={handleDataFromChild}
+              />
+            </Link> */}
+
+{/* 
+                <Link
+                  className="btn btn-primary sbsbo"
+                  onClick={() => {
+                    handleToggleSidebar1();
+                  }}
+                >
+                  <DashBordModal
+                    title="Filter"
+                    visible={sidebarVisible1}
+                    onClick={() => {
+                      handleToggleSidebar1();
+                    }}
+                    onClose={handleToggleSidebar1}
+                    onSubmit={handleFormSubmit}
+                    searchListstatus={SearchList}
+                    // title="Search"
+                    // visible={sidebarVisible1}
+                    // onClose={handleToggleSidebar1}
+                    // onSubmit={handleFormSubmit}
+                    // searchListstatus={SearchList}
+                  />
+                </Link> */}
 
                 {Object.keys(searchdata).length > 0 ? (
                   <Link
@@ -460,8 +552,8 @@ const Dashboard = (props) => {
           )}
         </Box>
 
-        {ShowTruw ? (
-          <DashBordModal
+        {/* {ShowTruw ? (
+          <CenterFilterModal
             title="Search"
             visible={sidebarVisible1}
             onClose={handleToggleSidebar1}
@@ -470,7 +562,33 @@ const Dashboard = (props) => {
           />
         ) : (
           ""
+        )} */}
+        {ShowTruw ? (
+          <DashBordModal 
+            title="Search"
+            visible={sidebarVisible1}
+            onClose={handleToggleSidebar1}
+            onSubmit={handleFormSubmit}
+            searchListstatus={SearchList}
+            onClick={() => {
+                    handleToggleSidebar1();
+            }}
+          />
+        ) : (
+          ""
         )}
+
+        {/* <CenterFilterModal
+            title="Search"
+            visible={sidebarVisible1}
+            onClose={handleToggleSidebar1}
+            onSubmit={handleFormSubmit}
+            searchListstatus={SearchList}
+            onClick={() => {
+                    handleToggleSidebar1();
+            }}
+          /> */}
+           {/* </Box> */}
 
         {/* Dash Top Section Js File */}
         <DashTopSection
@@ -482,6 +600,7 @@ const Dashboard = (props) => {
           shopsale={shopsale}
           searchdata={searchdata}
         />
+       
 
         {/* <DashTopTableSection  />          */}
 
