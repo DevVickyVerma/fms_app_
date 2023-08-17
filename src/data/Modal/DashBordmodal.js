@@ -145,6 +145,7 @@ const DashBordModal = (props) => {
   const resetForm = () => {
     onClose();
   };
+  // setLoading
   const getCurrentDate = () => {
     const today = new Date();
     const year = today.getFullYear();

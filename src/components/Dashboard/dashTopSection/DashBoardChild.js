@@ -38,7 +38,7 @@ const DashBoardChild = () => {
     <>
       <div className="page-header ">
         <div>
-          <h1 className="page-title">DashBoard Child</h1>
+          <h1 className="page-title">              Site Details </h1>
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item
               className="breadcrumb-item"
@@ -51,7 +51,7 @@ const DashBoardChild = () => {
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              DashBoard Child
+              Site Details
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>

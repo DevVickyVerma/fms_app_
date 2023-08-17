@@ -51,23 +51,12 @@ const DashTopTableSection = (props) => {
   console.log("gross_volume", data?.fuel_volume?.gross_volume);
 
   const columns = [
+   
     {
-      name: "S.No",
-      selector: (row, index) => index + 1,
-      sortable: false,
-      width: "5%",
-      center: true,
-      cell: (row, index) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
-          {index + 1}
-        </span>
-      ),
-    },
-    {
-      name: "Client",
+      name: "Site",
       selector: (row) => [row?.name],
       sortable: true,
-      width: "19%",
+      width: "26%",
       cell: (row, index) => (
         <Link to={"/DashBoardSubChild"}>
           <div className="d-flex">
