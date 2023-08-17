@@ -20,7 +20,7 @@ const DashBoardSubChild = () => {
             <Breadcrumb.Item
               className="breadcrumb-item"
               linkAs={Link}
-              linkProps={{ to: "/dashboardChild" }}
+              linkProps={{ to: "/dashboard-details" }}
             >
               Dashboard Child
             </Breadcrumb.Item>

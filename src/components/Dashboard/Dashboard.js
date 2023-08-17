@@ -48,26 +48,41 @@ const Dashboard = (props) => {
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
   // const [searchdata, setSearchdata] = useState({});
   const [SearchList, setSearchList] = useState(false);
-  const [GrossMarginValue, setGrossMarginValue] = useState();
-  const [GrossProfitValue, setGrossProfitValue] = useState();
-  const [FuelValue, setFuelValue] = useState();
-  const [GrossVolume, setGrossVolume] = useState();
-  const [shopsale, setshopsale] = useState();
-  const [shopmargin, setshopmargin] = useState();
+  // const [GrossMarginValue, setGrossMarginValue] = useState();
+  // const [GrossProfitValue, setGrossProfitValue] = useState();
+  // const [FuelValue, setFuelValue] = useState();
+  // const [GrossVolume, setGrossVolume] = useState();
+  // const [shopsale, setshopsale] = useState();
+  // const [shopmargin, setshopmargin] = useState();
   const [piechartValues, setpiechartValues] = useState();
   const [LinechartValues, setLinechartValues] = useState([]);
   const [LinechartOption, setLinechartOption] = useState();
   const [myData, setMyData] = useState();
   let LinechartOptions = [];
 
-  const { searchdata, setSearchdata } = useMyContext();
+  const {
+    searchdata,
+    setSearchdata,
+    GrossMarginValue,
+    setGrossMarginValue,
+    GrossProfitValue,
+    setGrossProfitValue,
+    FuelValue,
+    setFuelValue,
+    GrossVolume,
+    setGrossVolume,
+    shopsale,
+    setshopsale,
+    shopmargin,
+    setshopmargin,
+  } = useMyContext();
+
+  console.log("my fuel value: ");
   const handleFetchSiteData = async () => {
     try {
       const superiorRole = localStorage.getItem("superiorRole");
       const role = localStorage.getItem("role");
-
       let url = "";
-
       if (superiorRole === "Administrator") {
         url = "/dashboard/stats";
       } else if (superiorRole === "Client") {
@@ -92,7 +107,6 @@ const Dashboard = (props) => {
         setGrossProfitValue(data?.data?.gross_profit);
         setFuelValue(data?.data?.fuel_sales);
         setshopsale(data?.data?.shop_sales);
-
         setshopmargin(data?.data?.shop_margin);
       }
     } catch (error) {
@@ -166,14 +180,13 @@ const Dashboard = (props) => {
   }, [ClientID, dispatch, justLoggedIn, token]);
 
   const handleToggleSidebar1 = () => {
-    console.log(ShowTruw,"Toggle sidebar")
-    console.log(sidebarVisible1,"Toggle sidebar")
+    console.log(ShowTruw, "Toggle sidebar");
+    console.log(sidebarVisible1, "Toggle sidebar");
     setShowTruw(true);
     setSidebarVisible1(!sidebarVisible1);
   };
 
   const handleFormSubmit = async (values) => {
-
     setSearchdata(values);
     // console.log("my values while submitting", values);
     try {
@@ -402,7 +415,7 @@ const Dashboard = (props) => {
     <>
       {isLoading ? <Loaderimg /> : null}
       <div>
-      {/* <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"}> */}
+        {/* <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"}> */}
         <Box
           display={"flex"}
           justifyContent={"space-between"}
@@ -486,17 +499,17 @@ const Dashboard = (props) => {
                   }}
                   // onClick={setShowTruw(true)}
                   title="filter"
-              visible={sidebarVisible1}
-              onClose={handleToggleSidebar1}
-              onSubmit={handleFormSubmit}
-              searchListstatus={SearchList}
+                  visible={sidebarVisible1}
+                  onClose={handleToggleSidebar1}
+                  onSubmit={handleFormSubmit}
+                  searchListstatus={SearchList}
                 >
                   Filter
                   <span className="ms-2">
                     <SortIcon />
                   </span>
                 </Link>
-              
+
                 {/* <Link >
               <CenterFilterModal
                 title="filter"
@@ -511,7 +524,7 @@ const Dashboard = (props) => {
               />
             </Link> */}
 
-{/* 
+                {/* 
                 <Link
                   className="btn btn-primary sbsbo"
                   onClick={() => {
@@ -564,14 +577,14 @@ const Dashboard = (props) => {
           ""
         )} */}
         {ShowTruw ? (
-          <DashBordModal 
+          <DashBordModal
             title="Search"
             visible={sidebarVisible1}
             onClose={handleToggleSidebar1}
             onSubmit={handleFormSubmit}
             searchListstatus={SearchList}
             onClick={() => {
-                    handleToggleSidebar1();
+              handleToggleSidebar1();
             }}
           />
         ) : (
@@ -588,7 +601,7 @@ const Dashboard = (props) => {
                     handleToggleSidebar1();
             }}
           /> */}
-           {/* </Box> */}
+        {/* </Box> */}
 
         {/* Dash Top Section Js File */}
         <DashTopSection
@@ -600,7 +613,6 @@ const Dashboard = (props) => {
           shopsale={shopsale}
           searchdata={searchdata}
         />
-       
 
         {/* <DashTopTableSection  />          */}
 

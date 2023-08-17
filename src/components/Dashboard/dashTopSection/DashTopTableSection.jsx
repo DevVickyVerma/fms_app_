@@ -7,10 +7,11 @@ import { Link, useNavigate } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import { Slide, toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
+import { Margin } from "@mui/icons-material";
 
 const DashTopTableSection = (props) => {
   const { apidata, isLoading, error, getData, postData, searchdata } = props;
-  console.log(searchdata, "searchdatasearchdataisLoading");
+  // console.log(searchdata, "searchdatasearchdataisLoading");
 
   const [data, setData] = useState();
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
@@ -29,10 +30,10 @@ const DashTopTableSection = (props) => {
 
       if (response && response.data && response.data.data) {
         setData(response?.data?.data?.data?.sites);
-        console.log(
-          "gross_volumegross_volumsitese",
-          response?.data?.data?.data?.sites
-        );
+        // console.log(
+        //   "gross_volumegross_volumsitese",
+        //   response?.data?.data?.data?.sites
+        // );
         // setSearchvalue(response.data.data.charges);
       } else {
         throw new Error("No data available in the response");
@@ -44,19 +45,50 @@ const DashTopTableSection = (props) => {
 
   useEffect(() => {
     FetchTableData();
-    console.log("checking");
+    // console.log("checking");
   }, []);
 
-  console.log("gross_volumegross_volume", data);
-  console.log("gross_volume", data?.fuel_volume?.gross_volume);
+  // console.log("gross_volumegross_volume", data);
+  // console.log("gross_volume", data?.fuel_volume?.gross_volume);
+
+  const tableCustomStyles = {
+    headCells: {
+      style: {
+        // fontSize: '20px',
+        fontWeight: "bold",
+        // paddingLeft: '0 8px',
+        justifyContent: "center",
+        backgroundColor: "#e2e2e2",
+        margin: "0",
+        paddingTop: "0 !important",
+      },
+    },
+  };
 
   const columns = [
-   
     {
-      name: "Site",
+      name: " Logo",
+      selector: (row) => [row.image],
+      sortable: true,
+      width: "8%",
+      cell: (row, index) => (
+        <div className="d-flex align-items-center card-img">
+          <img
+            src={row.image}
+            alt={row.image}
+            className="mr-2"
+            style={{ width: "50px", height: "50px" }}
+          />
+          <div></div>
+        </div>
+      ),
+    },
+
+    {
+      name: "Sites",
       selector: (row) => [row?.name],
       sortable: true,
-      width: "26%",
+      width: "15%",
       cell: (row, index) => (
         <Link to={"/DashBoardSubChild"}>
           <div className="d-flex">
@@ -71,10 +103,10 @@ const DashTopTableSection = (props) => {
       name: "Fuel Volume",
       selector: (row) => [row?.fuel_volume?.gross_volume],
       sortable: true,
-      width: "19%",
+      width: "13%",
       cell: (row, index) => (
         <div className="d-flex">
-          {console.log(row.fuel_volume?.gross_volume, "sdaaaaaaaaaa")}
+          {/* {console.log(row.fuel_volume?.gross_volume, "sdaaaaaaaaaa")} */}
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">
               {row.fuel_volume?.gross_volume}
@@ -112,7 +144,7 @@ const DashTopTableSection = (props) => {
       name: "Fuel Sales",
       selector: (row) => [row?.fuel_sales?.total_value],
       sortable: true,
-      width: "19%",
+      width: "13%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -151,7 +183,7 @@ const DashTopTableSection = (props) => {
       name: "Gross Profit",
       selector: (row) => [row?.gross_profit?.gross_profit],
       sortable: true,
-      width: "19%",
+      width: "13%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -190,7 +222,7 @@ const DashTopTableSection = (props) => {
       name: "Shop Sales",
       selector: (row) => [row?.shop_sales?.shop_sales],
       sortable: true,
-      width: "19%",
+      width: "13%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -225,44 +257,119 @@ const DashTopTableSection = (props) => {
         </div>
       ),
     },
+    {
+      name: "Gross Margin",
+      selector: (row) => [row?.gross_margin?.gross_margin],
+      sortable: true,
+      width: "13%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">
+              {row?.gross_margin?.gross_margin}
+            </h6>
+            <p
+              className={`me-1 ${
+                row?.gross_margin?.status === "up"
+                  ? "text-success"
+                  : "text-danger"
+              }`}
+              data-tip={`${row?.gross_margin?.percentage}%`}
+            >
+              {row?.gross_margin?.status === "up" ? (
+                <>
+                  <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                  <span className="text-success">
+                    {row?.gross_margin?.percentage}%
+                  </span>
+                </>
+              ) : (
+                <>
+                  <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                  <span className="text-danger">
+                    {row?.gross_margin?.percentage}%
+                  </span>
+                </>
+              )}
+            </p>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Shop Margin",
+      selector: (row) => [row?.shop_margin?.shop_margin],
+      sortable: true,
+      width: "13%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">
+              {row?.shop_margin?.shop_margin}
+            </h6>
+            <p
+              className={`me-1 ${
+                row?.shop_margin?.status === "up"
+                  ? "text-success"
+                  : "text-danger"
+              }`}
+              data-tip={`${row?.shop_margin?.percentage}%`}
+            >
+              {row?.shop_margin?.status === "up" ? (
+                <>
+                  <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                  <span className="text-success">
+                    {row?.shop_margin?.percentage}%
+                  </span>
+                </>
+              ) : (
+                <>
+                  <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                  <span className="text-danger">
+                    {row?.shop_margin?.percentage}%
+                  </span>
+                </>
+              )}
+            </p>
+          </div>
+        </div>
+      ),
+    },
   ];
 
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
 
-     
-      <Row >
-          <Col lg={12}>
-            <Card>
-              {/* <Card.Header>
+      <Row>
+        <Col lg={12}>
+          <Card>
+            {/* <Card.Header>
                 <h3 className="card-title">Fuel Sales</h3>
               </Card.Header> */}
-              <Card.Body>
-              
-                  <div className="table-responsive deleted-table">
-                  <DataTable
-          // title="Station List"
-          columns={columns}
-          data={data}
-          pagination
-          paginationPerPage={20}
-          highlightOnHover={true}
-          fixedHeader={true}
-          responsive={true}
-          pointerOnHover={true}
-          striped={true}
-          // subHeader={true}
-          // selectableRows={true}
-          selectableRowsHighlight={true}
-        />
-                  </div>
-             
-               
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+            <Card.Body>
+              <div className="table-responsive deleted-table">
+                <DataTable
+                  // title="Station List"
+                  columns={columns}
+                  data={data}
+                  pagination
+                  paginationPerPage={20}
+                  highlightOnHover={true}
+                  fixedHeader={true}
+                  responsive={true}
+                  pointerOnHover={true}
+                  striped={true}
+                  customStyles={tableCustomStyles}
+                  // subHeader={true}
+                  // selectableRows={true}
+                  selectableRowsHighlight={true}
+                />
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     </>
   );
 };
