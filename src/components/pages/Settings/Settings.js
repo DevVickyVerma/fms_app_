@@ -201,10 +201,10 @@ export default function Settings() {
       .required("Date Format is required"),
 
     pagination: Yup.string()
-      .matches(
-        /^(?:500|[0-9][0-9]?|0)$/,
-        "Pagination must be a number between 0 and 500"
-      )
+      // .matches(
+      //   /^(?:500|[0-9][0-9]?|0)$/,
+      //   "Pagination must be a number between 0 and 500"
+      // )
 
       .required("Pagination is required"),
 

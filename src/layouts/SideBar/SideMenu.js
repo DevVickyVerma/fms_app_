@@ -475,7 +475,7 @@ export const MENUITEMS = [
         icon: "tasks",
         type: "sub",
         active: false,
-        permission: "workflow-list",
+        permission: "Site PPL Rate",
         visibility: false,
         children: [
           {
@@ -592,7 +592,7 @@ export const MENUITEMS = [
       },
       {
         title: "Email Logs",
-    
+
         icon: "envelope-o",
         type: "sub",
         active: false,
@@ -606,9 +606,7 @@ export const MENUITEMS = [
             permission: "email-logs",
             visibility: false,
           },
-      
         ],
-      
       },
 
       // {
