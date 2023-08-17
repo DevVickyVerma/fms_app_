@@ -23,6 +23,9 @@ import * as loderdata from "../../../data/Component/loderdata/loderdata";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
+import { ReactMultiEmail } from "react-multi-email";
+// import "react-multi-email/style.css";
+// import "react-multi-email/style.css";
 
 const AddClient = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -63,7 +66,16 @@ const AddClient = (props) => {
 
       const formData = new FormData();
       formData.append("email", values.email);
-      formData.append("fairbank_email", values.fairbank_email);
+
+      // emails.forEach((email, index) => {
+      //   fairbank_email[index] = email;
+      // });
+
+      if (emails !== null && emails !== undefined) {
+        emails.forEach((client, index) => {
+          formData.append(`fairbank_email[${index}]`, client);
+        });
+      }
       formData.append("password", values.password);
       formData.append("first_name", values.first_name);
       formData.append("last_name", values.last_name);
@@ -93,13 +105,6 @@ const AddClient = (props) => {
   const handleCheckboxChange1 = (event) => {
     setIsChecked(event.target.checked);
   };
-  // const Loaderimg = () => {
-  //   return (
-  //     <div id="global-loader">
-  //       <loderdata.Loadersbigsizes1 />
-  //     </div>
-  //   );
-  // };
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
@@ -128,6 +133,25 @@ const AddClient = (props) => {
       }
     }
   }, [isPermissionsSet, permissionsArray, navigate]);
+
+  const [emails, setEmails] = useState([]);
+
+  const handleEmailChange = (newEmails) => {
+    setEmails(newEmails);
+  };
+
+  const renderEmailTag = (email, index, removeEmail) => (
+    <div data-tag key={index} className="renderEmailTag">
+      {email}
+      <span
+        className="closeicon"
+        data-tag-handle
+        onClick={() => removeEmail(index)}
+      >
+        ×
+      </span>
+    </div>
+  );
 
   return (
     <>
@@ -186,7 +210,7 @@ const AddClient = (props) => {
                   fairbank_email: "",
                   password: "",
 
-                  status: "",
+                  status: "1",
 
                   lommis_status: "1",
                   work_flow: "0",
@@ -217,9 +241,10 @@ const AddClient = (props) => {
                   email: Yup.string()
                     .required(" Email is required")
                     .email("Invalid email format"),
-                  fairbank_email: Yup.string()
-                    .required(" Fairbank Email is required")
-                    .email("Invalid email format"),
+
+                  // fairbank_email: Yup.string()
+                  //   .required(" Fairbank Email is required")
+                  //   .email("Invalid email format"),
 
                   password: Yup.string().required("Password is required"),
                 })}
@@ -291,34 +316,7 @@ const AddClient = (props) => {
                             />
                           </FormGroup>
                         </Col>
-                        <Col lg={4} md={6}>
-                          <FormGroup>
-                            <label
-                              htmlFor="fairbank_email"
-                              className=" form-label mt-4"
-                            >
-                              Fairbank Email
-                              <span className="text-danger">*</span>
-                            </label>
-                            <Field
-                              type="text"
-                              autoComplete="off"
-                              className={`input101 ${
-                                errors.fairbank_email && touched.fairbank_email
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
-                              id="fairbank_email"
-                              name="fairbank_email"
-                              placeholder="Fairbank Email"
-                            />
-                            <ErrorMessage
-                              component="div"
-                              className="invalid-feedback"
-                              name="fairbank_email"
-                            />
-                          </FormGroup>
-                        </Col>
+
                         <Col lg={4} md={6}>
                           <FormGroup>
                             <label
@@ -581,24 +579,36 @@ const AddClient = (props) => {
                               MA Options
                               <span className="text-danger">*</span>
                             </label>
-                            <input
-                              type="checkbox"
-                              checked
-                              onChange={() => handleCheckboxChange("1")}
-                            />{" "}
-                            <span className="mx-2">Actual</span>
-                            <br></br>
-                            <input
-                              type="checkbox"
-                              onChange={() => handleCheckboxChange("2")}
-                            />
-                            <span className="mx-2">Forecast</span>
-                            <br></br>
-                            <input
-                              type="checkbox"
-                              onChange={() => handleCheckboxChange("3")}
-                            />{" "}
-                            <span className="mx-2">Variance</span>
+                            <div className="mapotions">
+                              <div className="maoptions-cover">
+                                <input
+                                  type="checkbox"
+                                  checked
+                                  onChange={() => handleCheckboxChange("1")}
+                                  className="form-check-input"
+                                />
+                                <span className="mx-2">Actual</span>
+                              </div>
+
+                              <br></br>
+                             <div className="maoptions-cover">
+                             <input
+                                type="checkbox"
+                                onChange={() => handleCheckboxChange("2")}
+                                className="form-check-input "
+                              />
+                              <span className="mx-2">Forecast</span>
+                             </div>
+                              <br></br>
+                           <div className="maoptions-cover">
+                           <input
+                                type="checkbox"
+                                onChange={() => handleCheckboxChange("3")}
+                                className="form-check-input"
+                              />
+                              <span className="mx-2">Variance</span>
+                           </div>
+                            </div>
                             <ErrorMessage
                               component="div"
                               className="invalid-feedback"
@@ -606,17 +616,47 @@ const AddClient = (props) => {
                             />
                           </FormGroup>
                         </Col>
+
+                        <Col lg={4} md={6}>
+                          <label
+                            htmlFor="fairbank_email"
+                            className=" form-label mt-4"
+                          >
+                            Fairbank Email
+                            <span className="text-danger">*</span>
+                          </label>
+                          <div className="email-input">
+                            <ReactMultiEmail
+                              emails={emails}
+                              onChange={handleEmailChange}
+                              getLabel={renderEmailTag}
+                              maxTags={5} // You can set the maximum number of emails/tags
+                            />
+                           
+                            <ErrorMessage
+                              component="div"
+                              className="invalid-feedback"
+                              name="fairbank_email"
+                            />
+                             
+                          </div>
+                          <span className="fairbank-title"> * You can add multiple email IDs by using <strong>,</strong></span>
+                        </Col>
                         <Col lg={4} md={6}>
                           <FormGroup>
                             <label htmlFor="email" className="form-label mt-4">
                               Send Welcome Email
                             </label>
-                            <input
-                              type="checkbox"
-                              checked={isChecked}
-                              onChange={handleCheckboxChange1}
-                            />
-                            <span className="ms-1">Yes</span>
+                            <div className="mapotions">
+                              <input
+                                type="checkbox"
+                                checked={isChecked}
+                                onChange={handleCheckboxChange1}
+                                className="form-check-input"
+                              />
+                              <span className="ms-2">Yes</span>
+                            </div>
+
                             <ErrorMessage
                               component="div"
                               className="invalid-feedback"

@@ -439,12 +439,16 @@ const AddUsers = (props) => {
                             <label htmlFor="email" className="form-label mt-4">
                               Send Welcome Email
                             </label>
+                            <div className="mapotions">
+
                             <input
                               type="checkbox"
                               checked={isChecked}
                               onChange={SendMail}
+                              className="form-check-input"
                             />
                             <span className="ms-1">Yes</span>
+                            </div>
                             <ErrorMessage
                               component="div"
                               className="invalid-feedback"

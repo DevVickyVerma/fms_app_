@@ -37,7 +37,7 @@ export default function EditProfile() {
     old_password: Yup.string().required("Current Password is required"),
     password: Yup.string()
       .required("New Password is required")
-      .min(8, "Password must be at least 8 characters long"),
+      .min(5, "Password must be at least 5 characters long"),
     password_confirmation: Yup.string()
       .oneOf([Yup.ref("password"), null], "Passwords must match")
       .required("Confirm Password is required"),
@@ -107,7 +107,12 @@ export default function EditProfile() {
       const data = await response.json();
 
       if (response.ok) {
+        localStorage.clear();
+        setTimeout(() => {
+          window.location.replace("/");
+        }, 500);
         notify(data.message);
+
         setLoading(false);
       } else {
         const errorMessage = Array.isArray(data.message)

@@ -21,17 +21,13 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import { ReactMultiEmail } from "react-multi-email";
 
 const EditClient = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
   const navigate = useNavigate();
   // const { id } = useParams();
-
-  const [AddSiteData, setAddSiteData] = useState([]);
-  const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  const [subTypes, setSubTypes] = useState([]);
-  const [EditSiteData, setEditSiteData] = useState();
 
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
@@ -109,7 +105,12 @@ const EditClient = (props) => {
       formData.append("financial_start_month", values.financial_start_month);
       formData.append("last_name", values.last_name);
       formData.append("email", values.email);
-      formData.append("fairbank_email", values.fairbank_email);
+  
+      if (values.fairbank_email !== null && values.fairbank_email !== undefined) {
+        values.fairbank_email.forEach((client, index) => {
+          formData.append(`fairbank_email[${index}]`, client);
+        });
+      }
       formData.append("password", values.first_name);
       formData.append("status", values.status);
       formData.append("loomis_status", values.loomis_status);
@@ -141,7 +142,7 @@ const EditClient = (props) => {
       financial_start_month: "",
       first_name: "",
       id: "",
-      fairbank_email: "",
+      fairbank_email: [],
       last_name: "",
       loomis_status: "",
       work_flow: "",
@@ -176,6 +177,10 @@ const EditClient = (props) => {
       loomis_status: Yup.string().required("Lommis Status is required"),
 
       status: Yup.string().required(" Status is required"),
+      fairbank_email: Yup.array()
+        .required("At least one email is required")
+        .max(5, "Maximum of 5 emails allowed")
+        .of(Yup.string().email("Invalid email format")),
     }),
     onSubmit: (values) => {
       handleSubmit(values);
@@ -199,6 +204,27 @@ const EditClient = (props) => {
 
     formik.setFieldValue("ma_option", updateOptions);
   };
+
+  const handleEmailChange = (newEmails) => {
+    formik.setFieldValue("fairbank_email", newEmails);
+  };
+  const renderEmailTag = (email, index, removeEmail) => (
+    <div data-tag key={index} className="renderEmailTag">
+      {email}
+      <span
+        className="closeicon"
+        data-tag-handle
+        onClick={() => {
+          const newEmails = formik.values.fairbank_email.filter(
+            (_, i) => i !== index
+          );
+          handleEmailChange(newEmails);
+        }}
+      >
+        ×
+      </span>
+    </div>
+  );
 
   return (
     <>
@@ -361,7 +387,7 @@ const EditClient = (props) => {
                           )}
                         </div>
                       </Col>
-                      <Col lg={4} md={6}>
+                      {/* <Col lg={4} md={6}>
                         <div className="form-group">
                           <label
                             className="form-label mt-4"
@@ -391,7 +417,7 @@ const EditClient = (props) => {
                               </div>
                             )}
                         </div>
-                      </Col>
+                      </Col> */}
 
                       <Col lg={4} md={6}>
                         <div className="form-group">
@@ -575,7 +601,7 @@ const EditClient = (props) => {
                       </Col>
                       {/* Work Flow Status End */}
                       <Col lg={4} md={6}>
-                        <div>
+                        <div >
                           <label
                             htmlFor="ma_option"
                             className="form-label mt-4"
@@ -583,6 +609,7 @@ const EditClient = (props) => {
                             MA Options
                             <span className="text-danger">*</span>
                           </label>
+                          <div className="mapotions">
                           <label>
                             <input
                               type="checkbox"
@@ -590,11 +617,13 @@ const EditClient = (props) => {
                               value="1"
                               checked={formik.values.ma_option.includes("1")}
                               onChange={() => handleMaOptionChange("1")}
+                              className="form-check-input"
                             />
-                            Actual
+                           <span className="ms-2"> Actual</span>
                           </label>
+                          </div>
                         </div>
-                        <div>
+                        <div className="mapotions">
                           <label>
                             <input
                               type="checkbox"
@@ -602,11 +631,13 @@ const EditClient = (props) => {
                               value="2"
                               checked={formik.values.ma_option.includes("2")}
                               onChange={() => handleMaOptionChange("2")}
+                              className="form-check-input"
                             />
-                            Forecast
+                            
+                            <span className="ms-2"> Forecast</span>
                           </label>
                         </div>
-                        <div>
+                        <div className="mapotions">
                           <label>
                             <input
                               type="checkbox"
@@ -614,10 +645,39 @@ const EditClient = (props) => {
                               value="3"
                               checked={formik.values.ma_option.includes("3")}
                               onChange={() => handleMaOptionChange("3")}
+                              className="form-check-input"
                             />
-                            Variance
+                            
+                            <span className="ms-2"> Variance</span>
                           </label>
                         </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <label
+                          htmlFor="fairbank_email"
+                          className="form-label mt-4"
+                        >
+                          Fairbank Email
+                          <span className="text-danger">*</span>
+                        </label>
+                        <div className="email-input">
+                          <ReactMultiEmail
+                            emails={formik.values.fairbank_email}
+                            onChange={handleEmailChange}
+                            getLabel={renderEmailTag}
+                            minTags={1}
+                            onBlur={() =>
+                              formik.setFieldTouched("fairbank_email", true)
+                            }
+                          />
+                          {formik.touched.fairbank_email &&
+                          formik.errors.fairbank_email ? (
+                            <div className="error">
+                              {formik.errors.fairbank_email}
+                            </div>
+                          ) : null}
+                        </div>
+                        <span className="fairbank-title"> * You can add multiple email IDs by using <strong>,</strong></span>
                       </Col>
                     </Row>
 
