@@ -16,21 +16,37 @@ const DashBoardChild = () => {
   //   shopsale,
   //   } = location?.state;
 
-  const { testIsWorking, settestIsWorking } = useMyContext();
+  const {
+    testIsWorking,
+    settestIsWorking,
+    setGrossMarginValue,
+    GrossProfitValue,
+    setGrossProfitValue,
+    FuelValue,
+    setFuelValue,
+    GrossVolume,
+    setGrossVolume,
+    shopsale,
+    setshopsale,
+    shopmargin,
+    setshopmargin,
+    GrossMarginValue,
+  } = useMyContext();
 
   settestIsWorking(true);
 
-  const GrossVolume = location.state ? location?.state?.GrossVolume : null;
-  const shopmargin = location.state ? location?.state?.shopmargin : null;
-  const GrossProfitValue = location.state
-    ? location?.state?.GrossProfitValue
-    : null;
-  const GrossMarginValue = location.state
-    ? location?.state?.GrossMarginValue
-    : null;
-  const FuelValue = location.state ? location?.state?.FuelValue : null;
-  const shopsale = location.state ? location.state.shopsale : null;
+  // const GrossVolume = location.state ? location?.state?.GrossVolume : null;
+  // const shopmargin = location.state ? location?.state?.shopmargin : null;
+  // const GrossProfitValue = location.state
+  //   ? location?.state?.GrossProfitValue
+  //   : null;
+  // const GrossMarginValue = location.state
+  //   ? location?.state?.GrossMarginValue
+  //   : null;
+  // const FuelValue = location.state ? location?.state?.FuelValue : null;
+  // const shopsale = location.state ? location.state.shopsale : null;
   const searchdata = location.state ? location.state.searchdata : null;
+  console.log(searchdata, "searchdata");
 
   const passDataString = localStorage.getItem("passData");
 
@@ -38,7 +54,7 @@ const DashBoardChild = () => {
     <>
       <div className="page-header ">
         <div>
-          <h1 className="page-title">              Site Details </h1>
+          <h1 className="page-title"> Dashboard Details </h1>
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item
               className="breadcrumb-item"
@@ -51,7 +67,7 @@ const DashBoardChild = () => {
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Site Details
+              Dashboard Details
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -68,7 +84,7 @@ const DashBoardChild = () => {
       </Row>
 
       {/* <Row> */}
-        <DashTopTableSection searchdata={searchdata} />
+      <DashTopTableSection searchdata={searchdata} />
       {/* </Row> */}
     </>
   );

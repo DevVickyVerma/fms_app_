@@ -2923,10 +2923,17 @@ ol.progtrckr li.progtrckr-todo:before{color: $transparent-body;background: $tran
 }
 
 //data table
-.rdt_TableHeadRow,
+// .rdt_TableHeadRow,
 .rdt_TableRow {
   padding-top: 7px !important;
   padding-bottom: 7px !important;
+}
+// .rdt_TableRow 
+.rdt_TableHeadRow
+{
+  margin-top: 7px !important;
+  margin-bottom: 7px !important;
+  // position: fixed !important;
 }
 .rdt_TableHeadRow {
   border: 1px solid $border !important;

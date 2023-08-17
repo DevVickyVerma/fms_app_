@@ -18,7 +18,6 @@ const DashTopSection = (props) => {
   } = props;
 
   const [UploadTabname, setUploadTabname] = useState();
-  
 
   const navigate = useNavigate();
 
@@ -39,9 +38,8 @@ const DashTopSection = (props) => {
     const passDataString = JSON.stringify(passData);
     localStorage.setItem("passData", passDataString);
     // console.log(passDataString , "pass data string");
-    navigate(`/dashboardChild`, { state: passData });
+    navigate(`/dashboard-details`, { state: passData });
   };
-
 
   return (
     <div>

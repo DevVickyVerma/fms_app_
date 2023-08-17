@@ -879,7 +879,7 @@ const Root = () => {
                     element={<WrappedAddBusinessCategory />}
                   />
 
-                  <Route path={`/dashboardChild`} element={<WrappedDashBoardChild />} />
+                  <Route path={`/dashboard-details`} element={<WrappedDashBoardChild />} />
                   <Route path={`/dashboardSubChild`} element={<WrappedDashBoardSubChild />} />
 
                   <Route
