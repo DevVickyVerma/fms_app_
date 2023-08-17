@@ -68,7 +68,8 @@ const FuelPrices = (props) => {
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
     handleFetchData();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
   const handleFetchData = async () => {
     try {
       const response = await getData("/client/commonlist");
@@ -124,7 +125,7 @@ const FuelPrices = (props) => {
         clientIDCondition = `client_id=${clientIDLocalStorage}&`;
       }
       const response1 = await getData(
-        `site/fuel-price?${clientIDCondition}company_id=${values.company_id}&drs_date=${values.start_date}`
+        `site/fuel-price/mid-day?${clientIDCondition}company_id=${values.company_id}&drs_date=${values.start_date}`
       );
 
       const { data } = response1;
@@ -160,10 +161,10 @@ const FuelPrices = (props) => {
     const day = String(today.getDate() - 1).padStart(2, "0"); // Subtract one day from the current date
     return `${year}-${month}-${day}`;
   };
-  const hadndleShowDate =( )=>{
+  const hadndleShowDate = () => {
     const inputDateElement = document.querySelector('input[type="date"]');
     inputDateElement.showPicker();
-}
+  };
   const renderTableData = () => {
     return data?.listing.map((item) => (
       <tr key={item.id}>
@@ -184,9 +185,12 @@ const FuelPrices = (props) => {
                 step="0.001"
                 // className="table-input"
                 className={`table-input ${
-                 fuel?.status === "UP" ? "table-inputGreen" :
-                   fuel?.status === "DOWN" ? "table-inputRed" : ""
-                  }`}
+                  fuel?.status === "UP"
+                    ? "table-inputGreen"
+                    : fuel?.status === "DOWN"
+                    ? "table-inputRed"
+                    : ""
+                }`}
                 value={fuel.price}
                 id={fuel.id}
                 onChange={(e) => handleInputChange(e.target.id, e.target.value)}
@@ -198,7 +202,7 @@ const FuelPrices = (props) => {
     ));
   };
 
-  // console.log("data listing check",data?.listing); 
+  // console.log("data listing check",data?.listing);
 
   const handleInputChange = (id, value) => {
     const updatedData = {
@@ -292,13 +296,12 @@ const FuelPrices = (props) => {
                   validationSchema={Yup.object({
                     company_id: Yup.string().required("Company is required"),
 
-                       start_date: Yup.date()
+                    start_date: Yup.date()
                       .required("Start Date is required")
                       .min(
                         new Date("2023-01-01"),
                         "Start Date cannot be before January 1, 2023"
-                      )
-                    
+                      ),
                   })}
                   onSubmit={(values) => {
                     handleSubmit1(values);
@@ -453,7 +456,8 @@ const FuelPrices = (props) => {
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
-                                  type="date"    min={"2023-01-01"}    
+                                type="date"
+                                min={"2023-01-01"}
                                 onClick={hadndleShowDate}
                                 className={`input101 ${
                                   errors.start_date && touched.start_date
@@ -507,9 +511,7 @@ const FuelPrices = (props) => {
                         ))}
                       </colgroup>
                       <thead>
-                        <tr>
-                        {renderTableHeader()}
-                        </tr>
+                        <tr>{renderTableHeader()}</tr>
                       </thead>
                       <tbody>{renderTableData()}</tbody>
                     </table>
@@ -526,7 +528,6 @@ const FuelPrices = (props) => {
                         type="checkbox"
                         checked={isChecked}
                         onChange={SendNotification}
-
                       />
                       <label htmlFor="email" className="form-label ms-2 ">
                         Send Notification
