@@ -495,6 +495,7 @@ const CustomModal = ({ open, onClose, selectedItem, selectedDrsDate }) => {
                                   ]?.[rowIndex]?.price || ""
                                 }
                                 onChange={formik.handleChange}
+                                className="inputwidth"
                               />
                             ) : (
                               <span>{fuelPrices[rowIndex]?.price}</span>
