@@ -254,7 +254,7 @@ const CustomModal = ({ open, onClose, selectedItem, selectedDrsDate }) => {
   // });
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const [editable, setis_editable] = useState();
+
   const navigate = useNavigate();
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -279,6 +279,7 @@ const CustomModal = ({ open, onClose, selectedItem, selectedDrsDate }) => {
       theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
     });
   };
+  const SuccessAlert = (message) => toast.success(message);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -344,7 +345,8 @@ const CustomModal = ({ open, onClose, selectedItem, selectedDrsDate }) => {
       handleSubmit(values);
     },
   });
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
+    setIsLoading(true);
     const formData = new FormData();
 
     values.listing.forEach((listing) => {
@@ -391,17 +393,22 @@ const CustomModal = ({ open, onClose, selectedItem, selectedDrsDate }) => {
 
     console.log(values, "values");
 
-    axiosInstance
-      .post("/site/fuel-price/update-siteprice", formData)
-      .then((response) => {
-        if (response) {
-          const { data } = response;
-          console.log(data);
-        }
-      })
-      .catch((error) => {
-        handleError(error);
-      });
+    try {
+      const response = await axiosInstance.post(
+        "/site/fuel-price/update-siteprice",
+        formData
+      );
+
+      if (response.status === 200) {
+        SuccessAlert("Fuel prices has been updated successfully");
+        navigate("/fuelprice");
+        onClose();
+      }
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -453,21 +460,25 @@ const CustomModal = ({ open, onClose, selectedItem, selectedDrsDate }) => {
                 {data?.listing?.[0]?.fuels?.[0]?.map((fuel, rowIndex) => (
                   <TableRow key={rowIndex}>
                     <TableCell>
-                      <TextField
-                        name={`listing[0].fuels[${rowIndex}][0].time`}
-                        type="time"
-                        value={
-                          formik.values?.listing?.[0]?.fuels?.[rowIndex]?.[0]
-                            ?.time || "00:00"
-                        }
-                        onChange={formik.handleChange}
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                        inputProps={{
-                          step: 300, // 5 minutes interval
-                        }}
-                      />
+                      {fuel.is_editable ? (
+                        <TextField
+                          name={`listing[0].fuels[${rowIndex}][0].time`}
+                          type="time"
+                          value={
+                            formik.values?.listing[0]?.fuels[rowIndex][0]
+                              ?.time || "00:00"
+                          }
+                          onChange={formik.handleChange}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          inputProps={{
+                            step: 300, // 5 minutes interval
+                          }}
+                        />
+                      ) : (
+                        <span>{fuel?.time || "00:00"}</span>
+                      )}
                     </TableCell>
                     {data?.listing?.[0]?.fuels?.map(
                       (fuelPrices, columnIndex) => {
