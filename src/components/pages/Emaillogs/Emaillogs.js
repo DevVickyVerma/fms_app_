@@ -30,7 +30,8 @@ const ManageEmail = (props) => {
   const FetchTableData = async () => {
     try {
       const response = await getData(`/email/logs?page=${currentPage}`);
-      setData(response?.data?.data);
+      setData(response?.data?.data?.logs);
+      console.log(response?.data?.data, "response?.data?.data");
     } catch (error) {
       console.error("API error:", error);
     }
@@ -51,33 +52,33 @@ const ManageEmail = (props) => {
     },
     {
       name: "Subject",
-      selector: (row) => [row.subject],
+      selector: (row) => [row?.subject],
       sortable: false,
       width: "25%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.subject}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row?.subject}</h6>
           </div>
         </div>
       ),
     },
     {
       name: "Message",
-      selector: (row) => [row.message],
+      selector: (row) => [row?.message],
       sortable: false,
       width: "25%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.message}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row?.message}</h6>
           </div>
         </div>
       ),
     },
     {
       name: "Email ",
-      selector: (row) => [row.email],
+      selector: (row) => [row?.email],
       sortable: false,
       width: "20%",
       cell: (row, index) => {
@@ -85,8 +86,8 @@ const ManageEmail = (props) => {
           return (
             <div className="d-flex" style={{ cursor: "default" }}>
               <div className="ms-2 mt-0 mt-sm-2 d-block">
-                {row.email && row.email ? (
-                  <h6 className="mb-0 fs-14 fw-semibold">{row.email}</h6>
+                {row.email && row?.email ? (
+                  <h6 className="mb-0 fs-14 fw-semibold">{row?.email}</h6>
                 ) : (
                   <h6 className="mb-0 fs-14 fw-semibold">No email</h6>
                 )}
@@ -101,7 +102,7 @@ const ManageEmail = (props) => {
     },
     {
       name: "Created Date",
-      selector: (row) => [row.created_date],
+      selector: (row) => [row?.created_date],
       sortable: false,
       width: "12%",
       cell: (row, index) => (
@@ -111,22 +112,22 @@ const ManageEmail = (props) => {
           // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold ">{row?.created_date}</h6>
           </div>
         </div>
       ),
     },
     {
       name: "Status",
-      selector: (row) => [row.status],
+      selector: (row) => [row?.status],
       sortable: false,
       width: "12%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
-            {row.status === 1 ? (
+            {row?.status === 1 ? (
               <button className="btn btn-success btn-sm">Sent</button>
-            ) : row.status === 0 ? (
+            ) : row?.status === 0 ? (
               <button className="btn btn-danger btn-sm">Failed</button>
             ) : (
               <button className="badge">Unknown</button>
