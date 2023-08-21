@@ -20,6 +20,8 @@ import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import { ErrorMessage, Field, Formik, useFormik } from "formik";
+import MiddayModal from "../../../data/Modal/MiddayModal";
+import CustomModal from "../../../data/Modal/MiddayModal";
 
 const FuelPrices = (props) => {
   const { apidata, error, getData, postData, SiteID, ReportDate, isLoading } =
@@ -42,7 +44,7 @@ const FuelPrices = (props) => {
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
-  const [isChecked, setIsChecked] = useState(true);
+  const [isChecked, setIsChecked] = useState(false);
 
   const navigate = useNavigate();
   const SuccessToast = (message) => {
@@ -125,14 +127,14 @@ const FuelPrices = (props) => {
         clientIDCondition = `client_id=${clientIDLocalStorage}&`;
       }
       const response1 = await getData(
-        `site/fuel-price/mid-day?${clientIDCondition}company_id=${values.company_id}&drs_date=${values.start_date}`
+        `site/fuel-price?${clientIDCondition}company_id=${values.company_id}&drs_date=${values.start_date}`
       );
 
       const { data } = response1;
       if (data) {
         // console.log(data.data.listing, "Drsdata");
         setheadingData(data?.data?.head_array);
-        setData(data?.data);
+        // setData(data?.data);
 
         // const responseData = data.data;
 
@@ -143,7 +145,122 @@ const FuelPrices = (props) => {
     }
   };
 
-  const [data, setData] = useState();
+  const [data, setData] = useState({
+    head_array: [
+      "Sites",
+      "Time",
+      "Unleaded",
+      "Super Unleaded",
+      "Diesel",
+      "Super Diesel",
+      "Adblue",
+      "Other",
+      "Manual Fuel",
+    ],
+    listing: [
+      {
+        id: "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
+        site_name: "Amersham ",
+        time: "00:00 ",
+        count: "2",
+        fuels: [
+          {
+            id: "bVV0cGlBaThwd01kM3VqczdYR1Mzdz09",
+            price: 1.519,
+            prev_price: 1.499,
+            date: "2023-08-16 00:00:00",
+            prev_date: "2023-08-15 00:00:00",
+            status: "UP",
+          },
+          {
+            id: "MXRZMWM5bXprV2NhR1Z1SEFobVo0QT09",
+            price: 1.679,
+            prev_price: 1.659,
+            date: "2023-08-16 00:00:00",
+            prev_date: "2023-08-15 00:00:00",
+            status: "UP",
+          },
+          {
+            id: "Z0pKZFU5Mkh4alVEeExiS1hXSnhiUT09",
+            price: 1.549,
+            prev_price: 1.549,
+            date: "2023-08-16 00:00:00",
+            prev_date: "2023-08-15 00:00:00",
+            status: "SAME",
+          },
+          {
+            id: "SmJCb1d6alZzSURBWm9YYUF3LzJGUT09",
+            price: 1.749,
+            prev_price: 1.749,
+            date: "2023-08-16 00:00:00",
+            prev_date: "2023-08-15 00:00:00",
+            status: "SAME",
+          },
+          [],
+          [],
+          [],
+        ],
+      },
+
+      {
+        id: "V0wyR0Y4YUJmM0NJcGVqNXUzUWtaQT09",
+        site_name: "Patcham ",
+        time: "00:00 ",
+        count: "2",
+        fuels: [
+          {
+            id: "RGx1YXRUN0N0SEFsYUtiRjh2ckxxdz09",
+            price: 1.539,
+            prev_price: 1.539,
+            date: "2023-08-16 00:00:00",
+            prev_date: "2023-08-14 00:00:00",
+            status: "SAME",
+          },
+          {
+            id: "MjlSb3JobUdaNTdrZkJlVXdYaDlQZz09",
+            price: 1.699,
+            prev_price: 1.699,
+            date: "2023-08-16 00:00:00",
+            prev_date: "2023-08-14 00:00:00",
+            status: "SAME",
+          },
+          {
+            id: "dmF1SG5QRHdPemNGUDE0cjdiRTQ3UT09",
+            price: 1.569,
+            prev_price: 1.559,
+            date: "2023-08-16 00:00:00",
+            prev_date: "2023-08-14 00:00:00",
+            status: "UP",
+          },
+          {
+            id: "Rk5tdmNaOE0vbXF5ZVRyN3N5SjVpUT09",
+            price: 1.769,
+            prev_price: 1.759,
+            date: "2023-08-16 00:00:00",
+            prev_date: "2023-08-14 00:00:00",
+            status: "UP",
+          },
+          {
+            id: "M2VLUi9DRHAxTEJpREtoeUg1YkdXUT09",
+            price: 1.799,
+            prev_price: 1.799,
+            date: "2023-08-16 00:00:00",
+            prev_date: "2023-08-14 00:00:00",
+            status: "SAME",
+          },
+          {
+            id: "cWk5VWt1SEhPdGh0YUZ5bUxKbnJCdz09",
+            price: 0,
+            prev_price: 0,
+            date: "2023-08-16 00:00:00",
+            prev_date: "2023-08-14 00:00:00",
+            status: "SAME",
+          },
+          [],
+        ],
+      },
+    ],
+  });
 
   const renderTableHeader = () => {
     return (
@@ -165,13 +282,31 @@ const FuelPrices = (props) => {
     const inputDateElement = document.querySelector('input[type="date"]');
     inputDateElement.showPicker();
   };
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const handleModalOpen = (item) => {
+    setSelectedItem(item); // Set the selected item
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+
   const renderTableData = () => {
     return data?.listing.map((item) => (
       <tr key={item.id}>
         <td>
-          {" "}
+          <span
+            class="text-muted fs-15 fw-semibold text-center"
+            onClick={() => handleModalOpen(item)}
+          >
+            {item?.site_name} ({item?.count})
+          </span>
+        </td>
+        <td>
           <span class="text-muted fs-15 fw-semibold text-center">
-            {item.site_name}
+            {item.time}
           </span>
         </td>
 
@@ -227,11 +362,15 @@ const FuelPrices = (props) => {
         const siteId = item.id;
 
         item.fuels.forEach((fuel) => {
+          console.log(fuel, "fuelfuelfuelfuelfuelfuelfuelfuelfuelfuelfuel");
           if (!Array.isArray(fuel) && fuel.price !== undefined) {
             const priceId = fuel.id;
             const fieldKey = `fuels[${siteId}][${priceId}]`;
+            const timeKey = `time[${siteId}][${priceId}]`;
             const fieldValue = fuel.price.toString();
+            const fieldtime = fuel.time;
             formData.append(fieldKey, fieldValue);
+            formData.append(timeKey, fieldtime);
           }
         });
       });
@@ -244,7 +383,7 @@ const FuelPrices = (props) => {
       formData.append("client_id", selectedClientId);
       formData.append("company_id", selectedCompanyId);
 
-      const postDataUrl = "/site/fuel-price/update";
+      const postDataUrl = "/site/fuel-price/update-midday";
       // const navigatePath = "/business";
 
       await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
@@ -261,6 +400,11 @@ const FuelPrices = (props) => {
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
+        <CustomModal
+          open={modalOpen}
+          onClose={handleModalClose}
+          selectedItem={selectedItem}
+        />
         <div className="page-header ">
           <div>
             <h1 className="page-title"> Fuel Price</h1>

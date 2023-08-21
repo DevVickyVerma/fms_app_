@@ -25,9 +25,28 @@ function TimefuelpIcker() {
             type="text"
           />
         )}
+        format="HH:mm" // This sets the format to 24-hour format
       />
     </LocalizationProvider>
   );
 }
 
 export default TimefuelpIcker;
+
+{
+  /* <TextField
+name={`listing[0].fuels[${rowIndex}][${rowIndex}].time`}
+type="time"
+value={formatTo24Hour(
+  formik.values.listing[0].fuels[rowIndex][0].time
+)}
+onChange={formik.handleChange}
+InputLabelProps={{
+  shrink: true,
+}}
+inputProps={{
+  step: 300, // 5 minutes interval
+}}
+className="needed" // Apply styling if needed
+/> */
+}

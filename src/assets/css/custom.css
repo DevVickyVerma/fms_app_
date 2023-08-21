@@ -8,7 +8,7 @@ span.text-danger.danger-title {
   /* font-size: 12px !important; */
   text-decoration: none;
   color: #ffffff;
-  background:#6259ca;
+  background: #6259ca;
 
   border-radius: 0px;
   box-shadow: 0 7px 12px 0 rgba(95, 118, 232, 0.21);
@@ -464,10 +464,10 @@ span.ModalTitle {
   padding: 8px 15px;
   margin-bottom: 0px;
   color: #fff;
-  background:#6259ca;
+  background: #6259ca;
 }
 
-.profile-box{
+.profile-box {
   background: #fff;
   font-size: 20px;
 }
@@ -525,7 +525,7 @@ span.ModalTitle {
   width: 100%;
   max-height: 70px;
   overflow-y: auto;
-  background: #FFF;
+  background: #fff;
 }
 
 .react-multi-email__input-container {
@@ -569,9 +569,12 @@ span.ModalTitle {
 }
 .mapotions {
   margin-left: 20px;
- 
 }
 span.fairbank-title {
   font-size: 11px;
   color: #a39999;
+}
+.css-12rl710-MuiPaper-root-MuiDialog-paper {
+  max-height: calc(100% - 64px);
+  max-width: 9000px;
 }
