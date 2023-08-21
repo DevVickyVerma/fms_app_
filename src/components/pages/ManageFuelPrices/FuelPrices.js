@@ -132,136 +132,131 @@ const FuelPrices = (props) => {
 
       const { data } = response1;
       if (data) {
-        // console.log(data.data.listing, "Drsdata");
         setheadingData(data?.data?.head_array);
-        // setData(data?.data);
-
-        // const responseData = data.data;
-
-        // console.log(responseData, "data.data");
+        setData(data?.data);
       }
     } catch (error) {
       console.error("API error:", error);
     }
   };
 
-  const [data, setData] = useState({
-    head_array: [
-      "Sites",
-      "Time",
-      "Unleaded",
-      "Super Unleaded",
-      "Diesel",
-      "Super Diesel",
-      "Adblue",
-      "Other",
-      "Manual Fuel",
-    ],
-    listing: [
-      {
-        id: "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
-        site_name: "Amersham ",
-        time: "00:00 ",
-        count: "2",
-        fuels: [
-          {
-            id: "bVV0cGlBaThwd01kM3VqczdYR1Mzdz09",
-            price: 1.519,
-            prev_price: 1.499,
-            date: "2023-08-16 00:00:00",
-            prev_date: "2023-08-15 00:00:00",
-            status: "UP",
-          },
-          {
-            id: "MXRZMWM5bXprV2NhR1Z1SEFobVo0QT09",
-            price: 1.679,
-            prev_price: 1.659,
-            date: "2023-08-16 00:00:00",
-            prev_date: "2023-08-15 00:00:00",
-            status: "UP",
-          },
-          {
-            id: "Z0pKZFU5Mkh4alVEeExiS1hXSnhiUT09",
-            price: 1.549,
-            prev_price: 1.549,
-            date: "2023-08-16 00:00:00",
-            prev_date: "2023-08-15 00:00:00",
-            status: "SAME",
-          },
-          {
-            id: "SmJCb1d6alZzSURBWm9YYUF3LzJGUT09",
-            price: 1.749,
-            prev_price: 1.749,
-            date: "2023-08-16 00:00:00",
-            prev_date: "2023-08-15 00:00:00",
-            status: "SAME",
-          },
-          [],
-          [],
-          [],
-        ],
-      },
+  // const [data, setData] = useState({
+  //   head_array: [
+  //     "Sites",
+  //     "Time",
+  //     "Unleaded",
+  //     "Super Unleaded",
+  //     "Diesel",
+  //     "Super Diesel",
+  //     "Adblue",
+  //     "Other",
+  //     "Manual Fuel",
+  //   ],
+  //   listing: [
+  //     {
+  //       id: "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
+  //       site_name: "Amersham ",
+  //       time: "00:00 ",
+  //       count: "2",
+  //       fuels: [
+  //         {
+  //           id: "bVV0cGlBaThwd01kM3VqczdYR1Mzdz09",
+  //           price: 1.519,
+  //           prev_price: 1.499,
+  //           date: "2023-08-16 00:00:00",
+  //           prev_date: "2023-08-15 00:00:00",
+  //           status: "UP",
+  //         },
+  //         {
+  //           id: "MXRZMWM5bXprV2NhR1Z1SEFobVo0QT09",
+  //           price: 1.679,
+  //           prev_price: 1.659,
+  //           date: "2023-08-16 00:00:00",
+  //           prev_date: "2023-08-15 00:00:00",
+  //           status: "UP",
+  //         },
+  //         {
+  //           id: "Z0pKZFU5Mkh4alVEeExiS1hXSnhiUT09",
+  //           price: 1.549,
+  //           prev_price: 1.549,
+  //           date: "2023-08-16 00:00:00",
+  //           prev_date: "2023-08-15 00:00:00",
+  //           status: "SAME",
+  //         },
+  //         {
+  //           id: "SmJCb1d6alZzSURBWm9YYUF3LzJGUT09",
+  //           price: 1.749,
+  //           prev_price: 1.749,
+  //           date: "2023-08-16 00:00:00",
+  //           prev_date: "2023-08-15 00:00:00",
+  //           status: "SAME",
+  //         },
+  //         [],
+  //         [],
+  //         [],
+  //       ],
+  //     },
 
-      {
-        id: "V0wyR0Y4YUJmM0NJcGVqNXUzUWtaQT09",
-        site_name: "Patcham ",
-        time: "00:00 ",
-        count: "2",
-        fuels: [
-          {
-            id: "RGx1YXRUN0N0SEFsYUtiRjh2ckxxdz09",
-            price: 1.539,
-            prev_price: 1.539,
-            date: "2023-08-16 00:00:00",
-            prev_date: "2023-08-14 00:00:00",
-            status: "SAME",
-          },
-          {
-            id: "MjlSb3JobUdaNTdrZkJlVXdYaDlQZz09",
-            price: 1.699,
-            prev_price: 1.699,
-            date: "2023-08-16 00:00:00",
-            prev_date: "2023-08-14 00:00:00",
-            status: "SAME",
-          },
-          {
-            id: "dmF1SG5QRHdPemNGUDE0cjdiRTQ3UT09",
-            price: 1.569,
-            prev_price: 1.559,
-            date: "2023-08-16 00:00:00",
-            prev_date: "2023-08-14 00:00:00",
-            status: "UP",
-          },
-          {
-            id: "Rk5tdmNaOE0vbXF5ZVRyN3N5SjVpUT09",
-            price: 1.769,
-            prev_price: 1.759,
-            date: "2023-08-16 00:00:00",
-            prev_date: "2023-08-14 00:00:00",
-            status: "UP",
-          },
-          {
-            id: "M2VLUi9DRHAxTEJpREtoeUg1YkdXUT09",
-            price: 1.799,
-            prev_price: 1.799,
-            date: "2023-08-16 00:00:00",
-            prev_date: "2023-08-14 00:00:00",
-            status: "SAME",
-          },
-          {
-            id: "cWk5VWt1SEhPdGh0YUZ5bUxKbnJCdz09",
-            price: 0,
-            prev_price: 0,
-            date: "2023-08-16 00:00:00",
-            prev_date: "2023-08-14 00:00:00",
-            status: "SAME",
-          },
-          [],
-        ],
-      },
-    ],
-  });
-
+  //     {
+  //       id: "V0wyR0Y4YUJmM0NJcGVqNXUzUWtaQT09",
+  //       site_name: "Patcham ",
+  //       time: "00:00 ",
+  //       count: "2",
+  //       fuels: [
+  //         {
+  //           id: "RGx1YXRUN0N0SEFsYUtiRjh2ckxxdz09",
+  //           price: 1.539,
+  //           prev_price: 1.539,
+  //           date: "2023-08-16 00:00:00",
+  //           prev_date: "2023-08-14 00:00:00",
+  //           status: "SAME",
+  //         },
+  //         {
+  //           id: "MjlSb3JobUdaNTdrZkJlVXdYaDlQZz09",
+  //           price: 1.699,
+  //           prev_price: 1.699,
+  //           date: "2023-08-16 00:00:00",
+  //           prev_date: "2023-08-14 00:00:00",
+  //           status: "SAME",
+  //         },
+  //         {
+  //           id: "dmF1SG5QRHdPemNGUDE0cjdiRTQ3UT09",
+  //           price: 1.569,
+  //           prev_price: 1.559,
+  //           date: "2023-08-16 00:00:00",
+  //           prev_date: "2023-08-14 00:00:00",
+  //           status: "UP",
+  //         },
+  //         {
+  //           id: "Rk5tdmNaOE0vbXF5ZVRyN3N5SjVpUT09",
+  //           price: 1.769,
+  //           prev_price: 1.759,
+  //           date: "2023-08-16 00:00:00",
+  //           prev_date: "2023-08-14 00:00:00",
+  //           status: "UP",
+  //         },
+  //         {
+  //           id: "M2VLUi9DRHAxTEJpREtoeUg1YkdXUT09",
+  //           price: 1.799,
+  //           prev_price: 1.799,
+  //           date: "2023-08-16 00:00:00",
+  //           prev_date: "2023-08-14 00:00:00",
+  //           status: "SAME",
+  //         },
+  //         {
+  //           id: "cWk5VWt1SEhPdGh0YUZ5bUxKbnJCdz09",
+  //           price: 0,
+  //           prev_price: 0,
+  //           date: "2023-08-16 00:00:00",
+  //           prev_date: "2023-08-14 00:00:00",
+  //           status: "SAME",
+  //         },
+  //         [],
+  //       ],
+  //     },
+  //   ],
+  // });
+  const [data, setData] = useState();
   const renderTableHeader = () => {
     return (
       <tr>
@@ -284,6 +279,7 @@ const FuelPrices = (props) => {
   };
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItemDate, setSelectedItemDate] = useState();
   const handleModalOpen = (item) => {
     setSelectedItem(item); // Set the selected item
     setModalOpen(true);
@@ -354,7 +350,6 @@ const FuelPrices = (props) => {
   };
 
   const handleSubmit = async (values) => {
-    console.log(values, "formikvales");
     try {
       const formData = new FormData();
 
@@ -378,6 +373,7 @@ const FuelPrices = (props) => {
       for (const [key, value] of formData.entries()) {
         console.log(`${key}: ${value}`);
       }
+      setSelectedItemDate(selectedDrsDate);
       formData.append("notify_operator", isChecked);
       formData.append("drs_date", selectedDrsDate);
       formData.append("client_id", selectedClientId);
@@ -404,6 +400,7 @@ const FuelPrices = (props) => {
           open={modalOpen}
           onClose={handleModalClose}
           selectedItem={selectedItem}
+          selectedDrsDate={selectedDrsDate}
         />
         <div className="page-header ">
           <div>
