@@ -15,6 +15,7 @@ import {
   TextField,
   Slide,
 } from "@mui/material";
+import { Row, Col, Form, Card } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import { useFormik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,234 +25,14 @@ import Loaderimg from "../../Utils/Loader";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const CustomModal = ({ open, onClose, selectedItem, selectedDrsDate }) => {
-  // const [data, setData] = useState({
-  //   head_array: [
-  //     "Unleaded",
-  //     "Super Unleaded",
-  //     "Diesel",
-  //     "Super Diesel",
-  //     "Other",
-  //   ],
-  //   listing: [
-  //     {
-  //       id: "NnRMWitrM2srMXBXT25GSEVzYjY3dz09",
-  //       site_name: "Spalding ",
-  //       fuels: [
-  //         [
-  //           {
-  //             id: "QXJmZHB1Si9FVWdkVWlDU1psVFlQUT09",
-  //             time: "00:00",
-  //             price: 1.499,
-  //             prev_price: 1.499,
-  //             date: "2023-08-16 00:00:00",
-  //             prev_date: "2023-08-15 00:00:00",
-  //             is_editable: true,
-  //             status: "SAME",
-  //           },
-  //           {
-  //             id: "dzB4bHprM3BPNXZ3Zlp1enE5SDlvdz09",
-  //             time: "15:00",
-  //             price: 1.49,
-  //             prev_price: 1.5,
-  //             date: "2023-08-16 15:00:00",
-  //             prev_date: "2023-08-16 20:00:00",
-  //             is_editable: true,
-  //             status: "DOWN",
-  //           },
-  //           {
-  //             id: "MkVuQTdNLzBVMnVkbzRSRnBJalFqdz09",
-  //             time: "20:00",
-  //             price: 1.5,
-  //             prev_price: 1.5,
-  //             date: "2023-08-16 20:00:00",
-  //             prev_date: "2023-08-16 20:00:00",
-  //             is_editable: true,
-  //             status: "SAME",
-  //           },
-  //           {
-  //             id: "SXlCQ0lpV00ydWZzNUk0SGo1SytTdz09",
-  //             time: "",
-  //             price: "",
-  //             prev_price: "",
-  //             date: "",
-  //             prev_date: "",
-  //             is_editable: true,
-  //             status: "SAME",
-  //           },
-  //         ],
-  //         [
-  //           {
-  //             id: "b2lRdVU2Y1o1RnQ3WVdYUkVFejFKUT09",
-  //             time: "15:00",
-  //             price: 1.66,
-  //             prev_price: 1.658,
-  //             date: "2023-08-16 15:00:00",
-  //             prev_date: "2023-08-16 20:00:00",
-  //             is_editable: true,
-  //             status: "UP",
-  //           },
-  //           {
-  //             id: "dGFsL3ZhUW9VT0lQWUxYNDk1VTZBdz09",
-  //             time: "00:00",
-  //             price: 1.658,
-  //             prev_price: 1.659,
-  //             date: "2023-08-16 00:00:00",
-  //             prev_date: "2023-08-15 00:00:00",
-  //             is_editable: true,
-  //             status: "DOWN",
-  //           },
-  //           {
-  //             id: "T1ZtV3dFb2hKaVVLUmd1cEhrVFpadz09",
-  //             time: "20:00",
-  //             price: 1.658,
-  //             prev_price: 1.658,
-  //             date: "2023-08-16 20:00:00",
-  //             prev_date: "2023-08-16 20:00:00",
-  //             is_editable: true,
-  //             status: "SAME",
-  //           },
-  //           {
-  //             id: "T3ZrTmN0NEtoL2ZXZk0yU081UXdDZz09",
-  //             time: "",
-  //             price: "",
-  //             prev_price: "",
-  //             date: "",
-  //             prev_date: "",
-  //             is_editable: true,
-  //             status: "SAME",
-  //           },
-  //         ],
-  //         [
-  //           {
-  //             id: "TGsrYWV4VmNYL1YzYVVSVDJ6UzN1Zz09",
-  //             time: "15:00",
-  //             price: 1.52,
-  //             prev_price: 1.53,
-  //             date: "2023-08-16 15:00:00",
-  //             prev_date: "2023-08-16 20:00:00",
-  //             is_editable: true,
-  //             status: "DOWN",
-  //           },
-  //           {
-  //             id: "eW0wcE9reXphQTNQSVZWVGVmdm8wZz09",
-  //             time: "00:00",
-  //             price: 1.53,
-  //             prev_price: 1.529,
-  //             date: "2023-08-16 00:00:00",
-  //             prev_date: "2023-08-15 00:00:00",
-  //             is_editable: true,
-  //             status: "UP",
-  //           },
-  //           {
-  //             id: "T0x3emlRMFA2cXBZb3BWZlZ2QTlkQT09",
-  //             time: "20:00",
-  //             price: 1.53,
-  //             prev_price: 1.53,
-  //             date: "2023-08-16 20:00:00",
-  //             prev_date: "2023-08-16 20:00:00",
-  //             is_editable: true,
-  //             status: "SAME",
-  //           },
-  //           {
-  //             id: "R0JPdlR1enFTRXpqelpGOGZ3WUlOQT09",
-  //             time: "",
-  //             price: "",
-  //             prev_price: "",
-  //             date: "",
-  //             prev_date: "",
-  //             is_editable: true,
-  //             status: "SAME",
-  //           },
-  //         ],
-  //         [
-  //           {
-  //             id: "MERHN0dzdkRXanRIaDRnRS83aEhtUT09",
-  //             time: "00:00",
-  //             price: 1.689,
-  //             prev_price: 1.689,
-  //             date: "2023-08-16 00:00:00",
-  //             prev_date: "2023-08-15 00:00:00",
-  //             is_editable: true,
-  //             status: "SAME",
-  //           },
-  //           {
-  //             id: "aS9FRVRkWmI0ZDRjeElXMmhvUk9RUT09",
-  //             time: "15:00",
-  //             price: 1.675,
-  //             prev_price: 1.69,
-  //             date: "2023-08-16 15:00:00",
-  //             prev_date: "2023-08-16 20:00:00",
-  //             is_editable: true,
-  //             status: "DOWN",
-  //           },
-  //           {
-  //             id: "SEhqb01tRENUb2hEN0p3WHRCWE9Idz09",
-  //             time: "20:00",
-  //             price: 1.69,
-  //             prev_price: 1.69,
-  //             date: "2023-08-16 20:00:00",
-  //             prev_date: "2023-08-16 20:00:00",
-  //             is_editable: true,
-  //             status: "SAME",
-  //           },
-  //           {
-  //             id: "ZkF3NFpUMDBPV29HbkFRbEFlRmlMQT09",
-  //             time: "",
-  //             price: "",
-  //             prev_price: "",
-  //             date: "",
-  //             prev_date: "",
-  //             is_editable: true,
-  //             status: "SAME",
-  //           },
-  //         ],
-  //         [
-  //           {
-  //             id: "cVBQdVFmOGpLVzFwKzdhRDZUbGxXZz09",
-  //             time: "15:00",
-  //             price: 0,
-  //             prev_price: 0,
-  //             date: "2023-08-16 15:00:00",
-  //             prev_date: "2023-08-16 20:00:00",
-  //             is_editable: true,
-  //             status: "SAME",
-  //           },
-  //           {
-  //             id: "REF0WitUVjArUS92cHlKeko3Slo4QT09",
-  //             time: "20:00",
-  //             price: 0,
-  //             prev_price: 0,
-  //             date: "2023-08-16 20:00:00",
-  //             prev_date: "2023-08-16 20:00:00",
-  //             is_editable: true,
-  //             status: "SAME",
-  //           },
-  //           {
-  //             id: "MU1GblI3MDQwdXUxV0dKbUtTUlJvdz09",
-  //             time: "00:00",
-  //             price: 0,
-  //             prev_price: 0,
-  //             date: "2023-08-16 00:00:00",
-  //             prev_date: "2023-08-15 00:00:00",
-  //             is_editable: true,
-  //             status: "SAME",
-  //           },
-  //           {
-  //             id: "K1h2dnB5emZpN2pGOVhkZ1FGTDkydz09",
-  //             time: "",
-  //             price: "",
-  //             prev_price: "",
-  //             date: "",
-  //             prev_date: "",
-  //             is_editable: true,
-  //             status: "SAME",
-  //           },
-  //         ],
-  //       ],
-  //     },
-  //   ],
-  // });
+const CustomModal = ({
+  open,
+  onClose,
+  selectedItem,
+  selectedDrsDate,
+  onDataFromChild,
+}) => {
+  const [isChecked, setIsChecked] = useState(false);
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -279,7 +60,17 @@ const CustomModal = ({ open, onClose, selectedItem, selectedDrsDate }) => {
       theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
     });
   };
-  const SuccessAlert = (message) => toast.success(message);
+  // const SuccessAlert = (message) => toast.success(message);
+  const SuccessAlert = (message) => {
+    toast.success(message, {
+      autoClose: 1000,
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+    });
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -346,6 +137,7 @@ const CustomModal = ({ open, onClose, selectedItem, selectedDrsDate }) => {
     },
   });
   const handleSubmit = async (values) => {
+    console.log(values, "handleSubmit");
     setIsLoading(true);
     const formData = new FormData();
 
@@ -383,6 +175,7 @@ const CustomModal = ({ open, onClose, selectedItem, selectedDrsDate }) => {
     }
     formData.append("drs_date", selectedDrsDate);
     formData.append("site_id", selectedItem.id);
+    formData.append("notify_operator", isChecked);
     const token = localStorage.getItem("token");
     const axiosInstance = axios.create({
       baseURL: process.env.REACT_APP_BASE_URL,
@@ -398,11 +191,19 @@ const CustomModal = ({ open, onClose, selectedItem, selectedDrsDate }) => {
         "/site/fuel-price/update-siteprice",
         formData
       );
-
+      console.log(response, "siteprice");
+      // toast.success('This is a test toast message');
       if (response.status === 200) {
-        SuccessAlert("Fuel prices has been updated successfully");
+        // SuccessAlert("Fuel prices has been updated successfully");
+        sendDataToParent();
         navigate("/fuelprice");
         onClose();
+      }
+      if (response.status === 200 && response.data.api_response === "success") {
+        // Call the SuccessAlert function with the success message
+        SuccessAlert(response.data.message);
+      } else {
+        // Handle other cases or errors here
       }
     } catch (error) {
       handleError(error);
@@ -410,7 +211,30 @@ const CustomModal = ({ open, onClose, selectedItem, selectedDrsDate }) => {
       setIsLoading(false);
     }
   };
+  const handleTimeChange = (columnIndex, rowIndex, newTime) => {
+    formik.setFieldValue(
+      `listing[0].fuels[${columnIndex}][${rowIndex}].time`,
+      newTime
+    );
 
+    // Update other cells in the same column with the new time
+    const numColumns = data?.listing?.[0]?.fuels.length;
+    for (let colIndex = 0; colIndex < numColumns; colIndex++) {
+      if (colIndex !== columnIndex) {
+        formik.setFieldValue(
+          `listing[0].fuels[${colIndex}][${rowIndex}].time`,
+          newTime
+        );
+      }
+    }
+  };
+  const SendNotification = (event) => {
+    setIsChecked(event.target.checked);
+  };
+  const sendDataToParent = () => {
+    const dataToSend = "Data from child 123";
+    onDataFromChild(dataToSend); // Call the callback function with the data
+  };
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -418,7 +242,7 @@ const CustomModal = ({ open, onClose, selectedItem, selectedDrsDate }) => {
         open={open}
         onClose={onClose}
         aria-labelledby="responsive-dialog-title"
-        maxWidth="1900px"
+        maxWidth="100px"
       >
         <span
           style={{
@@ -428,16 +252,11 @@ const CustomModal = ({ open, onClose, selectedItem, selectedDrsDate }) => {
           }}
           className="ModalTitle"
         >
-          <span
-          // className="ModalTitle"
-          >
-            {" "}
-            {selectedItem?.site_name}
-          </span>
-          <span
-            // className="ModalTitle"
-            onClick={onClose}
-          >
+          <div className="ModalTitle-date">
+            <span> {selectedItem?.site_name}</span>
+            <span> ({selectedDrsDate})</span>
+          </div>
+          <span onClick={onClose}>
             <button className="close-button">
               <FontAwesomeIcon icon={faTimes} />
             </button>
@@ -447,85 +266,104 @@ const CustomModal = ({ open, onClose, selectedItem, selectedDrsDate }) => {
 
         <DialogContent>
           <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Time</TableCell>
-                  {data?.head_array.map((header, columnIndex) => (
-                    <TableCell key={columnIndex}>{header}</TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {data?.listing?.[0]?.fuels?.[0]?.map((fuel, rowIndex) => (
-                  <TableRow key={rowIndex}>
-                    <TableCell>
-                      {fuel.is_editable ? (
-                        <TextField
-                          name={`listing[0].fuels[${rowIndex}][0].time`}
-                          type="time"
-                          value={
-                            formik.values?.listing[0]?.fuels[rowIndex][0]
-                              ?.time || "00:00"
-                          }
-                          onChange={formik.handleChange}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          inputProps={{
-                            step: 300, // 5 minutes interval
-                          }}
-                        />
-                      ) : (
-                        <span>{fuel?.time || "00:00"}</span>
-                      )}
-                    </TableCell>
-                    {data?.listing?.[0]?.fuels?.map(
-                      (fuelPrices, columnIndex) => {
-                        const fuelPriceId = fuelPrices[rowIndex]?.id || "";
-                        return (
-                          <TableCell key={fuelPriceId}>
+            <div className="table-container table-responsive">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Time</th>
+                    {data?.head_array.map((header, columnIndex) => (
+                      <th key={columnIndex}>{header}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {data?.listing?.[0]?.fuels?.[0]?.map((fuel, rowIndex) => (
+                    <tr key={rowIndex} className="middayModal-tr">
+                      <td className="middayModal-td">
+                        {fuel.is_editable ? (
+                          <input
+                            className="table-input"
+                            name={`listing[0].fuels[0][${rowIndex}].time`}
+                            type="time"
+                            value={
+                              formik.values?.listing[0]?.fuels[0][rowIndex]
+                                ?.time || "00:00"
+                            }
+                            onChange={
+                              (e) =>
+                                handleTimeChange(0, rowIndex, e.target.value) // Column index is 0
+                            }
+                            step="300"
+                          />
+                        ) : (
+                          <span>
+                            {formik.values?.listing[0]?.fuels[0][rowIndex]
+                              ?.time || "00:00"}
+                          </span>
+                        )}
+                      </td>
+                      {data?.listing?.[0]?.fuels?.map(
+                        (fuelPrices, columnIndex) => (
+                          <td key={columnIndex} className="middayModal-td">
                             {fuelPrices[rowIndex]?.is_editable ? (
-                              <TextField
+                              <input
+                                className={`table-input ${
+                                  fuelPrices[rowIndex]?.status === "UP"
+                                    ? "table-inputGreen"
+                                    : fuelPrices[rowIndex]?.status === "DOWN"
+                                    ? "table-inputRed"
+                                    : ""
+                                }`}
                                 type="number"
                                 name={`listing[0].fuels[${columnIndex}][${rowIndex}].price`}
                                 value={
-                                  formik.values?.listing?.[0]?.fuels?.[
-                                    columnIndex
-                                  ]?.[rowIndex]?.price || ""
+                                  formik.values?.listing[0]?.fuels[columnIndex][
+                                    rowIndex
+                                  ]?.price
                                 }
                                 onChange={formik.handleChange}
-                                className="inputwidth"
                               />
                             ) : (
                               <span>{fuelPrices[rowIndex]?.price}</span>
                             )}
-                          </TableCell>
-                        );
-                      }
-                    )}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                          </td>
+                        )
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </TableContainer>
         </DialogContent>
-        <DialogActions>
-          <button
-            className="btn btn-danger me-2"
-            type="submit"
-            onClick={onClose}
-          >
-            Close
-          </button>
-          <button
-            className="btn btn-primary me-2"
-            type="submit"
-            onClick={formik.handleSubmit}
-          >
-            Submit
-          </button>
-        </DialogActions>
+        <Card.Footer>
+          <div className="text-end notification-class">
+            <div className="Notification">
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={SendNotification}
+              />
+              <label htmlFor="email" className="form-label ms-2 ">
+                Send Notification
+              </label>
+            </div>
+            <button
+              className="btn btn-danger me-2"
+              type="submit"
+              onClick={onClose}
+            >
+              Close
+            </button>
+            <button
+              className="btn btn-primary me-2"
+              type="submit"
+              onClick={formik.handleSubmit}
+            >
+              Submit
+            </button>
+          </div>
+        </Card.Footer>
       </Dialog>
     </>
   );

@@ -439,13 +439,13 @@ const BankDeposit = (props) => {
                             value={formik.values.reason}
                           >
                             <option value="">---Select Any---</option>
-                            <option value="1">
+                            <option value="0">
                               Loomis didn't come for collection
                             </option>
-                            <option value="0">
+                            <option value="1">
                               Site operator missed the Loomis
                             </option>
-                            <option value="0">Completely updated</option>
+                            <option value="2">Completely updated</option>
                           </select>
                           {formik.errors.reason && formik.touched.reason && (
                             <div className="invalid-feedback">

@@ -111,7 +111,7 @@ const FuelPrices = (props) => {
   const handleSubmit1 = async (values) => {
     setSelectedCompanyId(values.company_id);
     setSelectedDrsDate(values.start_date);
-    // console.log(values, "values.start_date");
+
     try {
       const formData = new FormData();
       formData.append("start_date", values.start_date);
@@ -134,145 +134,27 @@ const FuelPrices = (props) => {
       if (data) {
         setheadingData(data?.data?.head_array);
         setData(data?.data);
+        setis_editable(data?.data?.btn_clickable);
+        setIsChecked(data?.data?.notify_operator);
+
+        console.log("Data received from child:", "head_array");
       }
     } catch (error) {
       console.error("API error:", error);
     }
   };
 
-  // const [data, setData] = useState({
-  //   head_array: [
-  //     "Sites",
-  //     "Time",
-  //     "Unleaded",
-  //     "Super Unleaded",
-  //     "Diesel",
-  //     "Super Diesel",
-  //     "Adblue",
-  //     "Other",
-  //     "Manual Fuel",
-  //   ],
-  //   listing: [
-  //     {
-  //       id: "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
-  //       site_name: "Amersham ",
-  //       time: "00:00 ",
-  //       count: "2",
-  //       fuels: [
-  //         {
-  //           id: "bVV0cGlBaThwd01kM3VqczdYR1Mzdz09",
-  //           price: 1.519,
-  //           prev_price: 1.499,
-  //           date: "2023-08-16 00:00:00",
-  //           prev_date: "2023-08-15 00:00:00",
-  //           status: "UP",
-  //         },
-  //         {
-  //           id: "MXRZMWM5bXprV2NhR1Z1SEFobVo0QT09",
-  //           price: 1.679,
-  //           prev_price: 1.659,
-  //           date: "2023-08-16 00:00:00",
-  //           prev_date: "2023-08-15 00:00:00",
-  //           status: "UP",
-  //         },
-  //         {
-  //           id: "Z0pKZFU5Mkh4alVEeExiS1hXSnhiUT09",
-  //           price: 1.549,
-  //           prev_price: 1.549,
-  //           date: "2023-08-16 00:00:00",
-  //           prev_date: "2023-08-15 00:00:00",
-  //           status: "SAME",
-  //         },
-  //         {
-  //           id: "SmJCb1d6alZzSURBWm9YYUF3LzJGUT09",
-  //           price: 1.749,
-  //           prev_price: 1.749,
-  //           date: "2023-08-16 00:00:00",
-  //           prev_date: "2023-08-15 00:00:00",
-  //           status: "SAME",
-  //         },
-  //         [],
-  //         [],
-  //         [],
-  //       ],
-  //     },
-
-  //     {
-  //       id: "V0wyR0Y4YUJmM0NJcGVqNXUzUWtaQT09",
-  //       site_name: "Patcham ",
-  //       time: "00:00 ",
-  //       count: "2",
-  //       fuels: [
-  //         {
-  //           id: "RGx1YXRUN0N0SEFsYUtiRjh2ckxxdz09",
-  //           price: 1.539,
-  //           prev_price: 1.539,
-  //           date: "2023-08-16 00:00:00",
-  //           prev_date: "2023-08-14 00:00:00",
-  //           status: "SAME",
-  //         },
-  //         {
-  //           id: "MjlSb3JobUdaNTdrZkJlVXdYaDlQZz09",
-  //           price: 1.699,
-  //           prev_price: 1.699,
-  //           date: "2023-08-16 00:00:00",
-  //           prev_date: "2023-08-14 00:00:00",
-  //           status: "SAME",
-  //         },
-  //         {
-  //           id: "dmF1SG5QRHdPemNGUDE0cjdiRTQ3UT09",
-  //           price: 1.569,
-  //           prev_price: 1.559,
-  //           date: "2023-08-16 00:00:00",
-  //           prev_date: "2023-08-14 00:00:00",
-  //           status: "UP",
-  //         },
-  //         {
-  //           id: "Rk5tdmNaOE0vbXF5ZVRyN3N5SjVpUT09",
-  //           price: 1.769,
-  //           prev_price: 1.759,
-  //           date: "2023-08-16 00:00:00",
-  //           prev_date: "2023-08-14 00:00:00",
-  //           status: "UP",
-  //         },
-  //         {
-  //           id: "M2VLUi9DRHAxTEJpREtoeUg1YkdXUT09",
-  //           price: 1.799,
-  //           prev_price: 1.799,
-  //           date: "2023-08-16 00:00:00",
-  //           prev_date: "2023-08-14 00:00:00",
-  //           status: "SAME",
-  //         },
-  //         {
-  //           id: "cWk5VWt1SEhPdGh0YUZ5bUxKbnJCdz09",
-  //           price: 0,
-  //           prev_price: 0,
-  //           date: "2023-08-16 00:00:00",
-  //           prev_date: "2023-08-14 00:00:00",
-  //           status: "SAME",
-  //         },
-  //         [],
-  //       ],
-  //     },
-  //   ],
-  // });
   const [data, setData] = useState();
   const renderTableHeader = () => {
     return (
-      <tr>
+      <tr className="fuelprice-tr">
         {data?.head_array.map((item, index) => (
           <th key={index}>{item}</th>
         ))}
       </tr>
     );
   };
-  const getCurrentDate = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate() - 1).padStart(2, "0"); // Subtract one day from the current date
-    return `${year}-${month}-${day}`;
-  };
+
   const hadndleShowDate = () => {
     const inputDateElement = document.querySelector('input[type="date"]');
     inputDateElement.showPicker();
@@ -291,13 +173,17 @@ const FuelPrices = (props) => {
 
   const renderTableData = () => {
     return data?.listing.map((item) => (
-      <tr key={item.id}>
+      <tr className="fuelprice-tr" key={item.id}>
         <td>
           <span
-            class="text-muted fs-15 fw-semibold text-center"
-            onClick={() => handleModalOpen(item)}
+            className={
+              item?.link_clickable
+                ? "text-muted fs-15 fw-semibold text-center fuel-site-name"
+                : "text-muted fs-15 fw-semibold text-center"
+            }
+            onClick={item?.link_clickable ? () => handleModalOpen(item) : ""}
           >
-            {item?.site_name} ({item?.count})
+            {item?.site_name} <span className="itemcount">{item?.count}</span>
           </span>
         </td>
         <td>
@@ -321,8 +207,9 @@ const FuelPrices = (props) => {
                     : fuel?.status === "DOWN"
                     ? "table-inputRed"
                     : ""
-                }`}
+                } ${!fuel?.is_editable ? "readonly" : ""}`}
                 value={fuel.price}
+                readOnly={!fuel?.is_editable}
                 id={fuel.id}
                 onChange={(e) => handleInputChange(e.target.id, e.target.value)}
               />
@@ -357,7 +244,6 @@ const FuelPrices = (props) => {
         const siteId = item.id;
 
         item.fuels.forEach((fuel) => {
-          console.log(fuel, "fuelfuelfuelfuelfuelfuelfuelfuelfuelfuelfuel");
           if (!Array.isArray(fuel) && fuel.price !== undefined) {
             const priceId = fuel.id;
             const fieldKey = `fuels[${siteId}][${priceId}]`;
@@ -370,9 +256,6 @@ const FuelPrices = (props) => {
         });
       });
 
-      for (const [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
       setSelectedItemDate(selectedDrsDate);
       formData.append("notify_operator", isChecked);
       formData.append("drs_date", selectedDrsDate);
@@ -391,6 +274,22 @@ const FuelPrices = (props) => {
   const SendNotification = (event) => {
     setIsChecked(event.target.checked);
   };
+  const handleDataFromChild = async (dataFromChild) => {
+    try {
+      // Assuming you have the 'values' object constructed from 'dataFromChild'
+      const values = {
+        start_date: selectedDrsDate,
+        client_id: selectedClientId,
+        company_id: selectedCompanyId,
+      };
+
+      await handleSubmit1(values);
+
+      console.log(dataFromChild, "dataFromChild");
+    } catch (error) {
+      console.error("Error handling data from child:", error);
+    }
+  };
 
   return (
     <>
@@ -401,6 +300,7 @@ const FuelPrices = (props) => {
           onClose={handleModalClose}
           selectedItem={selectedItem}
           selectedDrsDate={selectedDrsDate}
+          onDataFromChild={handleDataFromChild}
         />
         <div className="page-header ">
           <div>
@@ -652,7 +552,7 @@ const FuelPrices = (props) => {
                         ))}
                       </colgroup>
                       <thead>
-                        <tr>{renderTableHeader()}</tr>
+                        <tr className="fuelprice-tr">{renderTableHeader()}</tr>
                       </thead>
                       <tbody>{renderTableData()}</tbody>
                     </table>
@@ -664,7 +564,7 @@ const FuelPrices = (props) => {
               <Card.Footer>
                 {data ? (
                   <div className="text-end notification-class">
-                    <div className="Notification">
+                    {/* <div className="Notification">
                       <input
                         type="checkbox"
                         checked={isChecked}
@@ -673,14 +573,39 @@ const FuelPrices = (props) => {
                       <label htmlFor="email" className="form-label ms-2 ">
                         Send Notification
                       </label>
+                    </div> */}
+                    <div className="Notification">
+                      <label
+                        htmlFor="notificationCheckbox"
+                        className="form-label Notification ml-2"
+                      >
+                        <input
+                          type="checkbox"
+                          id="notificationCheckbox"
+                          checked={isChecked}
+                          onChange={SendNotification}
+                        />
+                        Send Notification
+                      </label>
                     </div>
-                    <button
-                      className="btn btn-primary me-2"
-                      type="submit"
-                      onClick={handleSubmit}
-                    >
-                      Submit
-                    </button>
+
+                    {editable ? (
+                      <button
+                        className="btn btn-primary me-2"
+                        type="submit"
+                        onClick={handleSubmit}
+                      >
+                        Submit
+                      </button>
+                    ) : (
+                      <button
+                        className="btn btn-primary me-2"
+                        type="submit"
+                        disabled
+                      >
+                        Submit
+                      </button>
+                    )}
                   </div>
                 ) : (
                   ""

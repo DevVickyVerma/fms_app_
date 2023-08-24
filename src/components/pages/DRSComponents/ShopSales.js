@@ -10,12 +10,18 @@ import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 
 const ShopSales = (props) => {
-  const { apidata, error, getData, postData,  company_id,
+  const {
+    apidata,
+    error,
+    getData,
+    postData,
+    company_id,
     client_id,
     site_id,
     start_date,
-    sendDataToParent, } = props;
-    
+    sendDataToParent,
+  } = props;
+
   const handleButtonClick = () => {
     const allPropsData = {
       company_id,
@@ -170,8 +176,8 @@ const ShopSales = (props) => {
 
       if (response.ok) {
         SuccessToast(responseData.message);
-        handleButtonClick()
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        handleButtonClick();
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
         ErrorToast(responseData.message);
 
@@ -222,12 +228,16 @@ const ShopSales = (props) => {
             id={`charge_value-${index}`}
             name={`data[${index}].charge_value`}
             className={
-              row.is_field_editable ? "table-input " : "table-input readonly "
+              row.is_field_editable
+                ? row.is_record_modified === 1
+                  ? "table-input table-inputRed"
+                  : "table-input"
+                : "table-input readonly"
             }
             value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            readOnly={row.is_field_editable?false  : true}
+            readOnly={row.is_field_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -249,7 +259,6 @@ const ShopSales = (props) => {
         </div>
       ),
     },
-    
 
     {
       name: "	SALES AMOUNT",
@@ -265,51 +274,28 @@ const ShopSales = (props) => {
             id={`deduction_value-${index}`}
             name={`deductions[${index}].deduction_value`}
             className={
-              row.is_field_editable ? "table-input " : "table-input readonly "
+              row.is_field_editable
+                ? row.is_record_modified === 1
+                  ? "table-input table-inputRed"
+                  : "table-input"
+                : "table-input readonly"
             }
-            value={formik.values?.deductions?.[index]?.deduction_value || ''}
+            value={formik.values?.deductions?.[index]?.deduction_value || ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            readOnly={row.is_field_editable?false  : true}
+            readOnly={row.is_field_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
       ),
     },
-    //  {
-    //   name: "	SALES AMOUNT",
-    //   selector: (row) => row.charge_value,
-    //   sortable: false,
-    //   width: "50%",
-    //   center: true,
-    //   // Title: "CASH METERED SALES",
-    //   cell: (row, index) => (
-    //     <div>
-    //       <input
-    //         type="number"
-    //         id={`charge_value-${index}`}
-    //         name={`data[${index}].charge_value`}
-    //         className={
-    //           editable?.is_editable ? "table-input " : "table-input readonly "
-    //         }
-    //         value={formik.values?.data[index]?.charge_value}
-    //         onChange={formik.handleChange}
-    //         onBlur={formik.handleBlur}
-    //         readOnly={editable?.is_editable ? false : true}
-    //       />
-    //       {/* Error handling code */}
-    //     </div>
-    //   ),
-    // },
   ];
 
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
       event.preventDefault();
-     
     }
   });
-
 
   const tableDatas = {
     chargesColumns,
@@ -330,7 +316,7 @@ const ShopSales = (props) => {
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
                   <div className="table-responsive deleted-table">
-                  <Row>
+                    <Row>
                       <Col lg={6} md={6}>
                         <DataTable
                           columns={chargesColumns}
@@ -360,16 +346,21 @@ const ShopSales = (props) => {
                         />
                       </Col>
                     </Row>
-            
                   </div>
                   <div className="d-flex justify-content-end mt-3">
-                  {editable?.is_editable?
-                  <button className="btn btn-primary" type="submit" >
-                      Submit
-                    </button>: <button className="btn btn-primary" type="submit" disabled>
-                      Submit
-                    </button>
-                 }
+                    {editable?.is_editable ? (
+                      <button className="btn btn-primary" type="submit">
+                        Submit
+                      </button>
+                    ) : (
+                      <button
+                        className="btn btn-primary"
+                        type="submit"
+                        disabled
+                      >
+                        Submit
+                      </button>
+                    )}
                   </div>
                 </form>
               </Card.Body>

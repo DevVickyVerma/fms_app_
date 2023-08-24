@@ -388,7 +388,7 @@ const ManageDsr = (props) => {
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate() - 1).padStart(2, "0"); // Subtract one day from the current date
+    const day = String(today.getDate()).padStart(2, "0"); // Subtract one day from the current date
     return `${year}-${month}-${day}`;
   };
   const hadndleShowDate = () => {
