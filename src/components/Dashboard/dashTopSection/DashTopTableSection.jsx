@@ -14,11 +14,6 @@ const DashTopTableSection = (props) => {
   const { apidata, isLoading, error, getData, postData, searchdata } = props;
   console.log(searchdata, "searchdata in top table");
 
-  // const storedData = localStorage.getItem("mySearchData");
-  // const parsedData = JSON.parse(storedData);
-
-  // console.log("my parshed searched data", parsedData?.client_id);
-
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -60,11 +55,7 @@ const DashTopTableSection = (props) => {
 
   useEffect(() => {
     FetchTableData();
-    // console.log("checking");
   }, [searchdata]);
-
-  // console.log("gross_volumegross_volume", data);
-  // console.log("gross_volume", data?.fuel_volume?.gross_volume);
 
   const tableCustomStyles = {
     headCells: {
