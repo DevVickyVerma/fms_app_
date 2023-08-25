@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 
 const CoffeeValet = (props) => {
-   const {
+  const {
     apidata,
     error,
     company_id,
@@ -94,7 +94,6 @@ const CoffeeValet = (props) => {
           setData(data?.data?.listing ? data.data.listing : []);
           setis_editable(data?.data ? data.data : {});
 
-      
           const formValues = data?.data?.listing
             ? data.data.listing.map((item) => {
                 return {
@@ -138,7 +137,7 @@ const CoffeeValet = (props) => {
     const formData = new FormData();
 
     const processedIds = [];
-    for ( let index = 0; index < values.data.length; index++ ) {
+    for (let index = 0; index < values.data.length; index++) {
       const obj = values.data[index];
       const {
         id,
@@ -163,11 +162,11 @@ const CoffeeValet = (props) => {
       const valueLtKey = `commission[${id}]`;
       //   const valuePerKey = `value_per[${id}]`;
       const com_rateKey = `com_rate[${id}]`;
-      if (!processedIds.includes(id) && id!== undefined ) {
+      if (!processedIds.includes(id) && id !== undefined) {
         formData.append(`valet_sale_id[${index}]`, id);
         processedIds.push(id); // Add ID to the processedIds array
       }
-  
+
       if (openingKey && opening !== undefined) {
         formData.append(openingKey, opening);
       }
@@ -219,7 +218,7 @@ const CoffeeValet = (props) => {
       if (response.ok) {
         console.log("Done");
         SuccessToast(responseData.message);
-        handleButtonClick()
+        handleButtonClick();
       } else {
         ErrorToast(responseData.message);
 
@@ -257,13 +256,13 @@ const CoffeeValet = (props) => {
       cell: (row, index) =>
         row.item_category === "Total" ? (
           <div>
-          <input
-         type="number"
-         className="table-input readonly total-input"
-         value={row.opening}
-         readOnly
-       />
-      </div>
+            <input
+              type="number"
+              className="table-input readonly total-input"
+              value={row.opening}
+              readOnly
+            />
+          </div>
         ) : (
           <div>
             <input
@@ -289,19 +288,18 @@ const CoffeeValet = (props) => {
       cell: (row, index) =>
         row.item_category === "Total" ? (
           <div>
-          <input
-         type="number"
-         className="table-input readonly total-input"
-         value={row.closing}
-        
-         readOnly
-       />
-      </div>
+            <input
+              type="number"
+              className="table-input readonly total-input"
+              value={row.closing}
+              readOnly
+            />
+          </div>
         ) : (
           <div>
             <input
               type="number"
-              min={row.closing}
+              min={row.opening}
               id={`closing-${index}`}
               name={`data[${index}].closing`}
               className={
@@ -328,22 +326,20 @@ const CoffeeValet = (props) => {
       cell: (row, index) =>
         row.item_category === "Total" ? (
           <div>
-          <input
-         type="number"
-         className="table-input readonly total-input"
-         value={row.tests}
-         readOnly
-       />
-      </div>
+            <input
+              type="number"
+              className="table-input readonly total-input"
+              value={row.tests}
+              readOnly
+            />
+          </div>
         ) : (
           <div>
             <input
               type="number"
               id={`tests-${index}`}
               name={`data[${index}].tests`}
-              className={
-                "table-input readonly "
-              }
+              className={"table-input readonly "}
               value={formik.values.data[index]?.tests}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -362,13 +358,13 @@ const CoffeeValet = (props) => {
       cell: (row, index) =>
         row.item_category === "Total" ? (
           <div>
-          <input
-         type="number"
-         className="table-input readonly total-input"
-         value={row.adjust}
-         readOnly
-       />
-      </div>
+            <input
+              type="number"
+              className="table-input readonly total-input"
+              value={row.adjust}
+              readOnly
+            />
+          </div>
         ) : (
           <div>
             <input
@@ -396,22 +392,20 @@ const CoffeeValet = (props) => {
       cell: (row, index) =>
         row.item_category === "Total" ? (
           <div>
-          <input
-         type="number"
-         className="table-input readonly total-input"
-         value={row.sale}
-         readOnly
-       />
-      </div>
+            <input
+              type="number"
+              className="table-input readonly total-input"
+              value={row.sale}
+              readOnly
+            />
+          </div>
         ) : (
           <div>
             <input
               type="number"
               id={`sale-${index}`}
               name={`data[${index}].sale`}
-              className={
-                "table-input readonly "
-              }
+              className={"table-input readonly "}
               value={formik.values.data[index]?.sale}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -430,22 +424,20 @@ const CoffeeValet = (props) => {
       cell: (row, index) =>
         row.item_category === "Total" ? (
           <div>
-          <input
-         type="number"
-         className="table-input readonly total-input"
-         value={row.price}
-         readOnly
-       />
-      </div>
+            <input
+              type="number"
+              className="table-input readonly total-input"
+              value={row.price}
+              readOnly
+            />
+          </div>
         ) : (
           <div>
             <input
               type="number"
               id={`price-${index}`}
               name={`data[${index}].price`}
-              className={
-                "table-input readonly "
-              }
+              className={"table-input readonly "}
               value={formik.values.data[index]?.price}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -464,22 +456,20 @@ const CoffeeValet = (props) => {
       cell: (row, index) =>
         row.item_category === "Total" ? (
           <div>
-          <input
-         type="number"
-         className="table-input readonly total-input"
-         value={row.value}
-         readOnly
-       />
-      </div>
+            <input
+              type="number"
+              className="table-input readonly total-input"
+              value={row.value}
+              readOnly
+            />
+          </div>
         ) : (
           <div>
             <input
               type="number"
               id={`value-${index}`}
               name={`data[${index}].value`}
-              className={
-                "table-input readonly "
-              }
+              className={"table-input readonly "}
               value={formik.values.data[index]?.value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -498,22 +488,20 @@ const CoffeeValet = (props) => {
       cell: (row, index) =>
         row.item_category === "Total" ? (
           <div>
-          <input
-         type="number"
-         className="table-input readonly total-input"
-         value={row.com_rate}
-         readOnly
-       />
-      </div>
+            <input
+              type="number"
+              className="table-input readonly total-input"
+              value={row.com_rate}
+              readOnly
+            />
+          </div>
         ) : (
           <div>
             <input
               type="number"
               id={`com_rate-${index}`}
               name={`data[${index}].com_rate`}
-              className={
-                "table-input readonly "
-              }
+              className={"table-input readonly "}
               value={formik.values.data[index]?.com_rate}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -532,22 +520,20 @@ const CoffeeValet = (props) => {
       cell: (row, index) =>
         row.item_category === "Total" ? (
           <div>
-          <input
-         type="number"
-         className="table-input readonly total-input"
-         value={row.commission}
-         readOnly
-       />
-      </div>
+            <input
+              type="number"
+              className="table-input readonly total-input"
+              value={row.commission}
+              readOnly
+            />
+          </div>
         ) : (
           <div>
             <input
               type="number"
               id={`commission-${index}`}
               name={`data[${index}].commission`}
-              className={
-                "table-input readonly "
-              }
+              className={"table-input readonly "}
               value={formik.values.data[index]?.commission}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -578,55 +564,42 @@ const CoffeeValet = (props) => {
     const saleAmount = Number(formik?.values?.data?.[index]?.sale);
     const priceAmount = Number(formik?.values?.data?.[index]?.price);
     const comrate = Number(formik?.values?.data?.[index]?.com_rate);
- 
+
     for (let index = 0; index < formik?.values?.data?.length; index++) {
       console.log(`Sale at index ${index}:`, formik?.values?.data[index]?.sale);
     }
-    
-    
-  
+
     if (
       !isNaN(closingAmount) &&
       !isNaN(saleAmount) &&
       !isNaN(priceAmount) &&
       !isNaN(comrate) &&
-      !isNaN(openingAmount) 
-    
+      !isNaN(openingAmount)
     ) {
-      const SalesAmount = closingAmount - openingAmount ;
-      const ValueAmount = SalesAmount * priceAmount ;
-      const comrateAmount = (ValueAmount * comrate)/100 ;
-     
+      const SalesAmount = closingAmount - openingAmount;
+      const ValueAmount = SalesAmount * priceAmount;
+      const comrateAmount = (ValueAmount * comrate) / 100;
+
       const sale = SalesAmount.toFixed(2);
       const value = ValueAmount.toFixed(2);
       const commission = comrateAmount.toFixed(2);
       formik.setFieldValue(`data[${index}].sale`, sale);
       formik.setFieldValue(`data[${index}].value`, value);
       formik.setFieldValue(`data[${index}].commission`, commission);
-  
-  
-  
+
       console.log(SalesAmount, "SalesAmount");
       console.log(ValueAmount, "ValueAmount");
       console.log(comrateAmount, "comrateAmount");
-
-   
-    
-    
     } else {
       console.log("Invalid or missing numeric values");
     }
   }
 
-  
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
       event.preventDefault();
-     
     }
   });
-
-
 
   return (
     <>

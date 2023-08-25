@@ -608,6 +608,23 @@ export const MENUITEMS = [
           },
         ],
       },
+      {
+        title: "evoBOS Status",
+        icon: "refresh",
+        type: "sub",
+        active: false,
+        permission: "site-evobos-status",
+        visibility: false,
+        children: [
+          {
+            path: `/site-evobos-status`,
+            title: "EvoBOS Sites",
+            type: "link",
+            permission: "site-evobos-status",
+            visibility: false,
+          },
+        ],
+      },
 
       // {
       //   title: "Manage Import Types",

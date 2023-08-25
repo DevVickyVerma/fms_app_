@@ -13,6 +13,9 @@ import Loaderimg from "./Utils/Loader";
 import DashTopTableSection from "./components/Dashboard/dashTopSection/DashTopTableSection";
 import DashBoardChild from "./components/Dashboard/dashTopSection/DashBoardChild";
 import DashBoardSubChild from "./components/Dashboard/dashTopSection/DashBoardSubChild";
+import DashboardSiteDetail from "./components/Dashboard/dashTopSection/DashboardSiteDetail";
+import SiteEvobossStatus from "./components/pages/EvobossStatus/SiteEvobossStatus";
+import SiteEvobossStatusPage from "./components/pages/EvobossStatus/SiteEvobossStatusPage";
 
 //App
 const App = React.lazy(() => import("./components/app"));
@@ -472,6 +475,8 @@ const Root = () => {
   const WrappedEditCharges = withApi(EditCharges);
   const WrappedManageShops = withApi(ManageShops);
   const WrappedAddShops = withApi(AddShops);
+  const WrappedSiteEvobossStatus = withApi(SiteEvobossStatus);
+  const WrappedSiteEvobossStatusPage = withApi(SiteEvobossStatusPage);
   const WrappedEditShops = withApi(EditShops);
   const WrappedManageCards = withApi(ManageCards);
   const WrappedAddCards = withApi(AddCards);
@@ -529,6 +534,7 @@ const Root = () => {
   const WrappedDailyFacilityFees = withApi(DailyFacilityFees);
   const WrappedDashBoardChild = withApi(DashBoardChild);
   const WrappedDashBoardSubChild = withApi(DashBoardSubChild);
+  const WrappedDashBoardSiteDetail = withApi(DashboardSiteDetail);
   const WrappedEmaillogs = withApi(Emaillogs);
 
   return (
@@ -641,10 +647,7 @@ const Root = () => {
                   <Route path={`EditAddon`} element={<WrappeAddEditAddon />} />
 
                   {/* Addon  Components End */}
-                  <Route
-                    path={`/email-logs`}
-                    element={<WrappedEmaillogs />}
-                  />
+                  <Route path={`/email-logs`} element={<WrappedEmaillogs />} />
                   {/* Header  Components Start */}
                   {/* <Route
                     path={`/advancedElements/headers`}
@@ -699,6 +702,15 @@ const Root = () => {
                   />
 
                   <Route path={`/addshops`} element={<WrappedAddShops />} />
+                  <Route
+                    path={`/site-evobos-status`}
+                    element={<WrappedSiteEvobossStatus />}
+                  />
+                  <Route
+                    path="/site-evobos-status/:siteName"
+                    element={<WrappedSiteEvobossStatusPage />}
+                  />
+
                   <Route
                     path={`/editshops/:id`}
                     element={<WrappedEditShops />}
@@ -879,8 +891,18 @@ const Root = () => {
                     element={<WrappedAddBusinessCategory />}
                   />
 
-                  <Route path={`/dashboard-details`} element={<WrappedDashBoardChild />} />
-                  <Route path={`/dashboardSubChild`} element={<WrappedDashBoardSubChild />} />
+                  <Route
+                    path={`/dashboard-details`}
+                    element={<WrappedDashBoardChild />}
+                  />
+                  <Route
+                    path={`/dashboardSubChild`}
+                    element={<WrappedDashBoardSubChild />}
+                  />
+                  <Route
+                    path={`/dashboard-details/:id`}
+                    element={<WrappedDashBoardSiteDetail />}
+                  />
 
                   <Route
                     path={`/addsubbusinesscategory`}
@@ -969,7 +991,7 @@ const Root = () => {
                   path={`/custompages/errorpages/errorpage500`}
                   element={<Errorpage500 />}
                 />
-                
+
                 <Route
                   path={`/custompages/errorpages/errorpage503`}
                   element={<Errorpage503 />}

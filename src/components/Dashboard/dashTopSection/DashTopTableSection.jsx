@@ -3,15 +3,36 @@ import { Button, Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import DashTopSubHeading from "./DashTopSubHeading";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import { Slide, toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import { Margin } from "@mui/icons-material";
+import { useSelector } from "react-redux";
 
 const DashTopTableSection = (props) => {
   const { apidata, isLoading, error, getData, postData, searchdata } = props;
-  // console.log(searchdata, "searchdatasearchdataisLoading");
+  console.log(searchdata, "searchdata in top table");
+
+  // const storedData = localStorage.getItem("mySearchData");
+  // const parsedData = JSON.parse(storedData);
+
+  // console.log("my parshed searched data", parsedData?.client_id);
+
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions?.permissions);
+      console.log("my user permissions in table", UserPermissions);
+    }
+  }, [UserPermissions]);
+
+  const isSitePermissionAvailable = permissionsArray?.includes(
+    "dashboard-site-detail"
+  );
 
   const [data, setData] = useState();
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
@@ -20,21 +41,15 @@ const DashTopTableSection = (props) => {
   const FetchTableData = async () => {
     console.log();
     try {
+      const searchdata = await JSON.parse(localStorage.getItem("mySearchData"));
       const response = await getData(
         localStorage.getItem("superiorRole") !== "Client"
           ? `dashboard/get-details?client_id=${searchdata?.client_id}&company_id=${searchdata?.company_id}&site_id=${searchdata?.site_id}`
-          : `dashboard/get-details?client_id=${ClientID}&company_id=${searchdata.company_id}&site_id=${searchdata.site_id}`
+          : `dashboard/get-details?client_id=${ClientID}&company_id=${searchdata?.company_id}&site_id=${searchdata?.site_id}`
       );
-      // const data = response?.data?.data?.data?.sites
-      // console.log(response.data.data.data.sites, "my response");
 
       if (response && response.data && response.data.data) {
-        setData(response?.data?.data?.data?.sites);
-        // console.log(
-        //   "gross_volumegross_volumsitese",
-        //   response?.data?.data?.data?.sites
-        // );
-        // setSearchvalue(response.data.data.charges);
+        setData(response?.data?.data?.sites);
       } else {
         throw new Error("No data available in the response");
       }
@@ -46,7 +61,7 @@ const DashTopTableSection = (props) => {
   useEffect(() => {
     FetchTableData();
     // console.log("checking");
-  }, []);
+  }, [searchdata]);
 
   // console.log("gross_volumegross_volume", data);
   // console.log("gross_volume", data?.fuel_volume?.gross_volume);
@@ -65,10 +80,15 @@ const DashTopTableSection = (props) => {
     },
   };
 
+  function handleSaveSingleSiteData(row) {
+    const rowDataString = JSON.stringify(row);
+    localStorage.setItem("singleSiteData", rowDataString);
+  }
+
   const columns = [
     {
       name: " Logo",
-      selector: (row) => [row.image],
+      selector: (row) => [row?.image],
       sortable: true,
       width: "8%",
       cell: (row, index) => (
@@ -89,16 +109,26 @@ const DashTopTableSection = (props) => {
       selector: (row) => [row?.name],
       sortable: true,
       width: "15%",
-      cell: (row, index) => (
-        <Link to={"/DashBoardSubChild"}>
+      cell: (row, index) =>
+        isSitePermissionAvailable ? (
+          <div onClick={() => handleSaveSingleSiteData(row)}>
+            <Link to={`/dashboard-details/${row?.id}`}>
+              <div className="d-flex">
+                <div className="ms-2 mt-0 mt-sm-2 d-block">
+                  <h6 className="mb-0 fs-14 fw-semibold">{row?.name}</h6>
+                </div>
+              </div>
+            </Link>
+          </div>
+        ) : (
           <div className="d-flex">
             <div className="ms-2 mt-0 mt-sm-2 d-block">
               <h6 className="mb-0 fs-14 fw-semibold">{row?.name}</h6>
             </div>
           </div>
-        </Link>
-      ),
+        ),
     },
+
     {
       name: "Fuel Volume",
       selector: (row) => [row?.fuel_volume?.gross_volume],

@@ -77,7 +77,9 @@ const Dashboard = (props) => {
     setshopmargin,
   } = useMyContext();
 
-  console.log("my fuel value: ");
+  // console.log("search list in dashboard: ", SearchList);
+  console.log("search data in dashboard: ", searchdata);
+  const superiorRole = localStorage.getItem("superiorRole");
   const handleFetchSiteData = async () => {
     try {
       const superiorRole = localStorage.getItem("superiorRole");
@@ -108,6 +110,20 @@ const Dashboard = (props) => {
         setFuelValue(data?.data?.fuel_sales);
         setshopsale(data?.data?.shop_sales);
         setshopmargin(data?.data?.shop_margin);
+
+        const savedDataOfDashboard = {
+          GrossMarginValue: data?.data?.gross_margin_,
+          GrossVolume: data?.data?.gross_volume,
+          GrossProfitValue: data?.data?.gross_profit,
+          FuelValue: data?.data?.fuel_sales,
+          shopsale: data?.data?.shop_sales,
+          shopmargin: data?.data?.shop_margin,
+        };
+        // Save the data object to local storage
+        localStorage.setItem(
+          "savedDataOfDashboard",
+          JSON.stringify(savedDataOfDashboard)
+        );
       }
     } catch (error) {
       handleError(error);
@@ -188,7 +204,9 @@ const Dashboard = (props) => {
 
   const handleFormSubmit = async (values) => {
     setSearchdata(values);
+    localStorage.setItem("mySearchData", JSON.stringify(values));
     // console.log("my values while submitting", values);
+
     try {
       const response = await getData(
         localStorage.getItem("superiorRole") !== "Client"
@@ -199,6 +217,11 @@ const Dashboard = (props) => {
       const { data } = response;
       console.log("data my for pi", data);
       if (data) {
+        LinechartOptions = data?.data?.line_graph?.option?.labels;
+
+        setLinechartValues(data?.data?.line_graph?.series);
+        setLinechartOption(data?.data?.line_graph?.option?.labels);
+
         setGrossMarginValue(data?.data?.gross_margin_);
         setLinechartValues(data?.data?.line_graph?.series);
         setpiechartValues(data?.data?.pi_graph);
@@ -208,6 +231,20 @@ const Dashboard = (props) => {
         setshopsale(data?.data?.shop_sales);
 
         setshopmargin(data?.data?.shop_margin);
+
+        const savedDataOfDashboard = {
+          GrossMarginValue: data?.data?.gross_margin_,
+          GrossVolume: data?.data?.gross_volume,
+          GrossProfitValue: data?.data?.gross_profit,
+          FuelValue: data?.data?.fuel_sales,
+          shopsale: data?.data?.shop_sales,
+          shopmargin: data?.data?.shop_margin,
+        };
+        // Save the data object to local storage
+        localStorage.setItem(
+          "savedDataOfDashboard",
+          JSON.stringify(savedDataOfDashboard)
+        );
       }
     } catch (error) {
       handleError(error);
@@ -217,6 +254,7 @@ const Dashboard = (props) => {
 
   const ResetForm = () => {
     setSearchdata({});
+    //  { superiorRole === "Administrator" ?     handleFetchSiteData() : ""}
     handleFetchSiteData();
   };
   const [series] = useState([
@@ -335,8 +373,9 @@ const Dashboard = (props) => {
   useEffect(() => {
     if (LinechartOption) {
       updateOptions({ labels: LinechartOption });
+      console.log("LinechartOption", LinechartOption);
     }
-  }, [LinechartOption]);
+  }, [LinechartOption, LinechartValues]);
 
   // console.log("pi bunkerd sales",data.pi_graph.bunkered_sales);
   const piechartValuesss = {
@@ -357,6 +396,7 @@ const Dashboard = (props) => {
   }, [UserPermissions]);
   const isStatusPermissionAvailable =
     permissionsArray?.includes("dashboard-view");
+
   useEffect(() => {
     if (token && storedToken) {
       dispatch(fetchData());
@@ -365,12 +405,13 @@ const Dashboard = (props) => {
   }, [token]);
 
   useEffect(() => {
-    if (isStatusPermissionAvailable) {
+    if (isStatusPermissionAvailable && superiorRole !== "Administrator") {
       handleFetchSiteData();
-      console.log(permissionsArray, "permissionsArray");
     }
     console.clear();
+    console.log("my search data on dashboard", searchdata);
   }, [permissionsArray]);
+  // console.log(permissionsArray, "permissionsArray");
 
   // const handleSubmit = (formData) => {
   //   const filteredFormData = Object.fromEntries(
@@ -604,6 +645,24 @@ const Dashboard = (props) => {
         {/* </Box> */}
 
         {/* Dash Top Section Js File */}
+        {Object.keys(searchdata).length === 0 ? (
+          <div
+            style={{
+              textAlign: "left",
+              margin: " 13px 0",
+              fontSize: "15px",
+              color: "white",
+              background: "#b52d2d",
+              padding: "10px",
+              borderRadius: "7px",
+            }}
+          >
+            Please Select Values from Filter.....
+          </div>
+        ) : (
+          ""
+        )}
+
         <DashTopSection
           GrossVolume={GrossVolume}
           shopmargin={shopmargin}
@@ -639,6 +698,24 @@ const Dashboard = (props) => {
               </Card.Header>
               <Card.Body className="apexchart">
                 <BarChart piechartValues={piechartValuesss} />
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+
+        <Row style={{ marginBottom: "10px", marginTop: "20px" }}>
+          <Col lg={12} md={12}>
+            <Card>
+              <Card.Header className="card-header">
+                <h4 className="card-title">Total Transactions</h4>
+              </Card.Header>
+              <Card.Body className="card-body pb-0">
+                <div id="chart">
+                  <LineChart
+                    LinechartValues={LinechartValues}
+                    LinechartOption={LinechartOption}
+                  />
+                </div>
               </Card.Body>
             </Card>
           </Col>
