@@ -203,7 +203,7 @@ const DashBoardChild = (props) => {
           //  className="page-header "
         >
           <Box alignSelf={"flex-start"} mt={"33px"}>
-            <h1 className="page-title">Dashboard</h1>
+            <h1 className="page-title">Dashboard Details</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"

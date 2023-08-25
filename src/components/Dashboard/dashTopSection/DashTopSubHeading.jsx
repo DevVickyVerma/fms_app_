@@ -24,6 +24,7 @@ import BarChart from "../BarChart";
 import DashboardSiteBarChart from "./DashboardSiteBarChart";
 import { BsFillFuelPumpFill } from "react-icons/bs";
 import moment from "moment/moment";
+import DashboardSiteLineChart from "./DashboardSiteLineChart";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
@@ -33,7 +34,7 @@ const DashTopSubHeading = ({
   getSiteDetails,
   setGetSiteDetails,
 }) => {
-  const [isGradsOpen, setIsGradsOpen] = useState(false);
+  const [isGradsOpen, setIsGradsOpen] = useState(true);
   const [gridIndex, setGridIndex] = useState(0);
   const [LinechartValues, setLinechartValues] = useState([]);
   const [LinechartOption, setLinechartOption] = useState();
@@ -65,7 +66,7 @@ const DashTopSubHeading = ({
   const openingTimeForSite = openingTimeDateForSiteCheck.format("LT");
   const closingTimeForSite = closingTimeDateForSiteCheck.format("LT");
   const handleGradsClick = (index) => {
-    setIsGradsOpen(!isGradsOpen);
+    // setIsGradsOpen(!isGradsOpen);
     setGridIndex(index);
   };
 
@@ -166,11 +167,15 @@ const DashTopSubHeading = ({
           <Box display={"flex"} alignItems={"center"}>
             <box>
               {" "}
-              <img
-                src={getSiteDetails?.site_image}
-                alt={getSiteDetails?.site_name}
-                style={{ width: "50px", height: "50px" }}
-              />
+              {getSiteDetails?.site_image ? (
+                <img
+                  src={getSiteDetails?.site_image}
+                  alt={getSiteDetails?.site_name}
+                  style={{ width: "50px", height: "50px" }}
+                />
+              ) : (
+                getSiteDetails?.site_name
+              )}
             </box>
             <Box>
               <Typography
@@ -179,7 +184,9 @@ const DashTopSubHeading = ({
                 ml={"7px"}
                 variant="body1"
               >
-                {getSiteDetails?.site_name}
+                {getSiteDetails?.site_name
+                  ? getSiteDetails?.site_name
+                  : "Site Name"}
               </Typography>
             </Box>
           </Box>
@@ -234,7 +241,7 @@ const DashTopSubHeading = ({
               </Typography>
               <Typography
                 variant="body1"
-                fontSize={"22px"}
+                fontSize={"16px"}
                 fontWeight={500}
                 color={"#2ecc71"}
               >
@@ -245,11 +252,11 @@ const DashTopSubHeading = ({
             <Box variant="body1">
               <Typography variant="body3" sx={{ opacity: 0.5 }}>
                 {/* Last Date Deducted Delivery was on */}
-                Closing time
+                Closing Time
               </Typography>
               <Typography
                 variant="body1"
-                fontSize={"22px"}
+                fontSize={"16px"}
                 fontWeight={500}
                 color={"#e6191a"}
               >
@@ -598,14 +605,14 @@ const DashTopSubHeading = ({
             display={"flex"}
             gap={"25px"}
             flexWrap={"wrap"}
-            justifyContent={["space-around"]}
+            justifyContent={["space-between"]}
           >
             {" "}
             {getSiteDetails?.last_fuel_delivery_stats?.data?.map(
               (LastDeliveryState, index) => (
                 <Box
                   borderRadius={"5px"}
-                  bgcolor={"rebeccapurple"}
+                  bgcolor={"#5444c1"}
                   px={"20px"}
                   py={"15px"}
                   color={"white"}
@@ -627,7 +634,7 @@ const DashTopSubHeading = ({
                     <BsFillFuelPumpFill />
                     {LastDeliveryState?.fuel}
                   </Typography>
-                  <Typography>{LastDeliveryState?.value} L</Typography>
+                  <Typography>{LastDeliveryState?.value} ℓ</Typography>
                 </Box>
               )
             )}
@@ -663,18 +670,47 @@ const DashTopSubHeading = ({
             >
               {getSiteDetails?.fuel_stats?.data?.map((fuelState, index) => (
                 <Box
+                  borderRadius={"5px"}
+                  bgcolor={"#5444c1"}
+                  px={"20px"}
+                  py={"15px"}
+                  color={"white"}
+                  minWidth={"250px"}
+                  onClick={() => handleGradsClick(index)}
+                  // key={index}
+                  sx={{
+                    ":hover": {
+                      backgroundColor: "purple", // Change background color on hover
+                      cursor: "pointer", // Change cursor to pointer on hover
+                    },
+                  }}
+                >
+                  <Typography
+                    display={"flex"}
+                    gap={"5px"}
+                    alignItems={"center"}
+                    mb={"5px"}
+                  >
+                    <BsFillFuelPumpFill />
+                    {/* {LastDeliveryState?.fuel} */}
+                    {fuelState?.fuel}
+                  </Typography>
+                  {/* <Typography>{LastDeliveryState?.value} L</Typography> */}
+                </Box>
+              ))}
+            </Box>
+          </Box>
+          {/* <Box
                   display={"flex"}
                   justifyContent={"space-between"}
                   gap={"45px"}
                   p={"15px"}
-                  // border={"0.4px solid "}
                   bgcolor={"#dfe6e9"}
                   alignItems={"center"}
                   minWidth={"200px"}
                   borderRadius={"5px"}
                   onClick={() => handleGradsClick(index)}
                   style={{ cursor: "pointer" }}
-                  // key={fuelState?.index}
                 >
                   <Box
                     display={"flex"}
@@ -690,14 +726,9 @@ const DashTopSubHeading = ({
                     >
                       <BsFillFuelPumpFill size={22} />
                       {fuelState?.fuel}
-                      {/* {endDipState?.fuel} */}
                     </Typography>
-                    {/* <Typography variant="body2">{fuelState?.fuel}</Typography> */}
                   </Box>
-                </Box>
-              ))}
-            </Box>
-          </Box>
+                </Box> */}
           {isGradsOpen && (
             <Box
               display={"flex"}
@@ -726,8 +757,8 @@ const DashTopSubHeading = ({
                     minWidth={"200px"}
                     flexDirection={"column"}
                     // alignItems={"center"}
-                    bgcolor={"#dfe6e9"}
-                    color={"#2d3436"}
+                    bgcolor={"#5444c1"}
+                    color={"white"}
                     borderRadius={"5px"}
                   >
                     <Box display={"flex"} gap={"20px"}>
@@ -738,7 +769,8 @@ const DashTopSubHeading = ({
                         {
                           getSiteDetails?.fuel_stats?.data[gridIndex]
                             ?.gross_margin
-                        }
+                        }{" "}
+                        ppl
                       </Typography>
                     </Box>
                     <Box display={"flex"} gap={"20px"}>
@@ -746,6 +778,7 @@ const DashTopSubHeading = ({
                         Gross Profit
                       </Typography>
                       <Typography variant="body2">
+                        ℓ
                         {
                           getSiteDetails?.fuel_stats?.data[gridIndex]
                             ?.gross_profit
@@ -778,8 +811,8 @@ const DashTopSubHeading = ({
                     minWidth={"200px"}
                     // flexDirection={"column"}
                     alignItems={"center"}
-                    bgcolor={"#dfe6e9"}
-                    color={"#2d3436"}
+                    bgcolor={"#5444c1"}
+                    color={"white"}
                     borderRadius={"5px"}
                   >
                     <Typography variant="body2" sx={{ opacity: 0.9 }}>
@@ -821,36 +854,34 @@ const DashTopSubHeading = ({
           >
             {getSiteDetails?.last_end_dip_stats?.data?.map(
               (endDipState, index) => (
-                <Box
-                  display={"flex"}
-                  // border={"1px solid black"}
-                  borderRadius={"7px"}
-                  flexDirection={"column"}
-                  minWidth={"200px"}
-                  px={"20px"}
-                  py={"10px"}
-                  bgcolor={"teal"}
-                  color={"white"}
-                  // key={index}
-                  sx={{
-                    ":hover": {
-                      backgroundColor: "darkcyan",
-                      cursor: "pointer",
-                      // Add any other styles you want to apply on hover
-                    },
-                  }}
-                >
-                  <Typography
-                    display={"flex"}
-                    gap={"5px"}
-                    alignItems={"center"}
-                    mb={"5px"}
+                <>
+                  <Box
+                    borderRadius={"5px"}
+                    bgcolor={"#5444c1"}
+                    px={"20px"}
+                    py={"15px"}
+                    color={"white"}
+                    minWidth={"250px"}
+                    // key={index}
+                    sx={{
+                      ":hover": {
+                        backgroundColor: "purple", // Change background color on hover
+                        cursor: "pointer", // Change cursor to pointer on hover
+                      },
+                    }}
                   >
-                    <BsFillFuelPumpFill />
-                    {endDipState?.fuel}
-                  </Typography>
-                  <Typography>{endDipState?.value}</Typography>
-                </Box>
+                    <Typography
+                      display={"flex"}
+                      gap={"5px"}
+                      alignItems={"center"}
+                      mb={"5px"}
+                    >
+                      <BsFillFuelPumpFill />
+                      {endDipState?.fuel}
+                    </Typography>
+                    <Typography>{endDipState?.value} L</Typography>
+                  </Box>
+                </>
               )
             )}
           </Box>
@@ -904,14 +935,11 @@ const DashTopSubHeading = ({
         <Col lg={12} md={12}>
           <Card>
             <Card.Header className="card-header">
-              <h4 className="card-title">Total Transactions</h4>
+              <h4 className="card-title">Performance Reporting</h4>
             </Card.Header>
             <Card.Body className="card-body pb-0">
               <div id="chart">
-                <LineChart
-                  LinechartValues={LinechartValues}
-                  LinechartOption={LinechartOption}
-                />
+                <DashboardSiteLineChart />
               </div>
             </Card.Body>
           </Card>
