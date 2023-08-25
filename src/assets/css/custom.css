@@ -1,6 +1,7 @@
 span.text-danger.danger-title {
   font-size: 11px;
 }
+
 .SidebarSearchheader {
   max-width: 100%;
   color: #fff;
@@ -9,7 +10,7 @@ span.text-danger.danger-title {
   text-decoration: none;
   color: #ffffff;
   background: #6259ca;
-
+  padding: 30.5px 10px;
   border-radius: 0px;
   box-shadow: 0 7px 12px 0 rgba(95, 118, 232, 0.21);
   display: flex;
@@ -566,4 +567,13 @@ span.fairbank-title {
 .fuel-site-name {
   color: #7500ca !important;
   cursor: pointer;
+}
+.show-pointer-cursor {
+  cursor: pointer;
+}
+
+.table-data-style {
+  display: flex;
+  justify-content: start;
+  align-items: center;
 }

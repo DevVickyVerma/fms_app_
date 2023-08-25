@@ -15,7 +15,15 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
 
   const DATA_COUNT = 17;
 
-  const labels = LinechartOption?.map((label) => label);
+  // const labels = LinechartOption?.map((label) => label);
+
+  // ! removing labels date here only showing the month and year labels
+  const labels = LinechartOption?.map((label) => {
+    const date = new Date(label);
+    const month = date.toLocaleString("default", { month: "short" });
+    const year = date.getFullYear();
+    return `${month} ${year}`;
+  });
 
   let myLabels = LinechartValues;
 
@@ -58,6 +66,15 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
     interaction: {
       mode: "index",
       intersect: false,
+    },
+    animations: {
+      tension: {
+        duration: 1000,
+        easing: "linear",
+        from: 1,
+        to: 0,
+        loop: true,
+      },
     },
     stacked: false,
     // plugins: {
@@ -103,7 +120,7 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
         data={data}
         options={options}
         // actions={actions}
-      /> 
+      />
     </div>
   );
 };

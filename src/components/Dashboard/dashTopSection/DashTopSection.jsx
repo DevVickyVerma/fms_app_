@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import Spinners from "../Spinner";
 import OilBarrelIcon from "@mui/icons-material/OilBarrel";
 import DashTopTableSection from "./DashTopTableSection";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { margin } from "@mui/system";
 
 const DashTopSection = (props) => {
   const {
@@ -18,7 +20,18 @@ const DashTopSection = (props) => {
   } = props;
 
   const [UploadTabname, setUploadTabname] = useState();
+  const [permissionsArray, setPermissionsArray] = useState([]);
 
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions?.permissions);
+      console.log("my user permissions", UserPermissions);
+    }
+  }, [UserPermissions]);
+  const isDetailPermissionAvailable =
+    permissionsArray?.includes("dashboard-details");
   const navigate = useNavigate();
 
   const handleNavigateClick = (cardName) => {
@@ -41,6 +54,8 @@ const DashTopSection = (props) => {
     navigate(`/dashboard-details`, { state: passData });
   };
 
+  console.log("search data", searchdata);
+
   return (
     <div>
       <Row>
@@ -54,14 +69,25 @@ const DashTopSection = (props) => {
                     : "Dashboard-loss-border"
                 }`}
               >
-                <Card.Body>
+                <Card.Body
+                  className={`${
+                    isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                  }`}
+                >
                   <Row>
                     <div className="col">
                       <div
                         className=" dashboard-box"
                         onClick={() => {
                           setUploadTabname("GrossVolume");
-                          handleNavigateClick(UploadTabname);
+
+                          if (
+                            isDetailPermissionAvailable &&
+                            searchdata &&
+                            Object.keys(searchdata).length > 0
+                          ) {
+                            handleNavigateClick(UploadTabname);
+                          }
                         }}
                       >
                         <div>
@@ -136,7 +162,11 @@ const DashTopSection = (props) => {
                 </Card.Body>
               </Card>
             </Col>
-            <div className="col-lg-6 col-md-12 col-sm-12 col-xl-4">
+            <div
+              className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 ${
+                isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+              }`}
+            >
               <div
                 className={`card overflow-hidden Dashboard-card ${
                   GrossProfitValue?.status === "up"
@@ -149,9 +179,31 @@ const DashTopSection = (props) => {
                     <div className="col">
                       <div
                         className=" dashboard-box "
+                        // onClick={() => {
+                        //   setUploadTabname("Gross Profit");
+                        //   handleNavigateClick(UploadTabname);
+                        // }}
                         onClick={() => {
                           setUploadTabname("Gross Profit");
-                          handleNavigateClick(UploadTabname);
+
+                          console.log(
+                            "isDetailPermissionAvailable:",
+                            isDetailPermissionAvailable
+                          );
+                          console.log("searchdata:", searchdata);
+
+                          if (
+                            isDetailPermissionAvailable &&
+                            searchdata &&
+                            Object.keys(searchdata).length > 0
+                          ) {
+                            console.log("Executing handleNavigateClick...");
+                            handleNavigateClick("Gross Profit");
+                          } else {
+                            console.log(
+                              "Condition not met for handleNavigateClick."
+                            );
+                          }
                         }}
                       >
                         <div>
@@ -224,14 +276,29 @@ const DashTopSection = (props) => {
                     : "Dashboard-loss-border"
                 }`}
               >
-                <Card.Body>
+                <Card.Body
+                  className={`${
+                    isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                  }`}
+                >
                   <Row>
                     <div className="col">
                       <div
                         className=" dashboard-box"
+                        // onClick={() => {
+                        //   setUploadTabname("Gross Margin");
+                        //   handleNavigateClick(UploadTabname);
+                        // }}
                         onClick={() => {
                           setUploadTabname("Gross Margin");
-                          handleNavigateClick(UploadTabname);
+
+                          if (
+                            isDetailPermissionAvailable &&
+                            searchdata &&
+                            Object.keys(searchdata).length > 0
+                          ) {
+                            handleNavigateClick(UploadTabname);
+                          }
                         }}
                       >
                         <div>
@@ -309,14 +376,29 @@ const DashTopSection = (props) => {
                     : "Dashboard-loss-border"
                 }`}
               >
-                <Card.Body>
+                <Card.Body
+                  className={`${
+                    isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                  }`}
+                >
                   <Row>
                     <div className="col">
                       <div
                         className=" dashboard-box"
+                        // onClick={() => {
+                        //   setUploadTabname("Fuel Sales");
+                        //   handleNavigateClick(UploadTabname);
+                        // }}
                         onClick={() => {
                           setUploadTabname("Fuel Sales");
-                          handleNavigateClick(UploadTabname);
+
+                          if (
+                            isDetailPermissionAvailable &&
+                            searchdata &&
+                            Object.keys(searchdata).length > 0
+                          ) {
+                            handleNavigateClick(UploadTabname);
+                          }
                         }}
                       >
                         <div>
@@ -387,7 +469,11 @@ const DashTopSection = (props) => {
                 </Card.Body>
               </Card>
             </Col>
-            <div className="col-lg-6 col-md-12 col-sm-12 col-xl-4">
+            <div
+              className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 ${
+                isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+              }`}
+            >
               <div
                 className={`card overflow-hidden Dashboard-card ${
                   shopsale?.status === "up"
@@ -400,9 +486,20 @@ const DashTopSection = (props) => {
                     <div className="col">
                       <div
                         className=" dashboard-box"
+                        // onClick={() => {
+                        //   setUploadTabname("Shop Sales");
+                        //   handleNavigateClick(UploadTabname);
+                        // }}
                         onClick={() => {
                           setUploadTabname("Shop Sales");
-                          handleNavigateClick(UploadTabname);
+
+                          if (
+                            isDetailPermissionAvailable &&
+                            searchdata &&
+                            Object.keys(searchdata).length > 0
+                          ) {
+                            handleNavigateClick(UploadTabname);
+                          }
                         }}
                       >
                         <div>
@@ -472,14 +569,29 @@ const DashTopSection = (props) => {
                     : "Dashboard-loss-border"
                 }`}
               >
-                <Card.Body>
+                <Card.Body
+                  className={`${
+                    isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                  }`}
+                >
                   <Row>
                     <div className="col">
                       <div
                         className=" dashboard-box"
+                        // onClick={() => {
+                        //   setUploadTabname("Shop Margin");
+                        //   handleNavigateClick(UploadTabname);
+                        // }}
                         onClick={() => {
                           setUploadTabname("Shop Margin");
-                          handleNavigateClick(UploadTabname);
+
+                          if (
+                            isDetailPermissionAvailable &&
+                            searchdata &&
+                            Object.keys(searchdata).length > 0
+                          ) {
+                            handleNavigateClick(UploadTabname);
+                          }
                         }}
                       >
                         <div>

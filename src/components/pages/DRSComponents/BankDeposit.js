@@ -4,6 +4,7 @@ import { Link, Navigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
+import { BsCurrencyPound } from "react-icons/bs";
 import {
   Breadcrumb,
   Card,
@@ -43,6 +44,7 @@ const BankDeposit = (props) => {
   } = props;
   const [selectedFile, setSelectedFile] = useState(null);
   const [Editdata, setEditData] = useState(false);
+  const [bankAmount, setBankAmount] = useState();
   const [checkStateForBankDeposit, setCheckStateForBankDeposit] =
     useState(true);
   const [data, setData] = useState();
@@ -117,6 +119,7 @@ const BankDeposit = (props) => {
       console.log(response.data.data, "cards");
 
       if (response && response.data && response.data.data) {
+        setBankAmount(response?.data?.data?.amount);
         setData(
           response?.data?.data?.listing ? response?.data.data.listing : []
         );
@@ -159,7 +162,6 @@ const BankDeposit = (props) => {
       ),
     reason: Yup.string().required("Reason is required"),
   });
-
   const handleSubmit = async (values, setSubmitting) => {
     const token = localStorage.getItem("token");
 
@@ -379,6 +381,8 @@ const BankDeposit = (props) => {
     }
   });
 
+  console.log("bank deposit data", data);
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -389,7 +393,7 @@ const BankDeposit = (props) => {
             <Col md={12} xl={12}>
               <Card>
                 <Card.Header>
-                  <h3 className="card-title"> Bank Deposit </h3>
+                  <h3 className="card-title"> Bank Deposit</h3>
                 </Card.Header>
                 <Card.Body>
                   <form onSubmit={formik.handleSubmit}>
@@ -505,9 +509,29 @@ const BankDeposit = (props) => {
         <Row className=" row-sm">
           <Col lg={12}>
             <Card>
-              <Card.Header>
+              <Card.Header style={{ gap: "70px" }}>
                 <h3 className="card-title">Bank Deposit</h3>
+                {bankAmount ? (
+                  <h3
+                    style={{
+                      textAlign: "left",
+                      margin: " 13px 0",
+                      fontSize: "15px",
+                      color: "white",
+                      background: "#b52d2d",
+                      padding: "10px",
+                      borderRadius: "7px",
+                    }}
+                  >
+                    Amount need to be deposit:
+                    <BsCurrencyPound style={{ marginBottom: "5px" }} />
+                    {bankAmount}
+                  </h3>
+                ) : (
+                  ""
+                )}
               </Card.Header>
+
               <Card.Body>
                 <div className="table-responsive deleted-table">
                   <DataTableExtensions {...tableDatas}>

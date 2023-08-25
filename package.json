@@ -42,6 +42,7 @@
     "jwt-decode": "^3.1.2",
     "leaflet": "^1.8.0",
     "lightgallery": "^2.4.0",
+    "moment": "^2.29.4",
     "npm-check-updates": "^12.5.8",
     "npx": "^10.2.2",
     "nvd3": "^1.8.6",
