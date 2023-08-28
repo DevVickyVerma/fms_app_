@@ -27,33 +27,26 @@ const DashBoardChild = (props) => {
     testIsWorking,
     settestIsWorking,
     setGrossMarginValue,
-    // GrossProfitValue,
+    GrossProfitValue,
     setGrossProfitValue,
-    // FuelValue,
+    FuelValue,
     setFuelValue,
-    // GrossVolume,
+    GrossVolume,
     setGrossVolume,
-    // shopsale,
+    shopsale,
     setshopsale,
-    // shopmargin,
+    shopmargin,
     setshopmargin,
-    // GrossMarginValue,
+    GrossMarginValue,
   } = useMyContext();
-  console.log("searched data in child ", searchdata.client_id);
+
+  console.log(searchdata, "settestIsWorking");
+  console.log(GrossProfitValue, "settestIsWorking");
 
   settestIsWorking(true);
 
   const storedData = localStorage.getItem("savedDataOfDashboard");
   const parsedData = JSON.parse(storedData);
-
-  const GrossVolume = parsedData ? parsedData?.GrossVolume : null;
-  const shopmargin = parsedData ? parsedData?.shopmargin : null;
-  const GrossProfitValue = parsedData ? parsedData?.GrossProfitValue : null;
-  const GrossMarginValue = parsedData ? parsedData?.GrossMarginValue : null;
-  const FuelValue = parsedData ? parsedData?.FuelValue : null;
-  const shopsale = parsedData ? parsedData?.shopsale : null;
-  // const searchdata = parsedData ? parsedData?.searchdata : null;
-  console.log(searchdata, "searchdata inside the child components");
 
   const handleToggleSidebar1 = () => {
     console.log(ShowTruw, "Toggle sidebar");
@@ -97,22 +90,19 @@ const DashBoardChild = (props) => {
   }
 
   const handleFormSubmit = async (values) => {
-    if (searchdata?.length > 0) {
-      setSearchdata({});
-    }
-    setSearchdata(values);
-    localStorage.setItem("mySearchData", JSON.stringify(values));
-    // console.log("my values while submitting", values);
-    setSearchdata(localStorage.setItem("mySearchData", JSON.parse(values)));
+    console.log(values, "handleFormSubmit");
+
     try {
+      console.log(response, "response");
       const response = await getData(
         localStorage.getItem("superiorRole") !== "Client"
           ? `dashboard/stats?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
           : `dashboard/stats?client_id=${ClientID}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
       );
-
+      console.log(response, "response");
       const { data } = response;
       if (data) {
+        console.log(data, "handleFormSubmit");
         setGrossMarginValue(data?.data?.gross_margin_);
         setGrossVolume(data?.data?.gross_volume);
         setGrossProfitValue(data?.data?.gross_profit);
@@ -120,25 +110,19 @@ const DashBoardChild = (props) => {
         setshopsale(data?.data?.shop_sales);
 
         setshopmargin(data?.data?.shop_margin);
-
-        const savedDataOfDashboard = {
-          GrossMarginValue: data?.data?.gross_margin_,
-          GrossVolume: data?.data?.gross_volume,
-          GrossProfitValue: data?.data?.gross_profit,
-          FuelValue: data?.data?.fuel_sales,
-          shopsale: data?.data?.shop_sales,
-          shopmargin: data?.data?.shop_margin,
-        };
-        // Save the data object to local storage
-        localStorage.setItem(
-          "savedDataOfDashboard",
-          JSON.stringify(savedDataOfDashboard)
-        );
       }
     } catch (error) {
       handleError(error);
       console.error("API error:", error);
     }
+
+    if (searchdata?.length > 0) {
+      setSearchdata({});
+    }
+    setSearchdata(values);
+    localStorage.setItem("mySearchData", JSON.stringify(values));
+    // console.log("my values while submitting", values);
+    setSearchdata(localStorage.setItem("mySearchData", JSON.parse(values)));
   };
 
   const handleFetchSiteData = async () => {
@@ -184,11 +168,6 @@ const DashBoardChild = (props) => {
       handleError(error);
       console.error("API error:", error);
     }
-  };
-
-  const ResetForm = () => {
-    setSearchdata({});
-    handleFetchSiteData();
   };
 
   return (
@@ -297,20 +276,6 @@ const DashBoardChild = (props) => {
                     <SortIcon />
                   </span>
                 </Link>
-                {/* 
-                {Object?.keys(searchdata)?.length > 0 ? (
-                  <Link
-                    className="btn btn-danger ms-2"
-                    onClick={() => {
-                      ResetForm();
-                    }}
-                  >
-                    Reset
-                    <RestartAltIcon />
-                  </Link>
-                ) : (
-                  ""
-                )} */}
               </Box>
             </Box>
           )}
@@ -331,28 +296,6 @@ const DashBoardChild = (props) => {
           ""
         )}
       </div>
-
-      {/* previous CODE */}
-      {/* <div className="page-header ">
-        <div>
-          <h1 className="page-title"> Dashboard Details </h1>
-          <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item
-              className="breadcrumb-item"
-              linkAs={Link}
-              linkProps={{ to: "/dashboard" }}
-            >
-              Dashboard
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item active breadcrumds"
-              aria-current="page"
-            >
-              Dashboard Details
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
-      </div> */}
 
       <Row>
         <DashTopSection
