@@ -20,6 +20,9 @@ const DashTopSection = (props) => {
   } = props;
 
   const [UploadTabname, setUploadTabname] = useState();
+  const [superiorRole, setsuperiorRole] = useState(
+    localStorage.getItem("superiorRole")
+  );
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -55,6 +58,19 @@ const DashTopSection = (props) => {
   };
 
   console.log("search data", searchdata);
+  const handleClick = () => {
+    if (isDetailPermissionAvailable) {
+      setUploadTabname("Gross Profit");
+
+      handleNavigateClick("Gross Profit");
+    }
+  };
+  const GrossVolumehandleClick = () => {
+    if (isDetailPermissionAvailable) {
+      setUploadTabname("GrossVolume");
+      handleNavigateClick(UploadTabname);
+    }
+  };
 
   return (
     <div>
@@ -78,14 +94,18 @@ const DashTopSection = (props) => {
                     <div className="col">
                       <div
                         className=" dashboard-box"
+                        // onClick={GrossVolumehandleClick}
                         onClick={() => {
-                          setUploadTabname("GrossVolume");
+                          const shouldNavigate =
+                            (superiorRole === "Administrator" &&
+                              searchdata &&
+                              Object.keys(searchdata).length > 0) ||
+                            (superiorRole !== "Administrator" &&
+                              isDetailPermissionAvailable);
 
-                          if (
-                            isDetailPermissionAvailable &&
-                            searchdata &&
-                            Object.keys(searchdata).length > 0
-                          ) {
+                          if (shouldNavigate) {
+                            setUploadTabname("GrossVolume");
+                            handleNavigateClick(UploadTabname);
                             handleNavigateClick(UploadTabname);
                           }
                         }}
@@ -179,30 +199,18 @@ const DashTopSection = (props) => {
                     <div className="col">
                       <div
                         className=" dashboard-box "
-                        // onClick={() => {
-                        //   setUploadTabname("Gross Profit");
-                        //   handleNavigateClick(UploadTabname);
-                        // }}
                         onClick={() => {
-                          setUploadTabname("Gross Profit");
+                          const shouldNavigate =
+                            (superiorRole === "Administrator" &&
+                              searchdata &&
+                              Object.keys(searchdata).length > 0) ||
+                            (superiorRole !== "Administrator" &&
+                              isDetailPermissionAvailable);
 
-                          console.log(
-                            "isDetailPermissionAvailable:",
-                            isDetailPermissionAvailable
-                          );
-                          console.log("searchdata:", searchdata);
-
-                          if (
-                            isDetailPermissionAvailable &&
-                            searchdata &&
-                            Object.keys(searchdata).length > 0
-                          ) {
-                            console.log("Executing handleNavigateClick...");
-                            handleNavigateClick("Gross Profit");
-                          } else {
-                            console.log(
-                              "Condition not met for handleNavigateClick."
-                            );
+                          if (shouldNavigate) {
+                            setUploadTabname("Gross Profit");
+                            handleNavigateClick(UploadTabname);
+                            handleNavigateClick(UploadTabname);
                           }
                         }}
                       >
@@ -285,18 +293,17 @@ const DashTopSection = (props) => {
                     <div className="col">
                       <div
                         className=" dashboard-box"
-                        // onClick={() => {
-                        //   setUploadTabname("Gross Margin");
-                        //   handleNavigateClick(UploadTabname);
-                        // }}
                         onClick={() => {
-                          setUploadTabname("Gross Margin");
+                          const shouldNavigate =
+                            (superiorRole === "Administrator" &&
+                              searchdata &&
+                              Object.keys(searchdata).length > 0) ||
+                            (superiorRole !== "Administrator" &&
+                              isDetailPermissionAvailable);
 
-                          if (
-                            isDetailPermissionAvailable &&
-                            searchdata &&
-                            Object.keys(searchdata).length > 0
-                          ) {
+                          if (shouldNavigate) {
+                            setUploadTabname("Gross Margin");
+                            handleNavigateClick(UploadTabname);
                             handleNavigateClick(UploadTabname);
                           }
                         }}
@@ -385,18 +392,17 @@ const DashTopSection = (props) => {
                     <div className="col">
                       <div
                         className=" dashboard-box"
-                        // onClick={() => {
-                        //   setUploadTabname("Fuel Sales");
-                        //   handleNavigateClick(UploadTabname);
-                        // }}
                         onClick={() => {
-                          setUploadTabname("Fuel Sales");
+                          const shouldNavigate =
+                            (superiorRole === "Administrator" &&
+                              searchdata &&
+                              Object.keys(searchdata).length > 0) ||
+                            (superiorRole !== "Administrator" &&
+                              isDetailPermissionAvailable);
 
-                          if (
-                            isDetailPermissionAvailable &&
-                            searchdata &&
-                            Object.keys(searchdata).length > 0
-                          ) {
+                          if (shouldNavigate) {
+                            setUploadTabname("Fuel Sales");
+                            handleNavigateClick(UploadTabname);
                             handleNavigateClick(UploadTabname);
                           }
                         }}
@@ -486,18 +492,17 @@ const DashTopSection = (props) => {
                     <div className="col">
                       <div
                         className=" dashboard-box"
-                        // onClick={() => {
-                        //   setUploadTabname("Shop Sales");
-                        //   handleNavigateClick(UploadTabname);
-                        // }}
                         onClick={() => {
-                          setUploadTabname("Shop Sales");
+                          const shouldNavigate =
+                            (superiorRole === "Administrator" &&
+                              searchdata &&
+                              Object.keys(searchdata).length > 0) ||
+                            (superiorRole !== "Administrator" &&
+                              isDetailPermissionAvailable);
 
-                          if (
-                            isDetailPermissionAvailable &&
-                            searchdata &&
-                            Object.keys(searchdata).length > 0
-                          ) {
+                          if (shouldNavigate) {
+                            setUploadTabname("Shop Sales");
+                            handleNavigateClick(UploadTabname);
                             handleNavigateClick(UploadTabname);
                           }
                         }}
@@ -578,18 +583,17 @@ const DashTopSection = (props) => {
                     <div className="col">
                       <div
                         className=" dashboard-box"
-                        // onClick={() => {
-                        //   setUploadTabname("Shop Margin");
-                        //   handleNavigateClick(UploadTabname);
-                        // }}
                         onClick={() => {
-                          setUploadTabname("Shop Margin");
+                          const shouldNavigate =
+                            (superiorRole === "Administrator" &&
+                              searchdata &&
+                              Object.keys(searchdata).length > 0) ||
+                            (superiorRole !== "Administrator" &&
+                              isDetailPermissionAvailable);
 
-                          if (
-                            isDetailPermissionAvailable &&
-                            searchdata &&
-                            Object.keys(searchdata).length > 0
-                          ) {
+                          if (shouldNavigate) {
+                            setUploadTabname("Shop Margin");
+                            handleNavigateClick(UploadTabname);
                             handleNavigateClick(UploadTabname);
                           }
                         }}
