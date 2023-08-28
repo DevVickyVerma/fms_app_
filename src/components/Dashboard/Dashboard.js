@@ -256,10 +256,50 @@ const Dashboard = (props) => {
     }
   };
 
+  const [isLoadingState, setIsLoading] = useState(false);
   const ResetForm = () => {
+    // Set isLoading to true when the button is clicked
+    console.log("ResetForm called");
+    console.log("isLoading state:", isLoading);
+    setIsLoading(true);
+
     setSearchdata({});
-    //  { superiorRole === "Administrator" ?     handleFetchSiteData() : ""}
-    handleFetchSiteData();
+    localStorage.removeItem("savedDataOfDashboard");
+
+    if (superiorRole !== "Administrator") {
+      // Assuming handleFetchSiteData is an asynchronous function
+      handleFetchSiteData()
+        .then(() => {
+          // After the data is fetched, set isLoading to false
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 1000);
+        })
+        .catch((error) => {
+          // Handle error and set isLoading to false
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 1000);
+          console.log("isLoading state:", isLoading);
+        });
+    } else {
+      // Assuming these functions are synchronous
+      setLinechartValues();
+      setLinechartOption();
+      setpiechartValues();
+      setGrossMarginValue();
+      setGrossVolume();
+      setGrossProfitValue();
+      setFuelValue();
+      setshopsale();
+      setshopmargin();
+
+      // Set isLoading to false after performing necessary actions
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+      console.log("isLoading state:", isLoading);
+    }
   };
   // const ResetForm = () => {
   //   setSearchdata({});
@@ -477,7 +517,8 @@ const Dashboard = (props) => {
 
   return (
     <>
-      {isLoading ? <Loaderimg /> : null}
+      {isLoading || isLoadingState ? <Loaderimg /> : null}
+
       <div>
         {/* <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"}> */}
         <Box

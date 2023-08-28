@@ -44,6 +44,7 @@ const DashTopTableSection = (props) => {
       );
 
       if (response && response.data && response.data.data) {
+        setData([]);
         setData(response?.data?.data?.sites);
       } else {
         throw new Error("No data available in the response");
@@ -77,18 +78,6 @@ const DashTopTableSection = (props) => {
   }
 
   const columns = [
-    {
-      name: "S.No",
-      selector: (row, index) => index + 1,
-      sortable: false,
-      width: "10%",
-      center: true,
-      cell: (row, index) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
-          {index + 1}
-        </span>
-      ),
-    },
     {
       name: " Logo",
       selector: (row) => [row?.image],
@@ -383,7 +372,7 @@ const DashTopTableSection = (props) => {
             <Card.Body>
               <div className="table-responsive deleted-table">
                 <DataTable
-                  // title="Station List"
+                  key={Math.random()}
                   columns={columns}
                   data={data}
                   pagination

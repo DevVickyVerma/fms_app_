@@ -26,6 +26,8 @@ import DashboardSiteBarChart from "./DashboardSiteBarChart";
 import { BsFillFuelPumpFill } from "react-icons/bs";
 import moment from "moment/moment";
 import DashboardSiteLineChart from "./DashboardSiteLineChart";
+import StackedBarChart from "../StackedChart";
+import DashboardSiteGraph from "./DashboardSiteGraph";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
@@ -163,6 +165,10 @@ const DashTopSubHeading = ({
           py={"20px"}
           px={"20px"}
           boxShadow="0px 10px 10px -5px rgba(0,0,0,0.5)"
+          // position="sticky"
+          // top={0} // Adjust the value as needed
+          // zIndex={100} // Ensure the sticky container overlays other content
+          className="sticky stickyClass "
         >
           {/* LEFT side heading title */}
           <Box display={"flex"} alignItems={"center"}>
@@ -707,7 +713,8 @@ const DashTopSubHeading = ({
               {getSiteDetails?.fuel_stats?.data?.map((fuelState, index) => (
                 <Box
                   borderRadius={"5px"}
-                  bgcolor={"#5444c1"}
+                  // bgcolor={"#5444c1"}
+                  bgcolor={gridIndex === index ? "purple" : "#5444c1"}
                   px={"20px"}
                   py={"15px"}
                   color={"white"}
@@ -773,7 +780,7 @@ const DashTopSubHeading = ({
               gap={"60px"}
             >
               <Box>
-                <Typography variant="body1">Key matrices</Typography>
+                <Typography variant="body1">Key Matrices</Typography>
                 {/* key matrices item  */}
                 <Box
                   display={"flex"}
@@ -826,7 +833,7 @@ const DashTopSubHeading = ({
               </Box>
               <Box>
                 <Typography variant="body1">
-                  Payment type total volume
+                  Payment Type Total Volume
                 </Typography>
 
                 <Box
@@ -1000,7 +1007,12 @@ const DashTopSubHeading = ({
             </Card.Header>
             <Card.Body className="card-body pb-0">
               <div id="chart">
-                <DashboardSiteBarChart />
+                {/* <DashboardSiteBarChart /> */}
+                {/* <StackedBarChart /> */}
+                <DashboardSiteGraph
+                  getSiteStats={getSiteStats}
+                  setGetSiteStats={setGetSiteStats}
+                />
               </div>
             </Card.Body>
           </Card>
