@@ -112,6 +112,8 @@ const Dashboard = (props) => {
         setshopmargin(data?.data?.shop_margin);
 
         const savedDataOfDashboard = {
+          LinechartValues: data?.data?.line_graph?.series,
+          LinechartOption: data?.data?.line_graph?.option?.labels,
           GrossMarginValue: data?.data?.gross_margin_,
           GrossVolume: data?.data?.gross_volume,
           GrossProfitValue: data?.data?.gross_profit,
@@ -233,6 +235,8 @@ const Dashboard = (props) => {
         setshopmargin(data?.data?.shop_margin);
 
         const savedDataOfDashboard = {
+          LinechartValues: data?.data?.line_graph?.series,
+          LinechartOption: data?.data?.line_graph?.series,
           GrossMarginValue: data?.data?.gross_margin_,
           GrossVolume: data?.data?.gross_volume,
           GrossProfitValue: data?.data?.gross_profit,
@@ -257,6 +261,25 @@ const Dashboard = (props) => {
     //  { superiorRole === "Administrator" ?     handleFetchSiteData() : ""}
     handleFetchSiteData();
   };
+  // const ResetForm = () => {
+  //   setSearchdata({});
+  //   localStorage.removeItem("savedDataOfDashboard"); // clear the flag
+  //   localStorage.removeItem("savedDataOfDashboard"); // clear the flag
+  //   if (superiorRole !== "Administrator") {
+  //     handleFetchSiteData();
+  //   } else {
+  //     setLinechartValues();
+  //     setLinechartOption();
+
+  //     setpiechartValues();
+  //     setGrossMarginValue();
+  //     setGrossVolume();
+  //     setGrossProfitValue();
+  //     setFuelValue();
+  //     setshopsale();
+  //     setshopmargin();
+  //   }
+  // };
   const [series] = useState([
     {
       name: "Fuel Volume",
@@ -645,7 +668,8 @@ const Dashboard = (props) => {
         {/* </Box> */}
 
         {/* Dash Top Section Js File */}
-        {Object.keys(searchdata).length === 0 ? (
+        {localStorage.getItem("superiorRole") === "Administrator" &&
+        Object.keys(searchdata).length === 0 ? (
           <div
             style={{
               textAlign: "left",
