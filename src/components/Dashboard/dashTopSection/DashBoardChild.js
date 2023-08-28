@@ -18,6 +18,7 @@ const DashBoardChild = (props) => {
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
   const [SearchList, setSearchList] = useState(false);
+  // const [searchdata, setSearchdata] = useState({});
 
   const navigate = useNavigate();
   const {
@@ -96,6 +97,9 @@ const DashBoardChild = (props) => {
   }
 
   const handleFormSubmit = async (values) => {
+    if (searchdata?.length > 0) {
+      setSearchdata({});
+    }
     setSearchdata(values);
     localStorage.setItem("mySearchData", JSON.stringify(values));
     // console.log("my values while submitting", values);
@@ -293,7 +297,7 @@ const DashBoardChild = (props) => {
                     <SortIcon />
                   </span>
                 </Link>
-
+                {/* 
                 {Object?.keys(searchdata)?.length > 0 ? (
                   <Link
                     className="btn btn-danger ms-2"
@@ -306,7 +310,7 @@ const DashBoardChild = (props) => {
                   </Link>
                 ) : (
                   ""
-                )}
+                )} */}
               </Box>
             </Box>
           )}

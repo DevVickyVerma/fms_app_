@@ -2,6 +2,7 @@ import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { BsDroplet } from "react-icons/bs";
 import { GiProfit } from "react-icons/gi";
+import OilBarrelIcon from "@mui/icons-material/OilBarrel";
 import {
   AiOutlineBarChart,
   AiOutlineEuroCircle,
@@ -296,12 +297,18 @@ const DashTopSubHeading = ({
               // px={"20px"}
               // pl={["0", "20px"]}
               // pr={"20px"}
-              px={"20px"}
+              pr={"20px"}
               maxWidth={"350px"}
               minWidth={"250px"}
             >
-              <BsDroplet size={"22px"} color="red" />
+              {/* <BsDroplet size={"22px"} color="red" /> */}
               {/* <WaterDropIcon /> */}
+
+              <div className="col col-auto">
+                <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto text-white">
+                  <OilBarrelIcon />
+                </div>
+              </div>
               <Box
                 flexGrow={1}
                 ml={2}
@@ -341,11 +348,16 @@ const DashTopSubHeading = ({
               alignItems={"center"}
               display={"flex"}
               height={"100%"}
-              px={"20px"}
+              pr={"20px"}
               maxWidth={"350px"}
               minWidth={"250px"}
             >
-              <AiOutlinePauseCircle size={"22px"} color="red" />
+              {/* <AiOutlinePauseCircle size={"22px"} color="red" /> */}
+              <div className="col col-auto">
+                <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto text-white">
+                  <OilBarrelIcon />
+                </div>
+              </div>
               <Box flexGrow={1} ml={2}>
                 <Typography variant="body1">Gross Margin</Typography>
                 <Typography variant="body3" sx={{ opacity: 0.5 }}>
@@ -376,12 +388,18 @@ const DashTopSubHeading = ({
               alignItems={"center"}
               display={"flex"}
               height={"100%"}
-              px={"20px"}
+              pr={"20px"}
               maxWidth={"350px"}
               minWidth={"250px"}
             >
-              <AiOutlineBarChart size={"22px"} color="red" />
-
+              {/* <AiOutlineBarChart size={"22px"} color="red" /> */}
+              <div className="col col-auto">
+                <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
+                  <i className="icon icon-pound-sign text-white mb-5 ">
+                    &#163;
+                  </i>
+                </div>
+              </div>
               <Box flexGrow={1} ml={2}>
                 <Typography variant="body1">Gross Profit</Typography>
                 <Typography variant="body3" sx={{ opacity: 0.5 }}>
@@ -423,11 +441,16 @@ const DashTopSubHeading = ({
               // px={"20px"}
               // pl={["0", "20px"]}
               // pr={"20px"}
-              px={"20px"}
+              pr={"20px"}
               maxWidth={"350px"}
               minWidth={"250px"}
             >
-              <BsDroplet size={"22px"} color="red" />
+              <div className="col col-auto">
+                <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
+                  <i className="icon icon-pound-sign text-white mb-5 ">ℓ</i>
+                </div>
+              </div>
+              {/* <BsDroplet size={"22px"} color="red" /> */}
               {/* <WaterDropIcon /> */}
               <Box
                 flexGrow={1}
@@ -468,11 +491,18 @@ const DashTopSubHeading = ({
               alignItems={"center"}
               display={"flex"}
               height={"100%"}
-              px={"20px"}
+              pr={"20px"}
               maxWidth={"350px"}
               minWidth={"250px"}
             >
-              <AiOutlinePauseCircle size={"22px"} color="red" />
+              {/* <AiOutlinePauseCircle size={"22px"} color="red" /> */}
+              <div className="col col-auto">
+                <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
+                  <i className="icon icon-pound-sign text-white mb-5 ">
+                    &#163;
+                  </i>
+                </div>
+              </div>
               <Box flexGrow={1} ml={2}>
                 <Typography variant="body1">Shop Margin</Typography>
                 <Typography variant="body3" sx={{ opacity: 0.5 }}>
@@ -503,13 +533,19 @@ const DashTopSubHeading = ({
               alignItems={"center"}
               display={"flex"}
               height={"100%"}
-              px={"20px"}
+              pr={"20px"}
               maxWidth={"350px"}
               minWidth={"250px"}
               borderRight="1px solid  #2a282863"
             >
-              <AiOutlineEuroCircle size={"22px"} color="red" />
-
+              {/* <AiOutlineEuroCircle size={"22px"} color="red" /> */}
+              <div className="col col-auto">
+                <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
+                  <i className="icon icon-pound-sign text-white mb-5 ">
+                    &#163;
+                  </i>
+                </div>
+              </div>
               <Box flexGrow={1} ml={2}>
                 <Typography variant="body1">Shop Sales</Typography>
                 <Typography variant="body3" sx={{ opacity: 0.5 }}>
@@ -939,7 +975,12 @@ const DashTopSubHeading = ({
             </Card.Header>
             <Card.Body className="card-body pb-0">
               <div id="chart">
-                <DashboardSiteLineChart />
+                <DashboardSiteLineChart
+                  getSiteStats={getSiteStats}
+                  setGetSiteStats={setGetSiteStats}
+                  getSiteDetails={getSiteDetails}
+                  setGetSiteDetails={setGetSiteDetails}
+                />
               </div>
             </Card.Body>
           </Card>

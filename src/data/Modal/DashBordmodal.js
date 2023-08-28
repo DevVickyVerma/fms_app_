@@ -454,13 +454,13 @@ const DashBordModal = (props) => {
                             </Row>
                           </Card.Body>
                           <Card.Footer className="text-end">
-                            <Link
+                            {/* <Link
                               type="submit"
                               className="btn btn-danger me-2 "
                               onClick={resetForm}
                             >
                               Reset
-                            </Link>
+                            </Link> */}
                             <button
                               className="btn btn-primary me-2"
                               type="submit"
