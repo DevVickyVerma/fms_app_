@@ -577,3 +577,23 @@ span.fairbank-title {
   justify-content: start;
   align-items: center;
 }
+
+span.Fuelinvenrtytime_range {
+  background: #6259ca;
+  padding: 4px;
+  color: #fff;
+  border-radius: 2px;
+  max-width: -14px;
+  margin-top: 7px;
+  margin-left: 0px;
+  font-size: 9px;
+  margin-left: 0px !important;
+}
+span.margin-top {
+  margin-bottom: 28px;
+
+  margin: 0px;
+  gap: 0px;
+  display: flex;
+  flex-direction: column;
+}

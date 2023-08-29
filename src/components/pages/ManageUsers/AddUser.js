@@ -72,9 +72,10 @@ const AddUsers = (props) => {
       formData.append("last_name", values.last_name);
       formData.append("role_id", values.role);
       formData.append("send_mail", isChecked);
-      {localStorage.getItem("superiorRole") ===
-      "Client" && (
-      formData.append("work_flow", values.work_flow))}
+      {
+        localStorage.getItem("superiorRole") === "Client" &&
+          formData.append("work_flow", values.work_flow);
+      }
 
       if (SelectedClient !== null && SelectedClient !== undefined) {
         SelectedClient.forEach((client, index) => {
@@ -360,79 +361,86 @@ const AddUsers = (props) => {
                             />
                           </FormGroup>
                         </Col>
-                        <Col lg={4} md={6}>
-                          <FormControl className="width">
-                            <InputLabel>Select Clients</InputLabel>
-                            <Select
-                              multiple
-                              value={selectedItems}
-                              onChange={(event) => {
-                                setSelectedItems(event.target.value);
-                                console.log(event.target.value);
-                                const selectedSiteNames = event.target.value;
-                                const filteredSites = AddSiteData?.data?.filter(
-                                  (item) =>
-                                    selectedSiteNames.includes(item.client_name)
-                                );
+                        {localStorage.getItem("superiorRole") !== "Client" ? (
+                          <Col lg={4} md={6}>
+                            <FormControl className="width">
+                              <InputLabel>Select Clients</InputLabel>
+                              <Select
+                                multiple
+                                value={selectedItems}
+                                onChange={(event) => {
+                                  setSelectedItems(event.target.value);
+                                  console.log(event.target.value);
+                                  const selectedSiteNames = event.target.value;
+                                  const filteredSites =
+                                    AddSiteData?.data?.filter((item) =>
+                                      selectedSiteNames.includes(
+                                        item.client_name
+                                      )
+                                    );
 
-                                const ids = filteredSites.map(
-                                  (data) => data.id
-                                );
-                                setSelectedClient(ids);
-                                console.log(ids, "filteredSites");
-                              }}
-                              renderValue={(selected) => selected.join(", ")}
-                            >
-                              <MenuItem disabled value="">
-                                <em>Select items</em>
-                              </MenuItem>
-                              {AddSiteData?.data?.map((item) => (
-                                <MenuItem
-                                  key={item.client_name}
-                                  value={item.client_name}
-                                >
-                                  <Checkbox
-                                    checked={selectedItems.includes(
-                                      item.client_name
-                                    )}
-                                  />
-                                  <ListItemText primary={item.client_name} />
+                                  const ids = filteredSites.map(
+                                    (data) => data.id
+                                  );
+                                  setSelectedClient(ids);
+                                  console.log(ids, "filteredSites");
+                                }}
+                                renderValue={(selected) => selected.join(", ")}
+                              >
+                                <MenuItem disabled value="">
+                                  <em>Select items</em>
                                 </MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl>
-                        </Col>
-                        {localStorage.getItem("superiorRole") ===
-                            "Client" && (
-                        <Col lg={4} md={6}>
-                          <FormGroup>
-                            <label
-                              htmlFor="work_flow"
-                              className=" form-label mt-4"
-                            >
-                              Workflow Notification
-                            </label>
-                            <Field
-                              as="select"
-                              className={`input101 ${
-                                errors.work_flow && touched.work_flow
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
-                              id="work_flow"
-                              name="work_flow"
-                            >
-                              <option value="">Select a Work Flow</option>
-                              <option value="1">Enable</option>
-                              <option value="0">Disable</option>
-                            </Field>
-                            <ErrorMessage
-                              component="div"
-                              className="invalid-feedback"
-                              name="work_flow"
-                            />
-                          </FormGroup>
-                        </Col>
+                                {AddSiteData?.data?.map((item) => (
+                                  <MenuItem
+                                    key={item.client_name}
+                                    value={item.client_name}
+                                  >
+                                    <Checkbox
+                                      checked={selectedItems.includes(
+                                        item.client_name
+                                      )}
+                                    />
+                                    <ListItemText primary={item.client_name} />
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                          </Col>
+                        ) : (
+                          ""
+                        )}
+                        {localStorage.getItem("superiorRole") !== "Client" ? (
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="work_flow"
+                                className=" form-label mt-4"
+                              >
+                                Workflow Notification
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${
+                                  errors.work_flow && touched.work_flow
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="work_flow"
+                                name="work_flow"
+                              >
+                                <option value="">Select a Work Flow</option>
+                                <option value="1">Enable</option>
+                                <option value="0">Disable</option>
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="work_flow"
+                              />
+                            </FormGroup>
+                          </Col>
+                        ) : (
+                          ""
                         )}
                         <Col lg={4} md={6}>
                           <FormGroup className="sendemail">
@@ -440,14 +448,13 @@ const AddUsers = (props) => {
                               Send Welcome Email
                             </label>
                             <div className="mapotions">
-
-                            <input
-                              type="checkbox"
-                              checked={isChecked}
-                              onChange={SendMail}
-                              className="form-check-input"
-                            />
-                            <span className="ms-1">Yes</span>
+                              <input
+                                type="checkbox"
+                                checked={isChecked}
+                                onChange={SendMail}
+                                className="form-check-input"
+                              />
+                              <span className="ms-1">Yes</span>
                             </div>
                             <ErrorMessage
                               component="div"
@@ -460,7 +467,7 @@ const AddUsers = (props) => {
                     </Card.Body>
 
                     <Card.Footer className="text-end">
-                    <Link
+                      <Link
                         type="submit"
                         className="btn btn-danger me-2 "
                         to={`/users/`}
@@ -474,7 +481,6 @@ const AddUsers = (props) => {
                       >
                         Save
                       </button>
-                   
                     </Card.Footer>
                   </Form>
                 )}

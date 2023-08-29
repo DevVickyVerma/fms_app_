@@ -154,7 +154,7 @@ const CustomModal = ({
                     <th className="text-center">S.No</th>
                     <th>Business Day</th>
                     <th>Created Date</th>
-                    <th>First Trans</th>
+                    <th>First Transactions</th>
                     <th>Opening</th>
                     <th>Closing</th>
                     <th>Status</th>
@@ -163,20 +163,20 @@ const CustomModal = ({
                 <tbody>
                   {data?.map((row, index) => (
                     <tr key={index}>
-                      <td className="text-center">{index + 1}</td>
+                      {/* <td className="text-center">{index + 1}</td> */}
                       <td>{row?.business_day}</td>
-                      <td>{row?.created_date}</td>
+                      {/* <td>{row?.created_date}</td> */}
                       <td>{moment(row?.first_trans).format("HH:mm:ss")}</td>
                       <td>{moment(row?.opening).format("HH:mm:ss")}</td>
                       <td>{moment(row?.closing).format("HH:mm:ss")}</td>
-                      <td>
+                      {/* <td>
                         <OverlayTrigger
                           placement="top"
                           overlay={<Tooltip>Status</Tooltip>}
                         >
                           {renderStatusButton(row?.status)}
                         </OverlayTrigger>
-                      </td>
+                      </td> */}
                     </tr>
                   ))}
                 </tbody>

@@ -345,54 +345,60 @@ const EditUsers = (props) => {
                           )}
                         </div>
                       </Col>
-                      <Col lg={4} md={6}>
-                        <FormControl className="width">
-                          <InputLabel>Select Clients</InputLabel>
-                          <Select
-                            multiple
-                            value={selectedItems}
-                            onChange={(event) => {
-                              setSelectedItems(event.target.value);
+                      {localStorage.getItem("superiorRole") !== "Client" ? (
+                        <Col lg={4} md={6}>
+                          <FormControl className="width">
+                            <InputLabel>Select Clients</InputLabel>
+                            <Select
+                              multiple
+                              value={selectedItems}
+                              onChange={(event) => {
+                                setSelectedItems(event.target.value);
 
-                              const selectedSiteNames = event.target.value;
-                              const filteredSites = AddSiteData?.data?.filter(
-                                (item) =>
-                                  selectedSiteNames.includes(item.client_name)
-                              );
+                                const selectedSiteNames = event.target.value;
+                                const filteredSites = AddSiteData?.data?.filter(
+                                  (item) =>
+                                    selectedSiteNames.includes(item.client_name)
+                                );
 
-                              const ids = filteredSites.map((data) => data.id);
-                              setSelectedClient(ids);
-                              console.log(SelectedClient, "SelectedClient");
-                            }}
-                            renderValue={(selected) => selected.join(", ")}
-                          >
-                            <MenuItem disabled value="">
-                              <em>Select items</em>
-                            </MenuItem>
-                            {AddSiteData?.data?.map((item) => {
-                              console.log(selectedItems, `selectedItemsmap`);
-                              const isItemSelected = selectedItems.includes(
-                                item.id
-                              );
-                              console.log(
-                                `Item "${item.id}" is selected: ${isItemSelected}`
-                              );
+                                const ids = filteredSites.map(
+                                  (data) => data.id
+                                );
+                                setSelectedClient(ids);
+                                console.log(SelectedClient, "SelectedClient");
+                              }}
+                              renderValue={(selected) => selected.join(", ")}
+                            >
+                              <MenuItem disabled value="">
+                                <em>Select items</em>
+                              </MenuItem>
+                              {AddSiteData?.data?.map((item) => {
+                                console.log(selectedItems, `selectedItemsmap`);
+                                const isItemSelected = selectedItems.includes(
+                                  item.id
+                                );
+                                console.log(
+                                  `Item "${item.id}" is selected: ${isItemSelected}`
+                                );
 
-                              console.log(selectedItems, `selectedItems`);
-                              return (
-                                <MenuItem
-                                  key={item.client_name}
-                                  value={item.client_name}
-                                >
-                                  <Checkbox checked={isItemSelected} />
-                                  <ListItemText primary={item.client_name} />
-                                </MenuItem>
-                              );
-                            })}
-                          </Select>
-                        </FormControl>
-                      </Col>
-                      {localStorage.getItem("superiorRole") === "Client" && (
+                                console.log(selectedItems, `selectedItems`);
+                                return (
+                                  <MenuItem
+                                    key={item.client_name}
+                                    value={item.client_name}
+                                  >
+                                    <Checkbox checked={isItemSelected} />
+                                    <ListItemText primary={item.client_name} />
+                                  </MenuItem>
+                                );
+                              })}
+                            </Select>
+                          </FormControl>
+                        </Col>
+                      ) : (
+                        ""
+                      )}
+                      {localStorage.getItem("superiorRole") !== "Client" ? (
                         <Col lg={4} md={6}>
                           <div className="form-group">
                             <label
@@ -425,6 +431,8 @@ const EditUsers = (props) => {
                               )}
                           </div>
                         </Col>
+                      ) : (
+                        ""
                       )}
                     </Row>
 
