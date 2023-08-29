@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { Image } from "@mui/icons-material";
 import { BiLogoCodepen } from "react-icons/bi";
 import { Line } from "react-chartjs-2";
+import CustomModal from "../../../data/Modal/DashboardSiteDetails";
 import {
   Chart as ChartJS,
   LineElement,
@@ -145,8 +146,21 @@ const DashTopSubHeading = ({
 
   console.log("singlesiteshopsalesales", singleSiteShopSale);
 
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItemDate, setSelectedItemDate] = useState();
+  const handleModalOpen = (item) => {
+    setSelectedItem(item); // Set the selected item
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+
   return (
     <>
+      <CustomModal open={modalOpen} onClose={handleModalClose} />
       <div style={{ marginBottom: "20px" }}>
         {/* top border section in sub child component */}
 
@@ -271,6 +285,9 @@ const DashTopSubHeading = ({
                 {closingTimeForSite}
               </Typography>
             </Box>
+            <h6 className="btn btn-success btn-sm" onClick={handleModalOpen}>
+              Site Details
+            </h6>
           </Box>
         </Box>
         {/* Single Site Details Stats */}
@@ -308,42 +325,41 @@ const DashTopSubHeading = ({
               maxWidth={"350px"}
               minWidth={"250px"}
             >
-              {/* <BsDroplet size={"22px"} color="red" /> */}
-              {/* <WaterDropIcon /> */}
-
               <div className="col col-auto">
-                <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto text-white">
-                  <OilBarrelIcon />
+                <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
+                  <i className="icon icon-pound-sign text-white mb-5 ">ℓ</i>
                 </div>
               </div>
+              {/* <BsDroplet size={"22px"} color="red" /> */}
+              {/* <WaterDropIcon /> */}
               <Box
                 flexGrow={1}
                 ml={2}
                 flexDirection={"column"}
                 display={"flex"}
               >
-                <Typography variant="body1"> Fuel Sales</Typography>
+                <Typography variant="body1"> Gross Volume</Typography>
                 <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                  Gross Value {singleSiteFuelSales?.gross_value}
+                  Gross Volume ℓ {singleSiteFuelVolume?.gross_volume}
                 </Typography>
                 <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                  Total Value {singleSiteFuelSales?.total_value}
+                  Total Volume ℓ {singleSiteFuelVolume?.total_volume}
                 </Typography>
               </Box>
               <Typography variant="body1">
                 {" "}
-                {singleSiteFuelSales?.status === "up" ? (
+                {singleSiteFuelVolume?.status === "up" ? (
                   <>
                     <i className="fa fa-chevron-circle-up text-success me-1"></i>
                     <span className="text-success">
-                      {singleSiteFuelSales?.percentage}%
+                      {singleSiteFuelVolume?.percentage}%
                     </span>
                   </>
                 ) : (
                   <>
                     <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                     <span className="text-danger">
-                      {singleSiteFuelSales?.percentage}%
+                      {singleSiteFuelVolume?.percentage}%
                     </span>
                   </>
                 )}
@@ -368,7 +384,7 @@ const DashTopSubHeading = ({
               <Box flexGrow={1} ml={2}>
                 <Typography variant="body1">Gross Margin</Typography>
                 <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                  {singleSiteGrossMargin?.gross_margin}
+                  {singleSiteGrossMargin?.gross_margin} ppl
                 </Typography>
               </Box>
               <Typography variant="body1">
@@ -410,7 +426,7 @@ const DashTopSubHeading = ({
               <Box flexGrow={1} ml={2}>
                 <Typography variant="body1">Gross Profit</Typography>
                 <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                  Gross Profit {singleSiteGrossProfit?.gross_profit}
+                  £ {singleSiteGrossProfit?.gross_profit}
                 </Typography>
               </Box>
               <Typography variant="body1">
@@ -452,41 +468,42 @@ const DashTopSubHeading = ({
               maxWidth={"350px"}
               minWidth={"250px"}
             >
-              <div className="col col-auto">
-                <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
-                  <i className="icon icon-pound-sign text-white mb-5 ">ℓ</i>
-                </div>
-              </div>
               {/* <BsDroplet size={"22px"} color="red" /> */}
               {/* <WaterDropIcon /> */}
+
+              <div className="col col-auto">
+                <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto text-white">
+                  <OilBarrelIcon />
+                </div>
+              </div>
               <Box
                 flexGrow={1}
                 ml={2}
                 flexDirection={"column"}
                 display={"flex"}
               >
-                <Typography variant="body1"> Fuel Volume</Typography>
+                <Typography variant="body1"> Fuel Sales</Typography>
                 <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                  Gross Volume {singleSiteFuelVolume?.gross_volume}
+                  Gross Value £ {singleSiteFuelSales?.gross_value}
                 </Typography>
                 <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                  Total Volume {singleSiteFuelVolume?.total_volume}
+                  Total Value £ {singleSiteFuelSales?.total_value}
                 </Typography>
               </Box>
               <Typography variant="body1">
                 {" "}
-                {singleSiteFuelVolume?.status === "up" ? (
+                {singleSiteFuelSales?.status === "up" ? (
                   <>
                     <i className="fa fa-chevron-circle-up text-success me-1"></i>
                     <span className="text-success">
-                      {singleSiteFuelVolume?.percentage}%
+                      {singleSiteFuelSales?.percentage}%
                     </span>
                   </>
                 ) : (
                   <>
                     <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                     <span className="text-danger">
-                      {singleSiteFuelVolume?.percentage}%
+                      {singleSiteFuelSales?.percentage}%
                     </span>
                   </>
                 )}
@@ -513,7 +530,7 @@ const DashTopSubHeading = ({
               <Box flexGrow={1} ml={2}>
                 <Typography variant="body1">Shop Margin</Typography>
                 <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                  Shop Margin {singleSiteShopMargin?.shop_margin}
+                  £ {singleSiteShopMargin?.shop_margin}
                 </Typography>
               </Box>
               <Typography variant="body1">
@@ -556,7 +573,7 @@ const DashTopSubHeading = ({
               <Box flexGrow={1} ml={2}>
                 <Typography variant="body1">Shop Sales</Typography>
                 <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                  Shop Sales {singleSiteShopSale?.shop_sales}
+                  £ {singleSiteShopSale?.shop_sales}
                 </Typography>
               </Box>
               <Typography variant="body1">
@@ -1005,7 +1022,7 @@ const DashTopSubHeading = ({
         <Col lg={12} md={12}>
           <Card>
             <Card.Header className="card-header">
-              <h4 className="card-title">Total Transactions</h4>
+              <h4 className="card-title">Tank Analysis</h4>
             </Card.Header>
             <Card.Body className="card-body pb-0">
               <div id="chart">

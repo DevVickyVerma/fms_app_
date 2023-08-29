@@ -83,7 +83,7 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                         // boxShadow: "0 3px 9px 0 rgba(169, 184, 200, 0.15)",
                         boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
                         background: "white",
-                        borderRadius: "5px",
+                        // borderRadius: "5px",
                         padding: "10px",
                         borderRadius: "10px",
                       }}
@@ -134,24 +134,20 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                         waveAmplitude={1}
                         gradient
                         gradientStops={generateGradientStops(
-                          tankData?.[selectedDateIndex]?.capacity_bg_color
+                          tankData?.[selectedDateIndex]?.bg_color
                         )} // Use the relevant color property
                         circleStyle={{
-                          fill: tankData?.[selectedDateIndex]
-                            ?.fuel_left_bg_color,
+                          fill: tankData?.[selectedDateIndex]?.bg_color,
                         }}
                         waveStyle={{
-                          fill: tankData?.[selectedDateIndex]
-                            ?.capacity_bg_color, // Use the relevant color property
+                          fill: tankData?.[selectedDateIndex]?.bg_color, // Use the relevant color property
                         }}
                         textStyle={{
-                          fill: tankData?.[selectedDateIndex]
-                            ?.fuel_left_bg_color, // Use the relevant color property
+                          fill: tankData?.[selectedDateIndex]?.font_color, // Use the relevant color property
                           fontFamily: "Arial",
                         }}
                         waveTextStyle={{
-                          fill: tankData?.[selectedDateIndex]
-                            ?.fuel_left_bg_color, // Use the relevant color property
+                          fill: tankData?.[selectedDateIndex]?.font_color, // Use the relevant color property
                           fontFamily: "Arial",
                         }}
                         // onClick={() => {
@@ -200,9 +196,11 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                             className="mb-0 mx-2 fs-8  badge  "
                             style={{
                               backgroundColor:
-                                tankData?.[selectedDateIndex]
-                                  ?.fuel_left_bg_color || "gray",
-                              color: "white",
+                                tankData?.[selectedDateIndex]?.bg_color ||
+                                "gray",
+                              color:
+                                tankData?.[selectedDateIndex]?.font_color ||
+                                "black",
 
                               borderRadius: "4px",
                             }}

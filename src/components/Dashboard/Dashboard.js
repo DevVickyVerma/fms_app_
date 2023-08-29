@@ -38,6 +38,7 @@ import { Box } from "@material-ui/core";
 import { useMyContext } from "../../Utils/MyContext";
 import CenterFilterModal from "../../data/Modal/CenterFilterModal";
 import CenterSearchmodal from "../../data/Modal/CenterSearchmodal";
+import StackedLineBarChart from "./StackedLineBarChart";
 
 const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -54,9 +55,11 @@ const Dashboard = (props) => {
   // const [GrossVolume, setGrossVolume] = useState();
   // const [shopsale, setshopsale] = useState();
   // const [shopmargin, setshopmargin] = useState();
-  const [piechartValues, setpiechartValues] = useState();
-  const [LinechartValues, setLinechartValues] = useState([]);
-  const [LinechartOption, setLinechartOption] = useState();
+  // const [piechartValues, setpiechartValues] = useState();
+  // const [LinechartValues, setLinechartValues] = useState([]);
+  // const [LinechartOption, setLinechartOption] = useState();
+  // const [DLinechartValues, setDLinechartValues] = useState([]);
+  // const [DLinechartOption, setDLinechartOption] = useState();
   const [myData, setMyData] = useState();
   let LinechartOptions = [];
 
@@ -75,6 +78,16 @@ const Dashboard = (props) => {
     setshopsale,
     shopmargin,
     setshopmargin,
+    piechartValues,
+    setpiechartValues,
+    LinechartValues,
+    setLinechartValues,
+    LinechartOption,
+    setLinechartOption,
+    DLinechartValues,
+    setDLinechartValues,
+    DLinechartOption,
+    setDLinechartOption,
   } = useMyContext();
 
   // console.log("search list in dashboard: ", SearchList);
@@ -101,7 +114,9 @@ const Dashboard = (props) => {
         LinechartOptions = data?.data?.line_graph?.option?.labels;
 
         setLinechartValues(data?.data?.line_graph?.series);
+        setDLinechartValues(data?.data?.d_line_graph?.series);
         setLinechartOption(data?.data?.line_graph?.option?.labels);
+        setDLinechartOption(data?.data?.d_line_graph?.option?.labels);
 
         setpiechartValues(data?.data?.pi_graph);
         setGrossMarginValue(data?.data?.gross_margin_);
@@ -113,7 +128,9 @@ const Dashboard = (props) => {
 
         const savedDataOfDashboard = {
           LinechartValues: data?.data?.line_graph?.series,
+          DLinechartValues: data?.data?.d_line_graph?.series,
           LinechartOption: data?.data?.line_graph?.option?.labels,
+          DLinechartOption: data?.data?.d_line_graph?.option?.labels,
           GrossMarginValue: data?.data?.gross_margin_,
           GrossVolume: data?.data?.gross_volume,
           GrossProfitValue: data?.data?.gross_profit,
@@ -222,7 +239,9 @@ const Dashboard = (props) => {
         LinechartOptions = data?.data?.line_graph?.option?.labels;
 
         setLinechartValues(data?.data?.line_graph?.series);
+        setDLinechartValues(data?.data?.d_line_graph?.series);
         setLinechartOption(data?.data?.line_graph?.option?.labels);
+        setDLinechartOption(data?.data?.d_line_graph?.option?.labels);
 
         setGrossMarginValue(data?.data?.gross_margin_);
         setLinechartValues(data?.data?.line_graph?.series);
@@ -236,7 +255,9 @@ const Dashboard = (props) => {
 
         const savedDataOfDashboard = {
           LinechartValues: data?.data?.line_graph?.series,
+          DLinechartValues: data?.data?.d_line_graph?.series,
           LinechartOption: data?.data?.line_graph?.series,
+          DLinechartOption: data?.data?.d_line_graph?.series,
           GrossMarginValue: data?.data?.gross_margin_,
           GrossVolume: data?.data?.gross_volume,
           GrossProfitValue: data?.data?.gross_profit,
@@ -286,6 +307,8 @@ const Dashboard = (props) => {
       // Assuming these functions are synchronous
       setLinechartValues();
       setLinechartOption();
+      setDLinechartValues();
+      setDLinechartOption();
       setpiechartValues();
       setGrossMarginValue();
       setGrossVolume();
@@ -434,10 +457,16 @@ const Dashboard = (props) => {
   // console.log(options, "options");
   // Check if LinechartOption exists and update the labels accordingly
   useEffect(() => {
-    if (LinechartOption) {
-      updateOptions({ labels: LinechartOption });
-      console.log("LinechartOption", LinechartOption);
-    }
+    // if (LinechartOption) {
+    //   updateOptions({ labels: LinechartOption });
+    //   console.log("LinechartOption", LinechartOption);
+    // }
+
+    console.log(
+      "linechart values and linechart options",
+      LinechartValues,
+      LinechartOption
+    );
   }, [LinechartOption, LinechartValues]);
 
   // console.log("pi bunkerd sales",data.pi_graph.bunkered_sales);
@@ -748,10 +777,11 @@ const Dashboard = (props) => {
               </Card.Header>
               <Card.Body className="card-body pb-0">
                 <div id="chart">
-                  <LineChart
+                  {/* <LineChart
                     LinechartValues={LinechartValues}
                     LinechartOption={LinechartOption}
-                  />
+                  /> */}
+                  <StackedLineBarChart />
                 </div>
               </Card.Body>
             </Card>
@@ -777,8 +807,8 @@ const Dashboard = (props) => {
               <Card.Body className="card-body pb-0">
                 <div id="chart">
                   <LineChart
-                    LinechartValues={LinechartValues}
-                    LinechartOption={LinechartOption}
+                    LinechartValues={DLinechartValues}
+                    LinechartOption={DLinechartOption}
                   />
                 </div>
               </Card.Body>

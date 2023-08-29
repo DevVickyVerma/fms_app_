@@ -11,9 +11,8 @@ const BarChart = ({ piechartValues }) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
   const labels = Object.keys(piechartValues).map((key) =>
-  capitalizeFirstLetter(key.replace('_', ' '))
-);
-
+    capitalizeFirstLetter(key.replace("_", " "))
+  );
 
   const data = {
     labels: labels,
@@ -34,25 +33,21 @@ const BarChart = ({ piechartValues }) => {
     data: data,
     options: {
       responsive: true,
-    }
+    },
   };
   return (
     <>
-   <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      
-      }}
-    >
       <div
-       style={{ width: "67%" }}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
-        <Pie data={data} options={config} />
+        <div style={{ width: "67%" }}>
+          <Pie data={data} options={config} />
+        </div>
       </div>
-    </div>
-
     </>
   );
 };
