@@ -105,8 +105,11 @@ const EditClient = (props) => {
       formData.append("financial_start_month", values.financial_start_month);
       formData.append("last_name", values.last_name);
       formData.append("email", values.email);
-  
-      if (values.fairbank_email !== null && values.fairbank_email !== undefined) {
+
+      if (
+        values.fairbank_email !== null &&
+        values.fairbank_email !== undefined
+      ) {
         values.fairbank_email.forEach((client, index) => {
           formData.append(`fairbank_email[${index}]`, client);
         });
@@ -215,7 +218,7 @@ const EditClient = (props) => {
         className="closeicon"
         data-tag-handle
         onClick={() => {
-          const newEmails = formik.values.fairbank_email.filter(
+          const newEmails = formik.values?.fairbank_email?.filter(
             (_, i) => i !== index
           );
           handleEmailChange(newEmails);
@@ -601,7 +604,7 @@ const EditClient = (props) => {
                       </Col>
                       {/* Work Flow Status End */}
                       <Col lg={4} md={6}>
-                        <div >
+                        <div>
                           <label
                             htmlFor="ma_option"
                             className="form-label mt-4"
@@ -610,17 +613,17 @@ const EditClient = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <div className="mapotions">
-                          <label>
-                            <input
-                              type="checkbox"
-                              name="ma_option"
-                              value="1"
-                              checked={formik.values.ma_option.includes("1")}
-                              onChange={() => handleMaOptionChange("1")}
-                              className="form-check-input"
-                            />
-                           <span className="ms-2"> Actual</span>
-                          </label>
+                            <label>
+                              <input
+                                type="checkbox"
+                                name="ma_option"
+                                value="1"
+                                checked={formik.values.ma_option.includes("1")}
+                                onChange={() => handleMaOptionChange("1")}
+                                className="form-check-input"
+                              />
+                              <span className="ms-2"> Actual</span>
+                            </label>
                           </div>
                         </div>
                         <div className="mapotions">
@@ -633,7 +636,7 @@ const EditClient = (props) => {
                               onChange={() => handleMaOptionChange("2")}
                               className="form-check-input"
                             />
-                            
+
                             <span className="ms-2"> Forecast</span>
                           </label>
                         </div>
@@ -647,7 +650,7 @@ const EditClient = (props) => {
                               onChange={() => handleMaOptionChange("3")}
                               className="form-check-input"
                             />
-                            
+
                             <span className="ms-2"> Variance</span>
                           </label>
                         </div>
@@ -662,7 +665,7 @@ const EditClient = (props) => {
                         </label>
                         <div className="email-input">
                           <ReactMultiEmail
-                            emails={formik.values.fairbank_email}
+                            emails={formik.values?.fairbank_email}
                             onChange={handleEmailChange}
                             getLabel={renderEmailTag}
                             minTags={1}
@@ -677,7 +680,11 @@ const EditClient = (props) => {
                             </div>
                           ) : null}
                         </div>
-                        <span className="fairbank-title"> * You can add multiple email IDs by using <strong>,</strong></span>
+                        <span className="fairbank-title">
+                          {" "}
+                          * You can add multiple email IDs by using{" "}
+                          <strong>,</strong>
+                        </span>
                       </Col>
                     </Row>
 

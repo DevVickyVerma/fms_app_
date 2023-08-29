@@ -40,7 +40,7 @@ const CustomModal = ({
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      ErrorAlert("Invalid access token");
+      toast.error("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -48,29 +48,9 @@ const CustomModal = ({
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      ErrorAlert(errorMessage);
+      toast.error(errorMessage);
     }
   }
-  const ErrorAlert = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
-  // const SuccessAlert = (message) => toast.success(message);
-  const SuccessAlert = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -200,8 +180,7 @@ const CustomModal = ({
         onClose();
       }
       if (response.status === 200 && response.data.api_response === "success") {
-        // Call the SuccessAlert function with the success message
-        SuccessAlert(response.data.message);
+        toast.success(response.data.message);
       } else {
         // Handle other cases or errors here
       }
