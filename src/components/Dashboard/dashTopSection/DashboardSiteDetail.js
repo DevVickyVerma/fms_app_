@@ -54,12 +54,15 @@ const DashboardSiteDetail = (props) => {
 
   useEffect(() => {
     FetchTableData();
+    window.scrollTo(0, 0);
   }, []);
 
   console.log("data after fetching", data);
 
   return (
-    <div>
+    <div
+    // style={{ height: "100vh ", overflowY: "auto", overflowX: "hidden" }}
+    >
       {isLoading ? <Loaderimg /> : null}
       <DashBoardSubChild
         getSiteStats={getSiteStats}

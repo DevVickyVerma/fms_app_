@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
 
@@ -49,10 +49,100 @@ const DashboardSiteLineChart = ({
   };
   return (
     <div>
-      <Box display={"flex"} gap={"25px"} my={"10px"}>
-        <Button onClick={() => setShowLine1(!showLine1)}>Volume</Button>
-        <Button onClick={() => setShowLine2(!showLine2)}>Margin</Button>
-        <Button onClick={() => setShowLine3(!showLine3)}>Profit</Button>
+      <Box display={"flex"} gap={"25px"} my={"10px"} ml={"1px"} mr={"1px"}>
+        {/* button 1 */}
+        <Box
+          borderRadius={"5px"}
+          bgcolor={showLine1 ? "purple" : "#5444c1"}
+          mx={0}
+          // bgcolor={"#5444c1"}
+          // bgcolor={gridIndex === index ? "purple" : "#5444c1"}
+          px={"20px"}
+          py={"15px"}
+          color={"white"}
+          minWidth={"150px"}
+          onClick={() => setShowLine3(!showLine3)}
+          // key={index}
+          sx={{
+            ":hover": {
+              backgroundColor: "purple", // Change background color on hover
+              cursor: "pointer", // Change cursor to pointer on hover
+            },
+          }}
+        >
+          <Typography
+            display={"flex"}
+            gap={"5px"}
+            alignItems={"center"}
+            mb={"5px"}
+          >
+            Volume
+          </Typography>
+        </Box>
+        {/* button 2 */}
+        <Box
+          borderRadius={"5px"}
+          bgcolor={showLine2 ? "purple" : "#5444c1"}
+          // bgcolor={"#5444c1"}
+          // bgcolor={gridIndex === index ? "purple" : "#5444c1"}
+          px={"20px"}
+          py={"15px"}
+          color={"white"}
+          minWidth={"150px"}
+          onClick={() => setShowLine2(!showLine2)}
+          // key={index}
+          sx={{
+            ":hover": {
+              backgroundColor: "purple", // Change background color on hover
+              cursor: "pointer", // Change cursor to pointer on hover
+            },
+          }}
+        >
+          <Typography
+            display={"flex"}
+            gap={"5px"}
+            alignItems={"center"}
+            mb={"5px"}
+          >
+            {/* <BsFillFuelPumpFill />
+                    {LastDeliveryState?.fuel}
+                    {fuelState?.fuel} */}
+            Margin
+          </Typography>
+          {/* <Typography>{LastDeliveryState?.value} L</Typography> */}
+        </Box>
+        {/* button 3 */}
+        <Box
+          borderRadius={"5px"}
+          bgcolor={showLine3 ? "purple" : "#5444c1"}
+          // bgcolor={"#5444c1"}
+          // bgcolor={gridIndex === index ? "purple" : "#5444c1"}
+          px={"20px"}
+          py={"15px"}
+          color={"white"}
+          minWidth={"150px"}
+          onClick={() => setShowLine3(!showLine3)}
+          // key={index}
+          sx={{
+            ":hover": {
+              backgroundColor: "purple", // Change background color on hover
+              cursor: "pointer", // Change cursor to pointer on hover
+            },
+          }}
+        >
+          <Typography
+            display={"flex"}
+            gap={"5px"}
+            alignItems={"center"}
+            mb={"5px"}
+          >
+            {/* <BsFillFuelPumpFill />
+                    {LastDeliveryState?.fuel}
+                    {fuelState?.fuel} */}
+            Profit
+          </Typography>
+          {/* <Typography>{LastDeliveryState?.value} L</Typography> */}
+        </Box>
       </Box>
 
       <div>
