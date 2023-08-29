@@ -29,11 +29,10 @@ const AddSite = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
   const navigate = useNavigate();
-  
+
   const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedBusinessType, setSelectedBusinessType] = useState("");
   const [subTypes, setSubTypes] = useState([]);
-
 
   const [Listcompany, setCompanylist] = useState([]);
   const notify = (message) => toast.success(message);
@@ -79,7 +78,8 @@ const AddSite = (props) => {
       handleError(error);
     }
     // console.clear()
-  console.clear()  }, []);
+    console.clear();
+  }, []);
 
   const fetchCompanyList = async (id) => {
     const token = localStorage.getItem("token");
@@ -126,6 +126,7 @@ const AddSite = (props) => {
       formData.append("sage_department_id", values.Saga_department_code);
       formData.append("drs_upload_status", values.Drs_upload_status);
       formData.append("site_status", values.Site_Status);
+      formData.append("security_amount", values.security_amount);
       formData.append("bunker_upload_status", values.Bunkered_sale_status);
       formData.append(
         "fuel_commission_calc_status",
@@ -134,10 +135,11 @@ const AddSite = (props) => {
       formData.append("paperwork_status", values.Paper_work_status);
       formData.append("company_id", values.company_id);
       formData.append("client_id", values.client_id);
-      formData.append("lottery_commission",0);
+      formData.append("lottery_commission", 0);
       formData.append("shop_commission", 0);
-      formData.append("paidout",values.paidout );
+      formData.append("paidout", values.paidout);
       formData.append("auto_dayend", values.auto_dayend);
+      console.log(formData, "formDataformData");
       const postDataUrl = "/site/add";
 
       const navigatePath = "/sites";
@@ -187,10 +189,10 @@ const AddSite = (props) => {
     const day = String(today.getDate() - 1).padStart(2, "0"); // Subtract one day from the current date
     return `${year}-${month}-${day}`;
   };
-  const hadndleShowDate =( )=>{
+  const hadndleShowDate = () => {
     const inputDateElement = document.querySelector('input[type="date"]');
     inputDateElement.showPicker();
-}
+  };
 
   return (
     <>
@@ -263,7 +265,8 @@ const AddSite = (props) => {
                     lottery_commission: "",
                     shop_commission: "",
                     paidout: "",
-                    auto_dayend:"",
+                    auto_dayend: "",
+                    security_amount: "",
                   }}
                   validationSchema={Yup.object({
                     site_code: Yup.string()
@@ -300,9 +303,12 @@ const AddSite = (props) => {
                     Drs_upload_status: Yup.string().required(
                       "Drs Upload Status is required"
                     ),
-                  
+
                     Bp_nctt_site_no: Yup.string().required(
                       "Bp Nctt Site No is required"
+                    ),
+                    security_amount: Yup.string().required(
+                      "Security Amount is required"
                     ),
                     // company_id: Yup.string().required(
                     //   "Company is required"
@@ -646,7 +652,6 @@ const AddSite = (props) => {
                                 className=" form-label mt-4"
                               >
                                 Shop Commission
-                           
                               </label>
                               <Field
                                 type="Number"
@@ -674,8 +679,7 @@ const AddSite = (props) => {
                                 htmlFor="lottery_commission"
                                 className=" form-label mt-4"
                               >
-                           Lottery Commission
-                               
+                                Lottery Commission
                               </label>
                               <Field
                                 type="Number"
@@ -707,7 +711,9 @@ const AddSite = (props) => {
                                 <span className="text-danger">*</span>
                               </label>
                               <input
-                                  type="date"    min={"2023-01-01"}     max={getCurrentDate()}
+                                type="date"
+                                min={"2023-01-01"}
+                                max={getCurrentDate()}
                                 onClick={hadndleShowDate}
                                 className={`input101  ${
                                   errors.DRS_Start_Date &&
@@ -1095,8 +1101,7 @@ const AddSite = (props) => {
                                 htmlFor=" paidout"
                                 className=" form-label mt-4"
                               >
-                              Paidout
-                                
+                                Paidout
                               </label>
                               <Field
                                 as="select"
@@ -1108,9 +1113,7 @@ const AddSite = (props) => {
                                 id="paidout"
                                 name="paidout"
                               >
-                                 <option value="">
-                                  Select a paidout
-                                </option>
+                                <option value="">Select a paidout</option>
                                 <option value="0">Yes</option>
                                 <option value="1">No</option>
                               </Field>
@@ -1128,7 +1131,7 @@ const AddSite = (props) => {
                                 htmlFor=" auto_dayend"
                                 className=" form-label mt-4"
                               >
-                             DRS Auto Dayend                                
+                                DRS Auto Dayend
                               </label>
                               <Field
                                 as="select"
@@ -1140,9 +1143,7 @@ const AddSite = (props) => {
                                 id="auto_dayend"
                                 name="auto_dayend"
                               >
-                                 <option value="">
-                                  Select a Dayend
-                                </option>
+                                <option value="">Select a Dayend</option>
                                 <option value="0">Yes</option>
                                 <option value="1">No</option>
                               </Field>
@@ -1153,8 +1154,36 @@ const AddSite = (props) => {
                               />
                             </FormGroup>
                           </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="security_amount"
+                                className=" form-label mt-4"
+                              >
+                                Security Amount
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Field
+                                type="number"
+                                autoComplete="off"
+                                className={`input101 ${
+                                  errors.security_amount &&
+                                  touched.security_amount
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="security_amount"
+                                name="security_amount"
+                                placeholder="Security Amount "
+                              />
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="security_amount"
+                              />
+                            </FormGroup>
+                          </Col>
                           {/* auto dayend end */}
-
                         </Row>
                       </Card.Body>
 

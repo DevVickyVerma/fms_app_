@@ -37,6 +37,25 @@ const CustomModal = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
+  const notify = (message) => {
+    toast.success(message, {
+      autoClose: 1000,
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+    });
+  };
+  const Errornotify = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+    });
+  };
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
@@ -181,6 +200,7 @@ const CustomModal = ({
       }
       if (response.status === 200 && response.data.api_response === "success") {
         toast.success(response.data.message);
+        notify(response.data.message);
       } else {
         // Handle other cases or errors here
       }

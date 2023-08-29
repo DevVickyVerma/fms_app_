@@ -14,7 +14,7 @@ import {
 import { Formik, Field, ErrorMessage } from "formik";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
+import { Slide, toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import DatePicker from "react-multi-date-picker";
@@ -31,8 +31,26 @@ export default function AddSite(props) {
   const [EditSiteData, setEditSiteData] = useState("");
   const [companyId, setCompanyId] = useState();
 
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
+  const notify = (message) => {
+    toast.success(message, {
+      autoClose: 1000,
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+    });
+  };
+  const Errornotify = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+    });
+  };
+
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -179,7 +197,8 @@ export default function AddSite(props) {
       lottery_commission: "",
       shop_commission: "",
       paidout: "",
-      auto_dayend:"",
+      auto_dayend: "",
+      security_amount: "",
     },
     validationSchema: Yup.object({
       site_code: Yup.string()
@@ -209,6 +228,7 @@ export default function AddSite(props) {
       bp_credit_card_site_no: Yup.string().required(
         "Bunker Upload Status is required"
       ),
+      security_amount: Yup.string().required("Security Amount is required"),
 
       // drs_upload_status: Yup.string().required("Drs Upload Status is required"),
     }),
@@ -246,10 +266,10 @@ export default function AddSite(props) {
     const day = String(today.getDate() - 1).padStart(2, "0"); // Subtract one day from the current date
     return `${year}-${month}-${day}`;
   };
-  const hadndleShowDate =( )=>{
+  const hadndleShowDate = () => {
     const inputDateElement = document.querySelector('input[type="date"]');
     inputDateElement.showPicker();
-}
+  };
 
   return (
     <>
@@ -695,8 +715,10 @@ export default function AddSite(props) {
                             DRS Start Date<span className="text-danger">*</span>
                           </label>
                           <input
-                              type="date"    min={"2023-01-01"}     max={getCurrentDate()}
-                                onClick={hadndleShowDate}
+                            type="date"
+                            min={"2023-01-01"}
+                            max={getCurrentDate()}
+                            onClick={hadndleShowDate}
                             className={`input101 ${
                               formik.errors.start_date &&
                               formik.touched.start_date
@@ -1005,16 +1027,12 @@ export default function AddSite(props) {
                       </Col>
                       <Col lg={4} md={6}>
                         <div className="form-group">
-                          <label
-                            htmlFor="paidout"
-                            className="form-label mt-4"
-                          >
+                          <label htmlFor="paidout" className="form-label mt-4">
                             Paidout
                           </label>
                           <select
                             className={`input101 ${
-                              formik.errors.paidout &&
-                              formik.touched.paidout
+                              formik.errors.paidout && formik.touched.paidout
                                 ? "is-invalid"
                                 : ""
                             }`}
@@ -1024,18 +1042,15 @@ export default function AddSite(props) {
                             onBlur={formik.handleBlur}
                             value={formik.values.paidout}
                           >
-                            <option value="">
-                              Select a Paidout
-                            </option>
+                            <option value="">Select a Paidout</option>
                             <option value="1">Yes</option>
                             <option value="0">No</option>
                           </select>
-                          {formik.errors.paidout &&
-                            formik.touched.paidout && (
-                              <div className="invalid-feedback">
-                                {formik.errors.paidout}
-                              </div>
-                            )}
+                          {formik.errors.paidout && formik.touched.paidout && (
+                            <div className="invalid-feedback">
+                              {formik.errors.paidout}
+                            </div>
+                          )}
                         </div>
                       </Col>
                       {/* auto Dayend Start */}
@@ -1045,7 +1060,7 @@ export default function AddSite(props) {
                             htmlFor="auto_dayend"
                             className="form-label mt-4"
                           >
-                           DRS Auto Dayend
+                            DRS Auto Dayend
                           </label>
                           <select
                             className={`input101 ${
@@ -1060,9 +1075,7 @@ export default function AddSite(props) {
                             onBlur={formik.handleBlur}
                             value={formik.values.auto_dayend}
                           >
-                            <option value="">
-                              Select a Auto Dayend
-                            </option>
+                            <option value="">Select a Auto Dayend</option>
                             <option value="1">Yes</option>
                             <option value="0">No</option>
                           </select>
@@ -1074,6 +1087,40 @@ export default function AddSite(props) {
                             )}
                         </div>
                       </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="security_amount "
+                            className="form-label mt-4"
+                          >
+                            Security Amount
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            autoComplete="off"
+                            className={`input101 ${
+                              formik.errors.security_amount &&
+                              formik.touched.security_amount
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="security_amount"
+                            name="security_amount"
+                            placeholder="Security Amount"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.security_amount}
+                          />
+                          {formik.errors.security_amount &&
+                            formik.touched.security_amount && (
+                              <div className="invalid-feedback">
+                                {formik.errors.security_amount}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+
                       {/* auto Dayend end */}
                       {/* <Col lg={4} md={6}>
                         <div className="form-group">
