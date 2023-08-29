@@ -13,6 +13,11 @@ const MyProvider = ({ children }) => {
   const [GrossVolume, setGrossVolume] = useState();
   const [shopsale, setshopsale] = useState();
   const [shopmargin, setshopmargin] = useState();
+  const [piechartValues, setpiechartValues] = useState();
+  const [LinechartValues, setLinechartValues] = useState([]);
+  const [LinechartOption, setLinechartOption] = useState();
+  const [DLinechartValues, setDLinechartValues] = useState([]);
+  const [DLinechartOption, setDLinechartOption] = useState();
 
   // Value object to provide to consumers
   const value = {
@@ -32,6 +37,16 @@ const MyProvider = ({ children }) => {
     setshopsale,
     shopmargin,
     setshopmargin,
+    piechartValues,
+    setpiechartValues,
+    LinechartValues,
+    setLinechartValues,
+    LinechartOption,
+    setLinechartOption,
+    DLinechartValues,
+    setDLinechartValues,
+    DLinechartOption,
+    setDLinechartOption,
   };
 
   return <MyContext.Provider value={value}>{children}</MyContext.Provider>;

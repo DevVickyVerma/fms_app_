@@ -131,7 +131,7 @@ const DashTopTableSection = (props) => {
           {/* {console.log(row.fuel_volume?.gross_volume, "sdaaaaaaaaaa")} */}
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">
-              {row.fuel_volume?.gross_volume}
+              ℓ {row.fuel_volume?.gross_volume}
             </h6>
 
             <p
@@ -171,7 +171,7 @@ const DashTopTableSection = (props) => {
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
-              {row?.fuel_sales?.total_value}
+              £ {row?.fuel_sales?.total_value}
             </h6>
             <p
               className={`me-1 ${
@@ -210,7 +210,7 @@ const DashTopTableSection = (props) => {
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
-              {row?.gross_profit?.gross_profit}
+              £ {row?.gross_profit?.gross_profit}
             </h6>
             <p
               className={`me-1 ${
@@ -249,7 +249,7 @@ const DashTopTableSection = (props) => {
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
-              {row?.gross_margin?.gross_margin}
+              {row?.gross_margin?.gross_margin} ppl
             </h6>
             <p
               className={`me-1 ${
@@ -288,7 +288,7 @@ const DashTopTableSection = (props) => {
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
-              {row?.shop_sales?.shop_sales}
+              £ {row?.shop_sales?.shop_sales}
             </h6>
             <p
               className={`me-1 ${
@@ -328,7 +328,7 @@ const DashTopTableSection = (props) => {
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
-              {row?.shop_margin?.shop_margin}
+              £ {row?.shop_margin?.shop_margin}
             </h6>
             <p
               className={`me-1 ${
