@@ -61,7 +61,7 @@ const DashboardSiteLineChart = ({
           py={"15px"}
           color={"white"}
           minWidth={"150px"}
-          onClick={() => setShowLine3(!showLine3)}
+          onClick={() => setShowLine1(!showLine1)}
           // key={index}
           sx={{
             ":hover": {
