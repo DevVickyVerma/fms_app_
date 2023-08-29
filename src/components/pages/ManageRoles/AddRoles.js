@@ -17,12 +17,32 @@ import {
 } from "react-bootstrap";
 
 import axios from "axios";
-import { toast } from "react-toastify";
+import { Slide, toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+
+const ErrorAlert = (message) => {
+  toast.error(message, {
+    position: toast.POSITION.TOP_RIGHT,
+    hideProgressBar: true,
+    transition: Slide,
+    autoClose: 1000,
+    theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+  });
+};
+const SuccessAlert = (message) => {
+  toast.success(message, {
+    autoClose: 1000,
+    position: toast.POSITION.TOP_RIGHT,
+    hideProgressBar: true,
+    transition: Slide,
+    autoClose: 1000,
+    theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+  });
+};
 
 const initialValues = {
   name: "",
@@ -54,8 +74,8 @@ const AddRoles = (props) => {
   const [permissions, setPermissions] = useState([]);
 
   const [userpermissions, setUserPermissions] = useState([]);
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
+  // const SuccessAlert = (message) => toast.success(message);
+  // const ErrorAlert = (message) => toast.error(message);
   const navigate = useNavigate();
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -73,7 +93,8 @@ const AddRoles = (props) => {
   }
   useEffect(() => {
     FetchTableData();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
   const FetchTableData = async () => {
     try {
       const response = await getData("/permission-list");
@@ -261,10 +282,8 @@ const AddRoles = (props) => {
                             {Object.keys(permissions.data).map((heading) => (
                               <div key={heading}>
                                 <div className="table-heading d-flex">
-                               
-
                                   <div className="heading-input ">
-                                  <input
+                                    <input
                                       className={`form-check-input ${
                                         formik.touched.permissions &&
                                         formik.errors.permissions
@@ -283,8 +302,8 @@ const AddRoles = (props) => {
                                     />
                                   </div>
                                   <div>
-                                <h2>{heading}</h2>
-                                </div>
+                                    <h2>{heading}</h2>
+                                  </div>
                                 </div>
                                 <div className="form-group">
                                   {/* Add the "Select All" checkbox here */}

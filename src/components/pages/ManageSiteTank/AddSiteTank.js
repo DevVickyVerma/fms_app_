@@ -46,8 +46,15 @@ const AddSitePump = (props) => {
 
   useEffect(() => {
     handleFetchData();
-  console.clear()  }, []);
-
+    console.clear();
+  }, []);
+  const token = localStorage.getItem("token");
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   const handleFuelChange = async (id) => {
     try {
       const response = await axiosInstance.get(`/site/fuel/list?site_id=${id}`);
@@ -67,7 +74,7 @@ const AddSitePump = (props) => {
         client_id: values.client_id,
         company_id: values.company_id,
       };
-  
+
       localStorage.setItem("SiteTAnk", JSON.stringify(tank));
       const formData = new FormData();
       formData.append("tank_name", values.tank_name);
@@ -96,16 +103,6 @@ const AddSitePump = (props) => {
       setIsPermissionsSet(true);
     }
   }, [UserPermissions]);
-
-
-
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
 
   return (
     <>
@@ -149,14 +146,13 @@ const AddSitePump = (props) => {
                     fuel_id: "",
                   }}
                   validationSchema={Yup.object({
-                  
                     company_id: Yup.string().required("Company is required"),
                     site_id: Yup.string().required("Site is required"),
                     fuel_id: Yup.string().required("Fuel Name is required"),
 
-                    tank_name: Yup.string()
-                     
-                      .required(" Site Tank Name is required"),
+                    tank_name: Yup.string().required(
+                      " Site Tank Name is required"
+                    ),
 
                     tank_code: Yup.string()
                       .required("Site Tank Code is required")
@@ -492,7 +488,7 @@ const AddSitePump = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
-                      <button className="btn btn-primary me-2" type="submit">
+                        <button className="btn btn-primary me-2" type="submit">
                           Add
                         </button>
                         <Link
@@ -502,7 +498,6 @@ const AddSitePump = (props) => {
                         >
                           Cancel
                         </Link>
-                       
                       </Card.Footer>
                     </Form>
                   )}

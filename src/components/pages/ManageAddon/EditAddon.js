@@ -19,7 +19,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import axios from "axios";
-import { toast } from "react-toastify";
+import { Slide, toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 
@@ -29,11 +29,29 @@ const EditAddon = (props) => {
   const [userpermissions, setUserPermissions] = useState([]);
   const [edituserDetails, setEdituserDetails] = useState("");
   const [editName, seteditName] = useState("");
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
+
   const navigate = useNavigate();
 
   const [permissionArray, setPermissionArray] = useState([]);
+  const ErrorAlert = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+    });
+  };
+  const SuccessAlert = (message) => {
+    toast.success(message, {
+      autoClose: 1000,
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+    });
+  };
 
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -75,7 +93,8 @@ const EditAddon = (props) => {
     formData.append("addon_id", addonId);
 
     FetchPermisionList();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
 
   const FetchPermisionList = async () => {
     try {
@@ -211,7 +230,7 @@ const EditAddon = (props) => {
         heading
       ].names.map((nameItem) => nameItem.permission_name);
       formik.setFieldValue("permissionsList", permissionsToRemove);
-      
+
       setPermissionArray((prevPermissionArray) =>
         prevPermissionArray.filter(
           (permission) => !permissionsToRemove.includes(permission)
@@ -282,18 +301,15 @@ const EditAddon = (props) => {
                                 AddonpermissionsList.data.addon_permissions
                               ).map((heading) => (
                                 <div key={heading}>
-                               
                                   <div className="table-heading d-flex">
-                               
-
-                               <div className="heading-input ">
-                               <input
-                                    className={`form-check-input ${
-                                        formik.touched.permissions &&
-                                        formik.errors.permissions
-                                          ? "is-invalid"
-                                          : ""
-                                      }`}
+                                    <div className="heading-input ">
+                                      <input
+                                        className={`form-check-input ${
+                                          formik.touched.permissions &&
+                                          formik.errors.permissions
+                                            ? "is-invalid"
+                                            : ""
+                                        }`}
                                         type="checkbox"
                                         checked={
                                           selectAllPermissions[heading] || false
@@ -305,11 +321,11 @@ const EditAddon = (props) => {
                                           )
                                         }
                                       />
-                               </div>
-                               <div>
-                             <h2>{heading}</h2>
-                             </div>
-                             </div>
+                                    </div>
+                                    <div>
+                                      <h2>{heading}</h2>
+                                    </div>
+                                  </div>
                                   <div className="form-group">
                                     {AddonpermissionsList.data.addon_permissions[
                                       heading
