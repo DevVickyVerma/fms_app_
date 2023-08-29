@@ -151,13 +151,11 @@ const CustomModal = ({
               <table className="table table-striped table-hover">
                 <thead>
                   <tr>
-                    <th className="text-center">S.No</th>
                     <th>Business Day</th>
-                    <th>Created Date</th>
+
                     <th>First Transactions</th>
                     <th>Opening</th>
                     <th>Closing</th>
-                    <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
