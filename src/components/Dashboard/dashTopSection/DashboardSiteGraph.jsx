@@ -173,7 +173,7 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                             >
                               Capacity:
                             </span>
-                            {tankData?.[selectedDateIndex]?.capacity}
+                            {tankData?.[selectedDateIndex]?.capacity} ℓ
                           </strong>
                         </p>
                         <p>
@@ -183,7 +183,7 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                             >
                               Ullage:
                             </span>
-                            {tankData?.[selectedDateIndex]?.ullage} |{" "}
+                            {tankData?.[selectedDateIndex]?.ullage} ℓ |
                             {tankData?.[selectedDateIndex]?.ullage_percentage}%
                           </strong>
                         </p>
@@ -197,7 +197,7 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                             {tankData?.[selectedDateIndex]?.fuel_left} ℓ
                           </strong>
                           <span
-                            className="mb-0 mx-2 fs-8 text-dark badge  "
+                            className="mb-0 mx-2 fs-8  badge  "
                             style={{
                               backgroundColor:
                                 tankData?.[selectedDateIndex]
