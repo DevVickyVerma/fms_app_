@@ -165,9 +165,10 @@ const DashTopSubHeading = ({
           py={"20px"}
           px={"20px"}
           boxShadow="0px 10px 10px -5px rgba(0,0,0,0.5)"
-          // position="sticky"
-          // top={0} // Adjust the value as needed
-          // zIndex={100} // Ensure the sticky container overlays other content
+          position="sticky"
+          // top={"114px"} // Adjust the value as needed
+          top={0}
+          zIndex={1} // Ensure the sticky container overlays other content
           className="sticky stickyClass "
         >
           {/* LEFT side heading title */}
@@ -775,11 +776,12 @@ const DashTopSubHeading = ({
           {isGradsOpen && (
             <Box
               display={"flex"}
-              justifyContent="space-evenly"
+              justifyContent="space-between"
+              mx={"14px"}
               width={"inherit"}
               gap={"60px"}
             >
-              <Box>
+              <Box width={"350px"}>
                 <Typography variant="body1">Key Matrices</Typography>
                 {/* key matrices item  */}
                 <Box
@@ -831,7 +833,7 @@ const DashTopSubHeading = ({
                   </Box>
                 </Box>
               </Box>
-              <Box>
+              <Box width={"350px"}>
                 <Typography variant="body1">
                   Payment Type Total Volume
                 </Typography>
@@ -922,7 +924,7 @@ const DashTopSubHeading = ({
                       <BsFillFuelPumpFill />
                       {endDipState?.fuel}
                     </Typography>
-                    <Typography>{endDipState?.value} L</Typography>
+                    <Typography>{endDipState?.value} ℓ</Typography>
                   </Box>
                 </>
               )

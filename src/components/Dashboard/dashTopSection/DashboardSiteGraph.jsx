@@ -48,34 +48,64 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
           <Card>
             <Card.Header>
               <Card.Title as="h3" className="gap-3 d-flex flex-wrap">
-                {stockAlertData?.[0]?.map((tankDate, index) => (
-                  <Button
-                    key={index}
-                    type="button"
-                    variant={selectedDateIndex === index ? "purple" : "primary"}
-                    onClick={() => handleDateButtonClick(index)}
-                    className={`rounded-pill ${
-                      selectedDateIndex === index
-                        ? "text-black fs-6"
-                        : "text-dark"
-                    } text-bold`}
-                    // disabled={selectedDateIndex === index}
-                  >
-                    {tankDate.date}
-                  </Button>
-                ))}
+                {getSiteStats?.data?.stock_alert?.[0]?.map(
+                  (tankDate, index) => (
+                    <Button
+                      key={index}
+                      type="button"
+                      variant={
+                        selectedDateIndex === index ? "purple" : "primary"
+                      }
+                      onClick={() => handleDateButtonClick(index)}
+                      className={` ${
+                        selectedDateIndex === index
+                          ? "text-black fs-6"
+                          : "text-dark"
+                      } text-bold`}
+                      // disabled={selectedDateIndex === index}
+                    >
+                      {tankDate?.date}
+                    </Button>
+                  )
+                )}
               </Card.Title>
             </Card.Header>
 
             <Card.Body>
               <Row>
                 {stockAlertData?.map((tankData, index) => (
-                  <Col lg={4} xl={4} md={6} sm={12}>
-                    <div key={index} className="m-4">
+                  <Col lg={3} xl={3} md={6} sm={12}>
+                    <div
+                      key={index}
+                      className="m-4"
+                      style={{
+                        // boxShadow: "0px 10px 10px -5px rgba(0,0,0,0.5)",
+                        // boxShadow: "0 3px 9px 0 rgba(169, 184, 200, 0.15)",
+                        boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+                        background: "white",
+                        borderRadius: "5px",
+                        padding: "10px",
+                        borderRadius: "10px",
+                      }}
+                      //    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                      // background: white;
+                      // border-radius: 5px;
+                      // padding: 10px;
+                    >
+                      <div>
+                        <p className="text-center">
+                          <strong
+                            className="mb-2  text-dark font-weight-bold"
+                            style={{ fontSize: "14px", fontWeight: "bold" }}
+                          >
+                            {tankData?.[selectedDateIndex]?.tank_name}
+                          </strong>
+                        </p>
+                      </div>
                       <LiquidFillGauge
                         style={{ margin: "0 auto" }}
-                        width={200} // Adjust the width and height as needed
-                        height={200}
+                        width={180} // Adjust the width and height as needed
+                        height={180}
                         value={
                           tankData?.[selectedDateIndex]?.fuel_left_percentage
                         } // Use the relevant data point here
@@ -104,7 +134,7 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                         waveAmplitude={1}
                         gradient
                         gradientStops={generateGradientStops(
-                          tankData?.capacity_bg_color
+                          tankData?.[selectedDateIndex]?.capacity_bg_color
                         )} // Use the relevant color property
                         circleStyle={{
                           fill: tankData?.[selectedDateIndex]
@@ -129,6 +159,60 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                         // }}
                       />
                       {/* Render other information as needed */}
+                      <div
+                        className="pt-3 mt-3"
+                        style={{
+                          // borderTop: "1px solid #2f3640",
+                          lineHeight: 1,
+                        }}
+                      >
+                        <p>
+                          <strong className="mb-0 fs-8 text-dark">
+                            <span
+                              style={{ fontSize: "14px", fontWeight: "bold" }}
+                            >
+                              Capacity:
+                            </span>
+                            {tankData?.[selectedDateIndex]?.capacity}
+                          </strong>
+                        </p>
+                        <p>
+                          <strong className="mb-0 fs-8 text-dark">
+                            <span
+                              style={{ fontSize: "14px", fontWeight: "bold" }}
+                            >
+                              Ullage:
+                            </span>
+                            {tankData?.[selectedDateIndex]?.ullage} |{" "}
+                            {tankData?.[selectedDateIndex]?.ullage_percentage}%
+                          </strong>
+                        </p>
+                        <p>
+                          <strong className="mb-0 fs-8 text-dark">
+                            <span
+                              style={{ fontSize: "14px", fontWeight: "bold" }}
+                            >
+                              Fuel:
+                            </span>
+                            {tankData?.[selectedDateIndex]?.fuel_left} ℓ
+                          </strong>
+                          <span
+                            className="mb-0 mx-2 fs-8 text-dark badge  "
+                            style={{
+                              backgroundColor:
+                                tankData?.[selectedDateIndex]
+                                  ?.fuel_left_bg_color || "gray",
+                              color: "white",
+
+                              borderRadius: "4px",
+                            }}
+                          >
+                            {" "}
+                            {tankData?.[selectedDateIndex]?.days_left} Days
+                          </span>
+                        </p>
+                        <p></p>
+                      </div>
                     </div>
                   </Col>
                 ))}

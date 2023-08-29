@@ -3833,7 +3833,7 @@ input[type="button"].btn-block {
 }
 
 .btn-purple {
-  color: #fff;
+  color: #fff !important;
   background: #661fd6 !important;
   border-color: #661fd6;
 }
@@ -32411,20 +32411,20 @@ body.rtl {
 }
 
 @media (max-width: 760px) {
-  .header-welcome-text{
-    display:none;
+  .header-welcome-text {
+    display: none;
   }
-  .center-filter-modal-responsive{
+  .center-filter-modal-responsive {
     flex-direction: column;
   }
 }
 
-.header-welcome-text-title{
+.header-welcome-text-title {
   display: inline-block;
-    max-width: 82px;
-    white-space: nowrap;
-    overflow: hidden !important;
-    text-overflow: ellipsis;
+  max-width: 82px;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
 }
 
 @media (min-width: 768px) {
@@ -55968,14 +55968,14 @@ textarea {
   text-align: center !important;
 }
 
-@media screen and (max-width : 763px) {
-  .text-end-small-screen{
+@media screen and (max-width: 763px) {
+  .text-end-small-screen {
     display: flex;
     justify-content: center;
     flex-direction: column-reverse;
     gap: 10px;
-    margin-top: 10px
-}  
+    margin-top: 10px;
+  }
 }
 @media (min-width: 576px) {
   .text-sm-left {
