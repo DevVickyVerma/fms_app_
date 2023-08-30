@@ -177,7 +177,7 @@ const DashTopSubHeading = ({
           flexWrap={"wrap"}
           bgcolor={"#ffffff"}
           color={"black"}
-          mb={"20px"}
+          mb={"38px"}
           py={"20px"}
           px={"20px"}
           boxShadow="0px 10px 10px -5px rgba(0,0,0,0.5)"
@@ -185,7 +185,7 @@ const DashTopSubHeading = ({
           // top={"114px"} // Adjust the value as needed
           top={0}
           zIndex={1} // Ensure the sticky container overlays other content
-          className="sticky stickyClass "
+          // className="sticky stickyClass "
         >
           {/* LEFT side heading title */}
           <Box display={"flex"} alignItems={"center"}>
