@@ -27,7 +27,7 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
 
   let myLabels = LinechartValues;
 
-  const datasets = LinechartValues.map((dataset, index) => ({
+  const datasets = LinechartValues?.map((dataset, index) => ({
     label: dataset?.name,
     data: dataset?.data,
     borderColor: `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${

@@ -34,6 +34,7 @@ const CustomModal = ({
   selectedItem,
   selectedDrsDate,
   onDataFromChild,
+  siteName,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [data, setData] = useState();
@@ -137,7 +138,9 @@ const CustomModal = ({
           }}
           className="ModalTitle"
         >
-          <div className="ModalTitle-date">Site Details</div>
+          <div className="ModalTitle-date">
+            {siteName ? siteName : "Site Name"}(Monthly Details)
+          </div>
           <span onClick={onClose}>
             <button className="close-button">
               <FontAwesomeIcon icon={faTimes} />
@@ -153,9 +156,9 @@ const CustomModal = ({
                   <tr>
                     <th>Business Day</th>
 
-                    <th>First Transactions</th>
                     <th>Opening</th>
                     <th>Closing</th>
+                    <th>First Transaction</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -164,9 +167,9 @@ const CustomModal = ({
                       {/* <td className="text-center">{index + 1}</td> */}
                       <td>{row?.business_day}</td>
                       {/* <td>{row?.created_date}</td> */}
-                      <td>{moment(row?.first_trans).format("HH:mm:ss")}</td>
                       <td>{moment(row?.opening).format("HH:mm:ss")}</td>
                       <td>{moment(row?.closing).format("HH:mm:ss")}</td>
+                      <td>{moment(row?.first_trans).format("HH:mm:ss")}</td>
                       {/* <td>
                         <OverlayTrigger
                           placement="top"
