@@ -62,9 +62,23 @@ const DashboardSiteDetail = (props) => {
 
   console.log("data after fetching", data);
 
+  const headerHeight = 135;
+
+  const containerStyles = {
+    overflowY: "scroll", // or 'auto'
+    overflowX: "hidden", // or 'auto'
+    // maxHeight: "100vh", // Set a maximum height for the container
+    maxHeight: `calc(100vh - ${headerHeight}px)`,
+    // border: "1px solid #ccc",
+    // backgroundColor: "#f5f5f5",
+    // padding: "10px",
+  };
+
   return (
     <div
-    // style={{ height: "100vh ", overflowY: "auto", overflowX: "hidden" }}
+      className="overflow-container"
+      style={containerStyles}
+      // style={{ height: "100vh ", overflowY: "auto", overflowX: "hidden" }}
     >
       {isLoading ? <Loaderimg /> : null}
       <DashBoardSubChild
