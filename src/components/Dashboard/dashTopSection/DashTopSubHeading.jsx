@@ -156,6 +156,19 @@ const DashTopSubHeading = ({
     setModalOpen(false);
   };
 
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  const handleScroll = () => {
+    setScrollPosition(window.scrollY);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <>
       <CustomModal
@@ -176,6 +189,7 @@ const DashTopSubHeading = ({
           // height={"60px"}
           flexWrap={"wrap"}
           bgcolor={"#ffffff"}
+          // bgcolor={scrollPosition > -10 ? "#ffffff" : "red"}
           color={"black"}
           mb={"38px"}
           py={"20px"}
@@ -287,9 +301,13 @@ const DashTopSubHeading = ({
                 {formattedClosingTime}
               </Typography>
             </Box>
-            <h6 className="btn btn-success btn-sm" onClick={handleModalOpen}>
-              Monthly Details
-            </h6>
+            {localStorage.getItem("myKey") === true ? (
+              <h6 className="btn btn-success btn-sm" onClick={handleModalOpen}>
+                Monthly Details
+              </h6>
+            ) : (
+              ""
+            )}
           </Box>
         </Box>
         {/* dashboard site Top section */}

@@ -15,7 +15,9 @@ const DashBoardSubChild = ({
 
   return (
     <>
-      <div style={{ height: "100vh", overflowY: "auto", overflowX: "hidden" }}>
+      <div
+      // style={{ height: "100vh", overflowY: "auto", overflowX: "hidden" }}
+      >
         <div className="page-header ">
           <div>
             <h1 className="page-title">
