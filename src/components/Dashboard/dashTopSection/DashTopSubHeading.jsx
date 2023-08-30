@@ -156,19 +156,6 @@ const DashTopSubHeading = ({
     setModalOpen(false);
   };
 
-  const [scrollPosition, setScrollPosition] = useState(0);
-
-  const handleScroll = () => {
-    setScrollPosition(window.scrollY);
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   return (
     <>
       <CustomModal
@@ -189,7 +176,6 @@ const DashTopSubHeading = ({
           // height={"60px"}
           flexWrap={"wrap"}
           bgcolor={"#ffffff"}
-          // bgcolor={scrollPosition > -10 ? "#ffffff" : "red"}
           color={"black"}
           mb={"38px"}
           py={"20px"}

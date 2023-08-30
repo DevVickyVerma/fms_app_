@@ -391,40 +391,48 @@ const ManageSite = (props) => {
                     {issitesettingPermissionAvailable ? (
                       <Dropdown.Item className="dropdown-item">
                         <Link to={`/site-setting/${row.id}`}>
-                          <i className="setting-icon">
-                            <SettingsIcon />
-                          </i>
-                          Settings
+                          <div style={{ width: "100%" }}>
+                            <i className="setting-icon">
+                              <SettingsIcon />
+                            </i>
+                            Settings
+                          </div>
                         </Link>
                       </Dropdown.Item>
                     ) : null}
                     {isManagerPermissionAvailable ? (
                       <Dropdown.Item className="dropdown-item">
                         <Link to={`/assignmanger/${row.id}`}>
-                          <i className="setting-icon">
-                            <AssignmentTurnedInIcon />
-                          </i>
-                          Assign Manager
+                          <div style={{ width: "100%" }}>
+                            <i className="setting-icon">
+                              <AssignmentTurnedInIcon />
+                            </i>
+                            Assign Manager
+                          </div>
                         </Link>
                       </Dropdown.Item>
                     ) : null}
                     {isEditPermissionAvailable ? (
                       <Dropdown.Item className="dropdown-item">
                         <Link to={`/editsite/${row.id}`}>
-                          <i className="setting-icon">
-                            <ModeEditIcon />
-                          </i>
-                          Edit
+                          <div style={{ width: "100%" }}>
+                            <i className="setting-icon">
+                              <ModeEditIcon />
+                            </i>
+                            Edit
+                          </div>
                         </Link>
                       </Dropdown.Item>
                     ) : null}
                     {isDeletePermissionAvailable ? (
                       <Dropdown.Item className="dropdown-item">
                         <Link to="#" onClick={() => handleDelete(row.id)}>
-                          <i className="setting-icon">
-                            <DeleteIcon />
-                          </i>
-                          Delete
+                          <div style={{ width: "100%" }}>
+                            <i className="setting-icon">
+                              <DeleteIcon />
+                            </i>
+                            Delete
+                          </div>
                         </Link>
                       </Dropdown.Item>
                     ) : null}
