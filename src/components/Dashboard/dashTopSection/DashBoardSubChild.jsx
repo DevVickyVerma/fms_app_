@@ -13,16 +13,9 @@ const DashBoardSubChild = ({
   const storedData = localStorage.getItem("savedDataOfDashboard");
   const parsedData = JSON.parse(storedData);
 
-  const GrossVolume = parsedData ? parsedData?.GrossVolume : null;
-  const shopmargin = parsedData ? parsedData?.shopmargin : null;
-  const GrossProfitValue = parsedData ? parsedData?.GrossProfitValue : null;
-  const GrossMarginValue = parsedData ? parsedData?.GrossMarginValue : null;
-  const FuelValue = parsedData ? parsedData?.FuelValue : null;
-  const shopsale = parsedData ? parsedData?.shopsale : null;
-  const searchdata = parsedData ? parsedData?.searchdata : null;
   return (
     <>
-      <div style={{ height: "100vh", overflowY: "auto" }}>
+      <div style={{ height: "100vh", overflowY: "auto", overflowX: "hidden" }}>
         <div className="page-header ">
           <div>
             <h1 className="page-title">
