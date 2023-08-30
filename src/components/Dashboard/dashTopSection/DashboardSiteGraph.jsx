@@ -1,4 +1,3 @@
-// import { Button } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import LiquidFillGauge from "react-liquid-gauge";
@@ -62,6 +61,17 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                           ? "text-black fs-6"
                           : "text-dark"
                       } text-bold`}
+                      style={{
+                        backgroundColor:
+                          selectedDateIndex === index
+                            ? "#e6191a"
+                            : "transparent",
+                        ":hover": {
+                          backgroundColor: "#e6191a",
+                          color: "#ffffff",
+                          cursor: "pointer",
+                        },
+                      }}
                       // disabled={selectedDateIndex === index}
                     >
                       {tankDate?.date}
@@ -179,7 +189,7 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                             >
                               Ullage:
                             </span>
-                            {tankData?.[selectedDateIndex]?.ullage} ℓ |
+                            {tankData?.[selectedDateIndex]?.ullage} ℓ |{" "}
                             {tankData?.[selectedDateIndex]?.ullage_percentage}%
                           </strong>
                         </p>

@@ -20,7 +20,7 @@ import {
   LinearScale,
   PointElement,
 } from "chart.js";
-import { Card, Col, Row } from "react-bootstrap";
+import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import LineChart from "../LineChart";
 import BarChart from "../BarChart";
 import DashboardSiteBarChart from "./DashboardSiteBarChart";
@@ -29,6 +29,7 @@ import moment from "moment/moment";
 import DashboardSiteLineChart from "./DashboardSiteLineChart";
 import StackedBarChart from "../StackedChart";
 import DashboardSiteGraph from "./DashboardSiteGraph";
+import DashboardSiteTopSection from "./DashboardSiteTopSection";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
@@ -63,7 +64,41 @@ const DashTopSubHeading = ({
   const closingTimeDateForSiteCheck = moment(
     getSiteDetails?.fuel_site_timings?.closing_time
   );
-  console.log("openingTimeDateForSiteCheck", openingTimeDateForSiteCheck);
+  console.log(
+    "formattedClosingTime",
+    getSiteDetails?.fuel_site_timings?.opening_time
+  );
+  const [formattedClosingTime, setFormattedClosingTime] = useState();
+  const [formattedStartingTime, setFormattedStartingTime] = useState();
+  const [formattedDay, setFormattedDay] = useState("");
+  const [formattedMonths, setformattedMonth] = useState();
+
+  useEffect(() => {
+    console.log(getSiteDetails, "getSiteDetails");
+    const closingTimeString = getSiteDetails?.fuel_site_timings?.closing_time;
+    const startingTimeString = getSiteDetails?.fuel_site_timings?.opening_time;
+
+    if (getSiteDetails) {
+      const parsedClosingTime = moment(closingTimeString, "DD-MM-YYYY HH:mm");
+      const parsedstartingTime = moment(startingTimeString, "DD-MM-YYYY HH:mm");
+      const MonthDayDate = moment(startingTimeString, "DD-MM-YYYY");
+
+      const formattedTime = parsedClosingTime.format("HH:mm");
+      const formattedMonth = MonthDayDate.format("MMM");
+
+      const formattedstartingTime = parsedstartingTime.format("HH:mm");
+      const formattedDay = MonthDayDate.format("Do");
+      console.log(formattedDay, "parsedClosingTime");
+
+      setFormattedDay(formattedDay);
+      setformattedMonth(formattedMonth);
+      setFormattedClosingTime(formattedTime);
+      setFormattedStartingTime(formattedstartingTime);
+    } else {
+      setFormattedClosingTime(null); // Handle case where closing time is not available
+      setFormattedStartingTime(null); // Handle case where closing time is not available
+    }
+  }, [getSiteDetails]);
 
   const openingTimeMonthForSite = openingTimeDateForSiteCheck.format("MMM");
   const openingTimeDateForSite = openingTimeDateForSiteCheck.format("Do");
@@ -109,43 +144,6 @@ const DashTopSubHeading = ({
     },
   };
 
-  function handleAccessSingleSiteData() {
-    // Retrieve the JSON string from local storage
-    const rowDataString = localStorage.getItem("singleSiteData");
-
-    if (rowDataString) {
-      // Parse the JSON string to get back the original row object
-      const savedRow = JSON.parse(rowDataString);
-
-      // Now you can use the savedRow object as needed
-      console.log(savedRow);
-    }
-  }
-
-  const singleSiteStoredData = localStorage.getItem("singleSiteData");
-  const singleSiteParsedData = JSON.parse(singleSiteStoredData);
-
-  const singleSiteFuelSales = singleSiteParsedData
-    ? singleSiteParsedData?.fuel_sales
-    : null;
-  const singleSiteFuelVolume = singleSiteParsedData
-    ? singleSiteParsedData?.fuel_volume
-    : null;
-  const singleSiteGrossMargin = singleSiteParsedData
-    ? singleSiteParsedData?.gross_margin
-    : null;
-  const singleSiteGrossProfit = singleSiteParsedData
-    ? singleSiteParsedData?.gross_profit
-    : null;
-  const singleSiteShopMargin = singleSiteParsedData
-    ? singleSiteParsedData?.shop_margin
-    : null;
-  const singleSiteShopSale = singleSiteParsedData
-    ? singleSiteParsedData?.shop_sales
-    : null;
-
-  console.log("singlesiteshopsalesales", singleSiteShopSale);
-
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedItemDate, setSelectedItemDate] = useState();
@@ -160,7 +158,11 @@ const DashTopSubHeading = ({
 
   return (
     <>
-      <CustomModal open={modalOpen} onClose={handleModalClose} />
+      <CustomModal
+        open={modalOpen}
+        onClose={handleModalClose}
+        siteName={getSiteDetails?.site_name}
+      />
       <div style={{ marginBottom: "20px" }}>
         {/* top border section in sub child component */}
 
@@ -236,7 +238,7 @@ const DashTopSubHeading = ({
                 }}
               >
                 {" "}
-                {openingTimeMonthForSite}
+                {formattedMonths}
                 <Typography
                   height={"27px"}
                   width={"77%"}
@@ -251,7 +253,7 @@ const DashTopSubHeading = ({
                   justifyContent={"center"}
                   alignItems={"center"}
                 >
-                  {openingTimeDateForSite}
+                  {formattedDay}
                 </Typography>
               </Typography>
             </Box>
@@ -267,7 +269,7 @@ const DashTopSubHeading = ({
                 fontWeight={500}
                 color={"#2ecc71"}
               >
-                {openingTimeForSite}
+                {formattedStartingTime}
               </Typography>
             </Box>
             {/* Close Time */}
@@ -282,320 +284,16 @@ const DashTopSubHeading = ({
                 fontWeight={500}
                 color={"#e6191a"}
               >
-                {closingTimeForSite}
+                {formattedClosingTime}
               </Typography>
             </Box>
             <h6 className="btn btn-success btn-sm" onClick={handleModalOpen}>
-              Site Details
+              Monthly Details
             </h6>
           </Box>
         </Box>
-        {/* Single Site Details Stats */}
-        <Box
-          width={"100%"}
-          // height={"60px"}
-          flexWrap={"wrap"}
-          bgcolor={"#ffffff"}
-          color={"black"}
-          mb={"20px"}
-          display={"flex"}
-          alignItems={"center"}
-          justifyContent="start"
-          gap={4}
-          py={"10px"}
-          boxShadow="0px 10px 10px -5px rgba(0,0,0,0.5)"
-        >
-          <Box
-            display={"flex"}
-            flexWrap={"wrap"}
-            width={"100%"}
-            gap={"15px"}
-            justifyContent={"space-evenly"}
-          >
-            <Box
-              flex={1}
-              borderRight="1px solid #2a282863"
-              height={"100%"}
-              alignItems={"center"}
-              display={"flex"}
-              // px={"20px"}
-              // pl={["0", "20px"]}
-              // pr={"20px"}
-              pr={"20px"}
-              maxWidth={"350px"}
-              minWidth={"250px"}
-            >
-              <div className="col col-auto">
-                <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
-                  <i className="icon icon-pound-sign text-white mb-5 ">ℓ</i>
-                </div>
-              </div>
-              {/* <BsDroplet size={"22px"} color="red" /> */}
-              {/* <WaterDropIcon /> */}
-              <Box
-                flexGrow={1}
-                ml={2}
-                flexDirection={"column"}
-                display={"flex"}
-              >
-                <Typography variant="body1"> Gross Volume</Typography>
-                <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                  Gross Volume ℓ {singleSiteFuelVolume?.gross_volume}
-                </Typography>
-                <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                  Total Volume ℓ {singleSiteFuelVolume?.total_volume}
-                </Typography>
-              </Box>
-              <Typography variant="body1">
-                {" "}
-                {singleSiteFuelVolume?.status === "up" ? (
-                  <>
-                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                    <span className="text-success">
-                      {singleSiteFuelVolume?.percentage}%
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                    <span className="text-danger">
-                      {singleSiteFuelVolume?.percentage}%
-                    </span>
-                  </>
-                )}
-              </Typography>
-            </Box>
-            <Box
-              flex={1}
-              borderRight="1px solid  #2a282863"
-              alignItems={"center"}
-              display={"flex"}
-              height={"100%"}
-              pr={"20px"}
-              maxWidth={"350px"}
-              minWidth={"250px"}
-            >
-              {/* <AiOutlinePauseCircle size={"22px"} color="red" /> */}
-              <div className="col col-auto">
-                <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto text-white">
-                  <OilBarrelIcon />
-                </div>
-              </div>
-              <Box flexGrow={1} ml={2}>
-                <Typography variant="body1">Gross Margin</Typography>
-                <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                  {singleSiteGrossMargin?.gross_margin} ppl
-                </Typography>
-              </Box>
-              <Typography variant="body1">
-                {singleSiteGrossMargin?.status === "up" ? (
-                  <>
-                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                    <span className="text-success">
-                      {singleSiteGrossMargin?.percentage}%
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                    <span className="text-danger">
-                      {singleSiteGrossMargin?.percentage}%
-                    </span>
-                  </>
-                )}
-              </Typography>
-            </Box>
-            <Box
-              flex={1}
-              borderRight="1px solid  #2a282863"
-              alignItems={"center"}
-              display={"flex"}
-              height={"100%"}
-              pr={"20px"}
-              maxWidth={"350px"}
-              minWidth={"250px"}
-            >
-              {/* <AiOutlineBarChart size={"22px"} color="red" /> */}
-              <div className="col col-auto">
-                <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
-                  <i className="icon icon-pound-sign text-white mb-5 ">
-                    &#163;
-                  </i>
-                </div>
-              </div>
-              <Box flexGrow={1} ml={2}>
-                <Typography variant="body1">Gross Profit</Typography>
-                <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                  £ {singleSiteGrossProfit?.gross_profit}
-                </Typography>
-              </Box>
-              <Typography variant="body1">
-                {singleSiteGrossProfit?.status === "up" ? (
-                  <>
-                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                    <span className="text-success">
-                      {singleSiteGrossProfit?.percentage}%
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                    <span className="text-danger">
-                      {singleSiteGrossProfit?.percentage}%
-                    </span>
-                  </>
-                )}
-              </Typography>
-            </Box>
-          </Box>
-          <Box
-            display={"flex"}
-            flexWrap={"wrap"}
-            width={"100%"}
-            gap={"15px"}
-            justifyContent={"space-evenly"}
-          >
-            <Box
-              flex={1}
-              borderRight="1px solid #2a282863"
-              height={"100%"}
-              alignItems={"center"}
-              display={"flex"}
-              // px={"20px"}
-              // pl={["0", "20px"]}
-              // pr={"20px"}
-              pr={"20px"}
-              maxWidth={"350px"}
-              minWidth={"250px"}
-            >
-              {/* <BsDroplet size={"22px"} color="red" /> */}
-              {/* <WaterDropIcon /> */}
-
-              <div className="col col-auto">
-                <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto text-white">
-                  <OilBarrelIcon />
-                </div>
-              </div>
-              <Box
-                flexGrow={1}
-                ml={2}
-                flexDirection={"column"}
-                display={"flex"}
-              >
-                <Typography variant="body1"> Fuel Sales</Typography>
-                <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                  Gross Value £ {singleSiteFuelSales?.gross_value}
-                </Typography>
-                <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                  Total Value £ {singleSiteFuelSales?.total_value}
-                </Typography>
-              </Box>
-              <Typography variant="body1">
-                {" "}
-                {singleSiteFuelSales?.status === "up" ? (
-                  <>
-                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                    <span className="text-success">
-                      {singleSiteFuelSales?.percentage}%
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                    <span className="text-danger">
-                      {singleSiteFuelSales?.percentage}%
-                    </span>
-                  </>
-                )}
-              </Typography>
-            </Box>
-            <Box
-              flex={1}
-              borderRight="1px solid  #2a282863"
-              alignItems={"center"}
-              display={"flex"}
-              height={"100%"}
-              pr={"20px"}
-              maxWidth={"350px"}
-              minWidth={"250px"}
-            >
-              {/* <AiOutlinePauseCircle size={"22px"} color="red" /> */}
-              <div className="col col-auto">
-                <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
-                  <i className="icon icon-pound-sign text-white mb-5 ">
-                    &#163;
-                  </i>
-                </div>
-              </div>
-              <Box flexGrow={1} ml={2}>
-                <Typography variant="body1">Shop Margin</Typography>
-                <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                  £ {singleSiteShopMargin?.shop_margin}
-                </Typography>
-              </Box>
-              <Typography variant="body1">
-                {" "}
-                {singleSiteShopMargin?.status === "up" ? (
-                  <>
-                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                    <span className="text-success">
-                      {singleSiteShopMargin?.percentage}%
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                    <span className="text-danger">
-                      {singleSiteShopMargin?.percentage}%
-                    </span>
-                  </>
-                )}
-              </Typography>
-            </Box>
-            <Box
-              flex={1}
-              alignItems={"center"}
-              display={"flex"}
-              height={"100%"}
-              pr={"20px"}
-              maxWidth={"350px"}
-              minWidth={"250px"}
-              borderRight="1px solid  #2a282863"
-            >
-              {/* <AiOutlineEuroCircle size={"22px"} color="red" /> */}
-              <div className="col col-auto">
-                <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
-                  <i className="icon icon-pound-sign text-white mb-5 ">
-                    &#163;
-                  </i>
-                </div>
-              </div>
-              <Box flexGrow={1} ml={2}>
-                <Typography variant="body1">Shop Sales</Typography>
-                <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                  £ {singleSiteShopSale?.shop_sales}
-                </Typography>
-              </Box>
-              <Typography variant="body1">
-                {singleSiteShopSale?.status === "up" ? (
-                  <>
-                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                    <span className="text-success">
-                      {singleSiteShopSale?.percentage}%
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                    <span className="text-danger">
-                      {singleSiteShopSale?.percentage}%
-                    </span>
-                  </>
-                )}
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
+        {/* dashboard site Top section */}
+        <DashboardSiteTopSection />
 
         {/* grid values */}
         <Box
@@ -633,7 +331,7 @@ const DashTopSubHeading = ({
                 }}
               >
                 {" "}
-                {formattedMonth}
+                {formattedMonths}
                 <Typography
                   height={"27px"}
                   width={"77%"}
@@ -648,7 +346,7 @@ const DashTopSubHeading = ({
                   justifyContent={"center"}
                   alignItems={"center"}
                 >
-                  {formattedDate}
+                  {formattedDay}
                 </Typography>
               </Typography>
               <Box variant="body1">
@@ -907,7 +605,7 @@ const DashTopSubHeading = ({
           p={"20px"}
           boxShadow="0px 10px 10px -5px rgba(0,0,0,0.5)"
         >
-          <Typography>WetStock analysis</Typography>
+          <Typography>WetStock Analysis</Typography>
           <Box
             display={"flex"}
             gap={"23px"}
