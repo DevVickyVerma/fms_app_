@@ -105,7 +105,12 @@ const CustomModal = ({
           response?.data?.data?.listing?.created_date,
           "axiosInstance"
         );
-        setData(response?.data?.data?.listing);
+        if (response?.data?.data?.listing.length > 0) {
+          localStorage.setItem("SiteDetailsModalShow", "true");
+        } else {
+          localStorage.setItem("SiteDetailsModalShow", "false");
+        }
+        setData(response?.data?.data);
         setmonth(response?.data?.data?.month);
         console.log(response?.data?.data?.month, "axiosInstance");
       }
@@ -157,18 +162,24 @@ const CustomModal = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {data ? (
-                    data.map((row, index) => (
+                  {data?.listing && data.listing.length > 0 ? (
+                    data?.listing.map((row, index) => (
                       <tr key={index}>
                         <td>{row.business_day}</td>
-                        <td>{moment(row.opening).format("HH:mm:ss")}</td>
-                        <td>{moment(row.closing).format("HH:mm:ss")}</td>
-                        <td>{moment(row.first_trans).format("HH:mm:ss")}</td>
+                        <td>
+                          {moment(row.listing?.opening).format("HH:mm:ss")}
+                        </td>
+                        <td>
+                          {moment(row.listing?.closing).format("HH:mm:ss")}
+                        </td>
+                        <td>
+                          {moment(row.listing?.first_trans).format("HH:mm:ss")}
+                        </td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan="5">No data available</td>
+                      <td colSpan="5">No data available..............</td>
                     </tr>
                   )}
                 </tbody>

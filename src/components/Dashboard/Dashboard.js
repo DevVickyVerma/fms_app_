@@ -592,10 +592,10 @@ const Dashboard = (props) => {
               </Card.Header>
               <Card.Body className="card-body pb-0">
                 <div id="chart">
-                  {/* <LineChart
+                  <LineChart
                     LinechartValues={DLinechartValues}
                     LinechartOption={DLinechartOption}
-                  /> */}
+                  />
                 </div>
               </Card.Body>
             </Card>
