@@ -5,13 +5,18 @@ import { Line } from "react-chartjs-2";
 // import { Utils } from "chart.js";
 
 const LineChart = ({ LinechartValues, LinechartOption }) => {
-  // let firstData = LinechartValues?.[0]?.data;
-  // let secondData = LinechartValues?.[1]?.data;
-  // let thirdData = LinechartValues?.[2]?.data;
+  if (!LinechartValues || !LinechartOption) {
+    // Data is not available yet, return a loading state or null
+    return <p>No Data Found...</p>;
+  }
 
-  // let firstLabel = LinechartValues?.[0]?.name;
-  // let secondLabel = LinechartValues?.[1]?.name;
-  // let thirdLabel = LinechartValues?.[2]?.name;
+  let firstData = LinechartValues?.[0]?.data;
+  let secondData = LinechartValues?.[1]?.data;
+  let thirdData = LinechartValues?.[2]?.data;
+
+  let firstLabel = LinechartValues?.[0]?.name;
+  let secondLabel = LinechartValues?.[1]?.name;
+  let thirdLabel = LinechartValues?.[2]?.name;
 
   const DATA_COUNT = 17;
 
@@ -27,23 +32,34 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
 
   let myLabels = LinechartValues;
 
+  const colorArray = [
+    [255, 99, 132], // Red
+    [54, 162, 235], // Green
+    [154, 62, 251], // Blue
+    // Add more colors as needed
+  ];
+
   const datasets = LinechartValues?.map((dataset, index) => ({
     label: dataset?.name,
     data: dataset?.data,
-    borderColor: `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${
-      Math.random() * 255
-    }, 1)`,
-    backgroundColor: `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${
-      Math.random() * 255
-    }, 0.2)`,
-    yAxisID: "y1",
+    borderColor: `rgba(${colorArray[index % colorArray.length].join(", ")}, 1)`,
+    backgroundColor: `rgba(${colorArray[index % colorArray.length].join(
+      ", "
+    )}, 0.2)`,
+    // borderColor: `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${
+    //   Math.random() * 255
+    // }, 1)`,
+    // backgroundColor: `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${
+    //   Math.random() * 255
+    // }, 0.2)`,
+    yAxisID: index === 1 ? "y" : "y1",
     key: index,
   }));
 
   const data = {
     labels: labels,
     datasets: datasets,
-    // labels:"",
+    // labels: "",
     // datasets: [
     //   {
     //     label: firstLabel,

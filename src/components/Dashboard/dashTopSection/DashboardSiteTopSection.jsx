@@ -64,16 +64,17 @@ const DashboardSiteTopSection = (props) => {
           <Row>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden Dashboard-card ${
+                className={`card overflow-hidden  ${
                   singleSiteFuelVolume?.status === "up"
                     ? "Dashboard-success-border"
                     : "Dashboard-loss-border"
                 }`}
               >
                 <Card.Body
-                //   className={`${
-                //     isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                //   }`}
+                  //   className={`${
+                  //     isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                  //   }`}
+                  className="py-3 px-5 single-site-card "
                 >
                   <Row>
                     <div className="col">
@@ -102,18 +103,18 @@ const DashboardSiteTopSection = (props) => {
                             <>
                               <div className="d-flex">
                                 <div>
-                                  <h6>Gross Volume</h6>
+                                  <h6>Fuel Volume</h6>
                                   <h4 className="mb-2 number-font">
                                     ℓ{singleSiteFuelVolume?.gross_volume}
                                   </h4>
                                 </div>
-                                {/* <div className="border-left"></div>
+                                <div className="border-left"></div>
                                 <div className="ms-3">
                                   <h6>Bunkered Volume</h6>
                                   <h4 className="mb-2 number-font">
                                     ℓ{singleSiteFuelVolume?.bunkered_volume}
                                   </h4>
-                                </div> */}
+                                </div>
                               </div>
 
                               {/* <p className="p-0">Bunkered Volume</p> */}
@@ -169,13 +170,13 @@ const DashboardSiteTopSection = (props) => {
             </Col>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden Dashboard-card ${
+                className={`card overflow-hidden  ${
                   singleSiteGrossMargin?.status === "up"
                     ? "Dashboard-success-border"
                     : "Dashboard-loss-border"
                 }`}
               >
-                <Card.Body>
+                <Card.Body className="py-3 px-5 single-site-card ">
                   <Row>
                     <div className="col">
                       <div className=" dashboard-box">
@@ -241,32 +242,16 @@ const DashboardSiteTopSection = (props) => {
             </Col>
             <div className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 `}>
               <div
-                className={`card overflow-hidden Dashboard-card ${
+                className={`card overflow-hidden  ${
                   singleSiteGrossProfit?.status === "up"
                     ? "Dashboard-success-border"
                     : "Dashboard-loss-border"
                 }`}
               >
-                <div className="card-body ">
+                <div className="card-body single-site-card py-3 px-5">
                   <Row>
                     <div className="col">
-                      <div
-                        className=" dashboard-box "
-                        // onClick={() => {
-                        //   const shouldNavigate =
-                        //     (superiorRole === "Administrator" &&
-                        //       searchdata &&
-                        //       Object.keys(searchdata).length > 0) ||
-                        //     (superiorRole !== "Administrator" &&
-                        //       isDetailPermissionAvailable);
-
-                        //   if (shouldNavigate) {
-                        //     setUploadTabname("Gross Profit");
-                        //     handleNavigateClick(UploadTabname);
-                        //     handleNavigateClick(UploadTabname);
-                        //   }
-                        // }}
-                      >
+                      <div className=" dashboard-box ">
                         <div>
                           <h6>Gross Profit</h6>
                           {isLoading ? (
@@ -338,16 +323,17 @@ const DashboardSiteTopSection = (props) => {
           <Row>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden Dashboard-card ${
+                className={`card overflow-hidden  ${
                   singleSiteFuelSales?.status === "up"
                     ? "Dashboard-success-border"
                     : "Dashboard-loss-border"
                 }`}
               >
                 <Card.Body
-                  className={`${
-                    isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                  }`}
+                  // className={`${
+                  //   isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                  // }`}
+                  className="py-3 px-5 single-site-card "
                 >
                   <Row>
                     <div className="col">
@@ -382,7 +368,7 @@ const DashboardSiteTopSection = (props) => {
                                 </div>
                                 <div className="border-left"></div>
                                 <div className="ms-3">
-                                  <h6>Bunkered Sales</h6>
+                                  <h6>Bunkered Value</h6>
                                   <h4 className="mb-2 number-font">
                                     £{singleSiteFuelSales?.bunkered_value}
                                   </h4>
@@ -438,13 +424,13 @@ const DashboardSiteTopSection = (props) => {
             </Col>
             <div className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 `}>
               <div
-                className={`card overflow-hidden Dashboard-card ${
+                className={`card overflow-hidden  ${
                   singleSiteShopSale?.status === "up"
                     ? "Dashboard-success-border"
                     : "Dashboard-loss-border"
                 }`}
               >
-                <div className="card-body ">
+                <div className="card-body single-site-card py-3 px-5">
                   <Row>
                     <div className="col">
                       <div
@@ -525,16 +511,17 @@ const DashboardSiteTopSection = (props) => {
             </div>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden Dashboard-card ${
+                className={`card overflow-hidden  ${
                   singleSiteShopMargin?.status === "up"
                     ? "Dashboard-success-border"
                     : "Dashboard-loss-border"
                 }`}
               >
                 <Card.Body
-                  className={`${
-                    isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                  }`}
+                  // className={`${
+                  //   isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                  // }`}
+                  className="py-3 px-5 single-site-card "
                 >
                   <Row>
                     <div className="col">

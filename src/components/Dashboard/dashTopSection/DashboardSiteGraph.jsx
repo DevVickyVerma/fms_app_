@@ -1,3 +1,4 @@
+import { Box, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import LiquidFillGauge from "react-liquid-gauge";
@@ -49,33 +50,63 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
               <Card.Title as="h3" className="gap-3 d-flex flex-wrap">
                 {getSiteStats?.data?.stock_alert?.[0]?.map(
                   (tankDate, index) => (
-                    <Button
-                      key={index}
-                      type="button"
-                      variant={
-                        selectedDateIndex === index ? "purple" : "primary"
-                      }
-                      onClick={() => handleDateButtonClick(index)}
-                      className={` ${
-                        selectedDateIndex === index
-                          ? "text-black fs-6"
-                          : "text-dark"
-                      } text-bold`}
-                      style={{
-                        backgroundColor:
+                    <>
+                      {/* <Button
+                        key={index}
+                        type="button"
+                        variant={
+                          selectedDateIndex === index ? "purple" : "primary"
+                        }
+                        onClick={() => handleDateButtonClick(index)}
+                        className={` ${
                           selectedDateIndex === index
-                            ? "#e6191a"
-                            : "transparent",
-                        ":hover": {
-                          backgroundColor: "#e6191a",
-                          color: "#ffffff",
-                          cursor: "pointer",
-                        },
-                      }}
-                      // disabled={selectedDateIndex === index}
-                    >
-                      {tankDate?.date}
-                    </Button>
+                            ? "text-black fs-6"
+                            : "text-dark"
+                        } text-bold`}
+                        style={{
+                          backgroundColor:
+                            selectedDateIndex === index
+                              ? "#e6191a"
+                              : "transparent",
+                          ":hover": {
+                            backgroundColor: "#e6191a",
+                            color: "#ffffff",
+                            cursor: "pointer",
+                          },
+                        }}
+                        // disabled={selectedDateIndex === index}
+                      >
+                        {tankDate?.date}
+                      </Button> */}
+
+                      <Box
+                        borderRadius={"5px"}
+                        bgcolor={
+                          selectedDateIndex === index ? "purple" : "#5444c1"
+                        }
+                        px={"20px"}
+                        py={"15px"}
+                        color={"white"}
+                        // minWidth={"150px"}
+                        onClick={() => handleDateButtonClick(index)}
+                        key={index}
+                        sx={{
+                          ":hover": {
+                            backgroundColor: "purple", // Change background color on hover
+                            cursor: "pointer", // Change cursor to pointer on hover
+                          },
+                        }}
+                      >
+                        <Typography
+                          display={"flex"}
+                          gap={"5px"}
+                          alignItems={"center"}
+                          mb={"5px"}
+                        >
+                          {tankDate?.date}
+                        </Typography>
+                      </Box>
+                    </>
                   )
                 )}
               </Card.Title>
