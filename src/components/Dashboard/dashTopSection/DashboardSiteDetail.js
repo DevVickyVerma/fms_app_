@@ -13,17 +13,16 @@ const DashboardSiteDetail = (props) => {
   const [getSiteStats, setGetSiteStats] = useState();
   const [getSiteDetails, setGetSiteDetails] = useState();
 
-  console.log("site wise datils api data", getSiteDetails);
-  console.log("get site states api data", getSiteStats);
-
   const FetchTableData = async () => {
     try {
       const searchdata = await JSON.parse(localStorage.getItem("mySearchData"));
       console.log("my search data in sub child site", searchdata);
+      const companyId =
+        searchdata?.company_id !== undefined ? searchdata.company_id : "";
       const response1 = await getData(
         localStorage.getItem("superiorRole") !== "Client"
-          ? `/dashboard/get-site-stats?client_id=${searchdata?.client_id}&company_id=${searchdata?.company_id}&site_id=${id}`
-          : `/dashboard/get-site-stats?client_id=${ClientID}&company_id=${searchdata?.company_id}&site_id=${id}`
+          ? `/dashboard/get-site-stats?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${id}`
+          : `/dashboard/get-site-stats?client_id=${ClientID}&company_id=${companyId}&site_id=${id}`
       );
 
       if (response1 && response1.data) {
@@ -37,10 +36,14 @@ const DashboardSiteDetail = (props) => {
     try {
       const searchdata = await JSON.parse(localStorage.getItem("mySearchData"));
       console.log("my search data in sub child site", searchdata);
+      const companyId =
+        searchdata?.company_id !== undefined ? searchdata.company_id : "";
+      const siteID =
+        searchdata?.site_id !== undefined ? searchdata.site_id : "";
       const response2 = await getData(
         localStorage.getItem("superiorRole") !== "Client"
-          ? `/dashboard/get-site-details?client_id=${searchdata?.client_id}&company_id=${searchdata?.company_id}&site_id=${id}`
-          : `/dashboard/get-site-details?client_id=${ClientID}&company_id=${searchdata?.company_id}&site_id=${id}`
+          ? `/dashboard/get-site-details?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${id}`
+          : `/dashboard/get-site-details?client_id=${ClientID}&company_id=${companyId}&site_id=${id}`
       );
       if (response2 && response2.data) {
         setGetSiteDetails(response2?.data?.data);

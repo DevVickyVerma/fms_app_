@@ -209,16 +209,6 @@ const ManageClient = (props) => {
     isAddonPermissionAvailable ||
     isDeletePermissionAvailable ||
     isReportsPermissionAvailable;
-  // const handleClientLogin=(row)=>{
-  //   console.log(row.id,"client id")
-  // }
-  console.log(isEditPermissionAvailable, "isStatusPermissionAvailable");
-  console.log(isLoginPermissionAvailable, "isStatusPermissionAvailable");
-  console.log(isAddonPermissionAvailable, "isStatusPermissionAvailable");
-  console.log(isAddPermissionAvailable, "isStatusPermissionAvailable");
-  console.log(isDeletePermissionAvailable, "isStatusPermissionAvailable");
-  console.log(isReportsPermissionAvailable, "isStatusPermissionAvailable");
-  console.log(anyPermissionAvailable, "isStatusPermissionAvailable");
 
   const handleClientLogin = async (row) => {
     try {
@@ -238,6 +228,9 @@ const ManageClient = (props) => {
         localStorage.setItem("Phone_Number", phoneNumber);
         localStorage.setItem("superiorRole", superiorRole);
         localStorage.setItem("tokenupdate", true);
+        localStorage.removeItem("passData");
+        localStorage.removeItem("mySearchData");
+        localStorage.removeItem("savedDataOfDashboard");
         console.log(response.data.data.access_token, "response");
       } else {
         throw new Error("No data available in the response");

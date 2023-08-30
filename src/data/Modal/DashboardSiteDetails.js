@@ -38,6 +38,7 @@ const CustomModal = ({
 }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [data, setData] = useState();
+  const [month, setmonth] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -105,21 +106,14 @@ const CustomModal = ({
           "axiosInstance"
         );
         setData(response?.data?.data?.listing);
+        setmonth(response?.data?.data?.month);
+        console.log(response?.data?.data?.month, "axiosInstance");
       }
     } catch (error) {
       handleError(error);
     }
   };
 
-  const renderStatusButton = (status) => {
-    if (status === 1) {
-      return <button className="btn btn-success btn-sm">Active</button>;
-    } else if (status === 0) {
-      return <button className="btn btn-danger btn-sm">Inactive</button>;
-    } else {
-      return <button className="badge">Unknown</button>;
-    }
-  };
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -139,7 +133,8 @@ const CustomModal = ({
           className="ModalTitle"
         >
           <div className="ModalTitle-date">
-            {siteName ? siteName : "Site Name"}(Monthly Details)
+            {siteName ? siteName : "Site Name"}( {month ? month : ""} Monthly
+            Details)
           </div>
           <span onClick={onClose}>
             <button className="close-button">
@@ -162,24 +157,20 @@ const CustomModal = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {data?.map((row, index) => (
-                    <tr key={index}>
-                      {/* <td className="text-center">{index + 1}</td> */}
-                      <td>{row?.business_day}</td>
-                      {/* <td>{row?.created_date}</td> */}
-                      <td>{moment(row?.opening).format("HH:mm:ss")}</td>
-                      <td>{moment(row?.closing).format("HH:mm:ss")}</td>
-                      <td>{moment(row?.first_trans).format("HH:mm:ss")}</td>
-                      {/* <td>
-                        <OverlayTrigger
-                          placement="top"
-                          overlay={<Tooltip>Status</Tooltip>}
-                        >
-                          {renderStatusButton(row?.status)}
-                        </OverlayTrigger>
-                      </td> */}
+                  {data ? (
+                    data.map((row, index) => (
+                      <tr key={index}>
+                        <td>{row.business_day}</td>
+                        <td>{moment(row.opening).format("HH:mm:ss")}</td>
+                        <td>{moment(row.closing).format("HH:mm:ss")}</td>
+                        <td>{moment(row.first_trans).format("HH:mm:ss")}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5">No data available</td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>

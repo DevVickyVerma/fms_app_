@@ -46,20 +46,10 @@ const Dashboard = (props) => {
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
 
   const [ShowTruw, setShowTruw] = useState(false);
-  const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
+  const [ClientID, setClientID] = useState();
   // const [searchdata, setSearchdata] = useState({});
   const [SearchList, setSearchList] = useState(false);
-  // const [GrossMarginValue, setGrossMarginValue] = useState();
-  // const [GrossProfitValue, setGrossProfitValue] = useState();
-  // const [FuelValue, setFuelValue] = useState();
-  // const [GrossVolume, setGrossVolume] = useState();
-  // const [shopsale, setshopsale] = useState();
-  // const [shopmargin, setshopmargin] = useState();
-  // const [piechartValues, setpiechartValues] = useState();
-  // const [LinechartValues, setLinechartValues] = useState([]);
-  // const [LinechartOption, setLinechartOption] = useState();
-  // const [DLinechartValues, setDLinechartValues] = useState([]);
-  // const [DLinechartOption, setDLinechartOption] = useState();
+
   const [myData, setMyData] = useState();
   let LinechartOptions = [];
 
@@ -224,7 +214,7 @@ const Dashboard = (props) => {
   const handleFormSubmit = async (values) => {
     setSearchdata(values);
     localStorage.setItem("mySearchData", JSON.stringify(values));
-    // console.log("my values while submitting", values);
+    console.log("submitting", values);
 
     try {
       const response = await getData(
@@ -286,6 +276,7 @@ const Dashboard = (props) => {
 
     setSearchdata({});
     localStorage.removeItem("savedDataOfDashboard");
+    localStorage.removeItem("mySearchData");
 
     if (superiorRole !== "Administrator") {
       // Assuming handleFetchSiteData is an asynchronous function
@@ -324,150 +315,6 @@ const Dashboard = (props) => {
       console.log("isLoading state:", isLoading);
     }
   };
-  // const ResetForm = () => {
-  //   setSearchdata({});
-  //   localStorage.removeItem("savedDataOfDashboard"); // clear the flag
-  //   localStorage.removeItem("savedDataOfDashboard"); // clear the flag
-  //   if (superiorRole !== "Administrator") {
-  //     handleFetchSiteData();
-  //   } else {
-  //     setLinechartValues();
-  //     setLinechartOption();
-
-  //     setpiechartValues();
-  //     setGrossMarginValue();
-  //     setGrossVolume();
-  //     setGrossProfitValue();
-  //     setFuelValue();
-  //     setshopsale();
-  //     setshopmargin();
-  //   }
-  // };
-  const [series] = useState([
-    {
-      name: "Fuel Volume",
-      type: "line",
-      data: [
-        "3603748.97",
-        "3773655.95",
-        "4432385.55",
-        "4625445.53",
-        "4928706.67",
-        "4861556.06",
-        "3678807.2",
-      ],
-    },
-    {
-      name: "Fuel Margin",
-      type: "line",
-      data: [
-        "136.7458",
-        "134.57002",
-        "133.24867",
-        "130.55916",
-        "126.50245",
-        "122.73388",
-        "119.84596",
-      ],
-    },
-    {
-      name: "Shop Sales",
-      type: "line",
-      data: [
-        "645595.61",
-        "675761.99",
-        "866782.68",
-        "1009859.18",
-        "1111385.53",
-        "1134722.21",
-        "825244.2",
-      ],
-    },
-  ]);
-  const defaultLabels = [
-    "30 Jan 2023",
-    "28 Feb 2023",
-    "31 Mar 2023",
-    "30 Apr 2023",
-    "31 May 2023",
-    "30 Jun 2023",
-    "31 Jul 2023",
-  ];
-
-  const [options, setOptions] = useState({
-    chart: {
-      height: 350,
-      type: "line",
-    },
-    title: {
-      text: "",
-    },
-    dataLabels: {
-      enabled: true,
-      enabledOnSeries: [],
-    },
-    labels: defaultLabels,
-    xaxis: {
-      type: "datetime", // Set the xaxis type to "datetime"
-    },
-    yaxis: [
-      {
-        title: {
-          text: "Fuel Volume",
-        },
-      },
-      {
-        opposite: true,
-        title: {
-          text: "Fuel Margin",
-        },
-      },
-    ],
-  });
-
-  // Function to update the options
-  const updateOptions = (newOptions) => {
-    setOptions((prevOptions) => ({ ...prevOptions, ...newOptions }));
-  };
-
-  const isoDateLabels = defaultLabels.map((label) => {
-    const [day, month, year] = label.split(" ");
-    const monthIndex =
-      [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ].indexOf(month) + 1;
-    const zeroPaddedDay = day.padStart(2, "0");
-    const zeroPaddedMonth = monthIndex.toString().padStart(2, "0");
-    return `${year}-${zeroPaddedMonth}-${zeroPaddedDay}`;
-  });
-
-  // console.log("isoDateLabels", isoDateLabels);
-
-  // console.log(options, "options");
-  // Check if LinechartOption exists and update the labels accordingly
-  useEffect(() => {
-    // if (LinechartOption) {
-    //   updateOptions({ labels: LinechartOption });
-    //   console.log("LinechartOption", LinechartOption);
-    // }
-
-    console.log(
-      "linechart values and linechart options",
-      LinechartValues,
-      LinechartOption
-    );
-  }, [LinechartOption, LinechartValues]);
 
   // console.log("pi bunkerd sales",data.pi_graph.bunkered_sales);
   const piechartValuesss = {
@@ -497,52 +344,15 @@ const Dashboard = (props) => {
   }, [token]);
 
   useEffect(() => {
+    if (Object.keys(searchdata).length === 0) {
+      localStorage.removeItem("mySearchData");
+    }
     if (isStatusPermissionAvailable && superiorRole !== "Administrator") {
       handleFetchSiteData();
     }
     console.clear();
     console.log("my search data on dashboard", searchdata);
   }, [permissionsArray]);
-  // console.log(permissionsArray, "permissionsArray");
-
-  // const handleSubmit = (formData) => {
-  //   const filteredFormData = Object.fromEntries(
-  //     Object.entries(formData).filter(
-  //       ([key, value]) => value !== null && value !== ""
-  //     )
-  //   );
-
-  //   if (Object.values(filteredFormData).length > 0) {
-  //     setSearchdata(filteredFormData);
-  //     const axiosInstance = axios.create({
-  //       baseURL: process.env.REACT_APP_BASE_URL,
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       body: formData,
-  //     });
-  //     const SearchList = async (row) => {
-  //       try {
-  //         const params = new URLSearchParams(formData).toString();
-  //         const response = await getData(`/client/list?${params}`);
-  //         console.log(response.data.data, "ddd");
-
-  //         if (response && response.data && response.data.data) {
-  //           setMyData(response.data.data.clients);
-  //         } else {
-  //           throw new Error("No data available in the response");
-  //         }
-  //       } catch (error) {
-  //         console.error("API error:", error);
-  //         // Handle the error here, such as displaying an error message or performing other actions
-  //       }
-  //     };
-
-  //     SearchList();
-  //   }
-
-  //   handleToggleSidebar1();
-  // };
 
   return (
     <>
@@ -699,17 +509,6 @@ const Dashboard = (props) => {
           )}
         </Box>
 
-        {/* {ShowTruw ? (
-          <CenterFilterModal
-            title="Search"
-            visible={sidebarVisible1}
-            onClose={handleToggleSidebar1}
-            onSubmit={handleFormSubmit}
-            searchListstatus={SearchList}
-          />
-        ) : (
-          ""
-        )} */}
         {ShowTruw ? (
           <DashBordModal
             title="Search"
@@ -725,19 +524,6 @@ const Dashboard = (props) => {
           ""
         )}
 
-        {/* <CenterFilterModal
-            title="Search"
-            visible={sidebarVisible1}
-            onClose={handleToggleSidebar1}
-            onSubmit={handleFormSubmit}
-            searchListstatus={SearchList}
-            onClick={() => {
-                    handleToggleSidebar1();
-            }}
-          /> */}
-        {/* </Box> */}
-
-        {/* Dash Top Section Js File */}
         {localStorage.getItem("superiorRole") === "Administrator" &&
         Object.keys(searchdata).length === 0 ? (
           <div
@@ -806,10 +592,10 @@ const Dashboard = (props) => {
               </Card.Header>
               <Card.Body className="card-body pb-0">
                 <div id="chart">
-                  <LineChart
+                  {/* <LineChart
                     LinechartValues={DLinechartValues}
                     LinechartOption={DLinechartOption}
-                  />
+                  /> */}
                 </div>
               </Card.Body>
             </Card>

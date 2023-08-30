@@ -37,10 +37,14 @@ const DashTopTableSection = (props) => {
     console.log();
     try {
       const searchdata = await JSON.parse(localStorage.getItem("mySearchData"));
+      const companyId =
+        searchdata?.company_id !== undefined ? searchdata.company_id : "";
+      const siteID =
+        searchdata?.site_id !== undefined ? searchdata.site_id : "";
       const response = await getData(
         localStorage.getItem("superiorRole") !== "Client"
-          ? `dashboard/get-details?client_id=${searchdata?.client_id}&company_id=${searchdata?.company_id}&site_id=${searchdata?.site_id}`
-          : `dashboard/get-details?client_id=${ClientID}&company_id=${searchdata?.company_id}&site_id=${searchdata?.site_id}`
+          ? `dashboard/get-details?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${siteID}`
+          : `dashboard/get-details?client_id=${ClientID}&company_id=${companyId}&site_id=${siteID}`
       );
 
       if (response && response.data && response.data.data) {
@@ -56,6 +60,7 @@ const DashTopTableSection = (props) => {
 
   useEffect(() => {
     FetchTableData();
+    setClientID(localStorage.getItem("superiorId"));
   }, [searchdata]);
 
   const tableCustomStyles = {
