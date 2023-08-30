@@ -357,40 +357,48 @@ const ManageClient = (props) => {
                     {isEditPermissionAvailable ? (
                       <Dropdown.Item className="dropdown-item">
                         <Link to={`/editclient/${row.id}`}>
-                          <i className="setting-icon">
-                            <ModeEditIcon />
-                          </i>
-                          Edit
+                          <div style={{ width: "100%" }}>
+                            <i className="setting-icon">
+                              <ModeEditIcon />
+                            </i>
+                            Edit
+                          </div>
                         </Link>
                       </Dropdown.Item>
                     ) : null}
                     {isDeletePermissionAvailable ? (
                       <Dropdown.Item className="dropdown-item">
                         <Link to="#" onClick={() => handleDelete(row.id)}>
-                          <i className="setting-icon">
-                            <DeleteIcon />
-                          </i>
-                          Delete
+                          <div style={{ width: "100%" }}>
+                            <i className="setting-icon">
+                              <DeleteIcon />
+                            </i>
+                            Delete
+                          </div>
                         </Link>
                       </Dropdown.Item>
                     ) : null}
                     {isLoginPermissionAvailable ? (
                       <Dropdown.Item className="dropdown-item">
                         <Link to="#" onClick={() => handleClientLogin(row)}>
-                          <i className="setting-icon">
-                            <VpnKeyIcon />
-                          </i>
-                          Client Login
+                          <div style={{ width: "100%" }}>
+                            <i className="setting-icon">
+                              <VpnKeyIcon />
+                            </i>
+                            Client Login
+                          </div>
                         </Link>
                       </Dropdown.Item>
                     ) : null}
                     {isAddonPermissionAvailable ? (
                       <Dropdown.Item className="dropdown-item">
                         <Link to={`/assignclientaddon/${row.id}`}>
-                          <i className="setting-icon">
-                            <AssignmentIndIcon />
-                          </i>
-                          Assign Addon
+                          <div style={{ width: "100%" }}>
+                            <i className="setting-icon">
+                              <AssignmentIndIcon />
+                            </i>
+                            Assign Addon
+                          </div>
                         </Link>
                       </Dropdown.Item>
                     ) : null}
@@ -400,10 +408,12 @@ const ManageClient = (props) => {
                           className="settingicon"
                           to={`/assignreport/${row.id}`}
                         >
-                          <i className="setting-icon">
-                            <AssignmentIndIcon />
-                          </i>
-                          <span>Report Assign</span>
+                          <div style={{ width: "100%" }}>
+                            <i className="setting-icon">
+                              <AssignmentIndIcon />
+                            </i>
+                            <span>Report Assign</span>
+                          </div>
                         </Link>
                       </Dropdown.Item>
                     ) : null}
