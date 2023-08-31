@@ -182,14 +182,14 @@ const DashTopTableSection = (props) => {
     },
     {
       name: "Fuel Sales",
-      selector: (row) => [row?.fuel_sales?.gross_volume],
+      selector: (row) => [row?.fuel_sales?.gross_value],
       sortable: true,
       width: "13%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
-              £ {row?.fuel_sales?.gross_volume}
+              £ {row?.fuel_sales?.gross_value}
             </h6>
             <p
               className={`me-1 ${
