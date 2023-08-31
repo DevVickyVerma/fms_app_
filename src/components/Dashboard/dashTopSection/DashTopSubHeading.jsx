@@ -71,6 +71,8 @@ const DashTopSubHeading = ({
   const [formattedClosingTime, setFormattedClosingTime] = useState();
   const [formattedStartingTime, setFormattedStartingTime] = useState();
   const [formattedDay, setFormattedDay] = useState("");
+  const [formattedDayForOpening, setFormattedDayForOpening] = useState("");
+  const [formattedDayForClosing, setFormattedDayForClosing] = useState("");
   const [DeductedformattedDay, setDeductedformattedDay] = useState(
     getSiteDetails?.last_fuel_delivery_stats?.last_day
   );
@@ -80,9 +82,17 @@ const DashTopSubHeading = ({
     const closingTimeString = getSiteDetails?.fuel_site_timings?.closing_time;
     const startingTimeString = getSiteDetails?.fuel_site_timings?.opening_time;
 
-    console.log(DeductedformattedDay, "DeductedformattedDay");
+    // console.log(DeductedformattedDay, "DeductedformattedDay");
 
     if (getSiteDetails) {
+      const parshedFinalOpeningTime = moment(
+        startingTimeString,
+        "DD-MM-YYYY HH:mm"
+      );
+      const parshedFinalClosingTime = moment(
+        closingTimeString,
+        "DD-MM-YYYY HH:mm"
+      );
       const parsedClosingTime = moment(closingTimeString, "DD-MM-YYYY HH:mm");
       const parsedstartingTime = moment(startingTimeString, "DD-MM-YYYY HH:mm");
       const MonthDayDate = moment(startingTimeString, "DD-MM-YYYY");
@@ -93,6 +103,14 @@ const DashTopSubHeading = ({
       const formattedstartingTime = parsedstartingTime.format("HH:mm");
       const formattedDay = MonthDayDate.format("Do");
 
+      const formattedCLosingTimeForSite =
+        parshedFinalClosingTime.format("Do MMM HH:mm");
+
+      const formattedOpeningTimeForSite =
+        parshedFinalClosingTime.format("Do MMM HH:mm");
+
+      setFormattedDayForClosing(formattedCLosingTimeForSite);
+      setFormattedDayForOpening(formattedOpeningTimeForSite);
       setFormattedDay(formattedDay);
       setformattedMonth(formattedMonth);
       setFormattedClosingTime(formattedTime);
@@ -102,6 +120,7 @@ const DashTopSubHeading = ({
       setFormattedStartingTime(null); // Handle case where closing time is not available
     }
   }, [getSiteDetails]);
+  console.log(formattedDayForOpening, "finalOpeningTime");
 
   const handleGradsClick = (index) => {
     // setIsGradsOpen(!isGradsOpen);
@@ -217,11 +236,55 @@ const DashTopSubHeading = ({
           </Box>
           {/* RIGHT side heading title */}
           <Box display={"flex"} gap={"20px"} alignItems={"center"}>
-            {/* Calendar Date */}
+            {/* Calendar Date With Updated OPening Time*/}
             <Box>
               <Typography
                 height={"60px"}
-                width={"60px"}
+                width={"140px"}
+                borderRadius={"10px"}
+                position={"relative"}
+                bgcolor={"#2ecc71"}
+                textAlign={"center"}
+                py={"2px"}
+                color={"#dfe6e9"}
+                sx={{
+                  transition: "background-color 0.3s, color 0.3s", // Add smooth transition
+                  ":hover": {
+                    // color: "#2d3436", // Dark gray for better contrast
+                    backgroundColor: "#27ae60", // Darker red shade
+                    color: "#ffffff", // White for better contrast
+                    cursor: "pointer",
+                  },
+                }}
+              >
+                {" "}
+                Opening Time
+                {/* {formattedMonths} */}
+                <Typography
+                  height={"27px"}
+                  width={"90%"}
+                  bgcolor={"#ecf0f1"}
+                  position={"absolute"}
+                  borderRadius={"8px"}
+                  bottom={0}
+                  m={"6px"}
+                  color={"#2d3436"}
+                  textAlign={"center"}
+                  display={"flex"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  {/* 20 Aug, 17:25 */}
+                  {/* {formattedDay} {formattedMonths} {formattedStartingTime} */}
+                  {formattedDayForOpening}
+                </Typography>
+              </Typography>
+            </Box>
+            {/* Calendar Date With Updated Closing Time */}
+            <Box>
+              <Typography
+                height={"60px"}
+                width={"140px"}
                 borderRadius={"10px"}
                 position={"relative"}
                 bgcolor={"#d63031"}
@@ -239,10 +302,11 @@ const DashTopSubHeading = ({
                 }}
               >
                 {" "}
-                {formattedMonths}
+                Closing Time
+                {/* {formattedMonths} */}
                 <Typography
                   height={"27px"}
-                  width={"77%"}
+                  width={"90%"}
                   bgcolor={"#ecf0f1"}
                   position={"absolute"}
                   borderRadius={"8px"}
@@ -254,41 +318,14 @@ const DashTopSubHeading = ({
                   justifyContent={"center"}
                   alignItems={"center"}
                 >
-                  {formattedDay}
+                  {/* 20 Aug, 17:25 */}
+                  {/* {formattedDay} {formattedMonths} {formattedClosingTime} */}
+                  {formattedDayForClosing}
                 </Typography>
               </Typography>
             </Box>
-            {/* opening Time */}
-            <Box variant="body1">
-              <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                {/* Last Date Deducted Delivery was on */}
-                Opening Time
-              </Typography>
-              <Typography
-                variant="body1"
-                fontSize={"16px"}
-                fontWeight={500}
-                color={"#2ecc71"}
-              >
-                {formattedStartingTime}
-              </Typography>
-            </Box>
-            {/* Close Time */}
-            <Box variant="body1">
-              <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                {/* Last Date Deducted Delivery was on */}
-                Closing Time
-              </Typography>
-              <Typography
-                variant="body1"
-                fontSize={"16px"}
-                fontWeight={500}
-                color={"#e6191a"}
-              >
-                {formattedClosingTime}
-              </Typography>
-            </Box>
-            {localStorage.getItem("myKey") === true ? (
+
+            {localStorage.getItem("SiteDetailsModalShow") === "true" ? (
               <h6 className="btn btn-success btn-sm" onClick={handleModalOpen}>
                 Monthly Details
               </h6>
@@ -423,7 +460,7 @@ const DashTopSubHeading = ({
         >
           <Box pr={["160px", "20px"]}>
             <Box display={"flex"} gap={"5px"}>
-              <Typography variant="body1">Fuel Stats</Typography>
+              <Typography variant="body1">Grades</Typography>
             </Box>
             <Box
               gap={"27px"}
@@ -614,7 +651,7 @@ const DashTopSubHeading = ({
             display={"flex"}
             gap={"23px"}
             flexWrap={"wrap"}
-            justifyContent={["space-around"]}
+            // justifyContent={["space-around"]}
           >
             {getSiteDetails?.last_end_dip_stats?.data?.map(
               (endDipState, index) => (
@@ -690,28 +727,6 @@ const DashTopSubHeading = ({
           ></Line>
         </Box> */}
       </div>
-      <Row
-        style={{
-          marginBottom: "10px",
-          marginTop: "20px",
-        }}
-      >
-        <Col lg={12} md={12}>
-          <Card>
-            <Card.Header className="card-header">
-              <h4 className="card-title">Performance Reporting</h4>
-            </Card.Header>
-            <Card.Body className="card-body pb-0">
-              <div id="chart">
-                <StackedLineBarChart
-                  stackedLineBarData={stackedLineBarDataForSite}
-                  stackedLineBarLabels={stackedLineBarLabelsForSite}
-                />
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
 
       <Row
         style={{
@@ -731,6 +746,29 @@ const DashTopSubHeading = ({
                 <DashboardSiteGraph
                   getSiteStats={getSiteStats}
                   setGetSiteStats={setGetSiteStats}
+                />
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+
+      <Row
+        style={{
+          marginBottom: "10px",
+          marginTop: "20px",
+        }}
+      >
+        <Col lg={12} md={12}>
+          <Card>
+            <Card.Header className="card-header">
+              <h4 className="card-title">Performance Reporting</h4>
+            </Card.Header>
+            <Card.Body className="card-body pb-0">
+              <div id="chart">
+                <StackedLineBarChart
+                  stackedLineBarData={stackedLineBarDataForSite}
+                  stackedLineBarLabels={stackedLineBarLabelsForSite}
                 />
               </div>
             </Card.Body>
