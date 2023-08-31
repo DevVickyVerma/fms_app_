@@ -163,7 +163,8 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                               }}
                             >
                               <tspan>
-                                <tspan>{props?.value}</tspan>
+                                {/* <tspan>{props?.value?.toFixed(2)}</tspan> */}
+                                {Number(props?.value).toFixed(2)}
                                 <tspan>{props?.percent}</tspan>
                               </tspan>
                             </tspan>

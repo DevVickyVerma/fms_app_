@@ -7,7 +7,7 @@ import { Line } from "react-chartjs-2";
 const LineChart = ({ LinechartValues, LinechartOption }) => {
   if (!LinechartValues || !LinechartOption) {
     // Data is not available yet, return a loading state or null
-    return <p>No Data Found...</p>;
+    return <p>Please Apply Filter To Load Chart...</p>;
   }
 
   let firstData = LinechartValues?.[0]?.data;
@@ -52,7 +52,7 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
     // backgroundColor: `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${
     //   Math.random() * 255
     // }, 0.2)`,
-    yAxisID: index === 1 ? "y" : "y1",
+    yAxisID: index === 1 ? "y1" : "y",
     key: index,
   }));
 
