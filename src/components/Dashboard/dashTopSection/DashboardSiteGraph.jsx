@@ -1,6 +1,13 @@
 import { Box, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import { Button, Card, Col, Row } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import LiquidFillGauge from "react-liquid-gauge";
 
 const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
@@ -211,7 +218,28 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                             >
                               Capacity:
                             </span>
-                            {tankData?.[selectedDateIndex]?.capacity} ℓ
+                            {tankData?.[selectedDateIndex]?.capacity} ℓ{" "}
+                            <span>
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                  <Tooltip>
+                                    {" "}
+                                    Average Sale :{" "}
+                                    {
+                                      tankData?.[selectedDateIndex]
+                                        ?.average_sale
+                                    }{" "}
+                                    ℓ{" "}
+                                  </Tooltip>
+                                }
+                              >
+                                <i
+                                  class="fa fa-info-circle"
+                                  aria-hidden="true"
+                                ></i>
+                              </OverlayTrigger>
+                            </span>
                           </strong>
                         </p>
                         <p>
