@@ -71,18 +71,31 @@ const DashTopSubHeading = ({
   const [formattedClosingTime, setFormattedClosingTime] = useState();
   const [formattedStartingTime, setFormattedStartingTime] = useState();
   const [formattedDay, setFormattedDay] = useState("");
+
   const [formattedDayForOpening, setFormattedDayForOpening] = useState("");
   const [formattedDayForClosing, setFormattedDayForClosing] = useState("");
   const [DeductedformattedDay, setDeductedformattedDay] = useState(
     getSiteDetails?.last_fuel_delivery_stats?.last_day
   );
+
+  const [DeductedformattedDay, setDeductedformattedDay] = useState("");
+
   const [formattedMonths, setformattedMonth] = useState();
+
+  const HeadingDay = getSiteDetails?.fuel_site_timings?.opening_time;
+  const parsedClosingTimeHeadingDay = moment(HeadingDay, "YYYY-MM-DD HH:mm");
+
+  if (parsedClosingTimeHeadingDay.isValid()) {
+    var parsedClosingTimeHeadingDay1 = parsedClosingTimeHeadingDay.format("Do");
+  } else {
+    // Display an indicator for an invalid date
+    console.log("Invalid date");
+  }
 
   useEffect(() => {
     const closingTimeString = getSiteDetails?.fuel_site_timings?.closing_time;
     const startingTimeString = getSiteDetails?.fuel_site_timings?.opening_time;
 
-    // console.log(DeductedformattedDay, "DeductedformattedDay");
 
     if (getSiteDetails) {
       const parshedFinalOpeningTime = moment(
@@ -274,9 +287,12 @@ const DashTopSubHeading = ({
                   justifyContent={"center"}
                   alignItems={"center"}
                 >
+
                   {/* 20 Aug, 17:25 */}
                   {/* {formattedDay} {formattedMonths} {formattedStartingTime} */}
                   {formattedDayForOpening}
+
+                  {parsedClosingTimeHeadingDay1}
                 </Typography>
               </Typography>
             </Box>
