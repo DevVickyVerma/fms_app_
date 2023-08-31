@@ -31,6 +31,7 @@ import StackedBarChart from "../StackedChart";
 import DashboardSiteGraph from "./DashboardSiteGraph";
 import DashboardSiteTopSection from "./DashboardSiteTopSection";
 import Loaderimg from "../../../Utils/Loader";
+import StackedLineBarChart from "../StackedLineBarChart";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
@@ -53,6 +54,18 @@ const DashTopSubHeading = ({
 
   const currentDate = moment(
     getSiteDetails?.last_fuel_delivery_stats?.last_day
+  );
+
+  // single site Stacked Line Bar chart
+  const stackedLineBarDataForSite =
+    getSiteDetails?.performance_reporting?.datasets;
+  const stackedLineBarLabelsForSite =
+    getSiteDetails?.performance_reporting?.labels;
+
+  console.log(
+    "StackedLineBarChart, stackedLineBarLabels, stackedLineBarData",
+    stackedLineBarDataForSite,
+    stackedLineBarLabelsForSite
   );
 
   const [formattedClosingTime, setFormattedClosingTime] = useState();
@@ -356,7 +369,7 @@ const DashTopSubHeading = ({
             display={"flex"}
             gap={"25px"}
             flexWrap={"wrap"}
-            justifyContent={["space-between"]}
+            // justifyContent={["space-between"]}
           >
             {" "}
             {getSiteDetails?.last_fuel_delivery_stats?.data?.map(
@@ -692,11 +705,9 @@ const DashTopSubHeading = ({
             </Card.Header>
             <Card.Body className="card-body pb-0">
               <div id="chart">
-                <DashboardSiteLineChart
-                  getSiteStats={getSiteStats}
-                  setGetSiteStats={setGetSiteStats}
-                  getSiteDetails={getSiteDetails}
-                  setGetSiteDetails={setGetSiteDetails}
+                <StackedLineBarChart
+                  stackedLineBarData={stackedLineBarDataForSite}
+                  stackedLineBarLabels={stackedLineBarLabelsForSite}
                 />
               </div>
             </Card.Body>
