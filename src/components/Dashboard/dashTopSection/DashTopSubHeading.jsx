@@ -355,7 +355,7 @@ const DashTopSubHeading = ({
               </Typography>
               <Box variant="body1">
                 <Typography variant="body3" sx={{ opacity: 0.5 }}>
-                  Last Date Deducted Delivery was on
+                  Last Delivery on
                 </Typography>
                 <Typography variant="body1" fontSize={"22px"} fontWeight={500}>
                   {getSiteDetails?.last_fuel_delivery_stats?.last_day
@@ -555,9 +555,7 @@ const DashTopSubHeading = ({
                 </Box>
               </Box>
               <Box width={"350px"}>
-                <Typography variant="body1">
-                  Payment Type Total Volume
-                </Typography>
+                <Typography variant="body1">Fuel Volume</Typography>
 
                 <Box
                   display={"flex"}
