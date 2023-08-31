@@ -598,7 +598,7 @@ const Dashboard = (props) => {
                 <h4 className="card-title">Overall Stats</h4>
               </Card.Header>
               <Card.Body className="apexchart">
-                <BarChart piechartValues={piechartValuesss} />
+                <BarChart piechartValues={piechartValues} />
               </Card.Body>
             </Card>
           </Col>

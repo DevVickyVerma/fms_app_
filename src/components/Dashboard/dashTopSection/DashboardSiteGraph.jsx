@@ -58,34 +58,6 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                 {getSiteStats?.data?.stock_alert?.[0]?.map(
                   (tankDate, index) => (
                     <>
-                      {/* <Button
-                        key={index}
-                        type="button"
-                        variant={
-                          selectedDateIndex === index ? "purple" : "primary"
-                        }
-                        onClick={() => handleDateButtonClick(index)}
-                        className={` ${
-                          selectedDateIndex === index
-                            ? "text-black fs-6"
-                            : "text-dark"
-                        } text-bold`}
-                        style={{
-                          backgroundColor:
-                            selectedDateIndex === index
-                              ? "#e6191a"
-                              : "transparent",
-                          ":hover": {
-                            backgroundColor: "#e6191a",
-                            color: "#ffffff",
-                            cursor: "pointer",
-                          },
-                        }}
-                        // disabled={selectedDateIndex === index}
-                      >
-                        {tankDate?.date}
-                      </Button> */}
-
                       <Box
                         borderRadius={"5px"}
                         bgcolor={
@@ -218,7 +190,7 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                             >
                               Capacity:
                             </span>
-                            {tankData?.[selectedDateIndex]?.capacity} ℓ{" "}
+                            {tankData?.[selectedDateIndex]?.capacity}ℓ{" "}
                             <span>
                               <OverlayTrigger
                                 placement="top"
@@ -229,7 +201,7 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                                     {
                                       tankData?.[selectedDateIndex]
                                         ?.average_sale
-                                    }{" "}
+                                    }
                                     ℓ{" "}
                                   </Tooltip>
                                 }
@@ -249,7 +221,7 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                             >
                               Ullage:
                             </span>
-                            {tankData?.[selectedDateIndex]?.ullage} ℓ |{" "}
+                            {tankData?.[selectedDateIndex]?.ullage}ℓ |{" "}
                             {tankData?.[selectedDateIndex]?.ullage_percentage}%
                           </strong>
                         </p>
@@ -260,7 +232,7 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                             >
                               Fuel:
                             </span>
-                            {tankData?.[selectedDateIndex]?.fuel_left} ℓ
+                            {tankData?.[selectedDateIndex]?.fuel_left}ℓ
                           </strong>
                           <span
                             className="mb-0 mx-2 fs-8  badge  "

@@ -52,16 +52,6 @@ const DashBoardSubChild = ({
           </div>
         </div>
 
-        {/* <DashTopSection
-        GrossVolume={GrossVolume}
-        shopmargin={shopmargin}
-        GrossProfitValue={GrossProfitValue}
-        GrossMarginValue={GrossMarginValue}
-        FuelValue={FuelValue}
-        shopsale={shopsale}
-        searchdata={searchdata}
-        /> */}
-
         {/* dashboard sub page data */}
         <DashTopSubHeading
           getSiteStats={getSiteStats}
