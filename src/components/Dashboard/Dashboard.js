@@ -78,22 +78,29 @@ const Dashboard = (props) => {
     setDLinechartValues,
     DLinechartOption,
     setDLinechartOption,
+    stackedLineBarData,
+    setStackedLineBarData,
+    stackedLineBarLabels,
+    setStackedLineBarLabel,
   } = useMyContext();
 
-  // console.log("search list in dashboard: ", SearchList);
-  console.log("search data in dashboard: ", searchdata);
   const superiorRole = localStorage.getItem("superiorRole");
+
+  const role = localStorage.getItem("role");
   const handleFetchSiteData = async () => {
     try {
       const superiorRole = localStorage.getItem("superiorRole");
       const role = localStorage.getItem("role");
+      const companyId = localStorage.getItem("PresetCompanyID");
       let url = "";
       if (superiorRole === "Administrator") {
         url = "/dashboard/stats";
-      } else if (superiorRole === "Client") {
+      } else if (superiorRole === "Client" && role === "Client") {
         url = `/dashboard/stats?client_id=${ClientID}`;
       } else if (superiorRole === "Client" && role === "Operator") {
         url = "/dashboard/stats";
+      } else if (superiorRole === "Client" && role !== "Client") {
+        url = `dashboard/stats?client_id=${ClientID}&company_id=${companyId}`;
       }
 
       const response = await getData(url);
@@ -107,6 +114,8 @@ const Dashboard = (props) => {
         setDLinechartValues(data?.data?.d_line_graph?.series);
         setLinechartOption(data?.data?.line_graph?.option?.labels);
         setDLinechartOption(data?.data?.d_line_graph?.option?.labels);
+        setStackedLineBarData(data?.data?.line_graph?.datasets);
+        setStackedLineBarLabel(data?.data?.line_graph?.labels);
 
         setpiechartValues(data?.data?.pi_graph);
         setGrossMarginValue(data?.data?.gross_margin_);
@@ -119,6 +128,8 @@ const Dashboard = (props) => {
         const savedDataOfDashboard = {
           LinechartValues: data?.data?.line_graph?.series,
           DLinechartValues: data?.data?.d_line_graph?.series,
+          stackedLineBarData: data?.data?.line_graph?.datasets,
+          stackedLineBarLabels: data?.data?.line_graph?.labels,
           LinechartOption: data?.data?.line_graph?.option?.labels,
           DLinechartOption: data?.data?.d_line_graph?.option?.labels,
           GrossMarginValue: data?.data?.gross_margin_,
@@ -139,7 +150,7 @@ const Dashboard = (props) => {
       console.error("API error:", error);
     }
   };
-  // console.log("pi chart values", piechartValues);
+
   const navigate = useNavigate();
   const SuccessToast = (message) => {
     toast.success(message, {
@@ -168,9 +179,9 @@ const Dashboard = (props) => {
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
     } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
+      const errorMessage = Array.isArray(error.response?.data?.message)
+        ? error.response?.data?.message.join(" ")
+        : error.response?.data?.message;
       Errornotify(errorMessage);
     }
   }
@@ -201,30 +212,39 @@ const Dashboard = (props) => {
       SuccessToast("Login Successfully");
       setJustLoggedIn(false);
     }
-    console.clear();
   }, [ClientID, dispatch, justLoggedIn, token]);
 
   const handleToggleSidebar1 = () => {
-    console.log(ShowTruw, "Toggle sidebar");
-    console.log(sidebarVisible1, "Toggle sidebar");
     setShowTruw(true);
     setSidebarVisible1(!sidebarVisible1);
   };
 
   const handleFormSubmit = async (values) => {
     setSearchdata(values);
+    if (values.site_id) {
+      // If site_id is present, set site_name to its value
+      values.site_name = values.site_name || "";
+    } else {
+      // If site_id is not present, set site_name to an empty string
+      values.site_name = "";
+    }
+
+    // Now you can store the updated 'values' object in localStorage
     localStorage.setItem("mySearchData", JSON.stringify(values));
-    console.log("submitting", values);
+    const companyId =
+      values.company_id !== undefined
+        ? values.company_id
+        : localStorage.getItem("PresetCompanyID");
 
     try {
       const response = await getData(
         localStorage.getItem("superiorRole") !== "Client"
-          ? `dashboard/stats?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
-          : `dashboard/stats?client_id=${ClientID}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
+          ? `dashboard/stats?client_id=${values.client_id}&company_id=${companyId}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
+          : `dashboard/stats?client_id=${ClientID}&company_id=${companyId}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
       );
 
       const { data } = response;
-      console.log("data my for pi", data);
+
       if (data) {
         LinechartOptions = data?.data?.line_graph?.option?.labels;
 
@@ -232,7 +252,8 @@ const Dashboard = (props) => {
         setDLinechartValues(data?.data?.d_line_graph?.series);
         setLinechartOption(data?.data?.line_graph?.option?.labels);
         setDLinechartOption(data?.data?.d_line_graph?.option?.labels);
-
+        setStackedLineBarData(data?.data?.line_graph?.datasets);
+        setStackedLineBarLabel(data?.data?.line_graph?.labels);
         setGrossMarginValue(data?.data?.gross_margin_);
         setLinechartValues(data?.data?.line_graph?.series);
         setpiechartValues(data?.data?.pi_graph);
@@ -248,6 +269,8 @@ const Dashboard = (props) => {
           DLinechartValues: data?.data?.d_line_graph?.series,
           LinechartOption: data?.data?.line_graph?.series,
           DLinechartOption: data?.data?.d_line_graph?.series,
+          stackedLineBarData: data?.data?.line_graph?.datasets,
+          stackedLineBarLabels: data?.data?.line_graph?.labels,
           GrossMarginValue: data?.data?.gross_margin_,
           GrossVolume: data?.data?.gross_volume,
           GrossProfitValue: data?.data?.gross_profit,
@@ -269,9 +292,6 @@ const Dashboard = (props) => {
 
   const [isLoadingState, setIsLoading] = useState(false);
   const ResetForm = () => {
-    // Set isLoading to true when the button is clicked
-    console.log("ResetForm called");
-    console.log("isLoading state:", isLoading);
     setIsLoading(true);
 
     setSearchdata({});
@@ -307,6 +327,8 @@ const Dashboard = (props) => {
       setFuelValue();
       setshopsale();
       setshopmargin();
+      setStackedLineBarData();
+      setStackedLineBarLabel();
 
       // Set isLoading to false after performing necessary actions
       setTimeout(() => {
@@ -328,6 +350,13 @@ const Dashboard = (props) => {
   const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
+    console.log(UserPermissions?.company_id, "UserPermissions");
+    if (UserPermissions?.company_id) {
+      localStorage.setItem("PresetCompanyID", UserPermissions?.company_id);
+      localStorage.setItem("PresetCompanyName", UserPermissions?.company_name);
+    } else {
+      localStorage.removeItem("PresetCompanyID");
+    }
     if (UserPermissions) {
       setPermissionsArray(UserPermissions?.permissions);
     }
@@ -340,7 +369,6 @@ const Dashboard = (props) => {
     if (token && storedToken) {
       dispatch(fetchData());
     }
-    console.clear();
   }, [token]);
 
   useEffect(() => {
@@ -350,7 +378,7 @@ const Dashboard = (props) => {
     if (isStatusPermissionAvailable && superiorRole !== "Administrator") {
       handleFetchSiteData();
     }
-    console.clear();
+
     console.log("my search data on dashboard", searchdata);
   }, [permissionsArray]);
 
@@ -406,34 +434,60 @@ const Dashboard = (props) => {
                   flexWrap: "wrap",
                 }}
               >
-                {Object.entries(searchdata).map(([key, value]) => {
-                  if (
-                    (key === "client_name" ||
-                      key === "TOdate" ||
-                      key === "company_name" ||
-                      key === "site_name" ||
-                      key === "fromdate") &&
-                    value != null && // Check if value is not null or undefined
-                    value !== ""
-                  ) {
-                    const formattedKey = key
-                      .toLowerCase()
-                      .split("_")
-                      .map(
-                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
-                      )
-                      .join(" ");
+                <>
+                  {/* Assuming this code is within a React component */}
+                  {Object.entries(searchdata).some(
+                    ([key, value]) =>
+                      [
+                        "client_name",
+                        "TOdate",
+                        "company_name",
+                        "site_name",
+                        "fromdate",
+                      ].includes(key) &&
+                      value != null &&
+                      value !== ""
+                  ) ? (
+                    Object.entries(searchdata).map(([key, value]) => {
+                      if (
+                        [
+                          "client_name",
+                          "TOdate",
+                          "company_name",
+                          "site_name",
+                          "fromdate",
+                        ].includes(key) &&
+                        value != null &&
+                        value !== ""
+                      ) {
+                        const formattedKey = key
+                          .toLowerCase()
+                          .split("_")
+                          .map(
+                            (word) =>
+                              word.charAt(0).toUpperCase() + word.slice(1)
+                          )
+                          .join(" ");
 
-                    return (
-                      <div key={key} className="badge">
-                        <span className="badge-key">{formattedKey}:</span>
-                        <span className="badge-value">{value}</span>
-                      </div>
-                    );
-                  } else {
-                    return null; // Skip rendering if value is null or undefined, or key is not in the specified list
-                  }
-                })}
+                        return (
+                          <div key={key} className="badge">
+                            <span className="badge-key">{formattedKey}:</span>
+                            <span className="badge-value">{value}</span>
+                          </div>
+                        );
+                      } else {
+                        return null;
+                      }
+                    })
+                  ) : superiorRole === "Client" && role !== "Client" ? (
+                    <div className="badge">
+                      <span className="badge-key">Company Name:</span>
+                      <span className="badge-value">
+                        {localStorage.getItem("PresetCompanyName")}
+                      </span>
+                    </div>
+                  ) : null}
+                </>
               </span>
               <Box display={"flex"} ml={"4px"} alignSelf={"center"}>
                 <Link
@@ -453,44 +507,6 @@ const Dashboard = (props) => {
                     <SortIcon />
                   </span>
                 </Link>
-
-                {/* <Link >
-              <CenterFilterModal
-                title="filter"
-                visible={sidebarVisible1}
-                onClick={() => {
-                  handleToggleSidebar1();
-                }}
-                onClose={handleToggleSidebar1}
-                onSubmit={handleFormSubmit}
-                searchListstatus={SearchList}
-                // sendDataToParent={handleDataFromChild}
-              />
-            </Link> */}
-
-                {/* 
-                <Link
-                  className="btn btn-primary sbsbo"
-                  onClick={() => {
-                    handleToggleSidebar1();
-                  }}
-                >
-                  <DashBordModal
-                    title="Filter"
-                    visible={sidebarVisible1}
-                    onClick={() => {
-                      handleToggleSidebar1();
-                    }}
-                    onClose={handleToggleSidebar1}
-                    onSubmit={handleFormSubmit}
-                    searchListstatus={SearchList}
-                    // title="Search"
-                    // visible={sidebarVisible1}
-                    // onClose={handleToggleSidebar1}
-                    // onSubmit={handleFormSubmit}
-                    // searchListstatus={SearchList}
-                  />
-                </Link> */}
 
                 {Object.keys(searchdata).length > 0 ? (
                   <Link
@@ -567,7 +583,11 @@ const Dashboard = (props) => {
                     LinechartValues={LinechartValues}
                     LinechartOption={LinechartOption}
                   /> */}
-                  <StackedLineBarChart />
+                  <StackedLineBarChart
+                    stackedLineBarData={stackedLineBarData}
+                    stackedLineBarLabels={stackedLineBarLabels}
+                  />
+                  {/* <StackedLineBarChart /> */}
                 </div>
               </Card.Body>
             </Card>

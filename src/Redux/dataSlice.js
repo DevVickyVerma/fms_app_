@@ -30,67 +30,69 @@ const ErrorToast = (message) => {
 };
 // Create an asynchronous thunk to fetch the API data
 const baseUrl = process.env.REACT_APP_BASE_URL;
-export const fetchData = createAsyncThunk("data/fetchData", async (_, thunkAPI) => {
-  const token = localStorage.getItem("token");
+export const fetchData = createAsyncThunk(
+  "data/fetchData",
+  async (_, thunkAPI) => {
+    const token = localStorage.getItem("token");
 
-  if (!token) {
-    throw new Error("Token not found in localStorage.");
-  }
-
-  try {
-    const response = await axios.get(`${baseUrl}/detail`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  
-    const data = response.data;
-  
-    if (data) {
-      localStorage.setItem("superiorId", data?.data?.superiorId);
-      localStorage.setItem("superiorRole", data?.data?.superiorRole);
-      localStorage.setItem("role", data?.data?.role);
+    if (!token) {
+      throw new Error("Token not found in localStorage.");
     }
-  
-    // Check the structure of the data
-    return data.data;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      const { response } = error;
-  
-      if (response) {
-        if (response.status === 401) {
-          // Unauthorized access
-          // navigate("/login");
-          ErrorToast("Invalid access token");
-          localStorage.clear();
-        } else if (response.status === 403) {
-          // Forbidden
-          // navigate("/errorpage403");
-        } else if (response.data && response.data.message) {
-          // Other error message
-          const errorMessage = Array.isArray(response.data.message)
-            ? response.data.message.join(" ")
-            : response.data.message;
-  
-          if (errorMessage) {
-            ErrorToast(errorMessage);
+
+    try {
+      const response = await axios.get(`${baseUrl}/detail`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = response.data;
+
+      if (data) {
+        localStorage.setItem("superiorId", data?.data?.superiorId);
+        localStorage.setItem("superiorRole", data?.data?.superiorRole);
+        localStorage.setItem("role", data?.data?.role);
+      }
+
+      // Check the structure of the data
+      return data.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const { response } = error;
+
+        if (response) {
+          if (response.status === 401) {
+            // Unauthorized access
+            // navigate("/login");
+            ErrorToast("Invalid access token");
+            localStorage.clear();
+          } else if (response.status === 403) {
+            // Forbidden
+            // navigate("/errorpage403");
+          } else if (response.data && response.data.message) {
+            // Other error message
+            const errorMessage = Array.isArray(response.data.message)
+              ? response.data.message.join(" ")
+              : response.data.message;
+
+            if (errorMessage) {
+              ErrorToast(errorMessage);
+            }
+          } else {
+            // Unknown error
+            ErrorToast("An error occurred.");
           }
         } else {
-          // Unknown error
-          ErrorToast("An error occurred.");
+          // Network error or other issues
+          ErrorToast("Failed to fetch data from API.");
         }
       } else {
-        // Network error or other issues
-        ErrorToast("Failed to fetch data from API.");
+        // Non-Axios error
+        throw new Error("An error occurred.");
       }
-    } else {
-      // Non-Axios error
-      throw new Error("An error occurred.");
     }
   }
-});
-
+);
 
 // Create the data slice
 const dataSlice = createSlice({

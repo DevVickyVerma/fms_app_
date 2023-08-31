@@ -71,7 +71,7 @@ export default function Login(props) {
         localStorage.setItem("superiorId", data.data.superiorId);
         localStorage.setItem("superiorRole", data.data.superiorRole);
         localStorage.setItem("role", data.data.role);
-        console.log(data.data.role);
+
         navigate(data?.data?.route);
         localStorage.setItem("justLoggedIn", true);
         notify(data.message);

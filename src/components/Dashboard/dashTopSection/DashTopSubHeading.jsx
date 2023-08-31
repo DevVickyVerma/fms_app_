@@ -30,6 +30,7 @@ import DashboardSiteLineChart from "./DashboardSiteLineChart";
 import StackedBarChart from "../StackedChart";
 import DashboardSiteGraph from "./DashboardSiteGraph";
 import DashboardSiteTopSection from "./DashboardSiteTopSection";
+import Loaderimg from "../../../Utils/Loader";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
@@ -41,42 +42,32 @@ const DashTopSubHeading = ({
 }) => {
   const [isGradsOpen, setIsGradsOpen] = useState(true);
   const [gridIndex, setGridIndex] = useState(0);
-  const [LinechartValues, setLinechartValues] = useState([]);
-  const [LinechartOption, setLinechartOption] = useState();
 
   // console.log("my site details data", getSiteDetails);
+  const dateStr = getSiteDetails?.last_fuel_delivery_stats?.last_day
+    ? getSiteDetails.last_fuel_delivery_stats.last_day
+    : "";
+  const day = moment(dateStr).format("Do");
+
+  console.log(day, "day");
 
   const currentDate = moment(
     getSiteDetails?.last_fuel_delivery_stats?.last_day
   );
 
-  // const currentDate = moment(); // Create a moment object for the current date
-  const formattedDate = currentDate.format("Do"); // Format the date
-  const formattedMonth = currentDate.format("MMM"); // Format the date
-  const formattedFullDate = currentDate.format("Do MMM YY"); // Format the date
-  // console.log("my current date", formattedDate);
-
-  // opening Time Date format
-
-  const openingTimeDateForSiteCheck = moment(
-    getSiteDetails?.fuel_site_timings?.opening_time
-  );
-  const closingTimeDateForSiteCheck = moment(
-    getSiteDetails?.fuel_site_timings?.closing_time
-  );
-  console.log(
-    "formattedClosingTime",
-    getSiteDetails?.fuel_site_timings?.opening_time
-  );
   const [formattedClosingTime, setFormattedClosingTime] = useState();
   const [formattedStartingTime, setFormattedStartingTime] = useState();
   const [formattedDay, setFormattedDay] = useState("");
+  const [DeductedformattedDay, setDeductedformattedDay] = useState(
+    getSiteDetails?.last_fuel_delivery_stats?.last_day
+  );
   const [formattedMonths, setformattedMonth] = useState();
 
   useEffect(() => {
-    console.log(getSiteDetails, "getSiteDetails");
     const closingTimeString = getSiteDetails?.fuel_site_timings?.closing_time;
     const startingTimeString = getSiteDetails?.fuel_site_timings?.opening_time;
+
+    console.log(DeductedformattedDay, "DeductedformattedDay");
 
     if (getSiteDetails) {
       const parsedClosingTime = moment(closingTimeString, "DD-MM-YYYY HH:mm");
@@ -88,7 +79,6 @@ const DashTopSubHeading = ({
 
       const formattedstartingTime = parsedstartingTime.format("HH:mm");
       const formattedDay = MonthDayDate.format("Do");
-      console.log(formattedDay, "parsedClosingTime");
 
       setFormattedDay(formattedDay);
       setformattedMonth(formattedMonth);
@@ -100,10 +90,6 @@ const DashTopSubHeading = ({
     }
   }, [getSiteDetails]);
 
-  const openingTimeMonthForSite = openingTimeDateForSiteCheck.format("MMM");
-  const openingTimeDateForSite = openingTimeDateForSiteCheck.format("Do");
-  const openingTimeForSite = openingTimeDateForSiteCheck.format("LT");
-  const closingTimeForSite = closingTimeDateForSiteCheck.format("LT");
   const handleGradsClick = (index) => {
     // setIsGradsOpen(!isGradsOpen);
     setGridIndex(index);
@@ -208,9 +194,11 @@ const DashTopSubHeading = ({
                 ml={"7px"}
                 variant="body1"
               >
-                {getSiteDetails?.site_name
-                  ? getSiteDetails?.site_name
-                  : "Site Name"}
+                {getSiteDetails?.site_name ? (
+                  getSiteDetails?.site_name
+                ) : (
+                  <Loaderimg />
+                )}
               </Typography>
             </Box>
           </Box>
@@ -334,7 +322,6 @@ const DashTopSubHeading = ({
                   },
                 }}
               >
-                {" "}
                 {formattedMonths}
                 <Typography
                   height={"27px"}
@@ -350,7 +337,7 @@ const DashTopSubHeading = ({
                   justifyContent={"center"}
                   alignItems={"center"}
                 >
-                  {formattedDay}
+                  {moment(day, "DD").isValid() ? day : ""}
                 </Typography>
               </Typography>
               <Box variant="body1">
@@ -358,7 +345,9 @@ const DashTopSubHeading = ({
                   Last Date Deducted Delivery was on
                 </Typography>
                 <Typography variant="body1" fontSize={"22px"} fontWeight={500}>
-                  {formattedFullDate}
+                  {getSiteDetails?.last_fuel_delivery_stats?.last_day
+                    ? getSiteDetails?.last_fuel_delivery_stats?.last_day
+                    : ""}
                 </Typography>
               </Box>
             </Box>

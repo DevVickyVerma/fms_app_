@@ -228,6 +228,7 @@ const ManageClient = (props) => {
         localStorage.setItem("Phone_Number", phoneNumber);
         localStorage.setItem("superiorRole", superiorRole);
         localStorage.setItem("tokenupdate", true);
+
         localStorage.removeItem("passData");
         localStorage.removeItem("mySearchData");
         localStorage.removeItem("savedDataOfDashboard");

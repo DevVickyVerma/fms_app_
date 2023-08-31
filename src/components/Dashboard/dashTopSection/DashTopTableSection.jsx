@@ -37,10 +37,23 @@ const DashTopTableSection = (props) => {
     console.log();
     try {
       const searchdata = await JSON.parse(localStorage.getItem("mySearchData"));
-      const companyId =
-        searchdata?.company_id !== undefined ? searchdata.company_id : "";
+      const superiorRole = localStorage.getItem("superiorRole");
+      const role = localStorage.getItem("role");
+      const localStoragecompanyId = localStorage.getItem("PresetCompanyID");
+
       const siteID =
         searchdata?.site_id !== undefined ? searchdata.site_id : "";
+      let companyId = ""; // Define companyId outside the conditionals
+
+      if (superiorRole === "Client" && role !== "Client") {
+        companyId =
+          searchdata?.company_id !== undefined
+            ? searchdata.company_id
+            : localStoragecompanyId;
+      } else {
+        companyId =
+          searchdata?.company_id !== undefined ? searchdata.company_id : "";
+      }
       const response = await getData(
         localStorage.getItem("superiorRole") !== "Client"
           ? `dashboard/get-details?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${siteID}`

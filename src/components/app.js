@@ -80,7 +80,6 @@ const App = (props) => {
   }, []);
   const handleConfirm = () => {
     logout();
-    console.log("Delete confirmed");
   };
 
   const handleCancel = () => {

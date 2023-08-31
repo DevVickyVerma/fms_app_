@@ -88,16 +88,22 @@ const DashBoardChild = (props) => {
       Errornotify(errorMessage);
     }
   }
+  const superiorRole = localStorage.getItem("superiorRole");
 
+  const role = localStorage.getItem("role");
   const handleFormSubmit = async (values) => {
     console.log(values, "handleFormSubmit");
+    const companyId =
+      values.company_id !== undefined
+        ? values.company_id
+        : localStorage.getItem("PresetCompanyID");
 
     try {
       console.log(response, "response");
       const response = await getData(
         localStorage.getItem("superiorRole") !== "Client"
-          ? `dashboard/stats?client_id=${values.client_id}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
-          : `dashboard/stats?client_id=${ClientID}&company_id=${values.company_id}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
+          ? `dashboard/stats?client_id=${values.client_id}&company_id=${companyId}&site_id=${values.site_id}`
+          : `dashboard/stats?client_id=${ClientID}&company_id=${companyId}&site_id=${values.site_id}`
       );
       console.log(response, "response");
       const { data } = response;
@@ -230,34 +236,59 @@ const DashBoardChild = (props) => {
                   flexWrap: "wrap",
                 }}
               >
-                {Object?.entries(searchdata).map(([key, value]) => {
-                  if (
-                    (key === "client_name" ||
-                      key === "TOdate" ||
-                      key === "company_name" ||
-                      key === "site_name" ||
-                      key === "fromdate") &&
-                    value != null && // Check if value is not null or undefined
-                    value !== ""
-                  ) {
-                    const formattedKey = key
-                      .toLowerCase()
-                      .split("_")
-                      .map(
-                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
-                      )
-                      .join(" ");
+                <>
+                  {Object.entries(searchdata).some(
+                    ([key, value]) =>
+                      [
+                        "client_name",
+                        "TOdate",
+                        "company_name",
+                        "site_name",
+                        "fromdate",
+                      ].includes(key) &&
+                      value != null &&
+                      value !== ""
+                  ) ? (
+                    Object.entries(searchdata).map(([key, value]) => {
+                      if (
+                        [
+                          "client_name",
+                          "TOdate",
+                          "company_name",
+                          "site_name",
+                          "fromdate",
+                        ].includes(key) &&
+                        value != null &&
+                        value !== ""
+                      ) {
+                        const formattedKey = key
+                          .toLowerCase()
+                          .split("_")
+                          .map(
+                            (word) =>
+                              word.charAt(0).toUpperCase() + word.slice(1)
+                          )
+                          .join(" ");
 
-                    return (
-                      <div key={key} className="badge">
-                        <span className="badge-key">{formattedKey}:</span>
-                        <span className="badge-value">{value}</span>
-                      </div>
-                    );
-                  } else {
-                    return null; // Skip rendering if value is null or undefined, or key is not in the specified list
-                  }
-                })}
+                        return (
+                          <div key={key} className="badge">
+                            <span className="badge-key">{formattedKey}:</span>
+                            <span className="badge-value">{value}</span>
+                          </div>
+                        );
+                      } else {
+                        return null;
+                      }
+                    })
+                  ) : superiorRole === "Client" && role !== "Client" ? (
+                    <div className="badge">
+                      <span className="badge-key">Company Name:</span>
+                      <span className="badge-value">
+                        {localStorage.getItem("PresetCompanyName")}
+                      </span>
+                    </div>
+                  ) : null}
+                </>
               </span>
               <Box display={"flex"} ml={"4px"} alignSelf={"center"}>
                 <Link

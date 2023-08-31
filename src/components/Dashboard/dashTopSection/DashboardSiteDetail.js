@@ -16,9 +16,20 @@ const DashboardSiteDetail = (props) => {
   const FetchTableData = async () => {
     try {
       const searchdata = await JSON.parse(localStorage.getItem("mySearchData"));
-      console.log("my search data in sub child site", searchdata);
-      const companyId =
-        searchdata?.company_id !== undefined ? searchdata.company_id : "";
+      const superiorRole = localStorage.getItem("superiorRole");
+      const role = localStorage.getItem("role");
+      const localStoragecompanyId = localStorage.getItem("PresetCompanyID");
+      let companyId = ""; // Define companyId outside the conditionals
+
+      if (superiorRole === "Client" && role !== "Client") {
+        companyId =
+          searchdata?.company_id !== undefined
+            ? searchdata.company_id
+            : localStoragecompanyId;
+      } else {
+        companyId =
+          searchdata?.company_id !== undefined ? searchdata.company_id : "";
+      }
       const response1 = await getData(
         localStorage.getItem("superiorRole") !== "Client"
           ? `/dashboard/get-site-stats?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${id}`
@@ -35,11 +46,20 @@ const DashboardSiteDetail = (props) => {
     }
     try {
       const searchdata = await JSON.parse(localStorage.getItem("mySearchData"));
-      console.log("my search data in sub child site", searchdata);
-      const companyId =
-        searchdata?.company_id !== undefined ? searchdata.company_id : "";
-      const siteID =
-        searchdata?.site_id !== undefined ? searchdata.site_id : "";
+      const superiorRole = localStorage.getItem("superiorRole");
+      const role = localStorage.getItem("role");
+      const localStoragecompanyId = localStorage.getItem("PresetCompanyID");
+      let companyId = ""; // Define companyId outside the conditionals
+
+      if (superiorRole === "Client" && role !== "Client") {
+        companyId =
+          searchdata?.company_id !== undefined
+            ? searchdata.company_id
+            : localStoragecompanyId;
+      } else {
+        companyId =
+          searchdata?.company_id !== undefined ? searchdata.company_id : "";
+      }
       const response2 = await getData(
         localStorage.getItem("superiorRole") !== "Client"
           ? `/dashboard/get-site-details?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${id}`
