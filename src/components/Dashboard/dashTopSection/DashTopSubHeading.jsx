@@ -50,7 +50,7 @@ const DashTopSubHeading = ({
     : "";
   const day = moment(dateStr).format("Do");
 
-  console.log(day, "day");
+  // console.log(day, "day");
 
   const currentDate = moment(
     getSiteDetails?.last_fuel_delivery_stats?.last_day
@@ -62,11 +62,11 @@ const DashTopSubHeading = ({
   const stackedLineBarLabelsForSite =
     getSiteDetails?.performance_reporting?.labels;
 
-  console.log(
-    "StackedLineBarChart, stackedLineBarLabels, stackedLineBarData",
-    stackedLineBarDataForSite,
-    stackedLineBarLabelsForSite
-  );
+  // console.log(
+  //   "StackedLineBarChart, stackedLineBarLabels, stackedLineBarData",
+  //   stackedLineBarDataForSite,
+  //   stackedLineBarLabelsForSite
+  // );
 
   const [formattedClosingTime, setFormattedClosingTime] = useState();
   const [formattedStartingTime, setFormattedStartingTime] = useState();
@@ -120,7 +120,7 @@ const DashTopSubHeading = ({
       setFormattedStartingTime(null); // Handle case where closing time is not available
     }
   }, [getSiteDetails]);
-  console.log(formattedDayForOpening, "finalOpeningTime");
+  // console.log(formattedDayForOpening, "finalOpeningTime");
 
   const handleGradsClick = (index) => {
     // setIsGradsOpen(!isGradsOpen);
@@ -243,7 +243,8 @@ const DashTopSubHeading = ({
                 width={"140px"}
                 borderRadius={"10px"}
                 position={"relative"}
-                bgcolor={"#2ecc71"}
+                // bgcolor={"#2ecc71"}
+                bgcolor={"rgb(25 122 66)"}
                 textAlign={"center"}
                 py={"2px"}
                 color={"#dfe6e9"}
@@ -326,7 +327,11 @@ const DashTopSubHeading = ({
             </Box>
 
             {localStorage.getItem("SiteDetailsModalShow") === "true" ? (
-              <h6 className="btn btn-success btn-sm" onClick={handleModalOpen}>
+              <h6
+                className="btn text-white btn-sm"
+                onClick={handleModalOpen}
+                style={{ background: "rgb(25 122 66)" }}
+              >
                 Monthly Details
               </h6>
             ) : (
@@ -394,7 +399,7 @@ const DashTopSubHeading = ({
                 <Typography variant="body3" sx={{ opacity: 0.5 }}>
                   Last Delivery on
                 </Typography>
-                <Typography variant="body1" fontSize={"22px"} fontWeight={500}>
+                <Typography variant="body1" fontSize={"18px"} fontWeight={500}>
                   {getSiteDetails?.last_fuel_delivery_stats?.last_day
                     ? getSiteDetails?.last_fuel_delivery_stats?.last_day
                     : ""}
@@ -743,10 +748,10 @@ const DashTopSubHeading = ({
               <div id="chart">
                 {/* <DashboardSiteBarChart /> */}
                 {/* <StackedBarChart /> */}
-                <DashboardSiteGraph
+                {/* <DashboardSiteGraph
                   getSiteStats={getSiteStats}
                   setGetSiteStats={setGetSiteStats}
-                />
+                /> */}
               </div>
             </Card.Body>
           </Card>

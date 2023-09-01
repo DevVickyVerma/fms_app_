@@ -325,7 +325,7 @@ const FuelInventry = (props) => {
       name: "PRICE",
       selector: (row) => row.fuel_price,
       sortable: false,
-      width: "11.11%",
+      width: "8%",
       center: true,
       cell: (row, index) =>
         row.description === "Total" ? (
@@ -358,7 +358,7 @@ const FuelInventry = (props) => {
       name: "	CASH METERED SALES VOL.(ℓ)",
       selector: (row) => row.metered_sale,
       sortable: false,
-      width: "11.11%",
+      width: "8%",
       center: true,
       // Title: "CASH METERED SALES",
 
@@ -392,7 +392,7 @@ const FuelInventry = (props) => {
       name: "CASH METERED SALES VALUE(£)",
       selector: (row) => row.metered_sale_value,
       sortable: false,
-      width: "11.11%",
+      width: "8%",
       center: true,
 
       cell: (row, index) =>
@@ -425,7 +425,7 @@ const FuelInventry = (props) => {
       name: "ADJ(ℓ)",
       selector: (row) => row.adjustment,
       sortable: false,
-      width: "11.11%",
+      width: "8%",
       center: true,
 
       cell: (row, index) =>
@@ -468,7 +468,7 @@ const FuelInventry = (props) => {
       name: "BUNKERED SALES VOL.(ℓ)",
       selector: (row) => row.bunkered_sale,
       sortable: false,
-      width: "11.11%",
+      width: "8%",
       center: true,
 
       cell: (row, index) =>
@@ -511,7 +511,7 @@ const FuelInventry = (props) => {
       name: "TEST(ℓ)",
       selector: (row) => row.tests,
       sortable: false,
-      width: "11.11%",
+      width: "8%",
       center: true,
 
       cell: (row, index) =>
@@ -553,7 +553,7 @@ const FuelInventry = (props) => {
       name: "ACTUAL SALES VOL.(ℓ)",
       selector: (row) => row.actual_sales,
       sortable: false,
-      width: "11.11%",
+      width: "8%",
       center: true,
 
       cell: (row, index) =>
@@ -592,7 +592,7 @@ const FuelInventry = (props) => {
       name: "DUE SALES (£)(ACTUAL SALES VOL. X PRICE)",
       selector: (row) => row.due_sales,
       sortable: false,
-      width: "11.11%",
+      width: "8%",
       center: true,
 
       cell: (row, index) =>
@@ -786,21 +786,21 @@ const FuelInventry = (props) => {
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
                   <div className="table-responsive deleted-table">
-                    <Row>
-                      <Col lg={12} md={12}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          persistTableHead
-                          highlightOnHover
-                          searchable={false}
-                        />
-                      </Col>
-                    </Row>
+                    {/* <Row> */}
+                    {/* <Col lg={12} md={12}> */}
+                    <DataTable
+                      columns={columns}
+                      data={data}
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      striped={true}
+                      persistTableHead
+                      highlightOnHover
+                      searchable={false}
+                    />
+                    {/* </Col> */}
+                    {/* </Row> */}
 
                     <Row className="mt-4">
                       <Card>

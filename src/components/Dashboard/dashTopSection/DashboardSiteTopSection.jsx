@@ -50,7 +50,7 @@ const DashboardSiteTopSection = (props) => {
   useEffect(() => {
     if (UserPermissions) {
       setPermissionsArray(UserPermissions?.permissions);
-      console.log("my user permissions", UserPermissions);
+      // console.log("my user permissions", UserPermissions);
     }
   }, [UserPermissions]);
   const isDetailPermissionAvailable =

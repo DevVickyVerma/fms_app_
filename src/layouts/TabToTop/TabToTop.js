@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 // import BackToTop from "react-back-to-top";
 const TabToTop = () => {
-     const [BacktoTop, setBacktopTop] = useState("");
+  const [BacktoTop, setBacktopTop] = useState("");
   useEffect(() => {
     window.addEventListener("scroll", () => {
       if (window.scrollY > 100) {
         setBacktopTop("d-block");
       } else setBacktopTop("");
     });
-  console.clear()  }, []);
+    // console.clear();
+  }, []);
   const screenup = () => {
     window.scrollTo({
       top: 10,
@@ -18,8 +19,13 @@ const TabToTop = () => {
     });
   };
   return (
-    <div >
-      <Link to="#" id="back-to-top" onClick={screenup} className={`${BacktoTop}`}>
+    <div>
+      <Link
+        to="#"
+        id="back-to-top"
+        onClick={screenup}
+        className={`${BacktoTop}`}
+      >
         <i className="fa fa-angle-up"></i>
       </Link>
     </div>
@@ -27,4 +33,3 @@ const TabToTop = () => {
 };
 
 export default TabToTop;
-

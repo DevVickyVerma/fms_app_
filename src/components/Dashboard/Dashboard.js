@@ -334,7 +334,7 @@ const Dashboard = (props) => {
       setTimeout(() => {
         setIsLoading(false);
       }, 1000);
-      console.log("isLoading state:", isLoading);
+      // console.log("isLoading state:", isLoading);
     }
   };
 
@@ -350,7 +350,7 @@ const Dashboard = (props) => {
   const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
-    console.log(UserPermissions?.company_id, "UserPermissions");
+    // console.log(UserPermissions?.company_id, "UserPermissions");
     if (UserPermissions?.company_id) {
       localStorage.setItem("PresetCompanyID", UserPermissions?.company_id);
       localStorage.setItem("PresetCompanyName", UserPermissions?.company_name);
@@ -379,7 +379,7 @@ const Dashboard = (props) => {
       handleFetchSiteData();
     }
 
-    console.log("my search data on dashboard", searchdata);
+    // console.log("my search data on dashboard", searchdata);
   }, [permissionsArray]);
 
   return (

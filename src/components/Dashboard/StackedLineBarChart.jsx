@@ -5,11 +5,11 @@ const StackedLineBarChart = ({ stackedLineBarLabels, stackedLineBarData }) => {
     // Data is not available yet, return a loading state or null
     return <p>Please Apply Filter To Load Chart...</p>;
   }
-  console.log(
-    "StackedLineBarChart, stackedLineBarLabels, stackedLineBarData",
-    stackedLineBarLabels,
-    stackedLineBarData
-  );
+  // console.log(
+  //   "StackedLineBarChart, stackedLineBarLabels, stackedLineBarData",
+  //   stackedLineBarLabels,
+  //   stackedLineBarData
+  // );
 
   const datasets = stackedLineBarData?.map((dataset, index) => {
     return {
