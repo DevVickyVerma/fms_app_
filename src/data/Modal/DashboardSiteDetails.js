@@ -101,10 +101,10 @@ const CustomModal = ({
       );
 
       if (response) {
-        console.log(
-          response?.data?.data?.listing?.created_date,
-          "axiosInstance"
-        );
+        // console.log(
+        //   response?.data?.data?.listing?.created_date,
+        //   "axiosInstance"
+        // );
         if (response?.data?.data?.listing.length > 0) {
           localStorage.setItem("SiteDetailsModalShow", "true");
         } else {
@@ -112,7 +112,7 @@ const CustomModal = ({
         }
         setData(response?.data?.data);
         setmonth(response?.data?.data?.month);
-        console.log(response?.data?.data?.month, "axiosInstance");
+        // console.log(response?.data?.data?.month, "axiosInstance");
       }
     } catch (error) {
       handleError(error);
@@ -121,7 +121,7 @@ const CustomModal = ({
 
   return (
     <>
-      {isLoading ? <Loaderimg /> : null}
+      {/* {isLoading ? <Loaderimg /> : null} */}
       <Dialog
         open={open}
         onClose={onClose}

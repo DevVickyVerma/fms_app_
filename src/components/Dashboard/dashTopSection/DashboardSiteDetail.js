@@ -6,12 +6,20 @@ import { useMyContext } from "../../../Utils/MyContext";
 import Loaderimg from "../../../Utils/Loader";
 
 const DashboardSiteDetail = (props) => {
-  const { apidata, isLoading, error, getData, postData, searchdata } = props;
+  const {
+    apidata,
+    isLoading,
+    error,
+    getData,
+    postData,
+    searchdata,
+    setLoading,
+  } = props;
   const { id } = useParams();
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
   const [data, setData] = useState();
-  const [getSiteStats, setGetSiteStats] = useState();
-  const [getSiteDetails, setGetSiteDetails] = useState();
+  const [getSiteStats, setGetSiteStats] = useState(null);
+  const [getSiteDetails, setGetSiteDetails] = useState(null);
 
   const FetchTableData = async () => {
     try {
@@ -41,6 +49,7 @@ const DashboardSiteDetail = (props) => {
       } else {
         throw new Error("No data available in the response");
       }
+      // setIsLoadingState(false);
     } catch (error) {
       console.error("API error:", error);
     }
@@ -80,7 +89,7 @@ const DashboardSiteDetail = (props) => {
     window.scrollTo(0, 0);
   }, []);
 
-  console.log("data after fetching", data);
+  // console.log("data after fetching", data);
 
   const headerHeight = 135;
 
@@ -93,21 +102,23 @@ const DashboardSiteDetail = (props) => {
     // backgroundColor: "#f5f5f5",
     // padding: "10px",
   };
-
+  console.log("mmy leadong state", isLoading);
   return (
-    <div
-      className="overflow-container"
-      style={containerStyles}
-      // style={{ height: "100vh ", overflowY: "auto", overflowX: "hidden" }}
-    >
+    <>
       {isLoading ? <Loaderimg /> : null}
-      <DashBoardSubChild
-        getSiteStats={getSiteStats}
-        setGetSiteStats={setGetSiteStats}
-        getSiteDetails={getSiteDetails}
-        setGetSiteDetails={setGetSiteDetails}
-      />
-    </div>
+      <div
+        className="overflow-container"
+        style={containerStyles}
+        // style={{ height: "100vh ", overflowY: "auto", overflowX: "hidden" }}
+      >
+        <DashBoardSubChild
+          getSiteStats={getSiteStats}
+          setGetSiteStats={setGetSiteStats}
+          getSiteDetails={getSiteDetails}
+          setGetSiteDetails={setGetSiteDetails}
+        />
+      </div>
+    </>
   );
 };
 

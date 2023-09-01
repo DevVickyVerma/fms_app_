@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 
 const DashTopTableSection = (props) => {
   const { apidata, isLoading, error, getData, postData, searchdata } = props;
-  console.log(searchdata, "searchdata in top table");
+  // console.log(searchdata, "searchdata in top table");
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
@@ -21,7 +21,7 @@ const DashTopTableSection = (props) => {
   useEffect(() => {
     if (UserPermissions) {
       setPermissionsArray(UserPermissions?.permissions);
-      console.log("my user permissions in table", UserPermissions);
+      // console.log("my user permissions in table", UserPermissions);
     }
   }, [UserPermissions]);
 
@@ -34,7 +34,7 @@ const DashTopTableSection = (props) => {
   const navigate = useNavigate();
   // http://192.168.1.169:5000/get-details?client_id=3&company_id=1&end_date=2023-07-31&start_date=2023-07-01
   const FetchTableData = async () => {
-    console.log();
+    // console.log();
     try {
       const searchdata = await JSON.parse(localStorage.getItem("mySearchData"));
       const superiorRole = localStorage.getItem("superiorRole");
@@ -149,7 +149,7 @@ const DashTopTableSection = (props) => {
           {/* {console.log(row.fuel_volume?.gross_volume, "sdaaaaaaaaaa")} */}
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">
-              ℓ {row.fuel_volume?.gross_volume}
+              ℓ{row.fuel_volume?.gross_volume}
             </h6>
 
             <p
@@ -189,7 +189,7 @@ const DashTopTableSection = (props) => {
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
-              £ {row?.fuel_sales?.gross_value}
+              £{row?.fuel_sales?.gross_value}
             </h6>
             <p
               className={`me-1 ${
@@ -228,7 +228,7 @@ const DashTopTableSection = (props) => {
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
-              £ {row?.gross_profit?.gross_profit}
+              £{row?.gross_profit?.gross_profit}
             </h6>
             <p
               className={`me-1 ${
@@ -306,7 +306,7 @@ const DashTopTableSection = (props) => {
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
-              £ {row?.shop_sales?.shop_sales}
+              £{row?.shop_sales?.shop_sales}
             </h6>
             <p
               className={`me-1 ${
@@ -346,7 +346,7 @@ const DashTopTableSection = (props) => {
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
-              £ {row?.shop_margin?.shop_margin}
+              £{row?.shop_margin?.shop_margin}
             </h6>
             <p
               className={`me-1 ${

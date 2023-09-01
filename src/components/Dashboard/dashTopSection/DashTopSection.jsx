@@ -30,7 +30,7 @@ const DashTopSection = (props) => {
   useEffect(() => {
     if (UserPermissions) {
       setPermissionsArray(UserPermissions?.permissions);
-      console.log("my user permissions", UserPermissions);
+      // console.log("my user permissions", UserPermissions);
     }
   }, [UserPermissions]);
   const isDetailPermissionAvailable =
@@ -50,14 +50,13 @@ const DashTopSection = (props) => {
       searchdata,
       myvalueTest,
     };
-    console.log("card name", cardName);
+
     const passDataString = JSON.stringify(passData);
     localStorage.setItem("passData", passDataString);
-    // console.log(passDataString , "pass data string");
+
     navigate(`/dashboard-details`, { state: passData });
   };
 
-  console.log("search data", searchdata);
   const handleClick = () => {
     if (isDetailPermissionAvailable) {
       setUploadTabname("Gross Profit");
