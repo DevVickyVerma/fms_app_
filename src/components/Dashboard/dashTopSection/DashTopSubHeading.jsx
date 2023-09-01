@@ -173,6 +173,12 @@ const DashTopSubHeading = ({
   const handleModalClose = () => {
     setModalOpen(false);
   };
+  const colors = [
+    { name: "About to Finish Fuel (Less then 2 days)", color: "#e84118" },
+
+    { name: "Low Fuel (Less then 5 days)", color: "#ffa801" },
+    { name: " Enough Fuel (At-least 5 days)", color: "#009432" },
+  ];
 
   return (
     <>
@@ -742,16 +748,68 @@ const DashTopSubHeading = ({
         <Col lg={12} md={12}>
           <Card>
             <Card.Header className="card-header">
-              <h4 className="card-title">Tank Analysis</h4>
+              <div className="Tank-Details d-flex">
+                <h4 className="card-title">Tank Analysis</h4>
+                <div className="Tank-Details-icon">
+                  <OverlayTrigger
+                    placement="right"
+                    className="Tank-Detailss"
+                    overlay={
+                      <Tooltip style={{ width: "300px" }}>
+                        <div>
+                          {colors.map((color, index) => (
+                            <div
+                              key={index}
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                padding: "3px 10px",
+                                color: "#fff",
+                                width: "100%", // Set the width for each color entry
+                              }}
+                            >
+                              <div
+                                style={{
+                                  width: "20px", // Set the width for the color circle
+                                  height: "20px",
+                                  borderRadius: "50%",
+                                  backgroundColor: color.color,
+                                  marginRight: "8px",
+                                  marginBottom: "2px",
+                                }}
+                              ></div>
+                              <span
+                                style={{
+                                  color: "#fff",
+                                  marginLeft: "8px",
+                                  width: "100%", // Set the width for the color name
+                                }}
+                                className="mt-2"
+                              >
+                                {color.name}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </Tooltip>
+                    }
+                  >
+                    <img
+                      alt=""
+                      src={require("../../../assets/images/dashboard/dashboardTankImage.png")}
+                    />
+                  </OverlayTrigger>
+                </div>
+              </div>
             </Card.Header>
             <Card.Body className="card-body pb-0">
               <div id="chart">
                 {/* <DashboardSiteBarChart /> */}
                 {/* <StackedBarChart /> */}
-                {/* <DashboardSiteGraph
+                <DashboardSiteGraph
                   getSiteStats={getSiteStats}
                   setGetSiteStats={setGetSiteStats}
-                /> */}
+                />
               </div>
             </Card.Body>
           </Card>

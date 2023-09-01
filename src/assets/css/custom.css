@@ -605,3 +605,10 @@ span.margin-top {
   display: flex;
   flex-direction: column;
 }
+.Tank-Details-icon img {
+  height: 50px;
+  width: 50px;
+  margin-left: 7px;
+  margin-top: -15px;
+  cursor: pointer;
+}
