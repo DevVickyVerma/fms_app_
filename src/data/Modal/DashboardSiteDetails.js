@@ -167,15 +167,15 @@ const CustomModal = ({
                       <tr key={index}>
                         <td>{row.business_day}</td>
                         <td>
-                          {moment(row?.opening).format("HH:mm:ss")} ({" "}
+                          {moment(row?.opening).format("HH:mm:ss")} (
                           {moment(row?.opening).format("YYYY-MM-DD")})
                         </td>
                         <td>
-                          {moment(row?.closing).format("HH:mm:ss")} ({" "}
+                          {moment(row?.closing).format("HH:mm:ss")} (
                           {moment(row?.closing).format("YYYY-MM-DD")})
                         </td>
                         <td>
-                          {moment(row?.first_trans).format("HH:mm:ss")} ({" "}
+                          {moment(row?.first_trans).format("HH:mm:ss")} (
                           {moment(row?.first_trans).format("YYYY-MM-DD")})
                         </td>
                       </tr>

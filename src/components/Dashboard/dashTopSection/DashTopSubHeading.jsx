@@ -13,6 +13,7 @@ import { Image } from "@mui/icons-material";
 import { BiLogoCodepen } from "react-icons/bi";
 import { Line } from "react-chartjs-2";
 import CustomModal from "../../../data/Modal/DashboardSiteDetails";
+import { BsCalendarWeek } from "react-icons/bs";
 import {
   Chart as ChartJS,
   LineElement,
@@ -73,12 +74,16 @@ const DashTopSubHeading = ({
   const [formattedDay, setFormattedDay] = useState("");
   const [formattedDayForOpening, setFormattedDayForOpening] = useState("");
   const [formattedDayForClosing, setFormattedDayForClosing] = useState("");
+  const [formattedMonthForHeading, setFormattedMonthForHeading] = useState("");
   const [DeductedformattedDay, setDeductedformattedDay] = useState(
     getSiteDetails?.last_fuel_delivery_stats?.last_day
   );
   const [formattedMonths, setformattedMonth] = useState();
 
+  console.log("formattedMonthForHeading", formattedMonthForHeading);
+
   useEffect(() => {
+    const LastDayEndTimeString = getSiteDetails?.last_day_end;
     const closingTimeString = getSiteDetails?.fuel_site_timings?.closing_time;
     const startingTimeString = getSiteDetails?.fuel_site_timings?.opening_time;
 
@@ -90,6 +95,10 @@ const DashTopSubHeading = ({
         "YYYY-MM-DD HH:mm"
       );
       const parshedFinalClosingTime = moment(
+        closingTimeString,
+        "YYYY-MM-DD HH:mm"
+      );
+      const parshedLastDayEndTimeString = moment(
         closingTimeString,
         "YYYY-MM-DD HH:mm"
       );
@@ -109,12 +118,16 @@ const DashTopSubHeading = ({
       const formattedOpeningTimeForSite =
         parshedFinalOpeningTime.format("Do MMM HH:mm");
 
+      const formattedMonthForHeading =
+        parshedLastDayEndTimeString.format("Do MMM ");
+
       setFormattedDayForClosing(formattedCLosingTimeForSite);
       setFormattedDayForOpening(formattedOpeningTimeForSite);
       setFormattedDay(formattedDay);
       setformattedMonth(formattedMonth);
       setFormattedClosingTime(formattedTime);
       setFormattedStartingTime(formattedstartingTime);
+      setFormattedMonthForHeading(formattedMonthForHeading);
     } else {
       setFormattedClosingTime(null); // Handle case where closing time is not available
       setFormattedStartingTime(null); // Handle case where closing time is not available
@@ -232,117 +245,189 @@ const DashTopSubHeading = ({
                 ml={"7px"}
                 variant="body1"
               >
-                {getSiteDetails?.site_name ? (
-                  getSiteDetails?.site_name
-                ) : (
-                  <Loaderimg />
-                )}
+                {getSiteDetails?.site_name ? getSiteDetails?.site_name : ""}
               </Typography>
             </Box>
           </Box>
           {/* RIGHT side heading title */}
-          <Box display={"flex"} gap={"20px"} alignItems={"center"}>
-            {/* Calendar Date With Updated OPening Time*/}
-            <Box>
-              <Typography
-                height={"60px"}
-                width={"140px"}
-                borderRadius={"10px"}
-                position={"relative"}
-                // bgcolor={"#2ecc71"}
-                bgcolor={"rgb(25 122 66)"}
-                textAlign={"center"}
-                py={"2px"}
-                color={"#dfe6e9"}
-                sx={{
-                  transition: "background-color 0.3s, color 0.3s", // Add smooth transition
-                  ":hover": {
-                    // color: "#2d3436", // Dark gray for better contrast
-                    backgroundColor: "#27ae60", // Darker red shade
-                    color: "#ffffff", // White for better contrast
-                    cursor: "pointer",
-                  },
-                }}
+          <Box display={"flex"} gap={"20px"}>
+            <Box
+              //  bgcolor={"red"}
+              display={"flex"}
+              flexDirection={"column"}
+              bgcolor={"#ecf0f1"}
+              // gap={"5px"}
+              // borderRadius={"8px"}
+            >
+              <Box
+                my={"4px"}
+                // borderBottom={"1px solid #2c3e50"}
+                color={"#2d3436"}
+                // textAlign={"center"}
+                display={"flex"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                px={"13px"}
               >
-                {" "}
-                Opening Time
-                {/* {formattedMonths} */}
                 <Typography
-                  height={"27px"}
-                  width={"90%"}
-                  bgcolor={"#ecf0f1"}
-                  position={"absolute"}
-                  borderRadius={"8px"}
-                  bottom={0}
-                  m={"6px"}
-                  color={"#2d3436"}
-                  textAlign={"center"}
-                  display={"flex"}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                >
-                  {/* 20 Aug, 17:25 */}
-                  {/* {formattedDay} {formattedMonths} {formattedStartingTime} */}
-                  {formattedDayForOpening}
-                </Typography>
-              </Typography>
-            </Box>
-            {/* Calendar Date With Updated Closing Time */}
-            <Box>
-              <Typography
-                height={"60px"}
-                width={"140px"}
-                borderRadius={"10px"}
-                position={"relative"}
-                bgcolor={"#d63031"}
-                textAlign={"center"}
-                py={"2px"}
-                color={"#dfe6e9"}
-                sx={{
-                  transition: "background-color 0.3s, color 0.3s", // Add smooth transition
-                  ":hover": {
-                    // color: "#2d3436", // Dark gray for better contrast
-                    backgroundColor: "#e6191a", // Darker red shade
-                    color: "#ffffff", // White for better contrast
-                    cursor: "pointer",
-                  },
-                }}
-              >
-                {" "}
-                Closing Time
-                {/* {formattedMonths} */}
-                <Typography
-                  height={"27px"}
-                  width={"90%"}
-                  bgcolor={"#ecf0f1"}
-                  position={"absolute"}
-                  borderRadius={"8px"}
-                  bottom={0}
-                  m={"6px"}
-                  color={"#2d3436"}
-                  textAlign={"center"}
-                  display={"flex"}
-                  justifyContent={"center"}
-                  alignItems={"center"}
+                  // height={"27px"}
+                  // width={"90%"}
+
+                  // position={"absolute"}
+                  // borderRadius={"8px"}
+                  // bottom={0}
+                  fontSize={"14px"}
                 >
                   {/* 20 Aug, 17:25 */}
                   {/* {formattedDay} {formattedMonths} {formattedClosingTime} */}
-                  {formattedDayForClosing}
+                  Last Day End : {formattedMonthForHeading}
+                  {/* {getSiteDetails?.last_day_end} */}
                 </Typography>
-              </Typography>
-            </Box>
+                {localStorage.getItem("SiteDetailsModalShow") === "true" ? (
+                  <Typography
+                    onClick={handleModalOpen}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <BsCalendarWeek />
+                  </Typography>
+                ) : (
+                  ""
+                )}
 
-            {localStorage.getItem("SiteDetailsModalShow") === "true" ? (
-              <h6
-                className="btn text-white btn-sm"
-                onClick={handleModalOpen}
-                style={{ background: "rgb(25 122 66)" }}
+                {/* {localStorage.getItem("SiteDetailsModalShow") === "false"
+                  ? ""
+                  : ""} */}
+                {/* {localStorage.getItem("SiteDetailsModalShow") === "true" ? (
+                  <h1 onClick={handleModalOpen} style={{ cursor: "pointer" }}>
+                    <BsCalendarWeek />
+                  </h1>
+                ) : (
+                  ""
+                )} */}
+              </Box>
+
+              <Box
+                display={"flex"}
+                // gap={"10px"}
               >
-                Monthly Details
-              </h6>
-            ) : (
-              ""
-            )}
+                {/* Calendar Date With Updated OPening Time*/}
+                <Box>
+                  <Typography
+                    height={"48px"}
+                    width={"140px"}
+                    // borderRadius={"10px"}
+                    position={"relative"}
+                    // bgcolor={"#2ecc71"}
+                    bgcolor={"rgb(25 122 66)"}
+                    textAlign={"center"}
+                    py={"2px"}
+                    color={"#dfe6e9"}
+                    // sx={{
+                    //   transition: "background-color 0.3s, color 0.3s", // Add smooth transition
+                    //   ":hover": {
+                    //     // color: "#2d3436", // Dark gray for better contrast
+                    //     backgroundColor: "#27ae60", // Darker red shade
+                    //     color: "#ffffff", // White for better contrast
+                    //     cursor: "pointer",
+                    //   },
+                    // }}
+                    fontSize={"14px"}
+                  >
+                    {" "}
+                    Opening Time
+                    {/* {formattedMonths} */}
+                    <Typography
+                      height={"27px"}
+                      width={"100%"}
+                      // bgcolor={"#ecf0f1"}
+                      bgcolor={"rgb(25 122 66)"}
+                      position={"absolute"}
+                      // borderRadius={"8px"}
+                      bottom={0}
+                      // mx={"6px"}
+                      // color={"#2d3436"}
+                      color={"#dfe6e9"}
+                      textAlign={"center"}
+                      display={"flex"}
+                      justifyContent={"center"}
+                      alignItems={"center"}
+                      fontSize={"14px"}
+                    >
+                      {/* 20 Aug, 17:25 */}
+                      {/* {formattedDay} {formattedMonths} {formattedStartingTime} */}
+                      {formattedDayForOpening}
+                    </Typography>
+                  </Typography>
+                </Box>
+                {/* Calendar Date With Updated Closing Time */}
+                <Box>
+                  <Typography
+                    height={"48px"}
+                    width={"140px"}
+                    // borderRadius={"10px"}
+                    position={"relative"}
+                    bgcolor={"#d63031"}
+                    textAlign={"center"}
+                    py={"2px"}
+                    color={"#dfe6e9"}
+                    fontSize={"14px"}
+                    // sx={{
+                    //   transition: "background-color 0.3s, color 0.3s", // Add smooth transition
+                    //   ":hover": {
+                    //     // color: "#2d3436", // Dark gray for better contrast
+                    //     backgroundColor: "#e6191a", // Darker red shade
+                    //     color: "#ffffff", // White for better contrast
+                    //     cursor: "pointer",
+                    //   },
+                    // }}
+                  >
+                    {" "}
+                    Closing Time
+                    {/* {formattedMonths} */}
+                    <Typography
+                      height={"27px"}
+                      width={"100%"}
+                      // bgcolor={"#ecf0f1"}
+                      bgcolor={"#d63031"}
+                      position={"absolute"}
+                      // borderRadius={"8px"}
+                      bottom={0}
+                      // mx={"6px"}
+                      // color={"#2d3436"}
+                      color={"#dfe6e9"}
+                      textAlign={"center"}
+                      display={"flex"}
+                      justifyContent={"center"}
+                      alignItems={"center"}
+                      fontSize={"14px"}
+                    >
+                      {/* 20 Aug, 17:25 */}
+                      {/* {formattedDay} {formattedMonths} {formattedClosingTime} */}
+                      {formattedDayForClosing}
+                    </Typography>
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+            {/* {localStorage.getItem("SiteDetailsModalShow") === "false"
+              ? 
+              {
+                   <Box
+                // className="btn text-white btn-sm"
+                onClick={handleModalOpen}
+                style={{
+                  background: "rgb(25 122 66)",
+                  transform: "rotate(90deg)",
+                  transformOrigin: "top left",
+                  display: "flex",
+                  // width: "100px",
+                  height: "20px",
+                }}
+              >
+                <Typography fontSize={"12px"}>Monthly Details</Typography>
+              </Box> 
+                }
+              : ""} */}
           </Box>
         </Box>
         {/* dashboard site Top section */}
