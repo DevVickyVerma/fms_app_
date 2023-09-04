@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Slide, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 
 // Define the initial state
 const initialState = {
@@ -9,16 +8,7 @@ const initialState = {
   loading: false,
   error: null,
 };
-const SuccessToast = (message) => {
-  toast.success(message, {
-    autoClose: 1000,
-    position: toast.POSITION.TOP_RIGHT,
-    hideProgressBar: true,
-    transition: Slide,
-    autoClose: 1000,
-    theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-  });
-};
+
 const ErrorToast = (message) => {
   toast.error(message, {
     position: toast.POSITION.TOP_RIGHT,
@@ -62,15 +52,13 @@ export const fetchData = createAsyncThunk(
 
         if (response) {
           if (response.status === 401) {
-            // Unauthorized access
-            // navigate("/login");
-            ErrorToast("Invalid access token");
-            localStorage.clear();
+            setTimeout(function () {
+              window.location.replace("/login");
+              ErrorToast("Invalid access token");
+              localStorage.clear();
+            }, 2000); // 1000 milliseconds = 1 second
           } else if (response.status === 403) {
-            // Forbidden
-            // navigate("/errorpage403");
           } else if (response.data && response.data.message) {
-            // Other error message
             const errorMessage = Array.isArray(response.data.message)
               ? response.data.message.join(" ")
               : response.data.message;

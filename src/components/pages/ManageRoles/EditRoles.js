@@ -200,17 +200,30 @@ const EditRoles = (props) => {
       // Get the names of the children items for the selected heading
       const childrenNames = headingPermissions.map((item) => item.name);
 
-      // Update the permissionArray based on the heading checkbox state
-      const updatedPermissionArray = isChecked
-        ? [...permissionArray, ...childrenNames]
-        : permissionArray.filter((name) => !childrenNames.includes(name));
+      // Create a Set from the current state of permissionArray
+      const uniquePermissionSet = new Set(permissionArray);
+
+      // Add or remove children names based on the heading checkbox state
+      if (isChecked) {
+        childrenNames.forEach((name) => uniquePermissionSet.add(name));
+      } else {
+        childrenNames.forEach((name) => uniquePermissionSet.delete(name));
+      }
+
+      // Convert the Set back to an array
+      const updatedPermissionArray = Array.from(uniquePermissionSet);
 
       // Update the state and form field with the new permissionArray
       setPermissionArray(updatedPermissionArray);
-      console.log(updatedPermissionArray);
+
       formik.setFieldValue("permissions", updatedPermissionArray);
+
+      console.log(updatedPermissionArray, "updatedPermissionArray");
+      console.log(childrenNames, "updatedPermissionArray1");
+      console.log(permissionArray, "updatedPermissionArray1p");
     }
   };
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -327,9 +340,9 @@ const EditRoles = (props) => {
                                     name="permissions"
                                     value={nameItem.name}
                                     id={`permission-${nameItem.id}`}
-                                    checked={permissionArray.find(
-                                      (item) => item === nameItem.name
-                                    )}
+                                    checked={permissionArray.includes(
+                                      nameItem.name
+                                    )} // Check if the name is in permissionArray
                                     onChange={(e) => {
                                       // Get the name of the permission being changed from the current element
                                       const permissionName = nameItem.name;
@@ -368,10 +381,6 @@ const EditRoles = (props) => {
                                       formik.setFieldValue(
                                         "permissions",
                                         updatedPermissionArray
-                                      );
-                                      console.log(
-                                        updatedPermissionArray,
-                                        "updatedPermissionArray"
                                       );
                                     }}
                                   />
