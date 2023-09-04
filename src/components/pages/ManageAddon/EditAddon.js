@@ -208,39 +208,37 @@ const EditAddon = (props) => {
   };
 
   const [selectAllPermissions, setSelectAllPermissions] = useState({});
+
+  // Initialize a Set with the initial permissionArray
+  const initialPermissionSet = new Set(permissionArray);
   const handleSelectAllPermissions = (heading, checked) => {
-    const updatedPermissions = { ...selectAllPermissions };
-    updatedPermissions[heading] = checked;
+    const updatedSelectAllPermissions = { ...selectAllPermissions };
+    updatedSelectAllPermissions[heading] = checked;
+    setSelectAllPermissions(updatedSelectAllPermissions);
 
-    // If the "Select All" input is checked, add all permissions to the permissionArray for that heading
+    const updatedPermissionSet = new Set(initialPermissionSet);
+
+    // If checked, add all child permissions to the set, else remove them
     if (checked) {
-      const permissionsToAdd = AddonpermissionsList.data.addon_permissions[
-        heading
-      ].names.map((nameItem) => nameItem.permission_name);
-
-      formik.setFieldValue("permissionsList", permissionsToAdd);
-      console.log(permissionsToAdd, "permissionsToAdd");
-      setPermissionArray((prevPermissionArray) => [
-        ...prevPermissionArray,
-        ...permissionsToAdd,
-      ]);
+      AddonpermissionsList.data.addon_permissions[heading].names.forEach(
+        (nameItem) => {
+          updatedPermissionSet.add(nameItem.permission_name);
+        }
+      );
     } else {
-      // If the "Select All" input is unchecked, remove all permissions of that heading from the permissionArray
-      const permissionsToRemove = AddonpermissionsList.data.addon_permissions[
-        heading
-      ].names.map((nameItem) => nameItem.permission_name);
-      formik.setFieldValue("permissionsList", permissionsToRemove);
-
-      setPermissionArray((prevPermissionArray) =>
-        prevPermissionArray.filter(
-          (permission) => !permissionsToRemove.includes(permission)
-        )
+      AddonpermissionsList.data.addon_permissions[heading].names.forEach(
+        (nameItem) => {
+          updatedPermissionSet.delete(nameItem.permission_name);
+        }
       );
     }
 
-    setSelectAllPermissions(updatedPermissions);
-  };
+    const updatedPermissionArray = [...updatedPermissionSet];
 
+    setPermissionArray(updatedPermissionArray);
+    formik.setFieldValue("permissionsList", updatedPermissionArray);
+    console.log(updatedPermissionArray, "updatedPermissionArray");
+  };
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -296,13 +294,12 @@ const EditAddon = (props) => {
                           AddonpermissionsList.data.addon_permissions && (
                             <div>
                               {/* Add the filteredPermissions constant here */}
-
                               {Object.keys(
                                 AddonpermissionsList.data.addon_permissions
                               ).map((heading) => (
                                 <div key={heading}>
                                   <div className="table-heading d-flex">
-                                    <div className="heading-input ">
+                                    <div className="heading-input">
                                       <input
                                         className={`form-check-input ${
                                           formik.touched.permissions &&
@@ -344,50 +341,52 @@ const EditAddon = (props) => {
                                           type="checkbox"
                                           name={`permissionsList.${nameItem.permission_name}`}
                                           id={`permissionsList-${nameItem.id}`}
-                                          checked={permissionArray.find(
-                                            (item) =>
-                                              item === nameItem.permission_name
+                                          checked={initialPermissionSet.has(
+                                            nameItem.permission_name
                                           )}
                                           onChange={(e) => {
-                                            // Get the name of the permission being changed from the current element
                                             const permissionName =
                                               nameItem.permission_name;
+                                            const updatedPermissionSet =
+                                              new Set(initialPermissionSet);
 
-                                            const updatedPermissionArray = [
-                                              ...permissionArray,
-                                            ];
-
-                                            const findInd =
-                                              updatedPermissionArray.findIndex(
-                                                (item) =>
-                                                  item === permissionName
+                                            if (
+                                              updatedPermissionSet.has(
+                                                permissionName
+                                              )
+                                            ) {
+                                              updatedPermissionSet.delete(
+                                                permissionName
                                               );
-
-                                            // If the permissionName is already in the array, remove it
-                                            if (findInd >= 0) {
-                                              updatedPermissionArray.splice(
-                                                findInd,
-                                                1
-                                              );
-                                            }
-                                            // Otherwise, add the permissionName to the array
-                                            else {
-                                              updatedPermissionArray.push(
+                                            } else {
+                                              updatedPermissionSet.add(
                                                 permissionName
                                               );
                                             }
 
-                                            // console.log(
-                                            //   updatedPermissionArray,
-                                            //   "updatedPermissionArray"
-                                            // );
+                                            const updatedPermissionArray = [
+                                              ...updatedPermissionSet,
+                                            ];
 
-                                            // Update the state of permissionArray with the updatedPermissionArray
                                             setPermissionArray(
                                               updatedPermissionArray
                                             );
 
-                                            // Update the form field "permissionsList" with the updatedPermissionArray
+                                            // Check if all child checkboxes are checked, update the parent checkbox
+                                            const allChildChecked =
+                                              AddonpermissionsList.data.addon_permissions[
+                                                heading
+                                              ].names.every((item) =>
+                                                updatedPermissionSet.has(
+                                                  item.permission_name
+                                                )
+                                              );
+
+                                            setSelectAllPermissions({
+                                              ...selectAllPermissions,
+                                              [heading]: allChildChecked,
+                                            });
+
                                             formik.setFieldValue(
                                               "permissionsList",
                                               updatedPermissionArray
