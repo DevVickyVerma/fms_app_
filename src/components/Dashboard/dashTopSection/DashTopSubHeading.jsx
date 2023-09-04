@@ -826,7 +826,7 @@ const DashTopSubHeading = ({
                               <Col lg={12} md={12}
                                 className="dashboardSubChildCard my-4"
                                 borderRadius={"5px"}
-                                onClick={() => handleGradsClick(index)}
+
                               >
                                 <p style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px", justifyContent: "space-between", }}>
                                   <span
