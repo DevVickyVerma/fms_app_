@@ -7,7 +7,10 @@ import {
   AiOutlineBarChart,
   AiOutlineEuroCircle,
   AiOutlinePauseCircle,
+  AiOutlineTransaction
 } from "react-icons/ai";
+import { MdOutlineWaterDrop } from "react-icons/md"
+// import { MdOutlineWaterDrop } from "react-icons/md"
 import { useEffect, useState } from "react";
 import { Image } from "@mui/icons-material";
 import { BiLogoCodepen } from "react-icons/bi";
@@ -222,7 +225,7 @@ const DashTopSubHeading = ({
           // top={"114px"} // Adjust the value as needed
           top={0}
           zIndex={1} // Ensure the sticky container overlays other content
-          // className="sticky stickyClass "
+        // className="sticky stickyClass "
         >
           {/* LEFT side heading title */}
           <Box display={"flex"} alignItems={"center"}>
@@ -256,8 +259,8 @@ const DashTopSubHeading = ({
               display={"flex"}
               flexDirection={"column"}
               bgcolor={"#ecf0f1"}
-              // gap={"5px"}
-              // borderRadius={"8px"}
+            // gap={"5px"}
+            // borderRadius={"8px"}
             >
               <Box
                 my={"4px"}
@@ -308,7 +311,7 @@ const DashTopSubHeading = ({
 
               <Box
                 display={"flex"}
-                // gap={"10px"}
+              // gap={"10px"}
               >
                 {/* Calendar Date With Updated OPening Time*/}
                 <Box>
@@ -371,15 +374,15 @@ const DashTopSubHeading = ({
                     py={"2px"}
                     color={"#dfe6e9"}
                     fontSize={"14px"}
-                    // sx={{
-                    //   transition: "background-color 0.3s, color 0.3s", // Add smooth transition
-                    //   ":hover": {
-                    //     // color: "#2d3436", // Dark gray for better contrast
-                    //     backgroundColor: "#e6191a", // Darker red shade
-                    //     color: "#ffffff", // White for better contrast
-                    //     cursor: "pointer",
-                    //   },
-                    // }}
+                  // sx={{
+                  //   transition: "background-color 0.3s, color 0.3s", // Add smooth transition
+                  //   ":hover": {
+                  //     // color: "#2d3436", // Dark gray for better contrast
+                  //     backgroundColor: "#e6191a", // Darker red shade
+                  //     color: "#ffffff", // White for better contrast
+                  //     cursor: "pointer",
+                  //   },
+                  // }}
                   >
                     {" "}
                     Closing Time
@@ -440,9 +443,9 @@ const DashTopSubHeading = ({
           bgcolor={"#ffffff"}
           color={"black"}
           my={"20px"}
-          // alignItems={"center"}
+
           flexDirection={"column"}
-          // justifyContent="center"
+
           gap={4}
           p={"25px"}
           boxShadow="0px 10px 10px -5px rgba(0,0,0,0.5)"
@@ -459,11 +462,11 @@ const DashTopSubHeading = ({
                 py={"2px"}
                 color={"#dfe6e9"}
                 sx={{
-                  transition: "background-color 0.3s, color 0.3s", // Add smooth transition
+                  transition: "background-color 0.3s, color 0.3s",
                   ":hover": {
-                    // color: "#2d3436", // Dark gray for better contrast
-                    backgroundColor: "#e6191a", // Darker red shade
-                    color: "#ffffff", // White for better contrast
+
+                    backgroundColor: "#e6191a",
+                    color: "#ffffff",
                     cursor: "pointer",
                   },
                 }}
@@ -502,7 +505,7 @@ const DashTopSubHeading = ({
             display={"flex"}
             gap={"25px"}
             flexWrap={"wrap"}
-            // justifyContent={["space-between"]}
+
           >
             {" "}
             {getSiteDetails?.last_fuel_delivery_stats?.data?.map(
@@ -514,11 +517,11 @@ const DashTopSubHeading = ({
                   py={"15px"}
                   color={"white"}
                   minWidth={"250px"}
-                  // key={index}
+
                   sx={{
                     ":hover": {
-                      backgroundColor: "purple", // Change background color on hover
-                      cursor: "pointer", // Change cursor to pointer on hover
+                      backgroundColor: "purple",
+                      cursor: "pointer",
                     },
                   }}
                 >
@@ -540,16 +543,15 @@ const DashTopSubHeading = ({
 
         {/* Grad stats */}
 
-        <Box
+        {/* <Box
           display={"flex"}
           width={"100%"}
           bgcolor={"#ffffff"}
           color={"black"}
           my={"20px"}
-          // alignItems={"center"}
-          // flexDirection={"column"}
+
           justifyContent="space-between"
-          // gap={4}
+
           p={"20px"}
           boxShadow="0px 10px 10px -5px rgba(0,0,0,0.5)"
           overflow={"auto"}
@@ -568,18 +570,18 @@ const DashTopSubHeading = ({
               {getSiteDetails?.fuel_stats?.data?.map((fuelState, index) => (
                 <Box
                   borderRadius={"5px"}
-                  // bgcolor={"#5444c1"}
+
                   bgcolor={gridIndex === index ? "purple" : "#5444c1"}
                   px={"20px"}
                   py={"15px"}
                   color={"white"}
                   minWidth={"250px"}
                   onClick={() => handleGradsClick(index)}
-                  // key={index}
+
                   sx={{
                     ":hover": {
-                      backgroundColor: "purple", // Change background color on hover
-                      cursor: "pointer", // Change cursor to pointer on hover
+                      backgroundColor: "purple",
+                      cursor: "pointer",
                     },
                   }}
                 >
@@ -590,43 +592,14 @@ const DashTopSubHeading = ({
                     mb={"5px"}
                   >
                     <BsFillFuelPumpFill />
-                    {/* {LastDeliveryState?.fuel} */}
+
                     {fuelState?.fuel}
                   </Typography>
-                  {/* <Typography>{LastDeliveryState?.value} L</Typography> */}
+
                 </Box>
               ))}
             </Box>
           </Box>
-          {/* <Box
-                  display={"flex"}
-                  justifyContent={"space-between"}
-                  gap={"45px"}
-                  p={"15px"}
-                  bgcolor={"#dfe6e9"}
-                  alignItems={"center"}
-                  minWidth={"200px"}
-                  borderRadius={"5px"}
-                  onClick={() => handleGradsClick(index)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <Box
-                    display={"flex"}
-                    justifyContent={"space-between"}
-                    alignItems={"center"}
-                    gap={"12px"}
-                  >
-                    <Typography
-                      display={"flex"}
-                      gap={"5px"}
-                      alignItems={"center"}
-                      mb={"5px"}
-                    >
-                      <BsFillFuelPumpFill size={22} />
-                      {fuelState?.fuel}
-                    </Typography>
-                  </Box>
-                </Box> */}
           {isGradsOpen && (
             <Box
               display={"flex"}
@@ -637,7 +610,7 @@ const DashTopSubHeading = ({
             >
               <Box width={"350px"}>
                 <Typography variant="body1">Key Matrices</Typography>
-                {/* key matrices item  */}
+
                 <Box
                   display={"flex"}
                   gap={"27px"}
@@ -648,14 +621,14 @@ const DashTopSubHeading = ({
                 >
                   <Box
                     display={"flex"}
-                    // justifyContent={"space-between"}
+
                     gap={"45px"}
                     px={"10px"}
                     py={"10px"}
-                    // border={"0.4px solid "}
+
                     minWidth={"200px"}
                     flexDirection={"column"}
-                    // alignItems={"center"}
+
                     bgcolor={"#5444c1"}
                     color={"white"}
                     borderRadius={"5px"}
@@ -700,13 +673,13 @@ const DashTopSubHeading = ({
                 >
                   <Box
                     display={"flex"}
-                    // justifyContent={"space-between"}
+
                     gap={"45px"}
                     px={"10px"}
                     py={"10px"}
-                    // border={"0.4px solid "}
+
                     minWidth={"200px"}
-                    // flexDirection={"column"}
+
                     alignItems={"center"}
                     bgcolor={"#5444c1"}
                     color={"white"}
@@ -715,27 +688,182 @@ const DashTopSubHeading = ({
                     <Typography variant="body2" sx={{ opacity: 0.9 }}>
                       Fuel Volume
                     </Typography>
-                    {/* <Box> */}
-                    {/* <Typography variant="body2">Fuel Volume</Typography> */}
+
                     <Typography variant="body2">
                       {getSiteDetails?.fuel_stats?.data[gridIndex]?.fuel_volume}
                     </Typography>
-                    {/* </Box> */}
+
                   </Box>
                 </Box>
               </Box>
             </Box>
           )}
-        </Box>
+        </Box> */}
 
-        {/* Wet stock analysis */}
-        <Box
+        {/* Grad Stats With Bootstrap*/}
+        <Row>
+          <Col lg={12} xl={12} md={12} sm={12}>
+            <Card>
+
+              <Card.Body>
+                <Row  >
+
+                  <Col lg={3} md={3} xl={3} sm={3} >
+                    <Card.Header>
+                      <h3 className="card-title">Grads</h3>
+                    </Card.Header>
+                    <Card.Body>
+                      <Row style={{ display: "flex", flexDirection: "column" }} >
+
+                        {getSiteDetails?.fuel_stats?.data?.map((fuelState, index) => (
+                          <Col
+                            lg={12} md={12}
+                            className="dashboardSubChildCard my-4"
+                            borderRadius={"5px"}
+                            onClick={() => handleGradsClick(index)}
+                            style={{ background: gridIndex === index ? "purple" : "#5444c1" }}
+                          >
+                            <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}
+                            >
+                              <BsFillFuelPumpFill />
+                              {/* {LastDeliveryState?.fuel} */}
+                              {fuelState?.fuel}
+                            </span>
+                            {/* <Typography>{LastDeliveryState?.value} L</Typography> */}
+                          </Col>
+                        ))}
+                      </Row>
+                    </Card.Body>
+                  </Col>
+
+                  {isGradsOpen && (
+                    <>
+                      <Col lg={3} md={3} xl={3} sm={3}>
+                        <Card.Header>
+                          <h3 className="card-title">Key Matrices</h3>
+                        </Card.Header>
+                        <Card.Body>
+                          <Row style={{ display: "flex", flexDirection: "column" }} >
+                            {/* total Transaction */}
+                            <Col lg={12} md={12}
+                              className="dashboardSubChildCard my-4"
+                              borderRadius={"5px"}
+                            >
+                              <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}>
+                                Total Transaction {
+                                  getSiteDetails?.fuel_stats?.data[gridIndex]
+                                    ?.cards?.total_transactions
+                                }<AiOutlineTransaction size={20} />
+                              </span>
+
+                            </Col>
+
+
+                            {/* 2nd Total fuel value */}
+                            <Col lg={12} md={12}
+                              className="dashboardSubChildCard my-4"
+                              borderRadius={"5px"}
+                            >
+                              <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}>
+                                Total Fuel Volume {
+                                  getSiteDetails?.fuel_stats?.data[gridIndex]
+                                    ?.cards?.total_fuel_sale_volume
+                                } ℓ <MdOutlineWaterDrop size={20} />
+                              </span>
+                            </Col>
+                            {/* Total Fuel Sales */}
+                            <Col lg={12} md={12}
+                              className="dashboardSubChildCard my-4"
+                              borderRadius={"5px"}
+                            >
+                              <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}>
+                                Total Fuel Sales {
+                                  getSiteDetails?.fuel_stats?.data[gridIndex]
+                                    ?.cards?.total_fuel_sale_value
+                                }
+                              </span>
+                            </Col>
+
+                            {/* Gross Margin */}
+                            <Col lg={12} md={12}
+                              className="dashboardSubChildCard my-4"
+                              borderRadius={"5px"}
+                            >
+                              <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}>
+                                Gross Margin {
+                                  getSiteDetails?.fuel_stats?.data[gridIndex]
+                                    ?.gross_margin
+                                }
+                              </span>
+                            </Col>
+
+                            {/* Gross Profit */}
+                            <Col lg={12} md={12}
+                              className="dashboardSubChildCard my-4"
+                              borderRadius={"5px"}
+                            >
+                              <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}>
+                                Gross Profit {
+                                  getSiteDetails?.fuel_stats?.data[gridIndex]
+                                    ?.gross_profit
+                                }
+                              </span>
+                            </Col>
+
+                          </Row>
+                        </Card.Body>
+                      </Col>
+
+                      {/* 3rd column */}
+
+                      <Col lg={6} md={6} xl={6} sm={6}>
+                        <Card.Header>
+                          <h3 className="card-title">Fuel Volume</h3>
+                        </Card.Header>
+                        <Card.Body>
+                          <Row style={{ display: "flex", flexDirection: "column" }} >
+                            {getSiteDetails?.fuel_stats?.data?.[gridIndex]?.cards?.card_details?.map((cardDetail, index) => (
+                              <Col lg={12} md={12}
+                                className="dashboardSubChildCard my-4"
+                                borderRadius={"5px"}
+                                onClick={() => handleGradsClick(index)}
+                              >
+                                <p style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px", justifyContent: "space-between", }}>
+                                  <span
+                                    style={{ display: "flex", gap: "5px", flex: 1, }}
+                                  >
+                                    <img src={cardDetail?.image} alt={cardDetail?.card_name} style={{ width: "20px", height: "20px" }} />
+
+                                    {cardDetail?.card_name}
+                                  </span>
+                                  <span style={{ flex: 1 }}>{cardDetail?.total_fuel_sale_volume}</span>
+                                  <span style={{ flex: 1 }}>Total Transactions:{" "} ({cardDetail?.total_transactions})</span>
+                                </p>
+                              </Col>
+                            ))}
+                          </Row>
+                        </Card.Body>
+                      </Col>
+                    </>
+                  )}
+
+
+
+
+                </Row>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+
+        {/* Wet stock analysis with material*/}
+        {/* <Box
           display={"flex"}
           width={"100%"}
           bgcolor={"#ffffff"}
           color={"black"}
           my={"20px"}
-          // alignItems={"center"}
+          
           flexDirection={"column"}
           justifyContent="space-between"
           gap={4}
@@ -747,7 +875,7 @@ const DashTopSubHeading = ({
             display={"flex"}
             gap={"23px"}
             flexWrap={"wrap"}
-            // justifyContent={["space-around"]}
+            
           >
             {getSiteDetails?.last_end_dip_stats?.data?.map(
               (endDipState, index) => (
@@ -759,11 +887,11 @@ const DashTopSubHeading = ({
                     py={"15px"}
                     color={"white"}
                     minWidth={"250px"}
-                    // key={index}
+                    
                     sx={{
                       ":hover": {
-                        backgroundColor: "purple", // Change background color on hover
-                        cursor: "pointer", // Change cursor to pointer on hover
+                        backgroundColor: "purple", 
+                        cursor: "pointer", 
                       },
                     }}
                   >
@@ -782,7 +910,43 @@ const DashTopSubHeading = ({
               )
             )}
           </Box>
-        </Box>
+        </Box> */}
+
+        {/* Wet Stock with bootstrap */}
+        <Row
+        >
+          <Col lg={12} xl={12} md={12} sm={12}>
+            <Card>
+              <Card.Header>
+                <h3 className="card-title">WetStock Analysis </h3>
+              </Card.Header>
+              <Card.Body>
+
+                <Row >
+                  {getSiteDetails?.last_end_dip_stats?.data?.map(
+                    (endDipState, index) => (
+                      <Col lg={3} md={6} >
+                        <div className="dashboardSubChildCard my-4"
+                        >
+                          <div>
+                            <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}
+                            >
+                              <BsFillFuelPumpFill />
+                              {endDipState?.fuel}
+                            </span>
+                            <span>{endDipState?.value} ℓ</span>
+                          </div>
+                        </div>
+                      </Col>
+                    )
+                  )}
+                </Row>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+
+
 
         {/* Line Chart */}
         {/* <Box
@@ -822,7 +986,7 @@ const DashTopSubHeading = ({
             options={dashboardLineChartData}
           ></Line>
         </Box> */}
-      </div>
+      </div >
 
       <Row
         style={{

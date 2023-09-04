@@ -406,11 +406,10 @@ const BankDeposit = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.amount && formik.touched.amount
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.amount && formik.touched.amount
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="amount"
                             name="amount"
                             placeholder="Amount"
@@ -431,11 +430,10 @@ const BankDeposit = (props) => {
                             Choose Reason<span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.reason && formik.touched.reason
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.reason && formik.touched.reason
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="reason"
                             name="reason"
                             onChange={formik.handleChange}
@@ -462,11 +460,10 @@ const BankDeposit = (props) => {
                         <div className="form-group">
                           <label htmlFor="image">Image</label>
                           <div
-                            className={`dropzone ${
-                              formik.errors.image && formik.touched.image
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`dropzone ${formik.errors.image && formik.touched.image
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             onDrop={(event) => handleDrop(event)}
                             onDragOver={(event) => event.preventDefault()}
                           >
@@ -488,15 +485,17 @@ const BankDeposit = (props) => {
                           )}
                         </div>
                       </Col>
-                      {Editdata ? (
-                        <button type="submit" className="btn btn-primary">
-                          Update
-                        </button>
-                      ) : (
-                        <button type="submit" className="btn btn-primary">
-                          Add
-                        </button>
-                      )}
+                      <div className="text-end">
+                        {Editdata ? (
+                          <button type="submit" className="btn btn-primary">
+                            Update
+                          </button>
+                        ) : (
+                          <button type="submit" className="btn btn-primary">
+                            Add
+                          </button>
+                        )}
+                      </div>
                     </Row>
                   </form>
                 </Card.Body>
