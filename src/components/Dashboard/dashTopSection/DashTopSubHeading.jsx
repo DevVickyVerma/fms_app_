@@ -7,9 +7,9 @@ import {
   AiOutlineBarChart,
   AiOutlineEuroCircle,
   AiOutlinePauseCircle,
-  AiOutlineTransaction
+  AiOutlineTransaction,
 } from "react-icons/ai";
-import { MdOutlineWaterDrop } from "react-icons/md"
+import { MdOutlineWaterDrop } from "react-icons/md";
 // import { MdOutlineWaterDrop } from "react-icons/md"
 import { useEffect, useState } from "react";
 import { Image } from "@mui/icons-material";
@@ -52,11 +52,13 @@ const DashTopSubHeading = ({
   const dateStr = getSiteDetails?.last_fuel_delivery_stats?.last_day
     ? getSiteDetails.last_fuel_delivery_stats.last_day
     : "";
+  console.log(dateStr, "dateStr");
   const day = moment(dateStr).format("Do");
+  const MonthLastDelivery = moment(dateStr).format("MMM");
 
   // console.log(day, "day");
 
-  const currentDate = moment(
+  const currentmonthDate = moment(
     getSiteDetails?.last_fuel_delivery_stats?.last_day
   );
 
@@ -65,12 +67,6 @@ const DashTopSubHeading = ({
     getSiteDetails?.performance_reporting?.datasets;
   const stackedLineBarLabelsForSite =
     getSiteDetails?.performance_reporting?.labels;
-
-  // console.log(
-  //   "StackedLineBarChart, stackedLineBarLabels, stackedLineBarData",
-  //   stackedLineBarDataForSite,
-  //   stackedLineBarLabelsForSite
-  // );
 
   const [formattedClosingTime, setFormattedClosingTime] = useState();
   const [formattedStartingTime, setFormattedStartingTime] = useState();
@@ -83,7 +79,7 @@ const DashTopSubHeading = ({
   );
   const [formattedMonths, setformattedMonth] = useState();
 
-  console.log("formattedMonthForHeading", formattedMonthForHeading);
+  console.log("currentmonthDate", currentmonthDate);
 
   useEffect(() => {
     const LastDayEndTimeString = getSiteDetails?.last_day_end;
@@ -226,7 +222,7 @@ const DashTopSubHeading = ({
           // top={"114px"} // Adjust the value as needed
           top={0}
           zIndex={1} // Ensure the sticky container overlays other content
-        // className="sticky stickyClass "
+          // className="sticky stickyClass "
         >
           {/* LEFT side heading title */}
           <Box display={"flex"} alignItems={"center"}>
@@ -260,8 +256,8 @@ const DashTopSubHeading = ({
               display={"flex"}
               flexDirection={"column"}
               bgcolor={"#ecf0f1"}
-            // gap={"5px"}
-            // borderRadius={"8px"}
+              // gap={"5px"}
+              // borderRadius={"8px"}
             >
               <Box
                 my={"4px"}
@@ -297,14 +293,9 @@ const DashTopSubHeading = ({
                 ) : (
                   ""
                 )}
-
-
               </Box>
 
-              <Box
-                display={"flex"}
-
-              >
+              <Box display={"flex"}>
                 {/* Calendar Date With Updated OPening Time*/}
                 <Box>
                   <Typography
@@ -317,21 +308,16 @@ const DashTopSubHeading = ({
                     textAlign={"center"}
                     py={"2px"}
                     color={"#dfe6e9"}
-
                     fontSize={"14px"}
                   >
                     {" "}
                     Opening Time
-
                     <Typography
                       height={"27px"}
                       width={"100%"}
-
                       bgcolor={"rgb(25 122 66)"}
                       position={"absolute"}
-
                       bottom={0}
-
                       color={"#dfe6e9"}
                       textAlign={"center"}
                       display={"flex"}
@@ -339,7 +325,6 @@ const DashTopSubHeading = ({
                       alignItems={"center"}
                       fontSize={"14px"}
                     >
-
                       {formattedDayForOpening}
                     </Typography>
                   </Typography>
@@ -349,27 +334,21 @@ const DashTopSubHeading = ({
                   <Typography
                     height={"48px"}
                     width={"140px"}
-
                     position={"relative"}
                     bgcolor={"#d63031"}
                     textAlign={"center"}
                     py={"2px"}
                     color={"#dfe6e9"}
                     fontSize={"14px"}
-
                   >
                     {" "}
                     Closing Time
-
                     <Typography
                       height={"27px"}
                       width={"100%"}
-
                       bgcolor={"#d63031"}
                       position={"absolute"}
-
                       bottom={0}
-
                       color={"#dfe6e9"}
                       textAlign={"center"}
                       display={"flex"}
@@ -377,7 +356,6 @@ const DashTopSubHeading = ({
                       alignItems={"center"}
                       fontSize={"14px"}
                     >
-
                       {formattedDayForClosing}
                     </Typography>
                   </Typography>
@@ -397,9 +375,7 @@ const DashTopSubHeading = ({
           bgcolor={"#ffffff"}
           color={"black"}
           my={"20px"}
-
           flexDirection={"column"}
-
           gap={4}
           p={"25px"}
           boxShadow="0px 10px 10px -5px rgba(0,0,0,0.5)"
@@ -418,14 +394,18 @@ const DashTopSubHeading = ({
                 sx={{
                   transition: "background-color 0.3s, color 0.3s",
                   ":hover": {
-
                     backgroundColor: "#e6191a",
                     color: "#ffffff",
                     cursor: "pointer",
                   },
                 }}
               >
-                {formattedMonths}
+                <strong style={{ fontWeight: 700 }}>
+                  {" "}
+                  {moment(MonthLastDelivery, "MMM").isValid()
+                    ? MonthLastDelivery
+                    : ""}
+                </strong>
                 <Typography
                   height={"27px"}
                   width={"77%"}
@@ -455,12 +435,7 @@ const DashTopSubHeading = ({
               </Box>
             </Box>
           </Box>
-          <Box
-            display={"flex"}
-            gap={"25px"}
-            flexWrap={"wrap"}
-
-          >
+          <Box display={"flex"} gap={"25px"} flexWrap={"wrap"}>
             {" "}
             {getSiteDetails?.last_fuel_delivery_stats?.data?.map(
               (LastDeliveryState, index) => (
@@ -471,8 +446,6 @@ const DashTopSubHeading = ({
                   py={"15px"}
                   color={"black"}
                   minWidth={"250px"}
-
-
                 >
                   <Typography
                     display={"flex"}
@@ -483,46 +456,60 @@ const DashTopSubHeading = ({
                     <BsFillFuelPumpFill />
                     {LastDeliveryState?.fuel}
                   </Typography>
-                  <strong style={{ fontWeight: 700 }}>{LastDeliveryState?.value}</strong>
+                  <strong style={{ fontWeight: 700 }}>
+                    {LastDeliveryState?.value}
+                  </strong>
                 </Box>
               )
             )}
           </Box>
         </Box>
 
-
         {/* Grad Stats With Bootstrap*/}
         <Row>
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
-
               <Card.Body>
-                <Row >
-
-                  <Col lg={4} md={4} xl={4} sm={4} >
+                <Row>
+                  <Col lg={4} md={4} xl={4} sm={4}>
                     <Card.Header>
                       <h3 className="card-title">Grads</h3>
                     </Card.Header>
                     <Card.Body>
-                      <Row style={{ display: "flex", flexDirection: "column" }} >
-
-                        {getSiteDetails?.fuel_stats?.data?.map((fuelState, index) => (
-                          <Col
-                            lg={12} md={12}
-                            className="dashboardSubChildCard my-4"
-                            borderRadius={"5px"}
-                            onClick={() => handleGradsClick(index)}
-                            style={{ border: gridIndex === index ? "1px dashed #b3b3b3" : "", cursor: "pointer", fontWeight: gridIndex === index ? 700 : "" }}
-                          >
-                            <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}
+                      <Row style={{ display: "flex", flexDirection: "column" }}>
+                        {getSiteDetails?.fuel_stats?.data?.map(
+                          (fuelState, index) => (
+                            <Col
+                              lg={12}
+                              md={12}
+                              className="dashboardSubChildCard my-4"
+                              borderRadius={"5px"}
+                              onClick={() => handleGradsClick(index)}
+                              style={{
+                                border:
+                                  gridIndex === index
+                                    ? "1px dashed #b3b3b3"
+                                    : "",
+                                cursor: "pointer",
+                                fontWeight: gridIndex === index ? 700 : "",
+                              }}
                             >
-                              <BsFillFuelPumpFill />
-                              {/* {LastDeliveryState?.fuel} */}
-                              {fuelState?.fuel}
-                            </span>
-                            {/* <Typography>{LastDeliveryState?.value} L</Typography> */}
-                          </Col>
-                        ))}
+                              <span
+                                style={{
+                                  display: "flex",
+                                  gap: "5px",
+                                  alignItems: "center",
+                                  marginBottom: "5px",
+                                }}
+                              >
+                                <BsFillFuelPumpFill />
+                                {/* {LastDeliveryState?.fuel} */}
+                                {fuelState?.fuel}
+                              </span>
+                              {/* <Typography>{LastDeliveryState?.value} L</Typography> */}
+                            </Col>
+                          )
+                        )}
                       </Row>
                     </Card.Body>
                   </Col>
@@ -534,30 +521,54 @@ const DashTopSubHeading = ({
                           <h3 className="card-title">Key Matrices</h3>
                         </Card.Header>
                         <Card.Body>
-                          <Row style={{ display: "flex", flexDirection: "column" }} >
+                          <Row
+                            style={{ display: "flex", flexDirection: "column" }}
+                          >
                             {/* total Transaction */}
-                            <Col lg={12} md={12}
+                            <Col
+                              lg={12}
+                              md={12}
                               className="dashboardSubChildCard my-4"
                               borderRadius={"5px"}
                             >
-                              <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}>
-                                <strong style={{ fontWeight: 700 }}> Total Transaction :</strong>
+                              <span
+                                style={{
+                                  display: "flex",
+                                  gap: "5px",
+                                  alignItems: "center",
+                                  marginBottom: "5px",
+                                }}
+                              >
+                                <strong style={{ fontWeight: 700 }}>
+                                  {" "}
+                                  Total Transaction :
+                                </strong>
                                 {
                                   getSiteDetails?.fuel_stats?.data[gridIndex]
                                     ?.cards?.total_transactions
                                 }
                               </span>
-
                             </Col>
 
-
                             {/* 2nd Total fuel value */}
-                            <Col lg={12} md={12}
+                            <Col
+                              lg={12}
+                              md={12}
                               className="dashboardSubChildCard my-4"
                               borderRadius={"5px"}
                             >
-                              <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}>
-                                <strong style={{ fontWeight: 700 }}> Total Fuel Volume : </strong>
+                              <span
+                                style={{
+                                  display: "flex",
+                                  gap: "5px",
+                                  alignItems: "center",
+                                  marginBottom: "5px",
+                                }}
+                              >
+                                <strong style={{ fontWeight: 700 }}>
+                                  {" "}
+                                  Total Fuel Volume :{" "}
+                                </strong>
                                 {
                                   getSiteDetails?.fuel_stats?.data[gridIndex]
                                     ?.cards?.total_fuel_sale_volume
@@ -565,12 +576,24 @@ const DashTopSubHeading = ({
                               </span>
                             </Col>
                             {/* Total Fuel Sales */}
-                            <Col lg={12} md={12}
+                            <Col
+                              lg={12}
+                              md={12}
                               className="dashboardSubChildCard my-4"
                               borderRadius={"5px"}
                             >
-                              <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}>
-                                <strong style={{ fontWeight: 700 }}> Total Fuel Sales :</strong>
+                              <span
+                                style={{
+                                  display: "flex",
+                                  gap: "5px",
+                                  alignItems: "center",
+                                  marginBottom: "5px",
+                                }}
+                              >
+                                <strong style={{ fontWeight: 700 }}>
+                                  {" "}
+                                  Total Fuel Sales :
+                                </strong>
                                 {
                                   getSiteDetails?.fuel_stats?.data[gridIndex]
                                     ?.cards?.total_fuel_sale_value
@@ -579,12 +602,24 @@ const DashTopSubHeading = ({
                             </Col>
 
                             {/* Gross Margin */}
-                            <Col lg={12} md={12}
+                            <Col
+                              lg={12}
+                              md={12}
                               className="dashboardSubChildCard my-4"
                               borderRadius={"5px"}
                             >
-                              <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}>
-                                <strong style={{ fontWeight: 700 }}> Gross Margin :</strong>
+                              <span
+                                style={{
+                                  display: "flex",
+                                  gap: "5px",
+                                  alignItems: "center",
+                                  marginBottom: "5px",
+                                }}
+                              >
+                                <strong style={{ fontWeight: 700 }}>
+                                  {" "}
+                                  Gross Margin :
+                                </strong>
                                 {
                                   getSiteDetails?.fuel_stats?.data[gridIndex]
                                     ?.gross_margin
@@ -593,19 +628,30 @@ const DashTopSubHeading = ({
                             </Col>
 
                             {/* Gross Profit */}
-                            <Col lg={12} md={12}
+                            <Col
+                              lg={12}
+                              md={12}
                               className="dashboardSubChildCard my-4"
                               borderRadius={"5px"}
                             >
-                              <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}>
-                                <strong style={{ fontWeight: 700 }}> Gross Profit  :</strong>
+                              <span
+                                style={{
+                                  display: "flex",
+                                  gap: "5px",
+                                  alignItems: "center",
+                                  marginBottom: "5px",
+                                }}
+                              >
+                                <strong style={{ fontWeight: 700 }}>
+                                  {" "}
+                                  Gross Profit :
+                                </strong>
                                 {
                                   getSiteDetails?.fuel_stats?.data[gridIndex]
                                     ?.gross_profit
                                 }
                               </span>
                             </Col>
-
                           </Row>
                         </Card.Body>
                       </Col>
@@ -617,7 +663,9 @@ const DashTopSubHeading = ({
                           <h3 className="card-title">Fuel Volume</h3>
                         </Card.Header>
 
-                        <Card.Body style={{ maxHeight: "467px", overflowY: "auto" }}>
+                        <Card.Body
+                          style={{ maxHeight: "467px", overflowY: "auto" }}
+                        >
                           <Row
                             style={{ display: "flex", flexDirection: "column" }}
                           >
@@ -629,7 +677,12 @@ const DashTopSubHeading = ({
                                 md={12}
                                 className=" my-4"
                                 borderRadius={"5px"}
-                                style={{ background: "#f2f2f8", padding: "6px 20px", color: "black", borderRadius: "5px" }}
+                                style={{
+                                  background: "#f2f2f8",
+                                  padding: "6px 20px",
+                                  color: "black",
+                                  borderRadius: "5px",
+                                }}
                               >
                                 <p
                                   style={{
@@ -640,42 +693,55 @@ const DashTopSubHeading = ({
                                     justifyContent: "space-between",
                                   }}
                                 >
-
-                                  <span style={{ display: "flex", flex: 1, gap: "5px" }}>
+                                  <span
+                                    style={{
+                                      display: "flex",
+                                      flex: 1,
+                                      gap: "5px",
+                                    }}
+                                  >
                                     {cardDetail?.image && (
                                       <img
                                         src={cardDetail.image}
-                                        alt={cardDetail.card_name || "Card Image Alt Text"}
+                                        alt={
+                                          cardDetail.card_name ||
+                                          "Card Image Alt Text"
+                                        }
                                         style={{
                                           width: "60px",
                                           height: "40px",
                                           background: "#FFF",
                                           padding: "5px",
-                                          borderRadius: "8px"
+                                          borderRadius: "8px",
                                         }}
                                       />
                                     )}
                                   </span>
 
-                                  <span style={{ flex: 1, display: "flex", }}>
-                                    {cardDetail?.total_fuel_sale_volume && (
-                                      cardDetail?.total_fuel_sale_volume
-                                    )}
+                                  <span style={{ flex: 1, display: "flex" }}>
+                                    {cardDetail?.total_fuel_sale_volume &&
+                                      cardDetail?.total_fuel_sale_volume}
                                   </span>
 
-                                  <span style={{ flex: 1, display: "flex", }} >
+                                  <span style={{ flex: 1, display: "flex" }}>
                                     <OverlayTrigger
                                       placement="top"
                                       overlay={
-                                        <Tooltip style={{ display: "flex", alignItems: "flex-start", justifyContent: "flex-start" }}>
+                                        <Tooltip
+                                          style={{
+                                            display: "flex",
+                                            alignItems: "flex-start",
+                                            justifyContent: "flex-start",
+                                          }}
+                                        >
                                           {" "}
-                                          Total Transactions : {" "}
+                                          Total Transactions :{" "}
                                           {cardDetail?.total_transactions}
                                           <br />
-                                          Total Fuel Sale : {" "}
+                                          Total Fuel Sale :{" "}
                                           {cardDetail?.total_fuel_sale_value}
                                           <br />
-                                          Total Fuel Volume : {" "}
+                                          Total Fuel Volume :{" "}
                                           {cardDetail?.total_fuel_sale_volume}
                                         </Tooltip>
                                       }
@@ -695,10 +761,6 @@ const DashTopSubHeading = ({
                       </Col>
                     </>
                   )}
-
-
-
-
                 </Row>
               </Card.Body>
             </Card>
@@ -762,29 +824,33 @@ const DashTopSubHeading = ({
         </Box> */}
 
         {/* Wet Stock with bootstrap */}
-        <Row
-        >
+        <Row>
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Header>
                 <h3 className="card-title">WetStock Analysis </h3>
               </Card.Header>
               <Card.Body>
-
-                <Row >
+                <Row>
                   {getSiteDetails?.last_end_dip_stats?.data?.map(
                     (endDipState, index) => (
-                      <Col lg={3} md={6} >
-                        <div className="my-4 dashboardSubChildCard "
-                        >
-
+                      <Col lg={3} md={6}>
+                        <div className="my-4 dashboardSubChildCard ">
                           <div>
-                            <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}
+                            <span
+                              style={{
+                                display: "flex",
+                                gap: "5px",
+                                alignItems: "center",
+                                marginBottom: "5px",
+                              }}
                             >
                               <BsFillFuelPumpFill />
                               {endDipState?.fuel}
                             </span>
-                            <strong style={{ fontWeight: 700 }}>{endDipState?.value} </strong>
+                            <strong style={{ fontWeight: 700 }}>
+                              {endDipState?.value}{" "}
+                            </strong>
                           </div>
                         </div>
                       </Col>
@@ -795,8 +861,6 @@ const DashTopSubHeading = ({
             </Card>
           </Col>
         </Row>
-
-
 
         {/* Line Chart */}
         {/* <Box
@@ -836,7 +900,7 @@ const DashTopSubHeading = ({
             options={dashboardLineChartData}
           ></Line>
         </Box> */}
-      </div >
+      </div>
 
       <Row
         style={{
