@@ -473,7 +473,7 @@ const DashTopSubHeading = ({
                 <Row>
                   <Col lg={4} md={4} xl={4} sm={4}>
                     <Card.Header>
-                      <h3 className="card-title">Grads</h3>
+                      <h3 className="card-title">Grades</h3>
                     </Card.Header>
                     <Card.Body>
                       <Row style={{ display: "flex", flexDirection: "column" }}>
