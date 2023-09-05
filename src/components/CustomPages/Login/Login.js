@@ -14,8 +14,7 @@ export default function Login(props) {
 
   useEffect(() => {
     console.clear();
-    console.clear();
-  }, []);
+  }, [localStorage.getItem("token")]);
   if (localStorage.getItem("myKey") === null) {
     if (!localStorage.getItem("refreshed")) {
       localStorage.setItem("refreshed", "true");
@@ -25,9 +24,12 @@ export default function Login(props) {
 
   const navigate = useNavigate();
 
-  if (props.token) {
-    return <Navigate to="/dashboard" />;
-  }
+  // if (props.token) {
+  //   return <Navigate to="/dashboard" />;
+  // }
+  // if (localStorage.getItem("token")) {
+  //   return <Navigate to="/dashboard" />;
+  // }
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),

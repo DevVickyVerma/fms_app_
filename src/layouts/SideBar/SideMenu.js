@@ -248,32 +248,6 @@ export const MENUITEMS = [
           },
         ],
       },
-      // {
-      //   title: "Manage Sub-Business Types",
-      //   icon: "th",
-      //   type: "sub",
-      //   active: false,
-      //   permission: "business-sub-type-list",
-      //   visibility: false,
-      //   children: [
-
-      //     {
-      //      path: `/sub-business`,
-      //       title: "Manage Sub-Business Types",
-      //       type: "link",
-      //       permission: "business-sub-type-list",
-      //       visibility: false,
-      //     },
-      //     {
-      //       path: `/addsub-business`,
-      //        title: "Add Sub-Business Types",
-      //        type: "link",
-      //        permission: "business-sub-type-create",
-      //        visibility: false,
-      //      },
-
-      //   ],
-      // },
 
       {
         title: "Manage Charges",
@@ -395,24 +369,6 @@ export const MENUITEMS = [
           },
         ],
       },
-      // {
-      //   title: "Business Category",
-      //   icon: "package",
-      //   type: "sub",
-      //   active: false,
-      //   children: [
-      //     {
-      //       path: `/managebusinesscategory`,
-      //       title: "Manage Business Category",
-      //       type: "link",
-      //     },
-      //     {
-      //       path: `/addbusinesscategory`,
-      //       title: "Add Business Category",
-      //       type: "link",
-      //     },
-      //   ],
-      // },
 
       {
         title: "Manage Category",
@@ -538,6 +494,13 @@ export const MENUITEMS = [
             permission: "fuel-purchase-price",
             visibility: false,
           },
+          // {
+          //   path: `/competitor-fuel-price`,
+          //   title: "Competitor Fuel Prices",
+          //   type: "link",
+          //   permission: "fuel-purchase-price",
+          //   visibility: false,
+          // },
         ],
       },
 

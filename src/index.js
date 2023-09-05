@@ -347,6 +347,9 @@ const WorkFlows = React.lazy(() =>
 const FUELPRICE = React.lazy(() =>
   import("./components/pages/ManageFuelPrices/FuelPrices")
 );
+const CompetitorFuelPrices = React.lazy(() =>
+  import("./components/pages/ManageFuelPrices/competitorfuelprices")
+);
 const FuelPurchasePrices = React.lazy(() =>
   import("./components/pages/ManageFuelPrices/FuelPurchasePrices")
 );
@@ -536,6 +539,7 @@ const Root = () => {
   const WrappedDashBoardSubChild = withApi(DashBoardSubChild);
   const WrappedDashBoardSiteDetail = withApi(DashboardSiteDetail);
   const WrappedEmaillogs = withApi(Emaillogs);
+  const WrappedCompetitorFuelPrices = withApi(CompetitorFuelPrices);
 
   return (
     <Fragment>
@@ -772,6 +776,10 @@ const Root = () => {
                   {/* SitePump components start */}
 
                   <Route path={`/fuelprice`} element={<WrappedFUELPRICE />} />
+                  <Route
+                    path={`/competitor-fuel-price`}
+                    element={<WrappedCompetitorFuelPrices />}
+                  />
 
                   <Route
                     path={`/fuel-purchase-prices`}
