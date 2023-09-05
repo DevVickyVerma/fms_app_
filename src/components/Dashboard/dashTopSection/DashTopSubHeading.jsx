@@ -88,6 +88,7 @@ const DashTopSubHeading = ({
   useEffect(() => {
     const LastDayEndTimeString = getSiteDetails?.last_day_end;
     const closingTimeString = getSiteDetails?.fuel_site_timings?.closing_time;
+
     const startingTimeString = getSiteDetails?.fuel_site_timings?.opening_time;
 
     // console.log(DeductedformattedDay, "DeductedformattedDay");
@@ -102,7 +103,7 @@ const DashTopSubHeading = ({
         "YYYY-MM-DD HH:mm"
       );
       const parshedLastDayEndTimeString = moment(
-        closingTimeString,
+        LastDayEndTimeString,
         "YYYY-MM-DD HH:mm"
       );
       const parsedClosingTime = moment(closingTimeString, "DD-MM-YYYY HH:mm");
@@ -496,7 +497,7 @@ const DashTopSubHeading = ({
             <Card>
 
               <Card.Body>
-                <Row style={{ maxHeight: "467px", overflowY: "auto" }} >
+                <Row >
 
                   <Col lg={4} md={4} xl={4} sm={4} >
                     <Card.Header>
@@ -616,7 +617,7 @@ const DashTopSubHeading = ({
                           <h3 className="card-title">Fuel Volume</h3>
                         </Card.Header>
 
-                        <Card.Body >
+                        <Card.Body style={{ maxHeight: "467px", overflowY: "auto" }}>
                           <Row
                             style={{ display: "flex", flexDirection: "column" }}
                           >
@@ -640,7 +641,7 @@ const DashTopSubHeading = ({
                                   }}
                                 >
 
-                                  <span style={{ display: "flex", gap: "5px" }}>
+                                  <span style={{ display: "flex", flex: 1, gap: "5px" }}>
                                     {cardDetail?.image && (
                                       <img
                                         src={cardDetail.image}
@@ -656,13 +657,13 @@ const DashTopSubHeading = ({
                                     )}
                                   </span>
 
-                                  <span style={{ flex: 1 }}>
+                                  <span style={{ flex: 1, display: "flex", }}>
                                     {cardDetail?.total_fuel_sale_volume && (
                                       cardDetail?.total_fuel_sale_volume
                                     )}
                                   </span>
 
-                                  <span >
+                                  <span style={{ flex: 1, display: "flex", }} >
                                     <OverlayTrigger
                                       placement="top"
                                       overlay={
