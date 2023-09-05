@@ -3,15 +3,15 @@ span.text-danger.danger-title {
 }
 
 .dashboardSubChildCard {
-  background-color: #5444c1;
+  background-color: #f2f2f8;
   padding: 15px 20px;
-  color: white;
+  color: black;
   border-radius: 5px;
 }
 
 .dashboardSubChildCard:hover {
-  background-color: purple;
-  cursor: pointer;
+  background-color: #b6b9c682;
+  /* cursor: pointer; */
 }
 
 

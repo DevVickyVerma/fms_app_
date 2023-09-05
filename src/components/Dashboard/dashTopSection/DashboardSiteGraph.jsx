@@ -57,26 +57,30 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                     <Box
                       borderRadius={"5px"}
                       bgcolor={
-                        selectedDateIndex === index ? "purple" : "#5444c1"
+                        selectedDateIndex === index ? "#f2f2f8" : "#f2f2f8"
                       }
                       px={"20px"}
-                      py={"15px"}
-                      color={"white"}
+                      py={"7px"}
+                      color={"black"}
                       // minWidth={"150px"}
                       onClick={() => handleDateButtonClick(index)}
                       key={index}
                       sx={{
                         ":hover": {
-                          backgroundColor: "purple", // Change background color on hover
+                          backgroundColor: "#b6b9c682", // Change background color on hover
                           cursor: "pointer", // Change cursor to pointer on hover
+                          fontWeight: 700
                         },
                       }}
+                      style={{ border: selectedDateIndex === index ? "1px dashed #b3b3b3" : "", cursor: "pointer", }}
+
                     >
                       <Typography
                         display={"flex"}
                         gap={"5px"}
                         alignItems={"center"}
-                        mb={"5px"}
+                        // mb={"5px"}
+                        style={{ fontWeight: selectedDateIndex === index ? 700 : "" }}
                       >
                         {tankDate}
                       </Typography>
@@ -88,157 +92,7 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
 
             <Card.Body>
               <Row>
-                {/* {stockAlertData?.map((tankData, index) => (
-                  <Col lg={3} xl={3} md={6} sm={12}>
-                    <div
-                      key={index}
-                      className="m-4"
-                      style={{
-                        boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-                        background: "white",
-                        padding: "10px",
-                        borderRadius: "10px",
-                      }}
-                    >
-                      <div>
-                        <p className="text-center">
-                          <strong
-                            className="mb-2  text-dark font-weight-bold"
-                            style={{ fontSize: "14px", fontWeight: "bold" }}
-                          >
-                            {tankData?.[selectedDateIndex]?.tank_name}
-                          </strong>
-                        </p>
-                      </div>
-                      <LiquidFillGauge
-                        style={{ margin: "0 auto" }}
-                        width={180}
-                        height={180}
-                        value={
-                          tankData?.[selectedDateIndex]?.fuel_left_percentage
-                        }
-                        percent="%"
-                        textSize={1}
-                        textOffsetX={0}
-                        textOffsetY={0}
-                        textRenderer={(props) => (
-                          <>
-                            <tspan
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <tspan>
-                                {Number(props?.value).toFixed(2)}
-                                <tspan>{props?.percent}</tspan>
-                              </tspan>
-                            </tspan>
-                          </>
-                        )}
-                        riseAnimation
-                        waveAnimation
-                        waveFrequency={2}
-                        waveAmplitude={1}
-                        gradient
-                        gradientStops={generateGradientStops(
-                          tankData?.[selectedDateIndex]?.bg_color
-                        )}
-                        circleStyle={{
-                          fill: tankData?.[selectedDateIndex]?.bg_color,
-                        }}
-                        waveStyle={{
-                          fill: tankData?.[selectedDateIndex]?.bg_color,
-                        }}
-                        textStyle={{
-                          fill: tankData?.[selectedDateIndex]?.font_color,
-                          fontFamily: "Arial",
-                        }}
-                        waveTextStyle={{
-                          fill: tankData?.[selectedDateIndex]?.font_color,
-                          fontFamily: "Arial",
-                        }}
-                      />
 
-                      <div
-                        className="pt-3 mt-3"
-                        style={{
-                          lineHeight: 1,
-                        }}
-                      >
-                        <p>
-                          <strong className="mb-0 fs-8 text-dark">
-                            <span
-                              style={{ fontSize: "14px", fontWeight: "bold" }}
-                            >
-                              Capacity:
-                            </span>
-                            {tankData?.[selectedDateIndex]?.capacity}ℓ{" "}
-                            <span>
-                              <OverlayTrigger
-                                placement="top"
-                                overlay={
-                                  <Tooltip>
-                                    {" "}
-                                    Average Sale :{" "}
-                                    {
-                                      tankData?.[selectedDateIndex]
-                                        ?.average_sale
-                                    }
-                                    ℓ{" "}
-                                  </Tooltip>
-                                }
-                              >
-                                <i
-                                  class="fa fa-info-circle"
-                                  aria-hidden="true"
-                                ></i>
-                              </OverlayTrigger>
-                            </span>
-                          </strong>
-                        </p>
-                        <p>
-                          <strong className="mb-0 fs-8 text-dark">
-                            <span
-                              style={{ fontSize: "14px", fontWeight: "bold" }}
-                            >
-                              Ullage:
-                            </span>
-                            {tankData?.[selectedDateIndex]?.ullage}ℓ |{" "}
-                            {tankData?.[selectedDateIndex]?.ullage_percentage}%
-                          </strong>
-                        </p>
-                        <p>
-                          <strong className="mb-0 fs-8 text-dark">
-                            <span
-                              style={{ fontSize: "14px", fontWeight: "bold" }}
-                            >
-                              Fuel:
-                            </span>
-                            {tankData?.[selectedDateIndex]?.fuel_left}ℓ
-                          </strong>
-                          <span
-                            className="mb-0 mx-2 fs-8  badge  "
-                            style={{
-                              backgroundColor:
-                                tankData?.[selectedDateIndex]?.bg_color ||
-                                "gray",
-                              color:
-                                tankData?.[selectedDateIndex]?.font_color ||
-                                "black",
-
-                              borderRadius: "4px",
-                            }}
-                          >
-                            {" "}
-                            {tankData?.[selectedDateIndex]?.days_left} Days
-                          </span>
-                        </p>
-                        <p></p>
-                      </div>
-                    </div>
-                  </Col>
-                ))} */}
                 {Object?.keys(stockAlertData)?.map((tankName) => (
                   <>
                     {/* <div key={tankName}>
