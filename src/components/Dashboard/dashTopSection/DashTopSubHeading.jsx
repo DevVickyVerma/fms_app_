@@ -496,7 +496,7 @@ const DashTopSubHeading = ({
             <Card>
 
               <Card.Body>
-                <Row  >
+                <Row style={{ maxHeight: "467px", overflowY: "auto" }} >
 
                   <Col lg={4} md={4} xl={4} sm={4} >
                     <Card.Header>
@@ -616,7 +616,7 @@ const DashTopSubHeading = ({
                           <h3 className="card-title">Fuel Volume</h3>
                         </Card.Header>
 
-                        <Card.Body style={{ maxHeight: "467px", overflowY: "auto" }}>
+                        <Card.Body >
                           <Row
                             style={{ display: "flex", flexDirection: "column" }}
                           >
