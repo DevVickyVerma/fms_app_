@@ -285,7 +285,7 @@ const FuelInventry = (props) => {
       name: "DESCRIPTION",
       selector: (row) => row.description,
       sortable: false,
-      width: "12%",
+      width: "15%",
       center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold ">
@@ -322,19 +322,11 @@ const FuelInventry = (props) => {
       ),
     },
 
-    // className={
-    //   row.update_adjustment
-    //     ? "UpdateValueInput"
-    //     : editable?.is_editable
-    //     ? "table-input"
-    //     : "table-input readonly"
-    // }
-    // readOnly={editable?.is_editable ? false : true}
     {
       name: "PRICE",
       selector: (row) => row.fuel_price,
       sortable: false,
-      width: "8%",
+      width: "10.6%",
       center: true,
       cell: (row, index) =>
         row.description === "Total" ? (
@@ -371,7 +363,7 @@ const FuelInventry = (props) => {
       name: "	CASH METERED SALES VOL.(ℓ)",
       selector: (row) => row.metered_sale,
       sortable: false,
-      width: "8%",
+      width: "10.8%",
       center: true,
       // Title: "CASH METERED SALES",
 
@@ -405,7 +397,7 @@ const FuelInventry = (props) => {
       name: "CASH METERED SALES VALUE(£)",
       selector: (row) => row.metered_sale_value,
       sortable: false,
-      width: "8%",
+      width: "10.6%",
       center: true,
 
       cell: (row, index) =>
@@ -438,7 +430,7 @@ const FuelInventry = (props) => {
       name: "ADJ(ℓ)",
       selector: (row) => row.adjustment,
       sortable: false,
-      width: "8%",
+      width: "10.6%",
       center: true,
 
       cell: (row, index) =>
@@ -481,7 +473,7 @@ const FuelInventry = (props) => {
       name: "BUNKERED SALES VOL.(ℓ)",
       selector: (row) => row.bunkered_sale,
       sortable: false,
-      width: "8%",
+      width: "10.6%",
       center: true,
 
       cell: (row, index) =>
@@ -524,7 +516,7 @@ const FuelInventry = (props) => {
       name: "TEST(ℓ)",
       selector: (row) => row.tests,
       sortable: false,
-      width: "8%",
+      width: "10.6%",
       center: true,
 
       cell: (row, index) =>
@@ -566,7 +558,7 @@ const FuelInventry = (props) => {
       name: "ACTUAL SALES VOL.(ℓ)",
       selector: (row) => row.actual_sales,
       sortable: false,
-      width: "8%",
+      width: "10.6%",
       center: true,
 
       cell: (row, index) =>
@@ -605,7 +597,7 @@ const FuelInventry = (props) => {
       name: "DUE SALES (£)(ACTUAL SALES VOL. X PRICE)",
       selector: (row) => row.due_sales,
       sortable: false,
-      width: "8%",
+      width: "10.6%",
       center: true,
 
       cell: (row, index) =>

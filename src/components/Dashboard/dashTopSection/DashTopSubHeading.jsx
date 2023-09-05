@@ -698,6 +698,8 @@ const DashTopSubHeading = ({
                                       display: "flex",
                                       flex: 1,
                                       gap: "5px",
+                                      justifyContent: "center",
+                                      alignItems: "center",
                                     }}
                                   >
                                     {cardDetail?.image && (
@@ -717,13 +719,16 @@ const DashTopSubHeading = ({
                                       />
                                     )}
                                   </span>
-
+                                  <span style={{ flex: 1, display: "flex" }}>
+                                    {" "}
+                                    {cardDetail?.card_name}
+                                  </span>
                                   <span style={{ flex: 1, display: "flex" }}>
                                     {cardDetail?.total_fuel_sale_volume &&
                                       cardDetail?.total_fuel_sale_volume}
                                   </span>
 
-                                  <span style={{ flex: 1, display: "flex" }}>
+                                  <span style={{ display: "flex" }}>
                                     <OverlayTrigger
                                       placement="top"
                                       overlay={
