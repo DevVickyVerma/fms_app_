@@ -64,11 +64,10 @@ const DashboardSiteTopSection = (props) => {
           <Row>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden  ${
-                  singleSiteFuelVolume?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden  ${singleSiteFuelVolume?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <Card.Body
                   //   className={`${
@@ -80,21 +79,21 @@ const DashboardSiteTopSection = (props) => {
                     <div className="col">
                       <div
                         className=" dashboard-box"
-                        // onClick={GrossVolumehandleClick}
-                        // onClick={() => {
-                        //   const shouldNavigate =
-                        //     (superiorRole === "Administrator" &&
-                        //       searchdata &&
-                        //       Object.keys(searchdata).length > 0) ||
-                        //     (superiorRole !== "Administrator" &&
-                        //       isDetailPermissionAvailable);
+                      // onClick={GrossVolumehandleClick}
+                      // onClick={() => {
+                      //   const shouldNavigate =
+                      //     (superiorRole === "Administrator" &&
+                      //       searchdata &&
+                      //       Object.keys(searchdata).length > 0) ||
+                      //     (superiorRole !== "Administrator" &&
+                      //       isDetailPermissionAvailable);
 
-                        //   if (shouldNavigate) {
-                        //     setUploadTabname("GrossVolume");
-                        //     handleNavigateClick(UploadTabname);
-                        //     handleNavigateClick(UploadTabname);
-                        //   }
-                        // }}
+                      //   if (shouldNavigate) {
+                      //     setUploadTabname("GrossVolume");
+                      //     handleNavigateClick(UploadTabname);
+                      //     handleNavigateClick(UploadTabname);
+                      //   }
+                      // }}
                       >
                         <div>
                           {isLoading ? (
@@ -126,11 +125,10 @@ const DashboardSiteTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      singleSiteShopMargin?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${singleSiteShopMargin?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                     data-tip={`${singleSiteFuelVolume?.percentage}%`}
                                   >
                                     {singleSiteFuelVolume?.status === "up" ? (
@@ -170,85 +168,12 @@ const DashboardSiteTopSection = (props) => {
             </Col>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden  ${
-                  singleSiteGrossMargin?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden  ${singleSiteGrossMargin?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <Card.Body className="py-3 px-5 single-site-card ">
-                  <Row>
-                    <div className="col">
-                      <div className=" dashboard-box">
-                        <div>
-                          <h6>Gross Margin</h6>
-                          {isLoading ? (
-                            <Spinners />
-                          ) : (
-                            <>
-                              <h4 className="mb-2 number-font">
-                                {" "}
-                                {singleSiteGrossMargin?.gross_margin} ppl
-                              </h4>
-                              <OverlayTrigger
-                                placement="top"
-                                overlay={
-                                  <Tooltip>{`${singleSiteGrossMargin?.percentage}%`}</Tooltip>
-                                }
-                              >
-                                <p className="text-muted mb-0 mt-4">
-                                  <span
-                                    className={`me-1 ${
-                                      singleSiteGrossMargin?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
-                                  >
-                                    {singleSiteGrossMargin?.status === "up" ? (
-                                      <>
-                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                                        <span className="text-success">
-                                          {singleSiteGrossMargin?.percentage}%
-                                        </span>
-                                      </>
-                                    ) : (
-                                      <>
-                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                                        <span className="text-danger">
-                                          {singleSiteGrossMargin?.percentage}%
-                                        </span>
-                                      </>
-                                    )}
-                                    {/* <span>
-                                      {GrossProfitValue?.percentage}%
-                                    </span> */}
-                                  </span>
-                                  last month
-                                </p>
-                              </OverlayTrigger>
-                            </>
-                          )}
-                        </div>
-                        <div className="col col-auto">
-                          <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto text-white">
-                            <OilBarrelIcon />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Row>
-                </Card.Body>
-              </Card>
-            </Col>
-            <div className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 `}>
-              <div
-                className={`card overflow-hidden  ${
-                  singleSiteGrossProfit?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
-              >
-                <div className="card-body single-site-card py-3 px-5">
                   <Row>
                     <div className="col">
                       <div className=" dashboard-box ">
@@ -270,11 +195,10 @@ const DashboardSiteTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      singleSiteGrossProfit?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${singleSiteGrossProfit?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {singleSiteGrossProfit?.status === "up" ? (
                                       <>
@@ -311,6 +235,76 @@ const DashboardSiteTopSection = (props) => {
                       </div>
                     </div>
                   </Row>
+                </Card.Body>
+              </Card>
+            </Col>
+            <div className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 `}>
+              <div
+                className={`card overflow-hidden  ${singleSiteGrossProfit?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
+              >
+                <div className="card-body single-site-card py-3 px-5">
+                  <Row>
+                    <div className="col">
+                      <div className=" dashboard-box">
+                        <div>
+                          <h6>Gross Margin</h6>
+                          {isLoading ? (
+                            <Spinners />
+                          ) : (
+                            <>
+                              <h4 className="mb-2 number-font">
+                                {" "}
+                                {singleSiteGrossMargin?.gross_margin} ppl
+                              </h4>
+                              <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                  <Tooltip>{`${singleSiteGrossMargin?.percentage}%`}</Tooltip>
+                                }
+                              >
+                                <p className="text-muted mb-0 mt-4">
+                                  <span
+                                    className={`me-1 ${singleSiteGrossMargin?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
+                                  >
+                                    {singleSiteGrossMargin?.status === "up" ? (
+                                      <>
+                                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                                        <span className="text-success">
+                                          {singleSiteGrossMargin?.percentage}%
+                                        </span>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                                        <span className="text-danger">
+                                          {singleSiteGrossMargin?.percentage}%
+                                        </span>
+                                      </>
+                                    )}
+                                    {/* <span>
+                                      {GrossProfitValue?.percentage}%
+                                    </span> */}
+                                  </span>
+                                  last month
+                                </p>
+                              </OverlayTrigger>
+                            </>
+                          )}
+                        </div>
+                        <div className="col col-auto">
+                          <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto text-white">
+                            <OilBarrelIcon />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Row>
                 </div>
               </div>
             </div>
@@ -323,11 +317,10 @@ const DashboardSiteTopSection = (props) => {
           <Row>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden  ${
-                  singleSiteFuelSales?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden  ${singleSiteFuelSales?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <Card.Body
                   // className={`${
@@ -339,20 +332,20 @@ const DashboardSiteTopSection = (props) => {
                     <div className="col">
                       <div
                         className=" dashboard-box"
-                        // onClick={() => {
-                        //   const shouldNavigate =
-                        //     (superiorRole === "Administrator" &&
-                        //       searchdata &&
-                        //       Object.keys(searchdata).length > 0) ||
-                        //     (superiorRole !== "Administrator" &&
-                        //       isDetailPermissionAvailable);
+                      // onClick={() => {
+                      //   const shouldNavigate =
+                      //     (superiorRole === "Administrator" &&
+                      //       searchdata &&
+                      //       Object.keys(searchdata).length > 0) ||
+                      //     (superiorRole !== "Administrator" &&
+                      //       isDetailPermissionAvailable);
 
-                        //   if (shouldNavigate) {
-                        //     setUploadTabname("Fuel Sales");
-                        //     handleNavigateClick(UploadTabname);
-                        //     handleNavigateClick(UploadTabname);
-                        //   }
-                        // }}
+                      //   if (shouldNavigate) {
+                      //     setUploadTabname("Fuel Sales");
+                      //     handleNavigateClick(UploadTabname);
+                      //     handleNavigateClick(UploadTabname);
+                      //   }
+                      // }}
                       >
                         <div>
                           {isLoading ? (
@@ -382,11 +375,10 @@ const DashboardSiteTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      singleSiteFuelSales?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${singleSiteFuelSales?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {singleSiteFuelSales?.status === "up" ? (
                                       <>
@@ -424,31 +416,30 @@ const DashboardSiteTopSection = (props) => {
             </Col>
             <div className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 `}>
               <div
-                className={`card overflow-hidden  ${
-                  singleSiteShopSale?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden  ${singleSiteShopSale?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <div className="card-body single-site-card py-3 px-5">
                   <Row>
                     <div className="col">
                       <div
                         className=" dashboard-box"
-                        // onClick={() => {
-                        //   const shouldNavigate =
-                        //     (superiorRole === "Administrator" &&
-                        //       searchdata &&
-                        //       Object.keys(searchdata).length > 0) ||
-                        //     (superiorRole !== "Administrator" &&
-                        //       isDetailPermissionAvailable);
+                      // onClick={() => {
+                      //   const shouldNavigate =
+                      //     (superiorRole === "Administrator" &&
+                      //       searchdata &&
+                      //       Object.keys(searchdata).length > 0) ||
+                      //     (superiorRole !== "Administrator" &&
+                      //       isDetailPermissionAvailable);
 
-                        //   if (shouldNavigate) {
-                        //     setUploadTabname("Shop Sales");
-                        //     handleNavigateClick(UploadTabname);
-                        //     handleNavigateClick(UploadTabname);
-                        //   }
-                        // }}
+                      //   if (shouldNavigate) {
+                      //     setUploadTabname("Shop Sales");
+                      //     handleNavigateClick(UploadTabname);
+                      //     handleNavigateClick(UploadTabname);
+                      //   }
+                      // }}
                       >
                         <div>
                           <h6>Shop Sales</h6>
@@ -467,11 +458,10 @@ const DashboardSiteTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      singleSiteShopSale?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${singleSiteShopSale?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {singleSiteShopSale?.status === "up" ? (
                                       <>
@@ -511,11 +501,10 @@ const DashboardSiteTopSection = (props) => {
             </div>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden  ${
-                  singleSiteShopMargin?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden  ${singleSiteShopMargin?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <Card.Body
                   // className={`${
@@ -527,20 +516,20 @@ const DashboardSiteTopSection = (props) => {
                     <div className="col">
                       <div
                         className=" dashboard-box"
-                        // onClick={() => {
-                        //   const shouldNavigate =
-                        //     (superiorRole === "Administrator" &&
-                        //       searchdata &&
-                        //       Object.keys(searchdata).length > 0) ||
-                        //     (superiorRole !== "Administrator" &&
-                        //       isDetailPermissionAvailable);
+                      // onClick={() => {
+                      //   const shouldNavigate =
+                      //     (superiorRole === "Administrator" &&
+                      //       searchdata &&
+                      //       Object.keys(searchdata).length > 0) ||
+                      //     (superiorRole !== "Administrator" &&
+                      //       isDetailPermissionAvailable);
 
-                        //   if (shouldNavigate) {
-                        //     setUploadTabname("Shop Margin");
-                        //     handleNavigateClick(UploadTabname);
-                        //     handleNavigateClick(UploadTabname);
-                        //   }
-                        // }}
+                      //   if (shouldNavigate) {
+                      //     setUploadTabname("Shop Margin");
+                      //     handleNavigateClick(UploadTabname);
+                      //     handleNavigateClick(UploadTabname);
+                      //   }
+                      // }}
                       >
                         <div>
                           <h6>Shop Margin</h6>
@@ -559,11 +548,10 @@ const DashboardSiteTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      singleSiteShopMargin?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${singleSiteShopMargin?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {singleSiteShopMargin?.status === "up" ? (
                                       <>

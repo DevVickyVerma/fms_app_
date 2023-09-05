@@ -88,6 +88,7 @@ const DashTopSubHeading = ({
   useEffect(() => {
     const LastDayEndTimeString = getSiteDetails?.last_day_end;
     const closingTimeString = getSiteDetails?.fuel_site_timings?.closing_time;
+
     const startingTimeString = getSiteDetails?.fuel_site_timings?.opening_time;
 
     // console.log(DeductedformattedDay, "DeductedformattedDay");
@@ -102,7 +103,7 @@ const DashTopSubHeading = ({
         "YYYY-MM-DD HH:mm"
       );
       const parshedLastDayEndTimeString = moment(
-        closingTimeString,
+        LastDayEndTimeString,
         "YYYY-MM-DD HH:mm"
       );
       const parsedClosingTime = moment(closingTimeString, "DD-MM-YYYY HH:mm");
@@ -297,21 +298,12 @@ const DashTopSubHeading = ({
                   ""
                 )}
 
-                {/* {localStorage.getItem("SiteDetailsModalShow") === "false"
-                  ? ""
-                  : ""} */}
-                {/* {localStorage.getItem("SiteDetailsModalShow") === "true" ? (
-                  <h1 onClick={handleModalOpen} style={{ cursor: "pointer" }}>
-                    <BsCalendarWeek />
-                  </h1>
-                ) : (
-                  ""
-                )} */}
+
               </Box>
 
               <Box
                 display={"flex"}
-              // gap={"10px"}
+
               >
                 {/* Calendar Date With Updated OPening Time*/}
                 <Box>
@@ -325,30 +317,21 @@ const DashTopSubHeading = ({
                     textAlign={"center"}
                     py={"2px"}
                     color={"#dfe6e9"}
-                    // sx={{
-                    //   transition: "background-color 0.3s, color 0.3s", // Add smooth transition
-                    //   ":hover": {
-                    //     // color: "#2d3436", // Dark gray for better contrast
-                    //     backgroundColor: "#27ae60", // Darker red shade
-                    //     color: "#ffffff", // White for better contrast
-                    //     cursor: "pointer",
-                    //   },
-                    // }}
+
                     fontSize={"14px"}
                   >
                     {" "}
                     Opening Time
-                    {/* {formattedMonths} */}
+
                     <Typography
                       height={"27px"}
                       width={"100%"}
-                      // bgcolor={"#ecf0f1"}
+
                       bgcolor={"rgb(25 122 66)"}
                       position={"absolute"}
-                      // borderRadius={"8px"}
+
                       bottom={0}
-                      // mx={"6px"}
-                      // color={"#2d3436"}
+
                       color={"#dfe6e9"}
                       textAlign={"center"}
                       display={"flex"}
@@ -356,8 +339,7 @@ const DashTopSubHeading = ({
                       alignItems={"center"}
                       fontSize={"14px"}
                     >
-                      {/* 20 Aug, 17:25 */}
-                      {/* {formattedDay} {formattedMonths} {formattedStartingTime} */}
+
                       {formattedDayForOpening}
                     </Typography>
                   </Typography>
@@ -367,36 +349,27 @@ const DashTopSubHeading = ({
                   <Typography
                     height={"48px"}
                     width={"140px"}
-                    // borderRadius={"10px"}
+
                     position={"relative"}
                     bgcolor={"#d63031"}
                     textAlign={"center"}
                     py={"2px"}
                     color={"#dfe6e9"}
                     fontSize={"14px"}
-                  // sx={{
-                  //   transition: "background-color 0.3s, color 0.3s", // Add smooth transition
-                  //   ":hover": {
-                  //     // color: "#2d3436", // Dark gray for better contrast
-                  //     backgroundColor: "#e6191a", // Darker red shade
-                  //     color: "#ffffff", // White for better contrast
-                  //     cursor: "pointer",
-                  //   },
-                  // }}
+
                   >
                     {" "}
                     Closing Time
-                    {/* {formattedMonths} */}
+
                     <Typography
                       height={"27px"}
                       width={"100%"}
-                      // bgcolor={"#ecf0f1"}
+
                       bgcolor={"#d63031"}
                       position={"absolute"}
-                      // borderRadius={"8px"}
+
                       bottom={0}
-                      // mx={"6px"}
-                      // color={"#2d3436"}
+
                       color={"#dfe6e9"}
                       textAlign={"center"}
                       display={"flex"}
@@ -404,35 +377,16 @@ const DashTopSubHeading = ({
                       alignItems={"center"}
                       fontSize={"14px"}
                     >
-                      {/* 20 Aug, 17:25 */}
-                      {/* {formattedDay} {formattedMonths} {formattedClosingTime} */}
+
                       {formattedDayForClosing}
                     </Typography>
                   </Typography>
                 </Box>
               </Box>
             </Box>
-            {/* {localStorage.getItem("SiteDetailsModalShow") === "false"
-              ? 
-              {
-                   <Box
-                // className="btn text-white btn-sm"
-                onClick={handleModalOpen}
-                style={{
-                  background: "rgb(25 122 66)",
-                  transform: "rotate(90deg)",
-                  transformOrigin: "top left",
-                  display: "flex",
-                  // width: "100px",
-                  height: "20px",
-                }}
-              >
-                <Typography fontSize={"12px"}>Monthly Details</Typography>
-              </Box> 
-                }
-              : ""} */}
           </Box>
         </Box>
+
         {/* dashboard site Top section */}
         <DashboardSiteTopSection />
 
@@ -512,18 +466,13 @@ const DashTopSubHeading = ({
               (LastDeliveryState, index) => (
                 <Box
                   borderRadius={"5px"}
-                  bgcolor={"#5444c1"}
+                  bgcolor={"#f2f2f8"}
                   px={"20px"}
                   py={"15px"}
-                  color={"white"}
+                  color={"black"}
                   minWidth={"250px"}
 
-                  sx={{
-                    ":hover": {
-                      backgroundColor: "purple",
-                      cursor: "pointer",
-                    },
-                  }}
+
                 >
                   <Typography
                     display={"flex"}
@@ -534,171 +483,13 @@ const DashTopSubHeading = ({
                     <BsFillFuelPumpFill />
                     {LastDeliveryState?.fuel}
                   </Typography>
-                  <Typography>{LastDeliveryState?.value} ℓ</Typography>
+                  <strong style={{ fontWeight: 700 }}>{LastDeliveryState?.value}</strong>
                 </Box>
               )
             )}
           </Box>
         </Box>
 
-        {/* Grad stats */}
-
-        {/* <Box
-          display={"flex"}
-          width={"100%"}
-          bgcolor={"#ffffff"}
-          color={"black"}
-          my={"20px"}
-
-          justifyContent="space-between"
-
-          p={"20px"}
-          boxShadow="0px 10px 10px -5px rgba(0,0,0,0.5)"
-          overflow={"auto"}
-        >
-          <Box pr={["160px", "20px"]}>
-            <Box display={"flex"} gap={"5px"}>
-              <Typography variant="body1">Grades</Typography>
-            </Box>
-            <Box
-              gap={"27px"}
-              display={"flex"}
-              flexDirection={"column"}
-              my={"10px"}
-              p={"10px"}
-            >
-              {getSiteDetails?.fuel_stats?.data?.map((fuelState, index) => (
-                <Box
-                  borderRadius={"5px"}
-
-                  bgcolor={gridIndex === index ? "purple" : "#5444c1"}
-                  px={"20px"}
-                  py={"15px"}
-                  color={"white"}
-                  minWidth={"250px"}
-                  onClick={() => handleGradsClick(index)}
-
-                  sx={{
-                    ":hover": {
-                      backgroundColor: "purple",
-                      cursor: "pointer",
-                    },
-                  }}
-                >
-                  <Typography
-                    display={"flex"}
-                    gap={"5px"}
-                    alignItems={"center"}
-                    mb={"5px"}
-                  >
-                    <BsFillFuelPumpFill />
-
-                    {fuelState?.fuel}
-                  </Typography>
-
-                </Box>
-              ))}
-            </Box>
-          </Box>
-          {isGradsOpen && (
-            <Box
-              display={"flex"}
-              justifyContent="space-between"
-              mx={"14px"}
-              width={"inherit"}
-              gap={"60px"}
-            >
-              <Box width={"350px"}>
-                <Typography variant="body1">Key Matrices</Typography>
-
-                <Box
-                  display={"flex"}
-                  gap={"27px"}
-                  flexDirection={"column"}
-                  my={"10px"}
-                  py={"5px"}
-                  minWidth={"250px"}
-                >
-                  <Box
-                    display={"flex"}
-
-                    gap={"45px"}
-                    px={"10px"}
-                    py={"10px"}
-
-                    minWidth={"200px"}
-                    flexDirection={"column"}
-
-                    bgcolor={"#5444c1"}
-                    color={"white"}
-                    borderRadius={"5px"}
-                  >
-                    <Box display={"flex"} gap={"20px"}>
-                      <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                        Gross Margin
-                      </Typography>
-                      <Typography variant="body2">
-                        {
-                          getSiteDetails?.fuel_stats?.data[gridIndex]
-                            ?.gross_margin
-                        }{" "}
-                        ppl
-                      </Typography>
-                    </Box>
-                    <Box display={"flex"} gap={"20px"}>
-                      <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                        Gross Profit
-                      </Typography>
-                      <Typography variant="body2">
-                        ℓ
-                        {
-                          getSiteDetails?.fuel_stats?.data[gridIndex]
-                            ?.gross_profit
-                        }
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Box>
-              </Box>
-              <Box width={"350px"}>
-                <Typography variant="body1">Fuel Volume</Typography>
-
-                <Box
-                  display={"flex"}
-                  gap={"27px"}
-                  flexDirection={"column"}
-                  my={"10px"}
-                  py={"5px"}
-                  minWidth={"250px"}
-                >
-                  <Box
-                    display={"flex"}
-
-                    gap={"45px"}
-                    px={"10px"}
-                    py={"10px"}
-
-                    minWidth={"200px"}
-
-                    alignItems={"center"}
-                    bgcolor={"#5444c1"}
-                    color={"white"}
-                    borderRadius={"5px"}
-                  >
-                    <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                      Fuel Volume
-                    </Typography>
-
-                    <Typography variant="body2">
-                      {getSiteDetails?.fuel_stats?.data[gridIndex]?.fuel_volume}
-                    </Typography>
-
-                  </Box>
-                </Box>
-              </Box>
-            </Box>
-          )}
-        </Box> */}
 
         {/* Grad Stats With Bootstrap*/}
         <Row>
@@ -706,9 +497,9 @@ const DashTopSubHeading = ({
             <Card>
 
               <Card.Body>
-                <Row  >
+                <Row >
 
-                  <Col lg={3} md={3} xl={3} sm={3} >
+                  <Col lg={4} md={4} xl={4} sm={4} >
                     <Card.Header>
                       <h3 className="card-title">Grads</h3>
                     </Card.Header>
@@ -721,7 +512,7 @@ const DashTopSubHeading = ({
                             className="dashboardSubChildCard my-4"
                             borderRadius={"5px"}
                             onClick={() => handleGradsClick(index)}
-                            style={{ background: gridIndex === index ? "purple" : "#5444c1" }}
+                            style={{ border: gridIndex === index ? "1px dashed #b3b3b3" : "", cursor: "pointer", fontWeight: gridIndex === index ? 700 : "" }}
                           >
                             <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}
                             >
@@ -738,7 +529,7 @@ const DashTopSubHeading = ({
 
                   {isGradsOpen && (
                     <>
-                      <Col lg={3} md={3} xl={3} sm={3}>
+                      <Col lg={4} md={4} xl={4} sm={4}>
                         <Card.Header>
                           <h3 className="card-title">Key Matrices</h3>
                         </Card.Header>
@@ -750,10 +541,11 @@ const DashTopSubHeading = ({
                               borderRadius={"5px"}
                             >
                               <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}>
-                                Total Transaction {
+                                <strong style={{ fontWeight: 700 }}> Total Transaction :</strong>
+                                {
                                   getSiteDetails?.fuel_stats?.data[gridIndex]
                                     ?.cards?.total_transactions
-                                }<AiOutlineTransaction size={20} />
+                                }
                               </span>
 
                             </Col>
@@ -765,10 +557,11 @@ const DashTopSubHeading = ({
                               borderRadius={"5px"}
                             >
                               <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}>
-                                Total Fuel Volume {
+                                <strong style={{ fontWeight: 700 }}> Total Fuel Volume : </strong>
+                                {
                                   getSiteDetails?.fuel_stats?.data[gridIndex]
                                     ?.cards?.total_fuel_sale_volume
-                                } ℓ <MdOutlineWaterDrop size={20} />
+                                }
                               </span>
                             </Col>
                             {/* Total Fuel Sales */}
@@ -777,7 +570,8 @@ const DashTopSubHeading = ({
                               borderRadius={"5px"}
                             >
                               <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}>
-                                Total Fuel Sales {
+                                <strong style={{ fontWeight: 700 }}> Total Fuel Sales :</strong>
+                                {
                                   getSiteDetails?.fuel_stats?.data[gridIndex]
                                     ?.cards?.total_fuel_sale_value
                                 }
@@ -790,7 +584,8 @@ const DashTopSubHeading = ({
                               borderRadius={"5px"}
                             >
                               <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}>
-                                Gross Margin {
+                                <strong style={{ fontWeight: 700 }}> Gross Margin :</strong>
+                                {
                                   getSiteDetails?.fuel_stats?.data[gridIndex]
                                     ?.gross_margin
                                 }
@@ -803,7 +598,8 @@ const DashTopSubHeading = ({
                               borderRadius={"5px"}
                             >
                               <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}>
-                                Gross Profit {
+                                <strong style={{ fontWeight: 700 }}> Gross Profit  :</strong>
+                                {
                                   getSiteDetails?.fuel_stats?.data[gridIndex]
                                     ?.gross_profit
                                 }
@@ -816,28 +612,81 @@ const DashTopSubHeading = ({
 
                       {/* 3rd column */}
 
-                      <Col lg={6} md={6} xl={6} sm={6}>
+                      <Col lg={4} md={4} xl={4} sm={4}>
                         <Card.Header>
                           <h3 className="card-title">Fuel Volume</h3>
                         </Card.Header>
-                        <Card.Body>
-                          <Row style={{ display: "flex", flexDirection: "column" }} >
-                            {getSiteDetails?.fuel_stats?.data?.[gridIndex]?.cards?.card_details?.map((cardDetail, index) => (
-                              <Col lg={12} md={12}
-                                className="dashboardSubChildCard my-4"
+
+                        <Card.Body style={{ maxHeight: "467px", overflowY: "auto" }}>
+                          <Row
+                            style={{ display: "flex", flexDirection: "column" }}
+                          >
+                            {getSiteDetails?.fuel_stats?.data?.[
+                              gridIndex
+                            ]?.cards?.card_details?.map((cardDetail, index) => (
+                              <Col
+                                lg={12}
+                                md={12}
+                                className=" my-4"
                                 borderRadius={"5px"}
-
+                                style={{ background: "#f2f2f8", padding: "6px 20px", color: "black", borderRadius: "5px" }}
                               >
-                                <p style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px", justifyContent: "space-between", }}>
-                                  <span
-                                    style={{ display: "flex", gap: "5px", flex: 1, }}
-                                  >
-                                    <img src={cardDetail?.image} alt={cardDetail?.card_name} style={{ width: "20px", height: "20px" }} />
+                                <p
+                                  style={{
+                                    display: "flex",
+                                    gap: "5px",
+                                    alignItems: "center",
+                                    marginBottom: "5px",
+                                    justifyContent: "space-between",
+                                  }}
+                                >
 
-                                    {cardDetail?.card_name}
+                                  <span style={{ display: "flex", flex: 1, gap: "5px" }}>
+                                    {cardDetail?.image && (
+                                      <img
+                                        src={cardDetail.image}
+                                        alt={cardDetail.card_name || "Card Image Alt Text"}
+                                        style={{
+                                          width: "60px",
+                                          height: "40px",
+                                          background: "#FFF",
+                                          padding: "5px",
+                                          borderRadius: "8px"
+                                        }}
+                                      />
+                                    )}
                                   </span>
-                                  <span style={{ flex: 1 }}>{cardDetail?.total_fuel_sale_volume}</span>
-                                  <span style={{ flex: 1 }}>Total Transactions:{" "} ({cardDetail?.total_transactions})</span>
+
+                                  <span style={{ flex: 1, display: "flex", }}>
+                                    {cardDetail?.total_fuel_sale_volume && (
+                                      cardDetail?.total_fuel_sale_volume
+                                    )}
+                                  </span>
+
+                                  <span style={{ flex: 1, display: "flex", }} >
+                                    <OverlayTrigger
+                                      placement="top"
+                                      overlay={
+                                        <Tooltip style={{ display: "flex", alignItems: "flex-start", justifyContent: "flex-start" }}>
+                                          {" "}
+                                          Total Transactions : {" "}
+                                          {cardDetail?.total_transactions}
+                                          <br />
+                                          Total Fuel Sale : {" "}
+                                          {cardDetail?.total_fuel_sale_value}
+                                          <br />
+                                          Total Fuel Volume : {" "}
+                                          {cardDetail?.total_fuel_sale_volume}
+                                        </Tooltip>
+                                      }
+                                    >
+                                      <i
+                                        class="fa fa-info-circle"
+                                        aria-hidden="true"
+                                        style={{ fontSize: "20px" }}
+                                      ></i>
+                                    </OverlayTrigger>
+                                  </span>
                                 </p>
                               </Col>
                             ))}
@@ -926,15 +775,16 @@ const DashTopSubHeading = ({
                   {getSiteDetails?.last_end_dip_stats?.data?.map(
                     (endDipState, index) => (
                       <Col lg={3} md={6} >
-                        <div className="dashboardSubChildCard my-4"
+                        <div className="my-4 dashboardSubChildCard "
                         >
+
                           <div>
                             <span style={{ display: "flex", gap: "5px", alignItems: "center", marginBottom: "5px" }}
                             >
                               <BsFillFuelPumpFill />
                               {endDipState?.fuel}
                             </span>
-                            <span>{endDipState?.value} ℓ</span>
+                            <strong style={{ fontWeight: 700 }}>{endDipState?.value} </strong>
                           </div>
                         </div>
                       </Col>
