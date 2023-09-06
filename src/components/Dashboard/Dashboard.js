@@ -39,6 +39,7 @@ import { useMyContext } from "../../Utils/MyContext";
 import CenterFilterModal from "../../data/Modal/CenterFilterModal";
 import CenterSearchmodal from "../../data/Modal/CenterSearchmodal";
 import StackedLineBarChart from "./StackedLineBarChart";
+import PieChartOfDashboard from "./PieChartOfDashboard";
 
 const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -128,6 +129,7 @@ const Dashboard = (props) => {
         const savedDataOfDashboard = {
           LinechartValues: data?.data?.line_graph?.series,
           DLinechartValues: data?.data?.d_line_graph?.series,
+          setpiechartValues: data?.data?.pi_graph,
           stackedLineBarData: data?.data?.line_graph?.datasets,
           stackedLineBarLabels: data?.data?.line_graph?.labels,
           LinechartOption: data?.data?.line_graph?.option?.labels,
@@ -266,6 +268,7 @@ const Dashboard = (props) => {
 
         const savedDataOfDashboard = {
           LinechartValues: data?.data?.line_graph?.series,
+          setpiechartValues: data?.data?.pi_graph,
           DLinechartValues: data?.data?.d_line_graph?.series,
           LinechartOption: data?.data?.line_graph?.series,
           DLinechartOption: data?.data?.d_line_graph?.series,
@@ -394,7 +397,7 @@ const Dashboard = (props) => {
           alignItems={"center"}
           minHeight={"90px"}
           className="center-filter-modal-responsive"
-          //  className="page-header "
+        //  className="page-header "
         >
           <Box alignSelf={"flex-start"} mt={"33px"}>
             <h1 className="page-title">Dashboard</h1>
@@ -409,7 +412,7 @@ const Dashboard = (props) => {
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-          localStorage.getItem("role") === "Operator" ? (
+            localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -421,7 +424,7 @@ const Dashboard = (props) => {
               mx={"10px"}
               flexDirection={"inherit"}
               className="filter-responsive"
-              // className="ms-auto pageheader-btn "
+            // className="ms-auto pageheader-btn "
             >
               <span
                 className="Search-data"
@@ -541,7 +544,7 @@ const Dashboard = (props) => {
         )}
 
         {localStorage.getItem("superiorRole") === "Administrator" &&
-        Object.keys(searchdata).length === 0 ? (
+          Object.keys(searchdata).length === 0 ? (
           <div
             style={{
               textAlign: "left",
@@ -598,7 +601,8 @@ const Dashboard = (props) => {
                 <h4 className="card-title">Overall Stats</h4>
               </Card.Header>
               <Card.Body className="apexchart">
-                <BarChart piechartValues={piechartValues} />
+                {/* <BarChart piechartValues={piechartValues} /> */}
+                <PieChartOfDashboard piechartValues={piechartValues} />
               </Card.Body>
             </Card>
           </Col>
