@@ -222,7 +222,7 @@ const DashTopSubHeading = ({
           // top={"114px"} // Adjust the value as needed
           top={0}
           zIndex={1} // Ensure the sticky container overlays other content
-          // className="sticky stickyClass "
+        // className="sticky stickyClass "
         >
           {/* LEFT side heading title */}
           <Box display={"flex"} alignItems={"center"}>
@@ -256,8 +256,8 @@ const DashTopSubHeading = ({
               display={"flex"}
               flexDirection={"column"}
               bgcolor={"#ecf0f1"}
-              // gap={"5px"}
-              // borderRadius={"8px"}
+            // gap={"5px"}
+            // borderRadius={"8px"}
             >
               <Box
                 my={"4px"}
