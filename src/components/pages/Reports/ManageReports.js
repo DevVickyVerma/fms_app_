@@ -213,10 +213,16 @@ const ManageReports = (props) => {
     const day = String(today.getDate() - 1).padStart(2, "0"); // Subtract one day from the current date
     return `${year}-${month}-${day}`;
   };
-  const hadndleShowDate = () => {
-    const inputDateElement = document.querySelector('input[type="date"]');
+  const handleShowDate = () => {
+    const inputDateElement = document.querySelector("#start_date");
     inputDateElement.showPicker();
   };
+
+  const handleShowDate1 = () => {
+    const inputDateElement = document.querySelector("#end_date");
+    inputDateElement.showPicker();
+  };
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -509,7 +515,7 @@ const ManageReports = (props) => {
                                     type="date"
                                     min={"2023-01-01"}
                                     max={getCurrentDate()}
-                                    onClick={hadndleShowDate}
+                                    onClick={handleShowDate}
                                     className={`input101 ${
                                       errors.start_date && touched.start_date
                                         ? "is-invalid"
@@ -546,7 +552,7 @@ const ManageReports = (props) => {
                                     type="date"
                                     min={"2023-01-01"}
                                     max={getCurrentDate()}
-                                    onClick={hadndleShowDate}
+                                    onClick={handleShowDate1}
                                     className={`input101 ${
                                       errors.end_date && touched.end_date
                                         ? "is-invalid"
