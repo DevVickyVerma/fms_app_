@@ -16,6 +16,8 @@ import DashBoardSubChild from "./components/Dashboard/dashTopSection/DashBoardSu
 import DashboardSiteDetail from "./components/Dashboard/dashTopSection/DashboardSiteDetail";
 import SiteEvobossStatus from "./components/pages/EvobossStatus/SiteEvobossStatus";
 import SiteEvobossStatusPage from "./components/pages/EvobossStatus/SiteEvobossStatusPage";
+import Competitor from "./components/pages/Competitor/Competitor";
+import AddCompetitor from "./components/pages/Competitor/AddCompetitor";
 
 //App
 const App = React.lazy(() => import("./components/app"));
@@ -441,6 +443,9 @@ const Errorpage503 = React.lazy(() =>
 const COMINGSOON = React.lazy(() =>
   import("./components/ErrorPages/ErrorPages/Soon/Comingsoon")
 );
+const manageNotification = React.lazy(() =>
+  import("./layouts/Header/Notifications")
+);
 
 const Root = () => {
   const store = configureStore({
@@ -540,6 +545,10 @@ const Root = () => {
   const WrappedDashBoardSiteDetail = withApi(DashboardSiteDetail);
   const WrappedEmaillogs = withApi(Emaillogs);
   const WrappedCompetitorFuelPrices = withApi(CompetitorFuelPrices);
+  const WrappedCompetitor = withApi(Competitor);
+  const WrappedAddCompetitor = withApi(AddCompetitor);
+  const WrappedmanageNotification = withApi(manageNotification);
+
 
   return (
     <Fragment>
@@ -570,6 +579,10 @@ const Root = () => {
                   />
 
                   <Route path={`addusers`} element={<WrappedAddUser />} />
+
+                  <Route path={`/competitor`} element={<WrappedCompetitor />} />
+                  <Route path={`/addCompetitor`} element={<WrappedAddCompetitor />} />
+
 
                   {/* User  Components End */}
 
@@ -751,6 +764,10 @@ const Root = () => {
                   <Route
                     path={`/editdeductions/:id`}
                     element={<WrappedEditDeductions />}
+                  />
+                  <Route
+                    path={`/Notifications`}
+                    element={<WrappedmanageNotification />}
                   />
 
                   {/* Deduction components end */}

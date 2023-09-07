@@ -106,7 +106,8 @@ const SiteSettings = (props) => {
     }
 
     console.clear();
-  console.clear()  }, []);
+    console.clear()
+  }, []);
 
 
 
@@ -149,14 +150,14 @@ const SiteSettings = (props) => {
   };
 
   const handleSubmit = async (values) => {
- 
+
     let clientIDCondition = "";
     if (localStorage.getItem("superiorRole") !== "Client") {
       clientIDCondition = `client_id=${formik.values.client_id}&`;
     } else {
       clientIDCondition = `client_id=${clientIDLocalStorage}&`;
     }
-  
+
     try {
       const response = await getData(
         `/daily-facility-fees/?${clientIDCondition}&company_id=${values.company_id}`
@@ -185,7 +186,7 @@ const SiteSettings = (props) => {
       // Handle error if the API call fails
     }
   };
-  
+
 
   const formik = useFormik({
     initialValues: {
@@ -243,7 +244,7 @@ const SiteSettings = (props) => {
               value={formik?.values?.data && formik.values.data[index]?.value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              
+
             />
             {/* Error handling code */}
           </div>
@@ -265,24 +266,24 @@ const SiteSettings = (props) => {
     // site_id: item.site_id,
     // site_name: item.site_name,
     // value: item.value,
-  
+
     try {
       const formData = new FormData();
       formik.values.data.forEach((obj) => {
         const id = obj.site_id;
         const values = obj.value;
         const charges_price = `charges[${id}]`;
-      
+
 
         const platts_price_Value = values;
-    
+
         // const action = obj.action;
 
         formData.append(charges_price, platts_price_Value);
-      
+
       });
 
-     
+
 
       const postDataUrl = "/daily-facility-fees/update";
       const navigatePath = "/business";
@@ -341,12 +342,11 @@ const SiteSettings = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.client_id &&
-                              formik.touched.client_id
+                            className={`input101 ${formik.errors.client_id &&
+                                formik.touched.client_id
                                 ? "is-invalid"
                                 : ""
-                            }`}
+                              }`}
                             id="client_id"
                             name="client_id"
                             onChange={(e) => {
@@ -371,7 +371,7 @@ const SiteSettings = (props) => {
                           >
                             <option value="">Select a Client</option>
                             {ToleranceData.data &&
-                            ToleranceData.data.length > 0 ? (
+                              ToleranceData.data.length > 0 ? (
                               ToleranceData.data.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.client_name}
@@ -399,12 +399,11 @@ const SiteSettings = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.company_id &&
-                            formik.touched.company_id
+                          className={`input101 ${formik.errors.company_id &&
+                              formik.touched.company_id
                               ? "is-invalid"
                               : ""
-                          }`}
+                            }`}
                           id="company_id"
                           name="company_id"
                           onChange={(e) => {
@@ -469,7 +468,7 @@ const SiteSettings = (props) => {
               </Card.Header>
 
               <div class="card-body">
-              <form onSubmit={handleSubmitForm1}>
+                <form onSubmit={handleSubmitForm1}>
                   <div className="table-responsive deleted-table">
                     <DataTableExtensions {...tableDatas}>
                       <DataTable

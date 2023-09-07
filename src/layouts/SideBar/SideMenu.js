@@ -61,6 +61,31 @@ export const MENUITEMS = [
       },
 
       {
+        title: "Manage Competitor",
+        icon: "users",
+        type: "sub",
+        active: false,
+        permission: "competitor-list",
+        visibility: false,
+        children: [
+          {
+            path: `/competitor`,
+            type: "link",
+            title: "Competitor",
+            permission: "competitor-list",
+            visibility: false,
+          },
+          {
+            path: `/addCompetitor`,
+            type: "link",
+            title: "Add Competitor",
+            permission: "competitor-create",
+            visibility: false,
+          },
+        ],
+      },
+
+      {
         title: "Manage Company",
         icon: "building",
         type: "sub",

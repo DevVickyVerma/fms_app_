@@ -1,4 +1,3 @@
-import moment from 'moment';
 import React from 'react';
 import Chart from 'react-google-charts';
 
@@ -40,17 +39,19 @@ const PieChartOfDashboard = ({ piechartValues }) => {
 
 
     return (
-        <Chart
-            // width={'900px'}
-            height={'290px'}
-            chartType="PieChart"
-            loader={<div>Loading Chart</div>}
-            data={data}
-            // options={{
-            //     title: 'Sales Breakdown',
-            // }}
-            rootProps={{ 'data-testid': '1' }}
-        />
+        <div>
+            <Chart
+                // width={'900px'}
+                height={'100%'}
+                chartType="PieChart"
+                loader={<div>Loading Chart</div>}
+                data={data}
+                // options={{
+                //     title: 'Sales Breakdown',
+                // }}
+                rootProps={{ 'data-testid': '1' }}
+            />
+        </div>
     );
 };
 

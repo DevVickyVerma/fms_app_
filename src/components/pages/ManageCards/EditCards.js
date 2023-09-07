@@ -33,7 +33,7 @@ const EditCards = (props) => {
 
   const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
- 
+
   const [previewImage, setPreviewImage] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   function handleError(error) {
@@ -60,7 +60,7 @@ const EditCards = (props) => {
     setFieldValue("image", file);
 
     // Preview the image
- 
+
     reader.onload = () => {
       setPreviewImage(reader.result);
     };
@@ -131,10 +131,10 @@ const EditCards = (props) => {
 
 
 
- 
+
 
   useEffect(() => {
- 
+
     try {
       FetchRoleList();
     } catch (error) {
@@ -145,14 +145,14 @@ const EditCards = (props) => {
 
 
   const FetchRoleList = async () => {
-   try {
+    try {
       const response = await getData(`/card/${id}`);
 
       if (response) {
         formik.setValues(response.data.data);
         console.log(formik.values);
         console.log(response.data.data);
-       
+
       } else {
         throw new Error("No data available in the response");
       }
@@ -179,7 +179,7 @@ const EditCards = (props) => {
       formData.append("card_code", values.card_code);
       formData.append("card_name", values.card_name);
       formData.append("card_status", values.card_status);
-      formData.append("is_bunkering",values.is_bunkering);
+      formData.append("is_bunkering", values.is_bunkering);
       formData.append("id", values.id);
       formData.append("logo", values.image);
 
@@ -294,12 +294,11 @@ const EditCards = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.card_name &&
+                            className={`input101 ${formik.errors.card_name &&
                               formik.touched.card_name
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="card_name"
                             name="card_name"
                             placeholder="Card Name"
@@ -327,12 +326,11 @@ const EditCards = (props) => {
                             card_code="name"
                             type="text"
                             autoComplete="off"
-                            className={`input101 readonly ${
-                              formik.errors.card_code &&
+                            className={`input101 readonly ${formik.errors.card_code &&
                               formik.touched.card_code
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             placeholder="Card Name"
                             onChange={formik.handleChange}
                             value={formik.values.card_code || ""}
@@ -356,12 +354,11 @@ const EditCards = (props) => {
                             Card Status <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.card_status &&
+                            className={`input101 ${formik.errors.card_status &&
                               formik.touched.card_status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="card_status"
                             name="card_status"
                             onChange={formik.handleChange}
@@ -385,16 +382,15 @@ const EditCards = (props) => {
                             htmlFor="is_bunkering"
                             className="form-label mt-4"
                           >
-                            Bunkering Status 
+                            Bunkering Status
                             {/* <span className="text-danger">*</span> */}
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.is_bunkering &&
+                            className={`input101 ${formik.errors.is_bunkering &&
                               formik.touched.is_bunkering
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="is_bunkering"
                             name="is_bunkering"
                             onChange={formik.handleChange}
@@ -412,15 +408,14 @@ const EditCards = (props) => {
                         </div>
                       </Col>
                       {/* Bunkering Status Edit End */}
-                         <Col lg={6} md={12}>
+                      <Col lg={6} md={12}>
                         <div className="form-group">
                           <label htmlFor="image">Image</label>
                           <div
-                            className={`dropzone ${
-                              formik.errors.image && formik.touched.image
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`dropzone ${formik.errors.image && formik.touched.image
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             onDrop={(event) =>
                               handleDrop(event, formik.setFieldValue)
                             }

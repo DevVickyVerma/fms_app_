@@ -20,15 +20,15 @@ const Apexcharts2 = ({ data }) => {
 
 
 
-// Update the labels array with the capitalized keyslabels.map((label, index) => {
-  formattedLabellabels = Object.keys(data)
-  .map((key) =>
-    key
-      .replace(/_/g, " ")
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ")
-  );
+    // Update the labels array with the capitalized keyslabels.map((label, index) => {
+    formattedLabellabels = Object.keys(data)
+      .map((key) =>
+        key
+          .replace(/_/g, " ")
+          .split(" ")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ")
+      );
 
 
 
@@ -36,7 +36,7 @@ const Apexcharts2 = ({ data }) => {
 
   const options = {
     chart: {
-      width: 380,
+      width: "100%",
       type: "pie",
     },
     labels: formattedLabellabels,
@@ -53,7 +53,7 @@ const Apexcharts2 = ({ data }) => {
         },
       },
     ],
-    colors: [ "#e1af3b" , "#25e4a0","#26a0fc" ,], // Example colors for each series
+    colors: ["#e1af3b", "#25e4a0", "#26a0fc",], // Example colors for each series
     // colors: ["#26a0fc", "#febc3b", "#26a0fc", "#6699ff"], // Example colors for each series
   };
 
@@ -79,15 +79,15 @@ const Apexcharts2 = ({ data }) => {
             .join(" ");
 
           return (
-            <div   style={{ margin: 0 }}  className="label-color" key={index}>
-          
+            <div style={{ margin: 0 }} className="label-color" key={index}>
+
               <div
                 className="chart-color-radius"
                 style={{
                   backgroundColor: realColors[index],
                 }}
               />
-                  <h6 className="mx-1">{formattedLabel}</h6>
+              <h6 className="mx-1">{formattedLabel}</h6>
             </div>
           );
         })}

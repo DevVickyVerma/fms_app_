@@ -340,11 +340,10 @@ const AddSite = (props) => {
                               <Field
                                 type="text"
                                 autoComplete="off"
-                                className={`input101 ${
-                                  errors.site_code && touched.site_code
+                                className={`input101 ${errors.site_code && touched.site_code
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="site_code"
                                 name="site_code"
                                 placeholder="Site Code"
@@ -367,11 +366,10 @@ const AddSite = (props) => {
                               <Field
                                 type="text"
                                 autoComplete="off"
-                                className={`input101 ${
-                                  errors.site_name && touched.site_name
+                                className={`input101 ${errors.site_name && touched.site_name
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="site_name"
                                 name="site_name"
                                 placeholder="Site Name"
@@ -394,11 +392,10 @@ const AddSite = (props) => {
                               <Field
                                 type="text"
                                 autoComplete="off"
-                                className={`input101 ${
-                                  errors.display_name && touched.display_name
+                                className={`input101 ${errors.display_name && touched.display_name
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="display_name"
                                 name="display_name"
                                 placeholder="Display Name"
@@ -420,17 +417,16 @@ const AddSite = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.supplier && touched.supplier
+                                className={`input101 ${errors.supplier && touched.supplier
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="supplier"
                                 name="supplier"
                               >
                                 <option value="">Select a Supplier</option>
                                 {AddSiteData.suppliers &&
-                                AddSiteData.suppliers.length > 0 ? (
+                                  AddSiteData.suppliers.length > 0 ? (
                                   AddSiteData.suppliers.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.supplier_name}
@@ -460,17 +456,16 @@ const AddSite = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.Site_Status && touched.Site_Status
+                                className={`input101 ${errors.Site_Status && touched.Site_Status
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="Site_Status"
                                 name="Site_Status"
                               >
                                 <option value="">Select a Site Status</option>
                                 {AddSiteData.site_status &&
-                                AddSiteData.site_status.length > 0 ? (
+                                  AddSiteData.site_status.length > 0 ? (
                                   AddSiteData.site_status.map((item) => (
                                     <option key={item.value} value={item.value}>
                                       {item.name}
@@ -501,12 +496,11 @@ const AddSite = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.bussiness_Type &&
-                                  touched.bussiness_Type
+                                className={`input101 ${errors.bussiness_Type &&
+                                    touched.bussiness_Type
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="bussiness_Type"
                                 name="bussiness_Type"
                                 onChange={(e) => {
@@ -523,7 +517,7 @@ const AddSite = (props) => {
                               >
                                 <option value="">Select a Business Type</option>
                                 {AddSiteData.busines_types &&
-                                AddSiteData.busines_types.length > 0 ? (
+                                  AddSiteData.busines_types.length > 0 ? (
                                   AddSiteData.busines_types.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.name}
@@ -554,12 +548,11 @@ const AddSite = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.Saga_department_code &&
-                                  touched.Saga_department_code
+                                className={`input101 ${errors.Saga_department_code &&
+                                    touched.Saga_department_code
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="Saga_department_code"
                                 name="Saga_department_code"
                               >
@@ -567,7 +560,7 @@ const AddSite = (props) => {
                                   Select a Sage Department Code
                                 </option>
                                 {AddSiteData.department_codes &&
-                                AddSiteData.department_codes.length > 0 ? (
+                                  AddSiteData.department_codes.length > 0 ? (
                                   AddSiteData.department_codes.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.value}
@@ -598,12 +591,11 @@ const AddSite = (props) => {
                               <Field
                                 type="text"
                                 autoComplete="off"
-                                className={`input101 ${
-                                  errors.Saga_department_name &&
-                                  touched.Saga_department_name
+                                className={`input101 ${errors.Saga_department_name &&
+                                    touched.Saga_department_name
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="Saga_department_name"
                                 name="Saga_department_name"
                                 placeholder="Sage Department Name"
@@ -628,12 +620,11 @@ const AddSite = (props) => {
                               <Field
                                 type="number"
                                 autoComplete="off"
-                                className={`input101 ${
-                                  errors.Bp_nctt_site_no &&
-                                  touched.Bp_nctt_site_no
+                                className={`input101 ${errors.Bp_nctt_site_no &&
+                                    touched.Bp_nctt_site_no
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="Bp_nctt_site_no"
                                 name="Bp_nctt_site_no"
                                 placeholder="BP NCTT Site No"
@@ -656,12 +647,11 @@ const AddSite = (props) => {
                               <Field
                                 type="Number"
                                 autoComplete="off"
-                                className={`input101 ${
-                                  errors.shop_commission &&
-                                  touched.shop_commission
+                                className={`input101 ${errors.shop_commission &&
+                                    touched.shop_commission
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="shop_commission"
                                 name="shop_commission"
                                 placeholder="Shop Commission"
@@ -684,12 +674,11 @@ const AddSite = (props) => {
                               <Field
                                 type="Number"
                                 autoComplete="off"
-                                className={`input101 ${
-                                  errors.lottery_commission &&
-                                  touched.lottery_commission
+                                className={`input101 ${errors.lottery_commission &&
+                                    touched.lottery_commission
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="lottery_commission"
                                 name="lottery_commission"
                                 placeholder=" Lottery Commission"
@@ -715,12 +704,11 @@ const AddSite = (props) => {
                                 min={"2023-01-01"}
                                 max={getCurrentDate()}
                                 onClick={hadndleShowDate}
-                                className={`input101  ${
-                                  errors.DRS_Start_Date &&
-                                  touched.DRS_Start_Date
+                                className={`input101  ${errors.DRS_Start_Date &&
+                                    touched.DRS_Start_Date
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="DRS_Start_Date"
                                 name="DRS_Start_Date"
                                 placeholderText="DRS Start Date"
@@ -748,12 +736,11 @@ const AddSite = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.Report_generation_Status &&
-                                  touched.Report_generation_Status
+                                className={`input101 ${errors.Report_generation_Status &&
+                                    touched.Report_generation_Status
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="Report_generation_Status"
                                 name="Report_generation_Status"
                               >
@@ -780,12 +767,11 @@ const AddSite = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.Report_date_type &&
-                                  touched.Report_date_type
+                                className={`input101 ${errors.Report_date_type &&
+                                    touched.Report_date_type
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="Report_date_type"
                                 name="Report_date_type"
                               >
@@ -813,12 +799,11 @@ const AddSite = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.Fuel_commission_type &&
-                                  touched.Fuel_commission_type
+                                className={`input101 ${errors.Fuel_commission_type &&
+                                    touched.Fuel_commission_type
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="Fuel_commission_type"
                                 name="Fuel_commission_type"
                               >
@@ -846,12 +831,11 @@ const AddSite = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.Paper_work_status &&
-                                  touched.Paper_work_status
+                                className={`input101 ${errors.Paper_work_status &&
+                                    touched.Paper_work_status
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="Paper_work_status"
                                 name="Paper_work_status"
                               >
@@ -879,12 +863,11 @@ const AddSite = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.Bunkered_sale_status &&
-                                  touched.Bunkered_sale_status
+                                className={`input101 ${errors.Bunkered_sale_status &&
+                                    touched.Bunkered_sale_status
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="Bunkered_sale_status"
                                 name="Bunkered_sale_status"
                               >
@@ -912,12 +895,11 @@ const AddSite = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.Drs_upload_status &&
-                                  touched.Drs_upload_status
+                                className={`input101 ${errors.Drs_upload_status &&
+                                    touched.Drs_upload_status
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="Drs_upload_status"
                                 name="Drs_upload_status"
                               >
@@ -948,11 +930,10 @@ const AddSite = (props) => {
                               <Field
                                 as="textarea"
                                 type="textarea"
-                                className={`input101 ${
-                                  errors.site_Address && touched.site_Address
+                                className={`input101 ${errors.site_Address && touched.site_Address
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="site_Address"
                                 name="site_Address"
                                 placeholder="Site Address"
@@ -975,12 +956,11 @@ const AddSite = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.Select_machine_type &&
-                                  touched.Select_machine_type
+                                className={`input101 ${errors.Select_machine_type &&
+                                    touched.Select_machine_type
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="Select_machine_type"
                                 name="Select_machine_type"
                               >
@@ -989,7 +969,7 @@ const AddSite = (props) => {
                                   Select Data Import Types
                                 </option>
                                 {AddSiteData.data_import_types &&
-                                AddSiteData.data_import_types.length > 0 ? (
+                                  AddSiteData.data_import_types.length > 0 ? (
                                   AddSiteData.data_import_types.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.import_type_name}
@@ -1017,11 +997,10 @@ const AddSite = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.client_id && touched.client_id
+                                className={`input101 ${errors.client_id && touched.client_id
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="client_id"
                                 name="client_id"
                                 onChange={(e) => {
@@ -1036,7 +1015,7 @@ const AddSite = (props) => {
                               >
                                 <option value=""> Select Client</option>
                                 {AddSiteData.clients &&
-                                AddSiteData.clients.length > 0 ? (
+                                  AddSiteData.clients.length > 0 ? (
                                   AddSiteData.clients.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.client_name}
@@ -1062,11 +1041,10 @@ const AddSite = (props) => {
                                 Select Company
                               </label>
                               <select
-                                className={`input101 ${
-                                  errors.company_id && touched.company_id
+                                className={`input101 ${errors.company_id && touched.company_id
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="company_id"
                                 name="company_id"
                                 onChange={(e) => {
@@ -1078,7 +1056,7 @@ const AddSite = (props) => {
                               >
                                 <option value=""> Select Company</option>
                                 {Listcompany.companies &&
-                                Listcompany.companies.length > 0 ? (
+                                  Listcompany.companies.length > 0 ? (
                                   Listcompany.companies.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.company_name}
@@ -1105,11 +1083,10 @@ const AddSite = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.paidout && touched.paidout
+                                className={`input101 ${errors.paidout && touched.paidout
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="paidout"
                                 name="paidout"
                               >
@@ -1135,11 +1112,10 @@ const AddSite = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.auto_dayend && touched.auto_dayend
+                                className={`input101 ${errors.auto_dayend && touched.auto_dayend
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="auto_dayend"
                                 name="auto_dayend"
                               >
@@ -1166,12 +1142,11 @@ const AddSite = (props) => {
                               <Field
                                 type="number"
                                 autoComplete="off"
-                                className={`input101 ${
-                                  errors.security_amount &&
-                                  touched.security_amount
+                                className={`input101 ${errors.security_amount &&
+                                    touched.security_amount
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="security_amount"
                                 name="security_amount"
                                 placeholder="Security Amount "
@@ -1199,7 +1174,7 @@ const AddSite = (props) => {
                         <button
                           type="submit"
                           className="btn btn-primary me-2 "
-                          // disabled={Object.keys(errors).length > 0}
+                        // disabled={Object.keys(errors).length > 0}
                         >
                           Save
                         </button>

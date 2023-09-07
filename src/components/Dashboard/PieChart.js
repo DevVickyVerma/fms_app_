@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ReactApexChart from "react-apexcharts";
 
 const Apexcharts2 = ({ data }) => {
-  const [series, setSeries] = useState([10, 15, 33, 43]);
-
   let labels = [];
-  let formattedLabellabels = [];
-  let consolevalues = [];
+  let formattedLabels = [];
+  let consoleValues = [];
+
   if (data && typeof data === "object") {
-    consolevalues = Object.values(data).map((value) =>
+    consoleValues = Object.values(data).map((value) =>
       parseFloat(value.replace(/'/g, ""))
     );
 
@@ -16,8 +15,7 @@ const Apexcharts2 = ({ data }) => {
       (key) => key.charAt(0).toUpperCase() + key.slice(1)
     );
 
-    // Update the labels array with the capitalized keyslabels.map((label, index) => {
-    formattedLabellabels = Object.keys(data).map((key) =>
+    formattedLabels = Object.keys(data).map((key) =>
       key
         .replace(/_/g, " ")
         .split(" ")
@@ -28,16 +26,16 @@ const Apexcharts2 = ({ data }) => {
 
   const options = {
     chart: {
-      width: 380,
+      width: 310,
       type: "pie",
     },
-    labels: formattedLabellabels,
+    labels: formattedLabels,
     responsive: [
       {
         breakpoint: 480,
         options: {
           chart: {
-            width: 380,
+            width: 310,
           },
           legend: {
             position: "bottom",
@@ -45,21 +43,11 @@ const Apexcharts2 = ({ data }) => {
         },
       },
     ],
-    colors: ["#FF0000", "#00FF00", "#0000FF", "#FFFF00"], // Example colors for each series
+    colors: ["rgb(255, 99, 132)", "rgb(54, 162, 235)", "rgb(154, 62, 251)"],
   };
 
-  const realColors = options.colors.map((color) => {
-    return color.startsWith("#") ? color : "#" + color;
-  });
-
   return (
-    <div id="chart">
-      <ReactApexChart
-        options={options}
-        series={consolevalues}
-        type="pie"
-        width={380}
-      />
+    <div id="chart" style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
       <div className="d-flex chart-items">
         {labels.map((label, index) => {
           const formattedLabel = label
@@ -73,7 +61,7 @@ const Apexcharts2 = ({ data }) => {
               <div
                 className="chart-color-radius"
                 style={{
-                  backgroundColor: realColors[index],
+                  backgroundColor: options.colors[index], // Use the specified color
                 }}
               />
               <h6 className="mx-1">{formattedLabel}</h6>
@@ -81,6 +69,7 @@ const Apexcharts2 = ({ data }) => {
           );
         })}
       </div>
+      <ReactApexChart options={options} series={consoleValues} type="pie" width={310} height={310} />
     </div>
   );
 };
