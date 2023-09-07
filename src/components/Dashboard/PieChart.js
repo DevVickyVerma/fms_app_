@@ -1,42 +1,88 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const PieChart = () => {
-  const [chartData] = useState({
-    series: [21, 65, 33, 43, 59, 63],
+const Apexcharts2 = ({ data }) => {
+  const [series, setSeries] = useState([10, 15, 33, 43]);
 
-    options: {
-      chart: {
-        width: 380,
-        type: "pie",
-      },
-      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 380,
-            },
-            legend: {
-              position: "bottom",
-            },
+  let labels = [];
+  let formattedLabellabels = [];
+  let consolevalues = [];
+  if (data && typeof data === "object") {
+    consolevalues = Object.values(data).map((value) =>
+      parseFloat(value.replace(/'/g, ""))
+    );
+
+    labels = Object.keys(data).map(
+      (key) => key.charAt(0).toUpperCase() + key.slice(1)
+    );
+
+    // Update the labels array with the capitalized keyslabels.map((label, index) => {
+    formattedLabellabels = Object.keys(data).map((key) =>
+      key
+        .replace(/_/g, " ")
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ")
+    );
+  }
+
+  const options = {
+    chart: {
+      width: 380,
+      type: "pie",
+    },
+    labels: formattedLabellabels,
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 380,
+          },
+          legend: {
+            position: "bottom",
           },
         },
-      ],
-    },
+      },
+    ],
+    colors: ["#FF0000", "#00FF00", "#0000FF", "#FFFF00"], // Example colors for each series
+  };
+
+  const realColors = options.colors.map((color) => {
+    return color.startsWith("#") ? color : "#" + color;
   });
 
   return (
     <div id="chart">
       <ReactApexChart
-        options={chartData.options}
-        series={chartData.series}
+        options={options}
+        series={consolevalues}
         type="pie"
         width={380}
       />
+      <div className="d-flex chart-items">
+        {labels.map((label, index) => {
+          const formattedLabel = label
+            .replace(/_/g, " ")
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+
+          return (
+            <div style={{ margin: 0 }} className="label-color" key={index}>
+              <div
+                className="chart-color-radius"
+                style={{
+                  backgroundColor: realColors[index],
+                }}
+              />
+              <h6 className="mx-1">{formattedLabel}</h6>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
 
-export default PieChart;
+export default Apexcharts2;
