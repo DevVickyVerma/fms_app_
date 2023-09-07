@@ -133,7 +133,48 @@ const DashTopSubHeading = ({
       setFormattedStartingTime(null); // Handle case where closing time is not available
     }
   }, [getSiteDetails]);
-  // console.log(formattedDayForOpening, "finalOpeningTime");
+  // const [dateString, setDateString] = useState(getSiteDetails?.last_day_end);
+  // function extractMonthFromDate(dateString) {
+  //   if (typeof dateString !== "string") {
+  //     return null; // Input is not a valid string
+  //   }
+
+  //   const parts = dateString.split(/[-/]/);
+
+  //   if (parts.length === 3) {
+  //     const year = parseInt(parts[0], 10);
+  //     const month = parseInt(parts[1], 10);
+  //     const day = parseInt(parts[2], 10);
+
+  //     if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+  //       if (
+  //         year >= 1000 &&
+  //         year <= 9999 &&
+  //         month >= 1 &&
+  //         month <= 12 &&
+  //         day >= 1 &&
+  //         day <= 31
+  //       ) {
+  //         return month;
+  //       }
+  //     }
+  //   }
+
+  //   return null; // Invalid date format or values
+  // }
+
+  // const date1 = "2023/10/02";
+  // // const date1 = "02/10/2023";
+  // // const date1 = "2023/10/02";
+  // // const date1 = "2023/10/02";
+  // const date2 = "09-2-2023";
+  // console.log(
+  //   extractMonthFromDate(getSiteDetails?.last_day_end),
+  //   "extractMonthFromDate"
+  // );
+
+  // console.log(extractMonthFromDate(date1), "extractMonthFromDate1"); // Output: 9
+  // console.log(getSiteDetails?.last_day_end, "extractMonthFromDatelast_day_end"); // Output: 9
 
   const handleGradsClick = (index) => {
     // setIsGradsOpen(!isGradsOpen);
@@ -222,7 +263,7 @@ const DashTopSubHeading = ({
           // top={"114px"} // Adjust the value as needed
           top={0}
           zIndex={1} // Ensure the sticky container overlays other content
-        // className="sticky stickyClass "
+          // className="sticky stickyClass "
         >
           {/* LEFT side heading title */}
           <Box display={"flex"} alignItems={"center"}>
@@ -256,8 +297,8 @@ const DashTopSubHeading = ({
               display={"flex"}
               flexDirection={"column"}
               bgcolor={"#ecf0f1"}
-            // gap={"5px"}
-            // borderRadius={"8px"}
+              // gap={"5px"}
+              // borderRadius={"8px"}
             >
               <Box
                 my={"4px"}

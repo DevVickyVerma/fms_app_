@@ -91,6 +91,7 @@ const CustomModal = ({
 
         const responseData = response?.data?.data;
         setData(responseData);
+        console.log(response?.data?.data, "response?.data?.data");
         // Initialize Formik values with the fetched data
         formik.setValues({
           siteId: selectedItem.id, // Save site_id in Formik
@@ -337,16 +338,25 @@ const CustomModal = ({
         </DialogContent>
         <Card.Footer>
           <div className="text-end notification-class">
-            <div className="Notification">
-              <input
-                type="checkbox"
-                checked={isChecked}
-                onChange={SendNotification}
-              />
-              <label htmlFor="email" className="form-label ms-2 ">
-                Send Notification
-              </label>
-            </div>
+            {data?.notify_operator ? (
+              <div className="Notification">
+                <input
+                  type="checkbox"
+                  id="notificationCheckboxmidday" // Add an id attribute here
+                  checked={isChecked}
+                  onChange={SendNotification}
+                />
+                <label
+                  htmlFor="notificationCheckboxmidday"
+                  className="form-label ms-2 "
+                >
+                  Send Notification
+                </label>
+              </div>
+            ) : (
+              ""
+            )}
+
             <button
               className="btn btn-danger me-2"
               type="submit"
@@ -354,13 +364,17 @@ const CustomModal = ({
             >
               Close
             </button>
-            <button
-              className="btn btn-primary me-2"
-              type="submit"
-              onClick={formik.handleSubmit}
-            >
-              Submit
-            </button>
+            {data?.btn_clickable ? (
+              <button
+                className="btn btn-primary me-2"
+                type="submit"
+                onClick={formik.handleSubmit}
+              >
+                Submit
+              </button>
+            ) : (
+              ""
+            )}
           </div>
         </Card.Footer>
       </Dialog>

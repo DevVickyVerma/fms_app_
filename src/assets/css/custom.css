@@ -14,7 +14,6 @@ span.text-danger.danger-title {
   /* cursor: pointer; */
 }
 
-
 .SidebarSearchheader {
   max-width: 100%;
   color: #fff;
@@ -93,7 +92,7 @@ h3.SidebarSearch-title {
   box-shadow: none;
 }
 
-.data-table-extensions>.data-table-extensions-filter>.filter-text {
+.data-table-extensions > .data-table-extensions-filter > .filter-text {
   /* border: 1px solid #eaedf1 !important; */
   border-bottom: 1px solid #eaedf1 !important;
   outline: none !important;
@@ -288,7 +287,6 @@ tbody tr {
 }
 
 @media screen and (max-width: 768px) {
-
   .table th,
   .table td {
     min-width: 22.28% !important;
@@ -510,7 +508,7 @@ input.table-input.readonly.total-input-card {
   border-radius: 50%;
 }
 
-.d-flex.chart-items>div:first-child {
+.d-flex.chart-items > div:first-child {
   margin-right: 0;
   margin-left: 0;
 }
@@ -700,4 +698,21 @@ span.margin-top {
   margin-left: 7px;
   margin-top: -15px;
   cursor: pointer;
+}
+.notifications-icon {
+  margin-right: 10px;
+}
+.pulsee {
+  display: block;
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c03c;
+}
+.dropdown-menu-end.dropdown-menu-arrow.notifications-menu-width.dropdown-menu.show {
+  min-width: 20rem;
+  max-width: 20rem;
 }

@@ -250,7 +250,7 @@ const EditClient = (props) => {
                   className="breadcrumb-item  breadcrumds"
                   aria-current="page"
                   linkAs={Link}
-                  linkProps={{ to: "/managecompany" }}
+                  linkProps={{ to: "/clients" }}
                 >
                   Manage Client
                 </Breadcrumb.Item>

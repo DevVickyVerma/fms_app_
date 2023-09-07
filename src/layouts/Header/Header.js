@@ -7,11 +7,10 @@ import * as loderdata from "../../data/Component/loderdata/loderdata";
 
 import withApi from "../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
+import Loaderimg from "../../Utils/Loader";
 
 const Header = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
-
-  // Fetch the API response when the component mounts or whenever needed
 
   const SuccessAlert = (message) => {
     toast.success(message, {
@@ -36,6 +35,7 @@ const Header = (props) => {
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState();
   const [headingusername, setHeadingUsername] = useState();
+  const [usernotification, setnotification] = useState();
 
   const logout = async (row) => {
     try {
@@ -58,12 +58,6 @@ const Header = (props) => {
     }
   };
 
-  const permissionsToCheck = [
-    "profile-update-profile",
-    "profile-update-password",
-  ];
-
-  let isPermissionAvailable = false;
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -85,54 +79,29 @@ const Header = (props) => {
   const isSettingsPermissionAvailable =
     permissionsArray?.includes("config-setting");
 
-  //full screen
-  function Fullscreen() {
-    if (
-      (document.fullScreenElement && document.fullScreenElement === null) ||
-      (!document.mozFullScreen && !document.webkitIsFullScreen)
-    ) {
-      if (document.documentElement.requestFullScreen) {
-        document.documentElement.requestFullScreen();
-      } else if (document.documentElement.mozRequestFullScreen) {
-        document.documentElement.mozRequestFullScreen();
-      } else if (document.documentElement.webkitRequestFullScreen) {
-        document.documentElement.webkitRequestFullScreen(
-          Element.ALLOW_KEYBOARD_INPUT
-        );
-      }
-    } else {
-      if (document.cancelFullScreen) {
-        document.cancelFullScreen();
-      } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else if (document.webkitCancelFullScreen) {
-        document.webkitCancelFullScreen();
-      }
-    }
-  }
-  //dark-mode
-  const Darkmode = () => {
-    document.querySelector(".app").classList.toggle("dark-mode");
-  };
-  //leftsidemenu
   const openCloseSidebar = () => {
     document.querySelector(".app").classList.toggle("sidenav-toggled");
   };
-  //rightsidebar
-  const openCloseSidebarright = () => {
-    document.querySelector(".sidebar-right").classList.toggle("sidebar-open");
-  };
+  const stringValue = String(UserPermissions?.notifications);
 
-  // responsivesearch
-  const responsivesearch = () => {
-    document.querySelector(".header-search").classList.toggle("show");
-  };
-  //swichermainright
-  // const swichermainright = () => {
-  //   document.querySelector(".demo_changer").classList.toggle("active");
-  //   document.querySelector(".demo_changer").style.right = "0px";
-  // };
+  console.log(stringValue, "usernotification");
 
+  const handleIconClick = async (row) => {
+    try {
+      const response = await getData("/notifications");
+
+      if (response.data.api_response === "success") {
+        console.log(response.data?.data, "notifications");
+        setnotification(response?.data?.data);
+        // SuccessAlert(response.data.message);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+      // Handle the error here, such as displaying an error message or performing other actions
+    }
+  };
   return (
     <Navbar expand="md" className="app-header header sticky">
       {loading && <loderdata.Loadersbigsizes1 />}
@@ -174,6 +143,75 @@ const Header = (props) => {
           <div className="d-flex order-lg-2 ms-auto header-right-icons">
             <div>
               <Navbar id="navbarSupportedContent-4">
+                <Dropdown
+                  className="d-md-flex notifications"
+                  onClick={handleIconClick}
+                >
+                  <Dropdown.Toggle className="nav-link icon " variant="">
+                    {/* <span className="">3 </span>
+                    <i className="fe fe-bell"></i> */}
+                    <i className="fe fe-bell" />
+                    <span className="nav-unread badge bg-success rounded-pill notifictaion-number">
+                      {stringValue ? stringValue : ""}
+                    </span>
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu
+                    className=" dropdown-menu-end dropdown-menu-arrow notifications-menu-width "
+                    style={{ margin: 0 }}
+                  >
+                    <div className="drop-heading border-bottom">
+                      <div className="d-flex">
+                        <h6 className="mt-1 mb-0 fs-16 fw-semibold">
+                          You have Notifications
+                        </h6>
+                        <div className="ms-auto">
+                          <span className="badge bg-success rounded-pill">
+                            {stringValue ? stringValue : ""}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="notifications-menu 
+                    "
+                    >
+                      <>
+                        {isLoading ? <Loaderimg /> : null}
+                        {usernotification &&
+                          usernotification
+                            .slice(0, 3)
+                            .map((notification, index) => (
+                              <>
+                                <Dropdown.Item className="d-flex" key={index}>
+                                  <div className="me-3 notifyimg  bg-primary-gradient brround box-shadow-primary">
+                                    <i className="fe fe-message-square"></i>
+                                  </div>
+                                  <div className="mt-1">
+                                    <h5 className="notification-label mb-1">
+                                      {notification?.message}
+                                    </h5>
+                                    <span className="notification-subtext">
+                                      {notification?.ago}
+                                    </span>
+                                  </div>
+                                </Dropdown.Item>
+                              </>
+                            ))}
+                      </>
+                    </div>
+                    <div className="dropdown-divider m-0"></div>
+                    {usernotification && usernotification.length > 0 ? (
+                      <Link
+                        to="/Notifications"
+                        className=" dropdown-item text-center p-3 text-muted"
+                      >
+                        View all Notification
+                      </Link>
+                    ) : (
+                      ""
+                    )}
+                  </Dropdown.Menu>
+                </Dropdown>
                 <div className="d-flex order-lg-2">
                   <Dropdown className=" d-md-flex profile-1">
                     <Dropdown.Toggle
@@ -181,14 +219,12 @@ const Header = (props) => {
                       variant=""
                     >
                       <h5 className="header-name mb-0 d-flex">
-                      <span className="header-welcome-text">
-                          {`Welcome,  ${" "}`}&nbsp; 
-                      </span>
-                       <span className="header-welcome-text-title">
-                       {
-                          (headingusername ?  headingusername : " Admin")}
-                       </span>
-                       
+                        <span className="header-welcome-text">
+                          {`Welcome,  ${" "}`}&nbsp;
+                        </span>
+                        <span className="header-welcome-text-title">
+                          {headingusername ? headingusername : " Admin"}
+                        </span>
                       </h5>
                       <i className="fa fa-chevron-circle-down  ms-2"></i>
                     </Dropdown.Toggle>

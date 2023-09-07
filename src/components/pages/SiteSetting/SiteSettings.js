@@ -127,7 +127,7 @@ const SiteSettings = (props) => {
     };
 
     fetchData();
-    console.clear()
+    console.clear();
   }, [id]); // Removed 'SiteID' and 'ReportDate' dependencies as they are not defined in the code snippet
 
   const handleSettingSubmit = async (values) => {
@@ -324,78 +324,11 @@ const SiteSettings = (props) => {
     setBussinesModelData(updatedModels);
   };
 
-  // Handle radio button change
-  // const [selectAllChecked, setSelectAllChecked] = useState(false);
-  // const [selectAllCheckedCards, setSelectAllCheckedCards] = useState(false);
-  // const [selectAllCheckedDays, setSelectAllCheckedCardsDays] = useState(false);
-  // const [selectAllCheckedCharges, setSelectAllCheckedCharges] = useState(false);
-  // const [selectAllCheckedDeductions, setSelectAllCheckedDeductions] = useState(false);
-  // const [selectAllCheckedDepItems, setSelectAllCheckedDepItems] = useState(false);
   const [selectAllCheckedReports, setSelectAllCheckedReports] = useState(false);
-  // const [selectAllCheckedFuels, setSelectAllCheckedFuels] = useState(false);
+
   const [selectAllCheckedDrsCards, setSelectAllCheckedDrsCards] =
     useState(false);
-  // const handleselectAllCheckbox = () => {
-  //   const updatedRowData = BussinesModelData.map((row) => ({
-  //     ...row,
-  //     checked: !selectAllChecked,
-  //   }));
-  //   formik.setFieldValue("AssignFormikbussiness", updatedRowData);
-  //   setSelectAllChecked(!selectAllChecked);
 
-  //   console.log("Row data when header checkbox is clicked:", updatedRowData);
-  //   console.log("Row data when header checkbox is clicked:", formik.values);
-  // };
-  // const handleSelectAllCheckboxChange = () => {
-  //   const updatedRowData = CardsModelData.map((row) => ({
-  //     ...row,
-  //     checked: !selectAllCheckedCards,
-  //   }));
-  //   formik.setFieldValue("AssignFormikCards", updatedRowData);
-  //   setSelectAllCheckedCards(!selectAllCheckedCards);
-  //   console.log("Row data when header checkbox is clicked:", updatedRowData);
-  //   formik.setFieldValue("AssignFormikCards", updatedRowData);
-  // };
-  // const handleSelectAllDays = () => {
-  //   const updatedRowData = CashDayData.map((row) => ({
-  //     ...row,
-  //     checked: !selectAllCheckedDays,
-  //   }));
-  //   formik.setFieldValue("CahsDayFormikData", updatedRowData);
-  //   setSelectAllCheckedCardsDays(!selectAllCheckedDays);
-  //   console.log("Row data when header checkbox is clicked:", updatedRowData);
-  //   formik.setFieldValue("CahsDayFormikData", updatedRowData);
-  // };
-  // const handleSelectAllCharges = () => {
-  //   const updatedRowData = data.map((row) => ({
-  //     ...row,
-  //     checked: !selectAllCheckedCharges,
-  //   }));
-  //   formik.setFieldValue("FormikChargesData", updatedRowData);
-  //   setSelectAllCheckedCharges(!selectAllCheckedCharges);
-  //   console.log("Row data when header checkbox is clicked:", updatedRowData);
-  //   formik.setFieldValue("FormikChargesData", updatedRowData);
-  // };
-  // const handleSelectAllDeductions = () => {
-  //   const updatedRowData = DeductionData.map((row) => ({
-  //     ...row,
-  //     checked: !selectAllCheckedDeductions,
-  //   }));
-  //   formik.setFieldValue("FormikDeductionData", updatedRowData);
-  //   setSelectAllCheckedDeductions(!selectAllCheckedDeductions);
-  //   console.log("Row data when header checkbox is clicked:", updatedRowData);
-  //   formik.setFieldValue("FormikDeductionData", updatedRowData);
-  // };
-  // const handleSelectAllDepItems = () => {
-  //   const updatedRowData = SiteItems.map((row) => ({
-  //     ...row,
-  //     checked: !selectAllCheckedDepItems,
-  //   }));
-  //   formik.setFieldValue("Formiksite_items", updatedRowData);
-  //   setSelectAllCheckedDepItems(!selectAllCheckedDepItems);
-  //   console.log("Row data when header checkbox is clicked:", updatedRowData);
-  //   formik.setFieldValue("Formiksite_items", updatedRowData);
-  // };
   const handleSelectAllReports = () => {
     const updatedRowData = ReportsData.map((row) => ({
       ...row,

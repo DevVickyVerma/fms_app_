@@ -116,7 +116,6 @@ const AddCompany = (props) => {
     try {
       const formData = new FormData();
 
-    
       formData.append("id", id);
       const selectedReportsIds = [];
       const reports_models_valueKey = "addons";
@@ -199,7 +198,7 @@ const AddCompany = (props) => {
                     <Row>
                       <Col lg={12} md={12}>
                         <Card.Header className="cardheader-table">
-                          <h3 className="card-title">  Addons</h3>
+                          <h3 className="card-title"> Addons</h3>
                         </Card.Header>
                         <div className="module-height-Addon">
                           <DataTable

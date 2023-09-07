@@ -321,7 +321,7 @@ const ManageDsr = (props) => {
         if (data) {
           setUploadList(response1?.data?.data.list);
           setDataEnteryList(response1?.data?.data.cards);
-
+          setUploadTabname();
           setgetDataBtn(response1?.data?.data.showBtn);
           setUploadtitle(response1?.data?.data);
           // setUploadTabname();

@@ -564,32 +564,43 @@ const FuelPrices = (props) => {
               <Card.Footer>
                 {data ? (
                   <div className="text-end notification-class">
-                    {/* <div className="Notification">
-                      <input
-                        type="checkbox"
-                        checked={isChecked}
-                        onChange={SendNotification}
-                      />
-                      <label htmlFor="email" className="form-label ms-2 ">
-                        Send Notification
-                      </label>
-                    </div> */}
-                    <div className="Notification">
-                      <label
-                        htmlFor="notificationCheckbox"
-                        className="form-label Notification ml-2"
-                      >
-                        <input
-                          type="checkbox"
-                          id="notificationCheckbox"
-                          checked={isChecked}
-                          onChange={SendNotification}
-                        />
-                        Send Notification
-                      </label>
-                    </div>
-
-                    {editable ? (
+                    {data?.notify_operator ? (
+                      <div className="Notification">
+                        <label
+                          htmlFor="notificationCheckbox"
+                          className="form-label Notification ml-2"
+                        >
+                          <input
+                            type="checkbox"
+                            id="notificationCheckbox"
+                            checked={isChecked}
+                            onChange={SendNotification}
+                          />
+                          Send Notification
+                        </label>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                    {data?.notify_operator ? (
+                      <div className="Notification">
+                        <label
+                          htmlFor="notificationCheckbox"
+                          className="form-label Notification ml-2"
+                        >
+                          <input
+                            type="checkbox"
+                            id="notificationCheckbox"
+                            checked={isChecked}
+                            onChange={SendNotification}
+                          />
+                          Send Notification
+                        </label>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                    {data?.btn_clickable ? (
                       <button
                         className="btn btn-primary me-2"
                         type="submit"
@@ -598,13 +609,7 @@ const FuelPrices = (props) => {
                         Submit
                       </button>
                     ) : (
-                      <button
-                        className="btn btn-primary me-2"
-                        type="submit"
-                        disabled
-                      >
-                        Submit
-                      </button>
+                      ""
                     )}
                   </div>
                 ) : (
