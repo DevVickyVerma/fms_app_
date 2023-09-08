@@ -352,6 +352,9 @@ const FUELPRICE = React.lazy(() =>
 const CompetitorFuelPrices = React.lazy(() =>
   import("./components/pages/ManageFuelPrices/competitorfuelprices")
 );
+const EditCompetitorFuelPrices = React.lazy(() =>
+  import("./components/pages/Competitor/EditCompetitor")
+);
 const FuelPurchasePrices = React.lazy(() =>
   import("./components/pages/ManageFuelPrices/FuelPurchasePrices")
 );
@@ -446,6 +449,9 @@ const COMINGSOON = React.lazy(() =>
 const manageNotification = React.lazy(() =>
   import("./layouts/Header/Notifications")
 );
+
+
+
 
 const Root = () => {
   const store = configureStore({
@@ -548,6 +554,7 @@ const Root = () => {
   const WrappedCompetitor = withApi(Competitor);
   const WrappedAddCompetitor = withApi(AddCompetitor);
   const WrappedmanageNotification = withApi(manageNotification);
+  const WrappedEditCompetitorFuelPrices = withApi(EditCompetitorFuelPrices);
 
 
   return (
@@ -798,6 +805,7 @@ const Root = () => {
                     element={<WrappedCompetitorFuelPrices />}
                   />
 
+
                   <Route
                     path={`/fuel-purchase-prices`}
                     element={<WrappedFuelPurchasePrices />}
@@ -879,6 +887,10 @@ const Root = () => {
                   <Route
                     path={`/edititems/:id`}
                     element={<WrappedEditItems />}
+                  />
+                  <Route
+                    path={`/edit-competitor/:id`}
+                    element={<WrappedEditCompetitorFuelPrices />}
                   />
 
                   {/* Import Types components end */}
