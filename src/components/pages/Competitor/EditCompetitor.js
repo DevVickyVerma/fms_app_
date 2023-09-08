@@ -241,11 +241,10 @@ const AddCompetitor = (props) => {
                         <input
                           type="text"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.name && formik.touched.name
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.name && formik.touched.name
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="name"
                           name="name"
                           placeholder="Competitor Name "
@@ -266,11 +265,10 @@ const AddCompetitor = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <textarea
-                          className={`input101 ${
-                            formik.errors.address && formik.touched.address
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.address && formik.touched.address
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="address"
                           name="address"
                           onChange={formik.handleChange}
@@ -292,11 +290,10 @@ const AddCompetitor = (props) => {
                           Supplier <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.supplier && formik.touched.supplier
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.supplier && formik.touched.supplier
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="supplier"
                           name="supplier"
                           onChange={formik.handleChange}

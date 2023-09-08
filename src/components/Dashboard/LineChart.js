@@ -22,13 +22,7 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
 
   const labels = LinechartOption?.map((label) => label);
 
-  // ! removing labels date here only showing the month and year labels
-  // const labels = LinechartOption?.map((label) => {
-  //   const date = new Date(label);
-  //   const month = date.toLocaleString("default", { month: "short" });
-  //   const year = date.getFullYear();
-  //   return `${month} ${year} `;
-  // });
+
 
   let myLabels = LinechartValues;
 
@@ -46,12 +40,7 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
     backgroundColor: `rgba(${colorArray[index % colorArray.length].join(
       ", "
     )}, 0.2)`,
-    // borderColor: `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${
-    //   Math.random() * 255
-    // }, 1)`,
-    // backgroundColor: `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${
-    //   Math.random() * 255
-    // }, 0.2)`,
+
     yAxisID: index === 1 ? "y1" : "y",
     key: index,
   }));
@@ -59,40 +48,11 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
   const data = {
     labels: labels,
     datasets: datasets,
-    // labels: "",
-    // datasets: [
-    //   {
-    //     label: firstLabel,
 
-    //     data: firstData,
-    //     borderColor: "rgba(255, 99, 132, 1)",
-    //     backgroundColor: "rgba(255, 99, 132, 0.2)",
-    //     yAxisID: "y1",
-    //   },
-    //   {
-    //     label: secondLabel,
-
-    //     data: secondData,
-    //     borderColor: "rgba(54, 162, 235, 1)",
-    //     backgroundColor: "rgba(54, 162, 235, 0.2)",
-    //     yAxisID: "y1",
-    //   },
-    //   {
-    //     // label: {LinechartValues.[1].name},
-    //     label: thirdLabel,
-    //     // data: Array.from({ length: DATA_COUNT }, () =>
-    //     //   Math.floor(Math.random() * 201 - 100)
-    //     // ),
-    //     data: thirdData,
-    //     borderColor: "rgba(154, 62, 251, 1)",
-    //     backgroundColor: "rgba(541, 152, 235, 0.2)",
-    //     yAxisID: "y1",
-    //   },
-    // ],
   };
 
   const options = {
-    responsive: true,
+    // responsive: true,
     interaction: {
       mode: "index",
       intersect: false,
@@ -107,12 +67,6 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
     //   },
     // },
     stacked: false,
-    // plugins: {
-    //   // title: {
-    //   //   display: true,
-    //   //   // text: "Chart.js Line Chart - Multi Axis",
-    //   // },
-    // },
     scales: {
       y: {
         type: "linear",
@@ -130,26 +84,13 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
     },
   };
 
-  const actions = [
-    {
-      name: "Randomize",
-      handler(chart) {
-        chart.data.datasets.forEach((dataset) => {
-          dataset.data = Array.from({ length: DATA_COUNT }, () =>
-            Math.floor(Math.random() * 201 - 100)
-          );
-        });
-        chart.update();
-      },
-    },
-  ];
+
 
   return (
-    <div>
+    <div className="d-flex chart-items">
       <Line
         data={data}
         options={options}
-        // actions={actions}
       />
     </div>
   );

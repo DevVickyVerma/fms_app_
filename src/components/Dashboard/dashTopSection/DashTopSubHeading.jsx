@@ -79,6 +79,8 @@ const DashTopSubHeading = ({
   );
   const [formattedMonths, setformattedMonth] = useState();
 
+
+
   console.log("currentmonthDate", currentmonthDate);
 
   useEffect(() => {
@@ -133,48 +135,7 @@ const DashTopSubHeading = ({
       setFormattedStartingTime(null); // Handle case where closing time is not available
     }
   }, [getSiteDetails]);
-  // const [dateString, setDateString] = useState(getSiteDetails?.last_day_end);
-  // function extractMonthFromDate(dateString) {
-  //   if (typeof dateString !== "string") {
-  //     return null; // Input is not a valid string
-  //   }
 
-  //   const parts = dateString.split(/[-/]/);
-
-  //   if (parts.length === 3) {
-  //     const year = parseInt(parts[0], 10);
-  //     const month = parseInt(parts[1], 10);
-  //     const day = parseInt(parts[2], 10);
-
-  //     if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
-  //       if (
-  //         year >= 1000 &&
-  //         year <= 9999 &&
-  //         month >= 1 &&
-  //         month <= 12 &&
-  //         day >= 1 &&
-  //         day <= 31
-  //       ) {
-  //         return month;
-  //       }
-  //     }
-  //   }
-
-  //   return null; // Invalid date format or values
-  // }
-
-  // const date1 = "2023/10/02";
-  // // const date1 = "02/10/2023";
-  // // const date1 = "2023/10/02";
-  // // const date1 = "2023/10/02";
-  // const date2 = "09-2-2023";
-  // console.log(
-  //   extractMonthFromDate(getSiteDetails?.last_day_end),
-  //   "extractMonthFromDate"
-  // );
-
-  // console.log(extractMonthFromDate(date1), "extractMonthFromDate1"); // Output: 9
-  // console.log(getSiteDetails?.last_day_end, "extractMonthFromDatelast_day_end"); // Output: 9
 
   const handleGradsClick = (index) => {
     // setIsGradsOpen(!isGradsOpen);
@@ -234,6 +195,11 @@ const DashTopSubHeading = ({
     { name: "Enough Fuel", color: "#009432" },
   ];
 
+  console.log(getSiteStats?.data?.cash_tracker?.message, " getSiteStats");
+
+  const alertStatus = getSiteStats?.data?.cash_tracker?.alert_status;
+
+
   return (
     <>
       <CustomModal
@@ -244,7 +210,26 @@ const DashTopSubHeading = ({
       <div style={{ marginBottom: "20px" }}>
         {/* top border section in sub child component */}
 
-        {/* build code for future */}
+
+        {alertStatus === true ? <>
+          <div
+            style={{
+              textAlign: "left",
+              margin: " 13px 0",
+              fontSize: "15px",
+              color: "white",
+              background: "#b52d2d",
+              padding: "10px",
+              borderRadius: "7px",
+            }}
+          >
+            {getSiteStats?.data?.cash_tracker?.message} {getSiteStats?.data?.cash_tracker?.cash_amount}
+          </div>
+        </> : ""}
+
+
+
+        {/* trial to build*/}
         <Box
           display={"flex"}
           gap={"5px"}
@@ -263,7 +248,7 @@ const DashTopSubHeading = ({
           // top={"114px"} // Adjust the value as needed
           top={0}
           zIndex={1} // Ensure the sticky container overlays other content
-          // className="sticky stickyClass "
+        // className="sticky stickyClass "
         >
           {/* LEFT side heading title */}
           <Box display={"flex"} alignItems={"center"}>
@@ -291,14 +276,70 @@ const DashTopSubHeading = ({
             </Box>
           </Box>
           {/* RIGHT side heading title */}
-          <Box display={"flex"} gap={"20px"}>
+          <Box gap={"20px"} display={["contents", "flex"]} >
+
+
+            {/*   Cash  tracker*/}
+            <Box
+
+              display={"flex"}
+              flexDirection={"column"}
+              bgcolor={"#ecf0f1"}
+            >
+              <Box
+                my={"4px"}
+                color={"#2d3436"}
+                display={"flex"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                px={"13px"}
+              >
+                <Typography
+
+                  fontSize={"14px"}
+                  textAlign={"center"}
+                  margin={"auto"}
+                >
+
+                  Cash Tracker
+
+                </Typography>
+
+              </Box>
+
+              <Box display={"flex"}>
+
+                <Box>
+                  <Typography
+                    height={"48px"}
+
+                    width={"140px"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+
+                    display={"flex"}
+                    // bgcolor={"rgb(25 122 66)"}
+                    bgcolor={alertStatus === true ? "#d63031" : "rgb(25 122 66)"}
+                    textAlign={"center"}
+                    py={"2px"}
+                    color={"#dfe6e9"}
+                    fontSize={"14px"}
+                  >
+                    {" "}
+                    {getSiteStats?.data?.cash_tracker?.cash_amount}
+                  </Typography>
+                </Box>
+                {/* Calendar Date With Updated Closing Time */}
+
+              </Box>
+            </Box>
             <Box
               //  bgcolor={"red"}
               display={"flex"}
               flexDirection={"column"}
               bgcolor={"#ecf0f1"}
-              // gap={"5px"}
-              // borderRadius={"8px"}
+            // gap={"5px"}
+            // borderRadius={"8px"}
             >
               <Box
                 my={"4px"}
@@ -405,6 +446,8 @@ const DashTopSubHeading = ({
             </Box>
           </Box>
         </Box>
+
+
 
         {/* dashboard site Top section */}
         <DashboardSiteTopSection />
