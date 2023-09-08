@@ -480,6 +480,16 @@ const Competitor = (props) => {
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
+
+          {isAddPermissionAvailable ? (
+            <Link
+              to="/addCompetitor/"
+              className="btn btn-primary ms-2 addclientbtn"
+            >
+              Add Competitor
+              <AddCircleOutlineIcon />
+            </Link>
+          ) : null}
         </div>
 
         {/* here I will start Body of competitor */}
@@ -663,21 +673,6 @@ const Competitor = (props) => {
                   </Card.Header>
                   <Card.Body>
                     <div className="table-responsive deleted-table">
-                      {/* <DataTableExtensions {...tableDatas}>
-                                            <DataTable
-                                                columns={columns}
-                                                data={CompetitorList}
-                                                noHeader
-                                                defaultSortField="id"
-                                                defaultSortAsc={false}
-                                                striped={true}
-                                                persistTableHead
-                                                pagination
-                                                highlightOnHover
-                                                searchable={false}
-
-                                            />
-                                        </DataTableExtensions> */}
                       <DataTable
                         columns={columns}
                         data={CompetitorList}
@@ -696,7 +691,18 @@ const Competitor = (props) => {
             </Row>
           </>
         ) : (
-          ""
+          <>
+            <Row className=" row-sm">
+              <Col lg={12}>
+                <Card>
+                  <Card.Header>
+                    <h3 className="card-title">Competitor Listing Data</h3>
+                  </Card.Header>
+                  <Card.Body>There is no data to show</Card.Body>
+                </Card>
+              </Col>
+            </Row>
+          </>
         )}
       </>
     </>
