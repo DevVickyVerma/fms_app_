@@ -102,6 +102,11 @@ const Header = (props) => {
       // Handle the error here, such as displaying an error message or performing other actions
     }
   };
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
   return (
     <Navbar expand="md" className="app-header header sticky">
       {loading && <loderdata.Loadersbigsizes1 />}
@@ -178,25 +183,22 @@ const Header = (props) => {
                       <>
                         {isLoading ? <Loaderimg /> : null}
                         {usernotification &&
-                          usernotification
-                            .slice(0, 3)
-                            .map((notification, index) => (
-                              <>
-                                <Dropdown.Item className="d-flex" key={index}>
-                                  <div className="me-3 notifyimg  bg-primary-gradient brround box-shadow-primary">
-                                    <i className="fe fe-message-square"></i>
-                                  </div>
-                                  <div className="mt-1">
-                                    <h5 className="notification-label mb-1">
-                                      {notification?.message}
-                                    </h5>
-                                    <span className="notification-subtext">
-                                      {notification?.ago}
-                                    </span>
-                                  </div>
-                                </Dropdown.Item>
-                              </>
-                            ))}
+                          usernotification.slice(0, 3).map((notification) => (
+                            <Dropdown.Item className="d-flex">
+                              <div className="notifyimg bg-primary-gradient brround box-shadow-primary">
+                                <i className="fe fe-message-square"></i>
+                              </div>
+
+                              <Link to="/Notifications" className="mt-1">
+                                <h5 className="notification-label mb-1">
+                                  {notification?.message}
+                                </h5>
+                                <span className="notification-subtext">
+                                  {notification?.ago}
+                                </span>
+                              </Link>
+                            </Dropdown.Item>
+                          ))}
                       </>
                     </div>
                     <div className="dropdown-divider m-0"></div>

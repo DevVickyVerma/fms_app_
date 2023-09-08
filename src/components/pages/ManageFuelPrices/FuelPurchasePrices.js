@@ -118,7 +118,7 @@ const ManageDsr = (props) => {
 
     try {
       const response = await getData(
-        `site/fuel/purchase-price?${clientIDCondition}&company_id=${values.company_id}&date=${values.start_date}&site_id${values.site_id}`
+        `site/fuel/purchase-price?${clientIDCondition}&company_id=${values.company_id}&date=${values.start_date}&site_id=${values.site_id}`
       );
       const { data } = response;
       if (data) {
@@ -558,7 +558,6 @@ const ManageDsr = (props) => {
     permissionsArray?.includes("site-detail");
   const isAssignPermissionAvailable = permissionsArray?.includes("site-assign");
 
-
   const getCurrentDate = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -566,10 +565,10 @@ const ManageDsr = (props) => {
     const day = String(today.getDate() - 1).padStart(2, "0"); // Subtract one day from the current date
     return `${year}-${month}-${day}`;
   };
-  const hadndleShowDate =( )=>{
+  const hadndleShowDate = () => {
     const inputDateElement = document.querySelector('input[type="date"]');
     inputDateElement.showPicker();
-}
+  };
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -796,8 +795,9 @@ const ManageDsr = (props) => {
                           </label>
                           <input
                             type="date"
-                             min={"2023-01-01"}     max={getCurrentDate()}
-                                onClick={hadndleShowDate}
+                            min={"2023-01-01"}
+                            max={getCurrentDate()}
+                            onClick={hadndleShowDate}
                             className={`input101 ${
                               formik.errors.start_date &&
                               formik.touched.start_date
@@ -819,13 +819,13 @@ const ManageDsr = (props) => {
                     </Row>
                   </Card.Body>
                   <Card.Footer className="text-end">
-                  <Link
-                          type="submit"
-                          className="btn btn-danger me-2 "
-                          to={`/dashboard`}
-                        >
-                          Cancel
-                        </Link>
+                    <Link
+                      type="submit"
+                      className="btn btn-danger me-2 "
+                      to={`/dashboard`}
+                    >
+                      Cancel
+                    </Link>
                     <button className="btn btn-primary me-2" type="submit">
                       Submit
                     </button>
@@ -889,15 +889,13 @@ const ManageDsr = (props) => {
                     <div className="d-flex justify-content-end mt-3">
                       {data ? (
                         <>
-                    
-                        <button className="btn btn-primary" type="submit">
-                          Submit
-                        </button>
+                          <button className="btn btn-primary" type="submit">
+                            Submit
+                          </button>
                         </>
                       ) : (
                         ""
                       )}
-                    
                     </div>
                   ) : (
                     ""

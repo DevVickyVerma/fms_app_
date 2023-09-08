@@ -716,3 +716,6 @@ span.margin-top {
   min-width: 20rem;
   max-width: 20rem;
 }
+.notifications-menu a {
+  padding: 0px !important;
+}
