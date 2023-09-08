@@ -71,7 +71,7 @@ export const MENUITEMS = [
           {
             path: `/competitor`,
             type: "link",
-            title: "Competitor",
+            title: " Manage Competitor",
             permission: "competitor-list",
             visibility: false,
           },
