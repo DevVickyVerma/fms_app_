@@ -223,7 +223,7 @@ const AddCompetitor = ({ getData, postData }) => {
         <Col lg={12} xl={12} md={12} sm={12}>
           <Card>
             <Card.Header>
-              <Card.Title as="h3">Add Competitor</Card.Title>
+              <Card.Title as="h3">Edit Competitor</Card.Title>
             </Card.Header>
             {/* here my body will start */}
             <Card.Body>
@@ -284,7 +284,7 @@ const AddCompetitor = ({ getData, postData }) => {
                   <Col lg={4} md={6}>
                     <div className="form-group">
                       <label htmlFor="supplier" className="form-label mt-4">
-                        Supplier Id<span className="text-danger">*</span>
+                        Supplier <span className="text-danger">*</span>
                       </label>
                       <select
                         className={`input101 ${
