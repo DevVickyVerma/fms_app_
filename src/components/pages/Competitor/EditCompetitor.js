@@ -7,8 +7,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
+import Loaderimg from "../../../Utils/Loader";
 
-const AddCompetitor = ({ getData, postData }) => {
+const AddCompetitor = (props) => {
+  const { apidata, isLoading, error, getData, postData } = props;
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [CompetitorData, setCompetitorData] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
@@ -178,7 +180,7 @@ const AddCompetitor = ({ getData, postData }) => {
       formData.append("supplier_id", values.supplier);
       formData.append("id", id);
 
-      const postDataUrl = "/site/competitor/add";
+      const postDataUrl = "/site/competitor/update";
       const navigatePath = "/competitor";
 
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
@@ -190,150 +192,154 @@ const AddCompetitor = ({ getData, postData }) => {
   console.log(formik.values, "CompetitorData12");
   return (
     <>
-      <div className="page-header ">
-        <div>
-          <h1 className="page-title">Edit Competitor</h1>
-          <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item
-              className="breadcrumb-item"
-              linkAs={Link}
-              linkProps={{ to: "/dashboard" }}
-            >
-              Dashboard
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item"
-              linkAs={Link}
-              linkProps={{ to: "/competitor" }}
-            >
-              Competitor
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item active breadcrumds"
-              aria-current="page"
-            >
-              Edit Competitor
-            </Breadcrumb.Item>
-          </Breadcrumb>
+      {isLoading ? <Loaderimg /> : null}
+      <>
+        <div className="page-header ">
+          <div>
+            <h1 className="page-title">Edit Competitor</h1>
+            <Breadcrumb className="breadcrumb">
+              <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/dashboard" }}
+              >
+                Dashboard
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/competitor" }}
+              >
+                Competitor
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
+                className="breadcrumb-item active breadcrumds"
+                aria-current="page"
+              >
+                Edit Competitor
+              </Breadcrumb.Item>
+            </Breadcrumb>
+          </div>
         </div>
-      </div>
 
-      {/* here I will start Body of competitor */}
-      <Row>
-        <Col lg={12} xl={12} md={12} sm={12}>
-          <Card>
-            <Card.Header>
-              <Card.Title as="h3">Edit Competitor</Card.Title>
-            </Card.Header>
-            {/* here my body will start */}
-            <Card.Body>
-              <form onSubmit={formik.handleSubmit}>
-                <Row>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label className="form-label mt-4" htmlFor="name">
-                        Competitor Name<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        autoComplete="off"
-                        className={`input101 ${
-                          formik.errors.name && formik.touched.name
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="name"
-                        name="name"
-                        placeholder="Competitor Name "
-                        onChange={formik.handleChange}
-                        value={formik.values.name}
-                      />
-                      {formik.errors.name && formik.touched.name && (
-                        <div className="invalid-feedback">
-                          {formik.errors.name}
-                        </div>
-                      )}
-                    </div>
-                  </Col>
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label htmlFor="address" className="form-label mt-4">
-                        Competitor Address<span className="text-danger">*</span>
-                      </label>
-                      <textarea
-                        className={`input101 ${
-                          formik.errors.address && formik.touched.address
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="address"
-                        name="address"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.address}
-                        placeholder="Competitor Address"
-                      />
-                      {formik.errors.address && formik.touched.address && (
-                        <div className="invalid-feedback">
-                          {formik.errors.address}
-                        </div>
-                      )}
-                    </div>
-                  </Col>
-
-                  <Col lg={4} md={6}>
-                    <div className="form-group">
-                      <label htmlFor="supplier" className="form-label mt-4">
-                        Supplier <span className="text-danger">*</span>
-                      </label>
-                      <select
-                        className={`input101 ${
-                          formik.errors.supplier && formik.touched.supplier
-                            ? "is-invalid"
-                            : ""
-                        }`}
-                        id="supplier"
-                        name="supplier"
-                        onChange={formik.handleChange}
-                        value={formik.values.supplier}
-                      >
-                        <option value="">Select a Supplier </option>
-                        {SupplierData && SupplierData.length > 0 ? (
-                          SupplierData.map((item) => (
-                            <option key={item.id} value={item.id}>
-                              {item.supplier_name}
-                            </option>
-                          ))
-                        ) : (
-                          <option disabled>No Supplier available</option>
+        {/* here I will start Body of competitor */}
+        <Row>
+          <Col lg={12} xl={12} md={12} sm={12}>
+            <Card>
+              <Card.Header>
+                <Card.Title as="h3">Edit Competitor</Card.Title>
+              </Card.Header>
+              {/* here my body will start */}
+              <Card.Body>
+                <form onSubmit={formik.handleSubmit}>
+                  <Row>
+                    <Col lg={4} md={6}>
+                      <div className="form-group">
+                        <label className="form-label mt-4" htmlFor="name">
+                          Competitor Name<span className="text-danger">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          autoComplete="off"
+                          className={`input101 ${
+                            formik.errors.name && formik.touched.name
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          id="name"
+                          name="name"
+                          placeholder="Competitor Name "
+                          onChange={formik.handleChange}
+                          value={formik.values.name}
+                        />
+                        {formik.errors.name && formik.touched.name && (
+                          <div className="invalid-feedback">
+                            {formik.errors.name}
+                          </div>
                         )}
-                      </select>
-                      {formik.errors.supplier && formik.touched.supplier && (
-                        <div className="invalid-feedback">
-                          {formik.errors.supplier}
-                        </div>
-                      )}
-                    </div>
-                  </Col>
-                </Row>
-                <div className="text-end">
-                  <Link
-                    type="submit"
-                    className="btn btn-danger me-2 "
-                    to={`/competitor/`}
-                  >
-                    Cancel
-                  </Link>
+                      </div>
+                    </Col>
+                    <Col lg={4} md={6}>
+                      <div className="form-group">
+                        <label htmlFor="address" className="form-label mt-4">
+                          Competitor Address
+                          <span className="text-danger">*</span>
+                        </label>
+                        <textarea
+                          className={`input101 ${
+                            formik.errors.address && formik.touched.address
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          id="address"
+                          name="address"
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          value={formik.values.address}
+                          placeholder="Competitor Address"
+                        />
+                        {formik.errors.address && formik.touched.address && (
+                          <div className="invalid-feedback">
+                            {formik.errors.address}
+                          </div>
+                        )}
+                      </div>
+                    </Col>
 
-                  <button type="submit" className="btn btn-primary">
-                    Submit
-                  </button>
-                </div>
-              </form>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+                    <Col lg={4} md={6}>
+                      <div className="form-group">
+                        <label htmlFor="supplier" className="form-label mt-4">
+                          Supplier <span className="text-danger">*</span>
+                        </label>
+                        <select
+                          className={`input101 ${
+                            formik.errors.supplier && formik.touched.supplier
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          id="supplier"
+                          name="supplier"
+                          onChange={formik.handleChange}
+                          value={formik.values.supplier}
+                        >
+                          <option value="">Select a Supplier </option>
+                          {SupplierData && SupplierData.length > 0 ? (
+                            SupplierData.map((item) => (
+                              <option key={item.id} value={item.id}>
+                                {item.supplier_name}
+                              </option>
+                            ))
+                          ) : (
+                            <option disabled>No Supplier available</option>
+                          )}
+                        </select>
+                        {formik.errors.supplier && formik.touched.supplier && (
+                          <div className="invalid-feedback">
+                            {formik.errors.supplier}
+                          </div>
+                        )}
+                      </div>
+                    </Col>
+                  </Row>
+                  <div className="text-end">
+                    <Link
+                      type="submit"
+                      className="btn btn-danger me-2 "
+                      to={`/competitor/`}
+                    >
+                      Cancel
+                    </Link>
+
+                    <button type="submit" className="btn btn-primary">
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </>
     </>
   );
 };
