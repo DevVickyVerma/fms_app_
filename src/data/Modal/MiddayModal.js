@@ -13,7 +13,6 @@ import {
   TableHead,
   TableRow,
   TextField,
-  Slide,
 } from "@mui/material";
 import { Row, Col, Form, Card } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
@@ -22,7 +21,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
-import { toast } from "react-toastify";
+import { Slide, ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const CustomModal = ({
@@ -37,29 +36,29 @@ const CustomModal = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
-  const notify = (message) => {
+  const SuccessAlert = (message) => {
     toast.success(message, {
-      autoClose: 1000,
+      autoClose: 500,
       position: toast.POSITION.TOP_RIGHT,
       hideProgressBar: true,
       transition: Slide,
-      autoClose: 1000,
+      autoClose: 500,
       theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
     });
   };
-  const Errornotify = (message) => {
+  const ErrorAlert = (message) => {
     toast.error(message, {
       position: toast.POSITION.TOP_RIGHT,
       hideProgressBar: true,
       transition: Slide,
       autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+      theme: "colored",
     });
   };
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      toast.error("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -67,7 +66,7 @@ const CustomModal = ({
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      toast.error(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 
@@ -137,7 +136,6 @@ const CustomModal = ({
     },
   });
   const handleSubmit = async (values) => {
-    console.log(values, "handleSubmit");
     setIsLoading(true);
     const formData = new FormData();
 
@@ -191,17 +189,12 @@ const CustomModal = ({
         "/site/fuel-price/update-siteprice",
         formData
       );
-      console.log(response, "siteprice");
-      // toast.success('This is a test toast message');
-      if (response.status === 200) {
-        // SuccessAlert("Fuel prices has been updated successfully");
+
+      if (response.status === 200 && response.data.api_response === "success") {
         sendDataToParent();
+        SuccessAlert(response.data.message);
         navigate("/fuelprice");
         onClose();
-      }
-      if (response.status === 200 && response.data.api_response === "success") {
-        toast.success(response.data.message);
-        notify(response.data.message);
       } else {
         // Handle other cases or errors here
       }

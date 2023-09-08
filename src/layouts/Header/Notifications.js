@@ -71,7 +71,13 @@ const Notification = (props) => {
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.message}</h6>
+            <h6
+              style={{ cursor: "pointer" }}
+              onClick={() => handleRowExpandToggle(row)}
+              className="mb-0 fs-14 fw-semibold"
+            >
+              {row.message}
+            </h6>
           </div>
         </div>
       ),

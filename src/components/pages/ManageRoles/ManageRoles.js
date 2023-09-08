@@ -16,7 +16,7 @@ import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { FormModal } from "../../../data/Modal/Modal";
-import { toast } from "react-toastify";
+import { Slide, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import SearchIcon from "@mui/icons-material/Search";
@@ -27,9 +27,27 @@ const ManageRoles = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
   const navigate = useNavigate();
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
-
+  // const SuccessAlert = (message) => toast.success(message);
+  // const ErrorAlert = (message) => toast.error(message);
+  const SuccessAlert = (message) => {
+    toast.success(message, {
+      autoClose: 1000,
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored",
+    });
+  };
+  const ErrorAlert = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored",
+    });
+  };
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
