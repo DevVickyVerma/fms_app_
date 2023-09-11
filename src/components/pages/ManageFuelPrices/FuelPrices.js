@@ -582,24 +582,7 @@ const FuelPrices = (props) => {
                     ) : (
                       ""
                     )}
-                    {data?.notify_operator ? (
-                      <div className="Notification">
-                        <label
-                          htmlFor="notificationCheckbox"
-                          className="form-label Notification ml-2"
-                        >
-                          <input
-                            type="checkbox"
-                            id="notificationCheckbox"
-                            checked={isChecked}
-                            onChange={SendNotification}
-                          />
-                          Send Notification
-                        </label>
-                      </div>
-                    ) : (
-                      ""
-                    )}
+
                     {data?.btn_clickable ? (
                       <button
                         className="btn btn-primary me-2"

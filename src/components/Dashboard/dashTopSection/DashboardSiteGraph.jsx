@@ -69,18 +69,29 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                         ":hover": {
                           backgroundColor: "#b6b9c682", // Change background color on hover
                           cursor: "pointer", // Change cursor to pointer on hover
-                          fontWeight: 700
+                          fontWeight: 700,
                         },
                       }}
-                      style={{ border: selectedDateIndex === index ? "1px dashed #b3b3b3" : "", cursor: "pointer", }}
-
+                      style={{
+                        border:
+                          selectedDateIndex === index
+                            ? "1px dashed #b3b3b3"
+                            : "",
+                        cursor: "pointer",
+                        backgroundColor:
+                          selectedDateIndex === index
+                            ? "rgba(182, 185, 198, 0.5098039216)"
+                            : "",
+                      }}
                     >
                       <Typography
                         display={"flex"}
                         gap={"5px"}
                         alignItems={"center"}
                         // mb={"5px"}
-                        style={{ fontWeight: selectedDateIndex === index ? 700 : "" }}
+                        style={{
+                          fontWeight: selectedDateIndex === index ? 700 : "",
+                        }}
                       >
                         {tankDate}
                       </Typography>
@@ -92,7 +103,6 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
 
             <Card.Body>
               <Row>
-
                 {Object?.keys(stockAlertData)?.map((tankName) => (
                   <>
                     {/* <div key={tankName}>

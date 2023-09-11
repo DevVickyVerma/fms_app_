@@ -157,7 +157,7 @@ const Header = (props) => {
                     <i className="fe fe-bell"></i> */}
                     <i className="fe fe-bell" />
                     <span className="nav-unread badge bg-success rounded-pill notifictaion-number">
-                      {stringValue ? stringValue : ""}
+                      {stringValue !== undefined ? stringValue : ""}
                     </span>
                   </Dropdown.Toggle>
                   <Dropdown.Menu
@@ -171,7 +171,7 @@ const Header = (props) => {
                         </h6>
                         <div className="ms-auto">
                           <span className="badge bg-success rounded-pill">
-                            {stringValue ? stringValue : ""}
+                            {stringValue !== undefined ? stringValue : ""}
                           </span>
                         </div>
                       </div>
