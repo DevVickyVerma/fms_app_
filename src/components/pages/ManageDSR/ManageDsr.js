@@ -293,7 +293,6 @@ const ManageDsr = (props) => {
   };
 
   const GetDataWithClient = async (values) => {
-    console.log(values, "values");
     try {
       const formData = new FormData();
 
@@ -319,8 +318,9 @@ const ManageDsr = (props) => {
 
         const { data } = response1;
         if (data) {
+          console.log(response1?.data?.data?.cards, "GetDataWithClient");
           setUploadList(response1?.data?.data.list);
-          setDataEnteryList(response1?.data?.data.cards);
+          setDataEnteryList(response1?.data?.data?.cards);
           setUploadTabname();
           setgetDataBtn(response1?.data?.data.showBtn);
           setUploadtitle(response1?.data?.data);
@@ -328,6 +328,8 @@ const ManageDsr = (props) => {
         }
       } catch (error) {
         console.error("API error:", error);
+        setDataEnteryList();
+        setUploadTabname();
       }
     } catch (error) {
       console.error("Error:", error);
