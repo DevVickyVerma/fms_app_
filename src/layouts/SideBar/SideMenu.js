@@ -60,30 +60,30 @@ export const MENUITEMS = [
         ],
       },
 
-      {
-        title: "Manage Competitor",
-        icon: "users",
-        type: "sub",
-        active: false,
-        permission: "competitor-list",
-        visibility: false,
-        children: [
-          {
-            path: `/competitor`,
-            type: "link",
-            title: " Manage Competitor",
-            permission: "competitor-list",
-            visibility: false,
-          },
-          {
-            path: `/addCompetitor`,
-            type: "link",
-            title: "Add Competitor",
-            permission: "competitor-create",
-            visibility: false,
-          },
-        ],
-      },
+      // {
+      //   title: "Manage Competitor",
+      //   icon: "users",
+      //   type: "sub",
+      //   active: false,
+      //   permission: "competitor-list",
+      //   visibility: false,
+      //   children: [
+      //     {
+      //       path: `/competitor`,
+      //       type: "link",
+      //       title: " Manage Competitor",
+      //       permission: "competitor-list",
+      //       visibility: false,
+      //     },
+      //     {
+      //       path: `/addCompetitor`,
+      //       type: "link",
+      //       title: "Add Competitor",
+      //       permission: "competitor-create",
+      //       visibility: false,
+      //     },
+      //   ],
+      // },
 
       {
         title: "Manage Company",

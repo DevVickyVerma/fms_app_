@@ -79,8 +79,6 @@ const DashTopSubHeading = ({
   );
   const [formattedMonths, setformattedMonth] = useState();
 
-
-
   console.log("currentmonthDate", currentmonthDate);
 
   useEffect(() => {
@@ -135,7 +133,6 @@ const DashTopSubHeading = ({
       setFormattedStartingTime(null); // Handle case where closing time is not available
     }
   }, [getSiteDetails]);
-
 
   const handleGradsClick = (index) => {
     // setIsGradsOpen(!isGradsOpen);
@@ -199,7 +196,6 @@ const DashTopSubHeading = ({
 
   const alertStatus = getSiteStats?.data?.cash_tracker?.alert_status;
 
-
   return (
     <>
       <CustomModal
@@ -210,24 +206,26 @@ const DashTopSubHeading = ({
       <div style={{ marginBottom: "20px" }}>
         {/* top border section in sub child component */}
 
-
-        {alertStatus === true ? <>
-          <div
-            style={{
-              textAlign: "left",
-              margin: " 13px 0",
-              fontSize: "15px",
-              color: "white",
-              background: "#b52d2d",
-              padding: "10px",
-              borderRadius: "7px",
-            }}
-          >
-            {getSiteStats?.data?.cash_tracker?.message} {getSiteStats?.data?.cash_tracker?.cash_amount}
-          </div>
-        </> : ""}
-
-
+        {alertStatus === true ? (
+          <>
+            <div
+              style={{
+                textAlign: "left",
+                margin: " 13px 0",
+                fontSize: "15px",
+                color: "white",
+                background: "#b52d2d",
+                padding: "10px",
+                borderRadius: "7px",
+              }}
+            >
+              {getSiteStats?.data?.cash_tracker?.message}{" "}
+              {getSiteStats?.data?.cash_tracker?.cash_amount}
+            </div>
+          </>
+        ) : (
+          ""
+        )}
 
         {/* trial to build*/}
         <Box
@@ -248,7 +246,7 @@ const DashTopSubHeading = ({
           // top={"114px"} // Adjust the value as needed
           top={0}
           zIndex={1} // Ensure the sticky container overlays other content
-        // className="sticky stickyClass "
+          // className="sticky stickyClass "
         >
           {/* LEFT side heading title */}
           <Box display={"flex"} alignItems={"center"}>
@@ -276,16 +274,9 @@ const DashTopSubHeading = ({
             </Box>
           </Box>
           {/* RIGHT side heading title */}
-          <Box gap={"20px"} display={["contents", "flex"]} >
-
-
+          <Box gap={"20px"} display={["contents", "flex"]}>
             {/*   Cash  tracker*/}
-            <Box
-
-              display={"flex"}
-              flexDirection={"column"}
-              bgcolor={"#ecf0f1"}
-            >
+            <Box display={"flex"} flexDirection={"column"} bgcolor={"#ecf0f1"}>
               <Box
                 my={"4px"}
                 color={"#2d3436"}
@@ -295,31 +286,26 @@ const DashTopSubHeading = ({
                 px={"13px"}
               >
                 <Typography
-
                   fontSize={"14px"}
                   textAlign={"center"}
                   margin={"auto"}
                 >
-
                   Cash Tracker
-
                 </Typography>
-
               </Box>
 
               <Box display={"flex"}>
-
                 <Box>
                   <Typography
                     height={"48px"}
-
                     width={"140px"}
                     justifyContent={"center"}
                     alignItems={"center"}
-
                     display={"flex"}
                     // bgcolor={"rgb(25 122 66)"}
-                    bgcolor={alertStatus === true ? "#d63031" : "rgb(25 122 66)"}
+                    bgcolor={
+                      alertStatus === true ? "#d63031" : "rgb(25 122 66)"
+                    }
                     textAlign={"center"}
                     py={"2px"}
                     color={"#dfe6e9"}
@@ -330,7 +316,6 @@ const DashTopSubHeading = ({
                   </Typography>
                 </Box>
                 {/* Calendar Date With Updated Closing Time */}
-
               </Box>
             </Box>
             <Box
@@ -338,8 +323,8 @@ const DashTopSubHeading = ({
               display={"flex"}
               flexDirection={"column"}
               bgcolor={"#ecf0f1"}
-            // gap={"5px"}
-            // borderRadius={"8px"}
+              // gap={"5px"}
+              // borderRadius={"8px"}
             >
               <Box
                 my={"4px"}
@@ -446,8 +431,6 @@ const DashTopSubHeading = ({
             </Box>
           </Box>
         </Box>
-
-
 
         {/* dashboard site Top section */}
         <DashboardSiteTopSection />
@@ -576,6 +559,10 @@ const DashTopSubHeading = ({
                                     : "",
                                 cursor: "pointer",
                                 fontWeight: gridIndex === index ? 700 : "",
+                                background:
+                                  gridIndex === index
+                                    ? "rgba(182, 185, 198, 0.5098039216)"
+                                    : "",
                               }}
                             >
                               <span
