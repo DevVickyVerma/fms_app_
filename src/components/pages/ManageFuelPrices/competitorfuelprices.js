@@ -117,62 +117,42 @@ const CompetitorFuelPrices = (props) => {
   };
   const extractFuelData = (site) => {
     if (site.competitors && site.competitors.length > 0) {
-      const competitor = site.competitors[0];
-      const competitorname = site.competitor_name;
-      const fuels = competitor.fuels[0] || {}; // Use the first element, or an empty object if not available
+      const competitorData = site.competitors.map((competitor) => {
+        const competitorname = competitor?.competitor_name;
+        const competitorimage = competitor?.supplier;
+        const fuels = competitor.fuels[0] || {};
 
-      const time = fuels.time || "N/A";
-      const unleaded =
-        competitor.fuels[0] &&
-        competitor.fuels[0].price !== undefined &&
-        competitor.fuels[0].price !== null
-          ? competitor.fuels[0].price
-          : "N/A";
-      const superUnleaded =
-        competitor.fuels[1] &&
-        competitor.fuels[1].price !== undefined &&
-        competitor.fuels[1].price !== null
-          ? competitor.fuels[1].price
-          : "N/A";
+        const time = fuels.time || "N/A";
 
-      const diesel =
-        competitor.fuels[2] &&
-        competitor.fuels[2].price !== undefined &&
-        competitor.fuels[2].price !== null
-          ? competitor.fuels[2].price
-          : "N/A";
-      const superDiesel =
-        competitor.fuels[3] &&
-        competitor.fuels[3].price !== undefined &&
-        competitor.fuels[3].price !== null
-          ? competitor.fuels[3].price
-          : "N/A";
-      const other =
-        competitor.fuels[4] &&
-        competitor.fuels[4].price !== undefined &&
-        competitor.fuels[4].price !== null
-          ? competitor.fuels[4].price
-          : "N/A";
+        // Create an array of objects for each heading in the head_array with price data
+        const priceData = data.head_array.map((heading) => {
+          const categoryPrice =
+            fuels[heading] !== undefined ? fuels[heading] : "N/A";
+          return { heading, price: categoryPrice };
+        });
 
-      return {
-        competitorname,
-        time,
-        unleaded,
-        superUnleaded,
-        diesel,
-        superDiesel,
-        other,
-      };
+        return {
+          competitorname,
+          competitorimage,
+          time,
+          priceData,
+        };
+      });
+
+      return competitorData;
     } else {
-      return {
-        // Return an object with "N/A" values for all fields
-        time: "N/A",
-        unleaded: "N/A",
-        superUnleaded: "N/A",
-        diesel: "N/A",
-        superDiesel: "N/A",
-        other: "N/A",
-      };
+      return [
+        // Return an array with an object containing "N/A" values for all fields
+        {
+          competitorname: "N/A",
+          competitorimage: "N/A",
+          time: "N/A",
+          priceData: data.head_array.map((heading) => ({
+            heading,
+            price: "N/A",
+          })),
+        },
+      ];
     }
   };
 
@@ -424,13 +404,9 @@ const CompetitorFuelPrices = (props) => {
                       <div key={site.id} className="mt-2">
                         <Collapse accordion>
                           <Panel header={site.site_name} key={site.id}>
-                            {console.log(
-                              site?.competitors.length,
-                              "extractFuelData"
-                            )}
                             {site?.competitors.length > 0 ? (
                               <Table
-                                dataSource={[extractFuelData(site)]}
+                                dataSource={extractFuelData(site)}
                                 columns={[
                                   {
                                     title: "Competitor Name",
@@ -438,35 +414,47 @@ const CompetitorFuelPrices = (props) => {
                                     key: "competitorname",
                                   },
                                   {
+                                    title: "Competitor IMG",
+                                    dataIndex: "competitorimage",
+                                    key: "competitorimage",
+                                    render: (competitorimage) => (
+                                      <img
+                                        src={competitorimage}
+                                        alt="Competitor"
+                                        width={30}
+                                      />
+                                    ),
+                                  },
+                                  {
                                     title: "Time",
                                     dataIndex: "time",
                                     key: "time",
                                   },
-                                  {
-                                    title: "Unleaded",
-                                    dataIndex: "unleaded",
-                                    key: "unleaded",
-                                  },
-                                  {
-                                    title: "Super Unleaded",
-                                    dataIndex: "superUnleaded",
-                                    key: "superUnleaded",
-                                  },
-                                  {
-                                    title: "Diesel",
-                                    dataIndex: "diesel",
-                                    key: "diesel",
-                                  },
-                                  {
-                                    title: "Super Diesel",
-                                    dataIndex: "superDiesel",
-                                    key: "superDiesel",
-                                  },
-                                  {
-                                    title: "Other",
-                                    dataIndex: "other",
-                                    key: "other",
-                                  },
+                                  ...data.head_array.map((heading) => ({
+                                    title: heading,
+                                    dataIndex: "listing",
+                                    key: heading,
+                                    render: (listing) => {
+                                      // Get the prices from the 'data' object
+                                      const prices = data.listing.map(
+                                        (site) => {
+                                          if (site.competitors.length > 0) {
+                                            const fuels =
+                                              site.competitors[0].fuels;
+                                            const matchedPrice = fuels.find(
+                                              (fuel) =>
+                                                fuel.category_name === heading
+                                            );
+                                            return matchedPrice
+                                              ? matchedPrice.price
+                                              : "N/A";
+                                          }
+                                          return "N/A";
+                                        }
+                                      );
+                                      console.log(prices, "prices");
+                                    },
+                                  })),
                                 ]}
                                 pagination={false}
                               />
