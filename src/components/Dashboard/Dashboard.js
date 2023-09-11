@@ -576,38 +576,56 @@ const Dashboard = (props) => {
         {/* <DashTopTableSection  />          */}
 
         <Row style={{ marginBottom: "10px", marginTop: "20px" }}>
-          <Col lg={7} md={12}>
+          <Col
+            // lg={7} md={12}
+            style={{ width: "60%" }}
+          >
             <Card>
               <Card.Header className="card-header">
                 <h4 className="card-title">Total Transactions</h4>
               </Card.Header>
-              <Card.Body className="card-body pb-0">
+              <Card.Body className="card-body pb-0 dashboard-chart-height"  >
                 <div id="chart">
-                  {/* <LineChart
-                    LinechartValues={LinechartValues}
-                    LinechartOption={LinechartOption}
-                  /> */}
-                  <StackedLineBarChart
-                    stackedLineBarData={stackedLineBarData}
-                    stackedLineBarLabels={stackedLineBarLabels}
-                  />
-                  {/* <StackedLineBarChart /> */}
+                  {
+                    stackedLineBarData && stackedLineBarLabels ? <>
+                      <StackedLineBarChart
+                        stackedLineBarData={stackedLineBarData}
+                        stackedLineBarLabels={stackedLineBarLabels}
+                      />
+                    </> : <>
+
+                      <p>
+                        Please Apply Filter.....
+                      </p>
+                    </>
+                  }
                 </div>
               </Card.Body>
             </Card>
           </Col>
-          <Col lg={5} md={12}>
+
+          <Col
+          // lg={5} md={12}
+          >
             <Card>
-              <Card.Header>
+              <Card.Header className="card-header">
                 <h4 className="card-title">Overall Stats</h4>
               </Card.Header>
-              <Card.Body className="apexchart">
-                {/* <BarChart piechartValues={piechartValues} /> */}
-                {/* <PieChartOfDashboard piechartValues={piechartValues} /> */}
-                <Apexcharts2 data={piechartValues} />
+              <Card.Body className="card-body pb-0 dashboard-chart-height" >
+                <div id="chart">
+
+                  {piechartValues ? <>
+                    <Apexcharts2 data={piechartValues} />
+                  </> : <>
+                    <p>
+                      Please Apply Filter.....
+                    </p>
+                  </>}
+                </div>
               </Card.Body>
             </Card>
           </Col>
+
         </Row>
 
         <Row style={{ marginBottom: "10px", marginTop: "20px" }}>
@@ -627,7 +645,7 @@ const Dashboard = (props) => {
             </Card>
           </Col>
         </Row>
-      </div>
+      </div >
     </>
   );
 };
