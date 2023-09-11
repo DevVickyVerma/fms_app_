@@ -519,13 +519,13 @@ export const MENUITEMS = [
             permission: "fuel-purchase-price",
             visibility: false,
           },
-          // {
-          //   path: `/competitor-fuel-price`,
-          //   title: "Competitor Fuel Prices",
-          //   type: "link",
-          //   permission: "fuel-purchase-price",
-          //   visibility: false,
-          // },
+          {
+            path: `/competitor-fuel-price`,
+            title: "Competitor Fuel Prices",
+            type: "link",
+            permission: "fuel-purchase-price",
+            visibility: false,
+          },
         ],
       },
 

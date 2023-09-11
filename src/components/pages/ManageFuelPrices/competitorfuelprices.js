@@ -21,6 +21,8 @@ import { Slide, toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import { ErrorMessage, Field, Formik, useFormik } from "formik";
 import { Collapse, Table } from "antd";
+import CustomModal from "../../../data/Modal/MiddayModal";
+import Compititormodal from "../../../data/Modal/Midaymodalcompititor";
 
 const { Panel } = Collapse;
 
@@ -35,6 +37,14 @@ const CompetitorFuelPrices = (props) => {
   const [selectedDrsDate, setSelectedDrsDate] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleModalOpen = (item) => {
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
 
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
@@ -119,9 +129,9 @@ const CompetitorFuelPrices = (props) => {
     if (site.competitors && site.competitors.length > 0) {
       const competitorData = site.competitors.map((competitor) => {
         const competitorname = competitor?.competitor_name;
+        const competitorID = competitor?.id;
         const competitorimage = competitor?.supplier;
         const fuels = competitor.fuels[0] || {};
-
         const time = fuels.time || "N/A";
 
         // Create an array of objects for each heading in the head_array with price data
@@ -132,6 +142,7 @@ const CompetitorFuelPrices = (props) => {
         });
 
         return {
+          competitorID,
           competitorname,
           competitorimage,
           time,
@@ -155,11 +166,32 @@ const CompetitorFuelPrices = (props) => {
       ];
     }
   };
+  const handleDataFromChild = async (dataFromChild) => {
+    try {
+      // Assuming you have the 'values' object constructed from 'dataFromChild'
+      const values = {
+        start_date: selectedDrsDate,
+        client_id: selectedClientId,
+        company_id: selectedCompanyId,
+      };
 
+      await handleSubmit1(values);
+
+      console.log(dataFromChild, "dataFromChild");
+    } catch (error) {
+      console.error("Error handling data from child:", error);
+    }
+  };
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
+        <Compititormodal
+          open={modalOpen}
+          onClose={handleModalClose}
+          selectedDrsDate={selectedDrsDate}
+          onDataFromChild={handleDataFromChild}
+        />
         <div className="page-header ">
           <div>
             <h1 className="page-title">Competitor Fuel Price</h1>
@@ -405,56 +437,66 @@ const CompetitorFuelPrices = (props) => {
                         <Collapse accordion>
                           <Panel header={site.site_name} key={site.id}>
                             {site?.competitors.length > 0 ? (
+                              // Render the table
                               <Table
                                 dataSource={extractFuelData(site)}
                                 columns={[
                                   {
-                                    title: "Competitor Name",
-                                    dataIndex: "competitorname",
-                                    key: "competitorname",
-                                  },
-                                  {
-                                    title: "Competitor IMG",
-                                    dataIndex: "competitorimage",
-                                    key: "competitorimage",
-                                    render: (competitorimage) => (
-                                      <img
-                                        src={competitorimage}
-                                        alt="Competitor"
-                                        width={30}
-                                      />
+                                    title: "Competitor",
+                                    dataIndex: "competitorinfo",
+                                    key: "competitorinfo",
+                                    render: (text, record, index) => (
+                                      <div>
+                                        <img
+                                          src={record.competitorimage}
+                                          alt="Competitor"
+                                          width={30}
+                                          className="ml-2"
+                                        />
+                                        <span
+                                          className="ms-2"
+                                          onClick={() => {
+                                            handleModalOpen(record);
+                                          }}
+                                          style={{ cursor: "pointer" }}
+                                        >
+                                          {record.competitorname}
+                                        </span>
+                                      </div>
                                     ),
                                   },
+
                                   {
                                     title: "Time",
                                     dataIndex: "time",
                                     key: "time",
                                   },
-                                  ...data.head_array.map((heading) => ({
-                                    title: heading,
-                                    dataIndex: "listing",
-                                    key: heading,
-                                    render: (listing) => {
-                                      // Get the prices from the 'data' object
-                                      const prices = data.listing.map(
-                                        (site) => {
-                                          if (site.competitors.length > 0) {
-                                            const fuels =
-                                              site.competitors[0].fuels;
-                                            const matchedPrice = fuels.find(
-                                              (fuel) =>
-                                                fuel.category_name === heading
-                                            );
-                                            return matchedPrice
-                                              ? matchedPrice.price
-                                              : "N/A";
-                                          }
-                                          return "N/A";
-                                        }
-                                      );
-                                      console.log(prices, "prices");
-                                    },
-                                  })),
+                                  ...data.head_array.map(
+                                    (heading, headingIndex) => ({
+                                      title: heading,
+                                      dataIndex: "priceData",
+                                      key: `priceData_${headingIndex}`,
+                                      render: (priceData, record, index) => {
+                                        // Get the current competitor's fuels from the record
+                                        const competitorFuels =
+                                          site.competitors[index]?.fuels;
+
+                                        // Find the fuel object that matches the current heading
+                                        const matchedFuel =
+                                          competitorFuels.find(
+                                            (fuel) =>
+                                              fuel.category_name === heading
+                                          );
+
+                                        // Get the price data from the matched fuel or display "N/A"
+                                        const competitorPrice = matchedFuel
+                                          ? matchedFuel.price
+                                          : "N/A";
+
+                                        return <p>{competitorPrice}</p>;
+                                      },
+                                    })
+                                  ),
                                 ]}
                                 pagination={false}
                               />
