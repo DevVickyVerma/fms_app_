@@ -24,6 +24,8 @@ const AddCompetitor = (props) => {
 
     console.log("selectedSiteList", selectedSiteList);
 
+
+
     const Errornotify = (message) => toast.error(message);
 
     function handleError(error) {
@@ -82,7 +84,7 @@ const AddCompetitor = (props) => {
             competitor_Address: "",
         },
         validationSchema: Yup.object({
-            client_id: Yup.string().required("Client is required"),
+            // client_id: Yup.string().required("Client is required"),
             company_id: Yup.string().required("Company is required"),
             site_id: Yup.string().required("Site  is required"),
             competitor_name: Yup.string().required("Competitor name is required"),
@@ -90,7 +92,7 @@ const AddCompetitor = (props) => {
             competitor_Address: Yup.string().required(
                 "Competitor address is required"
             ),
-            status: Yup.string().required("Status is required"),
+            // status: Yup.string().required("Status is required"),
         }),
 
         onSubmit: (values) => {
@@ -149,7 +151,7 @@ const AddCompetitor = (props) => {
             console.log(formData, "formData");
 
             formData.append("name", values.competitor_name);
-            formData.append("status", values.status);
+            // formData.append("status", values.status);
             formData.append("site_id", values.site_id);
             formData.append("address", values.competitor_Address);
             formData.append("supplier_id", values.supplier_id);
@@ -206,58 +208,62 @@ const AddCompetitor = (props) => {
                             <Card.Body>
                                 <form onSubmit={formik.handleSubmit}>
                                     <Row>
-                                        <Col lg={4} md={6}>
-                                            <div className="form-group">
-                                                <label htmlFor="client_id" className="form-label mt-4">
-                                                    Client
-                                                    <span className="text-danger">*</span>
-                                                </label>
-                                                <select
-                                                    className={`input101 ${formik.errors.client_id && formik.touched.client_id
-                                                        ? "is-invalid"
-                                                        : ""
-                                                        }`}
-                                                    id="client_id"
-                                                    name="client_id"
-                                                    onChange={(e) => {
-                                                        const selectedType = e.target.value;
 
-                                                        formik.setFieldValue("client_id", selectedType);
-                                                        setSelectedClientId(selectedType);
 
-                                                        // Reset the selected company and site
-                                                        setSelectedCompanyList([]);
+                                        {localStorage.getItem("superiorRole") !== "Client" && (
+                                            <Col lg={4} md={6}>
+                                                <div className="form-group">
+                                                    <label htmlFor="client_id" className="form-label mt-4">
+                                                        Client
+                                                        <span className="text-danger">*</span>
+                                                    </label>
+                                                    <select
+                                                        className={`input101 ${formik.errors.client_id && formik.touched.client_id
+                                                            ? "is-invalid"
+                                                            : ""
+                                                            }`}
+                                                        id="client_id"
+                                                        name="client_id"
+                                                        onChange={(e) => {
+                                                            const selectedType = e.target.value;
 
-                                                        const selectedClient = CompetitorData.data.find(
-                                                            (client) => client.id === selectedType
-                                                        );
+                                                            formik.setFieldValue("client_id", selectedType);
+                                                            setSelectedClientId(selectedType);
 
-                                                        if (selectedClient) {
-                                                            setSelectedCompanyList(selectedClient.companies);
-                                                        }
-                                                    }}
-                                                >
-                                                    <option value="">Select a Client</option>
-                                                    {CompetitorData.data &&
-                                                        CompetitorData.data.length > 0 ? (
-                                                        CompetitorData.data.map((item) => (
-                                                            <option key={item.id} value={item.id}>
-                                                                {item.client_name}
-                                                            </option>
-                                                        ))
-                                                    ) : (
-                                                        <option disabled>No Client</option>
-                                                    )}
-                                                </select>
+                                                            // Reset the selected company and site
+                                                            setSelectedCompanyList([]);
 
-                                                {formik.errors.client_id &&
-                                                    formik.touched.client_id && (
-                                                        <div className="invalid-feedback">
-                                                            {formik.errors.client_id}
-                                                        </div>
-                                                    )}
-                                            </div>
-                                        </Col>
+                                                            const selectedClient = CompetitorData.data.find(
+                                                                (client) => client.id === selectedType
+                                                            );
+
+                                                            if (selectedClient) {
+                                                                setSelectedCompanyList(selectedClient.companies);
+                                                            }
+                                                        }}
+                                                    >
+                                                        <option value="">Select a Client</option>
+                                                        {CompetitorData.data &&
+                                                            CompetitorData.data.length > 0 ? (
+                                                            CompetitorData.data.map((item) => (
+                                                                <option key={item.id} value={item.id}>
+                                                                    {item.client_name}
+                                                                </option>
+                                                            ))
+                                                        ) : (
+                                                            <option disabled>No Client</option>
+                                                        )}
+                                                    </select>
+
+                                                    {formik.errors.client_id &&
+                                                        formik.touched.client_id && (
+                                                            <div className="invalid-feedback">
+                                                                {formik.errors.client_id}
+                                                            </div>
+                                                        )}
+                                                </div>
+                                            </Col>
+                                        )}
 
                                         <Col lg={4} md={6}>
                                             <div className="form-group">
@@ -410,7 +416,7 @@ const AddCompetitor = (props) => {
                                                     )}
                                             </div>
                                         </Col>
-                                        <Col lg={4} md={6}>
+                                        {/* <Col lg={4} md={6}>
                                             <div className="form-group">
                                                 <label htmlFor="status" className="form-label mt-4">
                                                     Status<span className="text-danger">*</span>
@@ -435,7 +441,7 @@ const AddCompetitor = (props) => {
                                                     </div>
                                                 )}
                                             </div>
-                                        </Col>
+                                        </Col> */}
                                         <Col lg={4} md={6}>
                                             <div className="form-group">
                                                 <label

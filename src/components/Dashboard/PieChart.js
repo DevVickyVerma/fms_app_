@@ -26,23 +26,24 @@ const Apexcharts2 = ({ data }) => {
 
   const options = {
     chart: {
-      width: 310,
+      width: 100,
       type: "pie",
     },
     labels: formattedLabels,
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 310,
-          },
-          legend: {
-            position: "bottom",
-          },
-        },
-      },
-    ],
+    // responsive: [
+    //   {
+    //     breakpoint: 194,
+    //     options: {
+    //       chart: {
+    //         width: 100,
+    //       },
+    //       legend: {
+    //         position: "bottom",
+    //       },
+    //     },
+    //   },
+    // ],
+    // responsive: true,
     colors: ["rgb(255, 99, 132)", "rgb(54, 162, 235)", "rgb(154, 62, 251)"],
   };
 
@@ -69,7 +70,10 @@ const Apexcharts2 = ({ data }) => {
           );
         })}
       </div>
-      <ReactApexChart options={options} series={consoleValues} type="pie" width={310} height={310} />
+      <ReactApexChart options={options} series={consoleValues} type="pie"
+        width={"100%"}
+      // height={"100%"}
+      />
     </div>
   );
 };

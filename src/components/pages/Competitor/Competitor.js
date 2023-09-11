@@ -184,6 +184,24 @@ const Competitor = (props) => {
             const { data } = response;
             if (data) {
                 setCompetitorData(response.data);
+
+
+                if (storedDataInLocal) {
+                    console.log("yes", storedDataInLocal);
+
+                    // formik.setFieldValue(
+                    //     "client_id",
+                    //     storedDataInLocal.client_id ? storedDataInLocal.client_id : ""
+                    // );
+                    // formik.setFieldValue(
+                    //     "company_id",
+                    //     storedDataInLocal.company_id ? storedDataInLocal.company_id : ""
+                    // );
+                    // formik.setFieldValue(
+                    //     "site_id",
+                    //     storedDataInLocal.site_id ? storedDataInLocal.site_id : ""
+                    // );
+                }
                 // if (
                 //     response?.data &&
                 //     localStorage.getItem("superiorRole") === "Client"
@@ -199,25 +217,25 @@ const Competitor = (props) => {
                 // setSelectedClientId(storedDataInLocal);
 
                 const clientId = localStorage.getItem("superiorId");
-                // if (clientId) {
-                //     setSelectedClientId(clientId);
+                if (clientId) {
+                    setSelectedClientId(clientId);
 
-                //     setSelectedCompanyList([]);
+                    setSelectedCompanyList([]);
 
-                //     // setShowButton(false);
-                //     console.log(clientId, "clientId");
-                //     console.log(AddSiteData, "AddSiteData");
+                    // setShowButton(false);
+                    console.log(clientId, "clientId");
+                    console.log(AddSiteData, "AddSiteData");
 
-                //     if (response?.data) {
-                //         const selectedClient = response?.data?.data?.find(
-                //             (client) => client.id === clientId
-                //         );
-                //         if (selectedClient) {
-                //             setSelectedCompanyList(selectedClient?.companies);
-                //         }
-                //     }
-                //     // }
-                // }
+                    if (response?.data) {
+                        const selectedClient = response?.data?.data?.find(
+                            (client) => client.id === clientId
+                        );
+                        if (selectedClient) {
+                            setSelectedCompanyList(selectedClient?.companies);
+                        }
+                    }
+                    // }
+                }
             }
         } catch (error) {
             console.error("API error:", error);
