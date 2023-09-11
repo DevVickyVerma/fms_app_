@@ -118,19 +118,44 @@ const CompetitorFuelPrices = (props) => {
   const extractFuelData = (site) => {
     if (site.competitors && site.competitors.length > 0) {
       const competitor = site.competitors[0];
+      const competitorname = site.competitor_name;
       const fuels = competitor.fuels[0] || {}; // Use the first element, or an empty object if not available
 
       const time = fuels.time || "N/A";
-      const unleaded = fuels.price || "N/A";
+      const unleaded =
+        competitor.fuels[0] &&
+        competitor.fuels[0].price !== undefined &&
+        competitor.fuels[0].price !== null
+          ? competitor.fuels[0].price
+          : "N/A";
       const superUnleaded =
-        (competitor.fuels[1] && competitor.fuels[1].price) || "N/A";
+        competitor.fuels[1] &&
+        competitor.fuels[1].price !== undefined &&
+        competitor.fuels[1].price !== null
+          ? competitor.fuels[1].price
+          : "N/A";
+
       const diesel =
-        (competitor.fuels[2] && competitor.fuels[2].price) || "N/A";
+        competitor.fuels[2] &&
+        competitor.fuels[2].price !== undefined &&
+        competitor.fuels[2].price !== null
+          ? competitor.fuels[2].price
+          : "N/A";
       const superDiesel =
-        (competitor.fuels[3] && competitor.fuels[3].price) || "N/A";
-      const other = (competitor.fuels[4] && competitor.fuels[4].price) || "N/A";
+        competitor.fuels[3] &&
+        competitor.fuels[3].price !== undefined &&
+        competitor.fuels[3].price !== null
+          ? competitor.fuels[3].price
+          : "N/A";
+      const other =
+        competitor.fuels[4] &&
+        competitor.fuels[4].price !== undefined &&
+        competitor.fuels[4].price !== null
+          ? competitor.fuels[4].price
+          : "N/A";
 
       return {
+        competitorname,
         time,
         unleaded,
         superUnleaded,
@@ -138,17 +163,17 @@ const CompetitorFuelPrices = (props) => {
         superDiesel,
         other,
       };
+    } else {
+      return {
+        // Return an object with "N/A" values for all fields
+        time: "N/A",
+        unleaded: "N/A",
+        superUnleaded: "N/A",
+        diesel: "N/A",
+        superDiesel: "N/A",
+        other: "N/A",
+      };
     }
-
-    // If no competitor data available, return default values
-    return {
-      time: "N/A",
-      unleaded: "N/A",
-      superUnleaded: "N/A",
-      diesel: "N/A",
-      superDiesel: "N/A",
-      other: "N/A",
-    };
   };
 
   return (
@@ -207,74 +232,75 @@ const CompetitorFuelPrices = (props) => {
                         <Row>
                           {localStorage.getItem("superiorRole") !==
                             "Client" && (
-                              <Col lg={3} md={6}>
-                                <FormGroup>
-                                  <label
-                                    htmlFor="client_id"
-                                    className=" form-label mt-4"
-                                  >
-                                    Client
-                                    <span className="text-danger">*</span>
-                                  </label>
-                                  <Field
-                                    as="select"
-                                    className={`input101 ${errors.client_id && touched.client_id
+                            <Col lg={3} md={6}>
+                              <FormGroup>
+                                <label
+                                  htmlFor="client_id"
+                                  className=" form-label mt-4"
+                                >
+                                  Client
+                                  <span className="text-danger">*</span>
+                                </label>
+                                <Field
+                                  as="select"
+                                  className={`input101 ${
+                                    errors.client_id && touched.client_id
                                       ? "is-invalid"
                                       : ""
-                                      }`}
-                                    id="client_id"
-                                    name="client_id"
-                                    onChange={(e) => {
-                                      const selectedType = e.target.value;
-                                      setFieldValue("client_id", selectedType);
-                                      setSelectedClientId(selectedType);
+                                  }`}
+                                  id="client_id"
+                                  name="client_id"
+                                  onChange={(e) => {
+                                    const selectedType = e.target.value;
+                                    setFieldValue("client_id", selectedType);
+                                    setSelectedClientId(selectedType);
 
-                                      // Reset the selected company and site
-                                      setSelectedCompanyList([]);
-                                      setFieldValue("company_id", "");
-                                      setFieldValue("site_id", "");
+                                    // Reset the selected company and site
+                                    setSelectedCompanyList([]);
+                                    setFieldValue("company_id", "");
+                                    setFieldValue("site_id", "");
 
-                                      const selectedClient =
-                                        AddSiteData.data.find(
-                                          (client) => client.id === selectedType
-                                        );
+                                    const selectedClient =
+                                      AddSiteData.data.find(
+                                        (client) => client.id === selectedType
+                                      );
 
-                                      if (selectedClient) {
-                                        setSelectedCompanyList(
-                                          selectedClient.companies
-                                        );
-                                        // console.log(
-                                        //   selectedClient,
-                                        //   "selectedClient"
-                                        // );
-                                        // console.log(
-                                        //   selectedClient.companies,
-                                        //   "selectedClient"
-                                        // );
-                                      }
-                                    }}
-                                  >
-                                    <option value="">Select a Client</option>
-                                    {AddSiteData.data &&
-                                      AddSiteData.data.length > 0 ? (
-                                      AddSiteData.data.map((item) => (
-                                        <option key={item.id} value={item.id}>
-                                          {item.client_name}
-                                        </option>
-                                      ))
-                                    ) : (
-                                      <option disabled>No Client</option>
-                                    )}
-                                  </Field>
+                                    if (selectedClient) {
+                                      setSelectedCompanyList(
+                                        selectedClient.companies
+                                      );
+                                      // console.log(
+                                      //   selectedClient,
+                                      //   "selectedClient"
+                                      // );
+                                      // console.log(
+                                      //   selectedClient.companies,
+                                      //   "selectedClient"
+                                      // );
+                                    }
+                                  }}
+                                >
+                                  <option value="">Select a Client</option>
+                                  {AddSiteData.data &&
+                                  AddSiteData.data.length > 0 ? (
+                                    AddSiteData.data.map((item) => (
+                                      <option key={item.id} value={item.id}>
+                                        {item.client_name}
+                                      </option>
+                                    ))
+                                  ) : (
+                                    <option disabled>No Client</option>
+                                  )}
+                                </Field>
 
-                                  <ErrorMessage
-                                    component="div"
-                                    className="invalid-feedback"
-                                    name="client_id"
-                                  />
-                                </FormGroup>
-                              </Col>
-                            )}
+                                <ErrorMessage
+                                  component="div"
+                                  className="invalid-feedback"
+                                  name="client_id"
+                                />
+                              </FormGroup>
+                            </Col>
+                          )}
                           <Col lg={3} md={6}>
                             <FormGroup>
                               <label
@@ -286,10 +312,11 @@ const CompetitorFuelPrices = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${errors.company_id && touched.company_id
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${
+                                  errors.company_id && touched.company_id
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="company_id"
                                 name="company_id"
                                 onChange={(e) => {
@@ -351,10 +378,11 @@ const CompetitorFuelPrices = (props) => {
                                 type="date"
                                 min={"2023-01-01"}
                                 onClick={hadndleShowDate}
-                                className={`input101 ${errors.start_date && touched.start_date
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${
+                                  errors.start_date && touched.start_date
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="start_date"
                                 name="start_date"
                               ></Field>
@@ -393,45 +421,58 @@ const CompetitorFuelPrices = (props) => {
                 <div>
                   {data &&
                     data.listing.map((site) => (
-                      <div key={site.id}>
+                      <div key={site.id} className="mt-2">
                         <Collapse accordion>
                           <Panel header={site.site_name} key={site.id}>
-                            <Table
-                              dataSource={[extractFuelData(site)]}
-                              columns={[
-                                {
-                                  title: "Time",
-                                  dataIndex: "time",
-                                  key: "time",
-                                },
-                                {
-                                  title: "Unleaded",
-                                  dataIndex: "unleaded",
-                                  key: "unleaded",
-                                },
-                                {
-                                  title: "Super Unleaded",
-                                  dataIndex: "superUnleaded",
-                                  key: "superUnleaded",
-                                },
-                                {
-                                  title: "Diesel",
-                                  dataIndex: "diesel",
-                                  key: "diesel",
-                                },
-                                {
-                                  title: "Super Diesel",
-                                  dataIndex: "superDiesel",
-                                  key: "superDiesel",
-                                },
-                                {
-                                  title: "Other",
-                                  dataIndex: "other",
-                                  key: "other",
-                                },
-                              ]}
-                              pagination={false}
-                            />
+                            {console.log(
+                              site?.competitors.length,
+                              "extractFuelData"
+                            )}
+                            {site?.competitors.length > 0 ? (
+                              <Table
+                                dataSource={[extractFuelData(site)]}
+                                columns={[
+                                  {
+                                    title: "Competitor Name",
+                                    dataIndex: "competitorname",
+                                    key: "competitorname",
+                                  },
+                                  {
+                                    title: "Time",
+                                    dataIndex: "time",
+                                    key: "time",
+                                  },
+                                  {
+                                    title: "Unleaded",
+                                    dataIndex: "unleaded",
+                                    key: "unleaded",
+                                  },
+                                  {
+                                    title: "Super Unleaded",
+                                    dataIndex: "superUnleaded",
+                                    key: "superUnleaded",
+                                  },
+                                  {
+                                    title: "Diesel",
+                                    dataIndex: "diesel",
+                                    key: "diesel",
+                                  },
+                                  {
+                                    title: "Super Diesel",
+                                    dataIndex: "superDiesel",
+                                    key: "superDiesel",
+                                  },
+                                  {
+                                    title: "Other",
+                                    dataIndex: "other",
+                                    key: "other",
+                                  },
+                                ]}
+                                pagination={false}
+                              />
+                            ) : (
+                              <p>No Price available</p>
+                            )}
                           </Panel>
                         </Collapse>
                       </div>
