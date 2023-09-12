@@ -252,17 +252,15 @@ const Sidebar = () => {
                     {Item.Items.map((menuItem, i) =>
                       menuItem.visibility ? (
                         <li
-                          className={`slide ${
-                            menuItem.active ? "is-expanded" : ""
-                          }`}
+                          className={`slide ${menuItem.active ? "is-expanded" : ""
+                            }`}
                           key={i}
                         >
                           {menuItem.type === "link" ? (
                             <NavLink
                               to={menuItem.path + "/"}
-                              className={`side-menu__item ${
-                                menuItem.active ? "active" : ""
-                              }`}
+                              className={`side-menu__item ${menuItem.active ? "active" : ""
+                                }`}
                               onClick={() => {
                                 setNavActive(menuItem);
                                 toggletNavActive(menuItem);
@@ -290,15 +288,15 @@ const Sidebar = () => {
                           )}
 
                           {menuItem.type === "sub" ? (
-                            <NavLink
+                            <div
                               to={menuItem.path + "/"}
-                              className={`side-menu__item ${
-                                menuItem.active ? "active" : ""
-                              }`}
+                              className={`side-menu__item ${menuItem.active ? "active" : ""
+                                }`}
                               onClick={(event) => {
                                 event.preventDefault();
                                 setNavActive(menuItem);
                               }}
+                              style={{ cursor: "pointer" }}
                             >
                               <i
                                 className={`side-menu__icon fa fa-${menuItem.icon}`}
@@ -318,7 +316,7 @@ const Sidebar = () => {
                               <i
                                 className={`${menuItem.background} fa angle fa-angle-right `}
                               ></i>
-                            </NavLink>
+                            </div>
                           ) : (
                             ""
                           )}
@@ -328,10 +326,10 @@ const Sidebar = () => {
                               style={
                                 menuItem.active
                                   ? {
-                                      opacity: 1,
-                                      transition: "opacity 500ms ease-in",
-                                      display: "block",
-                                    }
+                                    opacity: 1,
+                                    transition: "opacity 500ms ease-in",
+                                    display: "block",
+                                  }
                                   : { display: "none" }
                               }
                             >
@@ -385,7 +383,7 @@ const Sidebar = () => {
                                           (childrenSubItem, key) => (
                                             <li key={key}>
                                               {childrenSubItem.type ===
-                                              "link" ? (
+                                                "link" ? (
                                                 <NavLink
                                                   to={
                                                     childrenSubItem.path + "/"

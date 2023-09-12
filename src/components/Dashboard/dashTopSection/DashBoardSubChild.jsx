@@ -9,6 +9,8 @@ const DashBoardSubChild = ({
   setGetSiteStats,
   getSiteDetails,
   setGetSiteDetails,
+  getCompetitorsPrice,
+  setGetCompetitorsPrice,
 }) => {
   const storedData = localStorage.getItem("savedDataOfDashboard");
   const parsedData = JSON.parse(storedData);
@@ -58,6 +60,8 @@ const DashBoardSubChild = ({
           setGetSiteStats={setGetSiteStats}
           getSiteDetails={getSiteDetails}
           setGetSiteDetails={setGetSiteDetails}
+          getCompetitorsPrice={getCompetitorsPrice}
+          setGetCompetitorsPrice={setGetCompetitorsPrice}
         />
       </div>
     </>

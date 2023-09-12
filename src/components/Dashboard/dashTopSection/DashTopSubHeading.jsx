@@ -246,7 +246,7 @@ const DashTopSubHeading = ({
           // top={"114px"} // Adjust the value as needed
           top={0}
           zIndex={1} // Ensure the sticky container overlays other content
-          // className="sticky stickyClass "
+        // className="sticky stickyClass "
         >
           {/* LEFT side heading title */}
           <Box display={"flex"} alignItems={"center"}>
@@ -323,8 +323,8 @@ const DashTopSubHeading = ({
               display={"flex"}
               flexDirection={"column"}
               bgcolor={"#ecf0f1"}
-              // gap={"5px"}
-              // borderRadius={"8px"}
+            // gap={"5px"}
+            // borderRadius={"8px"}
             >
               <Box
                 my={"4px"}
@@ -1060,6 +1060,30 @@ const DashTopSubHeading = ({
           <Card>
             <Card.Header className="card-header">
               <h4 className="card-title">Performance Reporting</h4>
+            </Card.Header>
+            <Card.Body className="card-body pb-0">
+              <div id="chart">
+                <StackedLineBarChart
+                  stackedLineBarData={stackedLineBarDataForSite}
+                  stackedLineBarLabels={stackedLineBarLabelsForSite}
+                />
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+
+
+      <Row
+        style={{
+          marginBottom: "10px",
+          marginTop: "20px",
+        }}
+      >
+        <Col lg={12} md={12}>
+          <Card>
+            <Card.Header className="card-header">
+              <h4 className="card-title">Get Competitor Price</h4>
             </Card.Header>
             <Card.Body className="card-body pb-0">
               <div id="chart">
