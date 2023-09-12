@@ -10,12 +10,11 @@ import Loaderimg from "../../../Utils/Loader";
 import { BsCapslock } from "react-icons/bs";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
-
 export default function Login(props) {
   const [isNavigated, setIsNavigated] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [capsLockActive, setCapsLockActive] = useState(false);
-  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(true);
 
   useEffect(() => {
     console.clear();
@@ -27,10 +26,8 @@ export default function Login(props) {
     }
   }
 
-
-
   const handleKeyPress = (event) => {
-    if (event.getModifierState('CapsLock')) {
+    if (event.getModifierState("CapsLock")) {
       setCapsLockActive(true);
     } else {
       setCapsLockActive(false);
@@ -148,10 +145,11 @@ export default function Login(props) {
                           <span className="login100-form-title">Login</span>
                           <div className="wrap-input100 validate-input">
                             <Field
-                              className={`input100 ${errors.email && touched.email
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                              className={`input100 ${
+                                errors.email && touched.email
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               type="text"
                               name="email"
                               placeholder="Email"
@@ -163,9 +161,25 @@ export default function Login(props) {
                                 className="zmdi zmdi-email"
                                 aria-hidden="true"
                               ></i>
-                              {capsLockActive ? <>
-                                <span style={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end", width: "100%", color: "rgb(28 97 218 / 67%)", marginRight: "12px" }}> < BsCapslock />  </span>
-                              </> : ""}
+                              {capsLockActive ? (
+                                <>
+                                  <span
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "flex-end",
+                                      alignItems: "flex-end",
+                                      width: "100%",
+                                      color: "rgb(28 97 218 / 67%)",
+                                      marginRight: "12px",
+                                    }}
+                                  >
+                                    {" "}
+                                    <BsCapslock />{" "}
+                                  </span>
+                                </>
+                              ) : (
+                                ""
+                              )}
                             </span>
                             <ErrorMessage
                               name="email"
@@ -173,14 +187,17 @@ export default function Login(props) {
                               className="invalid-feedback"
                             />
                           </div>
-                          <div  >
-                            <div className="wrap-input100 validate-input" style={{ display: "flex" }}>
-
+                          <div>
+                            <div
+                              className="wrap-input100 validate-input"
+                              style={{ display: "flex" }}
+                            >
                               <Field
-                                className={`input100 ${errors.password && touched.password
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input100 ${
+                                  errors.password && touched.password
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 // type="password"
                                 type={passwordVisible ? "password" : "text"}
                                 name="password"
@@ -194,40 +211,69 @@ export default function Login(props) {
                                   className="zmdi zmdi-lock"
                                   aria-hidden="true"
                                 ></i>
-
-
                               </span>
 
-                              {capsLockActive ? <>
-                                <span style={{ display: "flex", justifyContent: "center", alignItems: "center", borderTopRightRadius: "4px", borderBottomRightRadius: "4px", marginLeft: "-31px", color: "rgb(28 97 218 / 67%)", }}> < BsCapslock size={16} />  </span>
-                              </> : ""}
+                              {capsLockActive ? (
+                                <>
+                                  <span
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      borderTopRightRadius: "4px",
+                                      borderBottomRightRadius: "4px",
+                                      marginLeft: "-31px",
+                                      color: "rgb(28 97 218 / 67%)",
+                                    }}
+                                  >
+                                    {" "}
+                                    <BsCapslock size={16} />{" "}
+                                  </span>
+                                </>
+                              ) : (
+                                ""
+                              )}
 
-                              {!capsLockActive ? <>
-                                <span
-                                  onClick={togglePasswordVisibility}
-                                  style={{
-                                    cursor: 'pointer', zIndex: "11",
-                                    display: "flex", justifyContent: "center", alignItems: "center", borderTopRightRadius: "4px",
-                                    borderBottomRightRadius: "4px", marginLeft: "-31px",
-                                    color: "rgb(28 97 218 / 67%)",
-                                  }}
-                                >   {passwordVisible ? <AiFillEyeInvisible size={18} /> : <AiFillEye size={18} />}</span>
-                              </> : ""}
+                              {!capsLockActive ? (
+                                <>
+                                  <span
+                                    onClick={togglePasswordVisibility}
+                                    style={{
+                                      cursor: "pointer",
+                                      zIndex: "11",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      borderTopRightRadius: "4px",
+                                      borderBottomRightRadius: "4px",
+                                      marginLeft: "-31px",
+                                      color: "rgb(28 97 218 / 67%)",
+                                    }}
+                                  >
+                                    {" "}
+                                    {passwordVisible ? (
+                                      <AiFillEyeInvisible size={18} />
+                                    ) : (
+                                      <AiFillEye size={18} />
+                                    )}
+                                  </span>
+                                </>
+                              ) : (
+                                ""
+                              )}
                             </div>
 
-                            <div style={{ color: "#f82649", marginTop: "0.25rem", }}>
+                            <div
+                              style={{ color: "#f82649", marginTop: "0.25rem" }}
+                            >
                               <ErrorMessage
                                 name="password"
                                 // component="div"
                                 className="invalid-feedback"
-                                style={{ flexDirection: 'row', color: "red", }}
+                                style={{ flexDirection: "row", color: "red" }}
                               />
                             </div>
-
                           </div>
-
-
-
 
                           <div className="text-end pt-1">
                             <p className="mb-0">
