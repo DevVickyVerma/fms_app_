@@ -24,7 +24,6 @@ const DashboardSiteDetail = (props) => {
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
   const [permissionsArray, setPermissionsArray] = useState([]);
 
-
   const FetchTableData = async () => {
     try {
       const searchdata = await JSON.parse(localStorage.getItem("mySearchData"));
@@ -88,46 +87,43 @@ const DashboardSiteDetail = (props) => {
     }
 
     // 3rd api
-    try {
-      const searchdata = await JSON.parse(localStorage.getItem("mySearchData"));
-      const superiorRole = localStorage.getItem("superiorRole");
-      const role = localStorage.getItem("role");
-      const localStoragecompanyId = localStorage.getItem("PresetCompanyID");
-      let companyId = ""; // Define companyId outside the conditionals
+    // try {
+    //   const searchdata = await JSON.parse(localStorage.getItem("mySearchData"));
+    //   const superiorRole = localStorage.getItem("superiorRole");
+    //   const role = localStorage.getItem("role");
+    //   const localStoragecompanyId = localStorage.getItem("PresetCompanyID");
+    //   let companyId = ""; // Define companyId outside the conditionals
 
-      if (superiorRole === "Client" && role !== "Client") {
-        companyId =
-          searchdata?.company_id !== undefined
-            ? searchdata.company_id
-            : localStoragecompanyId;
-      } else {
-        companyId =
-          searchdata?.company_id !== undefined ? searchdata.company_id : "";
-      }
-      const response3 = await getData(
-        localStorage.getItem("superiorRole") !== "Client"
-          ? `/dashboard/get-competitors-price?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${id}`
-          : `/dashboard/get-competitors-price?client_id=${ClientID}&company_id=${companyId}&site_id=${id}`
-      );
-      if (response3 && response3.data) {
-        setGetCompetitorsPrice(response3?.data?.data);
-      } else {
-        throw new Error("No data available in the response");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-
+    //   if (superiorRole === "Client" && role !== "Client") {
+    //     companyId =
+    //       searchdata?.company_id !== undefined
+    //         ? searchdata.company_id
+    //         : localStoragecompanyId;
+    //   } else {
+    //     companyId =
+    //       searchdata?.company_id !== undefined ? searchdata.company_id : "";
+    //   }
+    //   const response3 = await getData(
+    //     localStorage.getItem("superiorRole") !== "Client"
+    //       ? `/dashboard/get-competitors-price?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${id}`
+    //       : `/dashboard/get-competitors-price?client_id=${ClientID}&company_id=${companyId}&site_id=${id}`
+    //   );
+    //   if (response3 && response3.data) {
+    //     setGetCompetitorsPrice(response3?.data?.data);
+    //   } else {
+    //     throw new Error("No data available in the response");
+    //   }
+    // } catch (error) {
+    //   console.error("API error:", error);
+    // }
   };
-
-  console.log(isDashboardSiteStatsPermissionAvailable, "isDashboardSiteStatsPermissionAvailable");
 
   useEffect(() => {
     FetchTableData();
     window.scrollTo(0, 0);
-    if (isDashboardSiteStatsPermissionAvailable === true) {
-      console.log("yesyesyadskjand");
-    }
+    // if (isDashboardSiteStatsPermissionAvailable === true) {
+    //   console.log("yesyesyadskjand");
+    // }
   }, []);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -145,13 +141,15 @@ const DashboardSiteDetail = (props) => {
 
   console.log("getCompetitorsPrice", getCompetitorsPrice);
 
-  const isDashboardSiteStatsPermissionAvailable =
-    permissionsArray?.includes("dashboard-site-stats");
-  console.log("isDashboardSiteStatsPermissionAvailable", isDashboardSiteStatsPermissionAvailable);
-
+  const isDashboardSiteStatsPermissionAvailable = permissionsArray?.includes(
+    "dashboard-site-stats"
+  );
+  console.log(
+    "isDashboardSiteStatsPermissionAvailable",
+    isDashboardSiteStatsPermissionAvailable
+  );
 
   const FetchGetCompetitorsPrice = async () => {
-
     try {
       const searchdata = await JSON.parse(localStorage.getItem("mySearchData"));
       const superiorRole = localStorage.getItem("superiorRole");
@@ -181,7 +179,7 @@ const DashboardSiteDetail = (props) => {
     } catch (error) {
       console.error("API error:", error);
     }
-  }
+  };
 
   const headerHeight = 135;
 
@@ -201,7 +199,7 @@ const DashboardSiteDetail = (props) => {
       <div
         className="overflow-container"
         style={containerStyles}
-      // style={{ height: "100vh ", overflowY: "auto", overflowX: "hidden" }}
+        // style={{ height: "100vh ", overflowY: "auto", overflowX: "hidden" }}
       >
         <DashBoardSubChild
           getSiteStats={getSiteStats}
