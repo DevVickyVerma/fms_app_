@@ -96,41 +96,41 @@ const FuelInventry = (props) => {
 
           const formValues = data?.data?.listing
             ? data.data.listing.map((item) => {
-              return {
-                id: item.id,
-                fuel_price: item.fuel_price,
-                metered_sale: item.metered_sale,
-                metered_sale_value: item.metered_sale_value,
-                adjustment: item.adjustment,
-                adjustment_euro: item.adjustment_euro,
-                adjusted_sale: item.adjusted_sale,
-                adjusted_sale_value: item.adjusted_sale_value,
-                tests: item.tests,
-                actual_sales: item.actual_sales,
-                due_sales: item.due_sales,
-                bunkered_sale: item.bunkered_sale,
-                // Add other properties as needed
-              };
-            })
+                return {
+                  id: item.id,
+                  fuel_price: item.fuel_price,
+                  metered_sale: item.metered_sale,
+                  metered_sale_value: item.metered_sale_value,
+                  adjustment: item.adjustment,
+                  adjustment_euro: item.adjustment_euro,
+                  adjusted_sale: item.adjusted_sale,
+                  adjusted_sale_value: item.adjusted_sale_value,
+                  tests: item.tests,
+                  actual_sales: item.actual_sales,
+                  due_sales: item.due_sales,
+                  bunkered_sale: item.bunkered_sale,
+                  // Add other properties as needed
+                };
+              })
             : [];
 
           const Combinedvariancedata = data?.data?.combined_variance_data
             ? data.data.combined_variance_data.map((item) => ({
-              description: item.description,
-              variance: item.variance,
-              // Add other properties as needed
-            }))
+                description: item.description,
+                variance: item.variance,
+                // Add other properties as needed
+              }))
             : [];
           formik.setFieldValue("Combinedvariance", Combinedvariancedata);
 
           const Variancedata = data?.data?.variance_data
             ? data.data.variance_data.map((item) => ({
-              description: item.description,
-              variance: item.variance,
-              due_sales: item.due_sales,
-              sale_value: item.sale_value,
-              // Add other properties as needed
-            }))
+                description: item.description,
+                variance: item.variance,
+                due_sales: item.due_sales,
+                sale_value: item.sale_value,
+                // Add other properties as needed
+              }))
             : [];
           formik.setFieldValue("Variancedataformik", Variancedata);
 
@@ -290,10 +290,7 @@ const FuelInventry = (props) => {
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold ">
           <>
-            <strong style={{ fontWeight: 700, color: "#426b87 !important" }}>
-
-              {row?.description !== undefined ? `${row?.description}` : ""}
-            </strong>
+            {row?.description !== undefined ? `${row?.description}` : ""}
             <br></br>
             <span className="margin-top">
               {row?.time_range !== undefined ? (
@@ -305,13 +302,13 @@ const FuelInventry = (props) => {
                     >
                       {index === 0
                         ? `Start: ${moment(
-                          timePart,
-                          "YYYY-MM-DD HH:mm:ss"
-                        ).format("MMM DD, YYYY HH:mm A")}`
+                            timePart,
+                            "YYYY-MM-DD HH:mm:ss"
+                          ).format("MMM DD, YYYY HH:mm A")}`
                         : `End : ${moment(
-                          timePart,
-                          "YYYY-MM-DD HH:mm:ss"
-                        ).format("MMM DD, YYYY HH:mm A")}`}
+                            timePart,
+                            "YYYY-MM-DD HH:mm:ss"
+                          ).format("MMM DD, YYYY HH:mm A")}`}
                       <br />
                     </span>
                   ))}
@@ -456,8 +453,8 @@ const FuelInventry = (props) => {
                 row.update_adjustment
                   ? "UpdateValueInput"
                   : editable?.is_editable
-                    ? "table-input"
-                    : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
               }
               value={formik.values.data[index]?.adjustment}
               onChange={formik.handleChange}
@@ -499,8 +496,8 @@ const FuelInventry = (props) => {
                 row.update_bunkered_sale
                   ? "UpdateValueInput"
                   : editable?.is_editable
-                    ? "table-input"
-                    : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
               }
               value={formik.values.data[index]?.bunkered_sale}
               onChange={formik.handleChange}
@@ -542,8 +539,8 @@ const FuelInventry = (props) => {
                 row.update_tests
                   ? "UpdateValueInput"
                   : editable?.is_editable
-                    ? "table-input"
-                    : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
               }
               value={formik.values.data[index]?.tests}
               onChange={formik.handleChange}
@@ -584,8 +581,8 @@ const FuelInventry = (props) => {
                 row.update_actual_sales
                   ? "UpdateValueInput"
                   : editable?.is_editable
-                    ? "table-input"
-                    : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
               }
               value={formik.values.data[index]?.actual_sales}
               onChange={formik.handleChange}
@@ -623,8 +620,8 @@ const FuelInventry = (props) => {
                 row.update_due_sales
                   ? "UpdateValueInput"
                   : editable?.is_editable
-                    ? "table-input"
-                    : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
               }
               value={formik.values.data[index]?.due_sales}
               onChange={formik.handleChange}
@@ -712,7 +709,7 @@ const FuelInventry = (props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly
-          // readOnly={editable?.is_editable ? false : true}
+            // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -736,7 +733,7 @@ const FuelInventry = (props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly
-          // readOnly={editable?.is_editable ? false : true}
+            // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -760,7 +757,7 @@ const FuelInventry = (props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly
-          // readOnly={editable?.is_editable ? false : true}
+            // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>

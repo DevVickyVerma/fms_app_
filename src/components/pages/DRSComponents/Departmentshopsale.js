@@ -10,11 +10,17 @@ import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 
 const Departmentshopsale = (props) => {
-  const { apidata, error, getData, postData, company_id,
+  const {
+    apidata,
+    error,
+    getData,
+    postData,
+    company_id,
     client_id,
     site_id,
     start_date,
-    sendDataToParent, } = props;
+    sendDataToParent,
+  } = props;
 
   const handleButtonClick = () => {
     const allPropsData = {
@@ -31,11 +37,8 @@ const Departmentshopsale = (props) => {
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
   const [editable, setis_editable] = useState();
-  const [myGrossTotalValue, setMyGrossTotalValue] = useState();
-  const [myDiscTotalValue, setMyDiscTotalValue] = useState();
-  const [myNetTotalValue, setMyNetTotalValue] = useState();
-  const [isLoading, setIsLoading] = useState(true);
 
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
   const SuccessToast = (message) => {
@@ -114,21 +117,21 @@ const Departmentshopsale = (props) => {
           // Create an array of form values based on the response data
           const formValues = data?.data?.listing
             ? data.data.listing.map((item) => {
-              return {
-                id: item.id,
-                gross_value: item.gross_value,
-                disc_value: item.disc_value,
-                nett_value: item.nett_value,
-                adjust: item.adjust,
-                sale: item.sale,
-                price: item.price,
-                value: item.value,
-                com_rate: item.com_rate,
-                commission: item.commission,
-                // value_per: item.value_per ,
-                // Add other properties as needed
-              };
-            })
+                return {
+                  id: item.id,
+                  gross_value: item.gross_value,
+                  disc_value: item.disc_value,
+                  nett_value: item.nett_value,
+                  adjust: item.adjust,
+                  sale: item.sale,
+                  price: item.price,
+                  value: item.value,
+                  com_rate: item.com_rate,
+                  commission: item.commission,
+                  // value_per: item.value_per ,
+                  // Add other properties as needed
+                };
+              })
             : [];
 
           // Set the formik values using setFieldValue
@@ -145,10 +148,9 @@ const Departmentshopsale = (props) => {
 
     fetchData();
   }, [site_id, start_date]);
-  document.addEventListener('keydown', function (event) {
-    if (event.key === 'Enter') {
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
       event.preventDefault();
-
     }
   });
   const handleSubmit = async (values) => {
@@ -180,9 +182,7 @@ const Departmentshopsale = (props) => {
       formData.append(gross_valueKey, gross_value);
       formData.append(discountKey, disc_value);
       formData.append(nettValueKey, nett_value);
-      console.log("mygrossvaluekey", gross_value);
     }
-
 
     formData.append("site_id", site_id);
     formData.append("drs_date", start_date);
@@ -204,7 +204,7 @@ const Departmentshopsale = (props) => {
 
       if (response.ok) {
         console.log("Done");
-        handleButtonClick()
+        handleButtonClick();
         SuccessToast(responseData.message);
       } else {
         ErrorToast(responseData.message);
@@ -219,53 +219,6 @@ const Departmentshopsale = (props) => {
       setIsLoading(false);
     }
   };
-
-  const handleChangeForUpdate = async (values) => {
-    // const token = localStorage.getItem("token");
-
-    // console.log(values.data, "mayvaluesdata");
-    // Create a new FormData object
-    // const formData = new FormData();
-
-    let totalGrossValue = 0;
-    let totalDiscValue = 0;
-    let totalNettValue = 0;
-
-    for (let i = 0; i < values.data.length - 1; i++) {
-      const obj = values.data[i];
-
-      const gross_value = parseFloat(obj.gross_value);
-      if (!isNaN(gross_value)) {
-        totalGrossValue += gross_value;
-      }
-
-      // Calculate total disc_value
-      const disc_value = parseFloat(obj.disc_value);
-      if (!isNaN(disc_value)) {
-        totalDiscValue += disc_value;
-      }
-
-      // Calculate total nett_value
-      const nett_value = parseFloat(obj.nett_value);
-      if (!isNaN(nett_value)) {
-        totalNettValue += nett_value;
-      }
-    }
-
-    setMyGrossTotalValue(totalGrossValue);
-    setMyDiscTotalValue(totalDiscValue);
-    setMyNetTotalValue(totalNettValue);
-
-
-    console.log("totalDiscValue", totalDiscValue);
-  }
-
-
-
-
-
-
-
   const columns = [
     // ... existing columns
 
@@ -294,9 +247,7 @@ const Departmentshopsale = (props) => {
             <input
               type="number"
               className="table-input readonly total-input"
-
-              // value={Number(row.gross_value) + Number(myGrossTotalValue)}
-              value={myGrossTotalValue ? myGrossTotalValue : ""}
+              value={row.gross_value}
               readOnly
             />
           </div>
@@ -310,19 +261,12 @@ const Departmentshopsale = (props) => {
                 row.update_gross_value
                   ? "UpdateValueInput"
                   : editable?.is_editable
-                    ? "table-input"
-                    : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
               }
               value={formik.values.data[index]?.gross_value}
-              // onChange={formik.handleChange}
-
-              onChange={(event) => {
-                formik.handleChange(event);
-              }}
-              onBlur={(event) => {
-                formik.handleBlur(event)
-                handleChangeForUpdate(formik.values)
-              }}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               readOnly={editable?.is_editable ? false : true}
             />
             {/* Error handling code */}
@@ -342,8 +286,7 @@ const Departmentshopsale = (props) => {
             <input
               type="number"
               className="table-input readonly total-input"
-              // value={row.disc_value}
-              value={myDiscTotalValue ? myDiscTotalValue : ""}
+              value={row.disc_value}
               readOnly
             />
           </div>
@@ -357,16 +300,12 @@ const Departmentshopsale = (props) => {
                 row.update_disc_value
                   ? "UpdateValueInput"
                   : editable?.is_editable
-                    ? "table-input"
-                    : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
               }
               value={formik.values.data[index]?.disc_value}
               onChange={formik.handleChange}
-              // onBlur={formik.handleBlur}
-              onBlur={(event) => {
-                formik.handleBlur(event)
-                handleChangeForUpdate(formik.values)
-              }}
+              onBlur={formik.handleBlur}
               readOnly={editable?.is_editable ? false : true}
             />
           </div>
@@ -385,8 +324,7 @@ const Departmentshopsale = (props) => {
             <input
               type="number"
               className="table-input readonly total-input"
-              // value={row.nett_value}
-              value={myNetTotalValue ? myNetTotalValue : ""}
+              value={row.nett_value}
               readOnly
             />
           </div>
@@ -400,16 +338,12 @@ const Departmentshopsale = (props) => {
                 row.update_nett_value
                   ? "UpdateValueInput"
                   : editable?.is_editable
-                    ? "table-input"
-                    : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
               }
               value={formik.values.data[index]?.nett_value}
               onChange={formik.handleChange}
-              // onBlur={formik.handleBlur}
-              onBlur={(event) => {
-                formik.handleBlur(event)
-                handleChangeForUpdate(formik.values)
-              }}
+              onBlur={formik.handleBlur}
               readOnly={editable?.is_editable ? false : true}
             />
             {/* Error handling code */}
