@@ -4,7 +4,10 @@ import { Link, Navigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import { BsCurrencyPound } from "react-icons/bs";
+import { BsCurrencyPound, BsDownload } from "react-icons/bs";
+import { BiSolidFilePdf } from "react-icons/bi";
+
+
 import {
   Breadcrumb,
   Card,
@@ -299,13 +302,29 @@ const BankDeposit = (props) => {
 
       cell: (row, index) => (
         <div className="d-flex align-items-center card-img">
-          <img
-            src={row.slip}
-            alt={row.slip}
-            className="mr-2"
-            style={{ width: "50px", height: "50px" }}
-          />
-          <div></div>
+          { }
+
+          <div style={{ cursor: "pointer" }}>
+            {row.slip_type === "pdf" ? <>
+              <a
+                href={row?.slip}
+                target="_blank"
+                download="my-pdf-filename.pdf" rel="noreferrer" >
+                <BsDownload size={24} />
+              </a>
+            </> :
+              (
+                <a
+                  href={row?.slip}
+                  target="_blank"
+                  download={row?.slip}
+                  className="mr-2" rel="noreferrer"
+                >
+                  <img src={row.slip} alt={row.slip} style={{ width: "50px", height: "50px" }} />
+                </a>
+              )
+            }
+          </div>
         </div>
       ),
     },
@@ -523,8 +542,8 @@ const BankDeposit = (props) => {
                     }}
                   >
                     Amount need to be deposit:
-                    <BsCurrencyPound style={{ marginBottom: "5px" }} />
-                    {bankAmount}
+                    {/* <BsCurrencyPound style={{ marginBottom: "5px" }} /> */}
+                    {" "}  £{bankAmount}
                   </h3>
                 ) : (
                   ""

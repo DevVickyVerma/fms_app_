@@ -35,8 +35,20 @@ const CoffeeValet = (props) => {
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
   const [editable, setis_editable] = useState();
-
   const [isLoading, setIsLoading] = useState(true);
+  const [myOpeningTotalValue, setMyOpeningTotalValue] = useState();
+  const [myClosingTotalValue, setMyClosingTotalValue] = useState();
+  const [myTestTotalValue, setMyTestTotalValue] = useState();
+  const [myAdjustTotalValue, setMyAdjustTotalValue] = useState();
+  const [mySalesTotalValue, setMySalesTotalValue] = useState();
+  const [myPricesTotalValue, setMyPricesTotalValue] = useState();
+  const [myValuesTotalValue, setMyValuesTotalValue] = useState();
+  const [myCommissionRateTotalValue, setMyCommissionRateTotalValue] = useState();
+  const [myCommissionValueTotalValue, setMyCommissionValueTotalValue] = useState();
+
+
+
+
 
   const navigate = useNavigate();
   const SuccessToast = (message) => {
@@ -96,21 +108,21 @@ const CoffeeValet = (props) => {
 
           const formValues = data?.data?.listing
             ? data.data.listing.map((item) => {
-                return {
-                  id: item.id,
-                  opening: item.opening,
-                  closing: item.closing,
-                  tests: item.tests,
-                  adjust: item.adjust,
-                  sale: item.sale,
-                  price: item.price,
-                  value: item.value,
-                  com_rate: item.com_rate,
-                  commission: item.commission,
-                  // value_per: item.value_per ,
-                  // Add other properties as needed
-                };
-              })
+              return {
+                id: item.id,
+                opening: item.opening,
+                closing: item.closing,
+                tests: item.tests,
+                adjust: item.adjust,
+                sale: item.sale,
+                price: item.price,
+                value: item.value,
+                com_rate: item.com_rate,
+                commission: item.commission,
+                // value_per: item.value_per ,
+                // Add other properties as needed
+              };
+            })
             : [];
 
           // Set the formik values using setFieldValue
@@ -232,6 +244,95 @@ const CoffeeValet = (props) => {
       setIsLoading(false);
     }
   };
+  const handleChangeForUpdate = async (values) => {
+
+    console.log(values.data, "mayvaluesdata");
+
+    let totalOpeningValue = 0;
+    let totalClosingValue = 0;
+    let totalTestValue = 0;
+    let totalAdjustValue = 0;
+    let totalSalesValue = 0;
+    let totalPricesValue = 0;
+    let totalValuesValue = 0;
+    let totalCommissionRateValue = 0;
+    let totalCommissionValue = 0;
+
+
+
+    for (let i = 0; i < values.data.length - 1; i++) {
+      const obj = values.data[i];
+
+      const opening = parseFloat(obj.opening);
+      if (!isNaN(opening)) {
+        totalOpeningValue += opening;
+      }
+
+      // Calculate total closing
+      const closing = parseFloat(obj.closing);
+      if (!isNaN(closing)) {
+        totalClosingValue += closing;
+      }
+
+      // Calculate total tests
+      const tests = parseFloat(obj.tests);
+      if (!isNaN(tests)) {
+        totalTestValue += tests;
+      }
+
+
+      // Calculate total adjust
+      const adjust = parseFloat(obj.adjust);
+      if (!isNaN(adjust)) {
+        totalAdjustValue += adjust;
+      }
+
+      // Calculate total sale
+      const sale = parseFloat(obj.sale);
+      if (!isNaN(sale)) {
+        totalSalesValue += sale;
+      }
+
+      // Calculate total price
+      const price = parseFloat(obj.price);
+      if (!isNaN(price)) {
+        totalPricesValue += price;
+      }
+
+      // Calculate total value
+      const value = parseFloat(obj.value);
+      if (!isNaN(value)) {
+        totalValuesValue += value;
+      }
+
+      // Calculate total com_rate
+      const com_rate = parseFloat(obj.com_rate);
+      if (!isNaN(com_rate)) {
+        totalCommissionRateValue += com_rate;
+      }
+
+      // Calculate total commission
+      const commission = parseFloat(obj.commission);
+      if (!isNaN(commission)) {
+        totalCommissionValue += commission;
+      }
+    }
+    setMyOpeningTotalValue(totalOpeningValue)
+
+    setMyClosingTotalValue(totalClosingValue)
+    setMyTestTotalValue(totalTestValue)
+    setMyAdjustTotalValue(totalAdjustValue)
+    setMySalesTotalValue(totalSalesValue)
+    setMyPricesTotalValue(totalPricesValue)
+    setMyValuesTotalValue(totalValuesValue)
+    setMyCommissionRateTotalValue(totalCommissionRateValue)
+    setMyCommissionValueTotalValue(totalCommissionValue)
+
+
+    // console.log("totalOpeningValue", totalOpeningValue);
+  }
+
+
   const columns = [
     // ... existing columns
 
@@ -259,7 +360,8 @@ const CoffeeValet = (props) => {
             <input
               type="number"
               className="table-input readonly total-input"
-              value={row.opening}
+              // value={row.opening}
+              value={myOpeningTotalValue ? myOpeningTotalValue : ""}
               readOnly
             />
           </div>
@@ -272,7 +374,11 @@ const CoffeeValet = (props) => {
               className="table-input readonly"
               value={formik.values.data[index]?.opening}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              // onBlur={formik.handleBlur}
+              onBlur={(event) => {
+                formik.handleBlur(event)
+                handleChangeForUpdate(formik.values)
+              }}
               readOnly
             />
             {/* Error handling code */}
@@ -291,7 +397,9 @@ const CoffeeValet = (props) => {
             <input
               type="number"
               className="table-input readonly total-input"
-              value={row.closing}
+              // value={row.closing}
+              value={myClosingTotalValue ? myClosingTotalValue : ""}
+
               readOnly
             />
           </div>
@@ -307,9 +415,9 @@ const CoffeeValet = (props) => {
               }
               value={formik.values.data[index]?.closing}
               onChange={formik.handleChange}
-              onBlur={(e) => {
-                formik.handleBlur(e);
-                calculateSum(index);
+              onBlur={(event) => {
+                formik.handleBlur(event)
+                handleChangeForUpdate(formik.values)
               }}
               readOnly={editable?.is_editable ? false : true}
             />
@@ -329,7 +437,8 @@ const CoffeeValet = (props) => {
             <input
               type="number"
               className="table-input readonly total-input"
-              value={row.tests}
+              // value={row.tests}
+              value={myTestTotalValue ? myTestTotalValue : ""}
               readOnly
             />
           </div>
@@ -342,7 +451,11 @@ const CoffeeValet = (props) => {
               className={"table-input readonly "}
               value={formik.values.data[index]?.tests}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              // onBlur={formik.handleBlur}
+              onBlur={(event) => {
+                formik.handleBlur(event)
+                handleChangeForUpdate(formik.values)
+              }}
               readOnly={editable?.is_editable ? false : true}
             />
             {/* Error handling code */}
@@ -361,7 +474,8 @@ const CoffeeValet = (props) => {
             <input
               type="number"
               className="table-input readonly total-input"
-              value={row.adjust}
+              // value={row.adjust}
+              value={myAdjustTotalValue ? myAdjustTotalValue : ""}
               readOnly
             />
           </div>
@@ -376,7 +490,11 @@ const CoffeeValet = (props) => {
               }
               value={formik.values.data[index]?.adjust}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              // onBlur={formik.handleBlur}
+              onBlur={(event) => {
+                formik.handleBlur(event)
+                handleChangeForUpdate(formik.values)
+              }}
               readOnly={editable?.is_editable ? false : true}
             />
             {/* Error handling code */}
@@ -395,7 +513,8 @@ const CoffeeValet = (props) => {
             <input
               type="number"
               className="table-input readonly total-input"
-              value={row.sale}
+              // value={row.sale}
+              value={mySalesTotalValue ? mySalesTotalValue : ""}
               readOnly
             />
           </div>
@@ -408,7 +527,11 @@ const CoffeeValet = (props) => {
               className={"table-input readonly "}
               value={formik.values.data[index]?.sale}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              // onBlur={formik.handleBlur}
+              onBlur={(event) => {
+                formik.handleBlur(event)
+                handleChangeForUpdate(formik.values)
+              }}
               readOnly
             />
             {/* Error handling code */}
@@ -427,7 +550,8 @@ const CoffeeValet = (props) => {
             <input
               type="number"
               className="table-input readonly total-input"
-              value={row.price}
+              // value={row.price}
+              value={myPricesTotalValue ? myPricesTotalValue : ""}
               readOnly
             />
           </div>
@@ -440,7 +564,11 @@ const CoffeeValet = (props) => {
               className={"table-input readonly "}
               value={formik.values.data[index]?.price}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              // onBlur={formik.handleBlur}
+              onBlur={(event) => {
+                formik.handleBlur(event)
+                handleChangeForUpdate(formik.values)
+              }}
               readOnly
             />
             {/* Error handling code */}
@@ -459,7 +587,8 @@ const CoffeeValet = (props) => {
             <input
               type="number"
               className="table-input readonly total-input"
-              value={row.value}
+              // value={row.value}
+              value={myValuesTotalValue ? myValuesTotalValue : ""}
               readOnly
             />
           </div>
@@ -472,7 +601,11 @@ const CoffeeValet = (props) => {
               className={"table-input readonly "}
               value={formik.values.data[index]?.value}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              // onBlur={formik.handleBlur}
+              onBlur={(event) => {
+                formik.handleBlur(event)
+                handleChangeForUpdate(formik.values)
+              }}
               readOnly
             />
             {/* Error handling code */}
@@ -491,7 +624,8 @@ const CoffeeValet = (props) => {
             <input
               type="number"
               className="table-input readonly total-input"
-              value={row.com_rate}
+              // value={row.com_rate}
+              value={myCommissionRateTotalValue ? myCommissionRateTotalValue : ""}
               readOnly
             />
           </div>
@@ -504,7 +638,11 @@ const CoffeeValet = (props) => {
               className={"table-input readonly "}
               value={formik.values.data[index]?.com_rate}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              // onBlur={formik.handleBlur}
+              onBlur={(event) => {
+                formik.handleBlur(event)
+                handleChangeForUpdate(formik.values)
+              }}
               readOnly
             />
             {/* Error handling code */}
@@ -523,7 +661,8 @@ const CoffeeValet = (props) => {
             <input
               type="number"
               className="table-input readonly total-input"
-              value={row.commission}
+              // value={row.commission}
+              value={myCommissionValueTotalValue ? myCommissionValueTotalValue : ""}
               readOnly
             />
           </div>
@@ -536,7 +675,11 @@ const CoffeeValet = (props) => {
               className={"table-input readonly "}
               value={formik.values.data[index]?.commission}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              // onBlur={formik.handleBlur}
+              onBlur={(event) => {
+                formik.handleBlur(event)
+                handleChangeForUpdate(formik.values)
+              }}
               readOnly
             />
             {/* Error handling code */}
