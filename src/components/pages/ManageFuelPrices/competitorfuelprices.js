@@ -32,6 +32,7 @@ const CompetitorFuelPrices = (props) => {
 
   const [editable, setis_editable] = useState();
   const [AddSiteData, setAddSiteData] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
   const [selectedDrsDate, setSelectedDrsDate] = useState("");
@@ -40,6 +41,7 @@ const CompetitorFuelPrices = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const handleModalOpen = (item) => {
     setModalOpen(true);
+    setSelectedItem(item);
   };
 
   const handleModalClose = () => {
@@ -189,6 +191,7 @@ const CompetitorFuelPrices = (props) => {
         <Compititormodal
           open={modalOpen}
           onClose={handleModalClose}
+          selectedItem={selectedItem}
           selectedDrsDate={selectedDrsDate}
           onDataFromChild={handleDataFromChild}
         />
@@ -454,7 +457,7 @@ const CompetitorFuelPrices = (props) => {
                                           className="ml-2"
                                         />
                                         <span
-                                          className="ms-2"
+                                          className="ms-2 text-muted fs-15 fw-semibold"
                                           onClick={() => {
                                             handleModalOpen(record);
                                           }}
