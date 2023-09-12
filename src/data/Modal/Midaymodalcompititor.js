@@ -178,8 +178,8 @@ const Competitormodal = ({
       if (response.status === 200 && response.data.api_response === "success") {
         sendDataToParent();
         SuccessAlert(response.data.message);
-        // navigate("/fuelprice");
-        // onClose();
+        navigate("/competitor-fuel-price");
+        onClose();
       } else {
         // Handle other cases or errors here
       }

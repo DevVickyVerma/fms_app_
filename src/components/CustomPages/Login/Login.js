@@ -17,7 +17,15 @@ export default function Login(props) {
   const [passwordVisible, setPasswordVisible] = useState(true);
 
   useEffect(() => {
-    console.clear();
+    document.addEventListener("keydown", function (event) {
+      if (event.getModifierState("CapsLock")) {
+        console.log("Caps Lock is ON");
+        setCapsLockActive(true);
+      } else {
+        console.log("Caps Lock is OFF");
+        setCapsLockActive(false);
+      }
+    });
   }, [localStorage.getItem("token")]);
   if (localStorage.getItem("myKey") === null) {
     if (!localStorage.getItem("refreshed")) {
@@ -143,49 +151,86 @@ export default function Login(props) {
                       {({ errors, touched }) => (
                         <Form className="login100-form validate-form">
                           <span className="login100-form-title">Login</span>
-                          <div className="wrap-input100 validate-input">
-                            <Field
-                              className={`input100 ${
-                                errors.email && touched.email
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
-                              type="text"
-                              name="email"
-                              placeholder="Email"
-                              onKeyPress={handleKeyPress}
-                            />
-                            <span className="focus-input100"></span>
-                            <span className="symbol-input100">
-                              <i
-                                className="zmdi zmdi-email"
-                                aria-hidden="true"
-                              ></i>
+
+                          <div>
+                            <div
+                              className="wrap-input100 validate-input"
+                              style={{ display: "flex" }}
+                            >
+                              <Field
+                                className={`input100 ${
+                                  errors.email && touched.email
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                // type="password"
+                                type="text"
+                                name="email"
+                                placeholder="Email"
+                                onKeyPress={handleKeyPress}
+                              />
+                              <span className="focus-input100"></span>
+
+                              <span className="symbol-input100">
+                                <i
+                                  className="zmdi zmdi-email"
+                                  aria-hidden="true"
+                                ></i>
+                              </span>
+
                               {capsLockActive ? (
                                 <>
                                   <span
                                     style={{
                                       display: "flex",
-                                      justifyContent: "flex-end",
-                                      alignItems: "flex-end",
-                                      width: "100%",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      borderTopRightRadius: "4px",
+                                      borderBottomRightRadius: "4px",
+                                      marginLeft: "-31px",
                                       color: "rgb(28 97 218 / 67%)",
-                                      marginRight: "12px",
                                     }}
                                   >
                                     {" "}
-                                    <BsCapslock />{" "}
+                                    <BsCapslock size={16} />{" "}
                                   </span>
                                 </>
                               ) : (
                                 ""
                               )}
-                            </span>
-                            <ErrorMessage
-                              name="email"
-                              component="div"
-                              className="invalid-feedback"
-                            />
+
+                              {!capsLockActive ? (
+                                <>
+                                  <span
+                                    onClick={togglePasswordVisibility}
+                                    style={{
+                                      cursor: "pointer",
+                                      zIndex: "11",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      borderTopRightRadius: "4px",
+                                      borderBottomRightRadius: "4px",
+                                      marginLeft: "-31px",
+                                      color: "rgb(28 97 218 / 67%)",
+                                    }}
+                                  ></span>
+                                </>
+                              ) : (
+                                ""
+                              )}
+                            </div>
+
+                            <div
+                              style={{ color: "#f82649", marginTop: "0.25rem" }}
+                            >
+                              <ErrorMessage
+                                name="email"
+                                // component="div"
+                                className="invalid-feedback"
+                                style={{ flexDirection: "row", color: "red" }}
+                              />
+                            </div>
                           </div>
                           <div>
                             <div
