@@ -60,30 +60,30 @@ export const MENUITEMS = [
         ],
       },
 
-      // {
-      //   title: "Manage Competitor",
-      //   icon: "users",
-      //   type: "sub",
-      //   active: false,
-      //   permission: "competitor-list",
-      //   visibility: false,
-      //   children: [
-      //     {
-      //       path: `/competitor`,
-      //       type: "link",
-      //       title: " Manage Competitor",
-      //       permission: "competitor-list",
-      //       visibility: false,
-      //     },
-      //     {
-      //       path: `/addCompetitor`,
-      //       type: "link",
-      //       title: "Add Competitor",
-      //       permission: "competitor-create",
-      //       visibility: false,
-      //     },
-      //   ],
-      // },
+      {
+        title: "Manage Competitor",
+        icon: "users",
+        type: "sub",
+        active: false,
+        permission: "competitor-list",
+        visibility: false,
+        children: [
+          {
+            path: `/competitor`,
+            type: "link",
+            title: " Manage Competitor",
+            permission: "competitor-list",
+            visibility: false,
+          },
+          {
+            path: `/addCompetitor`,
+            type: "link",
+            title: "Add Competitor",
+            permission: "competitor-create",
+            visibility: false,
+          },
+        ],
+      },
 
       {
         title: "Manage Company",
@@ -519,13 +519,13 @@ export const MENUITEMS = [
             permission: "fuel-purchase-price",
             visibility: false,
           },
-          // {
-          //   path: `/competitor-fuel-price`,
-          //   title: "Competitor Fuel Prices",
-          //   type: "link",
-          //   permission: "fuel-purchase-price",
-          //   visibility: false,
-          // },
+          {
+            path: `/competitor-fuel-price`,
+            title: "Competitor Fuel Prices",
+            type: "link",
+            permission: "fuel-purchase-price",
+            visibility: false,
+          },
         ],
       },
 
