@@ -9,6 +9,7 @@ import {
   Card,
   Col,
   OverlayTrigger,
+  Pagination,
   Row,
   Tooltip,
 } from "react-bootstrap";
@@ -25,7 +26,7 @@ import Loaderimg from "../../../Utils/Loader";
 
 const ManageCards = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
-  const [selectedFile, setSelectedFile] = useState(null);
+
   const [data, setData] = useState();
   const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
@@ -64,7 +65,7 @@ const ManageCards = (props) => {
               icon: "success",
               confirmButtonText: "OK",
             });
-            FetchTableData();
+            FetchTableData(currentPage);
           } catch (error) {
             handleError(error);
           } finally {
@@ -90,10 +91,21 @@ const ManageCards = (props) => {
     }
   }
 
+  const [count, setCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMorePage, setHasMorePages] = useState("");
+  const [lastPage, setLastPage] = useState(1);
+  const [perPage, setPerPage] = useState(20);
+  const [total, setTotal] = useState(0);
+
+  const handlePageChange = (newPage) => {
+    console.log(hasMorePage, "hasMorePage");
+    setCurrentPage(newPage);
+  };
+
   useEffect(() => {
-    FetchTableData();
-    console.clear();
-  }, []);
+    FetchTableData(currentPage);
+  }, [currentPage]);
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -110,7 +122,7 @@ const ManageCards = (props) => {
       const response = await postData("card/update-status", formData);
       console.log(response, "response"); // Console log the response
       if (apidata.api_response === "success") {
-        FetchTableData();
+        FetchTableData(currentPage);
       }
     } catch (error) {
       handleError(error);
@@ -125,14 +137,20 @@ const ManageCards = (props) => {
     },
   });
 
-  const FetchTableData = async () => {
+  const FetchTableData = async (pageNumber, itemsPerPage) => {
     try {
-      const response = await getData("card/list");
+      const response = await getData(`card/list?page=${pageNumber}`);
       console.log(response.data.data, "cards");
 
       if (response && response.data && response.data.data) {
         setData(response.data.data.cards);
-        setSearchvalue(response.data.data.cards);
+        setCount(response.data.data.count);
+        setCurrentPage(response?.data?.data?.currentPage);
+        setHasMorePages(response?.data?.data?.hasMorePages);
+        console.log(response?.data?.data?.hasMorePages, "hasMorePages");
+        setLastPage(response?.data?.data?.lastPage);
+        setPerPage(response?.data?.data?.perPage);
+        setTotal(response?.data?.data?.total);
       } else {
         throw new Error("No data available in the response");
       }
@@ -151,9 +169,6 @@ const ManageCards = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable = permissionsArray?.includes(
-    "cards-status-update"
-  );
   const isEditPermissionAvailable = permissionsArray?.includes("card-edit");
   const isAddPermissionAvailable = permissionsArray?.includes("card-create");
   const isDeletePermissionAvailable = permissionsArray?.includes("card-delete");
@@ -318,22 +333,39 @@ const ManageCards = (props) => {
     columns,
     data,
   };
-  const [searchText, setSearchText] = useState("");
-  const [searchvalue, setSearchvalue] = useState();
+  const maxPagesToShow = 5; // Adjust the number of pages to show in the center
+  const pages = [];
 
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchText(value);
+  // Calculate the range of pages to display
+  let startPage = Math.max(currentPage - Math.floor(maxPagesToShow / 2), 1);
+  let endPage = Math.min(startPage + maxPagesToShow - 1, lastPage);
 
-    const filteredData = searchvalue.filter((item) =>
-      item.card_name.toLowerCase().includes(value.toLowerCase())
+  // Handle cases where the range is near the beginning or end
+  if (endPage - startPage + 1 < maxPagesToShow) {
+    startPage = Math.max(endPage - maxPagesToShow + 1, 1);
+  }
+
+  // Render the pagination items
+  for (let i = startPage; i <= endPage; i++) {
+    pages.push(
+      <Pagination.Item
+        key={i}
+        active={i === currentPage}
+        onClick={() => handlePageChange(i)}
+      >
+        {i}
+      </Pagination.Item>
     );
-    setData(filteredData);
-  };
+  }
 
-  const handleFileSelect = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
+  // Add ellipsis if there are more pages before or after the displayed range
+  if (startPage > 1) {
+    pages.unshift(<Pagination.Ellipsis key="ellipsis-start" disabled />);
+  }
+
+  if (endPage < lastPage) {
+    pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
+  }
 
   return (
     <>
@@ -399,7 +431,7 @@ const ManageCards = (props) => {
                       striped={true}
                       // center={true}
                       persistTableHead
-                      pagination
+                      // pagination
                       paginationPerPage={20}
                       highlightOnHover
                       searchable={true}
@@ -407,6 +439,25 @@ const ManageCards = (props) => {
                   </DataTableExtensions>
                 </div>
               </Card.Body>
+              <Card.Footer>
+                <div style={{ float: "right" }}>
+                  <Pagination>
+                    <Pagination.First onClick={() => handlePageChange(1)} />
+                    <Pagination.Prev
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    />
+                    {pages}
+                    <Pagination.Next
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === lastPage}
+                    />
+                    <Pagination.Last
+                      onClick={() => handlePageChange(lastPage)}
+                    />
+                  </Pagination>
+                </div>
+              </Card.Footer>
             </Card>
           </Col>
         </Row>

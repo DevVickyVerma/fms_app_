@@ -481,6 +481,11 @@ const CompetitorFuelPrices = (props) => {
                                     title: "Time",
                                     dataIndex: "time",
                                     key: "time",
+                                    render: (text, record, index) => (
+                                      <span>
+                                        <p>{text}</p>
+                                      </span>
+                                    ),
                                   },
                                   ...data.head_array.map(
                                     (heading, headingIndex) => ({
