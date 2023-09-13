@@ -331,24 +331,20 @@ const CustomModal = ({
         </DialogContent>
         <Card.Footer>
           <div className="text-end notification-class">
-            {data?.notify_operator ? (
-              <div className="Notification">
-                <input
-                  type="checkbox"
-                  id="notificationCheckboxmidday" // Add an id attribute here
-                  checked={isChecked}
-                  onChange={SendNotification}
-                />
-                <label
-                  htmlFor="notificationCheckboxmidday"
-                  className="form-label ms-2 "
-                >
-                  Send Notification
-                </label>
-              </div>
-            ) : (
-              ""
-            )}
+            <div className="Notification">
+              <input
+                type="checkbox"
+                id="notificationCheckboxmidday" // Add an id attribute here
+                checked={isChecked}
+                onChange={SendNotification}
+              />
+              <label
+                htmlFor="notificationCheckboxmidday"
+                className="form-label ms-2 "
+              >
+                Send Notification
+              </label>
+            </div>
 
             <button
               className="btn btn-danger me-2"

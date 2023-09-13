@@ -355,6 +355,10 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     // console.log(UserPermissions?.company_id, "UserPermissions");
+    localStorage.setItem(
+      "Dashboardsitestats",
+      permissionsArray?.includes("dashboard-site-stats")
+    );
     if (UserPermissions?.company_id) {
       localStorage.setItem("PresetCompanyID", UserPermissions?.company_id);
       localStorage.setItem("PresetCompanyName", UserPermissions?.company_name);
@@ -398,7 +402,7 @@ const Dashboard = (props) => {
           alignItems={"center"}
           minHeight={"90px"}
           className="center-filter-modal-responsive"
-        //  className="page-header "
+          //  className="page-header "
         >
           <Box alignSelf={"flex-start"} mt={"33px"}>
             <h1 className="page-title">Dashboard ({UserPermissions?.dates})</h1>
@@ -413,7 +417,7 @@ const Dashboard = (props) => {
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-            localStorage.getItem("role") === "Operator" ? (
+          localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -425,7 +429,7 @@ const Dashboard = (props) => {
               mx={"10px"}
               flexDirection={"inherit"}
               className="filter-responsive"
-            // className="ms-auto pageheader-btn "
+              // className="ms-auto pageheader-btn "
             >
               <span
                 className="Search-data"
@@ -545,7 +549,7 @@ const Dashboard = (props) => {
         )}
 
         {localStorage.getItem("superiorRole") === "Administrator" &&
-          Object.keys(searchdata).length === 0 ? (
+        Object.keys(searchdata).length === 0 ? (
           <div
             style={{
               textAlign: "left",
@@ -584,21 +588,20 @@ const Dashboard = (props) => {
               <Card.Header className="card-header">
                 <h4 className="card-title">Total Transactions</h4>
               </Card.Header>
-              <Card.Body className="card-body pb-0 dashboard-chart-height"  >
+              <Card.Body className="card-body pb-0 dashboard-chart-height">
                 <div id="chart">
-                  {
-                    stackedLineBarData && stackedLineBarLabels ? <>
+                  {stackedLineBarData && stackedLineBarLabels ? (
+                    <>
                       <StackedLineBarChart
                         stackedLineBarData={stackedLineBarData}
                         stackedLineBarLabels={stackedLineBarLabels}
                       />
-                    </> : <>
-
-                      <p>
-                        Please Apply Filter.....
-                      </p>
                     </>
-                  }
+                  ) : (
+                    <>
+                      <p>Please Apply Filter.....</p>
+                    </>
+                  )}
                 </div>
               </Card.Body>
             </Card>
@@ -611,21 +614,21 @@ const Dashboard = (props) => {
               <Card.Header className="card-header">
                 <h4 className="card-title">Overall Stats</h4>
               </Card.Header>
-              <Card.Body className="card-body pb-0 dashboard-chart-height" >
+              <Card.Body className="card-body pb-0 dashboard-chart-height">
                 <div id="chart">
-
-                  {piechartValues ? <>
-                    <Apexcharts2 data={piechartValues} />
-                  </> : <>
-                    <p>
-                      Please Apply Filter.....
-                    </p>
-                  </>}
+                  {piechartValues ? (
+                    <>
+                      <Apexcharts2 data={piechartValues} />
+                    </>
+                  ) : (
+                    <>
+                      <p>Please Apply Filter.....</p>
+                    </>
+                  )}
                 </div>
               </Card.Body>
             </Card>
           </Col>
-
         </Row>
 
         <Row style={{ marginBottom: "10px", marginTop: "20px" }}>
@@ -645,7 +648,7 @@ const Dashboard = (props) => {
             </Card>
           </Col>
         </Row>
-      </div >
+      </div>
     </>
   );
 };
