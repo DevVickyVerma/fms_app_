@@ -80,6 +80,7 @@ const StackedLineBarChart = ({ stackedLineBarLabels, stackedLineBarData }) => {
         type: "linear",
         display: true,
         position: "left",
+        min: 0, // Set the minimum value to 0 for the left y-axis (y)
       },
       y1: {
         type: "linear",
@@ -88,6 +89,7 @@ const StackedLineBarChart = ({ stackedLineBarLabels, stackedLineBarData }) => {
         grid: {
           drawOnChartArea: false,
         },
+        min: 0, // Set the minimum value to 0 for the left y-axis (y)
       },
     },
     plugins: {

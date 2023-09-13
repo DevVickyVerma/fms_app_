@@ -36,6 +36,7 @@ import DashboardSiteGraph from "./DashboardSiteGraph";
 import DashboardSiteTopSection from "./DashboardSiteTopSection";
 import Loaderimg from "../../../Utils/Loader";
 import StackedLineBarChart from "../StackedLineBarChart";
+import DashboardCompetitorGraph from "./DashboardCompetitorGraph";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
@@ -44,6 +45,8 @@ const DashTopSubHeading = ({
   setGetSiteStats,
   getSiteDetails,
   setGetSiteDetails,
+  getCompetitorsPrice,
+  setGetCompetitorsPrice
 }) => {
   const [isGradsOpen, setIsGradsOpen] = useState(true);
   const [gridIndex, setGridIndex] = useState(0);
@@ -246,7 +249,7 @@ const DashTopSubHeading = ({
           // top={"114px"} // Adjust the value as needed
           top={0}
           zIndex={1} // Ensure the sticky container overlays other content
-          // className="sticky stickyClass "
+        // className="sticky stickyClass "
         >
           {/* LEFT side heading title */}
           <Box display={"flex"} alignItems={"center"}>
@@ -323,8 +326,8 @@ const DashTopSubHeading = ({
               display={"flex"}
               flexDirection={"column"}
               bgcolor={"#ecf0f1"}
-              // gap={"5px"}
-              // borderRadius={"8px"}
+            // gap={"5px"}
+            // borderRadius={"8px"}
             >
               <Box
                 my={"4px"}
@@ -1082,14 +1085,12 @@ const DashTopSubHeading = ({
         <Col lg={12} md={12}>
           <Card>
             <Card.Header className="card-header">
-              <h4 className="card-title">Get Competitor Price</h4>
+              <h4 className="card-title">Competitor Stats</h4>
             </Card.Header>
             <Card.Body className="card-body pb-0">
               <div id="chart">
-                <StackedLineBarChart
-                  stackedLineBarData={stackedLineBarDataForSite}
-                  stackedLineBarLabels={stackedLineBarLabelsForSite}
-                />
+                <DashboardCompetitorGraph getCompetitorsPrice={getCompetitorsPrice}
+                  setGetCompetitorsPrice={setGetCompetitorsPrice} />
               </div>
             </Card.Body>
           </Card>

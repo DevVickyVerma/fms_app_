@@ -10,6 +10,7 @@ import DashBordModal from "../../../data/Modal/DashBordmodal";
 import { toast } from "react-toastify";
 import SortIcon from "@mui/icons-material/Sort";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import { useSelector } from "react-redux";
 
 const DashBoardChild = (props) => {
   const { isLoading, getData } = props;
@@ -21,6 +22,7 @@ const DashBoardChild = (props) => {
   // const [searchdata, setSearchdata] = useState({});
 
   const navigate = useNavigate();
+  const UserPermissions = useSelector((state) => state?.data?.data);
   const {
     searchdata,
     setSearchdata,
@@ -156,10 +158,10 @@ const DashBoardChild = (props) => {
           alignItems={"center"}
           minHeight={"90px"}
           className="center-filter-modal-responsive"
-          //  className="page-header "
+        //  className="page-header "
         >
           <Box alignSelf={"flex-start"} mt={"33px"}>
-            <h1 className="page-title">Dashboard Details</h1>
+            <h1 className="page-title">Dashboard Details ({UserPermissions?.dates})</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -178,7 +180,7 @@ const DashBoardChild = (props) => {
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-          localStorage.getItem("role") === "Operator" ? (
+            localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -190,7 +192,7 @@ const DashBoardChild = (props) => {
               mx={"10px"}
               flexDirection={"inherit"}
               className="filter-responsive"
-              // className="ms-auto pageheader-btn "
+            // className="ms-auto pageheader-btn "
             >
               <span
                 className="Search-data"
