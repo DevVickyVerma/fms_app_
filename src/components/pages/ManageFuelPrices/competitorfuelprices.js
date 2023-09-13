@@ -39,7 +39,9 @@ const CompetitorFuelPrices = (props) => {
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [accordionSiteID, setaccordionSiteID] = useState();
   const handleModalOpen = (item) => {
+    console.log(item, "handle");
     setModalOpen(true);
     setSelectedItem(item);
   };
@@ -192,6 +194,7 @@ const CompetitorFuelPrices = (props) => {
           open={modalOpen}
           onClose={handleModalClose}
           selectedItem={selectedItem}
+          accordionSiteID={accordionSiteID}
           selectedDrsDate={selectedDrsDate}
           onDataFromChild={handleDataFromChild}
         />
@@ -432,6 +435,9 @@ const CompetitorFuelPrices = (props) => {
         <Row>
           <Col md={12} xl={12}>
             <Card>
+              <Card.Header>
+                <h3 className="card-title"> Competitor Fuel Price</h3>
+              </Card.Header>
               <Card.Body>
                 <div>
                   {data &&
@@ -457,8 +463,10 @@ const CompetitorFuelPrices = (props) => {
                                           className="ml-2"
                                         />
                                         <span
-                                          className="ms-2 text-muted fs-15 fw-semibold"
+                                          className="text-muted fs-15 ms-2 fw-semibold text-center fuel-site-name"
                                           onClick={() => {
+                                            console.log(site.id, "site.id");
+                                            setaccordionSiteID(site.id);
                                             handleModalOpen(record);
                                           }}
                                           style={{ cursor: "pointer" }}

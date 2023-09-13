@@ -15,6 +15,7 @@ const Competitormodal = ({
   selectedItem,
   selectedDrsDate,
   onDataFromChild,
+  accordionSiteID,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [data, setData] = useState(null); // Initialize data as null
@@ -60,7 +61,7 @@ const Competitormodal = ({
   }
 
   useEffect(() => {
-    console.log(selectedItem, "selectedItem");
+    console.log(accordionSiteID, "accordionSiteID");
     const fetchData = async () => {
       if (selectedItem && selectedDrsDate) {
         const token = localStorage.getItem("token");
@@ -76,7 +77,7 @@ const Competitormodal = ({
           setIsLoading(true);
 
           const response = await axiosInstance.get(
-            `/site/competitor-price/listing?site_id=${selectedItem.competitorID}&drs_date=${selectedDrsDate}`
+            `/site/competitor-price/listing?site_id=${accordionSiteID}&drs_date=${selectedDrsDate}`
           );
 
           const responseData = response?.data?.data;
@@ -89,7 +90,7 @@ const Competitormodal = ({
           setData(responseData);
           if (responseData?.listing) {
             const initialValues = {
-              siteId: selectedItem.competitorID,
+              siteId: accordionSiteID,
               siteName: selectedItem.competitorname,
               listing: responseData.listing[0]?.competitors || [],
             };
@@ -158,7 +159,7 @@ const Competitormodal = ({
     });
 
     formData.append("drs_date", selectedDrsDate);
-    formData.append("site_id", selectedItem.competitorID);
+    formData.append("site_id", accordionSiteID);
     // formData.append("notify_operator", isChecked);
 
     const token = localStorage.getItem("token");

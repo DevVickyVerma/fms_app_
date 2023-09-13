@@ -128,56 +128,19 @@ const DashBoardChild = (props) => {
       setSearchdata({});
     }
     setSearchdata(values);
-    localStorage.setItem("mySearchData", JSON.stringify(values));
-    // console.log("my values while submitting", values);
-    setSearchdata(localStorage.setItem("mySearchData", JSON.parse(values)));
-  };
 
-  const handleFetchSiteData = async () => {
-    try {
-      const superiorRole = localStorage.getItem("superiorRole");
-      const role = localStorage.getItem("role");
-      let url = "";
-      if (superiorRole === "Administrator") {
-        url = "/dashboard/stats";
-      } else if (superiorRole === "Client") {
-        url = `/dashboard/stats?client_id=${ClientID}`;
-      } else if (superiorRole === "Client" && role === "Operator") {
-        url = "/dashboard/stats";
-      }
-
-      const response = await getData(url);
-      const { data } = response;
-      // console.log("my response: " ,data);
-
-      if (data) {
-        setGrossMarginValue(data?.data?.gross_margin_);
-        setGrossVolume(data?.data?.gross_volume);
-        setGrossProfitValue(data?.data?.gross_profit);
-        setFuelValue(data?.data?.fuel_sales);
-        setshopsale(data?.data?.shop_sales);
-        setshopmargin(data?.data?.shop_margin);
-        setpiechartValues(data?.data?.pi_graph);
-
-        const savedDataOfDashboard = {
-          GrossMarginValue: data?.data?.gross_margin_,
-          GrossVolume: data?.data?.gross_volume,
-          GrossProfitValue: data?.data?.gross_profit,
-          FuelValue: data?.data?.fuel_sales,
-          shopsale: data?.data?.shop_sales,
-          shopmargin: data?.data?.shop_margin,
-          setpiechartValues: data?.data?.pi_graph,
-        };
-        // Save the data object to local storage
-        localStorage.setItem(
-          "savedDataOfDashboard",
-          JSON.stringify(savedDataOfDashboard)
-        );
-      }
-    } catch (error) {
-      handleError(error);
-      console.error("API error:", error);
+    if (values.site_id) {
+      // If site_id is present, set site_name to its value
+      values.site_name = values.site_name || "";
+    } else {
+      // If site_id is not present, set site_name to an empty string
+      values.site_name = "";
     }
+
+    localStorage.setItem("mySearchData", JSON.stringify(values));
+
+    console.log("mySearchData", values);
+    setSearchdata(localStorage.setItem("mySearchData", JSON.parse(values)));
   };
 
   return (
@@ -193,7 +156,7 @@ const DashBoardChild = (props) => {
           alignItems={"center"}
           minHeight={"90px"}
           className="center-filter-modal-responsive"
-        //  className="page-header "
+          //  className="page-header "
         >
           <Box alignSelf={"flex-start"} mt={"33px"}>
             <h1 className="page-title">Dashboard Details</h1>
@@ -215,7 +178,7 @@ const DashBoardChild = (props) => {
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-            localStorage.getItem("role") === "Operator" ? (
+          localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -227,7 +190,7 @@ const DashBoardChild = (props) => {
               mx={"10px"}
               flexDirection={"inherit"}
               className="filter-responsive"
-            // className="ms-auto pageheader-btn "
+              // className="ms-auto pageheader-btn "
             >
               <span
                 className="Search-data"
