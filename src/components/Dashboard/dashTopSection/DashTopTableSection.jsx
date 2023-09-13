@@ -153,11 +153,10 @@ const DashTopTableSection = (props) => {
             </h6>
 
             <p
-              className={`me-1 ${
-                row.fuel_volume?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-              }`}
+              className={`me-1 ${row.fuel_volume?.status === "up"
+                ? "text-success"
+                : "text-danger"
+                }`}
               data-tip={`${row?.fuel_volume?.percentage}%`}
             >
               {row?.fuel_volume?.status === "up" ? (
@@ -192,11 +191,10 @@ const DashTopTableSection = (props) => {
               £{row?.fuel_sales?.gross_value}
             </h6>
             <p
-              className={`me-1 ${
-                row?.fuel_sales?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-              }`}
+              className={`me-1 ${row?.fuel_sales?.status === "up"
+                ? "text-success"
+                : "text-danger"
+                }`}
               data-tip={`${row?.fuel_sales?.percentage}%`}
             >
               {row?.fuel_sales?.status === "up" ? (
@@ -231,11 +229,10 @@ const DashTopTableSection = (props) => {
               £{row?.gross_profit?.gross_profit}
             </h6>
             <p
-              className={`me-1 ${
-                row?.gross_profit?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-              }`}
+              className={`me-1 ${row?.gross_profit?.status === "up"
+                ? "text-success"
+                : "text-danger"
+                }`}
               data-tip={`${row?.gross_profit?.percentage}%`}
             >
               {row?.gross_profit?.status === "up" ? (
@@ -270,11 +267,10 @@ const DashTopTableSection = (props) => {
               {row?.gross_margin?.gross_margin} ppl
             </h6>
             <p
-              className={`me-1 ${
-                row?.gross_margin?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-              }`}
+              className={`me-1 ${row?.gross_margin?.status === "up"
+                ? "text-success"
+                : "text-danger"
+                }`}
               data-tip={`${row?.gross_margin?.percentage}%`}
             >
               {row?.gross_margin?.status === "up" ? (
@@ -309,11 +305,10 @@ const DashTopTableSection = (props) => {
               £{row?.shop_sales?.shop_sales}
             </h6>
             <p
-              className={`me-1 ${
-                row?.shop_sales?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-              }`}
+              className={`me-1 ${row?.shop_sales?.status === "up"
+                ? "text-success"
+                : "text-danger"
+                }`}
               data-tip={`${row?.shop_sales?.percentage}%`}
             >
               {row?.shop_sales?.status === "up" ? (
@@ -349,11 +344,10 @@ const DashTopTableSection = (props) => {
               £{row?.shop_margin?.shop_margin}
             </h6>
             <p
-              className={`me-1 ${
-                row?.shop_margin?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-              }`}
+              className={`me-1 ${row?.shop_margin?.status === "up"
+                ? "text-success"
+                : "text-danger"
+                }`}
               data-tip={`${row?.shop_margin?.percentage}%`}
             >
               {row?.shop_margin?.status === "up" ? (
@@ -385,9 +379,9 @@ const DashTopTableSection = (props) => {
       <Row>
         <Col lg={12}>
           <Card>
-            {/* <Card.Header>
-                <h3 className="card-title">Fuel Sales</h3>
-              </Card.Header> */}
+            <Card.Header>
+              <b>{UserPermissions?.d_label}</b>
+            </Card.Header>
             <Card.Body>
               <div className="table-responsive deleted-table">
                 <DataTable

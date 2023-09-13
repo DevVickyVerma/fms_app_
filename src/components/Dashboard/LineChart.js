@@ -41,6 +41,7 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
       ", "
     )}, 0.2)`,
 
+
     yAxisID: index === 1 ? "y1" : "y",
     key: index,
   }));
@@ -48,7 +49,6 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
   const data = {
     labels: labels,
     datasets: datasets,
-
   };
 
   const options = {
@@ -72,6 +72,7 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
         type: "linear",
         display: true,
         position: "left",
+        min: 0, // Set the minimum value to 0 for the left y-axis (y)
       },
       y1: {
         type: "linear",
@@ -80,6 +81,7 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
         grid: {
           drawOnChartArea: false,
         },
+        min: 0, // Set the minimum value to 0 for the left y-axis (y)
       },
     },
   };
