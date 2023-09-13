@@ -1,4 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { log } from 'nvd3';
 import React, { useEffect, useState } from 'react'
 import { Line } from "react-chartjs-2";
 
@@ -10,6 +11,7 @@ const DashboardCompetitorGraph = ({
 
   const [selectedFuelIndex, setSelectedFuelIndex] = useState(0);
   const selectedFuelType = getCompetitorsPrice?.fuelTypes[selectedFuelIndex];
+
 
 
   useEffect(() => {
@@ -37,26 +39,24 @@ const DashboardCompetitorGraph = ({
     [54, 162, 235], // Green
     [154, 62, 251], // Blue
     [154, 62, 251], // Blue
-    [154, 62, 251], // Blue
-    [154, 62, 251], // Blue
-    [154, 62, 251], // Blue
-    [154, 62, 251], // Blue
-    [154, 62, 251], // Blue[154, 62, 251], // Blue
-    [154, 62, 251], // Blue
-    [154, 62, 251], // Blue
-    [154, 62, 251], // Blue
+    // [154, 62, 251], // Blue
+    // [154, 62, 251], // Blue
+    // [154, 62, 251], // Blue
+    // [154, 62, 251], // Blue
+    // [154, 62, 251], // Blue[154, 62, 251], // Blue
+    // [154, 62, 251], // Blue
+    // [154, 62, 251], // Blue
+    // [154, 62, 251], // Blue
     // Add more colors as needed
   ];
 
+  const transformData = (data) => {
+    console.log("dataisavails", data);
+    const transformedData = {};
 
-  const transformData = async (data) => {
-    const transformedData = [];
-
-    console.log(data, "asdasdasdsa");
-
-    await data?.forEach((item) => {
+    for (const item of data || []) {
       if (item) {
-        item?.price?.forEach((priceItem) => {
+        for (const priceItem of item?.price || []) {
           const { name, price } = priceItem;
 
           if (!transformedData[name]) {
@@ -64,42 +64,56 @@ const DashboardCompetitorGraph = ({
           }
 
           transformedData[name].push(price);
-        });
+        }
       }
-    });
-
+    }
     return transformedData;
   };
 
-  // const transformData = async (data) => {
-  //   const transformedData = new Map();
 
-  //   await data?.forEach((item) => {
-  //     if (item) {
-  //       item?.price?.forEach((priceItem) => {
-  //         const { name, price } = priceItem;
+  const transformedData = transformData(filteredData);
+  console.log(transformedData, "transformedData");
 
-  //         // Check if the name exists in the Map and initialize the array if not
-  //         if (!transformedData.has(name)) {
-  //           transformedData.set(name, []);
+  // const transformData = (data) => {
+
+  //   console.log(data, "sadsda");
+  //   const transformedData = {};
+
+  //   // Iterate over each date in the data
+  //   data.forEach((item) => {
+  //     const { date, price } = item;
+
+  //     // Iterate over each fuel station in the price object
+  //     for (const key in price) {
+  //       if (price.hasOwnProperty(key)) {
+  //         const fuelStation = price[key];
+
+  //         // Create an entry for the fuel station if it doesn't exist
+  //         if (!transformedData[fuelStation.name]) {
+  //           transformedData[fuelStation.name] = {
+  //             name: fuelStation.name,
+  //             prices: [],
+  //           };
   //         }
 
-  //         // Push the price to the corresponding array
-  //         transformedData.get(name).push(price);
-  //       });
+  //         // Add the price for the current date
+  //         transformedData[fuelStation.name].prices.push({
+  //           date,
+  //           price: fuelStation.price,
+  //         });
+  //       }
   //     }
   //   });
 
-  //   // Convert the Map to an object
-  //   const result = Object.fromEntries(transformedData);
+  //   // Convert the object into an array of fuel stations
+  //   const transformedArray = Object.values(transformedData);
 
-  //   return result;
+  //   return transformedArray;
   // };
 
+  // const transformedData = transformData(filteredData); // Pass in your data here
+  // console.log(transformedData, "transformedData");
 
-  const transformedData = transformData(filteredData);
-
-  console.log(transformedData, "transformedData");
 
   // Define the datasets using transformedData
   const datasets = Object?.keys(transformedData).map((name, index) => ({
@@ -107,6 +121,10 @@ const DashboardCompetitorGraph = ({
     data: transformedData[name] ? transformedData[name] : "",
     borderColor: `rgba(${colorArray[index % colorArray.length].join(", ")}, 1)`,
     backgroundColor: `rgba(${colorArray[index % colorArray.length].join(", ")}, 0.9)`,
+    // borderColor: `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255
+    //   }, 1)`,
+    // backgroundColor: `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255
+    //   }, 0.8)`,
     yAxisID: 'y', // You can adjust the yAxisID as needed
     type: index === 0 ? "bar" : "line",
   }));

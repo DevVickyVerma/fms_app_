@@ -1075,27 +1075,33 @@ const DashTopSubHeading = ({
           </Card>
         </Col>
       </Row>
+      {/*  */}
 
-      {/* <Row
-        style={{
-          marginBottom: "10px",
-          marginTop: "20px",
-        }}
-      >
-        <Col lg={12} md={12}>
-          <Card>
-            <Card.Header className="card-header">
-              <h4 className="card-title">Competitor Stats</h4>
-            </Card.Header>
-            <Card.Body className="card-body pb-0">
-              <div id="chart">
-                <DashboardCompetitorGraph getCompetitorsPrice={getCompetitorsPrice}
-                  setGetCompetitorsPrice={setGetCompetitorsPrice} />
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row> */}
+
+      {localStorage.getItem("Dashboardsitestats") === "true" ? <>
+        <Row
+          style={{
+            marginBottom: "10px",
+            marginTop: "20px",
+          }}
+        >
+          <Col lg={12} md={12}>
+            <Card>
+              <Card.Header className="card-header">
+                <h4 className="card-title">Competitor Stats</h4>
+              </Card.Header>
+              <Card.Body className="card-body pb-0">
+                <div id="chart">
+                  <DashboardCompetitorGraph getCompetitorsPrice={getCompetitorsPrice}
+                    setGetCompetitorsPrice={setGetCompetitorsPrice} />
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </> : ""}
+
+
     </>
   );
 };
