@@ -259,6 +259,7 @@ input.dynamicinput {
 .fuelprice-tr {
   width: 100%;
   display: flex;
+  /* background: #ddd !important; */
 }
 
 /* thead th {
@@ -749,4 +750,14 @@ span.margin-top {
 }
 .ant-table-cell {
   padding: 10px 10px !important;
+}
+tr.fuelprice-tr th {
+  background: #e2e2e2;
+}
+.Disable2FA-modal.modal-body {
+  padding: 0px !important;
+}
+.modal-contentDisable2FA {
+  box-shadow: 0px !important;
+  padding: 18px !important;
 }

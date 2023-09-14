@@ -262,10 +262,21 @@ const FuelPrices = (props) => {
       formData.append("client_id", selectedClientId);
       formData.append("company_id", selectedCompanyId);
 
-      const postDataUrl = "/site/fuel-price/update-midday";
-      // const navigatePath = "/business";
-
-      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+      const response = await postData(
+        "/site/fuel-price/update-midday",
+        formData
+      );
+      console.log(apidata, "apiData");
+      console.log(response, "postDatamidday"); // Console log the response
+      if (apidata.status_code === "200") {
+        const values = {
+          start_date: selectedDrsDate,
+          client_id: selectedClientId,
+          company_id: selectedCompanyId,
+        };
+        handleSubmit1(values);
+      }
+      // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
@@ -391,14 +402,6 @@ const FuelPrices = (props) => {
                                       setSelectedCompanyList(
                                         selectedClient.companies
                                       );
-                                      // console.log(
-                                      //   selectedClient,
-                                      //   "selectedClient"
-                                      // );
-                                      // console.log(
-                                      //   selectedClient.companies,
-                                      //   "selectedClient"
-                                      // );
                                     }
                                   }}
                                 >
@@ -540,18 +543,27 @@ const FuelPrices = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title"> Fuel Price</h3>
+                <h3 className="card-title">Fuel Price</h3>
               </Card.Header>
               <Card.Body>
                 {data ? (
-                  <div className="table-container table-responsive">
+                  <div
+                    className="table-container table-responsive"
+                    style={{ height: "700px", overflowY: "auto" }}
+                  >
                     <table className="table">
                       <colgroup>
                         {data?.head_array.map((_, index) => (
                           <col key={index} />
                         ))}
                       </colgroup>
-                      <thead>
+                      <thead
+                        style={{
+                          position: "sticky",
+                          top: "0",
+                          width: "100%",
+                        }}
+                      >
                         <tr className="fuelprice-tr">{renderTableHeader()}</tr>
                       </thead>
                       <tbody>{renderTableData()}</tbody>
