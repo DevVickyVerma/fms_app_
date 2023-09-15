@@ -18,6 +18,7 @@ import SiteEvobossStatus from "./components/pages/EvobossStatus/SiteEvobossStatu
 import SiteEvobossStatusPage from "./components/pages/EvobossStatus/SiteEvobossStatusPage";
 import Competitor from "./components/pages/Competitor/Competitor";
 import AddCompetitor from "./components/pages/Competitor/AddCompetitor";
+import ValidateOtp from "./components/CustomPages/Login/ValidateOtp";
 
 //App
 const App = React.lazy(() => import("./components/app"));
@@ -893,6 +894,8 @@ const Root = () => {
                     element={<WrappedEditCompetitorFuelPrices />}
                   />
 
+
+
                   {/* Import Types components end */}
 
                   {/* <Route
@@ -1005,6 +1008,8 @@ const Root = () => {
 
               <Route path={`/`} element={<Custompages />}>
                 <Route path="/login" element={<Login token={token} />} />
+
+                <Route path="/validateOtp" element={<ValidateOtp token={token} />} />
 
                 <Route
                   path={`/reset-password/:token`}

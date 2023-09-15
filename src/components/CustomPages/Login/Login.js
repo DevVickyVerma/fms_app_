@@ -97,8 +97,16 @@ export default function Login(props) {
         localStorage.setItem("superiorId", data.data.superiorId);
         localStorage.setItem("superiorRole", data.data.superiorRole);
         localStorage.setItem("role", data.data.role);
+        localStorage.setItem("authToken", data.data.token);
 
-        navigate(data?.data?.route);
+        if (data?.data?.is_verified === true) {
+          navigate(data?.data?.route);
+        } else {
+          if (data?.data?.is_verified === false) {
+            // setAuthToken(data?.data?.token)
+            navigate("/validateOtp")
+          }
+        }
         localStorage.setItem("justLoggedIn", true);
         notify(data.message);
         setLoading(false);
@@ -158,11 +166,10 @@ export default function Login(props) {
                               style={{ display: "flex" }}
                             >
                               <Field
-                                className={`input100 ${
-                                  errors.email && touched.email
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input100 ${errors.email && touched.email
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 // type="password"
                                 type="text"
                                 name="email"
@@ -238,11 +245,10 @@ export default function Login(props) {
                               style={{ display: "flex" }}
                             >
                               <Field
-                                className={`input100 ${
-                                  errors.password && touched.password
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input100 ${errors.password && touched.password
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 // type="password"
                                 type={passwordVisible ? "password" : "text"}
                                 name="password"
