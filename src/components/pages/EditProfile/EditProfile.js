@@ -419,7 +419,7 @@ export default function EditProfile() {
                 )}
               </Formik>
             </Col>
-            <Col lg={12} xl={4} md={12} sm={12}>
+            <Col lg={12} xl={8} md={12} sm={12}>
               <Card>
                 <Card.Header>
                   <Card.Title as="h3">Edit Profile</Card.Title>
@@ -519,7 +519,7 @@ export default function EditProfile() {
                 <Card.Footer className="text-end">
                   {UserPermissionstwo_factor ? (
                     <button
-                      className="btn btn-primary ml-4"
+                      className="btn btn-danger ml-4"
                       type="submit"
                       onClick={Disable2FA}
                     >

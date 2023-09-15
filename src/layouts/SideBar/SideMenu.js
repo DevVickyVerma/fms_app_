@@ -523,7 +523,7 @@ export const MENUITEMS = [
             path: `/competitor-fuel-price`,
             title: "Competitor Fuel Prices",
             type: "link",
-            permission: "fuel-purchase-price",
+            permission: "competitor-price-update",
             visibility: false,
           },
         ],
