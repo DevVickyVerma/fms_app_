@@ -139,6 +139,8 @@ const AddSite = (props) => {
       formData.append("shop_commission", 0);
       formData.append("paidout", values.paidout);
       formData.append("auto_dayend", values.auto_dayend);
+      formData.append("ignore_tolerance", values.ignore_tolerance);
+
       console.log(formData, "formDataformData");
       const postDataUrl = "/site/add";
 
@@ -266,6 +268,7 @@ const AddSite = (props) => {
                     shop_commission: "",
                     paidout: "",
                     auto_dayend: "",
+                    ignore_tolerance: "",
                     security_amount: "",
                   }}
                   validationSchema={Yup.object({
@@ -341,8 +344,8 @@ const AddSite = (props) => {
                                 type="text"
                                 autoComplete="off"
                                 className={`input101 ${errors.site_code && touched.site_code
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="site_code"
                                 name="site_code"
@@ -367,8 +370,8 @@ const AddSite = (props) => {
                                 type="text"
                                 autoComplete="off"
                                 className={`input101 ${errors.site_name && touched.site_name
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="site_name"
                                 name="site_name"
@@ -393,8 +396,8 @@ const AddSite = (props) => {
                                 type="text"
                                 autoComplete="off"
                                 className={`input101 ${errors.display_name && touched.display_name
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="display_name"
                                 name="display_name"
@@ -418,8 +421,8 @@ const AddSite = (props) => {
                               <Field
                                 as="select"
                                 className={`input101 ${errors.supplier && touched.supplier
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="supplier"
                                 name="supplier"
@@ -457,8 +460,8 @@ const AddSite = (props) => {
                               <Field
                                 as="select"
                                 className={`input101 ${errors.Site_Status && touched.Site_Status
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="Site_Status"
                                 name="Site_Status"
@@ -497,9 +500,9 @@ const AddSite = (props) => {
                               <Field
                                 as="select"
                                 className={`input101 ${errors.bussiness_Type &&
-                                    touched.bussiness_Type
-                                    ? "is-invalid"
-                                    : ""
+                                  touched.bussiness_Type
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="bussiness_Type"
                                 name="bussiness_Type"
@@ -549,9 +552,9 @@ const AddSite = (props) => {
                               <Field
                                 as="select"
                                 className={`input101 ${errors.Saga_department_code &&
-                                    touched.Saga_department_code
-                                    ? "is-invalid"
-                                    : ""
+                                  touched.Saga_department_code
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="Saga_department_code"
                                 name="Saga_department_code"
@@ -592,9 +595,9 @@ const AddSite = (props) => {
                                 type="text"
                                 autoComplete="off"
                                 className={`input101 ${errors.Saga_department_name &&
-                                    touched.Saga_department_name
-                                    ? "is-invalid"
-                                    : ""
+                                  touched.Saga_department_name
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="Saga_department_name"
                                 name="Saga_department_name"
@@ -621,9 +624,9 @@ const AddSite = (props) => {
                                 type="number"
                                 autoComplete="off"
                                 className={`input101 ${errors.Bp_nctt_site_no &&
-                                    touched.Bp_nctt_site_no
-                                    ? "is-invalid"
-                                    : ""
+                                  touched.Bp_nctt_site_no
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="Bp_nctt_site_no"
                                 name="Bp_nctt_site_no"
@@ -648,9 +651,9 @@ const AddSite = (props) => {
                                 type="Number"
                                 autoComplete="off"
                                 className={`input101 ${errors.shop_commission &&
-                                    touched.shop_commission
-                                    ? "is-invalid"
-                                    : ""
+                                  touched.shop_commission
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="shop_commission"
                                 name="shop_commission"
@@ -675,9 +678,9 @@ const AddSite = (props) => {
                                 type="Number"
                                 autoComplete="off"
                                 className={`input101 ${errors.lottery_commission &&
-                                    touched.lottery_commission
-                                    ? "is-invalid"
-                                    : ""
+                                  touched.lottery_commission
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="lottery_commission"
                                 name="lottery_commission"
@@ -705,9 +708,9 @@ const AddSite = (props) => {
                                 max={getCurrentDate()}
                                 onClick={hadndleShowDate}
                                 className={`input101  ${errors.DRS_Start_Date &&
-                                    touched.DRS_Start_Date
-                                    ? "is-invalid"
-                                    : ""
+                                  touched.DRS_Start_Date
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="DRS_Start_Date"
                                 name="DRS_Start_Date"
@@ -737,9 +740,9 @@ const AddSite = (props) => {
                               <Field
                                 as="select"
                                 className={`input101 ${errors.Report_generation_Status &&
-                                    touched.Report_generation_Status
-                                    ? "is-invalid"
-                                    : ""
+                                  touched.Report_generation_Status
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="Report_generation_Status"
                                 name="Report_generation_Status"
@@ -768,9 +771,9 @@ const AddSite = (props) => {
                               <Field
                                 as="select"
                                 className={`input101 ${errors.Report_date_type &&
-                                    touched.Report_date_type
-                                    ? "is-invalid"
-                                    : ""
+                                  touched.Report_date_type
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="Report_date_type"
                                 name="Report_date_type"
@@ -800,9 +803,9 @@ const AddSite = (props) => {
                               <Field
                                 as="select"
                                 className={`input101 ${errors.Fuel_commission_type &&
-                                    touched.Fuel_commission_type
-                                    ? "is-invalid"
-                                    : ""
+                                  touched.Fuel_commission_type
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="Fuel_commission_type"
                                 name="Fuel_commission_type"
@@ -832,9 +835,9 @@ const AddSite = (props) => {
                               <Field
                                 as="select"
                                 className={`input101 ${errors.Paper_work_status &&
-                                    touched.Paper_work_status
-                                    ? "is-invalid"
-                                    : ""
+                                  touched.Paper_work_status
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="Paper_work_status"
                                 name="Paper_work_status"
@@ -864,9 +867,9 @@ const AddSite = (props) => {
                               <Field
                                 as="select"
                                 className={`input101 ${errors.Bunkered_sale_status &&
-                                    touched.Bunkered_sale_status
-                                    ? "is-invalid"
-                                    : ""
+                                  touched.Bunkered_sale_status
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="Bunkered_sale_status"
                                 name="Bunkered_sale_status"
@@ -896,9 +899,9 @@ const AddSite = (props) => {
                               <Field
                                 as="select"
                                 className={`input101 ${errors.Drs_upload_status &&
-                                    touched.Drs_upload_status
-                                    ? "is-invalid"
-                                    : ""
+                                  touched.Drs_upload_status
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="Drs_upload_status"
                                 name="Drs_upload_status"
@@ -931,8 +934,8 @@ const AddSite = (props) => {
                                 as="textarea"
                                 type="textarea"
                                 className={`input101 ${errors.site_Address && touched.site_Address
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="site_Address"
                                 name="site_Address"
@@ -957,9 +960,9 @@ const AddSite = (props) => {
                               <Field
                                 as="select"
                                 className={`input101 ${errors.Select_machine_type &&
-                                    touched.Select_machine_type
-                                    ? "is-invalid"
-                                    : ""
+                                  touched.Select_machine_type
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="Select_machine_type"
                                 name="Select_machine_type"
@@ -998,8 +1001,8 @@ const AddSite = (props) => {
                               <Field
                                 as="select"
                                 className={`input101 ${errors.client_id && touched.client_id
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="client_id"
                                 name="client_id"
@@ -1042,8 +1045,8 @@ const AddSite = (props) => {
                               </label>
                               <select
                                 className={`input101 ${errors.company_id && touched.company_id
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="company_id"
                                 name="company_id"
@@ -1084,8 +1087,8 @@ const AddSite = (props) => {
                               <Field
                                 as="select"
                                 className={`input101 ${errors.paidout && touched.paidout
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="paidout"
                                 name="paidout"
@@ -1113,15 +1116,15 @@ const AddSite = (props) => {
                               <Field
                                 as="select"
                                 className={`input101 ${errors.auto_dayend && touched.auto_dayend
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="auto_dayend"
                                 name="auto_dayend"
                               >
                                 <option value="">Select a Dayend</option>
-                                <option value="0">Yes</option>
-                                <option value="1">No</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
                               </Field>
                               <ErrorMessage
                                 component="div"
@@ -1130,6 +1133,37 @@ const AddSite = (props) => {
                               />
                             </FormGroup>
                           </Col>
+                          {/* ignore tolerance */}
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor=" ignore_tolerance"
+                                className=" form-label mt-4"
+                              >
+                                Ignore Tolerance
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${errors.ignore_tolerance && touched.ignore_tolerance
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
+                                id="ignore_tolerance"
+                                name="ignore_tolerance"
+                              >
+                                <option value="">Select a Tolerance</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="ignore_tolerance"
+                              />
+                            </FormGroup>
+                          </Col>
+
+                          {/* ignore tolerance end */}
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
@@ -1143,9 +1177,9 @@ const AddSite = (props) => {
                                 type="number"
                                 autoComplete="off"
                                 className={`input101 ${errors.security_amount &&
-                                    touched.security_amount
-                                    ? "is-invalid"
-                                    : ""
+                                  touched.security_amount
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="security_amount"
                                 name="security_amount"
