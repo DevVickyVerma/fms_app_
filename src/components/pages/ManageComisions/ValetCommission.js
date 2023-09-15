@@ -204,7 +204,7 @@ const ManageDsr = (props) => {
           </div>
         ),
     },
-  
+
 
     // ... remaining columns
   ];
@@ -260,10 +260,10 @@ const ManageDsr = (props) => {
     const day = String(today.getDate() - 1).padStart(2, "0"); // Subtract one day from the current date
     return `${year}-${month}-${day}`;
   };
-  const hadndleShowDate =( )=>{
+  const hadndleShowDate = () => {
     const inputDateElement = document.querySelector('input[type="date"]');
     inputDateElement.showPicker();
-}
+  }
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -304,7 +304,7 @@ const ManageDsr = (props) => {
                   validationSchema={Yup.object({
                     company_id: Yup.string().required("Company is required"),
                     site_id: Yup.string().required("Site is required"),
-                       start_date: Yup.date()
+                    start_date: Yup.date()
                       .required("Start Date is required")
                       .min(
                         new Date("2023-01-01"),
@@ -325,75 +325,75 @@ const ManageDsr = (props) => {
                         <Row>
                           {localStorage.getItem("superiorRole") !==
                             "Client" && (
-                            <Col lg={3} md={6}>
-                              <FormGroup>
-                                <label
-                                  htmlFor="client_id"
-                                  className=" form-label mt-4"
-                                >
-                                  Client
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <Field
-                                  as="select"
-                                  className={`input101 ${
-                                    errors.client_id && touched.client_id
-                                      ? "is-invalid"
-                                      : ""
-                                  }`}
-                                  id="client_id"
-                                  name="client_id"
-                                  onChange={(e) => {
-                                    const selectedType = e.target.value;
-                                    setFieldValue("client_id", selectedType);
-                                    setSelectedClientId(selectedType);
+                              <Col lg={3} md={6}>
+                                <FormGroup>
+                                  <label
+                                    htmlFor="client_id"
+                                    className=" form-label mt-4"
+                                  >
+                                    Client
+                                    <span className="text-danger">*</span>
+                                  </label>
+                                  <Field
+                                    as="select"
+                                    className={`input101 ${errors.client_id && touched.client_id
+                                        ? "is-invalid"
+                                        : ""
+                                      }`}
+                                    id="client_id"
+                                    name="client_id"
+                                    onChange={(e) => {
+                                      const selectedType = e.target.value;
+                                      setFieldValue("client_id", selectedType);
+                                      setSelectedClientId(selectedType);
 
-                                    // Reset the selected company and site
-                                    setSelectedCompanyList([]);
-                                    setFieldValue("company_id", "");
-                                    setFieldValue("site_id", "");
+                                      // Reset the selected company and site
+                                      setSelectedCompanyList([]);
+                                      setFieldValue("company_id", "");
+                                      setFieldValue("site_id", "");
 
-                                    const selectedClient =
-                                      AddSiteData.data.find(
-                                        (client) => client.id === selectedType
-                                      );
+                                      const selectedClient =
+                                        AddSiteData.data.find(
+                                          (client) => client.id === selectedType
+                                        );
 
-                                    if (selectedClient) {
-                                      setSelectedCompanyList(
-                                        selectedClient.companies
-                                      );
-                                      console.log(
-                                        selectedClient,
-                                        "selectedClient"
-                                      );
-                                      console.log(
-                                        selectedClient.companies,
-                                        "selectedClient"
-                                      );
-                                    }
-                                  }}
-                                >
-                                  <option value="">Select a Client</option>
-                                  {AddSiteData.data &&
-                                  AddSiteData.data.length > 0 ? (
-                                    AddSiteData.data.map((item) => (
-                                      <option key={item.id} value={item.id}>
-                                        {item.client_name}
-                                      </option>
-                                    ))
-                                  ) : (
-                                    <option disabled>No Client</option>
-                                  )}
-                                </Field>
+                                      if (selectedClient) {
+                                        setSelectedCompanyList(
+                                          selectedClient.companies
+                                        );
+                                        console.log(
+                                          selectedClient,
+                                          "selectedClient"
+                                        );
+                                        console.log(
+                                          selectedClient.companies,
+                                          "selectedClient"
+                                        );
+                                      }
+                                    }}
+                                  >
+                                    <option value="">Select a Client</option>
+                                    {AddSiteData.data &&
+                                      AddSiteData.data.length > 0 ? (
+                                      AddSiteData.data.map((item) => (
+                                        <option key={item.id} value={item.id}>
+                                          {item.client_name}
+                                        </option>
+                                      ))
+                                    ) : (
 
-                                <ErrorMessage
-                                  component="div"
-                                  className="invalid-feedback"
-                                  name="client_id"
-                                />
-                              </FormGroup>
-                            </Col>
-                          )}
+                                      <option disabled>No Client</option>
+                                    )}
+                                  </Field>
+
+                                  <ErrorMessage
+                                    component="div"
+                                    className="invalid-feedback"
+                                    name="client_id"
+                                  />
+                                </FormGroup>
+                              </Col>
+                            )}
                           <Col lg={3} md={6}>
                             <FormGroup>
                               <label
@@ -405,11 +405,10 @@ const ManageDsr = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.company_id && touched.company_id
+                                className={`input101 ${errors.company_id && touched.company_id
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="company_id"
                                 name="company_id"
                                 onChange={(e) => {
@@ -465,11 +464,10 @@ const ManageDsr = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.site_id && touched.site_id
+                                className={`input101 ${errors.site_id && touched.site_id
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="site_id"
                                 name="site_id"
                               >
@@ -501,13 +499,12 @@ const ManageDsr = (props) => {
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
-                                  type="date"    min={"2023-01-01"}     max={getCurrentDate()}
+                                type="date" min={"2023-01-01"} max={getCurrentDate()}
                                 onClick={hadndleShowDate}
-                                className={`input101 ${
-                                  errors.start_date && touched.start_date
+                                className={`input101 ${errors.start_date && touched.start_date
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 id="start_date"
                                 name="start_date"
                               ></Field>
@@ -521,18 +518,18 @@ const ManageDsr = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
-                      <Link
+                        <Link
                           type="submit"
                           className="btn btn-danger me-2 "
                           to={`/dashboard/`}
                         >
                           Reset
                         </Link>
-                      <button className="btn btn-primary me-2" type="submit">
+                        <button className="btn btn-primary me-2" type="submit">
                           Submit
                         </button>
-                       
-                        
+
+
                       </Card.Footer>
                     </Form>
                   )}
@@ -541,7 +538,7 @@ const ManageDsr = (props) => {
             </Card>
           </Col>
         </Row>
-        {data.length>0 ? (
+        {data.length > 0 ? (
           <Row className="row-sm">
             <Col lg={12}>
               <Card>
