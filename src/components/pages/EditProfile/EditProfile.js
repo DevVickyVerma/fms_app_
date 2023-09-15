@@ -419,7 +419,7 @@ export default function EditProfile() {
                 )}
               </Formik>
             </Col>
-            <Col lg={12} xl={8} md={12} sm={12}>
+            <Col lg={12} xl={4} md={12} sm={12}>
               <Card>
                 <Card.Header>
                   <Card.Title as="h3">Edit Profile</Card.Title>
@@ -427,7 +427,7 @@ export default function EditProfile() {
                 <form onSubmit={formik.handleSubmit}>
                   <Card.Body>
                     <Row>
-                      <Col lg={6} md={12}>
+                      <Col lg={12} md={12}>
                         <div className="form-group">
                           <label
                             className=" form-label mt-4"
@@ -459,7 +459,7 @@ export default function EditProfile() {
                             )}
                         </div>
                       </Col>
-                      <Col lg={6} md={12}>
+                      <Col lg={12} md={12}>
                         <div className="form-group">
                           <label
                             className=" form-label mt-4"
