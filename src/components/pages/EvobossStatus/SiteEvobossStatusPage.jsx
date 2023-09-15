@@ -62,24 +62,7 @@ const SiteEvobossStatusPage = (props) => {
               </Card.Header>
 
               <Card.Body>
-                <div className="table-responsive deleted-table">
-                  {/* <DataTableExtensions {...tableDatas}>
-                    <DataTable
-                      columns={columns}
-                      data={data}
-                      noHeader
-                      defaultSortField="id"
-                      defaultSortAsc={false}
-                      striped={true}
-                      persistTableHead
-                      pagination
-                      paginationPerPage={20}
-                      highlightOnHover
-                      searchable={true}
-                      //   onChangePage={(newPage) => setCurrentPage(newPage)}
-                    />
-                  </DataTableExtensions> */}
-                </div>
+                <div className="table-responsive deleted-table"></div>
               </Card.Body>
             </Card>
           </Col>

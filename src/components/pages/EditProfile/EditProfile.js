@@ -450,7 +450,7 @@ export default function EditProfile() {
                 <Card.Header>
                   <Card.Title as="h3">Edit Profile</Card.Title>
                 </Card.Header>
-                <form onSubmit={formik.handleSubmit}>
+                <form onSubmit={formik.handleSubmit} style={{ height: "100%" }}>
                   <Card.Body>
                     <Row>
                       <Col lg={12} md={12}>
@@ -486,7 +486,7 @@ export default function EditProfile() {
                         </div>
                       </Col>
                       <Col lg={12} md={12}>
-                        <div className="form-group ">
+                        <div className="form-group mb-0 ">
                           <label
                             className=" form-label mt-4"
                             htmlFor="last_name"
@@ -517,38 +517,30 @@ export default function EditProfile() {
                             )}
                         </div>
                       </Col>
-                      {/* <Col lg={12} md={12}>
-                        <div className="form-group">
-                          <label
-                            className=" form-label mt-4"
-                            htmlFor="last_name"
-                          >
-                            Last Name
+                      <Col lg={12} md={12}>
+                        <div className="form-group mb-0">
+                          <label className=" form-label mt-4" htmlFor="email">
+                            Email Address
                             <span className="text-danger">*</span>
                           </label>
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.last_name &&
-                              formik.touched.last_name
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="last_name"
-                            name="last_name"
+                            className={`input101 readonly`}
+                            id="email"
+                            name="email"
                             placeholder="Last Name"
-                            value={formik.values.last_name}
+                            value={formik.values.email}
                             onChange={formik.handleChange}
+                            readOnly
                           />
-                          {formik.errors.last_name &&
-                            formik.touched.last_name && (
-                              <div className="invalid-feedback">
-                                {formik.errors.last_name}
-                              </div>
-                            )}
+                          {formik.errors.email && formik.touched.email && (
+                            <div className="invalid-feedback">
+                              {formik.errors.email}
+                            </div>
+                          )}
                         </div>
-                      </Col> */}
+                      </Col>
                     </Row>
                   </Card.Body>
                   <Card.Footer className="text-end">

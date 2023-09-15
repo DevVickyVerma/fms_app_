@@ -228,24 +228,6 @@ const SiteEvobossStatus = (props) => {
                   <h3 className="card-title">evoBOS Status</h3>
                 </Card.Header>
                 <Card.Body>
-                  {/* <div className="table-responsive deleted-table">
-                    <DataTableExtensions {...secondTableDatas}>
-                    <DataTable
-                      columns={secondColumns}
-                      data={siteData}
-                      noHeader
-                      defaultSortField="id"
-                      defaultSortAsc={false}
-                      striped={true}
-                      persistTableHead
-                      pagination
-                      paginationPerPage={20}
-                      highlightOnHover
-                      searchable={true}
-                    />
-                    </DataTableExtensions>
-                  </div> */}
-
                   {siteData ? (
                     <Box
                       display={"flex"}
@@ -313,7 +295,10 @@ const SiteEvobossStatus = (props) => {
                 </Card.Header>
 
                 <Card.Body>
-                  <div className="table-responsive deleted-table">
+                  <div
+                    className="table-responsive deleted-table"
+                    style={{ height: "510px" }}
+                  >
                     <DataTableExtensions {...tableDatas}>
                       <DataTable
                         columns={columns}
