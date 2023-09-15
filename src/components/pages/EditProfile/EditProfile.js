@@ -419,8 +419,10 @@ export default function EditProfile() {
                 )}
               </Formik>
             </Col>
+
             <Col lg={12} xl={4} md={12} sm={12} style={{ margin: "20px 0" }} >
               <Card style={{ height: "100%" }}>
+
                 <Card.Header>
                   <Card.Title as="h3">Edit Profile</Card.Title>
                 </Card.Header>
