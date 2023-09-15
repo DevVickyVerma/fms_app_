@@ -98,7 +98,7 @@ h3.SidebarSearch-title {
   box-shadow: none;
 }
 
-.data-table-extensions>.data-table-extensions-filter>.filter-text {
+.data-table-extensions > .data-table-extensions-filter > .filter-text {
   /* border: 1px solid #eaedf1 !important; */
   border-bottom: 1px solid #eaedf1 !important;
   outline: none !important;
@@ -318,7 +318,6 @@ tbody tr {
 }
 
 @media screen and (max-width: 768px) {
-
   .table th,
   .table td {
     min-width: 22.28% !important;
@@ -540,7 +539,7 @@ input.table-input.readonly.total-input-card {
   border-radius: 50%;
 }
 
-.d-flex.chart-items>div:first-child {
+.d-flex.chart-items > div:first-child {
   margin-right: 0;
   margin-left: 0;
 }
@@ -771,4 +770,30 @@ tr.fuelprice-tr th {
 .modal-contentDisable2FA {
   box-shadow: 0px !important;
   padding: 18px !important;
+}
+p.f2a img {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+}
+.modal-dialog1 {
+  max-width: 973px;
+  margin: 1.75rem auto;
+}
+.modal-dialog {
+  max-width: 973px;
+  margin: 1.75rem auto;
+}
+.instruction-text {
+  font-size: 15px;
+  font-weight: 700;
+}
+.f2A-name {
+  justify-content: center;
+  display: flex;
+  color: #000 !important;
+  padding: 11px;
+  font-size: 15px;
+  font-weight: 700;
+  background: #dedede;
 }

@@ -21,6 +21,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { useFormik } from "formik";
+import Swal from "sweetalert2";
 export default function EditProfile() {
   const UserPermissions = useSelector((state) => state?.data?.data);
   const navigate = useNavigate();
@@ -299,6 +300,21 @@ export default function EditProfile() {
       handleVerifyAuthentication(values);
     },
   });
+  const handleDelete = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Your 2FA will get disable",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Disable it!",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Disable2FA();
+      }
+    });
+  };
 
   return (
     <>
@@ -327,10 +343,8 @@ export default function EditProfile() {
             </div>
           </div>
 
-
-
           <Row className="mb-6">
-            <Col lg={12} xl={4} md={12} sm={12} style={{ margin: "20px 0" }} >
+            <Col lg={12} xl={4} md={12} sm={12} style={{ margin: "20px 0" }}>
               <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -341,21 +355,26 @@ export default function EditProfile() {
               >
                 {({ handleSubmit, isSubmitting, errors, touched }) => (
                   <Form onSubmit={handleSubmit} style={{ height: "100%" }}>
-                    <Card className="profile-edit" style={{ height: "100%" }} >
+                    <Card className="profile-edit" style={{ height: "100%" }}>
                       <Card.Header>
                         <Card.Title as="h3">Edit Password</Card.Title>
                       </Card.Header>
                       <Card.Body>
                         <FormGroup>
-                          <Form.Label className="form-label">
+                          <label
+                            className=" form-label mt-4"
+                            htmlFor="first_name"
+                          >
                             Current Password
-                          </Form.Label>
+                            <span className="text-danger">*</span>
+                          </label>
                           <Field
                             type="password"
-                            className={` input101 ${errors.old_password && touched.old_password
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={` input101 ${
+                              errors.old_password && touched.old_password
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             name="old_password"
                             placeholder=" Current Password"
                           />
@@ -366,15 +385,20 @@ export default function EditProfile() {
                           />
                         </FormGroup>
                         <FormGroup>
-                          <Form.Label className="form-label">
+                          <label
+                            className=" form-label mt-4"
+                            htmlFor="first_name"
+                          >
                             New Password
-                          </Form.Label>
+                            <span className="text-danger">*</span>
+                          </label>
                           <Field
                             type="password"
-                            className={`input101  ${errors.password && touched.password
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101  ${
+                              errors.password && touched.password
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             name="password"
                             placeholder=" New Password"
                           />
@@ -390,11 +414,12 @@ export default function EditProfile() {
                           </Form.Label>
                           <Field
                             type="password"
-                            className={`input101 ${errors.password_confirmation &&
+                            className={`input101 ${
+                              errors.password_confirmation &&
                               touched.password_confirmation
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             name="password_confirmation"
                             placeholder="Confirm Password"
                           />
@@ -420,17 +445,16 @@ export default function EditProfile() {
               </Formik>
             </Col>
 
-            <Col lg={12} xl={4} md={12} sm={12} style={{ margin: "20px 0" }} >
+            <Col lg={12} xl={4} md={12} sm={12} style={{ margin: "20px 0" }}>
               <Card style={{ height: "100%" }}>
-
                 <Card.Header>
                   <Card.Title as="h3">Edit Profile</Card.Title>
                 </Card.Header>
                 <form onSubmit={formik.handleSubmit}>
-                  <Card.Body >
+                  <Card.Body>
                     <Row>
                       <Col lg={12} md={12}>
-                        <div className="form-group">
+                        <div className="form-group mb-0">
                           <label
                             className=" form-label mt-4"
                             htmlFor="first_name"
@@ -441,11 +465,12 @@ export default function EditProfile() {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.first_name &&
+                            className={`input101 ${
+                              formik.errors.first_name &&
                               formik.touched.first_name
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="first_name"
                             name="first_name"
                             onChange={formik.handleChange}
@@ -461,7 +486,7 @@ export default function EditProfile() {
                         </div>
                       </Col>
                       <Col lg={12} md={12}>
-                        <div className="form-group">
+                        <div className="form-group ">
                           <label
                             className=" form-label mt-4"
                             htmlFor="last_name"
@@ -472,11 +497,12 @@ export default function EditProfile() {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.last_name &&
+                            className={`input101 ${
+                              formik.errors.last_name &&
                               formik.touched.last_name
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="last_name"
                             name="last_name"
                             placeholder="Last Name"
@@ -491,8 +517,39 @@ export default function EditProfile() {
                             )}
                         </div>
                       </Col>
+                      {/* <Col lg={12} md={12}>
+                        <div className="form-group">
+                          <label
+                            className=" form-label mt-4"
+                            htmlFor="last_name"
+                          >
+                            Last Name
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            autoComplete="off"
+                            className={`input101 ${
+                              formik.errors.last_name &&
+                              formik.touched.last_name
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="last_name"
+                            name="last_name"
+                            placeholder="Last Name"
+                            value={formik.values.last_name}
+                            onChange={formik.handleChange}
+                          />
+                          {formik.errors.last_name &&
+                            formik.touched.last_name && (
+                              <div className="invalid-feedback">
+                                {formik.errors.last_name}
+                              </div>
+                            )}
+                        </div>
+                      </Col> */}
                     </Row>
-
                   </Card.Body>
                   <Card.Footer className="text-end">
                     <button
@@ -503,14 +560,8 @@ export default function EditProfile() {
                       Update
                     </button>
                   </Card.Footer>
-
-
                 </form>
-
-
               </Card>
-
-
             </Col>
             <Col lg={12} xl={4} md={12} sm={12} style={{ margin: "20px 0" }}>
               <Card style={{ height: "100%" }}>
@@ -518,20 +569,21 @@ export default function EditProfile() {
                   <Card.Title as="h3">Mobile App Authentication </Card.Title>
                 </Card.Header>
 
-                <Card.Body >
-                  <Row>
-                    <p>Setup the 2FA feature</p>
-                    {/* <p className="2fa-icon"><i class="fa fa-shield" aria-hidden="true" ></i></p> */}
-
-                  </Row>
-                  <p className="all-center-flex" style={{ height: "100%" }}><MdOutlineSecurity size={110} color="#2c3e50" /></p>
+                <Card.Body>
+                  <p className="all-center-flex f2a" style={{ height: "100%" }}>
+                    <img
+                      src={require("../../../assets/images/brand/2fa.png")}
+                      className="header-brand-img desktop-logo"
+                      alt={"logo"}
+                    />
+                  </p>
                 </Card.Body>
                 <Card.Footer className="text-end">
                   {UserPermissionstwo_factor ? (
                     <button
                       className="btn btn-danger ml-4"
                       type="submit"
-                      onClick={Disable2FA}
+                      onClick={handleDelete}
                     >
                       Disable 2FA
                     </button>
@@ -540,100 +592,126 @@ export default function EditProfile() {
                       className="btn btn-primary me-2"
                       onClick={Active2FA}
                     >
-                      Setup 2FA
+                      Enable 2FA
                     </button>
                   )}
                 </Card.Footer>
               </Card>
-              <Modal show={showModal} onHide={handleCloseModal} centered>
-                <Modal.Header closeButton>
-                  <Modal.Title style={{ color: "#333" }}>
-                    Two-factor Authentication (2FA)
-                  </Modal.Title>
+              <Modal
+                show={showModal}
+                onHide={handleCloseModal}
+                centered
+                // style={{ width: "200wvh" }}
+                className="custom-modal-width custom-modal-height"
+              >
+                <Modal.Header
+                  closeButton
+                  style={{ color: "#fff", background: "#6259ca" }}
+                >
+                  <Modal.Title>Two-factor Authentication (2FA)</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="Disable2FA-modal ">
+                <Modal.Body className="Disable2FA-modal">
                   <div className="modal-contentDisable2FA">
-                    {/* Add modal content here */}
-                    <p className="instruction-text">
-                      Use the following methods to set up 2FA:
-                    </p>
-                    <ul className="method-list">
-                      <li>
-                        Use the Google Authenticator app to scan the QR Code
-                      </li>
-                      <li>Use the Authy app to scan the QR Code</li>
-                      <li>
-                        Use the Authenticator extension in Chrome to scan the QR
-                        Code
-                      </li>
-                    </ul>
-                    <hr />
-                    <strong className="text-muted fs-15 fw-semibold  fuel-site-name">
-                      Scan QR Code
-                    </strong>
-                    <hr />
-                    <img
-                      src={factordata?.qrCode}
-                      alt={"factordata"}
-                      className="qr-code-image mx-auto d-block"
-                      style={{ width: "200px", height: "200px" }}
-                    />
-                    <hr />
-                    <strong className="text-muted fs-15 fw-semibold  fuel-site-name">
-                      OR Enter Code into your App
-                    </strong>
-                    <hr />
-                    <p className="secret-key">
-                      Secret Key: {factordata?.secret}
-                    </p>
-                    <hr />
-                    <strong className="text-muted fs-15 fw-semibold  fuel-site-name">
-                      Verify Code
-                    </strong>
-                    <hr />
-                    <form onSubmit={authenticationCodeformik.handleSubmit}>
-                      <input
-                        type="text"
-                        className="input101 authentication-code-input"
-                        id="authenticationCode"
-                        name="authenticationCode"
-                        placeholder="Authentication Code"
-                        value={
-                          authenticationCodeformik.values.authenticationCode
-                        }
-                        onChange={authenticationCodeformik.handleChange}
-                        onBlur={authenticationCodeformik.handleBlur}
-                      />
-                      {authenticationCodeformik.touched.authenticationCode &&
-                        authenticationCodeformik.errors.authenticationCode && (
-                          <div className="error-message">
-                            {authenticationCodeformik.errors.authenticationCode}
-                          </div>
-                        )}
-                      <div className="text-end mt-4">
-                        <button
-                          type="btn"
-                          className="btn btn-danger mx-4"
-                          onClick={handleCloseModal}
-                        >
-                          Close
-                        </button>
+                    <div className="card">
+                      <div className="card-body" style={{ padding: "10px" }}>
+                        <Row>
+                          <Col lg={12} md={12}>
+                            <p className="instruction-text">
+                              Use the following methods to set up 2FA:
+                            </p>
+                            <ul className="method-list">
+                              <li>
+                                Use the Authenticator App (Google, Microsoft,
+                                etc.) to scan the QR Code
+                              </li>
 
-                        <button
-                          className="btn btn-primary ml-4 verify-button"
-                          type="submit"
-                          disabled={!formik.isValid}
-                        >
-                          Verify & Authentication
-                        </button>
+                              <li>
+                                Use the Authenticator extension in Chrome to
+                                scan the QR Code
+                              </li>
+                            </ul>
+                            <hr />
+                          </Col>
+
+                          <Col lg={6} md={12}>
+                            <strong className="f2A-name ">Scan QR Code</strong>
+
+                            <img
+                              src={factordata?.qrCode}
+                              alt={"factordata"}
+                              className="qr-code-image mx-auto d-block"
+                              style={{ width: "200px", height: "200px" }}
+                            />
+                          </Col>
+                          <Col lg={6} md={12}>
+                            <strong className="f2A-name">
+                              OR Enter Code into your App
+                            </strong>
+
+                            <p className="secret-key mt-3 ">
+                              <span className="instruction-text">
+                                Secret Key:
+                              </span>{" "}
+                              {factordata?.secret}
+                            </p>
+                            <hr />
+                            <strong className=" instruction-text ">
+                              Enter Authenticator App Code:
+                            </strong>
+                            <hr />
+                            <form
+                              onSubmit={authenticationCodeformik.handleSubmit}
+                            >
+                              <input
+                                type="text"
+                                className="input101 authentication-code-input"
+                                id="authenticationCode"
+                                name="authenticationCode"
+                                placeholder="Authentication Code"
+                                value={
+                                  authenticationCodeformik.values
+                                    .authenticationCode
+                                }
+                                onChange={authenticationCodeformik.handleChange}
+                                onBlur={authenticationCodeformik.handleBlur}
+                              />
+                              {authenticationCodeformik.touched
+                                .authenticationCode &&
+                                authenticationCodeformik.errors
+                                  .authenticationCode && (
+                                  <div className="error-message">
+                                    {
+                                      authenticationCodeformik.errors
+                                        .authenticationCode
+                                    }
+                                  </div>
+                                )}
+                              <div className="text-end mt-4">
+                                <button
+                                  className="btn btn-primary ml-4 verify-button"
+                                  type="submit"
+                                  disabled={!formik.isValid}
+                                >
+                                  Verify & Authentication
+                                </button>
+                                <button
+                                  type="btn"
+                                  className="btn btn-danger mx-4"
+                                  onClick={handleCloseModal}
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </form>
+                          </Col>
+                        </Row>
                       </div>
-                    </form>
+                    </div>
                   </div>
                 </Modal.Body>
               </Modal>
             </Col>
           </Row>
-
         </div>
       </>
     </>
