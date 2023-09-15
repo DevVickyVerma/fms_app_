@@ -40,7 +40,6 @@ const FuelInventry = (props) => {
   const [editable, setis_editable] = useState();
   const [CombinedVarianceData, setCombinedVarianceData] = useState([]);
   const [VarianceDataa, setVarianceDataa] = useState([]);
-
   const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
@@ -326,7 +325,6 @@ const FuelInventry = (props) => {
   };
 
   useEffect(() => {
-
     calculateSumForAll();
   }, [fuelInventoryFinalDataArray]);
 

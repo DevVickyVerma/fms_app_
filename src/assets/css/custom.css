@@ -14,6 +14,12 @@ span.text-danger.danger-title {
   /* cursor: pointer; */
 }
 
+.all-center-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .SidebarSearchheader {
   max-width: 100%;
   color: #fff;
@@ -92,7 +98,7 @@ h3.SidebarSearch-title {
   box-shadow: none;
 }
 
-.data-table-extensions > .data-table-extensions-filter > .filter-text {
+.data-table-extensions>.data-table-extensions-filter>.filter-text {
   /* border: 1px solid #eaedf1 !important; */
   border-bottom: 1px solid #eaedf1 !important;
   outline: none !important;
@@ -312,6 +318,7 @@ tbody tr {
 }
 
 @media screen and (max-width: 768px) {
+
   .table th,
   .table td {
     min-width: 22.28% !important;
@@ -533,7 +540,7 @@ input.table-input.readonly.total-input-card {
   border-radius: 50%;
 }
 
-.d-flex.chart-items > div:first-child {
+.d-flex.chart-items>div:first-child {
   margin-right: 0;
   margin-left: 0;
 }
@@ -748,15 +755,19 @@ span.margin-top {
 .notifications-menu a {
   padding: 0px !important;
 }
+
 .ant-table-cell {
   padding: 10px 10px !important;
 }
+
 tr.fuelprice-tr th {
   background: #e2e2e2;
 }
+
 .Disable2FA-modal.modal-body {
   padding: 0px !important;
 }
+
 .modal-contentDisable2FA {
   box-shadow: 0px !important;
   padding: 18px !important;

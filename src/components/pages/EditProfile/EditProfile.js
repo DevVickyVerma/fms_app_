@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { MdOutlineSecurity } from "react-icons/md";
 
 import {
   Col,
@@ -326,8 +327,10 @@ export default function EditProfile() {
             </div>
           </div>
 
-          <Row>
-            <Col lg={12} xl={4} md={12} sm={12}>
+
+
+          <Row className="mb-6">
+            <Col lg={12} xl={4} md={12} sm={12} style={{ margin: "20px 0" }} >
               <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
@@ -337,8 +340,8 @@ export default function EditProfile() {
                 }}
               >
                 {({ handleSubmit, isSubmitting, errors, touched }) => (
-                  <Form onSubmit={handleSubmit}>
-                    <Card className="profile-edit">
+                  <Form onSubmit={handleSubmit} style={{ height: "100%" }}>
+                    <Card className="profile-edit" style={{ height: "100%" }} >
                       <Card.Header>
                         <Card.Title as="h3">Edit Password</Card.Title>
                       </Card.Header>
@@ -349,11 +352,10 @@ export default function EditProfile() {
                           </Form.Label>
                           <Field
                             type="password"
-                            className={` input101 ${
-                              errors.old_password && touched.old_password
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={` input101 ${errors.old_password && touched.old_password
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name="old_password"
                             placeholder=" Current Password"
                           />
@@ -369,11 +371,10 @@ export default function EditProfile() {
                           </Form.Label>
                           <Field
                             type="password"
-                            className={`input101  ${
-                              errors.password && touched.password
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101  ${errors.password && touched.password
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name="password"
                             placeholder=" New Password"
                           />
@@ -389,12 +390,11 @@ export default function EditProfile() {
                           </Form.Label>
                           <Field
                             type="password"
-                            className={`input101 ${
-                              errors.password_confirmation &&
+                            className={`input101 ${errors.password_confirmation &&
                               touched.password_confirmation
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name="password_confirmation"
                             placeholder="Confirm Password"
                           />
@@ -419,13 +419,15 @@ export default function EditProfile() {
                 )}
               </Formik>
             </Col>
-            <Col lg={12} xl={4} md={12} sm={12}>
-              <Card>
+
+            <Col lg={12} xl={4} md={12} sm={12} style={{ margin: "20px 0" }} >
+              <Card style={{ height: "100%" }}>
+
                 <Card.Header>
                   <Card.Title as="h3">Edit Profile</Card.Title>
                 </Card.Header>
                 <form onSubmit={formik.handleSubmit}>
-                  <Card.Body>
+                  <Card.Body >
                     <Row>
                       <Col lg={12} md={12}>
                         <div className="form-group">
@@ -439,12 +441,11 @@ export default function EditProfile() {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.first_name &&
+                            className={`input101 ${formik.errors.first_name &&
                               formik.touched.first_name
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="first_name"
                             name="first_name"
                             onChange={formik.handleChange}
@@ -471,12 +472,11 @@ export default function EditProfile() {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.last_name &&
+                            className={`input101 ${formik.errors.last_name &&
                               formik.touched.last_name
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="last_name"
                             name="last_name"
                             placeholder="Last Name"
@@ -492,6 +492,7 @@ export default function EditProfile() {
                         </div>
                       </Col>
                     </Row>
+
                   </Card.Body>
                   <Card.Footer className="text-end">
                     <button
@@ -502,19 +503,28 @@ export default function EditProfile() {
                       Update
                     </button>
                   </Card.Footer>
+
+
                 </form>
+
+
               </Card>
+
+
             </Col>
-            <Col lg={12} xl={4} md={12} sm={12}>
-              <Card>
+            <Col lg={12} xl={4} md={12} sm={12} style={{ margin: "20px 0" }}>
+              <Card style={{ height: "100%" }}>
                 <Card.Header>
                   <Card.Title as="h3">Mobile App Authentication </Card.Title>
                 </Card.Header>
 
-                <Card.Body>
+                <Card.Body >
                   <Row>
                     <p>Setup the 2FA feature</p>
+                    {/* <p className="2fa-icon"><i class="fa fa-shield" aria-hidden="true" ></i></p> */}
+
                   </Row>
+                  <p className="all-center-flex" style={{ height: "100%" }}><MdOutlineSecurity size={110} color="#2c3e50" /></p>
                 </Card.Body>
                 <Card.Footer className="text-end">
                   {UserPermissionstwo_factor ? (
@@ -623,6 +633,7 @@ export default function EditProfile() {
               </Modal>
             </Col>
           </Row>
+
         </div>
       </>
     </>
