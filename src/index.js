@@ -303,6 +303,9 @@ const EditSubBusinessCategory = React.lazy(() =>
 const ManageDsr = React.lazy(() =>
   import("./components/pages/ManageDSR/ManageDsr")
 );
+const ManageDsrList = React.lazy(() =>
+  import("./components/pages/ManageDSR/DsrList")
+);
 
 // DSR End
 // commisons Start
@@ -512,6 +515,7 @@ const Root = () => {
   const WrappedEditSubBusinessCategory = withApi(EditSubBusinessCategory);
 
   const WrappedManageDsr = withApi(ManageDsr);
+  const WrappedManageManageDsrList = withApi(ManageDsrList);
   const WrappedManageReports = withApi(ManageReports);
   const WrappedWorkFlows = withApi(WorkFlows);
   const WrappedSiteSettings = withApi(SiteSettings);
@@ -698,6 +702,10 @@ const Root = () => {
 
                   {/* DSR  Components Start */}
                   <Route path={`/data-entry`} element={<WrappedManageDsr />} />
+                  <Route
+                    path={`/Dsr-Exception`}
+                    element={<WrappedManageManageDsrList />}
+                  />
                   {/* DSR  Components End */}
 
                   {/* Others  Components Start */}
