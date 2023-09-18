@@ -149,7 +149,7 @@ const ManageEmail = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title"> Dsr-Exception</h1>
+            <h1 className="page-title"> Drs-Exception</h1>
 
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -163,7 +163,7 @@ const ManageEmail = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Dsr-Exception
+                Drs-Exception
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -172,7 +172,7 @@ const ManageEmail = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Dsr-Exception</h3>
+                <h3 className="card-title">Drs-Exception</h3>
               </Card.Header>
 
               <Card.Body>

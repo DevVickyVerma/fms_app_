@@ -242,8 +242,8 @@ const Dashboard = (props) => {
     try {
       const response = await getData(
         localStorage.getItem("superiorRole") !== "Client"
-          ? `dashboard/stats?client_id=${values.client_id}&company_id=${companyId}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
-          : `dashboard/stats?client_id=${ClientID}&company_id=${companyId}&site_id=${values.site_id}&end_date=${values.TOdate}&start_date=${values.fromdate}`
+          ? `dashboard/stats?client_id=${values.client_id}&company_id=${companyId}&site_id=${values.site_id}`
+          : `dashboard/stats?client_id=${ClientID}&company_id=${companyId}&site_id=${values.site_id}`
       );
 
       const { data } = response;
@@ -403,7 +403,7 @@ const Dashboard = (props) => {
           alignItems={"center"}
           minHeight={"90px"}
           className="center-filter-modal-responsive"
-        //  className="page-header "
+          //  className="page-header "
         >
           <Box alignSelf={"flex-start"} mt={"33px"}>
             <h1 className="page-title">Dashboard ({UserPermissions?.dates})</h1>
@@ -418,7 +418,7 @@ const Dashboard = (props) => {
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-            localStorage.getItem("role") === "Operator" ? (
+          localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -430,7 +430,7 @@ const Dashboard = (props) => {
               mx={"10px"}
               flexDirection={"inherit"}
               className="filter-responsive"
-            // className="ms-auto pageheader-btn "
+              // className="ms-auto pageheader-btn "
             >
               <span
                 className="Search-data"
@@ -550,7 +550,7 @@ const Dashboard = (props) => {
         )}
 
         {localStorage.getItem("superiorRole") === "Administrator" &&
-          Object.keys(searchdata).length === 0 ? (
+        Object.keys(searchdata).length === 0 ? (
           <div
             style={{
               textAlign: "left",

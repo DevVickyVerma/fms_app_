@@ -36,12 +36,10 @@ const CoffeeValet = (props) => {
   const [data, setData] = useState([]);
   const [editable, setis_editable] = useState();
   const [mySalesTotalValue, setMySalesTotalValue] = useState();
-  const [myCommissionValueTotalValue, setMyCommissionValueTotalValue] = useState();
+  const [myCommissionValueTotalValue, setMyCommissionValueTotalValue] =
+    useState();
   const [myValuesTotalValue, setMyValuesTotalValue] = useState();
   const [isLoading, setIsLoading] = useState(true);
-
-
-
 
   const navigate = useNavigate();
   const SuccessToast = (message) => {
@@ -101,21 +99,21 @@ const CoffeeValet = (props) => {
 
           const formValues = data?.data?.listing
             ? data.data.listing.map((item) => {
-              return {
-                id: item.id,
-                opening: item.opening,
-                closing: item.closing,
-                tests: item.tests,
-                adjust: item.adjust,
-                sale: item.sale,
-                price: item.price,
-                value: item.value,
-                com_rate: item.com_rate,
-                commission: item.commission,
-                // value_per: item.value_per ,
-                // Add other properties as needed
-              };
-            })
+                return {
+                  id: item.id,
+                  opening: item.opening,
+                  closing: item.closing,
+                  tests: item.tests,
+                  adjust: item.adjust,
+                  sale: item.sale,
+                  price: item.price,
+                  value: item.value,
+                  com_rate: item.com_rate,
+                  commission: item.commission,
+                  // value_per: item.value_per ,
+                  // Add other properties as needed
+                };
+              })
             : [];
 
           // Set the formik values using setFieldValue
@@ -237,6 +235,7 @@ const CoffeeValet = (props) => {
       setIsLoading(false);
     }
   };
+
   const columns = [
     // ... existing columns
 
@@ -347,7 +346,10 @@ const CoffeeValet = (props) => {
               className={"table-input readonly "}
               value={formik.values.data[index]?.tests}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              onBlur={(e) => {
+                formik.handleBlur(e);
+                calculateSum(index);
+              }}
               readOnly={editable?.is_editable ? false : true}
             />
             {/* Error handling code */}
@@ -381,7 +383,10 @@ const CoffeeValet = (props) => {
               }
               value={formik.values.data[index]?.adjust}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              onBlur={(e) => {
+                formik.handleBlur(e);
+                calculateSum(index);
+              }}
               readOnly={editable?.is_editable ? false : true}
             />
             {/* Error handling code */}
@@ -414,7 +419,10 @@ const CoffeeValet = (props) => {
               className={"table-input readonly "}
               value={formik.values.data[index]?.sale}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+              onBlur={(e) => {
+                formik.handleBlur(e);
+                calculateSum(index);
+              }}
               readOnly
             />
             {/* Error handling code */}
@@ -531,7 +539,11 @@ const CoffeeValet = (props) => {
               type="number"
               className="table-input readonly total-input"
               // value={row.commission}
-              value={myCommissionValueTotalValue ? myCommissionValueTotalValue : row.commission}
+              value={
+                myCommissionValueTotalValue
+                  ? myCommissionValueTotalValue
+                  : row.commission
+              }
               readOnly
             />
           </div>
@@ -566,10 +578,7 @@ const CoffeeValet = (props) => {
     // validationSchema: validationSchema,
   });
 
-
-
   const calculateTotalValues = () => {
-
     // Initialize total values
     let totalSale = 0;
     let totalCommission = 0;
@@ -589,21 +598,16 @@ const CoffeeValet = (props) => {
       }
     }
 
-
-    setMySalesTotalValue(totalSale.toFixed(2))
-    setMyCommissionValueTotalValue(totalCommission.toFixed(2))
-    setMyValuesTotalValue(totalValuesValue.toFixed(2))
+    setMySalesTotalValue(totalSale.toFixed(2));
+    setMyCommissionValueTotalValue(totalCommission.toFixed(2));
+    setMyValuesTotalValue(totalValuesValue.toFixed(2));
     // console.log("Total Saleeeee:", totalSale.toFixed(2));
     // console.log("Total Commissionnnnnn:", totalCommission.toFixed(2));
-  }
-
-
-
-
+  };
 
   useEffect(() => {
     calculateTotalValues();
-  }, [formik.values])
+  }, [formik.values]);
 
   const calculateSum = async (index) => {
     const closingAmount = Number(formik?.values?.data?.[index]?.closing);
@@ -611,47 +615,43 @@ const CoffeeValet = (props) => {
     const saleAmount = Number(formik?.values?.data?.[index]?.sale);
     const priceAmount = Number(formik?.values?.data?.[index]?.price);
     const comrate = Number(formik?.values?.data?.[index]?.com_rate);
-
-    for (let index = 0; index < formik?.values?.data?.length; index++) {
-      console.log(`Sale at index ${index}:`, formik?.values?.data[index]?.sale);
-    }
+    const formiktests = Number(formik?.values?.data?.[index]?.tests);
+    const formikadjust = Number(formik?.values?.data?.[index]?.adjust);
 
     if (
       !isNaN(closingAmount) &&
       !isNaN(saleAmount) &&
       !isNaN(priceAmount) &&
       !isNaN(comrate) &&
+      !isNaN(formiktests) &&
+      !isNaN(formikadjust) &&
       !isNaN(openingAmount)
     ) {
-      const SalesAmount = closingAmount - openingAmount;
-      const ValueAmount = SalesAmount * priceAmount;
+      const TotalAmountValue = openingAmount + formiktests + formikadjust;
+
+      const SaleAmounts = closingAmount - TotalAmountValue;
+      const ValueAmount = SaleAmounts * priceAmount;
       const comrateAmount = (ValueAmount * comrate) / 100;
 
-      const sale = SalesAmount.toFixed(2);
+      const sale = SaleAmounts.toFixed(2);
       const value = ValueAmount.toFixed(2);
       const commission = comrateAmount.toFixed(2);
 
-      // await formik.setFieldValue(`data[${index}].sale`, sale);
-      // await formik.setFieldValue(`data[${index}].value`, value);
-      // await formik.setFieldValue(`data[${index}].commission`, commission);
       await Promise.all([
         formik.setFieldValue(`data[${index}].sale`, sale),
         formik.setFieldValue(`data[${index}].value`, value),
         formik.setFieldValue(`data[${index}].commission`, commission),
       ]);
-
-
     } else {
       console.log("Invalid or missing numeric values");
     }
-  }
+  };
 
   document.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
       event.preventDefault();
     }
-  }
-  );
+  });
 
   return (
     <>
