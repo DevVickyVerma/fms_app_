@@ -163,6 +163,13 @@ export const MENUITEMS = [
             permission: "workflow-list",
             visibility: false,
           },
+          {
+            path: `/Dsr-List`,
+            title: "manage Existance",
+            type: "link",
+            permission: "workflow-list",
+            visibility: false,
+          },
         ],
       },
       {
