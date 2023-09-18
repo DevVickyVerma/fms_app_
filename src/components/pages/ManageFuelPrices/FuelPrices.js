@@ -147,7 +147,7 @@ const FuelPrices = (props) => {
   const [data, setData] = useState();
   const renderTableHeader = () => {
     return (
-      <tr className="fuelprice-tr">
+      <tr className="fuelprice-tr" style={{ padding: "0px" }}>
         {data?.head_array.map((item, index) => (
           <th key={index}>{item}</th>
         ))}
@@ -173,7 +173,7 @@ const FuelPrices = (props) => {
 
   const renderTableData = () => {
     return data?.listing.map((item) => (
-      <tr className="fuelprice-tr" key={item.id}>
+      <tr className="fuelprice-tr" key={item.id} style={{ padding: "0px" }}>
         <td>
           <span
             className={
