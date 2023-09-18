@@ -56,6 +56,9 @@ const AddClient = React.lazy(() =>
 const ManageUser = React.lazy(() =>
   import("./components/pages/ManageUsers/ManageUsers")
 );
+const FAuthentiion = React.lazy(() =>
+  import("./components/pages/ManageUsers/2FAUser")
+);
 const EditUser = React.lazy(() =>
   import("./components/pages/ManageUsers/EditUser")
 );
@@ -451,9 +454,6 @@ const manageNotification = React.lazy(() =>
   import("./layouts/Header/Notifications")
 );
 
-
-
-
 const Root = () => {
   const store = configureStore({
     reducer: {
@@ -470,6 +470,7 @@ const Root = () => {
   const WrappedAddClient = withApi(AddClient);
   const WrappeAddEditClient = withApi(EditClient);
   const WrappedManageUser = withApi(ManageUser);
+  const Wrapped2FAuthentiion = withApi(FAuthentiion);
   const WrappedAddUser = withApi(AddUser);
   const WrappeAddEditUser = withApi(EditUser);
   const WrappedManageSite = withApi(Managesite);
@@ -557,7 +558,6 @@ const Root = () => {
   const WrappedmanageNotification = withApi(manageNotification);
   const WrappedEditCompetitorFuelPrices = withApi(EditCompetitorFuelPrices);
 
-
   return (
     <Fragment>
       <BrowserRouter>
@@ -582,6 +582,10 @@ const Root = () => {
                   {/* User  Components Start */}
                   <Route path={`/users`} element={<WrappedManageUser />} />
                   <Route
+                    path={`/2FA-authentication`}
+                    element={<Wrapped2FAuthentiion />}
+                  />
+                  <Route
                     path={`/editusers/:id`}
                     element={<WrappeAddEditUser />}
                   />
@@ -589,8 +593,10 @@ const Root = () => {
                   <Route path={`addusers`} element={<WrappedAddUser />} />
 
                   <Route path={`/competitor`} element={<WrappedCompetitor />} />
-                  <Route path={`/addCompetitor`} element={<WrappedAddCompetitor />} />
-
+                  <Route
+                    path={`/addCompetitor`}
+                    element={<WrappedAddCompetitor />}
+                  />
 
                   {/* User  Components End */}
 
@@ -806,7 +812,6 @@ const Root = () => {
                     element={<WrappedCompetitorFuelPrices />}
                   />
 
-
                   <Route
                     path={`/fuel-purchase-prices`}
                     element={<WrappedFuelPurchasePrices />}
@@ -893,8 +898,6 @@ const Root = () => {
                     path={`/edit-competitor/:id`}
                     element={<WrappedEditCompetitorFuelPrices />}
                   />
-
-
 
                   {/* Import Types components end */}
 
@@ -1009,7 +1012,10 @@ const Root = () => {
               <Route path={`/`} element={<Custompages />}>
                 <Route path="/login" element={<Login token={token} />} />
 
-                <Route path="/validateOtp" element={<ValidateOtp token={token} />} />
+                <Route
+                  path="/validateOtp"
+                  element={<ValidateOtp token={token} />}
+                />
 
                 <Route
                   path={`/reset-password/:token`}

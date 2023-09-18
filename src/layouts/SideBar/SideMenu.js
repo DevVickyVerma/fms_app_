@@ -33,6 +33,14 @@ export const MENUITEMS = [
             permission: "user-create",
             visibility: false,
           },
+          {
+            path: `/2FA-authentication`,
+            type: "link",
+            title: "2FA Authentication",
+            // permission: "2fa-user-list",
+            permission: "user-create",
+            visibility: false,
+          },
         ],
       },
       {
