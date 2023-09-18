@@ -35,6 +35,7 @@ const EditUsers = (props) => {
   const navigate = useNavigate();
   const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedItemsId, setSelectedItemsId] = useState([]);
   const [SelectedClient, setSelectedClient] = useState();
 
   const notify = (message) => toast.success(message);
@@ -86,6 +87,7 @@ const EditUsers = (props) => {
   });
   const { id } = useParams();
   let combinedClientNames = [];
+  let combinedClientId = [];
   const fetchClientList = async () => {
     try {
       const response = await axiosInstance.get(`/user/detail?id=${id}`);
@@ -97,11 +99,17 @@ const EditUsers = (props) => {
         setDropdownValue(response.data.data);
 
         response?.data?.data?.clients.forEach((client) => {
-          console.log(client.client_name);
+          // console.log(client.client_name, "");
+          console.log(client, "clientnamweinloop");
+
           combinedClientNames.push(client.client_name);
+          combinedClientId.push(client.id);
         });
         console.log(combinedClientNames, "combinedClientNames");
         setSelectedItems(combinedClientNames);
+        setSelectedItemsId(combinedClientId)
+        console.log(selectedItemsId,
+          "selectedItemsId");
       }
     } catch (error) {
       handleError(error);
@@ -237,12 +245,11 @@ const EditUsers = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.first_name &&
+                            className={`input101 ${formik.errors.first_name &&
                               formik.touched.first_name
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="first_name"
                             name="first_name"
                             placeholder="First Name Name"
@@ -264,11 +271,10 @@ const EditUsers = (props) => {
                         <input
                           type="text"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.last_name && formik.touched.last_name
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.last_name && formik.touched.last_name
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="last_name"
                           name="last_name"
                           placeholder="  Last Name"
@@ -289,11 +295,10 @@ const EditUsers = (props) => {
                             Status<span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.status && formik.touched.status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.status && formik.touched.status
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="status"
                             name="status"
                             onChange={formik.handleChange}
@@ -317,11 +322,10 @@ const EditUsers = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.role_id && formik.touched.role_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.role_id && formik.touched.role_id
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="role_id"
                             name="role_id"
                             onChange={formik.handleChange}
@@ -352,13 +356,15 @@ const EditUsers = (props) => {
                             <Select
                               multiple
                               value={selectedItems}
+                              // value={selectedItemsId}
                               onChange={(event) => {
                                 setSelectedItems(event.target.value);
 
                                 const selectedSiteNames = event.target.value;
                                 const filteredSites = AddSiteData?.data?.filter(
                                   (item) =>
-                                    selectedSiteNames.includes(item.client_name)
+                                    // selectedSiteNames.includes(item.client_name)
+                                    selectedSiteNames.includes(item.full_name)
                                 );
 
                                 const ids = filteredSites.map(
@@ -372,11 +378,17 @@ const EditUsers = (props) => {
                               <MenuItem disabled value="">
                                 <em>Select items</em>
                               </MenuItem>
+                              console.log(AddSiteData);
                               {AddSiteData?.data?.map((item) => {
                                 console.log(selectedItems, `selectedItemsmap`);
                                 const isItemSelected = selectedItems.includes(
-                                  item.id
+                                  // item.id
+                                  // console.log("itemmy", item)
+                                  // console.log(item.client_name, "clientnameismine")
+                                  item.full_name
                                 );
+
+                                console.log("my selected items", selectedItems);
                                 console.log(
                                   `Item "${item.id}" is selected: ${isItemSelected}`
                                 );
@@ -384,11 +396,13 @@ const EditUsers = (props) => {
                                 console.log(selectedItems, `selectedItems`);
                                 return (
                                   <MenuItem
-                                    key={item.client_name}
-                                    value={item.client_name}
+                                    // key={item.client_name}
+                                    // value={item.client_name}
+                                    key={item.full_name}
+                                    value={item.full_name}
                                   >
                                     <Checkbox checked={isItemSelected} />
-                                    <ListItemText primary={item.client_name} />
+                                    <ListItemText primary={item.full_name} />
                                   </MenuItem>
                                 );
                               })}
@@ -409,12 +423,11 @@ const EditUsers = (props) => {
                               {/* <span className="text-danger">*</span> */}
                             </label>
                             <select
-                              className={`input101 ${
-                                formik.errors.work_flow &&
+                              className={`input101 ${formik.errors.work_flow &&
                                 formik.touched.work_flow
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                                }`}
                               id="work_flow"
                               name="work_flow"
                               onChange={formik.handleChange}
