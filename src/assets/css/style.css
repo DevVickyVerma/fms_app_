@@ -10157,6 +10157,19 @@ ul.labels-info li a i {
   font-size: 11px !important;
 }
 
+/* .nav-unread.badge {
+  display: flex !important;
+  font-size: 10px !important;
+  height: 1rem;
+  left: 21px;
+  padding: 7px 5px !important;
+  top: 0;
+  width: 1rem;
+  align-items: center;
+  justify-content: center;
+} */
+
+
 .nav-link {
   min-width: 2rem;
   transition: 0.3s color;
