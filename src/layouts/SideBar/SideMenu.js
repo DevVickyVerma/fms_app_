@@ -164,10 +164,10 @@ export const MENUITEMS = [
             visibility: false,
           },
           {
-            path: `/Dsr-List`,
-            title: "manage Existance",
+            path: `/Dsr-Exception`,
+            title: "DRS Exception",
             type: "link",
-            permission: "workflow-list",
+            permission: "drs-exception",
             visibility: false,
           },
         ],

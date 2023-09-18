@@ -703,7 +703,7 @@ const Root = () => {
                   {/* DSR  Components Start */}
                   <Route path={`/data-entry`} element={<WrappedManageDsr />} />
                   <Route
-                    path={`/Dsr-List`}
+                    path={`/Dsr-Exception`}
                     element={<WrappedManageManageDsrList />}
                   />
                   {/* DSR  Components End */}
