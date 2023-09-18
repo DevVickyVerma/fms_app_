@@ -99,21 +99,21 @@ const CoffeeValet = (props) => {
 
           const formValues = data?.data?.listing
             ? data.data.listing.map((item) => {
-                return {
-                  id: item.id,
-                  opening: item.opening,
-                  closing: item.closing,
-                  tests: item.tests,
-                  adjust: item.adjust,
-                  sale: item.sale,
-                  price: item.price,
-                  value: item.value,
-                  com_rate: item.com_rate,
-                  commission: item.commission,
-                  // value_per: item.value_per ,
-                  // Add other properties as needed
-                };
-              })
+              return {
+                id: item.id,
+                opening: item.opening,
+                closing: item.closing,
+                tests: item.tests,
+                adjust: item.adjust,
+                sale: item.sale,
+                price: item.price,
+                value: item.value,
+                com_rate: item.com_rate,
+                commission: item.commission,
+                // value_per: item.value_per ,
+                // Add other properties as needed
+              };
+            })
             : [];
 
           // Set the formik values using setFieldValue
@@ -417,7 +417,7 @@ const CoffeeValet = (props) => {
               id={`sale-${index}`}
               name={`data[${index}].sale`}
               className={"table-input readonly "}
-              value={formik.values.data[index]?.sale}
+              value={formik.values.data[index]?.sale.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]}
               onChange={formik.handleChange}
               onBlur={(e) => {
                 formik.handleBlur(e);
@@ -452,7 +452,7 @@ const CoffeeValet = (props) => {
               id={`price-${index}`}
               name={`data[${index}].price`}
               className={"table-input readonly "}
-              value={formik.values.data[index]?.price}
+              value={formik.values.data[index]?.price.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               readOnly
@@ -485,7 +485,7 @@ const CoffeeValet = (props) => {
               id={`value-${index}`}
               name={`data[${index}].value`}
               className={"table-input readonly "}
-              value={formik.values.data[index]?.value}
+              value={formik.values.data[index]?.value.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               readOnly
@@ -554,7 +554,7 @@ const CoffeeValet = (props) => {
               id={`commission-${index}`}
               name={`data[${index}].commission`}
               className={"table-input readonly "}
-              value={formik.values.data[index]?.commission}
+              value={formik.values.data[index]?.commission.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               readOnly
@@ -592,15 +592,21 @@ const CoffeeValet = (props) => {
       }
       if (item.commission) {
         totalCommission += parseFloat(item.commission);
+        // console.log("my total value", totalCommission);
+        // console.log("itemcommision", item.commission);
       }
       if (item.value) {
         totalValuesValue += parseFloat(item.value);
       }
     }
 
-    setMySalesTotalValue(totalSale.toFixed(2));
-    setMyCommissionValueTotalValue(totalCommission.toFixed(2));
-    setMyValuesTotalValue(totalValuesValue.toFixed(2));
+    setMySalesTotalValue(totalSale.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]);
+    // setMyCommissionValueTotalValue(totalCommission.toFixed(2));
+    setMyCommissionValueTotalValue(totalCommission.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]);
+
+    console.log("totalCommissiontotalCommission", totalCommission);
+    console.log("totalCommissiontotalCommission", totalCommission.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]);
+    setMyValuesTotalValue(totalValuesValue.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]);
     // console.log("Total Saleeeee:", totalSale.toFixed(2));
     // console.log("Total Commissionnnnnn:", totalCommission.toFixed(2));
   };
