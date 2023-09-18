@@ -759,9 +759,9 @@ span.margin-top {
   padding: 10px 10px !important;
 }
 
-tr.fuelprice-tr th {
+/* tr.fuelprice-tr th {
   background: #e2e2e2;
-}
+} */
 
 .Disable2FA-modal.modal-body {
   padding: 0px !important;
