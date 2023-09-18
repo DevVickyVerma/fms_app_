@@ -42,7 +42,7 @@ const ManageEmail = (props) => {
     try {
       const response = await getData(`/email/logs?page=${pageNumber}`);
       setData(response?.data?.data?.logs);
-      0(response.data.data.count);
+      setCount(response.data.data.count);
       setCurrentPage(response?.data?.data?.currentPage);
       setHasMorePages(response?.data?.data?.hasMorePages);
       console.log(response?.data?.data?.hasMorePages, "hasMorePages");

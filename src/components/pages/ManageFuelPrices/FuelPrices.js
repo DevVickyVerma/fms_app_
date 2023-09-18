@@ -562,6 +562,7 @@ const FuelPrices = (props) => {
                           position: "sticky",
                           top: "0",
                           width: "100%",
+                          backgroundColor: "#ddd",
                         }}
                       >
                         <tr className="fuelprice-tr">{renderTableHeader()}</tr>
