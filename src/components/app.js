@@ -100,15 +100,11 @@ const App = (props) => {
         text: `Oops, there is no activity from last ${logoutTime}  minutes,`,
         icon: "warning",
         showCancelButton: true,
-        confirmButtonText: "Logout!",
-        cancelButtonText: "Stay Loggedin",
+        confirmButtonText: "OK!",
+
         reverseButtons: true,
       }).then((result) => {
-        if (result.isConfirmed) {
-          handleConfirm();
-        } else {
-          handleCancel();
-        }
+        handleConfirm();
       });
 
       console.log("Inactivity Alert");
