@@ -446,75 +446,76 @@ const ManageSiteTank = (props) => {
                         <Row>
                           {localStorage.getItem("superiorRole") !==
                             "Client" && (
-                              <Col lg={6} md={12}>
-                                <FormGroup>
-                                  <label
-                                    htmlFor="client_id"
-                                    className=" form-label mt-4"
-                                  >
-                                    Client
-                                    <span className="text-danger">*</span>
-                                  </label>
-                                  <Field
-                                    as="select"
-                                    className={`input101 ${errors.client_id && touched.client_id
+                            <Col lg={4} md={6}>
+                              <FormGroup>
+                                <label
+                                  htmlFor="client_id"
+                                  className=" form-label mt-4"
+                                >
+                                  Client
+                                  <span className="text-danger">*</span>
+                                </label>
+                                <Field
+                                  as="select"
+                                  className={`input101 ${
+                                    errors.client_id && touched.client_id
                                       ? "is-invalid"
                                       : ""
-                                      }`}
-                                    id="client_id"
-                                    name="client_id"
-                                    onChange={(e) => {
-                                      const selectedType = e.target.value;
+                                  }`}
+                                  id="client_id"
+                                  name="client_id"
+                                  onChange={(e) => {
+                                    const selectedType = e.target.value;
 
-                                      setFieldValue("client_id", selectedType);
-                                      setSelectedClientId(selectedType);
+                                    setFieldValue("client_id", selectedType);
+                                    setSelectedClientId(selectedType);
 
-                                      // Reset the selected company and site
-                                      setSelectedCompanyList([]);
-                                      setFieldValue("company_id", "");
-                                      setFieldValue("site_id", "");
+                                    // Reset the selected company and site
+                                    setSelectedCompanyList([]);
+                                    setFieldValue("company_id", "");
+                                    setFieldValue("site_id", "");
 
-                                      const selectedClient =
-                                        AddSiteData.data.find(
-                                          (client) => client.id === selectedType
-                                        );
+                                    const selectedClient =
+                                      AddSiteData.data.find(
+                                        (client) => client.id === selectedType
+                                      );
 
-                                      if (selectedClient) {
-                                        setSelectedCompanyList(
-                                          selectedClient.companies
-                                        );
-                                        console.log(
-                                          selectedClient,
-                                          "selectedClient"
-                                        );
-                                        console.log(
-                                          selectedClient.companies,
-                                          "selectedClient"
-                                        );
-                                      }
-                                    }}
-                                  >
-                                    <option value="">Select a Client</option>
-                                    {AddSiteData.data &&
-                                      AddSiteData.data.length > 0 ? (
-                                      AddSiteData.data.map((item) => (
-                                        <option key={item.id} value={item.id}>
-                                          {item.client_name}
-                                        </option>
-                                      ))
-                                    ) : (
-                                      <option disabled>No Client</option>
-                                    )}
-                                  </Field>
+                                    if (selectedClient) {
+                                      setSelectedCompanyList(
+                                        selectedClient.companies
+                                      );
+                                      console.log(
+                                        selectedClient,
+                                        "selectedClient"
+                                      );
+                                      console.log(
+                                        selectedClient.companies,
+                                        "selectedClient"
+                                      );
+                                    }
+                                  }}
+                                >
+                                  <option value="">Select a Client</option>
+                                  {AddSiteData.data &&
+                                  AddSiteData.data.length > 0 ? (
+                                    AddSiteData.data.map((item) => (
+                                      <option key={item.id} value={item.id}>
+                                        {item.client_name}
+                                      </option>
+                                    ))
+                                  ) : (
+                                    <option disabled>No Client</option>
+                                  )}
+                                </Field>
 
-                                  <ErrorMessage
-                                    component="div"
-                                    className="invalid-feedback"
-                                    name="client_id"
-                                  />
-                                </FormGroup>
-                              </Col>
-                            )}
+                                <ErrorMessage
+                                  component="div"
+                                  className="invalid-feedback"
+                                  name="client_id"
+                                />
+                              </FormGroup>
+                            </Col>
+                          )}
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
@@ -526,10 +527,11 @@ const ManageSiteTank = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${errors.company_id && touched.company_id
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${
+                                  errors.company_id && touched.company_id
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="company_id"
                                 name="company_id"
                                 onChange={(e) => {
@@ -585,10 +587,11 @@ const ManageSiteTank = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${errors.site_id && touched.site_id
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${
+                                  errors.site_id && touched.site_id
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="site_id"
                                 name="site_id"
                                 onChange={(event) => {
@@ -646,31 +649,36 @@ const ManageSiteTank = (props) => {
                 </h3>
               </Card.Header>
               <Card.Body>
-
-                {data?.length > 0 ? <>
-                  <div className="table-responsive deleted-table">
-                    <DataTableExtensions {...tableDatas}>
-                      <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        striped={true}
-                        // center={true}
-                        persistTableHead
-                        pagination
-                        paginationPerPage={20}
-                        highlightOnHover
-                        searchable={true}
-                      />
-                    </DataTableExtensions>
-                  </div>
-                </> : <>
-
-                  <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
-
-                </>}
+                {data?.length > 0 ? (
+                  <>
+                    <div className="table-responsive deleted-table">
+                      <DataTableExtensions {...tableDatas}>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          // center={true}
+                          persistTableHead
+                          pagination
+                          paginationPerPage={20}
+                          highlightOnHover
+                          searchable={true}
+                        />
+                      </DataTableExtensions>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      alt="MyChartImage"
+                      className="all-center-flex nodata-image"
+                    />
+                  </>
+                )}
               </Card.Body>
             </Card>
           </Col>
