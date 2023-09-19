@@ -62,9 +62,9 @@ export default function Settings() {
 
   const navigate = useNavigate();
   useEffect(() => {
-    fetchData();
     configsetting();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
@@ -73,24 +73,7 @@ export default function Settings() {
       Authorization: `Bearer ${token}`,
     },
   });
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const response = await axiosInstance.get("/smtp/detail");
-      const { data } = response;
-      if (data) {
-        formik.setValues(response.data.data);
-        // setUserDetails(response.data.data);
-        // console.log(values)
-        // console.log(response.data.data)
-        setLoading(false);
-      }
-    } catch (error) {
-      handleError(error);
-      setLoading(false);
-    }
-    setLoading(false);
-  };
+
   const configsetting = async () => {
     setLoading(true);
     try {
@@ -130,97 +113,16 @@ export default function Settings() {
     });
   };
 
-  const formik = useFormik({
-    initialValues: initialValues, // Replace 'initialValues' with the actual initial values for the first form
-    validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      setLoading(true);
-      const formData = new FormData();
-
-      // Iterate over values and convert null to empty strings
-      for (const [key, value] of Object.entries(values)) {
-        const convertedValue = value === null ? "" : value;
-        formData.append(key, convertedValue);
-      }
-
-      try {
-        const response = await fetch(
-          `${process.env.REACT_APP_BASE_URL}/smtp/update`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            body: formData,
-          }
-        );
-
-        const data = await response.json();
-
-        if (response.ok) {
-          notify(data.message);
-          setLoading(false);
-          navigate("/dashboard");
-          setLoading(false);
-        } else {
-          Errornotify(data.message);
-          setLoading(false);
-        }
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
-          navigate("/login");
-          Errornotify("Invalid access token");
-          localStorage.clear();
-          setLoading(false);
-        } else if (
-          error.response &&
-          error.response.data.status_code === "403"
-        ) {
-          Errornotify("/errorpage403");
-        } else {
-          const errorMessage =
-            error.response && error.response.data
-              ? error.response.data.message
-              : "An error occurred";
-          console.error(errorMessage, "errorMessage");
-          Errornotify(errorMessage);
-        }
-      }
-    },
-  });
-
   const initialValues2 = {
     date_format: "",
     pagination: "",
-    decimal: "",
-    calculate_decimal: "",
+    auto_logout: "",
   };
   const validationSchema2 = Yup.object({
-    date_format: Yup.string()
-     
-      .required("Date Format is required"),
+    date_format: Yup.string().required("Date Format is required"),
 
-    pagination: Yup.string()
-      // .matches(
-      //   /^(?:500|[0-9][0-9]?|0)$/,
-      //   "Pagination must be a number between 0 and 500"
-      // )
-
-      .required("Pagination is required"),
-
-    decimal: Yup.string()
-    .matches(
-      /^(?:100|[1-5][1-5]?|0)$/,
-      "Decimal must be a number between 0 to 5"
-    )
-      .required("Decimal is required"),
-
-    calculate_decimal: Yup.string()
-    .matches(
-      /^(?:100|[1-5][1-5]?|0)$/,
-      "Calculate Decimal must be a number between 0 to 5"
-    )
-      .required("Calculate Decimal is required"),
+    pagination: Yup.string().required("Pagination is required"),
+    auto_logout: Yup.string().required("Auto Logout is required"),
   });
   const handleSubmit2 = async (values) => {
     setLoading(true);
@@ -276,26 +178,6 @@ export default function Settings() {
     onSubmit: handleSubmit2,
   });
 
-  const {
-    handleSubmit: handleSubmit2Form,
-    isSubmitting: isSubmitting2,
-    errors: errors2,
-    touched: touched2,
-    handleChange: handleChange2,
-    handleBlur: handleBlur2,
-    values: values2,
-  } = formik2;
-
-  const {
-    handleSubmit,
-    isSubmitting,
-    errors,
-    touched,
-    handleChange,
-    handleBlur,
-    values,
-  } = formik;
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -324,197 +206,7 @@ export default function Settings() {
           </div>
 
           <Row>
-            <Col lg={12} xl={6} md={12} sm={12}>
-              <form onSubmit={formik.handleSubmit}>
-                <Card className="profile-edit">
-                  <Card.Header>
-                    <Card.Title as="h3">Smtp Settings</Card.Title>
-                  </Card.Header>
-                  <div className="card-body">
-                    <Row>
-                      <Col lg={6} xl={6} md={6} sm={6}>
-                        <div className="form-group">
-                          <label className="form-label mt-4" htmlFor="host">
-                            SMTP Url<span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.host && formik.touched.host
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="host"
-                            name="host"
-                            placeholder="SMTP url"
-                            onChange={formik.handleChange}
-                            value={formik.values.host || ""}
-                          />
-                          {formik.errors.host && formik.touched.host && (
-                            <div className="invalid-feedback">
-                              {formik.errors.host}
-                            </div>
-                          )}
-                        </div>
-                      </Col>
-                      <Col lg={6} xl={6} md={6} sm={6}>
-                        <div className="form-group">
-                          <label className="form-label mt-4" htmlFor="username">
-                            User Name<span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.username && formik.touched.username
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="username"
-                            name="username"
-                            placeholder="User Name"
-                            onChange={formik.handleChange}
-                            value={formik.values.username || ""}
-                          />
-                          {formik.errors.username &&
-                            formik.touched.username && (
-                              <div className="invalid-feedback">
-                                {formik.errors.username}
-                              </div>
-                            )}
-                        </div>
-                      </Col>
-                      <Col lg={6} md={12}>
-                        <div className="form-group">
-                          <label className="form-label mt-4" htmlFor="password">
-                            Password<span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="password"
-                            className={`input101 ${
-                              formik.errors.password && formik.touched.password
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="password"
-                            name="password"
-                            placeholder="Password"
-                            onChange={formik.handleChange}
-                            value={formik.values.password || ""}
-                          />
-                          {formik.errors.password &&
-                            formik.touched.password && (
-                              <div className="invalid-feedback">
-                                {formik.errors.password}
-                              </div>
-                            )}
-                        </div>
-                      </Col>
-                      <Col lg={6} md={12}>
-                        <div className="form-group">
-                          <label className="form-label mt-4" htmlFor="port">
-                            Port<span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.port && formik.touched.port
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="port"
-                            name="port"
-                            placeholder="Port"
-                            onChange={formik.handleChange}
-                            value={formik.values.port || ""}
-                          />
-                          {formik.errors.port && formik.touched.port && (
-                            <div className="invalid-feedback">
-                              {formik.errors.port}
-                            </div>
-                          )}
-                        </div>
-                      </Col>
-                      <Col lg={6} md={12}>
-                        <div className="form-group">
-                          <label
-                            className="form-label mt-4"
-                            htmlFor="from_email"
-                          >
-                            From Email<span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.from_email &&
-                              formik.touched.from_email
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="from_email"
-                            name="from_email"
-                            placeholder="From Email"
-                            onChange={formik.handleChange}
-                            value={formik.values.from_email || ""}
-                          />
-                          {formik.errors.from_email &&
-                            formik.touched.from_email && (
-                              <div className="invalid-feedback">
-                                {formik.errors.from_email}
-                              </div>
-                            )}
-                        </div>
-                      </Col>
-                      <Col lg={6} md={12}>
-                        <div className="form-group">
-                          <label
-                            className="form-label mt-4"
-                            htmlFor="from_name"
-                          >
-                            From Name<span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.from_name &&
-                              formik.touched.from_name
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="from_name"
-                            name="from_name"
-                            placeholder="From Name"
-                            onChange={formik.handleChange}
-                            value={formik.values.from_name || ""}
-                          />
-                          {formik.errors.from_name &&
-                            formik.touched.from_name && (
-                              <div className="invalid-feedback">
-                                {formik.errors.from_name}
-                              </div>
-                            )}
-                        </div>
-                      </Col>
-
-                      <div className="text-end">
-                        <button
-                          className="btn btn-primary me-2"
-                          type="submit"
-                          disabled={isSubmitting}
-                        >
-                          Update
-                        </button>
-                      </div>
-                    </Row>
-                  </div>
-                </Card>
-              </form>
-            </Col>
-            <Col lg={12} xl={6} md={12} sm={12}>
+            <Col lg={12} xl={12} md={12} sm={12}>
               <form onSubmit={formik2.handleSubmit}>
                 <Card className="profile-edit">
                   <Card.Header>
@@ -585,67 +277,43 @@ export default function Settings() {
                       </Col>
                       <Col lg={6} md={6}>
                         <div className="form-group">
-                          <label className="form-label mt-4" htmlFor="decimal">
-                            Decimal<span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            autoComplete="off"
-                            maxLength={1}
-                            minLength={1}
-                            className={`input101 ${
-                              formik2.errors.decimal && formik2.touched.decimal
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="decimal"
-                            name="decimal"
-                            placeholder="Decimal"
-                            onChange={formik2.handleChange}
-                            value={formik2.values.decimal}
-                          />
-                          {formik2.errors.decimal &&
-                            formik2.touched.decimal && (
-                              <div className="invalid-feedback">
-                                {formik2.errors.decimal}
-                              </div>
-                            )}
-                        </div>
-                      </Col>
-                      <Col lg={6} md={6}>
-                        <div className="form-group">
                           <label
                             className="form-label mt-4"
-                            htmlFor="calculate_decimal"
+                            htmlFor="auto-logout"
                           >
-                            Calculate Decimal
-                            <span className="text-danger">*</span>
+                            Auto Logout<span className="text-danger">*</span>
                           </label>
-                          <input
+                          <select
                             type="text"
                             autoComplete="off"
-                            maxLength={1}
-                            minLength={1}
                             className={`input101 ${
-                              formik2.errors.calculate_decimal &&
-                              formik2.touched.calculate_decimal
+                              formik2.errors.auto_logout &&
+                              formik2.touched.auto_logout
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            id="calculate_decimal"
-                            name="calculate_decimal"
-                            placeholder="Calculate Decimal"
+                            id="auto_logout"
+                            name="auto_logout"
+                            placeholder="auto_logout"
                             onChange={formik2.handleChange}
-                            value={formik2.values.calculate_decimal}
-                          />
-                          {formik2.errors.calculate_decimal &&
-                            formik2.touched.calculate_decimal && (
+                            value={formik2.values.auto_logout}
+                          >
+                            <option value="">Select a Auto Logout Time</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                          </select>
+                          {formik2.errors.auto_logout &&
+                            formik2.touched.auto_logout && (
                               <div className="invalid-feedback">
-                                {formik2.errors.calculate_decimal}
+                                {formik2.errors.auto_logout}
                               </div>
                             )}
                         </div>
                       </Col>
+
                       <div className="text-end">
                         <button
                           className="btn btn-primary me-2"

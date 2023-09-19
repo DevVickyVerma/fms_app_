@@ -16,6 +16,10 @@ import { MyProvider } from "../Utils/MyContext";
 
 const App = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
+  const [logoutTime, setLogoutTime] = useState(
+    parseInt(localStorage.getItem("auto_logout")) * 60000
+  );
+
   const loadingBarRef = useRef();
   const navigate = useNavigate();
   const location = useLocation();
@@ -60,15 +64,17 @@ const App = (props) => {
   const handleUserActivity = () => {
     clearTimeout(inactivityTimeout);
     setIsInactive(false);
-    inactivityTimeout = setTimeout(() => setIsInactive(true), 300000);
+    inactivityTimeout = setTimeout(() => setIsInactive(true), logoutTime);
   };
 
   useEffect(() => {
+    console.log(localStorage.getItem("auto_logout"), "auto_logout111");
+    console.log(logoutTime, "auto_logout111logoutTime");
     window.addEventListener("mousemove", handleUserActivity);
     window.addEventListener("keydown", handleUserActivity);
     window.addEventListener("scroll", handleUserActivity);
 
-    inactivityTimeout = setTimeout(() => setIsInactive(true), 300000);
+    inactivityTimeout = setTimeout(() => setIsInactive(true), logoutTime);
 
     return () => {
       window.removeEventListener("mousemove", handleUserActivity);
@@ -83,8 +89,8 @@ const App = (props) => {
   };
 
   const handleCancel = () => {
-    // Logic to handle cancellation
-    console.log("Deletion canceled");
+    console.log("Deletion canceledlogout");
+    // logout();
   };
 
   useEffect(() => {

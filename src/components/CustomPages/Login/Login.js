@@ -19,10 +19,10 @@ export default function Login(props) {
   useEffect(() => {
     document.addEventListener("keydown", function (event) {
       if (event.getModifierState("CapsLock")) {
-        console.log("Caps Lock is ON");
+        // console.log("Caps Lock is ON");
         setCapsLockActive(true);
       } else {
-        console.log("Caps Lock is OFF");
+        // console.log("Caps Lock is OFF");
         setCapsLockActive(false);
       }
     });
@@ -47,13 +47,6 @@ export default function Login(props) {
   };
 
   const navigate = useNavigate();
-
-  // if (props.token) {
-  //   return <Navigate to="/dashboard" />;
-  // }
-  // if (localStorage.getItem("token")) {
-  //   return <Navigate to="/dashboard" />;
-  // }
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
@@ -93,22 +86,24 @@ export default function Login(props) {
 
       const data = await response.json();
       if (response.ok && data) {
-        localStorage.setItem("token", data.data.access_token);
-        localStorage.setItem("superiorId", data.data.superiorId);
-        localStorage.setItem("superiorRole", data.data.superiorRole);
-        localStorage.setItem("role", data.data.role);
-        localStorage.setItem("authToken", data.data.token);
+        localStorage.setItem("token", data?.data?.access_token);
+        localStorage.setItem("superiorId", data?.data?.superiorId);
+        localStorage.setItem("superiorRole", data?.data?.superiorRole);
+        localStorage.setItem("role", data?.data?.role);
+        localStorage.setItem("auto_logout", data?.data?.auto_logout);
+        localStorage.setItem("authToken", data?.data?.token);
+        console.log(data?.data?.auto_logout, "auto_logout");
 
         if (data?.data?.is_verified === true) {
           navigate(data?.data?.route);
         } else {
           if (data?.data?.is_verified === false) {
             // setAuthToken(data?.data?.token)
-            navigate("/validateOtp")
+            navigate("/validateOtp");
           }
         }
         localStorage.setItem("justLoggedIn", true);
-        notify(data.message);
+        notify(data?.message);
         setLoading(false);
       } else {
         Errornotify(data.message);
@@ -166,10 +161,11 @@ export default function Login(props) {
                               style={{ display: "flex" }}
                             >
                               <Field
-                                className={`input100 ${errors.email && touched.email
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input100 ${
+                                  errors.email && touched.email
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 // type="password"
                                 type="text"
                                 name="email"
@@ -245,10 +241,11 @@ export default function Login(props) {
                               style={{ display: "flex" }}
                             >
                               <Field
-                                className={`input100 ${errors.password && touched.password
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input100 ${
+                                  errors.password && touched.password
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 // type="password"
                                 type={passwordVisible ? "password" : "text"}
                                 name="password"

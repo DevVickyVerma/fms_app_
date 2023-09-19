@@ -2,7 +2,7 @@ import React from "react";
 import { Dropdown, Navbar, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
- function Header2() {
+function Header2() {
   //full screen
   function Fullscreen() {
     if (
@@ -56,10 +56,7 @@ import { Link } from "react-router-dom";
             onClick={() => openCloseSidebar()}
           ></Link>
           <div className="responsive-logo">
-            <Link
-              to={`/dashboard/`}
-              className="header-logo"
-            >
+            <Link to={`/dashboard/`} className="header-logo">
               <img
                 src={require("../../assets/images/brand/logo-3.png")}
                 className="mobile-logo logo-1"
@@ -72,10 +69,7 @@ import { Link } from "react-router-dom";
               />
             </Link>
           </div>
-          <Link
-            className="logo-horizontal "
-            to={`/dashboard/`}
-          >
+          <Link className="logo-horizontal " to={`/dashboard/`}>
             <img
               src={require("../../assets/images/brand/logo.png")}
               className="header-brand-img desktop-logo"
@@ -123,7 +117,8 @@ import { Link } from "react-router-dom";
                     <div className="dropdown-menu header-search dropdown-menu-start">
                       <div className="input-group w-100 p-2 border">
                         <input
-                          type="text"  autoComplete="off"
+                          type="text"
+                          autoComplete="off"
                           className="form-control"
                           placeholder="Search...."
                         />
@@ -371,32 +366,22 @@ import { Link } from "react-router-dom";
                         </div>
                       </div>
                       <div className="dropdown-divider m-0"></div>
-                      <Dropdown.Item
-                        href={`/pages/profile/`}
-                      >
+                      <Dropdown.Item href={`/pages/profile/`}>
                         <i className="dropdown-icon fe fe-user"></i> Profile
                       </Dropdown.Item>
-                      <Dropdown.Item
-                        href={`/pages/mailInbox/`}
-                      >
+                      <Dropdown.Item href={`/pages/mailInbox/`}>
                         <i className="dropdown-icon fe fe-mail"></i> Inbox
                         <span className="badge bg-secondary float-end">3</span>
                       </Dropdown.Item>
-                      <Dropdown.Item
-                        href={`/pages/mailCompose/`}
-                      >
+                      <Dropdown.Item href={`/pages/mailCompose/`}>
                         <i className="dropdown-icon fe fe-settings"></i>
                         Settings
                       </Dropdown.Item>
-                      <Dropdown.Item
-                        href={`/pages/faqs/`}
-                      >
+                      <Dropdown.Item href={`/pages/faqs/`}>
                         <i className="dropdown-icon fe fe-alert-triangle"></i>
                         Need help?p??
                       </Dropdown.Item>
-                      <Dropdown.Item
-                        href={`/login/`}
-                      >
+                      <Dropdown.Item href={`/login/`}>
                         <i className="dropdown-icon fe fe-alert-circle"></i>
                         Sign out
                       </Dropdown.Item>

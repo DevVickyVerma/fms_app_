@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Dropdown, Navbar, Container, Button } from "react-bootstrap";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import * as loderdata from "../../data/Component/loderdata/loderdata";
 
@@ -84,10 +84,11 @@ const Header = (props) => {
   };
   const stringValue = String(UserPermissions?.notifications);
 
-  console.log(stringValue, "usernotification");
+  console.log(UserPermissions?.notifications, "usernotification");
 
   const handleIconClick = async (row) => {
     try {
+      setIsDropdownOpen(!isDropdownOpen);
       const response = await getData("/notifications");
 
       if (response.data.api_response === "success") {
@@ -102,10 +103,15 @@ const Header = (props) => {
       // Handle the error here, such as displaying an error message or performing other actions
     }
   };
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
+  const closeDropdown = () => {
+    setIsDropdownOpen(false);
+  };
+  const navigate = useNavigate();
+  const handleViewAllNotificationsClick = () => {
+    navigate("/notifications");
+    closeDropdown();
   };
   return (
     <Navbar expand="md" className="app-header header sticky">
@@ -150,13 +156,17 @@ const Header = (props) => {
               <Navbar id="navbarSupportedContent-4">
                 <Dropdown
                   className="d-md-flex notifications"
+                  show={isDropdownOpen}
+                  onSelect={(eventKey) => {
+                    if (eventKey === "closeDropdown") {
+                      closeDropdown();
+                    }
+                  }}
                   onClick={handleIconClick}
                 >
                   <Dropdown.Toggle className="nav-link icon " variant="">
-                    {/* <span className="">3 </span>
-                    <i className="fe fe-bell"></i> */}
                     <i className="fe fe-bell" />
-                    <span className="nav-unread badge bg-success rounded-pill notifictaion-number">
+                    <span className="nav-unread badge bg-danger rounded-pill notifictaion-number">
                       {stringValue !== undefined ? stringValue : ""}
                     </span>
                   </Dropdown.Toggle>
@@ -170,7 +180,7 @@ const Header = (props) => {
                           You have Notifications
                         </h6>
                         <div className="ms-auto">
-                          <span className="badge bg-success rounded-pill">
+                          <span className="badge bg-danger rounded-pill">
                             {stringValue !== undefined ? stringValue : ""}
                           </span>
                         </div>
@@ -183,32 +193,36 @@ const Header = (props) => {
                       <>
                         {isLoading ? <Loaderimg /> : null}
                         {usernotification &&
-                          usernotification.slice(0, 3).map((notification) => (
-                            <Dropdown.Item className="d-flex">
-                              <div className="notifyimg bg-primary-gradient brround box-shadow-primary">
-                                <i className="fe fe-message-square"></i>
-                              </div>
+                          usernotification.notifications
+                            ?.slice(0, 3)
+                            .map((notification) => (
+                              <Dropdown.Item className="d-flex">
+                                <div className="notifyimg bg-primary-gradient brround box-shadow-primary">
+                                  <i className="fe fe-message-square"></i>
+                                </div>
 
-                              <Link to="/Notifications" className="mt-1">
-                                <h5 className="notification-label mb-1">
-                                  {notification?.message}
-                                </h5>
-                                <span className="notification-subtext">
-                                  {notification?.ago}
-                                </span>
-                              </Link>
-                            </Dropdown.Item>
-                          ))}
+                                <Link to="/Notifications" className="mt-1">
+                                  <h5 className="notification-label mb-1">
+                                    {notification?.message}
+                                  </h5>
+                                  <span className="notification-subtext">
+                                    {notification?.ago}
+                                  </span>
+                                </Link>
+                              </Dropdown.Item>
+                            ))}
                       </>
                     </div>
                     <div className="dropdown-divider m-0"></div>
-                    {usernotification && usernotification.length > 0 ? (
-                      <Link
-                        to="/Notifications"
-                        className=" dropdown-item text-center p-3 text-muted"
+                    {usernotification &&
+                    usernotification?.notifications?.length > 0 ? (
+                      <Dropdown.Item
+                        eventKey="closeDropdown"
+                        onClick={handleViewAllNotificationsClick}
+                        className="dropdown-item text-center p-3 text-muted"
                       >
                         View all Notification
-                      </Link>
+                      </Dropdown.Item>
                     ) : (
                       ""
                     )}

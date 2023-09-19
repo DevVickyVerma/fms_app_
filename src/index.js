@@ -788,7 +788,7 @@ const Root = () => {
                     element={<WrappedEditDeductions />}
                   />
                   <Route
-                    path={`/Notifications`}
+                    path={`/notifications`}
                     element={<WrappedmanageNotification />}
                   />
 
