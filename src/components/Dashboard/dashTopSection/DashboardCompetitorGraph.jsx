@@ -1,6 +1,6 @@
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { log } from 'nvd3';
-import React, { useEffect, useState } from 'react'
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { log } from "nvd3";
+import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 
 const DashboardCompetitorGraph = ({
@@ -12,24 +12,21 @@ const DashboardCompetitorGraph = ({
   const [selectedFuelIndex, setSelectedFuelIndex] = useState(0);
   const selectedFuelType = getCompetitorsPrice?.fuelTypes[selectedFuelIndex];
 
-
-
   useEffect(() => {
     if (!getCompetitorsPrice) {
       // Handle the case when data is not yet available or has an issue.
       return;
     }
-  })
+  });
 
   // Filter the data for the selected fuel type
-  const filteredData = getCompetitorsPrice?.dates?.map(date => ({
+  const filteredData = getCompetitorsPrice?.dates?.map((date) => ({
     date,
-    price: getCompetitorsPrice?.dataArray?.[date]?.[selectedFuelType]
+    price: getCompetitorsPrice?.dataArray?.[date]?.[selectedFuelType],
   }));
 
-
   if (!filteredData) {
-    return "filter is not applied yet"
+    return "filter is not applied yet";
   }
 
   console.log(filteredData, "filteredData");
@@ -70,67 +67,28 @@ const DashboardCompetitorGraph = ({
     return transformedData;
   };
 
-
   const transformedData = transformData(filteredData);
   console.log(transformedData, "transformedData");
 
-  // const transformData = (data) => {
-
-  //   console.log(data, "sadsda");
-  //   const transformedData = {};
-
-  //   // Iterate over each date in the data
-  //   data.forEach((item) => {
-  //     const { date, price } = item;
-
-  //     // Iterate over each fuel station in the price object
-  //     for (const key in price) {
-  //       if (price.hasOwnProperty(key)) {
-  //         const fuelStation = price[key];
-
-  //         // Create an entry for the fuel station if it doesn't exist
-  //         if (!transformedData[fuelStation.name]) {
-  //           transformedData[fuelStation.name] = {
-  //             name: fuelStation.name,
-  //             prices: [],
-  //           };
-  //         }
-
-  //         // Add the price for the current date
-  //         transformedData[fuelStation.name].prices.push({
-  //           date,
-  //           price: fuelStation.price,
-  //         });
-  //       }
-  //     }
-  //   });
-
-  //   // Convert the object into an array of fuel stations
-  //   const transformedArray = Object.values(transformedData);
-
-  //   return transformedArray;
-  // };
-
-  // const transformedData = transformData(filteredData); // Pass in your data here
-  // console.log(transformedData, "transformedData");
-
-
-  // Define the datasets using transformedData
   const datasets = Object?.keys(transformedData).map((name, index) => ({
     label: name ? name : "",
     data: transformedData[name] ? transformedData[name] : "",
     borderColor: `rgba(${colorArray[index % colorArray.length].join(", ")}, 1)`,
-    backgroundColor: `rgba(${colorArray[index % colorArray.length].join(", ")}, 0.9)`,
+    backgroundColor: `rgba(${colorArray[index % colorArray.length].join(
+      ", "
+    )}, 0.9)`,
     // borderColor: `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255
     //   }, 1)`,
     // backgroundColor: `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255
     //   }, 0.8)`,
-    yAxisID: 'y', // You can adjust the yAxisID as needed
+    yAxisID: "y", // You can adjust the yAxisID as needed
     type: index === 0 ? "bar" : "line",
   }));
 
   const data = {
-    labels: filteredData ? filteredData?.map(selectedDate => selectedDate.date) : "",
+    labels: filteredData
+      ? filteredData?.map((selectedDate) => selectedDate.date)
+      : "",
     datasets: datasets ? datasets : "",
   };
 
@@ -148,15 +106,15 @@ const DashboardCompetitorGraph = ({
         position: "left",
         min: 0, // Set the minimum value to 0 for the left y-axis (y)
       },
-      y1: {
-        type: "linear",
-        display: true,
-        position: "right",
-        grid: {
-          drawOnChartArea: false,
-        },
-        min: 0, // Set the minimum value to 0 for the left y-axis (y)
-      },
+      // y1: {
+      //   type: "linear",
+      //   display: true,
+      //   position: "right",
+      //   grid: {
+      //     drawOnChartArea: false,
+      //   },
+      //   min: 0, // Set the minimum value to 0 for the left y-axis (y)
+      // },
     },
   };
 
@@ -187,14 +145,10 @@ const DashboardCompetitorGraph = ({
         </div>
       </div>
       <div>
-        <Line
-          data={data}
-          options={options}
-        />
+        <Line data={data} options={options} />
       </div>
     </>
-  )
-}
+  );
+};
 
-export default DashboardCompetitorGraph
-
+export default DashboardCompetitorGraph;
