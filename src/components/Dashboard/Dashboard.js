@@ -587,7 +587,7 @@ const Dashboard = (props) => {
           >
             <Card>
               <Card.Header className="card-header">
-                <h4 className="card-title">Total Transactions</h4>
+                <h4 className="card-title" style={{ minHeight: "32px" }}  >Total Transactions</h4>
               </Card.Header>
               <Card.Body className="card-body pb-0 dashboard-chart-height">
                 <div id="chart">
@@ -611,10 +611,11 @@ const Dashboard = (props) => {
 
           <Col
           // lg={5} md={12}
+
           >
             <Card>
               <Card.Header className="card-header">
-                <h4 className="card-title">Overall Stats</h4>
+                <h4 className="card-title" style={{ minHeight: "32px" }} >Overall Stats</h4>
               </Card.Header>
               <Card.Body className="card-body pb-0 dashboard-chart-height">
                 <div id="chart">

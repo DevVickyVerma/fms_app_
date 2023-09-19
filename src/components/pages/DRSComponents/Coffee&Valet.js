@@ -452,7 +452,7 @@ const CoffeeValet = (props) => {
               id={`price-${index}`}
               name={`data[${index}].price`}
               className={"table-input readonly "}
-              value={formik.values.data[index]?.price.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]}
+              value={formik.values.data[index]?.price?.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               readOnly
@@ -485,7 +485,7 @@ const CoffeeValet = (props) => {
               id={`value-${index}`}
               name={`data[${index}].value`}
               className={"table-input readonly "}
-              value={formik.values.data[index]?.value.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]}
+              value={formik.values.data[index]?.value?.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               readOnly
@@ -554,7 +554,7 @@ const CoffeeValet = (props) => {
               id={`commission-${index}`}
               name={`data[${index}].commission`}
               className={"table-input readonly "}
-              value={formik.values.data[index]?.commission.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]}
+              value={formik.values.data[index]?.commission?.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               readOnly
@@ -600,12 +600,12 @@ const CoffeeValet = (props) => {
       }
     }
 
-    setMySalesTotalValue(totalSale.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]);
+    setMySalesTotalValue(totalSale?.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]);
     // setMyCommissionValueTotalValue(totalCommission.toFixed(2));
-    setMyCommissionValueTotalValue(totalCommission.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]);
+    setMyCommissionValueTotalValue(totalCommission?.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]);
 
     console.log("totalCommissiontotalCommission", totalCommission);
-    console.log("totalCommissiontotalCommission", totalCommission.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]);
+    console.log("totalCommissiontotalCommission", totalCommission?.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]);
     setMyValuesTotalValue(totalValuesValue.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]);
     // console.log("Total Saleeeee:", totalSale.toFixed(2));
     // console.log("Total Commissionnnnnn:", totalCommission.toFixed(2));
