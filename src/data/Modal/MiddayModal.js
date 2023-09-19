@@ -286,7 +286,7 @@ const CustomModal = ({
                               (e) =>
                                 handleTimeChange(0, rowIndex, e.target.value) // Column index is 0
                             }
-                            step="300"
+                            step="0.010"
                           />
                         ) : (
                           <span>
@@ -315,6 +315,7 @@ const CustomModal = ({
                                   ]?.price
                                 }
                                 onChange={formik.handleChange}
+                                step="0.010"
                               />
                             ) : (
                               <span>{fuelPrices[rowIndex]?.price}</span>

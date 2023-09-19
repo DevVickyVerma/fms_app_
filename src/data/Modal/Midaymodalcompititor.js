@@ -191,10 +191,6 @@ const Competitormodal = ({
     }
   };
 
-  const SendNotification = (event) => {
-    setIsChecked(event.target.checked);
-  };
-
   const sendDataToParent = () => {
     const dataToSend = "Data from child 123";
     onDataFromChild(dataToSend);
@@ -257,6 +253,7 @@ const Competitormodal = ({
                                 <input
                                   className={`table-input`}
                                   type="number"
+                                  step="0.010"
                                   name={`listing[${competitorIndex}].fuels[${fuelIndex}].price`}
                                   value={
                                     formik.values.listing[competitorIndex]
