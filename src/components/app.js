@@ -90,14 +90,14 @@ const App = (props) => {
 
   const handleCancel = () => {
     console.log("Deletion canceledlogout");
-    // logout();
+    logout();
   };
 
   useEffect(() => {
     if (isInactive) {
       Swal.fire({
         title: "Inactivity Alert",
-        text: "Oops, there is no activity from last 5 minutes, would you like to stay logged in or logout?",
+        text: `Oops, there is no activity from last ${logoutTime}  minutes,`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Logout!",
