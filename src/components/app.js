@@ -94,7 +94,7 @@ const App = (props) => {
   };
 
   useEffect(() => {
-    if (isInactive) {
+    if (isInactive && logoutTime) {
       Swal.fire({
         title: "Inactivity Alert",
         text: `Oops, there is no activity from last ${
@@ -111,7 +111,7 @@ const App = (props) => {
 
       console.log("Inactivity Alert");
     }
-  }, [isInactive, handleConfirm, handleCancel]);
+  }, [isInactive, handleConfirm, handleCancel, logoutTime]);
   return (
     <MyProvider>
       <Fragment>
