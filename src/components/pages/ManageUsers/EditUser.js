@@ -107,9 +107,8 @@ const EditUsers = (props) => {
         });
         console.log(combinedClientNames, "combinedClientNames");
         setSelectedItems(combinedClientNames);
-        setSelectedItemsId(combinedClientId)
-        console.log(selectedItemsId,
-          "selectedItemsId");
+        setSelectedItemsId(combinedClientId);
+        console.log(selectedItemsId, "selectedItemsId");
       }
     } catch (error) {
       handleError(error);
@@ -245,11 +244,12 @@ const EditUsers = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.first_name &&
+                            className={`input101 ${
+                              formik.errors.first_name &&
                               formik.touched.first_name
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="first_name"
                             name="first_name"
                             placeholder="First Name Name"
@@ -271,10 +271,11 @@ const EditUsers = (props) => {
                         <input
                           type="text"
                           autoComplete="off"
-                          className={`input101 ${formik.errors.last_name && formik.touched.last_name
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                          className={`input101 ${
+                            formik.errors.last_name && formik.touched.last_name
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="last_name"
                           name="last_name"
                           placeholder="  Last Name"
@@ -295,10 +296,11 @@ const EditUsers = (props) => {
                             Status<span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.status && formik.touched.status
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.status && formik.touched.status
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="status"
                             name="status"
                             onChange={formik.handleChange}
@@ -322,10 +324,11 @@ const EditUsers = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.role_id && formik.touched.role_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.role_id && formik.touched.role_id
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="role_id"
                             name="role_id"
                             onChange={formik.handleChange}
@@ -412,7 +415,7 @@ const EditUsers = (props) => {
                       ) : (
                         ""
                       )}
-                      {localStorage.getItem("superiorRole") !== "Client" ? (
+                      {localStorage.getItem("role") === "Client" ? (
                         <Col lg={4} md={6}>
                           <div className="form-group">
                             <label
@@ -423,11 +426,12 @@ const EditUsers = (props) => {
                               {/* <span className="text-danger">*</span> */}
                             </label>
                             <select
-                              className={`input101 ${formik.errors.work_flow &&
+                              className={`input101 ${
+                                formik.errors.work_flow &&
                                 formik.touched.work_flow
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="work_flow"
                               name="work_flow"
                               onChange={formik.handleChange}

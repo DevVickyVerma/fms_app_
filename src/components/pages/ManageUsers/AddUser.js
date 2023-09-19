@@ -409,7 +409,7 @@ const AddUsers = (props) => {
                         ) : (
                           ""
                         )}
-                        {localStorage.getItem("superiorRole") !== "Client" ? (
+                        {localStorage.getItem("role") === "Client" ? (
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
