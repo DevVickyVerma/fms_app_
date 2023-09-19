@@ -372,6 +372,273 @@ const DashTopTableSection = (props) => {
     },
   ];
 
+  const renderTableHeader = () => {
+    return (
+      <tr className="fuelprice-tr" style={{ padding: "0px" }}>
+        {/* {data?.head_array.map((item, index) => (
+          <th key={index}>{item}</th>
+        ))} */}
+        {/* <th> Logo</th> */}
+        <th >Sites</th>
+        <th >Gross Volume</th>
+        <th >Fuel Sales</th>
+        <th >Gross Profit</th>
+        <th >Gross Margin</th>
+        <th  >Shop Sales</th>
+        <th >Shop Margin</th>
+      </tr>
+    );
+  };
+
+  const renderTableData = () => {
+    return data?.map((item) => (
+      <tr className="fuelprice-tr" key={item.id} style={{ padding: "0px" }}>
+
+        <td>
+
+          <div className="d-flex align-items-center justify-center h-100">
+            <div
+            // className="d-flex align-items-center card-img"
+            >
+              <img
+                src={item.image}
+                alt={item.image}
+                className="mr-2"
+                style={{ width: "30px", height: "30px" }}
+              />
+
+            </div>
+            {isSitePermissionAvailable ? (
+              <div onClick={() => handleSaveSingleSiteData(item)}>
+                <Link to={`/dashboard-details/${item?.id}`}>
+                  <div className="d-flex">
+                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                      <h6 className="mb-0 fs-14 fw-semibold">{item?.name}</h6>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            ) : (
+              <div className="d-flex">
+                <div className="ms-2 mt-0 mt-sm-2 d-block">
+                  <h6 className="mb-0 fs-14 fw-semibold">{item?.name}</h6>
+                </div>
+              </div>
+            )}
+          </div>
+        </td>
+
+        {/* <td>{item?.fuel_volume?.total_volume}</td> */}
+        <td>
+          <div className="d-flex align-items-center h-100 ">
+            <div className="ms-2 mt-0 mt-sm-2 d-block">
+              <h6 className="mb-0 fs-14 fw-semibold ">
+                ℓ{item.fuel_volume?.gross_volume}
+              </h6>
+
+              <p
+                className={`me-1 ${item.fuel_volume?.status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
+                data-tip={`${item?.fuel_volume?.percentage}%`}
+              >
+                {item?.fuel_volume?.status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {item?.fuel_volume?.percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {item?.fuel_volume?.percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </div>
+          </div>
+        </td>
+
+
+        <td>
+          {/* {item?.fuel_sales?.total_value} */}
+          <div className="d-flex">
+            <div className="ms-2 mt-0 mt-sm-2 d-block">
+              <h6 className="mb-0 fs-14 fw-semibold">
+                £{item?.fuel_sales?.gross_value}
+              </h6>
+              <p
+                className={`me-1 ${item?.fuel_sales?.status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
+                data-tip={`${item?.fuel_sales?.percentage}%`}
+              >
+                {item?.fuel_sales?.status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {item?.fuel_sales?.percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {item?.fuel_sales?.percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </div>
+          </div>
+        </td>
+
+        <td>
+          {/* {item?.gross_profit?.gross_profit} */}
+          <div className="d-flex">
+            <div className="ms-2 mt-0 mt-sm-2 d-block">
+              <h6 className="mb-0 fs-14 fw-semibold">
+                £{item?.gross_profit?.gross_profit}
+              </h6>
+              <p
+                className={`me-1 ${item?.gross_profit?.status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
+                data-tip={`${item?.gross_profit?.percentage}%`}
+              >
+                {item?.gross_profit?.status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {item?.gross_profit?.percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {item?.gross_profit?.percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </div>
+          </div>
+        </td>
+
+        <td>
+          {/* {item?.gross_margin?.gross_margin} */}
+          <div className="d-flex">
+            <div className="ms-2 mt-0 mt-sm-2 d-block">
+              <h6 className="mb-0 fs-14 fw-semibold">
+                {item?.gross_margin?.gross_margin} ppl
+              </h6>
+              <p
+                className={`me-1 ${item?.gross_margin?.status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
+                data-tip={`${item?.gross_margin?.percentage}%`}
+              >
+                {item?.gross_margin?.status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {item?.gross_margin?.percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {item?.gross_margin?.percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </div>
+          </div>
+        </td>
+
+
+        <td>
+          {/* {item?.shop_sales?.shop_sales} */}
+          <div className="d-flex">
+            <div className="ms-2 mt-0 mt-sm-2 d-block">
+              <h6 className="mb-0 fs-14 fw-semibold">
+                £{item?.shop_sales?.shop_sales}
+              </h6>
+              <p
+                className={`me-1 ${item?.shop_sales?.status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
+                data-tip={`${item?.shop_sales?.percentage}%`}
+              >
+                {item?.shop_sales?.status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {item?.shop_sales?.percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {item?.shop_sales?.percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </div>
+          </div>
+        </td>
+        <td>
+          {/* {item?.shop_margin?.shop_margin} */}
+          <div className="d-flex">
+            <div className="ms-2 mt-0 mt-sm-2 d-block">
+              <h6 className="mb-0 fs-14 fw-semibold">
+                £{item?.shop_margin?.shop_margin}
+              </h6>
+              <p
+                className={`me-1 ${item?.shop_margin?.status === "up"
+                  ? "text-success"
+                  : "text-danger"
+                  }`}
+                data-tip={`${item?.shop_margin?.percentage}%`}
+              >
+                {item?.shop_margin?.status === "up" ? (
+                  <>
+                    <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                    <span className="text-success">
+                      {item?.shop_margin?.percentage}%
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                    <span className="text-danger">
+                      {item?.shop_margin?.percentage}%
+                    </span>
+                  </>
+                )}
+              </p>
+            </div>
+          </div>
+        </td>
+
+
+      </tr>
+    ));
+  };
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -383,24 +650,36 @@ const DashTopTableSection = (props) => {
               <b>{UserPermissions?.d_label}</b>
             </Card.Header>
             <Card.Body>
-              <div className="table-responsive deleted-table">
-                <DataTable
-                  key={Math.random()}
-                  columns={columns}
-                  data={data}
-                  pagination
-                  paginationPerPage={20}
-                  highlightOnHover={true}
-                  fixedHeader={true}
-                  responsive={true}
-                  pointerOnHover={true}
-                  striped={true}
-                  customStyles={tableCustomStyles}
-                  // subHeader={true}
-                  // selectableRows={true}
-                  selectableRowsHighlight={true}
-                />
-              </div>
+
+
+              {data ? (
+                <div
+                  className="table-container table-responsive"
+                  // style={{ height: "700px", overflowY: "auto" }}
+                  style={{
+                    overflowY: "auto",
+                    maxHeight: "calc(100vh - 376px )",
+                  }}
+                // height:"245"
+                >
+                  <table className="table">
+
+                    <thead
+                      style={{
+                        position: "sticky",
+                        top: "0",
+                        width: "100%",
+                      }}
+                    >
+                      <tr className="fuelprice-tr">{renderTableHeader()}</tr>
+                    </thead>
+                    <tbody>{renderTableData()}</tbody>
+                  </table>
+                </div>
+              ) : (
+                <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
+              )}
+
             </Card.Body>
           </Card>
         </Col>
