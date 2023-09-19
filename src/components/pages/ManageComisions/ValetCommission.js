@@ -337,8 +337,8 @@ const ManageDsr = (props) => {
                                   <Field
                                     as="select"
                                     className={`input101 ${errors.client_id && touched.client_id
-                                        ? "is-invalid"
-                                        : ""
+                                      ? "is-invalid"
+                                      : ""
                                       }`}
                                     id="client_id"
                                     name="client_id"
@@ -406,8 +406,8 @@ const ManageDsr = (props) => {
                               <Field
                                 as="select"
                                 className={`input101 ${errors.company_id && touched.company_id
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="company_id"
                                 name="company_id"
@@ -465,8 +465,8 @@ const ManageDsr = (props) => {
                               <Field
                                 as="select"
                                 className={`input101 ${errors.site_id && touched.site_id
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="site_id"
                                 name="site_id"
@@ -502,8 +502,8 @@ const ManageDsr = (props) => {
                                 type="date" min={"2023-01-01"} max={getCurrentDate()}
                                 onClick={hadndleShowDate}
                                 className={`input101 ${errors.start_date && touched.start_date
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="start_date"
                                 name="start_date"
@@ -538,14 +538,16 @@ const ManageDsr = (props) => {
             </Card>
           </Col>
         </Row>
-        {data.length > 0 ? (
-          <Row className="row-sm">
-            <Col lg={12}>
-              <Card>
-                <Card.Header>
-                  <h3 className="card-title">Valet Commission</h3>
-                </Card.Header>
-                <Card.Body>
+
+        <Row className="row-sm">
+          <Col lg={12}>
+            <Card>
+              <Card.Header>
+                <h3 className="card-title">Valet Commission</h3>
+              </Card.Header>
+              <Card.Body>
+
+                {data?.length > 0 ? <>
                   <form onSubmit={formik.handleSubmit}>
                     <div className="table-responsive deleted-table">
                       <DataTableExtensions {...tableDatas}>
@@ -574,13 +576,17 @@ const ManageDsr = (props) => {
                       )}
                     </div>
                   </form>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        ) : (
-          ""
-        )}
+                </> : <>
+
+                  <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
+
+                </>}
+
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+
       </>
     </>
   );

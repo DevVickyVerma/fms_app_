@@ -171,7 +171,7 @@ const ManageDsr = (props) => {
               value={formik.values.data[index]?.commission}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-           
+
             />
             {/* Error handling code */}
           </div>
@@ -183,42 +183,42 @@ const ManageDsr = (props) => {
   const handleSubmit = async (values) => {
     try {
 
-    // Create a new FormData object
-    const formData = new FormData();
-    console.log(values.data)
-    console.log(SelectedsiteID,"SelectedsiteID")
+      // Create a new FormData object
+      const formData = new FormData();
+      console.log(values.data)
+      console.log(SelectedsiteID, "SelectedsiteID")
 
-    values.data.forEach((obj) => {
-      const id = obj.id;
-      const grossValueKey = `commission[${id}]`;
+      values.data.forEach((obj) => {
+        const id = obj.id;
+        const grossValueKey = `commission[${id}]`;
 
 
-      const grossValue = obj.commission;
-    
-      // const action = obj.action;
+        const grossValue = obj.commission;
 
-      formData.append(grossValueKey, grossValue);
-     
-    });
+        // const action = obj.action;
 
-    formData.append("site_id", SelectedsiteID);
-   
+        formData.append(grossValueKey, grossValue);
 
-   
-     
-       
-    
-  
+      });
+
+      formData.append("site_id", SelectedsiteID);
+
+
+
+
+
+
+
       const postDataUrl = "/shop-commission/update";
       const navigatePath = "/business";
-    
-      await postData(postDataUrl, formData, );
-    
-     ; // Set the submission state to false after the API call is completed
+
+      await postData(postDataUrl, formData,);
+
+      ; // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error);
     }
-    }
+  }
 
   const tableDatas = {
     columns,
@@ -284,75 +284,74 @@ const ManageDsr = (props) => {
                         <Row>
                           {localStorage.getItem("superiorRole") !==
                             "Client" && (
-                            <Col lg={4} md={6}>
-                              <FormGroup>
-                                <label
-                                  htmlFor="client_id"
-                                  className=" form-label mt-4"
-                                >
-                                  Client
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <Field
-                                  as="select"
-                                  className={`input101 ${
-                                    errors.client_id && touched.client_id
+                              <Col lg={4} md={6}>
+                                <FormGroup>
+                                  <label
+                                    htmlFor="client_id"
+                                    className=" form-label mt-4"
+                                  >
+                                    Client
+                                    <span className="text-danger">*</span>
+                                  </label>
+                                  <Field
+                                    as="select"
+                                    className={`input101 ${errors.client_id && touched.client_id
                                       ? "is-invalid"
                                       : ""
-                                  }`}
-                                  id="client_id"
-                                  name="client_id"
-                                  onChange={(e) => {
-                                    const selectedType = e.target.value;
-                                    setFieldValue("client_id", selectedType);
-                                    setSelectedClientId(selectedType);
+                                      }`}
+                                    id="client_id"
+                                    name="client_id"
+                                    onChange={(e) => {
+                                      const selectedType = e.target.value;
+                                      setFieldValue("client_id", selectedType);
+                                      setSelectedClientId(selectedType);
 
-                                    // Reset the selected company and site
-                                    setSelectedCompanyList([]);
-                                    setFieldValue("company_id", "");
-                                    setFieldValue("site_id", "");
+                                      // Reset the selected company and site
+                                      setSelectedCompanyList([]);
+                                      setFieldValue("company_id", "");
+                                      setFieldValue("site_id", "");
 
-                                    const selectedClient =
-                                      AddSiteData.data.find(
-                                        (client) => client.id === selectedType
-                                      );
+                                      const selectedClient =
+                                        AddSiteData.data.find(
+                                          (client) => client.id === selectedType
+                                        );
 
-                                    if (selectedClient) {
-                                      setSelectedCompanyList(
-                                        selectedClient.companies
-                                      );
-                                      console.log(
-                                        selectedClient,
-                                        "selectedClient"
-                                      );
-                                      console.log(
-                                        selectedClient.companies,
-                                        "selectedClient"
-                                      );
-                                    }
-                                  }}
-                                >
-                                  <option value="">Select a Client</option>
-                                  {AddSiteData.data &&
-                                  AddSiteData.data.length > 0 ? (
-                                    AddSiteData.data.map((item) => (
-                                      <option key={item.id} value={item.id}>
-                                        {item.client_name}
-                                      </option>
-                                    ))
-                                  ) : (
-                                    <option disabled>No Client</option>
-                                  )}
-                                </Field>
+                                      if (selectedClient) {
+                                        setSelectedCompanyList(
+                                          selectedClient.companies
+                                        );
+                                        console.log(
+                                          selectedClient,
+                                          "selectedClient"
+                                        );
+                                        console.log(
+                                          selectedClient.companies,
+                                          "selectedClient"
+                                        );
+                                      }
+                                    }}
+                                  >
+                                    <option value="">Select a Client</option>
+                                    {AddSiteData.data &&
+                                      AddSiteData.data.length > 0 ? (
+                                      AddSiteData.data.map((item) => (
+                                        <option key={item.id} value={item.id}>
+                                          {item.client_name}
+                                        </option>
+                                      ))
+                                    ) : (
+                                      <option disabled>No Client</option>
+                                    )}
+                                  </Field>
 
-                                <ErrorMessage
-                                  component="div"
-                                  className="invalid-feedback"
-                                  name="client_id"
-                                />
-                              </FormGroup>
-                            </Col>
-                          )}
+                                  <ErrorMessage
+                                    component="div"
+                                    className="invalid-feedback"
+                                    name="client_id"
+                                  />
+                                </FormGroup>
+                              </Col>
+                            )}
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
@@ -364,11 +363,10 @@ const ManageDsr = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.company_id && touched.company_id
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.company_id && touched.company_id
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="company_id"
                                 name="company_id"
                                 onChange={(e) => {
@@ -424,11 +422,10 @@ const ManageDsr = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.site_id && touched.site_id
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.site_id && touched.site_id
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="site_id"
                                 name="site_id"
                               >
@@ -453,18 +450,18 @@ const ManageDsr = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
-                      <Link
+                        <Link
                           type="submit"
                           className="btn btn-danger me-2 "
                           to={`/dashboard/`}
                         >
                           Reset
                         </Link>
-                      <button className="btn btn-primary me-2" type="submit">
+                        <button className="btn btn-primary me-2" type="submit">
                           Submit
                         </button>
-                        
-                      
+
+
                       </Card.Footer>
                     </Form>
                   )}
@@ -473,49 +470,54 @@ const ManageDsr = (props) => {
             </Card>
           </Col>
         </Row>
-        {data.length>0 ? (
-            <Row className="row-sm">
-              <Col lg={12}>
-                <Card>
-                  <Card.Header>
-                    <h3 className="card-title">Shop Commission</h3>
-                  </Card.Header>
-                  <Card.Body>
-                    <form onSubmit={formik.handleSubmit}>
-                      <div className="table-responsive deleted-table">
-                        <DataTableExtensions {...tableDatas}>
-                          <DataTable
-                            columns={columns}
-                            data={data}
-                            noHeader
-                            defaultSortField="id"
-                            defaultSortAsc={false}
-                            striped={true}
-                            persistTableHead
-                            highlightOnHover
-                            searchable={false}
-                          />
-                        </DataTableExtensions>
-                      </div>
-                      <div className="d-flex justify-content-end mt-3">
-                        {editable ? (
-                          <button className="btn btn-primary" type="submit">
-                            Submit
-                          </button>
-                        ) : (
-                          <button className="btn btn-primary" type="submit">
-                            Submit
-                          </button>
-                        )}
-                      </div>
-                    </form>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-            ) : (
-          ""
-        )}
+
+        <Row className="row-sm">
+          <Col lg={12}>
+            <Card>
+              <Card.Header>
+                <h3 className="card-title">Shop Commission</h3>
+              </Card.Header>
+              <Card.Body>
+
+                {data?.length > 0 ? <>
+                  <form onSubmit={formik.handleSubmit}>
+                    <div className="table-responsive deleted-table">
+                      <DataTableExtensions {...tableDatas}>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                        />
+                      </DataTableExtensions>
+                    </div>
+                    <div className="d-flex justify-content-end mt-3">
+                      {editable ? (
+                        <button className="btn btn-primary" type="submit">
+                          Submit
+                        </button>
+                      ) : (
+                        <button className="btn btn-primary" type="submit">
+                          Submit
+                        </button>
+                      )}
+                    </div>
+                  </form>
+                </> : <>
+
+                  <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
+
+                </>}
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+
       </>
     </>
   );

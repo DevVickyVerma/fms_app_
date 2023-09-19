@@ -167,7 +167,7 @@ const DashboardSiteDetail = (props) => {
       <div
         className="overflow-container"
         style={containerStyles}
-        // style={{ height: "100vh ", overflowY: "auto", overflowX: "hidden" }}
+      // style={{ height: "100vh ", overflowY: "auto", overflowX: "hidden" }}
       >
         <DashBoardSubChild
           getSiteStats={getSiteStats}
