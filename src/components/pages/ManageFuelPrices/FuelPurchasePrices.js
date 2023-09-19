@@ -630,11 +630,12 @@ const ManageDsr = (props) => {
                             </label>
                             <select
                               as="select"
-                              className={`input101 ${formik.errors.client_id &&
+                              className={`input101 ${
+                                formik.errors.client_id &&
                                 formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="client_id"
                               name="client_id"
                               onChange={(e) => {
@@ -665,7 +666,7 @@ const ManageDsr = (props) => {
                             >
                               <option value="">Select a Client</option>
                               {AddSiteData.data &&
-                                AddSiteData.data.length > 0 ? (
+                              AddSiteData.data.length > 0 ? (
                                 AddSiteData.data.map((item) => (
                                   <option key={item.id} value={item.id}>
                                     {item.client_name}
@@ -696,11 +697,12 @@ const ManageDsr = (props) => {
                           </label>
                           <select
                             as="select"
-                            className={`input101 ${formik.errors.company_id &&
+                            className={`input101 ${
+                              formik.errors.company_id &&
                               formik.touched.company_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="company_id"
                             name="company_id"
                             onChange={(e) => {
@@ -751,10 +753,11 @@ const ManageDsr = (props) => {
                           </label>
                           <select
                             as="select"
-                            className={`input101 ${formik.errors.site_id && formik.touched.site_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.site_id && formik.touched.site_id
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="site_id"
                             name="site_id"
                             onChange={(e) => {
@@ -795,11 +798,12 @@ const ManageDsr = (props) => {
                             min={"2023-01-01"}
                             max={getCurrentDate()}
                             onClick={hadndleShowDate}
-                            className={`input101 ${formik.errors.start_date &&
+                            className={`input101 ${
+                              formik.errors.start_date &&
                               formik.touched.start_date
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="start_date"
                             name="start_date"
                             onChange={formik.handleChange}
@@ -834,76 +838,86 @@ const ManageDsr = (props) => {
         <Row className="row-sm">
           <Col lg={12}>
             <Card>
+              <Card.Header>
+                <h3 className="card-title">Purchase Cost Prices</h3>
+              </Card.Header>
               <Card.Body>
-                {data?.length > 0 ? <>
-                  <form onSubmit={handleSubmitForm1}>
-                    <Col lg={6} md={6}>
-                      {data ? (
-                        <FormControl className="width">
-                          <InputLabel>Select Sites</InputLabel>
-                          <Select
-                            multiple
-                            value={selectedItems}
-                            onChange={handleItemClick}
-                            renderValue={(selected) => selected.join(", ")}
-                          >
-                            <MenuItem disabled value="">
-                              <em>Select items</em>
-                            </MenuItem>
-                            {selectedSiteList.map((item) => (
-                              <MenuItem
-                                key={item.site_name}
-                                value={item.site_name}
-                              >
-                                <Checkbox
-                                  checked={selectedItems.includes(item.site_name)}
-                                />
-                                <ListItemText primary={item.site_name} />
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      ) : (
-                        ""
-                      )}
-                    </Col>
-                    <div className="table-responsive deleted-table">
-                      <DataTableExtensions {...tableDatas}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          persistTableHead
-                          highlightOnHover
-                          searchable={false}
-                        />
-                      </DataTableExtensions>
-                    </div>
-                    {isEditPermissionAvailable ? (
-                      <div className="d-flex justify-content-end mt-3">
+                {data?.length > 0 ? (
+                  <>
+                    <form onSubmit={handleSubmitForm1}>
+                      <Col lg={6} md={6}>
                         {data ? (
-                          <>
-                            <button className="btn btn-primary" type="submit">
-                              Submit
-                            </button>
-                          </>
+                          <FormControl className="width">
+                            <InputLabel>Select Sites</InputLabel>
+                            <Select
+                              multiple
+                              value={selectedItems}
+                              onChange={handleItemClick}
+                              renderValue={(selected) => selected.join(", ")}
+                            >
+                              <MenuItem disabled value="">
+                                <em>Select items</em>
+                              </MenuItem>
+                              {selectedSiteList.map((item) => (
+                                <MenuItem
+                                  key={item.site_name}
+                                  value={item.site_name}
+                                >
+                                  <Checkbox
+                                    checked={selectedItems.includes(
+                                      item.site_name
+                                    )}
+                                  />
+                                  <ListItemText primary={item.site_name} />
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
                         ) : (
                           ""
                         )}
+                      </Col>
+                      <div className="table-responsive deleted-table">
+                        <DataTableExtensions {...tableDatas}>
+                          <DataTable
+                            columns={columns}
+                            data={data}
+                            noHeader
+                            defaultSortField="id"
+                            defaultSortAsc={false}
+                            striped={true}
+                            persistTableHead
+                            highlightOnHover
+                            searchable={false}
+                          />
+                        </DataTableExtensions>
                       </div>
-                    ) : (
-                      ""
-                    )}
-                  </form>
-                </> : <>
-
-                  <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
-
-                </>}
-
+                      {isEditPermissionAvailable ? (
+                        <div className="d-flex justify-content-end mt-3">
+                          {data ? (
+                            <>
+                              <button className="btn btn-primary" type="submit">
+                                Submit
+                              </button>
+                            </>
+                          ) : (
+                            ""
+                          )}
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </form>
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      alt="MyChartImage"
+                      className="all-center-flex nodata-image"
+                    />
+                  </>
+                )}
               </Card.Body>
             </Card>
           </Col>

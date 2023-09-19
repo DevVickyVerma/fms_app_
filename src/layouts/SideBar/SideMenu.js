@@ -163,13 +163,13 @@ export const MENUITEMS = [
             permission: "workflow-list",
             visibility: false,
           },
-          // {
-          //   path: `/Dsr-Exception`,
-          //   title: "DRS Exception",
-          //   type: "link",
-          //   permission: "drs-exception",
-          //   visibility: false,
-          // },
+          {
+            path: `/Dsr-Exception`,
+            title: "DRS Exception",
+            type: "link",
+            permission: "drs-exception",
+            visibility: false,
+          },
         ],
       },
       {

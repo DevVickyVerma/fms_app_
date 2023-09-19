@@ -644,8 +644,8 @@ const ManageSiteTank = (props) => {
             <Card>
               <Card.Header>
                 <h3 className="card-title">
-                  Site PPL Rate(
-                  {localStorageSiteName ? localStorageSiteName : ""}){" "}
+                  Site PPL Rate{" "}
+                  {localStorageSiteName ? `(${localStorageSiteName})` : ""}{" "}
                 </h3>
               </Card.Header>
               <Card.Body>
