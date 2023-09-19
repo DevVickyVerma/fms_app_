@@ -48,7 +48,7 @@ const SiteEvobossStatus = (props) => {
     FetchSitedata(rowData);
   };
 
-  useEffect(() => {}, [siteData]);
+  useEffect(() => { }, [siteData]);
 
   console.log("this is my site data", siteData);
 
@@ -282,8 +282,13 @@ const SiteEvobossStatus = (props) => {
                       <span style={{ fontSize: "16px", fontWeight: "bold" }}>
                         Please select Any Site Name....
                       </span>
+                      <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
+
+
                     </Box>
                   )}
+
+
                 </Card.Body>
               </Card>
             </Col>
@@ -295,27 +300,35 @@ const SiteEvobossStatus = (props) => {
                 </Card.Header>
 
                 <Card.Body>
-                  <div
-                    className="table-responsive deleted-table"
-                    style={{ height: "510px" }}
-                  >
-                    <DataTableExtensions {...tableDatas}>
-                      <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        striped={true}
-                        persistTableHead
-                        pagination
-                        paginationPerPage={20}
-                        highlightOnHover
-                        searchable={true}
+
+
+                  {data?.length > 0 ? <>
+                    <div
+                      className="table-responsive deleted-table"
+                      style={{ height: "510px" }}
+                    >
+                      <DataTableExtensions {...tableDatas}>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          pagination
+                          paginationPerPage={20}
+                          highlightOnHover
+                          searchable={true}
                         //   onChangePage={(newPage) => setCurrentPage(newPage)}
-                      />
-                    </DataTableExtensions>
-                  </div>
+                        />
+                      </DataTableExtensions>
+                    </div>
+                  </> : <>
+
+                    <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
+
+                  </>}
                 </Card.Body>
               </Card>
             </Col>

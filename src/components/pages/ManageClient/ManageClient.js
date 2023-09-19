@@ -289,7 +289,7 @@ const ManageClient = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
+        // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
@@ -339,91 +339,91 @@ const ManageClient = (props) => {
     },
     anyPermissionAvailable
       ? {
-          name: "Action",
-          selector: (row) => [row.action],
-          sortable: true,
-          width: "20%",
-          cell: (row) => (
-            <span className="text-center">
-              {anyPermissionAvailable ? (
-                <Dropdown className="dropdown btn-group">
-                  <Dropdown.Toggle
-                    variant="Primary"
-                    type="button"
-                    className="btn btn-primary dropdown-toggle"
-                  >
-                    Actions
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu className="dropdown-menu">
-                    {isEditPermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to={`/editclient/${row.id}`}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <ModeEditIcon />
-                            </i>
-                            Edit
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                    {isDeletePermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to="#" onClick={() => handleDelete(row.id)}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <DeleteIcon />
-                            </i>
-                            Delete
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                    {isLoginPermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to="#" onClick={() => handleClientLogin(row)}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <VpnKeyIcon />
-                            </i>
-                            Client Login
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                    {isAddonPermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to={`/assignclientaddon/${row.id}`}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <AssignmentIndIcon />
-                            </i>
-                            Assign Addon
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                    {isReportsPermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link
-                          className="settingicon"
-                          to={`/assignreport/${row.id}`}
-                        >
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <AssignmentIndIcon />
-                            </i>
-                            <span>Report Assign</span>
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                  </Dropdown.Menu>
-                </Dropdown>
-              ) : null}
-            </span>
-          ),
-        }
+        name: "Action",
+        selector: (row) => [row.action],
+        sortable: true,
+        width: "20%",
+        cell: (row) => (
+          <span className="text-center">
+            {anyPermissionAvailable ? (
+              <Dropdown className="dropdown btn-group">
+                <Dropdown.Toggle
+                  variant="Primary"
+                  type="button"
+                  className="btn btn-primary dropdown-toggle"
+                >
+                  Actions
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="dropdown-menu">
+                  {isEditPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to={`/editclient/${row.id}`}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <ModeEditIcon />
+                          </i>
+                          Edit
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isDeletePermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to="#" onClick={() => handleDelete(row.id)}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <DeleteIcon />
+                          </i>
+                          Delete
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isLoginPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to="#" onClick={() => handleClientLogin(row)}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <VpnKeyIcon />
+                          </i>
+                          Client Login
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isAddonPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to={`/assignclientaddon/${row.id}`}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <AssignmentIndIcon />
+                          </i>
+                          Assign Addon
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isReportsPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link
+                        className="settingicon"
+                        to={`/assignreport/${row.id}`}
+                      >
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <AssignmentIndIcon />
+                          </i>
+                          <span>Report Assign</span>
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                </Dropdown.Menu>
+              </Dropdown>
+            ) : null}
+          </span>
+        ),
+      }
       : "",
   ];
 
@@ -541,24 +541,32 @@ const ManageClient = (props) => {
                 <h3 className="card-title">Manage Client</h3>
               </Card.Header>
               <Card.Body>
-                <div className="table-responsive deleted-table">
-                  <DataTableExtensions {...tableDatas}>
-                    <DataTable
-                      columns={columns}
-                      data={data}
-                      noHeader
-                      defaultSortField="id"
-                      defaultSortAsc={false}
-                      striped={true}
-                      persistTableHead
-                      pagination
-                      highlightOnHover
-                      searchable={false}
-                      className={dynamicClass}
+
+
+                {data?.length > 0 ? <>
+                  <div className="table-responsive deleted-table">
+                    <DataTableExtensions {...tableDatas}>
+                      <DataTable
+                        columns={columns}
+                        data={data}
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        striped={true}
+                        persistTableHead
+                        pagination
+                        highlightOnHover
+                        searchable={false}
+                        className={dynamicClass}
                       // className="custom-datatable" // Add your custom class here
-                    />
-                  </DataTableExtensions>
-                </div>
+                      />
+                    </DataTableExtensions>
+                  </div>
+                </> : <>
+
+                  <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
+
+                </>}
               </Card.Body>
             </Card>
           </Col>

@@ -343,9 +343,9 @@ const SiteSettings = (props) => {
                           </label>
                           <select
                             className={`input101 ${formik.errors.client_id &&
-                                formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
+                              formik.touched.client_id
+                              ? "is-invalid"
+                              : ""
                               }`}
                             id="client_id"
                             name="client_id"
@@ -400,9 +400,9 @@ const SiteSettings = (props) => {
                         </label>
                         <select
                           className={`input101 ${formik.errors.company_id &&
-                              formik.touched.company_id
-                              ? "is-invalid"
-                              : ""
+                            formik.touched.company_id
+                            ? "is-invalid"
+                            : ""
                             }`}
                           id="company_id"
                           name="company_id"
@@ -468,36 +468,44 @@ const SiteSettings = (props) => {
               </Card.Header>
 
               <div class="card-body">
-                <form onSubmit={handleSubmitForm1}>
-                  <div className="table-responsive deleted-table">
-                    <DataTableExtensions {...tableDatas}>
-                      <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        striped={true}
-                        persistTableHead
-                        highlightOnHover
-                        searchable={false}
-                      />
-                    </DataTableExtensions>
-                  </div>
-                  {isEditPermissionAvailable ? (
-                    <div className="d-flex justify-content-end mt-3">
-                      {data ? (
-                        <button className="btn btn-primary" type="submit">
-                          Submit
-                        </button>
-                      ) : (
-                        ""
-                      )}
+
+                {data?.length > 0 ? <>
+                  <form onSubmit={handleSubmitForm1}>
+                    <div className="table-responsive deleted-table">
+                      <DataTableExtensions {...tableDatas}>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                        />
+                      </DataTableExtensions>
                     </div>
-                  ) : (
-                    ""
-                  )}
-                </form>
+                    {isEditPermissionAvailable ? (
+                      <div className="d-flex justify-content-end mt-3">
+                        {data ? (
+                          <button className="btn btn-primary" type="submit">
+                            Submit
+                          </button>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </form>
+                </> : <>
+
+                  <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
+
+                </>}
+
               </div>
             </Card>
           </Col>

@@ -759,47 +759,38 @@ const Competitor = (props) => {
                 </Row>
 
                 {/* here is my listing data table */}
-                {CompetitorList ? (
-                    <>
-                        <Row className=" row-sm">
-                            <Col lg={12}>
-                                <Card>
-                                    <Card.Header>
-                                        <h3 className="card-title">Competitor Listing Data</h3>
-                                    </Card.Header>
-                                    <Card.Body>
-                                        <div className="table-responsive deleted-table">
-                                            <DataTable
-                                                columns={columns}
-                                                data={CompetitorList}
-                                                defaultSortField="id"
-                                                defaultSortAsc={false}
-                                                striped={true}
-                                                persistTableHead
-                                                pagination
-                                                highlightOnHover
-                                                searchable={false}
-                                            />
-                                        </div>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        </Row>
-                    </>
-                ) : (
-                    <>
-                        <Row className=" row-sm">
-                            <Col lg={12}>
-                                <Card>
-                                    <Card.Header>
-                                        <h3 className="card-title">Competitor Listing Data</h3>
-                                    </Card.Header>
-                                    <Card.Body>There is no data to show</Card.Body>
-                                </Card>
-                            </Col>
-                        </Row>
-                    </>
-                )}
+                <Row className=" row-sm">
+                    <Col lg={12}>
+                        <Card>
+                            <Card.Header>
+                                <h3 className="card-title">Competitor Listing Data</h3>
+                            </Card.Header>
+                            <Card.Body>
+
+
+                                {CompetitorList?.length > 0 ? <>
+                                    <div className="table-responsive deleted-table">
+                                        <DataTable
+                                            columns={columns}
+                                            data={CompetitorList}
+                                            defaultSortField="id"
+                                            defaultSortAsc={false}
+                                            striped={true}
+                                            persistTableHead
+                                            pagination
+                                            highlightOnHover
+                                            searchable={false}
+                                        />
+                                    </div>
+                                </> : <>
+
+                                    <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
+
+                                </>}
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
             </>
         </>
     );

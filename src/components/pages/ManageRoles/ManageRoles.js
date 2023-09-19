@@ -193,7 +193,7 @@ const ManageRoles = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
+        // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
@@ -332,25 +332,33 @@ const ManageRoles = (props) => {
                 <h3 className="card-title">Manage Roles</h3>
               </Card.Header>
               <Card.Body>
-                <div className="table-responsive deleted-table">
-                  <DataTableExtensions {...tableDatas}>
-                    <DataTable
-                      columns={columns}
-                      data={data}
-                      noHeader
-                      defaultSortField="id"
-                      defaultSortAsc={false}
-                      striped={true}
-                      // center={true}
-                      persistTableHead
-                      pagination
-                      paginationPerPage={20}
-                      highlightOnHover
-                      searchable={true}
-                      responsive={true}
-                    />
-                  </DataTableExtensions>
-                </div>
+
+
+                {data?.length > 0 ? <>
+                  <div className="table-responsive deleted-table">
+                    <DataTableExtensions {...tableDatas}>
+                      <DataTable
+                        columns={columns}
+                        data={data}
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        striped={true}
+                        // center={true}
+                        persistTableHead
+                        pagination
+                        paginationPerPage={20}
+                        highlightOnHover
+                        searchable={true}
+                        responsive={true}
+                      />
+                    </DataTableExtensions>
+                  </div>
+                </> : <>
+
+                  <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
+
+                </>}
               </Card.Body>
             </Card>
           </Col>
