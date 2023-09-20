@@ -55,7 +55,7 @@ const Dashboard = (props) => {
 
   const [myData, setMyData] = useState();
   let LinechartOptions = [];
-  const [centerAuthModalOpen, setCenterAuthModalOpen] = useState(false)
+  const [centerAuthModalOpen, setCenterAuthModalOpen] = useState(false);
 
   const {
     searchdata,
@@ -344,13 +344,6 @@ const Dashboard = (props) => {
     }
   };
 
-  // console.log("pi bunkerd sales",data.pi_graph.bunkered_sales);
-  const piechartValuesss = {
-    shop_sales: piechartValues?.shop_sales,
-    fuel_sales: piechartValues?.fuel_sales,
-    bunkered_sales: piechartValues?.bunkered_sales,
-  };
-
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -397,14 +390,14 @@ const Dashboard = (props) => {
     "profile-update-profile"
   );
 
-  console.log(isProfileUpdatePermissionAvailable, "isProfileUpdatePermissionAvailable");
+  console.log(
+    isProfileUpdatePermissionAvailable,
+    "isProfileUpdatePermissionAvailable"
+  );
 
   const isTwoFactorPermissionAvailable = UserPermissions?.two_factor;
 
   console.log(isTwoFactorPermissionAvailable, "isTwoFactorPermissionAvailable");
-
-
-
 
   return (
     <>
@@ -418,7 +411,7 @@ const Dashboard = (props) => {
           alignItems={"center"}
           minHeight={"90px"}
           className="center-filter-modal-responsive"
-        //  className="page-header "
+          //  className="page-header "
         >
           <Box alignSelf={"flex-start"} mt={"33px"}>
             <h1 className="page-title">Dashboard ({UserPermissions?.dates})</h1>
@@ -433,7 +426,7 @@ const Dashboard = (props) => {
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-            localStorage.getItem("role") === "Operator" ? (
+          localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -445,7 +438,7 @@ const Dashboard = (props) => {
               mx={"10px"}
               flexDirection={"inherit"}
               className="filter-responsive"
-            // className="ms-auto pageheader-btn "
+              // className="ms-auto pageheader-btn "
             >
               <span
                 className="Search-data"
@@ -564,17 +557,17 @@ const Dashboard = (props) => {
           ""
         )}
 
-        {
-          isProfileUpdatePermissionAvailable && !isTwoFactorPermissionAvailable ? <>
-            <CenterAuthModal
-              title="Auth Modal"
-            />
-          </> : ""
-        }
-
+        {isProfileUpdatePermissionAvailable &&
+        !isTwoFactorPermissionAvailable ? (
+          <>
+            <CenterAuthModal title="Auth Modal" />
+          </>
+        ) : (
+          ""
+        )}
 
         {localStorage.getItem("superiorRole") === "Administrator" &&
-          Object.keys(searchdata).length === 0 ? (
+        Object.keys(searchdata).length === 0 ? (
           <div
             style={{
               textAlign: "left",
@@ -611,7 +604,9 @@ const Dashboard = (props) => {
           >
             <Card>
               <Card.Header className="card-header">
-                <h4 className="card-title" style={{ minHeight: "32px" }}  >Total Transactions</h4>
+                <h4 className="card-title" style={{ minHeight: "32px" }}>
+                  Total Transactions
+                </h4>
               </Card.Header>
               <Card.Body className="card-body pb-0 dashboard-chart-height">
                 <div id="chart">
@@ -624,8 +619,21 @@ const Dashboard = (props) => {
                     </>
                   ) : (
                     <>
-                      <p style={{ fontWeight: 500, fontSize: "0.785rem", textAlign: "center", color: "#d63031" }}>Please Apply Filter To Visualize Chart.....</p>
-                      <img src={require("../../assets/images/dashboard/noChartFound.png")} alt="MyChartImage" className="all-center-flex disable-chart" />
+                      <p
+                        style={{
+                          fontWeight: 500,
+                          fontSize: "0.785rem",
+                          textAlign: "center",
+                          color: "#d63031",
+                        }}
+                      >
+                        Please Apply Filter To Visualize Chart.....
+                      </p>
+                      <img
+                        src={require("../../assets/images/dashboard/noChartFound.png")}
+                        alt="MyChartImage"
+                        className="all-center-flex disable-chart"
+                      />
                     </>
                   )}
                 </div>
@@ -635,11 +643,12 @@ const Dashboard = (props) => {
 
           <Col
           // lg={5} md={12}
-
           >
             <Card>
               <Card.Header className="card-header">
-                <h4 className="card-title" style={{ minHeight: "32px" }} >Overall Stats</h4>
+                <h4 className="card-title" style={{ minHeight: "32px" }}>
+                  Overall Stats
+                </h4>
               </Card.Header>
               <Card.Body className="card-body pb-0 dashboard-chart-height">
                 <div id="chart">
@@ -649,8 +658,21 @@ const Dashboard = (props) => {
                     </>
                   ) : (
                     <>
-                      <p style={{ fontWeight: 500, fontSize: "0.785rem", textAlign: "center", color: "#d63031" }}>Please Apply Filter To Visualize Chart.....</p>
-                      <img src={require("../../assets/images/dashboard/noChartFound.png")} alt="MyChartImage" className="all-center-flex disable-chart" />
+                      <p
+                        style={{
+                          fontWeight: 500,
+                          fontSize: "0.785rem",
+                          textAlign: "center",
+                          color: "#d63031",
+                        }}
+                      >
+                        Please Apply Filter To Visualize Chart.....
+                      </p>
+                      <img
+                        src={require("../../assets/images/dashboard/noChartFound.png")}
+                        alt="MyChartImage"
+                        className="all-center-flex disable-chart"
+                      />
                     </>
                   )}
                 </div>
