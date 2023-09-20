@@ -105,6 +105,7 @@ const EditClient = (props) => {
       formData.append("financial_start_month", values.financial_start_month);
       formData.append("last_name", values.last_name);
       formData.append("email", values.email);
+      formData.append("address", values.address);
 
       if (
         values.fairbank_email !== null &&
@@ -149,6 +150,7 @@ const EditClient = (props) => {
       last_name: "",
       loomis_status: "",
       work_flow: "",
+      address: "",
       ma_option: [],
       status: "1",
     },
@@ -167,6 +169,7 @@ const EditClient = (props) => {
       financial_end_month: Yup.string().required(
         "Financial End Month is required"
       ),
+      address: Yup.string().required("Address is required"),
       financial_start_month: Yup.string().required(
         "Financial Start Month is required"
       ),
@@ -390,37 +393,32 @@ const EditClient = (props) => {
                           )}
                         </div>
                       </Col>
-                      {/* <Col lg={4} md={6}>
+                      <Col lg={4} md={6}>
                         <div className="form-group">
-                          <label
-                            className="form-label mt-4"
-                            htmlFor="fairbank_email"
-                          >
-                            Fairbank Email<span className="text-danger">*</span>
+                          <label className="form-label mt-4" htmlFor="address">
+                            Address<span className="text-danger">*</span>
                           </label>
                           <input
                             type="text"
                             autoComplete="off"
                             className={`input101 ${
-                              formik.errors.fairbank_email &&
-                              formik.touched.fairbank_email
+                              formik.errors.address && formik.touched.address
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            id="fairbank_email"
-                            name="fairbank_email"
+                            id="address"
+                            name="address"
                             placeholder="Fairbank Email"
                             onChange={formik.handleChange}
-                            value={formik.values.fairbank_email || ""}
+                            value={formik.values.address}
                           />
-                          {formik.errors.fairbank_email &&
-                            formik.touched.fairbank_email && (
-                              <div className="invalid-feedback">
-                                {formik.errors.fairbank_email}
-                              </div>
-                            )}
+                          {formik.errors.address && formik.touched.address && (
+                            <div className="invalid-feedback">
+                              {formik.errors.address}
+                            </div>
+                          )}
                         </div>
-                      </Col> */}
+                      </Col>
 
                       <Col lg={4} md={6}>
                         <div className="form-group">
