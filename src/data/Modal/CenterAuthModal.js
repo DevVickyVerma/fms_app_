@@ -4,6 +4,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Slide,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Button, Col, Modal, Row } from "react-bootstrap";
@@ -14,7 +15,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { Slide, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
@@ -30,10 +31,7 @@ const CenterAuthModal = (props) => {
     searchListstatus,
   } = props;
   const [open, setOpen] = useState(true);
-  // const [keyword, setSearchQuery] = useState("");
-  // const [start_date, setStartDate] = useState("");
-  // const [end_date, setEndDate] = useState("");
-  // const [errorMessage, setErrorMessage] = useState("");
+
   const [isLoading, setLoading] = useState(false);
   const [factordata, setfactordata] = useState();
   const UserPermissions = useSelector((state) => state?.data?.data);
