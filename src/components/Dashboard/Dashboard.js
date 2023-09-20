@@ -41,19 +41,21 @@ import CenterSearchmodal from "../../data/Modal/CenterSearchmodal";
 import StackedLineBarChart from "./StackedLineBarChart";
 import PieChartOfDashboard from "./PieChartOfDashboard";
 import Apexcharts2 from "./PieChart";
+import CenterAuthModal from "../../data/Modal/CenterAuthModal";
 
 const Dashboard = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
 
-  const [ShowTruw, setShowTruw] = useState(false);
+  const [ShowTruw, setShowTruw] = useState(true);
   const [ClientID, setClientID] = useState();
   // const [searchdata, setSearchdata] = useState({});
   const [SearchList, setSearchList] = useState(false);
 
   const [myData, setMyData] = useState();
   let LinechartOptions = [];
+  const [centerAuthModalOpen, setCenterAuthModalOpen] = useState(false)
 
   const {
     searchdata,
@@ -391,6 +393,23 @@ const Dashboard = (props) => {
     // console.log("my search data on dashboard", searchdata);
   }, [permissionsArray]);
 
+  const isProfileUpdatePermissionAvailable = permissionsArray?.includes(
+    "profile-update-profile"
+  );
+
+  console.log(isProfileUpdatePermissionAvailable, "isProfileUpdatePermissionAvailable");
+
+  const isTwoFactorPermissionAvailable = UserPermissions?.two_factor;
+
+  console.log(isTwoFactorPermissionAvailable, "isTwoFactorPermissionAvailable");
+  let isCenterAuthModalOpen;
+
+  if (isProfileUpdatePermissionAvailable && isTwoFactorPermissionAvailable === false) {
+    // setCenterAuthModalOpen(true);
+    console.log("resssssssssssssssssss", isProfileUpdatePermissionAvailable, isTwoFactorPermissionAvailable);
+    isCenterAuthModalOpen = true
+  }
+
   return (
     <>
       {isLoading || isLoadingState ? <Loaderimg /> : null}
@@ -548,6 +567,24 @@ const Dashboard = (props) => {
         ) : (
           ""
         )}
+
+        {
+          isProfileUpdatePermissionAvailable && isTwoFactorPermissionAvailable === false ? <>
+            <CenterAuthModal
+              title="Auth Modal"
+              // visible={sidebarVisible1}
+              onClick={() => {
+                // handleToggleSidebar1();
+              }}
+            // onClose={handleToggleSidebar1}
+            // onSubmit={handleSubmit}
+            // searchListstatus={SearchList}
+            />
+          </> : ""
+        }
+
+        {/* {centerAuthModalOpen ? <CenterAuthModal /> :
+          ""} */}
 
         {localStorage.getItem("superiorRole") === "Administrator" &&
           Object.keys(searchdata).length === 0 ? (
