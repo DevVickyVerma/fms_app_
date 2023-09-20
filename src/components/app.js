@@ -111,7 +111,7 @@ const App = (props) => {
 
       console.log("Inactivity Alert");
     }
-  }, [isInactive, handleConfirm, handleCancel, logoutTime]);
+  }, [isInactive, handleConfirm, handleCancel]);
   return (
     <MyProvider>
       <Fragment>
