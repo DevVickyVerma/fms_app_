@@ -10028,7 +10028,7 @@ ul.labels-info li a i {
   pointer-events: auto;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #eaedf1;
+  border: 0px solid #eaedf1;
   border-radius: 3px;
   outline: 0;
   -webkit-box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
