@@ -70,7 +70,7 @@ export const MENUITEMS = [
 
       {
         title: "Manage Competitor",
-        icon: "users",
+        icon: "fa fa-bar-chart",
         type: "sub",
         active: false,
         permission: "competitor-list",

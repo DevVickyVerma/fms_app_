@@ -97,9 +97,9 @@ const App = (props) => {
     if (isInactive) {
       Swal.fire({
         title: "Inactivity Alert",
-        text: `Oops, there is no activity from last ${
-          parseInt(localStorage.getItem("auto_logout")) * 60000
-        } minutes,`,
+        text: `Oops, there is no activity from last ${localStorage.getItem(
+          "auto_logout"
+        )} minutes,`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: "OK!",

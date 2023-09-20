@@ -19,10 +19,8 @@ export default function Login(props) {
   useEffect(() => {
     document.addEventListener("keydown", function (event) {
       if (event.getModifierState("CapsLock")) {
-        // console.log("Caps Lock is ON");
         setCapsLockActive(true);
       } else {
-        // console.log("Caps Lock is OFF");
         setCapsLockActive(false);
       }
     });
