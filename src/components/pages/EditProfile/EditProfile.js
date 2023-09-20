@@ -678,6 +678,7 @@ export default function EditProfile() {
                                     }
                                   </div>
                                 )}
+
                               <div className="text-end mt-4">
                                 <button
                                   className="btn btn-primary ml-4 verify-button"
@@ -687,7 +688,7 @@ export default function EditProfile() {
                                   Verify & Authentication
                                 </button>
                                 <button
-                                  type="btn"
+                                  type="button"
                                   className="btn btn-danger mx-4"
                                   onClick={handleCloseModal}
                                 >

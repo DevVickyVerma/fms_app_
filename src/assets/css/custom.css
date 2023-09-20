@@ -783,6 +783,7 @@ tr.fuelprice-tr th {
 .modal-contentDisable2FA {
   box-shadow: 0px !important;
   padding: 18px !important;
+  border: 0px !important;
 }
 
 p.f2a img {
