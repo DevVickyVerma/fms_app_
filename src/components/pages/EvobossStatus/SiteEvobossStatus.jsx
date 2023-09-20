@@ -48,7 +48,7 @@ const SiteEvobossStatus = (props) => {
     FetchSitedata(rowData);
   };
 
-  useEffect(() => { }, [siteData]);
+  useEffect(() => {}, [siteData]);
 
   console.log("this is my site data", siteData);
 
@@ -77,7 +77,10 @@ const SiteEvobossStatus = (props) => {
           style={{ cursor: "pointer" }}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row?.site_name}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">
+              {" "}
+              {row?.site_name} ({row?.site_code}({row?.site_company_code}))
+            </h6>
           </div>
         </div>
       ),
@@ -282,13 +285,13 @@ const SiteEvobossStatus = (props) => {
                       <span style={{ fontSize: "16px", fontWeight: "bold" }}>
                         Please select Any Site Name....
                       </span>
-                      <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
-
-
+                      <img
+                        src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                        alt="MyChartImage"
+                        className="all-center-flex nodata-image"
+                      />
                     </Box>
                   )}
-
-
                 </Card.Body>
               </Card>
             </Col>
@@ -300,35 +303,39 @@ const SiteEvobossStatus = (props) => {
                 </Card.Header>
 
                 <Card.Body>
-
-
-                  {data?.length > 0 ? <>
-                    <div
-                      className="table-responsive deleted-table"
-                      style={{ height: "510px" }}
-                    >
-                      <DataTableExtensions {...tableDatas}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          persistTableHead
-                          pagination
-                          paginationPerPage={20}
-                          highlightOnHover
-                          searchable={true}
-                        //   onChangePage={(newPage) => setCurrentPage(newPage)}
-                        />
-                      </DataTableExtensions>
-                    </div>
-                  </> : <>
-
-                    <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
-
-                  </>}
+                  {data?.length > 0 ? (
+                    <>
+                      <div
+                        className="table-responsive deleted-table"
+                        style={{ height: "510px" }}
+                      >
+                        <DataTableExtensions {...tableDatas}>
+                          <DataTable
+                            columns={columns}
+                            data={data}
+                            noHeader
+                            defaultSortField="id"
+                            defaultSortAsc={false}
+                            striped={true}
+                            persistTableHead
+                            pagination
+                            paginationPerPage={20}
+                            highlightOnHover
+                            searchable={true}
+                            //   onChangePage={(newPage) => setCurrentPage(newPage)}
+                          />
+                        </DataTableExtensions>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <img
+                        src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                        alt="MyChartImage"
+                        className="all-center-flex nodata-image"
+                      />
+                    </>
+                  )}
                 </Card.Body>
               </Card>
             </Col>
