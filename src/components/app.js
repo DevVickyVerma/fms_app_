@@ -101,8 +101,13 @@ const App = (props) => {
           "auto_logout"
         )} minutes,`,
         icon: "warning",
-        showCancelButton: true,
+        showCancelButton: false,
         confirmButtonText: "OK!",
+        iconColor: "red",
+        customClass: {
+          confirmButton: "btn-danger",
+          iconColor: "red",
+        },
 
         reverseButtons: true,
       }).then((result) => {
