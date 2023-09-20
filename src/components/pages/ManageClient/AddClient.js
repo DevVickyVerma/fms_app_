@@ -84,6 +84,7 @@ const AddClient = (props) => {
       formData.append("financial_end_month", values.financial_end_month);
       formData.append("lommis_status", values.lommis_status);
       formData.append("work_flow", values.work_flow);
+      formData.append("address ", values.address);
 
       formData.append("send_mail", isChecked);
       formData.append("ma_option", JSON.stringify(selectedItems));
@@ -215,6 +216,7 @@ const AddClient = (props) => {
                   lommis_status: "1",
                   work_flow: "0",
                   send_mail: "1",
+                  address: "",
                 }}
                 validationSchema={Yup.object({
                   client_code: Yup.string()
@@ -237,6 +239,7 @@ const AddClient = (props) => {
                   financial_start_month: Yup.string().required(
                     "Financial Start Month is required"
                   ),
+                  address: Yup.string().required("Address   is required"),
 
                   email: Yup.string()
                     .required(" Email is required")
@@ -394,6 +397,33 @@ const AddClient = (props) => {
                               component="div"
                               className="invalid-feedback"
                               name="last_name"
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg={4} md={6}>
+                          <FormGroup>
+                            <label
+                              htmlFor="address"
+                              className=" form-label mt-4"
+                            >
+                              Address<span className="text-danger">*</span>
+                            </label>
+                            <Field
+                              type="text"
+                              autoComplete="off"
+                              className={`input101 ${
+                                errors.address && touched.address
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              id="address"
+                              name="address"
+                              placeholder="Address"
+                            />
+                            <ErrorMessage
+                              component="div"
+                              className="invalid-feedback"
+                              name="address"
                             />
                           </FormGroup>
                         </Col>
@@ -591,23 +621,23 @@ const AddClient = (props) => {
                               </div>
 
                               <br></br>
-                             <div className="maoptions-cover">
-                             <input
-                                type="checkbox"
-                                onChange={() => handleCheckboxChange("2")}
-                                className="form-check-input "
-                              />
-                              <span className="mx-2">Forecast</span>
-                             </div>
+                              <div className="maoptions-cover">
+                                <input
+                                  type="checkbox"
+                                  onChange={() => handleCheckboxChange("2")}
+                                  className="form-check-input "
+                                />
+                                <span className="mx-2">Forecast</span>
+                              </div>
                               <br></br>
-                           <div className="maoptions-cover">
-                           <input
-                                type="checkbox"
-                                onChange={() => handleCheckboxChange("3")}
-                                className="form-check-input"
-                              />
-                              <span className="mx-2">Variance</span>
-                           </div>
+                              <div className="maoptions-cover">
+                                <input
+                                  type="checkbox"
+                                  onChange={() => handleCheckboxChange("3")}
+                                  className="form-check-input"
+                                />
+                                <span className="mx-2">Variance</span>
+                              </div>
                             </div>
                             <ErrorMessage
                               component="div"
@@ -632,15 +662,18 @@ const AddClient = (props) => {
                               getLabel={renderEmailTag}
                               maxTags={5} // You can set the maximum number of emails/tags
                             />
-                           
+
                             <ErrorMessage
                               component="div"
                               className="invalid-feedback"
                               name="fairbank_email"
                             />
-                             
                           </div>
-                          <span className="fairbank-title"> * You can add multiple email IDs by using <strong>,</strong></span>
+                          <span className="fairbank-title">
+                            {" "}
+                            * You can add multiple email IDs by using{" "}
+                            <strong>,</strong>
+                          </span>
                         </Col>
                         <Col lg={4} md={6}>
                           <FormGroup>
