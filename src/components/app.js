@@ -106,7 +106,7 @@ const App = (props) => {
         iconColor: "red",
         customClass: {
           confirmButton: "btn-danger",
-          iconColor: "red",
+          iconColor: "#b52d2d",
         },
 
         reverseButtons: true,
