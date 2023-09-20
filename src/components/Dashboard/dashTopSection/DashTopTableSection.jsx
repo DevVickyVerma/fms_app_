@@ -95,282 +95,282 @@ const DashTopTableSection = (props) => {
     localStorage.setItem("singleSiteData", rowDataString);
   }
 
-  const columns = [
-    {
-      name: " Logo",
-      selector: (row) => [row?.image],
-      sortable: true,
-      width: "8%",
-      cell: (row, index) => (
-        <div className="d-flex align-items-center card-img">
-          <img
-            src={row.image}
-            alt={row.image}
-            className="mr-2"
-            style={{ width: "50px", height: "50px" }}
-          />
-          <div></div>
-        </div>
-      ),
-    },
+  // const columns = [
+  //   {
+  //     name: " Logo",
+  //     selector: (row) => [row?.image],
+  //     sortable: true,
+  //     width: "8%",
+  //     cell: (row, index) => (
+  //       <div className="d-flex align-items-center card-img">
+  //         <img
+  //           src={row.image}
+  //           alt={row.image}
+  //           className="mr-2"
+  //           style={{ width: "50px", height: "50px" }}
+  //         />
+  //         <div></div>
+  //       </div>
+  //     ),
+  //   },
 
-    {
-      name: "Sites",
-      selector: (row) => [row?.name],
-      sortable: true,
-      width: "15%",
-      cell: (row, index) =>
-        isSitePermissionAvailable ? (
-          <div onClick={() => handleSaveSingleSiteData(row)}>
-            <Link to={`/dashboard-details/${row?.id}`}>
-              <div className="d-flex">
-                <div className="ms-2 mt-0 mt-sm-2 d-block">
-                  <h6 className="mb-0 fs-14 fw-semibold">{row?.name}</h6>
-                </div>
-              </div>
-            </Link>
-          </div>
-        ) : (
-          <div className="d-flex">
-            <div className="ms-2 mt-0 mt-sm-2 d-block">
-              <h6 className="mb-0 fs-14 fw-semibold">{row?.name}</h6>
-            </div>
-          </div>
-        ),
-    },
+  //   {
+  //     name: "Sites",
+  //     selector: (row) => [row?.name],
+  //     sortable: true,
+  //     width: "15%",
+  //     cell: (row, index) =>
+  //       isSitePermissionAvailable ? (
+  //         <div onClick={() => handleSaveSingleSiteData(row)}>
+  //           <Link to={`/dashboard-details/${row?.id}`}>
+  //             <div className="d-flex">
+  //               <div className="ms-2 mt-0 mt-sm-2 d-block">
+  //                 <h6 className="mb-0 fs-14 fw-semibold">{row?.name}</h6>
+  //               </div>
+  //             </div>
+  //           </Link>
+  //         </div>
+  //       ) : (
+  //         <div className="d-flex">
+  //           <div className="ms-2 mt-0 mt-sm-2 d-block">
+  //             <h6 className="mb-0 fs-14 fw-semibold">{row?.name}</h6>
+  //           </div>
+  //         </div>
+  //       ),
+  //   },
 
-    {
-      name: "Gross Volume",
-      selector: (row) => [row?.fuel_volume?.gross_volume],
-      sortable: true,
-      width: "13%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          {/* {console.log(row.fuel_volume?.gross_volume, "sdaaaaaaaaaa")} */}
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold ">
-              ℓ{row.fuel_volume?.gross_volume}
-            </h6>
+  //   {
+  //     name: "Gross Volume",
+  //     selector: (row) => [row?.fuel_volume?.gross_volume],
+  //     sortable: true,
+  //     width: "13%",
+  //     cell: (row, index) => (
+  //       <div className="d-flex">
+  //         {/* {console.log(row.fuel_volume?.gross_volume, "sdaaaaaaaaaa")} */}
+  //         <div className="ms-2 mt-0 mt-sm-2 d-block">
+  //           <h6 className="mb-0 fs-14 fw-semibold ">
+  //             ℓ{row.fuel_volume?.gross_volume}
+  //           </h6>
 
-            <p
-              className={`me-1 ${row.fuel_volume?.status === "up"
-                ? "text-success"
-                : "text-danger"
-                }`}
-              data-tip={`${row?.fuel_volume?.percentage}%`}
-            >
-              {row?.fuel_volume?.status === "up" ? (
-                <>
-                  <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                  <span className="text-success">
-                    {row?.fuel_volume?.percentage}%
-                  </span>
-                </>
-              ) : (
-                <>
-                  <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                  <span className="text-danger">
-                    {row?.fuel_volume?.percentage}%
-                  </span>
-                </>
-              )}
-            </p>
-          </div>
-        </div>
-      ),
-    },
-    {
-      name: "Fuel Sales",
-      selector: (row) => [row?.fuel_sales?.gross_value],
-      sortable: true,
-      width: "13%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">
-              £{row?.fuel_sales?.gross_value}
-            </h6>
-            <p
-              className={`me-1 ${row?.fuel_sales?.status === "up"
-                ? "text-success"
-                : "text-danger"
-                }`}
-              data-tip={`${row?.fuel_sales?.percentage}%`}
-            >
-              {row?.fuel_sales?.status === "up" ? (
-                <>
-                  <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                  <span className="text-success">
-                    {row?.fuel_sales?.percentage}%
-                  </span>
-                </>
-              ) : (
-                <>
-                  <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                  <span className="text-danger">
-                    {row?.fuel_sales?.percentage}%
-                  </span>
-                </>
-              )}
-            </p>
-          </div>
-        </div>
-      ),
-    },
-    {
-      name: "Gross Profit",
-      selector: (row) => [row?.gross_profit?.gross_profit],
-      sortable: true,
-      width: "13%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">
-              £{row?.gross_profit?.gross_profit}
-            </h6>
-            <p
-              className={`me-1 ${row?.gross_profit?.status === "up"
-                ? "text-success"
-                : "text-danger"
-                }`}
-              data-tip={`${row?.gross_profit?.percentage}%`}
-            >
-              {row?.gross_profit?.status === "up" ? (
-                <>
-                  <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                  <span className="text-success">
-                    {row?.gross_profit?.percentage}%
-                  </span>
-                </>
-              ) : (
-                <>
-                  <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                  <span className="text-danger">
-                    {row?.gross_profit?.percentage}%
-                  </span>
-                </>
-              )}
-            </p>
-          </div>
-        </div>
-      ),
-    },
-    {
-      name: "Gross Margin",
-      selector: (row) => [row?.gross_margin?.gross_margin],
-      sortable: true,
-      width: "13%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">
-              {row?.gross_margin?.gross_margin} ppl
-            </h6>
-            <p
-              className={`me-1 ${row?.gross_margin?.status === "up"
-                ? "text-success"
-                : "text-danger"
-                }`}
-              data-tip={`${row?.gross_margin?.percentage}%`}
-            >
-              {row?.gross_margin?.status === "up" ? (
-                <>
-                  <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                  <span className="text-success">
-                    {row?.gross_margin?.percentage}%
-                  </span>
-                </>
-              ) : (
-                <>
-                  <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                  <span className="text-danger">
-                    {row?.gross_margin?.percentage}%
-                  </span>
-                </>
-              )}
-            </p>
-          </div>
-        </div>
-      ),
-    },
-    {
-      name: "Shop Sales",
-      selector: (row) => [row?.shop_sales?.shop_sales],
-      sortable: true,
-      width: "13%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">
-              £{row?.shop_sales?.shop_sales}
-            </h6>
-            <p
-              className={`me-1 ${row?.shop_sales?.status === "up"
-                ? "text-success"
-                : "text-danger"
-                }`}
-              data-tip={`${row?.shop_sales?.percentage}%`}
-            >
-              {row?.shop_sales?.status === "up" ? (
-                <>
-                  <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                  <span className="text-success">
-                    {row?.shop_sales?.percentage}%
-                  </span>
-                </>
-              ) : (
-                <>
-                  <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                  <span className="text-danger">
-                    {row?.shop_sales?.percentage}%
-                  </span>
-                </>
-              )}
-            </p>
-          </div>
-        </div>
-      ),
-    },
+  //           <p
+  //             className={`me-1 ${row.fuel_volume?.status === "up"
+  //               ? "text-success"
+  //               : "text-danger"
+  //               }`}
+  //             data-tip={`${row?.fuel_volume?.percentage}%`}
+  //           >
+  //             {row?.fuel_volume?.status === "up" ? (
+  //               <>
+  //                 <i className="fa fa-chevron-circle-up text-success me-1"></i>
+  //                 <span className="text-success">
+  //                   {row?.fuel_volume?.percentage}%
+  //                 </span>
+  //               </>
+  //             ) : (
+  //               <>
+  //                 <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+  //                 <span className="text-danger">
+  //                   {row?.fuel_volume?.percentage}%
+  //                 </span>
+  //               </>
+  //             )}
+  //           </p>
+  //         </div>
+  //       </div>
+  //     ),
+  //   },
+  //   {
+  //     name: "Fuel Sales",
+  //     selector: (row) => [row?.fuel_sales?.gross_value],
+  //     sortable: true,
+  //     width: "13%",
+  //     cell: (row, index) => (
+  //       <div className="d-flex">
+  //         <div className="ms-2 mt-0 mt-sm-2 d-block">
+  //           <h6 className="mb-0 fs-14 fw-semibold">
+  //             £{row?.fuel_sales?.gross_value}
+  //           </h6>
+  //           <p
+  //             className={`me-1 ${row?.fuel_sales?.status === "up"
+  //               ? "text-success"
+  //               : "text-danger"
+  //               }`}
+  //             data-tip={`${row?.fuel_sales?.percentage}%`}
+  //           >
+  //             {row?.fuel_sales?.status === "up" ? (
+  //               <>
+  //                 <i className="fa fa-chevron-circle-up text-success me-1"></i>
+  //                 <span className="text-success">
+  //                   {row?.fuel_sales?.percentage}%
+  //                 </span>
+  //               </>
+  //             ) : (
+  //               <>
+  //                 <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+  //                 <span className="text-danger">
+  //                   {row?.fuel_sales?.percentage}%
+  //                 </span>
+  //               </>
+  //             )}
+  //           </p>
+  //         </div>
+  //       </div>
+  //     ),
+  //   },
+  //   {
+  //     name: "Gross Profit",
+  //     selector: (row) => [row?.gross_profit?.gross_profit],
+  //     sortable: true,
+  //     width: "13%",
+  //     cell: (row, index) => (
+  //       <div className="d-flex">
+  //         <div className="ms-2 mt-0 mt-sm-2 d-block">
+  //           <h6 className="mb-0 fs-14 fw-semibold">
+  //             £{row?.gross_profit?.gross_profit}
+  //           </h6>
+  //           <p
+  //             className={`me-1 ${row?.gross_profit?.status === "up"
+  //               ? "text-success"
+  //               : "text-danger"
+  //               }`}
+  //             data-tip={`${row?.gross_profit?.percentage}%`}
+  //           >
+  //             {row?.gross_profit?.status === "up" ? (
+  //               <>
+  //                 <i className="fa fa-chevron-circle-up text-success me-1"></i>
+  //                 <span className="text-success">
+  //                   {row?.gross_profit?.percentage}%
+  //                 </span>
+  //               </>
+  //             ) : (
+  //               <>
+  //                 <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+  //                 <span className="text-danger">
+  //                   {row?.gross_profit?.percentage}%
+  //                 </span>
+  //               </>
+  //             )}
+  //           </p>
+  //         </div>
+  //       </div>
+  //     ),
+  //   },
+  //   {
+  //     name: "Gross Margin",
+  //     selector: (row) => [row?.gross_margin?.gross_margin],
+  //     sortable: true,
+  //     width: "13%",
+  //     cell: (row, index) => (
+  //       <div className="d-flex">
+  //         <div className="ms-2 mt-0 mt-sm-2 d-block">
+  //           <h6 className="mb-0 fs-14 fw-semibold">
+  //             {row?.gross_margin?.gross_margin} ppl
+  //           </h6>
+  //           <p
+  //             className={`me-1 ${row?.gross_margin?.status === "up"
+  //               ? "text-success"
+  //               : "text-danger"
+  //               }`}
+  //             data-tip={`${row?.gross_margin?.percentage}%`}
+  //           >
+  //             {row?.gross_margin?.status === "up" ? (
+  //               <>
+  //                 <i className="fa fa-chevron-circle-up text-success me-1"></i>
+  //                 <span className="text-success">
+  //                   {row?.gross_margin?.percentage}%
+  //                 </span>
+  //               </>
+  //             ) : (
+  //               <>
+  //                 <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+  //                 <span className="text-danger">
+  //                   {row?.gross_margin?.percentage}%
+  //                 </span>
+  //               </>
+  //             )}
+  //           </p>
+  //         </div>
+  //       </div>
+  //     ),
+  //   },
+  //   {
+  //     name: "Shop Sales",
+  //     selector: (row) => [row?.shop_sales?.shop_sales],
+  //     sortable: true,
+  //     width: "13%",
+  //     cell: (row, index) => (
+  //       <div className="d-flex">
+  //         <div className="ms-2 mt-0 mt-sm-2 d-block">
+  //           <h6 className="mb-0 fs-14 fw-semibold">
+  //             £{row?.shop_sales?.shop_sales}
+  //           </h6>
+  //           <p
+  //             className={`me-1 ${row?.shop_sales?.status === "up"
+  //               ? "text-success"
+  //               : "text-danger"
+  //               }`}
+  //             data-tip={`${row?.shop_sales?.percentage}%`}
+  //           >
+  //             {row?.shop_sales?.status === "up" ? (
+  //               <>
+  //                 <i className="fa fa-chevron-circle-up text-success me-1"></i>
+  //                 <span className="text-success">
+  //                   {row?.shop_sales?.percentage}%
+  //                 </span>
+  //               </>
+  //             ) : (
+  //               <>
+  //                 <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+  //                 <span className="text-danger">
+  //                   {row?.shop_sales?.percentage}%
+  //                 </span>
+  //               </>
+  //             )}
+  //           </p>
+  //         </div>
+  //       </div>
+  //     ),
+  //   },
 
-    {
-      name: "Shop Margin",
-      selector: (row) => [row?.shop_margin?.shop_margin],
-      sortable: true,
-      width: "13%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">
-              £{row?.shop_margin?.shop_margin}
-            </h6>
-            <p
-              className={`me-1 ${row?.shop_margin?.status === "up"
-                ? "text-success"
-                : "text-danger"
-                }`}
-              data-tip={`${row?.shop_margin?.percentage}%`}
-            >
-              {row?.shop_margin?.status === "up" ? (
-                <>
-                  <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                  <span className="text-success">
-                    {row?.shop_margin?.percentage}%
-                  </span>
-                </>
-              ) : (
-                <>
-                  <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                  <span className="text-danger">
-                    {row?.shop_margin?.percentage}%
-                  </span>
-                </>
-              )}
-            </p>
-          </div>
-        </div>
-      ),
-    },
-  ];
+  //   {
+  //     name: "Shop Margin",
+  //     selector: (row) => [row?.shop_margin?.shop_margin],
+  //     sortable: true,
+  //     width: "13%",
+  //     cell: (row, index) => (
+  //       <div className="d-flex">
+  //         <div className="ms-2 mt-0 mt-sm-2 d-block">
+  //           <h6 className="mb-0 fs-14 fw-semibold">
+  //             £{row?.shop_margin?.shop_margin}
+  //           </h6>
+  //           <p
+  //             className={`me-1 ${row?.shop_margin?.status === "up"
+  //               ? "text-success"
+  //               : "text-danger"
+  //               }`}
+  //             data-tip={`${row?.shop_margin?.percentage}%`}
+  //           >
+  //             {row?.shop_margin?.status === "up" ? (
+  //               <>
+  //                 <i className="fa fa-chevron-circle-up text-success me-1"></i>
+  //                 <span className="text-success">
+  //                   {row?.shop_margin?.percentage}%
+  //                 </span>
+  //               </>
+  //             ) : (
+  //               <>
+  //                 <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+  //                 <span className="text-danger">
+  //                   {row?.shop_margin?.percentage}%
+  //                 </span>
+  //               </>
+  //             )}
+  //           </p>
+  //         </div>
+  //       </div>
+  //     ),
+  //   },
+  // ];
 
   const renderTableHeader = () => {
     return (
