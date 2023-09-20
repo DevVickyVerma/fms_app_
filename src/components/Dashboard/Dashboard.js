@@ -402,13 +402,9 @@ const Dashboard = (props) => {
   const isTwoFactorPermissionAvailable = UserPermissions?.two_factor;
 
   console.log(isTwoFactorPermissionAvailable, "isTwoFactorPermissionAvailable");
-  let isCenterAuthModalOpen;
 
-  if (isProfileUpdatePermissionAvailable && isTwoFactorPermissionAvailable === false) {
-    // setCenterAuthModalOpen(true);
-    console.log("resssssssssssssssssss", isProfileUpdatePermissionAvailable, isTwoFactorPermissionAvailable);
-    isCenterAuthModalOpen = true
-  }
+
+
 
   return (
     <>
@@ -569,22 +565,13 @@ const Dashboard = (props) => {
         )}
 
         {
-          isProfileUpdatePermissionAvailable && isTwoFactorPermissionAvailable === false ? <>
+          isProfileUpdatePermissionAvailable && !isTwoFactorPermissionAvailable ? <>
             <CenterAuthModal
               title="Auth Modal"
-              // visible={sidebarVisible1}
-              onClick={() => {
-                // handleToggleSidebar1();
-              }}
-            // onClose={handleToggleSidebar1}
-            // onSubmit={handleSubmit}
-            // searchListstatus={SearchList}
             />
           </> : ""
         }
 
-        {/* {centerAuthModalOpen ? <CenterAuthModal /> :
-          ""} */}
 
         {localStorage.getItem("superiorRole") === "Administrator" &&
           Object.keys(searchdata).length === 0 ? (
