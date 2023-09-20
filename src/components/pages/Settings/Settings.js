@@ -301,6 +301,7 @@ export default function Settings() {
                             value={formik2.values.auto_logout}
                           >
                             <option value="">Select a Auto Logout Time</option>
+
                             <option value="5">5</option>
                             <option value="10">10</option>
                             <option value="15">15</option>
