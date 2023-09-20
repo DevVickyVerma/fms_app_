@@ -4,7 +4,6 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Slide,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Button, Col, Modal, Row } from "react-bootstrap";
@@ -15,7 +14,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { Slide, toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
