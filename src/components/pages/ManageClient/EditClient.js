@@ -408,7 +408,7 @@ const EditClient = (props) => {
                             }`}
                             id="address"
                             name="address"
-                            placeholder="Fairbank Email"
+                            placeholder="Address"
                             onChange={formik.handleChange}
                             value={formik.values.address}
                           />
