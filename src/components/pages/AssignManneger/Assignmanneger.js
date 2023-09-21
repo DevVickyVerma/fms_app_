@@ -295,7 +295,7 @@ const ManageRoles = (props) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Assign User
+                  Add Site Manager
                 </Link>
               ) : (
                 ""

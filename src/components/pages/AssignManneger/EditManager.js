@@ -200,7 +200,7 @@ const AddCompany = (props) => {
 
           <Card>
             <Card.Header>
-              <Card.Title as="h3">Edit User</Card.Title>
+              <Card.Title as="h3">Edit Site Manager</Card.Title>
             </Card.Header>
 
             <form onSubmit={(event) => formik.handleSubmit(event)}>

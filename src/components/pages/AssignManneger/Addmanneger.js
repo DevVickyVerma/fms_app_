@@ -55,8 +55,6 @@ const AddCompany = (props) => {
   //     }
   //   };
 
- 
-
   const [permissionsArray, setPermissionsArray] = useState([]);
   const [isPermissionsSet, setIsPermissionsSet] = useState(false);
   const [selectedSiteList1, setSelectedSiteList1] = useState([]);
@@ -102,12 +100,10 @@ const AddCompany = (props) => {
     formik.setFieldValue("sites", filteredSites);
   };
 
-
-
-  const handleSubmit = async (event,values) => {
+  const handleSubmit = async (event, values) => {
     // event.preventDefault();
- 
-    console.log(formik.values,"client_id");
+
+    console.log(formik.values, "client_id");
     try {
       const formData = new FormData();
 
@@ -121,15 +117,13 @@ const AddCompany = (props) => {
       const postDataUrl = "/site/manager/assign";
       const navigatePath = `/assignmanger/${id}`;
 
-      await postData(postDataUrl, formData,navigatePath); // Set the submission state to false after the API call is completed
+      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
   const validationSchema = Yup.object({
-    client_id: Yup.string()
-      .required('Client ID is required')
-      
+    client_id: Yup.string().required("Client ID is required"),
   });
   const formik = useFormik({
     initialValues: {
@@ -137,7 +131,7 @@ const AddCompany = (props) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-        handleSubmit(values);
+      handleSubmit(values);
     },
   });
   return (
@@ -147,7 +141,7 @@ const AddCompany = (props) => {
         <div>
           <div className="page-header">
             <div>
-              <h1 className="page-title">Assign User</h1>
+              <h1 className="page-title">Assign Site Manager</h1>
 
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item
@@ -161,15 +155,15 @@ const AddCompany = (props) => {
                   className="breadcrumb-item  breadcrumds"
                   aria-current="page"
                   linkAs={Link}
-                  linkProps={{ to: "/managecompany" }}
+                  linkProps={{ to: "/sites" }}
                 >
-                  Manage Company
+                  Manage Site Manager
                 </Breadcrumb.Item>
                 <Breadcrumb.Item
                   className="breadcrumb-item active breadcrumds"
                   aria-current="page"
                 >
-                  Assign User
+                  Assign Site Manager
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
