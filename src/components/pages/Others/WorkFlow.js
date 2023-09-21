@@ -460,24 +460,36 @@ const ManageSite = (props) => {
               </Card.Header>
 
               <Card.Body>
-                <div className="table-responsive deleted-table">
-                  <DataTableExtensions {...tableDatas}>
-                    <DataTable
-                      columns={columns}
-                      data={data}
-                      noHeader
-                      defaultSortField="id"
-                      defaultSortAsc={false}
-                      striped={true}
-                      // center={true}
-                      persistTableHead
-                      paginationPerPage={20}
-                      highlightOnHover
-                      searchable={false}
-                      responsive={true}
+                {data?.length > 0 ? (
+                  <>
+                    <div className="table-responsive deleted-table">
+                      <DataTableExtensions {...tableDatas}>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          // center={true}
+                          persistTableHead
+                          paginationPerPage={20}
+                          highlightOnHover
+                          searchable={false}
+                          responsive={true}
+                        />
+                      </DataTableExtensions>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      alt="MyChartImage"
+                      className="all-center-flex nodata-image"
                     />
-                  </DataTableExtensions>
-                </div>
+                  </>
+                )}
               </Card.Body>
             </Card>
           </Col>
