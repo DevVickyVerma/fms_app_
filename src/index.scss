@@ -57,6 +57,12 @@
   right: 0px !important;
   left: auto !important;
 }
+
+@media screen and (max-width: "430px") {
+  .header .notifications .dropdown-menu {
+    right: -85px !important;
+  }
+}
 .header .message .dropdown-menu {
   right: 0px !important;
   left: auto !important;
