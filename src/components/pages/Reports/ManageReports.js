@@ -59,6 +59,7 @@ const ManageReports = (props) => {
   const [toggleValue, setToggleValue] = useState(false); // State for the toggle
   const handleToggleChange = (checked) => {
     setToggleValue(checked);
+    setShowButton(false);
     console.log(checked);
   };
   const ErrorToast = (message) => {
