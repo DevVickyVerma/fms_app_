@@ -1016,19 +1016,32 @@ const SiteSettings = (props) => {
                       <Card.Header className="cardheader-table">
                         <h3 className="card-title">Assign Business</h3>
                       </Card.Header>
-                      <div className="module-height">
-                        <DataTable
-                          columns={BussinesModelColumn}
-                          data={BussinesModelData}
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          persistTableHead
-                          highlightOnHover
-                          searchable={false}
-                          responsive
-                        />
-                      </div>
+
+                      {BussinesModelData?.length > 0 ? (
+                        <>
+                          <div className="module-height">
+                            <DataTable
+                              columns={BussinesModelColumn}
+                              data={BussinesModelData}
+                              defaultSortField="id"
+                              defaultSortAsc={false}
+                              striped={true}
+                              persistTableHead
+                              highlightOnHover
+                              searchable={false}
+                              responsive
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <img
+                            src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                            alt="MyChartImage"
+                            className="all-center-flex nodata-image"
+                          />
+                        </>
+                      )}
                     </Col>
                   </Row>
                 </Card.Body>
@@ -1040,37 +1053,62 @@ const SiteSettings = (props) => {
                       <Card.Header className="cardheader-table">
                         <h3 className="card-title">Assign Card</h3>
                       </Card.Header>
-                      <div className="module-height">
-                        <DataTable
-                          columns={CardsModelColumn}
-                          data={CardsModelData}
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          persistTableHead
-                          highlightOnHover
-                          searchable={false}
-                          responsive
-                        />
-                      </div>
+                      {CardsModelData?.length > 0 ? (
+                        <>
+                          <div className="module-height">
+                            <DataTable
+                              columns={CardsModelColumn}
+                              data={CardsModelData}
+                              defaultSortField="id"
+                              defaultSortAsc={false}
+                              striped={true}
+                              persistTableHead
+                              highlightOnHover
+                              searchable={false}
+                              responsive
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <img
+                            src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                            alt="MyChartImage"
+                            className="all-center-flex nodata-image"
+                          />
+                        </>
+                      )}
                     </Col>
                     <Col lg={6} md={6}>
                       <Card.Header className="cardheader-table">
                         <h3 className="card-title">Cash Day</h3>
                       </Card.Header>
-                      <div className="module-height">
-                        <DataTable
-                          columns={CashDatModelColumn}
-                          data={CashDayData}
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          persistTableHead
-                          highlightOnHover
-                          searchable={false}
-                          responsive
-                        />
-                      </div>
+
+                      {CashDayData?.length > 0 ? (
+                        <>
+                          <div className="module-height">
+                            <DataTable
+                              columns={CashDatModelColumn}
+                              data={CashDayData}
+                              defaultSortField="id"
+                              defaultSortAsc={false}
+                              striped={true}
+                              persistTableHead
+                              highlightOnHover
+                              searchable={false}
+                              responsive
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <img
+                            src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                            alt="MyChartImage"
+                            className="all-center-flex nodata-image"
+                          />
+                        </>
+                      )}
                     </Col>
                   </Row>
                 </Card.Body>

@@ -321,35 +321,51 @@ const ShopSales = (props) => {
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
                   <div className="table-responsive deleted-table">
-                    {/* <DataTableExtensions {...tableDatas}> */}
-                    <DataTable
-                      columns={chargesColumns}
-                      data={data}
-                      // pagination
-                      // paginationPerPage={20}
-                      responsive
-                    />
+                    {data?.length > 0 ? (
+                      <>
+                        <DataTable
+                          columns={chargesColumns}
+                          data={data}
+                          // pagination
+                          // paginationPerPage={20}
+                          responsive
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <img
+                          src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                          alt="MyChartImage"
+                          className="all-center-flex nodata-image"
+                        />
+                      </>
+                    )}
 
-                    <h2></h2>
-                    <DataTable
-                      columns={deductionsColumns}
-                      data={DeductionData}
-                      noHeader
-                      defaultSortField="id"
-                      defaultSortAsc={false}
-                      striped={true}
-                      persistTableHead
-                      highlightOnHover
-                      searchable={false}
-                      responsive
-                    />
-                    {/* </DataTableExtensions> */}
+                    {DeductionData?.length > 0 ? (
+                      <>
+                        <DataTable
+                          columns={deductionsColumns}
+                          data={DeductionData}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                          responsive
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <img
+                          src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                          alt="MyChartImage"
+                          className="all-center-flex nodata-image"
+                        />
+                      </>
+                    )}
                   </div>
-                  {/* <div className="d-flex justify-content-end mt-3">
-                    <button className="btn btn-primary" type="submit">
-                      Submit
-                    </button>
-                  </div> */}
                 </form>
               </Card.Body>
             </Card>

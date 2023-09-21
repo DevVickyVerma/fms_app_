@@ -14,14 +14,13 @@ const FuelInventry = (props) => {
   const { company_id, client_id, site_id, start_date, sendDataToParent } =
     props;
 
-  const [fuelInventoryFinalDataArray, setFuelInventoryFinalDataArray] = useState();
+  const [fuelInventoryFinalDataArray, setFuelInventoryFinalDataArray] =
+    useState();
   // const [myFuelPriceValue, setMyFuelPriceValue] = useState();
   const [myDueSalesValue, setMyDueSalesValue] = useState();
   const [myBunkeredSalesValue, setMyBunkeredSalesValue] = useState();
   const [myAdjustmentValue, setMyAdjustmentValue] = useState();
   const [myTestsValue, setMyTestsValue] = useState();
-
-
 
   const handleButtonClick = () => {
     const allPropsData = {
@@ -104,41 +103,41 @@ const FuelInventry = (props) => {
 
           const formValues = data?.data?.listing
             ? data.data.listing.map((item) => {
-              return {
-                id: item.id,
-                fuel_price: item.fuel_price,
-                metered_sale: item.metered_sale,
-                metered_sale_value: item.metered_sale_value,
-                adjustment: item.adjustment,
-                adjustment_euro: item.adjustment_euro,
-                adjusted_sale: item.adjusted_sale,
-                adjusted_sale_value: item.adjusted_sale_value,
-                tests: item.tests,
-                actual_sales: item.actual_sales,
-                due_sales: item.due_sales,
-                bunkered_sale: item.bunkered_sale,
-                // Add other properties as needed
-              };
-            })
+                return {
+                  id: item.id,
+                  fuel_price: item.fuel_price,
+                  metered_sale: item.metered_sale,
+                  metered_sale_value: item.metered_sale_value,
+                  adjustment: item.adjustment,
+                  adjustment_euro: item.adjustment_euro,
+                  adjusted_sale: item.adjusted_sale,
+                  adjusted_sale_value: item.adjusted_sale_value,
+                  tests: item.tests,
+                  actual_sales: item.actual_sales,
+                  due_sales: item.due_sales,
+                  bunkered_sale: item.bunkered_sale,
+                  // Add other properties as needed
+                };
+              })
             : [];
 
           const Combinedvariancedata = data?.data?.combined_variance_data
             ? data.data.combined_variance_data.map((item) => ({
-              description: item.description,
-              variance: item.variance,
-              // Add other properties as needed
-            }))
+                description: item.description,
+                variance: item.variance,
+                // Add other properties as needed
+              }))
             : [];
           formik.setFieldValue("Combinedvariance", Combinedvariancedata);
 
           const Variancedata = data?.data?.variance_data
             ? data.data.variance_data.map((item) => ({
-              description: item.description,
-              variance: item.variance,
-              due_sales: item.due_sales,
-              sale_value: item.sale_value,
-              // Add other properties as needed
-            }))
+                description: item.description,
+                variance: item.variance,
+                due_sales: item.due_sales,
+                sale_value: item.sale_value,
+                // Add other properties as needed
+              }))
             : [];
           formik.setFieldValue("Variancedataformik", Variancedata);
 
@@ -257,8 +256,6 @@ const FuelInventry = (props) => {
     }
   };
 
-
-
   function calculateSum(index) {
     const plattsPrice = Number(formik?.values?.data?.[index]?.adjustment);
     const bunkeredsale = Number(formik?.values?.data?.[index]?.bunkered_sale);
@@ -284,16 +281,11 @@ const FuelInventry = (props) => {
       formik.setFieldValue(`data[${index}].actual_sales`, actualsales);
       formik.setFieldValue(`data[${index}].due_sales`, duesales);
 
-
-
       calculateTotalValues(index, duesales);
-
     } else {
       console.log("Invalid or missing numeric values");
     }
-
   }
-
 
   const calculateTotalValues = async (updatedIndex, UpdatedValue) => {
     // console.log("updatedIndex", updatedIndex, "updatedValue", UpdatedValue);
@@ -302,33 +294,27 @@ const FuelInventry = (props) => {
     const dataArray = formik?.values?.data;
     // console.log(dataArray, "dataarray");
 
-
-
     if (dataArray) {
       // Create a new array with updated values
-      const updatedDataArray =
-        dataArray.map((item, index) => {
-          if (index === updatedIndex) {
-            // Update the value at the specified index
-            return { ...item, due_sales: UpdatedValue };
-          } else {
-            // Keep other items unchanged
-            return item;
-          }
-        });
+      const updatedDataArray = dataArray.map((item, index) => {
+        if (index === updatedIndex) {
+          // Update the value at the specified index
+          return { ...item, due_sales: UpdatedValue };
+        } else {
+          // Keep other items unchanged
+          return item;
+        }
+      });
 
       await updatedDataArray.pop();
 
-      setFuelInventoryFinalDataArray(updatedDataArray)
-
+      setFuelInventoryFinalDataArray(updatedDataArray);
     }
   };
 
   useEffect(() => {
     calculateSumForAll();
   }, [fuelInventoryFinalDataArray]);
-
-
 
   const calculateSumForAll = () => {
     // console.log(fuelInventoryFinalDataArray, "fuelInventoryFinalDataArrassasay");
@@ -347,22 +333,19 @@ const FuelInventry = (props) => {
         totalBunkeredSales += parseFloat(item.bunkered_sale);
         totalAdjustment += parseFloat(item.adjustment);
         totalTests += parseFloat(item.tests);
-
       }
     }
 
     // setMyFuelPriceValue(totalFuelPrice.toFixed(2))
-    setMyDueSalesValue(totalDueSales.toFixed(2))
-    setMyBunkeredSalesValue(totalBunkeredSales.toFixed(2))
+    setMyDueSalesValue(totalDueSales.toFixed(2));
+    setMyBunkeredSalesValue(totalBunkeredSales.toFixed(2));
     setMyAdjustmentValue(totalAdjustment.toFixed(2));
     setMyTestsValue(totalTests.toFixed(2));
-
 
     // console.log("Total Fuel Price:", totalFuelPrice.toFixed(2));
     // console.log("Total Due Sales:", totalDueSales.toFixed(2));
     // console.log("Total Bunkered Sales:", totalBunkeredSales.toFixed(2));
-  }
-
+  };
 
   function CalculateDueSales(index) {
     const fuelprice = Number(formik?.values?.data?.[index]?.fuel_price);
@@ -378,17 +361,11 @@ const FuelInventry = (props) => {
       // console.log(formik.values, "formikvalueinsidesum");
       formik.setFieldValue(`data[${index}].due_sales`, duesales);
 
-
-
-
       calculateTotalValues(index, duesales);
     } else {
       console.log("Invalid or missing numeric values");
     }
   }
-
-
-
 
   const columns = [
     // ... existing columns
@@ -414,13 +391,13 @@ const FuelInventry = (props) => {
                     >
                       {index === 0
                         ? `Start: ${moment(
-                          timePart,
-                          "YYYY-MM-DD HH:mm:ss"
-                        ).format("MMM DD, YYYY HH:mm A")}`
+                            timePart,
+                            "YYYY-MM-DD HH:mm:ss"
+                          ).format("MMM DD, YYYY HH:mm A")}`
                         : `End : ${moment(
-                          timePart,
-                          "YYYY-MM-DD HH:mm:ss"
-                        ).format("MMM DD, YYYY HH:mm A")}`}
+                            timePart,
+                            "YYYY-MM-DD HH:mm:ss"
+                          ).format("MMM DD, YYYY HH:mm A")}`}
                       <br />
                     </span>
                   ))}
@@ -573,8 +550,8 @@ const FuelInventry = (props) => {
                 row.update_adjustment
                   ? "UpdateValueInput"
                   : editable?.is_editable
-                    ? "table-input"
-                    : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
               }
               value={formik.values.data[index]?.adjustment}
               step="0.010"
@@ -582,7 +559,6 @@ const FuelInventry = (props) => {
               onBlur={(e) => {
                 formik.handleBlur(e);
                 calculateSum(index);
-
               }}
               readOnly={editable?.is_editable ? false : true}
             />
@@ -605,7 +581,9 @@ const FuelInventry = (props) => {
               type="number"
               className="table-input readonly total-input"
               // value={row.bunkered_sale}
-              value={myBunkeredSalesValue ? myBunkeredSalesValue : row.bunkered_sale}
+              value={
+                myBunkeredSalesValue ? myBunkeredSalesValue : row.bunkered_sale
+              }
               readOnly
             />
           </div>
@@ -619,8 +597,8 @@ const FuelInventry = (props) => {
                 row.update_bunkered_sale
                   ? "UpdateValueInput"
                   : editable?.is_editable
-                    ? "table-input"
-                    : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
               }
               value={formik.values.data[index]?.bunkered_sale}
               step="0.010"
@@ -664,8 +642,8 @@ const FuelInventry = (props) => {
                 row.update_tests
                   ? "UpdateValueInput"
                   : editable?.is_editable
-                    ? "table-input"
-                    : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
               }
               value={formik.values.data[index]?.tests}
               step="0.010"
@@ -707,8 +685,8 @@ const FuelInventry = (props) => {
                 row.update_actual_sales
                   ? "UpdateValueInput"
                   : editable?.update_actual_sales
-                    ? "table-input"
-                    : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
               }
               value={formik.values.data[index]?.actual_sales}
               onChange={formik.handleChange}
@@ -732,7 +710,7 @@ const FuelInventry = (props) => {
             <input
               type="number"
               className="table-input readonly total-input"
-              value={myDueSalesValue == 0.00 ? row.due_sales : myDueSalesValue}
+              value={myDueSalesValue == 0.0 ? row.due_sales : myDueSalesValue}
               // value={myDueSalesValue ? myDueSalesValue : row.due_sales}
               readOnly
             />
@@ -747,8 +725,8 @@ const FuelInventry = (props) => {
                 row.update_due_sales
                   ? "UpdateValueInput"
                   : editable?.update_due_sales
-                    ? "table-input"
-                    : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
               }
               value={formik.values.data[index]?.due_sales}
               onChange={formik.handleChange}
@@ -836,7 +814,7 @@ const FuelInventry = (props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly
-          // readOnly={editable?.is_editable ? false : true}
+            // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -860,7 +838,7 @@ const FuelInventry = (props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly
-          // readOnly={editable?.is_editable ? false : true}
+            // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -884,7 +862,7 @@ const FuelInventry = (props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly
-          // readOnly={editable?.is_editable ? false : true}
+            // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -918,21 +896,29 @@ const FuelInventry = (props) => {
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
                   <div className="table-responsive deleted-table">
-                    {/* <Row> */}
-                    {/* <Col lg={12} md={12}> */}
-                    <DataTable
-                      columns={columns}
-                      data={data}
-                      noHeader
-                      defaultSortField="id"
-                      defaultSortAsc={false}
-                      striped={true}
-                      persistTableHead
-                      highlightOnHover
-                      searchable={false}
-                    />
-                    {/* </Col> */}
-                    {/* </Row> */}
+                    {data?.length > 0 ? (
+                      <>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <img
+                          src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                          alt="MyChartImage"
+                          className="all-center-flex nodata-image"
+                        />
+                      </>
+                    )}
 
                     <Row className="mt-4">
                       <Card>
@@ -941,18 +927,30 @@ const FuelInventry = (props) => {
                         </Card.Header>
                         <Card.Body>
                           <Col lg={12} md={12}>
-                            <DataTable
-                              columns={VarianceColumns}
-                              data={VarianceDataa}
-                              noHeader
-                              defaultSortField="id"
-                              defaultSortAsc={false}
-                              striped={true}
-                              persistTableHead
-                              highlightOnHover
-                              searchable={false}
-                              responsive
-                            />
+                            {VarianceDataa?.length > 0 ? (
+                              <>
+                                <DataTable
+                                  columns={VarianceColumns}
+                                  data={VarianceDataa}
+                                  noHeader
+                                  defaultSortField="id"
+                                  defaultSortAsc={false}
+                                  striped={true}
+                                  persistTableHead
+                                  highlightOnHover
+                                  searchable={false}
+                                  responsive
+                                />
+                              </>
+                            ) : (
+                              <>
+                                <img
+                                  src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                                  alt="MyChartImage"
+                                  className="all-center-flex nodata-image"
+                                />
+                              </>
+                            )}
                           </Col>
                         </Card.Body>
                       </Card>
@@ -964,18 +962,30 @@ const FuelInventry = (props) => {
                         </Card.Header>
                         <Card.Body>
                           <Col lg={12} md={12}>
-                            <DataTable
-                              columns={CombinedVarianceColumns}
-                              data={CombinedVarianceData}
-                              noHeader
-                              defaultSortField="id"
-                              defaultSortAsc={false}
-                              striped={true}
-                              persistTableHead
-                              highlightOnHover
-                              searchable={false}
-                              responsive
-                            />
+                            {CombinedVarianceData?.length > 0 ? (
+                              <>
+                                <DataTable
+                                  columns={CombinedVarianceColumns}
+                                  data={CombinedVarianceData}
+                                  noHeader
+                                  defaultSortField="id"
+                                  defaultSortAsc={false}
+                                  striped={true}
+                                  persistTableHead
+                                  highlightOnHover
+                                  searchable={false}
+                                  responsive
+                                />
+                              </>
+                            ) : (
+                              <>
+                                <img
+                                  src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                                  alt="MyChartImage"
+                                  className="all-center-flex nodata-image"
+                                />
+                              </>
+                            )}
                           </Col>
                         </Card.Body>
                       </Card>

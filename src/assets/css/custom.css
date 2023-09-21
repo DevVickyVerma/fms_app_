@@ -411,7 +411,7 @@ tbody tr {
 }
 
 .module-height-Manager {
-  max-height: 50px !important;
+  max-height: 120px !important;
   overflow-y: scroll;
 }
 

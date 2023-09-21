@@ -116,7 +116,6 @@ const AddCompany = (props) => {
     try {
       const formData = new FormData();
 
-    
       formData.append("id", id);
       const selectedReportsIds = [];
       const reports_models_valueKey = "addons";
@@ -127,7 +126,7 @@ const AddCompany = (props) => {
         if (checked) {
           const reportIdKey = `${reports_models_valueKey}[${i}]`;
           const reportIdValue = id;
-          const reportIdEntry = { [reportIdKey]:reportIdValue };
+          const reportIdEntry = { [reportIdKey]: reportIdValue };
           selectedReportsIds.push(reportIdEntry);
         }
       }
@@ -199,22 +198,35 @@ const AddCompany = (props) => {
                     <Row>
                       <Col lg={12} md={12}>
                         <Card.Header className="cardheader-table">
-                        <h3 className="card-title">  Addons</h3>
+                          <h3 className="card-title"> Addons</h3>
                         </Card.Header>
-                        <div className="module-height-Addon">
-                          <DataTable
-                            columns={ReportsColumn}
-                            data={ReportsData}
-                            noHeader
-                            defaultSortField="id"
-                            defaultSortAsc={false}
-                            striped={true}
-                            persistTableHead
-                            highlightOnHover
-                            searchable={false}
-                            responsive
-                          />
-                        </div>
+
+                        {ReportsData?.length > 0 ? (
+                          <>
+                            <div className="module-height-Addon">
+                              <DataTable
+                                columns={ReportsColumn}
+                                data={ReportsData}
+                                noHeader
+                                defaultSortField="id"
+                                defaultSortAsc={false}
+                                striped={true}
+                                persistTableHead
+                                highlightOnHover
+                                searchable={false}
+                                responsive
+                              />
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <img
+                              src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                              alt="MyChartImage"
+                              className="all-center-flex nodata-image"
+                            />
+                          </>
+                        )}
                       </Col>
                     </Row>
                   </Card.Body>

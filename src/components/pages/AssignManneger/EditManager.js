@@ -127,7 +127,7 @@ const AddCompany = (props) => {
     try {
       const formData = new FormData();
 
-      formData.append("user_id",formik?.values?.userSelcetedid);
+      formData.append("user_id", formik?.values?.userSelcetedid);
       formData.append("id", formik.values.AllData.id);
       const selectedReportsIds = [];
       const reports_models_valueKey = "reports";
@@ -152,7 +152,7 @@ const AddCompany = (props) => {
       const postDataUrl = "/site/manager/update";
       const navigatePath = `/assignmanger/${formik.values.AllData.site_id}`;
 
-      await postData(postDataUrl, formData,navigatePath); // Set the submission state to false after the API call is completed
+      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
@@ -163,8 +163,7 @@ const AddCompany = (props) => {
       userSelectedid: "",
     },
     validationSchema: Yup.object({
-      userSelectedid: Yup.string()
-        .max(20, "Must be 20 characters or less"),
+      userSelectedid: Yup.string().max(20, "Must be 20 characters or less"),
     }),
     onSubmit: (values) => {
       handleSubmit(values);
@@ -199,84 +198,84 @@ const AddCompany = (props) => {
             </div>
           </div>
 
-          
-              <Card>
-                <Card.Header>
-                  <Card.Title as="h3">Edit User</Card.Title>
-                </Card.Header>
+          <Card>
+            <Card.Header>
+              <Card.Title as="h3">Edit User</Card.Title>
+            </Card.Header>
 
-                <form onSubmit={(event) => formik.handleSubmit(event)}>
-                  <Card.Body>
-                    <Row>
-                      <Col lg={6} md={6}>
-                        <div className="form-group">
-                          <label htmlFor="userSelcetedid" className=" form-label mt-4">
-                            User<span className="text-danger">*</span>
-                          </label>
-                          <select
-                            as="select"
-                            className={`input101 ${
-                              formik.errors.userSelcetedid && formik.touched.userSelcetedid
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="userSelcetedid"
-                            name="userSelcetedid"
-                            onChange={formik.handleChange}
-                            value={formik?.values?.userSelcetedid}
-                          >
-                            <option value=""> Select User</option>
-                            {dropdownValue.users &&
-                            dropdownValue.users.length > 0 ? (
-                              dropdownValue.users.map((item) => (
-                                <option key={item.id} value={item.id}>
-                                  {item.user_name}
-                                </option>
-                              ))
-                            ) : (
-                              <option disabled>No User</option>
-                            )}
-                          </select>
-                          {formik.errors.userSelcetedid && formik.touched.userSelcetedid && (
-                            <div className="invalid-feedback">
-                              {formik.errors.userSelcetedid}
-                            </div>
-                          )}
-                        </div>
-                      </Col>
-                   
-                    </Row>
-                    <Row>
-                    <Col lg={6} md={6}>
-                        <Card.Header className="cardheader-table">
-                          <h3 className="card-title">Reports</h3>
-                        </Card.Header>
-                        <div className="module-height-Manager">
-                          <DataTable
-                            columns={ReportsColumn}
-                            data={ReportsData}
-                            noHeader
-                            defaultSortField="id"
-                            defaultSortAsc={false}
-                            striped={true}
-                            persistTableHead
-                            highlightOnHover
-                            searchable={false}
-                            responsive
-                          />
-                        </div>
-                      </Col>
-                    </Row>
-                  </Card.Body>
+            <form onSubmit={(event) => formik.handleSubmit(event)}>
+              <Card.Body>
+                <Row>
+                  <Col lg={6} md={6}>
+                    <div className="form-group">
+                      <label
+                        htmlFor="userSelcetedid"
+                        className=" form-label mt-4"
+                      >
+                        User<span className="text-danger">*</span>
+                      </label>
+                      <select
+                        as="select"
+                        className={`input101 ${
+                          formik.errors.userSelcetedid &&
+                          formik.touched.userSelcetedid
+                            ? "is-invalid"
+                            : ""
+                        }`}
+                        id="userSelcetedid"
+                        name="userSelcetedid"
+                        onChange={formik.handleChange}
+                        value={formik?.values?.userSelcetedid}
+                      >
+                        <option value=""> Select User</option>
+                        {dropdownValue.users &&
+                        dropdownValue.users.length > 0 ? (
+                          dropdownValue.users.map((item) => (
+                            <option key={item.id} value={item.id}>
+                              {item.user_name}
+                            </option>
+                          ))
+                        ) : (
+                          <option disabled>No User</option>
+                        )}
+                      </select>
+                      {formik.errors.userSelcetedid &&
+                        formik.touched.userSelcetedid && (
+                          <div className="invalid-feedback">
+                            {formik.errors.userSelcetedid}
+                          </div>
+                        )}
+                    </div>
+                  </Col>
+                  <Col lg={6} md={6}>
+                    <Card.Header className="cardheader-table">
+                      <h3 className="card-title">Reports</h3>
+                    </Card.Header>
+                    <div className="module-height-Manager">
+                      <DataTable
+                        columns={ReportsColumn}
+                        data={ReportsData}
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        striped={true}
+                        persistTableHead
+                        highlightOnHover
+                        searchable={false}
+                        responsive
+                      />
+                    </div>
+                  </Col>
+                </Row>
+              </Card.Body>
 
-                  <Card.Footer className="text-end">
-                    <button className="btn btn-primary me-2" type="submit">
-                      Submit
-                    </button>
-                  </Card.Footer>
-                </form>
-              </Card>
-         
+              <Card.Footer className="text-end">
+                <button className="btn btn-primary me-2" type="submit">
+                  Submit
+                </button>
+              </Card.Footer>
+            </form>
+          </Card>
         </div>
       </>
     </>

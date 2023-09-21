@@ -314,55 +314,67 @@ const ShopSales = (props) => {
                 <h3 className="card-title">Shop Sales</h3>
               </Card.Header>
               <Card.Body>
-                <form onSubmit={formik.handleSubmit}>
-                  <div className="table-responsive deleted-table">
-                    <Row>
-                      <Col lg={6} md={6}>
-                        <DataTable
-                          columns={chargesColumns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          persistTableHead
-                          highlightOnHover
-                          searchable={false}
-                          responsive
-                        />
-                      </Col>
-                      <Col lg={6} md={6}>
-                        <DataTable
-                          columns={deductionsColumns}
-                          data={DeductionData}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          persistTableHead
-                          highlightOnHover
-                          searchable={false}
-                          responsive
-                        />
-                      </Col>
-                    </Row>
-                  </div>
-                  <div className="d-flex justify-content-end mt-3">
-                    {editable?.is_editable ? (
-                      <button className="btn btn-primary" type="submit">
-                        Submit
-                      </button>
-                    ) : (
-                      <button
-                        className="btn btn-primary"
-                        type="submit"
-                        disabled
-                      >
-                        Submit
-                      </button>
-                    )}
-                  </div>
-                </form>
+                {data?.length > 0 ? (
+                  <>
+                    <form onSubmit={formik.handleSubmit}>
+                      <div className="table-responsive deleted-table">
+                        <Row>
+                          <Col lg={6} md={6}>
+                            <DataTable
+                              columns={chargesColumns}
+                              data={data}
+                              noHeader
+                              defaultSortField="id"
+                              defaultSortAsc={false}
+                              striped={true}
+                              persistTableHead
+                              highlightOnHover
+                              searchable={false}
+                              responsive
+                            />
+                          </Col>
+                          <Col lg={6} md={6}>
+                            <DataTable
+                              columns={deductionsColumns}
+                              data={DeductionData}
+                              noHeader
+                              defaultSortField="id"
+                              defaultSortAsc={false}
+                              striped={true}
+                              persistTableHead
+                              highlightOnHover
+                              searchable={false}
+                              responsive
+                            />
+                          </Col>
+                        </Row>
+                      </div>
+                      <div className="d-flex justify-content-end mt-3">
+                        {editable?.is_editable ? (
+                          <button className="btn btn-primary" type="submit">
+                            Submit
+                          </button>
+                        ) : (
+                          <button
+                            className="btn btn-primary"
+                            type="submit"
+                            disabled
+                          >
+                            Submit
+                          </button>
+                        )}
+                      </div>
+                    </form>
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      alt="MyChartImage"
+                      className="all-center-flex nodata-image"
+                    />
+                  </>
+                )}
               </Card.Body>
             </Card>
           </Col>
