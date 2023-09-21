@@ -18,7 +18,7 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
       ? getSiteStats?.data?.stock_alert
       : [];
 
-  console.log("my alert data", stockAlertData);
+
 
   const generateGradientStops = (color) => [
     {
