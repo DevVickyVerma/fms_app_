@@ -245,20 +245,8 @@ const CenterAuthModal = (props) => {
 
   return (
     <>
+      {isLoading ? <Loaderimg /> : null}
       <div>
-        {/* <div className="d-flex searchbar-top">
-                    <Button
-                        variant="primary"
-                        className="modal-effect d-grid mb-3 d-flex"
-                        href="#modaldemo8"
-                        onClick={handleClickOpen}
-                    >
-                        Authentication{" "}
-                        <span className="ms-2">
-                            <SearchIcon />
-                        </span>
-                    </Button>
-                </div> */}
         <Dialog
           open={open}
           onClose={handleClose}
