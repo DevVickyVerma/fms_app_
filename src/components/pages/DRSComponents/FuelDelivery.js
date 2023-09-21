@@ -10,8 +10,15 @@ import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 
 const FuelDelivery = (props) => {
-  const { apidata, error, company_id, client_id, site_id, start_date,sendDataToParent } = props;
-
+  const {
+    apidata,
+    error,
+    company_id,
+    client_id,
+    site_id,
+    start_date,
+    sendDataToParent,
+  } = props;
 
   const handleButtonClick = () => {
     const allPropsData = {
@@ -24,7 +31,6 @@ const FuelDelivery = (props) => {
     // Call the callback function with the object containing all the props
     sendDataToParent(allPropsData);
   };
-
 
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
@@ -83,7 +89,6 @@ const FuelDelivery = (props) => {
           `/fuel-delivery/list?site_id=${site_id}&drs_date=${start_date}`
         );
 
-
         const { data } = response;
         if (data) {
           setData(data?.data?.listing ? data.data.listing : []);
@@ -131,7 +136,6 @@ const FuelDelivery = (props) => {
     // Create a new FormData object
     const formData = new FormData();
 
- 
     for (const obj of values.data) {
       const {
         id,
@@ -190,7 +194,7 @@ const FuelDelivery = (props) => {
       if (response.ok) {
         console.log("Done");
         SuccessToast(responseData.message);
-        handleButtonClick()
+        handleButtonClick();
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
         ErrorToast(responseData.message);
@@ -205,10 +209,9 @@ const FuelDelivery = (props) => {
       setIsLoading(false);
     }
   };
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
       event.preventDefault();
-     
     }
   });
   const columns = [
@@ -406,11 +409,11 @@ const FuelDelivery = (props) => {
             id={`variance-${index}`}
             name={`data[${index}].variance`}
             className={
-              row.update_variance 
-              ? "UpdateValueInput"
-              : editable?.is_editable 
-              ? "table-input " 
-              : "table-input readonly "
+              row.update_variance
+                ? "UpdateValueInput"
+                : editable?.is_editable
+                ? "table-input "
+                : "table-input readonly "
             }
             value={formik.values.data[index]?.variance}
             onChange={formik.handleChange}
@@ -533,38 +536,50 @@ const FuelDelivery = (props) => {
                 <h3 className="card-title">Fuel Delivery</h3>
               </Card.Header>
               <Card.Body>
-                <form onSubmit={formik.handleSubmit}>
-                  <div className="table-responsive deleted-table">
-                    <DataTableExtensions {...tableDatas}>
-                      <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        striped={true}
-                        persistTableHead
-                        highlightOnHover
-                        searchable={false}
-                      />
-                    </DataTableExtensions>
-                  </div>
-                  <div className="d-flex justify-content-end mt-3">
-                    {editable?.is_editable ? (
-                      <button className="btn btn-primary" type="submit">
-                        Submit
-                      </button>
-                    ) : (
-                      <button
-                        className="btn btn-primary"
-                        type="submit"
-                        disabled
-                      >
-                        Submit
-                      </button>
-                    )}
-                  </div>
-                </form>
+                {data?.length > 0 ? (
+                  <>
+                    <form onSubmit={formik.handleSubmit}>
+                      <div className="table-responsive deleted-table">
+                        <DataTableExtensions {...tableDatas}>
+                          <DataTable
+                            columns={columns}
+                            data={data}
+                            noHeader
+                            defaultSortField="id"
+                            defaultSortAsc={false}
+                            striped={true}
+                            persistTableHead
+                            highlightOnHover
+                            searchable={false}
+                          />
+                        </DataTableExtensions>
+                      </div>
+                      <div className="d-flex justify-content-end mt-3">
+                        {editable?.is_editable ? (
+                          <button className="btn btn-primary" type="submit">
+                            Submit
+                          </button>
+                        ) : (
+                          <button
+                            className="btn btn-primary"
+                            type="submit"
+                            disabled
+                          >
+                            Submit
+                          </button>
+                        )}
+                      </div>
+                    </form>
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      alt="MyChartImage"
+                      className="all-center-flex nodata-image"
+                    />
+                  </>
+                )}
               </Card.Body>
             </Card>
           </Col>

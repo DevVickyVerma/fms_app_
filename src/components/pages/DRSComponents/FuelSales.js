@@ -368,23 +368,25 @@ const FuelSales = (props) => {
                 <h3 className="card-title">Fuel Sales</h3>
               </Card.Header>
               <Card.Body>
-                <form onSubmit={formik.SubmitFuelSalesForm}>
-                  <div className="table-responsive deleted-table">
-                    <DataTableExtensions {...tableDatas}>
-                      <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        striped={true}
-                        persistTableHead
-                        highlightOnHover
-                        searchable={false}
-                      />
-                    </DataTableExtensions>
-                  </div>
-                  {/* {data.length>0 ?  <div className="d-flex justify-content-end mt-3">
+                {data?.length > 0 ? (
+                  <>
+                    <form onSubmit={formik.SubmitFuelSalesForm}>
+                      <div className="table-responsive deleted-table">
+                        <DataTableExtensions {...tableDatas}>
+                          <DataTable
+                            columns={columns}
+                            data={data}
+                            noHeader
+                            defaultSortField="id"
+                            defaultSortAsc={false}
+                            striped={true}
+                            persistTableHead
+                            highlightOnHover
+                            searchable={false}
+                          />
+                        </DataTableExtensions>
+                      </div>
+                      {/* {data.length>0 ?  <div className="d-flex justify-content-end mt-3">
                     {editable ? (
                       <button className="btn btn-primary" type="submit">
                         Submit
@@ -399,7 +401,17 @@ const FuelSales = (props) => {
                       </button>
                     )}
                   </div> :""} */}
-                </form>
+                    </form>
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      alt="MyChartImage"
+                      className="all-center-flex nodata-image"
+                    />
+                  </>
+                )}
               </Card.Body>
             </Card>
           </Col>

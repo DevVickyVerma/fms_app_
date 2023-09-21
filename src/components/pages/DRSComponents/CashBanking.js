@@ -429,25 +429,37 @@ const CashBanking = (props) => {
                 <h3 className="card-title">Cash Banking</h3>
               </Card.Header>
               <Card.Body>
-                <div className="table-responsive deleted-table">
-                  <DataTableExtensions {...tableDatas}>
-                    <DataTable
-                      columns={columns}
-                      data={data}
-                      noHeader
-                      defaultSortField="id"
-                      defaultSortAsc={false}
-                      striped={true}
-                      // center={true}
-                      persistTableHead
-                      pagination
-                      paginationPerPage={20}
-                      highlightOnHover
-                      searchable={true}
-                      className="dsrCpt"
+                {data?.length > 0 ? (
+                  <>
+                    <div className="table-responsive deleted-table">
+                      <DataTableExtensions {...tableDatas}>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          // center={true}
+                          persistTableHead
+                          pagination
+                          paginationPerPage={20}
+                          highlightOnHover
+                          searchable={true}
+                          className="dsrCpt"
+                        />
+                      </DataTableExtensions>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      alt="MyChartImage"
+                      className="all-center-flex nodata-image"
                     />
-                  </DataTableExtensions>
-                </div>
+                  </>
+                )}
               </Card.Body>
             </Card>
           </Col>

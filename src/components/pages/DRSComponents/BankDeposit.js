@@ -7,7 +7,6 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import { BsCurrencyPound, BsDownload } from "react-icons/bs";
 import { BiSolidFilePdf } from "react-icons/bi";
 
-
 import {
   Breadcrumb,
   Card,
@@ -302,28 +301,35 @@ const BankDeposit = (props) => {
 
       cell: (row, index) => (
         <div className="d-flex align-items-center card-img">
-          { }
+          {}
 
           <div style={{ cursor: "pointer" }}>
-            {row.slip_type === "pdf" ? <>
-              <a
-                href={row?.slip}
-                target="_blank"
-                download="my-pdf-filename.pdf" rel="noreferrer" >
-                <BsDownload size={24} />
-              </a>
-            </> :
-              (
+            {row.slip_type === "pdf" ? (
+              <>
                 <a
                   href={row?.slip}
                   target="_blank"
-                  download={row?.slip}
-                  className="mr-2" rel="noreferrer"
+                  download="my-pdf-filename.pdf"
+                  rel="noreferrer"
                 >
-                  <img src={row.slip} alt={row.slip} style={{ width: "50px", height: "50px" }} />
+                  <BsDownload size={24} />
                 </a>
-              )
-            }
+              </>
+            ) : (
+              <a
+                href={row?.slip}
+                target="_blank"
+                download={row?.slip}
+                className="mr-2"
+                rel="noreferrer"
+              >
+                <img
+                  src={row.slip}
+                  alt={row.slip}
+                  style={{ width: "50px", height: "50px" }}
+                />
+              </a>
+            )}
           </div>
         </div>
       ),
@@ -425,10 +431,11 @@ const BankDeposit = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.amount && formik.touched.amount
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.amount && formik.touched.amount
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="amount"
                             name="amount"
                             placeholder="Amount"
@@ -449,10 +456,11 @@ const BankDeposit = (props) => {
                             Choose Reason<span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.reason && formik.touched.reason
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.reason && formik.touched.reason
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="reason"
                             name="reason"
                             onChange={formik.handleChange}
@@ -479,10 +487,11 @@ const BankDeposit = (props) => {
                         <div className="form-group">
                           <label htmlFor="image">Image</label>
                           <div
-                            className={`dropzone ${formik.errors.image && formik.touched.image
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`dropzone ${
+                              formik.errors.image && formik.touched.image
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             onDrop={(event) => handleDrop(event)}
                             onDragOver={(event) => event.preventDefault()}
                           >
@@ -542,8 +551,8 @@ const BankDeposit = (props) => {
                     }}
                   >
                     Amount need to be deposit:
-                    {/* <BsCurrencyPound style={{ marginBottom: "5px" }} /> */}
-                    {" "}  £{bankAmount}
+                    {/* <BsCurrencyPound style={{ marginBottom: "5px" }} /> */}{" "}
+                    £{bankAmount}
                   </h3>
                 ) : (
                   ""
@@ -551,24 +560,36 @@ const BankDeposit = (props) => {
               </Card.Header>
 
               <Card.Body>
-                <div className="table-responsive deleted-table">
-                  <DataTableExtensions {...tableDatas}>
-                    <DataTable
-                      columns={columns}
-                      data={data}
-                      noHeader
-                      defaultSortField="id"
-                      defaultSortAsc={false}
-                      striped={true}
-                      // center={true}
-                      persistTableHead
-                      pagination
-                      paginationPerPage={20}
-                      highlightOnHover
-                      searchable={true}
+                {data?.length > 0 ? (
+                  <>
+                    <div className="table-responsive deleted-table">
+                      <DataTableExtensions {...tableDatas}>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          // center={true}
+                          persistTableHead
+                          pagination
+                          paginationPerPage={20}
+                          highlightOnHover
+                          searchable={true}
+                        />
+                      </DataTableExtensions>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      alt="MyChartImage"
+                      className="all-center-flex nodata-image"
                     />
-                  </DataTableExtensions>
-                </div>
+                  </>
+                )}
               </Card.Body>
             </Card>
           </Col>

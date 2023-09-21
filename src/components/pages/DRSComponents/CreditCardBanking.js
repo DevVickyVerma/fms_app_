@@ -30,7 +30,7 @@ const CreditCardBanking = (props) => {
 
     // Call the callback function with the object containing all the props
     sendDataToParent(allPropsData);
-  }
+  };
 
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
@@ -95,24 +95,22 @@ const CreditCardBanking = (props) => {
           setData(data.data.listing);
           setis_editable(data.data);
 
-
-        //   {
-        //     "id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
-        //     "site_id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
-        //     "card_id": "cDd2VGlMRzRYUE5vdEFLcEJpZVY1Zz09",
-        //     "card_name": "Visa Delta",
-        //     "koisk_value": "5496.85000",
-        //     "opt_value": 0,
-        //     "account_value": 0,
-        //     "no_of_transactions": 0,
-        //     "created_date": null,
-        //     "updated_date": null,
-        //     "update_koisk_value": false,
-        //     "update_opt_value": false,
-        //     "update_account_value": false,
-        //     "update_no_of_transactions": false
-        // }
-
+          //   {
+          //     "id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
+          //     "site_id": "Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09",
+          //     "card_id": "cDd2VGlMRzRYUE5vdEFLcEJpZVY1Zz09",
+          //     "card_name": "Visa Delta",
+          //     "koisk_value": "5496.85000",
+          //     "opt_value": 0,
+          //     "account_value": 0,
+          //     "no_of_transactions": 0,
+          //     "created_date": null,
+          //     "updated_date": null,
+          //     "update_koisk_value": false,
+          //     "update_opt_value": false,
+          //     "update_account_value": false,
+          //     "update_no_of_transactions": false
+          // }
 
           // Create an array of form values based on the response data
           const formValues = data.data.listing.map((item) => {
@@ -194,9 +192,9 @@ const CreditCardBanking = (props) => {
       const responseData = await response.json(); // Read the response once
 
       if (response.ok) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: "smooth" });
         SuccessToast(responseData.message);
-        handleButtonClick()
+        handleButtonClick();
       } else {
         ErrorToast(responseData.message);
 
@@ -232,34 +230,34 @@ const CreditCardBanking = (props) => {
       sortable: false,
       width: "20%",
       center: true,
-    
+
       cell: (row, index) =>
-      row.card_name === "Total" ? (
-        <div>
-        <input
-       type="number"
-       className="table-input readonly total-input"
-       value={row.koisk_value}
-       readOnly
-     />
-    </div>
-      ) : (
-        <div>
-        <input
-          type="number"
-          id={`koisk_value-${index}`}
-          name={`data[${index}].koisk_value`}
-          className={
-            editable?.is_editable ? "table-input " : "table-input readonly "
-          }
-          value={formik.values.data[index]?.koisk_value}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          readOnly={editable?.is_editable ? false : true}
-        />
-        {/* Error handling code */}
-      </div>
-      ),
+        row.card_name === "Total" ? (
+          <div>
+            <input
+              type="number"
+              className="table-input readonly total-input"
+              value={row.koisk_value}
+              readOnly
+            />
+          </div>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`koisk_value-${index}`}
+              name={`data[${index}].koisk_value`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.koisk_value}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "OPT VALUE",
@@ -268,34 +266,34 @@ const CreditCardBanking = (props) => {
       sortable: false,
       width: "20%",
       center: true,
-    
+
       cell: (row, index) =>
-      row.card_name === "Total" ? (
-        <div>
-        <input
-       type="number"
-       className="table-input readonly total-input"
-       value={row.opt_value}
-       readOnly
-     />
-    </div>
-      ) : (
-        <div>
-        <input
-          type="number"
-          id={`opt_value-${index}`}
-          name={`data[${index}].opt_value`}
-          className={
-            editable?.is_editable ? "table-input " : "table-input readonly "
-          }
-          value={formik.values.data[index]?.opt_value}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          readOnly={editable?.is_editable ? false : true}
-        />
-        {/* Error handling code */}
-      </div>
-      ),
+        row.card_name === "Total" ? (
+          <div>
+            <input
+              type="number"
+              className="table-input readonly total-input"
+              value={row.opt_value}
+              readOnly
+            />
+          </div>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`opt_value-${index}`}
+              name={`data[${index}].opt_value`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.opt_value}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "ACCOUNT VALUE	",
@@ -303,34 +301,34 @@ const CreditCardBanking = (props) => {
       sortable: false,
       width: "20%",
       center: true,
-   
+
       cell: (row, index) =>
-      row.card_name === "Total" ? (
-        <div>
-        <input
-       type="number"
-       className="table-input readonly total-input"
-       value={row.account_value}
-       readOnly
-     />
-    </div>
-      ) : (
-        <div>
-          <input
-            type="number"
-            id={`account_value-${index}`}
-            name={`data[${index}].account_value`}
-            className={
-              editable?.is_editable ? "table-input " : "table-input readonly "
-            }
-            value={formik.values.data[index]?.account_value}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            readOnly={editable?.is_editable ? false : true}
-          />
-          {/* Error handling code */}
-        </div>
-      ),
+        row.card_name === "Total" ? (
+          <div>
+            <input
+              type="number"
+              className="table-input readonly total-input"
+              value={row.account_value}
+              readOnly
+            />
+          </div>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`account_value-${index}`}
+              name={`data[${index}].account_value`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.account_value}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
     {
       name: "NO. OF TRANSACTIONS",
@@ -338,34 +336,34 @@ const CreditCardBanking = (props) => {
       sortable: false,
       width: "20%",
       center: true,
-  
+
       cell: (row, index) =>
-      row.card_name === "Total" ? (
-        <div>
-        <input
-       type="number"
-       className="table-input readonly total-input"
-       value={row.no_of_transactions}
-       readOnly
-     />
-    </div>
-      ) : (
-        <div>
-        <input
-          type="number"
-          id={`no_of_transactions-${index}`}
-          name={`data[${index}].no_of_transactions`}
-          className={
-            editable?.is_editable ? "table-input " : "table-input readonly "
-          }
-          value={formik.values.data[index]?.no_of_transactions}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          readOnly={editable?.is_editable ? false : true}
-        />
-        {/* Error handling code */}
-      </div>
-      ),
+        row.card_name === "Total" ? (
+          <div>
+            <input
+              type="number"
+              className="table-input readonly total-input"
+              value={row.no_of_transactions}
+              readOnly
+            />
+          </div>
+        ) : (
+          <div>
+            <input
+              type="number"
+              id={`no_of_transactions-${index}`}
+              name={`data[${index}].no_of_transactions`}
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
+              value={formik.values.data[index]?.no_of_transactions}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              readOnly={editable?.is_editable ? false : true}
+            />
+            {/* Error handling code */}
+          </div>
+        ),
     },
 
     // ... remaining columns
@@ -384,11 +382,9 @@ const CreditCardBanking = (props) => {
     // validationSchema: validationSchema,
   });
 
-
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
       event.preventDefault();
-     
     }
   });
 
@@ -403,32 +399,50 @@ const CreditCardBanking = (props) => {
                 <h3 className="card-title"> Credit Card Banking</h3>
               </Card.Header>
               <Card.Body>
-                <form onSubmit={formik.handleSubmit}>
-                  <div className="table-responsive deleted-table">
-                    <DataTableExtensions {...tableDatas}>
-                      <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        striped={true}
-                        persistTableHead
-                        highlightOnHover
-                        searchable={false}
-                      />
-                    </DataTableExtensions>
-                  </div>
-                  <div className="d-flex justify-content-end mt-3">
-                  {editable?.is_editable?
-                  <button className="btn btn-primary" type="submit" >
-                      Submit
-                    </button>: <button className="btn btn-primary" type="submit" disabled>
-                      Submit
-                    </button>
-                 }
-                  </div>
-                </form>
+                {data?.length > 0 ? (
+                  <>
+                    <form onSubmit={formik.handleSubmit}>
+                      <div className="table-responsive deleted-table">
+                        <DataTableExtensions {...tableDatas}>
+                          <DataTable
+                            columns={columns}
+                            data={data}
+                            noHeader
+                            defaultSortField="id"
+                            defaultSortAsc={false}
+                            striped={true}
+                            persistTableHead
+                            highlightOnHover
+                            searchable={false}
+                          />
+                        </DataTableExtensions>
+                      </div>
+                      <div className="d-flex justify-content-end mt-3">
+                        {editable?.is_editable ? (
+                          <button className="btn btn-primary" type="submit">
+                            Submit
+                          </button>
+                        ) : (
+                          <button
+                            className="btn btn-primary"
+                            type="submit"
+                            disabled
+                          >
+                            Submit
+                          </button>
+                        )}
+                      </div>
+                    </form>
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      alt="MyChartImage"
+                      className="all-center-flex nodata-image"
+                    />
+                  </>
+                )}
               </Card.Body>
             </Card>
           </Col>
