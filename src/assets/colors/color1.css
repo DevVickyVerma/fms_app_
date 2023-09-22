@@ -462,12 +462,20 @@ a.text-primary:focus {
   animation: gradient 16s linear infinite;
   animation-direction: alternate;
 }
+
 @keyframes gradient {
   0% {
     background-position: 0%;
   }
   100% {
     background-position: 100%;
+  }
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .login-img {
+    background-size: 100% 100%; /* Adjust the background size for smaller screens */
   }
 }
 
