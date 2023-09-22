@@ -28,6 +28,7 @@ const DashboardGradsComponent = ({ getData, getGradsSiteDetails,
     // const [getGradsSiteDetails, setGradsGetSiteDetails] = useState()
     const { id } = useParams();
     const [isGradsOpen, setIsGradsOpen] = useState(true);
+    const [showDate, setShowDate] = useState(false)
 
 
     const handleGradsClick = (index) => {
@@ -121,6 +122,7 @@ const DashboardGradsComponent = ({ getData, getGradsSiteDetails,
                         setGradsGetSiteDetails(response3?.data?.data)
                         notify(response3?.data?.message)
                         setShowModal(false);
+                        setShowDate(true)
                     } else {
                         throw new Error("No data available in the response");
                     }
@@ -137,6 +139,8 @@ const DashboardGradsComponent = ({ getData, getGradsSiteDetails,
         }
         setGradsLoading(false)
     };
+
+
     return (
         <>
             {gradsLoading ? <Loaderimg /> : ""}
@@ -147,8 +151,8 @@ const DashboardGradsComponent = ({ getData, getGradsSiteDetails,
                 <Col lg={12} xl={12} md={12} sm={12}>
                     <Card>
                         <Card.Header className='d-flex justify-content-between'>
-                            <h3 className="card-title">Grads Date Report</h3>
-                            <button className='btn btn-primary' onClick={handleOpenModal}>  <MdOutlineCalendarMonth /> {gradsFormData ? `${moment(gradsFormData?.start_date).format("MMM Do")} - ${moment(gradsFormData?.end_date).format("MMM Do")}` : moment(getSiteDetails?.last_day_end).format("MMM Do")} </button>
+                            <h3 className="card-title">Grades Analysis</h3>
+                            <button className='btn btn-primary' onClick={handleOpenModal}>  <MdOutlineCalendarMonth /> {showDate ? `${moment(startDate).format("Do MMM")} - ${moment(endDate).format("Do MMM")}` : moment(getSiteDetails?.last_day_end).format("MMM Do")} </button>
                         </Card.Header>
                         <Card.Body>
                             <Row>
@@ -342,7 +346,7 @@ const DashboardGradsComponent = ({ getData, getGradsSiteDetails,
                                         {/* 3rd column */}
                                         <Col lg={4} md={4} xl={4} sm={4}>
                                             <Card.Header>
-                                                <h3 className="card-title">Fuel Volume</h3>
+                                                <h3 className="card-title">Payments</h3>
                                             </Card.Header>
 
                                             <Card.Body
