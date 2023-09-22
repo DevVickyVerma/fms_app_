@@ -29,7 +29,7 @@ const DashboardCompetitorGraph = ({
     return "filter is not applied yet";
   }
 
-  console.log(filteredData, "filteredData");
+
 
   const colorArray = [
     [255, 99, 132], // Red
@@ -48,7 +48,7 @@ const DashboardCompetitorGraph = ({
   ];
 
   const transformData = (data) => {
-    console.log("dataisavails", data);
+
     const transformedData = {};
 
     for (const item of data || []) {
@@ -68,7 +68,7 @@ const DashboardCompetitorGraph = ({
   };
 
   const transformedData = transformData(filteredData);
-  console.log(transformedData, "transformedData");
+
 
   const datasets = Object?.keys(transformedData).map((name, index) => ({
     label: name ? name : "",

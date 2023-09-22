@@ -8,13 +8,8 @@ import { useSelector } from "react-redux";
 
 const DashboardSiteDetail = (props) => {
   const {
-    apidata,
     isLoading,
-    error,
     getData,
-    postData,
-    searchdata,
-    setLoading,
   } = props;
   const { id } = useParams();
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
@@ -23,6 +18,7 @@ const DashboardSiteDetail = (props) => {
   const [getSiteDetails, setGetSiteDetails] = useState(null);
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
   const [permissionsArray, setPermissionsArray] = useState([]);
+  const [getGradsSiteDetails, setGradsGetSiteDetails] = useState(null)
 
   const FetchTableData = async () => {
     try {
@@ -79,6 +75,7 @@ const DashboardSiteDetail = (props) => {
       );
       if (response2 && response2.data) {
         setGetSiteDetails(response2?.data?.data);
+        setGradsGetSiteDetails(response2?.data?.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -128,17 +125,11 @@ const DashboardSiteDetail = (props) => {
       }
     }
   };
-  console.log(
-    permissionsArray?.includes("dashboard-site-stats"),
-    "permissionsArray"
-  );
 
   useEffect(() => {
     FetchTableData();
     window.scrollTo(0, 0);
-    // if (isDashboardSiteStatsPermissionAvailable === true) {
-    //   console.log("yesyesyadskjand");
-    // }
+
   }, []);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -154,11 +145,7 @@ const DashboardSiteDetail = (props) => {
   const containerStyles = {
     overflowY: "scroll", // or 'auto'
     overflowX: "hidden", // or 'auto'
-    // maxHeight: "100vh", // Set a maximum height for the container
     maxHeight: `calc(100vh - ${headerHeight}px)`,
-    // border: "1px solid #ccc",
-    // backgroundColor: "#f5f5f5",
-    // padding: "10px",
   };
 
   return (
@@ -167,7 +154,6 @@ const DashboardSiteDetail = (props) => {
       <div
         className="overflow-container"
         style={containerStyles}
-      // style={{ height: "100vh ", overflowY: "auto", overflowX: "hidden" }}
       >
         <DashBoardSubChild
           getSiteStats={getSiteStats}
@@ -176,6 +162,8 @@ const DashboardSiteDetail = (props) => {
           setGetSiteDetails={setGetSiteDetails}
           getCompetitorsPrice={getCompetitorsPrice}
           setGetCompetitorsPrice={setGetCompetitorsPrice}
+          getGradsSiteDetails={getGradsSiteDetails}
+          setGradsGetSiteDetails={setGradsGetSiteDetails}
         />
       </div>
     </>

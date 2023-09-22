@@ -8,13 +8,6 @@ import { useSelector } from "react-redux";
 const DashboardSiteTopSection = (props) => {
   const {
     isLoading,
-    // GrossVolume,
-    // shopmargin,
-    // GrossProfitValue,
-    // GrossMarginValue,
-    // FuelValue,
-    // shopsale,
-    // searchdata,
   } = props;
 
   const singleSiteStoredData = localStorage.getItem("singleSiteData");
@@ -39,10 +32,7 @@ const DashboardSiteTopSection = (props) => {
     ? singleSiteParsedData?.shop_sales
     : null;
 
-  const [UploadTabname, setUploadTabname] = useState();
-  const [superiorRole, setsuperiorRole] = useState(
-    localStorage.getItem("superiorRole")
-  );
+
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -50,7 +40,6 @@ const DashboardSiteTopSection = (props) => {
   useEffect(() => {
     if (UserPermissions) {
       setPermissionsArray(UserPermissions?.permissions);
-      // console.log("my user permissions", UserPermissions);
     }
   }, [UserPermissions]);
   const isDetailPermissionAvailable =
@@ -70,30 +59,12 @@ const DashboardSiteTopSection = (props) => {
                   }`}
               >
                 <Card.Body
-                  //   className={`${
-                  //     isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                  //   }`}
                   className="py-3 px-5 single-site-card "
                 >
                   <Row>
                     <div className="col">
                       <div
                         className=" dashboard-box"
-                      // onClick={GrossVolumehandleClick}
-                      // onClick={() => {
-                      //   const shouldNavigate =
-                      //     (superiorRole === "Administrator" &&
-                      //       searchdata &&
-                      //       Object.keys(searchdata).length > 0) ||
-                      //     (superiorRole !== "Administrator" &&
-                      //       isDetailPermissionAvailable);
-
-                      //   if (shouldNavigate) {
-                      //     setUploadTabname("GrossVolume");
-                      //     handleNavigateClick(UploadTabname);
-                      //     handleNavigateClick(UploadTabname);
-                      //   }
-                      // }}
                       >
                         <div>
                           {isLoading ? (
@@ -116,7 +87,7 @@ const DashboardSiteTopSection = (props) => {
                                 </div>
                               </div>
 
-                              {/* <p className="p-0">Bunkered Volume</p> */}
+
                               <OverlayTrigger
                                 placement="top"
                                 overlay={
@@ -215,9 +186,7 @@ const DashboardSiteTopSection = (props) => {
                                         </span>
                                       </>
                                     )}
-                                    {/* <span>
-                                      {GrossProfitValue?.percentage}%
-                                    </span> */}
+
                                   </span>
                                   last month
                                 </p>
@@ -287,9 +256,6 @@ const DashboardSiteTopSection = (props) => {
                                         </span>
                                       </>
                                     )}
-                                    {/* <span>
-                                      {GrossProfitValue?.percentage}%
-                                    </span> */}
                                   </span>
                                   last month
                                 </p>
@@ -323,29 +289,12 @@ const DashboardSiteTopSection = (props) => {
                   }`}
               >
                 <Card.Body
-                  // className={`${
-                  //   isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                  // }`}
                   className="py-3 px-5 single-site-card "
                 >
                   <Row>
                     <div className="col">
                       <div
                         className=" dashboard-box"
-                      // onClick={() => {
-                      //   const shouldNavigate =
-                      //     (superiorRole === "Administrator" &&
-                      //       searchdata &&
-                      //       Object.keys(searchdata).length > 0) ||
-                      //     (superiorRole !== "Administrator" &&
-                      //       isDetailPermissionAvailable);
-
-                      //   if (shouldNavigate) {
-                      //     setUploadTabname("Fuel Sales");
-                      //     handleNavigateClick(UploadTabname);
-                      //     handleNavigateClick(UploadTabname);
-                      //   }
-                      // }}
                       >
                         <div>
                           {isLoading ? (
@@ -395,7 +344,7 @@ const DashboardSiteTopSection = (props) => {
                                         </span>
                                       </>
                                     )}
-                                    {/* <span>{FuelValue?.percentage}%</span> */}
+
                                   </span>
                                   last month
                                 </p>
@@ -426,20 +375,7 @@ const DashboardSiteTopSection = (props) => {
                     <div className="col">
                       <div
                         className=" dashboard-box"
-                      // onClick={() => {
-                      //   const shouldNavigate =
-                      //     (superiorRole === "Administrator" &&
-                      //       searchdata &&
-                      //       Object.keys(searchdata).length > 0) ||
-                      //     (superiorRole !== "Administrator" &&
-                      //       isDetailPermissionAvailable);
 
-                      //   if (shouldNavigate) {
-                      //     setUploadTabname("Shop Sales");
-                      //     handleNavigateClick(UploadTabname);
-                      //     handleNavigateClick(UploadTabname);
-                      //   }
-                      // }}
                       >
                         <div>
                           <h6>Shop Sales</h6>
@@ -507,29 +443,12 @@ const DashboardSiteTopSection = (props) => {
                   }`}
               >
                 <Card.Body
-                  // className={`${
-                  //   isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                  // }`}
                   className="py-3 px-5 single-site-card "
                 >
                   <Row>
                     <div className="col">
                       <div
                         className=" dashboard-box"
-                      // onClick={() => {
-                      //   const shouldNavigate =
-                      //     (superiorRole === "Administrator" &&
-                      //       searchdata &&
-                      //       Object.keys(searchdata).length > 0) ||
-                      //     (superiorRole !== "Administrator" &&
-                      //       isDetailPermissionAvailable);
-
-                      //   if (shouldNavigate) {
-                      //     setUploadTabname("Shop Margin");
-                      //     handleNavigateClick(UploadTabname);
-                      //     handleNavigateClick(UploadTabname);
-                      //   }
-                      // }}
                       >
                         <div>
                           <h6>Shop Margin</h6>
@@ -568,7 +487,6 @@ const DashboardSiteTopSection = (props) => {
                                         </span>
                                       </>
                                     )}
-                                    {/* <span>{shopmargin?.percentage}%</span> */}
                                   </span>
                                   last month
                                 </p>

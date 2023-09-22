@@ -2,7 +2,6 @@ import React from "react";
 import DashTopSubHeading from "./DashTopSubHeading";
 import { Breadcrumb } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import DashTopSection from "./DashTopSection";
 
 const DashBoardSubChild = ({
   getSiteStats,
@@ -11,15 +10,14 @@ const DashBoardSubChild = ({
   setGetSiteDetails,
   getCompetitorsPrice,
   setGetCompetitorsPrice,
+  getGradsSiteDetails,
+  setGradsGetSiteDetails
 }) => {
-  const storedData = localStorage.getItem("savedDataOfDashboard");
-  const parsedData = JSON.parse(storedData);
+
 
   return (
     <>
-      <div
-      // style={{ height: "100vh", overflowY: "auto", overflowX: "hidden" }}
-      >
+      <div>
         <div className="page-header ">
           <div>
             <h1 className="page-title">
@@ -54,7 +52,7 @@ const DashBoardSubChild = ({
           </div>
         </div>
 
-        {/* dashboard sub page data */}
+        {/* dashboard Whole Page */}
         <DashTopSubHeading
           getSiteStats={getSiteStats}
           setGetSiteStats={setGetSiteStats}
@@ -62,6 +60,8 @@ const DashBoardSubChild = ({
           setGetSiteDetails={setGetSiteDetails}
           getCompetitorsPrice={getCompetitorsPrice}
           setGetCompetitorsPrice={setGetCompetitorsPrice}
+          getGradsSiteDetails={getGradsSiteDetails}
+          setGradsGetSiteDetails={setGradsGetSiteDetails}
         />
       </div>
     </>
