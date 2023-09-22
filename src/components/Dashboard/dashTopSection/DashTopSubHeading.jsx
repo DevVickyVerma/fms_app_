@@ -24,6 +24,7 @@ import DashboardSiteTopSection from "./DashboardSiteTopSection";
 import Loaderimg from "../../../Utils/Loader";
 import StackedLineBarChart from "../StackedLineBarChart";
 import DashboardCompetitorGraph from "./DashboardCompetitorGraph";
+import DashboardShopSale from "./DashboardShopSale";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
@@ -456,6 +457,10 @@ const DashTopSubHeading = ({
         <DashboardGradsComponent getGradsSiteDetails={getGradsSiteDetails}
           setGradsGetSiteDetails={setGradsGetSiteDetails} getSiteDetails={getSiteDetails} />
       </div>
+
+      {/* new Shop sale */}
+      <DashboardShopSale getSiteDetails={getSiteDetails} />
+      {/* tank analysis */}
 
       <Row
         style={{
