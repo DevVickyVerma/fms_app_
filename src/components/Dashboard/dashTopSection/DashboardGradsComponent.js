@@ -10,6 +10,12 @@ import { Slide, toast } from 'react-toastify';
 import { MdOutlineCalendarMonth } from "react-icons/md"
 import moment from 'moment';
 import { AiOutlineClose } from 'react-icons/ai';
+import { DateRangePicker } from 'react-date-range';
+import { addDays, format } from 'date-fns';
+import 'react-date-range/dist/styles.css'; // main css file
+import 'react-date-range/dist/theme/default.css';
+import { subMonths, isAfter, startOfMonth, isToday } from 'date-fns';
+
 
 const DashboardGradsComponent = ({ getData, getGradsSiteDetails,
     setGradsGetSiteDetails, getSiteDetails
@@ -22,10 +28,9 @@ const DashboardGradsComponent = ({ getData, getGradsSiteDetails,
     // const [getGradsSiteDetails, setGradsGetSiteDetails] = useState()
     const { id } = useParams();
     const [isGradsOpen, setIsGradsOpen] = useState(true);
-    const [minSelectedDate, setMinSelectedDate] = useState();
+
 
     const handleGradsClick = (index) => {
-        // setIsGradsOpen(!isGradsOpen);
         setGridIndex(index);
     };
     const notify = (message) => {
@@ -38,15 +43,50 @@ const DashboardGradsComponent = ({ getData, getGradsSiteDetails,
             theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
         });
     };
-    const handleSubmit1 = async (formValues) => {
+
+
+    const [showModal, setShowModal] = useState(false); // State to control modal visibility
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
+    const handleOpenModal = () => {
+        setShowModal(true);
+    }
+
+
+    const [state, setState] = useState([
+        {
+            startDate: startOfMonth(new Date()), // 1st day of the current month
+            endDate: new Date(), // Today's date
+            key: 'selection',
+        },
+    ]);
+
+    const minDate = startOfMonth(subMonths(new Date(), 1)); // 1st day of the previous month
+    const maxDate = new Date(); // Today's date
+    const handleSelect = (ranges) => {
+        // Ensure that the selected range is within the allowed bounds
+        if (
+            ranges.selection.startDate >= minDate &&
+            ranges.selection.endDate <= maxDate
+        ) {
+            setState([ranges.selection]);
+        }
+    };
+    const startDate = format(state[0].startDate, 'yyyy-MM-dd'); // Format start date
+    const endDate = format(state[0].endDate, 'yyyy-MM-dd'); // Format end date
+
+
+    // console.log("startdate", startDate);
+    // console.log(endDate, "enddate");
+
+    const isButtonDisabled = !startDate || !endDate;
+
+    const fetchData = async () => {
         setGradsLoading(true)
 
         try {
-            const formData = new FormData();
-            console.log(formValues, "formValues");
-            formData.append("start_date", formValues.start_date);
-            formData.append("end_date", formValues.end_date);
-            setGradsFormData(formValues);
             if (localStorage.getItem("Dashboardsitestats") === "true") {
                 try {
                     // Attempt to parse JSON data from local storage
@@ -72,8 +112,8 @@ const DashboardGradsComponent = ({ getData, getGradsSiteDetails,
                     // Use async/await to fetch data
                     const response3 = await getData(
                         localStorage.getItem("superiorRole") !== "Client"
-                            ? `/dashboard/get-site-fuel-performance?site_id=${id}&end_date=${formValues.end_date}&start_date=${formValues?.start_date}`
-                            : `/dashboard/get-site-fuel-performance?site_id=${id}&end_date=${formValues.end_date}&start_date=${formValues?.start_date}`
+                            ? `/dashboard/get-site-fuel-performance?site_id=${id}&end_date=${endDate}&start_date=${startDate}`
+                            : `/dashboard/get-site-fuel-performance?site_id=${id}&end_date=${endDate}&start_date=${startDate}`
                     );
                     if (response3 && response3.data) {
                         // setGetSiteDetails(response3?.data?.data);
@@ -97,53 +137,12 @@ const DashboardGradsComponent = ({ getData, getGradsSiteDetails,
         }
         setGradsLoading(false)
     };
-
-    const getCurrentDate = () => {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, "0");
-        const day = String(today.getDate() - 1).padStart(2, "0"); // Subtract one day from the current date
-        return `${year}-${month}-${day}`;
-    };
-
-    const getFirstDateOfPreviousMonth = () => {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = today.getMonth();
-        // Calculate the first day of the previous month
-        const firstDayOfPreviousMonth = new Date(year, month - 1, 1);
-
-        // Format the date as "YYYY-MM-DD"
-        const formattedDate = `${firstDayOfPreviousMonth.getFullYear()}-${String(firstDayOfPreviousMonth.getMonth() + 1).padStart(2, "0")}-01`;
-
-        return formattedDate;
-    };
-    const handleShowDate = () => {
-        const inputDateElement = document.querySelector("#start_date");
-        inputDateElement.showPicker();
-    };
-
-    const handleShowDate1 = () => {
-        const inputDateElement = document.querySelector("#end_date");
-        inputDateElement.showPicker();
-    };
-
-    const [showModal, setShowModal] = useState(false); // State to control modal visibility
-    const handleCloseModal = () => {
-        setShowModal(false);
-    };
-
-    const handleOpenModal = () => {
-        setShowModal(true);
-    }
-
-
-
-
     return (
         <>
             {gradsLoading ? <Loaderimg /> : ""}
             {/* Grads with bootstrap */}
+
+
             <Row>
                 <Col lg={12} xl={12} md={12} sm={12}>
                     <Card>
@@ -462,7 +461,7 @@ const DashboardGradsComponent = ({ getData, getGradsSiteDetails,
                 className="custom-modal-width custom-modal-height"
             >
                 <div class="modal-header" style={{ color: "#fff", background: "#6259ca" }}>
-                    <h5 class="modal-title">  Grades Date Reports</h5>
+                    <h5 class="modal-title">  Grades Date wise Reports</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span onClick={handleCloseModal} style={{ cursor: "pointer" }}>
                             <AiOutlineClose color='#fff' />
@@ -471,118 +470,34 @@ const DashboardGradsComponent = ({ getData, getGradsSiteDetails,
                 </div>
 
                 <Modal.Body className="Disable2FA-modal">
-                    <div className="modal-contentDisable2FA">
-
-                        <Row>
-                            <Col lg={12} md={12}>
-                                <Formik
-                                    initialValues={{
-                                        start_date: "",
-                                        end_date: "",
-                                    }}
-                                    validationSchema={Yup.object().shape({
-                                        start_date: Yup.date().required("Start Date is required"),
-                                        end_date: Yup.date().required("End Date is required"),
-
-                                    })}
-                                    onSubmit={(values) => {
-                                        handleSubmit1(values);
-
-                                    }}
-                                >
-                                    {({ handleSubmit, errors, touched, setFieldValue }) => (
-                                        <Form onSubmit={handleSubmit}>
-                                            <Card.Body>
-                                                <Row>
-                                                    <Col lg={6} md={6}>
-                                                        <FormGroup>
-                                                            <label
-                                                                htmlFor="start_date"
-                                                                className="form-label"
-                                                            >
-                                                                Start Date
-                                                            </label>
-                                                            <Field
-                                                                type="date"
-                                                                min={getFirstDateOfPreviousMonth()}
-                                                                max={getCurrentDate()}
-                                                                onClick={handleShowDate}
-                                                                className={`input101 ${errors.start_date && touched.start_date
-                                                                    ? "is-invalid"
-                                                                    : ""
-                                                                    }`}
-                                                                id="start_date"
-                                                                name="start_date"
-                                                                onChange={(e) => {
-                                                                    const selectedstart_date = e.target.value;
-
-                                                                    setMinSelectedDate(selectedstart_date)
-                                                                    setFieldValue(
-                                                                        "start_date",
-                                                                        selectedstart_date
-                                                                    );
-                                                                }}
-                                                            ></Field>
-                                                            <ErrorMessage
-                                                                component="div"
-                                                                className="invalid-feedback"
-                                                                name="start_date"
-                                                            />
-                                                        </FormGroup>
-                                                    </Col>
-                                                    <Col lg={6} md={6}>
-                                                        <FormGroup>
-                                                            <label
-                                                                htmlFor="end_date"
-                                                                className="form-label"
-                                                            >
-                                                                End Date
-                                                            </label>
-                                                            <Field
-                                                                type="date"
-                                                                min={minSelectedDate ? minSelectedDate : getFirstDateOfPreviousMonth()}
-                                                                max={getCurrentDate()}
-                                                                onClick={handleShowDate1}
-                                                                className={`input101 ${errors.end_date && touched.end_date
-                                                                    ? "is-invalid"
-                                                                    : ""
-                                                                    }`}
-                                                                id="end_date"
-                                                                name="end_date"
-                                                                onChange={(e) => {
-                                                                    const selectedend_date_date =
-                                                                        e.target.value;
-
-                                                                    setFieldValue(
-                                                                        "end_date",
-                                                                        selectedend_date_date
-                                                                    );
-                                                                    // setShowButton(false);
-                                                                }}
-                                                            ></Field>
-                                                            <ErrorMessage
-                                                                component="div"
-                                                                className="invalid-feedback"
-                                                                name="end_date"
-                                                            />
-                                                        </FormGroup>
-                                                    </Col >
-                                                </Row>
-                                            </Card.Body>
-                                            <Card.Footer>
-                                                <div className='text-end'>
-                                                    <button type="submit" className="btn btn-primary f-size-5">
-                                                        Confirm
-                                                    </button>
-                                                </div>
-                                            </Card.Footer>
-                                        </Form>
-                                    )}
-                                </Formik>
-                            </Col>
-                        </Row>
-
-                    </div>
+                    <Row>
+                        <Col lg={12} xl={12} md={12} sm={12}>
+                            <Card>
+                                <Card.Body>
+                                    <div>
+                                        <DateRangePicker
+                                            onChange={handleSelect}
+                                            showSelectionPreview={true}
+                                            moveRangeOnFirstSelection={false}
+                                            months={2}
+                                            ranges={state}
+                                            direction="horizontal"
+                                            minDate={minDate}
+                                            maxDate={maxDate}
+                                        />
+                                    </div>
+                                </Card.Body>
+                                <Card.Footer>
+                                    <div className='text-end'>
+                                        <button type="submit" className="btn btn-primary f-size-5" onClick={fetchData}
+                                            disabled={isButtonDisabled}>
+                                            Generate Report
+                                        </button>
+                                    </div>
+                                </Card.Footer>
+                            </Card>
+                        </Col>
+                    </Row>
                 </Modal.Body>
             </Modal>
         </>
