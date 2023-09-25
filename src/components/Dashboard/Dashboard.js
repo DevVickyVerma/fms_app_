@@ -49,6 +49,7 @@ const Dashboard = (props) => {
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
 
   const [ShowTruw, setShowTruw] = useState(true);
+  const [ShowAuth, setShowAuth] = useState(false);
   const [ClientID, setClientID] = useState();
   // const [searchdata, setSearchdata] = useState({});
   const [SearchList, setSearchList] = useState(false);
@@ -214,6 +215,7 @@ const Dashboard = (props) => {
     }
 
     if (justLoggedIn) {
+      setShowAuth(true);
       SuccessToast("Login Successfully");
       setJustLoggedIn(false);
     }
@@ -558,7 +560,8 @@ const Dashboard = (props) => {
         )}
 
         {isProfileUpdatePermissionAvailable &&
-        !isTwoFactorPermissionAvailable ? (
+        !isTwoFactorPermissionAvailable &&
+        ShowAuth ? (
           <>
             <CenterAuthModal title="Auth Modal" />
           </>
