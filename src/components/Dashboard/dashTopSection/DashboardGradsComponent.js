@@ -24,7 +24,7 @@ import { addDays, format } from "date-fns";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css";
 import { subMonths, isAfter, startOfMonth, isToday } from "date-fns";
-
+import SortIcon from "@mui/icons-material/Sort";
 const DashboardGradsComponent = ({
   getData,
   getGradsSiteDetails,
@@ -165,6 +165,7 @@ const DashboardGradsComponent = ({
                       endDate
                     ).format("Do MMM")}`
                   : moment(getSiteDetails?.last_day_end).format("MMM Do")}{" "}
+                <SortIcon />{" "}
               </button>
             </Card.Header>
             <Card.Body>

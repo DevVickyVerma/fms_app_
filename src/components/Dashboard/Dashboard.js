@@ -543,7 +543,7 @@ const Dashboard = (props) => {
             </Box>
           )}
         </Box>
-
+        <hr></hr>
         {ShowTruw ? (
           <DashBordModal
             title="Search"

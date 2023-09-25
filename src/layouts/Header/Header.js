@@ -154,6 +154,7 @@ const Header = (props) => {
           <div className="d-flex order-lg-2 ms-auto header-right-icons">
             <div>
               <Navbar id="navbarSupportedContent-4">
+                {/* <span className="header-btn"> Enable 2FA</span> */}
                 <Dropdown
                   className="d-md-flex notifications"
                   show={isDropdownOpen}
@@ -228,6 +229,7 @@ const Header = (props) => {
                     )}
                   </Dropdown.Menu>
                 </Dropdown>
+
                 <div className="d-flex order-lg-2">
                   <Dropdown className=" d-md-flex profile-1">
                     <Dropdown.Toggle
