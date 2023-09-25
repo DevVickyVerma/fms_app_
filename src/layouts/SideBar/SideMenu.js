@@ -142,7 +142,7 @@ export const MENUITEMS = [
         ],
       },
       {
-        title: "Manage DRS",
+        title: "Manage  Workflows",
         icon: "globe",
         type: "sub",
         active: false,
@@ -151,21 +151,21 @@ export const MENUITEMS = [
         children: [
           {
             path: `/data-entry`,
-            title: "Manage DRS",
+            title: "Manage Daily Workflow",
             type: "link",
             permission: "drs-menu-list",
             visibility: false,
           },
           {
             path: `/workflows`,
-            title: "WorkFlows",
+            title: "Workflow Status",
             type: "link",
             permission: "workflow-list",
             visibility: false,
           },
           {
             path: `/dsr-exception`,
-            title: "DRS Exception",
+            title: "Workflow Exception",
             type: "link",
             permission: "drs-exception",
             visibility: false,

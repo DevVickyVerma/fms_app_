@@ -9603,7 +9603,7 @@ ul.labels-info li a i {
   align-items: flex-start;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  padding: 1rem;
+  padding: 10px !important;
   border-bottom: 1px solid #eaedf1;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;

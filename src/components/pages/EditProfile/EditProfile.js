@@ -22,6 +22,7 @@ import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { useFormik } from "formik";
 import Swal from "sweetalert2";
+import { AiOutlineClose } from "react-icons/ai";
 export default function EditProfile() {
   const UserPermissions = useSelector((state) => state?.data?.data);
   const navigate = useNavigate();
@@ -597,10 +598,28 @@ export default function EditProfile() {
                 className="custom-modal-width custom-modal-height"
               >
                 <Modal.Header
-                  closeButton
-                  style={{ color: "#fff", background: "#6259ca" }}
+                  style={{
+                    color: "#fff",
+                    background: "#6259ca",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
                 >
-                  <Modal.Title>Two-factor Authentication (2FA)</Modal.Title>
+                  <div>
+                    <Modal.Title style={{ margin: "0px" }}>
+                      Two-factor Authentication (2FA)
+                    </Modal.Title>
+                  </div>
+                  <div>
+                    <span
+                      className="modal-icon close-button"
+                      onClick={handleCloseModal}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <AiOutlineClose />
+                    </span>
+                  </div>
                 </Modal.Header>
                 <Modal.Body className="Disable2FA-modal">
                   <div className="modal-contentDisable2FA">

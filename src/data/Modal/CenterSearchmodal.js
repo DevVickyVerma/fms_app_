@@ -6,12 +6,13 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import Loaderimg from "../../Utils/Loader";
 import SearchIcon from "@mui/icons-material/Search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { AiOutlineClose } from "react-icons/ai";
 
 const CenterSearchmodal = (props) => {
   const {
@@ -119,7 +120,28 @@ const CenterSearchmodal = (props) => {
         aria-labelledby="responsive-dialog-title"
         className="ModalTitle"
       >
-        <span className="ModalTitle">Search</span>
+        <Modal.Header
+          style={{
+            color: "#fff",
+            background: "#6259ca",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div>
+            <Modal.Title>Search</Modal.Title>
+          </div>
+          <div>
+            <span
+              className="modal-icon"
+              onClick={handleClose}
+              style={{ cursor: "pointer" }}
+            >
+              <AiOutlineClose />
+            </span>
+          </div>
+        </Modal.Header>
 
         <DialogContent>
           <DialogContentText>
