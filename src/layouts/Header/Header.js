@@ -8,6 +8,9 @@ import * as loderdata from "../../data/Component/loderdata/loderdata";
 import withApi from "../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../Utils/Loader";
+import CenterAuthModal from "../../data/Modal/CenterAuthModal";
+import SingleAuthModal from "../../data/Modal/SingleAuthModal";
+import { SiAuth0 } from "react-icons/si";
 
 const Header = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -36,6 +39,8 @@ const Header = (props) => {
   const [username, setUsername] = useState();
   const [headingusername, setHeadingUsername] = useState();
   const [usernotification, setnotification] = useState();
+  const [showAuthModalPopUp, setShowAuthModalPopUp] = useState(false);
+  const [ShowTruw, setShowTruw] = useState(false);
 
   const logout = async (row) => {
     try {
@@ -79,6 +84,8 @@ const Header = (props) => {
   const isSettingsPermissionAvailable =
     permissionsArray?.includes("config-setting");
 
+  const isTwoFactorPermissionAvailable = UserPermissions?.two_factor;
+
   const openCloseSidebar = () => {
     document.querySelector(".app").classList.toggle("sidenav-toggled");
   };
@@ -113,6 +120,16 @@ const Header = (props) => {
     navigate("/notifications");
     closeDropdown();
   };
+
+  const handleShowPopUp = () => {
+    setShowAuthModalPopUp(!showAuthModalPopUp);
+  }
+
+  const handleToggleSidebar1 = () => {
+    setShowTruw(true);
+    // setSidebarVisible1(!sidebarVisible1);
+  };
+
   return (
     <Navbar expand="md" className="app-header header sticky">
       {loading && <loderdata.Loadersbigsizes1 />}
@@ -154,7 +171,23 @@ const Header = (props) => {
           <div className="d-flex order-lg-2 ms-auto header-right-icons">
             <div>
               <Navbar id="navbarSupportedContent-4">
-                <span className="header-btn"> Enable 2FA</span>
+                <span className="" onClick={() => {
+                  handleToggleSidebar1();
+                }} >
+                  <span className="auth-header-text header-btn">
+                    Enable 2FA
+                  </span>
+                  <span className="auth-header-icon header-icon">
+                    <SiAuth0 size={20} />
+                  </span>
+                </span>
+
+                {ShowTruw &&
+                  !isTwoFactorPermissionAvailable ? <>
+                  < SingleAuthModal ShowTruw={ShowTruw} setShowTruw={setShowTruw} />
+                </> : ""
+                }
+
                 <Dropdown
                   className="d-md-flex notifications"
                   show={isDropdownOpen}
@@ -167,7 +200,7 @@ const Header = (props) => {
                 >
                   <Dropdown.Toggle className="nav-link icon " variant="">
                     <i className="fe fe-bell" />
-                    <span className="nav-unread badge bg-danger rounded-pill notifictaion-number">
+                    <span className="nav-unread badge bg-danger rounded-pill notifictaion-number  d-flex justify-content-center align-items-center">
                       {stringValue !== undefined ? stringValue : ""}
                     </span>
                   </Dropdown.Toggle>
@@ -216,7 +249,7 @@ const Header = (props) => {
                     </div>
                     <div className="dropdown-divider m-0"></div>
                     {usernotification &&
-                    usernotification?.notifications?.length > 0 ? (
+                      usernotification?.notifications?.length > 0 ? (
                       <Dropdown.Item
                         eventKey="closeDropdown"
                         onClick={handleViewAllNotificationsClick}
