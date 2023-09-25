@@ -180,6 +180,7 @@ const SingleAuthModal = (props) => {
             if (response) {
                 console.log(response?.data?.data?.two_factor, "detailfetchDatafactor");
                 setUserPermissionstwo_factor(response?.data?.data?.two_factor);
+                localStorage.setItem("two_factor", response?.data?.data?.two_factor)
             }
         } catch (error) {
             handleError(error);
@@ -314,10 +315,26 @@ const SingleAuthModal = (props) => {
                 className="custom-modal-width custom-modal-height"
             >
                 <Modal.Header
-                    closeButton
-                    style={{ color: "#fff", background: "#6259ca" }}
+                    style={{
+                        color: "#fff",
+                        background: "#6259ca",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                    }}
                 >
-                    <Modal.Title>Two-factor Authentication (2FA)</Modal.Title>
+                    <div>
+                        <Modal.Title>Two-factor Authentication (2FA)</Modal.Title>
+                    </div>
+                    <div>
+                        <span
+                            className="modal-icon"
+                            onClick={handleCloseModal}
+                            style={{ cursor: "pointer" }}
+                        >
+                            <AiOutlineClose />
+                        </span>
+                    </div>
                 </Modal.Header>
                 <Modal.Body className="Disable2FA-modal">
                     <div className="modal-contentDisable2FA">

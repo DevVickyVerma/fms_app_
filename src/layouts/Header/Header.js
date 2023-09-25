@@ -14,6 +14,8 @@ import { SiAuth0 } from "react-icons/si";
 
 const Header = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
+  const [isTwoFactorPermissionAvailable, setIsTwoFactorPermissionAvailable] = useState(null);
+
 
   const SuccessAlert = (message) => {
     toast.success(message, {
@@ -84,7 +86,13 @@ const Header = (props) => {
   const isSettingsPermissionAvailable =
     permissionsArray?.includes("config-setting");
 
-  const isTwoFactorPermissionAvailable = UserPermissions?.two_factor;
+  // const isTwoFactorPermissionAvailable = localStorage.getItem("two_factor");
+
+  useEffect(() => {
+    const isTwoFactorAvailable = JSON.parse(localStorage.getItem("two_factor"));
+    setIsTwoFactorPermissionAvailable(isTwoFactorAvailable);
+    console.log(typeof (isTwoFactorPermissionAvailable), "isTwoFactorPermissionAvailable");
+  }, [isTwoFactorPermissionAvailable]);
 
   const openCloseSidebar = () => {
     document.querySelector(".app").classList.toggle("sidenav-toggled");
@@ -171,7 +179,8 @@ const Header = (props) => {
           <div className="d-flex order-lg-2 ms-auto header-right-icons">
             <div>
               <Navbar id="navbarSupportedContent-4">
-                <span className="" onClick={() => {
+
+                {!isTwoFactorPermissionAvailable ? <><span className="" onClick={() => {
                   handleToggleSidebar1();
                 }} >
                   <span className="auth-header-text header-btn">
@@ -180,7 +189,8 @@ const Header = (props) => {
                   <span className="auth-header-icon header-icon">
                     <SiAuth0 size={20} />
                   </span>
-                </span>
+                </span></> : ""}
+
 
                 {ShowTruw &&
                   !isTwoFactorPermissionAvailable ? <>

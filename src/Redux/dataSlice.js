@@ -43,6 +43,7 @@ export const fetchData = createAsyncThunk(
         localStorage.setItem("superiorRole", data?.data?.superiorRole);
         localStorage.setItem("role", data?.data?.role);
         localStorage.setItem("auto_logout", data?.data?.auto_logout);
+        localStorage.setItem("two_factor", data?.data?.two_factor);
       }
 
       // Check the structure of the data
