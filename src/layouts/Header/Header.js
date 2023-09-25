@@ -154,7 +154,7 @@ const Header = (props) => {
           <div className="d-flex order-lg-2 ms-auto header-right-icons">
             <div>
               <Navbar id="navbarSupportedContent-4">
-                {/* <span className="header-btn"> Enable 2FA</span> */}
+                <span className="header-btn"> Enable 2FA</span>
                 <Dropdown
                   className="d-md-flex notifications"
                   show={isDropdownOpen}
