@@ -255,7 +255,7 @@ const ManageSite = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title">WorkFlows</h1>
+            <h1 className="page-title">Workflow Status</h1>
 
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -265,17 +265,12 @@ const ManageSite = (props) => {
               >
                 Dashboard
               </Breadcrumb.Item>
+
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Others
-              </Breadcrumb.Item>
-              <Breadcrumb.Item
-                className="breadcrumb-item active breadcrumds"
-                aria-current="page"
-              >
-                WorkFlows
+                Workflow Status
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -456,7 +451,7 @@ const ManageSite = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title"> WorkFlows</h3>
+                <h3 className="card-title"> Workflow Status</h3>
               </Card.Header>
 
               <Card.Body>

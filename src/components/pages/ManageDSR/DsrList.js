@@ -164,7 +164,7 @@ const ManageEmail = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title"> DRS Exceptions</h1>
+            <h1 className="page-title"> Workflow Exception</h1>
 
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -178,16 +178,17 @@ const ManageEmail = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                DRS Exceptions
+                Workflow Exception
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
         </div>
+
         <Row className=" row-sm">
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title"> DRS Exceptions</h3>
+                <h3 className="card-title"> Workflow Exception</h3>
               </Card.Header>
 
               <Card.Body>

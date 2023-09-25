@@ -430,7 +430,7 @@ const ManageDsr = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title">Data Entry</h1>
+            <h1 className="page-title">Daily Workflow</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -443,7 +443,7 @@ const ManageDsr = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Data Entry
+                Daily Workflow
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -465,11 +465,12 @@ const ManageDsr = (props) => {
                             Client <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.client_id &&
+                            className={`input101 ${
+                              formik.errors.client_id &&
                               formik.touched.client_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="client_id"
                             name="client_id"
                             onChange={(e) => {
@@ -517,11 +518,12 @@ const ManageDsr = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${formik.errors.company_id &&
+                          className={`input101 ${
+                            formik.errors.company_id &&
                             formik.touched.company_id
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="company_id"
                           name="company_id"
                           value={formik.values.company_id}
@@ -565,10 +567,11 @@ const ManageDsr = (props) => {
                         </label>
                         <select
                           as="select"
-                          className={`input101 ${formik.errors.site_id && formik.touched.site_id
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                          className={`input101 ${
+                            formik.errors.site_id && formik.touched.site_id
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="site_id"
                           name="site_id"
                           value={formik.values.site_id}
@@ -608,11 +611,12 @@ const ManageDsr = (props) => {
                           min={"2023-01-01"}
                           max={getCurrentDate()}
                           onClick={hadndleShowDate}
-                          className={`input101 ${formik.errors.start_date &&
+                          className={`input101 ${
+                            formik.errors.start_date &&
                             formik.touched.start_date
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           value={formik.values.start_date}
                           id="start_date"
                           name="start_date"
@@ -703,15 +707,15 @@ const ManageDsr = (props) => {
                         ))
                       ) : (
                         <>
-
                           <p>Please select site first......</p>
-                          <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
+                          <img
+                            src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                            alt="MyChartImage"
+                            className="all-center-flex nodata-image"
+                          />
                         </>
                       )
                     ) : null}
-
-
-
                   </Row>
                 </Card.Body>
                 {showModal ? (
@@ -751,7 +755,7 @@ const ManageDsr = (props) => {
           <Col md={12} xl={12}>
             <Card>
               <Card.Header className="d-flex justify-content-space-between">
-                <h3 className="card-title">Data Entry</h3>
+                <h3 className="card-title">Daily Workflow</h3>
                 {getDataBtn === true && isAssignPermissionAvailable ? (
                   <>
                     <Link
@@ -776,18 +780,20 @@ const ManageDsr = (props) => {
                     DataEnteryList.map((item) => (
                       <Col md={12} xl={3} key={item.id}>
                         <Card
-                          className={`text-white ${item.bgColor === "amber"
-                            ? "bg-card-amber"
-                            : item.bgColor === "green"
+                          className={`text-white ${
+                            item.bgColor === "amber"
+                              ? "bg-card-amber"
+                              : item.bgColor === "green"
                               ? "bg-card-green"
                               : item.bgColor === "red"
-                                ? "bg-card-red"
-                                : "bg-primary"
-                            }`}
+                              ? "bg-card-red"
+                              : "bg-primary"
+                          }`}
                         >
                           <Card.Body
-                            className={`card-Div ${selectedItem === item ? "selected" : ""
-                              }`}
+                            className={`card-Div ${
+                              selectedItem === item ? "selected" : ""
+                            }`}
                             onClick={() => handleEnteryClick(item)} // Pass item.name as an argument
                           >
                             <h4 className="card-title">{item.name}</h4>
@@ -797,9 +803,12 @@ const ManageDsr = (props) => {
                     ))
                   ) : (
                     <>
-
                       <p>Please select site first......</p>
-                      <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
+                      <img
+                        src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                        alt="MyChartImage"
+                        className="all-center-flex nodata-image"
+                      />
                     </>
                   )}
                 </Row>
