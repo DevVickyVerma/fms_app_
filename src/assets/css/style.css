@@ -16790,9 +16790,9 @@ div.conv-form-wrapper div.options div.option.selected {
   }
 }
 
-@media (max-width: 430px) {
+@media (max-width: 540px) {
   img.mobile-logo {
-    margin-right: 95px;
+    margin-right: 133px;
     margin-top: -4px;
   }
 }
