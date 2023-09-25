@@ -164,7 +164,7 @@ export const MENUITEMS = [
             visibility: false,
           },
           {
-            path: `/Dsr-Exception`,
+            path: `/dsr-exception`,
             title: "DRS Exception",
             type: "link",
             permission: "drs-exception",
