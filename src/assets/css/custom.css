@@ -888,14 +888,14 @@ span.ModalTitle-2fa {
 }
 
 .auth-header-icon {
-  @media screen and (min-width:"500px") {
+  @media screen and (min-width:"700px") {
     display: none;
   }
 }
 
 
 .auth-header-text {
-  @media screen and (max-width:"500px") {
+  @media screen and (max-width:"700px") {
     display: none;
   }
 }
