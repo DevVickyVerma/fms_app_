@@ -36,7 +36,8 @@ const DashTopSubHeading = ({
   getCompetitorsPrice,
   setGetCompetitorsPrice,
   getGradsSiteDetails,
-  setGradsGetSiteDetails,
+  setGradsGetSiteDetails
+
 }) => {
   const dateStr = getSiteDetails?.last_fuel_delivery_stats?.last_day
     ? getSiteDetails.last_fuel_delivery_stats.last_day
@@ -153,10 +154,50 @@ const DashTopSubHeading = ({
                 background: "#b52d2d",
                 padding: "10px",
                 borderRadius: "7px",
+                display: "flex"
               }}
             >
               {getSiteStats?.data?.cash_tracker?.message}{" "}
-              {getSiteStats?.data?.cash_tracker?.cash_amount}
+              {getSiteStats?.data?.cash_tracker?.cash_amount}{" "}
+              {" "} <span style={{ display: "flex", marginLeft: "6px" }}>
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <Tooltip
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        justifyContent: "flex-start",
+
+                      }}
+                    >
+                      {" "}
+                      Security Amount :{" "}
+                      {getSiteStats?.data?.cash_tracker?.security_amount}
+                      <br />
+                      {/* Cash Amount :{" "}
+                      {getSiteStats?.data?.cash_tracker?.cash_amount}
+                      <br /> */}
+                      Loomis Day :{" "}
+                      {getSiteStats?.data?.cash_tracker?.last_loomis_day}
+                      <br />
+                      Loomis Date :{" "}
+                      {getSiteStats?.data?.cash_tracker?.last_loomis_date}
+                      <br />
+                      {/* Message :{" "}
+                      {getSiteStats?.data?.cash_tracker?.message}
+                      <br /> */}
+
+                    </Tooltip>
+                  }
+                >
+                  <i
+                    class="fa fa-info-circle"
+                    aria-hidden="true"
+                    style={{ fontSize: "20px" }}
+                  ></i>
+                </OverlayTrigger>
+              </span>
             </div>
           </>
         ) : (
@@ -224,6 +265,46 @@ const DashTopSubHeading = ({
                 >
                   Cash Tracker
                 </Typography>
+
+                <span style={{ display: "flex" }}>
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={
+                      <Tooltip
+                        style={{
+                          display: "flex",
+                          alignItems: "flex-start",
+                          justifyContent: "flex-start",
+                        }}
+                      >
+                        {" "}
+                        Security Amount :{" "}
+                        {getSiteStats?.data?.cash_tracker?.security_amount}
+                        <br />
+                        {/* Cash Amount :{" "}
+                        {getSiteStats?.data?.cash_tracker?.cash_amount}
+                        <br /> */}
+                        Loomis Day :{" "}
+                        {getSiteStats?.data?.cash_tracker?.last_loomis_day}
+                        <br />
+                        Loomis Date :{" "}
+                        {getSiteStats?.data?.cash_tracker?.last_loomis_date}
+                        <br />
+                        {/* Message :{" "}
+                        {getSiteStats?.data?.cash_tracker?.message}
+                        <br /> */}
+
+                      </Tooltip>
+                    }
+                  >
+                    <i
+                      class="fa fa-info-circle"
+                      aria-hidden="true"
+                      style={{ fontSize: "20px" }}
+                    ></i>
+                  </OverlayTrigger>
+                </span>
+
               </Box>
 
               <Box display={"flex"}>
@@ -250,7 +331,11 @@ const DashTopSubHeading = ({
                 {/* Calendar Date With Updated Closing Time */}
               </Box>
             </Box>
-            <Box display={"flex"} flexDirection={"column"} bgcolor={"#ecf0f1"}>
+            <Box
+              display={"flex"}
+              flexDirection={"column"}
+              bgcolor={"#ecf0f1"}
+            >
               <Box
                 my={"4px"}
                 // borderBottom={"1px solid #2c3e50"}
@@ -261,7 +346,9 @@ const DashTopSubHeading = ({
                 alignItems={"center"}
                 px={"13px"}
               >
-                <Typography fontSize={"14px"}>
+                <Typography
+                  fontSize={"14px"}
+                >
                   Last Day End : {formattedMonthForHeading}
                 </Typography>
                 {localStorage.getItem("SiteDetailsModalShow") === "true" ? (
@@ -447,15 +534,12 @@ const DashTopSubHeading = ({
         </Box>
 
         {/* Grads Section */}
-        <DashboardGradsComponent
-          getGradsSiteDetails={getGradsSiteDetails}
-          setGradsGetSiteDetails={setGradsGetSiteDetails}
-          getSiteDetails={getSiteDetails}
-        />
+        <DashboardGradsComponent getGradsSiteDetails={getGradsSiteDetails}
+          setGradsGetSiteDetails={setGradsGetSiteDetails} getSiteDetails={getSiteDetails} />
       </div>
 
       {/* new Shop sale */}
-      {/* <DashboardShopSale getSiteDetails={getSiteDetails} /> */}
+      <DashboardShopSale getSiteDetails={getSiteDetails} />
       {/* tank analysis */}
 
       <Row

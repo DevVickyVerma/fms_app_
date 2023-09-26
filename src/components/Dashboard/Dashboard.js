@@ -128,7 +128,7 @@ const Dashboard = (props) => {
         setGrossProfitValue(data?.data?.gross_profit);
         setFuelValue(data?.data?.fuel_sales);
         setshopsale(data?.data?.shop_sales);
-        setshopmargin(data?.data?.shop_margin);
+        setshopmargin(data?.data?.shop_profit);
 
         const savedDataOfDashboard = {
           LinechartValues: data?.data?.line_graph?.series,
@@ -143,7 +143,7 @@ const Dashboard = (props) => {
           GrossProfitValue: data?.data?.gross_profit,
           FuelValue: data?.data?.fuel_sales,
           shopsale: data?.data?.shop_sales,
-          shopmargin: data?.data?.shop_margin,
+          shopmargin: data?.data?.shop_profit,
         };
         // Save the data object to local storage
         localStorage.setItem(
@@ -269,7 +269,7 @@ const Dashboard = (props) => {
         setFuelValue(data?.data?.fuel_sales);
         setshopsale(data?.data?.shop_sales);
 
-        setshopmargin(data?.data?.shop_margin);
+        setshopmargin(data?.data?.shop_profit);
 
         const savedDataOfDashboard = {
           LinechartValues: data?.data?.line_graph?.series,
@@ -284,7 +284,7 @@ const Dashboard = (props) => {
           GrossProfitValue: data?.data?.gross_profit,
           FuelValue: data?.data?.fuel_sales,
           shopsale: data?.data?.shop_sales,
-          shopmargin: data?.data?.shop_margin,
+          shopmargin: data?.data?.shop_profit,
         };
         // Save the data object to local storage
         localStorage.setItem(
@@ -413,14 +413,14 @@ const Dashboard = (props) => {
           alignItems={"center"}
           minHeight={"90px"}
           className="center-filter-modal-responsive"
-          //  className="page-header "
+        //  className="page-header "
         >
           <Box alignSelf={"flex-start"} mt={"33px"}>
             <h1 className="page-title">Dashboard ({UserPermissions?.dates})</h1>
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-          localStorage.getItem("role") === "Operator" ? (
+            localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -551,8 +551,8 @@ const Dashboard = (props) => {
         )}
 
         {isProfileUpdatePermissionAvailable &&
-        !isTwoFactorPermissionAvailable &&
-        ShowAuth ? (
+          !isTwoFactorPermissionAvailable &&
+          ShowAuth ? (
           <>
             <CenterAuthModal title="Auth Modal" />
           </>
@@ -561,7 +561,7 @@ const Dashboard = (props) => {
         )}
 
         {localStorage.getItem("superiorRole") === "Administrator" &&
-        Object.keys(searchdata).length === 0 ? (
+          Object.keys(searchdata).length === 0 ? (
           <div
             style={{
               textAlign: "left",
