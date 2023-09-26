@@ -216,7 +216,7 @@ const Header = (props) => {
                         Enable 2FA
                       </span>
                       <span className="auth-header-icon header-icon">
-                        <SiAuth0 size={20} />
+                        <i class="fa fa-shield" aria-hidden="true"></i>
                       </span>
                     </span>
                   </>

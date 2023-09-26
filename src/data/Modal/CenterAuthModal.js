@@ -390,13 +390,13 @@ const CenterAuthModal = (props) => {
                         >
                           Verify & Authentication
                         </button>
-                        <button
+                        {/* <button
                           type="btn"
                           className="btn btn-danger mx-4"
                           onClick={handleCloseModal}
                         >
                           Cancel
-                        </button>
+                        </button> */}
                       </div>
                     </form>
                   </Col>
