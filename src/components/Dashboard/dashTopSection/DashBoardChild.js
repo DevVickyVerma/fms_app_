@@ -119,7 +119,7 @@ const DashBoardChild = (props) => {
         setFuelValue(data?.data?.fuel_sales);
         setshopsale(data?.data?.shop_sales);
         setpiechartValues(data?.data?.pi_graph);
-        setshopmargin(data?.data?.shop_margin);
+        setshopmargin(data?.data?.shop_profit);
       }
     } catch (error) {
       handleError(error);
@@ -158,10 +158,12 @@ const DashBoardChild = (props) => {
           alignItems={"center"}
           minHeight={"90px"}
           className="center-filter-modal-responsive"
-        //  className="page-header "
+          //  className="page-header "
         >
           <Box alignSelf={"flex-start"} mt={"33px"}>
-            <h1 className="page-title">Dashboard Details ({UserPermissions?.dates})</h1>
+            <h1 className="page-title">
+              Dashboard Details ({UserPermissions?.dates})
+            </h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -180,7 +182,7 @@ const DashBoardChild = (props) => {
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-            localStorage.getItem("role") === "Operator" ? (
+          localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -192,7 +194,7 @@ const DashBoardChild = (props) => {
               mx={"10px"}
               flexDirection={"inherit"}
               className="filter-responsive"
-            // className="ms-auto pageheader-btn "
+              // className="ms-auto pageheader-btn "
             >
               <span
                 className="Search-data"
