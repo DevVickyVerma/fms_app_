@@ -42,7 +42,7 @@ const CenterSearchmodal = (props) => {
   }, [onSubmit]);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    // event.preventDefault();
 
     if (start_date && !end_date) {
       setErrorMessage("Please select an end date");
@@ -91,6 +91,10 @@ const CenterSearchmodal = (props) => {
     inputDateElement.showPicker();
   };
 
+  const handleInputChange = (e) => {
+    setSearchQuery(e.target.value);
+  }
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -98,6 +102,14 @@ const CenterSearchmodal = (props) => {
   const handleClose = () => {
     setOpen(false);
   };
+
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSubmit(); // Call your search function here
+    }
+  }
 
   return (
     <div>
@@ -161,7 +173,9 @@ const CenterSearchmodal = (props) => {
                         className="form-control"
                         placeholder="Enter your search item"
                         value={keyword}
-                        onChange={(e) => setSearchQuery(e.target.value)}
+                        // onChange={(e) => setSearchQuery(e.target.value)}
+                        onChange={handleInputChange}
+                        onKeyDown={handleKeyPress} // Add the onKeyDown event handler here
                       />
                     </div>
                     <div className="d-flex ">
