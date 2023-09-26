@@ -14,8 +14,8 @@ import { SiAuth0 } from "react-icons/si";
 
 const Header = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
-  const [isTwoFactorPermissionAvailable, setIsTwoFactorPermissionAvailable] = useState(null);
-
+  const [isTwoFactorPermissionAvailable, setIsTwoFactorPermissionAvailable] =
+    useState(null);
 
   const SuccessAlert = (message) => {
     toast.success(message, {
@@ -69,6 +69,24 @@ const Header = (props) => {
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
+  const [twoFactorKey, setTwoFactorKey] = useState(
+    localStorage.getItem("two_factor")
+  );
+  const storedKeyRef = useRef(localStorage.getItem("two_factor"));
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const storedKey = localStorage.getItem("two_factor");
+      storedKeyRef.current = storedKey;
+      if (storedKey !== twoFactorKey) {
+        setTwoFactorKey(storedKey);
+      }
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [twoFactorKey]);
+
   useEffect(() => {
     if (UserPermissions) {
       setPermissionsArray(UserPermissions.permissions);
@@ -91,7 +109,10 @@ const Header = (props) => {
   useEffect(() => {
     const isTwoFactorAvailable = JSON.parse(localStorage.getItem("two_factor"));
     setIsTwoFactorPermissionAvailable(isTwoFactorAvailable);
-    console.log(typeof (isTwoFactorPermissionAvailable), "isTwoFactorPermissionAvailable");
+    console.log(
+      typeof isTwoFactorPermissionAvailable,
+      "isTwoFactorPermissionAvailable"
+    );
   }, [isTwoFactorPermissionAvailable]);
 
   const openCloseSidebar = () => {
@@ -129,14 +150,17 @@ const Header = (props) => {
     closeDropdown();
   };
 
-  const handleShowPopUp = () => {
-    setShowAuthModalPopUp(!showAuthModalPopUp);
-  }
-
   const handleToggleSidebar1 = () => {
     setShowTruw(true);
     // setSidebarVisible1(!sidebarVisible1);
   };
+  const twoFactorValue = localStorage.getItem("two_factor");
+
+  if (twoFactorValue !== null) {
+    console.log(typeof twoFactorValue, "two_factor");
+  } else {
+    console.log("Value not found in localStorage");
+  }
 
   return (
     <Navbar expand="md" className="app-header header sticky">
@@ -179,24 +203,37 @@ const Header = (props) => {
           <div className="d-flex order-lg-2 ms-auto header-right-icons">
             <div>
               <Navbar id="navbarSupportedContent-4">
+                {console.log(localStorage.getItem("two_factor"), "two_factor")}
+                {storedKeyRef.current === "false" ? (
+                  <>
+                    <span
+                      className=""
+                      onClick={() => {
+                        handleToggleSidebar1();
+                      }}
+                    >
+                      <span className="auth-header-text header-btn">
+                        Enable 2FA
+                      </span>
+                      <span className="auth-header-icon header-icon">
+                        <SiAuth0 size={20} />
+                      </span>
+                    </span>
+                  </>
+                ) : (
+                  ""
+                )}
 
-                {!isTwoFactorPermissionAvailable ? <><span className="" onClick={() => {
-                  handleToggleSidebar1();
-                }} >
-                  <span className="auth-header-text header-btn">
-                    Enable 2FA
-                  </span>
-                  <span className="auth-header-icon header-icon">
-                    <SiAuth0 size={20} />
-                  </span>
-                </span></> : ""}
-
-
-                {ShowTruw &&
-                  !isTwoFactorPermissionAvailable ? <>
-                  < SingleAuthModal ShowTruw={ShowTruw} setShowTruw={setShowTruw} />
-                </> : ""
-                }
+                {ShowTruw && localStorage.getItem("two_factor") === "false" ? (
+                  <>
+                    <SingleAuthModal
+                      ShowTruw={ShowTruw}
+                      setShowTruw={setShowTruw}
+                    />
+                  </>
+                ) : (
+                  ""
+                )}
 
                 <Dropdown
                   className="d-md-flex notifications"
@@ -259,7 +296,7 @@ const Header = (props) => {
                     </div>
                     <div className="dropdown-divider m-0"></div>
                     {usernotification &&
-                      usernotification?.notifications?.length > 0 ? (
+                    usernotification?.notifications?.length > 0 ? (
                       <Dropdown.Item
                         eventKey="closeDropdown"
                         onClick={handleViewAllNotificationsClick}

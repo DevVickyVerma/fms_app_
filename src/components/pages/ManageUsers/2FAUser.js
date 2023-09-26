@@ -69,24 +69,12 @@ const ManageUser = (props) => {
     });
   };
 
-  //   const Disable2FA = async () => {
-  //     setLoading(true);
-  //     try {
-  //       const response = await axiosInstance.get(`disable/two-factor`);
-  //       if (response) {
-  //         GetDetails();
-  //         setLoading(false);
-  //       }
-  //     } catch (error) {
-  //       handleError(error);
-  //       setLoading(false);
-  //     }
-  //   };
   const Disable2FA = async (id) => {
     try {
       const response = await getData(`/user/disable/two-factor?user_id=${id}`);
 
       if (response && response.data && response.data.data) {
+        localStorage.setItem("two_factor", "false");
         handleFetchData();
       } else {
         throw new Error("No data available in the response");
