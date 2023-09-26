@@ -317,7 +317,7 @@ const DashTopSubHeading = ({
                     display={"flex"}
                     // bgcolor={"rgb(25 122 66)"}
                     bgcolor={
-                      alertStatus === true ? "#d63031" : "rgb(25 122 66)"
+                      alertStatus === true ? "#b52d2d" : "rgb(25 122 66)"
                     }
                     textAlign={"center"}
                     py={"2px"}
@@ -403,7 +403,7 @@ const DashTopSubHeading = ({
                     height={"48px"}
                     width={"140px"}
                     position={"relative"}
-                    bgcolor={"#d63031"}
+                    bgcolor={"#b52d2d"}
                     textAlign={"center"}
                     py={"2px"}
                     color={"#dfe6e9"}
@@ -414,7 +414,7 @@ const DashTopSubHeading = ({
                     <Typography
                       height={"27px"}
                       width={"100%"}
-                      bgcolor={"#d63031"}
+                      bgcolor={"#b52d2d"}
                       position={"absolute"}
                       bottom={0}
                       color={"#dfe6e9"}
