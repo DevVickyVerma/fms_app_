@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MdOutlineSecurity } from "react-icons/md";
 
 import {
@@ -316,7 +316,23 @@ export default function EditProfile() {
       }
     });
   };
+  const [twoFactorKey, setTwoFactorKey] = useState(
+    localStorage.getItem("two_factor")
+  );
+  const storedKeyRef = useRef(localStorage.getItem("two_factor"));
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const storedKey = localStorage.getItem("two_factor");
+      storedKeyRef.current = storedKey;
+      if (storedKey !== twoFactorKey) {
+        setTwoFactorKey(storedKey);
+      }
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [twoFactorKey]);
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -572,7 +588,7 @@ export default function EditProfile() {
                   </p>
                 </Card.Body>
                 <Card.Footer className="text-end">
-                  {UserPermissionstwo_factor ? (
+                  {storedKeyRef.current === "true" ? (
                     <button
                       className="btn btn-danger ml-4"
                       type="submit"
