@@ -138,7 +138,7 @@ const CenterFilterModal = (props) => {
     }
   };
   const handlesubmitvalues = (values) => {
-    setSearchdata(values)
+    setSearchdata(values);
     handleClose();
     onClose();
     // console.log("my calues on submitvalues");
@@ -195,21 +195,29 @@ const CenterFilterModal = (props) => {
         aria-labelledby="responsive-dialog-title"
         className="ModalTitle"
       >
-      <span style={{width:"100%", display:"flex", justifyContent:"space-between"}} className="ModalTitle">
-        <span 
-        // className="ModalTitle"
-        >Filter</span>
-        <span 
-        // className="ModalTitle" 
-        onClick={handleClose}
+        <span
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+          className="ModalTitle"
         >
-        
-        <button className="close-button">
-                  <FontAwesomeIcon icon={faTimes} />
-        </button>
+          <span
+          // className="ModalTitle"
+          >
+            Filter
+          </span>
+          <span
+            // className="ModalTitle"
+            onClick={handleClose}
+          >
+            <button className="close-button">
+              <FontAwesomeIcon icon={faTimes} />
+            </button>
+          </span>
         </span>
-        </span>
-        
+
         <DialogContent>
           <DialogContentText>
             <>
@@ -272,7 +280,7 @@ const CenterFilterModal = (props) => {
                                               htmlFor="client_id"
                                               className=" form-label mt-4"
                                             >
-                                              Client
+                                              Clientssss
                                               <span className="text-danger">
                                                 *
                                               </span>

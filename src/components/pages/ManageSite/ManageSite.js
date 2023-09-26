@@ -321,7 +321,7 @@ const ManageSite = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-        // onClick={() => handleToggleSidebar(row)}
+          // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
@@ -372,78 +372,78 @@ const ManageSite = (props) => {
     },
     anyPermissionAvailable
       ? {
-        name: "Action",
-        selector: (row) => [row.action],
-        sortable: false,
-        width: "17%",
-        cell: (row) => (
-          <span className="text-center">
-            {anyPermissionAvailable ? (
-              <Dropdown className="dropdown btn-group">
-                <Dropdown.Toggle
-                  variant="Primary"
-                  type="button"
-                  className="btn btn-primary dropdown-toggle"
-                >
-                  Actions
-                </Dropdown.Toggle>
-                <Dropdown.Menu className="dropdown-menu">
-                  {issitesettingPermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
-                      <Link to={`/site-setting/${row.id}`}>
-                        <div style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <SettingsIcon />
-                          </i>
-                          Settings
-                        </div>
-                      </Link>
-                    </Dropdown.Item>
-                  ) : null}
-                  {isManagerPermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
-                      <Link to={`/assignmanger/${row.id}`}>
-                        <div style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <AssignmentTurnedInIcon />
-                          </i>
-                          Assign Manager
-                        </div>
-                      </Link>
-                    </Dropdown.Item>
-                  ) : null}
-                  {isEditPermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
-                      <Link to={`/editsite/${row.id}`}>
-                        <div style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <ModeEditIcon />
-                          </i>
-                          Edit
-                        </div>
-                      </Link>
-                    </Dropdown.Item>
-                  ) : null}
-                  {isDeletePermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
-                      <Link to="#" onClick={() => handleDelete(row.id)}>
-                        <div style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <DeleteIcon />
-                          </i>
-                          Delete
-                        </div>
-                      </Link>
-                    </Dropdown.Item>
-                  ) : null}
-                </Dropdown.Menu>
-              </Dropdown>
-            ) : (
-              ""
-            )}
-          </span>
-        ),
-      }
+          name: "Action",
+          selector: (row) => [row.action],
+          sortable: false,
+          width: "17%",
+          cell: (row) => (
+            <span className="text-center">
+              {anyPermissionAvailable ? (
+                <Dropdown className="dropdown btn-group">
+                  <Dropdown.Toggle
+                    variant="Primary"
+                    type="button"
+                    className="btn btn-primary dropdown-toggle"
+                  >
+                    Actions
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu className="dropdown-menu">
+                    {issitesettingPermissionAvailable ? (
+                      <Dropdown.Item className="dropdown-item">
+                        <Link to={`/site-setting/${row.id}`}>
+                          <div style={{ width: "100%" }}>
+                            <i className="setting-icon">
+                              <SettingsIcon />
+                            </i>
+                            Settings
+                          </div>
+                        </Link>
+                      </Dropdown.Item>
+                    ) : null}
+                    {isManagerPermissionAvailable ? (
+                      <Dropdown.Item className="dropdown-item">
+                        <Link to={`/assignmanger/${row.id}`}>
+                          <div style={{ width: "100%" }}>
+                            <i className="setting-icon">
+                              <AssignmentTurnedInIcon />
+                            </i>
+                            Assign Manager
+                          </div>
+                        </Link>
+                      </Dropdown.Item>
+                    ) : null}
+                    {isEditPermissionAvailable ? (
+                      <Dropdown.Item className="dropdown-item">
+                        <Link to={`/editsite/${row.id}`}>
+                          <div style={{ width: "100%" }}>
+                            <i className="setting-icon">
+                              <ModeEditIcon />
+                            </i>
+                            Edit
+                          </div>
+                        </Link>
+                      </Dropdown.Item>
+                    ) : null}
+                    {isDeletePermissionAvailable ? (
+                      <Dropdown.Item className="dropdown-item">
+                        <Link to="#" onClick={() => handleDelete(row.id)}>
+                          <div style={{ width: "100%" }}>
+                            <i className="setting-icon">
+                              <DeleteIcon />
+                            </i>
+                            Delete
+                          </div>
+                        </Link>
+                      </Dropdown.Item>
+                    ) : null}
+                  </Dropdown.Menu>
+                </Dropdown>
+              ) : (
+                ""
+              )}
+            </span>
+          ),
+        }
       : "",
   ];
 
@@ -546,16 +546,11 @@ const ManageSite = (props) => {
             </span>
 
             <Link
-              // className="btn btn-primary"
               style={{ marginBottom: "7px" }}
               onClick={() => {
                 handleToggleSidebar1();
               }}
             >
-              {/* Search
-              <span className="ms-2">
-                <SearchIcon />
-              </span> */}
               <span className="ms-2">
                 <CenterSearchmodal
                   title="Search"
@@ -567,7 +562,6 @@ const ManageSite = (props) => {
                   onSubmit={handleSubmit}
                   searchListstatus={SearchList}
                 />{" "}
-                {/* Search <SearchIcon /> */}
               </span>
             </Link>
             {Object.keys(searchdata).length > 0 ? (
@@ -585,28 +579,10 @@ const ManageSite = (props) => {
             ) : null}
           </div>
         </div>
-        {/* <SideSearchbar
-          title="Search"
-          visible={sidebarVisible1}
-          onClose={handleToggleSidebar1}
-          onSubmit={handleSubmit}
-          searchListstatus={SearchList}
-        /> */}
-
-        {/* <CenterSearchmodal
-          title="Search"
-          visible={sidebarVisible1}
-          onClick={() => {
-            handleToggleSidebar1();
-          }}
-          onClose={handleToggleSidebar1}
-          onSubmit={handleSubmit}
-          searchListstatus={SearchList}
-        /> */}
 
         <Suspense fallback={<img src={Loaderimg} alt="Loading" />}>
           <CommonSidebar
-            title={sidebardata}
+            title="{sidebardata}"
             sidebarContent={sidebardataobject}
             visible={sidebarVisible}
             onClose={handleCloseSidebar}
@@ -619,32 +595,36 @@ const ManageSite = (props) => {
                 <h3 className="card-title">Manage Site</h3>
               </Card.Header>
               <Card.Body>
-
-
-                {data?.length > 0 ? <>
-                  <div className="table-responsive deleted-table">
-                    <DataTableExtensions {...tableDatas}>
-                      <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        striped={true}
-                        // center={true}
-                        persistTableHead
-                        pagination
-                        paginationPerPage={20}
-                        highlightOnHover
-                        searchable={false}
-                      />
-                    </DataTableExtensions>
-                  </div>
-                </> : <>
-
-                  <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
-
-                </>}
+                {data?.length > 0 ? (
+                  <>
+                    <div className="table-responsive deleted-table">
+                      <DataTableExtensions {...tableDatas}>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          // center={true}
+                          persistTableHead
+                          pagination
+                          paginationPerPage={20}
+                          highlightOnHover
+                          searchable={false}
+                        />
+                      </DataTableExtensions>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      alt="MyChartImage"
+                      className="all-center-flex nodata-image"
+                    />
+                  </>
+                )}
               </Card.Body>
             </Card>
           </Col>

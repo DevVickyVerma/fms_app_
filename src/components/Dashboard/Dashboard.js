@@ -417,14 +417,6 @@ const Dashboard = (props) => {
         >
           <Box alignSelf={"flex-start"} mt={"33px"}>
             <h1 className="page-title">Dashboard ({UserPermissions?.dates})</h1>
-            {/* <Breadcrumb className="breadcrumb">
-              <Breadcrumb.Item
-                className="breadcrumb-item active breadcrumds"
-                aria-current="page"
-              >
-                Dashboard
-              </Breadcrumb.Item>
-            </Breadcrumb> */}
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
@@ -440,7 +432,6 @@ const Dashboard = (props) => {
               mx={"10px"}
               flexDirection={"inherit"}
               className="filter-responsive"
-              // className="ms-auto pageheader-btn "
             >
               <span
                 className="Search-data"

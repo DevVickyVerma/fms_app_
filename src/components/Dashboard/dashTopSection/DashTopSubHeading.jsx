@@ -36,8 +36,7 @@ const DashTopSubHeading = ({
   getCompetitorsPrice,
   setGetCompetitorsPrice,
   getGradsSiteDetails,
-  setGradsGetSiteDetails
-
+  setGradsGetSiteDetails,
 }) => {
   const dateStr = getSiteDetails?.last_fuel_delivery_stats?.last_day
     ? getSiteDetails.last_fuel_delivery_stats.last_day
@@ -251,11 +250,7 @@ const DashTopSubHeading = ({
                 {/* Calendar Date With Updated Closing Time */}
               </Box>
             </Box>
-            <Box
-              display={"flex"}
-              flexDirection={"column"}
-              bgcolor={"#ecf0f1"}
-            >
+            <Box display={"flex"} flexDirection={"column"} bgcolor={"#ecf0f1"}>
               <Box
                 my={"4px"}
                 // borderBottom={"1px solid #2c3e50"}
@@ -266,9 +261,7 @@ const DashTopSubHeading = ({
                 alignItems={"center"}
                 px={"13px"}
               >
-                <Typography
-                  fontSize={"14px"}
-                >
+                <Typography fontSize={"14px"}>
                   Last Day End : {formattedMonthForHeading}
                 </Typography>
                 {localStorage.getItem("SiteDetailsModalShow") === "true" ? (
@@ -454,12 +447,15 @@ const DashTopSubHeading = ({
         </Box>
 
         {/* Grads Section */}
-        <DashboardGradsComponent getGradsSiteDetails={getGradsSiteDetails}
-          setGradsGetSiteDetails={setGradsGetSiteDetails} getSiteDetails={getSiteDetails} />
+        <DashboardGradsComponent
+          getGradsSiteDetails={getGradsSiteDetails}
+          setGradsGetSiteDetails={setGradsGetSiteDetails}
+          getSiteDetails={getSiteDetails}
+        />
       </div>
 
       {/* new Shop sale */}
-      <DashboardShopSale getSiteDetails={getSiteDetails} />
+      {/* <DashboardShopSale getSiteDetails={getSiteDetails} /> */}
       {/* tank analysis */}
 
       <Row

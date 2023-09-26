@@ -3,8 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
+import SortIcon from "@mui/icons-material/Sort";
 import {
   Breadcrumb,
+  Button,
   Card,
   Col,
   OverlayTrigger,
@@ -16,7 +18,9 @@ import {
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-
+import WorkflowExceptionFilter from "../../../data/Modal/DsrFilterModal";
+import { Box } from "@mui/material";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 const ManageEmail = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
@@ -27,16 +31,20 @@ const ManageEmail = (props) => {
   const [lastPage, setLastPage] = useState(1);
   const [perPage, setPerPage] = useState(20);
   const [total, setTotal] = useState(0);
+  const [formValues, setFormValues] = useState(null);
 
   const handlePageChange = (newPage) => {
     console.log(hasMorePage, "hasMorePage");
     setCurrentPage(newPage);
   };
-
+  console.log(formValues, "formValues1");
   useEffect(() => {
-    FetchTableData(currentPage);
-    console.clear();
-  }, [currentPage]);
+    console.log(formValues, "formValues21");
+    if (formValues === null) {
+      FetchTableData(currentPage);
+    }
+    // console.clear();
+  }, [currentPage, formValues]);
 
   const FetchTableData = async (pageNumber) => {
     try {
@@ -157,7 +165,49 @@ const ManageEmail = (props) => {
   if (endPage < lastPage) {
     pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
   }
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
+  // Function to open the modal
+  const openModal = () => {
+    setIsModalVisible(true);
+  };
+
+  // Function to close the modal
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleFetchSiteData = async (values) => {
+    try {
+      const response = await getData(
+        `/drs/exception?site_id=${values?.site_id}}&page=${currentPage}`
+      );
+      setData(response?.data?.data?.exceptions);
+      setCount(response.data.data.count);
+      setCurrentPage(response?.data?.data?.currentPage);
+      setHasMorePages(response?.data?.data?.hasMorePages);
+      console.log(response?.data?.data?.hasMorePages, "hasMorePages");
+      setLastPage(response?.data?.data?.lastPage);
+      setPerPage(response?.data?.data?.perPage);
+      setTotal(response?.data?.data?.total);
+      console.log(response?.data?.data, "response?.data?.data");
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+  const handleFormSubmit = (values) => {
+    console.log("Form submitted with values:", values);
+    closeModal();
+    handleFetchSiteData(values);
+    setFormValues(values);
+  };
+  const superiorRole = localStorage.getItem("superiorRole");
+  const role = localStorage.getItem("role");
+  const ResetForm = () => {
+    FetchTableData(currentPage);
+    setFormValues();
+    console.log("Resetting");
+  };
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -182,6 +232,124 @@ const ManageEmail = (props) => {
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
+
+          <Box
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+            minHeight={"90px"}
+            className="center-filter-modal-responsive"
+          >
+            {localStorage.getItem("superiorRole") === "Client" &&
+            localStorage.getItem("role") === "Operator" ? (
+              ""
+            ) : (
+              <Box
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"baseline"}
+                my={"20px"}
+                gap={"5px"}
+                mx={"10px"}
+                flexDirection={"inherit"}
+                className="filter-responsive"
+              >
+                <span
+                  className="Search-data"
+                  style={{
+                    marginTop: "10px",
+                    marginBottom: "10px",
+                    display: "flex",
+                    gap: "5px",
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  {Object.entries(formValues || {}).some(
+                    ([key, value]) =>
+                      [
+                        "client_name",
+                        "TOdate",
+                        "company_name",
+                        "site_name",
+                        "fromdate",
+                      ].includes(key) &&
+                      value != null &&
+                      value !== ""
+                  ) ? (
+                    Object.entries(formValues || {}).map(([key, value]) => {
+                      if (
+                        [
+                          "client_name",
+                          "TOdate",
+                          "company_name",
+                          "site_name",
+                          "fromdate",
+                        ].includes(key) &&
+                        value != null &&
+                        value !== ""
+                      ) {
+                        const formattedKey = key
+                          .toLowerCase()
+                          .split("_")
+                          .map(
+                            (word) =>
+                              word.charAt(0).toUpperCase() + word.slice(1)
+                          )
+                          .join(" ");
+
+                        return (
+                          <div key={key} className="badge">
+                            <span className="badge-key">{formattedKey}:</span>
+                            <span className="badge-value">{value}</span>
+                          </div>
+                        );
+                      } else {
+                        return null;
+                      }
+                    })
+                  ) : superiorRole === "Client" && role !== "Client" ? (
+                    <div className="badge">
+                      <span className="badge-key">Company Name:</span>
+                      <span className="badge-value">
+                        {localStorage.getItem("PresetCompanyName")}
+                      </span>
+                    </div>
+                  ) : null}
+                </span>
+                <Box display={"flex"} ml={"4px"} alignSelf={"center"}>
+                  <button className="btn btn-primary ml-2" onClick={openModal}>
+                    Filter
+                    <span className="ms-2">
+                      <SortIcon />
+                    </span>
+                  </button>
+
+                  <WorkflowExceptionFilter
+                    title="Filter Workflow Exception"
+                    visible={isModalVisible}
+                    onClose={closeModal}
+                    onformSubmit={handleFormSubmit}
+                    searchListstatus={false}
+                  />
+
+                  {Object.keys(formValues || {}).length > 0 ? (
+                    <Button
+                      onClick={() => {
+                        ResetForm();
+                      }}
+                      className="btn btn-danger ms-2"
+                      variant="danger"
+                    >
+                      Reset <RestartAltIcon />
+                    </Button>
+                  ) : (
+                    ""
+                  )}
+                </Box>
+              </Box>
+            )}
+          </Box>
         </div>
 
         <Row className=" row-sm">
