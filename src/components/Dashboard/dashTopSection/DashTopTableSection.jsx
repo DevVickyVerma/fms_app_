@@ -100,7 +100,7 @@ const DashTopTableSection = (props) => {
         <th>Gross Profit</th>
         <th>Gross Margin</th>
         <th>Shop Sales</th>
-        <th>Shop Profit</th>
+        <th>Shop Margin</th>
       </tr>
     );
   };
@@ -149,10 +149,11 @@ const DashTopTableSection = (props) => {
               </h6>
 
               <p
-                className={`me-1 ${item.fuel_volume?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1 ${
+                  item.fuel_volume?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${item?.fuel_volume?.percentage}%`}
               >
                 {item?.fuel_volume?.status === "up" ? (
@@ -183,10 +184,11 @@ const DashTopTableSection = (props) => {
                 £{item?.fuel_sales?.gross_value}
               </h6>
               <p
-                className={`me-1 ${item?.fuel_sales?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1 ${
+                  item?.fuel_sales?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${item?.fuel_sales?.percentage}%`}
               >
                 {item?.fuel_sales?.status === "up" ? (
@@ -217,10 +219,11 @@ const DashTopTableSection = (props) => {
                 £{item?.gross_profit?.gross_profit}
               </h6>
               <p
-                className={`me-1 ${item?.gross_profit?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1 ${
+                  item?.gross_profit?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${item?.gross_profit?.percentage}%`}
               >
                 {item?.gross_profit?.status === "up" ? (
@@ -251,10 +254,11 @@ const DashTopTableSection = (props) => {
                 {item?.gross_margin?.gross_margin} ppl
               </h6>
               <p
-                className={`me-1 ${item?.gross_margin?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1 ${
+                  item?.gross_margin?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${item?.gross_margin?.percentage}%`}
               >
                 {item?.gross_margin?.status === "up" ? (
@@ -285,10 +289,11 @@ const DashTopTableSection = (props) => {
                 £{item?.shop_sales?.shop_sales}
               </h6>
               <p
-                className={`me-1 ${item?.shop_sales?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
+                className={`me-1 ${
+                  item?.shop_sales?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
                 data-tip={`${item?.shop_sales?.percentage}%`}
               >
                 {item?.shop_sales?.status === "up" ? (
@@ -311,31 +316,32 @@ const DashTopTableSection = (props) => {
           </div>
         </td>
         <td>
-          {/* {item?.shop_profit?.shop_profit} */}
+          {/* {item?.shop_margin?.shop_margin} */}
           <div className="d-flex">
             <div className="ms-2 mt-0 mt-sm-2 d-block">
               <h6 className="mb-0 fs-14 fw-semibold">
-                £{item?.shop_profit?.shop_profit}
+                £{item?.shop_margin?.shop_margin}
               </h6>
               <p
-                className={`me-1 ${item?.shop_profit?.status === "up"
-                  ? "text-success"
-                  : "text-danger"
-                  }`}
-                data-tip={`${item?.shop_profit?.percentage}%`}
+                className={`me-1 ${
+                  item?.shop_margin?.status === "up"
+                    ? "text-success"
+                    : "text-danger"
+                }`}
+                data-tip={`${item?.shop_margin?.percentage}%`}
               >
-                {item?.shop_profit?.status === "up" ? (
+                {item?.shop_margin?.status === "up" ? (
                   <>
                     <i className="fa fa-chevron-circle-up text-success me-1"></i>
                     <span className="text-success">
-                      {item?.shop_profit?.percentage}%
+                      {item?.shop_margin?.percentage}%
                     </span>
                   </>
                 ) : (
                   <>
                     <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                     <span className="text-danger">
-                      {item?.shop_profit?.percentage}%
+                      {item?.shop_margin?.percentage}%
                     </span>
                   </>
                 )}
@@ -366,7 +372,7 @@ const DashTopTableSection = (props) => {
                     overflowY: "auto",
                     maxHeight: "calc(100vh - 376px )",
                   }}
-                // height:"245"
+                  // height:"245"
                 >
                   <table className="table">
                     <thead
