@@ -204,7 +204,9 @@ const Header = (props) => {
             <div>
               <Navbar id="navbarSupportedContent-4">
                 {console.log(localStorage.getItem("two_factor"), "two_factor")}
-                {storedKeyRef.current === "false" ? (
+
+                {storedKeyRef.current === "false" &&
+                isProfileUpdatePermissionAvailable ? (
                   <>
                     <span
                       className=""

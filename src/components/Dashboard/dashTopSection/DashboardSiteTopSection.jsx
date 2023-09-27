@@ -24,7 +24,7 @@ const DashboardSiteTopSection = (props) => {
     ? singleSiteParsedData?.gross_profit
     : null;
   const singleSiteShopMargin = singleSiteParsedData
-    ? singleSiteParsedData?.shop_mrofit
+    ? singleSiteParsedData?.shop_margin
     : null;
   const singleSiteShopSale = singleSiteParsedData
     ? singleSiteParsedData?.shop_sales
@@ -447,7 +447,7 @@ const DashboardSiteTopSection = (props) => {
                           ) : (
                             <>
                               <h4 className="mb-2 number-font">
-                                £{singleSiteShopMargin?.shop_mrofit}
+                                £{singleSiteShopMargin?.shop_margin}
                               </h4>
                               <OverlayTrigger
                                 placement="top"

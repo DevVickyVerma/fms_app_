@@ -604,7 +604,7 @@ const DashTopSection = (props) => {
                           ) : (
                             <>
                               <h4 className="mb-2 number-font">
-                                £{shopmargin?.shop_mrofit}
+                                £{shopmargin?.shop_margin}
                               </h4>
                               <OverlayTrigger
                                 placement="top"
