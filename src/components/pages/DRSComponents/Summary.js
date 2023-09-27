@@ -167,14 +167,12 @@ const DepartmentShop = (props) => {
       // console.log(start_date);
       // console.log(summarydata?.summary_of_variances);
 
-      const banking_difference = summarydata?.banking["Banking Difference"];
+      const banking_difference = summarydata?.banking["banking_difference"];
 
-      const cash_operator = summarydata?.banking["Cash commited by operator"];
-      const summary_of_variances =
-        summarydata?.summary_of_variances["Accumulated banking difference"];
+      const cash_operator = summarydata?.banking["cash_commited_by_operator"];
 
       const net_cash_due_banking =
-        summarydata?.banking["Net Cash Due For Banking"];
+        summarydata?.banking["net_cash_due_for_banking"];
 
       const formData = new FormData();
       formData.append("net_cash_due_banking", net_cash_due_banking);
