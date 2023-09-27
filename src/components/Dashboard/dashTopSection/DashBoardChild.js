@@ -119,7 +119,7 @@ const DashBoardChild = (props) => {
         setFuelValue(data?.data?.fuel_sales);
         setshopsale(data?.data?.shop_sales);
         setpiechartValues(data?.data?.pi_graph);
-        setshopmargin(data?.data?.shop_profit);
+        setshopmargin(data?.data?.shop_mrofit);
       }
     } catch (error) {
       handleError(error);
