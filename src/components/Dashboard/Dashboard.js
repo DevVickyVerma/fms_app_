@@ -128,7 +128,7 @@ const Dashboard = (props) => {
         setGrossProfitValue(data?.data?.gross_profit);
         setFuelValue(data?.data?.fuel_sales);
         setshopsale(data?.data?.shop_sales);
-        setshopmargin(data?.data?.shop_margin);
+        setshopmargin(data?.data?.shop_profit);
 
         const savedDataOfDashboard = {
           LinechartValues: data?.data?.line_graph?.series,
@@ -143,7 +143,7 @@ const Dashboard = (props) => {
           GrossProfitValue: data?.data?.gross_profit,
           FuelValue: data?.data?.fuel_sales,
           shopsale: data?.data?.shop_sales,
-          shopmargin: data?.data?.shop_margin,
+          shopmargin: data?.data?.shop_profit,
         };
         // Save the data object to local storage
         localStorage.setItem(
@@ -269,7 +269,7 @@ const Dashboard = (props) => {
         setFuelValue(data?.data?.fuel_sales);
         setshopsale(data?.data?.shop_sales);
 
-        setshopmargin(data?.data?.shop_margin);
+        setshopmargin(data?.data?.shop_profit);
 
         const savedDataOfDashboard = {
           LinechartValues: data?.data?.line_graph?.series,
@@ -284,7 +284,7 @@ const Dashboard = (props) => {
           GrossProfitValue: data?.data?.gross_profit,
           FuelValue: data?.data?.fuel_sales,
           shopsale: data?.data?.shop_sales,
-          shopmargin: data?.data?.shop_margin,
+          shopmargin: data?.data?.shop_profit,
         };
         // Save the data object to local storage
         localStorage.setItem(

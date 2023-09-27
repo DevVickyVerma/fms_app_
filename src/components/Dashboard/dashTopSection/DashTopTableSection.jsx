@@ -100,7 +100,7 @@ const DashTopTableSection = (props) => {
         <th>Gross Profit</th>
         <th>Gross Margin</th>
         <th>Shop Sales</th>
-        <th>Shop Margin</th>
+        <th>Shop Profit</th>
       </tr>
     );
   };
@@ -316,32 +316,32 @@ const DashTopTableSection = (props) => {
           </div>
         </td>
         <td>
-          {/* {item?.shop_margin?.shop_margin} */}
+          {/* {item?.shop_profit?.shop_profit} */}
           <div className="d-flex">
             <div className="ms-2 mt-0 mt-sm-2 d-block">
               <h6 className="mb-0 fs-14 fw-semibold">
-                £{item?.shop_margin?.shop_margin}
+                £{item?.shop_profit?.shop_profit}
               </h6>
               <p
                 className={`me-1 ${
-                  item?.shop_margin?.status === "up"
+                  item?.shop_profit?.status === "up"
                     ? "text-success"
                     : "text-danger"
                 }`}
-                data-tip={`${item?.shop_margin?.percentage}%`}
+                data-tip={`${item?.shop_profit?.percentage}%`}
               >
-                {item?.shop_margin?.status === "up" ? (
+                {item?.shop_profit?.status === "up" ? (
                   <>
                     <i className="fa fa-chevron-circle-up text-success me-1"></i>
                     <span className="text-success">
-                      {item?.shop_margin?.percentage}%
+                      {item?.shop_profit?.percentage}%
                     </span>
                   </>
                 ) : (
                   <>
                     <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                     <span className="text-danger">
-                      {item?.shop_margin?.percentage}%
+                      {item?.shop_profit?.percentage}%
                     </span>
                   </>
                 )}
