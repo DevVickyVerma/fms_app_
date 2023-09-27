@@ -72,10 +72,9 @@ const DepartmentShop = (props) => {
       ErrorToast(errorMessage);
     }
   }
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
       event.preventDefault();
-     
     }
   });
   useEffect(() => {
@@ -163,9 +162,14 @@ const DepartmentShop = (props) => {
 
   const _renderFunction = () => {
     return Object.keys(data).map((item, index) => {
+      const displayName = item
+        .replace(/_/g, " ")
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
       return (
         <div className="Dps-data">
-          <p>{item}</p>
+          <p>{displayName}</p>
           <p>{data[item]}</p>
         </div>
       );
@@ -183,7 +187,7 @@ const DepartmentShop = (props) => {
                 <h3 className="card-title">Department Shop Summary</h3>
               </Card.Header>
               <Card.Body>
-                <h4>SUMMARY OF TAKINGS</h4>
+                <h4 style={{ marginLeft: "6px" }}>SUMMARY OF TAKINGS</h4>
                 {_renderFunction()}
               </Card.Body>
             </Card>

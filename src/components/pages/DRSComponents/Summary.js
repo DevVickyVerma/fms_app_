@@ -99,6 +99,7 @@ const DepartmentShop = (props) => {
           console.log(data?.data?.takings, "data?.data?.takings");
           setData(data?.data?.takings);
           setbankingData(data?.data?.banking);
+
           setsummarydata(data?.data); //pending
           setSummaryRemarks(data?.data?.summary_of_remarks.summary_remarks);
           // setremarkdata(data?.data?.summary_of_remarks);
@@ -116,9 +117,15 @@ const DepartmentShop = (props) => {
 
   const _renderFunction = () => {
     return Object.keys(data).map((item, index) => {
+      const displayName = item
+        .replace(/_/g, " ")
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+
       return (
         <div className="Dps-data">
-          <p>{item}</p>
+          <p>{displayName}</p>
           <p>{data[item]}</p>
         </div>
       );
@@ -133,27 +140,21 @@ const DepartmentShop = (props) => {
 
   const _renderFunction1 = () => {
     return Object.keys(bankingdata).map((item, index) => {
+      // Replace underscores with spaces in the 'item' variable
+      const displayName = item
+        .replace(/_/g, " ")
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+
       return (
-        <div className="Dps-data">
-          <p>{item}</p>
+        <div className="Dps-data" key={index}>
+          {console.log(displayName, "columnIndex")}
+          <p>{displayName}</p>
           <p>{bankingdata[item]}</p>
         </div>
       );
     });
-  };
-  const SubssmitSummary = (values) => {
-    console.log(values);
-    console.log(site_id);
-    console.log(start_date);
-    console.log(summarydata?.summary_of_variances);
-
-    const banking_difference = summarydata?.banking["Banking Difference"];
-    console.log(banking_difference, "banking_difference");
-    const cash_operator = summarydata?.banking["Cash commited by operator"];
-    console.log(cash_operator, "cash_operator");
-    const net_cash_due_banking =
-      summarydata?.banking["Net Cash Due For Banking"];
-    console.log(net_cash_due_banking, "net_cash_due_banking");
   };
 
   const SubmitSummary = async (values) => {
@@ -169,6 +170,8 @@ const DepartmentShop = (props) => {
       const banking_difference = summarydata?.banking["Banking Difference"];
 
       const cash_operator = summarydata?.banking["Cash commited by operator"];
+      const summary_of_variances =
+        summarydata?.summary_of_variances["Accumulated banking difference"];
 
       const net_cash_due_banking =
         summarydata?.banking["Net Cash Due For Banking"];
@@ -202,7 +205,7 @@ const DepartmentShop = (props) => {
         SuccessToast(data.message);
         window.scrollTo({ top: 0, behavior: "smooth" });
         setIsLoading(false);
-        handleButtonClick()
+        handleButtonClick();
       } else {
         const errorMessage = Array.isArray(data.message)
           ? data.message.join(" ")

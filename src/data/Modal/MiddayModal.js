@@ -280,18 +280,19 @@ const CustomModal = ({
                             type="time"
                             value={
                               formik.values?.listing[0]?.fuels[0][rowIndex]
-                                ?.time || "00:00"
+                                ?.time
                             }
                             onChange={
                               (e) =>
                                 handleTimeChange(0, rowIndex, e.target.value) // Column index is 0
                             }
-                            step="0.010"
                           />
                         ) : (
                           <span>
-                            {formik.values?.listing[0]?.fuels[0][rowIndex]
-                              ?.time || "00:00"}
+                            {
+                              formik.values?.listing[0]?.fuels[0][rowIndex]
+                                ?.time
+                            }
                           </span>
                         )}
                       </td>
