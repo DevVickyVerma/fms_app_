@@ -39,7 +39,7 @@ const CustomModal = ({
   const [isChecked, setIsChecked] = useState(false);
   const [data, setData] = useState();
   const [month, setmonth] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   function handleError(error) {
@@ -88,6 +88,7 @@ const CustomModal = ({
 
   const handleFuelChange = async (id) => {
     try {
+      setLoading(true); // Set loading to true before making the request
       const token = localStorage.getItem("token");
       const axiosInstance = axios.create({
         baseURL: process.env.REACT_APP_BASE_URL,
@@ -107,11 +108,14 @@ const CustomModal = ({
       }
     } catch (error) {
       handleError(error);
+    } finally {
+      setLoading(false); // Set loading to false whether the request succeeds or fails
     }
   };
 
   return (
     <>
+      {loading ? <Loaderimg /> : null}
       <Dialog
         open={open}
         onClose={onClose}
@@ -137,7 +141,6 @@ const CustomModal = ({
             </button>
           </span>
         </span>
-        {isLoading ? <Loaderimg /> : null}
         <DialogContent>
           <TableContainer>
             <div className="table-responsive">
