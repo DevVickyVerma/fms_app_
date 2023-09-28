@@ -100,7 +100,7 @@ const DashTopTableSection = (props) => {
         <th className="dashboard-child-thead">Gross Profit</th>
         <th className="dashboard-child-thead">Gross Margin</th>
         <th className="dashboard-child-thead">Shop Sales</th>
-        <th className="dashboard-child-thead">Shop Profit</th>
+        <th className="dashboard-child-thead">Shop Margin</th>
       </tr>
     );
   };

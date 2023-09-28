@@ -441,7 +441,7 @@ const DashboardSiteTopSection = (props) => {
                     <div className="col">
                       <div className=" dashboard-box">
                         <div>
-                          <h6>Shop Profit </h6>
+                          <h6>Shop Margin </h6>
                           {isLoading ? (
                             <Spinners />
                           ) : (
