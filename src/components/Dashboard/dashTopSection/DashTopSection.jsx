@@ -591,14 +591,14 @@ const DashTopSection = (props) => {
                               isDetailPermissionAvailable);
 
                           if (shouldNavigate) {
-                            setUploadTabname("Shop Margin ");
+                            setUploadTabname("Shop Profit ");
                             handleNavigateClick(UploadTabname);
                             handleNavigateClick(UploadTabname);
                           }
                         }}
                       >
                         <div>
-                          <h6>Shop Margin </h6>
+                          <h6>Shop Profit </h6>
                           {isLoading ? (
                             <Spinners />
                           ) : (

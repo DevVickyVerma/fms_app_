@@ -7,10 +7,7 @@ import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 
 const DashboardSiteDetail = (props) => {
-  const {
-    isLoading,
-    getData,
-  } = props;
+  const { isLoading, getData } = props;
   const { id } = useParams();
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
   const [data, setData] = useState();
@@ -18,7 +15,19 @@ const DashboardSiteDetail = (props) => {
   const [getSiteDetails, setGetSiteDetails] = useState(null);
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
   const [permissionsArray, setPermissionsArray] = useState([]);
-  const [getGradsSiteDetails, setGradsGetSiteDetails] = useState(null)
+  const [getGradsSiteDetails, setGradsGetSiteDetails] = useState(null);
+
+  useEffect(() => {
+    console.log("Effect is running");
+    const handleScroll = () => {
+      console.log("Scroll event detected");
+      const scrollHeight = window.scrollY;
+      console.log(`Scroll Height: ${scrollHeight}px`);
+    };
+    handleScroll();
+
+    // Rest of your code
+  }, []);
 
   const FetchTableData = async () => {
     try {
@@ -44,6 +53,11 @@ const DashboardSiteDetail = (props) => {
       );
 
       if (response1 && response1.data) {
+        if (response1?.data?.data?.siteInfo > 0) {
+          localStorage.setItem("SiteDetailsModalShow", "true");
+        } else {
+          localStorage.setItem("SiteDetailsModalShow", "false");
+        }
         setGetSiteStats(response1?.data);
       } else {
         throw new Error("No data available in the response");
@@ -129,7 +143,6 @@ const DashboardSiteDetail = (props) => {
   useEffect(() => {
     FetchTableData();
     window.scrollTo(0, 0);
-
   }, []);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -151,10 +164,7 @@ const DashboardSiteDetail = (props) => {
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
-      <div
-        className="overflow-container"
-        style={containerStyles}
-      >
+      <div className="overflow-container" style={containerStyles}>
         <DashBoardSubChild
           getSiteStats={getSiteStats}
           setGetSiteStats={setGetSiteStats}
