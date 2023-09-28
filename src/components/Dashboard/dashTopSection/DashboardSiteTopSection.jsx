@@ -24,7 +24,7 @@ const DashboardSiteTopSection = (props) => {
     ? singleSiteParsedData?.gross_profit
     : null;
   const singleSiteShopMargin = singleSiteParsedData
-    ? singleSiteParsedData?.shop_margin
+    ? singleSiteParsedData?.shop_profit
     : null;
   const singleSiteShopSale = singleSiteParsedData
     ? singleSiteParsedData?.shop_sales
@@ -441,13 +441,13 @@ const DashboardSiteTopSection = (props) => {
                     <div className="col">
                       <div className=" dashboard-box">
                         <div>
-                          <h6>Shop Margin </h6>
+                          <h6>Shop Profit </h6>
                           {isLoading ? (
                             <Spinners />
                           ) : (
                             <>
                               <h4 className="mb-2 number-font">
-                                £{singleSiteShopMargin?.shop_margin}
+                                £{singleSiteShopMargin?.shop_profit}
                               </h4>
                               <OverlayTrigger
                                 placement="top"
