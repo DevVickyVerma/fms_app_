@@ -72,8 +72,8 @@ export default function AddSite(props) {
   useEffect(() => {
     try {
       FetchRoleList();
-      handleFetchData();
-      GetSiteData();
+      // GetSiteData();
+      // handleFetchData();
     } catch (error) {
       handleError(error);
     }
@@ -88,6 +88,7 @@ export default function AddSite(props) {
         formik.setValues(response.data.data);
         console.log(formik.values);
         console.log(response.data.data);
+        GetSiteData();
         setAddSiteData(response.data.data);
       } else {
         throw new Error("No data available in the response");
@@ -111,6 +112,7 @@ export default function AddSite(props) {
   };
 
   const GetSiteData = async () => {
+
     try {
       const response = await getData(`/site/detail?id=${id}`);
 
@@ -147,28 +149,23 @@ export default function AddSite(props) {
       formData.append(key, convertedValue);
     }
 
+
+
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/site/update`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
+      const formData = new FormData();
+      console.log(formData, "formData");
 
-      const data = await response.json();
-
-      if (response.ok) {
-        notify(data.message);
-        navigate("/sites");
-      } else {
-        Errornotify(data.message);
+      // Iterate over formik.values and convert null to empty strings
+      for (const [key, value] of Object.entries(formik.values)) {
+        const convertedValue = value === null ? "" : value;
+        formData.append(key, convertedValue);
       }
+
+      const postDataUrl = "/site/update";
+      const navigatePath = `/sites`;
+      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
-      handleError(error);
+      console.log(error); // Set the submission state to false if an error occurs
     }
   };
 

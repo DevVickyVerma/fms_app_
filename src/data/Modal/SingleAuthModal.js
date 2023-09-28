@@ -272,7 +272,7 @@ const SingleAuthModal = (props) => {
           }}
         >
           <div>
-            <Modal.Title>Two-factor Authentication (2FA)</Modal.Title>
+            <Modal.Title className=" mb-0">Two-factor Authentication (2FA)</Modal.Title>
           </div>
           <div>
             <span
