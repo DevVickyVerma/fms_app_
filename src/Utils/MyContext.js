@@ -20,6 +20,7 @@ const MyProvider = ({ children }) => {
   const [DLinechartOption, setDLinechartOption] = useState();
   const [stackedLineBarData, setStackedLineBarData] = useState([]);
   const [stackedLineBarLabels, setStackedLineBarLabel] = useState();
+  const [getSiteDetailsLoading, setGetSiteDetailsLoading] = useState(false)
 
   // Value object to provide to consumers
   const value = {
@@ -53,6 +54,7 @@ const MyProvider = ({ children }) => {
     setStackedLineBarData,
     stackedLineBarLabels,
     setStackedLineBarLabel,
+    getSiteDetailsLoading, setGetSiteDetailsLoading
   };
 
   return <MyContext.Provider value={value}>{children}</MyContext.Provider>;

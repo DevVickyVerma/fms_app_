@@ -534,7 +534,7 @@ const DashTopSubHeading = ({
       </div>
 
       {/* new Shop sale */}
-      {/* <DashboardShopSale getSiteDetails={getSiteDetails} /> */}
+      <DashboardShopSale getSiteDetails={getSiteDetails} />
       {/* tank analysis */}
 
       <Row
