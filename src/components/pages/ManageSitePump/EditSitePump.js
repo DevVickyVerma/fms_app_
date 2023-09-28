@@ -40,10 +40,7 @@ const EditSitePump = (props) => {
       navigate("/login");
       Errornotify("Invalid access token");
       localStorage.clear();
-    } else if (
-      error.response &&
-      error.response.data.status_code === "403"
-    ) {
+    } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
     } else {
       const errorMessage = Array.isArray(error.response.data.message)
@@ -70,8 +67,7 @@ const EditSitePump = (props) => {
 
       if (response) {
         formik.setValues(response.data.data);
-        console.log(formik.values);
-        console.log(response.data.data);
+
         setDropdownValue(response.data.data);
       } else {
         throw new Error("No data available in the response");
@@ -92,7 +88,6 @@ const EditSitePump = (props) => {
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
-      console.log(formData, "formData");
 
       formData.append("code", values.code);
       formData.append("name", values.name);
@@ -121,8 +116,6 @@ const EditSitePump = (props) => {
     }
   }, [UserPermissions]);
 
-
-
   const formik = useFormik({
     initialValues: {
       code: "",
@@ -131,8 +124,7 @@ const EditSitePump = (props) => {
       status: "1",
     },
     validationSchema: Yup.object({
-      code: Yup.string()
-      .required("Site Pump Name is required"),
+      code: Yup.string().required("Site Pump Name is required"),
 
       // name: Yup.string()
       //   .required("Site Pump Name is required")
@@ -204,18 +196,15 @@ const EditSitePump = (props) => {
                     <Row>
                       <Col lg={6} md={6}>
                         <div className="form-group">
-                          <label
-                            className=" form-label mt-4"
-                            htmlFor="name"
-                          >
-                            Site Pump Name <span className="text-danger">*</span>
+                          <label className=" form-label mt-4" htmlFor="name">
+                            Site Pump Name{" "}
+                            <span className="text-danger">*</span>
                           </label>
                           <input
                             type="text"
                             autoComplete="off"
                             className={`input101 ${
-                              formik.errors.name &&
-                              formik.touched.name
+                              formik.errors.name && formik.touched.name
                                 ? "is-invalid"
                                 : ""
                             }`}
@@ -225,20 +214,16 @@ const EditSitePump = (props) => {
                             onChange={formik.handleChange}
                             value={formik.values.name || ""}
                           />
-                          {formik.errors.name &&
-                            formik.touched.name && (
-                              <div className="invalid-feedback">
-                                {formik.errors.name}
-                              </div>
-                            )}
+                          {formik.errors.name && formik.touched.name && (
+                            <div className="invalid-feedback">
+                              {formik.errors.name}
+                            </div>
+                          )}
                         </div>
                       </Col>
                       <Col lg={6} md={6}>
                         <div className="form-group">
-                          <label
-                            className=" form-label mt-4"
-                            htmlFor="code"
-                          >
+                          <label className=" form-label mt-4" htmlFor="code">
                             Site Pump Code<span className="text-danger">*</span>
                           </label>
                           <input
@@ -247,8 +232,7 @@ const EditSitePump = (props) => {
                             type="text"
                             autoComplete="off"
                             className={`input101 readonly ${
-                              formik.errors.code &&
-                              formik.touched.code
+                              formik.errors.code && formik.touched.code
                                 ? "is-invalid"
                                 : ""
                             }`}
@@ -257,27 +241,23 @@ const EditSitePump = (props) => {
                             value={formik.values.code || ""}
                             readOnly
                           />
-                          {formik.errors.code &&
-                            formik.touched.code && (
-                              <div className="invalid-feedback">
-                                {formik.errors.code}
-                              </div>
-                            )}
+                          {formik.errors.code && formik.touched.code && (
+                            <div className="invalid-feedback">
+                              {formik.errors.code}
+                            </div>
+                          )}
                         </div>
                       </Col>
 
                       <Col lg={6} md={6}>
                         <div className="form-group">
-                          <label
-                            className=" form-label mt-4"
-                            htmlFor="status"
-                          >
-                            Site Pump Status <span className="text-danger">*</span>
+                          <label className=" form-label mt-4" htmlFor="status">
+                            Site Pump Status{" "}
+                            <span className="text-danger">*</span>
                           </label>
                           <select
                             className={`input101 ${
-                              formik.errors.status &&
-                              formik.touched.status
+                              formik.errors.status && formik.touched.status
                                 ? "is-invalid"
                                 : ""
                             }`}
@@ -289,12 +269,11 @@ const EditSitePump = (props) => {
                             <option value="1">Active</option>
                             <option value="0">Inactive</option>
                           </select>
-                          {formik.errors.status &&
-                            formik.touched.status && (
-                              <div className="invalid-feedback">
-                                {formik.errors.status}
-                              </div>
-                            )}
+                          {formik.errors.status && formik.touched.status && (
+                            <div className="invalid-feedback">
+                              {formik.errors.status}
+                            </div>
+                          )}
                         </div>
                       </Col>
                     </Row>

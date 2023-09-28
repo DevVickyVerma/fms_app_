@@ -26,7 +26,7 @@ const AddCards = (props) => {
       formData.append("card_status", values.card_status);
       formData.append("is_bunkering", values.is_bunkering);
       formData.append("logo", values.image);
-    
+
       const postDataUrl = "card/add";
 
       const navigatePath = "/ManageCards";
@@ -50,7 +50,6 @@ const AddCards = (props) => {
     }
   }, [UserPermissions]);
 
-
   useEffect(() => {
     if (isPermissionsSet) {
       const isAddPermissionAvailable =
@@ -58,7 +57,6 @@ const AddCards = (props) => {
 
       if (permissionsArray?.length > 0) {
         if (isAddPermissionAvailable) {
-          console.log(isAddPermissionAvailable, "AddPermissionAvailable");
           // Perform action when permission is available
           // Your code here
         } else {
@@ -98,8 +96,6 @@ const AddCards = (props) => {
     };
     reader.readAsDataURL(file);
   };
-
-
 
   return (
     <>
@@ -144,8 +140,7 @@ const AddCards = (props) => {
                   }}
                   validationSchema={Yup.object({
                     card_name: Yup.string()
-                     
-                      .required(" Card Name is required"),
+                    .required(" Card Name is required"),
 
                     card_code: Yup.string()
                       .required("Card Code is required")
@@ -165,7 +160,6 @@ const AddCards = (props) => {
                     card_status: Yup.string().required(
                       "Card Status is required"
                     ),
-                 
                   })}
                   onSubmit={(values) => {
                     handleSubmit1(values);
@@ -296,9 +290,12 @@ const AddCards = (props) => {
                           {/* IS Bunkering Section End */}
                           <Col lg={6} md={12}>
                             <div className="form-group">
-                              <label     className=" form-label mt-4" htmlFor="image">
-                              Card Logo
-                             </label>
+                              <label
+                                className=" form-label mt-4"
+                                htmlFor="image"
+                              >
+                                Card Logo
+                              </label>
                               <div
                                 className={`dropzone ${
                                   errors.image && touched.image
@@ -319,7 +316,7 @@ const AddCards = (props) => {
                                   }
                                   className="form-control"
                                 />
-                                <p style={{margin:"6px", color:"#4d5875"}}>
+                                <p style={{ margin: "6px", color: "#4d5875" }}>
                                   Drag and drop your Card Logo here, or click to
                                   browse
                                 </p>
@@ -340,18 +337,16 @@ const AddCards = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
-                      <Link
+                        <Link
                           type="submit"
                           className="btn btn-danger me-2 "
                           to={`/manageCards/`}
                         >
                           Cancel
                         </Link>
-                      <button className="btn btn-primary me-2" type="submit">
+                        <button className="btn btn-primary me-2" type="submit">
                           Add
                         </button>
-                       
-                       
                       </Card.Footer>
                     </Form>
                   )}
@@ -365,6 +360,3 @@ const AddCards = (props) => {
   );
 };
 export default withApi(AddCards);
-
-
-

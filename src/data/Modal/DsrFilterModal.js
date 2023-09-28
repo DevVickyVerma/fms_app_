@@ -111,8 +111,6 @@ const WorkflowExceptionFilter = (props) => {
             setSelectedCompanyList([]);
 
             // setShowButton(false);
-            console.log(clientId, "clientId");
-            console.log(AddSiteData, "AddSiteData");
 
             if (response?.data) {
               const selectedClient = response?.data?.data?.find(

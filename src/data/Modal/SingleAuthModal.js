@@ -93,13 +93,9 @@ const SingleAuthModal = (props) => {
     try {
       const response = await axiosInstance.get(`enable/two-factor`);
       if (response) {
-        console.log(response.data.data, "fetchDatafactor");
         setfactordata(response?.data?.data);
         setLoading(false);
         setShowModal(true);
-        console.log(UserPermissions?.two_factor, "UserPermissions?.two_factor");
-
-        console.log(userPermissions, "UserPermissions?.two_factor");
       }
     } catch (error) {
       handleError(error);
@@ -108,7 +104,6 @@ const SingleAuthModal = (props) => {
   };
 
   const handleSubmit1 = async (values, setSubmitting) => {
-    console.log(values, "values");
     setLoading(true);
     const token = localStorage.getItem("token");
 
@@ -140,7 +135,7 @@ const SingleAuthModal = (props) => {
       const errorMessage = Array.isArray(data.message)
         ? data.message.join(" ")
         : data.message;
-      console.log(errorMessage);
+
       setLoading(false);
       Errornotify(errorMessage);
     }
@@ -191,7 +186,6 @@ const SingleAuthModal = (props) => {
   };
 
   const handleVerifyAuthentication = async (value) => {
-    console.log("handleVerifyAuthentication1", value);
     setLoading(true);
     try {
       const formData = new FormData();
@@ -213,9 +207,9 @@ const SingleAuthModal = (props) => {
       if (response.ok) {
         setShowModal(false);
         notify(data.message);
-        console.log(UserPermissions?.two_factor, "UserPermissions?.two_factor");
+
         setUserPermissionstwo_factor(UserPermissions?.two_factor);
-        console.log(data?.data, "GetDetails");
+
         localStorage.setItem("two_factor", "true");
         GetDetails();
         setLoading(false);
@@ -223,7 +217,7 @@ const SingleAuthModal = (props) => {
         const errorMessage = Array.isArray(data.message)
           ? data.message.join(" ")
           : data.message;
-        console.log(errorMessage);
+
         Errornotify(errorMessage);
         setLoading(false);
       }
@@ -246,7 +240,6 @@ const SingleAuthModal = (props) => {
     },
     validationSchema: authenticationCodevalidationSchema,
     onSubmit: (values) => {
-      console.log(values, "handleVerifyAuthentication");
       handleVerifyAuthentication(values);
     },
   });
@@ -272,7 +265,9 @@ const SingleAuthModal = (props) => {
           }}
         >
           <div>
-            <Modal.Title className=" mb-0">Two-factor Authentication (2FA)</Modal.Title>
+            <Modal.Title className=" mb-0">
+              Two-factor Authentication (2FA)
+            </Modal.Title>
           </div>
           <div>
             <span

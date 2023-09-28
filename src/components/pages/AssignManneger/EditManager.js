@@ -50,7 +50,6 @@ const AddCompany = (props) => {
       const response = await getData(`/site/manager/detail/${id}`);
 
       if (response && response.data) {
-        console.log(response.data, "dddd");
         // setData(response.data.data.roles);
         setDropdownValue(response?.data?.data);
 
@@ -63,8 +62,6 @@ const AddCompany = (props) => {
         formik.setFieldValue("userSelcetedid", response?.data?.data?.user_id);
         formik.setFieldValue("AllData", response?.data?.data);
         formik.setFieldValue("userSelcetedid", response?.data?.data?.user_id);
-
-        console.log(formik?.values?.userSelcetedid, "vickssssssy");
       } else {
         throw new Error("No data available in the response");
       }
@@ -123,7 +120,6 @@ const AddCompany = (props) => {
   const handleSubmit = async (event, values) => {
     // event.preventDefault();
 
-    console.log(formik.values, "user_id");
     try {
       const formData = new FormData();
 

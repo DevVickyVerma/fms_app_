@@ -6,9 +6,6 @@ const PieChartOfDashboard = ({ piechartValues }) => {
     // Data is not available yet, return a loading state or null
     return <p> Please Apply Filter To Visualize Chart.....</p>;
   }
-  console.log("piechartValues", piechartValues);
-
-  // Initialize the data state with default values
 
   // Extract the data from the prop
   const { shop_sales, fuel_sales, bunkered_sales } = piechartValues;

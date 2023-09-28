@@ -50,7 +50,6 @@ const AddDeductions = (props) => {
 
       if (permissionsArray?.length > 0) {
         if (isAddPermissionAvailable) {
-          console.log(isAddPermissionAvailable, "AddPermissionAvailable");
           // Perform action when permission is available
           // Your code here
         } else {
@@ -105,8 +104,7 @@ const AddDeductions = (props) => {
                   }}
                   validationSchema={Yup.object({
                     deduction_name: Yup.string()
-                     
-                      .required(" Deduction Name is required"),
+                    .required(" Deduction Name is required"),
 
                     deduction_code: Yup.string()
                       .required("Deduction Code is required")
@@ -230,7 +228,7 @@ const AddDeductions = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
-                      <Link
+                        <Link
                           type="submit"
                           className="btn btn-danger me-2 "
                           to={`/managedeductions/`}
@@ -240,7 +238,6 @@ const AddDeductions = (props) => {
                         <button className="btn btn-primary me-2" type="submit">
                           Add
                         </button>
-                        
                       </Card.Footer>
                     </Form>
                   )}

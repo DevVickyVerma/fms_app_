@@ -67,7 +67,7 @@ const EditBussiness = (props) => {
       if (response) {
         formik.setValues(response.data.data);
         console.log(formik.values, "values");
-        console.log(response.data.data);
+
         setDropdownValue(response.data.data);
       } else {
         throw new Error("No data available in the response");
@@ -88,7 +88,6 @@ const EditBussiness = (props) => {
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
-      console.log(formData, "formData");
 
       formData.append("business_name", values.business_name);
       formData.append("slug", values.slug);

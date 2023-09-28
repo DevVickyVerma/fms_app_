@@ -108,8 +108,6 @@ const DashBordModal = (props) => {
             setSelectedCompanyList([]);
 
             // setShowButton(false);
-            console.log(clientId, "clientId");
-            console.log(AddSiteData, "AddSiteData");
 
             if (response?.data) {
               const selectedClient = response?.data?.data?.find(
@@ -135,7 +133,6 @@ const DashBordModal = (props) => {
 
     // Invoke the onSubmit callback with the form values
     onSubmit(values);
-    console.log("my values while submitting", values);
   };
 
   useEffect(() => {
@@ -201,78 +198,75 @@ const DashBordModal = (props) => {
                             <Row>
                               {localStorage.getItem("superiorRole") !==
                                 "Client" && (
-                                  <Col lg={4} md={4}>
-                                    <FormGroup>
-                                      <label
-                                        htmlFor="client_id"
-                                        className=" form-label mt-4"
-                                      >
-                                        Client
-                                        <span className="text-danger">*</span>
-                                      </label>
-                                      <Field
-                                        as="select"
-                                        className={`input101 ${errors.client_id && touched.client_id
+                                <Col lg={4} md={4}>
+                                  <FormGroup>
+                                    <label
+                                      htmlFor="client_id"
+                                      className=" form-label mt-4"
+                                    >
+                                      Client
+                                      <span className="text-danger">*</span>
+                                    </label>
+                                    <Field
+                                      as="select"
+                                      className={`input101 ${
+                                        errors.client_id && touched.client_id
                                           ? "is-invalid"
                                           : ""
-                                          }`}
-                                        id="client_id"
-                                        name="client_id"
-                                        onChange={(e) => {
-                                          const selectedType = e.target.value;
-                                          setFieldValue(
-                                            "client_id",
-                                            selectedType
+                                      }`}
+                                      id="client_id"
+                                      name="client_id"
+                                      onChange={(e) => {
+                                        const selectedType = e.target.value;
+                                        setFieldValue(
+                                          "client_id",
+                                          selectedType
+                                        );
+                                        setSelectedClientId(selectedType);
+
+                                        // Reset the selected company and site
+                                        setSelectedCompanyList([]);
+                                        setFieldValue("company_id", "");
+                                        setFieldValue("site_id", "");
+
+                                        const selectedClient =
+                                          AddSiteData.data.find(
+                                            (client) =>
+                                              client.id === selectedType
                                           );
-                                          setSelectedClientId(selectedType);
 
-                                          // Reset the selected company and site
-                                          setSelectedCompanyList([]);
-                                          setFieldValue("company_id", "");
-                                          setFieldValue("site_id", "");
+                                        if (selectedClient) {
+                                          setSelectedCompanyList(
+                                            selectedClient.companies
+                                          );
+                                          setFieldValue(
+                                            "client_name",
+                                            selectedClient.client_name
+                                          );
+                                        }
+                                      }}
+                                    >
+                                      <option value="">Select a Client</option>
+                                      {AddSiteData.data &&
+                                      AddSiteData.data.length > 0 ? (
+                                        AddSiteData.data.map((item) => (
+                                          <option key={item.id} value={item.id}>
+                                            {item.client_name}
+                                          </option>
+                                        ))
+                                      ) : (
+                                        <option disabled>No Client</option>
+                                      )}
+                                    </Field>
 
-                                          const selectedClient =
-                                            AddSiteData.data.find(
-                                              (client) =>
-                                                client.id === selectedType
-                                            );
-
-                                          if (selectedClient) {
-                                            setSelectedCompanyList(
-                                              selectedClient.companies
-                                            );
-                                            setFieldValue(
-                                              "client_name",
-                                              selectedClient.client_name
-                                            );
-                                            console.log(
-                                              selectedClient.client_name,
-                                              " selectedClient.client_name"
-                                            );
-                                          }
-                                        }}
-                                      >
-                                        <option value="">Select a Client</option>
-                                        {AddSiteData.data &&
-                                          AddSiteData.data.length > 0 ? (
-                                          AddSiteData.data.map((item) => (
-                                            <option key={item.id} value={item.id}>
-                                              {item.client_name}
-                                            </option>
-                                          ))
-                                        ) : (
-                                          <option disabled>No Client</option>
-                                        )}
-                                      </Field>
-
-                                      <ErrorMessage
-                                        component="div"
-                                        className="invalid-feedback"
-                                        name="client_id"
-                                      />
-                                    </FormGroup>
-                                  </Col>
-                                )}
+                                    <ErrorMessage
+                                      component="div"
+                                      className="invalid-feedback"
+                                      name="client_id"
+                                    />
+                                  </FormGroup>
+                                </Col>
+                              )}
                               <Col lg={4} md={4}>
                                 <FormGroup>
                                   <label
@@ -284,10 +278,11 @@ const DashBordModal = (props) => {
                                   </label>
                                   <Field
                                     as="select"
-                                    className={`input101 ${errors.company_id && touched.company_id
-                                      ? "is-invalid"
-                                      : ""
-                                      }`}
+                                    className={`input101 ${
+                                      errors.company_id && touched.company_id
+                                        ? "is-invalid"
+                                        : ""
+                                    }`}
                                     id="company_id"
                                     name="company_id"
                                     onChange={(e) => {
@@ -352,10 +347,11 @@ const DashBordModal = (props) => {
                                   </label>
                                   <Field
                                     as="select"
-                                    className={`input101 ${errors.site_id && touched.site_id
-                                      ? "is-invalid"
-                                      : ""
-                                      }`}
+                                    className={`input101 ${
+                                      errors.site_id && touched.site_id
+                                        ? "is-invalid"
+                                        : ""
+                                    }`}
                                     id="site_id"
                                     name="site_id"
                                     onChange={(e) => {

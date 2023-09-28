@@ -80,7 +80,7 @@ const EditRoles = (props) => {
       const formData = new FormData();
       formData.append("role_id", EditRoleId);
       const response = await getData("/role/detail", EditRoleId, formData);
-      console.log(response.data.data, "ddd");
+
       if (response && response.data) {
         const { data } = response.data;
 
@@ -114,12 +114,7 @@ const EditRoles = (props) => {
           filteredNames.push(...names);
         }
 
-        // Log the combined filtered names array
-        console.log(filteredNames, "filteredNames");
         formik.setFieldValue("permissions", filteredNames);
-
-        // Log the filtered permissions
-        // console.log(filteredPermissions1,"filteredPermissions1");
       }
     } catch (error) {
       console.error("API error:", error);
@@ -217,10 +212,6 @@ const EditRoles = (props) => {
       setPermissionArray(updatedPermissionArray);
 
       formik.setFieldValue("permissions", updatedPermissionArray);
-
-      console.log(updatedPermissionArray, "updatedPermissionArray");
-      console.log(childrenNames, "updatedPermissionArray1");
-      console.log(permissionArray, "updatedPermissionArray1p");
     }
   };
 

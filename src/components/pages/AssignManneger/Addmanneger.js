@@ -66,7 +66,6 @@ const AddCompany = (props) => {
       const response = await getData(`/site/manager/${id}`);
 
       if (response && response.data) {
-        console.log(response.data, "dddd");
         // setData(response.data.data.roles);
         setDropdownValue(response.data.data);
         setSelectedSiteList1(response.data.data.reports);
@@ -90,20 +89,18 @@ const AddCompany = (props) => {
 
   const handleItemClick1 = (event) => {
     setSelectedItems1(event.target.value);
-    console.log(event.target.value);
 
     const selectedSiteNames = event.target.value;
     const filteredSites = selectedSiteList1.filter((item) =>
       selectedSiteNames.includes(item.report_name)
     );
-    console.log(filteredSites, "filteredSites");
+
     formik.setFieldValue("sites", filteredSites);
   };
 
   const handleSubmit = async (event, values) => {
     // event.preventDefault();
 
-    console.log(formik.values, "client_id");
     try {
       const formData = new FormData();
 

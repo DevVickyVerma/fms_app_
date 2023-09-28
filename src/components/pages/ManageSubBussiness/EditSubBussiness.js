@@ -64,7 +64,6 @@ export default function AddSite() {
       try {
         const response = await axiosInstance.get(`/business/sub-type/${id}`);
         if (response) {
-          console.log(response.data.data);
           setEditSiteData(response.data.data);
           formik.setValues(response.data.data);
         }
@@ -87,7 +86,7 @@ export default function AddSite() {
 
       if (response) {
         // setData(response.data.data.sites);
-        console.log(response.data);
+
         setDropdownValue(response.data);
       }
     } catch (error) {
@@ -113,7 +112,6 @@ export default function AddSite() {
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
-    console.log(formData, "formData");
 
     formData.append("business_sub_name", values.business_sub_name);
     formData.append("slug", values.slug);
@@ -248,7 +246,8 @@ export default function AddSite() {
                       <input
                         id="business_sub_name"
                         business_sub_name="name"
-                        type="text"  autoComplete="off"
+                        type="text"
+                        autoComplete="off"
                         className={`input101 ${
                           formik.errors.business_sub_name &&
                           formik.touched.business_sub_name
@@ -273,7 +272,8 @@ export default function AddSite() {
                         Slug<span className="text-danger">*</span>
                       </label>
                       <input
-                        type="text"  autoComplete="off"
+                        type="text"
+                        autoComplete="off"
                         className={`input101 ${
                           formik.errors.slug && formik.touched.slug
                             ? "is-invalid"
@@ -309,7 +309,6 @@ export default function AddSite() {
                         onChange={formik.handleChange}
                         value={formik.values.status}
                       >
-                       
                         <option value="1">Active</option>
                         <option value="0">Inactive</option>
                       </select>

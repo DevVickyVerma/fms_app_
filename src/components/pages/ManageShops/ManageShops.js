@@ -107,7 +107,7 @@ const ManageShops = (props) => {
   const ToggleStatus = async (formData) => {
     try {
       const response = await postData("/shop/update-status", formData);
-      console.log(response, "response"); // Console log the response
+      // Console log the response
       if (apidata.api_response === "success") {
         FetchTableData();
       }
@@ -127,7 +127,6 @@ const ManageShops = (props) => {
   const FetchTableData = async () => {
     try {
       const response = await getData("shop/list");
-      console.log(response.data.data, "shops");
 
       if (response && response.data && response.data.data) {
         setData(response.data.data.shop);
@@ -208,7 +207,7 @@ const ManageShops = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-        // onClick={() => handleToggleSidebar(row)}
+          // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
@@ -329,7 +328,7 @@ const ManageShops = (props) => {
       }
       return false;
     });
-    console.log(filteredData, "filteredData");
+
     setData(filteredData);
   };
 
@@ -386,31 +385,36 @@ const ManageShops = (props) => {
                 <h3 className="card-title">Manage Shops</h3>
               </Card.Header>
               <Card.Body>
-
-                {data?.length > 0 ? <>
-                  <div className="table-responsive deleted-table">
-                    <DataTableExtensions {...tableDatas}>
-                      <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        striped={true}
-                        // center={true}
-                        persistTableHead
-                        pagination
-                        paginationPerPage={20}
-                        highlightOnHover
-                        searchable={true}
-                      />
-                    </DataTableExtensions>
-                  </div>
-                </> : <>
-
-                  <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
-
-                </>}
+                {data?.length > 0 ? (
+                  <>
+                    <div className="table-responsive deleted-table">
+                      <DataTableExtensions {...tableDatas}>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          // center={true}
+                          persistTableHead
+                          pagination
+                          paginationPerPage={20}
+                          highlightOnHover
+                          searchable={true}
+                        />
+                      </DataTableExtensions>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      alt="MyChartImage"
+                      className="all-center-flex nodata-image"
+                    />
+                  </>
+                )}
               </Card.Body>
             </Card>
           </Col>

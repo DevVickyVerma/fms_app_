@@ -127,7 +127,6 @@ const AddClient = (props) => {
 
       if (permissionsArray?.length > 0) {
         if (isAddPermissionAvailable) {
-          console.log(isAddPermissionAvailable, "AddPermissionAvailable");
         } else {
           navigate("/errorpage403");
         }
@@ -278,10 +277,11 @@ const AddClient = (props) => {
                             <Field
                               type="text"
                               autoComplete="off"
-                              className={`input101 ${errors.client_code && touched.client_code
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                              className={`input101 ${
+                                errors.client_code && touched.client_code
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="client_code"
                               name="client_code"
                               placeholder="Client Code"
@@ -302,10 +302,11 @@ const AddClient = (props) => {
                             <Field
                               type="text"
                               autoComplete="off"
-                              className={`input101 ${errors.email && touched.email
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                              className={`input101 ${
+                                errors.email && touched.email
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="email"
                               name="email"
                               placeholder="Email"
@@ -328,10 +329,11 @@ const AddClient = (props) => {
                             </label>
                             <Field
                               type="password"
-                              className={`input101 ${errors.password && touched.password
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                              className={`input101 ${
+                                errors.password && touched.password
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="password"
                               name="password"
                               placeholder="Password"
@@ -354,10 +356,11 @@ const AddClient = (props) => {
                             <Field
                               type="text"
                               autoComplete="off"
-                              className={`input101 ${errors.first_name && touched.first_name
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                              className={`input101 ${
+                                errors.first_name && touched.first_name
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="first_name"
                               name="first_name"
                               placeholder="First Name"
@@ -380,10 +383,11 @@ const AddClient = (props) => {
                             <Field
                               type="text"
                               autoComplete="off"
-                              className={`input101 ${errors.last_name && touched.last_name
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                              className={`input101 ${
+                                errors.last_name && touched.last_name
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="last_name"
                               name="last_name"
                               placeholder="Last Name"
@@ -407,10 +411,11 @@ const AddClient = (props) => {
                               // type="address"
                               as="textarea"
                               autoComplete="off"
-                              className={`input101 ${errors.address && touched.address
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                              className={`input101 ${
+                                errors.address && touched.address
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="address"
                               name="address"
                               placeholder="Address"
@@ -434,10 +439,11 @@ const AddClient = (props) => {
                             </label>
                             <Field
                               as="select"
-                              className={`input101 ${errors.status && touched.status
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                              className={`input101 ${
+                                errors.status && touched.status
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="status"
                               name="status"
                             >
@@ -462,10 +468,11 @@ const AddClient = (props) => {
                             </label>
                             <Field
                               as="select"
-                              className={`input101 ${errors.lommis_status && touched.lommis_status
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                              className={`input101 ${
+                                errors.lommis_status && touched.lommis_status
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="lommis_status"
                               name="lommis_status"
                             >
@@ -491,10 +498,11 @@ const AddClient = (props) => {
                             </label>
                             <Field
                               as="select"
-                              className={`input101 ${errors.work_flow && touched.work_flow
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                              className={`input101 ${
+                                errors.work_flow && touched.work_flow
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="work_flow"
                               name="work_flow"
                             >
@@ -520,11 +528,12 @@ const AddClient = (props) => {
                             </label>
                             <Field
                               as="select"
-                              className={`input101 ${errors.financial_start_month &&
+                              className={`input101 ${
+                                errors.financial_start_month &&
                                 touched.financial_start_month
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="financial_start_month"
                               name="financial_start_month"
                             >
@@ -562,11 +571,12 @@ const AddClient = (props) => {
                             </label>
                             <Field
                               as="select"
-                              className={`input101 ${errors.financial_end_month &&
+                              className={`input101 ${
+                                errors.financial_end_month &&
                                 touched.financial_end_month
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="financial_end_month"
                               name="financial_end_month"
                             >
@@ -702,7 +712,7 @@ const AddClient = (props) => {
                       <button
                         type="submit"
                         className="btn btn-primary me-2 "
-                      // disabled={Object.keys(errors).length > 0}
+                        // disabled={Object.keys(errors).length > 0}
                       >
                         Save
                       </button>

@@ -102,7 +102,7 @@ const ManageDeductions = (props) => {
   const ToggleStatus = async (formData) => {
     try {
       const response = await postData("/deduction/update-status", formData);
-      console.log(response, "response"); // Console log the response
+      // Console log the response
       if (apidata.api_response === "success") {
         FetchTableData();
       }

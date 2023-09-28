@@ -29,7 +29,6 @@ const ManageEmail = (props) => {
   const [total, setTotal] = useState(0);
 
   const handlePageChange = (newPage) => {
-    console.log(hasMorePage, "hasMorePage");
     setCurrentPage(newPage);
   };
 
@@ -45,11 +44,10 @@ const ManageEmail = (props) => {
       setCount(response.data.data.count);
       setCurrentPage(response?.data?.data?.currentPage);
       setHasMorePages(response?.data?.data?.hasMorePages);
-      console.log(response?.data?.data?.hasMorePages, "hasMorePages");
+
       setLastPage(response?.data?.data?.lastPage);
       setPerPage(response?.data?.data?.perPage);
       setTotal(response?.data?.data?.total);
-      console.log(response?.data?.data, "response?.data?.data");
     } catch (error) {
       console.error("API error:", error);
     }

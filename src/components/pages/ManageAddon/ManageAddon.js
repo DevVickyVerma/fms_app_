@@ -41,8 +41,6 @@ const ManageAddon = (props) => {
     }
   }
   const handleEdit = (row) => {
-    console.log(row, "handleEdit");
-
     localStorage.setItem("EditAddon", row.id);
     localStorage.setItem("EditAddon_name", row.name);
   };
@@ -111,7 +109,6 @@ const ManageAddon = (props) => {
   const FetchTableData = async () => {
     try {
       const response = await getData("/addon/list");
-      console.log(response.data.data, "ddd");
 
       if (response && response.data && response.data.data.addons) {
         setData(response.data.data.addons);
@@ -318,32 +315,36 @@ const ManageAddon = (props) => {
                 <h3 className="card-title">Manage Addon</h3>
               </Card.Header>
               <Card.Body>
-
-
-                {data?.length > 0 ? <>
-                  <div className="table-responsive deleted-table">
-                    <DataTableExtensions {...tableDatas}>
-                      <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        striped={true}
-                        // center={true}
-                        persistTableHead
-                        pagination
-                        paginationPerPage={20}
-                        highlightOnHover
-                        searchable={true}
-                      />
-                    </DataTableExtensions>
-                  </div>
-                </> : <>
-
-                  <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
-
-                </>}
+                {data?.length > 0 ? (
+                  <>
+                    <div className="table-responsive deleted-table">
+                      <DataTableExtensions {...tableDatas}>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          // center={true}
+                          persistTableHead
+                          pagination
+                          paginationPerPage={20}
+                          highlightOnHover
+                          searchable={true}
+                        />
+                      </DataTableExtensions>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      alt="MyChartImage"
+                      className="all-center-flex nodata-image"
+                    />
+                  </>
+                )}
               </Card.Body>
             </Card>
           </Col>

@@ -110,7 +110,6 @@ const Dashboard = (props) => {
 
       const response = await getData(url);
       const { data } = response;
-      // console.log("my response: " ,data);
 
       if (data) {
         LinechartOptions = data?.data?.line_graph?.option?.labels;
@@ -320,7 +319,6 @@ const Dashboard = (props) => {
           setTimeout(() => {
             setIsLoading(false);
           }, 1000);
-          console.log("isLoading state:", isLoading);
         });
     } else {
       // Assuming these functions are synchronous
@@ -342,7 +340,6 @@ const Dashboard = (props) => {
       setTimeout(() => {
         setIsLoading(false);
       }, 1000);
-      // console.log("isLoading state:", isLoading);
     }
   };
 
@@ -351,8 +348,6 @@ const Dashboard = (props) => {
   const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
-    // console.log(UserPermissions, "UserPermissions");
-    // console.log(UserPermissions?.company_id, "UserPermissions");
     localStorage.setItem(
       "Dashboardsitestats",
       permissionsArray?.includes("dashboard-site-stats")
@@ -384,22 +379,13 @@ const Dashboard = (props) => {
     if (isStatusPermissionAvailable && superiorRole !== "Administrator") {
       handleFetchSiteData();
     }
-
-    // console.log("my search data on dashboard", searchdata);
   }, [permissionsArray]);
 
   const isProfileUpdatePermissionAvailable = permissionsArray?.includes(
     "profile-update-profile"
   );
 
-  console.log(
-    isProfileUpdatePermissionAvailable,
-    "isProfileUpdatePermissionAvailable"
-  );
-
   const isTwoFactorPermissionAvailable = UserPermissions?.two_factor;
-
-  console.log(isTwoFactorPermissionAvailable, "isTwoFactorPermissionAvailable");
 
   return (
     <>

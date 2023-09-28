@@ -140,13 +140,6 @@ const CreditCardBanking = (props) => {
     }
   }, [site_id, start_date]);
 
-  // if (site_id && start_date) {
-  //   // console.log("client_id:", site_id);
-  //   // console.log("start_date:", start_date);
-
-  //   console.log("gotSiteID and Repordtdate");
-  // }
-
   const handleSubmit = async (values) => {
     const token = localStorage.getItem("token");
 
@@ -198,7 +191,6 @@ const CreditCardBanking = (props) => {
       } else {
         ErrorToast(responseData.message);
 
-        console.log("API Error:", responseData);
         // Handle specific error cases if needed
       }
     } catch (error) {

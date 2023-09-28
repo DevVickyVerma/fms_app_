@@ -51,7 +51,6 @@ const EditBussiness = (props) => {
   const { id } = useParams();
 
   useEffect(() => {
- 
     try {
       FetchRoleList();
     } catch (error) {
@@ -60,17 +59,14 @@ const EditBussiness = (props) => {
     console.clear();
   }, [id]);
 
-
   const FetchRoleList = async () => {
-   
-    const url = '/business/category/detail';
+    const url = "/business/category/detail";
     try {
-      const response = await getData(url, id,);
+      const response = await getData(url, id);
 
       if (response) {
         formik.setValues(response.data.data);
-        console.log(formik.values);
-        console.log(response.data.data);
+
         setDropdownValue(response.data.data);
       } else {
         throw new Error("No data available in the response");
@@ -80,9 +76,8 @@ const EditBussiness = (props) => {
     }
   };
 
-
   useEffect(() => {
-    console.log(id)
+    console.log(id);
     const token = localStorage.getItem("token");
     const axiosInstance = axios.create({
       baseURL: process.env.REACT_APP_BASE_URL,
@@ -108,7 +103,8 @@ const EditBussiness = (props) => {
       handleError(error);
     }
     // console.clear()
-  console.clear()  }, []);
+    console.clear();
+  }, []);
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
@@ -121,14 +117,13 @@ const EditBussiness = (props) => {
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
-      console.log(formData, "formData");
 
       formData.append("category_name", values.category_name);
       formData.append("code", values.category_code);
       formData.append("status", values.category_status);
       formData.append("id", id);
       formData.append("business_type_id", values.business_type_id);
-      console.log(values)
+      console.log(values);
 
       const postDataUrl = "/business/category/update";
       const navigatePath = "/managebusinesscategory";
@@ -143,7 +138,7 @@ const EditBussiness = (props) => {
     initialValues: {
       category_name: "",
       category_code: "",
-      business_type_id:'',
+      business_type_id: "",
       category_status: "1",
     },
     validationSchema: Yup.object({
@@ -151,7 +146,7 @@ const EditBussiness = (props) => {
         .max(20, "Must be 20 characters or less")
         .required("Business Category is required"),
 
-        category_code: Yup.string()
+      category_code: Yup.string()
         .required("Code is required")
         .matches(/^[a-zA-Z0-9_\- ]+$/, {
           message: "Code must not contain special characters",
@@ -165,7 +160,9 @@ const EditBussiness = (props) => {
           }
         ),
 
-            business_type_id: Yup.string().required("Business Category Type is required"),
+      business_type_id: Yup.string().required(
+        "Business Category Type is required"
+      ),
       category_status: Yup.string().required("Status is required"),
     }),
     onSubmit: handleSubmit,
@@ -298,12 +295,16 @@ const EditBussiness = (props) => {
                       </Col>
                       <Col lg={6} md={6}>
                         <div className="form-group">
-                          <label htmlFor="category_status" className="form-label mt-4">
+                          <label
+                            htmlFor="category_status"
+                            className="form-label mt-4"
+                          >
                             Status <span className="text-danger">*</span>
                           </label>
                           <select
                             className={`input101 ${
-                              formik.errors.category_status && formik.touched.category_status
+                              formik.errors.category_status &&
+                              formik.touched.category_status
                                 ? "is-invalid"
                                 : ""
                             }`}
@@ -315,57 +316,54 @@ const EditBussiness = (props) => {
                             <option value="1">Active</option>
                             <option value="0">Inactive</option>
                           </select>
-                          {formik.errors.category_status && formik.touched.category_status && (
-                            <div className="invalid-feedback">
-                              {formik.errors.category_status}
-                            </div>
-                          )}
+                          {formik.errors.category_status &&
+                            formik.touched.category_status && (
+                              <div className="invalid-feedback">
+                                {formik.errors.category_status}
+                              </div>
+                            )}
                         </div>
                       </Col>
                       <Col lg={4} md={6}>
-                            <div className="form-group">
-                              <label
-                                htmlFor="business_type_id"
-                                className=" form-label mt-4"
-                              >
-                                Select Business Type
-                                <span className="text-danger">*</span>
-                              </label>
-                              <select
-                          className={`input101 ${
-                            formik.errors.business_type_id &&
-                            formik.touched.business_type_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="business_type_id"
-                          name="business_type_id"
-                          onChange={formik.handleChange}
-                          value={formik.values.business_type_id}
-                        >
-                                <option value="">
-                                  {" "}
-                                  Select Business Type
+                        <div className="form-group">
+                          <label
+                            htmlFor="business_type_id"
+                            className=" form-label mt-4"
+                          >
+                            Select Business Type
+                            <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.business_type_id &&
+                              formik.touched.business_type_id
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="business_type_id"
+                            name="business_type_id"
+                            onChange={formik.handleChange}
+                            value={formik.values.business_type_id}
+                          >
+                            <option value=""> Select Business Type</option>
+                            {AddSiteData.data ? (
+                              AddSiteData.data.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.business_name}
                                 </option>
-                                {
-                                AddSiteData.data ? (
-                                  AddSiteData.data.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.business_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Machine Type</option>
-                                )}
-                            </select>
-                            {formik.errors.business_type_id &&
-                          formik.touched.business_type_id && (
-                            <div className="invalid-feedback">
-                              {formik.errors.business_type_id}
-                            </div>
-                          )}
-                           </div>
-                          </Col>
+                              ))
+                            ) : (
+                              <option disabled>No Machine Type</option>
+                            )}
+                          </select>
+                          {formik.errors.business_type_id &&
+                            formik.touched.business_type_id && (
+                              <div className="invalid-feedback">
+                                {formik.errors.business_type_id}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
                     </Row>
                     <div className="text-end">
                       <Link

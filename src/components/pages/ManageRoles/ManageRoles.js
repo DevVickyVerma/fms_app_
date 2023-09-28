@@ -120,7 +120,6 @@ const ManageRoles = (props) => {
   });
 
   const handleEdit = (row) => {
-    console.log(row, "handleEdit");
     localStorage.setItem("EditRoleID", row.id);
     localStorage.setItem("EditRole_name", row.name);
   };
@@ -130,7 +129,6 @@ const ManageRoles = (props) => {
 
       if (response && response.data && response.data.data.roles) {
         setData(response.data.data.roles);
-        setSearchvalue(response.data.data.roles);
       } else {
         throw new Error("No data available in the response");
       }
@@ -154,9 +152,6 @@ const ManageRoles = (props) => {
   const isEditPermissionAvailable = permissionsArray?.includes("role-edit");
   const isAddPermissionAvailable = permissionsArray?.includes("role-create");
   const isDeletePermissionAvailable = permissionsArray?.includes("role-delete");
-  const isDetailsPermissionAvailable =
-    permissionsArray?.includes("role-details");
-  console.log(data?.editable === 1, "editable");
 
   const columns = [
     {
@@ -193,7 +188,7 @@ const ManageRoles = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-        // onClick={() => handleToggleSidebar(row)}
+          // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
@@ -262,20 +257,6 @@ const ManageRoles = (props) => {
     columns,
     data,
   };
-  const [searchText, setSearchText] = useState("");
-  const [searchvalue, setSearchvalue] = useState();
-
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    console.log(value);
-    setSearchText(value);
-
-    const filteredData = tableDatas.filter((item) =>
-      item.name.toLowerCase().includes(value.toLowerCase())
-    );
-    console.log(filteredData);
-    setData(filteredData);
-  };
 
   return (
     <>
@@ -332,33 +313,37 @@ const ManageRoles = (props) => {
                 <h3 className="card-title">Manage Roles</h3>
               </Card.Header>
               <Card.Body>
-
-
-                {data?.length > 0 ? <>
-                  <div className="table-responsive deleted-table">
-                    <DataTableExtensions {...tableDatas}>
-                      <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        striped={true}
-                        // center={true}
-                        persistTableHead
-                        pagination
-                        paginationPerPage={20}
-                        highlightOnHover
-                        searchable={true}
-                        responsive={true}
-                      />
-                    </DataTableExtensions>
-                  </div>
-                </> : <>
-
-                  <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
-
-                </>}
+                {data?.length > 0 ? (
+                  <>
+                    <div className="table-responsive deleted-table">
+                      <DataTableExtensions {...tableDatas}>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          // center={true}
+                          persistTableHead
+                          pagination
+                          paginationPerPage={20}
+                          highlightOnHover
+                          searchable={true}
+                          responsive={true}
+                        />
+                      </DataTableExtensions>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      alt="MyChartImage"
+                      className="all-center-flex nodata-image"
+                    />
+                  </>
+                )}
               </Card.Body>
             </Card>
           </Col>

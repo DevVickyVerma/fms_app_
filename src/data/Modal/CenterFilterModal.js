@@ -36,7 +36,7 @@ const CenterFilterModal = (props) => {
     onSubmit,
     searchListstatus,
   } = props;
-  // console.log("on submit", onSubmit);
+
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
@@ -115,8 +115,6 @@ const CenterFilterModal = (props) => {
             setSelectedCompanyList([]);
 
             // setShowButton(false);
-            console.log(clientId, "clientId");
-            console.log(AddSiteData, "AddSiteData");
 
             if (response?.data) {
               const selectedClient = response?.data?.data?.find(
@@ -141,10 +139,8 @@ const CenterFilterModal = (props) => {
     setSearchdata(values);
     handleClose();
     onClose();
-    // console.log("my calues on submitvalues");
-    // Invoke the onSubmit callback with the form values
+
     onSubmit(values);
-    console.log("my values while submitting", values);
   };
 
   useEffect(() => {
@@ -325,10 +321,6 @@ const CenterFilterModal = (props) => {
                                                     "client_name",
                                                     selectedClient.client_name
                                                   );
-                                                  console.log(
-                                                    selectedClient.client_name,
-                                                    " selectedClient.client_name"
-                                                  );
                                                 }
                                               }}
                                             >
@@ -403,14 +395,6 @@ const CenterFilterModal = (props) => {
                                                   "company_name",
                                                   selectedCompanyData.company_name
                                                 );
-                                                console.log(
-                                                  selectedCompanyData.company_name,
-                                                  "company_id"
-                                                );
-                                                console.log(
-                                                  selectedCompanyData.sites,
-                                                  "company_id"
-                                                );
                                               }
                                             }}
                                           >
@@ -476,10 +460,6 @@ const CenterFilterModal = (props) => {
                                                   "site_name",
                                                   selectedSiteData.site_name
                                                 ); // Set site_name using setFieldValue
-                                                console.log(
-                                                  selectedSiteData.site_name,
-                                                  "site_name"
-                                                );
                                               }
                                             }}
                                           >

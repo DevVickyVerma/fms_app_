@@ -36,7 +36,7 @@ const AddBusinessCategory = (props) => {
 
       const postDataUrl = "/business/category/add";
       const navigatePath = "/managebusinesscategory";
-      console.log(values, "name");
+
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
@@ -62,7 +62,6 @@ const AddBusinessCategory = (props) => {
 
       if (permissionsArray?.length > 0) {
         if (isAddPermissionAvailable) {
-          console.log(isAddPermissionAvailable, "AddPermissionAvailable");
           // Perform action when permission is available
           // Your code here
         } else {
@@ -79,7 +78,6 @@ const AddBusinessCategory = (props) => {
   const Errornotify = (message) => toast.error(message);
   function handleError(error) {
     if (error.response && error.response.status === 401) {
-    
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
     } else {
@@ -115,7 +113,8 @@ const AddBusinessCategory = (props) => {
       handleError(error);
     }
     // console.clear()
-  console.clear()  }, []);
+    console.clear();
+  }, []);
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -157,9 +156,9 @@ const AddBusinessCategory = (props) => {
                     status: "1",
                   }}
                   validationSchema={Yup.object({
-                    business_name: Yup.string()
-                     
-                      .required(" Business Category Name is required"),
+                    business_name: Yup.string().required(
+                      " Business Category Name is required"
+                    ),
 
                     business_category_code: Yup.string()
                       .required("Business Category Code  is required")
@@ -176,7 +175,9 @@ const AddBusinessCategory = (props) => {
                       ),
 
                     status: Yup.string().required("Status is required"),
-                    business_type_id: Yup.string().required("Business Category Type is required"),
+                    business_type_id: Yup.string().required(
+                      "Business Category Type is required"
+                    ),
                   })}
                   onSubmit={(values) => {
                     handleSubmit1(values);
@@ -200,8 +201,7 @@ const AddBusinessCategory = (props) => {
                                 autoComplete="off"
                                 // className="form-control"
                                 className={`input101 ${
-                                  errors.business_name &&
-                                  touched.business_name
+                                  errors.business_name && touched.business_name
                                     ? "is-invalid"
                                     : ""
                                 }`}
@@ -296,12 +296,8 @@ const AddBusinessCategory = (props) => {
                                 id="business_type_id"
                                 name="business_type_id"
                               >
-                                <option value="">
-                                  {" "}
-                                  Select Business Type
-                                </option>
-                                {
-                                AddSiteData.data ? (
+                                <option value=""> Select Business Type</option>
+                                {AddSiteData.data ? (
                                   AddSiteData.data.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.business_name}
@@ -321,7 +317,7 @@ const AddBusinessCategory = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
-                      <Link
+                        <Link
                           type="submit"
                           className="btn btn-danger me-2 "
                           to={`/managebusinesscategory/`}
@@ -331,7 +327,6 @@ const AddBusinessCategory = (props) => {
                         <button className="btn btn-primary me-2" type="submit">
                           Add
                         </button>
-                        
                       </Card.Footer>
                     </Form>
                   )}

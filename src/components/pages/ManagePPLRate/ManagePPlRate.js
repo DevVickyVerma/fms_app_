@@ -158,8 +158,6 @@ const ManageSiteTank = (props) => {
             setSelectedCompanyList([]);
 
             // setShowButton(false);
-            console.log(clientId, "clientId");
-            console.log(AddSiteData, "AddSiteData");
 
             if (response?.data) {
               const selectedClient = response?.data?.data?.find(
@@ -182,8 +180,6 @@ const ManageSiteTank = (props) => {
       const response = await getData(
         `/site-ppl/list?site_id=${localStorageSiteID}`
       );
-      // site-tank/list?site_id=Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09
-      console.log(response.data.data, "pump");
 
       if (response && response.data && response.data.data) {
         setData(response.data.data);
@@ -484,14 +480,6 @@ const ManageSiteTank = (props) => {
                                       setSelectedCompanyList(
                                         selectedClient.companies
                                       );
-                                      console.log(
-                                        selectedClient,
-                                        "selectedClient"
-                                      );
-                                      console.log(
-                                        selectedClient.companies,
-                                        "selectedClient"
-                                      );
                                     }
                                   }}
                                 >
@@ -546,14 +534,6 @@ const ManageSiteTank = (props) => {
                                   if (selectedCompanyData) {
                                     setSelectedSiteList(
                                       selectedCompanyData.sites
-                                    );
-                                    console.log(
-                                      selectedCompanyData,
-                                      "company_id"
-                                    );
-                                    console.log(
-                                      selectedCompanyData.sites,
-                                      "company_id"
                                     );
                                   }
                                 }}

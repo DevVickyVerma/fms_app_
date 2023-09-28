@@ -9,10 +9,6 @@ const withApi = (WrappedComponent) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    // useEffect((url) => {
-    //     console.log(url,"dsadas")
-    //   getData();
-    // console.clear()  }, []);
     const navigate = useNavigate();
     const SuccessToast = (message) => {
       toast.success(message, {
@@ -98,7 +94,7 @@ const withApi = (WrappedComponent) => {
         const response = await axiosInstance.post(url, body);
         if (response && response.data) {
           const data = response.data;
-          console.log(data, ""); // Console log the response data
+
           setApiData(data);
           SuccessToast(data.message);
           setIsLoading(false);

@@ -85,7 +85,7 @@ const BankDeposit = (props) => {
   const DeleteClient = async (formData) => {
     try {
       const response = await postData("drs/bank-deposite/delete", formData);
-      console.log(response, "response"); // Console log the response
+
       if (apidata.api_response === "success") {
         FetchTableData();
       }
@@ -118,7 +118,6 @@ const BankDeposit = (props) => {
       const response = await getData(
         `/drs/bank-deposite/?site_id=${SiteID}&drs_date=${ReportDate}`
       );
-      console.log(response.data.data, "cards");
 
       if (response && response.data && response.data.data) {
         setBankAmount(response?.data?.data?.amount);
@@ -170,8 +169,6 @@ const BankDeposit = (props) => {
     try {
       const formData = new FormData();
 
-      console.log(values.created_date, "editable");
-
       formData.append("reason", values.reason);
       formData.append("amount", values.amount);
       formData.append("slip", values.image);
@@ -187,7 +184,7 @@ const BankDeposit = (props) => {
         : "/drs/bank-deposite/add";
 
       const response = await postData(postDataUrl, formData);
-      console.log(response, "response"); // Console log the response
+
       if (apidata.api_response === "success") {
         setEditData(false);
         FetchTableData();
@@ -205,7 +202,6 @@ const BankDeposit = (props) => {
   };
 
   const handleEdit = (item) => {
-    console.log(item, "item");
     formik.setValues(item);
     setEditData(true);
   };
@@ -405,8 +401,6 @@ const BankDeposit = (props) => {
       event.preventDefault();
     }
   });
-
-  console.log("bank deposit data", data);
 
   return (
     <>

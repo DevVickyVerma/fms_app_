@@ -7,7 +7,7 @@ const BarChart = ({ piechartValues }) => {
     // Data is not available yet, return a loading state or null
     return <p> Please Apply Filter To Visualize Chart.....</p>;
   }
-  // console.log(piechartValues, "piechartValues");
+
   const shop_sales = parseFloat(piechartValues?.shop_sales);
   const fuel_sales = parseFloat(piechartValues?.fuel_sales);
   const bunkered_sales = parseFloat(piechartValues?.bunkered_sales);
@@ -77,44 +77,3 @@ const BarChart = ({ piechartValues }) => {
 };
 
 export default BarChart;
-
-// import React from "react";
-// import { Chart } from "react-google-charts";
-
-// // export const options = {
-// //   title: "My Daily Activities",
-// // };
-
-// const BarChart = ({ piechartValues }) => {
-//   if (!piechartValues) {
-//     // Data is not available yet, return a loading state or null
-//     return <p>Please Apply Filter To Load Chart...</p>;
-//   }
-
-//   // console.log("my pie chart values: ", piechartValues);
-
-//   const data = [
-//     ["Task", "Hours per Day"],
-//     ["Work", 11],
-//     ["Eat", 2],
-//     ["Commute", 2],
-//     ["Watch TV", 2],
-//     ["Sleep", 7],
-//   ];
-
-//   const APidata = [piechartValues?.map((dataset, index) => [dataset?.])];
-
-//   return (
-//     <div>
-//       <Chart
-//         chartType="PieChart"
-//         data={data}
-//         // options={options}
-//         width={"100%"}
-//         height={"400px"}
-//       />
-//     </div>
-//   );
-// };
-
-// export default BarChart;

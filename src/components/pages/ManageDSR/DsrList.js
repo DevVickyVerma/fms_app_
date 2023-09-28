@@ -34,12 +34,10 @@ const ManageEmail = (props) => {
   const [formValues, setFormValues] = useState(null);
 
   const handlePageChange = (newPage) => {
-    console.log(hasMorePage, "hasMorePage");
     setCurrentPage(newPage);
   };
-  console.log(formValues, "formValues1");
+
   useEffect(() => {
-    console.log(formValues, "formValues21");
     if (formValues === null) {
       FetchTableData(currentPage);
     }
@@ -53,11 +51,10 @@ const ManageEmail = (props) => {
       setCount(response.data.data.count);
       setCurrentPage(response?.data?.data?.currentPage);
       setHasMorePages(response?.data?.data?.hasMorePages);
-      console.log(response?.data?.data?.hasMorePages, "hasMorePages");
+
       setLastPage(response?.data?.data?.lastPage);
       setPerPage(response?.data?.data?.perPage);
       setTotal(response?.data?.data?.total);
-      console.log(response?.data?.data, "response?.data?.data");
     } catch (error) {
       console.error("API error:", error);
     }
@@ -186,17 +183,15 @@ const ManageEmail = (props) => {
       setCount(response.data.data.count);
       setCurrentPage(response?.data?.data?.currentPage);
       setHasMorePages(response?.data?.data?.hasMorePages);
-      console.log(response?.data?.data?.hasMorePages, "hasMorePages");
+
       setLastPage(response?.data?.data?.lastPage);
       setPerPage(response?.data?.data?.perPage);
       setTotal(response?.data?.data?.total);
-      console.log(response?.data?.data, "response?.data?.data");
     } catch (error) {
       console.error("API error:", error);
     }
   };
   const handleFormSubmit = (values) => {
-    console.log("Form submitted with values:", values);
     closeModal();
     handleFetchSiteData(values);
     setFormValues(values);
@@ -206,7 +201,6 @@ const ManageEmail = (props) => {
   const ResetForm = () => {
     FetchTableData(currentPage);
     setFormValues();
-    console.log("Resetting");
   };
   return (
     <>

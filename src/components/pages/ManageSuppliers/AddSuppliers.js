@@ -53,7 +53,6 @@ const AddSuppliers = (props) => {
 
       if (permissionsArray?.length > 0) {
         if (isAddPermissionAvailable) {
-          console.log(isAddPermissionAvailable, "AddPermissionAvailable");
           // Perform action when permission is available
           // Your code here
         } else {
@@ -134,8 +133,7 @@ const AddSuppliers = (props) => {
                   }}
                   validationSchema={Yup.object({
                     supplier_name: Yup.string()
-                     
-                      .required(" Supplier Name is required"),
+                    .required(" Supplier Name is required"),
 
                     supplier_code: Yup.string()
                       .required("Supplier Code is required")
@@ -220,7 +218,10 @@ const AddSuppliers = (props) => {
                         <Row>
                           <Col lg={6} md={12}>
                             <FormGroup>
-                              <label     className=" form-label mt-4" htmlFor="supplier_status">
+                              <label
+                                className=" form-label mt-4"
+                                htmlFor="supplier_status"
+                              >
                                 Supplier Status
                                 <span className="text-danger">*</span>
                               </label>
@@ -248,7 +249,12 @@ const AddSuppliers = (props) => {
 
                           <Col lg={6} md={12}>
                             <div className="form-group">
-                              <label     className=" form-label mt-4" htmlFor="image">Supplier Logo</label>
+                              <label
+                                className=" form-label mt-4"
+                                htmlFor="image"
+                              >
+                                Supplier Logo
+                              </label>
                               <div
                                 className={`dropzone ${
                                   errors.image && touched.image
@@ -269,9 +275,9 @@ const AddSuppliers = (props) => {
                                   }
                                   className="form-control"
                                 />
-                                <p style={{margin:"6px", color:"#4d5875"}}>
-                                  Drag and drop your Supplier Logo here, or click to
-                                  browse
+                                <p style={{ margin: "6px", color: "#4d5875" }}>
+                                  Drag and drop your Supplier Logo here, or
+                                  click to browse
                                 </p>
                               </div>
                               <ErrorMessage
@@ -290,18 +296,16 @@ const AddSuppliers = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
-                      <Link
+                        <Link
                           type="submit"
                           className="btn btn-danger me-2 "
                           to={`/managesuppliers/`}
                         >
                           Cancel
                         </Link>
-                      <button className="btn btn-primary me-2" type="submit">
+                        <button className="btn btn-primary me-2" type="submit">
                           Add
                         </button>
-                        
-                       
                       </Card.Footer>
                     </Form>
                   )}

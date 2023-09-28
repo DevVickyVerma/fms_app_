@@ -30,14 +30,12 @@ const ManageSite = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
   const [data, setData] = useState();
-  // console.log("my props data", props);
 
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
   const navigate = useNavigate();
   const [AddSiteData, setAddSiteData] = useState([]);
-  // const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  // const [subTypes, setSubTypes] = useState([]);
+
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
@@ -67,8 +65,6 @@ const ManageSite = (props) => {
             setSelectedCompanyList([]);
 
             // setShowButton(false);
-            console.log(clientId, "clientId");
-            console.log(AddSiteData, "AddSiteData");
 
             if (response?.data) {
               const selectedClient = response?.data?.data?.find(
@@ -131,7 +127,6 @@ const ManageSite = (props) => {
   const isAssignPermissionAvailable = permissionsArray?.includes("site-assign");
   const [dataToSend, setDataToSend] = useState(null);
   const PerformAction = (row) => {
-    console.log(row, "receivedData");
     const dataToSend = {
       client_id: row.client_id,
       company_id: row.company_id,
@@ -339,14 +334,6 @@ const ManageSite = (props) => {
                                       setSelectedCompanyList(
                                         selectedClient.companies
                                       );
-                                      console.log(
-                                        selectedClient,
-                                        "selectedClient"
-                                      );
-                                      console.log(
-                                        selectedClient.companies,
-                                        "selectedClient"
-                                      );
                                     }
                                   }}
                                 >
@@ -402,14 +389,6 @@ const ManageSite = (props) => {
                                   if (selectedCompanyData) {
                                     setSelectedSiteList(
                                       selectedCompanyData.sites
-                                    );
-                                    console.log(
-                                      selectedCompanyData,
-                                      "company_id"
-                                    );
-                                    console.log(
-                                      selectedCompanyData.sites,
-                                      "company_id"
                                     );
                                   }
                                 }}

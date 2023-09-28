@@ -70,7 +70,6 @@ const Editdeductions = (props) => {
       try {
         const response = await axiosInstance.get(`/deduction/${id}`);
         if (response) {
-          console.log(response.data.data);
           setEditSiteData(response.data.data);
           formik.setValues(response.data.data);
         }
@@ -98,7 +97,6 @@ const Editdeductions = (props) => {
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
-      console.log(formData, "formData");
 
       formData.append("deduction_code", values.deduction_code);
       formData.append("deduction_name", values.deduction_name);
@@ -213,7 +211,8 @@ const Editdeductions = (props) => {
                               <span className="text-danger">*</span>
                             </label>
                             <input
-                              type="text"  autoComplete="off"
+                              type="text"
+                              autoComplete="off"
                               className={`input101 ${
                                 formik.errors.deduction_name &&
                                 formik.touched.deduction_name
@@ -243,7 +242,8 @@ const Editdeductions = (props) => {
                             <input
                               id="deduction_code"
                               deduction_code="code"
-                              type="text"  autoComplete="off"
+                              type="text"
+                              autoComplete="off"
                               className={`input101 readonly ${
                                 formik.errors.deduction_code &&
                                 formik.touched.deduction_code
@@ -282,7 +282,6 @@ const Editdeductions = (props) => {
                               onChange={formik.handleChange}
                               value={formik.values.deduction_status}
                             >
-                             
                               <option value="1">Active</option>
                               <option value="0">Inactive</option>
                             </select>

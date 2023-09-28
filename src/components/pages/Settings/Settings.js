@@ -81,7 +81,7 @@ export default function Settings() {
       const { data } = response;
       if (data) {
         formik2.setValues(data?.data); // Set field values for formik2
-        console.log(data?.data, "qqq");
+
         localStorage.setItem("auto_logout", data?.data?.auto_logout);
         setLoading(false);
       }

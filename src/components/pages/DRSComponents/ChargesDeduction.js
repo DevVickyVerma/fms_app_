@@ -94,7 +94,7 @@ const ShopSales = (props) => {
         const { data } = response;
         if (data) {
           setData(data?.data ? data.data.charges : []);
-          console.log(data?.data ? data.data.charges : []);
+
           setDeductionData(data?.data ? data.data.deductions : []);
           setis_editable(data?.data ? data.data : {});
 

@@ -162,7 +162,7 @@ const ManageDsr = (props) => {
                 const selectedCompanyData = selectedClient?.companies.find(
                   (company) => company.id === decodedData.company_id
                 );
-                console.log(selectedCompanyData, "selectedCompanyData");
+
                 if (selectedCompanyData) {
                   setSelectedSiteList(selectedCompanyData.sites);
                 }
@@ -174,9 +174,7 @@ const ManageDsr = (props) => {
             console.error("Error decoding or parsing data:", error);
           }
         } else {
-          console.log("No data found in query parameters.");
         }
-        console.log(response.data, "(response.data);");
 
         if (
           response?.data &&
@@ -283,10 +281,8 @@ const ManageDsr = (props) => {
 
     if (data?.checkStateForBankDeposit) {
       setUploadTabname("Bank Deposit");
-      // console.log("Checking for bank deposit", data?.checkStateForBankDeposit);
     } else if (data?.checkState) {
       data?.checkState ? setUploadTabname("Cash Banking") : setUploadTabname();
-      // console.log("checking Loading is true or false", data.checkState);
     } else {
       setUploadTabname();
     }
@@ -318,7 +314,6 @@ const ManageDsr = (props) => {
 
         const { data } = response1;
         if (data) {
-          console.log(response1?.data?.data?.cards, "GetDataWithClient");
           setUploadList(response1?.data?.data.list);
           setDataEnteryList(response1?.data?.data?.cards);
           setUploadTabname();

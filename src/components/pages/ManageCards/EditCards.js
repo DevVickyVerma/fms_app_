@@ -98,7 +98,7 @@ const EditCards = (props) => {
   //     try {
   //       const response = await axiosInstance.get(`/card/${id}`);
   //       if (response) {
-  //         console.log(response.data.data);
+  //
   //         setEditSiteData(response.data.data);
   //         formik.setValues(response.data.data);
   //         if (formik.values.image) {
@@ -128,13 +128,7 @@ const EditCards = (props) => {
   //   },
   // });
 
-
-
-
-
-
   useEffect(() => {
-
     try {
       FetchRoleList();
     } catch (error) {
@@ -143,16 +137,12 @@ const EditCards = (props) => {
     console.clear();
   }, [id]);
 
-
   const FetchRoleList = async () => {
     try {
       const response = await getData(`/card/${id}`);
 
       if (response) {
         formik.setValues(response.data.data);
-        console.log(formik.values);
-        console.log(response.data.data);
-
       } else {
         throw new Error("No data available in the response");
       }
@@ -160,7 +150,6 @@ const EditCards = (props) => {
       console.error("API error:", error);
     }
   };
-
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
@@ -170,11 +159,9 @@ const EditCards = (props) => {
     },
   });
 
-
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
-      console.log(formData, "formData");
 
       formData.append("card_code", values.card_code);
       formData.append("card_name", values.card_name);
@@ -294,11 +281,12 @@ const EditCards = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.card_name &&
+                            className={`input101 ${
+                              formik.errors.card_name &&
                               formik.touched.card_name
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="card_name"
                             name="card_name"
                             placeholder="Card Name"
@@ -326,11 +314,12 @@ const EditCards = (props) => {
                             card_code="name"
                             type="text"
                             autoComplete="off"
-                            className={`input101 readonly ${formik.errors.card_code &&
+                            className={`input101 readonly ${
+                              formik.errors.card_code &&
                               formik.touched.card_code
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             placeholder="Card Name"
                             onChange={formik.handleChange}
                             value={formik.values.card_code || ""}
@@ -354,11 +343,12 @@ const EditCards = (props) => {
                             Card Status <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.card_status &&
+                            className={`input101 ${
+                              formik.errors.card_status &&
                               formik.touched.card_status
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="card_status"
                             name="card_status"
                             onChange={formik.handleChange}
@@ -386,11 +376,12 @@ const EditCards = (props) => {
                             {/* <span className="text-danger">*</span> */}
                           </label>
                           <select
-                            className={`input101 ${formik.errors.is_bunkering &&
+                            className={`input101 ${
+                              formik.errors.is_bunkering &&
                               formik.touched.is_bunkering
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="is_bunkering"
                             name="is_bunkering"
                             onChange={formik.handleChange}
@@ -412,10 +403,11 @@ const EditCards = (props) => {
                         <div className="form-group">
                           <label htmlFor="image">Image</label>
                           <div
-                            className={`dropzone ${formik.errors.image && formik.touched.image
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`dropzone ${
+                              formik.errors.image && formik.touched.image
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             onDrop={(event) =>
                               handleDrop(event, formik.setFieldValue)
                             }

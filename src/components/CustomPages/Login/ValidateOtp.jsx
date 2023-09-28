@@ -9,7 +9,6 @@ import { Box } from "@material-ui/core";
 
 export default function ValidateOtp() {
   const authToken = localStorage.getItem("authToken");
-  console.log(authToken, "authToken");
 
   const [isLoading, setLoading] = useState(false);
 
@@ -39,10 +38,7 @@ export default function ValidateOtp() {
     });
   };
 
-  // console.log(Token, "my token");
-
   const handleSubmit = async (values) => {
-    console.log("valueonsubmit", values);
     setLoading(true);
     const response = await fetch(
       `${process.env.REACT_APP_BASE_URL}/verify/two-factor`,
@@ -103,7 +99,6 @@ export default function ValidateOtp() {
                   }}
                   validationSchema={ForgotPasswordSchema}
                   onSubmit={(values) => {
-                    console.log("before callling ", values);
                     handleSubmit(values);
                   }}
                 >

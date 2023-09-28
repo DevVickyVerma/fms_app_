@@ -29,7 +29,6 @@ const Notification = (props) => {
   const [total, setTotal] = useState(0);
 
   const handlePageChange = (newPage) => {
-    console.log(hasMorePage, "hasMorePage");
     setCurrentPage(newPage);
   };
 
@@ -48,7 +47,7 @@ const Notification = (props) => {
         setCount(response?.data?.data?.count);
         setCurrentPage(response?.data?.data?.currentPage);
         setHasMorePages(response?.data?.data?.hasMorePages);
-        console.log(response?.data?.data?.hasMorePages, "hasMorePages");
+
         setLastPage(response?.data?.data?.lastPage);
         setPerPage(response?.data?.data?.perPage);
         setTotal(response?.data?.data?.total);

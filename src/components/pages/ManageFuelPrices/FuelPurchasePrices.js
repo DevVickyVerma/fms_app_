@@ -53,13 +53,12 @@ const ManageDsr = (props) => {
 
   const handleItemClick = (event) => {
     setSelectedItems(event.target.value);
-    console.log(event.target.value);
 
     const selectedSiteNames = event.target.value;
     const filteredSites = selectedSiteList.filter((item) =>
       selectedSiteNames.includes(item.site_name)
     );
-    console.log(filteredSites, "filteredSites");
+
     formik.setFieldValue("sites", filteredSites);
   };
 
@@ -89,8 +88,6 @@ const ManageDsr = (props) => {
             setSelectedCompanyList([]);
 
             // setShowButton(false);
-            console.log(clientId, "clientId");
-            console.log(AddSiteData, "AddSiteData");
 
             if (response?.data) {
               const selectedClient = response?.data?.data?.find(
@@ -122,8 +119,6 @@ const ManageDsr = (props) => {
       );
       const { data } = response;
       if (data) {
-        console.log(data.data);
-
         setData(data?.data);
         const formValues = data?.data.map((item) => {
           return {
@@ -165,11 +160,6 @@ const ManageDsr = (props) => {
       developmentfuels_price !== undefined &&
       dutyprice !== undefined
     ) {
-      console.log("plattsPrice:", plattsPrice);
-      console.log("developmentfuels_price:", developmentfuels_price);
-      console.log("dutyprice:", dutyprice);
-      console.log("premiumPrice:", premiumPrice);
-
       const sum =
         (parseFloat(plattsPrice) +
           parseFloat(premiumPrice) +
@@ -177,7 +167,6 @@ const ManageDsr = (props) => {
           parseFloat(dutyprice)) /
         100;
 
-      console.log("Sum:", sum);
       const roundedSum = sum.toFixed(2);
       formik.setFieldValue(`data[${index}].ex_vat_price`, roundedSum);
     }
@@ -191,14 +180,9 @@ const ManageDsr = (props) => {
     const SumTotal = parseFloat(
       formik?.values?.data && formik.values.data[index]?.ex_vat_price
     );
-    console.log(formik.values.data, "formik.values.data");
-    console.log(SumTotal, "SumTotal");
-    // const sum = (SumTotal * plattsValue) / 100 + SumTotal;
-    console.log(plattsValue, "plattsValue");
-    console.log(SumTotal, "SumTotal");
 
     const sum = (SumTotal * plattsValue) / 100 + SumTotal;
-    console.log(sum, "sum");
+
     const roundedSum = Math.round(sum * 100) / 100; // Round to two decimal places
     const formattedSum = roundedSum.toFixed(2).padEnd(5, "0");
 
@@ -521,16 +505,6 @@ const ManageDsr = (props) => {
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
-
-    // if (
-    //   formik.values.sites === undefined ||
-    //   formik.values.sites === null ||
-    //   (Array.isArray(formik.values.sites) && formik.values.sites.length === 0)
-    // ) {
-    //   ErrorToast("Please Select a Site");
-    // }else{
-
-    // }
   };
 
   const [permissionsArray, setPermissionsArray] = useState([]);
@@ -656,11 +630,6 @@ const ManageDsr = (props) => {
                                   setSelectedCompanyList(
                                     selectedClient.companies
                                   );
-                                  console.log(selectedClient, "selectedClient");
-                                  console.log(
-                                    selectedClient.companies,
-                                    "selectedClient"
-                                  );
                                 }
                               }}
                             >
@@ -719,11 +688,6 @@ const ManageDsr = (props) => {
                                 );
                               if (selectedCompanyData) {
                                 setSelectedSiteList(selectedCompanyData.sites);
-                                console.log(selectedCompanyData, "company_id");
-                                console.log(
-                                  selectedCompanyData.sites,
-                                  "company_id"
-                                );
                               }
                             }}
                           >

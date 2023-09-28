@@ -90,7 +90,6 @@ export default function Login(props) {
         localStorage.setItem("role", data?.data?.role);
         localStorage.setItem("auto_logout", data?.data?.auto_logout);
         localStorage.setItem("authToken", data?.data?.token);
-        console.log(data?.data?.auto_logout, "auto_logout");
 
         if (data?.data?.is_verified === true) {
           navigate(data?.data?.route);

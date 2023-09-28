@@ -41,7 +41,6 @@ const CompetitorFuelPrices = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [accordionSiteID, setaccordionSiteID] = useState();
   const handleModalOpen = (item) => {
-    console.log(item, "handle");
     setModalOpen(true);
     setSelectedItem(item);
   };
@@ -180,8 +179,6 @@ const CompetitorFuelPrices = (props) => {
       };
 
       await handleSubmit1(values);
-
-      console.log(dataFromChild, "dataFromChild");
     } catch (error) {
       console.error("Error handling data from child:", error);
     }
@@ -287,14 +284,6 @@ const CompetitorFuelPrices = (props) => {
                                       setSelectedCompanyList(
                                         selectedClient.companies
                                       );
-                                      // console.log(
-                                      //   selectedClient,
-                                      //   "selectedClient"
-                                      // );
-                                      // console.log(
-                                      //   selectedClient.companies,
-                                      //   "selectedClient"
-                                      // );
                                     }
                                   }}
                                 >
@@ -350,14 +339,6 @@ const CompetitorFuelPrices = (props) => {
                                     setSelectedSiteList(
                                       selectedCompanyData.sites
                                     );
-                                    // console.log(
-                                    //   selectedCompanyData,
-                                    //   "company_id"
-                                    // );
-                                    // console.log(
-                                    //   selectedCompanyData.sites,
-                                    //   "company_id"
-                                    // );
                                   }
                                 }}
                               >
@@ -439,7 +420,6 @@ const CompetitorFuelPrices = (props) => {
                 <h3 className="card-title"> Competitor Fuel Price</h3>
               </Card.Header>
               <Card.Body>
-                {console.log(data, "Competitordata")}
                 {data ? (
                   <div>
                     {data &&
@@ -467,7 +447,6 @@ const CompetitorFuelPrices = (props) => {
                                           <span
                                             className="text-muted fs-15 ms-2 fw-semibold text-center fuel-site-name"
                                             onClick={() => {
-                                              console.log(site.id, "site.id");
                                               setaccordionSiteID(site.id);
                                               handleModalOpen(record);
                                             }}

@@ -134,10 +134,7 @@ const SiteSettings = (props) => {
     try {
       // Create a new FormData object
       const formData = new FormData();
-      console.log(
-        values.AssignFormikbussiness,
-        " values.AssignFormikbussiness"
-      );
+
       values.AssignFormikbussiness.forEach((obj) => {
         const { id, business_model_types, checked } = obj;
         const business_models_valueKey = `business_models[${id}]`;
@@ -301,8 +298,6 @@ const SiteSettings = (props) => {
 
   const handleRadioBussinessmodel = (row, index) => {
     const clickedModel = row.business_model_types[index];
-    console.log("Business Model Name:", row.item_name);
-    console.log("Clicked Value:", clickedModel);
 
     const updatedModels = BussinesModelData.map((item) => {
       if (item.id === row.id) {
@@ -318,7 +313,6 @@ const SiteSettings = (props) => {
       }
       return item;
     });
-    console.log("Business Model Name:", updatedModels);
 
     formik.setFieldValue("AssignFormikbussiness", updatedModels);
     setBussinesModelData(updatedModels);
@@ -336,7 +330,7 @@ const SiteSettings = (props) => {
     }));
     formik.setFieldValue("FormikreportsData", updatedRowData);
     setSelectAllCheckedReports(!selectAllCheckedReports);
-    console.log("Row data when header checkbox is clicked:", updatedRowData);
+
     formik.setFieldValue("FormikreportsData", updatedRowData);
   };
   const handleSelectAllDrsCards = () => {
@@ -346,19 +340,9 @@ const SiteSettings = (props) => {
     }));
     formik.setFieldValue("FormikDRSData", updatedRowData);
     setSelectAllCheckedDrsCards(!selectAllCheckedDrsCards);
-    console.log("Row data when header checkbox is clicked:", updatedRowData);
+
     formik.setFieldValue("FormikDRSData", updatedRowData);
   };
-  // const handleSelectAllFuels = () => {
-  //   const updatedRowData = fuelData.map((row) => ({
-  //     ...row,
-  //     checked: !selectAllCheckedFuels,
-  //   }));
-  //   formik.setFieldValue("FormikFuelData", updatedRowData);
-  //   setSelectAllCheckedFuels(!selectAllCheckedFuels);
-  //   console.log("Row data when header checkbox is clicked:", updatedRowData);
-  //   formik.setFieldValue("FormikFuelData", updatedRowData);
-  // };
 
   const BussinesModelColumn = [
     {
@@ -800,9 +784,7 @@ const SiteSettings = (props) => {
       ),
     },
   ];
-  // const handleCardClick = (row) => {
-  //   console.log(row, "row");
-  // };
+
   const FuelsModelColumn = [
     {
       name: "Select",

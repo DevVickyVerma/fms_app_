@@ -96,8 +96,6 @@ const DepartmentShop = (props) => {
         const { data } = response;
         if (data) {
           setData(data.data.takings);
-
-          console.log(data.data.takings, "formVdddalues");
         }
       } catch (error) {
         console.error("API error:", error);
@@ -109,56 +107,6 @@ const DepartmentShop = (props) => {
 
     fetchData();
   }, [site_id, client_id]);
-
-  //   const handleSubmit = async (values) => {
-  //     const token = localStorage.getItem("token");
-
-  //     console.log(values.data);
-
-  //     // Create a new FormData object
-  //     const formData = new FormData();
-
-  //     for (const obj of values.data) {
-  //       const { id, charge_value } = obj;
-  //       const charge_valueKey = `charge_value[${id}]`;
-
-  //       formData.append(charge_valueKey, charge_value);
-  //     }
-
-  //     formData.append("site_id", site_id);
-  //     formData.append("drs_date", client_id);
-
-  //     try {
-  //       setIsLoading(true);
-  //       const response = await fetch(
-  //         `${process.env.REACT_APP_BASE_URL}/valet-coffee/update`,
-  //         {
-  //           method: "POST",
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //           body: formData,
-  //         }
-  //       );
-
-  //       const responseData = await response.json(); // Read the response once
-
-  //       if (response.ok) {
-  //         console.log("Done");
-  //         SuccessToast(responseData.message);
-  //       } else {
-  //         ErrorToast(responseData.message);
-
-  //         console.log("API Error:", responseData);
-  //         // Handle specific error cases if needed
-  //       }
-  //     } catch (error) {
-  //       console.log("Request Error:", error);
-  //       // Handle request error
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
 
   const _renderFunction = () => {
     return Object.keys(data).map((item, index) => {

@@ -40,10 +40,7 @@ const EditSiteTank = (props) => {
       navigate("/login");
       Errornotify("Invalid access token");
       localStorage.clear();
-    } else if (
-      error.response &&
-      error.response.data.status_code === "403"
-    ) {
+    } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
     } else {
       const errorMessage = Array.isArray(error.response.data.message)
@@ -66,14 +63,11 @@ const EditSiteTank = (props) => {
 
   const FetchRoleList = async () => {
     try {
-      
-      
       const response = await getData(`/site-tank/${id}`);
 
       if (response) {
         formik.setValues(response.data.data);
-        console.log(formik.values);
-        console.log(response.data.data);
+
         setDropdownValue(response.data.data);
       } else {
         throw new Error("No data available in the response");
@@ -94,7 +88,6 @@ const EditSiteTank = (props) => {
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
-      console.log(formData, "formData");
 
       formData.append("tank_code", values.tank_code);
       formData.append("tank_name", values.tank_name);
@@ -123,8 +116,6 @@ const EditSiteTank = (props) => {
     }
   }, [UserPermissions]);
 
-
-
   const formik = useFormik({
     initialValues: {
       tank_code: "",
@@ -132,8 +123,7 @@ const EditSiteTank = (props) => {
       status: "1",
     },
     validationSchema: Yup.object({
-      tank_name: Yup.string()
-      .required("Site Tank Name is required"),
+      tank_name: Yup.string().required("Site Tank Name is required"),
 
       // tank_name: Yup.string()
       //   .required("Site Tank Name is required")
@@ -209,7 +199,8 @@ const EditSiteTank = (props) => {
                             className=" form-label mt-4"
                             htmlFor="tank_name"
                           >
-                            Site Tank Name <span className="text-danger">*</span>
+                            Site Tank Name{" "}
+                            <span className="text-danger">*</span>
                           </label>
                           <input
                             type="text"
@@ -269,16 +260,13 @@ const EditSiteTank = (props) => {
 
                       <Col lg={6} md={6}>
                         <div className="form-group">
-                          <label
-                            className=" form-label mt-4"
-                            htmlFor="status"
-                          >
-                            Site Tank Status <span className="text-danger">*</span>
+                          <label className=" form-label mt-4" htmlFor="status">
+                            Site Tank Status{" "}
+                            <span className="text-danger">*</span>
                           </label>
                           <select
                             className={`input101 ${
-                              formik.errors.status &&
-                              formik.touched.status
+                              formik.errors.status && formik.touched.status
                                 ? "is-invalid"
                                 : ""
                             }`}
@@ -290,12 +278,11 @@ const EditSiteTank = (props) => {
                             <option value="1">Active</option>
                             <option value="0">Inactive</option>
                           </select>
-                          {formik.errors.status &&
-                            formik.touched.status && (
-                              <div className="invalid-feedback">
-                                {formik.errors.status}
-                              </div>
-                            )}
+                          {formik.errors.status && formik.touched.status && (
+                            <div className="invalid-feedback">
+                              {formik.errors.status}
+                            </div>
+                          )}
                         </div>
                       </Col>
                     </Row>
@@ -323,6 +310,3 @@ const EditSiteTank = (props) => {
   );
 };
 export default withApi(EditSiteTank);
-
-
-

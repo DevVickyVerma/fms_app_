@@ -83,7 +83,8 @@ const AddAddon = (props) => {
       .catch((error) => {
         handleError(error);
       });
-  console.clear()  }, []);
+    console.clear();
+  }, []);
 
   const handleSubmit = async (values) => {
     const body = {
@@ -189,9 +190,6 @@ const AddAddon = (props) => {
       ...(event.target.checked ? permissionsInGroup : []),
     ]);
 
-    // Log the children names in the console
-    console.log(formik.values.permissions, "formik.values.permissions");
-
     setSelectAllPermissions(newSelectAllState);
   };
 
@@ -273,12 +271,9 @@ const AddAddon = (props) => {
                           <div>
                             {Object.keys(permissions.data).map((heading) => (
                               <div key={heading}>
-                              
                                 <div className="table-heading d-flex">
-                               
-
                                   <div className="heading-input ">
-                                  <input
+                                    <input
                                       className={`form-check-input ${
                                         formik.touched.permissions &&
                                         formik.errors.permissions
@@ -298,8 +293,8 @@ const AddAddon = (props) => {
                                     />
                                   </div>
                                   <div>
-                                <h2>{heading}</h2>
-                                </div>
+                                    <h2>{heading}</h2>
+                                  </div>
                                 </div>
                                 <div className="form-group">
                                   {permissions.data[heading].names.map(

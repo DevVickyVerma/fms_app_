@@ -70,7 +70,8 @@ export function LocalizedTimePicker() {
             {...params}
             className="form-control"
             placeholder="Set time"
-            type="text"  autoComplete="off"
+            type="text"
+            autoComplete="off"
           />
         )}
       />
@@ -96,7 +97,8 @@ export function BasicTimePicker() {
             className="form-control"
             id="tp1"
             placeholder="Set time"
-            type="text"  autoComplete="off"
+            type="text"
+            autoComplete="off"
           />
         )}
       />
@@ -124,7 +126,8 @@ export function ResponsiveTimePickers() {
             {...params}
             className="form-control"
             placeholder="Set time"
-            type="text"  autoComplete="off"
+            type="text"
+            autoComplete="off"
           />
         )}
       />
@@ -155,12 +158,9 @@ export function Dropimg() {
 }
 // //OuterDropzone
 export function OuterDropzone() {
-  const handleChangeStatus = ({ meta }, status) => {
-    console.log(status, meta);
-  };
+  const handleChangeStatus = ({ meta }, status) => {};
 
   const handleSubmit = (files, allFiles) => {
-    console.log(files.map((f) => f.meta));
     allFiles.forEach((f) => f.remove());
   };
 
@@ -205,7 +205,6 @@ export function Dropimg1() {
   };
 
   const handleSubmit = (files, allFiles) => {
-    console.log(files.map((f) => f.meta));
     allFiles.forEach((f) => f.remove());
   };
   return (
@@ -218,8 +217,8 @@ export function Dropimg1() {
 }
 //BasicMutipleSelect
 export const BasicMutipleSelect = () => {
-    const [selected, setSelected] = useState([]);
-    const options=[
+  const [selected, setSelected] = useState([]);
+  const options = [
     { value: "Audi", label: "Audi" },
     { value: "BMW", label: "BMW" },
     { value: "volkswagen", label: "volkswagen" },
@@ -229,14 +228,13 @@ export const BasicMutipleSelect = () => {
     { value: "fiat", label: "fiat" },
   ];
   return (
-
     <MultiSelect
-     value={selected}
-        onChange={setSelected}
-        labelledBy="Select"
-        disableSearch="true"
+      value={selected}
+      onChange={setSelected}
+      labelledBy="Select"
+      disableSearch="true"
       options={options}
-       showCheckbox="false"
+      showCheckbox="false"
     />
   );
 };
@@ -264,7 +262,7 @@ export const DisabledMutipleSelect = () => {
 //CustomSelectIcon
 export function CustomSelectIcon() {
   return (
-   <MultiSelect
+    <MultiSelect
       customCloseIcon={
         <>
           <i className="fa fa-clock-o tx-16 lh-0 op-6"></i>
@@ -324,27 +322,27 @@ export function CustomSelectIcon() {
 // //MultipleItems
 export function MultipleItems() {
   const [selected, setSelected] = useState([]);
- const options=[
+  const options = [
     { value: "1", label: "1" },
     { value: "2", label: "2" },
     { value: "3", label: "3" },
-    { value: "4", label: "4", disabled:"disabled"},
+    { value: "4", label: "4", disabled: "disabled" },
     { value: "5", label: "5" },
     { value: "6", label: "6" },
     { value: "7", label: "7" },
     { value: "8", label: "8" },
-    { value: "9", label: "9", disabled:"disabled"},
+    { value: "9", label: "9", disabled: "disabled" },
     { value: "10", label: "10" },
     { value: "11", label: "11" },
-   { value: "12", label: "12", disabled:"disabled"},
-  ]
+    { value: "12", label: "12", disabled: "disabled" },
+  ];
   return (
     <MultiSelect
-       options={options}
-        value={selected}
-        onChange={setSelected}
-        labelledBy="Select"
-        disableSearch="true"
+      options={options}
+      value={selected}
+      onChange={setSelected}
+      labelledBy="Select"
+      disableSearch="true"
     />
   );
 }
@@ -494,55 +492,56 @@ export function Singleselect1() {
     { value: "Third", label: "Group 1" },
     { value: "Fourth", label: "Group 2" },
   ];
-   const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState([]);
   return (
     <MultiSelect
-    value={selected}
-        onChange={setSelected}
-        labelledBy="Select"
-        disableSearch="true"
-      options={objectArraysingle}/>
+      value={selected}
+      onChange={setSelected}
+      labelledBy="Select"
+      disableSearch="true"
+      options={objectArraysingle}
+    />
   );
 }
 //CustomStyle
 export function CustomStyle() {
   const [selected, setSelected] = useState([]);
-  const options=[
-        {
-          value: "Group1",
-          label: "Brand",
-        },
-        {
-          value: "Group1",
-          label: "fiat",
-        },
-        {
-          value: "Group1",
-          label: "hyundai",
-        },
-        {
-          value: "Group2",
-          label: "Aston Martin",
-        },
-        {
-          value: "Group2",
-          label: "volkswagen",
-        },
-        {
-          value: "Group2",
-          label: "BMW",
-        },
-        {
-          value: "Group2",
-          label: "Audi",
-        },
-      ]
+  const options = [
+    {
+      value: "Group1",
+      label: "Brand",
+    },
+    {
+      value: "Group1",
+      label: "fiat",
+    },
+    {
+      value: "Group1",
+      label: "hyundai",
+    },
+    {
+      value: "Group2",
+      label: "Aston Martin",
+    },
+    {
+      value: "Group2",
+      label: "volkswagen",
+    },
+    {
+      value: "Group2",
+      label: "BMW",
+    },
+    {
+      value: "Group2",
+      label: "Audi",
+    },
+  ];
   return (
     <MultiSelect
       value={selected}
-        onChange={setSelected}
-        labelledBy="Select"
-        disableSearch="true"
+      onChange={setSelected}
+      labelledBy="Select"
+      disableSearch="true"
       options={options}
       shouldToggleOnHover="true"
     />
@@ -571,44 +570,45 @@ export function Selectfilter() {
 }
 //DisablePreselected
 export function DisablePreselected() {
-    const [selected, setSelected] = useState([]);
-   const  options=[
-        {
-          value: "Group 1",
-          label: " Brand",
-        },
-        {
-          value: "Group 1",
-          label: "BMW",
-        },
-        {
-          value: "Group 1",
-          label: "volkswagen",
-        },
-        {
-          value: "Group 2",
-          label: "Audi",
-        },
-        {
-          value: "Group 2",
-          label: "hyundai",
-        },
-        {
-          value: "Group 2",
-          label: "fiat",
-        },
-        {
-          value: "Group 2",
-          label: "Tatat",
-        },
-      ]
+  const [selected, setSelected] = useState([]);
+  const options = [
+    {
+      value: "Group 1",
+      label: " Brand",
+    },
+    {
+      value: "Group 1",
+      label: "BMW",
+    },
+    {
+      value: "Group 1",
+      label: "volkswagen",
+    },
+    {
+      value: "Group 2",
+      label: "Audi",
+    },
+    {
+      value: "Group 2",
+      label: "hyundai",
+    },
+    {
+      value: "Group 2",
+      label: "fiat",
+    },
+    {
+      value: "Group 2",
+      label: "Tatat",
+    },
+  ];
   return (
     <MultiSelect
-    value={selected}
-        onChange={setSelected}
-        labelledBy="Select"
-        disableSearch="true"
-      options={options}/>
+      value={selected}
+      onChange={setSelected}
+      labelledBy="Select"
+      disableSearch="true"
+      options={options}
+    />
   );
 }
 
@@ -842,7 +842,7 @@ export const OptgroupSupport = () => {
   );
 };
 
- //MultipleSelect2
+//MultipleSelect2
 export const MultipleSelect2 = () => {
   const [selectedOptions, setSelectedOptions] = useState([]);
 
@@ -958,7 +958,6 @@ export const SearchSelect45 = () => {
     </div>
   );
 };
-
 
 //SearchSelect22
 const groupedOptionsqa = [
@@ -1119,7 +1118,6 @@ export const Selectbox = () => {
   let [value, setValue] = useState(["PDF - Swap Valuation"]);
   function handleChange(selected) {
     setValue(selected);
-    console.log(selected);
   }
   const options = [
     {
@@ -1175,7 +1173,6 @@ export const Selectbox = () => {
         let words = filterInput.split(" ");
         let res = false;
         for (let word of words) {
-          console.log(word);
           res = new RegExp(word, "i").test(option.label);
           if (res === false) {
             break;

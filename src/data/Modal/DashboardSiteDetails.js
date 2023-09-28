@@ -104,7 +104,6 @@ const CustomModal = ({
       if (response) {
         setData(response?.data?.data);
         setmonth(response?.data?.data?.month);
-        // console.log(response?.data?.data?.month, "axiosInstance");
       }
     } catch (error) {
       handleError(error);

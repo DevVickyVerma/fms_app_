@@ -118,7 +118,6 @@ const CoffeeValet = (props) => {
 
           // Set the formik values using setFieldValue
           formik.setFieldValue("data", formValues);
-          console.log(formValues, "formValues");
         }
       } catch (error) {
         console.error("API error:", error);
@@ -133,8 +132,6 @@ const CoffeeValet = (props) => {
 
   const handleSubmit = async (values) => {
     const token = localStorage.getItem("token");
-
-    console.log(values.data);
 
     // Create a new FormData object
     const formData = new FormData();
@@ -219,13 +216,11 @@ const CoffeeValet = (props) => {
       const responseData = await response.json(); // Read the response once
 
       if (response.ok) {
-        console.log("Done");
         SuccessToast(responseData.message);
         handleButtonClick();
       } else {
         ErrorToast(responseData.message);
 
-        console.log("API Error:", responseData);
         // Handle specific error cases if needed
       }
     } catch (error) {
@@ -608,8 +603,6 @@ const CoffeeValet = (props) => {
       }
       if (item.commission) {
         totalCommission += parseFloat(item.commission);
-        // console.log("my total value", totalCommission);
-        // console.log("itemcommision", item.commission);
       }
       if (item.value) {
         totalValuesValue += parseFloat(item.value);
@@ -624,16 +617,9 @@ const CoffeeValet = (props) => {
       totalCommission?.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]
     );
 
-    console.log("totalCommissiontotalCommission", totalCommission);
-    console.log(
-      "totalCommissiontotalCommission",
-      totalCommission?.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]
-    );
     setMyValuesTotalValue(
       totalValuesValue.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]
     );
-    // console.log("Total Saleeeee:", totalSale.toFixed(2));
-    // console.log("Total Commissionnnnnn:", totalCommission.toFixed(2));
   };
 
   useEffect(() => {

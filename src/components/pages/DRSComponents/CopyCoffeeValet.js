@@ -125,7 +125,6 @@ const CoffeeValet = (props) => {
 
           // Set the formik values using setFieldValue
           formik.setFieldValue("data", formValues);
-          console.log(formValues, "formValues");
         }
       } catch (error) {
         console.error("API error:", error);
@@ -140,8 +139,6 @@ const CoffeeValet = (props) => {
 
   const handleSubmit = async (values) => {
     const token = localStorage.getItem("token");
-
-    console.log(values.data);
 
     // Create a new FormData object
     const formData = new FormData();
@@ -226,14 +223,10 @@ const CoffeeValet = (props) => {
       const responseData = await response.json(); // Read the response once
 
       if (response.ok) {
-        console.log("Done");
         SuccessToast(responseData.message);
         handleButtonClick();
       } else {
         ErrorToast(responseData.message);
-
-        console.log("API Error:", responseData);
-        // Handle specific error cases if needed
       }
     } catch (error) {
       console.log("Request Error:", error);
@@ -243,8 +236,6 @@ const CoffeeValet = (props) => {
     }
   };
   const handleChangeForUpdate = async (values) => {
-    console.log(values.data, "mayvaluesdata");
-
     let totalOpeningValue = 0;
     let totalClosingValue = 0;
     let totalTestValue = 0;
@@ -321,8 +312,6 @@ const CoffeeValet = (props) => {
     setMyValuesTotalValue(totalValuesValue);
     setMyCommissionRateTotalValue(totalCommissionRateValue);
     setMyCommissionValueTotalValue(totalCommissionValue);
-
-    // console.log("totalOpeningValue", totalOpeningValue);
   };
 
   const columns = [
@@ -703,13 +692,6 @@ const CoffeeValet = (props) => {
     const priceAmount = Number(formik?.values?.data?.[index]?.price);
     const comrate = Number(formik?.values?.data?.[index]?.com_rate);
 
-    for (let index = 0; index < formik?.values?.data?.length; index++) {
-      console.log(
-        `Saless at index ${index}:`,
-        formik?.values?.data[index]?.sale
-      );
-    }
-
     if (
       !isNaN(closingAmount) &&
       !isNaN(saleAmount) &&
@@ -727,10 +709,6 @@ const CoffeeValet = (props) => {
       formik.setFieldValue(`data[${index}].sale`, sale);
       formik.setFieldValue(`data[${index}].value`, value);
       formik.setFieldValue(`data[${index}].commission`, commission);
-
-      console.log(SalesAmount, "SalesAmount");
-      console.log(ValueAmount, "ValueAmount");
-      console.log(comrateAmount, "comrateAmount");
     } else {
       console.log("Invalid or missing numeric values");
     }

@@ -90,7 +90,7 @@ const CustomModal = ({
 
         const responseData = response?.data?.data;
         setData(responseData);
-        console.log(response?.data?.data, "response?.data?.data");
+
         // Initialize Formik values with the fetched data
         formik.setValues({
           siteId: selectedItem.id, // Save site_id in Formik
@@ -168,9 +168,6 @@ const CustomModal = ({
       });
     });
 
-    for (const [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
     formData.append("drs_date", selectedDrsDate);
     formData.append("site_id", selectedItem.id);
     formData.append("notify_operator", isChecked);
@@ -181,8 +178,6 @@ const CustomModal = ({
         Authorization: `Bearer ${token}`,
       },
     });
-
-    console.log(values, "values");
 
     try {
       const response = await axiosInstance.post(

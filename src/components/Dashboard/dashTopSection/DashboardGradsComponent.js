@@ -86,9 +86,6 @@ const DashboardGradsComponent = ({
   const startDate = format(state[0].startDate, "yyyy-MM-dd"); // Format start date
   const endDate = format(state[0].endDate, "yyyy-MM-dd"); // Format end date
 
-  // console.log("startdate", startDate);
-  // console.log(endDate, "enddate");
-
   const isButtonDisabled = !startDate || !endDate;
 
   const fetchData = async () => {
@@ -136,12 +133,10 @@ const DashboardGradsComponent = ({
           setGradsLoading(false);
         } catch (error) {
           // Handle errors that occur during the asynchronous operations
-          console.error("API error:", error);
           setGradsLoading(false);
         }
       }
     } catch (error) {
-      console.log(error);
       setGradsLoading(false);
     }
     setGradsLoading(false);

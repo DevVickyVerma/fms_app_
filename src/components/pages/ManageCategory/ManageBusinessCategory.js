@@ -32,7 +32,6 @@ const ManageBusinessCategory = (props) => {
   const FetchTableData = async () => {
     try {
       const response = await getData("/business/category");
-      console.log(response.data.data, "ddd");
 
       if (response && response.data && response.data.data) {
         setData(response.data.data);
@@ -65,7 +64,7 @@ const ManageBusinessCategory = (props) => {
   const DeleteClient = async (formData) => {
     try {
       const response = await postData("business/category/delete", formData);
-      console.log(response, "response"); // Console log the response
+      // Console log the response
       if (apidata.api_response === "success") {
         FetchTableData();
       }
@@ -110,7 +109,7 @@ const ManageBusinessCategory = (props) => {
         "business/category/update-status",
         formData
       );
-      console.log(response, "response"); // Console log the response
+      // Console log the response
       if (apidata.api_response === "success") {
         FetchTableData();
       }
@@ -353,31 +352,36 @@ const ManageBusinessCategory = (props) => {
                 <h3 className="card-title">Manage Business Category</h3>
               </Card.Header>
               <Card.Body>
-
-                {data?.length > 0 ? <>
-                  <div className="table-responsive deleted-table">
-                    <DataTableExtensions {...tableDatas}>
-                      <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        striped={true}
-                        // center={true}
-                        persistTableHead
-                        pagination
-                        paginationPerPage={20}
-                        highlightOnHover
-                        searchable={true}
-                      />
-                    </DataTableExtensions>
-                  </div>
-                </> : <>
-
-                  <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
-
-                </>}
+                {data?.length > 0 ? (
+                  <>
+                    <div className="table-responsive deleted-table">
+                      <DataTableExtensions {...tableDatas}>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          // center={true}
+                          persistTableHead
+                          pagination
+                          paginationPerPage={20}
+                          highlightOnHover
+                          searchable={true}
+                        />
+                      </DataTableExtensions>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      alt="MyChartImage"
+                      className="all-center-flex nodata-image"
+                    />
+                  </>
+                )}
               </Card.Body>
             </Card>
           </Col>

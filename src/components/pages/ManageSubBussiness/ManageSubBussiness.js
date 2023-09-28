@@ -58,7 +58,6 @@ const ManageSubBusinessTypes = (props) => {
   const handleFetchData = async () => {
     try {
       const response = await getData("/business/sub-types");
-      console.log(response.data.data, "ddd");
 
       if (response && response.data && response.data.data) {
         setData(response.data.data);
@@ -87,7 +86,7 @@ const ManageSubBusinessTypes = (props) => {
         "business/update-sub-type-status",
         formData
       );
-      console.log(response, "response"); // Console log the response
+      // Console log the response
       if (apidata.api_response === "success") {
         handleFetchData();
       }

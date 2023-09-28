@@ -40,7 +40,7 @@ const AddSiteNozzle = (props) => {
         client_id: values.client_id,
         company_id: values.company_id,
       };
-  
+
       localStorage.setItem("SiteNozzle", JSON.stringify(tank));
       const formData = new FormData();
       formData.append("name", values.name);
@@ -73,8 +73,6 @@ const AddSiteNozzle = (props) => {
     }
   }, [UserPermissions]);
 
-
-
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -83,7 +81,7 @@ const AddSiteNozzle = (props) => {
     },
   });
 
- const handleFetchData = async () => {
+  const handleFetchData = async () => {
     try {
       const response = await getData("/client/commonlist");
 
@@ -101,8 +99,6 @@ const AddSiteNozzle = (props) => {
             setSelectedCompanyList([]);
 
             // setShowButton(false);
-            console.log(clientId, "clientId");
-            console.log(AddSiteData, "AddSiteData");
 
             if (response?.data) {
               const selectedClient = response?.data?.data?.find(
@@ -121,14 +117,15 @@ const AddSiteNozzle = (props) => {
   };
 
   useEffect(() => {
-        setclientIDLocalStorage(localStorage.getItem("superiorId"));
+    setclientIDLocalStorage(localStorage.getItem("superiorId"));
     handleFetchData();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
 
   const handleFuelChange = async (id) => {
     try {
       const response = await axiosInstance.get(`/site/fuel/list?site_id=${id}`);
-      console.log(response);
+
       if (response.data) {
         setSelectedFuelList(response.data);
       }
@@ -140,7 +137,7 @@ const AddSiteNozzle = (props) => {
   const handlePumpChange = async (id) => {
     try {
       const response = await axiosInstance.get(`/site-pump/list?site_id=${id}`);
-      console.log(response);
+
       if (response.data) {
         setSelectedFuelList(response.data);
       }
@@ -194,7 +191,6 @@ const AddSiteNozzle = (props) => {
                     site_pump_id: "",
                   }}
                   validationSchema={Yup.object({
-                  
                     company_id: Yup.string().required("Company is required"),
                     site_id: Yup.string().required("Site is required"),
                     fuel_id: Yup.string().required("Fuel Name is required"),
@@ -202,9 +198,9 @@ const AddSiteNozzle = (props) => {
                       "Pump Name is required"
                     ),
 
-                    name: Yup.string()
-                     
-                      .required(" Site Nozzle Name is required"),
+                    name: Yup.string().required(
+                      " Site Nozzle Name is required"
+                    ),
 
                     code: Yup.string()
                       .required("Site Nozzle Code is required")
@@ -235,74 +231,67 @@ const AddSiteNozzle = (props) => {
                         <Row>
                           {localStorage.getItem("superiorRole") !==
                             "Client" && (
-                          <Col lg={6} md={12}>
-                            <FormGroup>
-                              <label
-                                htmlFor="client_id"
-                                className=" form-label mt-4"
-                              >
-                                Client
-                                <span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${
-                                  errors.client_id && touched.client_id
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="client_id"
-                                name="client_id"
-                                onChange={(e) => {
-                                  const selectedType = e.target.value;
-                                  setFieldValue("client_id", selectedType);
-                                  setSelectedClientId(selectedType);
+                            <Col lg={6} md={12}>
+                              <FormGroup>
+                                <label
+                                  htmlFor="client_id"
+                                  className=" form-label mt-4"
+                                >
+                                  Client
+                                  <span className="text-danger">*</span>
+                                </label>
+                                <Field
+                                  as="select"
+                                  className={`input101 ${
+                                    errors.client_id && touched.client_id
+                                      ? "is-invalid"
+                                      : ""
+                                  }`}
+                                  id="client_id"
+                                  name="client_id"
+                                  onChange={(e) => {
+                                    const selectedType = e.target.value;
+                                    setFieldValue("client_id", selectedType);
+                                    setSelectedClientId(selectedType);
 
-                                  // Reset the selected company and site
-                                  setSelectedCompanyList([]);
-                                  setFieldValue("company_id", "");
-                                  setFieldValue("site_id", "");
+                                    // Reset the selected company and site
+                                    setSelectedCompanyList([]);
+                                    setFieldValue("company_id", "");
+                                    setFieldValue("site_id", "");
 
-                                  const selectedClient = AddSiteData.data.find(
-                                    (client) => client.id === selectedType
-                                  );
+                                    const selectedClient =
+                                      AddSiteData.data.find(
+                                        (client) => client.id === selectedType
+                                      );
 
-                                  if (selectedClient) {
-                                    setSelectedCompanyList(
-                                      selectedClient.companies
-                                    );
-                                    console.log(
-                                      selectedClient,
-                                      "selectedClient"
-                                    );
-                                    console.log(
-                                      selectedClient.companies,
-                                      "selectedClient"
-                                    );
-                                  }
-                                }}
-                              >
-                                <option value="">Select a Client</option>
-                                {AddSiteData.data &&
-                                AddSiteData.data.length > 0 ? (
-                                  AddSiteData.data.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.client_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Client</option>
-                                )}
-                              </Field>
+                                    if (selectedClient) {
+                                      setSelectedCompanyList(
+                                        selectedClient.companies
+                                      );
+                                    }
+                                  }}
+                                >
+                                  <option value="">Select a Client</option>
+                                  {AddSiteData.data &&
+                                  AddSiteData.data.length > 0 ? (
+                                    AddSiteData.data.map((item) => (
+                                      <option key={item.id} value={item.id}>
+                                        {item.client_name}
+                                      </option>
+                                    ))
+                                  ) : (
+                                    <option disabled>No Client</option>
+                                  )}
+                                </Field>
 
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="client_id"
-                              />
-                            </FormGroup>
-                          </Col>
-                              )}
+                                <ErrorMessage
+                                  component="div"
+                                  className="invalid-feedback"
+                                  name="client_id"
+                                />
+                              </FormGroup>
+                            </Col>
+                          )}
                           <Col lg={6} md={12}>
                             <FormGroup>
                               <label
@@ -333,14 +322,6 @@ const AddSiteNozzle = (props) => {
                                   if (selectedCompanyData) {
                                     setSelectedSiteList(
                                       selectedCompanyData.sites
-                                    );
-                                    console.log(
-                                      selectedCompanyData,
-                                      "company_id"
-                                    );
-                                    console.log(
-                                      selectedCompanyData.sites,
-                                      "company_id"
                                     );
                                   }
                                 }}
@@ -456,8 +437,7 @@ const AddSiteNozzle = (props) => {
                                 name="fuel_id"
                               />
                             </FormGroup>
-                          </Col> 
-                         
+                          </Col>
                         </Row>
                         <Row>
                           <Col lg={6} md={12}>
@@ -490,8 +470,8 @@ const AddSiteNozzle = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                            {/* Fuel Name */}
-                            <Col lg={6} md={12}>
+                          {/* Fuel Name */}
+                          <Col lg={6} md={12}>
                             <FormGroup>
                               <label
                                 className=" form-label mt-4"
@@ -520,7 +500,6 @@ const AddSiteNozzle = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                           
                         </Row>
                         <Row>
                           <Col lg={6} md={12}>

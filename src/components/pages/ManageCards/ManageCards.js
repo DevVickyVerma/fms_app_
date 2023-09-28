@@ -99,7 +99,6 @@ const ManageCards = (props) => {
   const [total, setTotal] = useState(0);
 
   const handlePageChange = (newPage) => {
-    console.log(hasMorePage, "hasMorePage");
     setCurrentPage(newPage);
   };
 
@@ -120,7 +119,7 @@ const ManageCards = (props) => {
   const ToggleStatus = async (formData) => {
     try {
       const response = await postData("card/update-status", formData);
-      console.log(response, "response"); // Console log the response
+      // Console log the response
       if (apidata.api_response === "success") {
         FetchTableData(currentPage);
       }
@@ -225,7 +224,7 @@ const ManageCards = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-        // onClick={() => handleToggleSidebar(row)}
+          // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
@@ -420,52 +419,61 @@ const ManageCards = (props) => {
                 <h3 className="card-title">Manage Cards</h3>
               </Card.Header>
               <Card.Body>
-
-                {data?.length > 0 ? <>
-                  <div className="table-responsive deleted-table">
-                    <DataTableExtensions {...tableDatas}>
-                      <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        striped={true}
-                        // center={true}
-                        persistTableHead
-                        // pagination
-                        paginationPerPage={20}
-                        highlightOnHover
-                        searchable={true}
-                      />
-                    </DataTableExtensions>
-                  </div>
-                </> : <>
-
-                  <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
-
-                </>}
+                {data?.length > 0 ? (
+                  <>
+                    <div className="table-responsive deleted-table">
+                      <DataTableExtensions {...tableDatas}>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          // center={true}
+                          persistTableHead
+                          // pagination
+                          paginationPerPage={20}
+                          highlightOnHover
+                          searchable={true}
+                        />
+                      </DataTableExtensions>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      alt="MyChartImage"
+                      className="all-center-flex nodata-image"
+                    />
+                  </>
+                )}
               </Card.Body>
               <Card.Footer>
-                {data?.length > 0 ? <>
-                  <div style={{ float: "right" }}>
-                    <Pagination>
-                      <Pagination.First onClick={() => handlePageChange(1)} />
-                      <Pagination.Prev
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
-                      />
-                      {pages}
-                      <Pagination.Next
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === lastPage}
-                      />
-                      <Pagination.Last
-                        onClick={() => handlePageChange(lastPage)}
-                      />
-                    </Pagination>
-                  </div>
-                </> : <></>}
+                {data?.length > 0 ? (
+                  <>
+                    <div style={{ float: "right" }}>
+                      <Pagination>
+                        <Pagination.First onClick={() => handlePageChange(1)} />
+                        <Pagination.Prev
+                          onClick={() => handlePageChange(currentPage - 1)}
+                          disabled={currentPage === 1}
+                        />
+                        {pages}
+                        <Pagination.Next
+                          onClick={() => handlePageChange(currentPage + 1)}
+                          disabled={currentPage === lastPage}
+                        />
+                        <Pagination.Last
+                          onClick={() => handlePageChange(lastPage)}
+                        />
+                      </Pagination>
+                    </div>
+                  </>
+                ) : (
+                  <></>
+                )}
               </Card.Footer>
             </Card>
           </Col>

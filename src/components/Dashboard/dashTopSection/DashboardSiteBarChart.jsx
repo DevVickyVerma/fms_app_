@@ -114,7 +114,6 @@ const DashboardSiteBarChart = () => {
     // Fetch or calculate data for the selected dateIndex and update dataForSelectedDate state
     // For example: setDataForSelectedDate(newData);
 
-    console.log("my selcted indexx and date", dateIndex, date);
     setSelectedDate(dateIndex);
   };
 

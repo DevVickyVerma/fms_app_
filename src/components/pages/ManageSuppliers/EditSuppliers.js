@@ -31,7 +31,7 @@ const Editsuppliers = (props) => {
   const [subTypes, setSubTypes] = useState([]);
   const [EditSiteData, setEditSiteData] = useState();
   const [previewImage, setPreviewImage] = useState(null);
- 
+
   const [isDragging, setIsDragging] = useState(false);
 
   const notify = (message) => toast.success(message);
@@ -54,10 +54,7 @@ const Editsuppliers = (props) => {
   }
   const { id } = useParams();
 
- 
-
   useEffect(() => {
- 
     try {
       FetchRoleList();
     } catch (error) {
@@ -66,17 +63,14 @@ const Editsuppliers = (props) => {
     console.clear();
   }, [id]);
 
-
   const FetchRoleList = async () => {
-   
     const url = `/supplier`;
     try {
-      const response = await getData(url, id,);
+      const response = await getData(url, id);
 
       if (response) {
         formik.setValues(response.data.data);
-        console.log(formik.values);
-        console.log(response.data.data);
+
         setDropdownValue(response.data.data);
       } else {
         throw new Error("No data available in the response");
@@ -97,7 +91,6 @@ const Editsuppliers = (props) => {
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
-      console.log(formData, "formData");
 
       formData.append("supplier_code", values.supplier_code);
       formData.append("supplier_name", values.supplier_name);
@@ -118,7 +111,7 @@ const Editsuppliers = (props) => {
     setFieldValue("image", file);
 
     // Preview the image
- 
+
     reader.onload = () => {
       setPreviewImage(reader.result);
     };
@@ -139,12 +132,11 @@ const Editsuppliers = (props) => {
     reader.readAsDataURL(file);
   };
 
-
   const formik = useFormik({
     initialValues: {
       supplier_code: "",
       supplier_name: "",
-      status:"1",
+      status: "1",
     },
     validationSchema: Yup.object({
       supplier_code: Yup.string()
@@ -172,136 +164,135 @@ const Editsuppliers = (props) => {
 
   return (
     <>
-    {isLoading ? (
-     <Loaderimg />
-    ) : null}
-        <>
-          <div>
-            <div className="page-header">
-              <div>
-                <h1 className="page-title">Edit Supplier</h1>
+      {isLoading ? <Loaderimg /> : null}
+      <>
+        <div>
+          <div className="page-header">
+            <div>
+              <h1 className="page-title">Edit Supplier</h1>
 
-                <Breadcrumb className="breadcrumb">
-                  <Breadcrumb.Item
-                    className="breadcrumb-item"
-                    linkAs={Link}
-                    linkProps={{ to: "/dashboard" }}
-                  >
-                    Dashboard
-                  </Breadcrumb.Item>
-                  <Breadcrumb.Item
-                    className="breadcrumb-item  breadcrumds"
-                    aria-current="page"
-                    linkAs={Link}
-                    linkProps={{ to: "/managesuppliers" }}
-                  >
-                    Manage Supplier
-                  </Breadcrumb.Item>
-                  <Breadcrumb.Item
-                    className="breadcrumb-item active breadcrumds"
-                    aria-current="page"
-                  >
-                    Edit Supplier
-                  </Breadcrumb.Item>
-                </Breadcrumb>
-              </div>
+              <Breadcrumb className="breadcrumb">
+                <Breadcrumb.Item
+                  className="breadcrumb-item"
+                  linkAs={Link}
+                  linkProps={{ to: "/dashboard" }}
+                >
+                  Dashboard
+                </Breadcrumb.Item>
+                <Breadcrumb.Item
+                  className="breadcrumb-item  breadcrumds"
+                  aria-current="page"
+                  linkAs={Link}
+                  linkProps={{ to: "/managesuppliers" }}
+                >
+                  Manage Supplier
+                </Breadcrumb.Item>
+                <Breadcrumb.Item
+                  className="breadcrumb-item active breadcrumds"
+                  aria-current="page"
+                >
+                  Edit Supplier
+                </Breadcrumb.Item>
+              </Breadcrumb>
             </div>
+          </div>
 
-            <Row>
-              <Col lg={12} xl={12} md={12} sm={12}>
-                <Card>
-                  <Card.Header>
-                    <Card.Title as="h3">Edit Supplier</Card.Title>
-                  </Card.Header>
+          <Row>
+            <Col lg={12} xl={12} md={12} sm={12}>
+              <Card>
+                <Card.Header>
+                  <Card.Title as="h3">Edit Supplier</Card.Title>
+                </Card.Header>
 
-                  <div class="card-body">
-                    <form onSubmit={formik.handleSubmit}>
-                      <Row>
-                        <Col lg={6} md={6}>
-                          <div className="form-group">
-                            <label htmlFor="supplier_name">
-                              Supplier Name{" "}
-                              <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              type="text"  autoComplete="off"
-                              className={`input101 ${
-                                formik.errors.supplier_name &&
-                                formik.touched.supplier_name
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
-                              id="supplier_name"
-                              name="supplier_name"
-                              placeholder="Supplier Name"
-                              onChange={formik.handleChange}
-                              value={formik.values.supplier_name || ""}
-                            />
-                            {formik.errors.supplier_name &&
-                              formik.touched.supplier_name && (
-                                <div className="invalid-feedback">
-                                  {formik.errors.supplier_name}
-                                </div>
-                              )}
-                          </div>
-                        </Col>
-                        <Col lg={6} md={6}>
-                          <div className="form-group">
-                            <label htmlFor="supplier_code">
-                              Supplier Code
-                              <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              id="supplier_code"
-                              name="supplier_code"
-                              type="text"  autoComplete="off"
-                              className={`input101 readonly ${
-                                formik.errors.supplier_code &&
-                                formik.touched.supplier_code
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
-                              placeholder="Supplier Code"
-                              onChange={formik.handleChange}
-                              value={formik.values.supplier_code || ""}
-                              readOnly
-                            />
-                            {formik.errors.supplier_code &&
-                              formik.touched.supplier_code && (
-                                <div className="invalid-feedback">
-                                  {formik.errors.supplier_code}
-                                </div>
-                              )}
-                          </div>
-                        </Col>
-
-                        <Col lg={6} md={6}>
-                          <div className="form-group">
-                            <label htmlFor="status">
-                              Status <span className="text-danger">*</span>
-                            </label>
-                            <select
-                              className={`input101 ${
-                                formik.errors.status && formik.touched.status
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
-                              id="status"
-                              name="status"
-                              onChange={formik.handleChange}
-                              value={formik.values.status}
-                            >
-                              <option value="1">Active</option>
-                              <option value="0">Inactive</option>
-                            </select>
-                            {formik.errors.status && formik.touched.status && (
+                <div class="card-body">
+                  <form onSubmit={formik.handleSubmit}>
+                    <Row>
+                      <Col lg={6} md={6}>
+                        <div className="form-group">
+                          <label htmlFor="supplier_name">
+                            Supplier Name <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            autoComplete="off"
+                            className={`input101 ${
+                              formik.errors.supplier_name &&
+                              formik.touched.supplier_name
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="supplier_name"
+                            name="supplier_name"
+                            placeholder="Supplier Name"
+                            onChange={formik.handleChange}
+                            value={formik.values.supplier_name || ""}
+                          />
+                          {formik.errors.supplier_name &&
+                            formik.touched.supplier_name && (
                               <div className="invalid-feedback">
-                                {formik.errors.status}
+                                {formik.errors.supplier_name}
                               </div>
                             )}
-                          </div>
-                        </Col>
-                        <Col lg={6} md={12}>
+                        </div>
+                      </Col>
+                      <Col lg={6} md={6}>
+                        <div className="form-group">
+                          <label htmlFor="supplier_code">
+                            Supplier Code
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            id="supplier_code"
+                            name="supplier_code"
+                            type="text"
+                            autoComplete="off"
+                            className={`input101 readonly ${
+                              formik.errors.supplier_code &&
+                              formik.touched.supplier_code
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            placeholder="Supplier Code"
+                            onChange={formik.handleChange}
+                            value={formik.values.supplier_code || ""}
+                            readOnly
+                          />
+                          {formik.errors.supplier_code &&
+                            formik.touched.supplier_code && (
+                              <div className="invalid-feedback">
+                                {formik.errors.supplier_code}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+
+                      <Col lg={6} md={6}>
+                        <div className="form-group">
+                          <label htmlFor="status">
+                            Status <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.status && formik.touched.status
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="status"
+                            name="status"
+                            onChange={formik.handleChange}
+                            value={formik.values.status}
+                          >
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
+                          </select>
+                          {formik.errors.status && formik.touched.status && (
+                            <div className="invalid-feedback">
+                              {formik.errors.status}
+                            </div>
+                          )}
+                        </div>
+                      </Col>
+                      <Col lg={6} md={12}>
                         <div className="form-group">
                           <label htmlFor="image">Image</label>
                           <div
@@ -341,28 +332,27 @@ const Editsuppliers = (props) => {
                           </div>
                         )}
                       </Col>
-                      </Row>
-                      <div className="text-end">
-                        <Link
-                          type="submit"
-                          className="btn btn-danger me-2 "
-                          to={`/managesuppliers/`}
-                        >
-                          Cancel
-                        </Link>
+                    </Row>
+                    <div className="text-end">
+                      <Link
+                        type="submit"
+                        className="btn btn-danger me-2 "
+                        to={`/managesuppliers/`}
+                      >
+                        Cancel
+                      </Link>
 
-                        <button type="submit" className="btn btn-primary">
-                          Submit
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </Card>
-              </Col>
-            </Row>
-          </div>
-        </>
-
+                      <button type="submit" className="btn btn-primary">
+                        Submit
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </Card>
+            </Col>
+          </Row>
+        </div>
+      </>
     </>
   );
 };

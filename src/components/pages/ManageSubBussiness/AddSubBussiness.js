@@ -68,16 +68,15 @@ const AddSubBussiness = (props) => {
 
   useEffect(() => {
     handleFetchData();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
 
   const handleFetchData = async () => {
     try {
       const response = await getData("/business/types");
-      console.log(response.data.data, "ddd");
 
       if (response && response.data && response.data.data) {
         setDropdownValue(response.data);
-        console.log(response.data.data, "sssss");
       } else {
         throw new Error("No data available in the response");
       }
@@ -87,23 +86,24 @@ const AddSubBussiness = (props) => {
   };
   const [permissionsArray, setPermissionsArray] = useState([]);
   const [isPermissionsSet, setIsPermissionsSet] = useState(false);
-  
+
   const UserPermissions = useSelector((state) => state?.data?.data);
-  
+
   useEffect(() => {
     if (UserPermissions) {
       setPermissionsArray(UserPermissions?.permissions);
       setIsPermissionsSet(true);
     }
   }, [UserPermissions]);
-  
+
   useEffect(() => {
     if (isPermissionsSet) {
-      const isAddPermissionAvailable = permissionsArray?.includes("business-sub-type-create");
-    
+      const isAddPermissionAvailable = permissionsArray?.includes(
+        "business-sub-type-create"
+      );
+
       if (permissionsArray?.length > 0) {
         if (isAddPermissionAvailable) {
-          console.log(isAddPermissionAvailable, "AddPermissionAvailable");
           // Perform action when permission is available
           // Your code here
         } else {
@@ -116,9 +116,6 @@ const AddSubBussiness = (props) => {
       }
     }
   }, [isPermissionsSet, permissionsArray]);
-
-
-
 
   return (
     <>
@@ -163,9 +160,9 @@ const AddSubBussiness = (props) => {
                     business_type_id: "",
                   }}
                   validationSchema={Yup.object({
-                    business_name: Yup.string()
-                     
-                      .required(" Bussiness Name is required"),
+                    business_name: Yup.string().required(
+                      " Bussiness Name is required"
+                    ),
                     business_type_id: Yup.string().required(
                       "Business Type is required"
                     ),
@@ -196,11 +193,15 @@ const AddSubBussiness = (props) => {
                         <Row>
                           <Col lg={6} md={12}>
                             <FormGroup>
-                            <label  className=" form-label mt-4"  htmlFor="business_name">
+                              <label
+                                className=" form-label mt-4"
+                                htmlFor="business_name"
+                              >
                                 Bussiness Name
                               </label>
                               <Field
-                                type="text"  autoComplete="off"
+                                type="text"
+                                autoComplete="off"
                                 // className="form-control"
                                 className={`input101 ${
                                   errors.business_name && touched.business_name
@@ -220,9 +221,15 @@ const AddSubBussiness = (props) => {
                           </Col>
                           <Col lg={6} md={12}>
                             <FormGroup>
-                            <label  className=" form-label mt-4"  htmlFor="slug">Slug</label>
+                              <label
+                                className=" form-label mt-4"
+                                htmlFor="slug"
+                              >
+                                Slug
+                              </label>
                               <Field
-                                type="text"  autoComplete="off"
+                                type="text"
+                                autoComplete="off"
                                 className={`input101 ${
                                   errors.slug && touched.slug
                                     ? "is-invalid"
@@ -244,7 +251,12 @@ const AddSubBussiness = (props) => {
                         <Row>
                           <Col lg={6} md={12}>
                             <FormGroup>
-                            <label  className=" form-label mt-4"  htmlFor="status">Status</label>
+                              <label
+                                className=" form-label mt-4"
+                                htmlFor="status"
+                              >
+                                Status
+                              </label>
                               <Field
                                 as="select"
                                 className={`input101 ${
@@ -255,7 +267,6 @@ const AddSubBussiness = (props) => {
                                 id="status"
                                 name="status"
                               >
-                          
                                 <option value="1">Active</option>
                                 <option value="0">Inactive</option>
                               </Field>
@@ -268,9 +279,9 @@ const AddSubBussiness = (props) => {
                           </Col>
                           <Col lg={4} md={6}>
                             <FormGroup>
-                            <label  className=" form-label mt-4" 
+                              <label
+                                className=" form-label mt-4"
                                 htmlFor="business_type_id"
-                             
                               >
                                 Business Type{" "}
                                 <span className="text-danger">*</span>
@@ -308,7 +319,7 @@ const AddSubBussiness = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
-                      <button className="btn btn-primary me-2" type="submit">
+                        <button className="btn btn-primary me-2" type="submit">
                           Add
                         </button>
                         <Link
@@ -318,7 +329,6 @@ const AddSubBussiness = (props) => {
                         >
                           Cancel
                         </Link>
-                       
                       </Card.Footer>
                     </Form>
                   )}

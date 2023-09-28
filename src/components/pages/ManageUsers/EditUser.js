@@ -91,31 +91,25 @@ const EditUsers = (props) => {
   const fetchClientList = async () => {
     try {
       const response = await axiosInstance.get(`/user/detail?id=${id}`);
-      console.log(response.data.data);
+
       if (response) {
         formik.setValues(response.data.data);
-        console.log(response?.data?.data, "response?.data?.data");
-        console.log(response.data.data);
+
         setDropdownValue(response.data.data);
 
         response?.data?.data?.clients.forEach((client) => {
-          // console.log(client.client_name, "");
-          console.log(client, "clientnamweinloop");
-
           combinedClientNames.push(client.client_name);
           combinedClientId.push(client.id);
         });
-        console.log(combinedClientNames, "combinedClientNames");
+
         setSelectedItems(combinedClientNames);
         setSelectedItemsId(combinedClientId);
-        console.log(selectedItemsId, "selectedItemsId");
       }
     } catch (error) {
       handleError(error);
     }
   };
 
-  console.log(combinedClientNames, "combinedClientNamescombinedClientNames");
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
@@ -170,7 +164,6 @@ const EditUsers = (props) => {
     }),
     onSubmit: (values) => {
       handleSubmit(values);
-      // console.log(values);
     },
   });
   const FetchRoleList = async () => {
@@ -179,7 +172,6 @@ const EditUsers = (props) => {
 
       if (response && response.data && response.data.data.roles) {
         setRoleItems(response.data.data.roles);
-        console.log(response.data.data.roles[0].name, "response.data");
       } else {
         throw new Error("No data available in the response");
       }
@@ -374,29 +366,18 @@ const EditUsers = (props) => {
                                   (data) => data.id
                                 );
                                 setSelectedClient(ids);
-                                console.log(SelectedClient, "SelectedClient");
                               }}
                               renderValue={(selected) => selected.join(", ")}
                             >
                               <MenuItem disabled value="">
                                 <em>Select items</em>
                               </MenuItem>
-                              console.log(AddSiteData);
+
                               {AddSiteData?.data?.map((item) => {
-                                console.log(selectedItems, `selectedItemsmap`);
                                 const isItemSelected = selectedItems.includes(
-                                  // item.id
-                                  // console.log("itemmy", item)
-                                  // console.log(item.client_name, "clientnameismine")
                                   item.full_name
                                 );
 
-                                console.log("my selected items", selectedItems);
-                                console.log(
-                                  `Item "${item.id}" is selected: ${isItemSelected}`
-                                );
-
-                                console.log(selectedItems, `selectedItems`);
                                 return (
                                   <MenuItem
                                     // key={item.client_name}

@@ -189,16 +189,6 @@ const AddRoles = (props) => {
         formik.values.permissions.filter((permission) => permission !== heading)
       );
     }
-
-    // Log all the selected members to the console
-    console.log(
-      "Selected Members for heading",
-      heading,
-      ":",
-      formik.values.permissions
-    );
-    console.log(formik.values.permissions, "values.permissions");
-    console.log(event, "values.event");
   };
 
   return (

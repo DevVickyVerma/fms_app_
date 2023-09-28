@@ -67,8 +67,7 @@ const EditItems = (props) => {
 
       if (response) {
         formik.setValues(response.data.data);
-        console.log(formik.values);
-        console.log(response.data.data);
+
         setDropdownValue(response.data.data);
       } else {
         throw new Error("No data available in the response");
@@ -92,7 +91,8 @@ const EditItems = (props) => {
   };
   useEffect(() => {
     handleItemData();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
@@ -105,7 +105,6 @@ const EditItems = (props) => {
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
-      console.log(formData, "formData");
 
       formData.append("id", values.id);
       formData.append("name", values.name);
@@ -342,7 +341,8 @@ const EditItems = (props) => {
                             className=" form-label mt-4"
                             htmlFor="sage_purchase_code"
                           >
-                            Saga Purchase Code<span className="text-danger">*</span>
+                            Saga Purchase Code
+                            <span className="text-danger">*</span>
                           </label>
                           <input
                             id="sage_purchase_code"

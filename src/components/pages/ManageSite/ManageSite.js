@@ -77,7 +77,6 @@ const ManageSite = (props) => {
   const getSiteDetails = async (row) => {
     try {
       const response = await getData("/site/detail/?id=" + row.id);
-      console.log(response.data.data, "ddd");
 
       if (response.data && response.data.data) {
         setSideDataobject(response.data.data);
@@ -156,7 +155,7 @@ const ManageSite = (props) => {
   const ToggleStatus = async (formData) => {
     try {
       const response = await postData("/site/update-status", formData);
-      console.log(response, "response"); // Console log the response
+      // Console log the response
       if (apidata.api_response === "success") {
         FetchTableData();
       }
@@ -176,7 +175,6 @@ const ManageSite = (props) => {
   const FetchTableData = async () => {
     try {
       const response = await getData("/site/list");
-      console.log(response.data.data, "ddd");
 
       if (response && response.data && response.data.data.sites) {
         setData(response.data.data.sites);
@@ -479,7 +477,6 @@ const ManageSite = (props) => {
         try {
           const params = new URLSearchParams(formData).toString();
           const response = await getData(`/site/list?${params}`);
-          console.log(response.data.data, "ddd");
 
           if (response && response.data && response.data.data) {
             setData(response.data.data.sites);

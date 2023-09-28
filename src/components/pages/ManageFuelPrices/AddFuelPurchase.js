@@ -52,19 +52,16 @@ const ManageDsr = (props) => {
     localStorage.getItem("superiorId")
   );
 
-;
-
   const [selectedItems1, setSelectedItems1] = useState([]);
 
   const handleItemClick1 = (event) => {
     setSelectedItems1(event.target.value);
-    console.log(event.target.value);
 
     const selectedSiteNames = event.target.value;
     const filteredSites = selectedSiteList1.filter((item) =>
       selectedSiteNames.includes(item.site_name)
     );
-    console.log(filteredSites, "filteredSites");
+
     formik2.setFieldValue("sites", filteredSites);
   };
 
@@ -92,10 +89,6 @@ const ManageDsr = (props) => {
             setSelectedClientId1(clientId);
 
             setSelectedCompanyList1([]);
-
-            // setShowButton(false);
-            console.log(clientId, "clientId");
-            console.log(AddSiteData1, "AddSiteData");
 
             if (response?.data) {
               const selectedClient = response?.data?.data?.find(
@@ -126,14 +119,13 @@ const ManageDsr = (props) => {
   };
 
   const secondValidationSchema = Yup.object({
-  
     company_id1: Yup.string().required("Company is required"),
     start_date1: Yup.date()
-    .required("Start Date is required")
-    .min(
-      new Date("2023-01-01"),
-      "Start Date cannot be before January 1, 2023"
-    ),
+      .required("Start Date is required")
+      .min(
+        new Date("2023-01-01"),
+        "Start Date cannot be before January 1, 2023"
+      ),
     platts: Yup.string().required("Platts is required"),
     developmentfuels: Yup.string().required("Development Fuels is required"),
     dutty: Yup.string().required("Dutty  is required"),
@@ -165,12 +157,6 @@ const ManageDsr = (props) => {
     },
   });
 
-  // const handleSubmit2 = async (event) => {
-  //   event.preventDefault();
-
-  //   console.log(formik.values, "ok");
-  // };
-
   const handleSubmit2 = async (values) => {
     try {
       const formData = new FormData();
@@ -187,15 +173,11 @@ const ManageDsr = (props) => {
       values.sites.forEach((site, index) => {
         formData.append(`site_id[${index}]`, site.id);
       });
-      console.log(selectedSiteList1,"selectedSiteList1")
-      if(selectedSiteList1.length > 0) {
-        console.log("selected")
-      }
 
       const postDataUrl = "/site/fuel/purchase-price/add";
-    
+
       const navigatePath = `/fuel-purchase-prices`;
-      await postData(postDataUrl, formData,navigatePath); // Set the submission state to false after the API call is completed
+      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
@@ -213,26 +195,19 @@ const ManageDsr = (props) => {
     const sum = (plattsValue + premiumValue + developmentfuels + dutty) / 100;
     setTotal(sum);
     const roundedSum = sum.toFixed(2);
- 
+
     formik2.setFieldValue(`exvat`, roundedSum);
-    console.log(`Value of ${name}:`, event.target.value);
-    console.log(`Sum of platts and premium (divided by 100):`, sum);
-    console.log(`Value of ${name}:`, event.target.value);
   };
 
   const sendEventWithName1 = (event, name) => {
-    console.log(SumTotal, "SumTotal");
-  
     const plattsValue = parseFloat(formik2.values.vat) || 0;
-  
+
     const sum = (SumTotal * plattsValue) / 100 + SumTotal;
     const roundedSum = Math.round(sum * 100) / 100; // Round to two decimal places
-    const formattedSum = roundedSum.toFixed(2).padEnd(5, '0');
+    const formattedSum = roundedSum.toFixed(2).padEnd(5, "0");
     formik2.setFieldValue("total", formattedSum);
-  
-    console.log(formattedSum, "SumddddddddTotal");
   };
-  
+
   const getCurrentDate = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -240,10 +215,10 @@ const ManageDsr = (props) => {
     const day = String(today.getDate() - 1).padStart(2, "0"); // Subtract one day from the current date
     return `${year}-${month}-${day}`;
   };
-  const hadndleShowDate =( )=>{
+  const hadndleShowDate = () => {
     const inputDateElement = document.querySelector('input[type="date"]');
     inputDateElement.showPicker();
-}
+  };
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -279,66 +254,72 @@ const ManageDsr = (props) => {
               <form onSubmit={(event) => formik2.handleSubmit(event)}>
                 <Card.Body>
                   <Row>
-                    {localStorage.getItem("superiorRole") !==
-                            "Client" && (
-                    <Col lg={3} md={6}>
-                      <div className="form-group">
-                        <label htmlFor="client_id1" className="form-label mt-4">
-                          Client
-                          <span className="text-danger">*</span>
-                        </label>
-                        <select
-                          as="select"
-                          className={`input101 ${
-                            formik2.errors.client_id1 &&
-                            formik2.touched.client_id1
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="client_id1"
-                          name="client_id1"
-                          onChange={(e) => {
-                            const selectedType1 = e.target.value;
+                    {localStorage.getItem("superiorRole") !== "Client" && (
+                      <Col lg={3} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="client_id1"
+                            className="form-label mt-4"
+                          >
+                            Client
+                            <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            as="select"
+                            className={`input101 ${
+                              formik2.errors.client_id1 &&
+                              formik2.touched.client_id1
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="client_id1"
+                            name="client_id1"
+                            onChange={(e) => {
+                              const selectedType1 = e.target.value;
 
-                            formik2.setFieldValue("client_id1", selectedType1);
-                            setSelectedClientId1(selectedType1);
-                            setSelectedItems1([]);
-                            // Reset the selected company and site
-                            setSelectedCompanyList1([]);
-                            formik2.setFieldValue("company_id1", "");
-                            formik2.setFieldValue("site_id1", "");
-
-                            const selectedClient1 = AddSiteData1.data.find(
-                              (client) => client.id === selectedType1
-                            );
-
-                            if (selectedClient1) {
-                              setSelectedCompanyList1(
-                                selectedClient1.companies
+                              formik2.setFieldValue(
+                                "client_id1",
+                                selectedType1
                               );
-                            }
-                          }}
-                        >
-                          <option value="">Select a Client</option>
-                          {AddSiteData1.data && AddSiteData1.data.length > 0 ? (
-                            AddSiteData1.data.map((item) => (
-                              <option key={item.id} value={item.id}>
-                                {item.client_name}
-                              </option>
-                            ))
-                          ) : (
-                            <option disabled>No Client</option>
-                          )}
-                        </select>
+                              setSelectedClientId1(selectedType1);
+                              setSelectedItems1([]);
+                              // Reset the selected company and site
+                              setSelectedCompanyList1([]);
+                              formik2.setFieldValue("company_id1", "");
+                              formik2.setFieldValue("site_id1", "");
 
-                        {formik2.errors.client_id1 &&
-                          formik2.touched.client_id1 && (
-                            <div className="invalid-feedback">
-                              {formik2.errors.client_id1}
-                            </div>
-                          )}
-                      </div>
-                    </Col>
+                              const selectedClient1 = AddSiteData1.data.find(
+                                (client) => client.id === selectedType1
+                              );
+
+                              if (selectedClient1) {
+                                setSelectedCompanyList1(
+                                  selectedClient1.companies
+                                );
+                              }
+                            }}
+                          >
+                            <option value="">Select a Client</option>
+                            {AddSiteData1.data &&
+                            AddSiteData1.data.length > 0 ? (
+                              AddSiteData1.data.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.client_name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled>No Client</option>
+                            )}
+                          </select>
+
+                          {formik2.errors.client_id1 &&
+                            formik2.touched.client_id1 && (
+                              <div className="invalid-feedback">
+                                {formik2.errors.client_id1}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
                     )}
                     <Col lg={3} md={6}>
                       <div className="form-group">
@@ -433,8 +414,10 @@ const ManageDsr = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <input
-                            type="date"    min={"2023-01-01"}     max={getCurrentDate()}
-                                onClick={hadndleShowDate}
+                          type="date"
+                          min={"2023-01-01"}
+                          max={getCurrentDate()}
+                          onClick={hadndleShowDate}
                           className={`input101 ${
                             formik2.errors.start_date1 &&
                             formik2.touched.start_date1
@@ -442,7 +425,6 @@ const ManageDsr = (props) => {
                               : ""
                           }`}
                           id="start_date1"
-                  
                           name="start_date1"
                           onChange={formik2.handleChange}
                         />

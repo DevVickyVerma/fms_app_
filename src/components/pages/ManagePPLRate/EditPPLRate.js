@@ -40,10 +40,7 @@ const EditSitePump = (props) => {
       navigate("/login");
       Errornotify("Invalid access token");
       localStorage.clear();
-    } else if (
-      error.response &&
-      error.response.data.status_code === "403"
-    ) {
+    } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
     } else {
       const errorMessage = Array.isArray(error.response.data.message)
@@ -70,8 +67,7 @@ const EditSitePump = (props) => {
 
       if (response) {
         formik.setValues(response.data.data);
-        console.log(formik.values);
-        console.log(response.data.data);
+
         setDropdownValue(response.data.data);
       } else {
         throw new Error("No data available in the response");
@@ -92,12 +88,10 @@ const EditSitePump = (props) => {
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
-      console.log(formData, "formData");
-
 
       formData.append("sales_volume", values.sales_volume);
       formData.append("pence_per_liter", values.pence_per_liter);
-    
+
       formData.append("id", values.id);
       formData.append("site_id", values.site_id);
 
@@ -122,20 +116,12 @@ const EditSitePump = (props) => {
     }
   }, [UserPermissions]);
 
-
-
   const formik = useFormik({
     initialValues: {
-   
       sales_volume: "",
       pence_per_liter: "",
-
-      
     },
     validationSchema: Yup.object({
-     
-
-
       pence_per_liter: Yup.string().required(" Pence Per Liter is required"),
       sales_volume: Yup.string().required(" Pence Per Liter is required"),
     }),
@@ -224,11 +210,9 @@ const EditSitePump = (props) => {
                       </Col>
                       <Col lg={6} md={6}>
                         <div className="form-group">
-                          <label
-                            className=" form-label mt-4"
-                            htmlFor="name"
-                          >
-                            Pence Per Liter<span className="text-danger">*</span>
+                          <label className=" form-label mt-4" htmlFor="name">
+                            Pence Per Liter
+                            <span className="text-danger">*</span>
                           </label>
                           <input
                             type="text"
@@ -243,7 +227,7 @@ const EditSitePump = (props) => {
                             name="pence_per_liter"
                             placeholder=" Pence Per Liter"
                             onChange={formik.handleChange}
-                            value={formik.values.pence_per_liter }
+                            value={formik.values.pence_per_liter}
                           />
                           {formik.errors.pence_per_liter &&
                             formik.touched.pence_per_liter && (
@@ -253,7 +237,6 @@ const EditSitePump = (props) => {
                             )}
                         </div>
                       </Col>
-                   
                     </Row>
                     <div className="text-end">
                       <Link

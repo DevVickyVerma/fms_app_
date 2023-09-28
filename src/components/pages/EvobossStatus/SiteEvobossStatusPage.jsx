@@ -16,8 +16,6 @@ const SiteEvobossStatusPage = (props) => {
     }
   }, []);
 
-  console.log("my row data", rowData);
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}

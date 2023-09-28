@@ -67,7 +67,6 @@ const AddShops = (props) => {
 
       if (permissionsArray?.length > 0) {
         if (isAddPermissionAvailable) {
-          console.log(isAddPermissionAvailable, "AddPermissionAvailable");
           // Perform action when permission is available
           // Your code here
         } else {
@@ -131,13 +130,11 @@ const AddShops = (props) => {
                     code: "",
                     status: "1",
                     client_id: "",
-                  company_id: "",
+                    company_id: "",
                     site_id: "",
                   }}
                   validationSchema={Yup.object({
-                    shop_name: Yup.string()
-                     
-                      .required(" Shop Name is required"),
+                    shop_name: Yup.string().required(" Shop Name is required"),
 
                     code: Yup.string()
                       .required("Shop Code is required")
@@ -156,7 +153,6 @@ const AddShops = (props) => {
 
                     status: Yup.string().required(" Status is required"),
 
-                  
                     company_id: Yup.string().required("Company is required"),
                     site_id: Yup.string().required("Site is required"),
                   })}
@@ -292,14 +288,6 @@ const AddShops = (props) => {
                                     setSelectedCompanyList(
                                       selectedClient.companies
                                     );
-                                    console.log(
-                                      selectedClient,
-                                      "selectedClient"
-                                    );
-                                    console.log(
-                                      selectedClient.companies,
-                                      "selectedClient"
-                                    );
                                   }
                                 }}
                               >
@@ -353,14 +341,6 @@ const AddShops = (props) => {
                                   if (selectedCompanyData) {
                                     setSelectedSiteList(
                                       selectedCompanyData.sites
-                                    );
-                                    console.log(
-                                      selectedCompanyData,
-                                      "company_id"
-                                    );
-                                    console.log(
-                                      selectedCompanyData.sites,
-                                      "company_id"
                                     );
                                   }
                                 }}
@@ -423,18 +403,16 @@ const AddShops = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
-                      <Link
+                        <Link
                           type="submit"
                           className="btn btn-danger me-2 "
                           to={`/manageshops/`}
                         >
                           Cancel
                         </Link>
-                      <button className="btn btn-primary me-2" type="submit">
+                        <button className="btn btn-primary me-2" type="submit">
                           Add
                         </button>
-                      
-                    
                       </Card.Footer>
                     </Form>
                   )}

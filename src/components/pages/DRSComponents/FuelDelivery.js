@@ -131,8 +131,6 @@ const FuelDelivery = (props) => {
   const handleSubmit = async (values) => {
     const token = localStorage.getItem("token");
 
-    console.log(values.data);
-
     // Create a new FormData object
     const formData = new FormData();
 
@@ -192,14 +190,12 @@ const FuelDelivery = (props) => {
       const responseData = await response.json(); // Read the response once
 
       if (response.ok) {
-        console.log("Done");
         SuccessToast(responseData.message);
         handleButtonClick();
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
         ErrorToast(responseData.message);
 
-        console.log("API Error:", responseData);
         // Handle specific error cases if needed
       }
     } catch (error) {

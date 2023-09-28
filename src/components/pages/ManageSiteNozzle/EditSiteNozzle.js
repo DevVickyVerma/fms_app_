@@ -67,8 +67,7 @@ const EditSiteNozzle = (props) => {
 
       if (response) {
         formik.setValues(response.data.data);
-        console.log(formik.values);
-        console.log(response.data.data);
+
         setDropdownValue(response.data.data);
       } else {
         throw new Error("No data available in the response");
@@ -89,7 +88,6 @@ const EditSiteNozzle = (props) => {
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
-      console.log(formData, "formData");
 
       formData.append("charge_code", values.charge_code);
       formData.append("name", values.name);
@@ -120,8 +118,6 @@ const EditSiteNozzle = (props) => {
       setIsPermissionsSet(true);
     }
   }, [UserPermissions]);
-
-
 
   const formik = useFormik({
     initialValues: {

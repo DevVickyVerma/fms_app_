@@ -22,13 +22,6 @@ export function FormModal(props) {
   const [isDragging, setIsDragging] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
 
-  useEffect(() => {
-    console.log(props, "props"); // Log all props
-    console.log(props.PropsSiteId, "PropsSiteId");
-    console.log(props.PropsCompanyId, "PropsCompanyId");
-    console.log(props.PropsFile, "PropsCompanyId");
-  console.clear()  }, []);
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -85,19 +78,17 @@ export function FormModal(props) {
         url = `${process.env.REACT_APP_UPLOAD_FILE_BASE_URL}/upload-prism-vat`;
       } else {
         // Default URL if none of the conditions are met
-        url = 'http://example.com/default-upload';
+        url = "http://example.com/default-upload";
       }
-      const response = await await fetch(url,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            // Add Content-Type header if necessary:
-            // "Content-Type": "multipart/form-data",
-          },
-          body: formData,
-        }
-      );
+      const response = await await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          // Add Content-Type header if necessary:
+          // "Content-Type": "multipart/form-data",
+        },
+        body: formData,
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -109,8 +100,6 @@ export function FormModal(props) {
         const errorData = await response.json();
         ErrorToast(errorData.message);
         handleClose();
-        console.log("API Error:", errorData.message);
-        // Handle specific error cases if needed
       }
     } catch (error) {
       console.log("Request Error:", error);

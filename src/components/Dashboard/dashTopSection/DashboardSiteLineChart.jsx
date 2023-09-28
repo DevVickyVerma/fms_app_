@@ -42,8 +42,6 @@ const DashboardSiteLineChart = ({
   const label2Data = labelDataArray?.[1]?.data;
   const label3Data = labelDataArray?.[2]?.data;
 
-  // console.log(label1, "label data array");
-
   const chartOptions = {
     // Customize your chart options here
   };

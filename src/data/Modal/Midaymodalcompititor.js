@@ -61,7 +61,6 @@ const Competitormodal = ({
   }
 
   useEffect(() => {
-    console.log(accordionSiteID, "accordionSiteID");
     const fetchData = async () => {
       if (selectedItem && selectedDrsDate) {
         const token = localStorage.getItem("token");
@@ -81,7 +80,7 @@ const Competitormodal = ({
           );
 
           const responseData = response?.data?.data;
-          console.log(responseData?.listing, "responseData?.listing");
+
           if (responseData?.listing) {
             setHasListing(true);
           } else {
@@ -96,7 +95,6 @@ const Competitormodal = ({
             };
             formik.setValues(initialValues);
           } else {
-            console.log("responseDatamodata");
             // Set initialValues to an empty object or your preferred default values
             const initialValues = {
               siteId: "",

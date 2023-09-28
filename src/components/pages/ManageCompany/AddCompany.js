@@ -59,7 +59,6 @@ const AddCompany = (props) => {
       fetchClientList();
     }
 
-   
     console.clear();
   }, []);
   const token = localStorage.getItem("token");
@@ -137,7 +136,6 @@ const AddCompany = (props) => {
 
       if (permissionsArray?.length > 0) {
         if (isAddPermissionAvailable) {
-          console.log(isAddPermissionAvailable, "AddPermissionAvailable");
           // Perform action when permission is available
           // Your code here
         } else {
@@ -210,8 +208,9 @@ const AddCompany = (props) => {
                     company_code: Yup.string()
                       .max(20, "Must be 20 characters or less")
                       .required("Company Code is required"),
-                    company_details: Yup.string()
-                    .required("Company Details is required"),
+                    company_details: Yup.string().required(
+                      "Company Details is required"
+                    ),
                     company_name: Yup.string()
                       .max(100, "Must be 100 characters or less")
                       .required("Company Name is required"),
@@ -346,44 +345,44 @@ const AddCompany = (props) => {
                             </FormGroup>
                           </Col>
                           {localStorage.getItem("superiorRole") !==
-                                    "Client" && (
-                          <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="client_id"
-                                className=" form-label mt-4"
-                              >
-                                Client<span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${
-                                  errors.client_id && touched.client_id
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
-                                id="client_id"
-                                name="client_id"
-                              >
-                                <option value=""> Select Client</option>
-                                {dropdownValue.clients &&
-                                dropdownValue.clients.length > 0 ? (
-                                  dropdownValue.clients.map((item) => (
-                                    <option key={item.id} value={item.id}>
-                                      {item.client_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No clients</option>
-                                )}
-                              </Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="client_id"
-                              />
-                            </FormGroup>
-                          </Col>
+                            "Client" && (
+                            <Col lg={4} md={6}>
+                              <FormGroup>
+                                <label
+                                  htmlFor="client_id"
+                                  className=" form-label mt-4"
+                                >
+                                  Client<span className="text-danger">*</span>
+                                </label>
+                                <Field
+                                  as="select"
+                                  className={`input101 ${
+                                    errors.client_id && touched.client_id
+                                      ? "is-invalid"
+                                      : ""
+                                  }`}
+                                  id="client_id"
+                                  name="client_id"
+                                >
+                                  <option value=""> Select Client</option>
+                                  {dropdownValue.clients &&
+                                  dropdownValue.clients.length > 0 ? (
+                                    dropdownValue.clients.map((item) => (
+                                      <option key={item.id} value={item.id}>
+                                        {item.client_name}
+                                      </option>
+                                    ))
+                                  ) : (
+                                    <option disabled>No clients</option>
+                                  )}
+                                </Field>
+                                <ErrorMessage
+                                  component="div"
+                                  className="invalid-feedback"
+                                  name="client_id"
+                                />
+                              </FormGroup>
+                            </Col>
                           )}
                           <Col lg={4} md={6}>
                             <FormGroup>

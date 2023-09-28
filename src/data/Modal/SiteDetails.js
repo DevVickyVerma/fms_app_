@@ -35,14 +35,14 @@ const MyModal = (props) => {
     try {
       const token = localStorage.getItem("token");
       const SiteId = localStorage.getItem("AssignSiteId");
-  
+
       const formData = new FormData();
       formData.append("id", SiteId);
       formData.append("client_id", values.clientlist);
       formData.append("company_id", values.companylist);
-  
+
       setLoading(true); // Set isLoading to true
-  
+
       const response = await fetch(
         `${process.env.REACT_APP_BASE_URL}/site/assign`,
         {
@@ -53,9 +53,9 @@ const MyModal = (props) => {
           body: formData,
         }
       );
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
         notify(data.message);
         formik.resetForm();
@@ -63,7 +63,7 @@ const MyModal = (props) => {
         const errorMessage = Array.isArray(data.message)
           ? data.message.join(" ")
           : data.message;
-        console.log(errorMessage);
+
         Errornotify(errorMessage);
       }
     } catch (error) {
@@ -72,7 +72,6 @@ const MyModal = (props) => {
       setLoading(false); // Set isLoading back to false
     }
   };
-  
 
   function handleError(error) {
     if (error.response && error.response.status === 401) {

@@ -44,17 +44,12 @@ const DashBoardChild = (props) => {
     setpiechartValues,
   } = useMyContext();
 
-  // console.log(searchdata, "settestIsWorking");
-  // console.log(GrossProfitValue, "settestIsWorking");
-
   settestIsWorking(true);
 
   const storedData = localStorage.getItem("savedDataOfDashboard");
   const parsedData = JSON.parse(storedData);
 
   const handleToggleSidebar1 = () => {
-    // console.log(ShowTruw, "Toggle sidebar");
-    // console.log(sidebarVisible1, "Toggle sidebar");
     setShowTruw(true);
     setSidebarVisible1(!sidebarVisible1);
   };
@@ -96,23 +91,20 @@ const DashBoardChild = (props) => {
 
   const role = localStorage.getItem("role");
   const handleFormSubmit = async (values) => {
-    // console.log(values, "handleFormSubmit");
     const companyId =
       values.company_id !== undefined
         ? values.company_id
         : localStorage.getItem("PresetCompanyID");
 
     try {
-      // console.log(response, "response");
       const response = await getData(
         localStorage.getItem("superiorRole") !== "Client"
           ? `dashboard/stats?client_id=${values.client_id}&company_id=${companyId}&site_id=${values.site_id}`
           : `dashboard/stats?client_id=${ClientID}&company_id=${companyId}&site_id=${values.site_id}`
       );
-      // console.log(response, "response");
+
       const { data } = response;
       if (data) {
-        // console.log(data, "handleFormSubmit");
         setGrossMarginValue(data?.data?.gross_margin_);
         setGrossVolume(data?.data?.gross_volume);
         setGrossProfitValue(data?.data?.gross_profit);
@@ -141,7 +133,6 @@ const DashBoardChild = (props) => {
 
     localStorage.setItem("mySearchData", JSON.stringify(values));
 
-    console.log("mySearchData", values);
     setSearchdata(localStorage.setItem("mySearchData", JSON.parse(values)));
   };
 

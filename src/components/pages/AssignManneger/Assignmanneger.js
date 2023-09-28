@@ -106,7 +106,6 @@ const ManageRoles = (props) => {
       const response = await getData(`/site/manager/${id}`);
 
       if (response && response.data) {
-        console.log(response.data);
         setData(response?.data?.data?.managers);
       } else {
         throw new Error("No data available in the response");
@@ -141,7 +140,6 @@ const ManageRoles = (props) => {
   );
   const isDetailsPermissionAvailable =
     permissionsArray?.includes("role-details");
-  console.log(data?.editable === 1, "editable");
 
   const columns = [
     {

@@ -34,7 +34,6 @@ export default function EditProfile() {
 
   useEffect(() => {
     if (UserPermissions) {
-      console.log(UserPermissions, "two_factor");
       setUserPermissionstwo_factor(UserPermissions?.two_factor);
       formik.setValues(UserPermissions);
     }
@@ -123,7 +122,7 @@ export default function EditProfile() {
         const errorMessage = Array.isArray(data.message)
           ? data.message.join(" ")
           : data.message;
-        console.log(errorMessage);
+
         Errornotify(errorMessage);
         setLoading(false);
       }
@@ -135,7 +134,6 @@ export default function EditProfile() {
   };
 
   const handleSubmit1 = async (values, setSubmitting) => {
-    console.log(values, "values");
     setLoading(true);
     const token = localStorage.getItem("token");
 
@@ -167,7 +165,7 @@ export default function EditProfile() {
       const errorMessage = Array.isArray(data.message)
         ? data.message.join(" ")
         : data.message;
-      console.log(errorMessage);
+
       setLoading(false);
       Errornotify(errorMessage);
     }
@@ -201,13 +199,9 @@ export default function EditProfile() {
     try {
       const response = await axiosInstance.get(`enable/two-factor`);
       if (response) {
-        console.log(response.data.data, "fetchDatafactor");
         setfactordata(response?.data?.data);
         setLoading(false);
         setShowModal(true);
-        console.log(UserPermissions?.two_factor, "UserPermissions?.two_factor");
-
-        console.log(userPermissions, "UserPermissions?.two_factor");
       }
     } catch (error) {
       handleError(error);
@@ -219,7 +213,6 @@ export default function EditProfile() {
     try {
       const response = await axiosInstance.get(`/detail`);
       if (response) {
-        console.log(response?.data?.data?.two_factor, "detailfetchDatafactor");
         setUserPermissionstwo_factor(response?.data?.data?.two_factor);
       }
     } catch (error) {
@@ -245,7 +238,6 @@ export default function EditProfile() {
     setShowModal(false);
   };
   const handleVerifyAuthentication = async (value) => {
-    console.log("handleVerifyAuthentication1", value);
     setLoading(true);
     try {
       const formData = new FormData();
@@ -267,7 +259,7 @@ export default function EditProfile() {
       if (response.ok) {
         setShowModal(false);
         notify(data.message);
-        console.log(UserPermissions?.two_factor, "UserPermissions?.two_factor");
+
         setUserPermissionstwo_factor(UserPermissions?.two_factor);
         GetDetails();
         setLoading(false);
@@ -275,7 +267,7 @@ export default function EditProfile() {
         const errorMessage = Array.isArray(data.message)
           ? data.message.join(" ")
           : data.message;
-        console.log(errorMessage);
+
         Errornotify(errorMessage);
         setLoading(false);
       }
@@ -297,7 +289,6 @@ export default function EditProfile() {
     },
     validationSchema: authenticationCodevalidationSchema,
     onSubmit: (values) => {
-      console.log(values, "handleVerifyAuthentication");
       handleVerifyAuthentication(values);
     },
   });

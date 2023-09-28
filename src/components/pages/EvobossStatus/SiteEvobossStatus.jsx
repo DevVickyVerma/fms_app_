@@ -29,13 +29,8 @@ const SiteEvobossStatus = (props) => {
       console.error("API error:", error);
     }
   };
-  console.log("my response data for evo", data);
 
   const handleNavigateToNewPage = (rowData) => {
-    // localStorage.setItem("evoBossStatusPageId", JSON.stringify(rowData));
-    // navigate(`/site-evoboss-status/${rowData?.site_name}`);
-    // console.log("my new page", rowData);
-
     const FetchSitedata = async (rowData) => {
       try {
         const response = await getData(`/evobos-site/status?id=${rowData?.id}`);
@@ -49,8 +44,6 @@ const SiteEvobossStatus = (props) => {
   };
 
   useEffect(() => {}, [siteData]);
-
-  console.log("this is my site data", siteData);
 
   const columns = [
     {
@@ -190,8 +183,6 @@ const SiteEvobossStatus = (props) => {
     secondColumns,
     siteData,
   };
-
-  console.log("site deatils name", siteData?.[0]?.site_name);
 
   return (
     <>

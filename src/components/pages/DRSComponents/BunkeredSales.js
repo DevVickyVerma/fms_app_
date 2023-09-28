@@ -129,13 +129,11 @@ const DepartmentShop = (props) => {
       const { data } = response;
       if (data) {
         setData(data?.data ? data.data : []);
-     
 
         const filteredDieselIds = data?.data?.siteFuels
           .filter((fuel) => fuel.fuel_name === "Diesel")
           .map((fuel) => fuel.id);
 
-        console.log(filteredDieselIds, "filteredDieselIds");
         setDieselID(filteredDieselIds);
       }
     } catch (error) {
@@ -162,7 +160,6 @@ const DepartmentShop = (props) => {
 
       const { data } = response;
       if (data) {
-        
         setListingData(data?.data?.listing ? data.data : []);
         if (data?.data?.listing) {
           setis_editable(response?.data?.data);
@@ -201,7 +198,7 @@ const DepartmentShop = (props) => {
               : dummyData;
 
           formik2.setFieldValue("nonbunkeredsalesvalue", non_bunkered_values);
-          console.log(nonbunkeredsalesValues, "nonbunkeredsalesValues");
+
           const creditcardvalues =
             data?.data?.listing?.bunkered_creditcardsales?.map((sale) => ({
               card: sale.card_id,
@@ -217,7 +214,6 @@ const DepartmentShop = (props) => {
             creditcardvalues.length > 0 ? creditcardvalues : SALESdummyData;
 
           formik3.setFieldValue("creditcardvalue", valuesToSet);
-          console.log(creditcardvalues, "creditcardvalues");
         }
       }
     } catch (error) {
@@ -265,7 +261,7 @@ const DepartmentShop = (props) => {
     bunkeredSales: Yup.array().of(
       Yup.object().shape({
         fuel: Yup.string().required("Please select a fuel"),
-   
+
         card: Yup.string().required("Please select a tank"),
         volume: Yup.number()
           .typeError("Volume must be a number")
@@ -319,9 +315,6 @@ const DepartmentShop = (props) => {
   });
 
   const onSubmit = (values, { resetForm }) => {
-    console.log("Bunkered Sales Form Values:", values);
-    // Handle form submission here, e.g., API call or other operations
-    // After successful submission, reset the form and add a new row
     resetForm();
     // pushbunkeredSalesRow();
     SuccessToast("Data submitted successfully!");
@@ -354,11 +347,6 @@ const DepartmentShop = (props) => {
   });
 
   const pushnonbunkeredSalesRow = () => {
-    console.log(formik2.values, "pushnonbunkeredSalesRow");
-    console.log(
-      formik2.values.nonbunkeredsalesvalue,
-      "valueformik2.values.nonbunkeredsalesvalue"
-    );
     if (formik2.isValid) {
       formik2.values.nonbunkeredsalesvalue.push({
         fuel: null,
@@ -377,22 +365,13 @@ const DepartmentShop = (props) => {
   };
 
   const pushbunkeredSalesRow = () => {
-    console.log(formik.values, "pushnonbunkeredSalesRow");
-    console.log(
-      formik.values.bunkeredSales,
-      "formik.values.bunkeredSales"
-    );
     if (formik.isValid) {
       formik.values.bunkeredSales.push({
-      
         volume: "",
         value: "",
         card: "",
       });
-      formik.setFieldValue(
-        "bunkeredSales",
-        formik.values.bunkeredSales
-      );
+      formik.setFieldValue("bunkeredSales", formik.values.bunkeredSales);
     } else {
       ErrorToast(
         "Please fill all fields correctly before adding a new bunkered sales row."
@@ -400,11 +379,6 @@ const DepartmentShop = (props) => {
     }
   };
   const pushnoncreditcardRow = () => {
-    console.log(formik3.values, "pushnoncreditcardRow");
-    console.log(
-      formik3.values.creditcardvalue,
-      "valueformik2.values.creditcardvalue"
-    );
     if (formik3.isValid) {
       formik3.values.creditcardvalue.push({
         card: "",
@@ -531,7 +505,6 @@ const DepartmentShop = (props) => {
       }
       formData.append("site_id", site_id);
       formData.append("drs_date", start_date);
-      console.log("Combined Form Data:", formData);
 
       setIsLoading(true);
       const response = await fetch(`${baseURL}/bunkered-sale/update`, {
@@ -545,7 +518,6 @@ const DepartmentShop = (props) => {
       const responseData = await response.json();
 
       if (response.ok) {
-        console.log("Done");
         handleButtonClick();
         // Call your success toast function here
         // Replace SuccessToast with your actual function that shows a success message
@@ -554,8 +526,6 @@ const DepartmentShop = (props) => {
         // Call your error toast function here
         // Replace ErrorToast with your actual function that shows an error message
         ErrorToast(responseData.message);
-        console.log("API Error:", responseData);
-        // Handle specific error cases if needed
       }
     } catch (error) {
       console.log("Request Error:", error);
@@ -582,10 +552,6 @@ const DepartmentShop = (props) => {
                 <Row>
                   {formik.values.bunkeredSales.map((delivery, index) => (
                     <React.Fragment key={index}>
-                      {console.log(
-                        formik.values.bunkeredSales,
-                        "formik.values.bunkeredSales"
-                      )}
                       <Col lg={3} md={3}>
                         <Form.Group
                           controlId={`bunkeredSales[${index}].diesel`}
@@ -706,10 +672,10 @@ const DepartmentShop = (props) => {
                             )}
                         </Form.Group>
                       </Col>
-                    
-                        <Col lg={2} md={2}>
-                          <Form.Label>ACTION</Form.Label>
-                          {editable?.is_editable ? (
+
+                      <Col lg={2} md={2}>
+                        <Form.Label>ACTION</Form.Label>
+                        {editable?.is_editable ? (
                           <div className="bunkered-action">
                             <button
                               className="btn btn-primary me-2"
@@ -718,8 +684,7 @@ const DepartmentShop = (props) => {
                               <RemoveCircleIcon />
                             </button>
                             {index ===
-                              formik.values.bunkeredSales.length -
-                                1 && (
+                              formik.values.bunkeredSales.length - 1 && (
                               <button
                                 className="btn btn-primary me-2"
                                 type="button"
@@ -729,11 +694,10 @@ const DepartmentShop = (props) => {
                               </button>
                             )}
                           </div>
-                          ) : (
-                        ""
-                      )}
-                        </Col>
-                     
+                        ) : (
+                          ""
+                        )}
+                      </Col>
                     </React.Fragment>
                   ))}
                 </Row>
@@ -908,10 +872,10 @@ const DepartmentShop = (props) => {
                             )}
                         </Form.Group>
                       </Col>
-                      
-                        <Col lg={2} md={2}>
-                          <Form.Label>ACTION</Form.Label>
-                          {editable?.is_editable ? (
+
+                      <Col lg={2} md={2}>
+                        <Form.Label>ACTION</Form.Label>
+                        {editable?.is_editable ? (
                           <div className="bunkered-action">
                             <button
                               className="btn btn-primary me-2"
@@ -931,11 +895,10 @@ const DepartmentShop = (props) => {
                               </button>
                             )}
                           </div>
-                          ) : (
-                        ""
-                      )}
-                        </Col>
-                   
+                        ) : (
+                          ""
+                        )}
+                      </Col>
                     </React.Fragment>
                   ))}
                 </Row>
@@ -1121,10 +1084,9 @@ const DepartmentShop = (props) => {
                         </Form.Group>
                       </Col>
                       <Col lg={2} md={2}>
-                     
-                          <>
-                            <Form.Label>ACTION</Form.Label>
-                            {editable?.is_editable ? (
+                        <>
+                          <Form.Label>ACTION</Form.Label>
+                          {editable?.is_editable ? (
                             <div className="bunkered-action">
                               <button
                                 className="btn btn-primary me-2"
@@ -1149,11 +1111,10 @@ const DepartmentShop = (props) => {
                                 </button>
                               )}
                             </div>
-                            ) : (
-                          ""
-                        )}
-                          </>
-                       
+                          ) : (
+                            ""
+                          )}
+                        </>
                       </Col>
                     </React.Fragment>
                   ))}

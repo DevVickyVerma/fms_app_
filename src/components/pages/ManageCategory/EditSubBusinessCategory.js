@@ -62,28 +62,6 @@ const EditBussiness = (props) => {
       },
     });
 
-    //   const fetchData = async () => {
-    //     try {
-    //       const response = await axiosInstance.get(
-    //         `/business/category`
-    //       );
-    //       if (response) {
-    //         console.log(response.data.data,"Response data");
-    //         setEditSiteData(response.data.data);
-    //         formik.setValues(response.data.data);
-    //       }
-    //     } catch (error) {
-    //       handleError(error);
-    //     }
-    //   };
-
-    //   try {
-    //     fetchData();
-    //   } catch (error) {
-    //     handleError(error);
-    //   }
-    //   console.clear();
-    // }, [id]);
     const GetSiteData = async () => {
       try {
         const response = await axiosInstance.get("business/category");
@@ -101,7 +79,8 @@ const EditBussiness = (props) => {
       handleError(error);
     }
     // console.clear()
-  console.clear()  }, []);
+    console.clear();
+  }, []);
 
   const { id } = useParams();
 
@@ -120,8 +99,7 @@ const EditBussiness = (props) => {
 
       if (response) {
         formik.setValues(response?.data?.data);
-        console.log(formik.values," formik.setValues");
-        console.log(response?.data?.data," formik.setVdddddddddalues");
+
         setDropdownValue(response?.data?.data);
       } else {
         throw new Error("No data available in the response");
@@ -142,7 +120,6 @@ const EditBussiness = (props) => {
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
-      console.log(formData, "formData");
 
       formData.append("sub_category_name", values.sub_category_name);
       formData.append("code", values.sub_category_code);

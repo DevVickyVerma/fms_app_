@@ -102,7 +102,7 @@ const EditAddon = (props) => {
       const formData = new FormData();
       formData.append("addon_id", addonId);
       const response = await getData("addon/detail", addonId, formData);
-      console.log(response.data.data, "ddd");
+
       const { data } = response;
 
       const permissionArray = [];
@@ -120,7 +120,7 @@ const EditAddon = (props) => {
       if (response && response.data) {
         setEdituserDetails(data.data.addon_name);
         setPermissions(data);
-        console.log(data?.data?.addon_permissions, "datadatadatadata");
+
         const enabledPermissions = [];
 
         // Loop through each category and check for enabled permissions
@@ -134,7 +134,6 @@ const EditAddon = (props) => {
           );
         });
         formik.setFieldValue("permissionsList", enabledPermissions);
-        console.log(enabledPermissions, "enabledPermissions");
       }
     } catch (error) {
       console.error("API error:", error);
@@ -237,7 +236,6 @@ const EditAddon = (props) => {
 
     setPermissionArray(updatedPermissionArray);
     formik.setFieldValue("permissionsList", updatedPermissionArray);
-    console.log(updatedPermissionArray, "updatedPermissionArray");
   };
   return (
     <>
@@ -390,10 +388,6 @@ const EditAddon = (props) => {
                                             formik.setFieldValue(
                                               "permissionsList",
                                               updatedPermissionArray
-                                            );
-                                            console.log(
-                                              updatedPermissionArray,
-                                              "updatedPermissionArray"
                                             );
                                           }}
                                         />

@@ -89,7 +89,6 @@ const ManageUser = (props) => {
 
       if (response && response.data && response.data.data) {
         setData(response?.data?.data);
-        console.log(response?.data?.data, "Authentication");
       } else {
         throw new Error("No data available in the response");
       }

@@ -50,7 +50,6 @@ const AddCompany = (props) => {
       const response = await getData(`/addon/assigned?id=${id}`);
 
       if (response && response.data) {
-        console.log(response.data, "dddd");
         setReportsData(response?.data?.data);
 
         formik.setFieldValue("FormikreportsData", response?.data?.data);
@@ -112,7 +111,6 @@ const AddCompany = (props) => {
   const handleSubmit = async (event, values) => {
     // event.preventDefault();
 
-    console.log(formik.values, "user_id");
     try {
       const formData = new FormData();
 
@@ -141,9 +139,7 @@ const AddCompany = (props) => {
       const navigatePath = `/clients`;
 
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
-    } catch (error) {
-      console.log(error); // Set the submission state to false if an error occurs
-    }
+    } catch (error) {}
   };
 
   const formik = useFormik({

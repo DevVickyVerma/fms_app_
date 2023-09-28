@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 
 const DashTopTableSection = (props) => {
   const { apidata, isLoading, error, getData, postData, searchdata } = props;
-  // console.log(searchdata, "searchdata in top table");
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
@@ -17,7 +16,6 @@ const DashTopTableSection = (props) => {
   useEffect(() => {
     if (UserPermissions) {
       setPermissionsArray(UserPermissions?.permissions);
-      // console.log("my user permissions in table", UserPermissions);
     }
   }, [UserPermissions]);
 
@@ -30,7 +28,6 @@ const DashTopTableSection = (props) => {
   const navigate = useNavigate();
   // http://192.168.1.169:5000/get-details?client_id=3&company_id=1&end_date=2023-07-31&start_date=2023-07-01
   const FetchTableData = async () => {
-    // console.log();
     try {
       const searchdata = await JSON.parse(localStorage.getItem("mySearchData"));
       const superiorRole = localStorage.getItem("superiorRole");

@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  Col,
-  Row,
-  Card,
-  Form,
-  FormGroup,
-  
-  
-  Breadcrumb,
-} from "react-bootstrap";
+import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
 
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -23,7 +14,6 @@ import { useSelector } from "react-redux";
 const AddDeductions = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const navigate = useNavigate();
-
 
   const handleSubmit1 = async (values) => {
     try {
@@ -41,27 +31,25 @@ const AddDeductions = (props) => {
     }
   };
 
-
-
   const [permissionsArray, setPermissionsArray] = useState([]);
   const [isPermissionsSet, setIsPermissionsSet] = useState(false);
-  
+
   const UserPermissions = useSelector((state) => state?.data?.data);
-  
+
   useEffect(() => {
     if (UserPermissions) {
       setPermissionsArray(UserPermissions?.permissions);
       setIsPermissionsSet(true);
     }
   }, [UserPermissions]);
-  
+
   useEffect(() => {
     if (isPermissionsSet) {
-      const isAddPermissionAvailable = permissionsArray?.includes("deduction-create");
-    
+      const isAddPermissionAvailable =
+        permissionsArray?.includes("deduction-create");
+
       if (permissionsArray?.length > 0) {
         if (isAddPermissionAvailable) {
-          console.log(isAddPermissionAvailable, "AddPermissionAvailable");
           // Perform action when permission is available
           // Your code here
         } else {
@@ -74,12 +62,6 @@ const AddDeductions = (props) => {
       }
     }
   }, [isPermissionsSet, permissionsArray]);
-
-
-
-
-
-
 
   return (
     <>
@@ -118,15 +100,13 @@ const AddDeductions = (props) => {
                   </Card.Header>
                   <Formik
                     initialValues={{
-                        deduction_name: "",
-                        deduction_code: "",
-                        deduction_status: "1",
-                        
+                      deduction_name: "",
+                      deduction_code: "",
+                      deduction_status: "1",
                     }}
                     validationSchema={Yup.object({
                       deduction_name: Yup.string()
-                       
-                        .required(" Deduction Name is required"),
+                      .required(" Deduction Name is required"),
 
                       deduction_code: Yup.string()
                         .required("Deduction Code is required")
@@ -158,12 +138,16 @@ const AddDeductions = (props) => {
                           <Row>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="deduction name">Deduction Name</label>
+                                <label htmlFor="deduction name">
+                                  Deduction Name
+                                </label>
                                 <Field
-                                  type="text"  autoComplete="off"
+                                  type="text"
+                                  autoComplete="off"
                                   // className="form-control"
                                   className={`input101 ${
-                                    errors.deduction_name && touched.deduction_name
+                                    errors.deduction_name &&
+                                    touched.deduction_name
                                       ? "is-invalid"
                                       : ""
                                   }`}
@@ -180,11 +164,15 @@ const AddDeductions = (props) => {
                             </Col>
                             <Col lg={6} md={12}>
                               <FormGroup>
-                                <label htmlFor="deduction_code">Deduction Code</label>
+                                <label htmlFor="deduction_code">
+                                  Deduction Code
+                                </label>
                                 <Field
-                                  type="text"  autoComplete="off"
+                                  type="text"
+                                  autoComplete="off"
                                   className={`input101 ${
-                                    errors.deduction_code && touched.deduction_code
+                                    errors.deduction_code &&
+                                    touched.deduction_code
                                       ? "is-invalid"
                                       : ""
                                   }`}
@@ -217,7 +205,6 @@ const AddDeductions = (props) => {
                                   id="deduction_status"
                                   name="deduction_status"
                                 >
-                                  
                                   <option value="1">Active</option>
                                   <option value="0">Inactive</option>
                                 </Field>

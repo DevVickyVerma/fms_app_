@@ -17,18 +17,6 @@ const DashboardSiteDetail = (props) => {
   const [permissionsArray, setPermissionsArray] = useState([]);
   const [getGradsSiteDetails, setGradsGetSiteDetails] = useState(null);
 
-  useEffect(() => {
-    console.log("Effect is running");
-    const handleScroll = () => {
-      console.log("Scroll event detected");
-      const scrollHeight = window.scrollY;
-      console.log(`Scroll Height: ${scrollHeight}px`);
-    };
-    handleScroll();
-
-    // Rest of your code
-  }, []);
-
   const FetchTableData = async () => {
     try {
       const searchdata = await JSON.parse(localStorage.getItem("mySearchData"));

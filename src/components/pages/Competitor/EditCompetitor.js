@@ -22,15 +22,12 @@ const AddCompetitor = (props) => {
 
   const navigate = useNavigate();
 
-  console.log("selectedSiteList", selectedSiteList);
   const { id } = useParams();
   const GetDetails = async () => {
     try {
       const response = await getData(`/site/competitor/detail/${id}`);
 
       if (response && response.data) {
-        console.log(response?.data?.data, "CompetitorData12");
-
         formik.setFieldValue(
           "name",
 
@@ -120,7 +117,6 @@ const AddCompetitor = (props) => {
 
     onSubmit: (values) => {
       handleSubmit(values);
-      console.log(values, "useFormik");
     },
   });
 
@@ -141,10 +137,6 @@ const AddCompetitor = (props) => {
 
           setSelectedCompanyList([]);
 
-          // setShowButton(false);
-          console.log(clientId, "clientId");
-          console.log(AddSiteData, "AddSiteData");
-
           if (response?.data) {
             const selectedClient = response?.data?.data?.find(
               (client) => client.id === clientId
@@ -161,17 +153,13 @@ const AddCompetitor = (props) => {
     }
   };
 
-  console.log(CompetitorData, "CompetitorData");
-
   useEffect(() => {
     fetchCommonListData();
   }, []);
 
   const handleSubmit = async (values) => {
-    console.log(formik.values, "CompetitorData12CompetitorData12");
     try {
       const formData = new FormData();
-      console.log(formData, "formData");
 
       formData.append("name", values.name);
       formData.append("status", values.status);
@@ -189,7 +177,6 @@ const AddCompetitor = (props) => {
     }
   };
 
-  console.log(formik.values, "CompetitorData12");
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -241,10 +228,11 @@ const AddCompetitor = (props) => {
                         <input
                           type="text"
                           autoComplete="off"
-                          className={`input101 ${formik.errors.name && formik.touched.name
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                          className={`input101 ${
+                            formik.errors.name && formik.touched.name
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="name"
                           name="name"
                           placeholder="Competitor Name "
@@ -265,10 +253,11 @@ const AddCompetitor = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <textarea
-                          className={`input101 ${formik.errors.address && formik.touched.address
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                          className={`input101 ${
+                            formik.errors.address && formik.touched.address
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="address"
                           name="address"
                           onChange={formik.handleChange}
@@ -290,10 +279,11 @@ const AddCompetitor = (props) => {
                           Supplier <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${formik.errors.supplier && formik.touched.supplier
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                          className={`input101 ${
+                            formik.errors.supplier && formik.touched.supplier
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="supplier"
                           name="supplier"
                           onChange={formik.handleChange}

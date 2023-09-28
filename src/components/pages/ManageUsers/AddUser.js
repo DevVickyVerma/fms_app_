@@ -83,7 +83,6 @@ const AddUsers = (props) => {
         });
       }
 
-      console.log(SelectedClient, "SelectedClient");
       const postDataUrl = "/user/add";
       const navigatePath = "/users";
 
@@ -120,7 +119,6 @@ const AddUsers = (props) => {
       const { data } = response;
       if (data) {
         setAddSiteData(response?.data);
-        console.log(response?.data?.data, "response?.commonlist");
       }
     } catch (error) {
       console.error("API error:", error);
@@ -370,7 +368,7 @@ const AddUsers = (props) => {
                                 value={selectedItems}
                                 onChange={(event) => {
                                   setSelectedItems(event.target.value);
-                                  console.log(event.target.value);
+
                                   const selectedSiteNames = event.target.value;
                                   const filteredSites =
                                     AddSiteData?.data?.filter((item) =>
@@ -383,7 +381,6 @@ const AddUsers = (props) => {
                                     (data) => data.id
                                   );
                                   setSelectedClient(ids);
-                                  console.log(ids, "filteredSites");
                                 }}
                                 renderValue={(selected) => selected.join(", ")}
                               >

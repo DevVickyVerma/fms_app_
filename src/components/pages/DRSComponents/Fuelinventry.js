@@ -172,11 +172,8 @@ const FuelInventry = (props) => {
 
     if (event.key === "Enter") {
       event.preventDefault();
-      console.log(event, "event");
     }
-    // console.log(event, "event");
 
-    // Create a new FormData object
     const formData = new FormData();
 
     for (const obj of values.data) {
@@ -238,18 +235,16 @@ const FuelInventry = (props) => {
       const responseData = await response.json(); // Read the response once
 
       if (response.ok) {
-        // console.log("Done");
+        //
         SuccessToast(responseData.message);
         handleButtonClick();
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
         ErrorToast(responseData.message);
 
-        console.log("API Error:", responseData);
         // Handle specific error cases if needed
       }
     } catch (error) {
-      console.log("Request Error:", error);
       // Handle request error
     } finally {
       setIsLoading(false);
@@ -288,11 +283,7 @@ const FuelInventry = (props) => {
   }
 
   const calculateTotalValues = async (updatedIndex, UpdatedValue) => {
-    // console.log("updatedIndex", updatedIndex, "updatedValue", UpdatedValue);
-
-    // Get a reference to the data array
     const dataArray = formik?.values?.data;
-    // console.log(dataArray, "dataarray");
 
     if (dataArray) {
       // Create a new array with updated values
@@ -317,9 +308,6 @@ const FuelInventry = (props) => {
   }, [fuelInventoryFinalDataArray]);
 
   const calculateSumForAll = () => {
-    // console.log(fuelInventoryFinalDataArray, "fuelInventoryFinalDataArrassasay");
-    // Initialize variables to store the total values
-    // let totalFuelPrice = 0;
     let totalDueSales = 0;
     let totalBunkeredSales = 0;
     let totalAdjustment = 0;
@@ -341,10 +329,6 @@ const FuelInventry = (props) => {
     setMyBunkeredSalesValue(totalBunkeredSales.toFixed(2));
     setMyAdjustmentValue(totalAdjustment.toFixed(2));
     setMyTestsValue(totalTests.toFixed(2));
-
-    // console.log("Total Fuel Price:", totalFuelPrice.toFixed(2));
-    // console.log("Total Due Sales:", totalDueSales.toFixed(2));
-    // console.log("Total Bunkered Sales:", totalBunkeredSales.toFixed(2));
   };
 
   function CalculateDueSales(index) {
@@ -352,13 +336,9 @@ const FuelInventry = (props) => {
     const actualsales = Number(formik?.values?.data?.[index]?.actual_sales);
 
     if (!isNaN(actualsales) && !isNaN(fuelprice)) {
-      // console.log(fuelprice, actualsales, "fuelprice");
       const finalAmount2 = fuelprice * actualsales;
       const duesales = finalAmount2.toFixed(2);
-      // console.log(duesales, finalAmount2, "fuelprice");
-      // console.log(" duesales", duesales);
-      // console.log("finalAmount2", finalAmount2);
-      // console.log(formik.values, "formikvalueinsidesum");
+
       formik.setFieldValue(`data[${index}].due_sales`, duesales);
 
       calculateTotalValues(index, duesales);

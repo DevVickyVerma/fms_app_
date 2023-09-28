@@ -122,7 +122,7 @@ const ManageSiteTank = (props) => {
   const ToggleStatus = async (formData) => {
     try {
       const response = await postData("/site-nozzle/update-status", formData);
-      console.log(response, "response"); // Console log the response
+      // Console log the response
       if (apidata.api_response === "success") {
         handleSubmit1(submitSiteID);
         // FetchTableData();
@@ -147,8 +147,6 @@ const ManageSiteTank = (props) => {
         `/site-nozzle/list?site_id=${values?.site_id}`
       );
 
-      console.log(response.data.data, "nozzle");
-
       if (response && response.data && response.data.data) {
         const tank = {
           site_id: values?.site_id,
@@ -162,7 +160,7 @@ const ManageSiteTank = (props) => {
 
         localStorage.setItem("SiteNozzle", JSON.stringify(tank));
         setData(response.data.data);
-        console.log(data);
+
         setSearchvalue(response.data.data);
       } else {
         throw new Error("No data available in the response");
@@ -176,8 +174,6 @@ const ManageSiteTank = (props) => {
       const response = await getData(
         `/site-nozzle/list?site_id=${localStorageSiteID}`
       );
-
-      console.log(response.data.data, "nozzle");
 
       if (response) {
         setData(response.data.data);
@@ -206,8 +202,6 @@ const ManageSiteTank = (props) => {
           setSelectedCompanyList([]);
 
           // setShowButton(false);
-          console.log(clientId, "clientId");
-          console.log(AddSiteData, "AddSiteData");
 
           if (response?.data) {
             const selectedClient = response?.data?.data?.find(
@@ -234,7 +228,6 @@ const ManageSiteTank = (props) => {
     const siteId = parsedData?.site_id;
 
     const siteName = parsedData?.sitename;
-    console.log(siteId, "siteId");
 
     setlocalStorageSiteID(siteId);
     setlocalStorageSiteName(siteName);
@@ -573,14 +566,6 @@ const ManageSiteTank = (props) => {
                                       setSelectedCompanyList(
                                         selectedClient.companies
                                       );
-                                      console.log(
-                                        selectedClient,
-                                        "selectedClient"
-                                      );
-                                      console.log(
-                                        selectedClient.companies,
-                                        "selectedClient"
-                                      );
                                     }
                                   }}
                                 >
@@ -635,14 +620,6 @@ const ManageSiteTank = (props) => {
                                   if (selectedCompanyData) {
                                     setSelectedSiteList(
                                       selectedCompanyData.sites
-                                    );
-                                    console.log(
-                                      selectedCompanyData,
-                                      "company_id"
-                                    );
-                                    console.log(
-                                      selectedCompanyData.sites,
-                                      "company_id"
                                     );
                                   }
                                 }}

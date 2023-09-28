@@ -136,7 +136,6 @@ const Departmentshopsale = (props) => {
 
           // Set the formik values using setFieldValue
           formik.setFieldValue("data", formValues);
-          console.log(formValues, "formValues");
         }
       } catch (error) {
         console.error("API error:", error);
@@ -156,9 +155,6 @@ const Departmentshopsale = (props) => {
   const handleSubmit = async (values) => {
     const token = localStorage.getItem("token");
 
-    console.log(values.data);
-
-    // Create a new FormData object
     const formData = new FormData();
 
     for (const obj of values.data) {
@@ -203,14 +199,10 @@ const Departmentshopsale = (props) => {
       const responseData = await response.json(); // Read the response once
 
       if (response.ok) {
-        console.log("Done");
         handleButtonClick();
         SuccessToast(responseData.message);
       } else {
         ErrorToast(responseData.message);
-
-        console.log("API Error:", responseData);
-        // Handle specific error cases if needed
       }
     } catch (error) {
       console.log("Request Error:", error);

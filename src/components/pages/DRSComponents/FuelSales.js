@@ -129,7 +129,6 @@ const FuelSales = (props) => {
 
     // Create a new FormData object
     const formData = new FormData();
-    console.log(values.data);
 
     values.data.forEach((obj) => {
       const id = obj.id;
@@ -170,14 +169,12 @@ const FuelSales = (props) => {
       const responseData = await response.json(); // Read the response once
 
       if (response.ok) {
-        console.log("Done");
         SuccessToast(responseData.message);
         handleButtonClick();
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
         ErrorToast(responseData.message);
 
-        console.log("API Error:", responseData);
         // Handle specific error cases if needed
       }
     } catch (error) {

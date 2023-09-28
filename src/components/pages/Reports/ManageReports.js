@@ -60,7 +60,6 @@ const ManageReports = (props) => {
   const handleToggleChange = (checked) => {
     setToggleValue(checked);
     setShowButton(false);
-    console.log(checked);
   };
   const ErrorToast = (message) => {
     toast.error(message, {
@@ -72,7 +71,6 @@ const ManageReports = (props) => {
   };
 
   useEffect(() => {
-    console.log(localStorage.getItem("superiorId"));
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
 
     if (UserPermissions) {
@@ -100,8 +98,6 @@ const ManageReports = (props) => {
             setSelectedCompanyList([]);
 
             // setShowButton(false);
-            console.log(clientId, "clientId");
-            console.log(AddSiteData, "AddSiteData");
 
             if (response?.data) {
               const selectedClient = response?.data?.data?.find(
@@ -134,9 +130,9 @@ const ManageReports = (props) => {
   const handleSubmit1 = async (formValues) => {
     try {
       const formData = new FormData();
-      console.log(formValues, "formValues");
+
       formData.append("report", formValues.report);
-      console.log(ReportCode, "ReportCode");
+
       formData.append("report", formValues.report);
       if (localStorage.getItem("superiorRole") !== "Client") {
         formData.append("client_id", formValues.client_id);
@@ -164,7 +160,6 @@ const ManageReports = (props) => {
       }
       const siteIds = formValues.sites.map((site) => site.id);
       const siteIdParams = siteIds.map((id) => `site_id[]=${id}`).join("&");
-      console.log(siteIds, "siteIds");
 
       const commonParams = toggleValue
         ? `/report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${siteIdParams}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`
@@ -172,11 +167,10 @@ const ManageReports = (props) => {
 
       try {
         const response = await getData(commonParams);
-        console.log(response.status, "response"); // Console log the response
 
         if (response.status === 200) {
           setShowButton(true);
-          console.log(response, "response"); // Console log the response
+          // Console log the response
           setReportDownloadUrl(commonParams);
         }
 
@@ -380,14 +374,6 @@ const ManageReports = (props) => {
                                     setSelectedSiteList(
                                       selectedCompanyData.sites
                                     );
-                                    console.log(
-                                      selectedCompanyData,
-                                      "company_id"
-                                    );
-                                    console.log(
-                                      selectedCompanyData.sites,
-                                      "company_id"
-                                    );
                                   }
                                 }}
                               >
@@ -418,14 +404,13 @@ const ManageReports = (props) => {
                                 value={selectedItems}
                                 onChange={(event) => {
                                   setSelectedItems(event.target.value);
-                                  console.log(event.target.value);
 
                                   const selectedSiteNames = event.target.value;
                                   const filteredSites = selectedSiteList.filter(
                                     (item) =>
                                       selectedSiteNames.includes(item.site_name)
                                   );
-                                  console.log(filteredSites, "filteredSites");
+
                                   setFieldValue("sites", filteredSites);
                                   setShowButton(false);
                                 }}
@@ -664,11 +649,6 @@ const ManageReports = (props) => {
                                   ReportDownloadUrl,
                                 "_blank",
                                 "noopener noreferrer"
-                              );
-
-                              console.log(
-                                ReportDownloadUrl,
-                                "ReportDownloadUrl"
                               );
                             }}
                             className="btn btn-danger me-2"

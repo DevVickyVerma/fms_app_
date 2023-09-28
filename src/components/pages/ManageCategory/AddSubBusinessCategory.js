@@ -33,11 +33,10 @@ const AddSubBusinessCategory = (props) => {
       formData.append("code", values.code);
       formData.append("status", values.status);
       formData.append("business_category_id", values.business_category_id);
-    
 
       const postDataUrl = "/business/subcategory/add";
       const navigatePath = "/managesubbusinesscategory";
-      console.log(values, "name");
+
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
@@ -63,7 +62,6 @@ const AddSubBusinessCategory = (props) => {
 
       if (permissionsArray?.length > 0) {
         if (isAddPermissionAvailable) {
-          console.log(isAddPermissionAvailable, "AddPermissionAvailable");
           // Perform action when permission is available
           // Your code here
         } else {
@@ -118,7 +116,8 @@ const AddSubBusinessCategory = (props) => {
       handleError(error);
     }
     // console.clear()
-  console.clear()  }, []);
+    console.clear();
+  }, []);
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -160,9 +159,9 @@ const AddSubBusinessCategory = (props) => {
                     status: "1",
                   }}
                   validationSchema={Yup.object({
-                    sub_category_name: Yup.string()
-                     
-                      .required(" Sub-Business Category Name is required"),
+                    sub_category_name: Yup.string().required(
+                      " Sub-Business Category Name is required"
+                    ),
 
                     code: Yup.string()
                       .required("Sub-Business Category Code  is required")
@@ -179,7 +178,9 @@ const AddSubBusinessCategory = (props) => {
                       ),
 
                     status: Yup.string().required("Status is required"),
-                    business_category_id: Yup.string().required("Sub-Business Category Type is required"),
+                    business_category_id: Yup.string().required(
+                      "Sub-Business Category Type is required"
+                    ),
                   })}
                   onSubmit={(values) => {
                     handleSubmit1(values);
@@ -232,8 +233,7 @@ const AddSubBusinessCategory = (props) => {
                                 type="text"
                                 autoComplete="off"
                                 className={`input101 ${
-                                  errors.code &&
-                                  touched.code
+                                  errors.code && touched.code
                                     ? "is-invalid"
                                     : ""
                                 }`}
@@ -303,8 +303,7 @@ const AddSubBusinessCategory = (props) => {
                                   {" "}
                                   Select Business Category
                                 </option>
-                                {
-                                AddSiteData.data ? (
+                                {AddSiteData.data ? (
                                   AddSiteData.data.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.category_name}
@@ -324,18 +323,16 @@ const AddSubBusinessCategory = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
-                      <Link
+                        <Link
                           type="submit"
                           className="btn btn-danger me-2 "
                           to={`/managesubbusinesscategory/`}
                         >
                           Cancel
                         </Link>
-                      <button className="btn btn-primary me-2" type="submit">
+                        <button className="btn btn-primary me-2" type="submit">
                           Add
                         </button>
-                       
-                       
                       </Card.Footer>
                     </Form>
                   )}

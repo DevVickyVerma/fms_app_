@@ -25,7 +25,6 @@ import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { useSelector } from "react-redux";
 
-
 const SiteSettings = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const navigate = useNavigate();
@@ -106,11 +105,8 @@ const SiteSettings = (props) => {
     }
 
     console.clear();
-    console.clear()
+    console.clear();
   }, []);
-
-
-
 
   const handleFetchData = async () => {
     try {
@@ -129,10 +125,6 @@ const SiteSettings = (props) => {
 
             setSelectedCompanyList([]);
 
-            // setShowButton(false);
-            console.log(clientId, "clientId");
-            console.log(AddSiteData, "AddSiteData");
-
             if (response?.data) {
               const selectedClient = response?.data?.data?.find(
                 (client) => client.id === clientId
@@ -150,7 +142,6 @@ const SiteSettings = (props) => {
   };
 
   const handleSubmit = async (values) => {
-
     let clientIDCondition = "";
     if (localStorage.getItem("superiorRole") !== "Client") {
       clientIDCondition = `client_id=${formik.values.client_id}&`;
@@ -164,8 +155,6 @@ const SiteSettings = (props) => {
       );
       const { data } = response;
       if (data) {
-        console.log(data?.data, "setdata");
-
         setData(data?.data);
         const formValues = data?.data.map((item) => {
           return {
@@ -186,7 +175,6 @@ const SiteSettings = (props) => {
       // Handle error if the API call fails
     }
   };
-
 
   const formik = useFormik({
     initialValues: {
@@ -244,7 +232,6 @@ const SiteSettings = (props) => {
               value={formik?.values?.data && formik.values.data[index]?.value}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-
             />
             {/* Error handling code */}
           </div>
@@ -259,13 +246,6 @@ const SiteSettings = (props) => {
   };
   const handleSubmitForm1 = async (event) => {
     event.preventDefault();
-    console.log(formik.values, "ok");
-
-    // charge_id: item.charge_id,
-    // date: item.date,
-    // site_id: item.site_id,
-    // site_name: item.site_name,
-    // value: item.value,
 
     try {
       const formData = new FormData();
@@ -274,16 +254,12 @@ const SiteSettings = (props) => {
         const values = obj.value;
         const charges_price = `charges[${id}]`;
 
-
         const platts_price_Value = values;
 
         // const action = obj.action;
 
         formData.append(charges_price, platts_price_Value);
-
       });
-
-
 
       const postDataUrl = "/daily-facility-fees/update";
       const navigatePath = "/business";
@@ -342,11 +318,12 @@ const SiteSettings = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.client_id &&
+                            className={`input101 ${
+                              formik.errors.client_id &&
                               formik.touched.client_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="client_id"
                             name="client_id"
                             onChange={(e) => {
@@ -371,7 +348,7 @@ const SiteSettings = (props) => {
                           >
                             <option value="">Select a Client</option>
                             {ToleranceData.data &&
-                              ToleranceData.data.length > 0 ? (
+                            ToleranceData.data.length > 0 ? (
                               ToleranceData.data.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.client_name}
@@ -399,11 +376,12 @@ const SiteSettings = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${formik.errors.company_id &&
+                          className={`input101 ${
+                            formik.errors.company_id &&
                             formik.touched.company_id
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="company_id"
                           name="company_id"
                           onChange={(e) => {
@@ -468,44 +446,48 @@ const SiteSettings = (props) => {
               </Card.Header>
 
               <div class="card-body">
-
-                {data?.length > 0 ? <>
-                  <form onSubmit={handleSubmitForm1}>
-                    <div className="table-responsive deleted-table">
-                      <DataTableExtensions {...tableDatas}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          persistTableHead
-                          highlightOnHover
-                          searchable={false}
-                        />
-                      </DataTableExtensions>
-                    </div>
-                    {isEditPermissionAvailable ? (
-                      <div className="d-flex justify-content-end mt-3">
-                        {data ? (
-                          <button className="btn btn-primary" type="submit">
-                            Submit
-                          </button>
-                        ) : (
-                          ""
-                        )}
+                {data?.length > 0 ? (
+                  <>
+                    <form onSubmit={handleSubmitForm1}>
+                      <div className="table-responsive deleted-table">
+                        <DataTableExtensions {...tableDatas}>
+                          <DataTable
+                            columns={columns}
+                            data={data}
+                            noHeader
+                            defaultSortField="id"
+                            defaultSortAsc={false}
+                            striped={true}
+                            persistTableHead
+                            highlightOnHover
+                            searchable={false}
+                          />
+                        </DataTableExtensions>
                       </div>
-                    ) : (
-                      ""
-                    )}
-                  </form>
-                </> : <>
-
-                  <img src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")} alt="MyChartImage" className="all-center-flex nodata-image" />
-
-                </>}
-
+                      {isEditPermissionAvailable ? (
+                        <div className="d-flex justify-content-end mt-3">
+                          {data ? (
+                            <button className="btn btn-primary" type="submit">
+                              Submit
+                            </button>
+                          ) : (
+                            ""
+                          )}
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </form>
+                  </>
+                ) : (
+                  <>
+                    <img
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      alt="MyChartImage"
+                      className="all-center-flex nodata-image"
+                    />
+                  </>
+                )}
               </div>
             </Card>
           </Col>

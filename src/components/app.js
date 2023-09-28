@@ -55,7 +55,7 @@ const App = (props) => {
 
   useEffect(() => {
     simulateLoadingAndNavigate();
-    // console.clear();
+    console.clear();
   }, [location.pathname]);
 
   const [isInactive, setIsInactive] = useState(false);
@@ -68,8 +68,6 @@ const App = (props) => {
   };
 
   useEffect(() => {
-    console.log(localStorage.getItem("auto_logout"), "auto_logout111");
-    console.log(logoutTime, "auto_logout111logoutTime");
     window.addEventListener("mousemove", handleUserActivity);
     window.addEventListener("keydown", handleUserActivity);
     window.addEventListener("scroll", handleUserActivity);
@@ -89,7 +87,6 @@ const App = (props) => {
   };
 
   const handleCancel = () => {
-    console.log("Deletion canceledlogout");
     logout();
   };
 
@@ -113,9 +110,8 @@ const App = (props) => {
       }).then((result) => {
         handleConfirm();
       });
-
-      console.log("Inactivity Alert");
     }
+    console.clear();
   }, [isInactive, handleConfirm, handleCancel]);
   return (
     <MyProvider>

@@ -50,7 +50,6 @@ const AddCompany = (props) => {
       const response = await getData(`/client/assigned-report?client_id=${id}`);
 
       if (response && response.data) {
-        console.log(response.data, "dddd");
         setReportsData(response?.data?.data);
 
         formik.setFieldValue("FormikreportsData", response?.data?.data);
@@ -112,7 +111,6 @@ const AddCompany = (props) => {
   const handleSubmit = async (event, values) => {
     // event.preventDefault();
 
-    console.log(formik.values, "client_id");
     try {
       const formData = new FormData();
 

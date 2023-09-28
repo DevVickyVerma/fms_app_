@@ -109,10 +109,6 @@ const Header = (props) => {
   useEffect(() => {
     const isTwoFactorAvailable = JSON.parse(localStorage.getItem("two_factor"));
     setIsTwoFactorPermissionAvailable(isTwoFactorAvailable);
-    console.log(
-      typeof isTwoFactorPermissionAvailable,
-      "isTwoFactorPermissionAvailable"
-    );
   }, [isTwoFactorPermissionAvailable]);
 
   const openCloseSidebar = () => {
@@ -120,15 +116,12 @@ const Header = (props) => {
   };
   const stringValue = String(UserPermissions?.notifications);
 
-  console.log(UserPermissions?.notifications, "usernotification");
-
   const handleIconClick = async (row) => {
     try {
       setIsDropdownOpen(!isDropdownOpen);
       const response = await getData("/notifications");
 
       if (response.data.api_response === "success") {
-        console.log(response.data?.data, "notifications");
         setnotification(response?.data?.data);
         // SuccessAlert(response.data.message);
       } else {
@@ -154,13 +147,6 @@ const Header = (props) => {
     setShowTruw(true);
     // setSidebarVisible1(!sidebarVisible1);
   };
-  const twoFactorValue = localStorage.getItem("two_factor");
-
-  if (twoFactorValue !== null) {
-    console.log(typeof twoFactorValue, "two_factor");
-  } else {
-    console.log("Value not found in localStorage");
-  }
 
   return (
     <Navbar expand="md" className="app-header header sticky">
@@ -203,8 +189,6 @@ const Header = (props) => {
           <div className="d-flex order-lg-2 ms-auto header-right-icons">
             <div>
               <Navbar id="navbarSupportedContent-4">
-                {console.log(localStorage.getItem("two_factor"), "two_factor")}
-
                 {storedKeyRef.current === "false" &&
                 isProfileUpdatePermissionAvailable ? (
                   <>

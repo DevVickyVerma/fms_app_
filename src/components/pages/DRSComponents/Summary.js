@@ -96,7 +96,6 @@ const DepartmentShop = (props) => {
 
         const { data } = response;
         if (data) {
-          console.log(data?.data?.takings, "data?.data?.takings");
           setData(data?.data?.takings);
           setbankingData(data?.data?.banking);
 
@@ -149,7 +148,6 @@ const DepartmentShop = (props) => {
 
       return (
         <div className="Dps-data" key={index}>
-          {console.log(displayName, "columnIndex")}
           <p>{displayName}</p>
           <p>{bankingdata[item]}</p>
         </div>
@@ -161,11 +159,6 @@ const DepartmentShop = (props) => {
     setIsLoading(true);
     try {
       const token = localStorage.getItem("token");
-
-      // console.log(values);
-      // console.log(site_id);
-      // console.log(start_date);
-      // console.log(summarydata?.summary_of_variances);
 
       const banking_difference = summarydata?.banking["banking_difference"];
 
@@ -208,7 +201,7 @@ const DepartmentShop = (props) => {
         const errorMessage = Array.isArray(data.message)
           ? data.message.join(" ")
           : data.message;
-        console.log(errorMessage);
+
         ErrorToast(errorMessage);
         setIsLoading(false);
       }
@@ -219,7 +212,7 @@ const DepartmentShop = (props) => {
     setIsLoading(false);
   };
   const isSummaryRemarksNull = summaryRemarks === null;
-  console.log(isSummaryRemarksNull, "isSummaryRemarksNull");
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -247,7 +240,7 @@ const DepartmentShop = (props) => {
                   <p>Cash Difference</p>
                   <p>{summarydata?.cash_difference}</p>
                 </div>
-                {console.log(remarkdata, "remarkdata")}
+
                 {!isSummaryRemarksNull ? (
                   <div className="Dps-data">
                     <p>Remarks</p>

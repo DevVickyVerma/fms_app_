@@ -53,8 +53,6 @@ const AddSitePump = (props) => {
             setSelectedCompanyList([]);
 
             // setShowButton(false);
-            console.log(clientId, "clientId");
-            console.log(AddSiteData, "AddSiteData");
 
             if (response?.data) {
               const selectedClient = response?.data?.data?.find(
@@ -226,14 +224,6 @@ const AddSitePump = (props) => {
                                       setSelectedCompanyList(
                                         selectedClient.companies
                                       );
-                                      console.log(
-                                        selectedClient,
-                                        "selectedClient"
-                                      );
-                                      console.log(
-                                        selectedClient.companies,
-                                        "selectedClient"
-                                      );
                                     }
                                   }}
                                 >
@@ -289,14 +279,6 @@ const AddSitePump = (props) => {
                                     setSelectedSiteList(
                                       selectedCompanyData.sites
                                     );
-                                    console.log(
-                                      selectedCompanyData,
-                                      "company_id"
-                                    );
-                                    console.log(
-                                      selectedCompanyData.sites,
-                                      "company_id"
-                                    );
                                   }
                                 }}
                               >
@@ -338,11 +320,6 @@ const AddSitePump = (props) => {
                                 name="site_id"
                                 onChange={(event) => {
                                   const site = event.target.value;
-                                  console.log(site);
-                                  console.log(
-                                    selectedFuelList,
-                                    "selectedFuelList"
-                                  );
 
                                   setFieldValue("site_id", site);
                                 }}
