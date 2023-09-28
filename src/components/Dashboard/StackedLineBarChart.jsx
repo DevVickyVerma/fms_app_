@@ -3,7 +3,7 @@ import { Line } from "react-chartjs-2";
 const StackedLineBarChart = ({ stackedLineBarLabels, stackedLineBarData }) => {
   if (!stackedLineBarLabels || !stackedLineBarData) {
     // Data is not available yet, return a loading state or null
-    return <p>Please Apply Filter To Load Chart...</p>;
+    return <p> Please Apply Filter To Visualize Chart.....</p>;
   }
   // console.log(
   //   "StackedLineBarChart, stackedLineBarLabels, stackedLineBarData",

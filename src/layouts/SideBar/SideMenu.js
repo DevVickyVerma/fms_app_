@@ -38,7 +38,7 @@ export const MENUITEMS = [
             type: "link",
             title: "2FA Authentication",
             // permission: "2fa-user-list",
-            permission: "user-create",
+            permission: "2fa-user-list",
             visibility: false,
           },
         ],

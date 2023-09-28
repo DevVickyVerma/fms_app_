@@ -134,14 +134,17 @@ const DashTopSubHeading = ({
 
   return (
     <>
-      <CustomModal
-        open={modalOpen}
-        onClose={handleModalClose}
-        siteName={getSiteDetails?.site_name}
-      />
-      <div style={{ marginBottom: "20px" }}>
-        {/* top border section in sub child component */}
+      {modalOpen ? (
+        <CustomModal
+          open={modalOpen}
+          onClose={handleModalClose}
+          siteName={getSiteDetails?.site_name}
+        />
+      ) : (
+        ""
+      )}
 
+      <div style={{ marginBottom: "20px" }}>
         {alertStatus === true ? (
           <>
             <div

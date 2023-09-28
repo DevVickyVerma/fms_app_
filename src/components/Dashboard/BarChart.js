@@ -5,7 +5,7 @@ import { Chart as ChartJS } from "chart.js/auto";
 const BarChart = ({ piechartValues }) => {
   if (!piechartValues) {
     // Data is not available yet, return a loading state or null
-    return <p>Please Apply Filter To Load Chart...</p>;
+    return <p> Please Apply Filter To Visualize Chart.....</p>;
   }
   // console.log(piechartValues, "piechartValues");
   const shop_sales = parseFloat(piechartValues?.shop_sales);

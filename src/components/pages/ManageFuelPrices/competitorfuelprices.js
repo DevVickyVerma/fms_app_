@@ -21,7 +21,7 @@ import { Slide, toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import { ErrorMessage, Field, Formik, useFormik } from "formik";
 import { Collapse, Table } from "antd";
-import CustomModal from "../../../data/Modal/MiddayModal";
+
 import Compititormodal from "../../../data/Modal/Midaymodalcompititor";
 
 const { Panel } = Collapse;

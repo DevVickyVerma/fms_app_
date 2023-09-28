@@ -7,7 +7,7 @@ import { Line } from "react-chartjs-2";
 const LineChart = ({ LinechartValues, LinechartOption }) => {
   if (!LinechartValues || !LinechartOption) {
     // Data is not available yet, return a loading state or null
-    return <p>Please Apply Filter To Load Chart...</p>;
+    return <p> Please Apply Filter To Visualize Chart.....</p>;
   }
 
   let firstData = LinechartValues?.[0]?.data;
@@ -21,8 +21,6 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
   const DATA_COUNT = 17;
 
   const labels = LinechartOption?.map((label) => label);
-
-
 
   let myLabels = LinechartValues;
 
@@ -40,7 +38,6 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
     backgroundColor: `rgba(${colorArray[index % colorArray.length].join(
       ", "
     )}, 0.2)`,
-
 
     yAxisID: index === 1 ? "y1" : "y",
     key: index,
@@ -86,14 +83,9 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
     },
   };
 
-
-
   return (
     <div className="d-flex chart-items">
-      <Line
-        data={data}
-        options={options}
-      />
+      <Line data={data} options={options} />
     </div>
   );
 };
