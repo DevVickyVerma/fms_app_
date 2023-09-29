@@ -22,7 +22,8 @@ import withApi from "../../../Utils/ApiHelper";
 import { Field } from "formik";
 
 const SiteSettings = (props) => {
-  const { apidata, error, getData, postData, SiteID, ReportDate } = props;
+  const { apidata, error, getData, postData, SiteID, ReportDate, isLoading } =
+    props;
 
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
@@ -36,99 +37,53 @@ const SiteSettings = (props) => {
   const [ReportsData, setReportsData] = useState([]);
   const [CashDayData, setCashDayData] = useState([]);
 
-  const [isLoading, setIsLoading] = useState(true);
-
-  const navigate = useNavigate();
-  const SuccessToast = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-  const ErrorToast = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      SuccessToast("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorToast(errorMessage);
-    }
-  }
-
   const { id } = useParams();
+
   useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
+    fetchData();
+  }, [id]);
 
-      const axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_BASE_URL,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  const fetchData = async () => {
+    try {
+      const response = await getData(`/site/get-setting-list/${id}`);
 
-      try {
-        const response = await axiosInstance.get(
-          `/site/get-setting-list/${id}`
+      if (response && response?.data) {
+        const { data } = response;
+        console.log("response", data);
+
+        console.log(data, "setting");
+        setData(data?.data ? data.data.charges : []);
+        setDeductionData(data?.data ? data.data.deductions : []);
+        setFuelData(data?.data ? data.data.fuels : []);
+        setDrsData(data?.data ? data.data.drsCard : []);
+        setReportsData(data?.data ? data.data.reports : []);
+        setSiteItems(data?.data ? data.data.site_items : []);
+        setBussinesModelData(data?.data ? data.data.business_models : []);
+        setCardsModelData(data?.data ? data.data.cards : []);
+        setCashDayData(data?.data ? data.data.cash_days : []);
+        setis_editable(data?.data ? data.data : {});
+
+        formik.setFieldValue(
+          "AssignFormikbussiness",
+          data?.data?.business_models
         );
 
-        const { data } = response;
-        if (data) {
-          setData(data?.data ? data.data.charges : []);
-          setDeductionData(data?.data ? data.data.deductions : []);
-          setFuelData(data?.data ? data.data.fuels : []);
-          setDrsData(data?.data ? data.data.drsCard : []);
-          setReportsData(data?.data ? data.data.reports : []);
-          setSiteItems(data?.data ? data.data.site_items : []);
-          setBussinesModelData(data?.data ? data.data.business_models : []);
-          setCardsModelData(data?.data ? data.data.cards : []);
-          setCashDayData(data?.data ? data.data.cash_days : []);
-          setis_editable(data?.data ? data.data : {});
+        formik.setFieldValue("FormikDeductionData", data?.data?.deductions);
+        formik.setFieldValue("Formiksite_items", data?.data?.site_items);
+        formik.setFieldValue("FormikChargesData", data?.data?.charges);
+        formik.setFieldValue("FormikFuelData", data?.data?.fuels);
+        formik.setFieldValue("FormikDRSData", data?.data?.drsCard);
+        formik.setFieldValue("FormikreportsData", data?.data?.reports);
 
-          formik.setFieldValue(
-            "AssignFormikbussiness",
-            data?.data?.business_models
-          );
-
-          formik.setFieldValue("FormikDeductionData", data?.data?.deductions);
-          formik.setFieldValue("Formiksite_items", data?.data?.site_items);
-          formik.setFieldValue("FormikChargesData", data?.data?.charges);
-          formik.setFieldValue("FormikFuelData", data?.data?.fuels);
-          formik.setFieldValue("FormikDRSData", data?.data?.drsCard);
-          formik.setFieldValue("FormikreportsData", data?.data?.reports);
-
-          formik.setFieldValue("AssignFormikCards", data?.data?.cards);
-          formik.setFieldValue("CahsDayFormikData", data?.data?.cash_days);
-        }
-      } catch (error) {
-        console.error("API error:", error);
-        handleError(error);
-      } finally {
-        setIsLoading(false);
+        formik.setFieldValue("AssignFormikCards", data?.data?.cards);
+        formik.setFieldValue("CahsDayFormikData", data?.data?.cash_days);
+      } else {
+        throw new Error("No data available in the response");
       }
-    };
-
-    fetchData();
-    console.clear();
-  }, [id]); // Removed 'SiteID' and 'ReportDate' dependencies as they are not defined in the code snippet
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
 
   const handleSettingSubmit = async (values) => {
     try {
