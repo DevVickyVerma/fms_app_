@@ -68,11 +68,11 @@ const DashboardShopSale = ({ getSiteDetails }) => {
     const renderTableHeader = () => {
         return (
             <tr className="fuelprice-tr" style={{ padding: "0px" }}>
-                <th className='dashboard-shopSale-table-width dashboard-shopSale-table-th' style={{ width: "25%" }}>Name</th>
+                <th className='dashboard-shopSale-table-width dashboard-shopSale-table-th' style={{ width: "25%", padding: "17px" }}>Name</th>
                 <th className='dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center' style={{ width: "15%" }}>Gross Sales</th>
                 <th className='dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center' style={{ width: "15%" }}>Net Sales</th>
                 <th className='dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center' style={{ width: "15%" }}>Profit</th>
-                <th className='dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center' style={{ width: "15%" }}>Total transaction </th>
+                <th className='dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center' style={{ width: "15%" }}>Total TransactionS </th>
                 <th className='dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center' style={{ width: "15%" }}>Details</th>
             </tr>
         );
@@ -173,6 +173,7 @@ const DashboardShopSale = ({ getSiteDetails }) => {
                                     style={{
                                         overflowY: "auto",
                                         maxHeight: "calc(100vh - 376px )",
+                                        minHeight: "300px"
                                     }}
                                 >
                                     <table className="table">
