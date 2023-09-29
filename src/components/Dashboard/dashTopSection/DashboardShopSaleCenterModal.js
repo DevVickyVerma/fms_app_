@@ -17,8 +17,8 @@ const DashboardShopSaleCenterModal = (props) => {
         return (
             <tr className="fuelprice-tr" style={{ padding: "0px" }}>
                 <th className='dashboard-shopSale-table-width dashboard-shopSale-table-th'>Name</th>
-                <th className='dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center' >Shop Value</th>
-                <th className='dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center' >Shop Volume</th>
+                <th className='dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center' >Shop Sales</th>
+                <th className='dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center' >Quantity</th>
                 <th className='dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center' >Transactions</th>
             </tr>
         );
@@ -48,10 +48,21 @@ const DashboardShopSaleCenterModal = (props) => {
                                                     background: "#FFF",
                                                     padding: "5px",
                                                     borderRadius: "8px",
+                                                    margin: "0 5px"
                                                 }}
                                             />
                                             {cardDetail?.card_name}</h6>
                                     </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td className='dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center'>
+                            <div className="d-flex align-items-center h-100 ">
+                                <div className="ms-2 mt-0 mt-sm-2 d-block">
+                                    <h6 className="mb-0 fs-14 fw-semibold ">
+                                        {cardDetail?.shop_sales}
+                                    </h6>
                                 </div>
                             </div>
                         </td>
@@ -67,21 +78,9 @@ const DashboardShopSaleCenterModal = (props) => {
                         </td>
 
                         <td className='dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center'>
-
-                            <div className="d-flex">
+                            <div className="d-flex align-items-center h-100 ">
                                 <div className="ms-2 mt-0 mt-sm-2 d-block">
-                                    <h6 className="mb-0 fs-14 fw-semibold">
-                                        {cardDetail?.shop_sales}
-                                    </h6>
-
-                                </div>
-                            </div>
-                        </td>
-
-                        <td className='dashboard-shopSale-table-width dashboard-shopSale-table-td d-flex justify-content-center'>
-                            <div className="d-flex">
-                                <div className="ms-2 mt-0 mt-sm-2 d-block">
-                                    <h6 className="mb-0 fs-14 fw-semibold">
+                                    <h6 className="mb-0 fs-14 fw-semibold ">
                                         {cardDetail?.transactions}
                                     </h6>
                                 </div>
