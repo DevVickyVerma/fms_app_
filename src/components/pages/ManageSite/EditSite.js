@@ -51,7 +51,6 @@ export default function AddSite(props) {
     });
   };
 
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");

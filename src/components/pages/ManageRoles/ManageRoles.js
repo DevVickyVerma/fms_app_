@@ -120,7 +120,6 @@ const ManageRoles = (props) => {
   });
 
   const handleEdit = (row) => {
-    localStorage.setItem("EditRoleID", row.id);
     localStorage.setItem("EditRole_name", row.name);
   };
   const FetchTableData = async () => {
@@ -207,7 +206,7 @@ const ManageRoles = (props) => {
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
-                to="/editrole"
+                to={`/editrole/${row.id}`}
                 className="btn btn-primary btn-sm rounded-11 me-2"
                 onClick={() => handleEdit(row)}
               >

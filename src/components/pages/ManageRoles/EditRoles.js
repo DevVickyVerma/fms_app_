@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +28,7 @@ const EditRoles = (props) => {
   const [permissions, setPermissions] = useState([]);
   const [addonitem, setAddonitem] = useState([]);
   const [userpermissions, setUserPermissions] = useState([]);
-
+  const { id } = useParams();
   const SuccessAlert = (message) => {
     toast.success(message, {
       autoClose: 1000,
@@ -76,13 +76,14 @@ const EditRoles = (props) => {
   }, []);
   const FetchPermisionList = async () => {
     try {
-      const EditRoleId = localStorage.getItem("EditRoleID");
       const formData = new FormData();
-      formData.append("role_id", EditRoleId);
-      const response = await getData("/role/detail", EditRoleId, formData);
+      formData.append("role_id", id);
+      const response = await getData("/role/detail", id, formData);
 
       if (response && response.data) {
         const { data } = response.data;
+        console.log(data, "response");
+        formik.setFieldValue("permissionsname", data?.name);
 
         // Initialize an empty array to hold the filtered permission names
         const filteredPermissions = [];
@@ -151,42 +152,61 @@ const EditRoles = (props) => {
       handleSubmit(values);
     },
   });
+  // const handleSubmit = async (values) => {
+  //   try {
+  //     const body = {
+  //       name: values.name,
+  //       permissions: values.permissions,
+  //       role_id: localStorage.getItem("EditRoleID"),
+  //     };
+
+  //     const token = localStorage.getItem("token");
+
+  //     const response = await fetch(
+  //       `${process.env.REACT_APP_BASE_URL}/role/update`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(body),
+  //       }
+  //     );
+
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       SuccessAlert(data.message);
+  //       navigate("/roles");
+  //     } else {
+  //       ErrorAlert(error.message);
+  //       const errorData = await response.json();
+  //       throw new Error(errorData.message);
+  //     }
+  //   } catch (error) {
+  //     handleError(error);
+  //   }
+  // };
 
   const handleSubmit = async (values) => {
     try {
-      const body = {
-        name: values.name,
-        permissions: values.permissions,
-        role_id: localStorage.getItem("EditRoleID"),
-      };
+      const formData = new FormData();
 
-      const token = localStorage.getItem("token");
+      formData.append("name", values.name);
+      formData.append("role_id", id);
 
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/role/update`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(body),
-        }
-      );
+      // Loop through the array and append each value individually
+      values.permissions.forEach((permission, index) => {
+        formData.append(`permissions[${index}]`, permission);
+      });
 
-      if (response.ok) {
-        const data = await response.json();
-        SuccessAlert(data.message);
-        navigate("/roles");
-      } else {
-        ErrorAlert(error.message);
-        const errorData = await response.json();
-        throw new Error(errorData.message);
-      }
-    } catch (error) {
-      handleError(error);
-    }
+      const postDataUrl = "/role/update";
+      const navigatePath = `/roles`;
+
+      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
+    } catch (error) {}
   };
+
   const [selectAllChecked, setSelectAllChecked] = useState(false);
   const handleHeadingCheckboxChange = (heading, isChecked) => {
     const headingPermissions = permissions[heading]?.names;

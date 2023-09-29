@@ -211,7 +211,7 @@ const ManageAddon = (props) => {
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
-                to="/editaddon"
+                to={`/editaddon/${row.id}`}
                 className="btn btn-primary btn-sm rounded-11 me-2"
                 onClick={() => handleEdit(row)}
               >

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import { useNavigate } from "react-router-dom";
@@ -32,6 +32,7 @@ const EditAddon = (props) => {
 
   const navigate = useNavigate();
 
+  const { id } = useParams;
   const [permissionArray, setPermissionArray] = useState([]);
   const ErrorAlert = (message) => {
     toast.error(message, {
@@ -205,6 +206,24 @@ const EditAddon = (props) => {
       ErrorAlert(data.message);
     }
   };
+  // const handleSubmit = async (values) => {
+  //   try {
+  //     const formData = new FormData();
+
+  //     formData.append("addon_name", values.name);
+  //     formData.append("addon_id", id);
+
+  //     // Loop through the array and append each value individually
+  //     values.permissions.forEach((permission, index) => {
+  //       formData.append(`permissions[${index}]`, permission);
+  //     });
+
+  //     const postDataUrl = "/addon/update";
+  //     const navigatePath = `/manageaddon`;
+
+  //     await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
+  //   } catch (error) {}
+  // };
 
   const [selectAllPermissions, setSelectAllPermissions] = useState({});
 

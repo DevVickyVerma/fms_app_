@@ -640,7 +640,10 @@ const Root = () => {
                   <Route path={`/roles`} element={<WrappedManageRoles />} />
                   <Route path={`/addroles`} element={<WrappedAddRoles />} />
 
-                  <Route path={`/editrole`} element={<WrappeAddEditRoles />} />
+                  <Route
+                    path={`/editrole/:id`}
+                    element={<WrappeAddEditRoles />}
+                  />
 
                   {/* Role  Components End */}
                   <Route
@@ -679,7 +682,10 @@ const Root = () => {
                   />
 
                   <Route path={`/addaddon`} element={<WrappedAddAddon />} />
-                  <Route path={`EditAddon`} element={<WrappeAddEditAddon />} />
+                  <Route
+                    path={`EditAddon/:id`}
+                    element={<WrappeAddEditAddon />}
+                  />
 
                   {/* Addon  Components End */}
                   <Route path={`/email-logs`} element={<WrappedEmaillogs />} />
