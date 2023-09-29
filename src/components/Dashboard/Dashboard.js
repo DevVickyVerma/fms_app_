@@ -196,6 +196,7 @@ const Dashboard = (props) => {
   const token = localStorage.getItem("token");
   const loggedInFlag = localStorage.getItem("justLoggedIn");
   const tokenUpdated = localStorage.getItem("tokenupdate") === "true";
+  const Client_login = localStorage.getItem("Client_login") === "true";
   const storedToken = localStorage.getItem("token");
   const dispatch = useDispatch();
   useEffect(() => {
@@ -219,6 +220,17 @@ const Dashboard = (props) => {
       setJustLoggedIn(false);
     }
   }, [ClientID, dispatch, justLoggedIn, token]);
+
+  useEffect(() => {
+    if (Client_login) {
+      if (tokenUpdated) {
+        window.location.reload();
+
+        localStorage.setItem("Client_login", "false"); // Update the value to string "false"
+        // Handle token update logic without page reload
+      }
+    }
+  }, [Client_login]);
 
   const handleToggleSidebar1 = () => {
     setShowTruw(true);

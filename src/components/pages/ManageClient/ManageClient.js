@@ -226,7 +226,10 @@ const ManageClient = (props) => {
         localStorage.setItem("Last_name", lastName);
         localStorage.setItem("Phone_Number", phoneNumber);
         localStorage.setItem("superiorRole", superiorRole);
-        localStorage.setItem("tokenupdate", true);
+        setTimeout(function () {
+          localStorage.setItem("tokenupdate", "true");
+          localStorage.setItem("Client_login", "true");
+        }, 1000); // 2000 milliseconds (2 seconds)
 
         localStorage.removeItem("passData");
         localStorage.removeItem("mySearchData");
