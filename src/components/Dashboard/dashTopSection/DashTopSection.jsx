@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import Spinners from "../Spinner";
 import OilBarrelIcon from "@mui/icons-material/OilBarrel";
-import DashTopTableSection from "./DashTopTableSection";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { margin } from "@mui/system";
 
 const DashTopSection = (props) => {
   const {
@@ -17,6 +15,7 @@ const DashTopSection = (props) => {
     FuelValue,
     shopsale,
     searchdata,
+    shouldNavigateToDetailsPage
   } = props;
 
   const [UploadTabname, setUploadTabname] = useState();
@@ -37,38 +36,10 @@ const DashTopSection = (props) => {
   const navigate = useNavigate();
 
   const handleNavigateClick = (cardName) => {
-    let myvalueTest = 1;
-    const passData = {
-      isLoading,
-      GrossVolume,
-      shopmargin,
-      GrossProfitValue,
-      GrossMarginValue,
-      FuelValue,
-      shopsale,
-      searchdata,
-      myvalueTest,
-    };
-
-    const passDataString = JSON.stringify(passData);
-    localStorage.setItem("passData", passDataString);
-
-    navigate(`/dashboard-details`, { state: passData });
+    navigate(`/dashboard-details`
+    );
   };
 
-  const handleClick = () => {
-    if (isDetailPermissionAvailable) {
-      setUploadTabname("Gross Profit");
-
-      handleNavigateClick("Gross Profit");
-    }
-  };
-  const GrossVolumehandleClick = () => {
-    if (isDetailPermissionAvailable) {
-      setUploadTabname("GrossVolume");
-      handleNavigateClick(UploadTabname);
-    }
-  };
 
   return (
     <div>
@@ -77,22 +48,19 @@ const DashTopSection = (props) => {
           <Row>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden Dashboard-card ${
-                  GrossVolume?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden Dashboard-card ${GrossVolume?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <Card.Body
-                  className={`${
-                    isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                  }`}
+                  className={`${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                    }`}
                 >
                   <Row>
                     <div className="col">
                       <div
                         className=" dashboard-box"
-                        // onClick={GrossVolumehandleClick}
                         onClick={() => {
                           const shouldNavigate =
                             (superiorRole === "Administrator" &&
@@ -101,9 +69,8 @@ const DashTopSection = (props) => {
                             (superiorRole !== "Administrator" &&
                               isDetailPermissionAvailable);
 
-                          if (shouldNavigate) {
+                          if (shouldNavigate && shouldNavigateToDetailsPage) {
                             setUploadTabname("GrossVolume");
-                            handleNavigateClick(UploadTabname);
                             handleNavigateClick(UploadTabname);
                           }
                         }}
@@ -129,7 +96,6 @@ const DashTopSection = (props) => {
                                 </div>
                               </div>
 
-                              {/* <p className="p-0">Bunkered Volume</p> */}
                               <OverlayTrigger
                                 placement="top"
                                 overlay={
@@ -138,11 +104,10 @@ const DashTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      shopmargin?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${shopmargin?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                     data-tip={`${GrossVolume?.percentage}%`}
                                   >
                                     {GrossVolume?.status === "up" ? (
@@ -181,16 +146,14 @@ const DashTopSection = (props) => {
               </Card>
             </Col>
             <div
-              className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 ${
-                isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-              }`}
+              className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 ${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                }`}
             >
               <div
-                className={`card overflow-hidden Dashboard-card ${
-                  GrossProfitValue?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden Dashboard-card ${GrossProfitValue?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <div className="card-body ">
                   <Row>
@@ -205,9 +168,8 @@ const DashTopSection = (props) => {
                             (superiorRole !== "Administrator" &&
                               isDetailPermissionAvailable);
 
-                          if (shouldNavigate) {
+                          if (shouldNavigate && shouldNavigateToDetailsPage) {
                             setUploadTabname("Gross Profit");
-                            handleNavigateClick(UploadTabname);
                             handleNavigateClick(UploadTabname);
                           }
                         }}
@@ -230,11 +192,10 @@ const DashTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      GrossProfitValue?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${GrossProfitValue?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {GrossProfitValue?.status === "up" ? (
                                       <>
@@ -251,9 +212,6 @@ const DashTopSection = (props) => {
                                         </span>
                                       </>
                                     )}
-                                    {/* <span>
-                                      {GrossProfitValue?.percentage}%
-                                    </span> */}
                                   </span>
                                   last month
                                 </p>
@@ -276,16 +234,14 @@ const DashTopSection = (props) => {
             </div>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden Dashboard-card ${
-                  GrossMarginValue?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden Dashboard-card ${GrossMarginValue?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <Card.Body
-                  className={`${
-                    isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                  }`}
+                  className={`${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                    }`}
                 >
                   <Row>
                     <div className="col">
@@ -299,9 +255,8 @@ const DashTopSection = (props) => {
                             (superiorRole !== "Administrator" &&
                               isDetailPermissionAvailable);
 
-                          if (shouldNavigate) {
+                          if (shouldNavigate && shouldNavigateToDetailsPage) {
                             setUploadTabname("Gross Margin");
-                            handleNavigateClick(UploadTabname);
                             handleNavigateClick(UploadTabname);
                           }
                         }}
@@ -324,11 +279,10 @@ const DashTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      GrossMarginValue?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${GrossMarginValue?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {GrossMarginValue?.status === "up" ? (
                                       <>
@@ -375,16 +329,14 @@ const DashTopSection = (props) => {
           <Row>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden Dashboard-card ${
-                  FuelValue?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden Dashboard-card ${FuelValue?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <Card.Body
-                  className={`${
-                    isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                  }`}
+                  className={`${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                    }`}
                 >
                   <Row>
                     <div className="col">
@@ -398,9 +350,8 @@ const DashTopSection = (props) => {
                             (superiorRole !== "Administrator" &&
                               isDetailPermissionAvailable);
 
-                          if (shouldNavigate) {
+                          if (shouldNavigate && shouldNavigateToDetailsPage) {
                             setUploadTabname("Fuel Sales");
-                            handleNavigateClick(UploadTabname);
                             handleNavigateClick(UploadTabname);
                           }
                         }}
@@ -433,11 +384,10 @@ const DashTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      FuelValue?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${FuelValue?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {FuelValue?.status === "up" ? (
                                       <>
@@ -474,16 +424,14 @@ const DashTopSection = (props) => {
               </Card>
             </Col>
             <div
-              className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 ${
-                isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-              }`}
+              className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 ${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                }`}
             >
               <div
-                className={`card overflow-hidden Dashboard-card ${
-                  shopsale?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden Dashboard-card ${shopsale?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <div className="card-body ">
                   <Row>
@@ -498,9 +446,8 @@ const DashTopSection = (props) => {
                             (superiorRole !== "Administrator" &&
                               isDetailPermissionAvailable);
 
-                          if (shouldNavigate) {
+                          if (shouldNavigate && shouldNavigateToDetailsPage) {
                             setUploadTabname("Shop Sales");
-                            handleNavigateClick(UploadTabname);
                             handleNavigateClick(UploadTabname);
                           }
                         }}
@@ -522,11 +469,10 @@ const DashTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      shopsale?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${shopsale?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {shopsale?.status === "up" ? (
                                       <>
@@ -543,7 +489,6 @@ const DashTopSection = (props) => {
                                         </span>
                                       </>
                                     )}
-                                    {/* <span>{shopsale?.percentage}%</span> */}
                                   </span>
                                   last month
                                 </p>
@@ -566,16 +511,14 @@ const DashTopSection = (props) => {
             </div>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden Dashboard-card ${
-                  shopmargin?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden Dashboard-card ${shopmargin?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <Card.Body
-                  className={`${
-                    isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                  }`}
+                  className={`${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                    }`}
                 >
                   <Row>
                     <div className="col">
@@ -589,9 +532,8 @@ const DashTopSection = (props) => {
                             (superiorRole !== "Administrator" &&
                               isDetailPermissionAvailable);
 
-                          if (shouldNavigate) {
+                          if (shouldNavigate && shouldNavigateToDetailsPage) {
                             setUploadTabname("Shop Profit ");
-                            handleNavigateClick(UploadTabname);
                             handleNavigateClick(UploadTabname);
                           }
                         }}
@@ -613,11 +555,10 @@ const DashTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      shopmargin?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${shopmargin?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {shopmargin?.status === "up" ? (
                                       <>

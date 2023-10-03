@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Breadcrumb, Row } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 import DashTopSection from "./DashTopSection";
 import DashTopTableSection from "./DashTopTableSection";
 import { useMyContext } from "../../../Utils/MyContext";
@@ -9,25 +9,21 @@ import { Box, Slide } from "@mui/material";
 import DashBordModal from "../../../data/Modal/DashBordmodal";
 import { toast } from "react-toastify";
 import SortIcon from "@mui/icons-material/Sort";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { useSelector } from "react-redux";
 
 const DashBoardChild = (props) => {
   const { isLoading, getData } = props;
-
   const [ShowTruw, setShowTruw] = useState(false);
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
   const [SearchList, setSearchList] = useState(false);
-  // const [searchdata, setSearchdata] = useState({});
+
 
   const navigate = useNavigate();
   const UserPermissions = useSelector((state) => state?.data?.data);
   const {
     searchdata,
     setSearchdata,
-    testIsWorking,
-    settestIsWorking,
     setGrossMarginValue,
     GrossProfitValue,
     setGrossProfitValue,
@@ -40,14 +36,9 @@ const DashBoardChild = (props) => {
     shopmargin,
     setshopmargin,
     GrossMarginValue,
-    piechartValues,
     setpiechartValues,
   } = useMyContext();
 
-  settestIsWorking(true);
-
-  const storedData = localStorage.getItem("savedDataOfDashboard");
-  const parsedData = JSON.parse(storedData);
 
   const handleToggleSidebar1 = () => {
     setShowTruw(true);
@@ -142,14 +133,12 @@ const DashBoardChild = (props) => {
       {/* latest CODE */}
 
       <div>
-        {/* <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"}> */}
         <Box
           display={"flex"}
           justifyContent={"space-between"}
           alignItems={"center"}
           minHeight={"90px"}
           className="center-filter-modal-responsive"
-          //  className="page-header "
         >
           <Box alignSelf={"flex-start"} mt={"33px"}>
             <h1 className="page-title">
@@ -173,7 +162,7 @@ const DashBoardChild = (props) => {
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-          localStorage.getItem("role") === "Operator" ? (
+            localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -185,7 +174,7 @@ const DashBoardChild = (props) => {
               mx={"10px"}
               flexDirection={"inherit"}
               className="filter-responsive"
-              // className="ms-auto pageheader-btn "
+
             >
               <span
                 className="Search-data"
@@ -302,9 +291,7 @@ const DashBoardChild = (props) => {
         />
       </Row>
 
-      {/* <Row> */}
       <DashTopTableSection searchdata={searchdata} />
-      {/* </Row> */}
     </>
   );
 };

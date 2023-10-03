@@ -1,42 +1,23 @@
 import React, { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogActions,
   DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
-  Slide,
 } from "@mui/material";
-import { Row, Col, Form, Card, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Modal } from "react-bootstrap";
-import { useFormik } from "formik";
+import { Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
-import { toast } from "react-toastify";
+import { Slide, toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
-import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import moment from "moment/moment";
 
 const CustomModal = ({
   open,
   onClose,
-  selectedItem,
-  selectedDrsDate,
-  onDataFromChild,
   siteName,
 }) => {
-  const [isChecked, setIsChecked] = useState(false);
   const [data, setData] = useState();
   const [month, setmonth] = useState();
   const [loading, setLoading] = useState(false);
@@ -65,17 +46,7 @@ const CustomModal = ({
       theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
     });
   };
-  // const SuccessAlert = (message) => toast.success(message);
-  const SuccessAlert = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
+
   const { id } = useParams();
   const [previousId, setPreviousId] = useState(null);
 

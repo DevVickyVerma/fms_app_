@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 
@@ -98,9 +98,9 @@ const withApi = (WrappedComponent) => {
           setApiData(data);
           SuccessToast(data.message);
           setIsLoading(false);
-          navigate(navigatePath); // Navigate to the specified dynamic path
+          navigate(navigatePath);
         } else {
-          // Handle the case where the response or response.data is undefined
+
           throw new Error("Invalid response");
         }
       } catch (error) {

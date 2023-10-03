@@ -2,55 +2,35 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import Loaderimg from "../../Utils/Loader";
 import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
-  Breadcrumb,
   Card,
   Col,
   Form,
   FormGroup,
-  OverlayTrigger,
   Row,
-  Tooltip,
 } from "react-bootstrap";
 import { Slide, toast } from "react-toastify";
-import { logDOM } from "@testing-library/react";
 
 const DashBordModal = (props) => {
   const {
     title,
-    sidebarContent,
     visible,
     onClose,
     onSubmit,
-    searchListstatus,
   } = props;
 
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
-  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
-    localStorage.getItem("superiorId")
-  );
   const [AddSiteData, setAddSiteData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  const notify = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
+
   const Errornotify = (message) => {
     toast.error(message, {
       position: toast.POSITION.TOP_RIGHT,
@@ -106,9 +86,6 @@ const DashBordModal = (props) => {
             setSelectedClientId(clientId);
 
             setSelectedCompanyList([]);
-
-            // setShowButton(false);
-
             if (response?.data) {
               const selectedClient = response?.data?.data?.find(
                 (client) => client.id === clientId
@@ -139,21 +116,7 @@ const DashBordModal = (props) => {
     handleFetchData();
   }, [title]);
 
-  const resetForm = () => {
-    onClose();
-  };
-  // setLoading
-  const getCurrentDate = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate() - 1).padStart(2, "0"); // Subtract one day from the current date
-    return `${year}-${month}-${day}`;
-  };
-  const hadndleShowDate = () => {
-    const inputDateElement = document.querySelector('input[type="date"]');
-    inputDateElement.showPicker();
-  };
+
   return (
     <>
       {isLoading ? (
@@ -198,75 +161,74 @@ const DashBordModal = (props) => {
                             <Row>
                               {localStorage.getItem("superiorRole") !==
                                 "Client" && (
-                                <Col lg={4} md={4}>
-                                  <FormGroup>
-                                    <label
-                                      htmlFor="client_id"
-                                      className=" form-label mt-4"
-                                    >
-                                      Client
-                                      <span className="text-danger">*</span>
-                                    </label>
-                                    <Field
-                                      as="select"
-                                      className={`input101 ${
-                                        errors.client_id && touched.client_id
+                                  <Col lg={4} md={4}>
+                                    <FormGroup>
+                                      <label
+                                        htmlFor="client_id"
+                                        className=" form-label mt-4"
+                                      >
+                                        Client
+                                        <span className="text-danger">*</span>
+                                      </label>
+                                      <Field
+                                        as="select"
+                                        className={`input101 ${errors.client_id && touched.client_id
                                           ? "is-invalid"
                                           : ""
-                                      }`}
-                                      id="client_id"
-                                      name="client_id"
-                                      onChange={(e) => {
-                                        const selectedType = e.target.value;
-                                        setFieldValue(
-                                          "client_id",
-                                          selectedType
-                                        );
-                                        setSelectedClientId(selectedType);
-
-                                        // Reset the selected company and site
-                                        setSelectedCompanyList([]);
-                                        setFieldValue("company_id", "");
-                                        setFieldValue("site_id", "");
-
-                                        const selectedClient =
-                                          AddSiteData.data.find(
-                                            (client) =>
-                                              client.id === selectedType
-                                          );
-
-                                        if (selectedClient) {
-                                          setSelectedCompanyList(
-                                            selectedClient.companies
-                                          );
+                                          }`}
+                                        id="client_id"
+                                        name="client_id"
+                                        onChange={(e) => {
+                                          const selectedType = e.target.value;
                                           setFieldValue(
-                                            "client_name",
-                                            selectedClient.client_name
+                                            "client_id",
+                                            selectedType
                                           );
-                                        }
-                                      }}
-                                    >
-                                      <option value="">Select a Client</option>
-                                      {AddSiteData.data &&
-                                      AddSiteData.data.length > 0 ? (
-                                        AddSiteData.data.map((item) => (
-                                          <option key={item.id} value={item.id}>
-                                            {item.client_name}
-                                          </option>
-                                        ))
-                                      ) : (
-                                        <option disabled>No Client</option>
-                                      )}
-                                    </Field>
+                                          setSelectedClientId(selectedType);
 
-                                    <ErrorMessage
-                                      component="div"
-                                      className="invalid-feedback"
-                                      name="client_id"
-                                    />
-                                  </FormGroup>
-                                </Col>
-                              )}
+                                          // Reset the selected company and site
+                                          setSelectedCompanyList([]);
+                                          setFieldValue("company_id", "");
+                                          setFieldValue("site_id", "");
+
+                                          const selectedClient =
+                                            AddSiteData.data.find(
+                                              (client) =>
+                                                client.id === selectedType
+                                            );
+
+                                          if (selectedClient) {
+                                            setSelectedCompanyList(
+                                              selectedClient.companies
+                                            );
+                                            setFieldValue(
+                                              "client_name",
+                                              selectedClient.client_name
+                                            );
+                                          }
+                                        }}
+                                      >
+                                        <option value="">Select a Client</option>
+                                        {AddSiteData.data &&
+                                          AddSiteData.data.length > 0 ? (
+                                          AddSiteData.data.map((item) => (
+                                            <option key={item.id} value={item.id}>
+                                              {item.client_name}
+                                            </option>
+                                          ))
+                                        ) : (
+                                          <option disabled>No Client</option>
+                                        )}
+                                      </Field>
+
+                                      <ErrorMessage
+                                        component="div"
+                                        className="invalid-feedback"
+                                        name="client_id"
+                                      />
+                                    </FormGroup>
+                                  </Col>
+                                )}
                               <Col lg={4} md={4}>
                                 <FormGroup>
                                   <label
@@ -278,11 +240,10 @@ const DashBordModal = (props) => {
                                   </label>
                                   <Field
                                     as="select"
-                                    className={`input101 ${
-                                      errors.company_id && touched.company_id
-                                        ? "is-invalid"
-                                        : ""
-                                    }`}
+                                    className={`input101 ${errors.company_id && touched.company_id
+                                      ? "is-invalid"
+                                      : ""
+                                      }`}
                                     id="company_id"
                                     name="company_id"
                                     onChange={(e) => {
@@ -304,14 +265,6 @@ const DashBordModal = (props) => {
                                         setFieldValue(
                                           "company_name",
                                           selectedCompanyData.company_name
-                                        );
-                                        console.log(
-                                          selectedCompanyData.company_name,
-                                          "company_id"
-                                        );
-                                        console.log(
-                                          selectedCompanyData.sites,
-                                          "company_id"
                                         );
                                       }
                                     }}
@@ -347,11 +300,10 @@ const DashBordModal = (props) => {
                                   </label>
                                   <Field
                                     as="select"
-                                    className={`input101 ${
-                                      errors.site_id && touched.site_id
-                                        ? "is-invalid"
-                                        : ""
-                                    }`}
+                                    className={`input101 ${errors.site_id && touched.site_id
+                                      ? "is-invalid"
+                                      : ""
+                                      }`}
                                     id="site_id"
                                     name="site_id"
                                     onChange={(e) => {
@@ -367,10 +319,6 @@ const DashBordModal = (props) => {
                                           "site_name",
                                           selectedSiteData.site_name
                                         ); // Set site_name using setFieldValue
-                                        console.log(
-                                          selectedSiteData.site_name,
-                                          "site_name"
-                                        );
                                       }
                                     }}
                                   >
@@ -392,68 +340,9 @@ const DashBordModal = (props) => {
                                   />
                                 </FormGroup>
                               </Col>
-                              {/* <Col lg={4} md={4}>
-                                    <FormGroup>
-                                      <label
-                                        htmlFor="fromdate"
-                                        className="form-label mt-4"
-                                      >
-                                        From
-                                      </label>
-                                      <Field
-                                          type="date"    min={"2023-01-01"}     max={getCurrentDate()}
-                                onClick={hadndleShowDate}
-                                        className={`input101 ${
-                                          errors.fromdate && touched.fromdate
-                                            ? "is-invalid"
-                                            : ""
-                                        }`}
-                                        id="fromdate"
-                                        name="fromdate"
-                                      ></Field>
-                                      <ErrorMessage
-                                        component="div"
-                                        className="invalid-feedback"
-                                        name="fromdate"
-                                      />
-                                    </FormGroup>
-                                  </Col>
-                                  <Col lg={4} md={4}>
-                                    <FormGroup>
-                                      <label
-                                        htmlFor="TOdate"
-                                        className="form-label mt-4"
-                                      >
-                                        To
-                                      </label>
-                                      <Field
-                                          type="date"    min={"2023-01-01"}     max={getCurrentDate()}
-                                onClick={hadndleShowDate}
-                                        className={`input101 ${
-                                          errors.TOdate && touched.TOdate
-                                            ? "is-invalid"
-                                            : ""
-                                        }`}
-                                        id="TOdate"
-                                        name="TOdate"
-                                      ></Field>
-                                      <ErrorMessage
-                                        component="div"
-                                        className="invalid-feedback"
-                                        name="TOdate"
-                                      />
-                                    </FormGroup>
-                                  </Col> */}
                             </Row>
                           </Card.Body>
                           <Card.Footer className="text-end">
-                            {/* <Link
-                              type="submit"
-                              className="btn btn-danger me-2 "
-                              onClick={resetForm}
-                            >
-                              Reset
-                            </Link> */}
                             <button
                               className="btn btn-primary me-2"
                               type="submit"
@@ -477,10 +366,8 @@ const DashBordModal = (props) => {
 
 DashBordModal.propTypes = {
   title: PropTypes.string.isRequired,
-  // sidebarContent: PropTypes.node.isRequired,
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-
   onSubmit: PropTypes.func.isRequired,
   searchListstatus: PropTypes.bool.isRequired,
 };

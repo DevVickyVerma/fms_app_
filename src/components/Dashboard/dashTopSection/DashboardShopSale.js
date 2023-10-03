@@ -4,7 +4,6 @@ import { AiFillEye } from "react-icons/ai";
 import DashboardShopSaleCenterModal from './DashboardShopSaleCenterModal';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import Item from 'antd/es/list/Item';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loaderimg from '../../../Utils/Loader';
 
@@ -14,9 +13,6 @@ const DashboardShopSale = ({ getSiteDetails }) => {
     const [shopPerformanceData, setShopPerformanceData] = useState()
     const [isLoading, setIsLoading] = useState(false);
     const { id } = useParams();
-
-
-
 
     const Errornotify = (message) => toast.error(message);
 
@@ -72,7 +68,7 @@ const DashboardShopSale = ({ getSiteDetails }) => {
                 <th className='dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center' style={{ width: "15%" }}>Gross Sales</th>
                 <th className='dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center' style={{ width: "15%" }}>Net Sales</th>
                 <th className='dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center' style={{ width: "15%" }}>Profit</th>
-                <th className='dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center' style={{ width: "15%" }}>Total TransactionS </th>
+                <th className='dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center' style={{ width: "15%" }}>Transactions </th>
                 <th className='dashboard-shopSale-table-width dashboard-shopSale-table-th d-flex justify-content-center' style={{ width: "15%" }}>Details</th>
             </tr>
         );

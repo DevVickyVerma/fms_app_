@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import Spinners from "../Spinner";
 import OilBarrelIcon from "@mui/icons-material/OilBarrel";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 const DashboardSiteTopSection = (props) => {
   const { isLoading } = props;
-
   const singleSiteStoredData = localStorage.getItem("singleSiteData");
   const singleSiteParsedData = JSON.parse(singleSiteStoredData);
 
@@ -30,19 +26,6 @@ const DashboardSiteTopSection = (props) => {
     ? singleSiteParsedData?.shop_sales
     : null;
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
-
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-    }
-  }, [UserPermissions]);
-  const isDetailPermissionAvailable =
-    permissionsArray?.includes("dashboard-details");
-  const navigate = useNavigate();
-
   return (
     <div>
       <Row>
@@ -50,11 +33,10 @@ const DashboardSiteTopSection = (props) => {
           <Row>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden  ${
-                  singleSiteFuelVolume?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden  ${singleSiteFuelVolume?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <Card.Body className="py-3 px-5 single-site-card ">
                   <Row>
@@ -89,11 +71,10 @@ const DashboardSiteTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      singleSiteShopMargin?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${singleSiteShopMargin?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                     data-tip={`${singleSiteFuelVolume?.percentage}%`}
                                   >
                                     {singleSiteFuelVolume?.status === "up" ? (
@@ -133,11 +114,10 @@ const DashboardSiteTopSection = (props) => {
             </Col>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden  ${
-                  singleSiteGrossMargin?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden  ${singleSiteGrossMargin?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <Card.Body className="py-3 px-5 single-site-card ">
                   <Row>
@@ -161,11 +141,10 @@ const DashboardSiteTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      singleSiteGrossProfit?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${singleSiteGrossProfit?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {singleSiteGrossProfit?.status === "up" ? (
                                       <>
@@ -204,11 +183,10 @@ const DashboardSiteTopSection = (props) => {
             </Col>
             <div className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 `}>
               <div
-                className={`card overflow-hidden  ${
-                  singleSiteGrossProfit?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden  ${singleSiteGrossProfit?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <div className="card-body single-site-card py-3 px-5">
                   <Row>
@@ -232,11 +210,10 @@ const DashboardSiteTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      singleSiteGrossMargin?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${singleSiteGrossMargin?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {singleSiteGrossMargin?.status === "up" ? (
                                       <>
@@ -280,11 +257,10 @@ const DashboardSiteTopSection = (props) => {
           <Row>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden  ${
-                  singleSiteFuelSales?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden  ${singleSiteFuelSales?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <Card.Body className="py-3 px-5 single-site-card ">
                   <Row>
@@ -318,11 +294,10 @@ const DashboardSiteTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      singleSiteFuelSales?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${singleSiteFuelSales?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {singleSiteFuelSales?.status === "up" ? (
                                       <>
@@ -359,11 +334,10 @@ const DashboardSiteTopSection = (props) => {
             </Col>
             <div className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 `}>
               <div
-                className={`card overflow-hidden  ${
-                  singleSiteShopSale?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden  ${singleSiteShopSale?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <div className="card-body single-site-card py-3 px-5">
                   <Row>
@@ -386,11 +360,10 @@ const DashboardSiteTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      singleSiteShopSale?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${singleSiteShopSale?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {singleSiteShopSale?.status === "up" ? (
                                       <>
@@ -407,7 +380,6 @@ const DashboardSiteTopSection = (props) => {
                                         </span>
                                       </>
                                     )}
-                                    {/* <span>{shopsale?.percentage}%</span> */}
                                   </span>
                                   last month
                                 </p>
@@ -430,11 +402,10 @@ const DashboardSiteTopSection = (props) => {
             </div>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden  ${
-                  singleSiteShopMargin?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden  ${singleSiteShopMargin?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <Card.Body className="py-3 px-5 single-site-card ">
                   <Row>
@@ -457,11 +428,10 @@ const DashboardSiteTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      singleSiteShopMargin?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${singleSiteShopMargin?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {singleSiteShopMargin?.status === "up" ? (
                                       <>

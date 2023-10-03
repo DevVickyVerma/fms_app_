@@ -1,16 +1,12 @@
-import { ErrorMessage, Field, Formik } from "formik";
 import React, { useState } from "react";
 import {
   Card,
   Col,
-  Form,
-  FormGroup,
   Modal,
   OverlayTrigger,
   Row,
   Tooltip,
 } from "react-bootstrap";
-import * as Yup from "yup";
 import withApi from "../../../Utils/ApiHelper";
 import { useParams } from "react-router-dom";
 import { BsFillFuelPumpFill } from "react-icons/bs";
@@ -20,10 +16,10 @@ import { MdOutlineCalendarMonth } from "react-icons/md";
 import moment from "moment";
 import { AiOutlineClose } from "react-icons/ai";
 import { DateRangePicker } from "react-date-range";
-import { addDays, format } from "date-fns";
+import { format } from "date-fns";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css";
-import { subMonths, isAfter, startOfMonth, isToday } from "date-fns";
+import { subMonths, startOfMonth } from "date-fns";
 import SortIcon from "@mui/icons-material/Sort";
 const DashboardGradsComponent = ({
   getData,
@@ -31,14 +27,10 @@ const DashboardGradsComponent = ({
   setGradsGetSiteDetails,
   getSiteDetails,
 }) => {
-  // const [ShowButton, setShowButton] = useState(false);
-  const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
+
   const [gradsLoading, setGradsLoading] = useState(false);
   const [gridIndex, setGridIndex] = useState(0);
-  const [gradsFormData, setGradsFormData] = useState();
-  // const [getGradsSiteDetails, setGradsGetSiteDetails] = useState()
   const { id } = useParams();
-  const [isGradsOpen, setIsGradsOpen] = useState(true);
   const [showDate, setShowDate] = useState(false);
 
   const handleGradsClick = (index) => {
@@ -121,8 +113,6 @@ const DashboardGradsComponent = ({
               : `/dashboard/get-site-fuel-performance?site_id=${id}&end_date=${endDate}&start_date=${startDate}`
           );
           if (response3 && response3.data) {
-            // setGetSiteDetails(response3?.data?.data);
-
             setGradsGetSiteDetails(response3?.data?.data);
             notify(response3?.data?.message);
             setShowModal(false);
@@ -157,8 +147,8 @@ const DashboardGradsComponent = ({
                 <MdOutlineCalendarMonth />{" "}
                 {showDate
                   ? `${moment(startDate).format("Do MMM")} - ${moment(
-                      endDate
-                    ).format("Do MMM")}`
+                    endDate
+                  ).format("Do MMM")}`
                   : moment(getSiteDetails?.last_day_end).format("MMM Do")}{" "}
                 <SortIcon />{" "}
               </button>
@@ -208,256 +198,254 @@ const DashboardGradsComponent = ({
                   </Card.Body>
                 </Col>
 
-                {isGradsOpen && (
-                  <>
-                    <Col lg={4} md={4} xl={4} sm={4}>
-                      <Card.Header>
-                        <h3 className="card-title">Key Matrices</h3>
-                      </Card.Header>
-                      <Card.Body>
-                        <Row
-                          style={{ display: "flex", flexDirection: "column" }}
-                        >
-                          {/* total Transaction */}
-                          <Col
-                            lg={12}
-                            md={12}
-                            className="dashboardSubChildCard my-4"
-                            borderRadius={"5px"}
-                          >
-                            <span
-                              style={{
-                                display: "flex",
-                                gap: "5px",
-                                alignItems: "center",
-                                marginBottom: "5px",
-                              }}
-                            >
-                              <strong style={{ fontWeight: 700 }}>
-                                {" "}
-                                Total Transaction :
-                              </strong>
-                              {
-                                getGradsSiteDetails?.fuel_stats?.data[gridIndex]
-                                  ?.cards?.total_transactions
-                              }
-                            </span>
-                          </Col>
-
-                          {/* 2nd Total fuel value */}
-                          <Col
-                            lg={12}
-                            md={12}
-                            className="dashboardSubChildCard my-4"
-                            borderRadius={"5px"}
-                          >
-                            <span
-                              style={{
-                                display: "flex",
-                                gap: "5px",
-                                alignItems: "center",
-                                marginBottom: "5px",
-                              }}
-                            >
-                              <strong style={{ fontWeight: 700 }}>
-                                {" "}
-                                Total Fuel Volume :{" "}
-                              </strong>
-                              {
-                                getGradsSiteDetails?.fuel_stats?.data[gridIndex]
-                                  ?.cards?.total_fuel_sale_volume
-                              }
-                            </span>
-                          </Col>
-                          {/* Total Fuel Sales */}
-                          <Col
-                            lg={12}
-                            md={12}
-                            className="dashboardSubChildCard my-4"
-                            borderRadius={"5px"}
-                          >
-                            <span
-                              style={{
-                                display: "flex",
-                                gap: "5px",
-                                alignItems: "center",
-                                marginBottom: "5px",
-                              }}
-                            >
-                              <strong style={{ fontWeight: 700 }}>
-                                {" "}
-                                Total Fuel Sales :
-                              </strong>
-                              {
-                                getGradsSiteDetails?.fuel_stats?.data[gridIndex]
-                                  ?.cards?.total_fuel_sale_value
-                              }
-                            </span>
-                          </Col>
-
-                          {/* Gross Margin */}
-                          <Col
-                            lg={12}
-                            md={12}
-                            className="dashboardSubChildCard my-4"
-                            borderRadius={"5px"}
-                          >
-                            <span
-                              style={{
-                                display: "flex",
-                                gap: "5px",
-                                alignItems: "center",
-                                marginBottom: "5px",
-                              }}
-                            >
-                              <strong style={{ fontWeight: 700 }}>
-                                {" "}
-                                Gross Margin :
-                              </strong>
-                              {
-                                getGradsSiteDetails?.fuel_stats?.data[gridIndex]
-                                  ?.gross_margin
-                              }
-                            </span>
-                          </Col>
-
-                          {/* Gross Profit */}
-                          <Col
-                            lg={12}
-                            md={12}
-                            className="dashboardSubChildCard my-4"
-                            borderRadius={"5px"}
-                          >
-                            <span
-                              style={{
-                                display: "flex",
-                                gap: "5px",
-                                alignItems: "center",
-                                marginBottom: "5px",
-                              }}
-                            >
-                              <strong style={{ fontWeight: 700 }}>
-                                {" "}
-                                Gross Profit :
-                              </strong>
-                              {
-                                getGradsSiteDetails?.fuel_stats?.data[gridIndex]
-                                  ?.gross_profit
-                              }
-                            </span>
-                          </Col>
-                        </Row>
-                      </Card.Body>
-                    </Col>
-
-                    {/* 3rd column */}
-                    <Col lg={4} md={4} xl={4} sm={4}>
-                      <Card.Header>
-                        <h3 className="card-title">Payments</h3>
-                      </Card.Header>
-
-                      <Card.Body
-                        style={{ maxHeight: "467px", overflowY: "auto" }}
+                <>
+                  <Col lg={4} md={4} xl={4} sm={4}>
+                    <Card.Header>
+                      <h3 className="card-title">Key Matrices</h3>
+                    </Card.Header>
+                    <Card.Body>
+                      <Row
+                        style={{ display: "flex", flexDirection: "column" }}
                       >
-                        <Row
-                          style={{ display: "flex", flexDirection: "column" }}
+                        {/* total Transaction */}
+                        <Col
+                          lg={12}
+                          md={12}
+                          className="dashboardSubChildCard my-4"
+                          borderRadius={"5px"}
                         >
-                          {getGradsSiteDetails?.fuel_stats?.data?.[
-                            gridIndex
-                          ]?.cards?.card_details?.map((cardDetail, index) => (
-                            <Col
-                              lg={12}
-                              md={12}
-                              className=" my-4"
-                              borderRadius={"5px"}
+                          <span
+                            style={{
+                              display: "flex",
+                              gap: "5px",
+                              alignItems: "center",
+                              marginBottom: "5px",
+                            }}
+                          >
+                            <strong style={{ fontWeight: 700 }}>
+                              {" "}
+                              Total Transaction :
+                            </strong>
+                            {
+                              getGradsSiteDetails?.fuel_stats?.data[gridIndex]
+                                ?.cards?.total_transactions
+                            }
+                          </span>
+                        </Col>
+
+                        {/* 2nd Total fuel value */}
+                        <Col
+                          lg={12}
+                          md={12}
+                          className="dashboardSubChildCard my-4"
+                          borderRadius={"5px"}
+                        >
+                          <span
+                            style={{
+                              display: "flex",
+                              gap: "5px",
+                              alignItems: "center",
+                              marginBottom: "5px",
+                            }}
+                          >
+                            <strong style={{ fontWeight: 700 }}>
+                              {" "}
+                              Total Fuel Volume :{" "}
+                            </strong>
+                            {
+                              getGradsSiteDetails?.fuel_stats?.data[gridIndex]
+                                ?.cards?.total_fuel_sale_volume
+                            }
+                          </span>
+                        </Col>
+                        {/* Total Fuel Sales */}
+                        <Col
+                          lg={12}
+                          md={12}
+                          className="dashboardSubChildCard my-4"
+                          borderRadius={"5px"}
+                        >
+                          <span
+                            style={{
+                              display: "flex",
+                              gap: "5px",
+                              alignItems: "center",
+                              marginBottom: "5px",
+                            }}
+                          >
+                            <strong style={{ fontWeight: 700 }}>
+                              {" "}
+                              Total Fuel Sales :
+                            </strong>
+                            {
+                              getGradsSiteDetails?.fuel_stats?.data[gridIndex]
+                                ?.cards?.total_fuel_sale_value
+                            }
+                          </span>
+                        </Col>
+
+                        {/* Gross Margin */}
+                        <Col
+                          lg={12}
+                          md={12}
+                          className="dashboardSubChildCard my-4"
+                          borderRadius={"5px"}
+                        >
+                          <span
+                            style={{
+                              display: "flex",
+                              gap: "5px",
+                              alignItems: "center",
+                              marginBottom: "5px",
+                            }}
+                          >
+                            <strong style={{ fontWeight: 700 }}>
+                              {" "}
+                              Gross Margin :
+                            </strong>
+                            {
+                              getGradsSiteDetails?.fuel_stats?.data[gridIndex]
+                                ?.gross_margin
+                            }
+                          </span>
+                        </Col>
+
+                        {/* Gross Profit */}
+                        <Col
+                          lg={12}
+                          md={12}
+                          className="dashboardSubChildCard my-4"
+                          borderRadius={"5px"}
+                        >
+                          <span
+                            style={{
+                              display: "flex",
+                              gap: "5px",
+                              alignItems: "center",
+                              marginBottom: "5px",
+                            }}
+                          >
+                            <strong style={{ fontWeight: 700 }}>
+                              {" "}
+                              Gross Profit :
+                            </strong>
+                            {
+                              getGradsSiteDetails?.fuel_stats?.data[gridIndex]
+                                ?.gross_profit
+                            }
+                          </span>
+                        </Col>
+                      </Row>
+                    </Card.Body>
+                  </Col>
+
+                  {/* 3rd column */}
+                  <Col lg={4} md={4} xl={4} sm={4}>
+                    <Card.Header>
+                      <h3 className="card-title">Payments</h3>
+                    </Card.Header>
+
+                    <Card.Body
+                      style={{ maxHeight: "467px", overflowY: "auto" }}
+                    >
+                      <Row
+                        style={{ display: "flex", flexDirection: "column" }}
+                      >
+                        {getGradsSiteDetails?.fuel_stats?.data?.[
+                          gridIndex
+                        ]?.cards?.card_details?.map((cardDetail, index) => (
+                          <Col
+                            lg={12}
+                            md={12}
+                            className=" my-4"
+                            borderRadius={"5px"}
+                            style={{
+                              background: "#f2f2f8",
+                              padding: "6px 20px",
+                              color: "black",
+                              borderRadius: "5px",
+                            }}
+                          >
+                            <p
                               style={{
-                                background: "#f2f2f8",
-                                padding: "6px 20px",
-                                color: "black",
-                                borderRadius: "5px",
+                                display: "flex",
+                                gap: "5px",
+                                alignItems: "center",
+                                marginBottom: "5px",
+                                justifyContent: "space-between",
                               }}
                             >
-                              <p
+                              <span
                                 style={{
                                   display: "flex",
+                                  flex: 1,
                                   gap: "5px",
+                                  justifyContent: "center",
                                   alignItems: "center",
-                                  marginBottom: "5px",
-                                  justifyContent: "space-between",
                                 }}
                               >
-                                <span
-                                  style={{
-                                    display: "flex",
-                                    flex: 1,
-                                    gap: "5px",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  {cardDetail?.image && (
-                                    <img
-                                      src={cardDetail.image}
-                                      alt={
-                                        cardDetail.card_name ||
-                                        "Card Image Alt Text"
-                                      }
-                                      style={{
-                                        width: "60px",
-                                        height: "40px",
-                                        background: "#FFF",
-                                        padding: "5px",
-                                        borderRadius: "8px",
-                                      }}
-                                    />
-                                  )}
-                                </span>
-                                <span style={{ flex: 1, display: "flex" }}>
-                                  {" "}
-                                  {cardDetail?.card_name}
-                                </span>
-                                <span style={{ flex: 1, display: "flex" }}>
-                                  {cardDetail?.total_fuel_sale_value}
-                                </span>
-
-                                <span style={{ display: "flex" }}>
-                                  <OverlayTrigger
-                                    placement="top"
-                                    overlay={
-                                      <Tooltip
-                                        style={{
-                                          display: "flex",
-                                          alignItems: "flex-start",
-                                          justifyContent: "flex-start",
-                                        }}
-                                      >
-                                        {" "}
-                                        Total Transactions :{" "}
-                                        {cardDetail?.total_transactions}
-                                        <br />
-                                        Total Fuel Sale :{" "}
-                                        {cardDetail?.total_fuel_sale_value}
-                                        <br />
-                                        Total Fuel Volume :{" "}
-                                        {cardDetail?.total_fuel_sale_volume}
-                                      </Tooltip>
+                                {cardDetail?.image && (
+                                  <img
+                                    src={cardDetail.image}
+                                    alt={
+                                      cardDetail.card_name ||
+                                      "Card Image Alt Text"
                                     }
-                                  >
-                                    <i
-                                      class="fa fa-info-circle"
-                                      aria-hidden="true"
-                                      style={{ fontSize: "20px" }}
-                                    ></i>
-                                  </OverlayTrigger>
-                                </span>
-                              </p>
-                            </Col>
-                          ))}
-                        </Row>
-                      </Card.Body>
-                    </Col>
-                  </>
-                )}
+                                    style={{
+                                      width: "60px",
+                                      height: "40px",
+                                      background: "#FFF",
+                                      padding: "5px",
+                                      borderRadius: "8px",
+                                    }}
+                                  />
+                                )}
+                              </span>
+                              <span style={{ flex: 1, display: "flex" }}>
+                                {" "}
+                                {cardDetail?.card_name}
+                              </span>
+                              <span style={{ flex: 1, display: "flex" }}>
+                                {cardDetail?.total_fuel_sale_value}
+                              </span>
+
+                              <span style={{ display: "flex" }}>
+                                <OverlayTrigger
+                                  placement="top"
+                                  overlay={
+                                    <Tooltip
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "flex-start",
+                                        justifyContent: "flex-start",
+                                      }}
+                                    >
+                                      {" "}
+                                      Total Transactions :{" "}
+                                      {cardDetail?.total_transactions}
+                                      <br />
+                                      Total Fuel Sale :{" "}
+                                      {cardDetail?.total_fuel_sale_value}
+                                      <br />
+                                      Total Fuel Volume :{" "}
+                                      {cardDetail?.total_fuel_sale_volume}
+                                    </Tooltip>
+                                  }
+                                >
+                                  <i
+                                    class="fa fa-info-circle"
+                                    aria-hidden="true"
+                                    style={{ fontSize: "20px" }}
+                                  ></i>
+                                </OverlayTrigger>
+                              </span>
+                            </p>
+                          </Col>
+                        ))}
+                      </Row>
+                    </Card.Body>
+                  </Col>
+                </>
               </Row>
             </Card.Body>
           </Card>

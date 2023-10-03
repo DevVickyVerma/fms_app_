@@ -1,18 +1,9 @@
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
+
 import { useEffect, useState } from "react";
-import { Button, Col, Modal, Row } from "react-bootstrap";
+import { Col, Modal, Row } from "react-bootstrap";
 import PropTypes from "prop-types";
 import Loaderimg from "../../Utils/Loader";
-import SearchIcon from "@mui/icons-material/Search";
 import { AiOutlineClose } from "react-icons/ai";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 import axios from "axios";
@@ -22,13 +13,6 @@ import * as Yup from "yup";
 
 const SingleAuthModal = (props) => {
   const {
-    title,
-    sidebarContent,
-    visible,
-    onClose,
-    onSubmit,
-    searchListstatus,
-    ShowTruw,
     setShowTruw,
   } = props;
   const [open, setOpen] = useState(true);
@@ -110,8 +94,6 @@ const SingleAuthModal = (props) => {
     const formData = new FormData();
     formData.append("first_name", values.first_name);
     formData.append("last_name", values.last_name);
-    // formData.append("role", values.role);
-    // formData.append("phone_number", values.phone_number);
 
     const response = await fetch(
       `${process.env.REACT_APP_BASE_URL}/update-profile`,
@@ -250,9 +232,9 @@ const SingleAuthModal = (props) => {
 
       <Modal
         show={showModal}
-        // onHide={handleCloseModal}
+
         centered
-        // style={{ width: "200wvh" }}
+
         className="custom-modal-width custom-modal-height"
       >
         <Modal.Header
@@ -353,13 +335,6 @@ const SingleAuthModal = (props) => {
                         >
                           Verify & Authentication
                         </button>
-                        {/* <button
-                          type="btn"
-                          className="btn btn-danger mx-4"
-                          onClick={handleCloseModal}
-                        >
-                          Cancel
-                        </button> */}
                       </div>
                     </form>
                   </Col>
