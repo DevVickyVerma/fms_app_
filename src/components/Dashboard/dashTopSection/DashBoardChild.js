@@ -18,7 +18,6 @@ const DashBoardChild = (props) => {
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
   const [SearchList, setSearchList] = useState(false);
 
-
   const navigate = useNavigate();
   const UserPermissions = useSelector((state) => state?.data?.data);
   const {
@@ -38,7 +37,6 @@ const DashBoardChild = (props) => {
     GrossMarginValue,
     setpiechartValues,
   } = useMyContext();
-
 
   const handleToggleSidebar1 = () => {
     setShowTruw(true);
@@ -130,7 +128,6 @@ const DashBoardChild = (props) => {
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
-      {/* latest CODE */}
 
       <div>
         <Box
@@ -162,7 +159,7 @@ const DashBoardChild = (props) => {
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-            localStorage.getItem("role") === "Operator" ? (
+          localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -174,7 +171,6 @@ const DashBoardChild = (props) => {
               mx={"10px"}
               flexDirection={"inherit"}
               className="filter-responsive"
-
             >
               <span
                 className="Search-data"

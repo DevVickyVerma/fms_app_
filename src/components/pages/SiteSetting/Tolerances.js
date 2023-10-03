@@ -327,7 +327,7 @@ const SiteSettings = (props) => {
                               <option disabled>No Client</option>
                             )}
                           </select>
-                          {/* Replace this line with a self-closing tag */}
+
                           {formik.errors.client_id &&
                             formik.touched.client_id && (
                               <div className="invalid-feedback">
@@ -590,67 +590,6 @@ const SiteSettings = (props) => {
                           )}
                       </div>
                     </Col>
-
-                    {/* <Col lg={4} md={6}>
-                      <div className="form-group">
-                        <label htmlFor="vat_rate" className="form-label mt-4">
-                          Vat Rate<span className="text-danger">*</span>
-                        </label>
-                        <textarea
-                          type="number"
-                          className={`input101 ${
-                            formik.errors.vat_rate && formik.touched.vat_rate
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="vat_rate"
-                          name="vat_rate"
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.vat_rate}
-                          placeholder="Vat Rate"
-                        />
-                        {formik.errors.vat_rate && formik.touched.vat_rate && (
-                          <div className="invalid-feedback">
-                            {formik.errors.vat_rate}
-                          </div>
-                        )}
-                      </div>
-                    </Col>
-                    <Col lg={4} md={6}>
-                      <div className="form-group">
-                        <label
-                          htmlFor="average_ppl"
-                          className="form-label mt-4"
-                        >
-                          Use Average PPL
-                          <span className="text-danger">*</span>
-                        </label>
-                        <select
-                          className={`input101 ${
-                            formik.errors.average_ppl &&
-                            formik.touched.average_ppl
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="average_ppl"
-                          name="average_ppl"
-                          onChange={formik.handleChange}
-                          value={formik.values.average_ppl}
-                        >
-                          <option value="">Select a Use Average Ppl</option>
-                          <option value="1">True</option>
-                          <option value="2">False</option>
-                          <option value="3">None</option>
-                        </select>
-                        {formik.errors.average_ppl &&
-                          formik.touched.average_ppl && (
-                            <div className="invalid-feedback">
-                              {formik.errors.average_ppl}
-                            </div>
-                          )}
-                      </div>
-                    </Col> */}
                   </Row>
                   <div className="text-end">
                     <Link

@@ -93,7 +93,7 @@ const CenterSearchmodal = (props) => {
 
   const handleInputChange = (e) => {
     setSearchQuery(e.target.value);
-  }
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -103,13 +103,12 @@ const CenterSearchmodal = (props) => {
     setOpen(false);
   };
 
-
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault();
       handleSubmit(); // Call your search function here
     }
-  }
+  };
 
   return (
     <div>
@@ -225,12 +224,6 @@ const CenterSearchmodal = (props) => {
         </DialogContent>
         <hr />
         <DialogActions>
-          {/* <Button variant="secondary" className="me-1" onClick={handleClose}>
-            Save changes
-          </Button>
-          <Button onClick={handleClose} className="me-1" variant="success">
-            Close
-          </Button> */}
           <div className="text-end">
             <button
               type="Search"

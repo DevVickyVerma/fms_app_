@@ -18,8 +18,6 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
       ? getSiteStats?.data?.stock_alert
       : [];
 
-
-
   const generateGradientStops = (color) => [
     {
       key: "0%",
@@ -105,13 +103,6 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
               <Row>
                 {Object?.keys(stockAlertData)?.map((tankName) => (
                   <>
-                    {/* <div key={tankName}>
-                      <h2>Tank: {tankName}</h2>
-                      <ul>
-                        {stockAlertData[tankName][selectedDateIndex].font_color}
-                        {stockAlertData[tankName][selectedDateIndex].fuel_left}
-                      </ul>
-                    </div> */}
                     <Col lg={3} xl={3} md={6} sm={12}>
                       <div
                         key={tankName}
@@ -248,10 +239,6 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                                 stockAlertData?.[tankName]?.[selectedDateIndex]
                                   ?.ullage
                               }
-                              {/* {Number(
-                                stockAlertData?.[tankName]?.[selectedDateIndex]
-                                  ?.ullage
-                              ).toFixed(2)} */}
                               ℓ |{" "}
                               {
                                 stockAlertData?.[tankName]?.[selectedDateIndex]

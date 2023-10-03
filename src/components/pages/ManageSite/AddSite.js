@@ -889,9 +889,6 @@ const AddSite = (props) => {
                                 id="Bunkered_sale_status"
                                 name="Bunkered_sale_status"
                               >
-                                {/* <option value="">
-                                  Select a Bunkered Sale Status
-                                </option> */}
                                 <option value="1">Active</option>
                                 <option value="0">InActive</option>
                               </Field>

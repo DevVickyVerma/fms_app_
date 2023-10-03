@@ -63,7 +63,6 @@ export default function ResetPassword() {
 
   return (
     <div className="login-img">
-      {/* {loading && <Loaderimg />} */}
       <div className="page">
         <div className="">
           <div className="col col-login mx-auto">

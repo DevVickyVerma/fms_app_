@@ -6,12 +6,7 @@ export default function Register() {
   return (
     <div className="login-img">
       <div className="page">
-        {/* <div className="dropdown float-end custom-layout">
-                <div className="demo-icon nav-link icon mt-4 bg-primary" onClick={()=>custompagesswitcherdata.Swichermainright()}>
-                    <i className="fe fe-settings fa-spin text_primary"></i>
-                </div>
-            </div> */}
-        <div className="" >
+        <div className="">
           <div className="col col-login mx-auto">
             <div className="text-center">
               <img
@@ -26,13 +21,11 @@ export default function Register() {
               <Card.Body>
                 <form className="login100-form validate-form">
                   <span className="login100-form-title">Registration</span>
-                  <div
-                    className="wrap-input100 validate-input"
-
-                  >
+                  <div className="wrap-input100 validate-input">
                     <input
                       className="input100"
-                      type="text"  autoComplete="off"
+                      type="text"
+                      autoComplete="off"
                       name="email"
                       placeholder="User name"
                     />
@@ -41,13 +34,11 @@ export default function Register() {
                       <i className="mdi mdi-account" aria-hidden="true"></i>
                     </span>
                   </div>
-                  <div
-                    className="wrap-input100 validate-input"
- 
-                  >
+                  <div className="wrap-input100 validate-input">
                     <input
                       className="input100"
-                      type="text"  autoComplete="off"
+                      type="text"
+                      autoComplete="off"
                       name="email"
                       placeholder="Email"
                     />
@@ -56,10 +47,7 @@ export default function Register() {
                       <i className="zmdi zmdi-email" aria-hidden="true"></i>
                     </span>
                   </div>
-                  <div
-                    className="wrap-input100 validate-input"
-                  
-                  >
+                  <div className="wrap-input100 validate-input">
                     <input
                       className="input100"
                       type="password"
@@ -75,9 +63,7 @@ export default function Register() {
                     <input type="checkbox" className="custom-control-input" />
                     <span className="custom-control-label">
                       Agree the
-                      <Link to={`/pages/terms/`}>
-                        terms and policy
-                      </Link>
+                      <Link to={`/pages/terms/`}>terms and policy</Link>
                     </span>
                   </label>
                   <div className="container-login100-form-btn">

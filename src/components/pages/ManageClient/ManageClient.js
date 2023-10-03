@@ -516,24 +516,6 @@ const ManageClient = (props) => {
             ) : null}
           </div>
         </div>
-        {/* <SideSearchbar
-          title="Search"
-          visible={sidebarVisible1}
-          onClose={handleToggleSidebar1}
-          onSubmit={handleSubmit}
-          searchListstatus={SearchList}
-        /> */}
-
-        {/* <CenterSearchmodal
-          title="Search"
-          visible={sidebarVisible1}
-          onClick={() => {
-            handleToggleSidebar1();
-          }}
-          onClose={handleToggleSidebar1}
-          onSubmit={handleSubmit}
-          searchListstatus={SearchList}
-        /> */}
 
         <Row className=" row-sm">
           <Col lg={12}>

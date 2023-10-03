@@ -310,7 +310,6 @@ const EditAddon = (props) => {
                         {AddonpermissionsList.data &&
                           AddonpermissionsList.data.addon_permissions && (
                             <div>
-                              {/* Add the filteredPermissions constant here */}
                               {Object.keys(
                                 AddonpermissionsList.data.addon_permissions
                               ).map((heading) => (

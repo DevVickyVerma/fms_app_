@@ -404,7 +404,6 @@ const EditUsers = (props) => {
                               className="form-label mt-4"
                             >
                               Workflow Notification
-                              {/* <span className="text-danger">*</span> */}
                             </label>
                             <select
                               className={`input101 ${

@@ -570,7 +570,6 @@ const Root = () => {
             <Routes>
               <Route element={<PrivateRoutes token={token} />}>
                 <Route path={`/`} element={<App />}>
-                  {/* <Route  path={`/login`} element={<Login />} /> */}
                   <Route index element={<Dashboard />} />
                   <Route path={`/dashboard`} element={<WrappedDashboard />} />
                   {/* client  Components Start */}

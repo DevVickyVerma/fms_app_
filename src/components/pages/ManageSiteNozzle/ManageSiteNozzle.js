@@ -686,13 +686,6 @@ const ManageSiteTank = (props) => {
                         </Row>
                       </Card.Body>
                       <Card.Footer className="text-end">
-                        {/* <Link
-                          type="submit"
-                          className="btn btn-danger me-2 "
-                          to={`/managesitenozzle/`}
-                        >
-                          Reset
-                        </Link> */}
                         <Link
                           type="submit"
                           className="btn btn-danger me-2 "

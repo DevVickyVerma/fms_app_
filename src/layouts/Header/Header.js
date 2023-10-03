@@ -352,7 +352,6 @@ const Header = (props) => {
                   <ToastContainer />
                 </div>
               </Navbar>
-              {/*  </Navbar.Collapse> */}
             </div>
           </div>
         </div>

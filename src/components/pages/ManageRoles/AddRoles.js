@@ -296,16 +296,6 @@ const AddRoles = (props) => {
                                   </div>
                                 </div>
                                 <div className="form-group">
-                                  {/* Add the "Select All" checkbox here */}
-                                  {/* <div className="form-check form-check-inline">
-                                  
-                                    <label
-                                      className="form-check-label"
-                                      htmlFor={`select-all-${heading}`}
-                                    >
-                                      Select All
-                                    </label>
-                                  </div> */}
                                   {/* End of "Select All" checkbox */}
                                   {permissions.data[heading].names.map(
                                     (nameItem) => (

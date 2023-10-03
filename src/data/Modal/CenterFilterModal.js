@@ -180,7 +180,6 @@ const CenterFilterModal = (props) => {
         >
           Filter{" "}
           <span className="ms-2">
-            {/* <SearchIcon />  */}
             <SortIcon />
           </span>
         </Button>
@@ -226,17 +225,6 @@ const CenterFilterModal = (props) => {
                     className={`
             ${visible ? "visible" : ""}`}
                   >
-                    {/* <div className="card">
-              <div className="card-header text-center
-               SidebarSearchheader
-               ">
-                <h3 className="SidebarSearch-title m-0">{title}</h3>
-                <button className="close-button" onClick={onClose}>
-                  <FontAwesomeIcon icon={faTimes} />
-                </button>
-              </div>
-            </div> */}
-
                     <Card>
                       <Card.Body>
                         <Row>
@@ -486,68 +474,9 @@ const CenterFilterModal = (props) => {
                                           />
                                         </FormGroup>
                                       </Col>
-                                      {/* <Col lg={4} md={4}>
-                                    <FormGroup>
-                                      <label
-                                        htmlFor="fromdate"
-                                        className="form-label mt-4"
-                                      >
-                                        From
-                                      </label>
-                                      <Field
-                                          type="date"    min={"2023-01-01"}     max={getCurrentDate()}
-                                onClick={hadndleShowDate}
-                                        className={`input101 ${
-                                          errors.fromdate && touched.fromdate
-                                            ? "is-invalid"
-                                            : ""
-                                        }`}
-                                        id="fromdate"
-                                        name="fromdate"
-                                      ></Field>
-                                      <ErrorMessage
-                                        component="div"
-                                        className="invalid-feedback"
-                                        name="fromdate"
-                                      />
-                                    </FormGroup>
-                                  </Col>
-                                  <Col lg={4} md={4}>
-                                    <FormGroup>
-                                      <label
-                                        htmlFor="TOdate"
-                                        className="form-label mt-4"
-                                      >
-                                        To
-                                      </label>
-                                      <Field
-                                          type="date"    min={"2023-01-01"}     max={getCurrentDate()}
-                                onClick={hadndleShowDate}
-                                        className={`input101 ${
-                                          errors.TOdate && touched.TOdate
-                                            ? "is-invalid"
-                                            : ""
-                                        }`}
-                                        id="TOdate"
-                                        name="TOdate"
-                                      ></Field>
-                                      <ErrorMessage
-                                        component="div"
-                                        className="invalid-feedback"
-                                        name="TOdate"
-                                      />
-                                    </FormGroup>
-                                  </Col> */}
                                     </Row>
                                   </Card.Body>
                                   <Card.Footer className="text-end">
-                                    {/* <Link
-                              type="submit"
-                              className="btn btn-danger me-2 "
-                              onClick={resetForm}
-                            >
-                              Reset
-                            </Link> */}
                                     <button
                                       className="btn btn-primary me-2"
                                       type="submit"

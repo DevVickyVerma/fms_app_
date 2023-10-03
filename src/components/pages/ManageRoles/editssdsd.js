@@ -42,7 +42,7 @@ export default function EditRoles() {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-        ErrorAlert(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 
@@ -92,7 +92,8 @@ export default function EditRoles() {
         handleError(error);
       });
     console.clear();
-  console.clear()  }, []);
+    console.clear();
+  }, []);
 
   const handleSubmit1 = async (values) => {
     const body = {
@@ -209,7 +210,8 @@ export default function EditRoles() {
                     <div className="form-group">
                       <label htmlFor="name">Edit Role</label>
                       <input
-                        type="text"  autoComplete="off"
+                        type="text"
+                        autoComplete="off"
                         id="name"
                         name="name"
                         placeholder="Role Name"
@@ -353,12 +355,7 @@ export default function EditRoles() {
                             </div>
                           ))
                         ) : (
-                          <div>
-                            No Records Found Please
-                            {/* <Link className="m-2" to={`/addaddon/`}>
-                Add Addon
-              </Link> */}
-                          </div>
+                          <div>No Records Found Please</div>
                         )}
                       </div>
 

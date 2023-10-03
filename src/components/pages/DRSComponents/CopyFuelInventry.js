@@ -789,8 +789,6 @@ const FuelInventry = (props) => {
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
                   <div className="table-responsive deleted-table">
-                    {/* <Row> */}
-                    {/* <Col lg={12} md={12}> */}
                     <DataTable
                       columns={columns}
                       data={data}
@@ -802,8 +800,6 @@ const FuelInventry = (props) => {
                       highlightOnHover
                       searchable={false}
                     />
-                    {/* </Col> */}
-                    {/* </Row> */}
 
                     <Row className="mt-4">
                       <Card>

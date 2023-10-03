@@ -405,31 +405,6 @@ const SiteSettings = (props) => {
         </div>
       ),
     },
-
-    // {
-    //   name: "For Tenant",
-
-    //   selector: (row) => row.for_tenant,
-    //   sortable: false,
-    //   center: true,
-    //   width: "10%",
-    //   cell: (row, index) => (
-    //     <div>
-    //       <input
-    //         type="checkbox"
-    //         id={`for_tenant-${index}`}
-    //         name={`AssignFormikCards[${index}].for_tenant`}
-    //         className="table-checkbox-input"
-    //         checked={
-    //           formik.values?.AssignFormikCards?.[index]?.for_tenant ?? false
-    //         }
-    //         onChange={formik.handleChange}
-    //         onBlur={formik.handleBlur}
-    //       />
-    //       {/* Error handling code */}
-    //     </div>
-    //   ),
-    // },
   ];
 
   const chargesColumns = [

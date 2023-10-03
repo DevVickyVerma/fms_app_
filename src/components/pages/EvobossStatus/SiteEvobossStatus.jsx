@@ -230,18 +230,13 @@ const SiteEvobossStatus = (props) => {
                       // justifyContent={"center"}
                       gap={"10px"}
                     >
-                      {/* <h3>site Details</h3> */}
                       <h3 style={{ fontSize: "16px", fontWeight: "bold" }}>
                         {siteData?.[0]?.site_name}
                       </h3>
                       <span>Company - {siteData?.[0]?.company}</span>
                       <span>Company Code - {siteData?.[0]?.company_code}</span>
                       <span> Site Code - {siteData?.[0]?.site_code}</span>
-                      <p
-                      // style={{
-                      //   color: siteData?.[0]?.site_status?.bg_color,
-                      // }}
-                      >
+                      <p>
                         Site Status -{" "}
                         <span
                           style={{

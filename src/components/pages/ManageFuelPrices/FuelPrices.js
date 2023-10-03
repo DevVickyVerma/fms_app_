@@ -537,8 +537,6 @@ const FuelPrices = (props) => {
         <Row className="row-sm">
           <Col lg={12}>
             <Card style={{ height: "calc(100vh - 203px)", overflowY: "auto" }}>
-              {/*     height: calc(100vh - 203px);
-    overflow-y: auto; */}
               <Card.Header>
                 <h3 className="card-title">Fuel Price</h3>
               </Card.Header>
