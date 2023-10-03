@@ -48,7 +48,6 @@ const DashBoardChild = (props) => {
       position: toast.POSITION.TOP_RIGHT,
       hideProgressBar: true,
       transition: Slide,
-      autoClose: 500,
       theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
     });
   };
@@ -159,7 +158,7 @@ const DashBoardChild = (props) => {
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-          localStorage.getItem("role") === "Operator" ? (
+            localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
