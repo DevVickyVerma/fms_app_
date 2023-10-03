@@ -47,9 +47,7 @@ const Dashboard = (props) => {
     setshopmargin,
     piechartValues,
     setpiechartValues,
-    LinechartValues,
     setLinechartValues,
-    LinechartOption,
     setLinechartOption,
     DLinechartValues,
     setDLinechartValues,
@@ -134,7 +132,6 @@ const Dashboard = (props) => {
       position: toast.POSITION.TOP_RIGHT,
       hideProgressBar: true,
       transition: Slide,
-      autoClose: 500,
       theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
     });
   };

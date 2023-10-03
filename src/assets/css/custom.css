@@ -108,7 +108,7 @@ h3.SidebarSearch-title {
   box-shadow: none;
 }
 
-.data-table-extensions > .data-table-extensions-filter > .filter-text {
+.data-table-extensions>.data-table-extensions-filter>.filter-text {
   /* border: 1px solid #eaedf1 !important; */
   border-bottom: 1px solid #eaedf1 !important;
   outline: none !important;
@@ -328,6 +328,7 @@ tbody tr {
 }
 
 @media screen and (max-width: 768px) {
+
   .table th,
   .table td {
     min-width: 22.28% !important;
@@ -549,7 +550,7 @@ input.table-input.readonly.total-input-card {
   border-radius: 50%;
 }
 
-.d-flex.chart-items > div:first-child {
+.d-flex.chart-items>div:first-child {
   margin-right: 0;
   margin-left: 0;
 }
@@ -935,6 +936,7 @@ span.ModalTitle-2fa {
   color: white;
   display: flex;
 }
+
 .loader {
   width: 48px;
   height: 48px;
@@ -945,6 +947,7 @@ span.ModalTitle-2fa {
   position: relative;
   animation: pulse 1s linear infinite;
 }
+
 .loader:after {
   content: "";
   position: absolute;
@@ -964,18 +967,34 @@ span.ModalTitle-2fa {
   0% {
     transform: translate(-50%, -50%) scale(0);
   }
+
   60%,
   100% {
     transform: translate(-50%, -50%) scale(1);
   }
 }
+
 @keyframes pulse {
+
   0%,
   60%,
   100% {
     transform: scale(1);
   }
+
   80% {
     transform: scale(1.2);
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .dashboard-grads-show-cal {
+    display: block !important;
+    /* Show the card when the screen width is greater than 700px */
+  }
+
+  .dashboard-grads-hide-cal {
+    display: none !important;
+    /* Hide the card when the screen width is less than or equal to 700px */
   }
 }
