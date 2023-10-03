@@ -91,7 +91,8 @@ const AddCompany = (props) => {
             type="checkbox"
             id={`checked-${index}`}
             name={`FormikreportsData[${index}].checked`}
-            className="table-input"
+            className="form-check-input "
+            style={{ marginTop: "-6px" }}
             checked={
               formik.values?.FormikreportsData?.[index]?.checked ?? false
             }
