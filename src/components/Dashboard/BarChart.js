@@ -39,23 +39,6 @@ const BarChart = ({ piechartValues }) => {
     data: data,
     options: {
       responsive: true,
-      // plugins: {
-      //   legend: {
-      //     display: true,
-      //   },
-      //   tooltip: {
-      //     enabled: false, // Disable the default tooltip
-      //   },
-      //   datalabels: {
-      //     color: "white", // Color of the data labels
-      //     anchor: "end", // Position of the data labels (can be adjusted)
-      //     align: "start", // Alignment of the data labels
-      //     formatter: (value, context) => {
-      //       const label = context.chart.data.labels[context.dataIndex];
-      //       return `${label}: ${((value / totalSales) * 100).toFixed(2)}%`;
-      //     },
-      //   },
-      // },
     },
   };
 

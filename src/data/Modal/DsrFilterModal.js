@@ -197,11 +197,10 @@ const WorkflowExceptionFilter = (props) => {
                           </label>
                           <Field
                             as="select"
-                            className={`input101 ${
-                              errors.client_id && touched.client_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${errors.client_id && touched.client_id
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="client_id"
                             name="client_id"
                             onChange={(e) => {
@@ -261,11 +260,10 @@ const WorkflowExceptionFilter = (props) => {
                         </label>
                         <Field
                           as="select"
-                          className={`input101 ${
-                            errors.company_id && touched.company_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${errors.company_id && touched.company_id
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="company_id"
                           name="company_id"
                           onChange={(e) => {
@@ -318,11 +316,10 @@ const WorkflowExceptionFilter = (props) => {
                         </label>
                         <Field
                           as="select"
-                          className={`input101 ${
-                            errors.site_id && touched.site_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${errors.site_id && touched.site_id
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="site_id"
                           name="site_id"
                           onChange={(e) => {
@@ -337,10 +334,6 @@ const WorkflowExceptionFilter = (props) => {
                                 "site_name",
                                 selectedSiteData.site_name
                               ); // Set site_name using setFieldValue
-                              console.log(
-                                selectedSiteData.site_name,
-                                "site_name"
-                              );
                             }
                           }}
                         >

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
-import { Margin } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 
 const DashTopTableSection = (props) => {
-  const { apidata, isLoading, error, getData, postData, searchdata } = props;
+  const { isLoading, getData, searchdata } = props;
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
@@ -25,7 +24,7 @@ const DashTopTableSection = (props) => {
 
   const [data, setData] = useState();
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
-  const navigate = useNavigate();
+
 
   const FetchTableData = async () => {
     try {
@@ -90,10 +89,10 @@ const DashTopTableSection = (props) => {
   };
 
   const renderTableData = () => {
-    return data?.map((item) => (
+    return data?.map((item, index) => (
       <>
         {isSitePermissionAvailable ? (
-          <div onClick={() => handleSaveSingleSiteData(item)}>
+          <div onClick={() => handleSaveSingleSiteData(item)} key={index}>
             <Link
               Link
               to={`/dashboard-details/${item?.id}`}
@@ -106,9 +105,7 @@ const DashTopTableSection = (props) => {
               >
                 <td className="dashboard-child-tdata">
                   <div className="d-flex align-items-center justify-center h-100">
-                    <div
-                    // className="d-flex align-items-center card-img"
-                    >
+                    <div>
                       <img
                         src={item.image}
                         alt={item.image}
@@ -144,7 +141,7 @@ const DashTopTableSection = (props) => {
                   </div>
                 </td>
 
-                {/* <td>{item?.fuel_volume?.total_volume}</td> */}
+
                 <td className="dashboard-child-tdata">
                   <div className="d-flex align-items-center h-100 ">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -153,11 +150,10 @@ const DashTopTableSection = (props) => {
                       </h6>
 
                       <p
-                        className={`me-1 ${
-                          item.fuel_volume?.status === "up"
-                            ? "text-success"
-                            : "text-danger"
-                        }`}
+                        className={`me-1 ${item.fuel_volume?.status === "up"
+                          ? "text-success"
+                          : "text-danger"
+                          }`}
                         data-tip={`${item?.fuel_volume?.percentage}%`}
                       >
                         {item?.fuel_volume?.status === "up" ? (
@@ -181,18 +177,17 @@ const DashTopTableSection = (props) => {
                 </td>
 
                 <td className="dashboard-child-tdata">
-                  {/* {item?.fuel_sales?.total_value} */}
+
                   <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                       <h6 className="mb-0 fs-14 fw-semibold">
                         £{item?.fuel_sales?.gross_value}
                       </h6>
                       <p
-                        className={`me-1 ${
-                          item?.fuel_sales?.status === "up"
-                            ? "text-success"
-                            : "text-danger"
-                        }`}
+                        className={`me-1 ${item?.fuel_sales?.status === "up"
+                          ? "text-success"
+                          : "text-danger"
+                          }`}
                         data-tip={`${item?.fuel_sales?.percentage}%`}
                       >
                         {item?.fuel_sales?.status === "up" ? (
@@ -216,18 +211,17 @@ const DashTopTableSection = (props) => {
                 </td>
 
                 <td className="dashboard-child-tdata">
-                  {/* {item?.gross_profit?.gross_profit} */}
+
                   <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                       <h6 className="mb-0 fs-14 fw-semibold">
                         £{item?.gross_profit?.gross_profit}
                       </h6>
                       <p
-                        className={`me-1 ${
-                          item?.gross_profit?.status === "up"
-                            ? "text-success"
-                            : "text-danger"
-                        }`}
+                        className={`me-1 ${item?.gross_profit?.status === "up"
+                          ? "text-success"
+                          : "text-danger"
+                          }`}
                         data-tip={`${item?.gross_profit?.percentage}%`}
                       >
                         {item?.gross_profit?.status === "up" ? (
@@ -251,18 +245,17 @@ const DashTopTableSection = (props) => {
                 </td>
 
                 <td className="dashboard-child-tdata">
-                  {/* {item?.gross_margin?.gross_margin} */}
+
                   <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                       <h6 className="mb-0 fs-14 fw-semibold">
                         {item?.gross_margin?.gross_margin} ppl
                       </h6>
                       <p
-                        className={`me-1 ${
-                          item?.gross_margin?.status === "up"
-                            ? "text-success"
-                            : "text-danger"
-                        }`}
+                        className={`me-1 ${item?.gross_margin?.status === "up"
+                          ? "text-success"
+                          : "text-danger"
+                          }`}
                         data-tip={`${item?.gross_margin?.percentage}%`}
                       >
                         {item?.gross_margin?.status === "up" ? (
@@ -286,18 +279,17 @@ const DashTopTableSection = (props) => {
                 </td>
 
                 <td className="dashboard-child-tdata">
-                  {/* {item?.shop_sales?.shop_sales} */}
+
                   <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                       <h6 className="mb-0 fs-14 fw-semibold">
                         £{item?.shop_sales?.shop_sales}
                       </h6>
                       <p
-                        className={`me-1 ${
-                          item?.shop_sales?.status === "up"
-                            ? "text-success"
-                            : "text-danger"
-                        }`}
+                        className={`me-1 ${item?.shop_sales?.status === "up"
+                          ? "text-success"
+                          : "text-danger"
+                          }`}
                         data-tip={`${item?.shop_sales?.percentage}%`}
                       >
                         {item?.shop_sales?.status === "up" ? (
@@ -320,18 +312,17 @@ const DashTopTableSection = (props) => {
                   </div>
                 </td>
                 <td className="dashboard-child-tdata">
-                  {/* {item?.shop_profit?.shop_profit} */}
+
                   <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                       <h6 className="mb-0 fs-14 fw-semibold">
                         £{item?.shop_profit?.shop_profit || "0.00"}
                       </h6>
                       <p
-                        className={`me-1 ${
-                          item?.shop_profit?.status === "up"
-                            ? "text-success"
-                            : "text-danger"
-                        }`}
+                        className={`me-1 ${item?.shop_profit?.status === "up"
+                          ? "text-success"
+                          : "text-danger"
+                          }`}
                         data-tip={`${item?.shop_profit?.percentage}%`}
                       >
                         {item?.shop_profit?.status === "up" ? (
@@ -357,12 +348,10 @@ const DashTopTableSection = (props) => {
             </Link>
           </div>
         ) : (
-          <tr className="fuelprice-tr" key={item.id} style={{ padding: "0px" }}>
+          <tr className="fuelprice-tr" key={item?.id} style={{ padding: "0px" }} >
             <td className="dashboard-child-tdata">
               <div className="d-flex align-items-center justify-center h-100">
-                <div
-                // className="d-flex align-items-center card-img"
-                >
+                <div>
                   <img
                     src={item.image}
                     alt={item.image}
@@ -401,11 +390,10 @@ const DashTopTableSection = (props) => {
                   </h6>
 
                   <p
-                    className={`me-1 ${
-                      item.fuel_volume?.status === "up"
-                        ? "text-success"
-                        : "text-danger"
-                    }`}
+                    className={`me-1 ${item.fuel_volume?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                      }`}
                     data-tip={`${item?.fuel_volume?.percentage}%`}
                   >
                     {item?.fuel_volume?.status === "up" ? (
@@ -429,18 +417,16 @@ const DashTopTableSection = (props) => {
             </td>
 
             <td className="dashboard-child-tdata">
-              {/* {item?.fuel_sales?.total_value} */}
               <div className="d-flex">
                 <div className="ms-2 mt-0 mt-sm-2 d-block">
                   <h6 className="mb-0 fs-14 fw-semibold">
                     £{item?.fuel_sales?.gross_value}
                   </h6>
                   <p
-                    className={`me-1 ${
-                      item?.fuel_sales?.status === "up"
-                        ? "text-success"
-                        : "text-danger"
-                    }`}
+                    className={`me-1 ${item?.fuel_sales?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                      }`}
                     data-tip={`${item?.fuel_sales?.percentage}%`}
                   >
                     {item?.fuel_sales?.status === "up" ? (
@@ -464,18 +450,17 @@ const DashTopTableSection = (props) => {
             </td>
 
             <td className="dashboard-child-tdata">
-              {/* {item?.gross_profit?.gross_profit} */}
+
               <div className="d-flex">
                 <div className="ms-2 mt-0 mt-sm-2 d-block">
                   <h6 className="mb-0 fs-14 fw-semibold">
                     £{item?.gross_profit?.gross_profit}
                   </h6>
                   <p
-                    className={`me-1 ${
-                      item?.gross_profit?.status === "up"
-                        ? "text-success"
-                        : "text-danger"
-                    }`}
+                    className={`me-1 ${item?.gross_profit?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                      }`}
                     data-tip={`${item?.gross_profit?.percentage}%`}
                   >
                     {item?.gross_profit?.status === "up" ? (
@@ -499,18 +484,17 @@ const DashTopTableSection = (props) => {
             </td>
 
             <td className="dashboard-child-tdata">
-              {/* {item?.gross_margin?.gross_margin} */}
+
               <div className="d-flex">
                 <div className="ms-2 mt-0 mt-sm-2 d-block">
                   <h6 className="mb-0 fs-14 fw-semibold">
                     {item?.gross_margin?.gross_margin} ppl
                   </h6>
                   <p
-                    className={`me-1 ${
-                      item?.gross_margin?.status === "up"
-                        ? "text-success"
-                        : "text-danger"
-                    }`}
+                    className={`me-1 ${item?.gross_margin?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                      }`}
                     data-tip={`${item?.gross_margin?.percentage}%`}
                   >
                     {item?.gross_margin?.status === "up" ? (
@@ -534,18 +518,17 @@ const DashTopTableSection = (props) => {
             </td>
 
             <td className="dashboard-child-tdata">
-              {/* {item?.shop_sales?.shop_sales} */}
+
               <div className="d-flex">
                 <div className="ms-2 mt-0 mt-sm-2 d-block">
                   <h6 className="mb-0 fs-14 fw-semibold">
                     £{item?.shop_sales?.shop_sales}
                   </h6>
                   <p
-                    className={`me-1 ${
-                      item?.shop_sales?.status === "up"
-                        ? "text-success"
-                        : "text-danger"
-                    }`}
+                    className={`me-1 ${item?.shop_sales?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                      }`}
                     data-tip={`${item?.shop_sales?.percentage}%`}
                   >
                     {item?.shop_sales?.status === "up" ? (
@@ -568,18 +551,17 @@ const DashTopTableSection = (props) => {
               </div>
             </td>
             <td className="dashboard-child-tdata">
-              {/* {item?.shop_profit?.shop_profit} */}
+
               <div className="d-flex">
                 <div className="ms-2 mt-0 mt-sm-2 d-block">
                   <h6 className="mb-0 fs-14 fw-semibold">
                     £{item?.shop_profit?.shop_profit || 0.0}
                   </h6>
                   <p
-                    className={`me-1 ${
-                      item?.shop_profit?.status === "up"
-                        ? "text-success"
-                        : "text-danger"
-                    }`}
+                    className={`me-1 ${item?.shop_profit?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                      }`}
                     data-tip={`${item?.shop_profit?.percentage}%`}
                   >
                     {item?.shop_profit?.status === "up" ? (
@@ -621,13 +603,11 @@ const DashTopTableSection = (props) => {
               {data ? (
                 <div
                   className="table-container table-responsive"
-                  // style={{ height: "700px", overflowY: "auto" }}
                   style={{
                     overflowY: "auto",
                     maxHeight: "calc(100vh - 376px )",
                     minHeight: "300px",
                   }}
-                  // height:"245"
                 >
                   <table className="table">
                     <thead

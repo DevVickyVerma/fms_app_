@@ -179,10 +179,10 @@ export function CustomizedRating8() {
     color: "#6c757d",
     activeColor: "#ffc107",
     onChange: (newValue) => {
-      // console.log(`Example 3: new value is ${newValue}`);
+
     },
   };
-  return <ReactStars {...ColorExample} className="Rating"/>;
+  return <ReactStars {...ColorExample} className="Rating" />;
 }
 //CustomizedRating9
 export function CustomizedRating9() {
@@ -201,7 +201,7 @@ export function CustomizedRating9() {
         value={value}
         readOnly
         precision={0.5}
-        emptyIcon={<StarIcon style={{ opacity: 0.55 }}className="Rating" fontSize="inherit" />}
+        emptyIcon={<StarIcon style={{ opacity: 0.55 }} className="Rating" fontSize="inherit" />}
       />
       <Box sx={{ ml: 2 }}>{labels[value]}</Box>
     </Box>

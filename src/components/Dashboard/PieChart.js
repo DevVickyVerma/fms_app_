@@ -30,20 +30,6 @@ const Apexcharts2 = ({ data }) => {
       type: "pie",
     },
     labels: formattedLabels,
-    // responsive: [
-    //   {
-    //     breakpoint: 194,
-    //     options: {
-    //       chart: {
-    //         width: 100,
-    //       },
-    //       legend: {
-    //         position: "bottom",
-    //       },
-    //     },
-    //   },
-    // ],
-    // responsive: true,
     colors: ["rgb(255, 99, 132)", "rgb(54, 162, 235)", "rgb(154, 62, 251)"],
   };
 

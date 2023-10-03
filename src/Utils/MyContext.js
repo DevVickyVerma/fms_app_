@@ -5,7 +5,6 @@ const MyContext = createContext();
 
 // Create the provider component
 const MyProvider = ({ children }) => {
-  const [testIsWorking, settestIsWorking] = useState(false);
   const [searchdata, setSearchdata] = useState({});
   const [GrossMarginValue, setGrossMarginValue] = useState();
   const [GrossProfitValue, setGrossProfitValue] = useState();
@@ -21,11 +20,10 @@ const MyProvider = ({ children }) => {
   const [stackedLineBarData, setStackedLineBarData] = useState([]);
   const [stackedLineBarLabels, setStackedLineBarLabel] = useState();
   const [getSiteDetailsLoading, setGetSiteDetailsLoading] = useState(false)
+  const [shouldNavigateToDetailsPage, setShouldNavigateToDetailsPage] = useState(false);
 
   // Value object to provide to consumers
   const value = {
-    testIsWorking,
-    settestIsWorking,
     searchdata,
     setSearchdata,
     GrossMarginValue,
@@ -54,7 +52,9 @@ const MyProvider = ({ children }) => {
     setStackedLineBarData,
     stackedLineBarLabels,
     setStackedLineBarLabel,
-    getSiteDetailsLoading, setGetSiteDetailsLoading
+    getSiteDetailsLoading,
+    setGetSiteDetailsLoading,
+    shouldNavigateToDetailsPage, setShouldNavigateToDetailsPage
   };
 
   return <MyContext.Provider value={value}>{children}</MyContext.Provider>;

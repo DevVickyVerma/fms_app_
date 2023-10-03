@@ -1,62 +1,34 @@
 import React, { useEffect, useState } from "react";
-import CountUp from "react-countup";
-import ReactApexChart from "react-apexcharts";
-
-import * as dashboard from "../../data/dashboard/dashboard";
 import { Link, useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 import withApi from "../../Utils/ApiHelper";
-
 import { fetchData } from "../../Redux/dataSlice";
 import SortIcon from "@mui/icons-material/Sort";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import SideSearchbar from "../../data/Modal/SideSearchbar";
 import DashBordModal from "../../data/Modal/DashBordmodal";
-import PieDashboardChart from "../../components/pages/DashBoardChart/PieDashboardChart";
-import Spinners from "../../components/Dashboard/Spinner";
-import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
-import OilBarrelIcon from "@mui/icons-material/OilBarrel";
 import { useDispatch, useSelector } from "react-redux";
-
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  Form,
-  OverlayTrigger,
-  Row,
-  Tooltip,
-  Spinner,
-} from "react-bootstrap";
-import BarChart from "./BarChart";
 import LineChart from "./LineChart";
 import DashTopSection from "./dashTopSection/DashTopSection";
-import DashTopTableSection from "./dashTopSection/DashTopTableSection";
 import { Box } from "@material-ui/core";
 import { useMyContext } from "../../Utils/MyContext";
-import CenterFilterModal from "../../data/Modal/CenterFilterModal";
-import CenterSearchmodal from "../../data/Modal/CenterSearchmodal";
 import StackedLineBarChart from "./StackedLineBarChart";
-import PieChartOfDashboard from "./PieChartOfDashboard";
 import Apexcharts2 from "./PieChart";
 import CenterAuthModal from "../../data/Modal/CenterAuthModal";
+import {
+  Card, Col, Row,
+} from "react-bootstrap";
+
+
 
 const Dashboard = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
-
+  const { isLoading, getData } = props;
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
-
   const [ShowTruw, setShowTruw] = useState(true);
   const [ShowAuth, setShowAuth] = useState(false);
   const [ClientID, setClientID] = useState();
-  // const [searchdata, setSearchdata] = useState({});
   const [SearchList, setSearchList] = useState(false);
-
-  const [myData, setMyData] = useState();
-  let LinechartOptions = [];
-  const [centerAuthModalOpen, setCenterAuthModalOpen] = useState(false);
+  const [justLoggedIn, setJustLoggedIn] = useState(false);
 
   const {
     searchdata,
@@ -87,6 +59,8 @@ const Dashboard = (props) => {
     setStackedLineBarData,
     stackedLineBarLabels,
     setStackedLineBarLabel,
+    shouldNavigateToDetailsPage,
+    setShouldNavigateToDetailsPage
   } = useMyContext();
 
   const superiorRole = localStorage.getItem("superiorRole");
@@ -112,15 +86,12 @@ const Dashboard = (props) => {
       const { data } = response;
 
       if (data) {
-        LinechartOptions = data?.data?.line_graph?.option?.labels;
-
         setLinechartValues(data?.data?.line_graph?.series);
         setDLinechartValues(data?.data?.d_line_graph?.series);
         setLinechartOption(data?.data?.line_graph?.option?.labels);
         setDLinechartOption(data?.data?.d_line_graph?.option?.labels);
         setStackedLineBarData(data?.data?.line_graph?.datasets);
         setStackedLineBarLabel(data?.data?.line_graph?.labels);
-
         setpiechartValues(data?.data?.pi_graph);
         setGrossMarginValue(data?.data?.gross_margin_);
         setGrossVolume(data?.data?.gross_volume);
@@ -191,7 +162,7 @@ const Dashboard = (props) => {
     }
   }
 
-  const [justLoggedIn, setJustLoggedIn] = useState(false);
+
 
   const token = localStorage.getItem("token");
   const loggedInFlag = localStorage.getItem("justLoggedIn");
@@ -225,7 +196,6 @@ const Dashboard = (props) => {
     if (Client_login) {
       if (tokenUpdated) {
         window.location.reload();
-
         localStorage.setItem("Client_login", "false"); // Update the value to string "false"
         // Handle token update logic without page reload
       }
@@ -264,8 +234,7 @@ const Dashboard = (props) => {
       const { data } = response;
 
       if (data) {
-        LinechartOptions = data?.data?.line_graph?.option?.labels;
-
+        setShouldNavigateToDetailsPage(true)
         setLinechartValues(data?.data?.line_graph?.series);
         setDLinechartValues(data?.data?.d_line_graph?.series);
         setLinechartOption(data?.data?.line_graph?.option?.labels);
@@ -305,6 +274,7 @@ const Dashboard = (props) => {
       }
     } catch (error) {
       handleError(error);
+      setShouldNavigateToDetailsPage(false)
       console.error("API error:", error);
     }
   };
@@ -402,23 +372,20 @@ const Dashboard = (props) => {
   return (
     <>
       {isLoading || isLoadingState ? <Loaderimg /> : null}
-
       <div>
-        {/* <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"}> */}
         <Box
           display={"flex"}
           justifyContent={"space-between"}
           alignItems={"center"}
           minHeight={"90px"}
           className="center-filter-modal-responsive"
-          //  className="page-header "
         >
           <Box alignSelf={"flex-start"} mt={"33px"}>
             <h1 className="page-title">Dashboard ({UserPermissions?.dates})</h1>
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-          localStorage.getItem("role") === "Operator" ? (
+            localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -503,7 +470,6 @@ const Dashboard = (props) => {
                   onClick={() => {
                     handleToggleSidebar1();
                   }}
-                  // onClick={setShowTruw(true)}
                   title="filter"
                   visible={sidebarVisible1}
                   onClose={handleToggleSidebar1}
@@ -549,8 +515,8 @@ const Dashboard = (props) => {
         )}
 
         {isProfileUpdatePermissionAvailable &&
-        !isTwoFactorPermissionAvailable &&
-        ShowAuth ? (
+          !isTwoFactorPermissionAvailable &&
+          ShowAuth ? (
           <>
             <CenterAuthModal title="Auth Modal" />
           </>
@@ -559,7 +525,7 @@ const Dashboard = (props) => {
         )}
 
         {localStorage.getItem("superiorRole") === "Administrator" &&
-        Object.keys(searchdata).length === 0 ? (
+          Object.keys(searchdata).length === 0 ? (
           <div
             style={{
               textAlign: "left",
@@ -585,13 +551,12 @@ const Dashboard = (props) => {
           FuelValue={FuelValue}
           shopsale={shopsale}
           searchdata={searchdata}
+          shouldNavigateToDetailsPage={shouldNavigateToDetailsPage}
+          setShouldNavigateToDetailsPage={setShouldNavigateToDetailsPage}
         />
-
-        {/* <DashTopTableSection  />          */}
 
         <Row style={{ marginBottom: "10px", marginTop: "20px" }}>
           <Col
-            // lg={7} md={12}
             style={{ width: "60%" }}
           >
             <Card>
@@ -634,7 +599,6 @@ const Dashboard = (props) => {
           </Col>
 
           <Col
-          // lg={5} md={12}
           >
             <Card>
               <Card.Header className="card-header">

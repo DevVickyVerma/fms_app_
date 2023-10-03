@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import DashBoardSubChild from "./DashBoardSubChild";
-import { useMyContext } from "../../../Utils/MyContext";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 
@@ -10,7 +9,6 @@ const DashboardSiteDetail = (props) => {
   const { isLoading, getData } = props;
   const { id } = useParams();
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
-  const [data, setData] = useState();
   const [getSiteStats, setGetSiteStats] = useState(null);
   const [getSiteDetails, setGetSiteDetails] = useState(null);
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
@@ -50,7 +48,6 @@ const DashboardSiteDetail = (props) => {
       } else {
         throw new Error("No data available in the response");
       }
-      // setIsLoadingState(false);
     } catch (error) {
       console.error("API error:", error);
     }
