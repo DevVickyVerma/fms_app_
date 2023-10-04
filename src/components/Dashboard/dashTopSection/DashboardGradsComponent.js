@@ -133,6 +133,7 @@ const DashboardGradsComponent = ({
               : `/dashboard/get-site-fuel-performance?site_id=${id}&end_date=${endDate}&start_date=${startDate}`
           );
           setStartDatePath(startDate)
+          setEndDatePath(endDate)
           if (response3 && response3.data) {
             setGradsGetSiteDetails(response3?.data?.data);
             notify(response3?.data?.message);
@@ -152,6 +153,7 @@ const DashboardGradsComponent = ({
     }
     setGradsLoading(false);
   };
+  console.log(setStartDatePath, "setStartDatePath");
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
