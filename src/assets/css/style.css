@@ -16789,6 +16789,16 @@ div.conv-form-wrapper div.options div.option.selected {
   }
 }
 
+@media (max-width: 400px) {
+  .page-header .breadcrumb {
+    margin-top: 0px;
+  }
+
+  .responsive-btn {
+    min-width: 1px !important;
+  }
+}
+
 @media (max-width: 540px) {
   img.mobile-logo {
     margin-right: 133px;

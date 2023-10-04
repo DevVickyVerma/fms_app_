@@ -162,7 +162,7 @@ const ManageUser = (props) => {
       name: "S.No",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "10%",
+      width: "8%",
       center: true,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -213,12 +213,12 @@ const ManageUser = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: true,
-      width: "12%",
+      width: "14%",
       cell: (row, index) => (
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
+        // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
@@ -277,7 +277,7 @@ const ManageUser = (props) => {
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
                 to={`/editusers/${row.id}`}
-                className="btn btn-primary btn-sm rounded-11 me-2"
+                className="btn btn-primary btn-sm rounded-11 me-2 responsive-btn"
               >
                 <i>
                   <svg
@@ -298,7 +298,7 @@ const ManageUser = (props) => {
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"
-                className="btn btn-danger btn-sm rounded-11"
+                className="btn btn-danger btn-sm rounded-11 responsive-btn"
                 onClick={() => handleDelete(row.id)}
               >
                 <i>
@@ -323,7 +323,7 @@ const ManageUser = (props) => {
             >
               <Link
                 to={`/assigusernaddon/${row.id}`}
-                className="btn btn-success btn-sm rounded-11 ms-2"
+                className="btn btn-success btn-sm rounded-11 ms-2 responsive-btn"
               >
                 <AssignmentIndIcon />
               </Link>
@@ -343,7 +343,7 @@ const ManageUser = (props) => {
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
-        <div className="page-header ">
+        <div className="page-header d-flex">
           <div>
             <h1 className="page-title">Manage Users</h1>
             <Breadcrumb className="breadcrumb">
