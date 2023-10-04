@@ -232,9 +232,9 @@ const CenterSearchmodal = (props) => {
             >
               Search
             </button>
-            <button className="btn btn-danger ms-2" onClick={handleClose}>
+            {/* <button className="btn btn-danger ms-2" onClick={handleClose}>
               Cancel
-            </button>
+            </button> */}
           </div>
         </DialogActions>
       </Dialog>

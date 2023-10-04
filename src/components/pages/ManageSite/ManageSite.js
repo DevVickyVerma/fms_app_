@@ -579,7 +579,7 @@ const ManageSite = (props) => {
 
         <Suspense fallback={<img src={Loaderimg} alt="Loading" />}>
           <CommonSidebar
-            title="{sidebardata}"
+            title={sidebardata}
             sidebarContent={sidebardataobject}
             visible={sidebarVisible}
             onClose={handleCloseSidebar}

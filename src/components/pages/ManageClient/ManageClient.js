@@ -412,7 +412,7 @@ const ManageClient = (props) => {
                         >
                           <div style={{ width: "100%" }}>
                             <i className="setting-icon">
-                              <AssignmentIndIcon />
+                              {""} <AssignmentIndIcon />
                             </i>
                             <span>Report Assign</span>
                           </div>
@@ -432,14 +432,6 @@ const ManageClient = (props) => {
     columns,
     data,
   };
-
-  // const Loaderimg = () => {
-  //   return (
-  //     <div id="global-loader">
-  //       <loderdata.Loadersbigsizes1 />
-  //     </div>
-  //   );
-  // };
 
   const dynamicClass = "dynamicClass"; /* your dynamic class */
   return (
@@ -510,7 +502,7 @@ const ManageClient = (props) => {
                 to="/addclient"
                 className="btn btn-primary ms-2 addclientbtn"
               >
-                Add Client
+                Add Client {""}
                 <AddCircleOutlineIcon />
               </Link>
             ) : null}

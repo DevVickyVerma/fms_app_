@@ -605,6 +605,34 @@ const AddClient = (props) => {
                         </Col>
 
                         <Col lg={4} md={6}>
+                          <label
+                            htmlFor="fairbank_email"
+                            className=" form-label mt-4"
+                          >
+                            Fairbank Email
+                            <span className="text-danger">*</span>
+                          </label>
+                          <div className="email-input">
+                            <ReactMultiEmail
+                              emails={emails}
+                              onChange={handleEmailChange}
+                              getLabel={renderEmailTag}
+                              maxTags={5} // You can set the maximum number of emails/tags
+                            />
+
+                            <ErrorMessage
+                              component="div"
+                              className="invalid-feedback"
+                              name="fairbank_email"
+                            />
+                          </div>
+                          <span className="fairbank-title">
+                            {" "}
+                            * You can add multiple email IDs by using{" "}
+                            <strong>,</strong>
+                          </span>
+                        </Col>
+                        <Col lg={4} md={6}>
                           <FormGroup>
                             <label htmlFor="email" className=" form-label mt-4">
                               MA Options
@@ -646,35 +674,6 @@ const AddClient = (props) => {
                               name="email"
                             />
                           </FormGroup>
-                        </Col>
-
-                        <Col lg={4} md={6}>
-                          <label
-                            htmlFor="fairbank_email"
-                            className=" form-label mt-4"
-                          >
-                            Fairbank Email
-                            <span className="text-danger">*</span>
-                          </label>
-                          <div className="email-input">
-                            <ReactMultiEmail
-                              emails={emails}
-                              onChange={handleEmailChange}
-                              getLabel={renderEmailTag}
-                              maxTags={5} // You can set the maximum number of emails/tags
-                            />
-
-                            <ErrorMessage
-                              component="div"
-                              className="invalid-feedback"
-                              name="fairbank_email"
-                            />
-                          </div>
-                          <span className="fairbank-title">
-                            {" "}
-                            * You can add multiple email IDs by using{" "}
-                            <strong>,</strong>
-                          </span>
                         </Col>
                         <Col lg={4} md={6}>
                           <FormGroup>
