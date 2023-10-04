@@ -1,39 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import {
   Col,
   Row,
   Card,
-  Form,
-  FormGroup,
-  FormControl,
-  ListGroup,
   Breadcrumb,
 } from "react-bootstrap";
-
-import { Formik, Field, ErrorMessage } from "formik";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 
 const EditBussiness = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
   const navigate = useNavigate();
-
-  const [AddSiteData, setAddSiteData] = useState([]);
-  const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  const [subTypes, setSubTypes] = useState([]);
-  const [EditSiteData, setEditSiteData] = useState();
-
-  const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-  const [dropdownValue, setDropdownValue] = useState([]);
+
   function handleError(error) {
     if (error.response && error.response.charge_status === 401) {
       navigate("/login");
@@ -51,49 +35,6 @@ const EditBussiness = (props) => {
       Errornotify(errorMessage);
     }
   }
-  // const { id } = useParams();
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   const formData = new FormData();
-
-  //   formData.append("id", id); // Use the retrieved ID from the URL
-
-  //   const axiosInstance = axios.create({
-  //     baseURL: process.env.REACT_APP_BASE_URL,
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axiosInstance.get(`/charge/${id}`);
-  //       if (response) {
-  //
-  //         setEditSiteData(response.data.data);
-  //         formik.setValues(response.data.data);
-  //       }
-  //     } catch (error) {
-  //       handleError(error);
-  //     }
-  //   };
-
-  //   try {
-  //     fetchData();
-  //   } catch (error) {
-  //     handleError(error);
-  //   }
-  //   console.clear();
-  // }, [id]);
-
-  // const token = localStorage.getItem("token");
-  // const axiosInstance = axios.create({
-  //   baseURL: process.env.REACT_APP_BASE_URL,
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // });
 
   const { id } = useParams();
 
@@ -112,8 +53,6 @@ const EditBussiness = (props) => {
 
       if (response) {
         formik.setValues(response.data.data);
-
-        setDropdownValue(response.data.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -121,14 +60,6 @@ const EditBussiness = (props) => {
       console.error("API error:", error);
     }
   };
-
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
 
   const handleSubmit = async (values) => {
     try {
@@ -159,27 +90,11 @@ const EditBussiness = (props) => {
       charge_code: Yup.string().required("Charge code is required"),
 
       charge_name: Yup.string()
-        .required("Charge Name is required")
-        .matches(/^[a-zA-Z0-9_\- ]+$/, {
-          message: "Charge Name must not contain special characters",
-          excludeEmptyString: true,
-        })
-        .matches(
-          /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
-          {
-            message: "Charge Name must not have consecutive spaces",
-            excludeEmptyString: true,
-          }
-        ),
-
+        .required("Charge Name is required"),
       charge_status: Yup.string().required(" Status is required"),
     }),
     onSubmit: handleSubmit,
   });
-
-  const isInvalid = formik.errors && formik.touched.name ? "is-invalid" : "";
-
-  // Use the isInvalid variable to conditionally set the class name
 
   return (
     <>
@@ -237,12 +152,11 @@ const EditBussiness = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.charge_name &&
+                            className={`input101 ${formik.errors.charge_name &&
                               formik.touched.charge_name
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="charge_name"
                             name="charge_name"
                             placeholder="Charge Code"
@@ -270,12 +184,11 @@ const EditBussiness = (props) => {
                             charge_code="name"
                             type="text"
                             autoComplete="off"
-                            className={`input101 readonly ${
-                              formik.errors.charge_code &&
+                            className={`input101 readonly ${formik.errors.charge_code &&
                               formik.touched.charge_code
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             placeholder="Charge Code"
                             onChange={formik.handleChange}
                             value={formik.values.charge_code || ""}
@@ -299,12 +212,11 @@ const EditBussiness = (props) => {
                             Charge Status <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.charge_status &&
+                            className={`input101 ${formik.errors.charge_status &&
                               formik.touched.charge_status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="charge_status"
                             name="charge_status"
                             onChange={formik.handleChange}

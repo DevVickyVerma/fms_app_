@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -12,23 +12,20 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
-import SearchIcon from "@mui/icons-material/Search";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const ManageCharges = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { apidata, isLoading, getData, postData } = props;
   const [data, setData] = useState();
   const navigate = useNavigate();
-  const SuccessAlert = (message) => toast.success(message);
+
   const ErrorAlert = (message) => toast.error(message);
 
   const handleDelete = (id) => {
@@ -120,13 +117,7 @@ const ManageCharges = (props) => {
     }
   };
 
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+
 
   const FetchTableData = async () => {
     try {
@@ -135,7 +126,6 @@ const ManageCharges = (props) => {
 
       if (response && response.data && response.data.data) {
         setData(response.data.data.charges);
-        setSearchvalue(response.data.data.charges);
       } else {
         throw new Error("No data available in the response");
       }
@@ -144,14 +134,8 @@ const ManageCharges = (props) => {
     }
   };
 
-  const permissionsToCheck = [
-    "charges-list",
-    "charges-create",
-    "charges-edit",
-    "charges-details",
-    "charges-delete",
-  ];
-  let isPermissionAvailable = false;
+
+
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -162,17 +146,12 @@ const ManageCharges = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable = permissionsArray?.includes(
-    "charges-status-update"
-  );
+
   const isEditPermissionAvailable = permissionsArray?.includes("charges-edit");
   const isAddPermissionAvailable = permissionsArray?.includes("charges-create");
   const isDeletePermissionAvailable =
     permissionsArray?.includes("charges-delete");
-  const isDetailsPermissionAvailable =
-    permissionsArray?.includes("charges-details");
-  const isAssignPermissionAvailable =
-    permissionsArray?.includes("charges-assign");
+
 
   const columns = [
     {
@@ -326,18 +305,7 @@ const ManageCharges = (props) => {
     columns,
     data,
   };
-  const [searchText, setSearchText] = useState("");
-  const [searchvalue, setSearchvalue] = useState();
 
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchText(value);
-
-    const filteredData = searchvalue.filter((item) =>
-      item.charge_name.toLowerCase().includes(value.toLowerCase())
-    );
-    setData(filteredData);
-  };
 
   return (
     <>
@@ -370,7 +338,7 @@ const ManageCharges = (props) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Charges
+                  Add Charges <AddCircleOutlineIcon />
                 </Link>
               ) : null}
             </div>

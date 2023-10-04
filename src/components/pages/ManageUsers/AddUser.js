@@ -1,50 +1,27 @@
 import React, { useEffect, useState } from "react";
-
 import {
   Col,
   Row,
   Card,
   Form,
   FormGroup,
-  ListGroup,
   Breadcrumb,
 } from "react-bootstrap";
-import {
-  FormControl,
-  Select,
-  MenuItem,
-  Checkbox,
-  ListItemText,
-  InputLabel,
-} from "@material-ui/core";
-
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import DatePicker, { Calendar } from "react-multi-date-picker";
-import { useFormikContext } from "formik";
 import "react-datepicker/dist/react-datepicker.css";
-import * as loderdata from "../../../data/Component/loderdata/loderdata";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { MultiSelect } from "react-multi-select-component";
 const AddUsers = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
-  // const { setFieldValue } = useFormikContext();
-  const [AddSiteData, setAddSiteData] = useState([]);
-  const [selectedItems, setSelectedItems] = useState([]);
-  const [SelectedClient, setSelectedClient] = useState();
-  const [permissionsArray, setPermissionsArray] = useState([]);
-
+  const { isLoading, getData, postData } = props;
   const [roleitems, setRoleItems] = useState("");
   const [selectRole, setselectRole] = useState([]);
-  const [isPermissionsSet, setIsPermissionsSet] = useState(false);
   const navigate = useNavigate();
 
-  const notify = (message) => toast.success(message);
   const Errornotify = (message) => toast.error(message);
 
   function handleError(error) {
@@ -73,10 +50,8 @@ const AddUsers = (props) => {
       formData.append("last_name", values.last_name);
       formData.append("role_id", values.role);
       formData.append("send_mail", isChecked);
-      {
-        localStorage.getItem("superiorRole") === "Client" &&
-          formData.append("work_flow", values.work_flow);
-      }
+      localStorage.getItem("superiorRole") === "Client" &&
+        formData.append("work_flow", values.work_flow);
 
       if (selected !== null && selected !== undefined) {
         selected.forEach((client, index) => {
@@ -105,10 +80,6 @@ const AddUsers = (props) => {
   const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-      setIsPermissionsSet(true);
-    }
     FetchRoleList();
     handleFetchData();
   }, [UserPermissions]);
@@ -119,7 +90,6 @@ const AddUsers = (props) => {
 
       const { data } = response;
       if (data) {
-        setAddSiteData(response?.data);
         setselectRole(response?.data?.data);
         console.log(response?.data, "setAddSiteData");
       }
@@ -241,11 +211,10 @@ const AddUsers = (props) => {
                             <Field
                               type="text"
                               autoComplete="off"
-                              className={`input101 ${
-                                errors.first_name && touched.first_name
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
+                              className={`input101 ${errors.first_name && touched.first_name
+                                ? "is-invalid"
+                                : ""
+                                }`}
                               id="first_name"
                               name="first_name"
                               placeholder="First Name"
@@ -268,11 +237,10 @@ const AddUsers = (props) => {
                             <Field
                               type="text"
                               autoComplete="off"
-                              className={`input101 ${
-                                errors.last_name && touched.last_name
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
+                              className={`input101 ${errors.last_name && touched.last_name
+                                ? "is-invalid"
+                                : ""
+                                }`}
                               id="last_name"
                               name="last_name"
                               placeholder="Last Name"
@@ -294,11 +262,10 @@ const AddUsers = (props) => {
                             <Field
                               type="text"
                               autoComplete="off"
-                              className={`input101 ${
-                                errors.email && touched.email
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
+                              className={`input101 ${errors.email && touched.email
+                                ? "is-invalid"
+                                : ""
+                                }`}
                               id="email"
                               name="email"
                               placeholder="Email"
@@ -320,11 +287,10 @@ const AddUsers = (props) => {
                             </label>
                             <Field
                               type="password"
-                              className={`input101 ${
-                                errors.password && touched.password
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
+                              className={`input101 ${errors.password && touched.password
+                                ? "is-invalid"
+                                : ""
+                                }`}
                               id="password"
                               name="password"
                               placeholder="Password"
@@ -345,9 +311,8 @@ const AddUsers = (props) => {
                             </label>
                             <Field
                               as="select"
-                              className={`input101 ${
-                                errors.role && touched.role ? "is-invalid" : ""
-                              }`}
+                              className={`input101 ${errors.role && touched.role ? "is-invalid" : ""
+                                }`}
                               id="role"
                               name="role"
                             >
@@ -401,11 +366,10 @@ const AddUsers = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.work_flow && touched.work_flow
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.work_flow && touched.work_flow
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="work_flow"
                                 name="work_flow"
                               >
@@ -458,7 +422,7 @@ const AddUsers = (props) => {
                       <button
                         type="submit"
                         className="btn btn-primary me-2 "
-                        // disabled={Object.keys(errors).length > 0}
+                      // disabled={Object.keys(errors).length > 0}
                       >
                         Save
                       </button>
