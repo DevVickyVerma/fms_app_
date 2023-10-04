@@ -153,7 +153,7 @@ const DashboardGradsComponent = ({
     }
     setGradsLoading(false);
   };
-  console.log(setStartDatePath, "setStartDatePath");
+  // console.log(startDatePath, "setStartDatePath");
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -202,18 +202,10 @@ const DashboardGradsComponent = ({
               <button className="btn btn-primary" onClick={handleOpenModal}>
                 {" "}
                 <MdOutlineCalendarMonth />{" "}
-                {/* {!showDate ? : ""}
-                {showDate && windowWidth > 900
-                  ? `${moment(startDate).format("Do MMM")} - ${moment(
-                    endDate
-                  ).format("Do MMM")}`
-                  : ""
-                  // moment(getSiteDetails?.last_day_end).format("MMM Do")
-                } */}
                 {showDate
-                  ? `${moment(startDate).format("Do MMM")} - ${moment(
-                    endDate
-                  ).format("Do MMM")} ${startDate}`
+                  ? `${moment(startDatePath).format("Do MMM")} - ${moment(
+                    endDatePath
+                  ).format("Do MMM")}`
                   : moment(getSiteDetails?.last_day_end).format("MMM Do")}
                 <SortIcon />{" "}
               </button>
