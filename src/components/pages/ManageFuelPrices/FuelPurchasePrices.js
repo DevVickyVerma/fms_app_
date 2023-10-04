@@ -5,6 +5,7 @@ import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import Loaderimg from "../../../Utils/Loader";
+import { MultiSelect } from "react-multi-select-component";
 import {
   Breadcrumb,
   Card,
@@ -452,11 +453,11 @@ const ManageDsr = (props) => {
   const handleSubmitForm1 = async (event) => {
     event.preventDefault();
     if (
-      formik.values.sites === undefined ||
-      formik.values.sites === null ||
-      (Array.isArray(formik.values.sites) && formik.values.sites.length === 0)
+      selected === undefined ||
+      selected === null ||
+      (Array.isArray(selected) && selected.length === 0)
     ) {
-      ErrorToast("Please select at-least one site");
+      ErrorToast("Please select at least one site");
     }
 
     try {
@@ -493,15 +494,20 @@ const ManageDsr = (props) => {
         formData.append(total, total_values);
       });
 
-      formik.values.sites.forEach((site, index) => {
-        formData.append(`site_id[${index}]`, site.id);
+      // formik.values.sites.forEach((site, index) => {
+      //   formData.append(`site_id[${index}]`, site.id);
+      // });
+      const selectedSiteIds = selected?.map((site) => site.value);
+
+      selectedSiteIds?.forEach((id, index) => {
+        formData.append(`site_id[${index}]`, id);
       });
 
       formData.append("date", formik.values.start_date);
 
       const postDataUrl = "/site/fuel/purchase-price/update";
-
-      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+      const navigatePath = `/dashboard`;
+      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
@@ -543,6 +549,13 @@ const ManageDsr = (props) => {
     const inputDateElement = document.querySelector('input[type="date"]');
     inputDateElement.showPicker();
   };
+
+  const [selected, setSelected] = useState([]);
+
+  const options = selectedSiteList?.map((site) => ({
+    label: site.site_name,
+    value: site.id,
+  }));
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -810,36 +823,20 @@ const ManageDsr = (props) => {
                   <>
                     <form onSubmit={handleSubmitForm1}>
                       <Col lg={6} md={6}>
-                        {data ? (
-                          <FormControl className="width">
-                            <InputLabel>Select Sites</InputLabel>
-                            <Select
-                              multiple
-                              value={selectedItems}
-                              onChange={handleItemClick}
-                              renderValue={(selected) => selected.join(", ")}
-                            >
-                              <MenuItem disabled value="">
-                                <em>Select items</em>
-                              </MenuItem>
-                              {selectedSiteList.map((item) => (
-                                <MenuItem
-                                  key={item.site_name}
-                                  value={item.site_name}
-                                >
-                                  <Checkbox
-                                    checked={selectedItems.includes(
-                                      item.site_name
-                                    )}
-                                  />
-                                  <ListItemText primary={item.site_name} />
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl>
-                        ) : (
-                          ""
-                        )}
+                        <FormGroup>
+                          <label className="form-label mt-4">
+                            Select Sites
+                            <span className="text-danger">*</span>
+                          </label>
+                          <MultiSelect
+                            value={selected}
+                            onChange={setSelected}
+                            labelledBy="Select Sites"
+                            disableSearch="true"
+                            options={options}
+                            showCheckbox="false"
+                          />
+                        </FormGroup>
                       </Col>
                       <div className="table-responsive deleted-table">
                         <DataTableExtensions {...tableDatas}>
