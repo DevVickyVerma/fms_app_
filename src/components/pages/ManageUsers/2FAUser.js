@@ -7,52 +7,24 @@ import {
   Breadcrumb,
   Card,
   Col,
-  Form,
-  OverlayTrigger,
   Row,
-  Tooltip,
 } from "react-bootstrap";
-import { Button } from "bootstrap";
-import axios from "axios";
 import Swal from "sweetalert2";
-import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
-
 import { toast } from "react-toastify";
-
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
-
-import * as loderdata from "../../../data/Component/loderdata/loderdata";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 
 const ManageUser = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData } = props;
   const [data, setData] = useState();
-  const navigate = useNavigate();
-
-  const Errornotify = (message) => toast.error(message);
-
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      Errornotify("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      Errornotify(errorMessage);
-    }
-  }
 
   useEffect(() => {
     handleFetchData();
     console.clear();
   }, []);
+
+
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -156,7 +128,7 @@ const ManageUser = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
+        // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.email}</h6>

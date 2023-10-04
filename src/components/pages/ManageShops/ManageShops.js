@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -12,22 +11,20 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import { Button } from "bootstrap";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
-import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 
 const ManageShops = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { apidata, isLoading, getData, postData } = props;
   const [data, setData] = useState();
   const navigate = useNavigate();
-  const SuccessAlert = (message) => toast.success(message);
+
   const ErrorAlert = (message) => toast.error(message);
 
   const handleDelete = (id) => {
@@ -116,13 +113,7 @@ const ManageShops = (props) => {
     }
   };
 
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+
 
   const FetchTableData = async () => {
     try {
@@ -130,7 +121,6 @@ const ManageShops = (props) => {
 
       if (response && response.data && response.data.data) {
         setData(response.data.data.shop);
-        setSearchvalue(response.data.data.shop);
       } else {
         throw new Error("No data available in the response");
       }
@@ -150,14 +140,11 @@ const ManageShops = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable =
-    permissionsArray?.includes("shop-status-update");
+
   const isEditPermissionAvailable = permissionsArray?.includes("shop-edit");
   const isAddPermissionAvailable = permissionsArray?.includes("shop-create");
   const isDeletePermissionAvailable = permissionsArray?.includes("shop-delete");
-  const isDetailsPermissionAvailable =
-    permissionsArray?.includes("shop-details");
-  const isAssignPermissionAvailable = permissionsArray?.includes("shop-assign");
+
 
   const columns = [
     {
@@ -207,7 +194,7 @@ const ManageShops = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
+        // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
@@ -315,28 +302,12 @@ const ManageShops = (props) => {
     columns,
     data,
   };
-  const [searchText, setSearchText] = useState("");
-  const [searchvalue, setSearchvalue] = useState();
-
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchText(value);
-
-    const filteredData = searchvalue.filter((item) => {
-      if (item && item.data) {
-        return item.data.toLowerCase().includes(value.toLowerCase());
-      }
-      return false;
-    });
-
-    setData(filteredData);
-  };
 
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
-        <div className="page-header ">
+        <div className="page-header d-flex">
           <div>
             <h1 className="page-title">Manage Shops</h1>
             <Breadcrumb className="breadcrumb">
@@ -363,7 +334,7 @@ const ManageShops = (props) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Shops
+                  Add Shops <AddCircleOutlineIcon />
                 </Link>
               ) : null}
             </div>

@@ -4,11 +4,7 @@ import {
   Col,
   Row,
   Card,
-  Form,
-  FormGroup,
-  ListGroup,
   Breadcrumb,
-  FormFloating,
 } from "react-bootstrap";
 
 import {
@@ -25,24 +21,21 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 
 const EditUsers = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
 
   const navigate = useNavigate();
   const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
-  const [selectedItemsId, setSelectedItemsId] = useState([]);
   const [SelectedClient, setSelectedClient] = useState();
 
-  const notify = (message) => toast.success(message);
+
   const Errornotify = (message) => toast.error(message);
 
-  const [dropdownValue, setDropdownValue] = useState([]);
-  const [roleitems, setRoleItems] = useState("");
+  const [roleItems, setRoleItems] = useState("");
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
@@ -75,7 +68,6 @@ const EditUsers = (props) => {
     handleFetchData();
     FetchRoleList();
     console.clear();
-    console.clear();
   }, []);
 
   const token = localStorage.getItem("token");
@@ -94,16 +86,12 @@ const EditUsers = (props) => {
 
       if (response) {
         formik.setValues(response.data.data);
-
-        setDropdownValue(response.data.data);
-
         response?.data?.data?.clients.forEach((client) => {
           combinedClientNames.push(client.client_name);
           combinedClientId.push(client.id);
         });
 
         setSelectedItems(combinedClientNames);
-        setSelectedItemsId(combinedClientId);
       }
     } catch (error) {
       handleError(error);
@@ -121,10 +109,10 @@ const EditUsers = (props) => {
       formData.append("id", id);
 
       formData.append("role_id", values.role_id);
-      {
-        localStorage.getItem("superiorRole") === "Client" &&
-          formData.append("work_flow", values.work_flow);
-      }
+
+      localStorage.getItem("superiorRole") === "Client" &&
+        formData.append("work_flow", values.work_flow);
+
       formData.append("status", values.status);
       if (SelectedClient !== null && SelectedClient !== undefined) {
         SelectedClient.forEach((client, index) => {
@@ -236,12 +224,11 @@ const EditUsers = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.first_name &&
+                            className={`input101 ${formik.errors.first_name &&
                               formik.touched.first_name
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="first_name"
                             name="first_name"
                             placeholder="First Name Name"
@@ -263,11 +250,10 @@ const EditUsers = (props) => {
                         <input
                           type="text"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.last_name && formik.touched.last_name
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.last_name && formik.touched.last_name
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="last_name"
                           name="last_name"
                           placeholder="  Last Name"
@@ -288,11 +274,10 @@ const EditUsers = (props) => {
                             Status<span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.status && formik.touched.status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.status && formik.touched.status
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="status"
                             name="status"
                             onChange={formik.handleChange}
@@ -316,19 +301,18 @@ const EditUsers = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.role_id && formik.touched.role_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.role_id && formik.touched.role_id
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="role_id"
                             name="role_id"
                             onChange={formik.handleChange}
                             value={formik.values.role_id}
                           >
                             <option value="">Select a Role</option>
-                            {roleitems ? (
-                              roleitems.map((item) => (
+                            {roleItems ? (
+                              roleItems.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.name}
                                 </option>
@@ -406,12 +390,11 @@ const EditUsers = (props) => {
                               Workflow Notification
                             </label>
                             <select
-                              className={`input101 ${
-                                formik.errors.work_flow &&
+                              className={`input101 ${formik.errors.work_flow &&
                                 formik.touched.work_flow
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                                }`}
                               id="work_flow"
                               name="work_flow"
                               onChange={formik.handleChange}

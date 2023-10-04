@@ -6,22 +6,18 @@ import {
   Card,
   Form,
   FormGroup,
-  FormControl,
-  ListGroup,
   Breadcrumb,
 } from "react-bootstrap";
 
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 
 const AddCharges = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, postData } = props;
 
   const navigate = useNavigate();
 
@@ -114,7 +110,7 @@ const AddCharges = (props) => {
                   }}
                   validationSchema={Yup.object({
                     charge_name: Yup.string()
-                    .required(" Charge Name is required"),
+                      .required(" Charge Name is required"),
 
                     charge_code: Yup.string()
                       .required("Charge Code is required")
@@ -158,11 +154,10 @@ const AddCharges = (props) => {
                                 type="text"
                                 autoComplete="off"
                                 // className="form-control"
-                                className={`input101 ${
-                                  errors.charge_name && touched.charge_name
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.charge_name && touched.charge_name
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="charge_name"
                                 name="charge_name"
                                 placeholder="Charge Name"
@@ -186,11 +181,10 @@ const AddCharges = (props) => {
                               <Field
                                 type="text"
                                 autoComplete="off"
-                                className={`input101 ${
-                                  errors.charge_code && touched.charge_code
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.charge_code && touched.charge_code
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="charge_code"
                                 name="charge_code"
                                 placeholder="Charge Code"
@@ -215,11 +209,10 @@ const AddCharges = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.charge_status && touched.charge_status
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.charge_status && touched.charge_status
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="charge_status"
                                 name="charge_status"
                               >

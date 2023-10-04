@@ -1,43 +1,19 @@
 import React, { useEffect, useState } from "react";
 
-import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
+import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 
-import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import withApi from "../../../Utils/ApiHelper";
 import { useFormik } from "formik";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import {
-  FormControl,
-  Select,
-  MenuItem,
-  Checkbox,
-  ListItemText,
-  InputLabel,
-} from "@material-ui/core";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 
 const AddCompany = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
-
-  const navigate = useNavigate();
-
-  const [dropdownValue, setDropdownValue] = useState([]);
-
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
+  const { isLoading, getData, postData } = props;
   const [permissionsArray, setPermissionsArray] = useState([]);
   const [isPermissionsSet, setIsPermissionsSet] = useState(false);
   const [selectedSiteList1, setSelectedSiteList1] = useState([]);
@@ -139,7 +115,7 @@ const AddCompany = (props) => {
       const navigatePath = `/clients`;
 
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const formik = useFormik({
