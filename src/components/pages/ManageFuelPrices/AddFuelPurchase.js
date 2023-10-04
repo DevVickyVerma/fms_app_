@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Link, Navigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
-import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
+
 import Loaderimg from "../../../Utils/Loader";
 import {
   Breadcrumb,
@@ -35,6 +34,7 @@ import * as Yup from "yup";
 import { Dropdown } from "react-bootstrap";
 
 import { useFormik } from "formik";
+import { MultiSelect } from "react-multi-select-component";
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
@@ -170,8 +170,13 @@ const ManageDsr = (props) => {
       formData.append("total", values.total);
       formData.append("date", values.start_date1);
       formData.append("fuel_id", values.fuel_name);
-      values.sites.forEach((site, index) => {
-        formData.append(`site_id[${index}]`, site.id);
+      // values.sites.forEach((site, index) => {
+      //   formData.append(`site_id[${index}]`, site.id);
+      // });
+      const selectedSiteIds = selected?.map((site) => site.value);
+
+      selectedSiteIds?.forEach((id, index) => {
+        formData.append(`site_id[${index}]`, id);
       });
 
       const postDataUrl = "/site/fuel/purchase-price/add";
@@ -219,6 +224,12 @@ const ManageDsr = (props) => {
     const inputDateElement = document.querySelector('input[type="date"]');
     inputDateElement.showPicker();
   };
+  const [selected, setSelected] = useState([]);
+
+  const options = selectedSiteList1?.map((site) => ({
+    label: site.site_name,
+    value: site.id,
+  }));
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -378,31 +389,20 @@ const ManageDsr = (props) => {
                     </Col>
 
                     <Col lg={3} md={6}>
-                      <div className="form-group">
-                        <FormControl className="width mt-4">
-                          <InputLabel>Select Sites</InputLabel>
-                          <Select
-                            multiple
-                            value={selectedItems1}
-                            onChange={handleItemClick1}
-                            renderValue={(selected) => selected.join(", ")}
-                          >
-                            {selectedSiteList1.map((item) => (
-                              <MenuItem
-                                key={item.site_name}
-                                value={item.site_name}
-                              >
-                                <Checkbox
-                                  checked={selectedItems1.includes(
-                                    item.site_name
-                                  )}
-                                />
-                                <ListItemText primary={item.site_name} />
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </div>
+                      <FormGroup>
+                        <label className="form-label mt-4">
+                          Select Sites
+                          <span className="text-danger">*</span>
+                        </label>
+                        <MultiSelect
+                          value={selected}
+                          onChange={setSelected}
+                          labelledBy="Select Sites"
+                          disableSearch="true"
+                          options={options}
+                          showCheckbox="false"
+                        />
+                      </FormGroup>
                     </Col>
                     <Col lg={3} md={6}>
                       <div className="form-group">

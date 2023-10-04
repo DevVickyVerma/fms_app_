@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Link, Navigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
-
+import { MultiSelect } from "react-multi-select-component";
 import {
   Breadcrumb,
   Card,
@@ -30,6 +30,8 @@ import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import * as fromadvanced from "../../../data/Form/formadvanced/formadvanced";
+import * as fromadvancede from "../../../data/Form/formelement/formelement";
 
 import { Slide, toast } from "react-toastify";
 import Switch from "react-switch";
@@ -152,18 +154,24 @@ const ManageReports = (props) => {
         clientIDCondition = `client_id=${clientIDLocalStorage}&`;
       }
       if (
-        formValues.sites === undefined ||
-        formValues.sites === null ||
-        (Array.isArray(formValues.sites) && formValues.sites.length === 0)
+        selected === undefined ||
+        selected === null ||
+        (Array.isArray(selected) && selected.length === 0)
       ) {
-        ErrorToast("Please select at-least one site");
+        ErrorToast("Please select at least one site");
       }
-      const siteIds = formValues.sites.map((site) => site.id);
-      const siteIdParams = siteIds.map((id) => `site_id[]=${id}`).join("&");
+
+      // Assuming you have an array of selected values in the 'selected' state
+      const selectedSiteIds = selected?.map((site) => site.value);
+      const selectedSiteIdParams = selectedSiteIds
+        .map((id) => `site_id[]=${id}`)
+        .join("&");
+
+      // Now 'selectedSiteIdParams' contains the query parameter string for selected site IDs
 
       const commonParams = toggleValue
-        ? `/report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${siteIdParams}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`
-        : `/report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${siteIdParams}&month=${formValues.reportmonth}`;
+        ? `/report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${selectedSiteIdParams}&from_date=${formValues.start_date}&to_date=${formValues.end_date}`
+        : `/report/${formValues.report}?${clientIDCondition}company_id=${formValues.company_id}&${selectedSiteIdParams}&month=${formValues.reportmonth}`;
 
       try {
         const response = await getData(commonParams);
@@ -217,7 +225,12 @@ const ManageReports = (props) => {
     const inputDateElement = document.querySelector("#end_date");
     inputDateElement.showPicker();
   };
+  const [selected, setSelected] = useState([]);
 
+  const options = selectedSiteList?.map((site) => ({
+    label: site.site_name,
+    value: site.id,
+  }));
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -396,7 +409,7 @@ const ManageReports = (props) => {
                             </FormGroup>
                           </Col>
 
-                          <Col lg={4} md={6}>
+                          {/* <Col lg={4} md={6}>
                             <FormControl className="width">
                               <InputLabel>Select Sites</InputLabel>
                               <Select
@@ -437,7 +450,25 @@ const ManageReports = (props) => {
                             {touched.sites && errors.sites && (
                               <div className="error">{errors.sites}</div>
                             )}
+                          </Col> */}
+
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label className="form-label mt-4">
+                                Select Sites
+                                <span className="text-danger">*</span>
+                              </label>
+                              <MultiSelect
+                                value={selected}
+                                onChange={setSelected}
+                                labelledBy="Select Sites"
+                                disableSearch="true"
+                                options={options}
+                                showCheckbox="false"
+                              />
+                            </FormGroup>
                           </Col>
+
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label

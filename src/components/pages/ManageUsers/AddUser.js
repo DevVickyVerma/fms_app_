@@ -30,7 +30,7 @@ import * as loderdata from "../../../data/Component/loderdata/loderdata";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-
+import { MultiSelect } from "react-multi-select-component";
 const AddUsers = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   // const { setFieldValue } = useFormikContext();
@@ -40,6 +40,7 @@ const AddUsers = (props) => {
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const [roleitems, setRoleItems] = useState("");
+  const [selectRole, setselectRole] = useState([]);
   const [isPermissionsSet, setIsPermissionsSet] = useState(false);
   const navigate = useNavigate();
 
@@ -77,9 +78,9 @@ const AddUsers = (props) => {
           formData.append("work_flow", values.work_flow);
       }
 
-      if (SelectedClient !== null && SelectedClient !== undefined) {
-        SelectedClient.forEach((client, index) => {
-          formData.append(`assign_client[${index}]`, client);
+      if (selected !== null && selected !== undefined) {
+        selected.forEach((client, index) => {
+          formData.append(`assign_client[${index}]`, client.value); // Use client.value to get the selected value
         });
       }
 
@@ -119,6 +120,8 @@ const AddUsers = (props) => {
       const { data } = response;
       if (data) {
         setAddSiteData(response?.data);
+        setselectRole(response?.data?.data);
+        console.log(response?.data, "setAddSiteData");
       }
     } catch (error) {
       console.error("API error:", error);
@@ -131,6 +134,8 @@ const AddUsers = (props) => {
 
       if (response && response.data && response.data.data) {
         setRoleItems(response?.data?.data);
+
+        console.log(response?.data?.data, "columnIndex");
       } else {
         throw new Error("No data available in the response");
       }
@@ -138,7 +143,12 @@ const AddUsers = (props) => {
       console.error("API error:", error);
     }
   };
+  const [selected, setSelected] = useState([]);
 
+  const options = selectRole?.map((site) => ({
+    label: site?.full_name,
+    value: site?.id,
+  }));
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -359,49 +369,23 @@ const AddUsers = (props) => {
                             />
                           </FormGroup>
                         </Col>
+
                         {localStorage.getItem("superiorRole") !== "Client" ? (
                           <Col lg={4} md={6}>
-                            <FormControl className="width">
-                              <InputLabel>Select Clients</InputLabel>
-                              <Select
-                                multiple
-                                value={selectedItems}
-                                onChange={(event) => {
-                                  setSelectedItems(event.target.value);
-
-                                  const selectedSiteNames = event.target.value;
-                                  const filteredSites =
-                                    AddSiteData?.data?.filter((item) =>
-                                      selectedSiteNames.includes(
-                                        item.client_name
-                                      )
-                                    );
-
-                                  const ids = filteredSites.map(
-                                    (data) => data.id
-                                  );
-                                  setSelectedClient(ids);
-                                }}
-                                renderValue={(selected) => selected.join(", ")}
-                              >
-                                <MenuItem disabled value="">
-                                  <em>Select items</em>
-                                </MenuItem>
-                                {AddSiteData?.data?.map((item) => (
-                                  <MenuItem
-                                    key={item.client_name}
-                                    value={item.client_name}
-                                  >
-                                    <Checkbox
-                                      checked={selectedItems.includes(
-                                        item.client_name
-                                      )}
-                                    />
-                                    <ListItemText primary={item.client_name} />
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </FormControl>
+                            <FormGroup>
+                              <label className="form-label mt-4">
+                                Select Client
+                                <span className="text-danger">*</span>
+                              </label>
+                              <MultiSelect
+                                value={selected}
+                                onChange={setSelected}
+                                labelledBy="Select Client"
+                                disableSearch="true"
+                                options={options}
+                                showCheckbox="false"
+                              />
+                            </FormGroup>
                           </Col>
                         ) : (
                           ""

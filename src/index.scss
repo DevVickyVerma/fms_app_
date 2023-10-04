@@ -496,7 +496,7 @@
 }
 .rmsc .dropdown-container:focus-within {
   box-shadow: none !important;
-  border: 1px solid $border;
+  border: none;
 }
 .searchWrapper {
   min-height: 40px !important;
@@ -1540,15 +1540,15 @@ form.richText {
   .multiSelectContainer {
     .optionContainer,
     .searchWrapper {
-      border: 1px solid $white-2 !important;
+      border: 0px solid $white-2 !important;
     }
   }
   .multiSelectContainer .optionListContainer {
     color: $dark-color;
     background: $dark-theme !important;
-    border: 1px solid $white-2 !important;
+    border: 0px solid $white-2 !important;
     .optionContainer {
-      border: 1px solid transparent !important;
+      border: 0px solid transparent !important;
     }
   }
   .multiSelectContainer li:hover {
@@ -1653,7 +1653,7 @@ form.richText {
   .multi-select .dropdown-container {
     color: $dark-color;
     background-color: $dark-theme;
-    border: 1px solid $white-2 !important;
+    border: 1px solid !important;
     .dropdown-content :first-child {
       background-color: $dark-theme;
       color: $dark-color;
@@ -2057,10 +2057,10 @@ form.richText {
   }
   .multiSelectContainer {
     .optionContainer {
-      border: 1px solid $white-2 !important;
+      border: 0px solid $white-2 !important;
     }
     .searchWrapper {
-      border: 1px solid $white-2 !important;
+      border: 0px solid $white-2 !important;
     }
   }
   .multiSelectContainer .optionListContainer {
@@ -2160,6 +2160,7 @@ form.richText {
   .background__menu:hover {
     color: $white;
   }
+
   .rmdp-input {
     color: $transparent-color;
     background: transparent;
@@ -2179,7 +2180,7 @@ form.richText {
   .multi-select .dropdown-container {
     color: $transparent-color;
     background: transparent;
-    border: 1px solid $white-2 !important;
+    border: 1px solid !important;
     .dropdown-content :first-child {
       background-color: $transparent-body;
       color: $transparent-color;
