@@ -202,14 +202,6 @@ const DashboardGradsComponent = ({
               <button className="btn btn-primary" onClick={handleOpenModal}>
                 {" "}
                 <MdOutlineCalendarMonth />{" "}
-                {/* {!showDate ? : ""}
-                {showDate && windowWidth > 900
-                  ? `${moment(startDate).format("Do MMM")} - ${moment(
-                    endDate
-                  ).format("Do MMM")}`
-                  : ""
-                  // moment(getSiteDetails?.last_day_end).format("MMM Do")
-                } */}
                 {showDate
                   ? `${moment(startDatePath).format("Do MMM")} - ${moment(
                     endDatePath
