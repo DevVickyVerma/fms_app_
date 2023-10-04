@@ -7,21 +7,16 @@ import {
   Breadcrumb,
   Card,
   Col,
-  Form,
   OverlayTrigger,
   Row,
   Tooltip,
   Dropdown,
 } from "react-bootstrap";
-import * as loderdata from "../../../data/Component/loderdata/loderdata";
 import axios from "axios";
 import Swal from "sweetalert2";
 
 import { toast } from "react-toastify";
-import SiteDetails from "../../../data/Modal/SiteDetails";
 import CommonSidebar from "../../../data/Modal/CommonSidebar";
-import SideSearchbar from "../../../data/Modal/SideSearchbar";
-import SearchIcon from "@mui/icons-material/Search";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import withApi from "../../../Utils/ApiHelper";
@@ -32,6 +27,7 @@ import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CenterSearchmodal from "../../../data/Modal/CenterSearchmodal";
+import { Box } from "@mui/material";
 const ManageSite = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
@@ -222,6 +218,8 @@ const ManageSite = (props) => {
     isManagerPermissionAvailable ||
     issitesettingPermissionAvailable;
 
+
+
   const columns = [
     {
       name: "S.No",
@@ -319,7 +317,7 @@ const ManageSite = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
+        // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
@@ -370,78 +368,78 @@ const ManageSite = (props) => {
     },
     anyPermissionAvailable
       ? {
-          name: "Action",
-          selector: (row) => [row.action],
-          sortable: false,
-          width: "17%",
-          cell: (row) => (
-            <span className="text-center">
-              {anyPermissionAvailable ? (
-                <Dropdown className="dropdown btn-group">
-                  <Dropdown.Toggle
-                    variant="Primary"
-                    type="button"
-                    className="btn btn-primary dropdown-toggle"
-                  >
-                    Actions
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu className="dropdown-menu">
-                    {issitesettingPermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to={`/site-setting/${row.id}`}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <SettingsIcon />
-                            </i>
-                            Settings
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                    {isManagerPermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to={`/assignmanger/${row.id}`}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <AssignmentTurnedInIcon />
-                            </i>
-                            Assign Manager
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                    {isEditPermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to={`/editsite/${row.id}`}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <ModeEditIcon />
-                            </i>
-                            Edit
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                    {isDeletePermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to="#" onClick={() => handleDelete(row.id)}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <DeleteIcon />
-                            </i>
-                            Delete
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                  </Dropdown.Menu>
-                </Dropdown>
-              ) : (
-                ""
-              )}
-            </span>
-          ),
-        }
+        name: "Action",
+        selector: (row) => [row.action],
+        sortable: false,
+        width: "17%",
+        cell: (row) => (
+          <span className="text-center">
+            {anyPermissionAvailable ? (
+              <Dropdown className="dropdown btn-group">
+                <Dropdown.Toggle
+                  variant="Primary"
+                  type="button"
+                  className="btn btn-primary dropdown-toggle"
+                >
+                  Actions
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="dropdown-menu">
+                  {issitesettingPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to={`/site-setting/${row.id}`}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <SettingsIcon />
+                          </i>
+                          Settings
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isManagerPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to={`/assignmanger/${row.id}`}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <AssignmentTurnedInIcon />
+                          </i>
+                          Assign Manager
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isEditPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to={`/editsite/${row.id}`}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <ModeEditIcon />
+                          </i>
+                          Edit
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isDeletePermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to="#" onClick={() => handleDelete(row.id)}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <DeleteIcon />
+                          </i>
+                          Delete
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                </Dropdown.Menu>
+              </Dropdown>
+            ) : (
+              ""
+            )}
+          </span>
+        ),
+      }
       : "",
   ];
 
@@ -502,9 +500,9 @@ const ManageSite = (props) => {
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
-        <div className="page-header ">
+        <div className="page-header d-flex manageSite-header">
           <div>
-            <h1 className="page-title">Manage Site</h1>
+            <h1 className="page-title dashboard-page-title">Manage Site</h1>
 
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -528,25 +526,36 @@ const ManageSite = (props) => {
               display: "flex",
               justifyContent: "flex-end",
               alignItems: "center",
-              gap: "10px",
+              // gap: "10px",
             }}
           >
-            <span className="Search-data">
-              {Object.entries(searchdata).map(([key, value]) => (
-                <div key={key} className="badge">
-                  <span className="badge-key">
-                    {key.charAt(0).toUpperCase() + key.slice(1)}:
-                  </span>
-                  <span className="badge-value">{value}</span>
-                </div>
-              ))}
-            </span>
+            <Box display={["none", "flex"]} justifyContent={"space-between"} alignItems={"center"}  >
+              <span className="Search-data gap-1 d-flex flex-wrap">
+                {Object.entries(searchdata).map(([key, value]) => (
+                  <div key={key} className="badge">
+                    <span className="badge-key">
+                      {key.charAt(0).toUpperCase() + key.slice(1)}:
+                    </span>
+                    <span className="badge-value">{value}</span>
+                  </div>
+                ))}
+              </span>
+              {Object.keys(searchdata).length > 0 ? (
+                <Link className="btn btn-danger  ms-2" onClick={handleSearchReset} style={{ width: "100px" }}>
+                  Reset <RestartAltIcon />
+                </Link>
+              ) : (
+                ""
+              )}
+            </Box>
+
 
             <Link
-              style={{ marginBottom: "7px" }}
+              // style={{ marginBottom: "7px" }}
               onClick={() => {
                 handleToggleSidebar1();
               }}
+              className="btn-sm"
             >
               <span className="ms-2">
                 <CenterSearchmodal
@@ -561,21 +570,38 @@ const ManageSite = (props) => {
                 />{" "}
               </span>
             </Link>
-            {Object.keys(searchdata).length > 0 ? (
-              <Link className="btn btn-danger ms-2" onClick={handleSearchReset}>
-                Reset <RestartAltIcon />
-              </Link>
-            ) : (
-              ""
-            )}
+
 
             {isAddPermissionAvailable ? (
               <Link to="/addsite" className="btn btn-primary">
-                Add Site <AddCircleOutlineIcon />
+                <Box component="span" display={["none", "unset"]}>
+                  Add
+                </Box> Site <AddCircleOutlineIcon />
               </Link>
             ) : null}
           </div>
         </div>
+
+        <Box display={["flex", "none"]} justifyContent={"space-between"} alignItems={"center"} mb={"10px"} >
+          <span className="Search-data gap-1 d-flex flex-wrap">
+            {Object.entries(searchdata).map(([key, value]) => (
+              <div key={key} className="badge">
+                <span className="badge-key">
+                  {key.charAt(0).toUpperCase() + key.slice(1)}:
+                </span>
+                <span className="badge-value">{value}</span>
+              </div>
+            ))}
+          </span>
+          {Object.keys(searchdata).length > 0 ? (
+            <Link className="btn btn-danger  ms-2" onClick={handleSearchReset} style={{ width: "100px" }}>
+              Reset <RestartAltIcon />
+            </Link>
+          ) : (
+            ""
+          )}
+        </Box>
+
 
         <Suspense fallback={<img src={Loaderimg} alt="Loading" />}>
           <CommonSidebar

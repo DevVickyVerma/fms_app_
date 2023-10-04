@@ -298,9 +298,13 @@ const DashboardGradsComponent = ({
                               {" "}
                               Total Fuel Volume :{" "}
                             </strong>
-                            {
+                            {/* {
                               getGradsSiteDetails?.fuel_stats?.data[gridIndex]
                                 ?.cards?.total_fuel_sale_volume
+                            } */}
+                            {
+                              getGradsSiteDetails?.fuel_stats?.data[gridIndex]
+                                ?.fuel_volume
                             }
                           </span>
                         </Col>
@@ -323,10 +327,15 @@ const DashboardGradsComponent = ({
                               {" "}
                               Total Fuel Sales :
                             </strong>
-                            {
+                            {/* {
                               getGradsSiteDetails?.fuel_stats?.data[gridIndex]
                                 ?.cards?.total_fuel_sale_value
+                            } */}
+                            {
+                              getGradsSiteDetails?.fuel_stats?.data[gridIndex]
+                                ?.fuel_value
                             }
+
                           </span>
                         </Col>
 

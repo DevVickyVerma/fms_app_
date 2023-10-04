@@ -133,11 +133,12 @@ const DashBoardChild = (props) => {
           display={"flex"}
           justifyContent={"space-between"}
           alignItems={"center"}
-          minHeight={"90px"}
+          flexDirection={["row",]}
           className="center-filter-modal-responsive"
         >
-          <Box alignSelf={"flex-start"} mt={"33px"}>
-            <h1 className="page-title">
+          <Box alignSelf={["center", "flex-start"]}
+            mt={["0px", "33px"]}>
+            <h1 className="page-title  dashboard-page-title">
               Dashboard Details ({UserPermissions?.dates})
             </h1>
             <Breadcrumb className="breadcrumb">
@@ -165,9 +166,9 @@ const DashBoardChild = (props) => {
               display={"flex"}
               justifyContent={"center"}
               alignItems={"baseline"}
-              my={"20px"}
+              my={["0px", "20px"]}
               gap={"5px"}
-              mx={"10px"}
+              mx={["0px", "10px"]}
               flexDirection={"inherit"}
               className="filter-responsive"
             >
@@ -183,20 +184,10 @@ const DashBoardChild = (props) => {
                 }}
               >
                 <>
-                  {Object.entries(searchdata).some(
-                    ([key, value]) =>
-                      [
-                        "client_name",
-                        "TOdate",
-                        "company_name",
-                        "site_name",
-                        "fromdate",
-                      ].includes(key) &&
-                      value != null &&
-                      value !== ""
-                  ) ? (
-                    Object.entries(searchdata).map(([key, value]) => {
-                      if (
+                  <Box display={["none", "none", "flex"]} flexWrap={"wrap"} justifyContent={"center"} alignItems={"center"} className=" gap-1" >
+                    {/* Assuming this code is within a React component */}
+                    {Object.entries(searchdata).some(
+                      ([key, value]) =>
                         [
                           "client_name",
                           "TOdate",
@@ -206,57 +197,130 @@ const DashBoardChild = (props) => {
                         ].includes(key) &&
                         value != null &&
                         value !== ""
-                      ) {
-                        const formattedKey = key
-                          .toLowerCase()
-                          .split("_")
-                          .map(
-                            (word) =>
-                              word.charAt(0).toUpperCase() + word.slice(1)
-                          )
-                          .join(" ");
+                    ) ? (
+                      Object.entries(searchdata).map(([key, value]) => {
+                        if (
+                          [
+                            "client_name",
+                            "TOdate",
+                            "company_name",
+                            "site_name",
+                            "fromdate",
+                          ].includes(key) &&
+                          value != null &&
+                          value !== ""
+                        ) {
+                          const formattedKey = key
+                            .toLowerCase()
+                            .split("_")
+                            .map(
+                              (word) =>
+                                word.charAt(0).toUpperCase() + word.slice(1)
+                            )
+                            .join(" ");
 
-                        return (
-                          <div key={key} className="badge">
-                            <span className="badge-key">{formattedKey}:</span>
-                            <span className="badge-value">{value}</span>
-                          </div>
-                        );
-                      } else {
-                        return null;
-                      }
-                    })
-                  ) : superiorRole === "Client" && role !== "Client" ? (
-                    <div className="badge">
-                      <span className="badge-key">Company Name:</span>
-                      <span className="badge-value">
-                        {localStorage.getItem("PresetCompanyName")}
-                      </span>
-                    </div>
-                  ) : null}
+                          return (
+                            <div key={key} className="badge">
+                              <span className="badge-key">{formattedKey}:</span>
+                              <span className="badge-value">{value}</span>
+                            </div>
+                          );
+                        } else {
+                          return null;
+                        }
+                      })
+                    ) : superiorRole === "Client" && role !== "Client" ? (
+                      <div className="badge">
+                        <span className="badge-key">Company Name:</span>
+                        <span className="badge-value">
+                          {localStorage.getItem("PresetCompanyName")}
+                        </span>
+                      </div>
+                    ) : null}
+                  </Box>
                 </>
+
+                <Box display={"flex"} ml={"4px"} alignSelf={["flex-start", "center"]} >
+                  <Link
+                    className="btn btn-primary btn-sm"
+                    onClick={() => {
+                      handleToggleSidebar1();
+                    }}
+                    title="filter"
+                    visible={sidebarVisible1}
+                    onClose={handleToggleSidebar1}
+                    onSubmit={handleFormSubmit}
+                    searchListstatus={SearchList}
+                  >
+                    Filter
+                    <span className="ms-2">
+                      <SortIcon />
+                    </span>
+                  </Link>
+                </Box>
+
               </span>
-              <Box display={"flex"} ml={"4px"} alignSelf={"center"}>
-                <Link
-                  className="btn btn-primary"
-                  onClick={() => {
-                    handleToggleSidebar1();
-                  }}
-                  title="filter"
-                  visible={sidebarVisible1}
-                  onClose={handleToggleSidebar1}
-                  onSubmit={handleFormSubmit}
-                  searchListstatus={SearchList}
-                >
-                  Filter
-                  <span className="ms-2">
-                    <SortIcon />
-                  </span>
-                </Link>
-              </Box>
+
+
             </Box>
           )}
         </Box>
+        <>
+          <Box display={["flex", "flex", "none"]} flexWrap={"wrap"} marginBottom={"10px"} className=" gap-1" >
+            {/* Assuming this code is within a React component */}
+            {Object.entries(searchdata).some(
+              ([key, value]) =>
+                [
+                  "client_name",
+                  "TOdate",
+                  "company_name",
+                  "site_name",
+                  "fromdate",
+                ].includes(key) &&
+                value != null &&
+                value !== ""
+            ) ? (
+              Object.entries(searchdata).map(([key, value]) => {
+                if (
+                  [
+                    "client_name",
+                    "TOdate",
+                    "company_name",
+                    "site_name",
+                    "fromdate",
+                  ].includes(key) &&
+                  value != null &&
+                  value !== ""
+                ) {
+                  const formattedKey = key
+                    .toLowerCase()
+                    .split("_")
+                    .map(
+                      (word) =>
+                        word.charAt(0).toUpperCase() + word.slice(1)
+                    )
+                    .join(" ");
+
+                  return (
+                    <div key={key} className="badge">
+                      <span className="badge-key">{formattedKey}:</span>
+                      <span className="badge-value">{value}</span>
+                    </div>
+                  );
+                } else {
+                  return null;
+                }
+              })
+            ) : superiorRole === "Client" && role !== "Client" ? (
+              <div className="badge">
+                <span className="badge-key">Company Name:</span>
+                <span className="badge-value">
+                  {localStorage.getItem("PresetCompanyName")}
+                </span>
+              </div>
+            ) : null}
+          </Box>
+        </>
 
         {ShowTruw ? (
           <DashBordModal
