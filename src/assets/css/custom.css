@@ -108,7 +108,7 @@ h3.SidebarSearch-title {
   box-shadow: none;
 }
 
-.data-table-extensions>.data-table-extensions-filter>.filter-text {
+.data-table-extensions > .data-table-extensions-filter > .filter-text {
   /* border: 1px solid #eaedf1 !important; */
   border-bottom: 1px solid #eaedf1 !important;
   outline: none !important;
@@ -328,7 +328,6 @@ tbody tr {
 }
 
 @media screen and (max-width: 768px) {
-
   .table th,
   .table td {
     min-width: 22.28% !important;
@@ -430,7 +429,7 @@ tbody tr {
   margin-left: 6px;
 }
 
-.selected {
+.dsr-selected {
   border: 2px solid #000;
   /* Customize the border style as per your requirement */
 }
@@ -550,7 +549,7 @@ input.table-input.readonly.total-input-card {
   border-radius: 50%;
 }
 
-.d-flex.chart-items>div:first-child {
+.d-flex.chart-items > div:first-child {
   margin-right: 0;
   margin-left: 0;
 }
@@ -975,7 +974,6 @@ span.ModalTitle-2fa {
 }
 
 @keyframes pulse {
-
   0%,
   60%,
   100% {
@@ -998,7 +996,6 @@ span.ModalTitle-2fa {
     /* Hide the card when the screen width is less than or equal to 700px */
   }
 }
-
 
 @media screen and (max-width: 600px) {
   .dashboard-page-title {

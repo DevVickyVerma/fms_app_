@@ -788,7 +788,7 @@ const ManageDsr = (props) => {
                         >
                           <Card.Body
                             className={`card-Div ${
-                              selectedItem === item ? "selected" : ""
+                              selectedItem === item ? "dsr-selected" : ""
                             }`}
                             onClick={() => handleEnteryClick(item)} // Pass item.name as an argument
                           >
