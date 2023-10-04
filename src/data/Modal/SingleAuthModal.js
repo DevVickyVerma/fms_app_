@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Col, Modal, Row } from "react-bootstrap";
 import PropTypes from "prop-types";
@@ -12,9 +11,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const SingleAuthModal = (props) => {
-  const {
-    setShowTruw,
-  } = props;
+  const { setShowTruw } = props;
   const [open, setOpen] = useState(true);
   const [isLoading, setLoading] = useState(false);
   const [factordata, setfactordata] = useState();
@@ -232,9 +229,7 @@ const SingleAuthModal = (props) => {
 
       <Modal
         show={showModal}
-
         centered
-
         className="custom-modal-width custom-modal-height"
       >
         <Modal.Header
@@ -263,7 +258,7 @@ const SingleAuthModal = (props) => {
         </Modal.Header>
         <Modal.Body className="Disable2FA-modal">
           <div className="modal-contentDisable2FA">
-            <div className="card">
+            <div className="card" style={{ marginBottom: "0px" }}>
               <div className="card-body" style={{ padding: "10px" }}>
                 <Row>
                   <Col lg={12} md={12}>
