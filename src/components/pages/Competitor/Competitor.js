@@ -181,28 +181,6 @@ const Competitor = (props) => {
     fetchCommonListData();
   }, []);
 
-  // const handleSubmit = async (values) => {
-
-  //     try {
-  //         const storedSiteId = localStorage.getItem("site_id");
-
-  //         // const response = await getData(
-  //         //     `site/competitor/list?site_id=${(values?.site_id)}`
-  //         // );
-  //         const response = await getData(
-  //             `site/competitor/list?site_id=${(storedDataInLocal?.site_id)}`
-  //         );
-  //         if (response && response.data && response.data.data) {
-  //             setCompetitorList(response.data.data.competitors);
-  //         } else {
-  //             throw new Error("No data available in the response");
-  //         }
-  //     } catch (error) {
-  //         console.error("API error:", error);
-  //     }
-
-  // };
-
   const handleSubmit = async (values) => {
     try {
       // Retrieve the site_id from local storage
@@ -495,15 +473,22 @@ const Competitor = (props) => {
             </Breadcrumb>
           </div>
 
-          {isAddPermissionAvailable ? (
-            <Link
-              to="/addCompetitor/"
-              className="btn btn-primary ms-2 addclientbtn"
-            >
-              Add Competitor
-              <AddCircleOutlineIcon />
-            </Link>
-          ) : null}
+          <div className="ms-auto pageheader-btn">
+            <div className="input-group">
+              {isAddPermissionAvailable ? (
+                <Link
+                  to="/addCompetitor"
+                  className="btn btn-primary ms-2"
+                  style={{ borderRadius: "4px" }}
+                >
+                  Add Competitor
+                  <AddCircleOutlineIcon />
+                </Link>
+              ) : null}
+            </div>
+          </div>
+
+
         </div>
 
         {/* here I will start Body of competitor */}
@@ -528,12 +513,11 @@ const Competitor = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.client_id &&
+                            className={`input101 ${formik.errors.client_id &&
                               formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="client_id"
                             name="client_id"
                             value={formik.values.client_id}
@@ -559,7 +543,7 @@ const Competitor = (props) => {
                           >
                             <option value="">Select a Client</option>
                             {CompetitorData.data &&
-                            CompetitorData.data.length > 0 ? (
+                              CompetitorData.data.length > 0 ? (
                               CompetitorData.data.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.client_name}
@@ -589,12 +573,11 @@ const Competitor = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.company_id &&
+                          className={`input101 ${formik.errors.company_id &&
                             formik.touched.company_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="company_id"
                           name="company_id"
                           value={formik.values.company_id}
@@ -641,11 +624,10 @@ const Competitor = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.site_id && formik.touched.site_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.site_id && formik.touched.site_id
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="site_id"
                           name="site_id"
                           value={formik.values.site_id}

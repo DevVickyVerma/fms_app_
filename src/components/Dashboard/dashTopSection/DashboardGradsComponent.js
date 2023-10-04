@@ -173,6 +173,15 @@ const DashboardGradsComponent = ({
     return `${year}-${month}-${day}`;
   };
 
+  function getFirstDayOfPreviousMonth() {
+    const today = new Date();
+    const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+    const year = lastMonth.getFullYear();
+    const month = (lastMonth.getMonth() + 1).toString().padStart(2, "0");
+    const day = "01";
+    return `${year}-${month}-${day}`;
+  }
+
 
 
   return (
@@ -561,7 +570,7 @@ const DashboardGradsComponent = ({
                                     </label>
                                     <Field
                                       type="date"
-                                      min={minDate}
+                                      min={getFirstDayOfPreviousMonth()}
                                       max={getCurrentDate()}
                                       onClick={handleShowDate}
                                       className={`input101 ${errors.start_date && touched.start_date
@@ -597,7 +606,7 @@ const DashboardGradsComponent = ({
                                     </label>
                                     <Field
                                       type="date"
-                                      min={minDate}
+                                      min={getFirstDayOfPreviousMonth()}
                                       max={getCurrentDate()}
                                       onClick={handleShowDate1}
                                       className={`input101 ${errors.end_date && touched.end_date
