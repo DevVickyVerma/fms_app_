@@ -484,14 +484,13 @@ const Competitor = (props) => {
                 >
                   <Box component="span" display={["none", "unset"]} m="{1}">
                     Add
-                  </Box> Competitor
+                  </Box>{" "}
+                  Competitor
                   <AddCircleOutlineIcon />
                 </Link>
               ) : null}
             </div>
           </div>
-
-
         </div>
 
         {/* here I will start Body of competitor */}
@@ -516,11 +515,12 @@ const Competitor = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.client_id &&
+                            className={`input101 ${
+                              formik.errors.client_id &&
                               formik.touched.client_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="client_id"
                             name="client_id"
                             value={formik.values.client_id}
@@ -532,7 +532,7 @@ const Competitor = (props) => {
 
                               // Reset the selected company and site
                               setSelectedCompanyList([]);
-
+                              setSelectedSiteList([]);
                               const selectedClient = CompetitorData.data.find(
                                 (client) => client.id === selectedType
                               );
@@ -546,7 +546,7 @@ const Competitor = (props) => {
                           >
                             <option value="">Select a Client</option>
                             {CompetitorData.data &&
-                              CompetitorData.data.length > 0 ? (
+                            CompetitorData.data.length > 0 ? (
                               CompetitorData.data.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.client_name}
@@ -576,11 +576,12 @@ const Competitor = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${formik.errors.company_id &&
+                          className={`input101 ${
+                            formik.errors.company_id &&
                             formik.touched.company_id
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="company_id"
                           name="company_id"
                           value={formik.values.company_id}
@@ -627,10 +628,11 @@ const Competitor = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${formik.errors.site_id && formik.touched.site_id
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                          className={`input101 ${
+                            formik.errors.site_id && formik.touched.site_id
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="site_id"
                           name="site_id"
                           value={formik.values.site_id}

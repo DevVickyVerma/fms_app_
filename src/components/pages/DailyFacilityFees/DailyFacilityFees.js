@@ -334,7 +334,7 @@ const SiteSettings = (props) => {
 
                               // Reset the selected company and site
                               setSelectedCompanyList([]);
-
+                              setSelectedSiteList([]);
                               const selectedClient = ToleranceData.data.find(
                                 (client) => client.id === selectedType
                               );

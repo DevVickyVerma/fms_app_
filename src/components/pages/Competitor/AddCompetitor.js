@@ -222,7 +222,7 @@ const AddCompetitor = (props) => {
 
                               // Reset the selected company and site
                               setSelectedCompanyList([]);
-
+                              setSelectedSiteList([]);
                               const selectedClient = CompetitorData.data.find(
                                 (client) => client.id === selectedType
                               );

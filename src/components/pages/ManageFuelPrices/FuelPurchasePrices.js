@@ -632,6 +632,7 @@ const ManageDsr = (props) => {
 
                                 // Reset the selected company and site
                                 setSelectedCompanyList([]);
+                                setSelectedSiteList([]);
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");
                                 setSelectedItems([]);

@@ -277,6 +277,7 @@ const AddShops = (props) => {
 
                                   // Reset the selected company and site
                                   setSelectedCompanyList([]);
+                                  setSelectedSiteList([]);
                                   setFieldValue("company_id", "");
                                   setFieldValue("site_id", "");
 

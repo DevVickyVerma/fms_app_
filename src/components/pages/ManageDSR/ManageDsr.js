@@ -474,6 +474,7 @@ const ManageDsr = (props) => {
                             onChange={(e) => {
                               formik.handleChange(e);
                               setSelectedCompanyList([]);
+                              setSelectedSiteList([]);
                               formik.setFieldValue("company_id", "");
                               formik.setFieldValue("site_id", "");
 

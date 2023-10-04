@@ -206,6 +206,7 @@ const AddSitePump = (props) => {
                                   setFieldValue("client_id", selectedType);
                                   setSelectedClientId(selectedType);
                                   setSelectedCompanyList([]);
+                                  setSelectedSiteList([]);
                                   setFieldValue("company_id", "");
                                   setFieldValue("site_id", "");
 
