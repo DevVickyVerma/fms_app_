@@ -21,6 +21,7 @@ import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import { Box } from "@mui/material";
 
 const Competitor = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -309,7 +310,7 @@ const Competitor = (props) => {
       name: "Suppliers",
       selector: (row) => [row.supplier],
       sortable: true,
-      width: "18%",
+      width: "15%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -351,7 +352,7 @@ const Competitor = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: true,
-      width: "10%",
+      width: "11%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -391,7 +392,7 @@ const Competitor = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "25%",
+      width: "27%",
       cell: (row) => (
         <span className="text-center">
           {isEditPermissionAvailable ? (
@@ -452,10 +453,10 @@ const Competitor = (props) => {
       {isLoading ? <Loaderimg /> : null}
 
       <>
-        <div className="page-header ">
+        <div className="page-header d-flex">
           <div>
-            <h1 className="page-title">Manage Competitor</h1>
-            <Breadcrumb className="breadcrumb">
+            <h1 className="page-title ">Manage Competitor</h1>
+            <Breadcrumb className="breadcrumb breadcrumb-subheader">
               <Breadcrumb.Item
                 className="breadcrumb-item"
                 linkAs={Link}
@@ -473,7 +474,7 @@ const Competitor = (props) => {
             </Breadcrumb>
           </div>
 
-          <div className="ms-auto pageheader-btn">
+          <div className="ms-auto ">
             <div className="input-group">
               {isAddPermissionAvailable ? (
                 <Link
@@ -481,7 +482,9 @@ const Competitor = (props) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Competitor
+                  <Box component="span" display={["none", "unset"]} m="{1}">
+                    Add
+                  </Box> Competitor
                   <AddCircleOutlineIcon />
                 </Link>
               ) : null}

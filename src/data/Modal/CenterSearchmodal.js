@@ -115,7 +115,7 @@ const CenterSearchmodal = (props) => {
       <div className="d-flex searchbar-top">
         <Button
           variant="primary"
-          className="modal-effect d-grid mb-3 d-flex"
+          className="modal-effect d-grid mb-2 d-flex"
           href="#modaldemo8"
           onClick={handleClickOpen}
         >

@@ -343,7 +343,7 @@ const ManageCharges = (props) => {
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
-        <div className="page-header ">
+        <div className="page-header d-flex">
           <div>
             <h1 className="page-title">Manage Charges</h1>
             <Breadcrumb className="breadcrumb">

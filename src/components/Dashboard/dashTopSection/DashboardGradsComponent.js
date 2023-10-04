@@ -35,9 +35,9 @@ const DashboardGradsComponent = ({
   const [gridIndex, setGridIndex] = useState(0);
   const { id } = useParams();
   const [showDate, setShowDate] = useState(false);
-  const [ShowButton, setShowButton] = useState(false);
   const [startDatePath, setStartDatePath] = useState("");
   const [endDatePath, setEndDatePath] = useState("");
+
 
   const handleShowDate = () => {
     const inputDateElement = document.querySelector("#start_date");
@@ -195,8 +195,8 @@ const DashboardGradsComponent = ({
                 <MdOutlineCalendarMonth />{" "}
                 {showDate
                   ? `${moment(startDatePath).format("Do MMM")} - ${moment(
-                      endDatePath
-                    ).format("Do MMM")}`
+                    endDatePath
+                  ).format("Do MMM")}`
                   : moment(getSiteDetails?.last_day_end).format("MMM Do")}
                 <SortIcon />{" "}
               </button>
@@ -298,9 +298,13 @@ const DashboardGradsComponent = ({
                               {" "}
                               Total Fuel Volume :{" "}
                             </strong>
-                            {
+                            {/* {
                               getGradsSiteDetails?.fuel_stats?.data[gridIndex]
                                 ?.cards?.total_fuel_sale_volume
+                            } */}
+                            {
+                              getGradsSiteDetails?.fuel_stats?.data[gridIndex]
+                                ?.fuel_volume
                             }
                           </span>
                         </Col>
@@ -323,10 +327,15 @@ const DashboardGradsComponent = ({
                               {" "}
                               Total Fuel Sales :
                             </strong>
-                            {
+                            {/* {
                               getGradsSiteDetails?.fuel_stats?.data[gridIndex]
                                 ?.cards?.total_fuel_sale_value
+                            } */}
+                            {
+                              getGradsSiteDetails?.fuel_stats?.data[gridIndex]
+                                ?.fuel_value
                             }
+
                           </span>
                         </Col>
 
@@ -501,7 +510,7 @@ const DashboardGradsComponent = ({
         onHide={handleCloseModal}
         centered
         className="custom-modal-width custom-modal-height"
-        // style={{ overflow: "auto" }}
+      // style={{ overflow: "auto" }}
       >
         <div
           class="modal-header"
@@ -538,6 +547,15 @@ const DashboardGradsComponent = ({
                           start_date: "",
                           end_date: "",
                         }}
+                        validationSchema={
+                          Yup.object().shape({
+                            start_date: Yup.date().required("Start Date is required"),
+                            end_date: Yup.date().required("End Date is required")
+                              .test('start_date', 'Start Date must be before End Date', function (value) {
+                                const { start_date } = this.parent;
+                                return start_date <= value;
+                              }),
+                          })}
                         onSubmit={(values) => {
                           // handleSubmit1(values);
                           startDate = values.start_date;
@@ -562,11 +580,10 @@ const DashboardGradsComponent = ({
                                       min={getFirstDayOfPreviousMonth()}
                                       max={getCurrentDate()}
                                       onClick={handleShowDate}
-                                      className={`input101 ${
-                                        errors.start_date && touched.start_date
-                                          ? "is-invalid"
-                                          : ""
-                                      }`}
+                                      className={`input101 ${errors.start_date && touched.start_date
+                                        ? "is-invalid"
+                                        : ""
+                                        }`}
                                       id="start_date"
                                       name="start_date"
                                       onChange={(e) => {
@@ -576,8 +593,6 @@ const DashboardGradsComponent = ({
                                           "start_date",
                                           selectedstart_date
                                         );
-                                        // setStartDatePath(selectedstart_date)
-                                        setShowButton(false);
                                       }}
                                     ></Field>
                                     <ErrorMessage
@@ -597,14 +612,13 @@ const DashboardGradsComponent = ({
                                     </label>
                                     <Field
                                       type="date"
-                                      min={getFirstDayOfPreviousMonth()}
+                                      min={state.startDate}
                                       max={getCurrentDate()}
                                       onClick={handleShowDate1}
-                                      className={`input101 ${
-                                        errors.end_date && touched.end_date
-                                          ? "is-invalid"
-                                          : ""
-                                      }`}
+                                      className={`input101 ${errors.end_date && touched.end_date
+                                        ? "is-invalid"
+                                        : ""
+                                        }`}
                                       id="end_date"
                                       name="end_date"
                                       onChange={(e) => {
@@ -615,8 +629,6 @@ const DashboardGradsComponent = ({
                                           "end_date",
                                           selectedend_date_date
                                         );
-                                        // setEndDatePath(selectedend_date_date)
-                                        setShowButton(false);
                                       }}
                                     ></Field>
                                     <ErrorMessage

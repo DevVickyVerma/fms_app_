@@ -998,3 +998,28 @@ span.ModalTitle-2fa {
     /* Hide the card when the screen width is less than or equal to 700px */
   }
 }
+
+
+@media screen and (max-width: 600px) {
+  .dashboard-page-title {
+    font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .page-header .breadcrumb {
+    margin-top: 0px;
+  }
+
+  .breadcrumb-subheader {
+    margin-top: 0px !important;
+  }
+
+  .manageSite-header {
+    margin: 0px;
+  }
+
+  .hide-btn-responsive {
+    display: none;
+  }
+}

@@ -32,6 +32,7 @@ import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CenterSearchmodal from "../../../data/Modal/CenterSearchmodal";
+import { Box } from "@mui/system";
 const ManageClient = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
@@ -290,7 +291,7 @@ const ManageClient = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
+        // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
@@ -340,91 +341,91 @@ const ManageClient = (props) => {
     },
     anyPermissionAvailable
       ? {
-          name: "Action",
-          selector: (row) => [row.action],
-          sortable: true,
-          width: "20%",
-          cell: (row) => (
-            <span className="text-center">
-              {anyPermissionAvailable ? (
-                <Dropdown className="dropdown btn-group">
-                  <Dropdown.Toggle
-                    variant="Primary"
-                    type="button"
-                    className="btn btn-primary dropdown-toggle"
-                  >
-                    Actions
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu className="dropdown-menu">
-                    {isEditPermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to={`/editclient/${row.id}`}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <ModeEditIcon />
-                            </i>
-                            Edit
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                    {isDeletePermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to="#" onClick={() => handleDelete(row.id)}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <DeleteIcon />
-                            </i>
-                            Delete
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                    {isLoginPermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to="#" onClick={() => handleClientLogin(row)}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <VpnKeyIcon />
-                            </i>
-                            Client Login
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                    {isAddonPermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to={`/assignclientaddon/${row.id}`}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <AssignmentIndIcon />
-                            </i>
-                            Assign Addon
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                    {isReportsPermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link
-                          className="settingicon"
-                          to={`/assignreport/${row.id}`}
-                        >
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              {""} <AssignmentIndIcon />
-                            </i>
-                            <span>Report Assign</span>
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                  </Dropdown.Menu>
-                </Dropdown>
-              ) : null}
-            </span>
-          ),
-        }
+        name: "Action",
+        selector: (row) => [row.action],
+        sortable: true,
+        width: "20%",
+        cell: (row) => (
+          <span className="text-center">
+            {anyPermissionAvailable ? (
+              <Dropdown className="dropdown btn-group">
+                <Dropdown.Toggle
+                  variant="Primary"
+                  type="button"
+                  className="btn btn-primary dropdown-toggle"
+                >
+                  Actions
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="dropdown-menu">
+                  {isEditPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to={`/editclient/${row.id}`}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <ModeEditIcon />
+                          </i>
+                          Edit
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isDeletePermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to="#" onClick={() => handleDelete(row.id)}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <DeleteIcon />
+                          </i>
+                          Delete
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isLoginPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to="#" onClick={() => handleClientLogin(row)}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <VpnKeyIcon />
+                          </i>
+                          Client Login
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isAddonPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to={`/assignclientaddon/${row.id}`}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <AssignmentIndIcon />
+                          </i>
+                          Assign Addon
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isReportsPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link
+                        className="settingicon"
+                        to={`/assignreport/${row.id}`}
+                      >
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            {""} <AssignmentIndIcon />
+                          </i>
+                          <span>Report Assign</span>
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                </Dropdown.Menu>
+              </Dropdown>
+            ) : null}
+          </span>
+        ),
+      }
       : "",
   ];
 
@@ -439,9 +440,9 @@ const ManageClient = (props) => {
       {isLoading ? <Loaderimg /> : null}
 
       <>
-        <div className="page-header ">
+        <div className="page-header d-flex">
           <div>
-            <h1 className="page-title">Manage Client</h1>
+            <h1 className="page-title dashboard-page-title">Manage Client</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -459,7 +460,7 @@ const ManageClient = (props) => {
             </Breadcrumb>
           </div>
           <div className="ms-auto pageheader-btn d-flex">
-            <span className="Search-data">
+            <Box component="span" display={["none", "flex"]} alignItems={"center"} className="Search-data">
               {Object.entries(searchdata).map(([key, value]) => (
                 <div key={key} className="badge">
                   <span className="badge-key">
@@ -468,7 +469,7 @@ const ManageClient = (props) => {
                   <span className="badge-value">{value}</span>
                 </div>
               ))}
-            </span>
+            </Box>
             <Link
               // className="btn btn-primary sbsbo"
               onClick={() => {
@@ -488,26 +489,57 @@ const ManageClient = (props) => {
             </Link>
 
             {Object.keys(searchdata).length > 0 ? (
+
               <Link
-                className="btn btn-danger ms-2 addclientbtn"
+                className="btn btn-danger ms-2 addclientbtn hide-btn-responsive"
                 onClick={handleSearchReset}
+
               >
                 Reset <RestartAltIcon />
               </Link>
             ) : (
               ""
             )}
+
+
             {isAddPermissionAvailable ? (
               <Link
                 to="/addclient"
                 className="btn btn-primary ms-2 addclientbtn"
               >
-                Add Client {""}
+                <Box component="span" display={["none", "unset"]}>
+                  Add
+                </Box>  Client {""}
                 <AddCircleOutlineIcon />
               </Link>
             ) : null}
           </div>
         </div>
+
+        <Box display={["flex", "none"]} justifyContent={"space-between"} alignItems={"center"} mb={"10px"}>
+          <span className="Search-data gap-1 d-flex flex-wrap">
+            {Object.entries(searchdata).map(([key, value]) => (
+              <div key={key} className="badge">
+                <span className="badge-key">
+                  {key.charAt(0).toUpperCase() + key.slice(1)}:
+                </span>
+                <span className="badge-value">{value}</span>
+              </div>
+            ))}
+          </span>
+
+          {Object.keys(searchdata).length > 0 ? (
+            <Link
+              className="btn btn-danger ms-2 addclientbtn"
+              onClick={handleSearchReset}
+              style={{ minWidth: "80px" }}
+            >
+              Reset <RestartAltIcon />
+            </Link>
+          ) : (
+            ""
+          )}
+        </Box>
 
         <Row className=" row-sm">
           <Col lg={12}>
@@ -532,7 +564,7 @@ const ManageClient = (props) => {
                           highlightOnHover
                           searchable={false}
                           className={dynamicClass}
-                          // className="custom-datatable" // Add your custom class here
+                        // className="custom-datatable" // Add your custom class here
                         />
                       </DataTableExtensions>
                     </div>

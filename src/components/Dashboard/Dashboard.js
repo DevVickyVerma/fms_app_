@@ -374,11 +374,14 @@ const Dashboard = (props) => {
           display={"flex"}
           justifyContent={"space-between"}
           alignItems={"center"}
-          minHeight={"90px"}
+          // minHeight={"90px"}
+          flexDirection={["row",]}
           className="center-filter-modal-responsive"
         >
-          <Box alignSelf={"flex-start"} mt={"33px"}>
-            <h1 className="page-title">Dashboard ({UserPermissions?.dates})</h1>
+          <Box alignSelf={["center", "flex-start"]}
+            mt={["0px", "33px"]}
+          >
+            <h1 className="page-title dashboard-page-title" style={{ alignItems: "center" }}>Dashboard ({UserPermissions?.dates})</h1>
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
@@ -389,9 +392,9 @@ const Dashboard = (props) => {
               display={"flex"}
               justifyContent={"center"}
               alignItems={"baseline"}
-              my={"20px"}
+              my={["0px", "20px"]}
               gap={"5px"}
-              mx={"10px"}
+              mx={["0px", "10px"]}
               flexDirection={"inherit"}
               className="filter-responsive"
             >
@@ -407,21 +410,10 @@ const Dashboard = (props) => {
                 }}
               >
                 <>
-                  {/* Assuming this code is within a React component */}
-                  {Object.entries(searchdata).some(
-                    ([key, value]) =>
-                      [
-                        "client_name",
-                        "TOdate",
-                        "company_name",
-                        "site_name",
-                        "fromdate",
-                      ].includes(key) &&
-                      value != null &&
-                      value !== ""
-                  ) ? (
-                    Object.entries(searchdata).map(([key, value]) => {
-                      if (
+                  <Box display={["none", "none", "flex"]} flexWrap={"wrap"} justifyContent={"center"} alignItems={"center"} className=" gap-1" >
+                    {/* Assuming this code is within a React component */}
+                    {Object.entries(searchdata).some(
+                      ([key, value]) =>
                         [
                           "client_name",
                           "TOdate",
@@ -431,71 +423,145 @@ const Dashboard = (props) => {
                         ].includes(key) &&
                         value != null &&
                         value !== ""
-                      ) {
-                        const formattedKey = key
-                          .toLowerCase()
-                          .split("_")
-                          .map(
-                            (word) =>
-                              word.charAt(0).toUpperCase() + word.slice(1)
-                          )
-                          .join(" ");
+                    ) ? (
+                      Object.entries(searchdata).map(([key, value]) => {
+                        if (
+                          [
+                            "client_name",
+                            "TOdate",
+                            "company_name",
+                            "site_name",
+                            "fromdate",
+                          ].includes(key) &&
+                          value != null &&
+                          value !== ""
+                        ) {
+                          const formattedKey = key
+                            .toLowerCase()
+                            .split("_")
+                            .map(
+                              (word) =>
+                                word.charAt(0).toUpperCase() + word.slice(1)
+                            )
+                            .join(" ");
 
-                        return (
-                          <div key={key} className="badge">
-                            <span className="badge-key">{formattedKey}:</span>
-                            <span className="badge-value">{value}</span>
-                          </div>
-                        );
-                      } else {
-                        return null;
-                      }
-                    })
-                  ) : superiorRole === "Client" && role !== "Client" ? (
-                    <div className="badge">
-                      <span className="badge-key">Company Name:</span>
-                      <span className="badge-value">
-                        {localStorage.getItem("PresetCompanyName")}
-                      </span>
-                    </div>
-                  ) : null}
+                          return (
+                            <div key={key} className="badge">
+                              <span className="badge-key">{formattedKey}:</span>
+                              <span className="badge-value">{value}</span>
+                            </div>
+                          );
+                        } else {
+                          return null;
+                        }
+                      })
+                    ) : superiorRole === "Client" && role !== "Client" ? (
+                      <div className="badge">
+                        <span className="badge-key">Company Name:</span>
+                        <span className="badge-value">
+                          {localStorage.getItem("PresetCompanyName")}
+                        </span>
+                      </div>
+                    ) : null}
+                  </Box>
                 </>
-              </span>
-              <Box display={"flex"} ml={"4px"} alignSelf={"center"}>
-                <Link
-                  className="btn btn-primary"
-                  onClick={() => {
-                    handleToggleSidebar1();
-                  }}
-                  title="filter"
-                  visible={sidebarVisible1}
-                  onClose={handleToggleSidebar1}
-                  onSubmit={handleFormSubmit}
-                  searchListstatus={SearchList}
-                >
-                  Filter
-                  <span className="ms-2">
-                    <SortIcon />
-                  </span>
-                </Link>
 
-                {Object.keys(searchdata).length > 0 ? (
+                <Box display={"flex"} ml={"4px"} alignSelf={["flex-start", "center"]} >
                   <Link
-                    className="btn btn-danger ms-2"
+                    className="btn btn-primary btn-sm"
                     onClick={() => {
-                      ResetForm();
+                      handleToggleSidebar1();
                     }}
+                    title="filter"
+                    visible={sidebarVisible1}
+                    onClose={handleToggleSidebar1}
+                    onSubmit={handleFormSubmit}
+                    searchListstatus={SearchList}
                   >
-                    Reset <RestartAltIcon />
+                    Filter
+                    <span className="ms-2">
+                      <SortIcon />
+                    </span>
                   </Link>
-                ) : (
-                  ""
-                )}
-              </Box>
+
+                  {Object.keys(searchdata).length > 0 ? (
+                    <Link
+                      className="btn btn-danger btn-sm ms-2"
+                      onClick={() => {
+                        ResetForm();
+                      }}
+                    >
+                      Reset <RestartAltIcon />
+                    </Link>
+                  ) : (
+                    ""
+                  )}
+                </Box>
+
+              </span>
+
+
             </Box>
           )}
         </Box>
-        <hr></hr>
+        <>
+          <Box display={["flex", "flex", "none"]} flexWrap={"wrap"} marginBottom={"10px"} className=" gap-1" >
+            {/* Assuming this code is within a React component */}
+            {Object.entries(searchdata).some(
+              ([key, value]) =>
+                [
+                  "client_name",
+                  "TOdate",
+                  "company_name",
+                  "site_name",
+                  "fromdate",
+                ].includes(key) &&
+                value != null &&
+                value !== ""
+            ) ? (
+              Object.entries(searchdata).map(([key, value]) => {
+                if (
+                  [
+                    "client_name",
+                    "TOdate",
+                    "company_name",
+                    "site_name",
+                    "fromdate",
+                  ].includes(key) &&
+                  value != null &&
+                  value !== ""
+                ) {
+                  const formattedKey = key
+                    .toLowerCase()
+                    .split("_")
+                    .map(
+                      (word) =>
+                        word.charAt(0).toUpperCase() + word.slice(1)
+                    )
+                    .join(" ");
+
+                  return (
+                    <div key={key} className="badge">
+                      <span className="badge-key">{formattedKey}:</span>
+                      <span className="badge-value">{value}</span>
+                    </div>
+                  );
+                } else {
+                  return null;
+                }
+              })
+            ) : superiorRole === "Client" && role !== "Client" ? (
+              <div className="badge">
+                <span className="badge-key">Company Name:</span>
+                <span className="badge-value">
+                  {localStorage.getItem("PresetCompanyName")}
+                </span>
+              </div>
+            ) : null}
+          </Box>
+        </>
+        {/* <hr></hr> */}
+
         {ShowTruw ? (
           <DashBordModal
             title="Search"
@@ -510,6 +576,7 @@ const Dashboard = (props) => {
         ) : (
           ""
         )}
+
 
         {isProfileUpdatePermissionAvailable &&
           !isTwoFactorPermissionAvailable &&
@@ -651,7 +718,7 @@ const Dashboard = (props) => {
             </Card>
           </Col>
         </Row>
-      </div>
+      </div >
     </>
   );
 };

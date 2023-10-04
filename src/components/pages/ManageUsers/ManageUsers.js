@@ -272,7 +272,7 @@ const ManageUser = (props) => {
       sortable: true,
       width: "20%",
       cell: (row) => (
-        <span className="text-center">
+        <span className="text-center d-flex justify-content-center gap-1 flex-wrap">
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link

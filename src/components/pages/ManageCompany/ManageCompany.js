@@ -20,6 +20,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
+import { Box } from "@mui/material";
 
 const ManageCompany = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -220,12 +221,12 @@ const ManageCompany = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "12%",
+      width: "16%",
       cell: (row, index) => (
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
+        // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
@@ -339,11 +340,11 @@ const ManageCompany = (props) => {
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
-        <div className="page-header ">
+        <div className="page-header d-flex">
           <div>
-            <h1 className="page-title">Manage Companies</h1>
+            <h1 className="page-title ">Manage Companies</h1>
 
-            <Breadcrumb className="breadcrumb">
+            <Breadcrumb className="breadcrumb breadcrumb-subheader">
               <Breadcrumb.Item
                 className="breadcrumb-item"
                 linkAs={Link}
@@ -359,10 +360,12 @@ const ManageCompany = (props) => {
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
-          <div className="ms-auto pageheader-btn">
+          <div className="ms-auto ">
             {isAddPermissionAvailable ? (
               <Link to="/addcompany" className="btn btn-primary ms-2">
-                Add Company <AddCircleOutlineIcon />
+                <Box component="span" display={["none", "unset"]} m="{1}">
+                  Add
+                </Box> Company <AddCircleOutlineIcon />
               </Link>
             ) : null}
           </div>
