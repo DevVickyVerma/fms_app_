@@ -31,7 +31,6 @@ const DashboardGradsComponent = ({
   setGradsGetSiteDetails,
   getSiteDetails,
 }) => {
-
   const [gradsLoading, setGradsLoading] = useState(false);
   const [gridIndex, setGridIndex] = useState(0);
   const { id } = useParams();
@@ -95,8 +94,6 @@ const DashboardGradsComponent = ({
   const startDate = format(state[0].startDate, "yyyy-MM-dd"); // Format start date
   const endDate = format(state[0].endDate, "yyyy-MM-dd"); // Format end date
 
-
-
   const isButtonDisabled = !startDate || !endDate;
 
   const fetchData = async (values) => {
@@ -127,8 +124,16 @@ const DashboardGradsComponent = ({
           // Use async/await to fetch data
           const response3 = await getData(
             localStorage.getItem("superiorRole") !== "Client"
-              ? `/dashboard/get-site-fuel-performance?site_id=${id}&end_date=${windowWidth > 900 ? endDate : values.end_date}&start_date=${windowWidth > 900 ? startDate : values.start_date}`
-              : `/dashboard/get-site-fuel-performance?site_id=${id}&end_date=${windowWidth > 900 ? endDate : values.end_date}&start_date=${windowWidth > 900 ? startDate : values.start_date}`
+              ? `/dashboard/get-site-fuel-performance?site_id=${id}&end_date=${
+                  windowWidth > 900 ? endDate : values.end_date
+                }&start_date=${
+                  windowWidth > 900 ? startDate : values.start_date
+                }`
+              : `/dashboard/get-site-fuel-performance?site_id=${id}&end_date=${
+                  windowWidth > 900 ? endDate : values.end_date
+                }&start_date=${
+                  windowWidth > 900 ? startDate : values.start_date
+                }`
           );
           if (response3 && response3.data) {
             setGradsGetSiteDetails(response3?.data?.data);
@@ -157,11 +162,10 @@ const DashboardGradsComponent = ({
     function handleResize() {
       setWindowWidth(window.innerWidth);
     }
-    window.addEventListener('resize', handleResize);
-
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, [windowWidth]);
 
@@ -182,8 +186,6 @@ const DashboardGradsComponent = ({
     return `${year}-${month}-${day}`;
   }
 
-
-
   return (
     <>
       {gradsLoading ? <Loaderimg /> : ""}
@@ -197,18 +199,21 @@ const DashboardGradsComponent = ({
               <button className="btn btn-primary" onClick={handleOpenModal}>
                 {" "}
                 <MdOutlineCalendarMonth />{" "}
-                {!showDate ? moment(getSiteDetails?.last_day_end).format("MMM Do") : ""}
-                {showDate && windowWidth > 900
-                  ? `${moment(startDate).format("Do MMM")} - ${moment(
-                    endDate
-                  ).format("Do MMM")}`
-                  : ""
+                {!showDate
+                  ? moment(getSiteDetails?.last_day_end).format("MMM Do")
+                  : ""}
+                {
+                  showDate && windowWidth > 900
+                    ? `${moment(startDate).format("Do MMM")} - ${moment(
+                        endDate
+                      ).format("Do MMM")}`
+                    : ""
                   // moment(getSiteDetails?.last_day_end).format("MMM Do")
                 }
                 {showDate && windowWidth < 900
                   ? `${moment(startDatePath).format("Do MMM")} - ${moment(
-                    endDatePath
-                  ).format("Do MMM")}`
+                      endDatePath
+                    ).format("Do MMM")}`
                   : ""}
                 <SortIcon />{" "}
               </button>
@@ -264,9 +269,7 @@ const DashboardGradsComponent = ({
                       <h3 className="card-title">Key Matrices</h3>
                     </Card.Header>
                     <Card.Body>
-                      <Row
-                        style={{ display: "flex", flexDirection: "column" }}
-                      >
+                      <Row style={{ display: "flex", flexDirection: "column" }}>
                         {/* total Transaction */}
                         <Col
                           lg={12}
@@ -408,9 +411,7 @@ const DashboardGradsComponent = ({
                     <Card.Body
                       style={{ maxHeight: "467px", overflowY: "auto" }}
                     >
-                      <Row
-                        style={{ display: "flex", flexDirection: "column" }}
-                      >
+                      <Row style={{ display: "flex", flexDirection: "column" }}>
                         {getGradsSiteDetails?.fuel_stats?.data?.[
                           gridIndex
                         ]?.cards?.card_details?.map((cardDetail, index) => (
@@ -517,7 +518,7 @@ const DashboardGradsComponent = ({
         onHide={handleCloseModal}
         centered
         className="custom-modal-width custom-modal-height"
-      // style={{ overflow: "auto" }}
+        // style={{ overflow: "auto" }}
       >
         <div
           class="modal-header"
@@ -540,148 +541,157 @@ const DashboardGradsComponent = ({
           <Row>
             <Col lg={12} xl={12} md={12} sm={12}>
               <Card>
-
-
-                {windowWidth < 900 ? <>
-                  <Card.Body className={windowWidth > 700 ? 'dashboard-grads-show-cal' : 'dashboard-grads-hide-cal'}>
-                    <Formik
-                      initialValues={{
-                        start_date: "",
-                        end_date: "",
-                      }}
-                      onSubmit={(values) => {
-                        // handleSubmit1(values);
-                        fetchData(values);
-
-                      }}
+                {windowWidth < 900 ? (
+                  <>
+                    <Card.Body
+                      className={
+                        windowWidth > 700
+                          ? "dashboard-grads-show-cal"
+                          : "dashboard-grads-hide-cal"
+                      }
                     >
-                      {({ handleSubmit, errors, touched, setFieldValue }) => (
-                        <Form onSubmit={handleSubmit}>
-                          <Card.Body>
-                            <Row>
-                              <>
-                                <Col lg={4} md={6}>
-                                  <FormGroup>
-                                    <label
-                                      htmlFor="start_date"
-                                      className="form-label mt-4"
-                                    >
-                                      Start Date
-                                    </label>
-                                    <Field
-                                      type="date"
-                                      min={getFirstDayOfPreviousMonth()}
-                                      max={getCurrentDate()}
-                                      onClick={handleShowDate}
-                                      className={`input101 ${errors.start_date && touched.start_date
-                                        ? "is-invalid"
-                                        : ""
-                                        }`}
-                                      id="start_date"
-                                      name="start_date"
-                                      onChange={(e) => {
-                                        const selectedstart_date = e.target.value;
-                                        setFieldValue(
-                                          "start_date",
-                                          selectedstart_date
-                                        );
-                                        setStartDatePath(selectedstart_date)
-                                        setShowButton(false);
-                                      }}
-                                    ></Field>
-                                    <ErrorMessage
-                                      component="div"
-                                      className="invalid-feedback"
-                                      name="start_date"
-                                    />
-                                  </FormGroup>
-                                </Col>
-                                <Col lg={4} md={6}>
-                                  <FormGroup>
-                                    <label
-                                      htmlFor="end_date"
-                                      className="form-label mt-4"
-                                    >
-                                      End Date
-                                    </label>
-                                    <Field
-                                      type="date"
-                                      min={getFirstDayOfPreviousMonth()}
-                                      max={getCurrentDate()}
-                                      onClick={handleShowDate1}
-                                      className={`input101 ${errors.end_date && touched.end_date
-                                        ? "is-invalid"
-                                        : ""
-                                        }`}
-                                      id="end_date"
-                                      name="end_date"
-                                      onChange={(e) => {
-                                        const selectedend_date_date =
-                                          e.target.value;
-
-                                        setFieldValue(
-                                          "end_date",
-                                          selectedend_date_date
-                                        );
-                                        setEndDatePath(selectedend_date_date)
-                                        setShowButton(false);
-                                      }}
-                                    ></Field>
-                                    <ErrorMessage
-                                      component="div"
-                                      className="invalid-feedback"
-                                      name="end_date"
-                                    />
-                                  </FormGroup>
-                                </Col>
-                              </>
-
-                            </Row>
-                          </Card.Body>
-                          <Card.Footer className="text-end ">
-                            <button type="submit" className="btn btn-primary mx-2">
-                              Generate Report
-                            </button>
-
-                          </Card.Footer>
-                        </Form>
-                      )}
-                    </Formik>
-                  </Card.Body>
-                </> : <>
-                  <Card.Body>
-                    <div>
-                      <DateRangePicker
-                        onChange={handleSelect}
-                        showSelectionPreview={true}
-                        moveRangeOnFirstSelection={false}
-                        months={2}
-                        ranges={state}
-                        direction="horizontal"
-                        minDate={minDate}
-                        maxDate={maxDate}
-                      />
-                    </div>
-                  </Card.Body>
-                  <Card.Footer>
-                    <div className="text-end">
-                      <button
-                        type="submit"
-                        className="btn btn-primary f-size-5"
-                        onClick={fetchData}
-                        disabled={isButtonDisabled}
+                      <Formik
+                        initialValues={{
+                          start_date: "",
+                          end_date: "",
+                        }}
+                        onSubmit={(values) => {
+                          // handleSubmit1(values);
+                          fetchData(values);
+                        }}
                       >
-                        Generate Report
-                      </button>
-                    </div>
-                  </Card.Footer>
-                </>}
+                        {({ handleSubmit, errors, touched, setFieldValue }) => (
+                          <Form onSubmit={handleSubmit}>
+                            <Card.Body>
+                              <Row>
+                                <>
+                                  <Col lg={4} md={6}>
+                                    <FormGroup>
+                                      <label
+                                        htmlFor="start_date"
+                                        className="form-label mt-4"
+                                      >
+                                        Start Date
+                                      </label>
+                                      <Field
+                                        type="date"
+                                        min={getFirstDayOfPreviousMonth()}
+                                        max={getCurrentDate()}
+                                        onClick={handleShowDate}
+                                        className={`input101 ${
+                                          errors.start_date &&
+                                          touched.start_date
+                                            ? "is-invalid"
+                                            : ""
+                                        }`}
+                                        id="start_date"
+                                        name="start_date"
+                                        onChange={(e) => {
+                                          const selectedstart_date =
+                                            e.target.value;
+                                          setFieldValue(
+                                            "start_date",
+                                            selectedstart_date
+                                          );
+                                          setStartDatePath(selectedstart_date);
+                                          setShowButton(false);
+                                        }}
+                                      ></Field>
+                                      <ErrorMessage
+                                        component="div"
+                                        className="invalid-feedback"
+                                        name="start_date"
+                                      />
+                                    </FormGroup>
+                                  </Col>
+                                  <Col lg={4} md={6}>
+                                    <FormGroup>
+                                      <label
+                                        htmlFor="end_date"
+                                        className="form-label mt-4"
+                                      >
+                                        End Date
+                                      </label>
+                                      <Field
+                                        type="date"
+                                        min={getFirstDayOfPreviousMonth()}
+                                        max={getCurrentDate()}
+                                        onClick={handleShowDate1}
+                                        className={`input101 ${
+                                          errors.end_date && touched.end_date
+                                            ? "is-invalid"
+                                            : ""
+                                        }`}
+                                        id="end_date"
+                                        name="end_date"
+                                        onChange={(e) => {
+                                          const selectedend_date_date =
+                                            e.target.value;
+
+                                          setFieldValue(
+                                            "end_date",
+                                            selectedend_date_date
+                                          );
+                                          setEndDatePath(selectedend_date_date);
+                                          setShowButton(false);
+                                        }}
+                                      ></Field>
+                                      <ErrorMessage
+                                        component="div"
+                                        className="invalid-feedback"
+                                        name="end_date"
+                                      />
+                                    </FormGroup>
+                                  </Col>
+                                </>
+                              </Row>
+                            </Card.Body>
+                            <Card.Footer className="text-end ">
+                              <button
+                                type="submit"
+                                className="btn btn-primary mx-2"
+                              >
+                                Submit
+                              </button>
+                            </Card.Footer>
+                          </Form>
+                        )}
+                      </Formik>
+                    </Card.Body>
+                  </>
+                ) : (
+                  <>
+                    <Card.Body>
+                      <div>
+                        <DateRangePicker
+                          onChange={handleSelect}
+                          showSelectionPreview={true}
+                          moveRangeOnFirstSelection={false}
+                          months={2}
+                          ranges={state}
+                          direction="horizontal"
+                          minDate={minDate}
+                          maxDate={maxDate}
+                        />
+                      </div>
+                    </Card.Body>
+                    <Card.Footer>
+                      <div className="text-end">
+                        <button
+                          type="submit"
+                          className="btn btn-primary f-size-5"
+                          onClick={fetchData}
+                          disabled={isButtonDisabled}
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </Card.Footer>
+                  </>
+                )}
               </Card>
             </Col>
           </Row>
-
-
-
         </Modal.Body>
       </Modal>
     </>
