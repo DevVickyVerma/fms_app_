@@ -141,9 +141,9 @@ const DashboardSiteDetail = (props) => {
   const headerHeight = 135;
 
   const containerStyles = {
-    overflowY: "scroll", // or 'auto'
-    overflowX: "hidden", // or 'auto'
-    maxHeight: `calc(100vh - ${headerHeight}px)`,
+    // overflowY: "scroll", // or 'auto'
+    // overflowX: "hidden", // or 'auto'
+    // maxHeight: `calc(100vh - ${headerHeight}px)`,
   };
 
   return (

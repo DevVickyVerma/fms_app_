@@ -182,9 +182,9 @@ const DashTopSubHeading = ({
           py={"20px"}
           px={"20px"}
           boxShadow="0px 10px 10px -5px rgba(0,0,0,0.5)"
-          position={["unset", "sticky"]}
-          top={0}
-          zIndex={1} // Ensure the sticky container overlays other content
+        // position={["unset", "sticky"]}
+        // top={0}
+        // zIndex={1} // Ensure the sticky container overlays other content
         >
           {/* LEFT side heading title */}
           <Box display={"flex"} alignItems={"center"}>
