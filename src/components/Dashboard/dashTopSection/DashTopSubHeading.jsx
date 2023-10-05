@@ -29,8 +29,6 @@ const DashTopSubHeading = ({
   setGetSiteDetails,
   getCompetitorsPrice,
   setGetCompetitorsPrice,
-  getGradsSiteDetails,
-  setGradsGetSiteDetails,
 }) => {
   const dateStr = getSiteDetails?.last_fuel_delivery_stats?.last_day
     ? getSiteDetails.last_fuel_delivery_stats.last_day
@@ -306,7 +304,7 @@ const DashTopSubHeading = ({
                   px={"13px"}
                 >
                   <Typography fontSize={"14px"}>
-                    Last Day End : {}
+                    Last Day End : { }
                     {/* {formattedMonthForHeading} */}
                     {getSiteStats?.data?.last_dayend ? (
                       moment(getSiteStats?.data?.last_dayend).format("Do MMM")
@@ -518,14 +516,12 @@ const DashTopSubHeading = ({
 
         {/* Grads Section */}
         <DashboardGradsComponent
-          getGradsSiteDetails={getGradsSiteDetails}
-          setGradsGetSiteDetails={setGradsGetSiteDetails}
-          getSiteDetails={getSiteDetails}
+          getSiteStats={getSiteStats}
         />
       </div>
 
       {/* new Shop sale */}
-      <DashboardShopSale getSiteDetails={getSiteDetails} />
+      <DashboardShopSale getSiteDetails={getSiteDetails} getSiteStats={getSiteStats} />
 
       {/* tank analysis */}
       <Row

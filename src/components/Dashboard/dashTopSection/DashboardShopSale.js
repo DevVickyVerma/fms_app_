@@ -15,13 +15,16 @@ import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
 import { DateRangePicker } from "react-date-range";
 import withApi from "../../../Utils/ApiHelper";
+import { useMyContext } from "../../../Utils/MyContext";
 const DashboardShopSale = ({
   getData,
-  getGradsSiteDetails,
-  setGradsGetSiteDetails,
+  // getGradsSiteDetails,
+  // setGradsGetSiteDetails,
   getSiteDetails,
+  getSiteStats,
 }) => {
   const navigate = useNavigate();
+
   const [showModal, setShowModal] = useState(false);
   const [showCalenderModal, setShowCalenderModal] = useState(false);
   const [shopPerformanceData, setShopPerformanceData] = useState();
@@ -32,6 +35,7 @@ const DashboardShopSale = ({
   const [startDatePath, setStartDatePath] = useState("");
   const [endDatePath, setEndDatePath] = useState("");
   const Errornotify = (message) => toast.error(message);
+  const { getGradsSiteDetails, setGradsGetSiteDetails, dashboardShopSaleData, setDashboardShopSaleData } = useMyContext();
 
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -75,7 +79,9 @@ const DashboardShopSale = ({
 
     try {
       const response = await axiosInstance.get(
-        `/dashboard/get-site-shop-performance?start_date=${getSiteDetails?.fuel_site_timings?.opening_time}&end_date=${getSiteDetails?.fuel_site_timings?.closing_time}&site_id=${id}&category_id=${item.id}`
+        showDate ?
+          `/dashboard/get-site-shop-performance&site_id=${id}&category_id=${item.id}?start_date=${startDate}&end_date=${endDate}` :
+          `/ dashboard / get - site - shop - performance & site_id=${id}& category_id=${item.id} `
       );
       if (response.data) {
         setShopPerformanceData(response?.data?.data);
@@ -138,7 +144,7 @@ const DashboardShopSale = ({
   };
 
   const renderTableData = () => {
-    return getSiteDetails?.shop_sales?.data?.map((item) => (
+    return dashboardShopSaleData?.shop_sales?.map((item) => (
       <tr className="fuelprice-tr " key={item.id} style={{ padding: "0px" }}>
         <td
           className="dashboard-shopSale-table-width dashboard-shopSale-table-td "
@@ -222,13 +228,20 @@ const DashboardShopSale = ({
 
   const [state, setState] = useState([
     {
-      startDate: startOfMonth(new Date()), // 1st day of the current month
-      endDate: new Date(), // Today's date
+      startDate: getSiteStats?.data?.last_dayend
+        ? new Date(getSiteStats.data.last_dayend)
+        : new Date(), // 1st day of the current month
+      // startDate: startOfMonth(new Date()), // 1st day of the current month
+      endDate: getSiteStats?.data?.last_dayend
+        ? new Date(getSiteStats.data.last_dayend)
+        : new Date(), // Today's date
       key: "selection",
     },
   ]);
   const minDate = startOfMonth(subMonths(new Date(), 1)); // 1st day of the previous month
-  const maxDate = new Date(); // Today's date
+  const maxDate = getSiteStats?.data?.last_dayend
+    ? new Date(getSiteStats.data.last_dayend)
+    : new Date();
   const handleSelect = (ranges) => {
     // Ensure that the selected range is within the allowed bounds
     if (
@@ -247,7 +260,7 @@ const DashboardShopSale = ({
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, "0");
     const day = String(today.getDate() - 1).padStart(2, "0"); // Subtract one day from the current date
-    return `${year}-${month}-${day}`;
+    return `${year} -${month} -${day} `;
   };
 
   function getFirstDayOfPreviousMonth() {
@@ -256,7 +269,7 @@ const DashboardShopSale = ({
     const year = lastMonth.getFullYear();
     const month = (lastMonth.getMonth() + 1).toString().padStart(2, "0");
     const day = "01";
-    return `${year}-${month}-${day}`;
+    return `${year} -${month} -${day} `;
   }
   const handleShowDate = () => {
     const inputDateElement = document.querySelector("#start_date");
@@ -297,13 +310,14 @@ const DashboardShopSale = ({
           // Use async/await to fetch data
           const response3 = await getData(
             localStorage.getItem("superiorRole") !== "Client"
-              ? `/dashboard/get-site-fuel-performance?site_id=${id}&end_date=${endDate}&start_date=${startDate}`
-              : `/dashboard/get-site-fuel-performance?site_id=${id}&end_date=${endDate}&start_date=${startDate}`
+              ? `/dashboard/get-site-shop-details?site_id=${id}&end_date=${endDate}&start_date=${startDate} `
+              : `/dashboard/get-site-shop-details?site_id=${id}&end_date=${endDate}&start_date=${startDate}`
           );
           setStartDatePath(startDate);
           setEndDatePath(endDate);
           if (response3 && response3.data) {
-            setGradsGetSiteDetails(response3?.data?.data);
+            setDashboardShopSaleData(response3?.data?.data)
+            // setGradsGetSiteDetails(response3?.data?.data);
             notify(response3?.data?.message);
             setShowModal(false);
             setShowDate(true);
@@ -347,16 +361,17 @@ const DashboardShopSale = ({
               <button className="btn btn-primary" onClick={handleDateOpenModal}>
                 {" "}
                 <MdOutlineCalendarMonth />{" "}
-                {showDate
+                {showDate && getSiteStats?.data
                   ? `${moment(startDatePath).format("Do MMM")} - ${moment(
                     endDatePath
-                  ).format("Do MMM")}`
-                  : moment(getSiteDetails?.last_day_end).format("MMM Do")}
+                  ).format("Do MMM")
+                  } `
+                  : moment(getSiteStats?.data?.last_dayend).format("MMM Do")}
                 <SortIcon />{" "}
               </button>
             </Card.Header>
             <Card.Body>
-              {getSiteDetails?.shop_sales?.data ? (
+              {dashboardShopSaleData?.shop_sales ? (
                 <div
                   className="table-container table-responsive"
                   style={{
@@ -476,7 +491,7 @@ const DashboardShopSale = ({
                                       className={`input101 ${errors.start_date && touched.start_date
                                         ? "is-invalid"
                                         : ""
-                                        }`}
+                                        } `}
                                       id="start_date"
                                       name="start_date"
                                       onChange={(e) => {
@@ -511,7 +526,7 @@ const DashboardShopSale = ({
                                       className={`input101 ${errors.end_date && touched.end_date
                                         ? "is-invalid"
                                         : ""
-                                        }`}
+                                        } `}
                                       id="end_date"
                                       name="end_date"
                                       onChange={(e) => {

@@ -21,6 +21,8 @@ const MyProvider = ({ children }) => {
   const [stackedLineBarLabels, setStackedLineBarLabel] = useState();
   const [getSiteDetailsLoading, setGetSiteDetailsLoading] = useState(false)
   const [shouldNavigateToDetailsPage, setShouldNavigateToDetailsPage] = useState(false);
+  const [getGradsSiteDetails, setGradsGetSiteDetails] = useState(null);
+  const [dashboardShopSaleData, setDashboardShopSaleData] = useState(null);
 
   // Value object to provide to consumers
   const value = {
@@ -54,7 +56,9 @@ const MyProvider = ({ children }) => {
     setStackedLineBarLabel,
     getSiteDetailsLoading,
     setGetSiteDetailsLoading,
-    shouldNavigateToDetailsPage, setShouldNavigateToDetailsPage
+    shouldNavigateToDetailsPage, setShouldNavigateToDetailsPage,
+    getGradsSiteDetails, setGradsGetSiteDetails,
+    dashboardShopSaleData, setDashboardShopSaleData
   };
 
   return <MyContext.Provider value={value}>{children}</MyContext.Provider>;
