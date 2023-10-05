@@ -25,12 +25,13 @@ import "react-date-range/dist/theme/default.css";
 import { subMonths, startOfMonth } from "date-fns";
 import SortIcon from "@mui/icons-material/Sort";
 import { ErrorMessage, Field, Formik } from "formik";
+import { useMyContext } from "../../../Utils/MyContext";
 const DashboardGradsComponent = ({
   getData,
-  getGradsSiteDetails,
-  setGradsGetSiteDetails,
-  getSiteDetails,
+  getSiteStats,
 }) => {
+  const { getGradsSiteDetails, setGradsGetSiteDetails } = useMyContext();
+  // const [getGradsSiteDetails, setGradsGetSiteDetails] = useState(null);
   const [gradsLoading, setGradsLoading] = useState(false);
   const [gridIndex, setGridIndex] = useState(0);
   const { id } = useParams();
@@ -74,14 +75,22 @@ const DashboardGradsComponent = ({
 
   const [state, setState] = useState([
     {
-      startDate: startOfMonth(new Date()), // 1st day of the current month
-      endDate: new Date(), // Today's date
+      startDate: getSiteStats?.data?.last_dayend
+        ? new Date(getSiteStats.data.last_dayend)
+        : new Date(), // 1st day of the current month
+      // startDate: startOfMonth(new Date()), // 1st day of the current month
+      endDate: getSiteStats?.data?.last_dayend
+        ? new Date(getSiteStats.data.last_dayend)
+        : new Date(), // Today's date
       key: "selection",
     },
   ]);
 
   const minDate = startOfMonth(subMonths(new Date(), 1)); // 1st day of the previous month
-  const maxDate = new Date(); // Today's date
+  // const maxDate = new Date(); // Today's date
+  const maxDate = getSiteStats?.data?.last_dayend
+    ? new Date(getSiteStats.data.last_dayend)
+    : new Date();
   const handleSelect = (ranges) => {
     // Ensure that the selected range is within the allowed bounds
     if (
@@ -149,6 +158,7 @@ const DashboardGradsComponent = ({
     setGradsLoading(false);
   };
 
+
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   // Update windowWidth when the window is resized
@@ -193,11 +203,11 @@ const DashboardGradsComponent = ({
               <button className="btn btn-primary" onClick={handleOpenModal}>
                 {" "}
                 <MdOutlineCalendarMonth />{" "}
-                {showDate
+                {showDate && getSiteStats?.data
                   ? `${moment(startDatePath).format("Do MMM")} - ${moment(
                     endDatePath
                   ).format("Do MMM")}`
-                  : moment(getSiteDetails?.last_day_end).format("MMM Do")}
+                  : moment(getSiteStats?.data?.last_dayend).format("MMM Do")}
                 <SortIcon />{" "}
               </button>
             </Card.Header>
@@ -209,7 +219,7 @@ const DashboardGradsComponent = ({
                   </Card.Header>
                   <Card.Body>
                     <Row style={{ display: "flex", flexDirection: "column" }}>
-                      {getGradsSiteDetails?.fuel_stats?.data?.map(
+                      {getGradsSiteDetails?.map(
                         (fuelState, index) => (
                           <Col
                             lg={12}
@@ -273,8 +283,8 @@ const DashboardGradsComponent = ({
                               Total Transaction :
                             </strong>
                             {
-                              getGradsSiteDetails?.fuel_stats?.data[gridIndex]
-                                ?.cards?.total_transactions
+                              getGradsSiteDetails?.[gridIndex]
+                                ?.total_transaction
                             }
                           </span>
                         </Col>
@@ -298,12 +308,8 @@ const DashboardGradsComponent = ({
                               {" "}
                               Total Fuel Volume :{" "}
                             </strong>
-                            {/* {
-                              getGradsSiteDetails?.fuel_stats?.data[gridIndex]
-                                ?.cards?.total_fuel_sale_volume
-                            } */}
                             {
-                              getGradsSiteDetails?.fuel_stats?.data[gridIndex]
+                              getGradsSiteDetails?.[gridIndex]
                                 ?.fuel_volume
                             }
                           </span>
@@ -327,15 +333,10 @@ const DashboardGradsComponent = ({
                               {" "}
                               Total Fuel Sales :
                             </strong>
-                            {/* {
-                              getGradsSiteDetails?.fuel_stats?.data[gridIndex]
-                                ?.cards?.total_fuel_sale_value
-                            } */}
                             {
-                              getGradsSiteDetails?.fuel_stats?.data[gridIndex]
+                              getGradsSiteDetails?.[gridIndex]
                                 ?.fuel_value
                             }
-
                           </span>
                         </Col>
 
@@ -359,9 +360,10 @@ const DashboardGradsComponent = ({
                               Gross Margin :
                             </strong>
                             {
-                              getGradsSiteDetails?.fuel_stats?.data[gridIndex]
+                              getGradsSiteDetails?.[gridIndex]
                                 ?.gross_margin
                             }
+
                           </span>
                         </Col>
 
@@ -385,9 +387,10 @@ const DashboardGradsComponent = ({
                               Gross Profit :
                             </strong>
                             {
-                              getGradsSiteDetails?.fuel_stats?.data[gridIndex]
+                              getGradsSiteDetails?.[gridIndex]
                                 ?.gross_profit
                             }
+
                           </span>
                         </Col>
                       </Row>
@@ -404,9 +407,9 @@ const DashboardGradsComponent = ({
                       style={{ maxHeight: "467px", overflowY: "auto" }}
                     >
                       <Row style={{ display: "flex", flexDirection: "column" }}>
-                        {getGradsSiteDetails?.fuel_stats?.data?.[
+                        {getGradsSiteDetails?.[
                           gridIndex
-                        ]?.cards?.card_details?.map((cardDetail, index) => (
+                        ]?.cards?.map((cardDetail, index) => (
                           <Col
                             lg={12}
                             md={12}

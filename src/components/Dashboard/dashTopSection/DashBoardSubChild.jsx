@@ -10,8 +10,8 @@ const DashBoardSubChild = ({
   setGetSiteDetails,
   getCompetitorsPrice,
   setGetCompetitorsPrice,
-  getGradsSiteDetails,
-  setGradsGetSiteDetails
+  // getGradsSiteDetails,
+  // setGradsGetSiteDetails
 }) => {
 
 
@@ -60,8 +60,8 @@ const DashBoardSubChild = ({
           setGetSiteDetails={setGetSiteDetails}
           getCompetitorsPrice={getCompetitorsPrice}
           setGetCompetitorsPrice={setGetCompetitorsPrice}
-          getGradsSiteDetails={getGradsSiteDetails}
-          setGradsGetSiteDetails={setGradsGetSiteDetails}
+        // getGradsSiteDetails={getGradsSiteDetails}
+        // setGradsGetSiteDetails={setGradsGetSiteDetails}
         />
       </div>
     </>

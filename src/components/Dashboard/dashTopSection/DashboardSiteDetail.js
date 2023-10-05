@@ -5,16 +5,18 @@ import DashBoardSubChild from "./DashBoardSubChild";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { useMyContext } from "../../../Utils/MyContext";
 
 const DashboardSiteDetail = (props) => {
   const { isLoading, getData } = props;
+  const { getGradsSiteDetails, setGradsGetSiteDetails, dashboardShopSaleData, setDashboardShopSaleData } = useMyContext();
   const { id } = useParams();
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
   const [getSiteStats, setGetSiteStats] = useState(null);
   const [getSiteDetails, setGetSiteDetails] = useState(null);
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
   const [permissionsArray, setPermissionsArray] = useState([]);
-  const [getGradsSiteDetails, setGradsGetSiteDetails] = useState(null);
+  // const [getGradsSiteDetails, setGradsGetSiteDetails] = useState(null);
 
   const FetchTableData = async () => {
     try {
@@ -75,12 +77,59 @@ const DashboardSiteDetail = (props) => {
       );
       if (response2 && response2.data) {
         setGetSiteDetails(response2?.data?.data);
-        setGradsGetSiteDetails(response2?.data?.data);
+        // setGradsGetSiteDetails(response2?.data?.data);
       } else {
         throw new Error("No data available in the response");
       }
     } catch (error) {
       console.error("API error:", error);
+    }
+    try {
+      if (localStorage.getItem("Dashboardsitestats") === "true") {
+        try {
+          // Attempt to parse JSON data from local storage
+          const searchdata = await JSON.parse(
+            localStorage.getItem("mySearchData")
+          );
+          const superiorRole = localStorage.getItem("superiorRole");
+          const role = localStorage.getItem("role");
+          const localStoragecompanyId = localStorage.getItem("PresetCompanyID");
+          let companyId = ""; // Define companyId outside the conditionals
+
+          if (superiorRole === "Client" && role !== "Client") {
+            // Set companyId based on conditions
+            companyId =
+              searchdata?.company_id !== undefined
+                ? searchdata.company_id
+                : localStoragecompanyId;
+          } else {
+            companyId =
+              searchdata?.company_id !== undefined ? searchdata.company_id : "";
+          }
+
+          // Use async/await to fetch data
+          const response3 = await getData(
+            localStorage.getItem("superiorRole") !== "Client"
+              ? `/dashboard/get-site-fuel-performance?site_id=${id}`
+              : `/dashboard/get-site-fuel-performance?site_id=${id}`
+          );
+
+          if (response3 && response3.data) {
+            setGradsGetSiteDetails(response3?.data?.data);
+            // notify(response3?.data?.message);
+            // setShowModal(false);
+            // setShowDate(true);
+          } else {
+            throw new Error("No data available in the response");
+          }
+          // setGradsLoading(false);
+        } catch (error) {
+          // Handle errors that occur during the asynchronous operations
+          // setGradsLoading(false);
+        }
+      }
+    } catch (error) {
+      // setGradsLoading(false);
     }
   };
   const token = localStorage.getItem("token");
@@ -93,6 +142,7 @@ const DashboardSiteDetail = (props) => {
   });
   const [scrollY, setScrollY] = useState(0);
   const [alertShown, setAlertShown] = useState(false);
+  const [callShopSaleApi, setCallShopSaleApi] = useState(false);
   const [Compititorloading, setCompititorloading] = useState(false);
   const FetchCompititorData = async () => {
     setCompititorloading(true);
@@ -139,6 +189,40 @@ const DashboardSiteDetail = (props) => {
     }
   };
 
+  const FetchShopSaleData = async () => {
+    try {
+      const searchdata = await JSON.parse(localStorage.getItem("mySearchData"));
+      const superiorRole = localStorage.getItem("superiorRole");
+      const role = localStorage.getItem("role");
+      const localStoragecompanyId = localStorage.getItem("PresetCompanyID");
+      let companyId = ""; // Define companyId outside the conditionals
+
+      if (superiorRole === "Client" && role !== "Client") {
+        companyId =
+          searchdata?.company_id !== undefined
+            ? searchdata.company_id
+            : localStoragecompanyId;
+      } else {
+        companyId =
+          searchdata?.company_id !== undefined ? searchdata.company_id : "";
+      }
+      const response2 = await getData(
+        localStorage.getItem("superiorRole") !== "Client"
+          ? `/dashboard/get-site-shop-details?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${id}`
+          : `/dashboard/get-site-shop-details?client_id=${ClientID}&company_id=${companyId}&site_id=${id}`
+      );
+      if (response2 && response2.data) {
+        // setGetSiteDetails(response2?.data?.data);
+        // setGradsGetSiteDetails(response2?.data?.data);
+        setDashboardShopSaleData(response2?.data?.data);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  }
+
   useEffect(() => {
     FetchTableData();
 
@@ -151,6 +235,9 @@ const DashboardSiteDetail = (props) => {
       const currentScrollY = window.scrollY;
       setScrollY(currentScrollY);
 
+      if (currentScrollY > 450 && !alertShown) {
+        setCallShopSaleApi(true)
+      }
       if (currentScrollY > 2800 && !alertShown) {
         setAlertShown(true);
       }
@@ -168,6 +255,10 @@ const DashboardSiteDetail = (props) => {
     if (alertShown) {
       // Call FetchCompititorData when alertShown becomes true
       FetchCompititorData();
+    }
+    if (callShopSaleApi) {
+      // Call FetchCompititorData when alertShown becomes true
+      FetchShopSaleData();
     }
   }, [alertShown]);
 
@@ -191,8 +282,8 @@ const DashboardSiteDetail = (props) => {
           setGetSiteDetails={setGetSiteDetails}
           getCompetitorsPrice={getCompetitorsPrice}
           setGetCompetitorsPrice={setGetCompetitorsPrice}
-          getGradsSiteDetails={getGradsSiteDetails}
-          setGradsGetSiteDetails={setGradsGetSiteDetails}
+        // getGradsSiteDetails={getGradsSiteDetails}
+        // setGradsGetSiteDetails={setGradsGetSiteDetails}
         />
       </div>
     </>
