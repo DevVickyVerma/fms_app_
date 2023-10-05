@@ -1,4 +1,6 @@
 import { Typography } from "@mui/material";
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 import CustomModal from "../../../data/Modal/DashboardSiteDetails";
@@ -32,6 +34,8 @@ const DashTopSubHeading = ({
   getGradsSiteDetails,
   setGradsGetSiteDetails,
 }) => {
+
+
   const dateStr = getSiteDetails?.last_fuel_delivery_stats?.last_day
     ? getSiteDetails.last_fuel_delivery_stats.last_day
     : "";
@@ -169,215 +173,266 @@ const DashTopSubHeading = ({
           ""
         )}
 
-        {/* trial to build*/}
-        <Box
-          display={"flex"}
-          gap={"5px"}
-          justifyContent={"space-between"}
-          alignItems={"center"}
-          flexWrap={"wrap"}
-          bgcolor={"#ffffff"}
-          color={"black"}
-          mb={"38px"}
-          py={"20px"}
-          px={"20px"}
-          boxShadow="0px 10px 10px -5px rgba(0,0,0,0.5)"
-        // position={["unset", "sticky"]}
-        // top={0}
-        // zIndex={1} // Ensure the sticky container overlays other content
-        >
-          {/* LEFT side heading title */}
-          <Box display={"flex"} alignItems={"center"}>
-            <box>
-              {" "}
-              {getSiteDetails?.site_image ? (
-                <img
-                  src={getSiteDetails?.site_image}
-                  alt={getSiteDetails?.site_name}
-                  style={{ width: "50px", height: "50px" }}
-                />
-              ) : (
-                getSiteDetails?.site_name
-              )}
-            </box>
-            <Box>
-              <Typography
-                fontSize={"19px"}
-                fontWeight={500}
-                ml={"7px"}
-                variant="body1"
-              >
-                {getSiteDetails?.site_name ? getSiteDetails?.site_name : ""}
-              </Typography>
-            </Box>
-          </Box>
-          {/* RIGHT side heading title */}
-          <Box gap={"20px"} display={["contents", "flex"]}>
-            {/*   Cash  tracker*/}
-            <Box display={"flex"} flexDirection={"column"} bgcolor={"#ecf0f1"}>
-              <Box
-                my={"4px"}
-                color={"#2d3436"}
-                display={"flex"}
-                justifyContent={"space-between"}
-                alignItems={"center"}
-                px={"13px"}
-              >
+        {/* Header section*/}
+
+        <>
+          <Box
+            display={"flex"}
+            gap={"5px"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+            flexWrap={"wrap"}
+            bgcolor={"#ffffff"}
+            color={"black"}
+            mb={"38px"}
+            py={"20px"}
+            px={"20px"}
+            boxShadow="0px 10px 10px -5px rgba(0,0,0,0.5)"
+
+          // position={["unset", "sticky"]}
+          // top={0}
+          // zIndex={1} // Ensure the sticky container overlays other content
+          >
+            {/* LEFT side heading title */}
+
+            <Box display={"flex"} alignItems={"center"}>
+              <box>
+                {" "}
+                {getSiteStats?.data?.site_image ? (
+                  <img
+                    src={getSiteStats?.data?.site_image}
+                    alt={getSiteStats?.data?.site_image}
+                    style={{ width: "50px", height: "50px" }}
+                  />
+                ) : (
+                  <Skeleton style={{
+                    border: '1px solid #ccc',
+                    display: 'flex',
+                    justifyContent: "center",
+                    alignItems: "center",
+                    lineHeight: 2,
+                    padding: '1rem',
+                    // marginBottom: '0.5rem',
+                    width: '100',
+                    boxShadow: "0px 10px 10px -5px rgba(0,0,0,0.5)",
+                  }}
+                  />
+                )}
+              </box>
+              <Box>
                 <Typography
-                  fontSize={"14px"}
-                  textAlign={"center"}
-                  margin={"auto"}
+                  fontSize={"19px"}
+                  fontWeight={500}
+                  ml={"7px"}
+                  variant="body1"
                 >
-                  Cash Tracker
+                  {getSiteStats?.data?.site_name ? getSiteStats?.data?.site_name : ""}
                 </Typography>
-
-                <span style={{ display: "flex" }}>
-                  <OverlayTrigger
-                    placement="top"
-                    overlay={
-                      <Tooltip
-                        style={{
-                          display: "flex",
-                          alignItems: "flex-start",
-                          justifyContent: "flex-start",
-                        }}
-                      >
-                        {" "}
-                        Security Amount :{" "}
-                        {getSiteStats?.data?.cash_tracker?.security_amount}
-                        <br />
-                        Loomis Day :{" "}
-                        {getSiteStats?.data?.cash_tracker?.last_loomis_day}
-                        <br />
-                        Loomis Date :{" "}
-                        {getSiteStats?.data?.cash_tracker?.last_loomis_date}
-                        <br />
-                      </Tooltip>
-                    }
-                  >
-                    <i
-                      class="fa fa-info-circle"
-                      aria-hidden="true"
-                      style={{ fontSize: "20px" }}
-                    ></i>
-                  </OverlayTrigger>
-                </span>
-              </Box>
-
-              <Box display={"flex"}>
-                <Box>
-                  <Typography
-                    height={"48px"}
-                    width={"140px"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    display={"flex"}
-                    bgcolor={
-                      alertStatus === true ? "#b52d2d" : "rgb(25 122 66)"
-                    }
-                    textAlign={"center"}
-                    py={"2px"}
-                    color={"#dfe6e9"}
-                    fontSize={"14px"}
-                  >
-                    {" "}
-                    {getSiteStats?.data?.cash_tracker?.cash_amount}
-                  </Typography>
-                </Box>
-                {/* Calendar Date With Updated Closing Time */}
               </Box>
             </Box>
-            <Box display={"flex"} flexDirection={"column"} bgcolor={"#ecf0f1"}>
-              <Box
-                my={"4px"}
-                color={"#2d3436"}
-                display={"flex"}
-                justifyContent={"space-between"}
-                alignItems={"center"}
-                px={"13px"}
-              >
-                <Typography fontSize={"14px"}>
-                  Last Day End : {formattedMonthForHeading}
-                </Typography>
-                {localStorage.getItem("SiteDetailsModalShow") === "true" ? (
+
+            {/* RIGHT side heading title */}
+            <Box gap={"20px"} display={["contents", "flex"]}>
+              {/*   Cash  tracker Card*/}
+
+
+              <Box display={"flex"} flexDirection={"column"} bgcolor={"#ecf0f1"}>
+                <Box
+                  my={"4px"}
+                  color={"#2d3436"}
+                  display={"flex"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                  px={"13px"}
+                >
+                  <Typography fontSize={"14px"}>
+                    Cash Tracker
+                  </Typography>
                   <Typography
                     onClick={handleModalOpen}
                     style={{ cursor: "pointer" }}
                   >
-                    <BsCalendarWeek />
-                  </Typography>
-                ) : (
-                  ""
-                )}
-              </Box>
-
-              <Box display={"flex"}>
-                {/* Calendar Date With Updated OPening Time*/}
-                <Box>
-                  <Typography
-                    height={"48px"}
-                    width={"140px"}
-                    position={"relative"}
-                    bgcolor={"rgb(25 122 66)"}
-                    textAlign={"center"}
-                    py={"2px"}
-                    color={"#dfe6e9"}
-                    fontSize={"14px"}
-                  >
-                    {" "}
-                    Opening Time
-                    <Typography
-                      height={"27px"}
-                      width={"100%"}
-                      bgcolor={"rgb(25 122 66)"}
-                      position={"absolute"}
-                      bottom={0}
-                      color={"#dfe6e9"}
-                      textAlign={"center"}
-                      display={"flex"}
-                      justifyContent={"center"}
-                      alignItems={"center"}
-                      fontSize={"14px"}
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={
+                        <Tooltip
+                          style={{
+                            display: "flex",
+                            alignItems: "flex-start",
+                            justifyContent: "flex-start",
+                          }}
+                        >
+                          {" "}
+                          Security Amount :{" "}
+                          {getSiteStats?.data?.cash_tracker?.security_amount}
+                          <br />
+                          Loomis Day :{" "}
+                          {getSiteStats?.data?.cash_tracker?.last_loomis_day}
+                          <br />
+                          Loomis Date :{" "}
+                          {getSiteStats?.data?.cash_tracker?.last_loomis_date}
+                          <br />
+                        </Tooltip>
+                      }
                     >
-                      {formattedDayForOpening}
-                    </Typography>
+                      <i
+                        class="fa fa-info-circle"
+                        aria-hidden="true"
+                        style={{ fontSize: "20px" }}
+                      ></i>
+                    </OverlayTrigger>
                   </Typography>
                 </Box>
-                {/* Calendar Date With Updated Closing Time */}
-                <Box>
-                  <Typography
-                    height={"48px"}
-                    width={"140px"}
-                    position={"relative"}
-                    bgcolor={"#b52d2d"}
-                    textAlign={"center"}
-                    py={"2px"}
-                    color={"#dfe6e9"}
-                    fontSize={"14px"}
-                  >
-                    {" "}
-                    Closing Time
+
+                <Box display={"flex"}>
+                  <Box>
                     <Typography
-                      height={"27px"}
-                      width={"100%"}
-                      bgcolor={"#b52d2d"}
-                      position={"absolute"}
-                      bottom={0}
-                      color={"#dfe6e9"}
+                      height={"48px"}
+                      width={"140px"}
+                      position={"relative"}
+                      bgcolor={"rgb(25 122 66)"}
                       textAlign={"center"}
+                      py={"2px"}
+                      color={"#dfe6e9"}
+                      fontSize={"14px"}
                       display={"flex"}
                       justifyContent={"center"}
                       alignItems={"center"}
+                    >
+                      {" "}
+                      {getSiteStats?.data?.cash_tracker?.cash_amount}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+              <Skeleton style={{
+                // border: '1px solid #ccc',
+                display: 'flex',
+                justifyContent: "center",
+                alignItems: "center",
+                lineHeight: 1,
+                padding: '10px',
+                // marginBottom: '0.5rem',
+                minWidth: '200px',
+                maxHeight: "5px",
+                boxShadow: "0px 10px 10px -5px rgba(0,0,0,0.5)",
+              }}
+                count={2}
+              />
+
+              {/* last day end competitor */}
+              <Box display={"flex"} flexDirection={"column"} bgcolor={"#ecf0f1"}>
+                <Box
+                  my={"4px"}
+                  color={"#2d3436"}
+                  display={"flex"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                  px={"13px"}
+                >
+                  <Typography fontSize={"14px"}>
+                    Last Day End : { }
+                    {/* {formattedMonthForHeading} */}
+
+                    {
+                      getSiteStats?.data?.last_dayend ? moment(getSiteStats?.data?.last_dayend).format("Do MMM") : ""
+                    }
+
+                    {/* {getSiteStats?.data?.last_dayend} */}
+                  </Typography>
+                  {localStorage.getItem("SiteDetailsModalShow") === "true" ? (
+                    <Typography
+                      onClick={handleModalOpen}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <BsCalendarWeek />
+                    </Typography>
+                  ) : (
+                    ""
+                  )}
+                </Box>
+
+                <Box display={"flex"}>
+                  {/* Calendar Date With Updated OPening Time*/}
+                  <Box>
+                    <Typography
+                      height={"48px"}
+                      width={"140px"}
+                      position={"relative"}
+                      bgcolor={"rgb(25 122 66)"}
+                      textAlign={"center"}
+                      py={"2px"}
+                      color={"#dfe6e9"}
                       fontSize={"14px"}
                     >
-                      {formattedDayForClosing}
+                      {" "}
+                      Opening Time
+                      <Typography
+                        height={"27px"}
+                        width={"100%"}
+                        bgcolor={"rgb(25 122 66)"}
+                        position={"absolute"}
+                        bottom={0}
+                        color={"#dfe6e9"}
+                        textAlign={"center"}
+                        display={"flex"}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        fontSize={"14px"}
+                      >
+                        {/* {formattedDayForOpening} */}
+                        {
+                          getSiteStats?.data?.opening ? moment(getSiteStats?.data?.opening).format("Do MMM, HH:mm") : ""
+                        }
+                      </Typography>
                     </Typography>
-                  </Typography>
+                  </Box>
+                  {/* Calendar Date With Updated Closing Time */}
+                  <Box>
+                    <Typography
+                      height={"48px"}
+                      width={"140px"}
+                      position={"relative"}
+                      bgcolor={"#b52d2d"}
+                      textAlign={"center"}
+                      py={"2px"}
+                      color={"#dfe6e9"}
+                      fontSize={"14px"}
+                    >
+                      {" "}
+                      Closing Time
+                      <Typography
+                        height={"27px"}
+                        width={"100%"}
+                        bgcolor={"#b52d2d"}
+                        position={"absolute"}
+                        bottom={0}
+                        color={"#dfe6e9"}
+                        textAlign={"center"}
+                        display={"flex"}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        fontSize={"14px"}
+                      >
+                        {/* {formattedDayForClosing} */}
+                        {
+                          getSiteStats?.data?.closing ? moment(getSiteStats?.data?.closing).format("Do MMM, HH:mm") : ""
+                        }
+                      </Typography>
+                    </Typography>
+                  </Box>
                 </Box>
               </Box>
             </Box>
           </Box>
-        </Box>
+
+        </>
+
+
+
+
+
+
 
         {/* dashboard site Top section */}
         <DashboardSiteTopSection />
