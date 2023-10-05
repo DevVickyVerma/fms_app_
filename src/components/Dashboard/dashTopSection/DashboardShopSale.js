@@ -84,8 +84,8 @@ const DashboardShopSale = ({
     try {
       const response = await axiosInstance.get(
         showDate
-          ? `/dashboard/get-site-shop-performance&site_id=${id}&category_id=${item.id}?start_date=${startDate}&end_date=${endDate}`
-          : `/dashboard/get-site-shop-performance&site_id=${id}&category_id=${item.id}`
+          ? `dashboard/get-site-shop-performance?site_id=${id}&category_id=${item.id}&start_date=${startDate}&end_date=${endDate}`
+          : `dashboard/get-site-shop-performance?site_id=${id}&category_id=${item.id}`
       );
       if (response.data) {
         setShopPerformanceData(response?.data?.data);
