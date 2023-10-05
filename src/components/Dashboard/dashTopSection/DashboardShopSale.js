@@ -35,7 +35,12 @@ const DashboardShopSale = ({
   const [startDatePath, setStartDatePath] = useState("");
   const [endDatePath, setEndDatePath] = useState("");
   const Errornotify = (message) => toast.error(message);
-  const { getGradsSiteDetails, setGradsGetSiteDetails, dashboardShopSaleData, setDashboardShopSaleData } = useMyContext();
+  const {
+    getGradsSiteDetails,
+    setGradsGetSiteDetails,
+    dashboardShopSaleData,
+    setDashboardShopSaleData,
+  } = useMyContext();
 
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -65,7 +70,6 @@ const DashboardShopSale = ({
     };
   }, [windowWidth]);
 
-
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -79,9 +83,9 @@ const DashboardShopSale = ({
 
     try {
       const response = await axiosInstance.get(
-        showDate ?
-          `/dashboard/get-site-shop-performance&site_id=${id}&category_id=${item.id}?start_date=${startDate}&end_date=${endDate}` :
-          `/ dashboard / get - site - shop - performance & site_id=${id}& category_id=${item.id} `
+        showDate
+          ? `/dashboard/get-site-shop-performance&site_id=${id}&category_id=${item.id}?start_date=${startDate}&end_date=${endDate}`
+          : `/ dashboard / get - site - shop - performance & site_id=${id}& category_id=${item.id} `
       );
       if (response.data) {
         setShopPerformanceData(response?.data?.data);
@@ -316,10 +320,10 @@ const DashboardShopSale = ({
           setStartDatePath(startDate);
           setEndDatePath(endDate);
           if (response3 && response3.data) {
-            setDashboardShopSaleData(response3?.data?.data)
+            setDashboardShopSaleData(response3?.data?.data);
             // setGradsGetSiteDetails(response3?.data?.data);
             notify(response3?.data?.message);
-            setShowModal(false);
+            setShowCalenderModal(false);
             setShowDate(true);
           } else {
             throw new Error("No data available in the response");
@@ -363,9 +367,8 @@ const DashboardShopSale = ({
                 <MdOutlineCalendarMonth />{" "}
                 {showDate && getSiteStats?.data
                   ? `${moment(startDatePath).format("Do MMM")} - ${moment(
-                    endDatePath
-                  ).format("Do MMM")
-                  } `
+                      endDatePath
+                    ).format("Do MMM")} `
                   : moment(getSiteStats?.data?.last_dayend).format("MMM Do")}
                 <SortIcon />{" "}
               </button>
@@ -405,13 +408,12 @@ const DashboardShopSale = ({
         </Col>
       </Row>
 
-
       <Modal
         show={showCalenderModal}
         onHide={handleCloseModal}
         centered
         className="custom-modal-width custom-modal-height"
-      // style={{ overflow: "auto" }}
+        // style={{ overflow: "auto" }}
       >
         <div
           class="modal-header"
@@ -488,10 +490,11 @@ const DashboardShopSale = ({
                                       min={getFirstDayOfPreviousMonth()}
                                       max={getCurrentDate()}
                                       onClick={handleShowDate}
-                                      className={`input101 ${errors.start_date && touched.start_date
-                                        ? "is-invalid"
-                                        : ""
-                                        } `}
+                                      className={`input101 ${
+                                        errors.start_date && touched.start_date
+                                          ? "is-invalid"
+                                          : ""
+                                      } `}
                                       id="start_date"
                                       name="start_date"
                                       onChange={(e) => {
@@ -523,10 +526,11 @@ const DashboardShopSale = ({
                                       min={state.startDate}
                                       max={getCurrentDate()}
                                       onClick={handleShowDate1}
-                                      className={`input101 ${errors.end_date && touched.end_date
-                                        ? "is-invalid"
-                                        : ""
-                                        } `}
+                                      className={`input101 ${
+                                        errors.end_date && touched.end_date
+                                          ? "is-invalid"
+                                          : ""
+                                      } `}
                                       id="end_date"
                                       name="end_date"
                                       onChange={(e) => {

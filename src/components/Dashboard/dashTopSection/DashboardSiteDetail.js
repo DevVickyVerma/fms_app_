@@ -9,7 +9,12 @@ import { useMyContext } from "../../../Utils/MyContext";
 
 const DashboardSiteDetail = (props) => {
   const { isLoading, getData } = props;
-  const { getGradsSiteDetails, setGradsGetSiteDetails, dashboardShopSaleData, setDashboardShopSaleData } = useMyContext();
+  const {
+    getGradsSiteDetails,
+    setGradsGetSiteDetails,
+    dashboardShopSaleData,
+    setDashboardShopSaleData,
+  } = useMyContext();
   const { id } = useParams();
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
   const [getSiteStats, setGetSiteStats] = useState(null);
@@ -221,7 +226,7 @@ const DashboardSiteDetail = (props) => {
     } catch (error) {
       console.error("API error:", error);
     }
-  }
+  };
 
   useEffect(() => {
     FetchTableData();
@@ -235,32 +240,32 @@ const DashboardSiteDetail = (props) => {
       const currentScrollY = window.scrollY;
       setScrollY(currentScrollY);
 
-      if (currentScrollY > 450 && !alertShown) {
-        setCallShopSaleApi(true)
+      if (currentScrollY > 450 && !callShopSaleApi) {
+        setCallShopSaleApi(true);
       }
       if (currentScrollY > 2800 && !alertShown) {
         setAlertShown(true);
       }
     }
 
-    // Attach the event listener to the window
     window.addEventListener("scroll", handleScroll);
 
-    // Clean up the event listener when the component unmounts
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [alertShown]);
+  }, [alertShown, callShopSaleApi]);
   useEffect(() => {
     if (alertShown) {
       // Call FetchCompititorData when alertShown becomes true
       FetchCompititorData();
     }
+  }, [alertShown]);
+  useEffect(() => {
     if (callShopSaleApi) {
       // Call FetchCompititorData when alertShown becomes true
       FetchShopSaleData();
     }
-  }, [alertShown]);
+  }, [callShopSaleApi]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
@@ -282,8 +287,8 @@ const DashboardSiteDetail = (props) => {
           setGetSiteDetails={setGetSiteDetails}
           getCompetitorsPrice={getCompetitorsPrice}
           setGetCompetitorsPrice={setGetCompetitorsPrice}
-        // getGradsSiteDetails={getGradsSiteDetails}
-        // setGradsGetSiteDetails={setGradsGetSiteDetails}
+          // getGradsSiteDetails={getGradsSiteDetails}
+          // setGradsGetSiteDetails={setGradsGetSiteDetails}
         />
       </div>
     </>
