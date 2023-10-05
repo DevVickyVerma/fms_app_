@@ -1,6 +1,4 @@
 import { Typography } from "@mui/material";
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 import CustomModal from "../../../data/Modal/DashboardSiteDetails";
@@ -205,18 +203,7 @@ const DashTopSubHeading = ({
                     style={{ width: "50px", height: "50px" }}
                   />
                 ) : (
-                  <Skeleton style={{
-                    border: '1px solid #ccc',
-                    display: 'flex',
-                    justifyContent: "center",
-                    alignItems: "center",
-                    lineHeight: 2,
-                    padding: '1rem',
-                    // marginBottom: '0.5rem',
-                    width: '100',
-                    boxShadow: "0px 10px 10px -5px rgba(0,0,0,0.5)",
-                  }}
-                  />
+                  ""
                 )}
               </box>
               <Box>
@@ -305,20 +292,7 @@ const DashTopSubHeading = ({
                   </Box>
                 </Box>
               </Box>
-              <Skeleton style={{
-                // border: '1px solid #ccc',
-                display: 'flex',
-                justifyContent: "center",
-                alignItems: "center",
-                lineHeight: 1,
-                padding: '10px',
-                // marginBottom: '0.5rem',
-                minWidth: '200px',
-                maxHeight: "5px",
-                boxShadow: "0px 10px 10px -5px rgba(0,0,0,0.5)",
-              }}
-                count={2}
-              />
+
 
               {/* last day end competitor */}
               <Box display={"flex"} flexDirection={"column"} bgcolor={"#ecf0f1"}>
