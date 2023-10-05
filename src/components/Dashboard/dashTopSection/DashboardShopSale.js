@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Col, Form, FormGroup, Modal, Row } from "react-bootstrap";
 import { AiFillEye } from "react-icons/ai";
 import DashboardShopSaleCenterModal from "./DashboardShopSaleCenterModal";
@@ -14,6 +14,7 @@ import { subMonths, startOfMonth, format } from "date-fns";
 import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
 import { DateRangePicker } from "react-date-range";
+import withApi from "../../../Utils/ApiHelper";
 const DashboardShopSale = ({
   getData,
   getGradsSiteDetails,
@@ -22,6 +23,7 @@ const DashboardShopSale = ({
 }) => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [showCalenderModal, setShowCalenderModal] = useState(false);
   const [shopPerformanceData, setShopPerformanceData] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
@@ -46,6 +48,20 @@ const DashboardShopSale = ({
     }
   }
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  // Update windowWidth when the window is resized
+  useEffect(() => {
+    function handleResize() {
+      setWindowWidth(window.innerWidth);
+    }
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [windowWidth]);
+
+
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -73,7 +89,8 @@ const DashboardShopSale = ({
     setIsLoading(false);
   };
   const handleDateOpenModal = () => {
-    setShowModal(true);
+    // setShowModal(true);
+    setShowCalenderModal(true);
   };
   console.clear();
 
@@ -200,6 +217,7 @@ const DashboardShopSale = ({
   };
   const handleCloseModal = () => {
     setShowModal(false);
+    setShowCalenderModal(false);
   };
 
   const [state, setState] = useState([
@@ -251,6 +269,7 @@ const DashboardShopSale = ({
   };
 
   const fetchData = async (values) => {
+    console.log(setGradsLoading, "yesssssss");
     setGradsLoading(true);
     try {
       if (localStorage.getItem("Dashboardsitestats") === "true") {
@@ -330,8 +349,8 @@ const DashboardShopSale = ({
                 <MdOutlineCalendarMonth />{" "}
                 {showDate
                   ? `${moment(startDatePath).format("Do MMM")} - ${moment(
-                      endDatePath
-                    ).format("Do MMM")}`
+                    endDatePath
+                  ).format("Do MMM")}`
                   : moment(getSiteDetails?.last_day_end).format("MMM Do")}
                 <SortIcon />{" "}
               </button>
@@ -370,12 +389,14 @@ const DashboardShopSale = ({
           </Card>
         </Col>
       </Row>
+
+
       <Modal
-        show={showModal}
+        show={showCalenderModal}
         onHide={handleCloseModal}
         centered
         className="custom-modal-width custom-modal-height"
-        // style={{ overflow: "auto" }}
+      // style={{ overflow: "auto" }}
       >
         <div
           class="modal-header"
@@ -452,11 +473,10 @@ const DashboardShopSale = ({
                                       min={getFirstDayOfPreviousMonth()}
                                       max={getCurrentDate()}
                                       onClick={handleShowDate}
-                                      className={`input101 ${
-                                        errors.start_date && touched.start_date
-                                          ? "is-invalid"
-                                          : ""
-                                      }`}
+                                      className={`input101 ${errors.start_date && touched.start_date
+                                        ? "is-invalid"
+                                        : ""
+                                        }`}
                                       id="start_date"
                                       name="start_date"
                                       onChange={(e) => {
@@ -488,11 +508,10 @@ const DashboardShopSale = ({
                                       min={state.startDate}
                                       max={getCurrentDate()}
                                       onClick={handleShowDate1}
-                                      className={`input101 ${
-                                        errors.end_date && touched.end_date
-                                          ? "is-invalid"
-                                          : ""
-                                      }`}
+                                      className={`input101 ${errors.end_date && touched.end_date
+                                        ? "is-invalid"
+                                        : ""
+                                        }`}
                                       id="end_date"
                                       name="end_date"
                                       onChange={(e) => {
@@ -567,4 +586,4 @@ const DashboardShopSale = ({
   );
 };
 
-export default DashboardShopSale;
+export default withApi(DashboardShopSale);
