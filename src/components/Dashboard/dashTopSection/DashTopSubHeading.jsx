@@ -32,8 +32,6 @@ const DashTopSubHeading = ({
   getGradsSiteDetails,
   setGradsGetSiteDetails,
 }) => {
-
-
   const dateStr = getSiteDetails?.last_fuel_delivery_stats?.last_day
     ? getSiteDetails.last_fuel_delivery_stats.last_day
     : "";
@@ -47,11 +45,9 @@ const DashTopSubHeading = ({
   const stackedLineBarLabelsForSite =
     getSiteDetails?.performance_reporting?.labels;
 
-
   const [formattedDayForOpening, setFormattedDayForOpening] = useState("");
   const [formattedDayForClosing, setFormattedDayForClosing] = useState("");
   const [formattedMonthForHeading, setFormattedMonthForHeading] = useState("");
-
 
   useEffect(() => {
     const LastDayEndTimeString = getSiteDetails?.last_day_end;
@@ -85,7 +81,6 @@ const DashTopSubHeading = ({
       setFormattedDayForOpening(formattedOpeningTimeForSite);
       setFormattedMonthForHeading(formattedMonthForHeading);
     } else {
-
     }
   }, [getSiteDetails]);
 
@@ -186,13 +181,7 @@ const DashTopSubHeading = ({
             py={"20px"}
             px={"20px"}
             boxShadow="0px 10px 10px -5px rgba(0,0,0,0.5)"
-
-          // position={["unset", "sticky"]}
-          // top={0}
-          // zIndex={1} // Ensure the sticky container overlays other content
           >
-            {/* LEFT side heading title */}
-
             <Box display={"flex"} alignItems={"center"}>
               <box>
                 {" "}
@@ -203,7 +192,7 @@ const DashTopSubHeading = ({
                     style={{ width: "50px", height: "50px" }}
                   />
                 ) : (
-                  ""
+                  <span class="Smallloader"></span>
                 )}
               </box>
               <Box>
@@ -213,7 +202,11 @@ const DashTopSubHeading = ({
                   ml={"7px"}
                   variant="body1"
                 >
-                  {getSiteStats?.data?.site_name ? getSiteStats?.data?.site_name : ""}
+                  {getSiteStats?.data?.site_name ? (
+                    getSiteStats?.data?.site_name
+                  ) : (
+                    <span class="Smallloader"></span>
+                  )}
                 </Typography>
               </Box>
             </Box>
@@ -222,8 +215,11 @@ const DashTopSubHeading = ({
             <Box gap={"20px"} display={["contents", "flex"]}>
               {/*   Cash  tracker Card*/}
 
-
-              <Box display={"flex"} flexDirection={"column"} bgcolor={"#ecf0f1"}>
+              <Box
+                display={"flex"}
+                flexDirection={"column"}
+                bgcolor={"#ecf0f1"}
+              >
                 <Box
                   my={"4px"}
                   color={"#2d3436"}
@@ -232,9 +228,7 @@ const DashTopSubHeading = ({
                   alignItems={"center"}
                   px={"13px"}
                 >
-                  <Typography fontSize={"14px"}>
-                    Cash Tracker
-                  </Typography>
+                  <Typography fontSize={"14px"}>Cash Tracker</Typography>
                   <Typography
                     onClick={handleModalOpen}
                     style={{ cursor: "pointer" }}
@@ -287,15 +281,22 @@ const DashTopSubHeading = ({
                       alignItems={"center"}
                     >
                       {" "}
-                      {getSiteStats?.data?.cash_tracker?.cash_amount}
+                      {getSiteStats?.data?.cash_tracker?.cash_amount ? (
+                        getSiteStats.data.cash_tracker.cash_amount
+                      ) : (
+                        <span class="Smallloader"></span>
+                      )}
                     </Typography>
                   </Box>
                 </Box>
               </Box>
 
-
               {/* last day end competitor */}
-              <Box display={"flex"} flexDirection={"column"} bgcolor={"#ecf0f1"}>
+              <Box
+                display={"flex"}
+                flexDirection={"column"}
+                bgcolor={"#ecf0f1"}
+              >
                 <Box
                   my={"4px"}
                   color={"#2d3436"}
@@ -305,13 +306,13 @@ const DashTopSubHeading = ({
                   px={"13px"}
                 >
                   <Typography fontSize={"14px"}>
-                    Last Day End : { }
+                    Last Day End : {}
                     {/* {formattedMonthForHeading} */}
-
-                    {
-                      getSiteStats?.data?.last_dayend ? moment(getSiteStats?.data?.last_dayend).format("Do MMM") : ""
-                    }
-
+                    {getSiteStats?.data?.last_dayend ? (
+                      moment(getSiteStats?.data?.last_dayend).format("Do MMM")
+                    ) : (
+                      <span class="Smallloader"></span>
+                    )}
                     {/* {getSiteStats?.data?.last_dayend} */}
                   </Typography>
                   {localStorage.getItem("SiteDetailsModalShow") === "true" ? (
@@ -322,7 +323,7 @@ const DashTopSubHeading = ({
                       <BsCalendarWeek />
                     </Typography>
                   ) : (
-                    ""
+                    <span class="Smallloader"></span>
                   )}
                 </Box>
 
@@ -355,9 +356,13 @@ const DashTopSubHeading = ({
                         fontSize={"14px"}
                       >
                         {/* {formattedDayForOpening} */}
-                        {
-                          getSiteStats?.data?.opening ? moment(getSiteStats?.data?.opening).format("Do MMM, HH:mm") : ""
-                        }
+                        {getSiteStats?.data?.opening ? (
+                          moment(getSiteStats?.data?.opening).format(
+                            "Do MMM, HH:mm"
+                          )
+                        ) : (
+                          <span class="Smallloader"></span>
+                        )}
                       </Typography>
                     </Typography>
                   </Box>
@@ -389,9 +394,13 @@ const DashTopSubHeading = ({
                         fontSize={"14px"}
                       >
                         {/* {formattedDayForClosing} */}
-                        {
-                          getSiteStats?.data?.closing ? moment(getSiteStats?.data?.closing).format("Do MMM, HH:mm") : ""
-                        }
+                        {getSiteStats?.data?.closing ? (
+                          moment(getSiteStats?.data?.closing).format(
+                            "Do MMM, HH:mm"
+                          )
+                        ) : (
+                          <span class="Smallloader"></span>
+                        )}
                       </Typography>
                     </Typography>
                   </Box>
@@ -399,14 +408,7 @@ const DashTopSubHeading = ({
               </Box>
             </Box>
           </Box>
-
         </>
-
-
-
-
-
-
 
         {/* dashboard site Top section */}
         <DashboardSiteTopSection />
@@ -445,9 +447,11 @@ const DashTopSubHeading = ({
               >
                 <strong style={{ fontWeight: 700 }}>
                   {" "}
-                  {moment(MonthLastDelivery, "MMM").isValid()
-                    ? MonthLastDelivery
-                    : ""}
+                  {moment(MonthLastDelivery, "MMM").isValid() ? (
+                    MonthLastDelivery
+                  ) : (
+                    <span class="Smallloader"></span>
+                  )}
                 </strong>
                 <Typography
                   height={"27px"}
@@ -463,7 +467,11 @@ const DashTopSubHeading = ({
                   justifyContent={"center"}
                   alignItems={"center"}
                 >
-                  {moment(day, "DD").isValid() ? day : ""}
+                  {moment(day, "DD").isValid() ? (
+                    day
+                  ) : (
+                    <span class="Smallloader"></span>
+                  )}
                 </Typography>
               </Typography>
               <Box variant="body1">
@@ -518,7 +526,6 @@ const DashTopSubHeading = ({
 
       {/* new Shop sale */}
       <DashboardShopSale getSiteDetails={getSiteDetails} />
-
 
       {/* tank analysis */}
       <Row
@@ -590,8 +597,6 @@ const DashTopSubHeading = ({
           </Card>
         </Col>
       </Row>
-
-
 
       <Row
         style={{
