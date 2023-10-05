@@ -21,8 +21,8 @@ const DashBoardSubChild = ({
         <div className="page-header ">
           <div>
             <h1 className="page-title">
-              {getSiteDetails?.site_name
-                ? getSiteDetails?.site_name
+              {getSiteStats?.data?.site_name
+                ? getSiteStats?.data?.site_name
                 : "DashBoard Site details"}
             </h1>
             <Breadcrumb className="breadcrumb">
@@ -44,8 +44,8 @@ const DashBoardSubChild = ({
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                {getSiteDetails?.site_name
-                  ? getSiteDetails?.site_name
+                {getSiteStats?.data?.site_name
+                  ? getSiteStats?.data?.site_name
                   : "DashBoard Site details"}
               </Breadcrumb.Item>
             </Breadcrumb>
