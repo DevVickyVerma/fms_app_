@@ -120,7 +120,7 @@ const DashboardSiteDetail = (props) => {
         // Use async/await to fetch data
         const response3 = await axiosInstance.get(
           localStorage.getItem("superiorRole") !== "Client"
-            ? `/dashboard/get-competitorddds-price?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${id}`
+            ? `/dashboard/get-competitors-price?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${id}`
             : `/dashboard/get-competitors-price?client_id=${ClientID}&company_id=${companyId}&site_id=${id}`
         );
 
@@ -152,8 +152,7 @@ const DashboardSiteDetail = (props) => {
       setScrollY(currentScrollY);
 
       if (currentScrollY > 2800 && !alertShown) {
-        FetchCompititorData();
-        setAlertShown(true); // Set the alertShown state to true to prevent further alerts
+        setAlertShown(true);
       }
     }
 
@@ -164,6 +163,12 @@ const DashboardSiteDetail = (props) => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
+  }, [alertShown]);
+  useEffect(() => {
+    if (alertShown) {
+      // Call FetchCompititorData when alertShown becomes true
+      FetchCompititorData();
+    }
   }, [alertShown]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -177,7 +182,7 @@ const DashboardSiteDetail = (props) => {
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
-      {/* {Compititorloading ? alert("hi") : null} */}
+      {Compititorloading ? console.log("hi") : null}
       <div className="overflow-container">
         <DashBoardSubChild
           getSiteStats={getSiteStats}
