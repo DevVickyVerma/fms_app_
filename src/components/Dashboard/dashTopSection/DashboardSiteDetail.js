@@ -4,6 +4,7 @@ import withApi from "../../../Utils/ApiHelper";
 import DashBoardSubChild from "./DashBoardSubChild";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const DashboardSiteDetail = (props) => {
   const { isLoading, getData } = props;
@@ -81,11 +82,22 @@ const DashboardSiteDetail = (props) => {
     } catch (error) {
       console.error("API error:", error);
     }
+  };
+  const token = localStorage.getItem("token");
 
-    // 3rd api
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const [scrollY, setScrollY] = useState(0);
+  const [alertShown, setAlertShown] = useState(false);
+  const [Compititorloading, setCompititorloading] = useState(false);
+  const FetchCompititorData = async () => {
+    setCompititorloading(true);
     if (localStorage.getItem("Dashboardsitestats") === "true") {
       try {
-        // Attempt to parse JSON data from local storage
         const searchdata = await JSON.parse(
           localStorage.getItem("mySearchData")
         );
@@ -106,14 +118,13 @@ const DashboardSiteDetail = (props) => {
         }
 
         // Use async/await to fetch data
-        const response3 = await getData(
+        const response3 = await axiosInstance.get(
           localStorage.getItem("superiorRole") !== "Client"
-            ? `/dashboard/get-competitors-price?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${id}`
+            ? `/dashboard/get-competitorddds-price?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${id}`
             : `/dashboard/get-competitors-price?client_id=${ClientID}&company_id=${companyId}&site_id=${id}`
         );
 
         if (response3 && response3.data) {
-          // Set data using setGetCompetitorsPrice
           setGetCompetitorsPrice(response3?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -121,14 +132,39 @@ const DashboardSiteDetail = (props) => {
       } catch (error) {
         // Handle errors that occur during the asynchronous operations
         console.error("API error:", error);
+      } finally {
+        // Set Compititorloading to false when the request is complete (whether successful or not)
+        setCompititorloading(false);
       }
     }
   };
 
   useEffect(() => {
     FetchTableData();
+
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    // Function to update scrollY when scrolling occurs
+    function handleScroll() {
+      const currentScrollY = window.scrollY;
+      setScrollY(currentScrollY);
+
+      if (currentScrollY > 2800 && !alertShown) {
+        FetchCompititorData();
+        setAlertShown(true); // Set the alertShown state to true to prevent further alerts
+      }
+    }
+
+    // Attach the event listener to the window
+    window.addEventListener("scroll", handleScroll);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [alertShown]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
@@ -138,18 +174,11 @@ const DashboardSiteDetail = (props) => {
     }
   }, [UserPermissions]);
 
-  const headerHeight = 135;
-
-  const containerStyles = {
-    // overflowY: "scroll", // or 'auto'
-    // overflowX: "hidden", // or 'auto'
-    // maxHeight: `calc(100vh - ${headerHeight}px)`,
-  };
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
-      <div className="overflow-container" style={containerStyles}>
+      {/* {Compititorloading ? alert("hi") : null} */}
+      <div className="overflow-container">
         <DashBoardSubChild
           getSiteStats={getSiteStats}
           setGetSiteStats={setGetSiteStats}
