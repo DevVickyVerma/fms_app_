@@ -203,7 +203,7 @@ const DashTopSubHeading = ({
                   {getSiteStats?.data?.site_name ? (
                     getSiteStats?.data?.site_name
                   ) : (
-                    <span class="Smallloader"></span>
+                    ""
                   )}
                 </Typography>
               </Box>
