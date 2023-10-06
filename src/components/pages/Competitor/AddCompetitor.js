@@ -16,7 +16,7 @@ const AddCompetitor = (props) => {
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
   const [selectedSiteId, setSelectedSiteId] = useState("");
-  const [AddSiteData, setAddSiteData] = useState([]);
+
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [SupplierData, setSupplierData] = useState({});
 
@@ -423,7 +423,7 @@ const AddCompetitor = (props) => {
                     <Col lg={4} md={6}>
                       <div className="form-group">
                         <label className="form-label mt-4" htmlFor="postcode">
-                          Post Code<span className="text-danger">*</span>
+                          Post Code
                         </label>
                         <input
                           type="text"
@@ -449,7 +449,7 @@ const AddCompetitor = (props) => {
                     <Col lg={4} md={6}>
                       <div className="form-group">
                         <label className="form-label mt-4" htmlFor="cat_no">
-                          Category No<span className="text-danger">*</span>
+                          Category No
                         </label>
                         <input
                           type="number"
