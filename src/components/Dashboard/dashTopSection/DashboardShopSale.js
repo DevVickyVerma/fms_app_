@@ -244,7 +244,7 @@ const DashboardShopSale = ({
     },
   ]);
   // const minDate = startOfMonth(subMonths(new Date(), 1)); // 1st day of the previous month
-  const minDate = new Date("2023-09-01")
+  const minDate = new Date("2023-09-30")
   const maxDate = getSiteStats?.data?.last_dayend
     ? new Date(getSiteStats.data.last_dayend)
     : new Date();
