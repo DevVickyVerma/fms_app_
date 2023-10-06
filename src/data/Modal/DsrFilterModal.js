@@ -137,6 +137,10 @@ const WorkflowExceptionFilter = (props) => {
   const handleCloseModal = () => {
     onClose(); // Call the onClose function passed as a prop
   };
+  const handleShowDate = () => {
+    const inputDateElement = document.querySelector("#start_date");
+    inputDateElement.showPicker();
+  };
   return (
     <>
       {/* Wrap your modal content with Modal component */}
@@ -171,11 +175,12 @@ const WorkflowExceptionFilter = (props) => {
               client_name: "",
               company_id: "",
               site_id: "",
+              start_date: "",
             }}
-            validationSchema={Yup.object({
-              company_id: Yup.string().required("Company is required"),
-              site_id: Yup.string().required("Site is required"),
-            })}
+            // validationSchema={Yup.object({
+            //   company_id: Yup.string().required("Company is required"),
+            //   site_id: Yup.string().required("Site is required"),
+            // })}
             onSubmit={(values) => {
               console.log(values);
               onformSubmit(values);
@@ -186,14 +191,13 @@ const WorkflowExceptionFilter = (props) => {
                 <Card.Body>
                   <Row>
                     {localStorage.getItem("superiorRole") !== "Client" && (
-                      <Col lg={12} md={12}>
+                      <Col lg={6} md={6}>
                         <FormGroup>
                           <label
                             htmlFor="client_id"
                             className=" form-label mt-4"
                           >
                             Client
-                            <span className="text-danger">*</span>
                           </label>
                           <Field
                             as="select"
@@ -257,7 +261,6 @@ const WorkflowExceptionFilter = (props) => {
                       <FormGroup>
                         <label htmlFor="company_id" className="form-label mt-4">
                           Company
-                          <span className="text-danger">*</span>
                         </label>
                         <Field
                           as="select"
@@ -316,6 +319,7 @@ const WorkflowExceptionFilter = (props) => {
                         <label htmlFor="site_id" className="form-label mt-4">
                           Site
                         </label>
+
                         <Field
                           as="select"
                           className={`input101 ${
@@ -355,6 +359,35 @@ const WorkflowExceptionFilter = (props) => {
                           component="div"
                           className="invalid-feedback"
                           name="site_id"
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col lg={6} md={6}>
+                      <FormGroup>
+                        <label htmlFor="start_date" className="form-label mt-4">
+                          Start Date
+                        </label>
+                        <Field
+                          type="date"
+                          min={"2023-01-01"}
+                          className={`input101 ${
+                            errors.start_date && touched.start_date
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          onChange={(e) => {
+                            const selectedstart_date = e.target.value;
+
+                            setFieldValue("start_date", selectedstart_date);
+                          }}
+                          id="start_date"
+                          name="start_date"
+                          onClick={handleShowDate}
+                        ></Field>
+                        <ErrorMessage
+                          component="div"
+                          className="invalid-feedback"
+                          name="start_date"
                         />
                       </FormGroup>
                     </Col>

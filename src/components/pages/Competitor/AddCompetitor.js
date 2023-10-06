@@ -78,6 +78,10 @@ const AddCompetitor = (props) => {
       supplier_id: "",
       status: "",
       competitor_Address: "",
+      cat_no: "",
+      postcode: "",
+      dist_miles: "",
+      main_code: "",
     },
     validationSchema: Yup.object({
       // client_id: Yup.string().required("Client is required"),
@@ -142,6 +146,10 @@ const AddCompetitor = (props) => {
       formData.append("site_id", values.site_id);
       formData.append("address", values.competitor_Address);
       formData.append("supplier_id", values.supplier_id);
+      formData.append("postcode", values.postcode);
+      formData.append("main_code", values.main_code);
+      formData.append("dist_miles", values.dist_miles);
+      formData.append("cat_no", values.cat_no);
 
       const postDataUrl = "/site/competitor/add";
       const navigatePath = "/competitor";
@@ -412,32 +420,113 @@ const AddCompetitor = (props) => {
                           )}
                       </div>
                     </Col>
-                    {/* <Col lg={4} md={6}>
-                                            <div className="form-group">
-                                                <label htmlFor="status" className="form-label mt-4">
-                                                    Status<span className="text-danger">*</span>
-                                                </label>
-                                                <select
-                                                    className={`input101 ${formik.errors.status && formik.touched.status
-                                                        ? "is-invalid"
-                                                        : ""
-                                                        }`}
-                                                    id="status"
-                                                    name="status"
-                                                    onChange={formik.handleChange}
-                                                    value={formik.values.status}
-                                                >
-                                                    <option value="">Please Select Status</option>
-                                                    <option value="1">Active</option>
-                                                    <option value="0">Inactive</option>
-                                                </select>
-                                                {formik.errors.status && formik.touched.status && (
-                                                    <div className="invalid-feedback">
-                                                        {formik.errors.status}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </Col> */}
+                    <Col lg={4} md={6}>
+                      <div className="form-group">
+                        <label className="form-label mt-4" htmlFor="postcode">
+                          Post Code<span className="text-danger">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          autoComplete="off"
+                          className={`input101 ${
+                            formik.errors.postcode && formik.touched.postcode
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          id="postcode"
+                          name="postcode"
+                          placeholder="Post Code"
+                          onChange={formik.handleChange}
+                          value={formik.values.postcode}
+                        />
+                        {formik.errors.postcode && formik.touched.postcode && (
+                          <div className="invalid-feedback">
+                            {formik.errors.postcode}
+                          </div>
+                        )}
+                      </div>
+                    </Col>
+                    <Col lg={4} md={6}>
+                      <div className="form-group">
+                        <label className="form-label mt-4" htmlFor="cat_no">
+                          Category No<span className="text-danger">*</span>
+                        </label>
+                        <input
+                          type="number"
+                          autoComplete="off"
+                          className={`input101 ${
+                            formik.errors.cat_no && formik.touched.cat_no
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          id="cat_no"
+                          name="cat_no"
+                          placeholder="Category No"
+                          onChange={formik.handleChange}
+                          value={formik.values.cat_no}
+                        />
+                        {formik.errors.cat_no && formik.touched.cat_no && (
+                          <div className="invalid-feedback">
+                            {formik.errors.cat_no}
+                          </div>
+                        )}
+                      </div>
+                    </Col>
+                    <Col lg={4} md={6}>
+                      <div className="form-group">
+                        <label className="form-label mt-4" htmlFor="dist_miles">
+                          Dist Miles
+                        </label>
+                        <input
+                          type="number"
+                          autoComplete="off"
+                          className={`input101 ${
+                            formik.errors.dist_miles &&
+                            formik.touched.dist_miles
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          id="dist_miles"
+                          name="dist_miles"
+                          placeholder="Dist Miles"
+                          onChange={formik.handleChange}
+                          value={formik.values.dist_miles}
+                        />
+                        {formik.errors.dist_miles &&
+                          formik.touched.dist_miles && (
+                            <div className="invalid-feedback">
+                              {formik.errors.dist_miles}
+                            </div>
+                          )}
+                      </div>
+                    </Col>
+                    <Col lg={4} md={6}>
+                      <div className="form-group">
+                        <label className="form-label mt-4" htmlFor="main_code ">
+                          Main Code
+                        </label>
+                        <input
+                          type="number"
+                          autoComplete="off"
+                          className={`input101 ${
+                            formik.errors.main_code && formik.touched.main_code
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          id="main_code "
+                          name="main_code "
+                          placeholder="Main Code "
+                          onChange={formik.handleChange}
+                          value={formik.values.main_code}
+                        />
+                        {formik.errors.main_code &&
+                          formik.touched.main_code && (
+                            <div className="invalid-feedback">
+                              {formik.errors.main_code}
+                            </div>
+                          )}
+                      </div>
+                    </Col>
                     <Col lg={4} md={6}>
                       <div className="form-group">
                         <label

@@ -14,10 +14,7 @@ const AddCompetitor = (props) => {
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [CompetitorData, setCompetitorData] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
-  const [selectedCompanyId, setSelectedCompanyId] = useState("");
-  const [selectedSiteId, setSelectedSiteId] = useState("");
-  const [AddSiteData, setAddSiteData] = useState([]);
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
+
   const [SupplierData, setSupplierData] = useState({});
 
   const navigate = useNavigate();
@@ -42,6 +39,26 @@ const AddCompetitor = (props) => {
           "supplier",
 
           response?.data?.data?.supplier
+        );
+        formik.setFieldValue(
+          "cat_no",
+
+          response?.data?.data?.cat_no
+        );
+        formik.setFieldValue(
+          "postcode",
+
+          response?.data?.data?.postcode
+        );
+        formik.setFieldValue(
+          "dist_miles",
+
+          response?.data?.data?.dist_miles
+        );
+        formik.setFieldValue(
+          "main_code",
+
+          response?.data?.data?.main_code
         );
         formik.setFieldValue(
           "status",
@@ -105,6 +122,10 @@ const AddCompetitor = (props) => {
   const formik = useFormik({
     initialValues: {
       name: "",
+      cat_no: "",
+      dist_miles: "",
+      postcode: "",
+      main_code: "",
       supplier: "",
 
       address: "",
@@ -120,43 +141,6 @@ const AddCompetitor = (props) => {
     },
   });
 
-  const fetchCommonListData = async () => {
-    try {
-      const response = await getData("/client/commonlist");
-
-      const { data } = response;
-      if (data) {
-        setCompetitorData(response.data);
-        // if (
-        //     response?.data &&
-        //     localStorage.getItem("superiorRole") === "Client"
-        // ) {
-        const clientId = localStorage.getItem("superiorId");
-        if (clientId) {
-          setSelectedClientId(clientId);
-
-          setSelectedCompanyList([]);
-
-          if (response?.data) {
-            const selectedClient = response?.data?.data?.find(
-              (client) => client.id === clientId
-            );
-            if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
-            }
-          }
-          // }
-        }
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchCommonListData();
-  }, []);
-
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
@@ -166,7 +150,12 @@ const AddCompetitor = (props) => {
       formData.append("site_id", id);
       formData.append("address", values.address);
       formData.append("supplier_id", values.supplier);
+
       formData.append("id", id);
+      formData.append("cat_no", values.cat_no);
+      formData.append("dist_miles", values.dist_miles);
+      formData.append("postcode", values.postcode);
+      formData.append("main_code", values.main_code);
 
       const postDataUrl = "/site/competitor/update";
       const navigatePath = "/competitor";
@@ -244,6 +233,113 @@ const AddCompetitor = (props) => {
                             {formik.errors.name}
                           </div>
                         )}
+                      </div>
+                    </Col>
+                    <Col lg={4} md={6}>
+                      <div className="form-group">
+                        <label className="form-label mt-4" htmlFor="main_code">
+                          Main Code
+                        </label>
+                        <input
+                          type="text"
+                          autoComplete="off"
+                          className={`input101 ${
+                            formik.errors.main_code && formik.touched.main_code
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          id="main_code"
+                          name="main_code"
+                          placeholder="Main Code"
+                          onChange={formik.handleChange}
+                          value={formik.values.main_code}
+                        />
+                        {formik.errors.main_code &&
+                          formik.touched.main_code && (
+                            <div className="invalid-feedback">
+                              {formik.errors.main_code}
+                            </div>
+                          )}
+                      </div>
+                    </Col>
+                    <Col lg={4} md={6}>
+                      <div className="form-group">
+                        <label className="form-label mt-4" htmlFor="postcode">
+                          Post Code
+                        </label>
+                        <input
+                          type="text"
+                          autoComplete="off"
+                          className={`input101 ${
+                            formik.errors.postcode && formik.touched.postcode
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          id="postcode"
+                          name="postcode"
+                          placeholder="Post Code"
+                          onChange={formik.handleChange}
+                          value={formik.values.postcode}
+                        />
+                        {formik.errors.postcode && formik.touched.postcode && (
+                          <div className="invalid-feedback">
+                            {formik.errors.postcode}
+                          </div>
+                        )}
+                      </div>
+                    </Col>
+                    <Col lg={4} md={6}>
+                      <div className="form-group">
+                        <label className="form-label mt-4" htmlFor="cat_no">
+                          Category Number
+                        </label>
+                        <input
+                          type="number"
+                          autoComplete="off"
+                          className={`input101 ${
+                            formik.errors.cat_no && formik.touched.cat_no
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          id="cat_no"
+                          name="cat_no"
+                          placeholder=" Category Number"
+                          onChange={formik.handleChange}
+                          value={formik.values.cat_no}
+                        />
+                        {formik.errors.cat_no && formik.touched.cat_no && (
+                          <div className="invalid-feedback">
+                            {formik.errors.cat_no}
+                          </div>
+                        )}
+                      </div>
+                    </Col>
+                    <Col lg={4} md={6}>
+                      <div className="form-group">
+                        <label className="form-label mt-4" htmlFor="dist_miles">
+                          Dist Miles
+                        </label>
+                        <input
+                          type="text"
+                          autoComplete="off"
+                          className={`input101 ${
+                            formik.errors.dist_miles &&
+                            formik.touched.dist_miles
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          id="dist_miles"
+                          name="dist_miles"
+                          placeholder="Dist Miles"
+                          onChange={formik.handleChange}
+                          value={formik.values.dist_miles}
+                        />
+                        {formik.errors.dist_miles &&
+                          formik.touched.dist_miles && (
+                            <div className="invalid-feedback">
+                              {formik.errors.dist_miles}
+                            </div>
+                          )}
                       </div>
                     </Col>
                     <Col lg={4} md={6}>

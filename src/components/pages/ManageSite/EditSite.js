@@ -95,19 +95,6 @@ export default function AddSite(props) {
       console.error("API error:", error);
     }
   };
-  const handleFetchData = async () => {
-    try {
-      const response = await getData(`/client/commonlist`);
-
-      if (response) {
-        setAddSiteData1(response.data);
-      } else {
-        throw new Error("No data available in the response");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
 
   const GetSiteData = async () => {
     try {

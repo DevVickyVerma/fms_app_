@@ -182,7 +182,6 @@ const ManageEmail = (props) => {
     );
   }
 
-  // Add ellipsis if there are more pages before or after the displayed range
   if (startPage > 1) {
     pages.unshift(<Pagination.Ellipsis key="ellipsis-start" disabled />);
   }
@@ -205,7 +204,7 @@ const ManageEmail = (props) => {
   const handleFetchSiteData = async (values) => {
     try {
       const response = await getData(
-        `/drs/api-logs?site_id=${values?.site_id}}&page=${currentPage}`
+        `/drs/api-logs?site_id=${values?.site_id}&drs_date=${values?.start_date}&page=${currentPage}`
       );
       setData(response?.data?.data?.logs);
       setCount(response.data.data.count);
@@ -222,6 +221,7 @@ const ManageEmail = (props) => {
   const handleFormSubmit = (values) => {
     closeModal();
     handleFetchSiteData(values);
+    console.log(values, "values");
     setFormValues(values);
   };
   const superiorRole = localStorage.getItem("superiorRole");
@@ -291,10 +291,10 @@ const ManageEmail = (props) => {
                     ([key, value]) =>
                       [
                         "client_name",
-                        "TOdate",
+                        "Drs Date",
                         "company_name",
                         "site_name",
-                        "fromdate",
+                        "start_date",
                       ].includes(key) &&
                       value != null &&
                       value !== ""
@@ -303,7 +303,7 @@ const ManageEmail = (props) => {
                       if (
                         [
                           "client_name",
-                          "TOdate",
+                          "start_date",
                           "company_name",
                           "site_name",
                           "fromdate",
