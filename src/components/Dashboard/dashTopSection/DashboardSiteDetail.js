@@ -149,6 +149,7 @@ const DashboardSiteDetail = (props) => {
   const [alertShown, setAlertShown] = useState(false);
   const [callShopSaleApi, setCallShopSaleApi] = useState(false);
   const [Compititorloading, setCompititorloading] = useState(false);
+  const [shopSaleLoading, setShopSaleLoading] = useState(false);
   const FetchCompititorData = async () => {
     setCompititorloading(true);
     if (localStorage.getItem("Dashboardsitestats") === "true") {
@@ -196,6 +197,7 @@ const DashboardSiteDetail = (props) => {
 
   const FetchShopSaleData = async () => {
     try {
+      setShopSaleLoading(true);
       const searchdata = await JSON.parse(localStorage.getItem("mySearchData"));
       const superiorRole = localStorage.getItem("superiorRole");
       const role = localStorage.getItem("role");
@@ -211,20 +213,22 @@ const DashboardSiteDetail = (props) => {
         companyId =
           searchdata?.company_id !== undefined ? searchdata.company_id : "";
       }
-      const response2 = await getData(
+
+      const response2 = await axiosInstance.get(
         localStorage.getItem("superiorRole") !== "Client"
           ? `/dashboard/get-site-shop-details?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${id}`
           : `/dashboard/get-site-shop-details?client_id=${ClientID}&company_id=${companyId}&site_id=${id}`
       );
+
       if (response2 && response2.data) {
-        // setGetSiteDetails(response2?.data?.data);
-        // setGradsGetSiteDetails(response2?.data?.data);
         setDashboardShopSaleData(response2?.data?.data);
       } else {
         throw new Error("No data available in the response");
       }
     } catch (error) {
       console.error("API error:", error);
+    } finally {
+      setShopSaleLoading(false);
     }
   };
 
@@ -278,7 +282,7 @@ const DashboardSiteDetail = (props) => {
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
-      {Compititorloading ? console.log("hi") : null}
+
       <div className="overflow-container">
         <DashBoardSubChild
           getSiteStats={getSiteStats}

@@ -361,20 +361,27 @@ const DashboardShopSale = ({
         <Col lg={12} xl={12} md={12} sm={12}>
           <Card>
             <Card.Header className="d-flex justify-content-between">
-              <h3 className="card-title">Shop Sales</h3>
-              <button className="btn btn-primary" onClick={handleDateOpenModal}>
-                {" "}
-                <MdOutlineCalendarMonth />{" "}
-                {showDate && getSiteStats?.data
-                  ? `${moment(startDatePath).format("Do MMM")} - ${moment(
-                      endDatePath
-                    ).format("Do MMM")} `
-                  : moment(getSiteStats?.data?.last_dayend).format("MMM Do")}
-                <SortIcon />{" "}
-              </button>
+              <h3 className="card-title">Shop Sales </h3>
+              {dashboardShopSaleData?.shop_sales ? (
+                <button
+                  className="btn btn-primary"
+                  onClick={handleDateOpenModal}
+                >
+                  {" "}
+                  <MdOutlineCalendarMonth />{" "}
+                  {showDate && getSiteStats?.data
+                    ? `${moment(startDatePath).format("Do MMM")} - ${moment(
+                        endDatePath
+                      ).format("Do MMM")} `
+                    : moment(getSiteStats?.data?.last_dayend).format("MMM Do")}
+                  <SortIcon />{" "}
+                </button>
+              ) : (
+                <span class="Smallloader"></span>
+              )}
             </Card.Header>
             <Card.Body>
-              {dashboardShopSaleData?.shop_sales ? (
+              {/* {dashboardShopSaleData?.shop_sales ? (
                 <div
                   className="table-container table-responsive"
                   style={{
@@ -390,6 +397,33 @@ const DashboardShopSale = ({
                         top: "0",
                         width: "100%",
                       }}
+                    >
+                      <tr className="fuelprice-tr">{renderTableHeader()}</tr>
+                    </thead>
+                    <tbody>{renderTableData()}</tbody>
+                  </table>
+                </div>
+              ) : (
+                <img
+                  src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                  alt="MyChartImage"
+                  className="all-center-flex nodata-image"
+                />
+              )} */}
+              {!setDashboardShopSaleData ? (
+                <span class="Smallloader"></span>
+              ) : dashboardShopSaleData?.shop_sales?.length > 0 ? (
+                <div
+                  className="table-container table-responsive"
+                  style={{
+                    overflowY: "auto",
+                    maxHeight: "calc(100vh - 376px)",
+                    minHeight: "300px",
+                  }}
+                >
+                  <table className="table">
+                    <thead
+                      style={{ position: "sticky", top: "0", width: "100%" }}
                     >
                       <tr className="fuelprice-tr">{renderTableHeader()}</tr>
                     </thead>
