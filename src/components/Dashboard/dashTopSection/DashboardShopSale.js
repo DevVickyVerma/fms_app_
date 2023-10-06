@@ -108,8 +108,8 @@ const DashboardShopSale = ({
     return (
       <tr className="fuelprice-tr" style={{ padding: "0px" }}>
         <th
-          className="dashboard-shopSale-table-width dashboard-shopSale-table-th"
-          style={{ width: "25%", padding: "17px" }}
+          className="dashboard-shopSale-table-width p-2 dashboard-shopSale-table-th"
+          style={{ width: "25%" }}
         >
           Name
         </th>

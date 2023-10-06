@@ -10,7 +10,7 @@ span.text-danger.danger-title {
 }
 
 .disable-chart {
-  /* margin: "auto", height: "50%", width: "50%", */
+  /* margin: "auto", height: "50%", wid: "50%", */
   margin: auto;
   height: 50%;
   width: 50%;
@@ -265,7 +265,8 @@ input.dynamicinput {
 .table td {
   padding: 4px;
   text-align: left;
-  border: 1px solid #ddd;
+  border: 1px solid #aeb1bd;
+  border-right: none !important;
 }
 
 .table th {
@@ -286,15 +287,15 @@ tbody td {
 }
 
 .table-container.table-responsive {
-  border: 1px solid #eaedf1 !important;
+  border: 1px solid #aeb1bd !important;
 }
 
 .table thead th {
   vertical-align: bottom;
-  /* border-bottom: 1px solid #eaedf1; */
+  /* border-bottom: 1px solid #aeb1bd; */
   border-bottom-width: 1px;
   border-top: 0;
-  border: 1px solid #eaedf1;
+  border: 1px solid #aeb1bd !important;
   padding: 13px 4px;
   min-width: 14.28% !important;
   /* max-width: 14.28% !important; */
@@ -314,7 +315,7 @@ tbody {
 .table td {
   padding: 5px 8px;
   text-align: left;
-  border: 1px solid #ddd;
+  border: 1px solid #aeb1bd;
   /* max-width: 14.28%; */
   min-width: 14.28%;
   min-height: 48px;
@@ -774,7 +775,7 @@ span.margin-top {
 }
 
 tr.fuelprice-tr th {
-  background: #e2e2e2;
+  background: #aeb1bd;
 }
 
 .Disable2FA-modal.modal-body {
@@ -902,8 +903,8 @@ span.ModalTitle-2fa {
 }
 
 .dashboard-shopSale-table-th {
-  border: 1px solid#e2e2e2 !important;
-  background-color: #e2e2e2 !important;
+  border: 1px solid#aeb1bd !important;
+  background-color: #aeb1bd !important;
 }
 
 .dashboard-shopSale-table-td {

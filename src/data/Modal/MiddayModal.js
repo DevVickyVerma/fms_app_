@@ -256,7 +256,13 @@ const CustomModal = ({
           <TableContainer>
             <div className="table-container table-responsive">
               <table className="table">
-                <thead>
+                <thead
+                  style={{
+                    background: "#aeb1bd",
+                    color: "#000",
+                    fontWeight: "700",
+                  }}
+                >
                   <tr>
                     <th>Time</th>
                     {data?.head_array.map((header, columnIndex) => (
