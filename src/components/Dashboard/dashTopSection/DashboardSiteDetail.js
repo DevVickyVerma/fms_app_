@@ -16,7 +16,8 @@ const DashboardSiteDetail = (props) => {
     dashboardShopSaleData,
     setDashboardShopSaleData,
     DashboardGradsLoading,
-    setDashboardGradsLoading
+    setDashboardGradsLoading,
+    DashboardSiteDetailsLoading, setDashboardSiteDetailsLoading
   } = useMyContext();
   const { id } = useParams();
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
@@ -98,6 +99,12 @@ const DashboardSiteDetail = (props) => {
       handleError(error)
       console.error("API error:", error);
     }
+
+  };
+
+
+  const FetchGetSiteDetailsApi = async () => {
+    setDashboardSiteDetailsLoading(true);
     try {
       const searchdata = await JSON.parse(localStorage.getItem("mySearchData"));
       const superiorRole = localStorage.getItem("superiorRole");
@@ -114,22 +121,32 @@ const DashboardSiteDetail = (props) => {
         companyId =
           searchdata?.company_id !== undefined ? searchdata.company_id : "";
       }
-      const response2 = await getData(
+      // const response2 = await getData(
+      //   localStorage.getItem("superiorRole") !== "Client"
+      //     ? `/dashboard/get-site-details?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${id}`
+      //     : `/dashboard/get-site-details?client_id=${ClientID}&company_id=${companyId}&site_id=${id}`
+      // );
+      const response2 = await axiosInstance.get(
         localStorage.getItem("superiorRole") !== "Client"
           ? `/dashboard/get-site-details?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${id}`
           : `/dashboard/get-site-details?client_id=${ClientID}&company_id=${companyId}&site_id=${id}`
       );
+
       if (response2 && response2.data) {
         setGetSiteDetails(response2?.data?.data);
+        setDashboardSiteDetailsLoading(false);
         // setGradsGetSiteDetails(response2?.data?.data);
       } else {
+        setDashboardSiteDetailsLoading(false);
         throw new Error("No data available in the response");
       }
     } catch (error) {
+      setDashboardSiteDetailsLoading(false);
       console.error("API error:", error);
       handleError(error)
     }
-  };
+    setDashboardSiteDetailsLoading(false);
+  }
   const token = localStorage.getItem("token");
 
   const axiosInstance = axios.create({
@@ -282,7 +299,7 @@ const DashboardSiteDetail = (props) => {
 
   useEffect(() => {
     FetchTableData();
-
+    FetchGetSiteDetailsApi();
     window.scrollTo(0, 0);
   }, []);
 
@@ -291,6 +308,8 @@ const DashboardSiteDetail = (props) => {
     function handleScroll() {
       const currentScrollY = window.scrollY;
       setScrollY(currentScrollY);
+
+      console.log(currentScrollY, "currentScrollY");
 
       if (currentScrollY > 150 && !callSiteFuelPerformanceApi) {
         setCallSiteFuelPerformanceApi(true);
@@ -309,7 +328,7 @@ const DashboardSiteDetail = (props) => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [alertShown, callShopSaleApi]);
+  }, [alertShown, callShopSaleApi, callSiteFuelPerformanceApi]);
   useEffect(() => {
     if (alertShown) {
       // Call FetchCompititorData when alertShown becomes true
@@ -326,6 +345,7 @@ const DashboardSiteDetail = (props) => {
     if (callSiteFuelPerformanceApi) {
       // Call FetchCompititorData when alertShown becomes true
       FetchSiteFuelPerformanceData();
+
     }
   }, [callSiteFuelPerformanceApi]);
 
