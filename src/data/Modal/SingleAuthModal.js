@@ -9,6 +9,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import withApi from "../../Utils/ApiHelper";
 
 const SingleAuthModal = (props) => {
   const { setShowTruw } = props;
@@ -353,4 +354,4 @@ SingleAuthModal.propTypes = {
   searchListstatus: PropTypes.bool.isRequired,
 };
 
-export default SingleAuthModal;
+export default withApi(SingleAuthModal);

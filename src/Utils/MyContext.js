@@ -23,6 +23,7 @@ const MyProvider = ({ children }) => {
   const [shouldNavigateToDetailsPage, setShouldNavigateToDetailsPage] = useState(false);
   const [getGradsSiteDetails, setGradsGetSiteDetails] = useState(null);
   const [dashboardShopSaleData, setDashboardShopSaleData] = useState(null);
+  const [DashboardGradsLoading, setDashboardGradsLoading] = useState(false);
 
   // Value object to provide to consumers
   const value = {
@@ -58,7 +59,8 @@ const MyProvider = ({ children }) => {
     setGetSiteDetailsLoading,
     shouldNavigateToDetailsPage, setShouldNavigateToDetailsPage,
     getGradsSiteDetails, setGradsGetSiteDetails,
-    dashboardShopSaleData, setDashboardShopSaleData
+    dashboardShopSaleData, setDashboardShopSaleData,
+    DashboardGradsLoading, setDashboardGradsLoading
   };
 
   return <MyContext.Provider value={value}>{children}</MyContext.Provider>;
