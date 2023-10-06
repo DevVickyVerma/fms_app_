@@ -174,8 +174,8 @@ export const MENUITEMS = [
             path: `/drs-crons`,
             title: "DRS Crons",
             type: "link",
-            // permission: "drs-logs",
-            permission: "drs-exception",
+            permission: "drs-logs",
+
             visibility: false,
           },
         ],
