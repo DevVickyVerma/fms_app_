@@ -34,6 +34,7 @@ const DashboardShopSale = ({
   const [showDate, setShowDate] = useState(false);
   const [startDatePath, setStartDatePath] = useState("");
   const [endDatePath, setEndDatePath] = useState("");
+  const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
   const Errornotify = (message) => toast.error(message);
   const {
     getGradsSiteDetails,
@@ -108,7 +109,7 @@ const DashboardShopSale = ({
     return (
       <tr className="fuelprice-tr" style={{ padding: "0px" }}>
         <th
-          className="dashboard-shopSale-table-width p-2 dashboard-shopSale-table-th"
+          className="dashboard-shopSale-table-width dashboard-shopSale-table-th"
           style={{ width: "25%" }}
         >
           Name
@@ -242,7 +243,8 @@ const DashboardShopSale = ({
       key: "selection",
     },
   ]);
-  const minDate = startOfMonth(subMonths(new Date(), 1)); // 1st day of the previous month
+  // const minDate = startOfMonth(subMonths(new Date(), 1)); // 1st day of the previous month
+  const minDate = new Date("2023-09-01")
   const maxDate = getSiteStats?.data?.last_dayend
     ? new Date(getSiteStats.data.last_dayend)
     : new Date();
@@ -314,8 +316,8 @@ const DashboardShopSale = ({
           // Use async/await to fetch data
           const response3 = await getData(
             localStorage.getItem("superiorRole") !== "Client"
-              ? `/dashboard/get-site-shop-details?site_id=${id}&end_date=${endDate}&start_date=${startDate} `
-              : `/dashboard/get-site-shop-details?site_id=${id}&end_date=${endDate}&start_date=${startDate}`
+              ? `/dashboard/get-site-shop-details?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${id}&end_date=${endDate}&start_date=${startDate}`
+              : `/dashboard/get-site-shop-details?client_id=${ClientID}&company_id=${companyId}&site_id=${id}&end_date=${endDate}&start_date=${startDate}`
           );
           setStartDatePath(startDate);
           setEndDatePath(endDate);
@@ -345,7 +347,6 @@ const DashboardShopSale = ({
       position: toast.POSITION.TOP_RIGHT,
       hideProgressBar: true,
       transition: Slide,
-      autoClose: 1000,
       theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
     });
   };
@@ -371,13 +372,14 @@ const DashboardShopSale = ({
                   <MdOutlineCalendarMonth />{" "}
                   {showDate && getSiteStats?.data
                     ? `${moment(startDatePath).format("Do MMM")} - ${moment(
-                        endDatePath
-                      ).format("Do MMM")} `
+                      endDatePath
+                    ).format("Do MMM")} `
                     : moment(getSiteStats?.data?.last_dayend).format("MMM Do")}
                   <SortIcon />{" "}
                 </button>
               ) : (
-                <span class="Smallloader"></span>
+                ""
+                // <span class="Smallloader"></span>
               )}
             </Card.Header>
             <Card.Body>
@@ -431,11 +433,15 @@ const DashboardShopSale = ({
                   </table>
                 </div>
               ) : (
-                <img
-                  src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
-                  alt="MyChartImage"
-                  className="all-center-flex nodata-image"
-                />
+                <p className="all-center-flex" style={{ height: "150px" }}>
+                  <span class="primary-loader" ></span>
+                </p>
+                // <span class="loader"></span>
+                // <img
+                //   src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                //   alt="MyChartImage"
+                //   className="all-center-flex nodata-image"
+                // />
               )}
             </Card.Body>
           </Card>
@@ -447,7 +453,7 @@ const DashboardShopSale = ({
         onHide={handleCloseModal}
         centered
         className="custom-modal-width custom-modal-height"
-        // style={{ overflow: "auto" }}
+      // style={{ overflow: "auto" }}
       >
         <div
           class="modal-header"
@@ -524,11 +530,10 @@ const DashboardShopSale = ({
                                       min={getFirstDayOfPreviousMonth()}
                                       max={getCurrentDate()}
                                       onClick={handleShowDate}
-                                      className={`input101 ${
-                                        errors.start_date && touched.start_date
-                                          ? "is-invalid"
-                                          : ""
-                                      } `}
+                                      className={`input101 ${errors.start_date && touched.start_date
+                                        ? "is-invalid"
+                                        : ""
+                                        } `}
                                       id="start_date"
                                       name="start_date"
                                       onChange={(e) => {
@@ -560,11 +565,10 @@ const DashboardShopSale = ({
                                       min={state.startDate}
                                       max={getCurrentDate()}
                                       onClick={handleShowDate1}
-                                      className={`input101 ${
-                                        errors.end_date && touched.end_date
-                                          ? "is-invalid"
-                                          : ""
-                                      } `}
+                                      className={`input101 ${errors.end_date && touched.end_date
+                                        ? "is-invalid"
+                                        : ""
+                                        } `}
                                       id="end_date"
                                       name="end_date"
                                       onChange={(e) => {
@@ -591,7 +595,7 @@ const DashboardShopSale = ({
                                 type="submit"
                                 className="btn btn-primary mx-2"
                               >
-                                Generate Report
+                                Submit
                               </button>
                             </div>
                           </Form>
@@ -623,7 +627,7 @@ const DashboardShopSale = ({
                           onClick={fetchData}
                           disabled={isButtonDisabled}
                         >
-                          Generate Report
+                          Submit
                         </button>
                       </div>
                     </Card.Footer>

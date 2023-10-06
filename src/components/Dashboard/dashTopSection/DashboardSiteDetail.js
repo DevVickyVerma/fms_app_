@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import DashBoardSubChild from "./DashBoardSubChild";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useMyContext } from "../../../Utils/MyContext";
+import { Slide, toast } from "react-toastify";
 
 const DashboardSiteDetail = (props) => {
   const { isLoading, getData } = props;
@@ -14,6 +15,8 @@ const DashboardSiteDetail = (props) => {
     setGradsGetSiteDetails,
     dashboardShopSaleData,
     setDashboardShopSaleData,
+    DashboardGradsLoading,
+    setDashboardGradsLoading
   } = useMyContext();
   const { id } = useParams();
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
@@ -22,6 +25,40 @@ const DashboardSiteDetail = (props) => {
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
   const [permissionsArray, setPermissionsArray] = useState([]);
   // const [getGradsSiteDetails, setGradsGetSiteDetails] = useState(null);
+  const navigate = useNavigate();
+  const SuccessToast = (message) => {
+    toast.success(message, {
+      autoClose: 500,
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+    });
+  };
+  const Errornotify = (message) => {
+    toast.error(message, {
+      position: toast.POSITION.TOP_RIGHT,
+      hideProgressBar: true,
+      transition: Slide,
+      autoClose: 1000,
+      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+    });
+  };
+
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      SuccessToast("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      const errorMessage = Array.isArray(error.response?.data?.message)
+        ? error.response?.data?.message.join(" ")
+        : error.response?.data?.message;
+      Errornotify(errorMessage);
+    }
+  }
 
   const FetchTableData = async () => {
     try {
@@ -55,8 +92,10 @@ const DashboardSiteDetail = (props) => {
         setGetSiteStats(response1?.data);
       } else {
         throw new Error("No data available in the response");
+
       }
     } catch (error) {
+      handleError(error)
       console.error("API error:", error);
     }
     try {
@@ -88,53 +127,7 @@ const DashboardSiteDetail = (props) => {
       }
     } catch (error) {
       console.error("API error:", error);
-    }
-    try {
-      if (localStorage.getItem("Dashboardsitestats") === "true") {
-        try {
-          // Attempt to parse JSON data from local storage
-          const searchdata = await JSON.parse(
-            localStorage.getItem("mySearchData")
-          );
-          const superiorRole = localStorage.getItem("superiorRole");
-          const role = localStorage.getItem("role");
-          const localStoragecompanyId = localStorage.getItem("PresetCompanyID");
-          let companyId = ""; // Define companyId outside the conditionals
-
-          if (superiorRole === "Client" && role !== "Client") {
-            // Set companyId based on conditions
-            companyId =
-              searchdata?.company_id !== undefined
-                ? searchdata.company_id
-                : localStoragecompanyId;
-          } else {
-            companyId =
-              searchdata?.company_id !== undefined ? searchdata.company_id : "";
-          }
-
-          // Use async/await to fetch data
-          const response3 = await getData(
-            localStorage.getItem("superiorRole") !== "Client"
-              ? `/dashboard/get-site-fuel-performance?site_id=${id}`
-              : `/dashboard/get-site-fuel-performance?site_id=${id}`
-          );
-
-          if (response3 && response3.data) {
-            setGradsGetSiteDetails(response3?.data?.data);
-            // notify(response3?.data?.message);
-            // setShowModal(false);
-            // setShowDate(true);
-          } else {
-            throw new Error("No data available in the response");
-          }
-          // setGradsLoading(false);
-        } catch (error) {
-          // Handle errors that occur during the asynchronous operations
-          // setGradsLoading(false);
-        }
-      }
-    } catch (error) {
-      // setGradsLoading(false);
+      handleError(error)
     }
   };
   const token = localStorage.getItem("token");
@@ -148,6 +141,7 @@ const DashboardSiteDetail = (props) => {
   const [scrollY, setScrollY] = useState(0);
   const [alertShown, setAlertShown] = useState(false);
   const [callShopSaleApi, setCallShopSaleApi] = useState(false);
+  const [callSiteFuelPerformanceApi, setCallSiteFuelPerformanceApi] = useState(false);
   const [Compititorloading, setCompititorloading] = useState(false);
   const [shopSaleLoading, setShopSaleLoading] = useState(false);
   const FetchCompititorData = async () => {
@@ -188,6 +182,7 @@ const DashboardSiteDetail = (props) => {
       } catch (error) {
         // Handle errors that occur during the asynchronous operations
         console.error("API error:", error);
+        handleError(error)
       } finally {
         // Set Compititorloading to false when the request is complete (whether successful or not)
         setCompititorloading(false);
@@ -227,10 +222,63 @@ const DashboardSiteDetail = (props) => {
       }
     } catch (error) {
       console.error("API error:", error);
+      handleError(error)
     } finally {
       setShopSaleLoading(false);
     }
   };
+
+  const FetchSiteFuelPerformanceData = async () => {
+    setDashboardGradsLoading(true)
+    try {
+      if (localStorage.getItem("Dashboardsitestats") === "true") {
+        try {
+          // Attempt to parse JSON data from local storage
+          const searchdata = await JSON.parse(
+            localStorage.getItem("mySearchData")
+          );
+          const superiorRole = localStorage.getItem("superiorRole");
+          const role = localStorage.getItem("role");
+          const localStoragecompanyId = localStorage.getItem("PresetCompanyID");
+          let companyId = ""; // Define companyId outside the conditionals
+
+          if (superiorRole === "Client" && role !== "Client") {
+            // Set companyId based on conditions
+            companyId =
+              searchdata?.company_id !== undefined
+                ? searchdata.company_id
+                : localStoragecompanyId;
+          } else {
+            companyId =
+              searchdata?.company_id !== undefined ? searchdata.company_id : "";
+          }
+
+          // Use async/await to fetch data
+
+          const response3 = await axiosInstance.get(
+            localStorage.getItem("superiorRole") !== "Client"
+              ? `/dashboard/get-site-fuel-performance?site_id=${id}`
+              : `/dashboard/get-site-fuel-performance?site_id=${id}`
+          );
+
+          if (response3 && response3.data) {
+            setGradsGetSiteDetails(response3?.data?.data);
+            setDashboardGradsLoading(false);
+          } else {
+            throw new Error("No data available in the response");
+          }
+          setDashboardGradsLoading(false);
+        } catch (error) {
+          // Handle errors that occur during the asynchronous operations
+          setDashboardGradsLoading(false);
+        }
+      }
+    } catch (error) {
+      setDashboardGradsLoading(false);
+      handleError(error)
+    }
+    setDashboardGradsLoading(false);
+  }
 
   useEffect(() => {
     FetchTableData();
@@ -243,6 +291,10 @@ const DashboardSiteDetail = (props) => {
     function handleScroll() {
       const currentScrollY = window.scrollY;
       setScrollY(currentScrollY);
+
+      if (currentScrollY > 150 && !callSiteFuelPerformanceApi) {
+        setCallSiteFuelPerformanceApi(true);
+      }
 
       if (currentScrollY > 450 && !callShopSaleApi) {
         setCallShopSaleApi(true);
@@ -270,6 +322,12 @@ const DashboardSiteDetail = (props) => {
       FetchShopSaleData();
     }
   }, [callShopSaleApi]);
+  useEffect(() => {
+    if (callSiteFuelPerformanceApi) {
+      // Call FetchCompititorData when alertShown becomes true
+      FetchSiteFuelPerformanceData();
+    }
+  }, [callSiteFuelPerformanceApi]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
@@ -291,8 +349,8 @@ const DashboardSiteDetail = (props) => {
           setGetSiteDetails={setGetSiteDetails}
           getCompetitorsPrice={getCompetitorsPrice}
           setGetCompetitorsPrice={setGetCompetitorsPrice}
-          // getGradsSiteDetails={getGradsSiteDetails}
-          // setGradsGetSiteDetails={setGradsGetSiteDetails}
+        // getGradsSiteDetails={getGradsSiteDetails}
+        // setGradsGetSiteDetails={setGradsGetSiteDetails}
         />
       </div>
     </>

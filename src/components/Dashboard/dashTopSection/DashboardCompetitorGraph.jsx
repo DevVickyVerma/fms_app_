@@ -1,5 +1,4 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { log } from "nvd3";
 import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 
@@ -111,7 +110,7 @@ const DashboardCompetitorGraph = ({
           alignItems: "center",
         }}
       >
-        {!filteredData ? <span className="loader"></span> : null}
+        {!filteredData ? <span className="primary-loader"></span> : null}
       </div>
 
       <>
