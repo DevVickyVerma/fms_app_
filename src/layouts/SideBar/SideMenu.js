@@ -170,6 +170,14 @@ export const MENUITEMS = [
             permission: "drs-exception",
             visibility: false,
           },
+          {
+            path: `/drs-crons`,
+            title: "DRS Crons",
+            type: "link",
+            // permission: "drs-logs",
+            permission: "drs-exception",
+            visibility: false,
+          },
         ],
       },
       {

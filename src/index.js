@@ -306,6 +306,9 @@ const ManageDsr = React.lazy(() =>
 const ManageDsrList = React.lazy(() =>
   import("./components/pages/ManageDSR/DsrList")
 );
+const ManageDsrCrons = React.lazy(() =>
+  import("./components/pages/ManageDSR/DsrCrons")
+);
 
 // DSR End
 // commisons Start
@@ -516,6 +519,7 @@ const Root = () => {
 
   const WrappedManageDsr = withApi(ManageDsr);
   const WrappedManageManageDsrList = withApi(ManageDsrList);
+  const WrappedManageManageDsrCrons = withApi(ManageDsrCrons);
   const WrappedManageReports = withApi(ManageReports);
   const WrappedWorkFlows = withApi(WorkFlows);
   const WrappedSiteSettings = withApi(SiteSettings);
@@ -710,6 +714,10 @@ const Root = () => {
                   <Route
                     path={`/dsr-exception`}
                     element={<WrappedManageManageDsrList />}
+                  />
+                  <Route
+                    path={`/drs-crons`}
+                    element={<WrappedManageManageDsrCrons />}
                   />
                   {/* DSR  Components End */}
 
