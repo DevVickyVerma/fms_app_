@@ -43,45 +43,6 @@ const DashTopSubHeading = ({
   const stackedLineBarLabelsForSite =
     getSiteDetails?.performance_reporting?.labels;
 
-  const [formattedDayForOpening, setFormattedDayForOpening] = useState("");
-  const [formattedDayForClosing, setFormattedDayForClosing] = useState("");
-  const [formattedMonthForHeading, setFormattedMonthForHeading] = useState("");
-
-  useEffect(() => {
-    const LastDayEndTimeString = getSiteDetails?.last_day_end;
-    const closingTimeString = getSiteDetails?.fuel_site_timings?.closing_time;
-    const startingTimeString = getSiteDetails?.fuel_site_timings?.opening_time;
-
-    if (getSiteDetails) {
-      const parshedFinalOpeningTime = moment(
-        startingTimeString,
-        "YYYY-MM-DD HH:mm"
-      );
-      const parshedFinalClosingTime = moment(
-        closingTimeString,
-        "YYYY-MM-DD HH:mm"
-      );
-      const parshedLastDayEndTimeString = moment(
-        LastDayEndTimeString,
-        "YYYY-MM-DD HH:mm"
-      );
-
-      const formattedCLosingTimeForSite =
-        parshedFinalClosingTime.format("Do MMM HH:mm");
-
-      const formattedOpeningTimeForSite =
-        parshedFinalOpeningTime.format("Do MMM HH:mm");
-
-      const formattedMonthForHeading =
-        parshedLastDayEndTimeString.format("Do MMM ");
-
-      setFormattedDayForClosing(formattedCLosingTimeForSite);
-      setFormattedDayForOpening(formattedOpeningTimeForSite);
-      setFormattedMonthForHeading(formattedMonthForHeading);
-    } else {
-    }
-  }, [getSiteDetails]);
-
   const [modalOpen, setModalOpen] = useState(false);
   const handleModalOpen = (item) => {
     setModalOpen(true);
