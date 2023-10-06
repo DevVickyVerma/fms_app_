@@ -143,12 +143,18 @@ const ManageEmail = (props) => {
       selector: (row) => [row?.status],
       sortable: false,
       width: "10%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row?.status}</h6>
-          </div>
-        </div>
+      cell: (row) => (
+        <span className="text-muted fs-15 fw-semibold text-center">
+          <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
+            {row.status === "Success" ? (
+              <button className="btn btn-success btn-sm">Success</button>
+            ) : row.status === "Error" ? (
+              <button className="btn btn-danger btn-sm">Error</button>
+            ) : (
+              <button className="badge">Unknown</button>
+            )}
+          </OverlayTrigger>
+        </span>
       ),
     },
   ];
