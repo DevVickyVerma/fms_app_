@@ -108,7 +108,7 @@ h3.SidebarSearch-title {
   box-shadow: none;
 }
 
-.data-table-extensions>.data-table-extensions-filter>.filter-text {
+.data-table-extensions > .data-table-extensions-filter > .filter-text {
   /* border: 1px solid #eaedf1 !important; */
   border-bottom: 1px solid #eaedf1 !important;
   outline: none !important;
@@ -265,7 +265,7 @@ input.dynamicinput {
 .table td {
   padding: 4px;
   text-align: left;
-  border: 1px solid #aeb1bd;
+  border-bottom: 1px solid #aeb1bd;
   border-right: none !important;
 }
 
@@ -295,9 +295,11 @@ tbody td {
   /* border-bottom: 1px solid #aeb1bd; */
   border-bottom-width: 1px;
   border-top: 0;
-  border: 1px solid #aeb1bd !important;
+  border-bottom: 1px solid #aeb1bd !important;
   padding: 13px 4px;
   min-width: 14.28% !important;
+  background-color: #aeb1bd !important;
+
   /* max-width: 14.28% !important; */
   min-height: 48px;
 }
@@ -315,7 +317,7 @@ tbody {
 .table td {
   padding: 5px 8px;
   text-align: left;
-  border: 1px solid #aeb1bd;
+
   /* max-width: 14.28%; */
   min-width: 14.28%;
   min-height: 48px;
@@ -329,7 +331,6 @@ tbody tr {
 }
 
 @media screen and (max-width: 768px) {
-
   .table th,
   .table td {
     min-width: 22.28% !important;
@@ -551,7 +552,7 @@ input.table-input.readonly.total-input-card {
   border-radius: 50%;
 }
 
-.d-flex.chart-items>div:first-child {
+.d-flex.chart-items > div:first-child {
   margin-right: 0;
   margin-left: 0;
 }
@@ -938,7 +939,6 @@ span.ModalTitle-2fa {
   display: flex;
 }
 
-
 .loader {
   width: 12px;
   height: 12px;
@@ -962,7 +962,6 @@ span.ModalTitle-2fa {
   box-sizing: border-box;
   animation: animloader 1s linear infinite alternate;
 }
-
 
 .primary-loader {
   width: 10px;
