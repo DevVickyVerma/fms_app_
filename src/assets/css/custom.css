@@ -902,8 +902,8 @@ span.ModalTitle-2fa {
 }
 
 .dashboard-shopSale-table-th {
-  border: 1px solid rgb(174, 177, 189) !important;
-  background-color: rgb(174, 177, 189) !important;
+  border: 1px solid#e2e2e2 !important;
+  background-color: #e2e2e2 !important;
 }
 
 .dashboard-shopSale-table-td {
@@ -935,53 +935,41 @@ span.ModalTitle-2fa {
   color: white;
   display: flex;
 }
-
 .loader {
-  width: 48px;
-  height: 48px;
-  border: 5px solid #6259ca;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
+  display: block;
+  margin: 15px auto;
   position: relative;
-  animation: pulse 1s linear infinite;
-}
-
-.loader:after {
-  content: "";
-  position: absolute;
-  width: 80px;
-  height: 80px;
-  border: 5px solid #847cd386;
-  border-radius: 50%;
-  display: inline-block;
+  color: #6259ca;
   box-sizing: border-box;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  animation: scaleUp 1s linear infinite;
+  animation: animloader 1s linear infinite alternate;
+}
+.loader {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: block;
+  margin: 15px auto;
+  position: relative;
+  color: #f0f0f8;
+  box-sizing: border-box;
+  animation: animloader 1s linear infinite alternate;
 }
 
-@keyframes scaleUp {
+@keyframes animloader {
   0% {
-    transform: translate(-50%, -50%) scale(0);
+    box-shadow: -38px -12px, -14px 0, 14px 0, 38px 0;
   }
-
-  60%,
+  33% {
+    box-shadow: -38px 0px, -14px -12px, 14px 0, 38px 0;
+  }
+  66% {
+    box-shadow: -38px 0px, -14px 0, 14px -12px, 38px 0;
+  }
   100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-@keyframes pulse {
-  0%,
-  60%,
-  100% {
-    transform: scale(1);
-  }
-
-  80% {
-    transform: scale(1.2);
+    box-shadow: -38px 0, -14px 0, 14px 0, 38px -12px;
   }
 }
 
