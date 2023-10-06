@@ -716,7 +716,7 @@ const Root = () => {
                     element={<WrappedManageManageDsrList />}
                   />
                   <Route
-                    path={`/drs-crons`}
+                    path={`/drs-api-logs`}
                     element={<WrappedManageManageDsrCrons />}
                   />
                   {/* DSR  Components End */}
