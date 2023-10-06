@@ -90,6 +90,13 @@ export const MENUITEMS = [
             permission: "competitor-create",
             visibility: false,
           },
+          {
+            path: `/CompetitorStats`,
+            type: "link",
+            title: "Competitor Stats",
+            permission: "competitor-list",
+            visibility: false,
+          },
         ],
       },
 

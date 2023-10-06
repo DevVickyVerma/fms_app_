@@ -19,6 +19,9 @@ import SiteEvobossStatusPage from "./components/pages/EvobossStatus/SiteEvobossS
 import Competitor from "./components/pages/Competitor/Competitor";
 import AddCompetitor from "./components/pages/Competitor/AddCompetitor";
 import ValidateOtp from "./components/CustomPages/Login/ValidateOtp";
+import StatsCompetitor from "./components/pages/Competitor/StatsCompetitor";
+import SingleStatsCompetitor from "./components/pages/Competitor/SingleStatsCompetitor";
+
 
 //App
 const App = React.lazy(() => import("./components/app"));
@@ -563,6 +566,8 @@ const Root = () => {
   const WrappedCompetitorFuelPrices = withApi(CompetitorFuelPrices);
   const WrappedCompetitor = withApi(Competitor);
   const WrappedAddCompetitor = withApi(AddCompetitor);
+  const WrappedStatsCompetitor = withApi(StatsCompetitor);
+  const WrappedSingleStatsCompetitor = withApi(SingleStatsCompetitor);
   const WrappedmanageNotification = withApi(manageNotification);
   const WrappedEditCompetitorFuelPrices = withApi(EditCompetitorFuelPrices);
 
@@ -603,6 +608,17 @@ const Root = () => {
                   <Route
                     path={`/addCompetitor`}
                     element={<WrappedAddCompetitor />}
+                  />
+                  <Route
+                    path={`/competitorStats`}
+                    element={<WrappedStatsCompetitor />
+                    }
+                  />
+
+                  <Route
+                    path={`/SingleCompetitor/:id`}
+                    element={<WrappedSingleStatsCompetitor />
+                    }
                   />
 
                   {/* User  Components End */}
