@@ -90,6 +90,13 @@ export const MENUITEMS = [
             permission: "competitor-create",
             visibility: false,
           },
+          {
+            path: `/uploadCompetitor-price`,
+            type: "link",
+            title: "Upload Competitor",
+            permission: "competitor-create",
+            visibility: false,
+          },
         ],
       },
 

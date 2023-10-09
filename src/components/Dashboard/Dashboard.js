@@ -15,11 +15,7 @@ import { useMyContext } from "../../Utils/MyContext";
 import StackedLineBarChart from "./StackedLineBarChart";
 import Apexcharts2 from "./PieChart";
 import CenterAuthModal from "../../data/Modal/CenterAuthModal";
-import {
-  Card, Col, Row,
-} from "react-bootstrap";
-
-
+import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 
 const Dashboard = (props) => {
   const { isLoading, getData } = props;
@@ -58,7 +54,7 @@ const Dashboard = (props) => {
     stackedLineBarLabels,
     setStackedLineBarLabel,
     shouldNavigateToDetailsPage,
-    setShouldNavigateToDetailsPage
+    setShouldNavigateToDetailsPage,
   } = useMyContext();
 
   const superiorRole = localStorage.getItem("superiorRole");
@@ -159,8 +155,6 @@ const Dashboard = (props) => {
     }
   }
 
-
-
   const token = localStorage.getItem("token");
   const loggedInFlag = localStorage.getItem("justLoggedIn");
   const tokenUpdated = localStorage.getItem("tokenupdate") === "true";
@@ -231,7 +225,7 @@ const Dashboard = (props) => {
       const { data } = response;
 
       if (data) {
-        setShouldNavigateToDetailsPage(true)
+        setShouldNavigateToDetailsPage(true);
         setLinechartValues(data?.data?.line_graph?.series);
         setDLinechartValues(data?.data?.d_line_graph?.series);
         setLinechartOption(data?.data?.line_graph?.option?.labels);
@@ -271,7 +265,7 @@ const Dashboard = (props) => {
       }
     } catch (error) {
       handleError(error);
-      setShouldNavigateToDetailsPage(false)
+      setShouldNavigateToDetailsPage(false);
       console.error("API error:", error);
     }
   };
@@ -375,17 +369,20 @@ const Dashboard = (props) => {
           justifyContent={"space-between"}
           alignItems={"center"}
           // minHeight={"90px"}
-          flexDirection={["row",]}
+          flexDirection={["row"]}
           className="center-filter-modal-responsive"
         >
-          <Box alignSelf={["center", "flex-start"]}
-            mt={["0px", "33px"]}
-          >
-            <h1 className="page-title dashboard-page-title" style={{ alignItems: "center" }}>Dashboard ({UserPermissions?.dates})</h1>
+          <Box alignSelf={["center", "flex-start"]} mt={["0px", "33px"]}>
+            <h1
+              className="page-title dashboard-page-title"
+              style={{ alignItems: "center" }}
+            >
+              Dashboard ({UserPermissions?.dates})
+            </h1>
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-            localStorage.getItem("role") === "Operator" ? (
+          localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -410,7 +407,13 @@ const Dashboard = (props) => {
                 }}
               >
                 <>
-                  <Box display={["none", "none", "flex"]} flexWrap={"wrap"} justifyContent={"center"} alignItems={"center"} className=" gap-1" >
+                  <Box
+                    display={["none", "none", "flex"]}
+                    flexWrap={"wrap"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    className=" gap-1"
+                  >
                     {/* Assuming this code is within a React component */}
                     {Object.entries(searchdata).some(
                       ([key, value]) =>
@@ -466,7 +469,11 @@ const Dashboard = (props) => {
                   </Box>
                 </>
 
-                <Box display={"flex"} ml={"4px"} alignSelf={["flex-start", "center"]} >
+                <Box
+                  display={"flex"}
+                  ml={"4px"}
+                  alignSelf={["flex-start", "center"]}
+                >
                   <Link
                     className="btn btn-primary btn-sm"
                     onClick={() => {
@@ -485,27 +492,35 @@ const Dashboard = (props) => {
                   </Link>
 
                   {Object.keys(searchdata).length > 0 ? (
-                    <Link
-                      className="btn btn-danger btn-sm ms-2"
-                      onClick={() => {
-                        ResetForm();
-                      }}
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={<Tooltip>Reset Filter</Tooltip>}
                     >
-                      Reset <RestartAltIcon />
-                    </Link>
+                      <Link
+                        to="#" // Replace with the appropriate link URL
+                        className="btn btn-danger btn-sm ms-2"
+                        onClick={() => {
+                          ResetForm();
+                        }}
+                      >
+                        <RestartAltIcon />
+                      </Link>
+                    </OverlayTrigger>
                   ) : (
                     ""
                   )}
                 </Box>
-
               </span>
-
-
             </Box>
           )}
         </Box>
         <>
-          <Box display={["flex", "flex", "none"]} flexWrap={"wrap"} marginBottom={"10px"} className=" gap-1" >
+          <Box
+            display={["flex", "flex", "none"]}
+            flexWrap={"wrap"}
+            marginBottom={"10px"}
+            className=" gap-1"
+          >
             {/* Assuming this code is within a React component */}
             {Object.entries(searchdata).some(
               ([key, value]) =>
@@ -534,10 +549,7 @@ const Dashboard = (props) => {
                   const formattedKey = key
                     .toLowerCase()
                     .split("_")
-                    .map(
-                      (word) =>
-                        word.charAt(0).toUpperCase() + word.slice(1)
-                    )
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                     .join(" ");
 
                   return (
@@ -577,10 +589,9 @@ const Dashboard = (props) => {
           ""
         )}
 
-
         {isProfileUpdatePermissionAvailable &&
-          !isTwoFactorPermissionAvailable &&
-          ShowAuth ? (
+        !isTwoFactorPermissionAvailable &&
+        ShowAuth ? (
           <>
             <CenterAuthModal title="Auth Modal" />
           </>
@@ -589,7 +600,7 @@ const Dashboard = (props) => {
         )}
 
         {localStorage.getItem("superiorRole") === "Administrator" &&
-          Object.keys(searchdata).length === 0 ? (
+        Object.keys(searchdata).length === 0 ? (
           <div
             style={{
               textAlign: "left",
@@ -620,9 +631,7 @@ const Dashboard = (props) => {
         />
 
         <Row style={{ marginBottom: "10px", marginTop: "20px" }}>
-          <Col
-            style={{ width: "60%" }}
-          >
+          <Col style={{ width: "60%" }}>
             <Card>
               <Card.Header className="card-header">
                 <h4 className="card-title" style={{ minHeight: "32px" }}>
@@ -662,8 +671,7 @@ const Dashboard = (props) => {
             </Card>
           </Col>
 
-          <Col
-          >
+          <Col>
             <Card>
               <Card.Header className="card-header">
                 <h4 className="card-title" style={{ minHeight: "32px" }}>
@@ -718,7 +726,7 @@ const Dashboard = (props) => {
             </Card>
           </Col>
         </Row>
-      </div >
+      </div>
     </>
   );
 };

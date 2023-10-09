@@ -18,6 +18,7 @@ import SiteEvobossStatus from "./components/pages/EvobossStatus/SiteEvobossStatu
 import SiteEvobossStatusPage from "./components/pages/EvobossStatus/SiteEvobossStatusPage";
 import Competitor from "./components/pages/Competitor/Competitor";
 import AddCompetitor from "./components/pages/Competitor/AddCompetitor";
+import uploadCompetitor from "./components/pages/Competitor/UploadCompititor";
 import ValidateOtp from "./components/CustomPages/Login/ValidateOtp";
 
 //App
@@ -563,6 +564,7 @@ const Root = () => {
   const WrappedCompetitorFuelPrices = withApi(CompetitorFuelPrices);
   const WrappedCompetitor = withApi(Competitor);
   const WrappedAddCompetitor = withApi(AddCompetitor);
+  const WrappeduploadCompetitor = withApi(uploadCompetitor);
   const WrappedmanageNotification = withApi(manageNotification);
   const WrappedEditCompetitorFuelPrices = withApi(EditCompetitorFuelPrices);
 
@@ -603,6 +605,10 @@ const Root = () => {
                   <Route
                     path={`/addCompetitor`}
                     element={<WrappedAddCompetitor />}
+                  />
+                  <Route
+                    path={`/uploadCompetitor-price`}
+                    element={<WrappeduploadCompetitor />}
                   />
 
                   {/* User  Components End */}
