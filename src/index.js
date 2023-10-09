@@ -23,7 +23,6 @@ import ValidateOtp from "./components/CustomPages/Login/ValidateOtp";
 import StatsCompetitor from "./components/pages/Competitor/StatsCompetitor";
 import SingleStatsCompetitor from "./components/pages/Competitor/SingleStatsCompetitor";
 
-
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -614,19 +613,16 @@ const Root = () => {
                     element={<WrappedAddCompetitor />}
                   />
                   <Route
-
                     path={`/competitorStats`}
-                    element={<WrappedStatsCompetitor />
-                    }
+                    element={<WrappedStatsCompetitor />}
                   />
-
                   <Route
                     path={`/SingleCompetitor/:id`}
-                    element={<WrappedSingleStatsCompetitor />
-                   
+                    element={<WrappedSingleStatsCompetitor />}
+                  />
+                  <Route
                     path={`/uploadCompetitor-price`}
                     element={<WrappeduploadCompetitor />}
-
                   />
 
                   {/* User  Components End */}
