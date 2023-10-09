@@ -237,19 +237,8 @@ const ManageDsr = (props) => {
         formData.append("site_id", SiteId);
         formData.append("drs_date", DRSDate);
 
-        // const axiosInstance = axios.create({
-        //   baseURL: process.env.REACT_APP_BASE_URL,
-        //   headers: {
-        //     Authorization: `Bearer ${token}`,
-        //   },
-        //   body: formData,
-        // });
         const DeleteRole = async () => {
           try {
-            // const response = await axiosInstance.post(
-            //   "/drs/delete-data",
-            // formData
-            // );
             const postDataUrlForDelete = "/drs/delete-data";
 
             await postData(postDataUrlForDelete, formData);

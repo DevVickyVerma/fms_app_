@@ -265,7 +265,7 @@ input.dynamicinput {
 .table td {
   padding: 4px;
   text-align: left;
-  border: 1px solid #aeb1bd;
+  border-bottom: 1px solid #aeb1bd;
   border-right: none !important;
 }
 
@@ -295,9 +295,11 @@ tbody td {
   /* border-bottom: 1px solid #aeb1bd; */
   border-bottom-width: 1px;
   border-top: 0;
-  border: 1px solid #aeb1bd !important;
+  border-bottom: 1px solid #aeb1bd !important;
   padding: 13px 4px;
   min-width: 14.28% !important;
+  background-color: #aeb1bd !important;
+
   /* max-width: 14.28% !important; */
   min-height: 48px;
 }
@@ -315,7 +317,7 @@ tbody {
 .table td {
   padding: 5px 8px;
   text-align: left;
-  border: 1px solid #aeb1bd;
+
   /* max-width: 14.28%; */
   min-width: 14.28%;
   min-height: 48px;
@@ -938,7 +940,6 @@ span.ModalTitle-2fa {
   display: flex;
 }
 
-
 .loader {
   width: 12px;
   height: 12px;
@@ -962,7 +963,6 @@ span.ModalTitle-2fa {
   box-sizing: border-box;
   animation: animloader 1s linear infinite alternate;
 }
-
 
 .primary-loader {
   width: 10px;
@@ -1121,6 +1121,7 @@ span.ModalTitle-2fa {
     transform: rotate(-360deg);
   }
 }
+
 
 .single-Competitor-heading {
   background: #6c5ce7;

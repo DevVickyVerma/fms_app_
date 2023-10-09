@@ -275,12 +275,16 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                                                         <React.Fragment key={index}>
 
                                                             {/* <td>{item.name}</td> */}
-                                                            <tr className='p-1'>
+                                                            {/* <td className=' '>
 
-                                                                <span className='single-Competitor-body block w-100 text-end' >
+                                                            </td> */}
+                                                            {/* <span className=' p-1'></span> */}
+                                                            <td className='p-1 d-flex flex-column'>
+                                                                <span className='single-Competitor-body single-Competitor-heading block w-100 text-end'>
+
                                                                     {item?.price}
                                                                 </span>
-                                                            </tr>
+                                                            </td>
 
                                                         </React.Fragment>
                                                     ))}

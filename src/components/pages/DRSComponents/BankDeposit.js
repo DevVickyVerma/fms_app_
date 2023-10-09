@@ -145,16 +145,6 @@ const BankDeposit = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable = permissionsArray?.includes(
-    "cards-status-update"
-  );
-  const isEditPermissionAvailable = permissionsArray?.includes("card-edit");
-  const isAddPermissionAvailable = permissionsArray?.includes("card-create");
-  const isDeletePermissionAvailable = permissionsArray?.includes("card-delete");
-  const isDetailsPermissionAvailable =
-    permissionsArray?.includes("cards-details");
-  const isAssignPermissionAvailable = permissionsArray?.includes("card-assign");
-
   const validationSchema = Yup.object().shape({
     amount: Yup.string()
       .required("Amount is required")
@@ -191,10 +181,6 @@ const BankDeposit = (props) => {
         handleButtonClick();
         formik.resetForm();
       }
-
-      //   if (response.ok ) {
-      //     FetchTableData();
-      //   }
     } catch (error) {
       console.log(error);
       // Set the submission state to false if an error occurs
@@ -338,7 +324,7 @@ const BankDeposit = (props) => {
       width: "20%",
       cell: (row) => (
         <span className="text-center">
-          {isEditPermissionAvailable ? (
+          {editable?.is_editable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
                 // Assuming `row.id` contains the ID
@@ -360,7 +346,7 @@ const BankDeposit = (props) => {
               </Link>
             </OverlayTrigger>
           ) : null}
-          {isDeletePermissionAvailable ? (
+          {editable?.is_editable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
                 to="#"

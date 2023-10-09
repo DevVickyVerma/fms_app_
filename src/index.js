@@ -18,10 +18,10 @@ import SiteEvobossStatus from "./components/pages/EvobossStatus/SiteEvobossStatu
 import SiteEvobossStatusPage from "./components/pages/EvobossStatus/SiteEvobossStatusPage";
 import Competitor from "./components/pages/Competitor/Competitor";
 import AddCompetitor from "./components/pages/Competitor/AddCompetitor";
+import uploadCompetitor from "./components/pages/Competitor/UploadCompititor";
 import ValidateOtp from "./components/CustomPages/Login/ValidateOtp";
 import StatsCompetitor from "./components/pages/Competitor/StatsCompetitor";
 import SingleStatsCompetitor from "./components/pages/Competitor/SingleStatsCompetitor";
-
 
 //App
 const App = React.lazy(() => import("./components/app"));
@@ -568,6 +568,9 @@ const Root = () => {
   const WrappedAddCompetitor = withApi(AddCompetitor);
   const WrappedStatsCompetitor = withApi(StatsCompetitor);
   const WrappedSingleStatsCompetitor = withApi(SingleStatsCompetitor);
+
+  const WrappeduploadCompetitor = withApi(uploadCompetitor);
+
   const WrappedmanageNotification = withApi(manageNotification);
   const WrappedEditCompetitorFuelPrices = withApi(EditCompetitorFuelPrices);
 
@@ -611,14 +614,15 @@ const Root = () => {
                   />
                   <Route
                     path={`/competitorStats`}
-                    element={<WrappedStatsCompetitor />
-                    }
+                    element={<WrappedStatsCompetitor />}
                   />
-
                   <Route
                     path={`/SingleCompetitor/:id`}
-                    element={<WrappedSingleStatsCompetitor />
-                    }
+                    element={<WrappedSingleStatsCompetitor />}
+                  />
+                  <Route
+                    path={`/uploadCompetitor-price`}
+                    element={<WrappeduploadCompetitor />}
                   />
 
                   {/* User  Components End */}
@@ -732,7 +736,7 @@ const Root = () => {
                     element={<WrappedManageManageDsrList />}
                   />
                   <Route
-                    path={`/drs-crons`}
+                    path={`/drs-api-logs`}
                     element={<WrappedManageManageDsrCrons />}
                   />
                   {/* DSR  Components End */}
