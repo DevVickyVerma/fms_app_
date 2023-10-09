@@ -241,7 +241,7 @@ const AddCompetitor = (props) => {
                           Main Code
                         </label>
                         <input
-                          type="text"
+                          type="number"
                           autoComplete="off"
                           className={`input101 ${
                             formik.errors.main_code && formik.touched.main_code
@@ -320,7 +320,7 @@ const AddCompetitor = (props) => {
                           Dist Miles
                         </label>
                         <input
-                          type="text"
+                          type="number"
                           autoComplete="off"
                           className={`input101 ${
                             formik.errors.dist_miles &&
