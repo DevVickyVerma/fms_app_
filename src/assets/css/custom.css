@@ -108,7 +108,7 @@ h3.SidebarSearch-title {
   box-shadow: none;
 }
 
-.data-table-extensions > .data-table-extensions-filter > .filter-text {
+.data-table-extensions>.data-table-extensions-filter>.filter-text {
   /* border: 1px solid #eaedf1 !important; */
   border-bottom: 1px solid #eaedf1 !important;
   outline: none !important;
@@ -331,6 +331,7 @@ tbody tr {
 }
 
 @media screen and (max-width: 768px) {
+
   .table th,
   .table td {
     min-width: 22.28% !important;
@@ -552,7 +553,7 @@ input.table-input.readonly.total-input-card {
   border-radius: 50%;
 }
 
-.d-flex.chart-items > div:first-child {
+.d-flex.chart-items>div:first-child {
   margin-right: 0;
   margin-left: 0;
 }
@@ -1119,4 +1120,26 @@ span.ModalTitle-2fa {
   100% {
     transform: rotate(-360deg);
   }
+}
+
+
+.single-Competitor-heading {
+  background: #6c5ce7;
+  padding: 15px;
+  border-radius: 10px;
+  margin-right: 10px;
+  font-weight: 700;
+  color: whitesmoke;
+}
+
+.single-Competitor-body {
+  color: whitesmoke;
+  background: #a29bfe;
+  padding: 15px;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.single-Competitor-body:hover {
+  scale: 1.02;
 }
