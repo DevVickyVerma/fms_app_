@@ -208,14 +208,12 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                                             </td>
                                             {data[fuelType]?.map((item, index) => (
                                                 <React.Fragment key={index}>
-                                                    {/* <td>{item.name}</td> */}
                                                     <td className='p-1'>
 
                                                         <span className='single-Competitor-body block w-100 text-end' >
                                                             {item?.price}
                                                         </span>
                                                     </td>
-                                                    {/* {console.log(item.price, "entry.price")} */}
                                                 </React.Fragment>
                                             ))}
                                         </tr>
@@ -223,41 +221,26 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                                 </tbody>
                             </table>
 
-                            <table className=' w-100 my-6 '>
-                                {/* <thead >
-                                    <tr>
-                                        <th className='p-1'>
-                                            <span className='single-Competitor-heading block w-100 d-flex justify-content-between' >
-                                                <span>
-                                                    Fuel Type < AiFillCaretDown />
-                                                </span>
-                                                <span className=' text-end'>
-                                                    Competitor <AiFillCaretRight />
-                                                </span>
-                                            </span>
-                                        </th>
-                                        {Object?.keys(data)?.map((fuelType) => (
-                                            <td key={fuelType}>
-                                                <td className=' p-1'><span className='single-Competitor-heading block w-100' >
-                                                    {fuelType}
-                                                </span>
-                                                </td>
-                                            </td>
-                                        ))}
-                                    </tr>
-                                </thead> */}
+                            {/* <table className=' w-100 my-6 '>
                                 <tbody>
                                     <div className=' d-flex' >
                                         <div style={{ flexDirection: "column", display: "flex" }}>
                                             <tr className=' p-1' >
-                                                <span className='single-Competitor-heading block w-100 text-end' >
-                                                    Competitors Name
+                                                <span className='single-Competitor-heading d-flex justify-content-between w-100 ' >
+                                                    <span >
+                                                        Competitors Name < AiFillCaretDown />
+                                                    </span>
+                                                    <span className=' text-end'>
+                                                        Fuel Type <AiFillCaretRight />
+                                                    </span>
+
+
                                                 </span>
                                             </tr>
                                             {
                                                 getCompetitorsPrice?.competitors?.map((competitorsName) => (
                                                     <tr className=' p-1' >
-                                                        <span className='single-Competitor-heading block w-100 text-end' >
+                                                        <span className='single-Competitor-heading block w-100' >
                                                             {competitorsName}
                                                         </span>
                                                     </tr>
@@ -273,12 +256,6 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                                                     </td>
                                                     {data[fuelType]?.map((item, index) => (
                                                         <React.Fragment key={index}>
-
-                                                            {/* <td>{item.name}</td> */}
-                                                            {/* <td className=' '>
-
-                                                            </td> */}
-                                                            {/* <span className=' p-1'></span> */}
                                                             <td className='p-1 d-flex flex-column'>
                                                                 <span className='single-Competitor-body single-Competitor-heading block w-100 text-end'>
 
@@ -297,7 +274,7 @@ const SingleStatsCompetitor = ({ isLoading }) => {
 
 
                                 </tbody>
-                            </table>
+                            </table> */}
 
 
                         </Card.Body>
