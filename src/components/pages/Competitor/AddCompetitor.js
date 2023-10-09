@@ -16,7 +16,6 @@ const AddCompetitor = (props) => {
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
   const [selectedSiteId, setSelectedSiteId] = useState("");
-
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [SupplierData, setSupplierData] = useState({});
 
@@ -502,7 +501,7 @@ const AddCompetitor = (props) => {
                     </Col>
                     <Col lg={4} md={6}>
                       <div className="form-group">
-                        <label className="form-label mt-4" htmlFor="main_code ">
+                        <label className="form-label mt-4" htmlFor="dist_miles">
                           Main Code
                         </label>
                         <input
@@ -513,9 +512,9 @@ const AddCompetitor = (props) => {
                               ? "is-invalid"
                               : ""
                           }`}
-                          id="main_code "
-                          name="main_code "
-                          placeholder="Main Code "
+                          id="main_code"
+                          name="main_code"
+                          placeholder="Main Code"
                           onChange={formik.handleChange}
                           value={formik.values.main_code}
                         />
@@ -527,6 +526,7 @@ const AddCompetitor = (props) => {
                           )}
                       </div>
                     </Col>
+
                     <Col lg={4} md={6}>
                       <div className="form-group">
                         <label

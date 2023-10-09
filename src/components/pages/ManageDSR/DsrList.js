@@ -177,7 +177,7 @@ const ManageEmail = (props) => {
   const handleFetchSiteData = async (values) => {
     try {
       const response = await getData(
-        `/drs/exception?site_id=${values?.site_id}}&page=${currentPage}`
+        `/drs/exception?site_id=${values?.site_id}&drs_date=${values?.start_date}&page=${currentPage}`
       );
       setData(response?.data?.data?.exceptions);
       setCount(response.data.data.count);
@@ -263,10 +263,10 @@ const ManageEmail = (props) => {
                     ([key, value]) =>
                       [
                         "client_name",
-                        "TOdate",
+                        "Drs Date",
                         "company_name",
                         "site_name",
-                        "fromdate",
+                        "start_date",
                       ].includes(key) &&
                       value != null &&
                       value !== ""
@@ -275,7 +275,7 @@ const ManageEmail = (props) => {
                       if (
                         [
                           "client_name",
-                          "TOdate",
+                          "start_date",
                           "company_name",
                           "site_name",
                           "fromdate",

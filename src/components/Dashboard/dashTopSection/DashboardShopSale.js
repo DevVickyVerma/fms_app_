@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Card, Col, Form, FormGroup, Modal, Row } from "react-bootstrap";
+import {
+  Card,
+  Col,
+  Form,
+  FormGroup,
+  Modal,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { AiFillEye } from "react-icons/ai";
 import DashboardShopSaleCenterModal from "./DashboardShopSaleCenterModal";
 import { Slide, toast } from "react-toastify";
@@ -16,6 +25,8 @@ import * as Yup from "yup";
 import { DateRangePicker } from "react-date-range";
 import withApi from "../../../Utils/ApiHelper";
 import { useMyContext } from "../../../Utils/MyContext";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
+
 const DashboardShopSale = ({
   getData,
   // getGradsSiteDetails,
@@ -32,6 +43,7 @@ const DashboardShopSale = ({
   const { id } = useParams();
   const [gradsLoading, setGradsLoading] = useState(false);
   const [showDate, setShowDate] = useState(false);
+  const [ModalButtonName, setModalButtonName] = useState(false);
   const [startDatePath, setStartDatePath] = useState("");
   const [endDatePath, setEndDatePath] = useState("");
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
@@ -244,7 +256,7 @@ const DashboardShopSale = ({
     },
   ]);
   // const minDate = startOfMonth(subMonths(new Date(), 1)); // 1st day of the previous month
-  const minDate = new Date("2023-09-30")
+  const minDate = new Date("2023-09-30");
   const maxDate = getSiteStats?.data?.last_dayend
     ? new Date(getSiteStats.data.last_dayend)
     : new Date();
@@ -288,7 +300,6 @@ const DashboardShopSale = ({
   };
 
   const fetchData = async (values) => {
-    console.log(setGradsLoading, "yesssssss");
     setGradsLoading(true);
     try {
       if (localStorage.getItem("Dashboardsitestats") === "true") {
@@ -325,6 +336,7 @@ const DashboardShopSale = ({
             setDashboardShopSaleData(response3?.data?.data);
             // setGradsGetSiteDetails(response3?.data?.data);
             notify(response3?.data?.message);
+            setModalButtonName(false);
             setShowCalenderModal(false);
             setShowDate(true);
           } else {
@@ -350,6 +362,61 @@ const DashboardShopSale = ({
       theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
     });
   };
+
+  const ResetForm = async (values) => {
+    setGradsLoading(true);
+    try {
+      if (localStorage.getItem("Dashboardsitestats") === "true") {
+        try {
+          // Attempt to parse JSON data from local storage
+          const searchdata = await JSON.parse(
+            localStorage.getItem("mySearchData")
+          );
+          const superiorRole = localStorage.getItem("superiorRole");
+          const role = localStorage.getItem("role");
+          const localStoragecompanyId = localStorage.getItem("PresetCompanyID");
+          let companyId = ""; // Define companyId outside the conditionals
+
+          if (superiorRole === "Client" && role !== "Client") {
+            // Set companyId based on conditions
+            companyId =
+              searchdata?.company_id !== undefined
+                ? searchdata.company_id
+                : localStoragecompanyId;
+          } else {
+            companyId =
+              searchdata?.company_id !== undefined ? searchdata.company_id : "";
+          }
+
+          // Use async/await to fetch data
+          const response3 = await getData(
+            localStorage.getItem("superiorRole") !== "Client"
+              ? `/dashboard/get-site-shop-details?client_id=${ClientID}&company_id=${companyId}&site_id=${id}`
+              : `/dashboard/get-site-shop-details?client_id=${ClientID}&company_id=${companyId}&site_id=${id}`
+          );
+          setStartDatePath(startDate);
+          setEndDatePath(endDate);
+          if (response3 && response3.data) {
+            setDashboardShopSaleData(response3?.data?.data);
+            // setGradsGetSiteDetails(response3?.data?.data);
+            notify(response3?.data?.message);
+            setShowCalenderModal(false);
+            setShowDate(true);
+            setModalButtonName(true);
+          } else {
+            throw new Error("No data available in the response");
+          }
+          setGradsLoading(false);
+        } catch (error) {
+          // Handle errors that occur during the asynchronous operations
+          setGradsLoading(false);
+        }
+      }
+    } catch (error) {
+      setGradsLoading(false);
+    }
+    setGradsLoading(false);
+  };
   return (
     <>
       {isLoading || gradsLoading ? <Loaderimg /> : ""}
@@ -361,57 +428,50 @@ const DashboardShopSale = ({
       <Row>
         <Col lg={12} xl={12} md={12} sm={12}>
           <Card>
-            <Card.Header className="d-flex justify-content-between">
+            <Card.Header className="d-flex justify-content-between ">
               <h3 className="card-title">Shop Sales </h3>
+
               {dashboardShopSaleData?.shop_sales ? (
-                <button
-                  className="btn btn-primary"
-                  onClick={handleDateOpenModal}
-                >
-                  {" "}
-                  <MdOutlineCalendarMonth />{" "}
-                  {showDate && getSiteStats?.data
-                    ? `${moment(startDatePath).format("Do MMM")} - ${moment(
-                      endDatePath
-                    ).format("Do MMM")} `
-                    : moment(getSiteStats?.data?.last_dayend).format("MMM Do")}
-                  <SortIcon />{" "}
-                </button>
+                <div>
+                  <button
+                    className="btn btn-primary"
+                    onClick={handleDateOpenModal}
+                  >
+                    {" "}
+                    <MdOutlineCalendarMonth />{" "}
+                    {showDate && getSiteStats?.data && !ModalButtonName
+                      ? `${moment(startDatePath).format("Do MMM")} - ${moment(
+                          endDatePath
+                        ).format("Do MMM")} `
+                      : moment(getSiteStats?.data?.last_dayend).format(
+                          "MMM Do"
+                        )}
+                    <SortIcon />{" "}
+                  </button>
+                  {showDate && getSiteStats?.data && !ModalButtonName ? (
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={<Tooltip>Reset Filter</Tooltip>}
+                    >
+                      <button
+                        className="btn btn-danger  ms-2"
+                        onClick={() => {
+                          ResetForm();
+                        }}
+                      >
+                        <RestartAltIcon />
+                      </button>
+                    </OverlayTrigger>
+                  ) : (
+                    ""
+                  )}
+                </div>
               ) : (
                 ""
                 // <span class="Smallloader"></span>
               )}
             </Card.Header>
             <Card.Body>
-              {/* {dashboardShopSaleData?.shop_sales ? (
-                <div
-                  className="table-container table-responsive"
-                  style={{
-                    overflowY: "auto",
-                    maxHeight: "calc(100vh - 376px )",
-                    minHeight: "300px",
-                  }}
-                >
-                  <table className="table">
-                    <thead
-                      style={{
-                        position: "sticky",
-                        top: "0",
-                        width: "100%",
-                      }}
-                    >
-                      <tr className="fuelprice-tr">{renderTableHeader()}</tr>
-                    </thead>
-                    <tbody>{renderTableData()}</tbody>
-                  </table>
-                </div>
-              ) : (
-                <img
-                  src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
-                  alt="MyChartImage"
-                  className="all-center-flex nodata-image"
-                />
-              )} */}
               {!setDashboardShopSaleData ? (
                 <span class="Smallloader"></span>
               ) : dashboardShopSaleData?.shop_sales?.length > 0 ? (
@@ -434,14 +494,8 @@ const DashboardShopSale = ({
                 </div>
               ) : (
                 <p className="all-center-flex" style={{ height: "150px" }}>
-                  <span class="primary-loader" ></span>
+                  <span class="primary-loader"></span>
                 </p>
-                // <span class="loader"></span>
-                // <img
-                //   src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
-                //   alt="MyChartImage"
-                //   className="all-center-flex nodata-image"
-                // />
               )}
             </Card.Body>
           </Card>
@@ -453,7 +507,7 @@ const DashboardShopSale = ({
         onHide={handleCloseModal}
         centered
         className="custom-modal-width custom-modal-height"
-      // style={{ overflow: "auto" }}
+        // style={{ overflow: "auto" }}
       >
         <div
           class="modal-header"
@@ -530,10 +584,11 @@ const DashboardShopSale = ({
                                       min={getFirstDayOfPreviousMonth()}
                                       max={getCurrentDate()}
                                       onClick={handleShowDate}
-                                      className={`input101 ${errors.start_date && touched.start_date
-                                        ? "is-invalid"
-                                        : ""
-                                        } `}
+                                      className={`input101 ${
+                                        errors.start_date && touched.start_date
+                                          ? "is-invalid"
+                                          : ""
+                                      } `}
                                       id="start_date"
                                       name="start_date"
                                       onChange={(e) => {
@@ -565,10 +620,11 @@ const DashboardShopSale = ({
                                       min={state.startDate}
                                       max={getCurrentDate()}
                                       onClick={handleShowDate1}
-                                      className={`input101 ${errors.end_date && touched.end_date
-                                        ? "is-invalid"
-                                        : ""
-                                        } `}
+                                      className={`input101 ${
+                                        errors.end_date && touched.end_date
+                                          ? "is-invalid"
+                                          : ""
+                                      } `}
                                       id="end_date"
                                       name="end_date"
                                       onChange={(e) => {

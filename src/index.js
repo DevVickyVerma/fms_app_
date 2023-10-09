@@ -18,6 +18,7 @@ import SiteEvobossStatus from "./components/pages/EvobossStatus/SiteEvobossStatu
 import SiteEvobossStatusPage from "./components/pages/EvobossStatus/SiteEvobossStatusPage";
 import Competitor from "./components/pages/Competitor/Competitor";
 import AddCompetitor from "./components/pages/Competitor/AddCompetitor";
+import uploadCompetitor from "./components/pages/Competitor/UploadCompititor";
 import ValidateOtp from "./components/CustomPages/Login/ValidateOtp";
 import StatsCompetitor from "./components/pages/Competitor/StatsCompetitor";
 import SingleStatsCompetitor from "./components/pages/Competitor/SingleStatsCompetitor";
@@ -568,6 +569,9 @@ const Root = () => {
   const WrappedAddCompetitor = withApi(AddCompetitor);
   const WrappedStatsCompetitor = withApi(StatsCompetitor);
   const WrappedSingleStatsCompetitor = withApi(SingleStatsCompetitor);
+
+  const WrappeduploadCompetitor = withApi(uploadCompetitor);
+
   const WrappedmanageNotification = withApi(manageNotification);
   const WrappedEditCompetitorFuelPrices = withApi(EditCompetitorFuelPrices);
 
@@ -610,6 +614,7 @@ const Root = () => {
                     element={<WrappedAddCompetitor />}
                   />
                   <Route
+
                     path={`/competitorStats`}
                     element={<WrappedStatsCompetitor />
                     }
@@ -618,7 +623,10 @@ const Root = () => {
                   <Route
                     path={`/SingleCompetitor/:id`}
                     element={<WrappedSingleStatsCompetitor />
-                    }
+                   
+                    path={`/uploadCompetitor-price`}
+                    element={<WrappeduploadCompetitor />}
+
                   />
 
                   {/* User  Components End */}
@@ -732,7 +740,7 @@ const Root = () => {
                     element={<WrappedManageManageDsrList />}
                   />
                   <Route
-                    path={`/drs-crons`}
+                    path={`/drs-api-logs`}
                     element={<WrappedManageManageDsrCrons />}
                   />
                   {/* DSR  Components End */}

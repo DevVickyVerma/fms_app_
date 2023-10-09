@@ -242,7 +242,7 @@ const ManageEmail = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title"> DRS Crons</h1>
+            <h1 className="page-title"> DRS Api Logs</h1>
 
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -256,7 +256,7 @@ const ManageEmail = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                DRS Crons
+                DRS Api Logs
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -354,7 +354,7 @@ const ManageEmail = (props) => {
                   </button>
 
                   <WorkflowExceptionFilter
-                    title="Filter Workflow Exception"
+                    title="Filter DRS Api Logs"
                     visible={isModalVisible}
                     onClose={closeModal}
                     onformSubmit={handleFormSubmit}
@@ -384,7 +384,7 @@ const ManageEmail = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title"> DRS Crons</h3>
+                <h3 className="card-title"> DRS Api Logs</h3>
               </Card.Header>
 
               <Card.Body>
