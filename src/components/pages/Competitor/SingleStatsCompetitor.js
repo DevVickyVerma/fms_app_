@@ -4,12 +4,12 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import Loaderimg from '../../../Utils/Loader'
 import DashboardCompetitorGraph from '../../Dashboard/dashTopSection/DashboardCompetitorGraph'
 import axios from 'axios'
+import { AiFillCaretDown, AiFillCaretRight } from "react-icons/ai";
 import { Slide, toast } from 'react-toastify'
 
 const SingleStatsCompetitor = ({ isLoading }) => {
     const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
     const [Compititorloading, setCompititorloading] = useState(false);
-    const [selectedDateIndex, setSelectedDateIndex] = useState(0);
     const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
     const { id } = useParams();
 
@@ -108,56 +108,25 @@ const SingleStatsCompetitor = ({ isLoading }) => {
 
 
     if (!getCompetitorsPrice) {
-        return <h1>sdadsda</h1>
+        return <Loaderimg />
     }
 
 
-    const { dates, dataArray, fuelTypes, competitors } = getCompetitorsPrice;
-
-    console.log(getCompetitorsPrice, "getCompetitorsPrice");
+    // const { dates, dataArray, fuelTypes, competitors } = getCompetitorsPrice;
 
 
-    const renderTableHeader = () => {
-        return (
-            <tr className="fuelprice-tr " style={{ padding: "0px" }}>
-                <th className="dashboard-child-thead">Competitor Name</th>
-                {
-                    getCompetitorsPrice?.fuelTypes?.map((fuelTypesName) => (
-                        <th className="dashboard-child-thead">{fuelTypesName} </th>
-                    ))
-                }
-            </tr>
-        );
-    };
-    const renderTableData = () => {
-        return (
-            getCompetitorsPrice?.competitors?.map((item, index) => (
-                <>
-                    <tr className="fuelprice-tr" key={item?.id} style={{ padding: "0px" }} >
-                        <td className="dashboard-child-tdata">
-                            <div className="d-flex align-items-center justify-center h-100">
-                                <div >
-                                    <div className="d-flex">
-                                        <div className="ms-2 mt-0 mt-sm-2 d-block">
-                                            <h6 className="mb-0 fs-15 fw-semibold">
-                                                {item}
-                                            </h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+    const data = getCompetitorsPrice?.competitorListing;
+    // console.log(data, "getCompetitorsPrice");
 
-                </>
-            ))
-        )
+    const fuelTypes = Object.keys(getCompetitorsPrice?.competitorListing);
 
-    };
+
+
+
 
     return (
         <>
-            {isLoading ? <Loaderimg /> : null}
+            {Compititorloading ? <Loaderimg /> : null}
             <div className="page-header d-flex">
                 <div>
                     <h1 className="page-title ">Single Competitor Stats</h1>
@@ -193,52 +162,151 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                 </div>
             </div>
 
-            <Row>
-                <Col lg={12}>
-                    <Card>
-                        <Card.Header>
-
-                        </Card.Header>
-                        <Card.Body>
-                            {getCompetitorsPrice ? (
-                                <div
-                                    className="table-container table-responsive"
-                                    style={{
-                                        overflowY: "auto",
-                                        maxHeight: "calc(100vh - 376px )",
-                                        minHeight: "300px",
-                                    }}
-                                >
-                                    <table className="table">
-                                        <thead
-                                            style={{
-                                                position: "sticky",
-                                                top: "0",
-                                                width: "100%",
-                                            }}
-                                        >
-                                            <tr className="fuelprice-tr">{renderTableHeader()}</tr>
-                                        </thead>
-                                        <tbody>{renderTableData()}</tbody>
-                                    </table>
-                                </div>
-                            ) : (
-                                <img
-                                    src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
-                                    alt="MyChartImage"
-                                    className="all-center-flex nodata-image"
-                                />
-                            )}
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
-
             <Row
                 style={{
                     marginBottom: "10px",
                     marginTop: "20px",
                 }}
+            >
+                <Col lg={12} md={12}>
+                    <Card>
+                        <Card.Header className="card-header">
+                            <h4 className="card-title"> Local Competitor Stats</h4>
+                        </Card.Header>
+                        <Card.Body className="card-body pb-0 overflow-auto">
+                            <table className=' w-100 my-6 '>
+                                <thead >
+                                    <tr>
+                                        <th className='p-1'>
+                                            <span className='single-Competitor-heading block w-100 d-flex justify-content-between' >
+                                                <span>
+                                                    Fuel Type < AiFillCaretDown />
+                                                </span>
+                                                <span className=' text-end'>
+                                                    Competitor <AiFillCaretRight />
+                                                </span>
+                                            </span>
+                                        </th>
+                                        {
+                                            getCompetitorsPrice?.competitors?.map((competitorsName) => (
+                                                <th className=' p-1' >
+
+                                                    <span className='single-Competitor-heading block w-100 text-end' >
+                                                        {competitorsName}
+                                                    </span>
+                                                </th>
+                                            ))
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {Object?.keys(data)?.map((fuelType) => (
+                                        <tr key={fuelType}>
+                                            <td className=' p-1'><span className='single-Competitor-heading block w-100' >
+                                                {fuelType}
+                                            </span>
+                                            </td>
+                                            {data[fuelType]?.map((item, index) => (
+                                                <React.Fragment key={index}>
+                                                    {/* <td>{item.name}</td> */}
+                                                    <td className='p-1'>
+
+                                                        <span className='single-Competitor-body block w-100 text-end' >
+                                                            {item?.price}
+                                                        </span>
+                                                    </td>
+                                                    {/* {console.log(item.price, "entry.price")} */}
+                                                </React.Fragment>
+                                            ))}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+
+                            <table className=' w-100 my-6 '>
+                                {/* <thead >
+                                    <tr>
+                                        <th className='p-1'>
+                                            <span className='single-Competitor-heading block w-100 d-flex justify-content-between' >
+                                                <span>
+                                                    Fuel Type < AiFillCaretDown />
+                                                </span>
+                                                <span className=' text-end'>
+                                                    Competitor <AiFillCaretRight />
+                                                </span>
+                                            </span>
+                                        </th>
+                                        {Object?.keys(data)?.map((fuelType) => (
+                                            <td key={fuelType}>
+                                                <td className=' p-1'><span className='single-Competitor-heading block w-100' >
+                                                    {fuelType}
+                                                </span>
+                                                </td>
+                                            </td>
+                                        ))}
+                                    </tr>
+                                </thead> */}
+                                <tbody>
+                                    <div className=' d-flex' >
+                                        <div style={{ flexDirection: "column", display: "flex" }}>
+                                            <tr className=' p-1' >
+                                                <span className='single-Competitor-heading block w-100 text-end' >
+                                                    Competitors Name
+                                                </span>
+                                            </tr>
+                                            {
+                                                getCompetitorsPrice?.competitors?.map((competitorsName) => (
+                                                    <tr className=' p-1' >
+                                                        <span className='single-Competitor-heading block w-100 text-end' >
+                                                            {competitorsName}
+                                                        </span>
+                                                    </tr>
+                                                ))
+                                            }
+                                        </div>
+                                        <div>
+                                            {Object?.keys(data)?.map((fuelType) => (
+                                                <td key={fuelType}>
+                                                    <td className=' p-1'><span className='single-Competitor-heading block w-100' >
+                                                        {fuelType}
+                                                    </span>
+                                                    </td>
+                                                    {data[fuelType]?.map((item, index) => (
+                                                        <React.Fragment key={index}>
+
+                                                            {/* <td>{item.name}</td> */}
+                                                            <tr className='p-1'>
+
+                                                                <span className='single-Competitor-body block w-100 text-end' >
+                                                                    {item?.price}
+                                                                </span>
+                                                            </tr>
+
+                                                        </React.Fragment>
+                                                    ))}
+                                                </td>
+                                            ))}
+                                        </div>
+
+                                    </div>
+
+
+
+                                </tbody>
+                            </table>
+
+
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row >
+
+            <Row Row
+                style={{
+                    marginBottom: "10px",
+                    marginTop: "20px",
+                }
+                }
             >
                 <Col lg={12} md={12}>
                     <Card>
@@ -255,38 +323,7 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                         </Card.Body>
                     </Card>
                 </Col>
-            </Row>
-
-            <div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            {competitors?.map((competitor) => (
-                                <th key={competitor}>{competitor}</th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {dates?.map((date) => (
-                            <tr key={date}>
-                                <td>{date}</td>
-                                {competitors?.map((competitor) => (
-                                    <td key={competitor}>
-                                        {dataArray[date] && dataArray[date][fuelTypes[0]]
-                                            ? dataArray[date][fuelTypes[0]]
-                                                .filter((item) => item.name === competitor)
-                                                .map((item) => item.price)
-                                            : 'N/A'}
-                                    </td>
-                                ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-
-
+            </Row >
         </>
     )
 }

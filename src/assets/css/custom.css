@@ -1121,3 +1121,24 @@ span.ModalTitle-2fa {
     transform: rotate(-360deg);
   }
 }
+
+.single-Competitor-heading {
+  background: #6c5ce7;
+  padding: 15px;
+  border-radius: 10px;
+  margin-right: 10px;
+  font-weight: 700;
+  color: whitesmoke;
+}
+
+.single-Competitor-body {
+  color: whitesmoke;
+  background: #a29bfe;
+  padding: 15px;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.single-Competitor-body:hover {
+  scale: 1.02;
+}
