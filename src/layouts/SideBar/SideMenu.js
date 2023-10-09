@@ -91,12 +91,13 @@ export const MENUITEMS = [
             visibility: false,
           },
           {
-
             path: `/CompetitorStats`,
             type: "link",
             title: "Competitor Stats",
             permission: "competitor-list",
-
+            visibility: false,
+          },
+          {
             path: `/uploadCompetitor-price`,
             type: "link",
             title: "Upload Competitor",
