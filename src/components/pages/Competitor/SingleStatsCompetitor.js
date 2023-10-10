@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
+import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import DashboardCompetitorGraph from "../../Dashboard/dashTopSection/DashboardCompetitorGraph";
 import axios from "axios";
-import { AiFillCaretDown, AiFillCaretRight } from "react-icons/ai";
+import { AiFillCaretDown, AiFillCaretRight, AiOutlineArrowRight } from "react-icons/ai";
+import { BsFuelPumpFill } from "react-icons/bs";
 import { Slide, toast } from "react-toastify";
 
 const SingleStatsCompetitor = ({ isLoading }) => {
@@ -135,7 +136,7 @@ const SingleStatsCompetitor = ({ isLoading }) => {
             <Breadcrumb.Item
               className="breadcrumb-item"
               linkAs={Link}
-              linkProps={{ to: "/CompetitorStats" }}
+              linkProps={{ to: "/competitorstats" }}
             >
               Competitor Stats
             </Breadcrumb.Item>
@@ -167,53 +168,9 @@ const SingleStatsCompetitor = ({ isLoading }) => {
               <h4 className="card-title"> Local Competitor Stats</h4>
             </Card.Header>
             <Card.Body className="card-body pb-0 overflow-auto">
-              {/* <table className=" w-100 my-6 ">
-                <thead>
-                  <tr>
-                    <th className="p-1">
-                      <span className="single-Competitor-heading block w-100 d-flex justify-content-between">
-                        <span>
-                          Fuel Type <AiFillCaretDown />
-                        </span>
-                        <span className=" text-end">
-                          Competitor <AiFillCaretRight />
-                        </span>
-                      </span>
-                    </th>
-                    {getCompetitorsPrice?.competitors?.map(
-                      (competitorsName) => (
-                        <th className=" p-1">
-                          <span className="single-Competitor-heading block w-100 text-end">
-                            {competitorsName}
-                          </span>
-                        </th>
-                      )
-                    )}
-                  </tr>
-                </thead>
-                <tbody>
-                  {Object?.keys(data)?.map((fuelType) => (
-                    <tr key={fuelType}>
-                      <td className=" p-1">
-                        <span className="single-Competitor-heading block w-100">
-                          {fuelType}
-                        </span>
-                      </td>
-                      {data[fuelType]?.map((item, index) => (
-                        <React.Fragment key={index}>
-                          <td className="p-1">
-                            <span className="single-Competitor-body block w-100 text-end">
-                              {item?.price}
-                            </span>
-                          </td>
-                        </React.Fragment>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table> */}
 
-              <table className=" w-100 my-6 ">
+
+              {/* <table className=" w-100 my-6 ">
                 <tbody>
                   <div className=" d-flex">
                     <div style={{ flexDirection: "column", display: "flex" }}>
@@ -259,12 +216,12 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                     </div>
                   </div>
                 </tbody>
-              </table>
+              </table> */}
               <table className="w-100 my-6">
                 <tbody>
                   <tr>
                     <th>
-                      <span className="single-Competitor-heading d-flex justify-content-between w-100">
+                      <span className="single-Competitor-heading d-flex justify-content-between w-99">
                         <span>
                           Competitors Name <AiFillCaretDown />
                         </span>
@@ -275,8 +232,9 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                     </th>
                     {Object.keys(data).map((fuelType) => (
                       <th key={fuelType}>
-                        <span className="single-Competitor-heading block w-100 ">
-                          {fuelType}
+
+                        <span className="single-Competitor-heading block w-99 ">
+                          <BsFuelPumpFill /> {fuelType}
                         </span>
                       </th>
                     ))}
@@ -285,14 +243,69 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                     (competitorsName, rowIndex) => (
                       <tr key={rowIndex}>
                         <td>
-                          <span className="single-Competitor-heading block w-100">
-                            {competitorsName}
-                          </span>
+
+                          <div className="single-Competitor-heading d-flex w-99.9">
+                            <p className=" m-0">
+                              <span>
+                                <img src={competitorsName?.supplierImage} alt="supplierImage" className=" mx-3" style={{ width: "36px", height: "36px" }} />
+                              </span>
+                            </p>
+
+                            <p className=" d-flex flex-column m-0">
+                              <span className="single-Competitor-distance">
+                                <AiOutlineArrowRight /> {competitorsName?.station ? "My station" : `${competitorsName?.dist_miles} mi away`}
+                              </span>
+                              <span>
+                                {competitorsName?.name}
+                              </span>
+                            </p>
+                          </div>
                         </td>
                         {Object.keys(data).map((fuelType, colIndex) => (
                           <td key={colIndex}>
-                            <span className="single-Competitor-body single-Competitor-heading block w-100 ">
-                              {data[fuelType]?.[rowIndex]?.price}
+                            <span className="single-Competitor-body single-Competitor-heading block w-99.9 ">
+                              <span>
+                                <p className=" m-0 single-Competitor-distance"> {data[fuelType]?.[rowIndex]?.last_updated}</p>
+
+                              </span>
+                              <span className=" d-flex justify-content-between align-items-center">
+                                <span>
+                                  {data[fuelType]?.[rowIndex]?.price}
+                                </span>
+                                {/* <img src={competitorsName?.supplierImage} alt="supplierImage" className=" mx-3" style={{ width: "25px", height: "25px" }} /> */}
+                                <span className="" style={{ width: "25px", height: "25px", border: "1px solid black", borderRadius: "50%", background: "white" }}>
+
+
+                                  <OverlayTrigger
+                                    placement="top"
+                                    overlay={
+                                      <Tooltip
+                                        style={{
+                                          display: "flex",
+                                          alignItems: "flex-start",
+                                          justifyContent: "flex-start",
+                                        }}
+                                      >
+                                        Experian Email
+
+                                      </Tooltip>
+                                    }
+                                  >
+                                    <img
+                                      alt=""
+                                      src={require("../../../assets/images/SingleStatsCompetitor/xpiera-logo.png")}
+                                      className="" style={{
+                                        // width: "px"
+                                        objectFit: "contain"
+                                      }}
+
+
+                                    />
+                                  </OverlayTrigger>
+
+                                </span>
+
+                              </span>
                             </span>
                           </td>
                         ))}

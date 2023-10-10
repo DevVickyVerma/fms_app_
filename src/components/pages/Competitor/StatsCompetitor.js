@@ -116,17 +116,20 @@ const StatsCompetitor = ({ isLoading, getData }) => {
             sortable: false,
             width: "85%",
             cell: (row, index) => (
-                <Link to={`/SingleCompetitor/${row.id}`}
+                <Link to={`/sitecompetitor/${row.id}`}
                     className="d-flex"
                     style={{ cursor: "pointer" }}
                 >
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">
-                            {" "}
-                            {row?.site_name}
-                        </h6>
+                    <div className="ms-2 mt-0 mt-sm-2 d-flex align-items-center">
+                        <span>
+                            <img
+                                src={row?.supplierImage}
+                                alt="supplierImage"
+                                className="w-5 h-5 "
+                            />
+                        </span>
+                        <h6 className="mb-0 fs-14 fw-semibold ms-2"> {row?.site_name}</h6>
                     </div>
-
                 </Link>
 
             ),

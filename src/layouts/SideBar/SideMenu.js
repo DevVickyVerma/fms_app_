@@ -91,7 +91,7 @@ export const MENUITEMS = [
             visibility: false,
           },
           {
-            path: `/CompetitorStats`,
+            path: `/competitorstats`,
             type: "link",
             title: "Competitor Stats",
             permission: "competitor-list",
