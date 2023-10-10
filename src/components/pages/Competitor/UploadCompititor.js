@@ -23,21 +23,6 @@ const UploadCompetitor = (props) => {
 
   const Errornotify = (message) => toast.error(message);
 
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      Errornotify("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      Errornotify(errorMessage);
-    }
-  }
-
   const formik = useFormik({
     initialValues: {
       client_id: "",
@@ -133,14 +118,16 @@ const UploadCompetitor = (props) => {
     setIsLoading(true);
 
     try {
-      let url = `http://192.168.1.169:5000/upload-compititor-price`;
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_UPLOAD_FILE_BASE_URL}/upload-compititor-price`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
