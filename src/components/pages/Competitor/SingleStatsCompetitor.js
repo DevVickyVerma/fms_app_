@@ -274,7 +274,7 @@ const SingleStatsCompetitor = ({ isLoading }) => {
 
                             <p className=" d-flex flex-column m-0">
                               <span className="single-Competitor-distance">
-                                <AiOutlineArrowRight /> {competitorsName?.station ? "My station" : `${competitorsName?.dist_miles} mi away`}
+                                <AiOutlineArrowRight /> {competitorsName?.station ? "My station" : `${competitorsName?.dist_miles} miles away`}
                               </span>
                               <span>
                                 {competitorsName?.name}
@@ -293,37 +293,41 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                                   {data[fuelType]?.[rowIndex]?.price}
                                 </span>
                                 {/* <img src={competitorsName?.supplierImage} alt="supplierImage" className=" mx-3" style={{ width: "25px", height: "25px" }} /> */}
-                                <span className="" style={{ width: "25px", height: "25px", border: "1px solid black", borderRadius: "50%", background: "white", cursor: "pointer" }} >
+
+                                {data[fuelType]?.[rowIndex]?.station ? "" : <>
+                                  <span className="" style={{ width: "25px", height: "25px", border: "1px solid black", borderRadius: "50%", background: "white", cursor: "pointer" }} >
 
 
-                                  <OverlayTrigger
-                                    placement="top"
-                                    overlay={
-                                      <Tooltip
-                                        style={{
-                                          display: "flex",
-                                          alignItems: "flex-start",
-                                          justifyContent: "flex-start",
+                                    <OverlayTrigger
+                                      placement="top"
+                                      overlay={
+                                        <Tooltip
+                                          style={{
+                                            display: "flex",
+                                            alignItems: "flex-start",
+                                            justifyContent: "flex-start",
+                                          }}
+                                        >
+                                          Experian Email
+
+                                        </Tooltip>
+                                      }
+                                    >
+                                      <img
+                                        alt=""
+                                        src={require("../../../assets/images/SingleStatsCompetitor/xpiera-logo.png")}
+                                        className="" style={{
+                                          // width: "px"
+                                          objectFit: "contain"
                                         }}
-                                      >
-                                        Experian Email
-
-                                      </Tooltip>
-                                    }
-                                  >
-                                    <img
-                                      alt=""
-                                      src={require("../../../assets/images/SingleStatsCompetitor/xpiera-logo.png")}
-                                      className="" style={{
-                                        // width: "px"
-                                        objectFit: "contain"
-                                      }}
 
 
-                                    />
-                                  </OverlayTrigger>
+                                      />
+                                    </OverlayTrigger>
 
-                                </span>
+                                  </span>
+                                </>}
+
 
                               </span>
                             </span>
