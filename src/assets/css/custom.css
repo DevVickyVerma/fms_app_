@@ -1124,22 +1124,32 @@ span.ModalTitle-2fa {
 
 
 .single-Competitor-heading {
-  background: #6c5ce7;
-  padding: 15px;
+  background: #aeb1bd;
+  padding: 12px;
   border-radius: 10px;
   margin-right: 10px;
   font-weight: 700;
-  color: whitesmoke;
+  color: black;
+  margin: 5px;
 }
 
 .single-Competitor-body {
-  color: whitesmoke;
-  background: #a29bfe;
-  padding: 15px;
+  color: black;
+  background: #f2f2f8;
+  padding: 12px;
   border-radius: 10px;
   margin-right: 10px;
+  margin: 5px;
 }
 
 .single-Competitor-body:hover {
   scale: 1.02;
+}
+
+
+.single-Competitor-distance {
+  opacity: 0.8;
+  font-size: 10px;
+  font-weight: 300;
+
 }

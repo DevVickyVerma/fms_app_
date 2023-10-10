@@ -613,11 +613,11 @@ const Root = () => {
                     element={<WrappedAddCompetitor />}
                   />
                   <Route
-                    path={`/competitorStats`}
+                    path={`/competitorstats`}
                     element={<WrappedStatsCompetitor />}
                   />
                   <Route
-                    path={`/SingleCompetitor/:id`}
+                    path={`/sitecompetitor/:id`}
                     element={<WrappedSingleStatsCompetitor />}
                   />
                   <Route
