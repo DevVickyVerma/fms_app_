@@ -31,9 +31,10 @@ const UploadCompetitor = (props) => {
     },
     validationSchema: Yup.object({
       start_date: Yup.string().required("Date is required"),
-      image: Yup.mixed()
-        .required(" Only XLSX and XLS File is required")
-        .test("fileType", "Invalid file type", (value) => {
+      image: Yup.mixed().test(
+        "fileType",
+        "Only XLSX and XLS File is required",
+        (value) => {
           if (value) {
             const allowedFileTypes = [
               "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // XLSX
@@ -42,7 +43,8 @@ const UploadCompetitor = (props) => {
             return allowedFileTypes.includes(value.type);
           }
           return true;
-        }),
+        }
+      ),
     }),
 
     onSubmit: (values) => {
@@ -132,6 +134,7 @@ const UploadCompetitor = (props) => {
       if (response.ok) {
         const data = await response.json();
         SuccessToast(data.message);
+        navigate("/competitor");
       } else {
         const errorData = await response.json();
         ErrorToast(errorData.message);
