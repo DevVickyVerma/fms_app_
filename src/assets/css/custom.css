@@ -1142,14 +1142,11 @@ span.ModalTitle-2fa {
   margin: 5px;
 }
 
-.single-Competitor-body:hover {
-  scale: 1.02;
-}
 
 
 .single-Competitor-distance {
-  opacity: 0.8;
-  font-size: 10px;
+  opacity: 0.5;
+  font-size: 12px;
   font-weight: 300;
 
 }
