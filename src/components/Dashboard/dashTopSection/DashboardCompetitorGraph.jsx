@@ -17,7 +17,6 @@ const DashboardCompetitorGraph = ({
     }
   });
 
-  console.log(getCompetitorsPrice?.siteName, "getCompetitorsPrice");
 
   // Filter the data for the selected fuel type
   const filteredData = getCompetitorsPrice?.dates?.map((date) => ({
@@ -60,7 +59,6 @@ const DashboardCompetitorGraph = ({
   };
 
   const transformedData = transformData(filteredData);
-  console.log(transformedData, "transformedData");
 
   const datasets = Object?.keys(transformedData).map((name, index) => ({
     label: name ? name : "",
