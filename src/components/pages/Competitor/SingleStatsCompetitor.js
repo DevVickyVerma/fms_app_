@@ -109,7 +109,27 @@ const SingleStatsCompetitor = ({ isLoading }) => {
   }
 
   if (!getCompetitorsPrice) {
-    return null;
+    return (<Row
+      style={{
+        marginBottom: "10px",
+        marginTop: "20px",
+      }}
+    >
+      <Col lg={12} md={12}>
+        <Card>
+          <Card.Header className="card-header">
+            <h4 className="card-title"> Local Competitor Stats</h4>
+          </Card.Header>
+          <Card.Body className="card-body pb-0 overflow-auto"> <img
+            src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+            alt="MyChartImage"
+            className="all-center-flex nodata-image"
+          />
+          </Card.Body>
+        </Card>
+      </Col>
+    </Row>
+    );
   }
 
   // const { dates, dataArray, fuelTypes, competitors } = getCompetitorsPrice;
@@ -165,7 +185,8 @@ const SingleStatsCompetitor = ({ isLoading }) => {
         <Col lg={12} md={12}>
           <Card>
             <Card.Header className="card-header">
-              <h4 className="card-title"> Local Competitor Stats</h4>
+              <h4 className="card-title">  {getCompetitorsPrice ? getCompetitorsPrice?.siteName : ""}{" "}
+                Competitors Stats</h4>
             </Card.Header>
             <Card.Body className="card-body pb-0 overflow-auto">
 
@@ -266,14 +287,13 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                             <span className="single-Competitor-body single-Competitor-heading block w-99.9 ">
                               <span>
                                 <p className=" m-0 single-Competitor-distance"> {data[fuelType]?.[rowIndex]?.last_updated}</p>
-
                               </span>
                               <span className=" d-flex justify-content-between align-items-center">
                                 <span>
                                   {data[fuelType]?.[rowIndex]?.price}
                                 </span>
                                 {/* <img src={competitorsName?.supplierImage} alt="supplierImage" className=" mx-3" style={{ width: "25px", height: "25px" }} /> */}
-                                <span className="" style={{ width: "25px", height: "25px", border: "1px solid black", borderRadius: "50%", background: "white" }}>
+                                <span className="" style={{ width: "25px", height: "25px", border: "1px solid black", borderRadius: "50%", background: "white", cursor: "pointer" }} >
 
 
                                   <OverlayTrigger

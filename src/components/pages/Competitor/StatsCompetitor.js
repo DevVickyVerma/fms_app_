@@ -8,8 +8,6 @@ import withApi from '../../../Utils/ApiHelper'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { log } from 'nvd3'
-import { MultiSelect } from 'react-multi-select-component'
 import DataTable from 'react-data-table-component'
 import DataTableExtensions from "react-data-table-component-extensions";
 
@@ -41,7 +39,6 @@ const StatsCompetitor = ({ isLoading, getData }) => {
         handleClientStats();
     }, []);
 
-    console.log(selectedSiteList, "selectedSiteList");
 
     const handleFetchData = async () => {
         try {
@@ -90,8 +87,6 @@ const StatsCompetitor = ({ isLoading, getData }) => {
                 setData(data?.data);
             }
 
-
-            console.log(data, "dataa");
         } catch (error) {
             console.error("API error:", error);
         } // Set the submission state to false after the API call is completed
@@ -176,7 +171,7 @@ const StatsCompetitor = ({ isLoading, getData }) => {
             </div>
 
             {role === "Administrator" ? <>
-                <h1>
+                <>
                     <Row>
                         <Col md={12} xl={12}>
                             <Card>
@@ -328,7 +323,7 @@ const StatsCompetitor = ({ isLoading, getData }) => {
                         </Col>
                     </Row>
 
-                </h1></> : ""}
+                </></> : ""}
 
 
             <Card>
