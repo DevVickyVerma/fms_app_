@@ -346,44 +346,6 @@ const SingleStatsCompetitor = ({ isLoading }) => {
       </Row>
 
 
-      {/* <body>
-        <div class="content_wrapper">
-          <div class="card_bg">
-            <div class="card 1st_card">
-              <div class="card-content">
-                <p class="location">London</p>
-                <h1 class="degree">20<sup>o</sup>   </h1>
-                <p class="weather-status">Thumber</p>
-              </div>
-              <div class="card-image">
-                <img src="https://i.ibb.co/GtWcGNW/cloud.png" alt="cloud" border="0" />
-              </div>
-            </div>
-            <div class="card 2nd_card">
-              <div class="card-content">
-                <p class="location">Italy</p>
-                <h1 class="degree">18<sup>o</sup>         </h1>
-                <p class="weather-status">Rain</p>
-
-              </div>
-              <div class="card-image">
-                <img src="https://i.ibb.co/h7Tn2P8/rain.png" alt="rain" border="0" />
-              </div>
-            </div>
-            <div class="card 3rd_card">
-              <div class="card-content">
-                <p class="location">Singapore</p>
-                <h1 class="degree">32<sup>o</sup>         </h1>
-                <p class="weather-status">Wind</p>
-
-              </div>
-              <div class="card-image">
-                <img src="https://i.ibb.co/30tJCSC/wind.png" alt="wind" border="0" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </body> */}
 
 
 
