@@ -181,14 +181,16 @@ const SingleStatsCompetitor = ({ isLoading }) => {
           marginBottom: "10px",
           marginTop: "20px",
         }}
+
       >
-        <Col lg={12} md={12}>
-          <Card>
-            <Card.Header className="card-header">
+
+        <Col lg={12} md={12} className="">
+          <Card className="">
+            <Card.Header className=" my-cardd card-header">
               <h4 className="card-title">  {getCompetitorsPrice ? getCompetitorsPrice?.siteName : ""}{" "}
                 Competitors Stats</h4>
             </Card.Header>
-            <Card.Body className="card-body pb-0 overflow-auto">
+            <Card.Body className="my-cardd card-body pb-0 overflow-auto">
 
 
               {/* <table className=" w-100 my-6 ">
@@ -242,7 +244,7 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                 <tbody>
                   <tr>
                     <th>
-                      <span className="single-Competitor-heading d-flex justify-content-between w-99">
+                      <span className="single-Competitor-heading cardd  d-flex justify-content-between w-99">
                         <span>
                           Competitors Name <AiFillCaretDown />
                         </span>
@@ -254,7 +256,7 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                     {Object.keys(data).map((fuelType) => (
                       <th key={fuelType}>
 
-                        <span className="single-Competitor-heading block w-99 ">
+                        <span className="single-Competitor-heading cardd block w-99 ">
                           <BsFuelPumpFill /> {fuelType}
                         </span>
                       </th>
@@ -265,7 +267,7 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                       <tr key={rowIndex}>
                         <td>
 
-                          <div className="single-Competitor-heading d-flex w-99.9">
+                          <div className="single-Competitor-heading d-flex w-99.9 cardd">
                             <p className=" m-0">
                               <span>
                                 <img src={competitorsName?.supplierImage} alt="supplierImage" className=" mx-3" style={{ width: "36px", height: "36px" }} />
@@ -284,7 +286,7 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                         </td>
                         {Object.keys(data).map((fuelType, colIndex) => (
                           <td key={colIndex}>
-                            <span className="single-Competitor-body single-Competitor-heading block w-99.9 ">
+                            <span className="single-Competitor-body single-Competitor-heading cardd block w-99.9 ">
                               <span>
                                 <p className=" m-0 single-Competitor-distance"> {data[fuelType]?.[rowIndex]?.last_updated}</p>
                               </span>
@@ -342,6 +344,51 @@ const SingleStatsCompetitor = ({ isLoading }) => {
           </Card>
         </Col>
       </Row>
+
+
+      {/* <body>
+        <div class="content_wrapper">
+          <div class="card_bg">
+            <div class="card 1st_card">
+              <div class="card-content">
+                <p class="location">London</p>
+                <h1 class="degree">20<sup>o</sup>   </h1>
+                <p class="weather-status">Thumber</p>
+              </div>
+              <div class="card-image">
+                <img src="https://i.ibb.co/GtWcGNW/cloud.png" alt="cloud" border="0" />
+              </div>
+            </div>
+            <div class="card 2nd_card">
+              <div class="card-content">
+                <p class="location">Italy</p>
+                <h1 class="degree">18<sup>o</sup>         </h1>
+                <p class="weather-status">Rain</p>
+
+              </div>
+              <div class="card-image">
+                <img src="https://i.ibb.co/h7Tn2P8/rain.png" alt="rain" border="0" />
+              </div>
+            </div>
+            <div class="card 3rd_card">
+              <div class="card-content">
+                <p class="location">Singapore</p>
+                <h1 class="degree">32<sup>o</sup>         </h1>
+                <p class="weather-status">Wind</p>
+
+              </div>
+              <div class="card-image">
+                <img src="https://i.ibb.co/30tJCSC/wind.png" alt="wind" border="0" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </body> */}
+
+
+
+
+
 
       <Row
         Row
