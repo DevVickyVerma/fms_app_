@@ -30,21 +30,19 @@ const UploadCompetitor = (props) => {
       image: null,
     },
     validationSchema: Yup.object({
-      start_date: Yup.string().required("Date is required"),
-      image: Yup.mixed().test(
-        "fileType",
-        "Only XLSX and XLS File is required",
-        (value) => {
+      image: Yup.mixed()
+        .required("Image is required")
+        .test("fileType", "Only XLSX and XLS files are allowed", (value) => {
           if (value) {
             const allowedFileTypes = [
               "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // XLSX
               "application/vnd.ms-excel", // XLS
             ];
-            return allowedFileTypes.includes(value.type);
+            const isValidFileType = allowedFileTypes.includes(value.type);
+            return isValidFileType;
           }
-          return true;
-        }
-      ),
+          return false;
+        }),
     }),
 
     onSubmit: (values) => {
@@ -163,15 +161,12 @@ const UploadCompetitor = (props) => {
     const file = event.target.files[0];
     formik.setFieldValue("image", file);
     formik.setFieldTouched("image", true);
+    formik.setFieldError("image", ""); // Clear any previous validation error
   };
 
   const handleDrop = (event) => {
     event.preventDefault();
-    const file = event.dataTransfer.files[0];
-    formik.setFieldValue("image", file);
-    formik.setFieldTouched("image", true);
   };
-
   return (
     <>
       {isdataLoading ? <Loaderimg /> : null}
@@ -312,7 +307,7 @@ const UploadCompetitor = (props) => {
                     </Col>
                     <Col lg={4} md={4}>
                       <div className="form-group">
-                        <label htmlFor="start_date" className="form-label mt-4">
+                        <label htmlFor="image" className="form-label mt-4">
                           Image
                           <span className="text-danger">*</span>
                         </label>
@@ -329,9 +324,11 @@ const UploadCompetitor = (props) => {
                             type="file"
                             id="image"
                             name="image"
+                            accept=".xlsx, .xls"
                             onChange={(event) => handleImageChange(event)}
                             className="form-control"
                           />
+
                           <p>
                             Drag and drop your image here, or click to browse
                           </p>
