@@ -153,18 +153,10 @@ const ManageRoles = (props) => {
     setCurrentPage(newPage);
   };
 
-  const isStatusPermissionAvailable = permissionsArray?.includes(
-    "site-assign-manager"
-  );
-  const isEditPermissionAvailable = permissionsArray?.includes(
-    "site-assign-manager"
-  );
-  const isAddPermissionAvailable = permissionsArray?.includes(
-    "site-assign-manager"
-  );
-  const isDeletePermissionAvailable = permissionsArray?.includes(
-    "site-assign-manager"
-  );
+  const isAddPermissionAvailable =
+    permissionsArray?.includes(" skipdate-create");
+  const isDeletePermissionAvailable =
+    permissionsArray?.includes(" skipdate-delete");
   const isDetailsPermissionAvailable =
     permissionsArray?.includes("role-details");
 
