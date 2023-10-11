@@ -136,7 +136,7 @@ const StatsCompetitor = ({ isLoading, getData }) => {
         data,
     };
 
-    console.log(data, "mydata");
+    // console.log(data, "mydata");
     const role = localStorage.getItem("role");
 
     return (

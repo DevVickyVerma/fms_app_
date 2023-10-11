@@ -181,14 +181,16 @@ const SingleStatsCompetitor = ({ isLoading }) => {
           marginBottom: "10px",
           marginTop: "20px",
         }}
+
       >
-        <Col lg={12} md={12}>
-          <Card>
-            <Card.Header className="card-header">
+
+        <Col lg={12} md={12} className="">
+          <Card className="">
+            <Card.Header className=" my-cardd card-header">
               <h4 className="card-title">  {getCompetitorsPrice ? getCompetitorsPrice?.siteName : ""}{" "}
                 Competitors Stats</h4>
             </Card.Header>
-            <Card.Body className="card-body pb-0 overflow-auto">
+            <Card.Body className="my-cardd card-body pb-0 overflow-auto">
 
 
               {/* <table className=" w-100 my-6 ">
@@ -242,7 +244,7 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                 <tbody>
                   <tr>
                     <th>
-                      <span className="single-Competitor-heading d-flex justify-content-between w-99">
+                      <span className="single-Competitor-heading cardd  d-flex justify-content-between w-99">
                         <span>
                           Competitors Name <AiFillCaretDown />
                         </span>
@@ -254,7 +256,7 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                     {Object.keys(data).map((fuelType) => (
                       <th key={fuelType}>
 
-                        <span className="single-Competitor-heading block w-99 ">
+                        <span className="single-Competitor-heading cardd block w-99 ">
                           <BsFuelPumpFill /> {fuelType}
                         </span>
                       </th>
@@ -265,7 +267,7 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                       <tr key={rowIndex}>
                         <td>
 
-                          <div className="single-Competitor-heading d-flex w-99.9">
+                          <div className="single-Competitor-heading d-flex w-99.9 cardd">
                             <p className=" m-0">
                               <span>
                                 <img src={competitorsName?.supplierImage} alt="supplierImage" className=" mx-3" style={{ width: "36px", height: "36px" }} />
@@ -274,7 +276,7 @@ const SingleStatsCompetitor = ({ isLoading }) => {
 
                             <p className=" d-flex flex-column m-0">
                               <span className="single-Competitor-distance">
-                                <AiOutlineArrowRight /> {competitorsName?.station ? "My station" : `${competitorsName?.dist_miles} mi away`}
+                                <AiOutlineArrowRight /> {competitorsName?.station ? "My station" : `${competitorsName?.dist_miles} miles away`}
                               </span>
                               <span>
                                 {competitorsName?.name}
@@ -284,7 +286,7 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                         </td>
                         {Object.keys(data).map((fuelType, colIndex) => (
                           <td key={colIndex}>
-                            <span className="single-Competitor-body single-Competitor-heading block w-99.9 ">
+                            <span className="single-Competitor-body single-Competitor-heading cardd block w-99.9 ">
                               <span>
                                 <p className=" m-0 single-Competitor-distance"> {data[fuelType]?.[rowIndex]?.last_updated}</p>
                               </span>
@@ -293,37 +295,41 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                                   {data[fuelType]?.[rowIndex]?.price}
                                 </span>
                                 {/* <img src={competitorsName?.supplierImage} alt="supplierImage" className=" mx-3" style={{ width: "25px", height: "25px" }} /> */}
-                                <span className="" style={{ width: "25px", height: "25px", border: "1px solid black", borderRadius: "50%", background: "white", cursor: "pointer" }} >
+
+                                {data[fuelType]?.[rowIndex]?.station ? "" : <>
+                                  <span className="" style={{ width: "25px", height: "25px", border: "1px solid black", borderRadius: "50%", background: "white", cursor: "pointer" }} >
 
 
-                                  <OverlayTrigger
-                                    placement="top"
-                                    overlay={
-                                      <Tooltip
-                                        style={{
-                                          display: "flex",
-                                          alignItems: "flex-start",
-                                          justifyContent: "flex-start",
+                                    <OverlayTrigger
+                                      placement="top"
+                                      overlay={
+                                        <Tooltip
+                                          style={{
+                                            display: "flex",
+                                            alignItems: "flex-start",
+                                            justifyContent: "flex-start",
+                                          }}
+                                        >
+                                          Experian Email
+
+                                        </Tooltip>
+                                      }
+                                    >
+                                      <img
+                                        alt=""
+                                        src={require("../../../assets/images/SingleStatsCompetitor/xpiera-logo.png")}
+                                        className="" style={{
+                                          // width: "px"
+                                          objectFit: "contain"
                                         }}
-                                      >
-                                        Experian Email
-
-                                      </Tooltip>
-                                    }
-                                  >
-                                    <img
-                                      alt=""
-                                      src={require("../../../assets/images/SingleStatsCompetitor/xpiera-logo.png")}
-                                      className="" style={{
-                                        // width: "px"
-                                        objectFit: "contain"
-                                      }}
 
 
-                                    />
-                                  </OverlayTrigger>
+                                      />
+                                    </OverlayTrigger>
 
-                                </span>
+                                  </span>
+                                </>}
+
 
                               </span>
                             </span>
@@ -338,6 +344,13 @@ const SingleStatsCompetitor = ({ isLoading }) => {
           </Card>
         </Col>
       </Row>
+
+
+
+
+
+
+
 
       <Row
         Row
