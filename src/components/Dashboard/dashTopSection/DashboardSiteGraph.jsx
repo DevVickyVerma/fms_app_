@@ -1,7 +1,6 @@
 import { Box, Typography } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
-  Button,
   Card,
   Col,
   OverlayTrigger,
@@ -10,7 +9,7 @@ import {
 } from "react-bootstrap";
 import LiquidFillGauge from "react-liquid-gauge";
 
-const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
+const DashboardSiteGraph = ({ getSiteStats }) => {
   const [selectedDateIndex, setSelectedDateIndex] = useState(0);
 
   const stockAlertData =

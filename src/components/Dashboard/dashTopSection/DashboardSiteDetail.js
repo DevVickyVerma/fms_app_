@@ -11,13 +11,9 @@ import { Slide, toast } from "react-toastify";
 const DashboardSiteDetail = (props) => {
   const { isLoading, getData } = props;
   const {
-    getGradsSiteDetails,
     setGradsGetSiteDetails,
-    dashboardShopSaleData,
     setDashboardShopSaleData,
-    DashboardGradsLoading,
-    setDashboardGradsLoading,
-    DashboardSiteDetailsLoading, setDashboardSiteDetailsLoading
+    setDashboardGradsLoading, setDashboardSiteDetailsLoading
   } = useMyContext();
   const { id } = useParams();
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
@@ -25,7 +21,6 @@ const DashboardSiteDetail = (props) => {
   const [getSiteDetails, setGetSiteDetails] = useState(null);
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
   const [permissionsArray, setPermissionsArray] = useState([]);
-  // const [getGradsSiteDetails, setGradsGetSiteDetails] = useState(null);
   const navigate = useNavigate();
   const SuccessToast = (message) => {
     toast.success(message, {
@@ -121,11 +116,6 @@ const DashboardSiteDetail = (props) => {
         companyId =
           searchdata?.company_id !== undefined ? searchdata.company_id : "";
       }
-      // const response2 = await getData(
-      //   localStorage.getItem("superiorRole") !== "Client"
-      //     ? `/dashboard/get-site-details?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${id}`
-      //     : `/dashboard/get-site-details?client_id=${ClientID}&company_id=${companyId}&site_id=${id}`
-      // );
       const response2 = await axiosInstance.get(
         localStorage.getItem("superiorRole") !== "Client"
           ? `/dashboard/get-site-details?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${id}`
@@ -135,7 +125,6 @@ const DashboardSiteDetail = (props) => {
       if (response2 && response2.data) {
         setGetSiteDetails(response2?.data?.data);
         setDashboardSiteDetailsLoading(false);
-        // setGradsGetSiteDetails(response2?.data?.data);
       } else {
         setDashboardSiteDetailsLoading(false);
         throw new Error("No data available in the response");
@@ -156,56 +145,10 @@ const DashboardSiteDetail = (props) => {
     },
   });
   const [scrollY, setScrollY] = useState(0);
-  const [alertShown, setAlertShown] = useState(false);
   const [callShopSaleApi, setCallShopSaleApi] = useState(false);
   const [callSiteFuelPerformanceApi, setCallSiteFuelPerformanceApi] = useState(false);
-  const [Compititorloading, setCompititorloading] = useState(false);
   const [shopSaleLoading, setShopSaleLoading] = useState(false);
-  const FetchCompititorData = async () => {
-    setCompititorloading(true);
-    if (localStorage.getItem("Dashboardsitestats") === "true") {
-      try {
-        const searchdata = await JSON.parse(
-          localStorage.getItem("mySearchData")
-        );
-        const superiorRole = localStorage.getItem("superiorRole");
-        const role = localStorage.getItem("role");
-        const localStoragecompanyId = localStorage.getItem("PresetCompanyID");
-        let companyId = ""; // Define companyId outside the conditionals
 
-        if (superiorRole === "Client" && role !== "Client") {
-          // Set companyId based on conditions
-          companyId =
-            searchdata?.company_id !== undefined
-              ? searchdata.company_id
-              : localStoragecompanyId;
-        } else {
-          companyId =
-            searchdata?.company_id !== undefined ? searchdata.company_id : "";
-        }
-
-        // Use async/await to fetch data
-        const response3 = await axiosInstance.get(
-          localStorage.getItem("superiorRole") !== "Client"
-            ? `/dashboard/get-competitors-price?client_id=${searchdata?.client_id}&company_id=${companyId}&site_id=${id}`
-            : `/dashboard/get-competitors-price?client_id=${ClientID}&company_id=${companyId}&site_id=${id}`
-        );
-
-        if (response3 && response3.data) {
-          setGetCompetitorsPrice(response3?.data?.data);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } catch (error) {
-        // Handle errors that occur during the asynchronous operations
-        console.error("API error:", error);
-        handleError(error)
-      } finally {
-        // Set Compititorloading to false when the request is complete (whether successful or not)
-        setCompititorloading(false);
-      }
-    }
-  };
 
   const FetchShopSaleData = async () => {
     try {
@@ -318,9 +261,6 @@ const DashboardSiteDetail = (props) => {
       if (currentScrollY > 450 && !callShopSaleApi) {
         setCallShopSaleApi(true);
       }
-      if (currentScrollY > 2800 && !alertShown) {
-        setAlertShown(true);
-      }
     }
 
     window.addEventListener("scroll", handleScroll);
@@ -328,13 +268,8 @@ const DashboardSiteDetail = (props) => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [alertShown, callShopSaleApi, callSiteFuelPerformanceApi]);
-  useEffect(() => {
-    if (alertShown) {
-      // Call FetchCompititorData when alertShown becomes true
-      FetchCompititorData();
-    }
-  }, [alertShown]);
+  }, [callShopSaleApi, callSiteFuelPerformanceApi]);
+
   useEffect(() => {
     if (callShopSaleApi) {
       // Call FetchCompititorData when alertShown becomes true
@@ -369,8 +304,6 @@ const DashboardSiteDetail = (props) => {
           setGetSiteDetails={setGetSiteDetails}
           getCompetitorsPrice={getCompetitorsPrice}
           setGetCompetitorsPrice={setGetCompetitorsPrice}
-        // getGradsSiteDetails={getGradsSiteDetails}
-        // setGradsGetSiteDetails={setGradsGetSiteDetails}
         />
       </div>
     </>

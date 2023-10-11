@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CustomModal from "../../../data/Modal/DashboardSiteDetails";
 import DashboardGradsComponent from "./DashboardGradsComponent";
 import { BsCalendarWeek } from "react-icons/bs";
@@ -26,7 +26,6 @@ const DashTopSubHeading = ({
   getSiteStats,
   setGetSiteStats,
   getSiteDetails,
-  setGetSiteDetails,
   getCompetitorsPrice,
   setGetCompetitorsPrice,
 }) => {
@@ -575,34 +574,7 @@ const DashTopSubHeading = ({
         </Col>
       </Row>
 
-      {localStorage.getItem("Dashboardsitestats") === "true" ? (
-        <>
-          <Row
-            style={{
-              marginBottom: "10px",
-              marginTop: "20px",
-            }}
-          >
-            <Col lg={12} md={12}>
-              <Card>
-                <Card.Header className="card-header">
-                  <h4 className="card-title"> Local Competitor Stats</h4>
-                </Card.Header>
-                <Card.Body className="card-body pb-0">
-                  <div id="chart">
-                    <DashboardCompetitorGraph
-                      getCompetitorsPrice={getCompetitorsPrice}
-                      setGetCompetitorsPrice={setGetCompetitorsPrice}
-                    />
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </>
-      ) : (
-        ""
-      )}
+
     </>
   );
 };

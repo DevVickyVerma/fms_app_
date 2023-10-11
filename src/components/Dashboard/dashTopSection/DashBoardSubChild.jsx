@@ -10,8 +10,6 @@ const DashBoardSubChild = ({
   setGetSiteDetails,
   getCompetitorsPrice,
   setGetCompetitorsPrice,
-  // getGradsSiteDetails,
-  // setGradsGetSiteDetails
 }) => {
 
 

@@ -2,26 +2,20 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import Header from "../layouts/Header/Header";
 import Sidebar from "../layouts/SideBar/SideBar";
 import Footer from "../layouts/Footer/Footer";
-import Switcher from "../layouts/Switcher/Switcher";
-
 import { Outlet, useLocation } from "react-router-dom";
 import TabToTop from "../layouts/TabToTop/TabToTop";
-import { useNavigate } from "react-router-dom";
 import TopLoadingBar from "react-top-loading-bar";
-
-import SweetAlert from "sweetalert2";
 import Swal from "sweetalert2";
 import withApi from "../Utils/ApiHelper";
 import { MyProvider } from "../Utils/MyContext";
 
 const App = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { getData } = props;
   const [logoutTime, setLogoutTime] = useState(
     parseInt(localStorage.getItem("auto_logout")) * 60000
   );
 
   const loadingBarRef = useRef();
-  const navigate = useNavigate();
   const location = useLocation();
 
   const logout = async () => {
@@ -80,8 +74,9 @@ const App = (props) => {
       window.removeEventListener("scroll", handleUserActivity);
       clearTimeout(inactivityTimeout);
     };
-    console.clear();
   }, []);
+
+
   const handleConfirm = () => {
     logout();
   };
@@ -136,8 +131,6 @@ const App = (props) => {
                 </div>
               </div>
             </div>
-
-            <Switcher />
             <Footer />
           </div>
         </div>

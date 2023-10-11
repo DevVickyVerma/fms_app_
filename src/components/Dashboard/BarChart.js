@@ -11,7 +11,6 @@ const BarChart = ({ piechartValues }) => {
   const shop_sales = parseFloat(piechartValues?.shop_sales);
   const fuel_sales = parseFloat(piechartValues?.fuel_sales);
   const bunkered_sales = parseFloat(piechartValues?.bunkered_sales);
-  const totalSales = shop_sales + fuel_sales + bunkered_sales;
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);

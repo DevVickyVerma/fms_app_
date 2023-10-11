@@ -1,17 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card,Form } from "react-bootstrap";
-import * as custompagesswitcherdata from "../../../data/Switcher/Custompagesswitcherdata"
+import { Card, Form } from "react-bootstrap";
 export default function LockScreen() {
   return (
     <div className="login-img">
       <div className="page ">
         <div className="dropdown float-end custom-layout">
-                <div className="demo-icon nav-link icon mt-4 bg-primary" onClick={()=>custompagesswitcherdata.Swichermainright()}>
-                    <i className="fe fe-settings fa-spin text_primary"></i>
-                </div>
-            </div>
-        <div className="" onClick={()=>custompagesswitcherdata.Swichermainrightremove()}>
+          <div className="demo-icon nav-link icon mt-4 bg-primary" >
+            <i className="fe fe-settings fa-spin text_primary"></i>
+          </div>
+        </div>
+        <div className="">
           <div className="col col-login mx-auto">
             <div className="text-center">
               <img
@@ -40,7 +39,7 @@ export default function LockScreen() {
                   >
                     <input
                       className="input100"
-                      type="text"  autoComplete="off"
+                      type="text" autoComplete="off"
                       name="pass"
                       placeholder="Password"
                     />
