@@ -46,16 +46,14 @@ const DashTopSection = (props) => {
           <Row>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden Dashboard-card ${
-                  GrossVolume?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden Dashboard-card ${GrossVolume?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <Card.Body
-                  className={`${
-                    isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                  }`}
+                  className={`${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                    }`}
                 >
                   <Row>
                     <div className="col">
@@ -104,11 +102,10 @@ const DashTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      shopmargin?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${shopmargin?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                     data-tip={`${GrossVolume?.percentage}%`}
                                   >
                                     {GrossVolume?.status === "up" ? (
@@ -147,16 +144,14 @@ const DashTopSection = (props) => {
               </Card>
             </Col>
             <div
-              className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 ${
-                isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-              }`}
+              className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 ${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                }`}
             >
               <div
-                className={`card overflow-hidden Dashboard-card ${
-                  GrossProfitValue?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden Dashboard-card ${GrossProfitValue?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <div className="card-body ">
                   <Row>
@@ -195,11 +190,10 @@ const DashTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      GrossProfitValue?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${GrossProfitValue?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {GrossProfitValue?.status === "up" ? (
                                       <>
@@ -238,16 +232,14 @@ const DashTopSection = (props) => {
             </div>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden Dashboard-card ${
-                  GrossMarginValue?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden Dashboard-card ${GrossMarginValue?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <Card.Body
-                  className={`${
-                    isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                  }`}
+                  className={`${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                    }`}
                 >
                   <Row>
                     <div className="col">
@@ -285,11 +277,10 @@ const DashTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      GrossMarginValue?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${GrossMarginValue?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {GrossMarginValue?.status === "up" ? (
                                       <>
@@ -306,9 +297,6 @@ const DashTopSection = (props) => {
                                         </span>
                                       </>
                                     )}
-                                    {/* <span>
-                                      {GrossProfitValue?.percentage}%
-                                    </span> */}
                                   </span>
                                   last month
                                 </p>
@@ -336,16 +324,14 @@ const DashTopSection = (props) => {
           <Row>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden Dashboard-card ${
-                  FuelValue?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden Dashboard-card ${FuelValue?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <Card.Body
-                  className={`${
-                    isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                  }`}
+                  className={`${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                    }`}
                 >
                   <Row>
                     <div className="col">
@@ -393,11 +379,10 @@ const DashTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      FuelValue?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${FuelValue?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {FuelValue?.status === "up" ? (
                                       <>
@@ -414,7 +399,6 @@ const DashTopSection = (props) => {
                                         </span>
                                       </>
                                     )}
-                                    {/* <span>{FuelValue?.percentage}%</span> */}
                                   </span>
                                   last month
                                 </p>
@@ -434,16 +418,14 @@ const DashTopSection = (props) => {
               </Card>
             </Col>
             <div
-              className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 ${
-                isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-              }`}
+              className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 ${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                }`}
             >
               <div
-                className={`card overflow-hidden Dashboard-card ${
-                  shopsale?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden Dashboard-card ${shopsale?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <div className="card-body ">
                   <Row>
@@ -481,11 +463,10 @@ const DashTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      shopsale?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${shopsale?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {shopsale?.status === "up" ? (
                                       <>
@@ -524,16 +505,14 @@ const DashTopSection = (props) => {
             </div>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden Dashboard-card ${
-                  shopmargin?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden Dashboard-card ${shopmargin?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <Card.Body
-                  className={`${
-                    isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                  }`}
+                  className={`${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                    }`}
                 >
                   <Row>
                     <div className="col">
@@ -570,11 +549,10 @@ const DashTopSection = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      shopmargin?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${shopmargin?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {shopmargin?.status === "up" ? (
                                       <>
@@ -591,7 +569,6 @@ const DashTopSection = (props) => {
                                         </span>
                                       </>
                                     )}
-                                    {/* <span>{shopmargin?.percentage}%</span> */}
                                   </span>
                                   last month
                                 </p>

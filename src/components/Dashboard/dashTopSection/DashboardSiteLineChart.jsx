@@ -81,14 +81,11 @@ const DashboardSiteLineChart = ({
         <Box
           borderRadius={"5px"}
           bgcolor={showLine2 ? "purple" : "#5444c1"}
-          // bgcolor={"#5444c1"}
-          // bgcolor={gridIndex === index ? "purple" : "#5444c1"}
           px={"20px"}
           py={"15px"}
           color={"white"}
           minWidth={"150px"}
           onClick={() => setShowLine2(!showLine2)}
-          // key={index}
           sx={{
             ":hover": {
               backgroundColor: "purple", // Change background color on hover
@@ -102,25 +99,18 @@ const DashboardSiteLineChart = ({
             alignItems={"center"}
             mb={"5px"}
           >
-            {/* <BsFillFuelPumpFill />
-                    {LastDeliveryState?.fuel}
-                    {fuelState?.fuel} */}
             Margin
           </Typography>
-          {/* <Typography>{LastDeliveryState?.value} L</Typography> */}
         </Box>
         {/* button 3 */}
         <Box
           borderRadius={"5px"}
           bgcolor={showLine3 ? "purple" : "#5444c1"}
-          // bgcolor={"#5444c1"}
-          // bgcolor={gridIndex === index ? "purple" : "#5444c1"}
           px={"20px"}
           py={"15px"}
           color={"white"}
           minWidth={"150px"}
           onClick={() => setShowLine3(!showLine3)}
-          // key={index}
           sx={{
             ":hover": {
               backgroundColor: "purple", // Change background color on hover
@@ -134,12 +124,8 @@ const DashboardSiteLineChart = ({
             alignItems={"center"}
             mb={"5px"}
           >
-            {/* <BsFillFuelPumpFill />
-                    {LastDeliveryState?.fuel}
-                    {fuelState?.fuel} */}
             Profit
           </Typography>
-          {/* <Typography>{LastDeliveryState?.value} L</Typography> */}
         </Box>
       </Box>
 

@@ -60,8 +60,6 @@ const DashBoardSubChild = ({
           setGetSiteDetails={setGetSiteDetails}
           getCompetitorsPrice={getCompetitorsPrice}
           setGetCompetitorsPrice={setGetCompetitorsPrice}
-        // getGradsSiteDetails={getGradsSiteDetails}
-        // setGradsGetSiteDetails={setGradsGetSiteDetails}
         />
       </div>
     </>

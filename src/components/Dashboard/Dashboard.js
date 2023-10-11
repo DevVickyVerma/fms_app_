@@ -382,7 +382,7 @@ const Dashboard = (props) => {
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-          localStorage.getItem("role") === "Operator" ? (
+            localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -572,7 +572,6 @@ const Dashboard = (props) => {
             ) : null}
           </Box>
         </>
-        {/* <hr></hr> */}
 
         {ShowTruw ? (
           <DashBordModal
@@ -590,8 +589,8 @@ const Dashboard = (props) => {
         )}
 
         {isProfileUpdatePermissionAvailable &&
-        !isTwoFactorPermissionAvailable &&
-        ShowAuth ? (
+          !isTwoFactorPermissionAvailable &&
+          ShowAuth ? (
           <>
             <CenterAuthModal title="Auth Modal" />
           </>
@@ -600,7 +599,7 @@ const Dashboard = (props) => {
         )}
 
         {localStorage.getItem("superiorRole") === "Administrator" &&
-        Object.keys(searchdata).length === 0 ? (
+          Object.keys(searchdata).length === 0 ? (
           <div
             style={{
               textAlign: "left",

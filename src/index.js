@@ -22,6 +22,9 @@ import uploadCompetitor from "./components/pages/Competitor/UploadCompititor";
 import ValidateOtp from "./components/CustomPages/Login/ValidateOtp";
 import StatsCompetitor from "./components/pages/Competitor/StatsCompetitor";
 import SingleStatsCompetitor from "./components/pages/Competitor/SingleStatsCompetitor";
+import ManageBank from "./components/pages/ManageBank/ManageBank";
+import AddBank from "./components/pages/ManageBank/AddBank";
+import EditBank from "./components/pages/ManageBank/EditBank";
 
 //App
 const App = React.lazy(() => import("./components/app"));
@@ -257,23 +260,7 @@ const EditItems = React.lazy(() =>
   import("./components/pages/ManageItems/EditItems")
 );
 
-// Items End
 
-// Items Start
-
-// const ManageImportTypes = React.lazy(() =>
-//   import("./components/pages/ManageImportTypes/ManageImportTypes")
-// );
-
-// const AddImportTypes = React.lazy(() =>
-//   import("./components/pages/ManageImportTypes/AddImportTypes")
-// );
-
-// const EditImportTypes = React.lazy(() =>
-//   import("./components/pages/ManageImportTypes/EditImportTypes")
-// );
-
-// Items End
 
 // Category Start
 
@@ -358,7 +345,9 @@ const WorkFlows = React.lazy(() =>
 );
 
 // Other End
-
+const SkipDates = React.lazy(() =>
+  import("./components/pages/SkipDates/SkipDateList")
+);
 const FUELPRICE = React.lazy(() =>
   import("./components/pages/ManageFuelPrices/FuelPrices")
 );
@@ -570,9 +559,14 @@ const Root = () => {
   const WrappedSingleStatsCompetitor = withApi(SingleStatsCompetitor);
 
   const WrappeduploadCompetitor = withApi(uploadCompetitor);
+  const WrappedManageBank = withApi(ManageBank);
+  const WrappedAddBank = withApi(AddBank);
+  const WrappedEditBankManneger = withApi(EditBank);
 
   const WrappedmanageNotification = withApi(manageNotification);
   const WrappedEditCompetitorFuelPrices = withApi(EditCompetitorFuelPrices);
+  const WrappedSkipDates = withApi(SkipDates);
+
 
   return (
     <Fragment>
@@ -640,6 +634,15 @@ const Root = () => {
                   />
 
                   <Route path={`/sites`} element={<Managesite />} />
+                  <Route path={`/managebank/:id`} element={<WrappedManageBank />} />
+                  <Route
+                    path={`/addbank/:id`}
+                    element={<WrappedAddBank />}
+                  />
+                  <Route
+                    path={`/editbankmanager/:id`}
+                    element={<WrappedEditBankManneger />}
+                  />
                   <Route
                     path={`/dailyfacilityfees`}
                     element={<WrappedDailyFacilityFees />}
@@ -1003,18 +1006,10 @@ const Root = () => {
                   />
 
                   {/* Category components end */}
-
-                  <Route>
-                    {/* <Route
-                      path={`/advancedElements/accordions`}
-                      element={<Accordions />}
-                    /> */}
-
-                    {/* <Route
-                      path={`/advancedElements/footers`}
-                      element={<Footer />}
-                    /> */}
-                  </Route>
+                  <Route
+                    path={`/skipdates/:id`}
+                    element={<WrappedSkipDates />}
+                  />
 
                   <Route>
                     <Route path={`/editprofile`} element={<EditProfile />} />

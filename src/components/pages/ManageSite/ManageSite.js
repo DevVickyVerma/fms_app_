@@ -18,17 +18,18 @@ import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import CommonSidebar from "../../../data/Modal/CommonSidebar";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CenterSearchmodal from "../../../data/Modal/CenterSearchmodal";
 import { Box } from "@mui/material";
+import DateRangeIcon from "@mui/icons-material/DateRange";
 const ManageSite = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
@@ -203,6 +204,7 @@ const ManageSite = (props) => {
   }, [UserPermissions]);
 
   const isEditPermissionAvailable = permissionsArray?.includes("site-edit");
+  const isBankManagerPermissionAvailable = permissionsArray?.includes("bankmanager-list");
   const isManagerPermissionAvailable = permissionsArray?.includes(
     "site-assign-manager"
   );
@@ -218,6 +220,8 @@ const ManageSite = (props) => {
     isDeletePermissionAvailable ||
     isManagerPermissionAvailable ||
     issitesettingPermissionAvailable;
+
+
 
   const columns = [
     {
@@ -316,7 +320,7 @@ const ManageSite = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
+        // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
@@ -367,78 +371,103 @@ const ManageSite = (props) => {
     },
     anyPermissionAvailable
       ? {
-          name: "Action",
-          selector: (row) => [row.action],
-          sortable: false,
-          width: "17%",
-          cell: (row) => (
-            <span className="text-center">
-              {anyPermissionAvailable ? (
-                <Dropdown className="dropdown btn-group">
-                  <Dropdown.Toggle
-                    variant="Primary"
-                    type="button"
-                    className="btn btn-primary dropdown-toggle"
-                  >
-                    Actions
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu className="dropdown-menu">
-                    {issitesettingPermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to={`/site-setting/${row.id}`}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <SettingsIcon />
-                            </i>
-                            Settings
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                    {isManagerPermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to={`/assignmanger/${row.id}`}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <AccountBalanceIcon />
-                            </i>
-                            Assign Manager
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                    {isEditPermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to={`/editsite/${row.id}`}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <ModeEditIcon />
-                            </i>
-                            Edit
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                    {isDeletePermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to="#" onClick={() => handleDelete(row.id)}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <DeleteIcon />
-                            </i>
-                            Delete
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                  </Dropdown.Menu>
-                </Dropdown>
-              ) : (
-                ""
-              )}
-            </span>
-          ),
-        }
+        name: "Action",
+        selector: (row) => [row.action],
+        sortable: false,
+        width: "17%",
+        cell: (row) => (
+          <span className="text-center">
+            {anyPermissionAvailable ? (
+              <Dropdown className="dropdown btn-group">
+                <Dropdown.Toggle
+                  variant="Primary"
+                  type="button"
+                  className="btn btn-primary dropdown-toggle"
+                >
+                  Actions
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="dropdown-menu">
+                  {issitesettingPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to={`/site-setting/${row.id}`}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <SettingsIcon />
+                          </i>
+                          Settings
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isManagerPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to={`/assignmanger/${row.id}`}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <AssignmentTurnedInIcon />
+                          </i>
+                          Assign Manager
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isBankManagerPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to={`/managebank/${row.id}`}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <AccountBalanceIcon />
+                          </i>
+                          Bank Manager
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isEditPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to={`/editsite/${row.id}`}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <ModeEditIcon />
+                          </i>
+                          Edit
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isManagerPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to={`/skipdates/${row.id}`}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <DateRangeIcon />
+                          </i>
+                          Skip Date
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+
+                  {isDeletePermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to="#" onClick={() => handleDelete(row.id)}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <DeleteIcon />
+                          </i>
+                          Delete
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                </Dropdown.Menu>
+              </Dropdown>
+            ) : (
+              ""
+            )}
+          </span>
+        ),
+      }
       : "",
   ];
 
@@ -449,8 +478,6 @@ const ManageSite = (props) => {
 
   useEffect(() => {
     FetchTableData();
-    console.clear();
-    // console.clear();
     console.clear();
   }, []);
 
@@ -528,11 +555,7 @@ const ManageSite = (props) => {
               // gap: "10px",
             }}
           >
-            <Box
-              display={["none", "flex"]}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-            >
+            <Box display={["none", "flex"]} justifyContent={"space-between"} alignItems={"center"}  >
               <span className="Search-data gap-1 d-flex flex-wrap">
                 {Object.entries(searchdata).map(([key, value]) => (
                   <div key={key} className="badge">
@@ -544,17 +567,14 @@ const ManageSite = (props) => {
                 ))}
               </span>
               {Object.keys(searchdata).length > 0 ? (
-                <Link
-                  className="btn btn-danger  ms-2"
-                  onClick={handleSearchReset}
-                  style={{ width: "100px" }}
-                >
+                <Link className="btn btn-danger  ms-2" onClick={handleSearchReset} style={{ width: "100px" }}>
                   Reset <RestartAltIcon />
                 </Link>
               ) : (
                 ""
               )}
             </Box>
+
 
             <Link
               // style={{ marginBottom: "7px" }}
@@ -577,23 +597,18 @@ const ManageSite = (props) => {
               </span>
             </Link>
 
+
             {isAddPermissionAvailable ? (
               <Link to="/addsite" className="btn btn-primary">
                 <Box component="span" display={["none", "unset"]}>
                   Add
-                </Box>{" "}
-                Site <AddCircleOutlineIcon />
+                </Box> Site <AddCircleOutlineIcon />
               </Link>
             ) : null}
           </div>
         </div>
 
-        <Box
-          display={["flex", "none"]}
-          justifyContent={"space-between"}
-          alignItems={"center"}
-          mb={"10px"}
-        >
+        <Box display={["flex", "none"]} justifyContent={"space-between"} alignItems={"center"} mb={"10px"} >
           <span className="Search-data gap-1 d-flex flex-wrap">
             {Object.entries(searchdata).map(([key, value]) => (
               <div key={key} className="badge">
@@ -605,17 +620,14 @@ const ManageSite = (props) => {
             ))}
           </span>
           {Object.keys(searchdata).length > 0 ? (
-            <Link
-              className="btn btn-danger  ms-2"
-              onClick={handleSearchReset}
-              style={{ width: "100px" }}
-            >
+            <Link className="btn btn-danger  ms-2" onClick={handleSearchReset} style={{ width: "100px" }}>
               Reset <RestartAltIcon />
             </Link>
           ) : (
             ""
           )}
         </Box>
+
 
         <Suspense fallback={<img src={Loaderimg} alt="Loading" />}>
           <CommonSidebar
