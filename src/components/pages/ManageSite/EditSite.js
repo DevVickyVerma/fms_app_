@@ -1,35 +1,22 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  Col,
-  Row,
-  Card,
-  Form,
-  FormGroup,
-  FormControl,
-  ListGroup,
-  Breadcrumb,
-} from "react-bootstrap";
+import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 
-import { Formik, Field, ErrorMessage } from "formik";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Slide, toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import DatePicker from "react-multi-date-picker";
+
 import Loaderimg from "../../../Utils/Loader";
 
 export default function AddSite(props) {
   const navigate = useNavigate();
   const { apidata, isLoading, error, getData, postData } = props;
   const [AddSiteData, setAddSiteData] = useState([]);
-  const [AddSiteData1, setAddSiteData1] = useState([]);
-  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
+
   const [selectedBusinessType, setSelectedBusinessType] = useState("");
   const [subTypes, setSubTypes] = useState([]);
-  const [EditSiteData, setEditSiteData] = useState("");
-  const [companyId, setCompanyId] = useState();
 
   const notify = (message) => {
     toast.success(message, {
@@ -71,8 +58,6 @@ export default function AddSite(props) {
   useEffect(() => {
     try {
       FetchRoleList();
-      // GetSiteData();
-      // handleFetchData();
     } catch (error) {
       handleError(error);
     }
@@ -173,6 +158,8 @@ export default function AddSite(props) {
       lottery_commission: "",
       shop_commission: "",
       paidout: "",
+      loomis_status: "",
+      cashback_status: "",
       auto_dayend: "",
       ignore_tolerance: "",
       security_amount: "",
@@ -206,6 +193,8 @@ export default function AddSite(props) {
         "Bunker Upload Status is required"
       ),
       security_amount: Yup.string().required("Security Amount is required"),
+      cashback_status: Yup.string().required("Cashback Status  is required"),
+      loomis_status: Yup.string().required(" Loomis Status  is required"),
 
       // drs_upload_status: Yup.string().required("Drs Upload Status is required"),
     }),
@@ -625,7 +614,7 @@ export default function AddSite(props) {
                             htmlFor="shop_commission"
                             className="form-label mt-4"
                           >
-                            Shop Cmmission
+                            Shop Commission
                           </label>
                           <input
                             type="text"
@@ -1028,6 +1017,72 @@ export default function AddSite(props) {
                               {formik.errors.paidout}
                             </div>
                           )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="loomis_status"
+                            className="form-label mt-4"
+                          >
+                            Loomis Status
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.loomis_status &&
+                              formik.touched.loomis_status
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="loomis_status"
+                            name="loomis_status"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.loomis_status}
+                          >
+                            <option value="">Select a loomis_status</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                          </select>
+                          {formik.errors.loomis_status &&
+                            formik.touched.loomis_status && (
+                              <div className="invalid-feedback">
+                                {formik.errors.loomis_status}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="cashback_status"
+                            className="form-label mt-4"
+                          >
+                            Cashback Status
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.cashback_status &&
+                              formik.touched.cashback_status
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="cashback_status"
+                            name="cashback_status"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.cashback_status}
+                          >
+                            <option value="">Select a cashback_status</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                          </select>
+                          {formik.errors.cashback_status &&
+                            formik.touched.cashback_status && (
+                              <div className="invalid-feedback">
+                                {formik.errors.cashback_status}
+                              </div>
+                            )}
                         </div>
                       </Col>
                       {/* auto Dayend Start */}

@@ -138,6 +138,8 @@ const AddSite = (props) => {
       formData.append("lottery_commission", 0);
       formData.append("shop_commission", 0);
       formData.append("paidout", values.paidout);
+      formData.append("loomis_status", values.loomis_status);
+      formData.append("cashback_status", values.cashback_status);
       formData.append("auto_dayend", values.auto_dayend);
       formData.append("ignore_tolerance", values.ignore_tolerance);
 
@@ -268,6 +270,8 @@ const AddSite = (props) => {
                     auto_dayend: "",
                     ignore_tolerance: "",
                     security_amount: "",
+                    loomis_status: "",
+                    cashback_status: "",
                   }}
                   validationSchema={Yup.object({
                     site_code: Yup.string()
@@ -310,6 +314,12 @@ const AddSite = (props) => {
                     ),
                     security_amount: Yup.string().required(
                       "Security Amount is required"
+                    ),
+                    loomis_status: Yup.string().required(
+                      "Loomis Status is required"
+                    ),
+                    cashback_status: Yup.string().required(
+                      "Cashback Status is required"
                     ),
                     // company_id: Yup.string().required(
                     //   "Company is required"
@@ -1096,7 +1106,7 @@ const AddSite = (props) => {
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
-                                htmlFor=" paidout"
+                                htmlFor="paidout"
                                 className=" form-label mt-4"
                               >
                                 Paidout
@@ -1119,6 +1129,67 @@ const AddSite = (props) => {
                                 component="div"
                                 className="invalid-feedback"
                                 name="paidout"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="loomis_status"
+                                className=" form-label mt-4"
+                              >
+                                Loomis Status
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${
+                                  errors.loomis_status && touched.loomis_status
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="loomis_status"
+                                name="loomis_status"
+                              >
+                                <option value="">Select a Loomis Status</option>
+                                <option value="0">Yes</option>
+                                <option value="1">No</option>
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="loomis_statuss"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="cashback_status"
+                                className=" form-label mt-4"
+                              >
+                                Cashback Status
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${
+                                  errors.cashback_status &&
+                                  touched.cashback_status
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="cashback_status"
+                                name="cashback_status"
+                              >
+                                <option value="">
+                                  Select a Cashback Status
+                                </option>
+                                <option value="0">Yes</option>
+                                <option value="1">No</option>
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="cashback_status"
                               />
                             </FormGroup>
                           </Col>
