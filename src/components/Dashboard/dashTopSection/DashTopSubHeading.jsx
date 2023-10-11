@@ -272,7 +272,6 @@ const DashTopSubHeading = ({
                     ) : (
                       <span class="Smallloader"></span>
                     )}
-                    {/* {getSiteStats?.data?.last_dayend} */}
                   </Typography>
                   {localStorage.getItem("SiteDetailsModalShow") === "true" ? (
                     <Typography
@@ -314,7 +313,6 @@ const DashTopSubHeading = ({
                         alignItems={"center"}
                         fontSize={"14px"}
                       >
-                        {/* {formattedDayForOpening} */}
                         {getSiteStats?.data?.opening ? (
                           moment(getSiteStats?.data?.opening).format(
                             "Do MMM, HH:mm"
@@ -352,7 +350,6 @@ const DashTopSubHeading = ({
                         alignItems={"center"}
                         fontSize={"14px"}
                       >
-                        {/* {formattedDayForClosing} */}
                         {getSiteStats?.data?.closing ? (
                           moment(getSiteStats?.data?.closing).format(
                             "Do MMM, HH:mm"
@@ -577,7 +574,6 @@ const DashTopSubHeading = ({
           </Card>
         </Col>
       </Row>
-      {/*  */}
 
       {localStorage.getItem("Dashboardsitestats") === "true" ? (
         <>

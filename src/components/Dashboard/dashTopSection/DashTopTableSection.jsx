@@ -381,7 +381,6 @@ const DashTopTableSection = (props) => {
               </div>
             </td>
 
-            {/* <td>{item?.fuel_volume?.total_volume}</td> */}
             <td className="dashboard-child-tdata">
               <div className="d-flex align-items-center h-100 ">
                 <div className="ms-2 mt-0 mt-sm-2 d-block">

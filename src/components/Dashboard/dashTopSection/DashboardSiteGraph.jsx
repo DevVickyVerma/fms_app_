@@ -120,7 +120,6 @@ const DashboardSiteGraph = ({ getSiteStats, setGetSiteStats }) => {
                               className="mb-2  text-dark font-weight-bold"
                               style={{ fontSize: "14px", fontWeight: "bold" }}
                             >
-                              {/* {tankName?.[selectedDateIndex]?.tank_name} */}
                               {
                                 stockAlertData?.[tankName]?.[selectedDateIndex]
                                   ?.tank_name
