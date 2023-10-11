@@ -249,13 +249,13 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                           Competitors Name <AiFillCaretDown />
                         </span>
                         <span className="text-end">
-                          Fuel Type <AiFillCaretRight />
+                          Fuel <span className="hidden-in-small-screen"> Type
+                          </span> <AiFillCaretRight />
                         </span>
                       </span>
                     </th>
                     {Object.keys(data).map((fuelType) => (
                       <th key={fuelType}>
-
                         <span className="single-Competitor-heading cardd block w-99 ">
                           <BsFuelPumpFill /> {fuelType}
                         </span>
@@ -268,13 +268,13 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                         <td>
 
                           <div className="single-Competitor-heading d-flex w-99.9 cardd">
-                            <p className=" m-0">
+                            <p className=" m-0 d-flex align-items-center">
                               <span>
                                 <img src={competitorsName?.supplierImage} alt="supplierImage" className=" mx-3" style={{ width: "36px", height: "36px" }} />
                               </span>
                             </p>
 
-                            <p className=" d-flex flex-column m-0">
+                            <p className=" d-flex flex-column m-0" style={{ minWidth: "55px" }}>
                               <span className="single-Competitor-distance">
                                 <AiOutlineArrowRight /> {competitorsName?.station ? "My station" : `${competitorsName?.dist_miles} miles away`}
                               </span>
@@ -291,13 +291,13 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                                 <p className=" m-0 single-Competitor-distance"> {data[fuelType]?.[rowIndex]?.last_updated}</p>
                               </span>
                               <span className=" d-flex justify-content-between align-items-center">
-                                <span>
+                                <span >
                                   {data[fuelType]?.[rowIndex]?.price}
                                 </span>
                                 {/* <img src={competitorsName?.supplierImage} alt="supplierImage" className=" mx-3" style={{ width: "25px", height: "25px" }} /> */}
 
                                 {data[fuelType]?.[rowIndex]?.station ? "" : <>
-                                  <span className="" style={{ width: "25px", height: "25px", border: "1px solid black", borderRadius: "50%", background: "white", cursor: "pointer" }} >
+                                  <span className="" style={{ width: "25px", height: "25px", border: "1px solid black", borderRadius: "50%", background: "white", cursor: "pointer", marginLeft: "10px" }} >
 
 
                                     <OverlayTrigger
@@ -343,10 +343,7 @@ const SingleStatsCompetitor = ({ isLoading }) => {
             </Card.Body>
           </Card>
         </Col>
-      </Row>
-
-
-
+      </Row >
 
 
 
