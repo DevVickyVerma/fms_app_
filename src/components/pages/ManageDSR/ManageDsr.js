@@ -744,7 +744,10 @@ const ManageDsr = (props) => {
             <Card>
               <Card.Header className="d-flex justify-content-space-between">
                 <h3 className="card-title">Daily Workflow</h3>
-                {getDataBtn === true && isAssignPermissionAvailable ? (
+                {getDataBtn === true &&
+                isAssignPermissionAvailable &&
+                DataEnteryList &&
+                DataEnteryList.length > 0 ? (
                   <>
                     <Link
                       onClick={handleButtonClick}
