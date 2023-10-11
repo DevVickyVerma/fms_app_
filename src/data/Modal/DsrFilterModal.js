@@ -1,60 +1,36 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Loaderimg from "../../Utils/Loader";
 import { ErrorMessage, Field, Formik } from "formik";
-import * as Yup from "yup";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai";
 import axios from "axios";
 import {
-  Breadcrumb,
   Card,
   Col,
   Form,
   FormGroup,
-  OverlayTrigger,
   Row,
-  Tooltip,
   Modal, // Import Modal from react-bootstrap
 } from "react-bootstrap";
 import { Slide, toast } from "react-toastify";
-import { logDOM } from "@testing-library/react";
+
 
 const WorkflowExceptionFilter = (props) => {
   const {
     title,
-    sidebarContent,
     visible,
     onClose,
     onformSubmit,
-    searchListstatus,
   } = props;
 
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
-    localStorage.getItem("superiorId")
-  );
   const [AddSiteData, setAddSiteData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
-  const notify = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
   const Errornotify = (message) => {
     toast.error(message, {
       position: toast.POSITION.TOP_RIGHT,
@@ -176,10 +152,6 @@ const WorkflowExceptionFilter = (props) => {
             site_id: "",
             start_date: "",
           }}
-          // validationSchema={Yup.object({
-          //   company_id: Yup.string().required("Company is required"),
-          //   site_id: Yup.string().required("Site is required"),
-          // })}
           onSubmit={(values) => {
             console.log(values);
             onformSubmit(values);
@@ -197,11 +169,10 @@ const WorkflowExceptionFilter = (props) => {
                         </label>
                         <Field
                           as="select"
-                          className={`input101 ${
-                            errors.client_id && touched.client_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${errors.client_id && touched.client_id
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="client_id"
                           name="client_id"
                           onChange={(e) => {
@@ -258,11 +229,10 @@ const WorkflowExceptionFilter = (props) => {
                       </label>
                       <Field
                         as="select"
-                        className={`input101 ${
-                          errors.company_id && touched.company_id
-                            ? "is-invalid"
-                            : ""
-                        }`}
+                        className={`input101 ${errors.company_id && touched.company_id
+                          ? "is-invalid"
+                          : ""
+                          }`}
                         id="company_id"
                         name="company_id"
                         onChange={(e) => {
@@ -315,9 +285,8 @@ const WorkflowExceptionFilter = (props) => {
 
                       <Field
                         as="select"
-                        className={`input101 ${
-                          errors.site_id && touched.site_id ? "is-invalid" : ""
-                        }`}
+                        className={`input101 ${errors.site_id && touched.site_id ? "is-invalid" : ""
+                          }`}
                         id="site_id"
                         name="site_id"
                         onChange={(e) => {
@@ -361,11 +330,10 @@ const WorkflowExceptionFilter = (props) => {
                       <Field
                         type="date"
                         min={"2023-01-01"}
-                        className={`input101 ${
-                          errors.start_date && touched.start_date
-                            ? "is-invalid"
-                            : ""
-                        }`}
+                        className={`input101 ${errors.start_date && touched.start_date
+                          ? "is-invalid"
+                          : ""
+                          }`}
                         onChange={(e) => {
                           const selectedstart_date = e.target.value;
 
@@ -399,7 +367,6 @@ const WorkflowExceptionFilter = (props) => {
 
 WorkflowExceptionFilter.propTypes = {
   title: PropTypes.string.isRequired,
-  // sidebarContent: PropTypes.node.isRequired,
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,

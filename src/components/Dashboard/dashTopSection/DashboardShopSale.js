@@ -19,7 +19,7 @@ import { MdOutlineCalendarMonth } from "react-icons/md";
 import SortIcon from "@mui/icons-material/Sort";
 import moment from "moment";
 import { AiOutlineClose } from "react-icons/ai";
-import { subMonths, startOfMonth, format } from "date-fns";
+import { format } from "date-fns";
 import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
 import { DateRangePicker } from "react-date-range";
@@ -29,9 +29,6 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 const DashboardShopSale = ({
   getData,
-  // getGradsSiteDetails,
-  // setGradsGetSiteDetails,
-  getSiteDetails,
   getSiteStats,
 }) => {
   const navigate = useNavigate();
@@ -49,8 +46,6 @@ const DashboardShopSale = ({
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
   const Errornotify = (message) => toast.error(message);
   const {
-    getGradsSiteDetails,
-    setGradsGetSiteDetails,
     dashboardShopSaleData,
     setDashboardShopSaleData,
   } = useMyContext();
@@ -441,11 +436,11 @@ const DashboardShopSale = ({
                     <MdOutlineCalendarMonth />{" "}
                     {showDate && getSiteStats?.data && !ModalButtonName
                       ? `${moment(startDatePath).format("Do MMM")} - ${moment(
-                          endDatePath
-                        ).format("Do MMM")} `
+                        endDatePath
+                      ).format("Do MMM")} `
                       : moment(getSiteStats?.data?.last_dayend).format(
-                          "MMM Do"
-                        )}
+                        "MMM Do"
+                      )}
                     <SortIcon />{" "}
                   </button>
                   {showDate && getSiteStats?.data && !ModalButtonName ? (
@@ -507,7 +502,7 @@ const DashboardShopSale = ({
         onHide={handleCloseModal}
         centered
         className="custom-modal-width custom-modal-height"
-        // style={{ overflow: "auto" }}
+      // style={{ overflow: "auto" }}
       >
         <div
           class="modal-header"
@@ -584,11 +579,10 @@ const DashboardShopSale = ({
                                       min={getFirstDayOfPreviousMonth()}
                                       max={getCurrentDate()}
                                       onClick={handleShowDate}
-                                      className={`input101 ${
-                                        errors.start_date && touched.start_date
-                                          ? "is-invalid"
-                                          : ""
-                                      } `}
+                                      className={`input101 ${errors.start_date && touched.start_date
+                                        ? "is-invalid"
+                                        : ""
+                                        } `}
                                       id="start_date"
                                       name="start_date"
                                       onChange={(e) => {
@@ -620,11 +614,10 @@ const DashboardShopSale = ({
                                       min={state.startDate}
                                       max={getCurrentDate()}
                                       onClick={handleShowDate1}
-                                      className={`input101 ${
-                                        errors.end_date && touched.end_date
-                                          ? "is-invalid"
-                                          : ""
-                                      } `}
+                                      className={`input101 ${errors.end_date && touched.end_date
+                                        ? "is-invalid"
+                                        : ""
+                                        } `}
                                       id="end_date"
                                       name="end_date"
                                       onChange={(e) => {

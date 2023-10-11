@@ -4,14 +4,12 @@ import { Card } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Slide, ToastContainer, toast } from "react-toastify";
-import * as loderdata from "../../../data/Component/loderdata/loderdata";
 import { useNavigate } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import { BsCapslock } from "react-icons/bs";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 export default function Login(props) {
-  const [isNavigated, setIsNavigated] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [capsLockActive, setCapsLockActive] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(true);
@@ -158,11 +156,10 @@ export default function Login(props) {
                               style={{ display: "flex" }}
                             >
                               <Field
-                                className={`input100 ${
-                                  errors.email && touched.email
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input100 ${errors.email && touched.email
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 // type="password"
                                 type="text"
                                 name="email"
@@ -238,11 +235,10 @@ export default function Login(props) {
                               style={{ display: "flex" }}
                             >
                               <Field
-                                className={`input100 ${
-                                  errors.password && touched.password
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input100 ${errors.password && touched.password
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 // type="password"
                                 type={passwordVisible ? "password" : "text"}
                                 name="password"

@@ -60,11 +60,8 @@ export default function ValidateOtp() {
       localStorage.setItem("role", data.data.role);
       localStorage.setItem("authToken", data.data.token);
       localStorage.setItem("auto_logout", data?.data?.auto_logout);
-
-      // localStorage.setItem("token", data.data.access_token);
       navigate(data?.data?.route);
       notify(data.message);
-      // window.location.href = `/dashboard`;
     } else {
       console.error(data.message);
       Errornotify(data.message);
@@ -93,7 +90,6 @@ export default function ValidateOtp() {
               <Col className=" col-login mx-auto">
                 <Formik
                   initialValues={{
-                    // number: "",
                     two_factor_code: "",
                     token: authToken,
                   }}

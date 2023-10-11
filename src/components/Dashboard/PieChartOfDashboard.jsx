@@ -9,11 +9,6 @@ const PieChartOfDashboard = ({ piechartValues }) => {
 
   // Extract the data from the prop
   const { shop_sales, fuel_sales, bunkered_sales } = piechartValues;
-
-  // Create a data array with the extracted values
-  // const data = [['Category', 'Sales'], ['Shop Sales', parseFloat(shop_sales)], ['Fuel Sales', parseFloat(fuel_sales)], ['Bunkered Sales', parseFloat(bunkered_sales)]];
-
-  // Create a data array with the extracted values
   const data = [["Category", "Sales"]];
 
   // Check and include Shop Sales value
@@ -34,14 +29,10 @@ const PieChartOfDashboard = ({ piechartValues }) => {
   return (
     <div>
       <Chart
-        // width={'900px'}
         height={"100%"}
         chartType="PieChart"
         loader={<div>Loading Chart</div>}
         data={data}
-        // options={{
-        //     title: 'Sales Breakdown',
-        // }}
         rootProps={{ "data-testid": "1" }}
       />
     </div>
