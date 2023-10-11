@@ -191,55 +191,6 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                 Competitors Stats</h4>
             </Card.Header>
             <Card.Body className="my-cardd card-body pb-0 overflow-auto">
-
-
-              {/* <table className=" w-100 my-6 ">
-                <tbody>
-                  <div className=" d-flex">
-                    <div style={{ flexDirection: "column", display: "flex" }}>
-                      <tr className=" p-1">
-                        <span className="single-Competitor-heading d-flex justify-content-between w-100 ">
-                          <span>
-                            Competitors Name <AiFillCaretDown />
-                          </span>
-                          <span className=" text-end">
-                            Fuel Type <AiFillCaretRight />
-                          </span>
-                        </span>
-                      </tr>
-                      {getCompetitorsPrice?.competitors?.map(
-                        (competitorsName) => (
-                          <tr className=" p-1">
-                            <span className="single-Competitor-heading block w-100">
-                              {competitorsName}
-                            </span>
-                          </tr>
-                        )
-                      )}
-                    </div>
-                    <div>
-                      {Object?.keys(data)?.map((fuelType) => (
-                        <td key={fuelType}>
-                          <td className=" p-1">
-                            <span className="single-Competitor-heading block w-100">
-                              {fuelType}
-                            </span>
-                          </td>
-                          {data[fuelType]?.map((item, index) => (
-                            <React.Fragment key={index}>
-                              <td className="p-1 d-flex flex-column">
-                                <span className="single-Competitor-body single-Competitor-heading block w-100 text-end">
-                                  {item?.price}
-                                </span>
-                              </td>
-                            </React.Fragment>
-                          ))}
-                        </td>
-                      ))}
-                    </div>
-                  </div>
-                </tbody>
-              </table> */}
               <table className="w-100 my-6">
                 <tbody>
                   <tr>
@@ -294,7 +245,6 @@ const SingleStatsCompetitor = ({ isLoading }) => {
                                 <span >
                                   {data[fuelType]?.[rowIndex]?.price}
                                 </span>
-                                {/* <img src={competitorsName?.supplierImage} alt="supplierImage" className=" mx-3" style={{ width: "25px", height: "25px" }} /> */}
 
                                 {data[fuelType]?.[rowIndex]?.station ? "" : <>
                                   <span className="" style={{ width: "25px", height: "25px", border: "1px solid black", borderRadius: "50%", background: "white", cursor: "pointer", marginLeft: "10px" }} >

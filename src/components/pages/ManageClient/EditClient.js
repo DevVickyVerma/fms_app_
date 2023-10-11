@@ -271,12 +271,11 @@ const EditClient = (props) => {
                             name="client_code"
                             type="text"
                             autoComplete="off"
-                            className={`input101 readonly ${
-                              formik.errors.client_code &&
+                            className={`input101 readonly ${formik.errors.client_code &&
                               formik.touched.client_code
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             placeholder="Client Code"
                             onChange={formik.handleChange}
                             value={formik.values.client_code || ""}
@@ -301,12 +300,11 @@ const EditClient = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.first_name &&
+                            className={`input101 ${formik.errors.first_name &&
                               formik.touched.first_name
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="first_name"
                             name="first_name"
                             placeholder="Company Name"
@@ -328,11 +326,10 @@ const EditClient = (props) => {
                         <input
                           type="text"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.last_name && formik.touched.last_name
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.last_name && formik.touched.last_name
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="last_name"
                           name="last_name"
                           placeholder=" Company Details"
@@ -355,11 +352,10 @@ const EditClient = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.email && formik.touched.email
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.email && formik.touched.email
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="email"
                             name="email"
                             placeholder="Company Name"
@@ -382,11 +378,10 @@ const EditClient = (props) => {
                           <textarea
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.address && formik.touched.address
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.address && formik.touched.address
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="address"
                             name="address"
                             placeholder="Address"
@@ -407,11 +402,10 @@ const EditClient = (props) => {
                             Status<span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.status && formik.touched.status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.status && formik.touched.status
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="status"
                             name="status"
                             onChange={formik.handleChange}
@@ -437,12 +431,11 @@ const EditClient = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.financial_start_month &&
+                            className={`input101 ${formik.errors.financial_start_month &&
                               formik.touched.financial_start_month
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="financial_start_month"
                             name="financial_start_month"
                             onChange={formik.handleChange}
@@ -482,12 +475,11 @@ const EditClient = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.financial_end_month &&
+                            className={`input101 ${formik.errors.financial_end_month &&
                               formik.touched.financial_end_month
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="financial_end_month"
                             name="financial_end_month"
                             onChange={formik.handleChange}
@@ -526,12 +518,11 @@ const EditClient = (props) => {
                             Lommis Status<span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.loomis_status &&
+                            className={`input101 ${formik.errors.loomis_status &&
                               formik.touched.loomis_status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="loomis_status"
                             name="loomis_status"
                             onChange={formik.handleChange}
@@ -556,15 +547,13 @@ const EditClient = (props) => {
                             className="form-label mt-4"
                           >
                             Workflow Notification
-                            {/* <span className="text-danger">*</span> */}
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.work_flow &&
+                            className={`input101 ${formik.errors.work_flow &&
                               formik.touched.work_flow
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="work_flow"
                             name="work_flow"
                             onChange={formik.handleChange}
@@ -653,7 +642,7 @@ const EditClient = (props) => {
                             }
                           />
                           {formik.touched.fairbank_email &&
-                          formik.errors.fairbank_email ? (
+                            formik.errors.fairbank_email ? (
                             <div className="error">
                               {formik.errors.fairbank_email}
                             </div>

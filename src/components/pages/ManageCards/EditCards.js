@@ -281,12 +281,11 @@ const EditCards = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.card_name &&
+                            className={`input101 ${formik.errors.card_name &&
                               formik.touched.card_name
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="card_name"
                             name="card_name"
                             placeholder="Card Name"
@@ -314,12 +313,11 @@ const EditCards = (props) => {
                             card_code="name"
                             type="text"
                             autoComplete="off"
-                            className={`input101 readonly ${
-                              formik.errors.card_code &&
+                            className={`input101 readonly ${formik.errors.card_code &&
                               formik.touched.card_code
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             placeholder="Card Name"
                             onChange={formik.handleChange}
                             value={formik.values.card_code || ""}
@@ -343,12 +341,11 @@ const EditCards = (props) => {
                             Card Status <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.card_status &&
+                            className={`input101 ${formik.errors.card_status &&
                               formik.touched.card_status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="card_status"
                             name="card_status"
                             onChange={formik.handleChange}
@@ -365,7 +362,6 @@ const EditCards = (props) => {
                             )}
                         </div>
                       </Col>
-                      {/* Bunkering Status Edit Start  */}
                       <Col lg={6} md={6}>
                         <div className="form-group">
                           <label
@@ -373,15 +369,13 @@ const EditCards = (props) => {
                             className="form-label mt-4"
                           >
                             Bunkering Status
-                            {/* <span className="text-danger">*</span> */}
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.is_bunkering &&
+                            className={`input101 ${formik.errors.is_bunkering &&
                               formik.touched.is_bunkering
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="is_bunkering"
                             name="is_bunkering"
                             onChange={formik.handleChange}
@@ -403,11 +397,10 @@ const EditCards = (props) => {
                         <div className="form-group">
                           <label htmlFor="image">Image</label>
                           <div
-                            className={`dropzone ${
-                              formik.errors.image && formik.touched.image
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`dropzone ${formik.errors.image && formik.touched.image
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             onDrop={(event) =>
                               handleDrop(event, formik.setFieldValue)
                             }

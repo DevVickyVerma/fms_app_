@@ -140,7 +140,7 @@ const AddCards = (props) => {
                   }}
                   validationSchema={Yup.object({
                     card_name: Yup.string()
-                    .required(" Card Name is required"),
+                      .required(" Card Name is required"),
 
                     card_code: Yup.string()
                       .required("Card Code is required")
@@ -182,11 +182,10 @@ const AddCards = (props) => {
                                 type="text"
                                 autoComplete="off"
                                 // className="form-control"
-                                className={`input101 ${
-                                  errors.card_name && touched.card_name
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.card_name && touched.card_name
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="card_name"
                                 name="card_name"
                                 placeholder="Card Name"
@@ -210,11 +209,10 @@ const AddCards = (props) => {
                               <Field
                                 type="text"
                                 autoComplete="off"
-                                className={`input101 ${
-                                  errors.card_code && touched.card_code
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.card_code && touched.card_code
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="card_code"
                                 name="card_code"
                                 placeholder="Card Code"
@@ -239,11 +237,10 @@ const AddCards = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.card_status && touched.card_status
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.card_status && touched.card_status
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="card_status"
                                 name="card_status"
                               >
@@ -265,15 +262,13 @@ const AddCards = (props) => {
                                 htmlFor="is_bunkering"
                               >
                                 Bunkering Status
-                                {/* <span className="text-danger">*</span> */}
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.is_bunkering && touched.is_bunkering
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.is_bunkering && touched.is_bunkering
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="is_bunkering"
                                 name="is_bunkering"
                               >
@@ -297,11 +292,10 @@ const AddCards = (props) => {
                                 Card Logo
                               </label>
                               <div
-                                className={`dropzone ${
-                                  errors.image && touched.image
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`dropzone ${errors.image && touched.image
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 onDrop={(event) =>
                                   handleDrop(event, setFieldValue)
                                 }

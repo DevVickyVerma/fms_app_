@@ -250,11 +250,10 @@ const AddRoles = (props) => {
                           id="name"
                           name="name"
                           placeholder="Role Name"
-                          className={`input101 ${
-                            formik.touched.name && formik.errors.name
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.touched.name && formik.errors.name
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           value={formik.values.name}
                           onChange={formik.handleChange}
                         />
@@ -267,19 +266,18 @@ const AddRoles = (props) => {
 
                       <div className="form-group">
                         {permissions.data &&
-                        Object.keys(permissions.data).length > 0 ? (
+                          Object.keys(permissions.data).length > 0 ? (
                           <div>
                             {Object.keys(permissions.data).map((heading) => (
                               <div key={heading}>
                                 <div className="table-heading d-flex">
                                   <div className="heading-input ">
                                     <input
-                                      className={`form-check-input ${
-                                        formik.touched.permissions &&
+                                      className={`form-check-input ${formik.touched.permissions &&
                                         formik.errors.permissions
-                                          ? "is-invalid"
-                                          : ""
-                                      }`}
+                                        ? "is-invalid"
+                                        : ""
+                                        }`}
                                       type="checkbox"
                                       name={`selectAll_${heading}`}
                                       id={`select-all-${heading}`}
@@ -296,7 +294,6 @@ const AddRoles = (props) => {
                                   </div>
                                 </div>
                                 <div className="form-group">
-                                  {/* End of "Select All" checkbox */}
                                   {permissions.data[heading].names.map(
                                     (nameItem) => (
                                       <div
@@ -304,12 +301,11 @@ const AddRoles = (props) => {
                                         className="form-check form-check-inline"
                                       >
                                         <input
-                                          className={`form-check-input ${
-                                            formik.touched.permissions &&
+                                          className={`form-check-input ${formik.touched.permissions &&
                                             formik.errors.permissions
-                                              ? "is-invalid"
-                                              : ""
-                                          }`}
+                                            ? "is-invalid"
+                                            : ""
+                                            }`}
                                           type="checkbox"
                                           name="permissions"
                                           value={nameItem.name}

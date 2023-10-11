@@ -283,7 +283,7 @@ const BankDeposit = (props) => {
 
       cell: (row, index) => (
         <div className="d-flex align-items-center card-img">
-          {}
+          { }
 
           <div style={{ cursor: "pointer" }}>
             {row.slip_type === "pdf" ? (
@@ -411,11 +411,10 @@ const BankDeposit = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.amount && formik.touched.amount
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.amount && formik.touched.amount
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="amount"
                             name="amount"
                             placeholder="Amount"
@@ -436,11 +435,10 @@ const BankDeposit = (props) => {
                             Choose Reason<span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.reason && formik.touched.reason
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.reason && formik.touched.reason
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="reason"
                             name="reason"
                             onChange={formik.handleChange}
@@ -467,11 +465,10 @@ const BankDeposit = (props) => {
                         <div className="form-group">
                           <label htmlFor="image">Image</label>
                           <div
-                            className={`dropzone ${
-                              formik.errors.image && formik.touched.image
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`dropzone ${formik.errors.image && formik.touched.image
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             onDrop={(event) => handleDrop(event)}
                             onDragOver={(event) => event.preventDefault()}
                           >
@@ -531,7 +528,6 @@ const BankDeposit = (props) => {
                     }}
                   >
                     Amount need to be deposit:
-                    {/* <BsCurrencyPound style={{ marginBottom: "5px" }} /> */}{" "}
                     £{bankAmount}
                   </h3>
                 ) : (

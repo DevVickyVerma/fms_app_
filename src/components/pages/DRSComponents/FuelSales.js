@@ -383,21 +383,6 @@ const FuelSales = (props) => {
                           />
                         </DataTableExtensions>
                       </div>
-                      {/* {data.length>0 ?  <div className="d-flex justify-content-end mt-3">
-                    {editable ? (
-                      <button className="btn btn-primary" type="submit">
-                        Submit
-                      </button>
-                    ) : (
-                      <button
-                        className="btn btn-primary"
-                        type="submit"
-                        disabled
-                      >
-                        Submit
-                      </button>
-                    )}
-                  </div> :""} */}
                     </form>
                   </>
                 ) : (
