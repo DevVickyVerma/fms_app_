@@ -7,12 +7,16 @@ import axios from "axios";
 import { AiFillCaretDown, AiFillCaretRight, AiOutlineArrowRight } from "react-icons/ai";
 import { BsFuelPumpFill } from "react-icons/bs";
 import { Slide, toast } from "react-toastify";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
 
-const SingleStatsCompetitor = ({ isLoading }) => {
+const SingleStatsCompetitor = ({ isLoading, getData }) => {
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
   const [Compititorloading, setCompititorloading] = useState(false);
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
   const { id } = useParams();
+  // const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState();
 
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
@@ -100,10 +104,27 @@ const SingleStatsCompetitor = ({ isLoading }) => {
       }
     }
   };
+
+  const handleClientStats = async () => {
+    try {
+      const response = await getData(
+        `/client/sites`
+      );
+
+
+      const { data } = response;
+      if (data) {
+        setSelected(data?.data);
+      }
+
+    } catch (error) {
+      console.error("API error:", error);
+    } // Set the submission state to false after the API call is completed
+  };
   useEffect(() => {
     FetchCompititorData();
-  }, []);
-
+    handleClientStats();
+  }, [id]);
   if (Compititorloading) {
     return <Loaderimg />;
   }
@@ -132,14 +153,23 @@ const SingleStatsCompetitor = ({ isLoading }) => {
     );
   }
 
+
   // const { dates, dataArray, fuelTypes, competitors } = getCompetitorsPrice;
 
   const data = getCompetitorsPrice?.competitorListing;
+  const animatedComponents = makeAnimated();
+  const Optionssingle = selected?.map(item => ({
+    value: item?.id,
+    label: item?.site_name
+  }))
+  const handleSitePathChange = (values) => {
+    navigate(`/sitecompetitor/${values.value}`)
+  }
 
   return (
     <>
       {Compititorloading ? <Loaderimg /> : null}
-      <div className="page-header d-flex">
+      <div className="page-header d-flex flex-wrap">
         <div>
           <h1 className="page-title ">
             {getCompetitorsPrice ? getCompetitorsPrice?.siteName : ""}{" "}
@@ -171,9 +201,27 @@ const SingleStatsCompetitor = ({ isLoading }) => {
           </Breadcrumb>
         </div>
 
+
         <div className="ms-auto ">
-          <div className="input-group"></div>
+
+          <label>
+            Sort By Site:
+          </label>
+          <div style={{ width: "200px" }}>
+
+            <Select
+              closeMenuOnSelect={false}
+              components={animatedComponents}
+              options={Optionssingle}
+              onChange={(value) => handleSitePathChange(value)}
+              // style={{ width: "400px" }}
+              className="test"
+            />
+          </div>
+
         </div>
+
+
       </div>
 
       <Row
@@ -186,7 +234,7 @@ const SingleStatsCompetitor = ({ isLoading }) => {
 
         <Col lg={12} md={12} className="">
           <Card className="">
-            <Card.Header className=" my-cardd card-header">
+            <Card.Header className=" my-cardd card-header ">
               <h4 className="card-title">  {getCompetitorsPrice ? getCompetitorsPrice?.siteName : ""}{" "}
                 Competitors Stats</h4>
             </Card.Header>

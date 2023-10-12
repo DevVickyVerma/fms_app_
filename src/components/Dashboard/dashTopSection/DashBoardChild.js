@@ -10,6 +10,7 @@ import DashBordModal from "../../../data/Modal/DashBordmodal";
 import { toast } from "react-toastify";
 import SortIcon from "@mui/icons-material/Sort";
 import { useSelector } from "react-redux";
+import CenterFilterModal from "../../../data/Modal/CenterFilterModal";
 
 const DashBoardChild = (props) => {
   const { isLoading, getData } = props;
@@ -17,6 +18,7 @@ const DashBoardChild = (props) => {
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
   const [SearchList, setSearchList] = useState(false);
+  const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
 
   const navigate = useNavigate();
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -41,6 +43,7 @@ const DashBoardChild = (props) => {
   const handleToggleSidebar1 = () => {
     setShowTruw(true);
     setSidebarVisible1(!sidebarVisible1);
+    setCenterFilterModalOpen(!centerFilterModalOpen);
   };
   const SuccessToast = (message) => {
     toast.success(message, {
@@ -322,7 +325,7 @@ const DashBoardChild = (props) => {
           </Box>
         </>
 
-        {ShowTruw ? (
+        {/* {ShowTruw ? (
           <DashBordModal
             title="Search"
             visible={sidebarVisible1}
@@ -335,7 +338,16 @@ const DashBoardChild = (props) => {
           />
         ) : (
           ""
-        )}
+        )} */}
+
+        <CenterFilterModal
+          onSubmit={handleFormSubmit} title="Search"
+          visible={sidebarVisible1}
+          onClose={handleToggleSidebar1}
+          searchListstatus={SearchList}
+          centerFilterModalOpen={centerFilterModalOpen}
+          setCenterFilterModalOpen={setCenterFilterModalOpen}
+        />
       </div>
 
       <Row>
