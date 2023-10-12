@@ -26,7 +26,7 @@ const UploadCompetitor = (props) => {
   const formik = useFormik({
     initialValues: {
       client_id: "",
-      start_date: "",
+
       image: null,
     },
     validationSchema: Yup.object({
@@ -110,8 +110,6 @@ const UploadCompetitor = (props) => {
     const formData = new FormData();
 
     formData.append("client_id", selectedClientId);
-
-    formData.append("start_date", values.start_date);
     formData.append("file", values.image);
 
     // Set isLoading to true to display the loading indicator
@@ -221,12 +219,11 @@ const UploadCompetitor = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.client_id &&
+                            className={`input101 ${formik.errors.client_id &&
                               formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="client_id"
                             name="client_id"
                             onChange={(e) => {
@@ -251,7 +248,7 @@ const UploadCompetitor = (props) => {
                           >
                             <option value="">Select a Client</option>
                             {CompetitorData.data &&
-                            CompetitorData.data.length > 0 ? (
+                              CompetitorData.data.length > 0 ? (
                               CompetitorData.data.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.client_name}
@@ -272,51 +269,16 @@ const UploadCompetitor = (props) => {
                       </Col>
                     )}
                     <Col lg={4} md={4}>
-                      <div classname="form-group">
-                        <label htmlFor="start_date" className="form-label mt-4">
-                          Date
-                          <span className="text-danger">*</span>
-                        </label>
-                        <input
-                          type="date"
-                          min={"2023-01-01"}
-                          max={getCurrentDate()}
-                          onClick={hadndleShowDate}
-                          className={`input101 ${
-                            formik.errors.start_date &&
-                            formik.touched.start_date
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          value={formik.values.start_date}
-                          id="start_date"
-                          name="start_date"
-                          onChange={(e) => {
-                            const selectedCompany = e.target.value;
-                            formik.setFieldValue("start_date", selectedCompany);
-                            // setDRSDate(selectedCompany);
-                          }}
-                        ></input>
-                        {formik.errors.start_date &&
-                          formik.touched.start_date && (
-                            <div className="invalid-feedback">
-                              {formik.errors.start_date}
-                            </div>
-                          )}
-                      </div>
-                    </Col>
-                    <Col lg={4} md={4}>
                       <div className="form-group">
                         <label htmlFor="image" className="form-label mt-4">
                           Image
                           <span className="text-danger">*</span>
                         </label>
                         <div
-                          className={`dropzone ${
-                            formik.errors.image && formik.touched.image
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`dropzone ${formik.errors.image && formik.touched.image
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           onDrop={(event) => handleDrop(event)}
                           onDragOver={(event) => event.preventDefault()}
                         >

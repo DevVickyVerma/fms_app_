@@ -140,8 +140,11 @@ const CenterSearchmodal = (props) => {
             alignItems: "center",
           }}
         >
-          <div>
-            <Modal.Title>Search</Modal.Title>
+          <div >
+            <Modal.Title style={{
+              margin: "auto "
+            }}>
+              Search</Modal.Title>
           </div>
           <div>
             <span

@@ -405,7 +405,7 @@ const DashTopSubHeading = ({
                   {moment(MonthLastDelivery, "MMM").isValid() ? (
                     MonthLastDelivery
                   ) : (
-                    <span class="Smallloader"></span>
+                    ""  // <span class="Smallloader"></span>
                   )}
                 </strong>
                 <Typography

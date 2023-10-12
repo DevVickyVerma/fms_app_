@@ -5,7 +5,6 @@ import withApi from "../../Utils/ApiHelper";
 import { fetchData } from "../../Redux/dataSlice";
 import SortIcon from "@mui/icons-material/Sort";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import DashBordModal from "../../data/Modal/DashBordmodal";
 import Loaderimg from "../../Utils/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import LineChart from "./LineChart";
@@ -77,7 +76,6 @@ const Dashboard = (props) => {
       } else if (superiorRole === "Client" && role !== "Client") {
         url = `dashboard/stats?client_id=${ClientID}&company_id=${companyId}`;
       }
-
       const response = await getData(url);
       const { data } = response;
 
@@ -209,6 +207,13 @@ const Dashboard = (props) => {
     } else {
       // If site_id is not present, set site_name to an empty string
       values.site_name = "";
+    }
+    if (values.company_id) {
+      // If company_id is present, set site_name to its value
+      values.company_name = values.company_name || "";
+    } else {
+      // If company_id is not present, set company_name to an empty string
+      values.company_name = "";
     }
 
 

@@ -162,8 +162,14 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
     value: item?.id,
     label: item?.site_name
   }))
+
   const handleSitePathChange = (values) => {
     navigate(`/sitecompetitor/${values.value}`)
+  }
+
+  const byDefaultSelectValue = {
+    value: id,
+    label: getCompetitorsPrice?.siteName
   }
 
   return (
@@ -205,7 +211,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
         <div className="ms-auto ">
 
           <label>
-            Sort By Site:
+            Filter By Site:
           </label>
           <div style={{ width: "200px" }}>
 
@@ -214,8 +220,8 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
               components={animatedComponents}
               options={Optionssingle}
               onChange={(value) => handleSitePathChange(value)}
-              // style={{ width: "400px" }}
               className="test"
+              value={byDefaultSelectValue}
             />
           </div>
 
@@ -239,7 +245,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                 Competitors Stats</h4>
             </Card.Header>
             <Card.Body className="my-cardd card-body pb-0 overflow-auto">
-              <table className="w-100 my-6">
+              <table className="w-100 mb-6">
                 <tbody>
                   <tr>
                     <th>
@@ -277,7 +283,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                               <span className="single-Competitor-distance">
                                 <AiOutlineArrowRight /> {competitorsName?.station ? "My station" : `${competitorsName?.dist_miles} miles away`}
                               </span>
-                              <span>
+                              <span style={{ minWidth: "200px", }}>
                                 {competitorsName?.name}
                               </span>
                             </p>
