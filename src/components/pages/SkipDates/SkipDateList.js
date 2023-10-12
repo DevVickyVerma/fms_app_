@@ -154,9 +154,9 @@ const ManageRoles = (props) => {
   };
 
   const isAddPermissionAvailable =
-    permissionsArray?.includes(" skipdate-create");
+    permissionsArray?.includes("skipdate-create");
   const isDeletePermissionAvailable =
-    permissionsArray?.includes(" skipdate-delete");
+    permissionsArray?.includes("skipdate-delete");
   const isDetailsPermissionAvailable =
     permissionsArray?.includes("role-details");
 
