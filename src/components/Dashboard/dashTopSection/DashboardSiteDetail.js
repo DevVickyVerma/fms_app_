@@ -251,9 +251,6 @@ const DashboardSiteDetail = (props) => {
     function handleScroll() {
       const currentScrollY = window.scrollY;
       setScrollY(currentScrollY);
-
-      console.log(currentScrollY, "currentScrollY");
-
       if (currentScrollY > 150 && !callSiteFuelPerformanceApi) {
         setCallSiteFuelPerformanceApi(true);
       }

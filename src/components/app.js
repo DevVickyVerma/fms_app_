@@ -49,7 +49,7 @@ const App = (props) => {
 
   useEffect(() => {
     simulateLoadingAndNavigate();
-    console.clear();
+    // console.clear();
   }, [location.pathname]);
 
   const [isInactive, setIsInactive] = useState(false);
@@ -106,7 +106,7 @@ const App = (props) => {
         handleConfirm();
       });
     }
-    console.clear();
+    // console.clear();
   }, [isInactive, handleConfirm, handleCancel]);
   return (
     <MyProvider>

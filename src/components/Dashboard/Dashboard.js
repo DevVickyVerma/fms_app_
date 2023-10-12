@@ -5,7 +5,6 @@ import withApi from "../../Utils/ApiHelper";
 import { fetchData } from "../../Redux/dataSlice";
 import SortIcon from "@mui/icons-material/Sort";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import DashBordModal from "../../data/Modal/DashBordmodal";
 import Loaderimg from "../../Utils/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import LineChart from "./LineChart";
@@ -16,6 +15,7 @@ import StackedLineBarChart from "./StackedLineBarChart";
 import Apexcharts2 from "./PieChart";
 import CenterAuthModal from "../../data/Modal/CenterAuthModal";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import CenterFilterModal from "../../data/Modal/CenterFilterModal";
 
 const Dashboard = (props) => {
   const { isLoading, getData } = props;
@@ -25,6 +25,7 @@ const Dashboard = (props) => {
   const [ClientID, setClientID] = useState();
   const [SearchList, setSearchList] = useState(false);
   const [justLoggedIn, setJustLoggedIn] = useState(false);
+  const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
 
   const {
     searchdata,
@@ -75,7 +76,6 @@ const Dashboard = (props) => {
       } else if (superiorRole === "Client" && role !== "Client") {
         url = `dashboard/stats?client_id=${ClientID}&company_id=${companyId}`;
       }
-
       const response = await getData(url);
       const { data } = response;
 
@@ -196,6 +196,7 @@ const Dashboard = (props) => {
   const handleToggleSidebar1 = () => {
     setShowTruw(true);
     setSidebarVisible1(!sidebarVisible1);
+    setCenterFilterModalOpen(!centerFilterModalOpen);
   };
 
   const handleFormSubmit = async (values) => {
@@ -207,6 +208,15 @@ const Dashboard = (props) => {
       // If site_id is not present, set site_name to an empty string
       values.site_name = "";
     }
+    if (values.company_id) {
+      // If company_id is present, set site_name to its value
+      values.company_name = values.company_name || "";
+    } else {
+      // If company_id is not present, set company_name to an empty string
+      values.company_name = "";
+    }
+
+
 
     // Now you can store the updated 'values' object in localStorage
     localStorage.setItem("mySearchData", JSON.stringify(values));
@@ -360,6 +370,8 @@ const Dashboard = (props) => {
 
   const isTwoFactorPermissionAvailable = UserPermissions?.two_factor;
 
+
+
   return (
     <>
       {isLoading || isLoadingState ? <Loaderimg /> : null}
@@ -368,7 +380,6 @@ const Dashboard = (props) => {
           display={"flex"}
           justifyContent={"space-between"}
           alignItems={"center"}
-          // minHeight={"90px"}
           flexDirection={["row"]}
           className="center-filter-modal-responsive"
         >
@@ -573,7 +584,7 @@ const Dashboard = (props) => {
           </Box>
         </>
 
-        {ShowTruw ? (
+        {/* {ShowTruw ? (
           <DashBordModal
             title="Search"
             visible={sidebarVisible1}
@@ -586,36 +597,49 @@ const Dashboard = (props) => {
           />
         ) : (
           ""
-        )}
+        )} */}
 
-        {isProfileUpdatePermissionAvailable &&
-          !isTwoFactorPermissionAvailable &&
-          ShowAuth ? (
-          <>
-            <CenterAuthModal title="Auth Modal" />
-          </>
-        ) : (
-          ""
-        )}
+        <CenterFilterModal
+          onSubmit={handleFormSubmit} title="Search"
+          visible={sidebarVisible1}
+          onClose={handleToggleSidebar1}
+          searchListstatus={SearchList}
+          centerFilterModalOpen={centerFilterModalOpen}
+          setCenterFilterModalOpen={setCenterFilterModalOpen}
+        />
 
-        {localStorage.getItem("superiorRole") === "Administrator" &&
-          Object.keys(searchdata).length === 0 ? (
-          <div
-            style={{
-              textAlign: "left",
-              margin: " 13px 0",
-              fontSize: "15px",
-              color: "white",
-              background: "#b52d2d",
-              padding: "10px",
-              borderRadius: "7px",
-            }}
-          >
-            Please Select Values from Filter.....
-          </div>
-        ) : (
-          ""
-        )}
+        {
+          isProfileUpdatePermissionAvailable &&
+            !isTwoFactorPermissionAvailable &&
+            ShowAuth ? (
+            <>
+              <CenterAuthModal title="Auth Modal" />
+            </>
+          ) : (
+            ""
+          )
+        }
+
+        {
+          localStorage.getItem("superiorRole") === "Administrator" &&
+            Object.keys(searchdata).length === 0 ? (
+            <div
+              style={{
+                textAlign: "left",
+                margin: " 13px 0",
+                fontSize: "15px",
+                color: "white",
+                background: "#b52d2d",
+                padding: "10px",
+                borderRadius: "7px",
+              }}
+            >
+              Please Select Values from Filter.....
+            </div>
+          ) : (
+            ""
+          )
+        }
 
         <DashTopSection
           GrossVolume={GrossVolume}
