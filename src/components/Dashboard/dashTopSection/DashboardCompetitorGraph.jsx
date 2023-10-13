@@ -69,8 +69,8 @@ const DashboardCompetitorGraph = ({
     )}, 0.9)`,
 
     yAxisID: "y", // You can adjust the yAxisID as needed
-    type: name === getCompetitorsPrice?.siteName ? "bar" : "line",
-
+    // type: name === getCompetitorsPrice?.siteName ? "bar" : "line",
+    type: "line",
   }));
 
   const data = {
@@ -93,6 +93,10 @@ const DashboardCompetitorGraph = ({
         display: true,
         position: "left",
         min: 0, // Set the minimum value to 0 for the left y-axis (y)
+        max: 3,
+        ticks: {
+          stepSize: 0.100, // Set the step size to 0.2
+        },
       },
     },
   };
