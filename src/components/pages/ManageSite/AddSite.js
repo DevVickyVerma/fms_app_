@@ -136,6 +136,11 @@ const AddSite = (props) => {
       formData.append("company_id", values.company_id);
       formData.append("client_id", values.client_id);
       formData.append("lottery_commission", 0);
+      formData.append("paypoint_commission", values.paypoint_commission);
+      formData.append(
+        "instant_lottery_commission",
+        values.instant_lottery_commission
+      );
       formData.append("shop_commission", 0);
       formData.append("paidout", values.paidout);
       formData.append("loomis_status", values.loomis_status);
@@ -265,6 +270,9 @@ const AddSite = (props) => {
                     client_id: "",
                     company_id: "",
                     lottery_commission: "",
+                    instant_lottery_commission: "",
+
+                    paypoint_commission: "",
                     shop_commission: "",
                     paidout: "",
                     auto_dayend: "",
@@ -703,12 +711,68 @@ const AddSite = (props) => {
                                 }`}
                                 id="lottery_commission"
                                 name="lottery_commission"
-                                placeholder=" Lottery Commission"
+                                placeholder="Lottery Commission"
                               />
                               <ErrorMessage
                                 component="div"
                                 className="invalid-feedback"
                                 name="lottery_commission"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="instant_lottery_commission"
+                                className=" form-label mt-4"
+                              >
+                                Instant Lottery Commission
+                              </label>
+                              <Field
+                                type="Number"
+                                autoComplete="off"
+                                className={`input101 ${
+                                  errors.instant_lottery_commission &&
+                                  touched.instant_lottery_commission
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="instant_lottery_commission"
+                                name="instant_lottery_commission"
+                                placeholder="Instant Lottery Commission"
+                              />
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="instant_lottery_commission"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="paypoint_commission"
+                                className=" form-label mt-4"
+                              >
+                                Paypoint Commission
+                              </label>
+                              <Field
+                                type="Number"
+                                autoComplete="off"
+                                className={`input101 ${
+                                  errors.paypoint_commission &&
+                                  touched.paypoint_commission
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="paypoint_commission"
+                                name="paypoint_commission"
+                                placeholder="Paypoint Commission"
+                              />
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="paypoint_commission"
                               />
                             </FormGroup>
                           </Col>

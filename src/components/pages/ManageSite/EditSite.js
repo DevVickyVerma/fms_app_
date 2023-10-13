@@ -156,6 +156,8 @@ export default function AddSite(props) {
       bunker_upload_status: "",
       paperwork_status: "",
       lottery_commission: "",
+      instant_lottery_commission: "",
+      paypoint_commission: "",
       shop_commission: "",
       paidout: "",
       loomis_status: "",
@@ -668,6 +670,70 @@ export default function AddSite(props) {
                             formik.touched.lottery_commission && (
                               <div className="invalid-feedback">
                                 {formik.errors.lottery_commission}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="instant_lottery_commission"
+                            className="form-label mt-4"
+                          >
+                            Instant Lottery Commission
+                          </label>
+                          <input
+                            type="text"
+                            autoComplete="off"
+                            className={`input101 ${
+                              formik.errors.instant_lottery_commission &&
+                              formik.touched.instant_lottery_commission
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="instant_lottery_commission"
+                            name="instant_lottery_commission"
+                            placeholder="Instant Lottery Commission"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.instant_lottery_commission}
+                          />
+                          {formik.errors.instant_lottery_commission &&
+                            formik.touched.instant_lottery_commission && (
+                              <div className="invalid-feedback">
+                                {formik.errors.instant_lottery_commission}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="paypoint_commission"
+                            className="form-label mt-4"
+                          >
+                            Paypoint Commission
+                          </label>
+                          <input
+                            type="text"
+                            autoComplete="off"
+                            className={`input101 ${
+                              formik.errors.paypoint_commission &&
+                              formik.touched.paypoint_commission
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="paypoint_commission"
+                            name="paypoint_commission"
+                            placeholder="Paypoint Commission"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.paypoint_commission}
+                          />
+                          {formik.errors.paypoint_commission &&
+                            formik.touched.paypoint_commission && (
+                              <div className="invalid-feedback">
+                                {formik.errors.paypoint_commission}
                               </div>
                             )}
                         </div>
