@@ -131,13 +131,13 @@ const ManageDeductions = (props) => {
 
   const FetchTableData = async (pageNumber) => {
     try {
-      const response = await getData(`/deduction/list?page=${pageNumber}&search_keywords=${searchQuery}`);
+      const response = await getData(`/deduction/list?page=${currentPage}&search_keywords=${searchQuery}`);
 
       if (response && response.data && response.data.data) {
         setData(response.data.data.deductions);
 
         setCount(response.data.data.count);
-        setCurrentPage(response?.data?.data?.currentPage);
+        setCurrentPage(response?.data?.data?.currentPage || 1);
         setHasMorePages(response?.data?.data?.hasMorePages);
         setLastPage(response?.data?.data?.lastPage);
         setPerPage(response?.data?.data?.perPage);
@@ -449,20 +449,6 @@ const ManageDeductions = (props) => {
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table">
-                      {/* <DataTableExtensions {...tableDatas}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          // center={true}
-                          persistTableHead
-                          highlightOnHover
-                          searchable={true}
-                        />
-                      </DataTableExtensions> */}
 
                       <div className="data-table-extensions">
                         <input
@@ -487,8 +473,6 @@ const ManageDeductions = (props) => {
                         striped={true}
                         center={true}
                         persistTableHead
-                        // pagination
-                        // paginationPerPage={20}
                         highlightOnHover
                         searchable={false}
                         subHeader={false}

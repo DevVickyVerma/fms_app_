@@ -68,7 +68,7 @@ const ManageCards = (props) => {
               icon: "success",
               confirmButtonText: "OK",
             });
-            FetchTableData(currentPage);
+            FetchTableData();
           } catch (error) {
             handleError(error);
           } finally {
@@ -106,7 +106,7 @@ const ManageCards = (props) => {
   };
 
   useEffect(() => {
-    FetchTableData(currentPage);
+    FetchTableData();
   }, [currentPage]);
 
   const toggleActive = (row) => {
@@ -124,7 +124,7 @@ const ManageCards = (props) => {
       const response = await postData("card/update-status", formData);
       // Console log the response
       if (apidata.api_response === "success") {
-        FetchTableData(currentPage);
+        FetchTableData();
       }
     } catch (error) {
       handleError(error);
@@ -139,6 +139,8 @@ const ManageCards = (props) => {
     },
   });
 
+  console.log(currentPage, "currentPage");
+
   const FetchTableData = async (itemsPerPage) => {
     try {
       const response = await getData(`card/list?page=${currentPage}&search_keywords=${searchQuery}`);
@@ -147,9 +149,8 @@ const ManageCards = (props) => {
       if (response && response.data && response.data.data) {
         setData(response.data.data.cards);
         setCount(response.data.data.count);
-        setCurrentPage(response?.data?.data?.currentPage);
+        setCurrentPage(response?.data?.data?.currentPage || 1);
         setHasMorePages(response?.data?.data?.hasMorePages);
-
         setLastPage(response?.data?.data?.lastPage);
         setPerPage(response?.data?.data?.perPage);
         setTotal(response?.data?.data?.total);
