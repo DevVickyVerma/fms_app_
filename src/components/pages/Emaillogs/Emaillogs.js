@@ -15,7 +15,6 @@ import {
 
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { useSelector } from "react-redux";
 
 const ManageEmail = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
