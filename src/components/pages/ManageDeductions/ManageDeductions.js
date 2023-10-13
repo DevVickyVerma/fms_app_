@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import DataTableExtensions from "react-data-table-component-extensions";
 import {
   Breadcrumb,
@@ -28,6 +29,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 const ManageDeductions = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
@@ -129,7 +131,7 @@ const ManageDeductions = (props) => {
 
   const FetchTableData = async (pageNumber) => {
     try {
-      const response = await getData(`/deduction/list?page=${pageNumber}`);
+      const response = await getData(`/deduction/list?page=${pageNumber}&search_keywords=${searchQuery}`);
 
       if (response && response.data && response.data.data) {
         setData(response.data.data.deductions);
@@ -213,7 +215,7 @@ const ManageDeductions = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
+        // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
@@ -358,6 +360,30 @@ const ManageDeductions = (props) => {
     pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
   }
 
+  const handleBlur = () => {
+    FetchTableData();
+  };
+
+  const handleResetSearch = async () => {
+    try {
+      const response = await getData(`/deduction/list?page=${currentPage}&search_keywords=${''}`);
+      if (response && response.data && response.data.data) {
+        setSearchQuery("")
+        setData(response.data.data.deductions);
+        setCount(response.data.data.count);
+        setCurrentPage(response?.data?.data?.currentPage);
+        setHasMorePages(response?.data?.data?.hasMorePages);
+        setLastPage(response?.data?.data?.lastPage);
+        setPerPage(response?.data?.data?.perPage);
+        setTotal(response?.data?.data?.total);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  }
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -382,7 +408,23 @@ const ManageDeductions = (props) => {
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
-          <div className="ms-auto pageheader-btn">
+          <div className="ms-auto pageheader-btn d-flex align-items-center">
+
+            <div className="ms-auto pageheader-btn">
+              <div className="input-group">
+                {searchQuery ? (
+                  <div className="badge">
+                    <span className="badge-key"> Search Query : {searchQuery}</span>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+
+            <div>
+              {searchQuery ? (
+                <button className="btn btn-danger btn-sm ms-2" onClick={handleResetSearch}> <RestartAltIcon /></button>
+              ) : null}
+            </div>
             <div className="input-group">
               {isAddPermissionAvailable ? (
                 <Link
@@ -407,7 +449,7 @@ const ManageDeductions = (props) => {
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table">
-                      <DataTableExtensions {...tableDatas}>
+                      {/* <DataTableExtensions {...tableDatas}>
                         <DataTable
                           columns={columns}
                           data={data}
@@ -420,8 +462,41 @@ const ManageDeductions = (props) => {
                           highlightOnHover
                           searchable={true}
                         />
-                      </DataTableExtensions>
+                      </DataTableExtensions> */}
+
+                      <div className="data-table-extensions">
+                        <input
+                          type="text"
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          onBlur={handleBlur} // Call the API on blur
+                          placeholder="Search"
+                          className="data-table-extensions-filter"
+                          style={{
+                            border: "1px solid #eaedf1",
+                            padding: "10px",
+                          }}
+                        />
+                      </div>
+                      <DataTable
+                        columns={columns}
+                        data={data}
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        striped={true}
+                        center={true}
+                        persistTableHead
+                        // pagination
+                        // paginationPerPage={20}
+                        highlightOnHover
+                        searchable={false}
+                        subHeader={false}
+
+
+                      />
                     </div>
+
                   </>
                 ) : (
                   <>
