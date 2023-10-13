@@ -9,26 +9,33 @@ import {
   Card,
   Col,
   OverlayTrigger,
+  Pagination,
   Row,
   Tooltip,
 } from "react-bootstrap";
-import { Button } from "bootstrap";
+
 import axios from "axios";
 import Swal from "sweetalert2";
-import { FormModal } from "../../../data/Modal/Modal";
+
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
-import SearchIcon from "@mui/icons-material/Search";
+
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const ManageSuppliers = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
+  const [count, setCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMorePage, setHasMorePages] = useState("");
+  const [lastPage, setLastPage] = useState(1);
+  const [perPage, setPerPage] = useState(20);
+  const [total, setTotal] = useState(0);
+
   const navigate = useNavigate();
-  const SuccessAlert = (message) => toast.success(message);
+
   const ErrorAlert = (message) => toast.error(message);
 
   const handleDelete = (id) => {
@@ -93,10 +100,14 @@ const ManageSuppliers = (props) => {
     }
   }
 
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
   useEffect(() => {
-    FetchTableData();
+    FetchTableData(currentPage);
     console.clear();
-  }, []);
+  }, [currentPage]);
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -111,7 +122,7 @@ const ManageSuppliers = (props) => {
   const ToggleStatus = async (formData) => {
     try {
       const response = await postData("/supplier/update-status", formData);
-      // Console log the response
+
       if (apidata.api_response === "success") {
         FetchTableData();
       }
@@ -120,21 +131,19 @@ const ManageSuppliers = (props) => {
     }
   };
 
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  const FetchTableData = async () => {
+  const FetchTableData = async (pageNumber) => {
     try {
-      const response = await getData("/supplier/list");
+      const response = await getData(`/supplier/list?page=${pageNumber}`);
 
       if (response && response.data && response.data.data) {
         setData(response.data.data.suppliers);
-        setSearchvalue(response.data.data.suppliers);
+        setCount(response.data.data.count);
+        setCurrentPage(response?.data?.data?.currentPage);
+        setHasMorePages(response?.data?.data?.hasMorePages);
+
+        setLastPage(response?.data?.data?.lastPage);
+        setPerPage(response?.data?.data?.perPage);
+        setTotal(response?.data?.data?.total);
       } else {
         throw new Error("No data available in the response");
       }
@@ -322,18 +331,39 @@ const ManageSuppliers = (props) => {
     columns,
     data,
   };
-  const [searchText, setSearchText] = useState("");
-  const [searchvalue, setSearchvalue] = useState();
+  const maxPagesToShow = 5; // Adjust the number of pages to show in the center
+  const pages = [];
 
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchText(value);
+  // Calculate the range of pages to display
+  let startPage = Math.max(currentPage - Math.floor(maxPagesToShow / 2), 1);
+  let endPage = Math.min(startPage + maxPagesToShow - 1, lastPage);
 
-    const filteredData = searchvalue.filter((item) =>
-      item.supplier_name.toLowerCase().includes(value.toLowerCase())
+  // Handle cases where the range is near the beginning or end
+  if (endPage - startPage + 1 < maxPagesToShow) {
+    startPage = Math.max(endPage - maxPagesToShow + 1, 1);
+  }
+
+  // Render the pagination items
+  for (let i = startPage; i <= endPage; i++) {
+    pages.push(
+      <Pagination.Item
+        key={i}
+        active={i === currentPage}
+        onClick={() => handlePageChange(i)}
+      >
+        {i}
+      </Pagination.Item>
     );
-    setData(filteredData);
-  };
+  }
+
+  // Add ellipsis if there are more pages before or after the displayed range
+  if (startPage > 1) {
+    pages.unshift(<Pagination.Ellipsis key="ellipsis-start" disabled />);
+  }
+
+  if (endPage < lastPage) {
+    pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
+  }
 
   return (
     <>
@@ -393,8 +423,6 @@ const ManageSuppliers = (props) => {
                           striped={true}
                           // center={true}
                           persistTableHead
-                          pagination
-                          paginationPerPage={20}
                           highlightOnHover
                           searchable={true}
                         />
@@ -411,6 +439,31 @@ const ManageSuppliers = (props) => {
                   </>
                 )}
               </Card.Body>
+              {data?.length > 0 ? (
+                <>
+                  <Card.Footer>
+                    <div style={{ float: "right" }}>
+                      <Pagination>
+                        <Pagination.First onClick={() => handlePageChange(1)} />
+                        <Pagination.Prev
+                          onClick={() => handlePageChange(currentPage - 1)}
+                          disabled={currentPage === 1}
+                        />
+                        {pages}
+                        <Pagination.Next
+                          onClick={() => handlePageChange(currentPage + 1)}
+                          disabled={currentPage === lastPage}
+                        />
+                        <Pagination.Last
+                          onClick={() => handlePageChange(lastPage)}
+                        />
+                      </Pagination>
+                    </div>
+                  </Card.Footer>
+                </>
+              ) : (
+                <></>
+              )}
             </Card>
           </Col>
         </Row>

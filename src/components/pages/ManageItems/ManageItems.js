@@ -9,6 +9,7 @@ import {
   Card,
   Col,
   OverlayTrigger,
+  Pagination,
   Row,
   Tooltip,
 } from "react-bootstrap";
@@ -30,7 +31,12 @@ const ManageItems = (props) => {
   const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
-
+  const [count, setCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMorePage, setHasMorePages] = useState("");
+  const [lastPage, setLastPage] = useState(1);
+  const [perPage, setPerPage] = useState(20);
+  const [total, setTotal] = useState(0);
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -93,10 +99,14 @@ const ManageItems = (props) => {
     }
   }
 
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
   useEffect(() => {
-    FetchTableData();
+    FetchTableData(currentPage);
     console.clear();
-  }, []);
+  }, [currentPage]);
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -123,22 +133,21 @@ const ManageItems = (props) => {
     }
   };
 
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  const FetchTableData = async () => {
+  const FetchTableData = async (pageNumber) => {
     try {
-      const response = await getData("/department-item/list");
-      console.log(response.data.data, "Items");
+      const response = await getData(
+        `/department-item/list?page=${pageNumber}`
+      );
 
       if (response && response.data && response.data.data) {
         setData(response.data.data.items);
-        setSearchvalue(response.data.data.items);
+        setCount(response.data.data.count);
+        setCurrentPage(response?.data?.data?.currentPage);
+        setHasMorePages(response?.data?.data?.hasMorePages);
+
+        setLastPage(response?.data?.data?.lastPage);
+        setPerPage(response?.data?.data?.perPage);
+        setTotal(response?.data?.data?.total);
       } else {
         throw new Error("No data available in the response");
       }
@@ -147,14 +156,6 @@ const ManageItems = (props) => {
     }
   };
 
-  const permissionsToCheck = [
-    "charges-list",
-    "charges-create",
-    "charges-edit",
-    "charges-details",
-    "charges-delete",
-  ];
-  let isPermissionAvailable = false;
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -165,9 +166,6 @@ const ManageItems = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable = permissionsArray?.includes(
-    "department-item--update"
-  );
   const isEditPermissionAvailable = permissionsArray?.includes(
     "department-item-edit"
   );
@@ -177,10 +175,6 @@ const ManageItems = (props) => {
   const isDeletePermissionAvailable = permissionsArray?.includes(
     "department-item-delete"
   );
-  const isDetailsPermissionAvailable =
-    permissionsArray?.includes("charges-details");
-  const isAssignPermissionAvailable =
-    permissionsArray?.includes("charges-assign");
 
   const columns = [
     {
@@ -335,18 +329,40 @@ const ManageItems = (props) => {
     columns,
     data,
   };
-  const [searchText, setSearchText] = useState("");
-  const [searchvalue, setSearchvalue] = useState();
 
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchText(value);
+  const maxPagesToShow = 5; // Adjust the number of pages to show in the center
+  const pages = [];
 
-    const filteredData = searchvalue.filter((item) =>
-      item.item_name.toLowerCase().includes(value.toLowerCase())
+  // Calculate the range of pages to display
+  let startPage = Math.max(currentPage - Math.floor(maxPagesToShow / 2), 1);
+  let endPage = Math.min(startPage + maxPagesToShow - 1, lastPage);
+
+  // Handle cases where the range is near the beginning or end
+  if (endPage - startPage + 1 < maxPagesToShow) {
+    startPage = Math.max(endPage - maxPagesToShow + 1, 1);
+  }
+
+  // Render the pagination items
+  for (let i = startPage; i <= endPage; i++) {
+    pages.push(
+      <Pagination.Item
+        key={i}
+        active={i === currentPage}
+        onClick={() => handlePageChange(i)}
+      >
+        {i}
+      </Pagination.Item>
     );
-    setData(filteredData);
-  };
+  }
+
+  // Add ellipsis if there are more pages before or after the displayed range
+  if (startPage > 1) {
+    pages.unshift(<Pagination.Ellipsis key="ellipsis-start" disabled />);
+  }
+
+  if (endPage < lastPage) {
+    pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
+  }
 
   return (
     <>
@@ -406,8 +422,6 @@ const ManageItems = (props) => {
                           striped={true}
                           // center={true}
                           persistTableHead
-                          pagination
-                          paginationPerPage={20}
                           highlightOnHover
                           searchable={true}
                         />
@@ -424,6 +438,31 @@ const ManageItems = (props) => {
                   </>
                 )}
               </Card.Body>
+              {data?.length > 0 ? (
+                <>
+                  <Card.Footer>
+                    <div style={{ float: "right" }}>
+                      <Pagination>
+                        <Pagination.First onClick={() => handlePageChange(1)} />
+                        <Pagination.Prev
+                          onClick={() => handlePageChange(currentPage - 1)}
+                          disabled={currentPage === 1}
+                        />
+                        {pages}
+                        <Pagination.Next
+                          onClick={() => handlePageChange(currentPage + 1)}
+                          disabled={currentPage === lastPage}
+                        />
+                        <Pagination.Last
+                          onClick={() => handlePageChange(lastPage)}
+                        />
+                      </Pagination>
+                    </div>
+                  </Card.Footer>
+                </>
+              ) : (
+                <></>
+              )}
             </Card>
           </Col>
         </Row>

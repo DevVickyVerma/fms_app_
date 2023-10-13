@@ -9,6 +9,7 @@ import {
   Card,
   Col,
   OverlayTrigger,
+  Pagination,
   Row,
   Tooltip,
 } from "react-bootstrap";
@@ -30,6 +31,12 @@ const ManageDeductions = (props) => {
   const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
+  const [count, setCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMorePage, setHasMorePages] = useState("");
+  const [lastPage, setLastPage] = useState(1);
+  const [perPage, setPerPage] = useState(20);
+  const [total, setTotal] = useState(0);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -94,9 +101,9 @@ const ManageDeductions = (props) => {
   }
 
   useEffect(() => {
-    FetchTableData();
+    FetchTableData(currentPage);
     console.clear();
-  }, []);
+  }, [currentPage]);
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -113,28 +120,26 @@ const ManageDeductions = (props) => {
       const response = await postData("/deduction/update-status", formData);
       // Console log the response
       if (apidata.api_response === "success") {
-        FetchTableData();
+        FetchTableData(currentPage);
       }
     } catch (error) {
       handleError(error);
     }
   };
 
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  const FetchTableData = async () => {
+  const FetchTableData = async (pageNumber) => {
     try {
-      const response = await getData("/deduction/list");
+      const response = await getData(`/deduction/list?page=${pageNumber}`);
 
       if (response && response.data && response.data.data) {
         setData(response.data.data.deductions);
-        setSearchvalue(response.data.data.deductions);
+
+        setCount(response.data.data.count);
+        setCurrentPage(response?.data?.data?.currentPage);
+        setHasMorePages(response?.data?.data?.hasMorePages);
+        setLastPage(response?.data?.data?.lastPage);
+        setPerPage(response?.data?.data?.perPage);
+        setTotal(response?.data?.data?.total);
       } else {
         throw new Error("No data available in the response");
       }
@@ -153,19 +158,12 @@ const ManageDeductions = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable = permissionsArray?.includes(
-    "deduction-status-update"
-  );
   const isEditPermissionAvailable =
     permissionsArray?.includes("deduction-edit");
   const isAddPermissionAvailable =
     permissionsArray?.includes("deduction-create");
   const isDeletePermissionAvailable =
     permissionsArray?.includes("deduction-delete");
-  const isDetailsPermissionAvailable =
-    permissionsArray?.includes("deduction-details");
-  const isAssignPermissionAvailable =
-    permissionsArray?.includes("deduction-assign");
 
   const columns = [
     {
@@ -323,18 +321,42 @@ const ManageDeductions = (props) => {
     columns,
     data,
   };
-  const [searchText, setSearchText] = useState("");
-  const [searchvalue, setSearchvalue] = useState();
-
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchText(value);
-
-    const filteredData = searchvalue.filter((item) =>
-      item.deduction_name.toLowerCase().includes(value.toLowerCase())
-    );
-    setData(filteredData);
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
   };
+
+  const maxPagesToShow = 5; // Adjust the number of pages to show in the center
+  const pages = [];
+
+  // Calculate the range of pages to display
+  let startPage = Math.max(currentPage - Math.floor(maxPagesToShow / 2), 1);
+  let endPage = Math.min(startPage + maxPagesToShow - 1, lastPage);
+
+  // Handle cases where the range is near the beginning or end
+  if (endPage - startPage + 1 < maxPagesToShow) {
+    startPage = Math.max(endPage - maxPagesToShow + 1, 1);
+  }
+
+  // Render the pagination items
+  for (let i = startPage; i <= endPage; i++) {
+    pages.push(
+      <Pagination.Item
+        key={i}
+        active={i === currentPage}
+        onClick={() => handlePageChange(i)}
+      >
+        {i}
+      </Pagination.Item>
+    );
+  }
+
+  if (startPage > 1) {
+    pages.unshift(<Pagination.Ellipsis key="ellipsis-start" disabled />);
+  }
+
+  if (endPage < lastPage) {
+    pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
+  }
 
   return (
     <>
@@ -395,7 +417,6 @@ const ManageDeductions = (props) => {
                           striped={true}
                           // center={true}
                           persistTableHead
-                          pagination
                           highlightOnHover
                           searchable={true}
                         />
@@ -412,6 +433,31 @@ const ManageDeductions = (props) => {
                   </>
                 )}
               </Card.Body>
+              {data?.length > 0 ? (
+                <>
+                  <Card.Footer>
+                    <div style={{ float: "right" }}>
+                      <Pagination>
+                        <Pagination.First onClick={() => handlePageChange(1)} />
+                        <Pagination.Prev
+                          onClick={() => handlePageChange(currentPage - 1)}
+                          disabled={currentPage === 1}
+                        />
+                        {pages}
+                        <Pagination.Next
+                          onClick={() => handlePageChange(currentPage + 1)}
+                          disabled={currentPage === lastPage}
+                        />
+                        <Pagination.Last
+                          onClick={() => handlePageChange(lastPage)}
+                        />
+                      </Pagination>
+                    </div>
+                  </Card.Footer>
+                </>
+              ) : (
+                <></>
+              )}
             </Card>
           </Col>
         </Row>
