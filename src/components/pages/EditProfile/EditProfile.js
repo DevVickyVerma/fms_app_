@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { MdOutlineSecurity } from "react-icons/md";
-
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import { BsCapslock } from "react-icons/bs";
 import {
   Col,
   Row,
@@ -29,6 +30,8 @@ export default function EditProfile() {
   const [isLoading, setLoading] = useState(false);
   const [UserPermissionstwo_factor, setUserPermissionstwo_factor] =
     useState(false);
+  const [capsLockActive, setCapsLockActive] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(true);
 
   const [factordata, setfactordata] = useState();
 
@@ -38,6 +41,29 @@ export default function EditProfile() {
       formik.setValues(UserPermissions);
     }
   }, [UserPermissions]);
+
+  useEffect(() => {
+    document.addEventListener("keydown", function (event) {
+      if (event.getModifierState("CapsLock")) {
+        setCapsLockActive(true);
+      } else {
+        setCapsLockActive(false);
+      }
+    });
+  }, [localStorage.getItem("token")]);
+
+  const handleKeyPress = (event) => {
+    if (event.getModifierState("CapsLock")) {
+      setCapsLockActive(true);
+    } else {
+      setCapsLockActive(false);
+    }
+  };
+
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
   const validationSchema = Yup.object().shape({
     old_password: Yup.string().required("Current Password is required"),
@@ -376,22 +402,83 @@ export default function EditProfile() {
                             Current Password
                             <span className="text-danger">*</span>
                           </label>
-                          <Field
-                            type="password"
-                            className={` input101 ${
-                              errors.old_password && touched.old_password
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            name="old_password"
-                            placeholder=" Current Password"
-                          />
-                          <ErrorMessage
-                            name="old_password"
-                            component="div"
-                            className="invalid-feedback"
-                          />
+
+                          <div>
+                            <div className="wrap-input100 validate-input"
+                              style={{ display: "flex" }}>
+                              <Field
+                                // type="password"
+                                type={passwordVisible ? "password" : "text"}
+                                className={` input101 ${errors.old_password && touched.old_password
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
+                                name="old_password"
+                                placeholder=" Current Password"
+                              />
+                              {capsLockActive ? (
+                                <>
+                                  <span
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      borderTopRightRadius: "4px",
+                                      borderBottomRightRadius: "4px",
+                                      marginLeft: "-31px",
+                                      color: "rgb(28 97 218 / 67%)",
+                                    }}
+                                  >
+                                    {" "}
+                                    <BsCapslock size={16} />{" "}
+                                  </span>
+                                </>
+                              ) : (
+                                ""
+                              )}
+
+
+                              {!capsLockActive ? (
+                                <>
+                                  <span
+                                    onClick={togglePasswordVisibility}
+                                    style={{
+                                      cursor: "pointer",
+                                      zIndex: "11",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      borderTopRightRadius: "4px",
+                                      borderBottomRightRadius: "4px",
+                                      marginLeft: "-31px",
+                                      color: "rgb(28 97 218 / 67%)",
+                                    }}
+                                  >
+                                    {" "}
+                                    {passwordVisible ? (
+                                      <AiFillEyeInvisible size={18} />
+                                    ) : (
+                                      <AiFillEye size={18} />
+                                    )}
+                                  </span>
+                                </>
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                            <div
+                              style={{ color: "#f82649", marginTop: "0.25rem" }}
+                            >
+                              <ErrorMessage
+                                name="old_password"
+                                // component="div"
+                                className="invalid-feedback"
+                                style={{ flexDirection: "row", color: "red" }}
+                              />
+                            </div>
+                          </div>
                         </FormGroup>
+
                         <FormGroup>
                           <label
                             className=" form-label mt-4"
@@ -400,42 +487,172 @@ export default function EditProfile() {
                             New Password
                             <span className="text-danger">*</span>
                           </label>
-                          <Field
-                            type="password"
-                            className={`input101  ${
-                              errors.password && touched.password
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            name="password"
-                            placeholder=" New Password"
-                          />
-                          <ErrorMessage
-                            name="password"
-                            component="div"
-                            className="invalid-feedback"
-                          />
+                          <div>
+                            <div className="wrap-input100 validate-input"
+                              style={{ display: "flex" }}
+                            >
+                              <Field
+                                // type="password"
+                                type={passwordVisible ? "password" : "text"}
+                                className={`input101  ${errors.password && touched.password
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
+                                name="password"
+                                placeholder=" New Password"
+                              />
+
+                              {capsLockActive ? (
+                                <>
+                                  <span
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      borderTopRightRadius: "4px",
+                                      borderBottomRightRadius: "4px",
+                                      marginLeft: "-31px",
+                                      color: "rgb(28 97 218 / 67%)",
+                                    }}
+                                  >
+                                    <BsCapslock size={16} />{" "}
+                                  </span>
+                                </>
+                              ) : (
+                                ""
+                              )}
+
+
+                              {!capsLockActive ? (
+                                <>
+                                  <span
+                                    onClick={togglePasswordVisibility}
+                                    style={{
+                                      cursor: "pointer",
+                                      zIndex: "11",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      borderTopRightRadius: "4px",
+                                      borderBottomRightRadius: "4px",
+                                      marginLeft: "-31px",
+                                      color: "rgb(28 97 218 / 67%)",
+                                    }}
+                                  >
+                                    {" "}
+                                    {passwordVisible ? (
+                                      <AiFillEyeInvisible size={18} />
+                                    ) : (
+                                      <AiFillEye size={18} />
+                                    )}
+                                  </span>
+                                </>
+                              ) : (
+                                ""
+                              )}
+
+
+
+                            </div>
+                            <div
+                              style={{ color: "#f82649", marginTop: "0.25rem" }}
+                            >
+                              <ErrorMessage
+                                name="password"
+                                // component="div"
+                                className="invalid-feedback"
+                                style={{ flexDirection: "row", color: "red" }}
+                              />
+                            </div>
+                          </div>
                         </FormGroup>
                         <FormGroup>
                           <Form.Label className="form-label">
                             Confirm Password
                           </Form.Label>
-                          <Field
-                            type="password"
-                            className={`input101 ${
-                              errors.password_confirmation &&
-                              touched.password_confirmation
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            name="password_confirmation"
-                            placeholder="Confirm Password"
-                          />
-                          <ErrorMessage
-                            name="password_confirmation"
-                            component="div"
-                            className="invalid-feedback"
-                          />
+
+                          <div>
+                            <div className="wrap-input100 validate-input"
+                              style={{ display: "flex" }}>
+                              <Field
+                                // type="password"
+                                type={passwordVisible ? "password" : "text"}
+                                className={`input101 ${errors.password_confirmation &&
+                                  touched.password_confirmation
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
+                                onKeyPress={handleKeyPress}
+                                name="password_confirmation"
+                                placeholder="Confirm Password"
+
+
+                              />
+
+
+                              {capsLockActive ? (
+                                <>
+                                  <span
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      borderTopRightRadius: "4px",
+                                      borderBottomRightRadius: "4px",
+                                      marginLeft: "-31px",
+                                      color: "rgb(28 97 218 / 67%)",
+                                    }}
+                                  >
+                                    {" "}
+                                    <BsCapslock size={16} />{" "}
+                                  </span>
+                                </>
+                              ) : (
+                                ""
+                              )}
+
+
+                              {!capsLockActive ? (
+                                <>
+                                  <span
+                                    onClick={togglePasswordVisibility}
+                                    style={{
+                                      cursor: "pointer",
+                                      zIndex: "11",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      borderTopRightRadius: "4px",
+                                      borderBottomRightRadius: "4px",
+                                      marginLeft: "-31px",
+                                      color: "rgb(28 97 218 / 67%)",
+                                    }}
+                                  >
+                                    {" "}
+                                    {passwordVisible ? (
+                                      <AiFillEyeInvisible size={18} />
+                                    ) : (
+                                      <AiFillEye size={18} />
+                                    )}
+                                  </span>
+                                </>
+                              ) : (
+                                ""
+                              )}
+
+
+                            </div>
+                            <div
+                              style={{ color: "#f82649", marginTop: "0.25rem" }}
+                            >
+                              <ErrorMessage
+                                name="password_confirmation"
+                                // component="div"
+                                className="invalid-feedback"
+                                style={{ flexDirection: "row", color: "red" }}
+                              />
+                            </div>
+                          </div>
                         </FormGroup>
                       </Card.Body>
                       <Card.Footer className="text-end">
@@ -473,12 +690,11 @@ export default function EditProfile() {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.first_name &&
+                            className={`input101 ${formik.errors.first_name &&
                               formik.touched.first_name
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="first_name"
                             name="first_name"
                             onChange={formik.handleChange}
@@ -505,12 +721,11 @@ export default function EditProfile() {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.last_name &&
+                            className={`input101 ${formik.errors.last_name &&
                               formik.touched.last_name
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="last_name"
                             name="last_name"
                             placeholder="Last Name"
