@@ -158,8 +158,6 @@ const Competitormodal = ({
 
     formData.append("drs_date", selectedDrsDate);
     formData.append("site_id", accordionSiteID);
-    // formData.append("notify_operator", isChecked);
-
     const token = localStorage.getItem("token");
     const axiosInstance = axios.create({
       baseURL: process.env.REACT_APP_BASE_URL,

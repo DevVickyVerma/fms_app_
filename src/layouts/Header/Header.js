@@ -1,47 +1,23 @@
-import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { Dropdown, Navbar, Container, Button } from "react-bootstrap";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Slide, ToastContainer, toast } from "react-toastify";
+import { Dropdown, Navbar, Container } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import * as loderdata from "../../data/Component/loderdata/loderdata";
 
 import withApi from "../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../Utils/Loader";
-import CenterAuthModal from "../../data/Modal/CenterAuthModal";
 import SingleAuthModal from "../../data/Modal/SingleAuthModal";
-import { SiAuth0 } from "react-icons/si";
+import { SuccessAlert } from "../../Utils/ToastUtils";
 
 const Header = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData } = props;
   const [isTwoFactorPermissionAvailable, setIsTwoFactorPermissionAvailable] =
     useState(null);
-
-  const SuccessAlert = (message) => {
-    toast.success(message, {
-      autoClose: 500,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 500,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-  const Errornotify = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
-
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState();
   const [headingusername, setHeadingUsername] = useState();
   const [usernotification, setnotification] = useState();
-  const [showAuthModalPopUp, setShowAuthModalPopUp] = useState(false);
   const [ShowTruw, setShowTruw] = useState(false);
 
   const logout = async (row) => {
@@ -190,7 +166,7 @@ const Header = (props) => {
             <div>
               <Navbar id="navbarSupportedContent-4">
                 {storedKeyRef.current === "false" &&
-                isProfileUpdatePermissionAvailable ? (
+                  isProfileUpdatePermissionAvailable ? (
                   <>
                     <span
                       className=""
@@ -282,7 +258,7 @@ const Header = (props) => {
                     </div>
                     <div className="dropdown-divider m-0"></div>
                     {usernotification &&
-                    usernotification?.notifications?.length > 0 ? (
+                      usernotification?.notifications?.length > 0 ? (
                       <Dropdown.Item
                         eventKey="closeDropdown"
                         onClick={handleViewAllNotificationsClick}

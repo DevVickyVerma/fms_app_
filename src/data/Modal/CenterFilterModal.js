@@ -17,8 +17,7 @@ import {
 } from "react-bootstrap";
 import { Slide, toast } from "react-toastify";
 import { Dialog, DialogActions } from "@mui/material";
-import { useMyContext } from "../../Utils/MyContext";
-
+import { ErrorAlert } from "../../Utils/ToastUtils";
 const CenterFilterModal = (props) => {
   const {
     title,
@@ -34,7 +33,6 @@ const CenterFilterModal = (props) => {
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [AddSiteData, setAddSiteData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  // const { searchdata, setSearchdata } = useMyContext();
   const navigate = useNavigate();
 
   const searchdata = JSON.parse(
@@ -42,20 +40,12 @@ const CenterFilterModal = (props) => {
   );
 
 
-  const Errornotify = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
+
 
   function handleError(error) {
     if (error.response && error.response.deduction_status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (
       error.response &&
@@ -66,7 +56,7 @@ const CenterFilterModal = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
   const handleFetchData = async () => {
@@ -87,8 +77,6 @@ const CenterFilterModal = (props) => {
       const { data } = response;
       if (data) {
         setAddSiteData(response.data);
-
-
         if (
           response?.data &&
           localStorage.getItem("superiorRole") === "Client"
@@ -98,9 +86,6 @@ const CenterFilterModal = (props) => {
             setSelectedClientId(clientId);
 
             setSelectedCompanyList([]);
-
-            // setShowButton(false);
-
             if (response?.data) {
               const selectedClient = response?.data?.data?.find(
                 (client) => client.id === clientId
@@ -170,14 +155,6 @@ const CenterFilterModal = (props) => {
               >
                 <Col md={12} xl={12}>
                   <Formik
-                    // initialValues={{
-                    //   client_id: "",
-                    //   client_name: "",
-                    //   company_id: "",
-                    //   site_id: "",
-                    //   fromdate: "",
-                    //   TOdate: "",
-                    // }}
                     initialValues={{
                       client_id: searchdata?.client_id || "", // Use searchdata?.client_id or an empty string as the initial value
                       client_name: searchdata?.client_name || "", // Use searchdata?.client_name or an empty string as the initial value

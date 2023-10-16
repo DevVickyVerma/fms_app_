@@ -9,11 +9,11 @@ import PropTypes from "prop-types";
 import Loaderimg from "../../Utils/Loader";
 import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import { Slide, toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { ErrorAlert, SuccessAlert } from "../../Utils/ToastUtils";
 
 const CenterAuthModal = (props) => {
   const [open, setOpen] = useState(true);
@@ -28,29 +28,10 @@ const CenterAuthModal = (props) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
-  const notify = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-  const Errornotify = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -58,7 +39,7 @@ const CenterAuthModal = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 
@@ -68,8 +49,6 @@ const CenterAuthModal = (props) => {
       Authorization: `Bearer ${token}`,
     },
   });
-
-  const userPermissions = useSelector((state) => state?.data?.data);
 
   const Active2FA = async () => {
     setLoading(true);
@@ -108,7 +87,7 @@ const CenterAuthModal = (props) => {
     const data = await response.json();
 
     if (response.ok) {
-      notify(data.message);
+      SuccessAlert(data.message);
       navigate("/dashboard");
       setSubmitting(false);
       setLoading(false);
@@ -118,7 +97,7 @@ const CenterAuthModal = (props) => {
         : data.message;
 
       setLoading(false);
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
     setLoading(false);
   };
@@ -185,7 +164,7 @@ const CenterAuthModal = (props) => {
 
       if (response.ok) {
         setShowModal(false);
-        notify(data.message);
+        SuccessAlert(data.message);
 
         setUserPermissionstwo_factor(UserPermissions?.two_factor);
         GetDetails();
@@ -195,7 +174,7 @@ const CenterAuthModal = (props) => {
           ? data.message.join(" ")
           : data.message;
 
-        Errornotify(errorMessage);
+        ErrorAlert(errorMessage);
         setLoading(false);
       }
     } catch (error) {
