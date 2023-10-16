@@ -25,9 +25,11 @@ const CenterAuthModal = (props) => {
   const [UserPermissionstwo_factor, setUserPermissionstwo_factor] =
     useState(false);
 
+  const MyImagePathForAuth = require("../../assets/images/dashboard/authModalImage.png");
+
+
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
@@ -200,6 +202,12 @@ const CenterAuthModal = (props) => {
     },
   });
 
+
+  const onLoad = () => {
+
+    <span className="primary-loader"></span>
+  };
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -224,11 +232,13 @@ const CenterAuthModal = (props) => {
                   <Loaderimg />
                 ) : (
                   <>
-                    <img
+                    {/* <img
                       src={require("../../assets/images/dashboard/authModalImage.png")}
                       alt="MyChartImage"
                       className="all-center-flex object-fit-contain w-40 h-40 m-auto "
-                    />
+                    /> */}
+                    <img src={MyImagePathForAuth} onLoad={onLoad} alt="" className="all-center-flex object-fit-contain w-40 h-40 m-auto " />
+
                     <div className=" text-center mt-2">
                       <strong className="fs-19">
                         Add Extra Security With Two Factor Authentication
