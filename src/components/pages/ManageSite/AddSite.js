@@ -16,26 +16,22 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import DatePicker, { Calendar } from "react-multi-date-picker";
-import { useFormikContext } from "formik";
-import "react-datepicker/dist/react-datepicker.css";
-import * as loderdata from "../../../data/Component/loderdata/loderdata";
-import { useSelector } from "react-redux";
 
+import "react-datepicker/dist/react-datepicker.css";
+
+import { useSelector } from "react-redux";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 
 const AddSite = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, postData } = props;
 
   const navigate = useNavigate();
 
   const [AddSiteData, setAddSiteData] = useState([]);
-  const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  const [subTypes, setSubTypes] = useState([]);
 
   const [Listcompany, setCompanylist] = useState([]);
-  const notify = (message) => toast.success(message);
+
   const Errornotify = (message) => toast.error(message);
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -143,6 +139,7 @@ const AddSite = (props) => {
       );
       formData.append("shop_commission", 0);
       formData.append("paidout", values.paidout);
+      formData.append("apply_sc", values.apply_sc);
       formData.append("loomis_status", values.loomis_status);
       formData.append("cashback_status", values.cashback_status);
       formData.append("auto_dayend", values.auto_dayend);
@@ -275,6 +272,7 @@ const AddSite = (props) => {
                     paypoint_commission: "",
                     shop_commission: "",
                     paidout: "",
+                    apply_sc: "",
                     auto_dayend: "",
                     ignore_tolerance: "",
                     security_amount: "",
@@ -329,9 +327,9 @@ const AddSite = (props) => {
                     cashback_status: Yup.string().required(
                       "Cashback Status is required"
                     ),
-                    // company_id: Yup.string().required(
-                    //   "Company is required"
-                    // ),
+                    apply_sc: Yup.string().required(
+                      "Apply Shop Commission is required"
+                    ),
                   })}
                   onSubmit={(values, { setSubmitting }) => {
                     handleSubmit1(values, setSubmitting);
@@ -532,12 +530,6 @@ const AddSite = (props) => {
                                   const selectedType = e.target.value;
 
                                   setFieldValue("bussiness_Type", selectedType);
-                                  setSelectedBusinessType(selectedType);
-                                  const selectedTypeData =
-                                    AddSiteData.busines_types.find(
-                                      (type) => type.name === selectedType
-                                    );
-                                  setSubTypes(selectedTypeData.sub_types);
                                 }}
                               >
                                 <option value="">Select a Business Type</option>
@@ -745,6 +737,36 @@ const AddSite = (props) => {
                                 component="div"
                                 className="invalid-feedback"
                                 name="instant_lottery_commission"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="apply_sc"
+                                className=" form-label mt-4"
+                              >
+                                Apply Shop Commission
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${
+                                  errors.apply_sc && touched.apply_sc
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="apply_sc"
+                                name="apply_sc"
+                              >
+                                <option value="">Apply Shop Commission</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="apply_sc"
                               />
                             </FormGroup>
                           </Col>
@@ -1186,8 +1208,8 @@ const AddSite = (props) => {
                                 name="paidout"
                               >
                                 <option value="">Select a paidout</option>
-                                <option value="0">Yes</option>
-                                <option value="1">No</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
                               </Field>
                               <ErrorMessage
                                 component="div"
@@ -1215,8 +1237,8 @@ const AddSite = (props) => {
                                 name="loomis_status"
                               >
                                 <option value="">Select a Loomis Status</option>
-                                <option value="0">Yes</option>
-                                <option value="1">No</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
                               </Field>
                               <ErrorMessage
                                 component="div"
@@ -1247,8 +1269,8 @@ const AddSite = (props) => {
                                 <option value="">
                                   Select a Cashback Status
                                 </option>
-                                <option value="0">Yes</option>
-                                <option value="1">No</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
                               </Field>
                               <ErrorMessage
                                 component="div"

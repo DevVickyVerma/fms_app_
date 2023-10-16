@@ -97,14 +97,6 @@ export default function AddSite(props) {
     }
   };
 
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
   const handleSubmit = async (event) => {
     const token = localStorage.getItem("token");
 
@@ -160,6 +152,7 @@ export default function AddSite(props) {
       paypoint_commission: "",
       shop_commission: "",
       paidout: "",
+      apply_sc: "",
       loomis_status: "",
       cashback_status: "",
       auto_dayend: "",
@@ -188,15 +181,14 @@ export default function AddSite(props) {
       department_sage_code: Yup.string().required(
         "Department Sage Code is required"
       ),
-      // bunker_upload_status: Yup.string().required(
-      //   "Bunker Upload Status is required"
-      // ),
+
       bp_credit_card_site_no: Yup.string().required(
         "Bunker Upload Status is required"
       ),
       security_amount: Yup.string().required("Security Amount is required"),
       cashback_status: Yup.string().required("Cashback Status  is required"),
       loomis_status: Yup.string().required(" Loomis Status  is required"),
+      apply_sc: Yup.string().required("Apply Shop Commission  is required"),
 
       // drs_upload_status: Yup.string().required("Drs Upload Status is required"),
     }),
@@ -1053,6 +1045,36 @@ export default function AddSite(props) {
                             formik.touched.data_import_type_id && (
                               <div className="invalid-feedback">
                                 {formik.errors.data_import_type_id}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label htmlFor="apply_sc" className="form-label mt-4">
+                            Apply Shop Commission
+                            <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.apply_sc && formik.touched.apply_sc
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="apply_sc"
+                            name="apply_sc"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.apply_sc}
+                          >
+                            <option value="">Apply Shop Commission</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                          </select>
+                          {formik.errors.apply_sc &&
+                            formik.touched.apply_sc && (
+                              <div className="invalid-feedback">
+                                {formik.errors.apply_sc}
                               </div>
                             )}
                         </div>
