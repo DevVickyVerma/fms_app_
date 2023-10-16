@@ -6,7 +6,6 @@ const SuccessAlert = (message) => {
         position: toast.POSITION.TOP_RIGHT,
         hideProgressBar: true,
         transition: Slide,
-        autoClose: 1000,
         theme: "colored",
     });
 };

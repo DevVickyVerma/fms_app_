@@ -8,11 +8,10 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Card, Col, Form, FormGroup, Row } from "react-bootstrap";
-import { Slide, toast } from "react-toastify";
+import { ErrorAlert } from "../../Utils/ToastUtils";
 
 const DashBordModal = (props) => {
   const { title, visible, onClose, onSubmit } = props;
-
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
@@ -20,20 +19,12 @@ const DashBordModal = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  const Errornotify = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
+
 
   function handleError(error) {
     if (error.response && error.response.deduction_status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (
       error.response &&
@@ -44,7 +35,7 @@ const DashBordModal = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
   const handleFetchData = async () => {

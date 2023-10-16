@@ -1,28 +1,18 @@
 import React, { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogActions,
   DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
 } from "@mui/material";
-import { Row, Col, Form, Card } from "react-bootstrap";
-import { Modal } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { useFormik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
-import { Slide, ToastContainer, toast } from "react-toastify";
+import { Slide, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { ErrorAlert, SuccessAlert } from "../../Utils/ToastUtils";
 
 const CustomModal = ({
   open,
@@ -36,25 +26,7 @@ const CustomModal = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
-  const SuccessAlert = (message) => {
-    toast.success(message, {
-      autoClose: 500,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 500,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-  const ErrorAlert = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored",
-    });
-  };
+
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
@@ -162,8 +134,6 @@ const CustomModal = ({
             formData.append(fieldKey, fieldValue);
             formData.append(timeKey, fieldTime);
           }
-          // formData.append(fieldKey, fieldValue);
-          // formData.append(timeKey, fieldTime);
         });
       });
     });
@@ -302,13 +272,12 @@ const CustomModal = ({
                           <td key={columnIndex} className="middayModal-td">
                             {fuelPrices[rowIndex]?.is_editable ? (
                               <input
-                                className={`table-input ${
-                                  fuelPrices[rowIndex]?.status === "UP"
-                                    ? "table-inputGreen"
-                                    : fuelPrices[rowIndex]?.status === "DOWN"
+                                className={`table-input ${fuelPrices[rowIndex]?.status === "UP"
+                                  ? "table-inputGreen"
+                                  : fuelPrices[rowIndex]?.status === "DOWN"
                                     ? "table-inputRed"
                                     : ""
-                                }`}
+                                  }`}
                                 type="number"
                                 name={`listing[0].fuels[${columnIndex}][${rowIndex}].price`}
                                 value={

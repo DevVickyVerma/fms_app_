@@ -13,7 +13,7 @@ import {
   Row,
   Modal, // Import Modal from react-bootstrap
 } from "react-bootstrap";
-import { Slide, toast } from "react-toastify";
+import { ErrorAlert } from "../../Utils/ToastUtils";
 
 
 const WorkflowExceptionFilter = (props) => {
@@ -31,19 +31,10 @@ const WorkflowExceptionFilter = (props) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
-  const Errornotify = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
   function handleError(error) {
     if (error.response && error.response.deduction_status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (
       error.response &&
@@ -54,7 +45,7 @@ const WorkflowExceptionFilter = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
   const handleFetchData = async () => {

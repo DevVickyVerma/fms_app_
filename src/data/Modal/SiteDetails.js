@@ -6,13 +6,12 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
+import { ErrorAlert, SuccessAlert } from "../../Utils/ToastUtils";
 
 const MyModal = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
   const [Listcompany, setCompanylist] = useState([]);
   const navigate = useNavigate();
 
@@ -57,14 +56,14 @@ const MyModal = (props) => {
       const data = await response.json();
 
       if (response.ok) {
-        notify(data.message);
+        SuccessAlert(data.message);
         formik.resetForm();
       } else {
         const errorMessage = Array.isArray(data.message)
           ? data.message.join(" ")
           : data.message;
 
-        Errornotify(errorMessage);
+        ErrorAlert(errorMessage);
       }
     } catch (error) {
       handleError(error);
@@ -76,7 +75,7 @@ const MyModal = (props) => {
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -84,7 +83,7 @@ const MyModal = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 
@@ -108,7 +107,7 @@ const MyModal = (props) => {
     } catch (error) {
       if (error.response && error.response.status === 401) {
         navigate("/login");
-        Errornotify("Invalid access token");
+        ErrorAlert("Invalid access token");
         localStorage.clear();
       } else if (error.response && error.response.data.status_code === "403") {
         navigate("/errorpage403");
@@ -137,7 +136,7 @@ const MyModal = (props) => {
     } catch (error) {
       if (error.response && error.response.status === 401) {
         navigate("/login");
-        Errornotify("Invalid access token");
+        ErrorAlert("Invalid access token");
         localStorage.clear();
       } else if (error.response && error.response.data.status_code === "403") {
         navigate("/errorpage403");
@@ -189,11 +188,10 @@ const MyModal = (props) => {
                     Select Client
                   </label>
                   <select
-                    className={`input101 ${
-                      formik.errors.clientlist && formik.touched.clientlist
-                        ? "is-invalid"
-                        : ""
-                    }`}
+                    className={`input101 ${formik.errors.clientlist && formik.touched.clientlist
+                      ? "is-invalid"
+                      : ""
+                      }`}
                     id="clientlist"
                     name="clientlist"
                     onChange={(e) => {
@@ -210,7 +208,7 @@ const MyModal = (props) => {
                   >
                     <option value=""> Select Client</option>
                     {dropdownValue.clients &&
-                    dropdownValue.clients.length > 0 ? (
+                      dropdownValue.clients.length > 0 ? (
                       dropdownValue.clients.map((item) => (
                         <option key={item.id} value={item.id}>
                           {item.client_name}
@@ -231,11 +229,10 @@ const MyModal = (props) => {
                     Select Company
                   </label>
                   <select
-                    className={`input101 ${
-                      formik.errors.companylist && formik.touched.companylist
-                        ? "is-invalid"
-                        : ""
-                    }`}
+                    className={`input101 ${formik.errors.companylist && formik.touched.companylist
+                      ? "is-invalid"
+                      : ""
+                      }`}
                     id="companylist"
                     name="companylist"
                     onBlur={formik.handleBlur}
@@ -244,7 +241,7 @@ const MyModal = (props) => {
                   >
                     <option value=""> Select Company</option>
                     {Listcompany.companies &&
-                    Listcompany.companies.length > 0 ? (
+                      Listcompany.companies.length > 0 ? (
                       Listcompany.companies.map((item) => (
                         <option key={item.id} value={item.id}>
                           {item.company_name}

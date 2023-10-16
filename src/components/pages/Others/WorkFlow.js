@@ -1,5 +1,5 @@
-import React, { Suspense, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -9,40 +9,23 @@ import {
   Col,
   Form,
   FormGroup,
-  OverlayTrigger,
   Row,
-  Tooltip,
 } from "react-bootstrap";
-
-import * as loderdata from "../../../data/Component/loderdata/loderdata";
-import axios from "axios";
-import Swal from "sweetalert2";
 import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
-
-import { toast } from "react-toastify";
-
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 
 const ManageSite = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, } = props;
 
   const [data, setData] = useState();
-
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
-  const navigate = useNavigate();
   const [AddSiteData, setAddSiteData] = useState([]);
 
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
-
-  const [sidebardataobject, setSideDataobject] = useState();
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
@@ -118,14 +101,6 @@ const ManageSite = (props) => {
       setPermissionsArray(UserPermissions.permissions);
     }
   }, [UserPermissions]);
-
-  const isEditPermissionAvailable = permissionsArray?.includes("site-edit");
-  const isAddPermissionAvailable = permissionsArray?.includes("site-create");
-  const isDeletePermissionAvailable = permissionsArray?.includes("site-delete");
-  const isDetailsPermissionAvailable =
-    permissionsArray?.includes("site-detail");
-  const isAssignPermissionAvailable = permissionsArray?.includes("site-assign");
-  const [dataToSend, setDataToSend] = useState(null);
   const PerformAction = (row) => {
     const dataToSend = {
       client_id: row.client_id,
@@ -143,11 +118,6 @@ const ManageSite = (props) => {
     // Navigate to the desired route
     window.location.href = linkUrl;
   };
-  // useEffect(() => {
-
-  //   setDataToSend(dataToSend)
-  // }, [dataToSend]); // The effect will be triggered whenever 'count' changes
-
   const columns = [
     {
       name: "S.No",
@@ -296,69 +266,68 @@ const ManageSite = (props) => {
                         <Row>
                           {localStorage.getItem("superiorRole") !==
                             "Client" && (
-                            <Col lg={6} md={12}>
-                              <FormGroup>
-                                <label
-                                  htmlFor="client_id"
-                                  className=" form-label mt-4"
-                                >
-                                  Client
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <Field
-                                  as="select"
-                                  className={`input101 ${
-                                    errors.client_id && touched.client_id
+                              <Col lg={6} md={12}>
+                                <FormGroup>
+                                  <label
+                                    htmlFor="client_id"
+                                    className=" form-label mt-4"
+                                  >
+                                    Client
+                                    <span className="text-danger">*</span>
+                                  </label>
+                                  <Field
+                                    as="select"
+                                    className={`input101 ${errors.client_id && touched.client_id
                                       ? "is-invalid"
                                       : ""
-                                  }`}
-                                  id="client_id"
-                                  name="client_id"
-                                  onChange={(e) => {
-                                    const selectedType = e.target.value;
+                                      }`}
+                                    id="client_id"
+                                    name="client_id"
+                                    onChange={(e) => {
+                                      const selectedType = e.target.value;
 
-                                    setFieldValue("client_id", selectedType);
-                                    setSelectedClientId(selectedType);
+                                      setFieldValue("client_id", selectedType);
+                                      setSelectedClientId(selectedType);
 
-                                    // Reset the selected company and site
-                                    setSelectedCompanyList([]);
-                                    setSelectedSiteList([]);
-                                    setFieldValue("company_id", "");
-                                    setFieldValue("site_id", "");
+                                      // Reset the selected company and site
+                                      setSelectedCompanyList([]);
+                                      setSelectedSiteList([]);
+                                      setFieldValue("company_id", "");
+                                      setFieldValue("site_id", "");
 
-                                    const selectedClient =
-                                      AddSiteData.data.find(
-                                        (client) => client.id === selectedType
-                                      );
+                                      const selectedClient =
+                                        AddSiteData.data.find(
+                                          (client) => client.id === selectedType
+                                        );
 
-                                    if (selectedClient) {
-                                      setSelectedCompanyList(
-                                        selectedClient.companies
-                                      );
-                                    }
-                                  }}
-                                >
-                                  <option value="">Select a Client</option>
-                                  {AddSiteData.data &&
-                                  AddSiteData.data.length > 0 ? (
-                                    AddSiteData.data.map((item) => (
-                                      <option key={item.id} value={item.id}>
-                                        {item.client_name}
-                                      </option>
-                                    ))
-                                  ) : (
-                                    <option disabled>No Client</option>
-                                  )}
-                                </Field>
+                                      if (selectedClient) {
+                                        setSelectedCompanyList(
+                                          selectedClient.companies
+                                        );
+                                      }
+                                    }}
+                                  >
+                                    <option value="">Select a Client</option>
+                                    {AddSiteData.data &&
+                                      AddSiteData.data.length > 0 ? (
+                                      AddSiteData.data.map((item) => (
+                                        <option key={item.id} value={item.id}>
+                                          {item.client_name}
+                                        </option>
+                                      ))
+                                    ) : (
+                                      <option disabled>No Client</option>
+                                    )}
+                                  </Field>
 
-                                <ErrorMessage
-                                  component="div"
-                                  className="invalid-feedback"
-                                  name="client_id"
-                                />
-                              </FormGroup>
-                            </Col>
-                          )}
+                                  <ErrorMessage
+                                    component="div"
+                                    className="invalid-feedback"
+                                    name="client_id"
+                                  />
+                                </FormGroup>
+                              </Col>
+                            )}
                           <Col lg={6} md={12}>
                             <FormGroup>
                               <label
@@ -370,11 +339,10 @@ const ManageSite = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.company_id && touched.company_id
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.company_id && touched.company_id
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="company_id"
                                 name="company_id"
                                 onChange={(e) => {

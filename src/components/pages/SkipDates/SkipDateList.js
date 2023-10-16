@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
@@ -17,32 +16,22 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-
 import axios from "axios";
 import Swal from "sweetalert2";
-import { FormModal } from "../../../data/Modal/Modal";
-import { Slide, toast } from "react-toastify";
-
 import withApi from "../../../Utils/ApiHelper";
-import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
-  DialogTitle,
 } from "@mui/material";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const ManageRoles = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
   const navigate = useNavigate();
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
   const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMorePage, setHasMorePages] = useState("");
@@ -157,8 +146,6 @@ const ManageRoles = (props) => {
     permissionsArray?.includes("skipdate-create");
   const isDeletePermissionAvailable =
     permissionsArray?.includes("skipdate-delete");
-  const isDetailsPermissionAvailable =
-    permissionsArray?.includes("role-details");
 
   const columns = [
     {
@@ -183,7 +170,7 @@ const ManageRoles = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
+        // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.skip_date}</h6>
@@ -243,15 +230,7 @@ const ManageRoles = (props) => {
     columns,
     data,
   };
-  const Errornotify = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
+
 
   const [showModal, setShowModal] = useState(false);
   const [selectedDates, setSelectedDates] = useState([]);
@@ -311,7 +290,7 @@ const ManageRoles = (props) => {
         handleError(error);
       }
     } else {
-      Errornotify("Please select atleast one date");
+      ErrorAlert("Please select atleast one date");
     }
   };
 

@@ -4,53 +4,21 @@ import {
   Col,
   Row,
   Card,
-  Form,
-  FormGroup,
-  FormControl,
-  ListGroup,
   Breadcrumb,
 } from "react-bootstrap";
-
-import { Formik, Field, ErrorMessage } from "formik";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { Slide, toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const SiteSettings = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
   const navigate = useNavigate();
-
-  const notify = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-  const Errornotify = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
-
-  const [AddSiteData, setAddSiteData] = useState([]);
   const [ToleranceData, setToleranceData] = useState([]);
-  // const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  // const [subTypes, setSubTypes] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
   const [selectedSiteId, setSelectedSiteId] = useState("");
@@ -62,7 +30,7 @@ const SiteSettings = (props) => {
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -70,27 +38,17 @@ const SiteSettings = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
     try {
       handleFetchData();
     } catch (error) {
       handleError(error);
     }
-
-    console.clear();
     console.clear();
   }, []);
 
@@ -287,12 +245,11 @@ const SiteSettings = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.client_id &&
+                            className={`input101 ${formik.errors.client_id &&
                               formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="client_id"
                             name="client_id"
                             onChange={(e) => {
@@ -317,7 +274,7 @@ const SiteSettings = (props) => {
                           >
                             <option value="">Select a Client</option>
                             {ToleranceData.data &&
-                            ToleranceData.data.length > 0 ? (
+                              ToleranceData.data.length > 0 ? (
                               ToleranceData.data.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.client_name}
@@ -345,12 +302,11 @@ const SiteSettings = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.company_id &&
+                          className={`input101 ${formik.errors.company_id &&
                             formik.touched.company_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="company_id"
                           name="company_id"
                           onChange={(e) => {
@@ -394,11 +350,10 @@ const SiteSettings = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.site_id && formik.touched.site_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.site_id && formik.touched.site_id
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="site_id"
                           name="site_id"
                           onChange={(e) => {
@@ -438,12 +393,11 @@ const SiteSettings = (props) => {
                         <input
                           type="number"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.max_banking_variance &&
+                          className={`input101 ${formik.errors.max_banking_variance &&
                             formik.touched.max_banking_variance
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="max_banking_variance"
                           name="max_banking_variance"
                           placeholder=" Max Banking Variance"
@@ -472,12 +426,11 @@ const SiteSettings = (props) => {
                           name="max_dip_gain_loss_variance"
                           type="number"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.max_dip_gain_loss_variance &&
+                          className={`input101 ${formik.errors.max_dip_gain_loss_variance &&
                             formik.touched.max_dip_gain_loss_variance
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           placeholder=" Max Dips Gians/Loss Variance"
                           onChange={formik.handleChange}
                           value={formik.values.max_dip_gain_loss_variance}
@@ -501,12 +454,11 @@ const SiteSettings = (props) => {
                       <input
                         type="number"
                         autoComplete="off"
-                        className={`input101 ${
-                          formik.errors.max_fuel_inv_sale_variance &&
+                        className={`input101 ${formik.errors.max_fuel_inv_sale_variance &&
                           formik.touched.max_fuel_inv_sale_variance
-                            ? "is-invalid"
-                            : ""
-                        }`}
+                          ? "is-invalid"
+                          : ""
+                          }`}
                         id="max_fuel_inv_sale_variance"
                         name="max_fuel_inv_sale_variance"
                         placeholder="  Max Fuel Inventory/Sales Variance"
@@ -533,12 +485,11 @@ const SiteSettings = (props) => {
                         <input
                           type="number"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.low_tank_limit &&
+                          className={`input101 ${formik.errors.low_tank_limit &&
                             formik.touched.low_tank_limit
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="low_tank_limit"
                           name="low_tank_limit"
                           placeholder="Low Tank Limit"
@@ -567,12 +518,11 @@ const SiteSettings = (props) => {
                           <input
                             type="number"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.max_bunkering_variance &&
+                            className={`input101 ${formik.errors.max_bunkering_variance &&
                               formik.touched.max_bunkering_variance
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="max_bunkering_variance"
                             name="max_bunkering_variance"
                             placeholder="Bunkering Tolerance"
