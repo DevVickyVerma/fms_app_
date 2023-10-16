@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import {
   Breadcrumb,
   Card,
@@ -138,13 +136,13 @@ const ManageItems = (props) => {
   const FetchTableData = async (pageNumber) => {
     try {
       const response = await getData(
-        `/department-item/list?page=${pageNumber}&search_keywords=${searchQuery}`
+        `/department-item/list?page=${currentPage}&search_keywords=${searchQuery}`
       );
 
       if (response && response.data && response.data.data) {
         setData(response.data.data.items);
         setCount(response.data.data.count);
-        setCurrentPage(response?.data?.data?.currentPage);
+        setCurrentPage(response?.data?.data?.currentPage || 1);
         setHasMorePages(response?.data?.data?.hasMorePages);
 
         setLastPage(response?.data?.data?.lastPage);
@@ -455,20 +453,7 @@ const ManageItems = (props) => {
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table">
-                      {/* <DataTableExtensions {...tableDatas}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          // center={true}
-                          persistTableHead
-                          highlightOnHover
-                          searchable={true}
-                        />
-                      </DataTableExtensions> */}
+
 
                       <div className="data-table-extensions">
                         <input
@@ -493,13 +478,9 @@ const ManageItems = (props) => {
                         striped={true}
                         center={true}
                         persistTableHead
-                        // pagination
-                        // paginationPerPage={20}
                         highlightOnHover
                         searchable={false}
                         subHeader={false}
-
-
                       />
 
                     </div>

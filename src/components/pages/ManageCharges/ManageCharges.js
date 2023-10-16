@@ -126,14 +126,13 @@ const ManageCharges = (props) => {
     }
   };
 
-  console.log("my current page ", currentPage);
   const FetchTableData = async () => {
     try {
       const response = await getData(`charge/list?page=${currentPage}&search_keywords=${searchQuery}`);
       if (response && response.data && response.data.data) {
         setData(response.data.data.charges);
         setCount(response.data.data.count);
-        setCurrentPage(response?.data?.data?.currentPage);
+        setCurrentPage(response?.data?.data?.currentPage || 1);
         setHasMorePages(response?.data?.data?.hasMorePages);
         setLastPage(response?.data?.data?.lastPage);
         setPerPage(response?.data?.data?.perPage);
