@@ -22,22 +22,19 @@ import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { ReactMultiEmail } from "react-multi-email";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const EditClient = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
   const navigate = useNavigate();
-  // const { id } = useParams();
-
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
 
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -45,7 +42,7 @@ const EditClient = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 

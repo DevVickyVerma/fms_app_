@@ -19,6 +19,7 @@ import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const AddSubBusinessCategory = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -74,12 +75,10 @@ const AddSubBusinessCategory = (props) => {
       }
     }
   }, [isPermissionsSet, permissionsArray]);
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       // navigate("/login");
-      // Errornotify("Invalid access token");
+      // ErrorAlert("Invalid access token");
       // localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -87,7 +86,7 @@ const AddSubBusinessCategory = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
   useEffect(() => {
@@ -203,12 +202,11 @@ const AddSubBusinessCategory = (props) => {
                                 type="text"
                                 autoComplete="off"
                                 // className="form-control"
-                                className={`input101 ${
-                                  errors.sub_category_name &&
+                                className={`input101 ${errors.sub_category_name &&
                                   touched.sub_category_name
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="sub_category_name"
                                 name="sub_category_name"
                                 placeholder="Sub-Business Category Name"
@@ -232,11 +230,10 @@ const AddSubBusinessCategory = (props) => {
                               <Field
                                 type="text"
                                 autoComplete="off"
-                                className={`input101 ${
-                                  errors.code && touched.code
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.code && touched.code
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="code"
                                 name="code"
                                 placeholder="Sub-Business Category Code"
@@ -261,11 +258,10 @@ const AddSubBusinessCategory = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.status && touched.status
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.status && touched.status
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="status"
                                 name="Status"
                               >
@@ -290,12 +286,11 @@ const AddSubBusinessCategory = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.business_category_id &&
+                                className={`input101 ${errors.business_category_id &&
                                   touched.business_category_id
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="business_category_id"
                                 name="business_category_id"
                               >

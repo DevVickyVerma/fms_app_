@@ -30,31 +30,24 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CenterSearchmodal from "../../../data/Modal/CenterSearchmodal";
 import { Box } from "@mui/material";
 import DateRangeIcon from "@mui/icons-material/DateRange";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 const ManageSite = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { apidata, isLoading, getData, postData } = props;
 
   const [data, setData] = useState();
-
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
   const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(false);
-  const [dropdownValue, setDropdownValue] = useState([]);
   const [sidebarVisible, setSidebarVisible] = useState(true);
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [sidebardata, setSideData] = useState();
-  const [SiteId, setSiteId] = useState();
   const [searchdata, setSearchdata] = useState({});
-
   const [SearchList, setSearchList] = useState(false);
-
   const [sidebardataobject, setSideDataobject] = useState();
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
+
+
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -62,7 +55,7 @@ const ManageSite = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 
@@ -321,7 +314,7 @@ const ManageSite = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
+        // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
@@ -372,103 +365,103 @@ const ManageSite = (props) => {
     },
     anyPermissionAvailable
       ? {
-          name: "Action",
-          selector: (row) => [row.action],
-          sortable: false,
-          width: "17%",
-          cell: (row) => (
-            <span className="text-center">
-              {anyPermissionAvailable ? (
-                <Dropdown className="dropdown btn-group">
-                  <Dropdown.Toggle
-                    variant="Primary"
-                    type="button"
-                    className="btn btn-primary dropdown-toggle"
-                  >
-                    Actions
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu className="dropdown-menu">
-                    {issitesettingPermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to={`/site-setting/${row.id}`}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <SettingsIcon />
-                            </i>
-                            Settings
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                    {isManagerPermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to={`/assignmanger/${row.id}`}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <AssignmentTurnedInIcon />
-                            </i>
-                            Assign Manager
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                    {isSkipDatePermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to={`/skipdates/${row.id}`}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <DateRangeIcon />
-                            </i>
-                            Skip Date
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                    {isBankManagerPermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to={`/managebank/${row.id}`}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <AccountBalanceIcon />
-                            </i>
-                            Bank Manager
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                    {isEditPermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to={`/editsite/${row.id}`}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <ModeEditIcon />
-                            </i>
-                            Edit
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
+        name: "Action",
+        selector: (row) => [row.action],
+        sortable: false,
+        width: "17%",
+        cell: (row) => (
+          <span className="text-center">
+            {anyPermissionAvailable ? (
+              <Dropdown className="dropdown btn-group">
+                <Dropdown.Toggle
+                  variant="Primary"
+                  type="button"
+                  className="btn btn-primary dropdown-toggle"
+                >
+                  Actions
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="dropdown-menu">
+                  {issitesettingPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to={`/site-setting/${row.id}`}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <SettingsIcon />
+                          </i>
+                          Settings
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isManagerPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to={`/assignmanger/${row.id}`}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <AssignmentTurnedInIcon />
+                          </i>
+                          Assign Manager
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isSkipDatePermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to={`/skipdates/${row.id}`}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <DateRangeIcon />
+                          </i>
+                          Skip Date
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isBankManagerPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to={`/managebank/${row.id}`}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <AccountBalanceIcon />
+                          </i>
+                          Bank Manager
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isEditPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to={`/editsite/${row.id}`}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <ModeEditIcon />
+                          </i>
+                          Edit
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
 
-                    {isDeletePermissionAvailable ? (
-                      <Dropdown.Item className="dropdown-item">
-                        <Link to="#" onClick={() => handleDelete(row.id)}>
-                          <div style={{ width: "100%" }}>
-                            <i className="setting-icon">
-                              <DeleteIcon />
-                            </i>
-                            Delete
-                          </div>
-                        </Link>
-                      </Dropdown.Item>
-                    ) : null}
-                  </Dropdown.Menu>
-                </Dropdown>
-              ) : (
-                ""
-              )}
-            </span>
-          ),
-        }
+                  {isDeletePermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to="#" onClick={() => handleDelete(row.id)}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <DeleteIcon />
+                          </i>
+                          Delete
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                </Dropdown.Menu>
+              </Dropdown>
+            ) : (
+              ""
+            )}
+          </span>
+        ),
+      }
       : "",
   ];
 

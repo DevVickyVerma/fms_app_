@@ -9,6 +9,7 @@ import { BsFuelPumpFill } from "react-icons/bs";
 import { Slide, toast } from "react-toastify";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 
 const SingleStatsCompetitor = ({ isLoading, getData }) => {
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
@@ -26,28 +27,11 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
     },
   });
   const navigate = useNavigate();
-  const SuccessToast = (message) => {
-    toast.success(message, {
-      autoClose: 500,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-  const Errornotify = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
+
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      SuccessToast("Invalid access token");
+      SuccessAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -55,7 +39,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
       const errorMessage = Array.isArray(error.response?.data?.message)
         ? error.response?.data?.message.join(" ")
         : error.response?.data?.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 

@@ -22,6 +22,7 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { Box } from "@mui/material";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const Competitor = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -70,12 +71,10 @@ const Competitor = (props) => {
 
   const navigate = useNavigate();
 
-  const Errornotify = (message) => toast.error(message);
-
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -83,7 +82,7 @@ const Competitor = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 
@@ -516,9 +515,9 @@ const Competitor = (props) => {
                           </label>
                           <select
                             className={`input101 ${formik.errors.client_id &&
-                                formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
+                              formik.touched.client_id
+                              ? "is-invalid"
+                              : ""
                               }`}
                             id="client_id"
                             name="client_id"
@@ -574,9 +573,9 @@ const Competitor = (props) => {
                         </label>
                         <select
                           className={`input101 ${formik.errors.company_id &&
-                              formik.touched.company_id
-                              ? "is-invalid"
-                              : ""
+                            formik.touched.company_id
+                            ? "is-invalid"
+                            : ""
                             }`}
                           id="company_id"
                           name="company_id"
@@ -625,8 +624,8 @@ const Competitor = (props) => {
                         </label>
                         <select
                           className={`input101 ${formik.errors.site_id && formik.touched.site_id
-                              ? "is-invalid"
-                              : ""
+                            ? "is-invalid"
+                            : ""
                             }`}
                           id="site_id"
                           name="site_id"

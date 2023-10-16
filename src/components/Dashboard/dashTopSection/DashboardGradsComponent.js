@@ -27,6 +27,7 @@ import SortIcon from "@mui/icons-material/Sort";
 import { ErrorMessage, Field, Formik } from "formik";
 import { useMyContext } from "../../../Utils/MyContext";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import { SuccessAlert } from "../../../Utils/ToastUtils";
 const DashboardGradsComponent = ({ getData, getSiteStats }) => {
   const { getGradsSiteDetails, setGradsGetSiteDetails, DashboardGradsLoading } =
     useMyContext();
@@ -51,16 +52,6 @@ const DashboardGradsComponent = ({ getData, getSiteStats }) => {
 
   const handleGradsClick = (index) => {
     setGridIndex(index);
-  };
-  const notify = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
   };
 
   const [showModal, setShowModal] = useState(false); // State to control modal visibility
@@ -139,7 +130,7 @@ const DashboardGradsComponent = ({ getData, getSiteStats }) => {
           setEndDatePath(endDate);
           if (response3 && response3.data) {
             setGradsGetSiteDetails(response3?.data?.data);
-            notify(response3?.data?.message);
+            SuccessAlert(response3?.data?.message);
             setShowModal(false);
             setModalButtonName(false);
             setShowDate(true);
@@ -224,7 +215,7 @@ const DashboardGradsComponent = ({ getData, getSiteStats }) => {
           setEndDatePath(endDate);
           if (response3 && response3.data) {
             setGradsGetSiteDetails(response3?.data?.data);
-            notify(response3?.data?.message);
+            SuccessAlert(response3?.data?.message);
             setShowModal(false);
             setModalButtonName(true);
 
@@ -261,11 +252,11 @@ const DashboardGradsComponent = ({ getData, getSiteStats }) => {
                     <MdOutlineCalendarMonth />{" "}
                     {showDate && getSiteStats?.data && !ModalButtonName
                       ? `${moment(startDatePath).format("Do MMM")} - ${moment(
-                          endDatePath
-                        ).format("Do MMM")}`
+                        endDatePath
+                      ).format("Do MMM")}`
                       : moment(getSiteStats?.data?.last_dayend).format(
-                          "MMM Do"
-                        )}
+                        "MMM Do"
+                      )}
                     <SortIcon />{" "}
                   </button>
                   {showDate && getSiteStats?.data && !ModalButtonName ? (
@@ -596,7 +587,7 @@ const DashboardGradsComponent = ({ getData, getSiteStats }) => {
         onHide={handleCloseModal}
         centered
         className="custom-modal-width custom-modal-height"
-        // style={{ overflow: "auto" }}
+      // style={{ overflow: "auto" }}
       >
         <div
           class="modal-header"
@@ -672,11 +663,10 @@ const DashboardGradsComponent = ({ getData, getSiteStats }) => {
                                       min={getFirstDayOfPreviousMonth()}
                                       max={getCurrentDate()}
                                       onClick={handleShowDate}
-                                      className={`input101 ${
-                                        errors.start_date && touched.start_date
-                                          ? "is-invalid"
-                                          : ""
-                                      }`}
+                                      className={`input101 ${errors.start_date && touched.start_date
+                                        ? "is-invalid"
+                                        : ""
+                                        }`}
                                       id="start_date"
                                       name="start_date"
                                       onChange={(e) => {
@@ -708,11 +698,10 @@ const DashboardGradsComponent = ({ getData, getSiteStats }) => {
                                       min={state.startDate}
                                       max={getCurrentDate()}
                                       onClick={handleShowDate1}
-                                      className={`input101 ${
-                                        errors.end_date && touched.end_date
-                                          ? "is-invalid"
-                                          : ""
-                                      }`}
+                                      className={`input101 ${errors.end_date && touched.end_date
+                                        ? "is-invalid"
+                                        : ""
+                                        }`}
                                       id="end_date"
                                       name="end_date"
                                       onChange={(e) => {

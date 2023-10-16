@@ -70,7 +70,7 @@ const DashboardCompetitorGraph = ({
 
     yAxisID: "y", // You can adjust the yAxisID as needed
     // type: name === getCompetitorsPrice?.siteName ? "bar" : "line",
-    type: "line",
+    type: "bar",
   }));
 
   const data = {

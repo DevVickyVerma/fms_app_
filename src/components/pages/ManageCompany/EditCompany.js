@@ -20,6 +20,7 @@ import { Link, useNavigate } from "react-router-dom";
 import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 
 const EditCompany = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -29,32 +30,12 @@ const EditCompany = (props) => {
     localStorage.getItem("superiorId")
   );
 
-  const notify = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-  const Errornotify = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
 
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -62,7 +43,7 @@ const EditCompany = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 
@@ -153,10 +134,10 @@ const EditCompany = (props) => {
       const data = await response.json();
 
       if (response.ok) {
-        notify(data.message);
+        SuccessAlert(data.message);
         navigate("/managecompany");
       } else {
-        Errornotify(data.message);
+        ErrorAlert(data.message);
       }
     } catch (error) {
       handleError(error);
@@ -255,12 +236,11 @@ const EditCompany = (props) => {
                             name="company_code"
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.company_code &&
+                            className={`input101 ${formik.errors.company_code &&
                               formik.touched.company_code
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             placeholder="Company Code"
                             onChange={formik.handleChange}
                             value={formik.values.company_code || ""}
@@ -284,12 +264,11 @@ const EditCompany = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.company_name &&
+                            className={`input101 ${formik.errors.company_name &&
                               formik.touched.company_name
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="company_name"
                             name="company_name"
                             placeholder="Company Name"
@@ -314,12 +293,11 @@ const EditCompany = (props) => {
                         <input
                           type="text"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.company_details &&
+                          className={`input101 ${formik.errors.company_details &&
                             formik.touched.company_details
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="company_details"
                           name="company_details"
                           placeholder=" Company Details"
@@ -343,12 +321,11 @@ const EditCompany = (props) => {
                               Client <span className="text-danger">*</span>
                             </label>
                             <select
-                              className={`input101 ${
-                                formik.errors.client_id &&
+                              className={`input101 ${formik.errors.client_id &&
                                 formik.touched.client_id
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                                }`}
                               id="client_id"
                               name="client_id"
                               onChange={formik.handleChange}
@@ -356,7 +333,7 @@ const EditCompany = (props) => {
                             >
                               <option value=""> Select Client</option>
                               {dropdownValue.clients &&
-                              dropdownValue.clients.length > 0 ? (
+                                dropdownValue.clients.length > 0 ? (
                                 dropdownValue.clients.map((item) => (
                                   <option key={item.id} value={item.id}>
                                     {item.client_name}
@@ -381,11 +358,10 @@ const EditCompany = (props) => {
                             Address<span className="text-danger">*</span>
                           </label>
                           <textarea
-                            className={`input101 ${
-                              formik.errors.address && formik.touched.address
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.address && formik.touched.address
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="address"
                             name="address"
                             onChange={formik.handleChange}
@@ -408,11 +384,10 @@ const EditCompany = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.website && formik.touched.website
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.website && formik.touched.website
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="website"
                             name="website"
                             placeholder="website"

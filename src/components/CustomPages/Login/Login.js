@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import { BsCapslock } from "react-icons/bs";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 
 export default function Login(props) {
   const [isLoading, setLoading] = useState(false);
@@ -48,25 +49,7 @@ export default function Login(props) {
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string().required("Password is required"),
   });
-  const notify = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-  const Errornotify = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
+
 
   const handleSubmit = async (values) => {
     setLoading(true);
@@ -98,22 +81,22 @@ export default function Login(props) {
           }
         }
         localStorage.setItem("justLoggedIn", true);
-        notify(data?.message);
+        SuccessAlert(data?.message);
         setLoading(false);
       } else {
-        Errornotify(data.message);
+        ErrorAlert(data.message);
         setLoading(false);
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
         navigate("/login");
-        Errornotify("Invalid access token");
+        ErrorAlert("Invalid access token");
         localStorage.clear();
       } else if (error.response && error.response.data.status_code === "403") {
         navigate("/errorpage403");
       } else {
         console.error(error);
-        Errornotify(error.message);
+        ErrorAlert(error.message);
       }
     }
 

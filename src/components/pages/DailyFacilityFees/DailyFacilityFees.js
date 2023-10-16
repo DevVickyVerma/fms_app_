@@ -24,30 +24,13 @@ import { Slide, toast } from "react-toastify";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { useSelector } from "react-redux";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const SiteSettings = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const navigate = useNavigate();
 
-  const notify = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-  const Errornotify = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
+
 
   const [AddSiteData, setAddSiteData] = useState([]);
   const [ToleranceData, setToleranceData] = useState([]);
@@ -76,7 +59,7 @@ const SiteSettings = (props) => {
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -84,7 +67,7 @@ const SiteSettings = (props) => {
       const errorMessage = Array?.isArray(error?.response?.data?.message)
         ? error?.response?.data?.message?.join(" ")
         : error?.response?.data?.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 
@@ -318,12 +301,11 @@ const SiteSettings = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.client_id &&
+                            className={`input101 ${formik.errors.client_id &&
                               formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="client_id"
                             name="client_id"
                             onChange={(e) => {
@@ -348,7 +330,7 @@ const SiteSettings = (props) => {
                           >
                             <option value="">Select a Client</option>
                             {ToleranceData.data &&
-                            ToleranceData.data.length > 0 ? (
+                              ToleranceData.data.length > 0 ? (
                               ToleranceData.data.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.client_name}
@@ -376,12 +358,11 @@ const SiteSettings = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.company_id &&
+                          className={`input101 ${formik.errors.company_id &&
                             formik.touched.company_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="company_id"
                           name="company_id"
                           onChange={(e) => {

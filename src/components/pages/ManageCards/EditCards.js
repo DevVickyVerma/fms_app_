@@ -20,6 +20,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const EditCards = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -31,15 +32,12 @@ const EditCards = (props) => {
   const [subTypes, setSubTypes] = useState([]);
   const [EditSiteData, setEditSiteData] = useState();
 
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
-
   const [previewImage, setPreviewImage] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   function handleError(error) {
     if (error.response && error.response.card_status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (
       error.response &&
@@ -50,7 +48,7 @@ const EditCards = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
   const { id } = useParams();

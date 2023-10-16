@@ -6,13 +6,13 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
+import { ErrorAlert } from '../../../Utils/ToastUtils';
 
 
 const EditBank = ({ isLoading, getData, postData }) => {
     const [data, setData] = useState();
     const { id } = useParams();
     const navigate = useNavigate();
-    const ErrorNotify = (message) => toast.error(message);
     useEffect(() => {
         fetchBankManagerList();
     }, [])
@@ -22,7 +22,7 @@ const EditBank = ({ isLoading, getData, postData }) => {
     function handleError(error) {
         if (error.response && error.response.status === 401) {
             navigate("/login");
-            ErrorNotify("Invalid access token");
+            ErrorAlert("Invalid access token");
             localStorage.clear();
         } else if (error.response && error.response.data.status_code === "403") {
             navigate("/errorpage403");
@@ -30,7 +30,7 @@ const EditBank = ({ isLoading, getData, postData }) => {
             const errorMessage = Array.isArray(error.response.data.message)
                 ? error.response.data.message.join(" ")
                 : error.response.data.message;
-            ErrorNotify(errorMessage);
+            ErrorAlert(errorMessage);
         }
     }
 

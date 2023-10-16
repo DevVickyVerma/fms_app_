@@ -20,6 +20,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const EditBussiness = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -29,15 +30,12 @@ const EditBussiness = (props) => {
   const [selectedBusinessType, setSelectedBusinessType] = useState("");
   const [subTypes, setSubTypes] = useState([]);
   const [EditSiteData, setEditSiteData] = useState();
-
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -45,7 +43,7 @@ const EditBussiness = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
   const { id } = useParams();
@@ -207,12 +205,11 @@ const EditBussiness = (props) => {
                             business_name="name"
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.business_name &&
+                            className={`input101 ${formik.errors.business_name &&
                               formik.touched.business_name
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             placeholder="Business Type Name"
                             onChange={formik.handleChange}
                             value={formik.values.business_name || ""}
@@ -233,11 +230,10 @@ const EditBussiness = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.slug && formik.touched.slug
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.slug && formik.touched.slug
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="slug"
                             name="slug"
                             placeholder="Slug"
@@ -258,11 +254,10 @@ const EditBussiness = (props) => {
                             Status <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.status && formik.touched.status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.status && formik.touched.status
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="status"
                             name="status"
                             onChange={formik.handleChange}

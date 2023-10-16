@@ -72,12 +72,12 @@ const AddCompetitor = (props) => {
       console.error("API error:", error);
     }
   };
-  const Errornotify = (message) => toast.error(message);
+  const ErrorAlert = (message) => toast.error(message);
 
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -85,7 +85,7 @@ const AddCompetitor = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 
@@ -217,11 +217,10 @@ const AddCompetitor = (props) => {
                         <input
                           type="text"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.name && formik.touched.name
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.name && formik.touched.name
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="name"
                           name="name"
                           placeholder="Competitor Name "
@@ -243,11 +242,10 @@ const AddCompetitor = (props) => {
                         <input
                           type="number"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.main_code && formik.touched.main_code
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.main_code && formik.touched.main_code
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="main_code"
                           name="main_code"
                           placeholder="Main Code"
@@ -270,11 +268,10 @@ const AddCompetitor = (props) => {
                         <input
                           type="text"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.postcode && formik.touched.postcode
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.postcode && formik.touched.postcode
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="postcode"
                           name="postcode"
                           placeholder="Post Code"
@@ -296,11 +293,10 @@ const AddCompetitor = (props) => {
                         <input
                           type="number"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.cat_no && formik.touched.cat_no
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.cat_no && formik.touched.cat_no
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="cat_no"
                           name="cat_no"
                           placeholder=" Category Number"
@@ -322,12 +318,11 @@ const AddCompetitor = (props) => {
                         <input
                           type="number"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.dist_miles &&
+                          className={`input101 ${formik.errors.dist_miles &&
                             formik.touched.dist_miles
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="dist_miles"
                           name="dist_miles"
                           placeholder="Dist Miles"
@@ -349,11 +344,10 @@ const AddCompetitor = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <textarea
-                          className={`input101 ${
-                            formik.errors.address && formik.touched.address
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.address && formik.touched.address
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="address"
                           name="address"
                           onChange={formik.handleChange}
@@ -375,11 +369,10 @@ const AddCompetitor = (props) => {
                           Supplier <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.supplier && formik.touched.supplier
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.supplier && formik.touched.supplier
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="supplier"
                           name="supplier"
                           onChange={formik.handleChange}

@@ -19,6 +19,7 @@ import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const AddBusinessCategory = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -74,8 +75,6 @@ const AddBusinessCategory = (props) => {
       }
     }
   }, [isPermissionsSet, permissionsArray]);
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
   function handleError(error) {
     if (error.response && error.response.status === 401) {
     } else if (error.response && error.response.data.status_code === "403") {
@@ -84,7 +83,7 @@ const AddBusinessCategory = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
   useEffect(() => {
@@ -200,11 +199,10 @@ const AddBusinessCategory = (props) => {
                                 type="text"
                                 autoComplete="off"
                                 // className="form-control"
-                                className={`input101 ${
-                                  errors.business_name && touched.business_name
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.business_name && touched.business_name
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="business_name"
                                 name="business_name"
                                 placeholder="Business Category Name"
@@ -228,12 +226,11 @@ const AddBusinessCategory = (props) => {
                               <Field
                                 type="text"
                                 autoComplete="off"
-                                className={`input101 ${
-                                  errors.business_category_code &&
+                                className={`input101 ${errors.business_category_code &&
                                   touched.business_category_code
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="business_category_code"
                                 name="business_category_code"
                                 placeholder="Business Category Code"
@@ -258,11 +255,10 @@ const AddBusinessCategory = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.status && touched.status
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.status && touched.status
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="status"
                                 name="status"
                               >
@@ -287,12 +283,11 @@ const AddBusinessCategory = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.business_type_id &&
+                                className={`input101 ${errors.business_type_id &&
                                   touched.business_type_id
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="business_type_id"
                                 name="business_type_id"
                               >

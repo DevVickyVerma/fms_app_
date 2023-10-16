@@ -4,40 +4,28 @@ import {
   Col,
   Row,
   Card,
-  Form,
-  FormGroup,
-  FormControl,
-  ListGroup,
   Breadcrumb,
 } from "react-bootstrap";
-
-import { Formik, Field, ErrorMessage } from "formik";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const Editdeductions = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
   const navigate = useNavigate();
 
   const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedBusinessType, setSelectedBusinessType] = useState("");
   const [subTypes, setSubTypes] = useState([]);
-  const [EditSiteData, setEditSiteData] = useState();
-
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
   function handleError(error) {
     if (error.response && error.response.deduction_status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (
       error.response &&
@@ -48,7 +36,7 @@ const Editdeductions = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 
@@ -208,12 +196,11 @@ const Editdeductions = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.deduction_name &&
+                            className={`input101 ${formik.errors.deduction_name &&
                               formik.touched.deduction_name
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="deduction_name"
                             name="deduction_name"
                             placeholder="Deduction Name"
@@ -242,12 +229,11 @@ const Editdeductions = (props) => {
                             deduction_code="code"
                             type="text"
                             autoComplete="off"
-                            className={`input101 readonly ${
-                              formik.errors.deduction_code &&
+                            className={`input101 readonly ${formik.errors.deduction_code &&
                               formik.touched.deduction_code
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             placeholder="Deduction Code"
                             onChange={formik.handleChange}
                             value={formik.values.deduction_code || ""}
@@ -272,12 +258,11 @@ const Editdeductions = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.deduction_status &&
+                            className={`input101 ${formik.errors.deduction_status &&
                               formik.touched.deduction_status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="deduction_status"
                             name="deduction_status"
                             onChange={formik.handleChange}

@@ -4,44 +4,29 @@ import {
   Col,
   Row,
   Card,
-  Form,
-  FormGroup,
-  FormControl,
-  ListGroup,
   Breadcrumb,
 } from "react-bootstrap";
-
-import { Formik, Field, ErrorMessage } from "formik";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const Editsuppliers = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
   const navigate = useNavigate();
   const reader = new FileReader();
-
-  const [AddSiteData, setAddSiteData] = useState([]);
-  const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  const [subTypes, setSubTypes] = useState([]);
-  const [EditSiteData, setEditSiteData] = useState();
   const [previewImage, setPreviewImage] = useState(null);
 
   const [isDragging, setIsDragging] = useState(false);
-
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
   function handleError(error) {
     if (error.response && error.response.Status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.Status_code === "403") {
       navigate("/errorpage403");
@@ -49,7 +34,7 @@ const Editsuppliers = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
   const { id } = useParams();
@@ -215,12 +200,11 @@ const Editsuppliers = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.supplier_name &&
+                            className={`input101 ${formik.errors.supplier_name &&
                               formik.touched.supplier_name
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="supplier_name"
                             name="supplier_name"
                             placeholder="Supplier Name"
@@ -246,12 +230,11 @@ const Editsuppliers = (props) => {
                             name="supplier_code"
                             type="text"
                             autoComplete="off"
-                            className={`input101 readonly ${
-                              formik.errors.supplier_code &&
+                            className={`input101 readonly ${formik.errors.supplier_code &&
                               formik.touched.supplier_code
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             placeholder="Supplier Code"
                             onChange={formik.handleChange}
                             value={formik.values.supplier_code || ""}
@@ -272,11 +255,10 @@ const Editsuppliers = (props) => {
                             Status <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.status && formik.touched.status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.status && formik.touched.status
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="status"
                             name="status"
                             onChange={formik.handleChange}
@@ -296,11 +278,10 @@ const Editsuppliers = (props) => {
                         <div className="form-group">
                           <label htmlFor="image">Image</label>
                           <div
-                            className={`dropzone ${
-                              formik.errors.image && formik.touched.image
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`dropzone ${formik.errors.image && formik.touched.image
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             onDrop={(event) =>
                               handleDrop(event, formik.setFieldValue)
                             }

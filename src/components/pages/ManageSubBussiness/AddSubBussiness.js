@@ -13,24 +13,22 @@ import {
 
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const AddSubBussiness = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
   const [dropdownValue, setDropdownValue] = useState([]);
   const navigate = useNavigate();
 
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
+
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -40,7 +38,7 @@ const AddSubBussiness = (props) => {
         : error.response.data.message;
 
       if (errorMessage) {
-        Errornotify(errorMessage);
+        ErrorAlert(errorMessage);
       } else {
         throw new Error("An error occurred.");
       }
@@ -203,11 +201,10 @@ const AddSubBussiness = (props) => {
                                 type="text"
                                 autoComplete="off"
                                 // className="form-control"
-                                className={`input101 ${
-                                  errors.business_name && touched.business_name
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.business_name && touched.business_name
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="business_name"
                                 name="business_name"
                                 placeholder="Bussiness Name"
@@ -230,11 +227,10 @@ const AddSubBussiness = (props) => {
                               <Field
                                 type="text"
                                 autoComplete="off"
-                                className={`input101 ${
-                                  errors.slug && touched.slug
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.slug && touched.slug
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="slug"
                                 name="slug"
                                 placeholder="Slug"
@@ -259,11 +255,10 @@ const AddSubBussiness = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.status && touched.status
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.status && touched.status
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="status"
                                 name="status"
                               >
@@ -288,18 +283,17 @@ const AddSubBussiness = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.business_type_id &&
+                                className={`input101 ${errors.business_type_id &&
                                   touched.business_type_id
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="business_type_id"
                                 name="business_type_id"
                               >
                                 <option value=""> Select Business Type</option>
                                 {dropdownValue.data &&
-                                dropdownValue.data.length > 0 ? (
+                                  dropdownValue.data.length > 0 ? (
                                   dropdownValue.data.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.business_name}

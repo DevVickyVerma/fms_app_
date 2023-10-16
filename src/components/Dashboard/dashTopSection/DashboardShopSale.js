@@ -26,6 +26,7 @@ import { DateRangePicker } from "react-date-range";
 import withApi from "../../../Utils/ApiHelper";
 import { useMyContext } from "../../../Utils/MyContext";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 
 const DashboardShopSale = ({
   getData,
@@ -44,7 +45,7 @@ const DashboardShopSale = ({
   const [startDatePath, setStartDatePath] = useState("");
   const [endDatePath, setEndDatePath] = useState("");
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
-  const Errornotify = (message) => toast.error(message);
+
   const {
     dashboardShopSaleData,
     setDashboardShopSaleData,
@@ -53,7 +54,7 @@ const DashboardShopSale = ({
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -61,7 +62,7 @@ const DashboardShopSale = ({
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -330,7 +331,7 @@ const DashboardShopSale = ({
           if (response3 && response3.data) {
             setDashboardShopSaleData(response3?.data?.data);
             // setGradsGetSiteDetails(response3?.data?.data);
-            notify(response3?.data?.message);
+            SuccessAlert(response3?.data?.message);
             setModalButtonName(false);
             setShowCalenderModal(false);
             setShowDate(true);
@@ -347,15 +348,6 @@ const DashboardShopSale = ({
       setGradsLoading(false);
     }
     setGradsLoading(false);
-  };
-  const notify = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
   };
 
   const ResetForm = async (values) => {
@@ -394,7 +386,7 @@ const DashboardShopSale = ({
           if (response3 && response3.data) {
             setDashboardShopSaleData(response3?.data?.data);
             // setGradsGetSiteDetails(response3?.data?.data);
-            notify(response3?.data?.message);
+            SuccessAlert(response3?.data?.message);
             setShowCalenderModal(false);
             setShowDate(true);
             setModalButtonName(true);

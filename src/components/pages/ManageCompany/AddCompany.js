@@ -6,34 +6,24 @@ import {
   Card,
   Form,
   FormGroup,
-  FormControl,
-  ListGroup,
   Breadcrumb,
 } from "react-bootstrap";
 
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import DatePicker, { Calendar } from "react-multi-date-picker";
-import { useFormikContext } from "formik";
 import "react-datepicker/dist/react-datepicker.css";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const AddCompany = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, postData } = props;
 
   const navigate = useNavigate();
-  const [dropdownItems, setDropdownItems] = useState([]);
-
   const [dropdownValue, setDropdownValue] = useState([]);
-
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
-  const [selectedItems, setSelectedItems] = useState(["1"]);
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
@@ -41,7 +31,7 @@ const AddCompany = (props) => {
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -49,7 +39,7 @@ const AddCompany = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 
@@ -80,7 +70,7 @@ const AddCompany = (props) => {
     } catch (error) {
       if (error.response && error.response.status === 401) {
         navigate("/login");
-        Errornotify("Invalid access token");
+        ErrorAlert("Invalid access token");
         localStorage.clear();
       } else if (error.response && error.response.data.status_code === "403") {
         navigate("/errorpage403");
@@ -246,11 +236,10 @@ const AddCompany = (props) => {
                               <Field
                                 type="text"
                                 autoComplete="off"
-                                className={`input101 ${
-                                  errors.company_code && touched.company_code
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.company_code && touched.company_code
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="company_code"
                                 name="company_code"
                                 placeholder="Company Code"
@@ -274,11 +263,10 @@ const AddCompany = (props) => {
                               <Field
                                 type="text"
                                 autoComplete="off"
-                                className={`input101 ${
-                                  errors.company_name && touched.company_name
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.company_name && touched.company_name
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="company_name"
                                 name="company_name"
                                 placeholder="Company Name"
@@ -301,11 +289,10 @@ const AddCompany = (props) => {
                               <Field
                                 as="textarea"
                                 type="textarea"
-                                className={`input101 ${
-                                  errors.address && touched.address
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.address && touched.address
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="address"
                                 name="address"
                                 placeholder="Address"
@@ -328,11 +315,10 @@ const AddCompany = (props) => {
                               <Field
                                 type="text"
                                 autoComplete="off"
-                                className={`input101 ${
-                                  errors.website && touched.website
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.website && touched.website
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="website"
                                 name="website"
                                 placeholder="Website"
@@ -346,44 +332,43 @@ const AddCompany = (props) => {
                           </Col>
                           {localStorage.getItem("superiorRole") !==
                             "Client" && (
-                            <Col lg={4} md={6}>
-                              <FormGroup>
-                                <label
-                                  htmlFor="client_id"
-                                  className=" form-label mt-4"
-                                >
-                                  Client<span className="text-danger">*</span>
-                                </label>
-                                <Field
-                                  as="select"
-                                  className={`input101 ${
-                                    errors.client_id && touched.client_id
+                              <Col lg={4} md={6}>
+                                <FormGroup>
+                                  <label
+                                    htmlFor="client_id"
+                                    className=" form-label mt-4"
+                                  >
+                                    Client<span className="text-danger">*</span>
+                                  </label>
+                                  <Field
+                                    as="select"
+                                    className={`input101 ${errors.client_id && touched.client_id
                                       ? "is-invalid"
                                       : ""
-                                  }`}
-                                  id="client_id"
-                                  name="client_id"
-                                >
-                                  <option value=""> Select Client</option>
-                                  {dropdownValue.clients &&
-                                  dropdownValue.clients.length > 0 ? (
-                                    dropdownValue.clients.map((item) => (
-                                      <option key={item.id} value={item.id}>
-                                        {item.client_name}
-                                      </option>
-                                    ))
-                                  ) : (
-                                    <option disabled>No clients</option>
-                                  )}
-                                </Field>
-                                <ErrorMessage
-                                  component="div"
-                                  className="invalid-feedback"
-                                  name="client_id"
-                                />
-                              </FormGroup>
-                            </Col>
-                          )}
+                                      }`}
+                                    id="client_id"
+                                    name="client_id"
+                                  >
+                                    <option value=""> Select Client</option>
+                                    {dropdownValue.clients &&
+                                      dropdownValue.clients.length > 0 ? (
+                                      dropdownValue.clients.map((item) => (
+                                        <option key={item.id} value={item.id}>
+                                          {item.client_name}
+                                        </option>
+                                      ))
+                                    ) : (
+                                      <option disabled>No clients</option>
+                                    )}
+                                  </Field>
+                                  <ErrorMessage
+                                    component="div"
+                                    className="invalid-feedback"
+                                    name="client_id"
+                                  />
+                                </FormGroup>
+                              </Col>
+                            )}
                           <Col lg={4} md={6}>
                             <FormGroup>
                               <label
@@ -396,12 +381,11 @@ const AddCompany = (props) => {
                               <Field
                                 as="textarea"
                                 type="textarea"
-                                className={`input101 ${
-                                  errors.company_details &&
+                                className={`input101 ${errors.company_details &&
                                   touched.company_details
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="company_details"
                                 name="company_details"
                                 placeholder="Company Details"
@@ -428,7 +412,7 @@ const AddCompany = (props) => {
                         <button
                           type="submit"
                           className="btn btn-primary me-2 "
-                          // disabled={Object.keys(errors).length > 0}
+                        // disabled={Object.keys(errors).length > 0}
                         >
                           Save
                         </button>

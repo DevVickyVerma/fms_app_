@@ -9,25 +9,24 @@ import {
 } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { MultiSelect } from "react-multi-select-component";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 const AddUsers = (props) => {
   const { isLoading, getData, postData } = props;
   const [roleitems, setRoleItems] = useState("");
   const [selectRole, setselectRole] = useState([]);
   const navigate = useNavigate();
 
-  const Errornotify = (message) => toast.error(message);
 
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -35,7 +34,7 @@ const AddUsers = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 

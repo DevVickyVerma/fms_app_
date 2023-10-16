@@ -18,11 +18,11 @@ import {
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const EditUsers = (props) => {
   const { isLoading, getData, postData } = props;
@@ -31,15 +31,11 @@ const EditUsers = (props) => {
   const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [SelectedClient, setSelectedClient] = useState();
-
-
-  const Errornotify = (message) => toast.error(message);
-
   const [roleItems, setRoleItems] = useState("");
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -47,7 +43,7 @@ const EditUsers = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
   const handleFetchData = async () => {
