@@ -20,25 +20,20 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const EditItems = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const navigate = useNavigate();
-
-  const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedBusinessType, setSelectedBusinessType] = useState("");
   const [selectedItemTypeList, setselectedItemTypeList] = useState([]);
-  const [subTypes, setSubTypes] = useState([]);
-  const [EditSiteData, setEditSiteData] = useState();
 
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+
   const [dropdownValue, setDropdownValue] = useState([]);
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -46,7 +41,7 @@ const EditItems = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 
@@ -222,11 +217,10 @@ const EditItems = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.name && formik.touched.name
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.name && formik.touched.name
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="name"
                             name="name"
                             placeholder="Item Name"
@@ -250,12 +244,11 @@ const EditItems = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.item_type_id &&
+                            className={`input101 ${formik.errors.item_type_id &&
                               formik.touched.item_type_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="item_type_id"
                             name="item_type_id"
                             onChange={formik.handleChange}
@@ -291,11 +284,10 @@ const EditItems = (props) => {
                             code="name"
                             type="text"
                             autoComplete="off"
-                            className={`input101 readonly ${
-                              formik.errors.code && formik.touched.code
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 readonly ${formik.errors.code && formik.touched.code
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             placeholder="Item Code"
                             onChange={formik.handleChange}
                             value={formik.values.code || ""}
@@ -315,11 +307,10 @@ const EditItems = (props) => {
                             Item Status <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.status && formik.touched.status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.status && formik.touched.status
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="status"
                             name="status"
                             onChange={formik.handleChange}
@@ -349,12 +340,11 @@ const EditItems = (props) => {
                             code="name"
                             type="text"
                             autoComplete="off"
-                            className={`input101  ${
-                              formik.errors.sage_purchase_code &&
+                            className={`input101  ${formik.errors.sage_purchase_code &&
                               formik.touched.sage_purchase_code
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             placeholder="Saga Purchase Code"
                             onChange={formik.handleChange}
                             value={formik.values.sage_purchase_code || ""}

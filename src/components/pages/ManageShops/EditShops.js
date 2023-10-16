@@ -4,40 +4,31 @@ import {
   Col,
   Row,
   Card,
-  Form,
-  FormGroup,
-  FormControl,
-  ListGroup,
   Breadcrumb,
 } from "react-bootstrap";
 
-import { Formik, Field, ErrorMessage } from "formik";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const EditShops = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
   const navigate = useNavigate();
 
   const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedBusinessType, setSelectedBusinessType] = useState("");
   const [subTypes, setSubTypes] = useState([]);
-  const [EditSiteData, setEditSiteData] = useState();
 
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+
   const [dropdownValue, setDropdownValue] = useState([]);
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -45,7 +36,7 @@ const EditShops = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 
@@ -245,11 +236,10 @@ const EditShops = (props) => {
                             code="name"
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.name && formik.touched.name
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.name && formik.touched.name
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             placeholder="Shop Name"
                             onChange={formik.handleChange}
                             value={formik.values.name || ""}
@@ -269,11 +259,10 @@ const EditShops = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101  readonly ${
-                              formik.errors.code && formik.touched.code
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101  readonly ${formik.errors.code && formik.touched.code
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="code"
                             name="code"
                             placeholder="Shop Code"
@@ -295,11 +284,10 @@ const EditShops = (props) => {
                             Shop Status <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.status && formik.touched.status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.status && formik.touched.status
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="status"
                             name="status"
                             onChange={formik.handleChange}
@@ -323,11 +311,10 @@ const EditShops = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101  readonly ${
-                              formik.errors.client && formik.touched.client
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101  readonly ${formik.errors.client && formik.touched.client
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="client"
                             name="client"
                             placeholder="Client"
@@ -350,11 +337,10 @@ const EditShops = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101  readonly ${
-                              formik.errors.company && formik.touched.company
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101  readonly ${formik.errors.company && formik.touched.company
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="company"
                             name="company"
                             placeholder="company"
@@ -377,11 +363,10 @@ const EditShops = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101  readonly ${
-                              formik.errors.site && formik.touched.site
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101  readonly ${formik.errors.site && formik.touched.site
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="site"
                             name="site"
                             placeholder="site"

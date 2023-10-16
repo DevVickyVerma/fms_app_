@@ -33,6 +33,7 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CenterSearchmodal from "../../../data/Modal/CenterSearchmodal";
 import { Box } from "@mui/system";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 const ManageClient = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
@@ -76,14 +77,11 @@ const ManageClient = (props) => {
     setSearchdata({});
     setSearchList(true);
   };
-  const SuccessAlert = (message) => toast.success(message);
-
-  const Errornotify = (message) => toast.error(message);
   const token = localStorage.getItem("token");
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -91,7 +89,7 @@ const ManageClient = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
   const handleToggleSidebar1 = () => {

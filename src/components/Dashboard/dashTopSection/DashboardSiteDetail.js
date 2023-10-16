@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { useMyContext } from "../../../Utils/MyContext";
 import { Slide, toast } from "react-toastify";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const DashboardSiteDetail = (props) => {
   const { isLoading, getData } = props;
@@ -31,15 +32,6 @@ const DashboardSiteDetail = (props) => {
       theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
     });
   };
-  const Errornotify = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
 
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -52,7 +44,7 @@ const DashboardSiteDetail = (props) => {
       const errorMessage = Array.isArray(error.response?.data?.message)
         ? error.response?.data?.message.join(" ")
         : error.response?.data?.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 

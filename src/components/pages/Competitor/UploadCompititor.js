@@ -21,8 +21,6 @@ const UploadCompetitor = (props) => {
 
   const navigate = useNavigate();
 
-  const Errornotify = (message) => toast.error(message);
-
   const formik = useFormik({
     initialValues: {
       client_id: "",

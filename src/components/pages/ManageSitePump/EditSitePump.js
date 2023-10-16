@@ -1,44 +1,26 @@
 import React, { useEffect, useState } from "react";
-
 import {
   Col,
   Row,
   Card,
-  Form,
-  FormGroup,
-  FormControl,
-  ListGroup,
   Breadcrumb,
 } from "react-bootstrap";
-
-import { Formik, Field, ErrorMessage } from "formik";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
-import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const EditSitePump = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
   const navigate = useNavigate();
-
-  const [AddSiteData, setAddSiteData] = useState([]);
-  const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  const [subTypes, setSubTypes] = useState([]);
-  const [EditSiteData, setEditSiteData] = useState();
-
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -46,7 +28,7 @@ const EditSitePump = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 
@@ -77,13 +59,7 @@ const EditSitePump = (props) => {
     }
   };
 
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+
 
   const handleSubmit = async (values) => {
     try {
@@ -125,27 +101,11 @@ const EditSitePump = (props) => {
     },
     validationSchema: Yup.object({
       code: Yup.string().required("Site Pump Name is required"),
-
-      // name: Yup.string()
-      //   .required("Site Pump Name is required")
-      //   .matches(/^[a-zA-Z0-9_\- ]+$/, {
-      //     message: "Site Pump Name must not contain special characters",
-      //     excludeEmptyString: true,
-      //   })
-      //   .matches(
-      //     /^[a-zA-Z0-9_\- ]*([a-zA-Z0-9_\-][ ]+[a-zA-Z0-9_\-])*[a-zA-Z0-9_\- ]*$/,
-      //     {
-      //       message: "Site Pump Name must not have consecutive spaces",
-      //       excludeEmptyString: true,
-      //     }
-      //   ),
-
       status: Yup.string().required(" Status is required"),
     }),
     onSubmit: handleSubmit,
   });
 
-  const isInvalid = formik.errors && formik.touched.name ? "is-invalid" : "";
 
   // Use the isInvalid variable to conditionally set the class name
 
@@ -203,11 +163,10 @@ const EditSitePump = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.name && formik.touched.name
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.name && formik.touched.name
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="name"
                             name="name"
                             placeholder="Site Pump Name"
@@ -231,11 +190,10 @@ const EditSitePump = (props) => {
                             code="name"
                             type="text"
                             autoComplete="off"
-                            className={`input101 readonly ${
-                              formik.errors.code && formik.touched.code
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 readonly ${formik.errors.code && formik.touched.code
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             placeholder="Site Pump Code"
                             onChange={formik.handleChange}
                             value={formik.values.code || ""}
@@ -256,11 +214,10 @@ const EditSitePump = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.status && formik.touched.status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.status && formik.touched.status
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="status"
                             name="status"
                             onChange={formik.handleChange}

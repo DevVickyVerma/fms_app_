@@ -20,6 +20,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const EditBussiness = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -29,15 +30,12 @@ const EditBussiness = (props) => {
   const [selectedBusinessType, setSelectedBusinessType] = useState("");
   const [subTypes, setSubTypes] = useState([]);
   const [EditSiteData, setEditSiteData] = useState();
-
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -45,7 +43,7 @@ const EditBussiness = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
   const { id } = useParams();
@@ -242,12 +240,11 @@ const EditBussiness = (props) => {
                             category_name="name"
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.category_name &&
+                            className={`input101 ${formik.errors.category_name &&
                               formik.touched.category_name
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             placeholder="Business Category Name"
                             onChange={formik.handleChange}
                             value={formik.values.category_name || ""}
@@ -274,12 +271,11 @@ const EditBussiness = (props) => {
                             code="category_code"
                             type="text"
                             autoComplete="off"
-                            className={`input101 readonly ${
-                              formik.errors.category_code &&
+                            className={`input101 readonly ${formik.errors.category_code &&
                               formik.touched.category_code
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             placeholder="Business Category Code"
                             onChange={formik.handleChange}
                             value={formik.values.category_code}
@@ -302,12 +298,11 @@ const EditBussiness = (props) => {
                             Status <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.category_status &&
+                            className={`input101 ${formik.errors.category_status &&
                               formik.touched.category_status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="category_status"
                             name="category_status"
                             onChange={formik.handleChange}
@@ -334,12 +329,11 @@ const EditBussiness = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.business_type_id &&
+                            className={`input101 ${formik.errors.business_type_id &&
                               formik.touched.business_type_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="business_type_id"
                             name="business_type_id"
                             onChange={formik.handleChange}

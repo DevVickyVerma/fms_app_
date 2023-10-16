@@ -5,19 +5,19 @@ import { Breadcrumb, Card, Col, Row } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { toast } from 'react-toastify';
+import { ErrorAlert } from '../../../Utils/ToastUtils';
 
 const AddBank = ({ isLoading, postData }) => {
 
     const navigate = useNavigate();
-    const Errornotify = (message) => toast.error(message);
+    // const ErrorAlert = (message) => toast.error(message);
     const { id } = useParams()
 
 
     function handleError(error) {
         if (error.response && error.response.status === 401) {
             navigate("/login");
-            Errornotify("Invalid access token");
+            ErrorAlert("Invalid access token");
             localStorage.clear();
         } else if (error.response && error.response.data.status_code === "403") {
             navigate("/errorpage403");
@@ -25,7 +25,7 @@ const AddBank = ({ isLoading, postData }) => {
             const errorMessage = Array.isArray(error.response.data.message)
                 ? error.response.data.message.join(" ")
                 : error.response.data.message;
-            Errornotify(errorMessage);
+            ErrorAlert(errorMessage);
         }
     }
 

@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const AddCompetitor = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -21,12 +22,11 @@ const AddCompetitor = (props) => {
 
   const navigate = useNavigate();
 
-  const Errornotify = (message) => toast.error(message);
 
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -34,7 +34,7 @@ const AddCompetitor = (props) => {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
 
@@ -213,12 +213,11 @@ const AddCompetitor = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.client_id &&
+                            className={`input101 ${formik.errors.client_id &&
                               formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="client_id"
                             name="client_id"
                             onChange={(e) => {
@@ -243,7 +242,7 @@ const AddCompetitor = (props) => {
                           >
                             <option value="">Select a Client</option>
                             {CompetitorData.data &&
-                            CompetitorData.data.length > 0 ? (
+                              CompetitorData.data.length > 0 ? (
                               CompetitorData.data.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.client_name}
@@ -271,12 +270,11 @@ const AddCompetitor = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.company_id &&
+                          className={`input101 ${formik.errors.company_id &&
                             formik.touched.company_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="company_id"
                           name="company_id"
                           onChange={(e) => {
@@ -322,11 +320,10 @@ const AddCompetitor = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.site_id && formik.touched.site_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.site_id && formik.touched.site_id
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="site_id"
                           name="site_id"
                           onChange={(e) => {
@@ -368,12 +365,11 @@ const AddCompetitor = (props) => {
                         <input
                           type="text"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.competitor_name &&
+                          className={`input101 ${formik.errors.competitor_name &&
                             formik.touched.competitor_name
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="competitor_name"
                           name="competitor_name"
                           placeholder="Competitor Name "
@@ -398,12 +394,11 @@ const AddCompetitor = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <textarea
-                          className={`input101 ${
-                            formik.errors.competitor_Address &&
+                          className={`input101 ${formik.errors.competitor_Address &&
                             formik.touched.competitor_Address
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="competitor_Address"
                           name="competitor_Address"
                           onChange={formik.handleChange}
@@ -427,11 +422,10 @@ const AddCompetitor = (props) => {
                         <input
                           type="text"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.postcode && formik.touched.postcode
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.postcode && formik.touched.postcode
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="postcode"
                           name="postcode"
                           placeholder="Post Code"
@@ -453,11 +447,10 @@ const AddCompetitor = (props) => {
                         <input
                           type="number"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.cat_no && formik.touched.cat_no
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.cat_no && formik.touched.cat_no
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="cat_no"
                           name="cat_no"
                           placeholder="Category No"
@@ -479,12 +472,11 @@ const AddCompetitor = (props) => {
                         <input
                           type="number"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.dist_miles &&
+                          className={`input101 ${formik.errors.dist_miles &&
                             formik.touched.dist_miles
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="dist_miles"
                           name="dist_miles"
                           placeholder="Dist Miles"
@@ -507,11 +499,10 @@ const AddCompetitor = (props) => {
                         <input
                           type="number"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.main_code && formik.touched.main_code
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.main_code && formik.touched.main_code
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="main_code"
                           name="main_code"
                           placeholder="Main Code"
@@ -536,12 +527,11 @@ const AddCompetitor = (props) => {
                           Supplier<span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.supplier_id &&
+                          className={`input101 ${formik.errors.supplier_id &&
                             formik.touched.supplier_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="supplier_id"
                           name="supplier_id"
                           onChange={formik.handleChange}

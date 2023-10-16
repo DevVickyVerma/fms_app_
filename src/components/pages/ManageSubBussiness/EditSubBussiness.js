@@ -17,7 +17,7 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import DatePicker from "react-multi-date-picker";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 
 export default function AddSite() {
   const navigate = useNavigate();
@@ -26,15 +26,11 @@ export default function AddSite() {
   const [selectedBusinessType, setSelectedBusinessType] = useState("");
   const [subTypes, setSubTypes] = useState([]);
   const [EditSiteData, setEditSiteData] = useState();
-
-  const notify = (message) => toast.success(message);
-  const Errornotify = (message) => toast.error(message);
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -42,7 +38,7 @@ export default function AddSite() {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
   const { id } = useParams();
@@ -92,7 +88,7 @@ export default function AddSite() {
     } catch (error) {
       if (error.response && error.response.status === 401) {
         navigate("/login");
-        Errornotify("Invalid access token");
+        ErrorAlert("Invalid access token");
         localStorage.clear();
       } else if (error.response && error.response.data.status_code === "403") {
         navigate("/errorpage403");
@@ -134,10 +130,10 @@ export default function AddSite() {
       const data = await response.json();
 
       if (response.ok) {
-        notify(data.message);
+        SuccessAlert(data.message);
         navigate("/sub-business");
       } else {
-        Errornotify(data.message);
+        ErrorAlert(data.message);
       }
     } catch (error) {
       handleError(error);
@@ -248,12 +244,11 @@ export default function AddSite() {
                         business_sub_name="name"
                         type="text"
                         autoComplete="off"
-                        className={`input101 ${
-                          formik.errors.business_sub_name &&
+                        className={`input101 ${formik.errors.business_sub_name &&
                           formik.touched.business_sub_name
-                            ? "is-invalid"
-                            : ""
-                        }`}
+                          ? "is-invalid"
+                          : ""
+                          }`}
                         placeholder="Business Name"
                         onChange={formik.handleChange}
                         value={formik.values.business_sub_name || ""}
@@ -274,11 +269,10 @@ export default function AddSite() {
                       <input
                         type="text"
                         autoComplete="off"
-                        className={`input101 ${
-                          formik.errors.slug && formik.touched.slug
-                            ? "is-invalid"
-                            : ""
-                        }`}
+                        className={`input101 ${formik.errors.slug && formik.touched.slug
+                          ? "is-invalid"
+                          : ""
+                          }`}
                         id="slug"
                         name="slug"
                         placeholder="Slug"
@@ -299,11 +293,10 @@ export default function AddSite() {
                         Status <span className="text-danger">*</span>
                       </label>
                       <select
-                        className={`input101 ${
-                          formik.errors.status && formik.touched.status
-                            ? "is-invalid"
-                            : ""
-                        }`}
+                        className={`input101 ${formik.errors.status && formik.touched.status
+                          ? "is-invalid"
+                          : ""
+                          }`}
                         id="status"
                         name="status"
                         onChange={formik.handleChange}
@@ -329,12 +322,11 @@ export default function AddSite() {
                       </label>
                       <select
                         as="select"
-                        className={`input101 ${
-                          formik.errors.business_type_id &&
+                        className={`input101 ${formik.errors.business_type_id &&
                           formik.errors.business_type_id
-                            ? "is-invalid"
-                            : ""
-                        }`}
+                          ? "is-invalid"
+                          : ""
+                          }`}
                         id="business_type_id"
                         name="business_type_id"
                         onChange={formik.handleChange}

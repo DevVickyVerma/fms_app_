@@ -24,6 +24,7 @@ import Loaderimg from "../../../Utils/Loader";
 import { useFormik } from "formik";
 import Swal from "sweetalert2";
 import { AiOutlineClose } from "react-icons/ai";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 export default function EditProfile() {
   const UserPermissions = useSelector((state) => state?.data?.data);
   const navigate = useNavigate();
@@ -81,29 +82,10 @@ export default function EditProfile() {
     password_confirmation: "",
   };
 
-  const notify = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-  const Errornotify = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
-      Errornotify("Invalid access token");
+      ErrorAlert("Invalid access token");
       localStorage.clear();
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
@@ -111,7 +93,7 @@ export default function EditProfile() {
       const errorMessage = Array.isArray(error.response.data.message)
         ? error.response.data.message.join(" ")
         : error.response.data.message;
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
   }
   const token = localStorage.getItem("token");
@@ -141,7 +123,7 @@ export default function EditProfile() {
         setTimeout(() => {
           window.location.replace("/");
         }, 500);
-        notify(data.message);
+        SuccessAlert(data.message);
 
         setLoading(false);
       } else {
@@ -149,7 +131,7 @@ export default function EditProfile() {
           ? data.message.join(" ")
           : data.message;
 
-        Errornotify(errorMessage);
+        ErrorAlert(errorMessage);
         setLoading(false);
       }
     } catch (error) {
@@ -183,7 +165,7 @@ export default function EditProfile() {
     const data = await response.json();
 
     if (response.ok) {
-      notify(data.message);
+      SuccessAlert(data.message);
       navigate("/dashboard");
       setSubmitting(false);
       setLoading(false);
@@ -193,7 +175,7 @@ export default function EditProfile() {
         : data.message;
 
       setLoading(false);
-      Errornotify(errorMessage);
+      ErrorAlert(errorMessage);
     }
     setLoading(false);
   };
@@ -284,7 +266,7 @@ export default function EditProfile() {
 
       if (response.ok) {
         setShowModal(false);
-        notify(data.message);
+        SuccessAlert(data.message);
 
         setUserPermissionstwo_factor(UserPermissions?.two_factor);
         GetDetails();
@@ -294,7 +276,7 @@ export default function EditProfile() {
           ? data.message.join(" ")
           : data.message;
 
-        Errornotify(errorMessage);
+        ErrorAlert(errorMessage);
         setLoading(false);
       }
     } catch (error) {

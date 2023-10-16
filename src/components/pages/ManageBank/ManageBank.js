@@ -9,6 +9,7 @@ import DataTable from 'react-data-table-component';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import { ErrorAlert } from '../../../Utils/ToastUtils';
 
 const ManageBank = ({ isLoading, getData }) => {
     const [data, setData] = useState();
@@ -32,7 +33,7 @@ const ManageBank = ({ isLoading, getData }) => {
     const { id } = useParams();
 
     const navigate = useNavigate();
-    const Errornotify = (message) => toast.error(message);
+    // const ErrorAlert = (message) => toast.error(message);
 
 
     const handleDelete = (id) => {
@@ -86,7 +87,7 @@ const ManageBank = ({ isLoading, getData }) => {
     function handleError(error) {
         if (error.response && error.response.status === 401) {
             navigate("/login");
-            Errornotify("Invalid access token");
+            ErrorAlert("Invalid access token");
             localStorage.clear();
         } else if (error.response && error.response.data.status_code === "403") {
             navigate("/errorpage403");
@@ -94,7 +95,7 @@ const ManageBank = ({ isLoading, getData }) => {
             const errorMessage = Array.isArray(error.response.data.message)
                 ? error.response.data.message.join(" ")
                 : error.response.data.message;
-            Errornotify(errorMessage);
+            ErrorAlert(errorMessage);
         }
     }
 

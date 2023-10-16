@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import Loaderimg from "../../../Utils/Loader";
 import { Box } from "@material-ui/core";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 
 export default function ValidateOtp() {
   const authToken = localStorage.getItem("authToken");
@@ -17,26 +18,6 @@ export default function ValidateOtp() {
   const ForgotPasswordSchema = Yup.object().shape({
     two_factor_code: Yup.string().required("Authentication code is required"),
   });
-
-  const notify = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-  const Errornotify = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
 
   const handleSubmit = async (values) => {
     setLoading(true);
@@ -61,10 +42,10 @@ export default function ValidateOtp() {
       localStorage.setItem("authToken", data.data.token);
       localStorage.setItem("auto_logout", data?.data?.auto_logout);
       navigate(data?.data?.route);
-      notify(data.message);
+      SuccessAlert(data.message);
     } else {
       console.error(data.message);
-      Errornotify(data.message);
+      ErrorAlert(data.message);
       setLoading(false);
     }
     setLoading(false);

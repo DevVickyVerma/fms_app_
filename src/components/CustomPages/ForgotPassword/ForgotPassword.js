@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import Loaderimg from "../../../Utils/Loader";
 import { Box } from "@material-ui/core";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 
 
 
@@ -18,25 +19,6 @@ export default function ForgotPassword() {
     email: Yup.string().email("Invalid email").required("Email is required"),
   });
 
-  const notify = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-  const Errornotify = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
 
   const handleSubmit = async (values) => {
 
@@ -54,13 +36,13 @@ export default function ForgotPassword() {
 
     if (response.ok && data) {
       localStorage.setItem("token", data.data.access_token);
-      notify(data.message);
+      SuccessAlert(data.message);
       // window.location.href = `/dashboard`;
 
 
     } else {
       console.error(data.message);
-      Errornotify(data.message);
+      ErrorAlert(data.message);
       setLoading(false);
     }
     setLoading(false);
