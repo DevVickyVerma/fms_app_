@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { MdOutlineSecurity } from "react-icons/md";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { BsCapslock } from "react-icons/bs";
 import {
@@ -8,15 +7,12 @@ import {
   Card,
   Form,
   FormGroup,
-  FormControl,
-  ListGroup,
   Breadcrumb,
   Modal,
 } from "react-bootstrap";
 
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Slide, toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -32,7 +28,10 @@ export default function EditProfile() {
   const [UserPermissionstwo_factor, setUserPermissionstwo_factor] =
     useState(false);
   const [capsLockActive, setCapsLockActive] = useState(false);
-  const [passwordVisible, setPasswordVisible] = useState(true);
+  const [passwordVisibleForCurrent, setPasswordVisibleForCurrent] = useState(true);
+  const [passwordVisibleForNew, setPasswordVisibleForNew] = useState(true);
+  const [passwordVisibleForConfirm, setPasswordVisibleForConfirm] = useState(true);
+
 
   const [factordata, setfactordata] = useState();
 
@@ -62,14 +61,36 @@ export default function EditProfile() {
   };
 
 
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
+  const togglePasswordVisibilityForNew = () => {
+    setPasswordVisibleForNew(!passwordVisibleForNew);
+  };
+  const togglePasswordVisibilityForConfirm = () => {
+    setPasswordVisibleForConfirm(!passwordVisibleForConfirm);
+  };
+  const togglePasswordVisibilityForCurrent = () => {
+    setPasswordVisibleForCurrent(!passwordVisibleForCurrent);
   };
 
   const validationSchema = Yup.object().shape({
     old_password: Yup.string().required("Current Password is required"),
     password: Yup.string()
       .required("New Password is required")
+      // .matches(
+      //   /[A-Z]/,
+      //   "Password must contain at least one uppercase letter"
+      // )
+      // .matches(
+      //   /[a-z]/,
+      //   "Password must contain at least one lowercase letter"
+      // )
+      // .matches(
+      //   /\d/,
+      //   "Password must contain at least one number"
+      // )
+      // .matches(
+      //   /[@$!%*?&>^<]/,
+      //   "Password must contain at least one special character"
+      // )
       .min(5, "Password must be at least 5 characters long"),
     password_confirmation: Yup.string()
       .oneOf([Yup.ref("password"), null], "Passwords must match")
@@ -390,7 +411,7 @@ export default function EditProfile() {
                               style={{ display: "flex" }}>
                               <Field
                                 // type="password"
-                                type={passwordVisible ? "password" : "text"}
+                                type={passwordVisibleForCurrent ? "password" : "text"}
                                 className={` input101 ${errors.old_password && touched.old_password
                                   ? "is-invalid"
                                   : ""
@@ -423,7 +444,7 @@ export default function EditProfile() {
                               {!capsLockActive ? (
                                 <>
                                   <span
-                                    onClick={togglePasswordVisibility}
+                                    onClick={togglePasswordVisibilityForCurrent}
                                     style={{
                                       cursor: "pointer",
                                       zIndex: "11",
@@ -437,7 +458,7 @@ export default function EditProfile() {
                                     }}
                                   >
                                     {" "}
-                                    {passwordVisible ? (
+                                    {passwordVisibleForCurrent ? (
                                       <AiFillEyeInvisible size={18} />
                                     ) : (
                                       <AiFillEye size={18} />
@@ -475,7 +496,7 @@ export default function EditProfile() {
                             >
                               <Field
                                 // type="password"
-                                type={passwordVisible ? "password" : "text"}
+                                type={passwordVisibleForNew ? "password" : "text"}
                                 className={`input101  ${errors.password && touched.password
                                   ? "is-invalid"
                                   : ""
@@ -508,7 +529,7 @@ export default function EditProfile() {
                               {!capsLockActive ? (
                                 <>
                                   <span
-                                    onClick={togglePasswordVisibility}
+                                    onClick={togglePasswordVisibilityForNew}
                                     style={{
                                       cursor: "pointer",
                                       zIndex: "11",
@@ -522,7 +543,7 @@ export default function EditProfile() {
                                     }}
                                   >
                                     {" "}
-                                    {passwordVisible ? (
+                                    {passwordVisibleForNew ? (
                                       <AiFillEyeInvisible size={18} />
                                     ) : (
                                       <AiFillEye size={18} />
@@ -558,7 +579,7 @@ export default function EditProfile() {
                               style={{ display: "flex" }}>
                               <Field
                                 // type="password"
-                                type={passwordVisible ? "password" : "text"}
+                                type={passwordVisibleForConfirm ? "password" : "text"}
                                 className={`input101 ${errors.password_confirmation &&
                                   touched.password_confirmation
                                   ? "is-invalid"
@@ -597,7 +618,7 @@ export default function EditProfile() {
                               {!capsLockActive ? (
                                 <>
                                   <span
-                                    onClick={togglePasswordVisibility}
+                                    onClick={togglePasswordVisibilityForConfirm}
                                     style={{
                                       cursor: "pointer",
                                       zIndex: "11",
@@ -611,7 +632,7 @@ export default function EditProfile() {
                                     }}
                                   >
                                     {" "}
-                                    {passwordVisible ? (
+                                    {passwordVisibleForConfirm ? (
                                       <AiFillEyeInvisible size={18} />
                                     ) : (
                                       <AiFillEye size={18} />
