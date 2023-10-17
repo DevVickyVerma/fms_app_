@@ -5,7 +5,7 @@ import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 
-const DashTopTableSection = (props) => {
+const DashboardChildTable = (props) => {
   const { isLoading, getData, searchdata } = props;
 
   const [permissionsArray, setPermissionsArray] = useState([]);
@@ -636,4 +636,4 @@ const DashTopTableSection = (props) => {
   );
 };
 
-export default withApi(DashTopTableSection);
+export default withApi(DashboardChildTable);

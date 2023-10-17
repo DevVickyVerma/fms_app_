@@ -2,7 +2,7 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
 
-const LineChart = ({ LinechartValues, LinechartOption }) => {
+const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
   if (!LinechartValues || !LinechartOption) {
     // Data is not available yet, return a loading state or null
     return <p> Please Apply Filter To Visualize Chart.....</p>;
@@ -67,4 +67,4 @@ const LineChart = ({ LinechartValues, LinechartOption }) => {
   );
 };
 
-export default LineChart;
+export default DashboardMultiLineChart;

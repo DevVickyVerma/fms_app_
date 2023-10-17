@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Slide, toast } from "react-toastify";
 import withApi from "../../Utils/ApiHelper";
 import { fetchData } from "../../Redux/dataSlice";
 import SortIcon from "@mui/icons-material/Sort";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Loaderimg from "../../Utils/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import LineChart from "./LineChart";
-import DashTopSection from "./dashTopSection/DashTopSection";
+import DashboardMultiLineChart from "./DashboardMultiLineChart";
 import { Box } from "@material-ui/core";
 import { useMyContext } from "../../Utils/MyContext";
 import StackedLineBarChart from "./StackedLineBarChart";
-import Apexcharts2 from "./PieChart";
+import DashboardOverallStatsPieChart from "./DashboardOverallStatsPieChart";
 import CenterAuthModal from "../../data/Modal/CenterAuthModal";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import CenterFilterModal from "../../data/Modal/CenterFilterModal";
 import { ErrorAlert, SuccessAlert } from "../../Utils/ToastUtils";
+import DashboardStatsBox from "./DashboardStatsBox/DashboardStatsBox";
 
 const Dashboard = (props) => {
   const { isLoading, getData } = props;
@@ -567,21 +566,6 @@ const Dashboard = (props) => {
           </Box>
         </>
 
-        {/* {ShowTruw ? (
-          <DashBordModal
-            title="Search"
-            visible={sidebarVisible1}
-            onClose={handleToggleSidebar1}
-            onSubmit={handleFormSubmit}
-            searchListstatus={SearchList}
-            onClick={() => {
-              handleToggleSidebar1();
-            }}
-          />
-        ) : (
-          ""
-        )} */}
-
         <CenterFilterModal
           onSubmit={handleFormSubmit} title="Search"
           visible={sidebarVisible1}
@@ -624,7 +608,7 @@ const Dashboard = (props) => {
           )
         }
 
-        <DashTopSection
+        <DashboardStatsBox
           GrossVolume={GrossVolume}
           shopmargin={shopmargin}
           GrossProfitValue={GrossProfitValue}
@@ -688,7 +672,7 @@ const Dashboard = (props) => {
                 <div id="chart">
                   {piechartValues ? (
                     <>
-                      <Apexcharts2 data={piechartValues} />
+                      <DashboardOverallStatsPieChart data={piechartValues} />
                     </>
                   ) : (
                     <>
@@ -723,7 +707,7 @@ const Dashboard = (props) => {
               </Card.Header>
               <Card.Body className="card-body pb-0">
                 <div id="chart">
-                  <LineChart
+                  <DashboardMultiLineChart
                     LinechartValues={DLinechartValues}
                     LinechartOption={DLinechartOption}
                   />

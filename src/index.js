@@ -1,17 +1,13 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
-import { Navigate, BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./Utils/PrivateRoutes";
-
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import dataReducer, { fetchData } from "./Redux/dataSlice";
-
 import withApi from "./Utils/ApiHelper";
 import Loaderimg from "./Utils/Loader";
-
-import DashBoardChild from "./components/Dashboard/dashTopSection/DashBoardChild";
 import DashBoardSubChild from "./components/Dashboard/dashTopSection/DashBoardSubChild";
 import DashboardSiteDetail from "./components/Dashboard/dashTopSection/DashboardSiteDetail";
 import SiteEvobossStatus from "./components/pages/EvobossStatus/SiteEvobossStatus";
@@ -25,6 +21,7 @@ import SingleStatsCompetitor from "./components/pages/Competitor/SingleStatsComp
 import ManageBank from "./components/pages/ManageBank/ManageBank";
 import AddBank from "./components/pages/ManageBank/AddBank";
 import EditBank from "./components/pages/ManageBank/EditBank";
+import DashBoardChild from "./components/Dashboard/DashboardChild/DashBoardChild";
 
 //App
 const App = React.lazy(() => import("./components/app"));

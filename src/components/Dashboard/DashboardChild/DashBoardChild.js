@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import { Breadcrumb, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import DashTopSection from "./DashTopSection";
-import DashTopTableSection from "./DashTopTableSection";
+import DashboardChildTable from "./DashboardChildTable";
 import { useMyContext } from "../../../Utils/MyContext";
 import Loaderimg from "../../../Utils/Loader";
-import { Box, Slide } from "@mui/material";
-import DashBordModal from "../../../data/Modal/DashBordmodal";
-import { toast } from "react-toastify";
+import { Box } from "@mui/material";
 import SortIcon from "@mui/icons-material/Sort";
 import { useSelector } from "react-redux";
 import CenterFilterModal from "../../../data/Modal/CenterFilterModal";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import DashboardStatsBox from "../DashboardStatsBox/DashboardStatsBox";
 
 const DashBoardChild = (props) => {
   const { isLoading, getData } = props;
@@ -309,23 +307,9 @@ const DashBoardChild = (props) => {
           </Box>
         </>
 
-        {/* {ShowTruw ? (
-          <DashBordModal
-            title="Search"
-            visible={sidebarVisible1}
-            onClose={handleToggleSidebar1}
-            onSubmit={handleFormSubmit}
-            searchListstatus={SearchList}
-            onClick={() => {
-              handleToggleSidebar1();
-            }}
-          />
-        ) : (
-          ""
-        )} */}
-
         <CenterFilterModal
-          onSubmit={handleFormSubmit} title="Search"
+          onSubmit={handleFormSubmit}
+          title="Search"
           visible={sidebarVisible1}
           onClose={handleToggleSidebar1}
           searchListstatus={SearchList}
@@ -335,7 +319,7 @@ const DashBoardChild = (props) => {
       </div>
 
       <Row>
-        <DashTopSection
+        <DashboardStatsBox
           GrossVolume={GrossVolume}
           shopmargin={shopmargin}
           GrossProfitValue={GrossProfitValue}
@@ -346,7 +330,7 @@ const DashBoardChild = (props) => {
         />
       </Row>
 
-      <DashTopTableSection searchdata={searchdata} />
+      <DashboardChildTable searchdata={searchdata} />
     </>
   );
 };

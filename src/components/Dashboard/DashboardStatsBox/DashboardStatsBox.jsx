@@ -5,7 +5,7 @@ import OilBarrelIcon from "@mui/icons-material/OilBarrel";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const DashTopSection = (props) => {
+const DashboardStatsBox = (props) => {
   const {
     isLoading,
     GrossVolume,
@@ -596,4 +596,4 @@ const DashTopSection = (props) => {
   );
 };
 
-export default DashTopSection;
+export default DashboardStatsBox;
