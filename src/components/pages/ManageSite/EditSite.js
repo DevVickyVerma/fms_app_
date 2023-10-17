@@ -5,7 +5,7 @@ import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Slide, toast } from "react-toastify";
-import axios from "axios";
+
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import Loaderimg from "../../../Utils/Loader";
@@ -158,6 +158,7 @@ export default function AddSite(props) {
       auto_dayend: "",
       ignore_tolerance: "",
       security_amount: "",
+      is_reconciled: "",
     },
     validationSchema: Yup.object({
       site_code: Yup.string()
@@ -189,16 +190,13 @@ export default function AddSite(props) {
       cashback_status: Yup.string().required("Cashback Status  is required"),
       loomis_status: Yup.string().required(" Loomis Status  is required"),
       apply_sc: Yup.string().required("Apply Shop Commission  is required"),
+      is_reconciled: Yup.string().required("Reconciled Data   is required"),
 
       // drs_upload_status: Yup.string().required("Drs Upload Status is required"),
     }),
     onSubmit: handleSubmit,
   });
 
-  const isInvalid = formik.errors && formik.touched.name ? "is-invalid" : "";
-
-  // Use the isInvalid variable to conditionally set the class name
-  const inputClass = `form-control ${isInvalid}`;
   const handleBusinessTypeChange = (e) => {
     const selectedType = e.target.value;
 
@@ -1075,6 +1073,43 @@ export default function AddSite(props) {
                             formik.touched.apply_sc && (
                               <div className="invalid-feedback">
                                 {formik.errors.apply_sc}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="is_reconciled"
+                            className="form-label mt-4"
+                          >
+                            Reconciled Data Only
+                            <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.is_reconciled &&
+                              formik.touched.is_reconciled
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="is_reconciled"
+                            name="is_reconciled"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.is_reconciled}
+                          >
+                            <option value="">
+                              {" "}
+                              Select Reconciled Data Only
+                            </option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                          </select>
+                          {formik.errors.is_reconciled &&
+                            formik.touched.is_reconciled && (
+                              <div className="invalid-feedback">
+                                {formik.errors.is_reconciled}
                               </div>
                             )}
                         </div>

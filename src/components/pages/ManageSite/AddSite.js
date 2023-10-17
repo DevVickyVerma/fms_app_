@@ -144,6 +144,7 @@ const AddSite = (props) => {
       formData.append("cashback_status", values.cashback_status);
       formData.append("auto_dayend", values.auto_dayend);
       formData.append("ignore_tolerance", values.ignore_tolerance);
+      formData.append("is_reconciled", values.is_reconciled);
 
       const postDataUrl = "/site/add";
 
@@ -273,6 +274,7 @@ const AddSite = (props) => {
                     shop_commission: "",
                     paidout: "",
                     apply_sc: "",
+                    is_reconciled: "",
                     auto_dayend: "",
                     ignore_tolerance: "",
                     security_amount: "",
@@ -329,6 +331,9 @@ const AddSite = (props) => {
                     ),
                     apply_sc: Yup.string().required(
                       "Apply Shop Commission is required"
+                    ),
+                    is_reconciled: Yup.string().required(
+                      "  Reconciled Data  is required"
                     ),
                   })}
                   onSubmit={(values, { setSubmitting }) => {
@@ -767,6 +772,39 @@ const AddSite = (props) => {
                                 component="div"
                                 className="invalid-feedback"
                                 name="apply_sc"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="is_reconciled"
+                                className=" form-label mt-4"
+                              >
+                                Reconciled Data Only
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${
+                                  errors.is_reconciled && touched.is_reconciled
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="is_reconciled"
+                                name="is_reconciled"
+                              >
+                                <option value="">
+                                  {" "}
+                                  Select Reconciled Data Only
+                                </option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="is_reconciled"
                               />
                             </FormGroup>
                           </Col>
