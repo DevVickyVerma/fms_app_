@@ -59,7 +59,6 @@ export default function EditProfile() {
       setCapsLockActive(false);
     }
   };
-  // to generate pull  
 
   const togglePasswordVisibilityForNew = () => {
     setPasswordVisibleForNew(!passwordVisibleForNew);
