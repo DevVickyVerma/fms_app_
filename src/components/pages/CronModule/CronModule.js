@@ -17,6 +17,7 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 
 const CronModule = ({ getData, isLoading }) => {
     const [data, setData] = useState();
@@ -164,6 +165,19 @@ const CronModule = ({ getData, isLoading }) => {
             console.error("API error:", error);
         }
     };
+
+    const FetchHiddenCronList = async () => {
+        try {
+            const response = await getData(
+                `${selectedCronList.url}`
+            );
+            if (response) {
+                SuccessAlert(response?.data?.message);
+            }
+        } catch (error) {
+            ErrorAlert(error)
+        }
+    };
     return (
         <>
             {isLoading ? <Loaderimg /> : null}
@@ -213,9 +227,7 @@ const CronModule = ({ getData, isLoading }) => {
                         </Card.Body>
                         <Card.Footer>
                             <div className="text-end">
-
                                 {
-
                                     isLogsPermissionAvailable ? <>
                                         <button
                                             className="btn btn-primary me-2"
@@ -231,23 +243,20 @@ const CronModule = ({ getData, isLoading }) => {
                                 {isHitPermissionAvailable ? <>
 
 
-                                    <button
-                                        type="submit"
-                                        className="btn btn-danger me-2"
-                                        disabled={!selectedCronList}
-                                    >
-                                        {selectedCronList ? (
-                                            <Link
-                                                to={selectedCronList.url}
-                                                target="_blank"
-                                                style={{ color: "white" }}
-                                            >
-                                                Submit
-                                            </Link>
-                                        ) : (
-                                            <span>Submit</span>
-                                        )}
-                                    </button>
+
+                                    {selectedCronList ? (
+                                        <button
+                                            type="submit"
+                                            className="btn btn-danger me-2"
+                                            // to={selectedCronList.url}
+                                            onClick={FetchHiddenCronList}
+                                            style={{ color: "white" }}
+                                        >
+                                            Submit
+                                        </button>
+                                    ) : (
+                                        <button className="btn btn-danger me-2" disabled>Submit</button>
+                                    )}
                                 </> : ""}
 
 
