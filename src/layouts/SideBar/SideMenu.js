@@ -567,31 +567,6 @@ export const MENUITEMS = [
         ],
       },
 
-      // {
-      //   title: "Assign manger",
-      //   icon: "shopping-cart",
-      //   type: "sub",
-      //   active: false,
-      //   permission: "item-type-list",
-      //   visibility: false,
-      //   children: [
-      //     {
-      //       path: `/assignmanger`,
-      //       title: "Assign manger",
-      //       type: "link",
-      //       permission: "item-type-list",
-      //       visibility: false,
-      //     },
-      //     {
-      //       path: `/addmanger`,
-      //       title: "Add manger",
-      //       type: "link",
-      //       permission: "item-type-create",
-      //       visibility: false,
-      //     },
-      //   ],
-      // },
-
       {
         title: "Manage Department Items",
         icon: "shopping-cart",
@@ -618,7 +593,6 @@ export const MENUITEMS = [
       },
       {
         title: "Logs",
-
         icon: "envelope-o",
         type: "sub",
         active: false,
