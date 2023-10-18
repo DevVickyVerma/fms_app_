@@ -24,6 +24,7 @@ const StatsCompetitor = ({ isLoading, getData }) => {
     const [selectedClientId, setSelectedClientId] = useState("");
     const [selectedCompanyList, setSelectedCompanyList] = useState([]);
     const [selectedSiteList, setSelectedSiteList] = useState([]);
+    const [commonListLoading, setCommonListLoading] = useState(false);
 
 
     const UserPermissions = useSelector((state) => state?.data?.data);
@@ -41,6 +42,7 @@ const StatsCompetitor = ({ isLoading, getData }) => {
 
 
     const handleFetchData = async () => {
+
         try {
             const response = await getData("/client/commonlist");
 
@@ -56,8 +58,6 @@ const StatsCompetitor = ({ isLoading, getData }) => {
                         setSelectedClientId(clientId);
 
                         setSelectedCompanyList([]);
-
-                        // setShowButton(false);
 
                         if (response?.data) {
                             const selectedClient = response?.data?.data?.find(
@@ -76,6 +76,7 @@ const StatsCompetitor = ({ isLoading, getData }) => {
     };
 
     const handleClientStats = async () => {
+        setCommonListLoading(true);
         try {
             const response = await getData(
                 `/client/sites`
@@ -85,11 +86,13 @@ const StatsCompetitor = ({ isLoading, getData }) => {
             const { data } = response;
             if (data) {
                 setData(data?.data);
+                setCommonListLoading(false);
             }
-
+            setCommonListLoading(false);
         } catch (error) {
             console.error("API error:", error);
         } // Set the submission state to false after the API call is completed
+        setCommonListLoading(false);
     };
 
     const columns = [
@@ -141,7 +144,7 @@ const StatsCompetitor = ({ isLoading, getData }) => {
 
     return (
         <>
-            {isLoading ? <Loaderimg /> : null}
+            {isLoading || commonListLoading ? <Loaderimg /> : null}
             <div className="page-header d-flex">
                 <div>
                     <h1 className="page-title ">Competitor Stats</h1>

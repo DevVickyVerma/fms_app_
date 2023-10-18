@@ -2,7 +2,7 @@ import { Card, Col, Modal, Row } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { AiOutlineClose } from "react-icons/ai";
 
-const DashboardShopSaleCenterModal = (props) => {
+const DashSubChildShopSaleCenterModal = (props) => {
   const { showModal, setShowModal, shopPerformanceData } = props;
 
   const handleCloseModal = () => {
@@ -148,7 +148,7 @@ const DashboardShopSaleCenterModal = (props) => {
                         {" "}
                         Shop Sales :{shopPerformanceData?.shop_sales}
                       </strong>
-                      {}
+                      { }
                     </span>
                   </Col>
                   <Col
@@ -171,7 +171,7 @@ const DashboardShopSaleCenterModal = (props) => {
                         {" "}
                         Quantity :{shopPerformanceData?.quantity}
                       </strong>
-                      {}
+                      { }
                     </span>
                   </Col>
                   <Col
@@ -194,7 +194,7 @@ const DashboardShopSaleCenterModal = (props) => {
                         {" "}
                         Transactions :{shopPerformanceData?.transactions}
                       </strong>
-                      {}
+                      { }
                     </span>
                   </Col>
                 </Row>
@@ -231,7 +231,7 @@ const DashboardShopSaleCenterModal = (props) => {
                   </div>
                 ) : (
                   <img
-                    src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                    src={require("../../../../assets/images/noDataFoundImage/noDataFound.jpg")}
                     alt="MyChartImage"
                     className="all-center-flex nodata-image"
                   />
@@ -245,7 +245,7 @@ const DashboardShopSaleCenterModal = (props) => {
   );
 };
 
-DashboardShopSaleCenterModal.propTypes = {
+DashSubChildShopSaleCenterModal.propTypes = {
   title: PropTypes.string.isRequired,
   // sidebarContent: PropTypes.node.isRequired,
   visible: PropTypes.bool.isRequired,
@@ -255,4 +255,4 @@ DashboardShopSaleCenterModal.propTypes = {
   searchListstatus: PropTypes.bool.isRequired,
 };
 
-export default DashboardShopSaleCenterModal;
+export default DashSubChildShopSaleCenterModal;

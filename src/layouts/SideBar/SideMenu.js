@@ -196,6 +196,23 @@ export const MENUITEMS = [
         ],
       },
       {
+        title: "Cron Jobs",
+        icon: "globe",
+        type: "sub",
+        active: false,
+        permission: "cronjob-list",
+        visibility: false,
+        children: [
+          {
+            path: `/cron-module`,
+            title: "Cron Jobs",
+            type: "link",
+            permission: "cronjob-list",
+            visibility: false,
+          },
+        ],
+      },
+      {
         title: "Manage Roles",
         icon: "unlock-alt",
         type: "sub",

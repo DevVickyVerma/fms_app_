@@ -9,7 +9,7 @@ import {
 } from "react-bootstrap";
 import LiquidFillGauge from "react-liquid-gauge";
 
-const DashboardSiteGraph = ({ getSiteStats }) => {
+const DashSubChildTankAnalysis = ({ getSiteStats }) => {
   const [selectedDateIndex, setSelectedDateIndex] = useState(0);
 
   const stockAlertData =
@@ -296,4 +296,4 @@ const DashboardSiteGraph = ({ getSiteStats }) => {
   );
 };
 
-export default DashboardSiteGraph;
+export default DashSubChildTankAnalysis;

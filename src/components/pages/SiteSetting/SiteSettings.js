@@ -3,10 +3,6 @@ import {
   Col,
   Row,
   Card,
-  Form,
-  FormGroup,
-  FormControl,
-  ListGroup,
   Breadcrumb,
 } from "react-bootstrap";
 
@@ -49,9 +45,6 @@ const SiteSettings = (props) => {
 
       if (response && response?.data) {
         const { data } = response;
-        console.log("response", data);
-
-        console.log(data, "setting");
         setData(data?.data ? data.data.charges : []);
         setDeductionData(data?.data ? data.data.deductions : []);
         setFuelData(data?.data ? data.data.fuels : []);
@@ -462,7 +455,7 @@ const SiteSettings = (props) => {
             // value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            // readOnly={editable?.is_editable ? false : true}
+          // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -573,7 +566,7 @@ const SiteSettings = (props) => {
             // value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            // readOnly={editable?.is_editable ? false : true}
+          // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -683,7 +676,7 @@ const SiteSettings = (props) => {
             // value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            // readOnly={editable?.is_editable ? false : true}
+          // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>

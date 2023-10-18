@@ -2,7 +2,7 @@ import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import Spinners from "../Spinner";
 import OilBarrelIcon from "@mui/icons-material/OilBarrel";
 
-const DashboardSiteTopSection = (props) => {
+const DashSubStatsBox = (props) => {
   const { isLoading } = props;
   const singleSiteStoredData = localStorage.getItem("singleSiteData");
   const singleSiteParsedData = JSON.parse(singleSiteStoredData);
@@ -475,4 +475,4 @@ const DashboardSiteTopSection = (props) => {
   );
 };
 
-export default DashboardSiteTopSection;
+export default DashSubStatsBox;
