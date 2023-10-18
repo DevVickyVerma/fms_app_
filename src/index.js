@@ -1,19 +1,13 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
-import { Navigate, BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./Utils/PrivateRoutes";
-
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import dataReducer, { fetchData } from "./Redux/dataSlice";
-
 import withApi from "./Utils/ApiHelper";
 import Loaderimg from "./Utils/Loader";
-
-import DashBoardChild from "./components/Dashboard/dashTopSection/DashBoardChild";
-import DashBoardSubChild from "./components/Dashboard/dashTopSection/DashBoardSubChild";
-import DashboardSiteDetail from "./components/Dashboard/dashTopSection/DashboardSiteDetail";
 import SiteEvobossStatus from "./components/pages/EvobossStatus/SiteEvobossStatus";
 import SiteEvobossStatusPage from "./components/pages/EvobossStatus/SiteEvobossStatusPage";
 import Competitor from "./components/pages/Competitor/Competitor";
@@ -21,10 +15,14 @@ import AddCompetitor from "./components/pages/Competitor/AddCompetitor";
 import uploadCompetitor from "./components/pages/Competitor/UploadCompititor";
 import ValidateOtp from "./components/CustomPages/Login/ValidateOtp";
 import StatsCompetitor from "./components/pages/Competitor/StatsCompetitor";
-import SingleStatsCompetitor from "./components/pages/Competitor/SingleStatsCompetitor";
 import ManageBank from "./components/pages/ManageBank/ManageBank";
 import AddBank from "./components/pages/ManageBank/AddBank";
 import EditBank from "./components/pages/ManageBank/EditBank";
+import DashBoardChild from "./components/Dashboard/DashboardChild/DashBoardChild";
+import DashSubChild from "./components/Dashboard/DashboardSubChild/DashSubChild";
+import DashSubChildBaseAPIS from "./components/Dashboard/DashboardSubChild/DashSubChildBaseAPIS";
+import CronModule from "./components/pages/CronModule/CronModule";
+import SingleStatsCompetitor from "./components/pages/Competitor/SingleStatsCompetitor";
 
 //App
 const App = React.lazy(() => import("./components/app"));
@@ -549,8 +547,8 @@ const Root = () => {
   const WrappedAssignAddPPL = withApi(AddPPL);
   const WrappedDailyFacilityFees = withApi(DailyFacilityFees);
   const WrappedDashBoardChild = withApi(DashBoardChild);
-  const WrappedDashBoardSubChild = withApi(DashBoardSubChild);
-  const WrappedDashBoardSiteDetail = withApi(DashboardSiteDetail);
+  const WrappedDashBoardSubChild = withApi(DashSubChild);
+  const WrappedDashBoardSiteDetail = withApi(DashSubChildBaseAPIS);
   const WrappedEmaillogs = withApi(Emaillogs);
   const WrappedCompetitorFuelPrices = withApi(CompetitorFuelPrices);
   const WrappedCompetitor = withApi(Competitor);
@@ -566,6 +564,7 @@ const Root = () => {
   const WrappedmanageNotification = withApi(manageNotification);
   const WrappedEditCompetitorFuelPrices = withApi(EditCompetitorFuelPrices);
   const WrappedSkipDates = withApi(SkipDates);
+  const WrappedCronModule = withApi(CronModule);
 
 
   return (
@@ -1009,6 +1008,11 @@ const Root = () => {
                   <Route
                     path={`/skipdates/:id`}
                     element={<WrappedSkipDates />}
+                  />
+
+                  <Route
+                    path={`/cron-module`}
+                    element={<WrappedCronModule />}
                   />
 
                   <Route>

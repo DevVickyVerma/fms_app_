@@ -1,7 +1,7 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-const Apexcharts2 = ({ data }) => {
+const DashboardOverallStatsPieChart = ({ data }) => {
   let labels = [];
   let formattedLabels = [];
   let consoleValues = [];
@@ -64,4 +64,4 @@ const Apexcharts2 = ({ data }) => {
   );
 };
 
-export default Apexcharts2;
+export default DashboardOverallStatsPieChart;

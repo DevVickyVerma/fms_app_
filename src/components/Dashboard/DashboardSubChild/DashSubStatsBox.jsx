@@ -1,43 +1,30 @@
-import React, { useEffect, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import Spinners from "../Spinner";
 import OilBarrelIcon from "@mui/icons-material/OilBarrel";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
-const DashTopSection = (props) => {
-  const {
-    isLoading,
-    GrossVolume,
-    shopmargin,
-    GrossProfitValue,
-    GrossMarginValue,
-    FuelValue,
-    shopsale,
-    searchdata,
-    shouldNavigateToDetailsPage,
-  } = props;
+const DashSubStatsBox = (props) => {
+  const { isLoading } = props;
+  const singleSiteStoredData = localStorage.getItem("singleSiteData");
+  const singleSiteParsedData = JSON.parse(singleSiteStoredData);
 
-  const [UploadTabname, setUploadTabname] = useState();
-  const [superiorRole, setsuperiorRole] = useState(
-    localStorage.getItem("superiorRole")
-  );
-  const [permissionsArray, setPermissionsArray] = useState([]);
-
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-    }
-  }, [UserPermissions]);
-  const isDetailPermissionAvailable =
-    permissionsArray?.includes("dashboard-details");
-  const navigate = useNavigate();
-
-  const handleNavigateClick = (cardName) => {
-    navigate(`/dashboard-details`);
-  };
+  const singleSiteFuelSales = singleSiteParsedData
+    ? singleSiteParsedData?.fuel_sales
+    : null;
+  const singleSiteFuelVolume = singleSiteParsedData
+    ? singleSiteParsedData?.fuel_volume
+    : null;
+  const singleSiteGrossMargin = singleSiteParsedData
+    ? singleSiteParsedData?.gross_margin
+    : null;
+  const singleSiteGrossProfit = singleSiteParsedData
+    ? singleSiteParsedData?.gross_profit
+    : null;
+  const singleSiteShopMargin = singleSiteParsedData
+    ? singleSiteParsedData?.shop_profit
+    : null;
+  const singleSiteShopSale = singleSiteParsedData
+    ? singleSiteParsedData?.shop_sales
+    : null;
 
   return (
     <div>
@@ -46,33 +33,15 @@ const DashTopSection = (props) => {
           <Row>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden Dashboard-card ${GrossVolume?.status === "up"
+                className={`card overflow-hidden  ${singleSiteFuelVolume?.status === "up"
                   ? "Dashboard-success-border"
                   : "Dashboard-loss-border"
                   }`}
               >
-                <Card.Body
-                  className={`${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                    }`}
-                >
+                <Card.Body className="py-3 px-5 single-site-card ">
                   <Row>
                     <div className="col">
-                      <div
-                        className=" dashboard-box"
-                        onClick={() => {
-                          const shouldNavigate =
-                            (superiorRole === "Administrator" &&
-                              searchdata &&
-                              Object.keys(searchdata).length > 0) ||
-                            (superiorRole !== "Administrator" &&
-                              isDetailPermissionAvailable);
-
-                          if (shouldNavigate && shouldNavigateToDetailsPage) {
-                            setUploadTabname("GrossVolume");
-                            handleNavigateClick(UploadTabname);
-                          }
-                        }}
-                      >
+                      <div className=" dashboard-box">
                         <div>
                           {isLoading ? (
                             <Spinners />
@@ -80,16 +49,16 @@ const DashTopSection = (props) => {
                             <>
                               <div className="d-flex">
                                 <div>
-                                  <h6>Gross Volume</h6>
+                                  <h6>Fuel Volume</h6>
                                   <h4 className="mb-2 number-font">
-                                    ℓ{GrossVolume?.gross_volume}
+                                    ℓ{singleSiteFuelVolume?.gross_volume}
                                   </h4>
                                 </div>
                                 <div className="border-left"></div>
                                 <div className="ms-3">
                                   <h6>Bunkered Volume</h6>
                                   <h4 className="mb-2 number-font">
-                                    ℓ{GrossVolume?.bunkered_volume}
+                                    ℓ{singleSiteFuelVolume?.bunkered_volume}
                                   </h4>
                                 </div>
                               </div>
@@ -97,29 +66,29 @@ const DashTopSection = (props) => {
                               <OverlayTrigger
                                 placement="top"
                                 overlay={
-                                  <Tooltip>{`${GrossVolume?.percentage}%`}</Tooltip>
+                                  <Tooltip>{`${singleSiteFuelVolume?.percentage}%`}</Tooltip>
                                 }
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${shopmargin?.status === "up"
+                                    className={`me-1 ${singleSiteShopMargin?.status === "up"
                                       ? "text-success"
                                       : "text-danger"
                                       }`}
-                                    data-tip={`${GrossVolume?.percentage}%`}
+                                    data-tip={`${singleSiteFuelVolume?.percentage}%`}
                                   >
-                                    {GrossVolume?.status === "up" ? (
+                                    {singleSiteFuelVolume?.status === "up" ? (
                                       <>
                                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                         <span className="text-success">
-                                          {GrossVolume?.percentage}%
+                                          {singleSiteFuelVolume?.percentage}%
                                         </span>
                                       </>
                                     ) : (
                                       <>
                                         <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                         <span className="text-danger">
-                                          {GrossVolume?.percentage}%
+                                          {singleSiteFuelVolume?.percentage}%
                                         </span>
                                       </>
                                     )}
@@ -143,35 +112,17 @@ const DashTopSection = (props) => {
                 </Card.Body>
               </Card>
             </Col>
-            <div
-              className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 ${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                }`}
-            >
-              <div
-                className={`card overflow-hidden Dashboard-card ${GrossProfitValue?.status === "up"
+            <Col lg={6} md={12} sm={12} xl={4}>
+              <Card
+                className={`card overflow-hidden  ${singleSiteGrossMargin?.status === "up"
                   ? "Dashboard-success-border"
                   : "Dashboard-loss-border"
                   }`}
               >
-                <div className="card-body ">
+                <Card.Body className="py-3 px-5 single-site-card ">
                   <Row>
                     <div className="col">
-                      <div
-                        className=" dashboard-box "
-                        onClick={() => {
-                          const shouldNavigate =
-                            (superiorRole === "Administrator" &&
-                              searchdata &&
-                              Object.keys(searchdata).length > 0) ||
-                            (superiorRole !== "Administrator" &&
-                              isDetailPermissionAvailable);
-
-                          if (shouldNavigate && shouldNavigateToDetailsPage) {
-                            setUploadTabname("Gross Profit");
-                            handleNavigateClick(UploadTabname);
-                          }
-                        }}
-                      >
+                      <div className=" dashboard-box ">
                         <div>
                           <h6>Gross Profit</h6>
                           {isLoading ? (
@@ -180,33 +131,33 @@ const DashTopSection = (props) => {
                             <>
                               <h4 className="mb-2 number-font">
                                 {" "}
-                                £{GrossProfitValue?.gross_profit}
+                                £{singleSiteGrossProfit?.gross_profit}
                               </h4>
                               <OverlayTrigger
                                 placement="top"
                                 overlay={
-                                  <Tooltip>{`${GrossProfitValue?.percentage}%`}</Tooltip>
+                                  <Tooltip>{`${singleSiteGrossProfit?.percentage}%`}</Tooltip>
                                 }
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${GrossProfitValue?.status === "up"
+                                    className={`me-1 ${singleSiteGrossProfit?.status === "up"
                                       ? "text-success"
                                       : "text-danger"
                                       }`}
                                   >
-                                    {GrossProfitValue?.status === "up" ? (
+                                    {singleSiteGrossProfit?.status === "up" ? (
                                       <>
                                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                         <span className="text-success">
-                                          {GrossProfitValue?.percentage}%
+                                          {singleSiteGrossProfit?.percentage}%
                                         </span>
                                       </>
                                     ) : (
                                       <>
                                         <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                         <span className="text-danger">
-                                          {GrossProfitValue?.percentage}%
+                                          {singleSiteGrossProfit?.percentage}%
                                         </span>
                                       </>
                                     )}
@@ -227,38 +178,20 @@ const DashTopSection = (props) => {
                       </div>
                     </div>
                   </Row>
-                </div>
-              </div>
-            </div>
-            <Col lg={6} md={12} sm={12} xl={4}>
-              <Card
-                className={`card overflow-hidden Dashboard-card ${GrossMarginValue?.status === "up"
+                </Card.Body>
+              </Card>
+            </Col>
+            <div className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 `}>
+              <div
+                className={`card overflow-hidden  ${singleSiteGrossProfit?.status === "up"
                   ? "Dashboard-success-border"
                   : "Dashboard-loss-border"
                   }`}
               >
-                <Card.Body
-                  className={`${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                    }`}
-                >
+                <div className="card-body single-site-card py-3 px-5">
                   <Row>
                     <div className="col">
-                      <div
-                        className=" dashboard-box"
-                        onClick={() => {
-                          const shouldNavigate =
-                            (superiorRole === "Administrator" &&
-                              searchdata &&
-                              Object.keys(searchdata).length > 0) ||
-                            (superiorRole !== "Administrator" &&
-                              isDetailPermissionAvailable);
-
-                          if (shouldNavigate && shouldNavigateToDetailsPage) {
-                            setUploadTabname("Gross Margin");
-                            handleNavigateClick(UploadTabname);
-                          }
-                        }}
-                      >
+                      <div className=" dashboard-box">
                         <div>
                           <h6>Gross Margin</h6>
                           {isLoading ? (
@@ -267,33 +200,33 @@ const DashTopSection = (props) => {
                             <>
                               <h4 className="mb-2 number-font">
                                 {" "}
-                                {GrossMarginValue?.gross_margin} ppl
+                                {singleSiteGrossMargin?.gross_margin} ppl
                               </h4>
                               <OverlayTrigger
                                 placement="top"
                                 overlay={
-                                  <Tooltip>{`${GrossMarginValue?.percentage}%`}</Tooltip>
+                                  <Tooltip>{`${singleSiteGrossMargin?.percentage}%`}</Tooltip>
                                 }
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${GrossMarginValue?.status === "up"
+                                    className={`me-1 ${singleSiteGrossMargin?.status === "up"
                                       ? "text-success"
                                       : "text-danger"
                                       }`}
                                   >
-                                    {GrossMarginValue?.status === "up" ? (
+                                    {singleSiteGrossMargin?.status === "up" ? (
                                       <>
                                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                         <span className="text-success">
-                                          {GrossMarginValue?.percentage}%
+                                          {singleSiteGrossMargin?.percentage}%
                                         </span>
                                       </>
                                     ) : (
                                       <>
                                         <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                         <span className="text-danger">
-                                          {GrossMarginValue?.percentage}%
+                                          {singleSiteGrossMargin?.percentage}%
                                         </span>
                                       </>
                                     )}
@@ -312,9 +245,9 @@ const DashTopSection = (props) => {
                       </div>
                     </div>
                   </Row>
-                </Card.Body>
-              </Card>
-            </Col>
+                </div>
+              </div>
+            </div>
           </Row>
         </Col>
       </Row>
@@ -324,33 +257,15 @@ const DashTopSection = (props) => {
           <Row>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden Dashboard-card ${FuelValue?.status === "up"
+                className={`card overflow-hidden  ${singleSiteFuelSales?.status === "up"
                   ? "Dashboard-success-border"
                   : "Dashboard-loss-border"
                   }`}
               >
-                <Card.Body
-                  className={`${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                    }`}
-                >
+                <Card.Body className="py-3 px-5 single-site-card ">
                   <Row>
                     <div className="col">
-                      <div
-                        className=" dashboard-box"
-                        onClick={() => {
-                          const shouldNavigate =
-                            (superiorRole === "Administrator" &&
-                              searchdata &&
-                              Object.keys(searchdata).length > 0) ||
-                            (superiorRole !== "Administrator" &&
-                              isDetailPermissionAvailable);
-
-                          if (shouldNavigate && shouldNavigateToDetailsPage) {
-                            setUploadTabname("Fuel Sales");
-                            handleNavigateClick(UploadTabname);
-                          }
-                        }}
-                      >
+                      <div className=" dashboard-box">
                         <div>
                           {isLoading ? (
                             <Spinners />
@@ -360,42 +275,42 @@ const DashTopSection = (props) => {
                                 <div>
                                   <h6>Fuel Sales</h6>
                                   <h4 className="mb-2 number-font">
-                                    £{FuelValue?.gross_value}
+                                    £{singleSiteFuelSales?.gross_value}
                                   </h4>
                                 </div>
                                 <div className="border-left"></div>
                                 <div className="ms-3">
-                                  <h6>Bunkered Sales</h6>
+                                  <h6>Bunkered Value</h6>
                                   <h4 className="mb-2 number-font">
-                                    £{FuelValue?.bunkered_value}
+                                    £{singleSiteFuelSales?.bunkered_value}
                                   </h4>
                                 </div>
                               </div>
                               <OverlayTrigger
                                 placement="top"
                                 overlay={
-                                  <Tooltip>{`${FuelValue?.percentage}%`}</Tooltip>
+                                  <Tooltip>{`${singleSiteFuelSales?.percentage}%`}</Tooltip>
                                 }
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${FuelValue?.status === "up"
+                                    className={`me-1 ${singleSiteFuelSales?.status === "up"
                                       ? "text-success"
                                       : "text-danger"
                                       }`}
                                   >
-                                    {FuelValue?.status === "up" ? (
+                                    {singleSiteFuelSales?.status === "up" ? (
                                       <>
                                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                         <span className="text-success">
-                                          {FuelValue?.percentage}%
+                                          {singleSiteFuelSales?.percentage}%
                                         </span>
                                       </>
                                     ) : (
                                       <>
                                         <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                         <span className="text-danger">
-                                          {FuelValue?.percentage}%
+                                          {singleSiteFuelSales?.percentage}%
                                         </span>
                                       </>
                                     )}
@@ -417,35 +332,17 @@ const DashTopSection = (props) => {
                 </Card.Body>
               </Card>
             </Col>
-            <div
-              className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 ${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                }`}
-            >
+            <div className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 `}>
               <div
-                className={`card overflow-hidden Dashboard-card ${shopsale?.status === "up"
+                className={`card overflow-hidden  ${singleSiteShopSale?.status === "up"
                   ? "Dashboard-success-border"
                   : "Dashboard-loss-border"
                   }`}
               >
-                <div className="card-body ">
+                <div className="card-body single-site-card py-3 px-5">
                   <Row>
                     <div className="col">
-                      <div
-                        className=" dashboard-box"
-                        onClick={() => {
-                          const shouldNavigate =
-                            (superiorRole === "Administrator" &&
-                              searchdata &&
-                              Object.keys(searchdata).length > 0) ||
-                            (superiorRole !== "Administrator" &&
-                              isDetailPermissionAvailable);
-
-                          if (shouldNavigate && shouldNavigateToDetailsPage) {
-                            setUploadTabname("Shop Sales");
-                            handleNavigateClick(UploadTabname);
-                          }
-                        }}
-                      >
+                      <div className=" dashboard-box">
                         <div>
                           <h6>Shop Sales</h6>
                           {isLoading ? (
@@ -453,33 +350,33 @@ const DashTopSection = (props) => {
                           ) : (
                             <>
                               <h4 className="mb-2 number-font">
-                                £{shopsale?.shop_sales}
+                                £{singleSiteShopSale?.shop_sales}
                               </h4>
                               <OverlayTrigger
                                 placement="top"
                                 overlay={
-                                  <Tooltip>{`${shopsale?.percentage}%`}</Tooltip>
+                                  <Tooltip>{`${singleSiteShopSale?.percentage}%`}</Tooltip>
                                 }
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${shopsale?.status === "up"
+                                    className={`me-1 ${singleSiteShopSale?.status === "up"
                                       ? "text-success"
                                       : "text-danger"
                                       }`}
                                   >
-                                    {shopsale?.status === "up" ? (
+                                    {singleSiteShopSale?.status === "up" ? (
                                       <>
                                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                         <span className="text-success">
-                                          {shopsale?.percentage}%
+                                          {singleSiteShopSale?.percentage}%
                                         </span>
                                       </>
                                     ) : (
                                       <>
                                         <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                         <span className="text-danger">
-                                          {shopsale?.percentage}%
+                                          {singleSiteShopSale?.percentage}%
                                         </span>
                                       </>
                                     )}
@@ -505,33 +402,15 @@ const DashTopSection = (props) => {
             </div>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden Dashboard-card ${shopmargin?.status === "up"
+                className={`card overflow-hidden  ${singleSiteShopMargin?.status === "up"
                   ? "Dashboard-success-border"
                   : "Dashboard-loss-border"
                   }`}
               >
-                <Card.Body
-                  className={`${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                    }`}
-                >
+                <Card.Body className="py-3 px-5 single-site-card ">
                   <Row>
                     <div className="col">
-                      <div
-                        className=" dashboard-box"
-                        onClick={() => {
-                          const shouldNavigate =
-                            (superiorRole === "Administrator" &&
-                              searchdata &&
-                              Object.keys(searchdata).length > 0) ||
-                            (superiorRole !== "Administrator" &&
-                              isDetailPermissionAvailable);
-
-                          if (shouldNavigate && shouldNavigateToDetailsPage) {
-                            setUploadTabname("Shop Profit ");
-                            handleNavigateClick(UploadTabname);
-                          }
-                        }}
-                      >
+                      <div className=" dashboard-box">
                         <div>
                           <h6>Shop Profit </h6>
                           {isLoading ? (
@@ -539,33 +418,33 @@ const DashTopSection = (props) => {
                           ) : (
                             <>
                               <h4 className="mb-2 number-font">
-                                £{shopmargin?.shop_profit}
+                                £{singleSiteShopMargin?.shop_profit}
                               </h4>
                               <OverlayTrigger
                                 placement="top"
                                 overlay={
-                                  <Tooltip>{`${shopmargin?.percentage}%`}</Tooltip>
+                                  <Tooltip>{`${singleSiteShopMargin?.percentage}%`}</Tooltip>
                                 }
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${shopmargin?.status === "up"
+                                    className={`me-1 ${singleSiteShopMargin?.status === "up"
                                       ? "text-success"
                                       : "text-danger"
                                       }`}
                                   >
-                                    {shopmargin?.status === "up" ? (
+                                    {singleSiteShopMargin?.status === "up" ? (
                                       <>
                                         <i className="fa fa-chevron-circle-up text-success me-1"></i>
                                         <span className="text-success">
-                                          {shopmargin?.percentage}%
+                                          {singleSiteShopMargin?.percentage}%
                                         </span>
                                       </>
                                     ) : (
                                       <>
                                         <i className="fa fa-chevron-circle-down text-danger me-1"></i>
                                         <span className="text-danger">
-                                          {shopmargin?.percentage}%
+                                          {singleSiteShopMargin?.percentage}%
                                         </span>
                                       </>
                                     )}
@@ -596,4 +475,4 @@ const DashTopSection = (props) => {
   );
 };
 
-export default DashTopSection;
+export default DashSubStatsBox;

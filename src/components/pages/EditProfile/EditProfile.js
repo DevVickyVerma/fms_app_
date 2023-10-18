@@ -60,7 +60,6 @@ export default function EditProfile() {
     }
   };
 
-
   const togglePasswordVisibilityForNew = () => {
     setPasswordVisibleForNew(!passwordVisibleForNew);
   };

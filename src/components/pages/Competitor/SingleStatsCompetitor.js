@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
-import DashboardCompetitorGraph from "../../Dashboard/dashTopSection/DashboardCompetitorGraph";
 import axios from "axios";
 import { AiFillCaretDown, AiFillCaretRight, AiOutlineArrowRight } from "react-icons/ai";
 import { BsFuelPumpFill } from "react-icons/bs";
-import { Slide, toast } from "react-toastify";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import CompetitorSingleGraph from "./CompetitorSingleGraph";
 
 const SingleStatsCompetitor = ({ isLoading, getData }) => {
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
@@ -333,10 +332,6 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
         </Col>
       </Row >
 
-
-
-
-
       <Row
         Row
         style={{
@@ -351,7 +346,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
             </Card.Header>
             <Card.Body className="card-body pb-0">
               <div id="chart">
-                <DashboardCompetitorGraph
+                <CompetitorSingleGraph
                   getCompetitorsPrice={getCompetitorsPrice}
                   setGetCompetitorsPrice={setGetCompetitorsPrice}
                 />

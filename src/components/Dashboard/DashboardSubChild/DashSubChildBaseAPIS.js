@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
-import DashBoardSubChild from "./DashBoardSubChild";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useMyContext } from "../../../Utils/MyContext";
 import { Slide, toast } from "react-toastify";
 import { ErrorAlert } from "../../../Utils/ToastUtils";
+import DashSubChild from "./DashSubChild";
 
-const DashboardSiteDetail = (props) => {
+const DashSubChildBaseAPIS = (props) => {
   const { isLoading, getData } = props;
   const {
     setGradsGetSiteDetails,
@@ -286,7 +286,7 @@ const DashboardSiteDetail = (props) => {
       {isLoading ? <Loaderimg /> : null}
 
       <div className="overflow-container">
-        <DashBoardSubChild
+        <DashSubChild
           getSiteStats={getSiteStats}
           setGetSiteStats={setGetSiteStats}
           getSiteDetails={getSiteDetails}
@@ -299,4 +299,4 @@ const DashboardSiteDetail = (props) => {
   );
 };
 
-export default withApi(DashboardSiteDetail);
+export default withApi(DashSubChildBaseAPIS);

@@ -14,7 +14,6 @@ import withApi from "../../../Utils/ApiHelper";
 import { useParams } from "react-router-dom";
 import { BsFillFuelPumpFill } from "react-icons/bs";
 import Loaderimg from "../../../Utils/Loader";
-import { Slide, toast } from "react-toastify";
 import { MdOutlineCalendarMonth } from "react-icons/md";
 import moment from "moment";
 import { AiOutlineClose } from "react-icons/ai";
@@ -28,7 +27,7 @@ import { ErrorMessage, Field, Formik } from "formik";
 import { useMyContext } from "../../../Utils/MyContext";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { SuccessAlert } from "../../../Utils/ToastUtils";
-const DashboardGradsComponent = ({ getData, getSiteStats }) => {
+const DashSubChildGrads = ({ getData, getSiteStats }) => {
   const { getGradsSiteDetails, setGradsGetSiteDetails, DashboardGradsLoading } =
     useMyContext();
   // const [getGradsSiteDetails, setGradsGetSiteDetails] = useState(null);
@@ -776,4 +775,4 @@ const DashboardGradsComponent = ({ getData, getSiteStats }) => {
   );
 };
 
-export default withApi(DashboardGradsComponent);
+export default withApi(DashSubChildGrads);

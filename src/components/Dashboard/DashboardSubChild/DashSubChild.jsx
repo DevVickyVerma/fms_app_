@@ -2,7 +2,6 @@ import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import CustomModal from "../../../data/Modal/DashboardSiteDetails";
-import DashboardGradsComponent from "./DashboardGradsComponent";
 import { BsCalendarWeek } from "react-icons/bs";
 import {
   Chart as ChartJS,
@@ -11,23 +10,22 @@ import {
   LinearScale,
   PointElement,
 } from "chart.js";
-import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { BsFillFuelPumpFill } from "react-icons/bs";
 import moment from "moment/moment";
-import DashboardSiteGraph from "./DashboardSiteGraph";
-import DashboardSiteTopSection from "./DashboardSiteTopSection";
 import StackedLineBarChart from "../StackedLineBarChart";
-import DashboardCompetitorGraph from "./DashboardCompetitorGraph";
-import DashboardShopSale from "./DashboardShopSale";
+import DashSubStatsBox from "./DashSubStatsBox";
+import DashSubChildGrads from "./DashSubChildGrads";
+import DashSubChildShopSale from "./DashSubChildShopSale/DashSubChildShopSale";
+import DashSubChildTankAnalysis from "./DashSubChildTankAnalysis";
+import { Link } from "react-router-dom";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
-const DashTopSubHeading = ({
+const DashSubChild = ({
   getSiteStats,
   setGetSiteStats,
   getSiteDetails,
-  getCompetitorsPrice,
-  setGetCompetitorsPrice,
 }) => {
   const dateStr = getSiteDetails?.last_fuel_delivery_stats?.last_day
     ? getSiteDetails.last_fuel_delivery_stats.last_day
@@ -60,6 +58,40 @@ const DashTopSubHeading = ({
 
   return (
     <>
+      <div className="page-header ">
+        <div>
+          <h1 className="page-title">
+            {getSiteStats?.data?.site_name
+              ? getSiteStats?.data?.site_name
+              : "DashBoard Site details"}
+          </h1>
+          <Breadcrumb className="breadcrumb">
+            <Breadcrumb.Item
+              className="breadcrumb-item"
+              linkAs={Link}
+              linkProps={{ to: "/dashboard" }}
+            >
+              Dashboard
+            </Breadcrumb.Item>
+            <Breadcrumb.Item
+              className="breadcrumb-item"
+              linkAs={Link}
+              linkProps={{ to: "/dashboard-details" }}
+            >
+              Details
+            </Breadcrumb.Item>
+            <Breadcrumb.Item
+              className="breadcrumb-item active breadcrumds"
+              aria-current="page"
+            >
+              {getSiteStats?.data?.site_name
+                ? getSiteStats?.data?.site_name
+                : "DashBoard Site details"}
+            </Breadcrumb.Item>
+          </Breadcrumb>
+        </div>
+      </div>
+
       {modalOpen ? (
         <CustomModal
           open={modalOpen}
@@ -366,7 +398,7 @@ const DashTopSubHeading = ({
         </>
 
         {/* dashboard site Top section */}
-        <DashboardSiteTopSection />
+        <DashSubStatsBox />
 
         {/* grid values */}
         <Box
@@ -472,13 +504,13 @@ const DashTopSubHeading = ({
         </Box>
 
         {/* Grads Section */}
-        <DashboardGradsComponent
+        <DashSubChildGrads
           getSiteStats={getSiteStats}
         />
       </div>
 
       {/* new Shop sale */}
-      <DashboardShopSale getSiteDetails={getSiteDetails} getSiteStats={getSiteStats} />
+      <DashSubChildShopSale getSiteDetails={getSiteDetails} getSiteStats={getSiteStats} />
 
       {/* tank analysis */}
       <Row
@@ -541,7 +573,7 @@ const DashTopSubHeading = ({
             </Card.Header>
             <Card.Body className="card-body pb-0">
               <div id="chart">
-                <DashboardSiteGraph
+                <DashSubChildTankAnalysis
                   getSiteStats={getSiteStats}
                   setGetSiteStats={setGetSiteStats}
                 />
@@ -550,6 +582,11 @@ const DashTopSubHeading = ({
           </Card>
         </Col>
       </Row>
+
+      <Row>
+
+      </Row>
+
 
       <Row
         style={{
@@ -573,10 +610,8 @@ const DashTopSubHeading = ({
           </Card>
         </Col>
       </Row>
-
-
     </>
   );
 };
 
-export default DashTopSubHeading;
+export default DashSubChild;

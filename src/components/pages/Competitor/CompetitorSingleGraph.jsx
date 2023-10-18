@@ -2,7 +2,7 @@ import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 
-const DashboardCompetitorGraph = ({
+const CompetitorSingleGraph = ({
   getCompetitorsPrice,
   setGetCompetitorsPrice,
 }) => {
@@ -148,4 +148,4 @@ const DashboardCompetitorGraph = ({
   );
 };
 
-export default DashboardCompetitorGraph;
+export default CompetitorSingleGraph;

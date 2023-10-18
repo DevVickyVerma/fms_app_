@@ -10,11 +10,10 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import { AiFillEye } from "react-icons/ai";
-import DashboardShopSaleCenterModal from "./DashboardShopSaleCenterModal";
 import { Slide, toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import Loaderimg from "../../../Utils/Loader";
+import Loaderimg from "../../../../Utils/Loader";
 import { MdOutlineCalendarMonth } from "react-icons/md";
 import SortIcon from "@mui/icons-material/Sort";
 import moment from "moment";
@@ -23,12 +22,13 @@ import { format } from "date-fns";
 import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
 import { DateRangePicker } from "react-date-range";
-import withApi from "../../../Utils/ApiHelper";
-import { useMyContext } from "../../../Utils/MyContext";
+import withApi from "../../../../Utils/ApiHelper";
+import { useMyContext } from "../../../../Utils/MyContext";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, SuccessAlert } from "../../../../Utils/ToastUtils";
+import DashSubChildShopSaleCenterModal from "./DashSubChildShopSaleCenterModal";
 
-const DashboardShopSale = ({
+const DashSubChildShopSale = ({
   getData,
   getSiteStats,
 }) => {
@@ -407,7 +407,7 @@ const DashboardShopSale = ({
   return (
     <>
       {isLoading || gradsLoading ? <Loaderimg /> : ""}
-      <DashboardShopSaleCenterModal
+      <DashSubChildShopSaleCenterModal
         showModal={showModal}
         setShowModal={setShowModal}
         shopPerformanceData={shopPerformanceData}
@@ -683,4 +683,4 @@ const DashboardShopSale = ({
   );
 };
 
-export default withApi(DashboardShopSale);
+export default withApi(DashSubChildShopSale);
