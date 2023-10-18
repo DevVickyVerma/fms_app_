@@ -617,7 +617,7 @@ export const MENUITEMS = [
         ],
       },
       {
-        title: "Email Logs",
+        title: "Logs",
 
         icon: "envelope-o",
         type: "sub",
@@ -632,16 +632,6 @@ export const MENUITEMS = [
             permission: "email-logs",
             visibility: false,
           },
-        ],
-      },
-      {
-        title: "evoBOS Status",
-        icon: "refresh",
-        type: "sub",
-        active: false,
-        permission: "site-evobos-status",
-        visibility: false,
-        children: [
           {
             path: `/site-evobos-status`,
             title: "EvoBOS Sites",
@@ -649,17 +639,6 @@ export const MENUITEMS = [
             permission: "site-evobos-status",
             visibility: false,
           },
-        ],
-      },
-
-      {
-        title: "Cron Jobs",
-        icon: "globe",
-        type: "sub",
-        active: false,
-        permission: "cronjob-list",
-        visibility: false,
-        children: [
           {
             path: `/cron-module`,
             title: "Cron Jobs",
