@@ -179,14 +179,14 @@ const CronModule = ({ getData, isLoading }) => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <h3 className="card-title">Manage Cards</h3>
+              <h3 className="card-title">Manage Cron</h3>
             </Card.Header>
             <Card.Body>
               <div className="ms-auto">
                 <label>Filter Cron Site:</label>
                 <div style={{ minWidth: "200px" }}>
                   <Select
-                    closeMenuOnSelect={false}
+                    closeMenuOnSelect={true}
                     components={animatedComponents}
                     options={Optionssingle}
                     onChange={(value) => setSelectedCronList(value)}
