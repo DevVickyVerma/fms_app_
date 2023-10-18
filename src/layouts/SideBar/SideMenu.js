@@ -620,6 +620,13 @@ export const MENUITEMS = [
             permission: "cronjob-list",
             visibility: false,
           },
+          {
+            path: `/fuel-price-logs`,
+            title: "Fuel Price Logs",
+            type: "link",
+            permission: "fuel-price-logs",
+            visibility: false,
+          },
         ],
       },
     ],

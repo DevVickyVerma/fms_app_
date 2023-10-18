@@ -258,8 +258,6 @@ const EditItems = React.lazy(() =>
   import("./components/pages/ManageItems/EditItems")
 );
 
-
-
 // Category Start
 
 const ManageBusinessCategory = React.lazy(() =>
@@ -407,6 +405,9 @@ const Settings = React.lazy(() =>
 const Emaillogs = React.lazy(() =>
   import("./components/pages/Emaillogs/Emaillogs")
 );
+const FuelPriceslogs = React.lazy(() =>
+  import("./components/pages/Emaillogs/FuelPriceLogs")
+);
 const DailyFacilityFees = React.lazy(() =>
   import("./components/pages/DailyFacilityFees/DailyFacilityFees")
 );
@@ -550,6 +551,7 @@ const Root = () => {
   const WrappedDashBoardSubChild = withApi(DashSubChild);
   const WrappedDashBoardSiteDetail = withApi(DashSubChildBaseAPIS);
   const WrappedEmaillogs = withApi(Emaillogs);
+  const WrappedFuelPriceslogs = withApi(FuelPriceslogs);
   const WrappedCompetitorFuelPrices = withApi(CompetitorFuelPrices);
   const WrappedCompetitor = withApi(Competitor);
   const WrappedAddCompetitor = withApi(AddCompetitor);
@@ -565,7 +567,6 @@ const Root = () => {
   const WrappedEditCompetitorFuelPrices = withApi(EditCompetitorFuelPrices);
   const WrappedSkipDates = withApi(SkipDates);
   const WrappedCronModule = withApi(CronModule);
-
 
   return (
     <Fragment>
@@ -633,11 +634,11 @@ const Root = () => {
                   />
 
                   <Route path={`/sites`} element={<Managesite />} />
-                  <Route path={`/managebank/:id`} element={<WrappedManageBank />} />
                   <Route
-                    path={`/addbank/:id`}
-                    element={<WrappedAddBank />}
+                    path={`/managebank/:id`}
+                    element={<WrappedManageBank />}
                   />
+                  <Route path={`/addbank/:id`} element={<WrappedAddBank />} />
                   <Route
                     path={`/editbankmanager/:id`}
                     element={<WrappedEditBankManneger />}
@@ -714,6 +715,10 @@ const Root = () => {
 
                   {/* Addon  Components End */}
                   <Route path={`/email-logs`} element={<WrappedEmaillogs />} />
+                  <Route
+                    path={`/fuel-price-logs`}
+                    element={<WrappedFuelPriceslogs />}
+                  />
                   {/* Header  Components Start */}
                   {/* <Route
                     path={`/advancedElements/headers`}
