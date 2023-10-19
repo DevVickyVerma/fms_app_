@@ -198,8 +198,6 @@ const Dashboard = (props) => {
       values.company_name = "";
     }
 
-
-
     // Now you can store the updated 'values' object in localStorage
     localStorage.setItem("mySearchData", JSON.stringify(values));
     const companyId =
@@ -352,8 +350,6 @@ const Dashboard = (props) => {
 
   const isTwoFactorPermissionAvailable = UserPermissions?.two_factor;
 
-
-
   return (
     <>
       {isLoading || isLoadingState ? <Loaderimg /> : null}
@@ -375,7 +371,7 @@ const Dashboard = (props) => {
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-            localStorage.getItem("role") === "Operator" ? (
+          localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -461,7 +457,24 @@ const Dashboard = (props) => {
                     ) : null}
                   </Box>
                 </>
-
+                {localStorage.getItem("superiorRole") === "Administrator" &&
+                Object.keys(searchdata).length === 0 ? (
+                  <div
+                    style={{
+                      textAlign: "left",
+                      margin: " 10px 0",
+                      fontSize: "12px",
+                      color: "white",
+                      background: "#b52d2d",
+                      padding: "4px 10px",
+                      borderRadius: "7px",
+                    }}
+                  >
+                    *Please apply filter to see the stats
+                  </div>
+                ) : (
+                  ""
+                )}
                 <Box
                   display={"flex"}
                   ml={"4px"}
@@ -514,7 +527,6 @@ const Dashboard = (props) => {
             marginBottom={"10px"}
             className=" gap-1"
           >
-            {/* Assuming this code is within a React component */}
             {Object.entries(searchdata).some(
               ([key, value]) =>
                 [
@@ -567,7 +579,8 @@ const Dashboard = (props) => {
         </>
 
         <CenterFilterModal
-          onSubmit={handleFormSubmit} title="Search"
+          onSubmit={handleFormSubmit}
+          title="Search"
           visible={sidebarVisible1}
           onClose={handleToggleSidebar1}
           searchListstatus={SearchList}
@@ -575,38 +588,15 @@ const Dashboard = (props) => {
           setCenterFilterModalOpen={setCenterFilterModalOpen}
         />
 
-        {
-          isProfileUpdatePermissionAvailable &&
-            !isTwoFactorPermissionAvailable &&
-            ShowAuth ? (
-            <>
-              <CenterAuthModal title="Auth Modal" />
-            </>
-          ) : (
-            ""
-          )
-        }
-
-        {
-          localStorage.getItem("superiorRole") === "Administrator" &&
-            Object.keys(searchdata).length === 0 ? (
-            <div
-              style={{
-                textAlign: "left",
-                margin: " 13px 0",
-                fontSize: "15px",
-                color: "white",
-                background: "#b52d2d",
-                padding: "10px",
-                borderRadius: "7px",
-              }}
-            >
-              Please Select Values from Filter.....
-            </div>
-          ) : (
-            ""
-          )
-        }
+        {isProfileUpdatePermissionAvailable &&
+        !isTwoFactorPermissionAvailable &&
+        ShowAuth ? (
+          <>
+            <CenterAuthModal title="Auth Modal" />
+          </>
+        ) : (
+          ""
+        )}
 
         <DashboardStatsBox
           GrossVolume={GrossVolume}
