@@ -301,6 +301,10 @@ const ManageSiteTank = (props) => {
                     site_id: "",
                     start_date: "",
                   }}
+                  validationSchema={Yup.object({
+                    company_id: Yup.string().required("Company is required"),
+                    site_id: Yup.string().required("Site is required"),
+                  })}
                   onSubmit={(values) => {
                     handleSubmit1(values);
                   }}
@@ -317,7 +321,7 @@ const ManageSiteTank = (props) => {
                                   htmlFor="client_id"
                                   className=" form-label mt-4"
                                 >
-                                  Client
+                                  Client<span className="text-danger">*</span>
                                 </label>
                                 <Field
                                   as="select"
@@ -379,7 +383,7 @@ const ManageSiteTank = (props) => {
                                 htmlFor="company_id"
                                 className="form-label mt-4"
                               >
-                                Company
+                                Company<span className="text-danger">*</span>
                               </label>
                               <Field
                                 as="select"
@@ -430,7 +434,7 @@ const ManageSiteTank = (props) => {
                                 htmlFor="site_id"
                                 className="form-label mt-4"
                               >
-                                Site
+                                Site<span className="text-danger">*</span>
                               </label>
                               <Field
                                 as="select"
