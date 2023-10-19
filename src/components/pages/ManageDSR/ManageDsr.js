@@ -409,6 +409,12 @@ const ManageDsr = (props) => {
       GetDataWithClient(values);
     },
   });
+  const handleFormReset = () => {
+    formik.resetForm(); // This will reset the form to its initial values
+    setSelectedSiteList([]);
+    setSelectedCompanyList([]);
+    setSelectedClientId("");
+  };
 
   return (
     <>
@@ -551,7 +557,7 @@ const ManageDsr = (props) => {
                     <Col lg={3} md={3}>
                       <div classname="form-group">
                         <label htmlFor="site_id" className="form-label mt-4">
-                          Site
+                          Site <span className="text-danger">*</span>
                         </label>
                         <select
                           as="select"
@@ -652,9 +658,9 @@ const ManageDsr = (props) => {
                       ""
                     )}
                     <Link
-                      type="submit"
-                      className="btn btn-danger me-2 "
-                      to={`/dashboard/`}
+                      type="button"
+                      className="btn btn-danger me-2"
+                      onClick={handleFormReset}
                     >
                       Reset
                     </Link>
