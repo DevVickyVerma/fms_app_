@@ -58,8 +58,10 @@ const Dashboard = (props) => {
     setShouldNavigateToDetailsPage,
   } = useMyContext();
 
-  const superiorRole = localStorage.getItem("superiorRole");
+  let myLocalSearchData = localStorage.getItem("mySearchData") ? JSON.parse(localStorage.getItem("mySearchData")) : "";
 
+
+  const superiorRole = localStorage.getItem("superiorRole");
   const role = localStorage.getItem("role");
   const handleFetchSiteData = async () => {
     try {
@@ -70,7 +72,7 @@ const Dashboard = (props) => {
       if (superiorRole === "Administrator") {
         url = "/dashboard/stats";
       } else if (superiorRole === "Client" && role === "Client") {
-        url = `/dashboard/stats?client_id=${ClientID}`;
+        url = myLocalSearchData ? `/dashboard/stats?client_id=${ClientID}&company_id=${myLocalSearchData?.company_id}&site_id=${myLocalSearchData?.site_id}` : `/dashboard/stats?client_id=${ClientID}`;
       } else if (superiorRole === "Client" && role === "Operator") {
         url = "/dashboard/stats";
       } else if (superiorRole === "Client" && role !== "Client") {
@@ -261,10 +263,13 @@ const Dashboard = (props) => {
   };
 
   const [isLoadingState, setIsLoading] = useState(false);
-  const ResetForm = () => {
+  const ResetForm = async () => {
+    myLocalSearchData = "";
     setIsLoading(true);
-
     setSearchdata({});
+    setTimeout(() => {
+    }, 1000);
+
     localStorage.removeItem("savedDataOfDashboard");
     localStorage.removeItem("mySearchData");
 
@@ -371,7 +376,7 @@ const Dashboard = (props) => {
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-          localStorage.getItem("role") === "Operator" ? (
+            localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -458,7 +463,7 @@ const Dashboard = (props) => {
                   </Box>
                 </>
                 {localStorage.getItem("superiorRole") === "Administrator" &&
-                Object.keys(searchdata).length === 0 ? (
+                  Object.keys(searchdata).length === 0 ? (
                   <div
                     style={{
                       textAlign: "left",
@@ -589,8 +594,8 @@ const Dashboard = (props) => {
         />
 
         {isProfileUpdatePermissionAvailable &&
-        !isTwoFactorPermissionAvailable &&
-        ShowAuth ? (
+          !isTwoFactorPermissionAvailable &&
+          ShowAuth ? (
           <>
             <CenterAuthModal title="Auth Modal" />
           </>

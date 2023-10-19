@@ -30,16 +30,16 @@ const CenterFilterModal = (props) => {
 
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
+  const [selectedCompanyId, setSelectedCompanyId] = useState("");
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [AddSiteData, setAddSiteData] = useState([]);
+  const [AddSiteId, setAddSiteId] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  const searchdata = JSON.parse(
-    localStorage.getItem("mySearchData")
-  );
-
-
+  console.log(selectedCompanyList, "selectedCompanyList");
+  console.log(selectedSiteList, "selectedSiteList");
+  console.log(selectedClientId, "selectedClientId");
 
 
   function handleError(error) {
@@ -84,7 +84,6 @@ const CenterFilterModal = (props) => {
           const clientId = localStorage.getItem("superiorId");
           if (clientId) {
             setSelectedClientId(clientId);
-
             setSelectedCompanyList([]);
             if (response?.data) {
               const selectedClient = response?.data?.data?.find(
@@ -156,14 +155,12 @@ const CenterFilterModal = (props) => {
                 <Col md={12} xl={12}>
                   <Formik
                     initialValues={{
-                      client_id: searchdata?.client_id || "", // Use searchdata?.client_id or an empty string as the initial value
-                      client_name: searchdata?.client_name || "", // Use searchdata?.client_name or an empty string as the initial value
-                      company_id: searchdata?.company_id || "", // Use searchdata?.company_id or an empty string as the initial value
-                      company_name: searchdata?.company_name || "",
-                      site_id: searchdata?.site_id || "", // Use searchdata?.site_id or an empty string as the initial value
-                      site_name: searchdata?.site_name || "", // Use searchdata?.site_name or an empty string as the initial value
-                      fromdate: "",
-                      TOdate: "",
+                      client_id: selectedClientId ? selectedClientId : "",
+                      client_name: "",
+                      company_id: selectedCompanyId ? selectedCompanyId : "",
+                      company_name: "",
+                      site_id: AddSiteId ? AddSiteId : "",
+                      site_name: "",
                     }}
                     validationSchema={Yup.object({
                       company_id: Yup.string().required(
@@ -217,7 +214,6 @@ const CenterFilterModal = (props) => {
                                         setSelectedClientId(
                                           selectedType
                                         );
-
                                         // Reset the selected company and site
                                         setSelectedCompanyList([]);
                                         setFieldValue("company_id", "");
@@ -295,6 +291,8 @@ const CenterFilterModal = (props) => {
                                       "company_id",
                                       selectedCompany
                                     );
+
+                                    setSelectedCompanyId(selectedCompany);
                                     setSelectedSiteList([]);
                                     const selectedCompanyData =
                                       selectedCompanyList.find(
@@ -363,6 +361,8 @@ const CenterFilterModal = (props) => {
                                       "site_id",
                                       selectedSite
                                     );
+
+                                    setAddSiteId(selectedSite);
 
                                     const selectedSiteData =
                                       selectedSiteList.find(
