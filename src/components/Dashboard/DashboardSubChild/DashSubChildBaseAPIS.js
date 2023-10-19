@@ -14,7 +14,8 @@ const DashSubChildBaseAPIS = (props) => {
   const {
     setGradsGetSiteDetails,
     setDashboardShopSaleData,
-    setDashboardGradsLoading, setDashboardSiteDetailsLoading
+    setDashboardGradsLoading, setDashboardSiteDetailsLoading,
+    dashSubChildShopSaleLoading, setDashSubChildShopSaleLoading
   } = useMyContext();
   const { id } = useParams();
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
@@ -139,12 +140,11 @@ const DashSubChildBaseAPIS = (props) => {
   const [scrollY, setScrollY] = useState(0);
   const [callShopSaleApi, setCallShopSaleApi] = useState(false);
   const [callSiteFuelPerformanceApi, setCallSiteFuelPerformanceApi] = useState(false);
-  const [shopSaleLoading, setShopSaleLoading] = useState(false);
 
 
   const FetchShopSaleData = async () => {
     try {
-      setShopSaleLoading(true);
+      setDashSubChildShopSaleLoading(true);
       const searchdata = await JSON.parse(localStorage.getItem("mySearchData"));
       const superiorRole = localStorage.getItem("superiorRole");
       const role = localStorage.getItem("role");
@@ -169,15 +169,19 @@ const DashSubChildBaseAPIS = (props) => {
 
       if (response2 && response2.data) {
         setDashboardShopSaleData(response2?.data?.data);
+        setDashSubChildShopSaleLoading(false);
       } else {
+        setDashSubChildShopSaleLoading(false);
         throw new Error("No data available in the response");
       }
     } catch (error) {
       console.error("API error:", error);
+      setDashSubChildShopSaleLoading(false);
       handleError(error)
     } finally {
-      setShopSaleLoading(false);
+      setDashSubChildShopSaleLoading(false);
     }
+    setDashSubChildShopSaleLoading(false);
   };
 
   const FetchSiteFuelPerformanceData = async () => {
@@ -247,7 +251,7 @@ const DashSubChildBaseAPIS = (props) => {
         setCallSiteFuelPerformanceApi(true);
       }
 
-      if (currentScrollY > 450 && !callShopSaleApi) {
+      if (currentScrollY > 250 && !callShopSaleApi) {
         setCallShopSaleApi(true);
       }
     }

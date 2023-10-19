@@ -33,7 +33,6 @@ const DashSubChildShopSale = ({
   getSiteStats,
 }) => {
   const navigate = useNavigate();
-
   const [showModal, setShowModal] = useState(false);
   const [showCalenderModal, setShowCalenderModal] = useState(false);
   const [shopPerformanceData, setShopPerformanceData] = useState();
@@ -49,6 +48,7 @@ const DashSubChildShopSale = ({
   const {
     dashboardShopSaleData,
     setDashboardShopSaleData,
+    dashSubChildShopSaleLoading, setDashSubChildShopSaleLoading
   } = useMyContext();
 
   function handleError(error) {
@@ -407,6 +407,7 @@ const DashSubChildShopSale = ({
   return (
     <>
       {isLoading || gradsLoading ? <Loaderimg /> : ""}
+
       <DashSubChildShopSaleCenterModal
         showModal={showModal}
         setShowModal={setShowModal}
@@ -481,7 +482,13 @@ const DashSubChildShopSale = ({
                 </div>
               ) : (
                 <p className="all-center-flex" style={{ height: "150px" }}>
-                  <span class="primary-loader"></span>
+                  {/* <span class="primary-loader"></span> */}
+
+                  {dashSubChildShopSaleLoading ? <>
+                    <span class="primary-loader"></span>
+                  </> : <>
+                    <span>Oops! Something Went Wrong No data Found.......</span>
+                  </>}
                 </p>
               )}
             </Card.Body>
