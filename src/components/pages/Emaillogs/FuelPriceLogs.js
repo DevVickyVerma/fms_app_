@@ -68,14 +68,35 @@ const ManageSiteTank = (props) => {
   if (endPage < lastPage) {
     pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
   }
+  const handleFetchListing = async () => {
+    try {
+      const response = await getData("/site/fuel-price/logs");
 
+      if (response && response.data && response.data.data) {
+        const responseData = response.data.data;
+        setData(responseData.priceLogs);
+        setCount(responseData.count);
+        setCurrentPage(responseData.currentPage);
+        setHasMorePages(responseData.hasMorePages);
+        setLastPage(responseData.lastPage);
+        setPerPage(responseData.perPage);
+        setTotal(responseData.total);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+  useEffect(() => {
+    handleFetchData();
+    handleFetchListing();
+  }, []);
   const handleSubmit1 = async (values) => {
     try {
       const response = await getData(
         `/site/fuel-price/logs?site_id=${values.site_id}&drs_date=${values.start_date}`
       );
-
-      console.log(response?.data?.data?.priceLogs, "pump");
 
       if (response && response.data && response.data.data) {
         setData(response?.data?.data?.priceLogs);
@@ -128,9 +149,6 @@ const ManageSiteTank = (props) => {
       console.error("API error:", error);
     }
   };
-  useEffect(() => {
-    handleFetchData();
-  }, []);
 
   const columns = [
     {
@@ -264,7 +282,18 @@ const ManageSiteTank = (props) => {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
-
+  const initialValues = {
+    client_id: "",
+    company_id: "",
+    site_id: "",
+    start_date: "",
+  };
+  const handleClearForm = (resetForm) => {
+    resetForm(initialValues);
+    setSelectedSiteList([]);
+    setSelectedCompanyList([]);
+    setSelectedClientId("");
+  };
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -295,21 +324,18 @@ const ManageSiteTank = (props) => {
             <Card>
               <Card.Body>
                 <Formik
-                  initialValues={{
-                    client_id: "",
-                    company_id: "",
-                    site_id: "",
-                    start_date: "",
-                  }}
-                  validationSchema={Yup.object({
-                    company_id: Yup.string().required("Company is required"),
-                    site_id: Yup.string().required("Site is required"),
-                  })}
+                  initialValues={initialValues}
                   onSubmit={(values) => {
                     handleSubmit1(values);
                   }}
                 >
-                  {({ handleSubmit, errors, touched, setFieldValue }) => (
+                  {({
+                    handleSubmit,
+                    errors,
+                    touched,
+                    setFieldValue,
+                    resetForm,
+                  }) => (
                     <Form onSubmit={handleSubmit}>
                       <Card.Body>
                         <Row>
@@ -321,7 +347,7 @@ const ManageSiteTank = (props) => {
                                   htmlFor="client_id"
                                   className=" form-label mt-4"
                                 >
-                                  Client<span className="text-danger">*</span>
+                                  Client
                                 </label>
                                 <Field
                                   as="select"
@@ -383,7 +409,7 @@ const ManageSiteTank = (props) => {
                                 htmlFor="company_id"
                                 className="form-label mt-4"
                               >
-                                Company<span className="text-danger">*</span>
+                                Company
                               </label>
                               <Field
                                 as="select"
@@ -434,7 +460,7 @@ const ManageSiteTank = (props) => {
                                 htmlFor="site_id"
                                 className="form-label mt-4"
                               >
-                                Site<span className="text-danger">*</span>
+                                Site
                               </label>
                               <Field
                                 as="select"
@@ -500,6 +526,13 @@ const ManageSiteTank = (props) => {
                       <Card.Footer className="text-end">
                         <button className="btn btn-primary me-2" type="submit">
                           Submit
+                        </button>
+                        <button
+                          className="btn btn-danger me-2"
+                          type="button" // Set the type to "button" to prevent form submission
+                          onClick={() => handleClearForm(resetForm)} // Call a function to clear the form
+                        >
+                          Clear
                         </button>
                       </Card.Footer>
                     </Form>
