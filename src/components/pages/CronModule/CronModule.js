@@ -19,7 +19,7 @@ import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 
-const CronModule = ({ getData, isLoading }) => {
+const CronModule = ({ getData, isLoading, postData }) => {
     const [data, setData] = useState();
     const [currentPage, setCurrentPage] = useState(1);
     const [count, setCount] = useState(0);
@@ -148,6 +148,7 @@ const CronModule = ({ getData, isLoading }) => {
         status: item?.status,
     }));
 
+
     const fetchCronJobApi = async () => {
         try {
             const response = await getData(
@@ -177,6 +178,9 @@ const CronModule = ({ getData, isLoading }) => {
         } catch (error) {
             ErrorAlert(error)
         }
+
+        const postDataUrl = `/cron-job/create?cron_job_id=${selectedCronList?.value}`;
+        await postData(postDataUrl); // Set the submission state to false after the API call is completed
     };
     return (
         <>

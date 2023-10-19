@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import { Breadcrumb, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
+import { Breadcrumb, Card, Col, Form, FormGroup, Pagination, Row } from "react-bootstrap";
 
 import withApi from "../../../Utils/ApiHelper";
 
@@ -16,12 +16,52 @@ import * as Yup from "yup";
 const ManageSiteTank = (props) => {
   const { isLoading, getData } = props;
   const [data, setData] = useState();
-
+  const [count, setCount] = useState(0);
   const [AddSiteData, setAddSiteData] = useState([]);
-
+  const [currentPage, setCurrentPage] = useState(1);
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
+  const [hasMorePage, setHasMorePages] = useState("");
+  const [lastPage, setLastPage] = useState(1);
+  const [perPage, setPerPage] = useState(20);
+  const [total, setTotal] = useState(0);
+
+
+  const maxPagesToShow = 5; // Adjust the number of pages to show in the center
+  const pages = [];
+
+  // Calculate the range of pages to display
+  let startPage = Math.max(currentPage - Math.floor(maxPagesToShow / 2), 1);
+  let endPage = Math.min(startPage + maxPagesToShow - 1, lastPage);
+
+  // Handle cases where the range is near the beginning or end
+  if (endPage - startPage + 1 < maxPagesToShow) {
+    startPage = Math.max(endPage - maxPagesToShow + 1, 1);
+  }
+
+  // Render the pagination items
+  for (let i = startPage; i <= endPage; i++) {
+    pages.push(
+      <Pagination.Item
+        key={i}
+        active={i === currentPage}
+        onClick={() => handlePageChange(i)}
+      >
+        {i}
+      </Pagination.Item>
+    );
+  }
+
+  // Add ellipsis if there are more pages before or after the displayed range
+  if (startPage > 1) {
+    pages.unshift(<Pagination.Ellipsis key="ellipsis-start" disabled />);
+  }
+
+  if (endPage < lastPage) {
+    pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
+  }
+
 
   const handleSubmit1 = async (values) => {
     try {
@@ -33,6 +73,13 @@ const ManageSiteTank = (props) => {
 
       if (response && response.data && response.data.data) {
         setData(response?.data?.data?.priceLogs);
+        setCount(response.data.data.count);
+        setCurrentPage(response?.data?.data?.currentPage);
+        setHasMorePages(response?.data?.data?.hasMorePages);
+
+        setLastPage(response?.data?.data?.lastPage);
+        setPerPage(response?.data?.data?.perPage);
+        setTotal(response?.data?.data?.total);
       } else {
         throw new Error("No data available in the response");
       }
@@ -208,6 +255,11 @@ const ManageSiteTank = (props) => {
     inputDateElement.showPicker();
   };
 
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -258,69 +310,68 @@ const ManageSiteTank = (props) => {
                         <Row>
                           {localStorage.getItem("superiorRole") !==
                             "Client" && (
-                            <Col lg={3} md={3}>
-                              <FormGroup>
-                                <label
-                                  htmlFor="client_id"
-                                  className=" form-label mt-4"
-                                >
-                                  Client
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <Field
-                                  as="select"
-                                  className={`input101 ${
-                                    errors.client_id && touched.client_id
+                              <Col lg={3} md={3}>
+                                <FormGroup>
+                                  <label
+                                    htmlFor="client_id"
+                                    className=" form-label mt-4"
+                                  >
+                                    Client
+                                    <span className="text-danger">*</span>
+                                  </label>
+                                  <Field
+                                    as="select"
+                                    className={`input101 ${errors.client_id && touched.client_id
                                       ? "is-invalid"
                                       : ""
-                                  }`}
-                                  id="client_id"
-                                  name="client_id"
-                                  onChange={(e) => {
-                                    const selectedType = e.target.value;
+                                      }`}
+                                    id="client_id"
+                                    name="client_id"
+                                    onChange={(e) => {
+                                      const selectedType = e.target.value;
 
-                                    setFieldValue("client_id", selectedType);
-                                    setSelectedClientId(selectedType);
+                                      setFieldValue("client_id", selectedType);
+                                      setSelectedClientId(selectedType);
 
-                                    // Reset the selected company and site
-                                    setSelectedCompanyList([]);
-                                    setSelectedSiteList([]);
-                                    setFieldValue("company_id", "");
-                                    setFieldValue("site_id", "");
+                                      // Reset the selected company and site
+                                      setSelectedCompanyList([]);
+                                      setSelectedSiteList([]);
+                                      setFieldValue("company_id", "");
+                                      setFieldValue("site_id", "");
 
-                                    const selectedClient =
-                                      AddSiteData.data.find(
-                                        (client) => client.id === selectedType
-                                      );
+                                      const selectedClient =
+                                        AddSiteData.data.find(
+                                          (client) => client.id === selectedType
+                                        );
 
-                                    if (selectedClient) {
-                                      setSelectedCompanyList(
-                                        selectedClient.companies
-                                      );
-                                    }
-                                  }}
-                                >
-                                  <option value="">Select a Client</option>
-                                  {AddSiteData.data &&
-                                  AddSiteData.data.length > 0 ? (
-                                    AddSiteData.data.map((item) => (
-                                      <option key={item.id} value={item.id}>
-                                        {item.client_name}
-                                      </option>
-                                    ))
-                                  ) : (
-                                    <option disabled>No Client</option>
-                                  )}
-                                </Field>
+                                      if (selectedClient) {
+                                        setSelectedCompanyList(
+                                          selectedClient.companies
+                                        );
+                                      }
+                                    }}
+                                  >
+                                    <option value="">Select a Client</option>
+                                    {AddSiteData.data &&
+                                      AddSiteData.data.length > 0 ? (
+                                      AddSiteData.data.map((item) => (
+                                        <option key={item.id} value={item.id}>
+                                          {item.client_name}
+                                        </option>
+                                      ))
+                                    ) : (
+                                      <option disabled>No Client</option>
+                                    )}
+                                  </Field>
 
-                                <ErrorMessage
-                                  component="div"
-                                  className="invalid-feedback"
-                                  name="client_id"
-                                />
-                              </FormGroup>
-                            </Col>
-                          )}
+                                  <ErrorMessage
+                                    component="div"
+                                    className="invalid-feedback"
+                                    name="client_id"
+                                  />
+                                </FormGroup>
+                              </Col>
+                            )}
                           <Col lg={3} md={3}>
                             <FormGroup>
                               <label
@@ -332,11 +383,10 @@ const ManageSiteTank = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.company_id && touched.company_id
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.company_id && touched.company_id
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="company_id"
                                 name="company_id"
                                 onChange={(e) => {
@@ -384,11 +434,10 @@ const ManageSiteTank = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${
-                                  errors.site_id && touched.site_id
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.site_id && touched.site_id
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="site_id"
                                 name="site_id"
                                 onChange={(event) => {
@@ -427,11 +476,10 @@ const ManageSiteTank = (props) => {
                                 type="date"
                                 min={"2023-01-01"}
                                 onClick={hadndleShowDate}
-                                className={`input101 ${
-                                  errors.start_date && touched.start_date
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`input101 ${errors.start_date && touched.start_date
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="start_date"
                                 name="start_date"
                               ></Field>
@@ -477,8 +525,6 @@ const ManageSiteTank = (props) => {
                           striped={true}
                           // center={true}
                           persistTableHead
-                          pagination
-                          paginationPerPage={20}
                           highlightOnHover
                           searchable={true}
                         />
@@ -495,6 +541,31 @@ const ManageSiteTank = (props) => {
                   </>
                 )}
               </Card.Body>
+              {data?.length > 0 ? (
+                <>
+                  <Card.Footer>
+                    <div style={{ float: "right" }}>
+                      <Pagination>
+                        <Pagination.First onClick={() => handlePageChange(1)} />
+                        <Pagination.Prev
+                          onClick={() => handlePageChange(currentPage - 1)}
+                          disabled={currentPage === 1}
+                        />
+                        {pages}
+                        <Pagination.Next
+                          onClick={() => handlePageChange(currentPage + 1)}
+                          disabled={currentPage === lastPage}
+                        />
+                        <Pagination.Last
+                          onClick={() => handlePageChange(lastPage)}
+                        />
+                      </Pagination>
+                    </div>
+                  </Card.Footer>
+                </>
+              ) : (
+                <></>
+              )}
             </Card>
           </Col>
         </Row>
