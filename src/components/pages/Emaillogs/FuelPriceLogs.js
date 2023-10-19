@@ -4,7 +4,15 @@ import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import { Breadcrumb, Card, Col, Form, FormGroup, Pagination, Row } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  Form,
+  FormGroup,
+  Pagination,
+  Row,
+} from "react-bootstrap";
 
 import withApi from "../../../Utils/ApiHelper";
 
@@ -26,7 +34,6 @@ const ManageSiteTank = (props) => {
   const [lastPage, setLastPage] = useState(1);
   const [perPage, setPerPage] = useState(20);
   const [total, setTotal] = useState(0);
-
 
   const maxPagesToShow = 5; // Adjust the number of pages to show in the center
   const pages = [];
@@ -61,7 +68,6 @@ const ManageSiteTank = (props) => {
   if (endPage < lastPage) {
     pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
   }
-
 
   const handleSubmit1 = async (values) => {
     try {
@@ -259,7 +265,6 @@ const ManageSiteTank = (props) => {
     setCurrentPage(newPage);
   };
 
-
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -296,10 +301,6 @@ const ManageSiteTank = (props) => {
                     site_id: "",
                     start_date: "",
                   }}
-                  validationSchema={Yup.object({
-                    company_id: Yup.string().required("Company is required"),
-                    site_id: Yup.string().required("Site is required"),
-                  })}
                   onSubmit={(values) => {
                     handleSubmit1(values);
                   }}
@@ -310,68 +311,68 @@ const ManageSiteTank = (props) => {
                         <Row>
                           {localStorage.getItem("superiorRole") !==
                             "Client" && (
-                              <Col lg={3} md={3}>
-                                <FormGroup>
-                                  <label
-                                    htmlFor="client_id"
-                                    className=" form-label mt-4"
-                                  >
-                                    Client
-                                    <span className="text-danger">*</span>
-                                  </label>
-                                  <Field
-                                    as="select"
-                                    className={`input101 ${errors.client_id && touched.client_id
+                            <Col lg={3} md={3}>
+                              <FormGroup>
+                                <label
+                                  htmlFor="client_id"
+                                  className=" form-label mt-4"
+                                >
+                                  Client
+                                </label>
+                                <Field
+                                  as="select"
+                                  className={`input101 ${
+                                    errors.client_id && touched.client_id
                                       ? "is-invalid"
                                       : ""
-                                      }`}
-                                    id="client_id"
-                                    name="client_id"
-                                    onChange={(e) => {
-                                      const selectedType = e.target.value;
+                                  }`}
+                                  id="client_id"
+                                  name="client_id"
+                                  onChange={(e) => {
+                                    const selectedType = e.target.value;
 
-                                      setFieldValue("client_id", selectedType);
-                                      setSelectedClientId(selectedType);
+                                    setFieldValue("client_id", selectedType);
+                                    setSelectedClientId(selectedType);
 
-                                      // Reset the selected company and site
-                                      setSelectedCompanyList([]);
-                                      setSelectedSiteList([]);
-                                      setFieldValue("company_id", "");
-                                      setFieldValue("site_id", "");
+                                    // Reset the selected company and site
+                                    setSelectedCompanyList([]);
+                                    setSelectedSiteList([]);
+                                    setFieldValue("company_id", "");
+                                    setFieldValue("site_id", "");
 
-                                      const selectedClient =
-                                        AddSiteData.data.find(
-                                          (client) => client.id === selectedType
-                                        );
+                                    const selectedClient =
+                                      AddSiteData.data.find(
+                                        (client) => client.id === selectedType
+                                      );
 
-                                      if (selectedClient) {
-                                        setSelectedCompanyList(
-                                          selectedClient.companies
-                                        );
-                                      }
-                                    }}
-                                  >
-                                    <option value="">Select a Client</option>
-                                    {AddSiteData.data &&
-                                      AddSiteData.data.length > 0 ? (
-                                      AddSiteData.data.map((item) => (
-                                        <option key={item.id} value={item.id}>
-                                          {item.client_name}
-                                        </option>
-                                      ))
-                                    ) : (
-                                      <option disabled>No Client</option>
-                                    )}
-                                  </Field>
+                                    if (selectedClient) {
+                                      setSelectedCompanyList(
+                                        selectedClient.companies
+                                      );
+                                    }
+                                  }}
+                                >
+                                  <option value="">Select a Client</option>
+                                  {AddSiteData.data &&
+                                  AddSiteData.data.length > 0 ? (
+                                    AddSiteData.data.map((item) => (
+                                      <option key={item.id} value={item.id}>
+                                        {item.client_name}
+                                      </option>
+                                    ))
+                                  ) : (
+                                    <option disabled>No Client</option>
+                                  )}
+                                </Field>
 
-                                  <ErrorMessage
-                                    component="div"
-                                    className="invalid-feedback"
-                                    name="client_id"
-                                  />
-                                </FormGroup>
-                              </Col>
-                            )}
+                                <ErrorMessage
+                                  component="div"
+                                  className="invalid-feedback"
+                                  name="client_id"
+                                />
+                              </FormGroup>
+                            </Col>
+                          )}
                           <Col lg={3} md={3}>
                             <FormGroup>
                               <label
@@ -379,14 +380,14 @@ const ManageSiteTank = (props) => {
                                 className="form-label mt-4"
                               >
                                 Company
-                                <span className="text-danger">*</span>
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${errors.company_id && touched.company_id
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${
+                                  errors.company_id && touched.company_id
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="company_id"
                                 name="company_id"
                                 onChange={(e) => {
@@ -430,14 +431,14 @@ const ManageSiteTank = (props) => {
                                 className="form-label mt-4"
                               >
                                 Site
-                                <span className="text-danger">*</span>
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${errors.site_id && touched.site_id
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${
+                                  errors.site_id && touched.site_id
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="site_id"
                                 name="site_id"
                                 onChange={(event) => {
@@ -470,16 +471,16 @@ const ManageSiteTank = (props) => {
                                 className="form-label mt-4"
                               >
                                 Date
-                                <span className="text-danger">*</span>
                               </label>
                               <Field
                                 type="date"
                                 min={"2023-01-01"}
                                 onClick={hadndleShowDate}
-                                className={`input101 ${errors.start_date && touched.start_date
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${
+                                  errors.start_date && touched.start_date
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="start_date"
                                 name="start_date"
                               ></Field>
