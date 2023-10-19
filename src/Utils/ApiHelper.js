@@ -99,8 +99,8 @@ const withApi = (WrappedComponent) => {
           SuccessToast(data.message);
           setIsLoading(false);
           navigate(navigatePath);
+          return data;
         } else {
-
           throw new Error("Invalid response");
         }
       } catch (error) {

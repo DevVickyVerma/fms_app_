@@ -240,22 +240,26 @@ const ManageDsr = (props) => {
         const DeleteRole = async () => {
           try {
             const postDataUrlForDelete = "/drs/delete-data";
+            const responseForDelete = await postData(
+              postDataUrlForDelete,
+              formData
+            );
+            if (responseForDelete?.api_response == "success") {
+              const current = {
+                client_id: PropsClientId,
+                company_id: PropsCompanyId,
+                site_id: SiteId,
+                start_date: DRSDate,
+              };
 
-            await postData(postDataUrlForDelete, formData);
-            const current = {
-              client_id: PropsClientId,
-              company_id: PropsCompanyId,
-              site_id: SiteId,
-              start_date: DRSDate,
-            };
-
-            GetDataWithClient(current);
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your item has been deleted.",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
+              GetDataWithClient(current);
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your item has been deleted.",
+                icon: "success",
+                confirmButtonText: "OK",
+              });
+            }
           } catch (error) {
             handleError(error);
           } finally {
