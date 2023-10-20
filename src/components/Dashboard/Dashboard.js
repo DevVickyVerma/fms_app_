@@ -60,7 +60,6 @@ const Dashboard = (props) => {
 
   let myLocalSearchData = localStorage.getItem("mySearchData") ? JSON.parse(localStorage.getItem("mySearchData")) : "";
 
-
   const superiorRole = localStorage.getItem("superiorRole");
   const role = localStorage.getItem("role");
   const handleFetchSiteData = async () => {
@@ -231,7 +230,6 @@ const Dashboard = (props) => {
         setGrossProfitValue(data?.data?.gross_profit);
         setFuelValue(data?.data?.fuel_sales);
         setshopsale(data?.data?.shop_sales);
-
         setshopmargin(data?.data?.shop_profit);
 
         const savedDataOfDashboard = {
@@ -261,6 +259,7 @@ const Dashboard = (props) => {
       console.error("API error:", error);
     }
   };
+
 
   const [isLoadingState, setIsLoading] = useState(false);
   const ResetForm = async () => {

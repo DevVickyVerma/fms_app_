@@ -15,7 +15,6 @@ import {
   FormGroup,
   Row,
 } from "react-bootstrap";
-import { Slide, toast } from "react-toastify";
 import { Dialog, DialogActions } from "@mui/material";
 import { ErrorAlert } from "../../Utils/ToastUtils";
 const CenterFilterModal = (props) => {
@@ -28,18 +27,18 @@ const CenterFilterModal = (props) => {
     setCenterFilterModalOpen
   } = props;
 
+
   const [selectedClientId, setSelectedClientId] = useState("");
+  const [selectedClientFullData, setSelectedClientFullData] = useState("")
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
+  const [selectedCompanyFullData, setSelectedCompanyFullData] = useState("")
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
   const [selectedSiteList, setSelectedSiteList] = useState([]);
+  const [selectedSiteFullData, setSelectedSiteFullData] = useState("")
   const [AddSiteData, setAddSiteData] = useState([]);
   const [AddSiteId, setAddSiteId] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-
-  console.log(selectedCompanyList, "selectedCompanyList");
-  console.log(selectedSiteList, "selectedSiteList");
-  console.log(selectedClientId, "selectedClientId");
 
 
   function handleError(error) {
@@ -155,12 +154,12 @@ const CenterFilterModal = (props) => {
                 <Col md={12} xl={12}>
                   <Formik
                     initialValues={{
-                      client_id: selectedClientId ? selectedClientId : "",
-                      client_name: "",
-                      company_id: selectedCompanyId ? selectedCompanyId : "",
-                      company_name: "",
-                      site_id: AddSiteId ? AddSiteId : "",
-                      site_name: "",
+                      client_id: selectedClientFullData ? selectedClientFullData?.id : "",
+                      client_name: selectedClientFullData ? selectedClientFullData?.client_name : "",
+                      company_id: selectedCompanyFullData ? selectedCompanyFullData?.id : "",
+                      company_name: selectedCompanyFullData ? selectedCompanyFullData?.company_name : "",
+                      site_id: selectedSiteFullData ? selectedSiteFullData?.id : "",
+                      site_name: selectedSiteFullData ? selectedSiteFullData?.site_name : "",
                     }}
                     validationSchema={Yup.object({
                       company_id: Yup.string().required(
@@ -219,11 +218,16 @@ const CenterFilterModal = (props) => {
                                         setFieldValue("company_id", "");
                                         setFieldValue("site_id", "");
 
+
+
                                         const selectedClient =
                                           AddSiteData.data.find(
                                             (client) =>
                                               client.id === selectedType
                                           );
+
+
+                                        setSelectedClientFullData(selectedClient)
 
                                         if (selectedClient) {
                                           setSelectedCompanyList(
@@ -300,6 +304,10 @@ const CenterFilterModal = (props) => {
                                           company.id ===
                                           selectedCompany
                                       );
+
+                                    setSelectedCompanyFullData(selectedCompanyData)
+
+
                                     if (selectedCompanyData) {
                                       setSelectedSiteList(
                                         selectedCompanyData.sites
@@ -369,6 +377,7 @@ const CenterFilterModal = (props) => {
                                         (site) =>
                                           site.id === selectedSite
                                       );
+                                    setSelectedSiteFullData(selectedSiteData)
                                     if (selectedSiteData) {
                                       setFieldValue(
                                         "site_name",
