@@ -95,7 +95,7 @@ const ManageSiteTank = (props) => {
   const handleSubmit1 = async (values) => {
     try {
       const response = await getData(
-        `/site/fuel-price/logs?site_id=${values.site_id}&drs_date=${values.start_date}`
+        `/site/fuel-price/logs?site_id=${values.site_id}?drs_date=${values.start_date}?page=${currentPage}`
       );
 
       if (response && response.data && response.data.data) {
@@ -305,7 +305,7 @@ const ManageSiteTank = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title"> Fuel-price-logs</h1>
+            <h1 className="page-title"> Fuel price logs</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -318,7 +318,7 @@ const ManageSiteTank = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Fuel-price-logs
+                Fuel price logs
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -548,7 +548,7 @@ const ManageSiteTank = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Fuel-price-logs </h3>
+                <h3 className="card-title">Fuel price logs </h3>
               </Card.Header>
               <Card.Body>
                 {data?.length > 0 ? (
