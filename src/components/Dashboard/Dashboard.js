@@ -58,12 +58,16 @@ const Dashboard = (props) => {
     setShouldNavigateToDetailsPage,
   } = useMyContext();
 
+
+
   let myLocalSearchData = localStorage.getItem("mySearchData") ? JSON.parse(localStorage.getItem("mySearchData")) : "";
 
   const superiorRole = localStorage.getItem("superiorRole");
   const role = localStorage.getItem("role");
   const handleFetchSiteData = async () => {
     try {
+
+      const clientId = localStorage.getItem("superiorId");
       const superiorRole = localStorage.getItem("superiorRole");
       const role = localStorage.getItem("role");
       const companyId = localStorage.getItem("PresetCompanyID");
@@ -71,11 +75,11 @@ const Dashboard = (props) => {
       if (superiorRole === "Administrator") {
         url = "/dashboard/stats";
       } else if (superiorRole === "Client" && role === "Client") {
-        url = myLocalSearchData ? `/dashboard/stats?client_id=${ClientID}&company_id=${myLocalSearchData?.company_id}&site_id=${myLocalSearchData?.site_id}` : `/dashboard/stats?client_id=${ClientID}`;
+        url = `/dashboard/stats?client_id=${clientId}`;
       } else if (superiorRole === "Client" && role === "Operator") {
         url = "/dashboard/stats";
       } else if (superiorRole === "Client" && role !== "Client") {
-        url = `dashboard/stats?client_id=${ClientID}&company_id=${companyId}`;
+        url = `dashboard/stats?client_id=${clientId}&company_id=${companyId}`;
       }
       const response = await getData(url);
       const { data } = response;
@@ -184,6 +188,12 @@ const Dashboard = (props) => {
 
   const handleFormSubmit = async (values) => {
     setSearchdata(values);
+
+    const clientId =
+      (values.client_id !== undefined && values.client_id !== "")
+        ? values.client_id
+        : localStorage.getItem("superiorId");
+
     if (values.site_id) {
       // If site_id is present, set site_name to its value
       values.site_name = values.site_name || "";
@@ -201,16 +211,18 @@ const Dashboard = (props) => {
 
     // Now you can store the updated 'values' object in localStorage
     localStorage.setItem("mySearchData", JSON.stringify(values));
+
     const companyId =
       values.company_id !== undefined
         ? values.company_id
         : localStorage.getItem("PresetCompanyID");
-
     try {
       const response = await getData(
         localStorage.getItem("superiorRole") !== "Client"
-          ? `dashboard/stats?client_id=${values.client_id}&company_id=${companyId}&site_id=${values.site_id}`
-          : `dashboard/stats?client_id=${ClientID}&company_id=${companyId}&site_id=${values.site_id}`
+          ?
+          `dashboard/stats?client_id=${clientId}&company_id=${companyId}&site_id=${values.site_id}`
+          :
+          `dashboard/stats?client_id=${clientId}&company_id=${companyId}&site_id=${values.site_id}`
       );
 
       const { data } = response;
@@ -340,13 +352,22 @@ const Dashboard = (props) => {
   }, [token]);
 
   useEffect(() => {
-    if (Object.keys(searchdata).length === 0) {
-      localStorage.removeItem("mySearchData");
-    }
     if (isStatusPermissionAvailable && superiorRole !== "Administrator") {
-      handleFetchSiteData();
+
+      if (!myLocalSearchData) {
+        handleFetchSiteData();
+      }
     }
   }, [permissionsArray]);
+
+  useEffect(() => {
+    if (myLocalSearchData) {
+      handleFormSubmit(myLocalSearchData)
+    }
+  }, [])
+
+
+
 
   const isProfileUpdatePermissionAvailable = permissionsArray?.includes(
     "profile-update-profile"
