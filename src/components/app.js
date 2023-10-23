@@ -62,10 +62,11 @@ const App = (props) => {
   };
 
   useEffect(() => {
+    console.log(logoutTime, "auto_logoutGetDetailslogoutTimecolumnIndex");
     window.addEventListener("mousemove", handleUserActivity);
     window.addEventListener("keydown", handleUserActivity);
     window.addEventListener("scroll", handleUserActivity);
-
+    console.log(logoutTime, "logoutTime");
     inactivityTimeout = setTimeout(() => setIsInactive(true), logoutTime);
 
     return () => {
@@ -75,7 +76,6 @@ const App = (props) => {
       clearTimeout(inactivityTimeout);
     };
   }, []);
-
 
   const handleConfirm = () => {
     logout();
@@ -107,7 +107,7 @@ const App = (props) => {
       });
     }
     // console.clear();
-  }, [isInactive, handleConfirm, handleCancel]);
+  }, [isInactive]);
   return (
     <MyProvider>
       <Fragment>

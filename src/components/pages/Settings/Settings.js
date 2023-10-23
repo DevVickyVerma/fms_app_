@@ -18,27 +18,6 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
-const initialValues = {
-  host: "",
-  username: "",
-  password: "",
-  port: "",
-  from_email: "",
-  from_name: "",
-};
-
-const validationSchema = Yup.object().shape({
-  host: Yup.string().required("Smtp Url is required"),
-  password: Yup.string()
-    .required(" Password is required")
-    .min(4, "Password must be at least 4 characters long"),
-  username: Yup.string().required("User Name is required"),
-  port: Yup.string().required(" Port  is required"),
-  from_email: Yup.string()
-    .required("From Email is required")
-    .email("Invalid email format"),
-  from_name: Yup.string().required(" From name  is required"),
-});
 
 export default function Settings() {
   const [userDetails, setUserDetails] = useState([]);
@@ -74,7 +53,19 @@ export default function Settings() {
       Authorization: `Bearer ${token}`,
     },
   });
-
+  const GetDetails = async () => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.get(`/detail`);
+      if (response) {
+        console.log(response?.data?.data?.auto_logout, "auto_logoutGetDetails");
+        localStorage.setItem("auto_logout", response?.data?.data?.auto_logout);
+      }
+    } catch (error) {
+      handleError(error);
+      setLoading(false);
+    }
+  };
   const configsetting = async () => {
     setLoading(true);
     try {
@@ -82,8 +73,7 @@ export default function Settings() {
       const { data } = response;
       if (data) {
         formik2.setValues(data?.data); // Set field values for formik2
-
-        localStorage.setItem("auto_logout", data?.data?.auto_logout);
+        GetDetails();
         setLoading(false);
       }
     } catch (error) {
@@ -92,8 +82,6 @@ export default function Settings() {
     }
     setLoading(false);
   };
-
-
 
   const initialValues2 = {
     date_format: "",
@@ -202,11 +190,12 @@ export default function Settings() {
                             Date Format<span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik2.errors.date_format &&
+                            className={`input101 ${
+                              formik2.errors.date_format &&
                               formik2.touched.date_format
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="date_format"
                             name="date_format"
                             onChange={formik2.handleChange}
@@ -236,11 +225,12 @@ export default function Settings() {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${formik2.errors.pagination &&
+                            className={`input101 ${
+                              formik2.errors.pagination &&
                               formik2.touched.pagination
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="pagination"
                             name="pagination"
                             placeholder="Pagination"
@@ -266,11 +256,12 @@ export default function Settings() {
                           <select
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${formik2.errors.auto_logout &&
+                            className={`input101 ${
+                              formik2.errors.auto_logout &&
                               formik2.touched.auto_logout
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="auto_logout"
                             name="auto_logout"
                             placeholder="auto_logout"
@@ -279,6 +270,7 @@ export default function Settings() {
                           >
                             <option value="">Select a Auto Logout Time</option>
 
+                            <option value="1">1</option>
                             <option value="5">5</option>
                             <option value="10">10</option>
                             <option value="15">15</option>

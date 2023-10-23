@@ -28,10 +28,11 @@ export default function EditProfile() {
   const [UserPermissionstwo_factor, setUserPermissionstwo_factor] =
     useState(false);
   const [capsLockActive, setCapsLockActive] = useState(false);
-  const [passwordVisibleForCurrent, setPasswordVisibleForCurrent] = useState(true);
+  const [passwordVisibleForCurrent, setPasswordVisibleForCurrent] =
+    useState(true);
   const [passwordVisibleForNew, setPasswordVisibleForNew] = useState(true);
-  const [passwordVisibleForConfirm, setPasswordVisibleForConfirm] = useState(true);
-
+  const [passwordVisibleForConfirm, setPasswordVisibleForConfirm] =
+    useState(true);
 
   const [factordata, setfactordata] = useState();
 
@@ -74,22 +75,7 @@ export default function EditProfile() {
     old_password: Yup.string().required("Current Password is required"),
     password: Yup.string()
       .required("New Password is required")
-      // .matches(
-      //   /[A-Z]/,
-      //   "Password must contain at least one uppercase letter"
-      // )
-      // .matches(
-      //   /[a-z]/,
-      //   "Password must contain at least one lowercase letter"
-      // )
-      // .matches(
-      //   /\d/,
-      //   "Password must contain at least one number"
-      // )
-      // .matches(
-      //   /[@$!%*?&>^<]/,
-      //   "Password must contain at least one special character"
-      // )
+
       .min(5, "Password must be at least 5 characters long"),
     password_confirmation: Yup.string()
       .oneOf([Yup.ref("password"), null], "Passwords must match")
@@ -168,8 +154,6 @@ export default function EditProfile() {
     const formData = new FormData();
     formData.append("first_name", values.first_name);
     formData.append("last_name", values.last_name);
-    // formData.append("role", values.role);
-    // formData.append("phone_number", values.phone_number);
 
     const response = await fetch(
       `${process.env.REACT_APP_BASE_URL}/update-profile`,
@@ -221,7 +205,7 @@ export default function EditProfile() {
       Authorization: `Bearer ${token}`,
     },
   });
-  const userPermissions = useSelector((state) => state?.data?.data);
+
   const Active2FA = async () => {
     setLoading(true);
     try {
@@ -406,15 +390,22 @@ export default function EditProfile() {
                           </label>
 
                           <div>
-                            <div className="wrap-input100 validate-input"
-                              style={{ display: "flex" }}>
+                            <div
+                              className="wrap-input100 validate-input"
+                              style={{ display: "flex" }}
+                            >
                               <Field
                                 // type="password"
-                                type={passwordVisibleForCurrent ? "password" : "text"}
-                                className={` input101 ${errors.old_password && touched.old_password
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                type={
+                                  passwordVisibleForCurrent
+                                    ? "password"
+                                    : "text"
+                                }
+                                className={` input101 ${
+                                  errors.old_password && touched.old_password
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 name="old_password"
                                 placeholder=" Current Password"
                               />
@@ -438,7 +429,6 @@ export default function EditProfile() {
                               ) : (
                                 ""
                               )}
-
 
                               {!capsLockActive ? (
                                 <>
@@ -490,16 +480,20 @@ export default function EditProfile() {
                             <span className="text-danger">*</span>
                           </label>
                           <div>
-                            <div className="wrap-input100 validate-input"
+                            <div
+                              className="wrap-input100 validate-input"
                               style={{ display: "flex" }}
                             >
                               <Field
                                 // type="password"
-                                type={passwordVisibleForNew ? "password" : "text"}
-                                className={`input101  ${errors.password && touched.password
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                type={
+                                  passwordVisibleForNew ? "password" : "text"
+                                }
+                                className={`input101  ${
+                                  errors.password && touched.password
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 name="password"
                                 placeholder=" New Password"
                               />
@@ -523,7 +517,6 @@ export default function EditProfile() {
                               ) : (
                                 ""
                               )}
-
 
                               {!capsLockActive ? (
                                 <>
@@ -552,9 +545,6 @@ export default function EditProfile() {
                               ) : (
                                 ""
                               )}
-
-
-
                             </div>
                             <div
                               style={{ color: "#f82649", marginTop: "0.25rem" }}
@@ -574,23 +564,27 @@ export default function EditProfile() {
                           </Form.Label>
 
                           <div>
-                            <div className="wrap-input100 validate-input"
-                              style={{ display: "flex" }}>
+                            <div
+                              className="wrap-input100 validate-input"
+                              style={{ display: "flex" }}
+                            >
                               <Field
                                 // type="password"
-                                type={passwordVisibleForConfirm ? "password" : "text"}
-                                className={`input101 ${errors.password_confirmation &&
+                                type={
+                                  passwordVisibleForConfirm
+                                    ? "password"
+                                    : "text"
+                                }
+                                className={`input101 ${
+                                  errors.password_confirmation &&
                                   touched.password_confirmation
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 onKeyPress={handleKeyPress}
                                 name="password_confirmation"
                                 placeholder="Confirm Password"
-
-
                               />
-
 
                               {capsLockActive ? (
                                 <>
@@ -612,7 +606,6 @@ export default function EditProfile() {
                               ) : (
                                 ""
                               )}
-
 
                               {!capsLockActive ? (
                                 <>
@@ -641,8 +634,6 @@ export default function EditProfile() {
                               ) : (
                                 ""
                               )}
-
-
                             </div>
                             <div
                               style={{ color: "#f82649", marginTop: "0.25rem" }}
@@ -692,11 +683,12 @@ export default function EditProfile() {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.first_name &&
+                            className={`input101 ${
+                              formik.errors.first_name &&
                               formik.touched.first_name
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="first_name"
                             name="first_name"
                             onChange={formik.handleChange}
@@ -723,11 +715,12 @@ export default function EditProfile() {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${formik.errors.last_name &&
+                            className={`input101 ${
+                              formik.errors.last_name &&
                               formik.touched.last_name
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="last_name"
                             name="last_name"
                             placeholder="Last Name"
