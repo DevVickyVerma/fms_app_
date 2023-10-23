@@ -404,8 +404,6 @@ const FuelInventry = (props) => {
               type="number"
               className="table-input readonly total-input"
               value={row.fuel_price}
-              // value={myFuelPriceValue ? myFuelPriceValue : row.fuel_price}
-              // value={myFuelPriceValue == 0.00 ? row.fuel_price : myFuelPriceValue}
               readOnly
             />
           </div>
@@ -416,11 +414,13 @@ const FuelInventry = (props) => {
               id={`fuel_price-${index}`}
               name={`data[${index}].fuel_price`}
               step="0.010"
-              className={
-                editable?.is_price_editable
-                  ? "table-input"
-                  : "table-input readonly"
-              }
+              className={`table-input ${
+                row?.fuel_price_status === "UP"
+                  ? "table-inputGreen"
+                  : row?.fuel_price_status === "DOWN"
+                  ? "table-inputRed"
+                  : ""
+              } ${!editable?.is_price_editable ? "readonly" : ""}`}
               value={formik.values.data[index]?.fuel_price}
               onChange={formik.handleChange}
               onBlur={(e) => {
@@ -941,7 +941,7 @@ const FuelInventry = (props) => {
                           <h3 className="card-title">Combined Variance</h3>
                         </Card.Header>
                         <Card.Body>
-                          <Col lg={12} md={12}>
+                          <Col lg={12} md={12} style={{ overflow: "hidden" }}>
                             {CombinedVarianceData?.length > 0 ? (
                               <>
                                 <DataTable

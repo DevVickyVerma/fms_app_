@@ -674,7 +674,11 @@ const DepartmentShop = (props) => {
                       </Col>
 
                       <Col lg={2} md={2}>
-                        <Form.Label>ACTION</Form.Label>
+                        {editable?.is_editable ? (
+                          <Form.Label>ACTION</Form.Label>
+                        ) : (
+                          ""
+                        )}
                         {editable?.is_editable ? (
                           <div className="bunkered-action">
                             <button
@@ -874,7 +878,11 @@ const DepartmentShop = (props) => {
                       </Col>
 
                       <Col lg={2} md={2}>
-                        <Form.Label>ACTION</Form.Label>
+                        {editable?.is_editable ? (
+                          <Form.Label>ACTION</Form.Label>
+                        ) : (
+                          ""
+                        )}
                         {editable?.is_editable ? (
                           <div className="bunkered-action">
                             <button
@@ -1085,7 +1093,11 @@ const DepartmentShop = (props) => {
                       </Col>
                       <Col lg={2} md={2}>
                         <>
-                          <Form.Label>ACTION</Form.Label>
+                          {editable?.is_editable ? (
+                            <Form.Label>ACTION</Form.Label>
+                          ) : (
+                            ""
+                          )}
                           {editable?.is_editable ? (
                             <div className="bunkered-action">
                               <button
