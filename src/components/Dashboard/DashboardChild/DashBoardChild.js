@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Breadcrumb, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import DashboardChildTable from "./DashboardChildTable";
@@ -44,7 +44,16 @@ const DashBoardChild = (props) => {
     setSidebarVisible1(!sidebarVisible1);
     setCenterFilterModalOpen(!centerFilterModalOpen);
   };
-  ;
+
+
+  let myLocalSearchData = localStorage.getItem("mySearchData") ? JSON.parse(localStorage.getItem("mySearchData")) : "";
+
+
+  useEffect(() => {
+    if (myLocalSearchData) {
+      handleFormSubmit(myLocalSearchData)
+    }
+  }, [])
 
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -63,7 +72,15 @@ const DashBoardChild = (props) => {
   const superiorRole = localStorage.getItem("superiorRole");
 
   const role = localStorage.getItem("role");
+
+
+
   const handleFormSubmit = async (values) => {
+    const clientId =
+      (values.client_id !== undefined && values.client_id !== "")
+        ? values.client_id
+        : localStorage.getItem("superiorId");
+
     const companyId =
       values.company_id !== undefined
         ? values.company_id
@@ -72,8 +89,8 @@ const DashBoardChild = (props) => {
     try {
       const response = await getData(
         localStorage.getItem("superiorRole") !== "Client"
-          ? `dashboard/stats?client_id=${values.client_id}&company_id=${companyId}&site_id=${values.site_id}`
-          : `dashboard/stats?client_id=${ClientID}&company_id=${companyId}&site_id=${values.site_id}`
+          ? `dashboard/stats?client_id=${clientId}&company_id=${companyId}&site_id=${values.site_id}`
+          : `dashboard/stats?client_id=${clientId}&company_id=${companyId}&site_id=${values.site_id}`
       );
 
       const { data } = response;

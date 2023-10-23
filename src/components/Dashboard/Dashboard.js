@@ -58,11 +58,16 @@ const Dashboard = (props) => {
     setShouldNavigateToDetailsPage,
   } = useMyContext();
 
-  const superiorRole = localStorage.getItem("superiorRole");
 
+
+  let myLocalSearchData = localStorage.getItem("mySearchData") ? JSON.parse(localStorage.getItem("mySearchData")) : "";
+
+  const superiorRole = localStorage.getItem("superiorRole");
   const role = localStorage.getItem("role");
   const handleFetchSiteData = async () => {
     try {
+
+      const clientId = localStorage.getItem("superiorId");
       const superiorRole = localStorage.getItem("superiorRole");
       const role = localStorage.getItem("role");
       const companyId = localStorage.getItem("PresetCompanyID");
@@ -70,11 +75,11 @@ const Dashboard = (props) => {
       if (superiorRole === "Administrator") {
         url = "/dashboard/stats";
       } else if (superiorRole === "Client" && role === "Client") {
-        url = `/dashboard/stats?client_id=${ClientID}`;
+        url = `/dashboard/stats?client_id=${clientId}`;
       } else if (superiorRole === "Client" && role === "Operator") {
         url = "/dashboard/stats";
       } else if (superiorRole === "Client" && role !== "Client") {
-        url = `dashboard/stats?client_id=${ClientID}&company_id=${companyId}`;
+        url = `dashboard/stats?client_id=${clientId}&company_id=${companyId}`;
       }
       const response = await getData(url);
       const { data } = response;
@@ -183,6 +188,12 @@ const Dashboard = (props) => {
 
   const handleFormSubmit = async (values) => {
     setSearchdata(values);
+
+    const clientId =
+      (values.client_id !== undefined && values.client_id !== "")
+        ? values.client_id
+        : localStorage.getItem("superiorId");
+
     if (values.site_id) {
       // If site_id is present, set site_name to its value
       values.site_name = values.site_name || "";
@@ -200,16 +211,18 @@ const Dashboard = (props) => {
 
     // Now you can store the updated 'values' object in localStorage
     localStorage.setItem("mySearchData", JSON.stringify(values));
+
     const companyId =
       values.company_id !== undefined
         ? values.company_id
         : localStorage.getItem("PresetCompanyID");
-
     try {
       const response = await getData(
         localStorage.getItem("superiorRole") !== "Client"
-          ? `dashboard/stats?client_id=${values.client_id}&company_id=${companyId}&site_id=${values.site_id}`
-          : `dashboard/stats?client_id=${ClientID}&company_id=${companyId}&site_id=${values.site_id}`
+          ?
+          `dashboard/stats?client_id=${clientId}&company_id=${companyId}&site_id=${values.site_id}`
+          :
+          `dashboard/stats?client_id=${clientId}&company_id=${companyId}&site_id=${values.site_id}`
       );
 
       const { data } = response;
@@ -229,7 +242,6 @@ const Dashboard = (props) => {
         setGrossProfitValue(data?.data?.gross_profit);
         setFuelValue(data?.data?.fuel_sales);
         setshopsale(data?.data?.shop_sales);
-
         setshopmargin(data?.data?.shop_profit);
 
         const savedDataOfDashboard = {
@@ -260,11 +272,15 @@ const Dashboard = (props) => {
     }
   };
 
-  const [isLoadingState, setIsLoading] = useState(false);
-  const ResetForm = () => {
-    setIsLoading(true);
 
+  const [isLoadingState, setIsLoading] = useState(false);
+  const ResetForm = async () => {
+    myLocalSearchData = "";
+    setIsLoading(true);
     setSearchdata({});
+    setTimeout(() => {
+    }, 1000);
+
     localStorage.removeItem("savedDataOfDashboard");
     localStorage.removeItem("mySearchData");
 
@@ -336,13 +352,22 @@ const Dashboard = (props) => {
   }, [token]);
 
   useEffect(() => {
-    if (Object.keys(searchdata).length === 0) {
-      localStorage.removeItem("mySearchData");
-    }
     if (isStatusPermissionAvailable && superiorRole !== "Administrator") {
-      handleFetchSiteData();
+
+      if (!myLocalSearchData) {
+        handleFetchSiteData();
+      }
     }
   }, [permissionsArray]);
+
+  useEffect(() => {
+    if (myLocalSearchData) {
+      handleFormSubmit(myLocalSearchData)
+    }
+  }, [])
+
+
+
 
   const isProfileUpdatePermissionAvailable = permissionsArray?.includes(
     "profile-update-profile"
@@ -371,7 +396,7 @@ const Dashboard = (props) => {
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-          localStorage.getItem("role") === "Operator" ? (
+            localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -458,7 +483,7 @@ const Dashboard = (props) => {
                   </Box>
                 </>
                 {localStorage.getItem("superiorRole") === "Administrator" &&
-                Object.keys(searchdata).length === 0 ? (
+                  Object.keys(searchdata).length === 0 ? (
                   <div
                     style={{
                       textAlign: "left",
@@ -589,8 +614,8 @@ const Dashboard = (props) => {
         />
 
         {isProfileUpdatePermissionAvailable &&
-        !isTwoFactorPermissionAvailable &&
-        ShowAuth ? (
+          !isTwoFactorPermissionAvailable &&
+          ShowAuth ? (
           <>
             <CenterAuthModal title="Auth Modal" />
           </>
