@@ -14,7 +14,7 @@ import Loaderimg from "../../Utils/Loader";
 import withApi from "../../Utils/ApiHelper";
 
 const Notification = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData } = props;
 
   const [data, setData] = useState([]);
   const [expandedRows, setExpandedRows] = useState([]);

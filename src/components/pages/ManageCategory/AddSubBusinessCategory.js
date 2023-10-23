@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
-
 import {
   Col,
   Row,
   Card,
   Form,
   FormGroup,
-  FormControl,
-  ListGroup,
   Breadcrumb,
 } from "react-bootstrap";
 
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
@@ -22,7 +18,7 @@ import { useSelector } from "react-redux";
 import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const AddSubBusinessCategory = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, postData } = props;
 
   const navigate = useNavigate();
   const [AddSiteData, setAddSiteData] = useState([]);
@@ -102,9 +98,6 @@ const AddSubBusinessCategory = (props) => {
       try {
         const response = await axiosInstance.get("business/category");
         setAddSiteData(response.data);
-        // if (response.data) {
-        //   setAddSiteData(response.data.data);
-        // }
       } catch (error) {
         handleError(error);
       }
@@ -114,7 +107,6 @@ const AddSubBusinessCategory = (props) => {
     } catch (error) {
       handleError(error);
     }
-    // console.clear()
     console.clear();
   }, []);
   return (

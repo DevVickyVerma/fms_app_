@@ -173,7 +173,7 @@ const DashSubChild = ({
             boxShadow="0px 10px 10px -5px rgba(0,0,0,0.5)"
           >
             <Box display={"flex"} alignItems={"center"}>
-              <box>
+              <Box>
                 {" "}
                 {getSiteStats?.data?.site_image ? (
                   <img
@@ -184,7 +184,7 @@ const DashSubChild = ({
                 ) : (
                   <span class="Smallloader"></span>
                 )}
-              </box>
+              </Box>
               <Box>
                 <Typography
                   fontSize={"19px"}
