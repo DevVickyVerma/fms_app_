@@ -8,14 +8,16 @@ import * as Yup from "yup";
 import { Slide, toast } from "react-toastify";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
-
+import DataTable from "react-data-table-component";
+import DataTableExtensions from "react-data-table-component-extensions";
 const UploadCompetitor = (props) => {
   const { getData } = props;
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [CompetitorData, setCompetitorData] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
-
+  const [selectedCompanyId, setSelectedCompanyId] = useState("");
   const [selectedSiteList, setSelectedSiteList] = useState([]);
+  const [data, setData] = useState();
 
   const [isdataLoading, setIsLoading] = useState(false);
 
@@ -152,13 +154,56 @@ const UploadCompetitor = (props) => {
   const handleDrop = (event) => {
     event.preventDefault();
   };
+  const columns = [
+    {
+      name: "S.No",
+      selector: (row, index) => index + 1,
+      sortable: false,
+      width: "15%",
+      center: true,
+      cell: (row, index) => (
+        <span className="text-muted fs-15 fw-semibold text-center">
+          {index + 1}
+        </span>
+      ),
+    },
+    {
+      name: "Site Name",
+      selector: (row) => [row?.site_name],
+      sortable: false,
+      width: "85%",
+      cell: (row, index) => (
+        <Link
+          to={`/sitecompetitor/${row.id}`}
+          className="d-flex"
+          style={{ cursor: "pointer" }}
+        >
+          <div className="ms-2 mt-0 mt-sm-2 d-flex align-items-center">
+            <span>
+              <img
+                src={row?.supplierImage}
+                alt="supplierImage"
+                className="w-5 h-5 "
+              />
+            </span>
+            <h6 className="mb-0 fs-14 fw-semibold ms-2"> {row?.site_name}</h6>
+          </div>
+        </Link>
+      ),
+    },
+  ];
+
+  const tableDatas = {
+    columns,
+    data,
+  };
   return (
     <>
       {isdataLoading ? <Loaderimg /> : null}
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title">Upload Competitor Price</h1>
+            <h1 className="page-title">Nominal Activity Codes</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -167,18 +212,14 @@ const UploadCompetitor = (props) => {
               >
                 Dashboard
               </Breadcrumb.Item>
-              <Breadcrumb.Item
-                className="breadcrumb-item"
-                linkAs={Link}
-                linkProps={{ to: "/competitor" }}
-              >
-                Competitor
+              <Breadcrumb.Item className="breadcrumb-item">
+                Sage
               </Breadcrumb.Item>
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Upload Competitor Price
+                Nominal Activity Codes
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -189,7 +230,7 @@ const UploadCompetitor = (props) => {
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Header>
-                <Card.Title as="h3">Upload Competitor Price</Card.Title>
+                <Card.Title as="h3">Nominal Activity Codes</Card.Title>
               </Card.Header>
               {/* here my body will start */}
               <Card.Body>
@@ -256,6 +297,56 @@ const UploadCompetitor = (props) => {
                         </div>
                       </Col>
                     )}
+                    <Col lg={4} md={6}>
+                      <div className="form-group">
+                        <label htmlFor="company_id" className="form-label mt-4">
+                          Company
+                          <span className="text-danger">*</span>
+                        </label>
+                        <select
+                          className={`input101 ${
+                            formik.errors.company_id &&
+                            formik.touched.company_id
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          id="company_id"
+                          name="company_id"
+                          onChange={(e) => {
+                            const selectedCompany = e.target.value;
+
+                            formik.setFieldValue("company_id", selectedCompany);
+                            setSelectedCompanyId(selectedCompany);
+                            setSelectedSiteList([]);
+                            const selectedCompanyData =
+                              selectedCompanyList.find(
+                                (company) => company.id === selectedCompany
+                              );
+
+                            if (selectedCompanyData) {
+                              setSelectedSiteList(selectedCompanyData.sites);
+                            }
+                          }}
+                        >
+                          <option value="">Select a Company</option>
+                          {selectedCompanyList.length > 0 ? (
+                            selectedCompanyList.map((company) => (
+                              <option key={company.id} value={company.id}>
+                                {company.company_name}
+                              </option>
+                            ))
+                          ) : (
+                            <option disabled>No Company</option>
+                          )}
+                        </select>
+                        {formik.errors.company_id &&
+                          formik.touched.company_id && (
+                            <div className="invalid-feedback">
+                              {formik.errors.company_id}
+                            </div>
+                          )}
+                      </div>
+                    </Col>
                     <Col lg={4} md={4}>
                       <div className="form-group">
                         <label htmlFor="image" className="form-label mt-4">
@@ -293,12 +384,8 @@ const UploadCompetitor = (props) => {
                     </Col>
                   </Row>
                   <div className="text-end">
-                    <Link
-                      type="submit"
-                      className="btn btn-danger me-2 "
-                      to={`/competitor/`}
-                    >
-                      Cancel
+                    <Link type="submit" className="btn btn-danger me-2 ">
+                      Show Logs
                     </Link>
 
                     <button type="submit" className="btn btn-primary">
@@ -310,6 +397,40 @@ const UploadCompetitor = (props) => {
             </Card>
           </Col>
         </Row>
+        <Card>
+          <Card.Body>
+            {data?.length > 0 ? (
+              <>
+                <div className="table-responsive deleted-table">
+                  <DataTableExtensions {...tableDatas}>
+                    <DataTable
+                      columns={columns}
+                      data={data}
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      striped={true}
+                      persistTableHead
+                      pagination
+                      paginationPerPage={20}
+                      highlightOnHover
+                      searchable={true}
+                      //   onChangePage={(newPage) => setCurrentPage(newPage)}
+                    />
+                  </DataTableExtensions>
+                </div>
+              </>
+            ) : (
+              <>
+                <img
+                  src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                  alt="MyChartImage"
+                  className="all-center-flex nodata-image"
+                />
+              </>
+            )}
+          </Card.Body>
+        </Card>
       </>
     </>
   );

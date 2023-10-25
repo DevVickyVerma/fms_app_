@@ -112,6 +112,20 @@ const EditCharges = React.lazy(() =>
 
 // Charges End
 
+// Sage Start
+
+const NominalActivityCodes = React.lazy(() =>
+  import("./components/pages/Sage/NominalActivityCodes")
+);
+const NominalTypes = React.lazy(() =>
+  import("./components/pages/Sage/NominalTypes")
+);
+const NominalTaxCode = React.lazy(() =>
+  import("./components/pages/Sage/NominalTaxCode")
+);
+
+// Sage End
+
 // Shops Start
 
 const ManageShops = React.lazy(() =>
@@ -567,6 +581,9 @@ const Root = () => {
   const WrappedEditCompetitorFuelPrices = withApi(EditCompetitorFuelPrices);
   const WrappedSkipDates = withApi(SkipDates);
   const WrappedCronModule = withApi(CronModule);
+  const WrappedNominalActivityCodes = withApi(NominalActivityCodes);
+  const WrappedNominalTypes = withApi(NominalTypes);
+  const WrappedNominalTaxCode = withApi(NominalTaxCode);
 
   return (
     <Fragment>
@@ -1018,6 +1035,19 @@ const Root = () => {
                   <Route
                     path={`/cron-module`}
                     element={<WrappedCronModule />}
+                  />
+
+                  <Route
+                    path={`/nominal-activity-codes`}
+                    element={<WrappedNominalActivityCodes />}
+                  />
+                  <Route
+                    path={`/nominal-types`}
+                    element={<WrappedNominalTypes />}
+                  />
+                  <Route
+                    path={`/nominal-tax-code`}
+                    element={<WrappedNominalTaxCode />}
                   />
 
                   <Route>

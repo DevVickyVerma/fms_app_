@@ -133,6 +133,37 @@ export const MENUITEMS = [
         ],
       },
       {
+        title: "Manage Sage",
+        icon: "building",
+        type: "sub",
+        active: false,
+        permission: "company-list",
+        visibility: false,
+        children: [
+          {
+            path: `/nominal-activity-codes`,
+            title: "Nominal Activity Codes",
+            type: "link",
+            permission: "company-list",
+            visibility: false,
+          },
+          {
+            path: `/nominal-tax-code`,
+            title: "Nominal Tax Code",
+            type: "link",
+            permission: "company-create",
+            visibility: false,
+          },
+          {
+            path: `/nominal-types`,
+            title: "Nominal Types",
+            type: "link",
+            permission: "company-create",
+            visibility: false,
+          },
+        ],
+      },
+      {
         title: "Manage Sites",
         icon: "university",
         type: "sub",

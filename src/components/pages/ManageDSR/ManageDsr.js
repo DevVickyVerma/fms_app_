@@ -8,8 +8,6 @@ import {
   Breadcrumb,
   Card,
   Col,
-  Form,
-  FormGroup,
   OverlayTrigger,
   Row,
   Tooltip,
@@ -71,15 +69,9 @@ const ManageDsr = (props) => {
   const [SiteId, setSiteId] = useState();
   const [DRSDate, setDRSDate] = useState();
   const [showModal, setShowModal] = useState(false); // State variable to control modal visibility
-  // const [timeLeft, setTimeLeft] = useState(JSON.parse(
-  //   localStorage.getItem("timeLeft")
-  // ));
-  // const [isTimerRunning, setIsTimerRunning] = useState(JSON.parse(
-  //   localStorage.getItem("isTimerRunning")
-  // ));
 
-  const { timeLeft, setTimeLeft,
-    isTimerRunning, setIsTimerRunning } = useMyContext();
+  const { timeLeft, setTimeLeft, isTimerRunning, setIsTimerRunning } =
+    useMyContext();
   const [selectedItem, setSelectedItem] = useState(null);
   const dispatch = useDispatch();
   const storedToken = localStorage.getItem("token");
@@ -137,7 +129,9 @@ const ManageDsr = (props) => {
         setAddSiteData(response.data);
         const searchParams = new URLSearchParams(location?.search);
         // const encodedData = searchParams?.get("data");
-        const encodedData = JSON.parse(localStorage.getItem("dailyWorkFlowInput"));
+        const encodedData = JSON.parse(
+          localStorage.getItem("dailyWorkFlowInput")
+        );
         if (encodedData) {
           try {
             const decodedData = JSON.parse(decodeURIComponent(encodedData));
@@ -267,8 +261,6 @@ const ManageDsr = (props) => {
     }
   };
 
-
-
   const handleDelete = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -334,7 +326,7 @@ const ManageDsr = (props) => {
   };
 
   const GetDataWithClient = async (values) => {
-    localStorage.setItem("dailyWorkFlowInput", JSON.stringify(values))
+    localStorage.setItem("dailyWorkFlowInput", JSON.stringify(values));
     try {
       const formData = new FormData();
 
@@ -417,7 +409,6 @@ const ManageDsr = (props) => {
         start_date: DRSDate,
       };
 
-
       GetDataWithClient(current);
     }
 
@@ -472,7 +463,7 @@ const ManageDsr = (props) => {
     setSelectedSiteList([]);
     setSelectedCompanyList([]);
     setSelectedClientId("");
-    localStorage.removeItem("dailyWorkFlowInput")
+    localStorage.removeItem("dailyWorkFlowInput");
   };
 
   return (
@@ -517,11 +508,12 @@ const ManageDsr = (props) => {
                             Client <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.client_id &&
+                            className={`input101 ${
+                              formik.errors.client_id &&
                               formik.touched.client_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="client_id"
                             name="client_id"
                             onChange={(e) => {
@@ -570,11 +562,12 @@ const ManageDsr = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${formik.errors.company_id &&
+                          className={`input101 ${
+                            formik.errors.company_id &&
                             formik.touched.company_id
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="company_id"
                           name="company_id"
                           value={formik.values.company_id}
@@ -618,10 +611,11 @@ const ManageDsr = (props) => {
                         </label>
                         <select
                           as="select"
-                          className={`input101 ${formik.errors.site_id && formik.touched.site_id
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                          className={`input101 ${
+                            formik.errors.site_id && formik.touched.site_id
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="site_id"
                           name="site_id"
                           value={formik.values.site_id}
@@ -661,11 +655,12 @@ const ManageDsr = (props) => {
                           min={"2023-01-01"}
                           max={getCurrentDate()}
                           onClick={hadndleShowDate}
-                          className={`input101 ${formik.errors.start_date &&
+                          className={`input101 ${
+                            formik.errors.start_date &&
                             formik.touched.start_date
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           value={formik.values.start_date}
                           id="start_date"
                           name="start_date"
@@ -806,9 +801,9 @@ const ManageDsr = (props) => {
               <Card.Header className="d-flex justify-content-space-between">
                 <h3 className="card-title">Daily Workflow</h3>
                 {getDataBtn === true &&
-                  isAssignPermissionAvailable &&
-                  DataEnteryList &&
-                  DataEnteryList.length > 0 ? (
+                isAssignPermissionAvailable &&
+                DataEnteryList &&
+                DataEnteryList.length > 0 ? (
                   <>
                     <Link
                       onClick={handleButtonClick}
@@ -830,18 +825,20 @@ const ManageDsr = (props) => {
                     DataEnteryList.map((item) => (
                       <Col md={12} xl={3} key={item.id}>
                         <Card
-                          className={`text-white ${item.bgColor === "amber"
-                            ? "bg-card-amber"
-                            : item.bgColor === "green"
+                          className={`text-white ${
+                            item.bgColor === "amber"
+                              ? "bg-card-amber"
+                              : item.bgColor === "green"
                               ? "bg-card-green"
                               : item.bgColor === "red"
-                                ? "bg-card-red"
-                                : "bg-primary"
-                            }`}
+                              ? "bg-card-red"
+                              : "bg-primary"
+                          }`}
                         >
                           <Card.Body
-                            className={`card-Div ${selectedItem === item ? "dsr-selected" : ""
-                              }`}
+                            className={`card-Div ${
+                              selectedItem === item ? "dsr-selected" : ""
+                            }`}
                             onClick={() => handleEnteryClick(item)} // Pass item.name as an argument
                           >
                             <h4 className="card-title">{item.name}</h4>
