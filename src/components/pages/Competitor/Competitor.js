@@ -27,15 +27,16 @@ import { ErrorAlert } from "../../../Utils/ToastUtils";
 const Competitor = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [CompetitorData, setCompetitorData] = useState([]);
+  const [ClientList, setClientList] = useState([]);
+  const [CompanyList, setCompanyList] = useState([]);
+  const [SiteList, setSiteList] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
   const [selectedSiteId, setSelectedSiteId] = useState("");
-  const [AddSiteData, setAddSiteData] = useState([]);
+
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [SupplierData, setSupplierData] = useState({});
-  const [subbmittedData, setSubbmittedData] = useState();
-  const [mySelectedSiteId, setMySelectedSiteId] = useState("");
+
   const [CompetitorList, setCompetitorList] = useState();
   // const [storedDataInLocal, setStoredDataInLocal] = useState();
 
@@ -52,22 +53,10 @@ const Competitor = (props) => {
   const isAddPermissionAvailable =
     permissionsArray?.includes("competitor-create");
 
-  const isStatusPermissionAvailable =
-    permissionsArray?.includes("competitor-edit");
   const isDeletePermissionAvailable =
     permissionsArray?.includes("competitor-delete");
   const isEditPermissionAvailable =
     permissionsArray?.includes("competitor-edit");
-  const isLoginPermissionAvailable = permissionsArray?.includes(
-    "client-account-access"
-  );
-  const isAddonPermissionAvailable =
-    permissionsArray?.includes("addons-assign");
-
-  const isReportsPermissionAvailable =
-    permissionsArray?.includes("report-assign");
-  const isAssignPermissionAvailable =
-    permissionsArray?.includes("client-assign");
 
   const navigate = useNavigate();
 
@@ -85,11 +74,6 @@ const Competitor = (props) => {
       ErrorAlert(errorMessage);
     }
   }
-
-  const storedDataString = localStorage.getItem("competitorId");
-
-  // Parse the JSON string into an object
-  const storedDataInLocal = JSON.parse(storedDataString);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -149,16 +133,15 @@ const Competitor = (props) => {
 
   const fetchCommonListData = async () => {
     try {
-      const response = await getData("/client/commonlist");
+      const response = await getData("/common/client-list");
 
       const { data } = response;
       if (data) {
-        setCompetitorData(response.data);
+        setClientList(response.data);
 
         const clientId = localStorage.getItem("superiorId");
         if (clientId) {
           setSelectedClientId(clientId);
-
           setSelectedCompanyList([]);
 
           if (response?.data) {
@@ -169,7 +152,6 @@ const Competitor = (props) => {
               setSelectedCompanyList(selectedClient?.companies);
             }
           }
-          // }
         }
       }
     } catch (error) {
@@ -441,10 +423,43 @@ const Competitor = (props) => {
       ),
     },
   ];
+  const GetCompanyList = async (values) => {
+    try {
+      if (values) {
+        const response = await getData(
+          `common/company-list?client_id=${values}`
+        );
 
-  const tableDatas = {
-    columns,
-    CompetitorList,
+        if (response) {
+          console.log(response, "company");
+          setCompanyList(response?.data?.data);
+        } else {
+          throw new Error("No data available in the response");
+        }
+      } else {
+        console.error("No site_id found ");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+  const GetSiteList = async (values) => {
+    try {
+      if (values) {
+        const response = await getData(`common/site-list?company_id=${values}`);
+
+        if (response) {
+          console.log(response, "company");
+          setSiteList(response?.data?.data);
+        } else {
+          throw new Error("No data available in the response");
+        }
+      } else {
+        console.error("No site_id found ");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
   };
 
   return (
@@ -499,7 +514,6 @@ const Competitor = (props) => {
               <Card.Header>
                 <Card.Title as="h3">Manage Competitor</Card.Title>
               </Card.Header>
-              {/* here my body will start */}
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
                   <Row>
@@ -514,38 +528,25 @@ const Competitor = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.client_id &&
+                            className={`input101 ${
+                              formik.errors.client_id &&
                               formik.touched.client_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="client_id"
                             name="client_id"
                             value={formik.values.client_id}
                             onChange={(e) => {
                               const selectedType = e.target.value;
-
+                              GetCompanyList(selectedType);
                               formik.setFieldValue("client_id", selectedType);
                               setSelectedClientId(selectedType);
-
-                              // Reset the selected company and site
-                              setSelectedCompanyList([]);
-                              setSelectedSiteList([]);
-                              const selectedClient = CompetitorData.data.find(
-                                (client) => client.id === selectedType
-                              );
-
-                              if (selectedClient) {
-                                setSelectedCompanyList(
-                                  selectedClient.companies
-                                );
-                              }
                             }}
                           >
                             <option value="">Select a Client</option>
-                            {CompetitorData.data &&
-                              CompetitorData.data.length > 0 ? (
-                              CompetitorData.data.map((item) => (
+                            {ClientList.data && ClientList.data.length > 0 ? (
+                              ClientList.data.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.client_name}
                                 </option>
@@ -572,33 +573,25 @@ const Competitor = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${formik.errors.company_id &&
+                          className={`input101 ${
+                            formik.errors.company_id &&
                             formik.touched.company_id
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="company_id"
                           name="company_id"
                           value={formik.values.company_id}
                           onChange={(e) => {
-                            const selectedCompany = e.target.value;
-
-                            formik.setFieldValue("company_id", selectedCompany);
-                            setSelectedCompanyId(selectedCompany);
-                            setSelectedSiteList([]);
-                            const selectedCompanyData =
-                              selectedCompanyList.find(
-                                (company) => company.id === selectedCompany
-                              );
-
-                            if (selectedCompanyData) {
-                              setSelectedSiteList(selectedCompanyData.sites);
-                            }
+                            const selectcompany = e.target.value;
+                            GetSiteList(selectcompany);
+                            formik.setFieldValue("company_id", selectcompany);
+                            setSelectedCompanyId(selectcompany);
                           }}
                         >
                           <option value="">Select a Company</option>
-                          {selectedCompanyList.length > 0 ? (
-                            selectedCompanyList.map((company) => (
+                          {CompanyList.length > 0 ? (
+                            CompanyList.map((company) => (
                               <option key={company.id} value={company.id}>
                                 {company.company_name}
                               </option>
@@ -623,10 +616,11 @@ const Competitor = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${formik.errors.site_id && formik.touched.site_id
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                          className={`input101 ${
+                            formik.errors.site_id && formik.touched.site_id
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="site_id"
                           name="site_id"
                           value={formik.values.site_id}
@@ -641,8 +635,8 @@ const Competitor = (props) => {
                           }}
                         >
                           <option value="">Select a Site</option>
-                          {selectedSiteList.length > 0 ? (
-                            selectedSiteList.map((site) => (
+                          {SiteList.length > 0 ? (
+                            SiteList.map((site) => (
                               <option key={site.id} value={site.id}>
                                 {site.site_name}
                               </option>
