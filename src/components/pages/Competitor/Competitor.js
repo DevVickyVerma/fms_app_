@@ -539,9 +539,24 @@ const Competitor = (props) => {
                             value={formik.values.client_id}
                             onChange={(e) => {
                               const selectedType = e.target.value;
-                              GetCompanyList(selectedType);
-                              formik.setFieldValue("client_id", selectedType);
-                              setSelectedClientId(selectedType);
+                              console.log(selectedType, "selectedType");
+
+                              if (selectedType) {
+                                GetCompanyList(selectedType);
+                                formik.setFieldValue("client_id", selectedType);
+                                setSelectedClientId(selectedType);
+                                setSiteList([]);
+                              } else {
+                                console.log(
+                                  selectedType,
+                                  "selectedType no values"
+                                );
+                                formik.setFieldValue("client_id", "");
+                                formik.setFieldValue("site_id", "");
+
+                                setSiteList([]);
+                                setCompanyList([]);
+                              }
                             }}
                           >
                             <option value="">Select a Client</option>
@@ -584,18 +599,29 @@ const Competitor = (props) => {
                           value={formik.values.company_id}
                           onChange={(e) => {
                             const selectcompany = e.target.value;
-                            GetSiteList(selectcompany);
-                            formik.setFieldValue("company_id", selectcompany);
-                            setSelectedCompanyId(selectcompany);
+
+                            if (selectcompany) {
+                              GetSiteList(selectcompany);
+                              formik.setFieldValue("company_id", selectcompany);
+                              setSelectedCompanyId(selectcompany);
+                            } else {
+                              formik.setFieldValue("company_id", "");
+                              formik.setFieldValue("site_id", "");
+
+                              setSiteList([]);
+                            }
                           }}
                         >
                           <option value="">Select a Company</option>
-                          {CompanyList.length > 0 ? (
-                            CompanyList.map((company) => (
-                              <option key={company.id} value={company.id}>
-                                {company.company_name}
-                              </option>
-                            ))
+                          {selectedClientId && CompanyList.length > 0 ? (
+                            <>
+                              setSelectedCompanyId([])
+                              {CompanyList.map((company) => (
+                                <option key={company.id} value={company.id}>
+                                  {company.company_name}
+                                </option>
+                              ))}
+                            </>
                           ) : (
                             <option disabled>No Company</option>
                           )}
@@ -629,13 +655,10 @@ const Competitor = (props) => {
 
                             formik.setFieldValue("site_id", selectedsite_id);
                             setSelectedSiteId(selectedsite_id);
-                            const selectedSiteData = selectedSiteList.find(
-                              (site) => site.id === selectedsite_id
-                            );
                           }}
                         >
                           <option value="">Select a Site</option>
-                          {SiteList.length > 0 ? (
+                          {CompanyList && SiteList.length > 0 ? (
                             SiteList.map((site) => (
                               <option key={site.id} value={site.id}>
                                 {site.site_name}
