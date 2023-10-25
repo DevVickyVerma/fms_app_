@@ -380,11 +380,14 @@ const ManageSite = (props) => {
                 >
                   Actions
                 </Dropdown.Toggle>
-                <Dropdown.Menu className="dropdown-menu">
+                <Dropdown.Menu className="dropdown-menu" style={{ margin: "0px !important", padding: "0px !important" }}>
                   {issitesettingPermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
+                    <Dropdown.Item
+                      //  className="dropdown-item"
+                      className=" p-0 m-0"
+                    >
                       <Link to={`/site-setting/${row.id}`}>
-                        <div style={{ width: "100%" }}>
+                        <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
                           <i className="setting-icon">
                             <SettingsIcon />
                           </i>
@@ -394,9 +397,12 @@ const ManageSite = (props) => {
                     </Dropdown.Item>
                   ) : null}
                   {isManagerPermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
+                    <Dropdown.Item
+                      className=" p-0 m-0"
+                    // className="dropdown-item"
+                    >
                       <Link to={`/assignmanger/${row.id}`}>
-                        <div style={{ width: "100%" }}>
+                        <div className="manage-site-dropdown-item" style={{ width: "100%" }} >
                           <i className="setting-icon">
                             <AssignmentTurnedInIcon />
                           </i>
@@ -406,9 +412,12 @@ const ManageSite = (props) => {
                     </Dropdown.Item>
                   ) : null}
                   {isSkipDatePermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
+                    <Dropdown.Item
+                      className=" p-0 m-0"
+                    // className="dropdown-item"
+                    >
                       <Link to={`/skipdates/${row.id}`}>
-                        <div style={{ width: "100%" }}>
+                        <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
                           <i className="setting-icon">
                             <DateRangeIcon />
                           </i>
@@ -418,9 +427,11 @@ const ManageSite = (props) => {
                     </Dropdown.Item>
                   ) : null}
                   {isBankManagerPermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
+                    <Dropdown.Item className=" p-0 m-0"
+                    //  className="dropdown-item"
+                    >
                       <Link to={`/managebank/${row.id}`}>
-                        <div style={{ width: "100%" }}>
+                        <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
                           <i className="setting-icon">
                             <AccountBalanceIcon />
                           </i>
@@ -430,9 +441,12 @@ const ManageSite = (props) => {
                     </Dropdown.Item>
                   ) : null}
                   {isEditPermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
+                    <Dropdown.Item
+                      className=" p-0 m-0"
+                    // className="dropdown-item"
+                    >
                       <Link to={`/editsite/${row.id}`}>
-                        <div style={{ width: "100%" }}>
+                        <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
                           <i className="setting-icon">
                             <ModeEditIcon />
                           </i>
@@ -443,9 +457,12 @@ const ManageSite = (props) => {
                   ) : null}
 
                   {isDeletePermissionAvailable ? (
-                    <Dropdown.Item className="dropdown-item">
+                    <Dropdown.Item
+                      className=" p-0 m-0"
+                    // className="dropdown-item"
+                    >
                       <Link to="#" onClick={() => handleDelete(row.id)}>
-                        <div style={{ width: "100%" }}>
+                        <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
                           <i className="setting-icon">
                             <DeleteIcon />
                           </i>

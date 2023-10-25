@@ -37,18 +37,14 @@ import Summary from "../DRSComponents/Summary";
 import BunkeredSales from "../DRSComponents/BunkeredSales";
 import { Slide, toast } from "react-toastify";
 import Swal from "sweetalert2";
-import axios from "axios";
 import { fetchData } from "../../../Redux/dataSlice";
+import { useMyContext } from "../../../Utils/MyContext";
 
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   // const receivedData = props?.location?.state;
   const location = useLocation();
   const navigate = useNavigate();
-
-  // useEffect(() => {
-
-  // }, [navigate, location]);
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
@@ -75,8 +71,15 @@ const ManageDsr = (props) => {
   const [SiteId, setSiteId] = useState();
   const [DRSDate, setDRSDate] = useState();
   const [showModal, setShowModal] = useState(false); // State variable to control modal visibility
-  const [timeLeft, setTimeLeft] = useState(40);
-  const [isTimerRunning, setIsTimerRunning] = useState(false);
+  // const [timeLeft, setTimeLeft] = useState(JSON.parse(
+  //   localStorage.getItem("timeLeft")
+  // ));
+  // const [isTimerRunning, setIsTimerRunning] = useState(JSON.parse(
+  //   localStorage.getItem("isTimerRunning")
+  // ));
+
+  const { timeLeft, setTimeLeft,
+    isTimerRunning, setIsTimerRunning } = useMyContext();
   const [selectedItem, setSelectedItem] = useState(null);
   const dispatch = useDispatch();
   const storedToken = localStorage.getItem("token");
@@ -133,8 +136,8 @@ const ManageDsr = (props) => {
       if (data) {
         setAddSiteData(response.data);
         const searchParams = new URLSearchParams(location?.search);
-        const encodedData = searchParams?.get("data");
-
+        // const encodedData = searchParams?.get("data");
+        const encodedData = JSON.parse(localStorage.getItem("dailyWorkFlowInput"));
         if (encodedData) {
           try {
             const decodedData = JSON.parse(decodeURIComponent(encodedData));
@@ -173,6 +176,42 @@ const ManageDsr = (props) => {
           } catch (error) {
             console.error("Error decoding or parsing data:", error);
           }
+
+          try {
+            formik.setFieldValue("company_id", encodedData.company_id);
+            formik.setFieldValue("client_id", encodedData.client_id);
+            formik.setFieldValue("site_id", encodedData.site_id);
+            formik.setFieldValue("start_date", encodedData.start_date);
+            setSiteId(encodedData.site_id);
+            setDRSDate(encodedData.start_date);
+
+            if (encodedData.client_id) {
+              setSelectedClientId(encodedData.client_id);
+
+              setSelectedCompanyList([]);
+
+              if (response?.data) {
+                const selectedClient = response?.data?.data?.find(
+                  (client) => client.id === encodedData.client_id
+                );
+                if (selectedClient) {
+                  setSelectedCompanyList(selectedClient?.companies);
+                }
+                setSelectedSiteList([]);
+                const selectedCompanyData = selectedClient?.companies.find(
+                  (company) => company.id === encodedData.company_id
+                );
+
+                if (selectedCompanyData) {
+                  setSelectedSiteList(selectedCompanyData.sites);
+                }
+              }
+            }
+
+            GetDataWithClient(encodedData);
+          } catch (error) {
+            console.error("Error decoding or parsing data:", error);
+          }
         } else {
         }
 
@@ -183,7 +222,6 @@ const ManageDsr = (props) => {
           const clientId = localStorage.getItem("superiorId");
           if (clientId) {
             setSelectedClientId(clientId);
-
             setSelectedCompanyList([]);
 
             if (response?.data) {
@@ -202,6 +240,11 @@ const ManageDsr = (props) => {
     }
   };
 
+  const clearTimerDataFromLocalStorage = () => {
+    localStorage.removeItem("isTimerRunning");
+    localStorage.removeItem("timeLeft");
+  };
+
   const getDRSData = async () => {
     try {
       const formData = new FormData();
@@ -210,15 +253,21 @@ const ManageDsr = (props) => {
 
       const postDataUrl = "/drs/get-data";
 
-      await postData(postDataUrl, formData);
-      if (apidata.api_response === "success") {
+      const postResponse = await postData(postDataUrl, formData);
+      if (postResponse.api_response === "success") {
         setIsTimerRunning(true);
-        setTimeLeft(40);
+        setTimeLeft(80);
+        localStorage.setItem("isTimerRunning", true);
+        localStorage.setItem("timeLeft", 80);
+
+        // setTimeout(clearTimerDataFromLocalStorage, 80000);
       } // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
+
+
 
   const handleDelete = () => {
     Swal.fire({
@@ -285,6 +334,7 @@ const ManageDsr = (props) => {
   };
 
   const GetDataWithClient = async (values) => {
+    localStorage.setItem("dailyWorkFlowInput", JSON.stringify(values))
     try {
       const formData = new FormData();
 
@@ -352,8 +402,11 @@ const ManageDsr = (props) => {
       timer = setInterval(() => {
         setTimeLeft((prevTime) => prevTime - 1);
       }, 1000);
-    } else if (timeLeft === 0) {
+    } else if (timeLeft <= 0) {
       setIsTimerRunning(false);
+      localStorage.setItem("isTimerRunning", false);
+      localStorage.removeItem("timeLeft");
+      clearTimerDataFromLocalStorage();
     }
 
     if (timeLeft === 1) {
@@ -363,6 +416,7 @@ const ManageDsr = (props) => {
         site_id: SiteId,
         start_date: DRSDate,
       };
+
 
       GetDataWithClient(current);
     }
@@ -418,6 +472,7 @@ const ManageDsr = (props) => {
     setSelectedSiteList([]);
     setSelectedCompanyList([]);
     setSelectedClientId("");
+    localStorage.removeItem("dailyWorkFlowInput")
   };
 
   return (
@@ -462,12 +517,11 @@ const ManageDsr = (props) => {
                             Client <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.client_id &&
+                            className={`input101 ${formik.errors.client_id &&
                               formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="client_id"
                             name="client_id"
                             onChange={(e) => {
@@ -516,12 +570,11 @@ const ManageDsr = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.company_id &&
+                          className={`input101 ${formik.errors.company_id &&
                             formik.touched.company_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="company_id"
                           name="company_id"
                           value={formik.values.company_id}
@@ -565,11 +618,10 @@ const ManageDsr = (props) => {
                         </label>
                         <select
                           as="select"
-                          className={`input101 ${
-                            formik.errors.site_id && formik.touched.site_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.site_id && formik.touched.site_id
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="site_id"
                           name="site_id"
                           value={formik.values.site_id}
@@ -609,12 +661,11 @@ const ManageDsr = (props) => {
                           min={"2023-01-01"}
                           max={getCurrentDate()}
                           onClick={hadndleShowDate}
-                          className={`input101 ${
-                            formik.errors.start_date &&
+                          className={`input101 ${formik.errors.start_date &&
                             formik.touched.start_date
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           value={formik.values.start_date}
                           id="start_date"
                           name="start_date"
@@ -755,9 +806,9 @@ const ManageDsr = (props) => {
               <Card.Header className="d-flex justify-content-space-between">
                 <h3 className="card-title">Daily Workflow</h3>
                 {getDataBtn === true &&
-                isAssignPermissionAvailable &&
-                DataEnteryList &&
-                DataEnteryList.length > 0 ? (
+                  isAssignPermissionAvailable &&
+                  DataEnteryList &&
+                  DataEnteryList.length > 0 ? (
                   <>
                     <Link
                       onClick={handleButtonClick}
@@ -779,20 +830,18 @@ const ManageDsr = (props) => {
                     DataEnteryList.map((item) => (
                       <Col md={12} xl={3} key={item.id}>
                         <Card
-                          className={`text-white ${
-                            item.bgColor === "amber"
-                              ? "bg-card-amber"
-                              : item.bgColor === "green"
+                          className={`text-white ${item.bgColor === "amber"
+                            ? "bg-card-amber"
+                            : item.bgColor === "green"
                               ? "bg-card-green"
                               : item.bgColor === "red"
-                              ? "bg-card-red"
-                              : "bg-primary"
-                          }`}
+                                ? "bg-card-red"
+                                : "bg-primary"
+                            }`}
                         >
                           <Card.Body
-                            className={`card-Div ${
-                              selectedItem === item ? "dsr-selected" : ""
-                            }`}
+                            className={`card-Div ${selectedItem === item ? "dsr-selected" : ""
+                              }`}
                             onClick={() => handleEnteryClick(item)} // Pass item.name as an argument
                           >
                             <h4 className="card-title">{item.name}</h4>
