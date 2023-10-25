@@ -456,6 +456,11 @@ const ManageCharges = (props) => {
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
                           onBlur={handleBlur} // Call the API on blur
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              handleBlur();
+                            }
+                          }}
                           placeholder="Search"
                           className="data-table-extensions-filter"
                           style={{

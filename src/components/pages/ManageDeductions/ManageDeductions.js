@@ -455,7 +455,12 @@ const ManageDeductions = (props) => {
                           type="text"
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
-                          onBlur={handleBlur} // Call the API on blur
+                          onBlur={handleBlur} // Call the API on blur\
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              handleBlur();
+                            }
+                          }}
                           placeholder="Search"
                           className="data-table-extensions-filter"
                           style={{
