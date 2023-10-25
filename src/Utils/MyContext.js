@@ -26,6 +26,13 @@ const MyProvider = ({ children }) => {
   const [DashboardGradsLoading, setDashboardGradsLoading] = useState(false);
   const [DashboardSiteDetailsLoading, setDashboardSiteDetailsLoading] = useState(false);
   const [dashSubChildShopSaleLoading, setDashSubChildShopSaleLoading] = useState(false);
+  // workflow Timer
+  const [timeLeft, setTimeLeft] = useState(JSON.parse(
+    localStorage.getItem("timeLeft")
+  ));
+  const [isTimerRunning, setIsTimerRunning] = useState(JSON.parse(
+    localStorage.getItem("isTimerRunning")
+  ));
 
   // Value object to provide to consumers
   const value = {
@@ -64,7 +71,9 @@ const MyProvider = ({ children }) => {
     dashboardShopSaleData, setDashboardShopSaleData,
     DashboardGradsLoading, setDashboardGradsLoading,
     DashboardSiteDetailsLoading, setDashboardSiteDetailsLoading,
-    dashSubChildShopSaleLoading, setDashSubChildShopSaleLoading
+    dashSubChildShopSaleLoading, setDashSubChildShopSaleLoading,
+    timeLeft, setTimeLeft,
+    isTimerRunning, setIsTimerRunning,
   };
 
   return <MyContext.Provider value={value}>{children}</MyContext.Provider>;
