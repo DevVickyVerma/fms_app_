@@ -73,7 +73,7 @@ export default function Settings() {
       const { data } = response;
       if (data) {
         formik2.setValues(data?.data); // Set field values for formik2
-        GetDetails();
+
         setLoading(false);
       }
     } catch (error) {
@@ -128,6 +128,7 @@ export default function Settings() {
 
         if (response.ok) {
           SuccessAlert(data.message);
+          GetDetails();
           navigate("/dashboard");
           setLoading(false);
         } else {
@@ -270,6 +271,8 @@ export default function Settings() {
                           >
                             <option value="">Select a Auto Logout Time</option>
 
+                            <option value="1">1</option>
+                            <option value="2">2</option>
                             <option value="5">5</option>
                             <option value="10">10</option>
                             <option value="15">15</option>

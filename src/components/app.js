@@ -8,12 +8,18 @@ import TopLoadingBar from "react-top-loading-bar";
 import Swal from "sweetalert2";
 import withApi from "../Utils/ApiHelper";
 import { MyProvider } from "../Utils/MyContext";
+import axios from "axios";
 
 const App = (props) => {
   const { getData } = props;
-  const [logoutTime, setLogoutTime] = useState(
-    parseInt(localStorage.getItem("auto_logout")) * 60000
-  );
+
+  const token = localStorage.getItem("token");
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   const loadingBarRef = useRef();
   const location = useLocation();
@@ -49,10 +55,33 @@ const App = (props) => {
 
   useEffect(() => {
     simulateLoadingAndNavigate();
-    // console.clear();
+
+    console.clear();
   }, [location.pathname]);
+  const [autoLogout, setAutoLogout] = useState(
+    localStorage.getItem("auto_logout")
+  );
+  const GetDetails = async () => {
+    try {
+      const response = await axiosInstance.get(`/detail`);
+      if (response) {
+        console.log(response?.data?.data?.auto_logout, "auto_logoutGetDetails");
+        const autoLogoutValue = response?.data?.data?.auto_logout;
+
+        setAutoLogout(autoLogoutValue); // Update the autoLogout state with the new value
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    GetDetails();
+    console.clear();
+  }, []);
 
   const [isInactive, setIsInactive] = useState(false);
+  const [logoutTime, setLogoutTime] = useState(autoLogout * 60000); // Initialize logoutTime with the initial value
+
   let inactivityTimeout;
 
   const handleUserActivity = () => {
@@ -62,11 +91,10 @@ const App = (props) => {
   };
 
   useEffect(() => {
-    console.log(logoutTime, "auto_logoutGetDetailslogoutTimecolumnIndex");
     window.addEventListener("mousemove", handleUserActivity);
     window.addEventListener("keydown", handleUserActivity);
     window.addEventListener("scroll", handleUserActivity);
-    console.log(logoutTime, "logoutTime");
+
     inactivityTimeout = setTimeout(() => setIsInactive(true), logoutTime);
 
     return () => {
@@ -75,7 +103,8 @@ const App = (props) => {
       window.removeEventListener("scroll", handleUserActivity);
       clearTimeout(inactivityTimeout);
     };
-  }, []);
+    console.clear();
+  }, [logoutTime]);
 
   const handleConfirm = () => {
     logout();
@@ -89,9 +118,7 @@ const App = (props) => {
     if (isInactive) {
       Swal.fire({
         title: "Inactivity Alert",
-        text: `Oops, there is no activity from last ${localStorage.getItem(
-          "auto_logout"
-        )} minutes,`,
+        text: `Oops, there is no activity from the last ${autoLogout} minutes.`,
         icon: "warning",
         showCancelButton: false,
         confirmButtonText: "OK!",
@@ -100,14 +127,14 @@ const App = (props) => {
           confirmButton: "btn-danger",
           iconColor: "#b52d2d",
         },
-
         reverseButtons: true,
       }).then((result) => {
         handleConfirm();
       });
     }
-    // console.clear();
-  }, [isInactive]);
+    console.clear();
+  }, [isInactive, autoLogout, logoutTime]);
+
   return (
     <MyProvider>
       <Fragment>
