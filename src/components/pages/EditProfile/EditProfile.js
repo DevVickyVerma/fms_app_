@@ -377,7 +377,7 @@ export default function EditProfile() {
                   <Form onSubmit={handleSubmit} style={{ height: "100%" }}>
                     <Card className="profile-edit" style={{ height: "100%" }}>
                       <Card.Header>
-                        <Card.Title as="h3">Edit Password</Card.Title>
+                        <Card.Title as="h3">Update Password</Card.Title>
                       </Card.Header>
                       <Card.Body>
                         <FormGroup>
@@ -666,7 +666,7 @@ export default function EditProfile() {
             <Col lg={12} xl={4} md={12} sm={12} style={{ margin: "20px 0" }}>
               <Card style={{ height: "100%" }}>
                 <Card.Header>
-                  <Card.Title as="h3">Edit Profile</Card.Title>
+                  <Card.Title as="h3">Update Profile</Card.Title>
                 </Card.Header>
                 <form onSubmit={formik.handleSubmit} style={{ height: "100%" }}>
                   <Card.Body>

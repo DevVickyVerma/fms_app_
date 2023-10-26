@@ -1,6 +1,7 @@
 export const MENUITEMS = [
   {
     Items: [
+      //dashboard
       {
         path: `/dashboard`,
         icon: "home",
@@ -11,6 +12,8 @@ export const MENUITEMS = [
         visibility: false,
         title: "Dashboard",
       },
+
+      //user
       {
         title: "Manage Users",
         icon: "users",
@@ -43,6 +46,7 @@ export const MENUITEMS = [
           },
         ],
       },
+      //client
       {
         title: "Manage Clients",
         icon: "users",
@@ -67,7 +71,7 @@ export const MENUITEMS = [
           },
         ],
       },
-
+      //compitior
       {
         title: "Manage Competitor",
         icon: "bar-chart",
@@ -107,7 +111,7 @@ export const MENUITEMS = [
           },
         ],
       },
-
+      //Company
       {
         title: "Manage Company",
         icon: "building",
@@ -132,37 +136,39 @@ export const MENUITEMS = [
           },
         ],
       },
+      //Sage
       {
         title: "Manage Sage",
         icon: "building",
         type: "sub",
         active: false,
-        permission: "company-list",
+        permission: "nominalcode-list",
         visibility: false,
         children: [
           {
             path: `/nominal-activity-codes`,
             title: "Nominal Activity Codes",
             type: "link",
-            permission: "company-list",
+            permission: "nominalcode-list",
             visibility: false,
           },
           {
             path: `/nominal-tax-code`,
             title: "Nominal Tax Code",
             type: "link",
-            permission: "company-create",
+            permission: "nominal-taxcode-list",
             visibility: false,
           },
           {
             path: `/nominal-types`,
             title: "Nominal Types",
             type: "link",
-            permission: "company-create",
+            permission: "nominal-types-list",
             visibility: false,
           },
         ],
       },
+      //Sites
       {
         title: "Manage Sites",
         icon: "university",
@@ -187,6 +193,7 @@ export const MENUITEMS = [
           },
         ],
       },
+      //Workflows
       {
         title: "Manage  Workflows",
         icon: "globe",
@@ -226,7 +233,7 @@ export const MENUITEMS = [
           },
         ],
       },
-
+      //Roles
       {
         title: "Manage Roles",
         icon: "unlock-alt",
@@ -251,6 +258,7 @@ export const MENUITEMS = [
           },
         ],
       },
+      //Addons
       {
         title: "Manage Addons",
         icon: "unlock",
@@ -276,6 +284,7 @@ export const MENUITEMS = [
           },
         ],
       },
+      //Site Fuels
       {
         title: " Manage Site Fuels",
         icon: "flask",
@@ -328,6 +337,7 @@ export const MENUITEMS = [
           },
         ],
       },
+      //Tolerances
       {
         title: "Manage Tolerances",
         icon: "handshake-o",
@@ -345,6 +355,7 @@ export const MENUITEMS = [
           },
         ],
       },
+      //Commissions
       {
         title: "Manage Commissions",
         icon: "tags",
@@ -369,7 +380,7 @@ export const MENUITEMS = [
           },
         ],
       },
-
+      //Business Types
       {
         title: "Manage Business Types",
         icon: "th-large",
@@ -395,7 +406,7 @@ export const MENUITEMS = [
           },
         ],
       },
-
+      //Charges
       {
         title: "Manage Charges",
         icon: "money",
@@ -420,6 +431,7 @@ export const MENUITEMS = [
           },
         ],
       },
+      //Shops
       {
         title: "Manage Shops",
         icon: "shopping-cart",
@@ -444,6 +456,7 @@ export const MENUITEMS = [
           },
         ],
       },
+      //Cards
       {
         title: "Manage Cards",
         icon: "credit-card-alt",
@@ -468,6 +481,7 @@ export const MENUITEMS = [
           },
         ],
       },
+      //Deductions
       {
         title: "Manage Deductions",
         icon: "percent",
@@ -492,6 +506,7 @@ export const MENUITEMS = [
           },
         ],
       },
+      //Suppliers
       {
         title: "Manage Suppliers",
         icon: "tint",
@@ -517,6 +532,7 @@ export const MENUITEMS = [
         ],
       },
 
+      //Category
       {
         title: "Manage Category",
         icon: "check-square",
@@ -555,7 +571,7 @@ export const MENUITEMS = [
           },
         ],
       },
-
+      //Reports
       {
         title: "Manage Reports",
         icon: "pie-chart",
@@ -573,6 +589,7 @@ export const MENUITEMS = [
           },
         ],
       },
+      //Others
       {
         title: "Others",
         icon: "tasks",
@@ -597,7 +614,7 @@ export const MENUITEMS = [
           },
         ],
       },
-
+      //Department Items
       {
         title: "Manage Department Items",
         icon: "shopping-cart",
@@ -622,6 +639,7 @@ export const MENUITEMS = [
           },
         ],
       },
+      //Logs
       {
         title: "Logs",
         icon: "envelope-o",
