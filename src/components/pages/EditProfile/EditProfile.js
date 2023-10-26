@@ -811,7 +811,7 @@ export default function EditProfile() {
                 show={showModal}
                 onHide={handleCloseModal}
                 centered
-                // style={{ width: "200wvh" }}
+                style={{ paddingBottom: "0px" }}
                 className="custom-modal-width custom-modal-height"
               >
                 <Modal.Header
@@ -823,7 +823,7 @@ export default function EditProfile() {
                     alignItems: "center",
                   }}
                 >
-                  <div>
+                  <div style={{ paddingBottom: "0px" }}>
                     <Modal.Title style={{ margin: "0px" }}>
                       Two-factor Authentication (2FA)
                     </Modal.Title>
@@ -838,7 +838,10 @@ export default function EditProfile() {
                     </span>
                   </div>
                 </Modal.Header>
-                <Modal.Body className="Disable2FA-modal">
+                <Modal.Body
+                  className="Disable2FA-modal "
+                  style={{ paddingBottom: "0px" }}
+                >
                   <div className="modal-contentDisable2FA">
                     <div className="card">
                       <div className="card-body" style={{ padding: "10px" }}>
@@ -917,18 +920,18 @@ export default function EditProfile() {
 
                               <div className="text-end mt-4">
                                 <button
-                                  className="btn btn-primary ml-4 verify-button"
-                                  type="submit"
-                                  disabled={!formik.isValid}
-                                >
-                                  Verify & Authentication
-                                </button>
-                                <button
                                   type="button"
                                   className="btn btn-danger mx-4"
                                   onClick={handleCloseModal}
                                 >
                                   Cancel
+                                </button>
+                                <button
+                                  className="btn btn-primary ml-4 verify-button"
+                                  type="submit"
+                                  disabled={!formik.isValid}
+                                >
+                                  Verify & Authentication
                                 </button>
                               </div>
                             </form>
