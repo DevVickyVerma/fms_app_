@@ -4,8 +4,6 @@ import {
   Breadcrumb,
   Card,
   Col,
-  Form,
-  FormGroup,
   OverlayTrigger,
   Row,
   Tooltip,
@@ -14,11 +12,11 @@ import { Link, useNavigate } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
+
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
+
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { Box } from "@mui/material";
@@ -34,7 +32,6 @@ const Competitor = (props) => {
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
   const [selectedSiteId, setSelectedSiteId] = useState("");
 
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [SupplierData, setSupplierData] = useState({});
 
   const [CompetitorList, setCompetitorList] = useState();
@@ -546,12 +543,15 @@ const Competitor = (props) => {
                                 formik.setFieldValue("client_id", selectedType);
                                 setSelectedClientId(selectedType);
                                 setSiteList([]);
+                                formik.setFieldValue("company_id", "");
+                                formik.setFieldValue("site_id", "");
                               } else {
                                 console.log(
                                   selectedType,
                                   "selectedType no values"
                                 );
                                 formik.setFieldValue("client_id", "");
+                                formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");
 
                                 setSiteList([]);
@@ -603,6 +603,7 @@ const Competitor = (props) => {
                             if (selectcompany) {
                               GetSiteList(selectcompany);
                               formik.setFieldValue("company_id", selectcompany);
+                              formik.setFieldValue("site_id", "");
                               setSelectedCompanyId(selectcompany);
                             } else {
                               formik.setFieldValue("company_id", "");
