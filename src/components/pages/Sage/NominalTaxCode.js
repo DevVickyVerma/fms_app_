@@ -10,8 +10,9 @@ import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
+import { UploadFile } from "@mui/icons-material";
 const UploadCompetitor = (props) => {
-  const { getData } = props;
+  const { getData, isLoading } = props;
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [CompetitorData, setCompetitorData] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
@@ -26,29 +27,33 @@ const UploadCompetitor = (props) => {
   const formik = useFormik({
     initialValues: {
       client_id: "",
+      company_id: "",
 
       image: null,
     },
     validationSchema: Yup.object({
-      image: Yup.mixed()
-        .required("File is required")
-        .test("fileType", "Only XLSX and XLS files are allowed", (value) => {
-          if (value) {
-            const allowedFileTypes = [
-              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // XLSX
-              "application/vnd.ms-excel", // XLS
-            ];
-            const isValidFileType = allowedFileTypes.includes(value.type);
-            return isValidFileType;
-          }
-          return false;
-        }),
+      company_id: Yup.string().required("Company is required"),
     }),
 
     onSubmit: (values) => {
       handleSubmit(values);
     },
   });
+  const handleSubmit = async (values) => {
+    try {
+      const response = await getData(
+        `/sage/nominal-tax-code/list?client_id=${selectedClientId}&company_id=${values.company_id}`
+      );
+
+      const { data } = response;
+      if (data) {
+        console.log(data?.data, "company_id");
+        setData(data?.data);
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
 
   const fetchCommonListData = async () => {
     try {
@@ -84,71 +89,11 @@ const UploadCompetitor = (props) => {
     fetchCommonListData();
   }, []);
 
-  const SuccessToast = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-
-  const ErrorToast = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
-  const handleSubmit = async (values) => {
-    const token = localStorage.getItem("token");
-
-    const formData = new FormData();
-
-    formData.append("client_id", selectedClientId);
-    formData.append("file", values.image);
-
-    // Set isLoading to true to display the loading indicator
-    setIsLoading(true);
-
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_UPLOAD_FILE_BASE_URL}/upload-compititor-price`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        SuccessToast(data.message);
-        navigate("/competitor");
-      } else {
-        const errorData = await response.json();
-        ErrorToast(errorData.message);
-      }
-    } catch (error) {
-      console.log("Request Error:", error);
-      // Handle request error
-    } finally {
-      // Set isLoading back to false after the request is completed
-      setIsLoading(false);
-    }
-  };
-
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     formik.setFieldValue("image", file);
     formik.setFieldTouched("image", true);
-    formik.setFieldError("image", ""); // Clear any previous validation error
+    formik.setFieldError("image", "");
   };
 
   const handleDrop = (event) => {
@@ -159,7 +104,7 @@ const UploadCompetitor = (props) => {
       name: "S.No",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "15%",
+      width: "8%",
       center: true,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -168,27 +113,55 @@ const UploadCompetitor = (props) => {
       ),
     },
     {
-      name: "Site Name",
-      selector: (row) => [row?.site_name],
+      name: "Code",
+      selector: (row) => [row?.code],
       sortable: false,
-      width: "85%",
+      width: "23%",
       cell: (row, index) => (
-        <Link
-          to={`/sitecompetitor/${row.id}`}
-          className="d-flex"
-          style={{ cursor: "pointer" }}
-        >
-          <div className="ms-2 mt-0 mt-sm-2 d-flex align-items-center">
-            <span>
-              <img
-                src={row?.supplierImage}
-                alt="supplierImage"
-                className="w-5 h-5 "
-              />
-            </span>
-            <h6 className="mb-0 fs-14 fw-semibold ms-2"> {row?.site_name}</h6>
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.code}</h6>
           </div>
-        </Link>
+        </div>
+      ),
+    },
+    {
+      name: "Name",
+      selector: (row) => [row.name],
+      sortable: true,
+      width: "23%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Created By",
+      selector: (row) => [row.created_by],
+      sortable: true,
+      width: "23%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.created_by}</h6>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Created Date",
+      selector: (row) => [row.created_date],
+      sortable: true,
+      width: "23%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
+          </div>
+        </div>
       ),
     },
   ];
@@ -197,9 +170,20 @@ const UploadCompetitor = (props) => {
     columns,
     data,
   };
+  const isButtonDisabled = formik.values.client_id && formik.values.company_id;
+  const isShowButtonDisabled =
+    formik.values.client_id &&
+    formik.values.company_id &&
+    formik.values.image !== null &&
+    formik.values.image;
+
+  const onsubmitupload = () => {
+    console.log(formik.values);
+  };
+
   return (
     <>
-      {isdataLoading ? <Loaderimg /> : null}
+      {isdataLoading || isLoading ? <Loaderimg /> : null}
       <>
         <div className="page-header ">
           <div>
@@ -384,12 +368,25 @@ const UploadCompetitor = (props) => {
                     </Col>
                   </Row>
                   <div className="text-end">
-                    <Link type="submit" className="btn btn-danger me-2 ">
-                      Show Logs
-                    </Link>
-
-                    <button type="submit" className="btn btn-primary">
+                    <button
+                      type="button" // Change the type to "button" to prevent form submission
+                      className="btn btn-primary me-2"
+                      disabled={!isShowButtonDisabled}
+                      onClick={() => {
+                        onsubmitupload();
+                      }}
+                    >
                       Submit
+                    </button>
+                    <button
+                      type="button" // Change the type to "button" to prevent form submission
+                      className="btn btn-danger"
+                      disabled={!isButtonDisabled}
+                      onClick={() => {
+                        handleSubmit(formik.values); // Call handleSubmit when the button is clicked
+                      }}
+                    >
+                      Show Logs
                     </button>
                   </div>
                 </form>
