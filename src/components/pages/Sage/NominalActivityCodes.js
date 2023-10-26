@@ -103,6 +103,7 @@ const UploadCompetitor = (props) => {
     if (localStorage.getItem("superiorRole") !== "Client") {
       fetchCommonListData();
     } else {
+      formik.setFieldValue("client_id", clientId);
       setSelectedClientId(clientId);
       GetCompanyList(clientId);
     }
