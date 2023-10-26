@@ -11,18 +11,32 @@ import Loaderimg from "../../../Utils/Loader";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { UploadFile } from "@mui/icons-material";
+import { useSelector } from "react-redux";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 const UploadCompetitor = (props) => {
-  const { getData, isLoading } = props;
+  const { getData, isLoading, postData } = props;
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [CompetitorData, setCompetitorData] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
-  const [selectedCompanyId, setSelectedCompanyId] = useState("");
+
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [data, setData] = useState();
 
   const [isdataLoading, setIsLoading] = useState(false);
 
-  const navigate = useNavigate();
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions?.permissions);
+    }
+  }, [UserPermissions]);
+
+  const isImportPermissionAvailable = permissionsArray?.includes(
+    "nominal-taxcode-import"
+  );
 
   const formik = useFormik({
     initialValues: {
@@ -177,8 +191,54 @@ const UploadCompetitor = (props) => {
     formik.values.image !== null &&
     formik.values.image;
 
-  const onsubmitupload = () => {
-    console.log(formik.values);
+  const ShowLogs = async (values) => {
+    try {
+      const response = await getData(
+        `/sage/nominal-tax-code/list?client_id=${selectedClientId}&company_id=${values.company_id}`
+      );
+
+      const { data } = response;
+      if (data) {
+        console.log(data?.data, "company_id");
+        setData(data?.data);
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+  const navigate = useNavigate();
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      ErrorAlert("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      const errorMessage = Array.isArray(error.response.data.message)
+        ? error.response.data.message.join(" ")
+        : error.response.data.message;
+      ErrorAlert(errorMessage);
+    }
+  }
+
+  const Onupload = async () => {
+    try {
+      const formData = new FormData();
+
+      formData.append("company_id", formik.values.company_id);
+      formData.append("codes", formik.values.image);
+      formData.append("client_id", selectedClientId);
+      const postDataUrl = "sage/nominal-tax-code/import";
+
+      const postResponse = await postData(postDataUrl, formData);
+      console.log(postResponse?.status_code, "postResponse");
+      if (postResponse?.status_code == 200) {
+        ShowLogs(formik.values);
+      }
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   return (
@@ -244,12 +304,14 @@ const UploadCompetitor = (props) => {
 
                               formik.setFieldValue("client_id", selectedType);
                               setSelectedClientId(selectedType);
-
-                              // Reset the selected company and site
+                              formik.handleChange(e);
                               setSelectedCompanyList([]);
                               setSelectedSiteList([]);
+                              formik.setFieldValue("company_id", "");
+                              formik.setFieldValue("site_id", "");
+
                               const selectedClient = CompetitorData.data.find(
-                                (client) => client.id === selectedType
+                                (client) => client.id === e.target.value
                               );
 
                               if (selectedClient) {
@@ -281,7 +343,7 @@ const UploadCompetitor = (props) => {
                         </div>
                       </Col>
                     )}
-                    <Col lg={4} md={6}>
+                    <Col lg={3} md={3}>
                       <div className="form-group">
                         <label htmlFor="company_id" className="form-label mt-4">
                           Company
@@ -296,17 +358,15 @@ const UploadCompetitor = (props) => {
                           }`}
                           id="company_id"
                           name="company_id"
+                          value={formik.values.company_id}
                           onChange={(e) => {
                             const selectedCompany = e.target.value;
-
                             formik.setFieldValue("company_id", selectedCompany);
-                            setSelectedCompanyId(selectedCompany);
                             setSelectedSiteList([]);
                             const selectedCompanyData =
                               selectedCompanyList.find(
                                 (company) => company.id === selectedCompany
                               );
-
                             if (selectedCompanyData) {
                               setSelectedSiteList(selectedCompanyData.sites);
                             }
@@ -331,56 +391,49 @@ const UploadCompetitor = (props) => {
                           )}
                       </div>
                     </Col>
-                    <Col lg={4} md={4}>
-                      <div className="form-group">
-                        <label htmlFor="image" className="form-label mt-4">
-                          File
-                          <span className="text-danger">*</span>
-                        </label>
-                        <div
-                          className={`dropzone ${
-                            formik.errors.image && formik.touched.image
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          onDrop={(event) => handleDrop(event)}
-                          onDragOver={(event) => event.preventDefault()}
-                        >
-                          <input
-                            type="file"
-                            id="image"
-                            name="image"
-                            accept=".xlsx, .xls"
-                            onChange={(event) => handleImageChange(event)}
-                            className="form-control"
-                          />
+                    {isImportPermissionAvailable ? (
+                      <Col lg={4} md={4}>
+                        <div className="form-group">
+                          <label htmlFor="image" className="form-label mt-4">
+                            File
+                          </label>
+                          <div
+                            className={`dropzone ${
+                              formik.errors.image && formik.touched.image
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            onDrop={(event) => handleDrop(event)}
+                            onDragOver={(event) => event.preventDefault()}
+                          >
+                            <input
+                              type="file"
+                              id="image"
+                              name="image"
+                              accept=".xlsx, .xls"
+                              onChange={(event) => handleImageChange(event)}
+                              className="form-control"
+                            />
 
-                          <p>
-                            Drag and drop your File here, or click to browse
-                          </p>
-                        </div>
-                        {formik.errors.image && formik.touched.image && (
-                          <div className="invalid-feedback">
-                            {formik.errors.image}
+                            <p>
+                              Drag and drop your File here, or click to browse
+                            </p>
                           </div>
-                        )}
-                      </div>
-                    </Col>
+                          {formik.errors.image && formik.touched.image && (
+                            <div className="invalid-feedback">
+                              {formik.errors.image}
+                            </div>
+                          )}
+                        </div>
+                      </Col>
+                    ) : (
+                      ""
+                    )}
                   </Row>
                   <div className="text-end">
                     <button
                       type="button" // Change the type to "button" to prevent form submission
-                      className="btn btn-primary me-2"
-                      disabled={!isShowButtonDisabled}
-                      onClick={() => {
-                        onsubmitupload();
-                      }}
-                    >
-                      Submit
-                    </button>
-                    <button
-                      type="button" // Change the type to "button" to prevent form submission
-                      className="btn btn-danger"
+                      className="btn btn-danger me-2"
                       disabled={!isButtonDisabled}
                       onClick={() => {
                         handleSubmit(formik.values); // Call handleSubmit when the button is clicked
@@ -388,6 +441,21 @@ const UploadCompetitor = (props) => {
                     >
                       Show Logs
                     </button>
+
+                    {isImportPermissionAvailable ? (
+                      <button
+                        type="button" // Change the type to "button" to prevent form submission
+                        className="btn btn-primary me-2"
+                        disabled={!isShowButtonDisabled}
+                        onClick={() => {
+                          Onupload();
+                        }}
+                      >
+                        Submit
+                      </button>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </form>
               </Card.Body>
