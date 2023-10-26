@@ -58,15 +58,14 @@ const Dashboard = (props) => {
     setShouldNavigateToDetailsPage,
   } = useMyContext();
 
-
-
-  let myLocalSearchData = localStorage.getItem("mySearchData") ? JSON.parse(localStorage.getItem("mySearchData")) : "";
+  let myLocalSearchData = localStorage.getItem("mySearchData")
+    ? JSON.parse(localStorage.getItem("mySearchData"))
+    : "";
 
   const superiorRole = localStorage.getItem("superiorRole");
   const role = localStorage.getItem("role");
   const handleFetchSiteData = async () => {
     try {
-
       const clientId = localStorage.getItem("superiorId");
       const superiorRole = localStorage.getItem("superiorRole");
       const role = localStorage.getItem("role");
@@ -190,7 +189,7 @@ const Dashboard = (props) => {
     setSearchdata(values);
 
     const clientId =
-      (values.client_id !== undefined && values.client_id !== "")
+      values.client_id !== undefined && values.client_id !== ""
         ? values.client_id
         : localStorage.getItem("superiorId");
 
@@ -219,10 +218,8 @@ const Dashboard = (props) => {
     try {
       const response = await getData(
         localStorage.getItem("superiorRole") !== "Client"
-          ?
-          `dashboard/stats?client_id=${clientId}&company_id=${companyId}&site_id=${values.site_id}`
-          :
-          `dashboard/stats?client_id=${clientId}&company_id=${companyId}&site_id=${values.site_id}`
+          ? `dashboard/stats?client_id=${clientId}&company_id=${companyId}&site_id=${values.site_id}`
+          : `dashboard/stats?client_id=${clientId}&company_id=${companyId}&site_id=${values.site_id}`
       );
 
       const { data } = response;
@@ -272,14 +269,12 @@ const Dashboard = (props) => {
     }
   };
 
-
   const [isLoadingState, setIsLoading] = useState(false);
   const ResetForm = async () => {
     myLocalSearchData = "";
     setIsLoading(true);
     setSearchdata({});
-    setTimeout(() => {
-    }, 1000);
+    setTimeout(() => {}, 1000);
 
     localStorage.removeItem("savedDataOfDashboard");
     localStorage.removeItem("mySearchData");
@@ -353,7 +348,6 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     if (isStatusPermissionAvailable && superiorRole !== "Administrator") {
-
       if (!myLocalSearchData) {
         handleFetchSiteData();
       }
@@ -362,12 +356,9 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     if (myLocalSearchData) {
-      handleFormSubmit(myLocalSearchData)
+      handleFormSubmit(myLocalSearchData);
     }
-  }, [])
-
-
-
+  }, []);
 
   const isProfileUpdatePermissionAvailable = permissionsArray?.includes(
     "profile-update-profile"
@@ -396,7 +387,7 @@ const Dashboard = (props) => {
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-            localStorage.getItem("role") === "Operator" ? (
+          localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -482,8 +473,8 @@ const Dashboard = (props) => {
                     ) : null}
                   </Box>
                 </>
-                {localStorage.getItem("superiorRole") === "Administrator" &&
-                  Object.keys(searchdata).length === 0 ? (
+                {UserPermissions?.applyFilter &&
+                Object.keys(searchdata).length === 0 ? (
                   <div
                     style={{
                       textAlign: "left",
@@ -614,8 +605,8 @@ const Dashboard = (props) => {
         />
 
         {isProfileUpdatePermissionAvailable &&
-          !isTwoFactorPermissionAvailable &&
-          ShowAuth ? (
+        !isTwoFactorPermissionAvailable &&
+        ShowAuth ? (
           <>
             <CenterAuthModal title="Auth Modal" />
           </>

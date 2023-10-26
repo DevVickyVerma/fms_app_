@@ -76,7 +76,9 @@ const ManageSiteTank = (props) => {
   }
   const handleFetchListing = async () => {
     try {
-      const response = await getData(`/site/fuel-price/logs?site_id=${myFormData.site_id}&drs_date=${myFormData.start_date}&page=${currentPage}`);
+      const response = await getData(
+        `/site/fuel-price/logs?site_id=${myFormData.site_id}&drs_date=${myFormData.start_date}&page=${currentPage}`
+      );
 
       if (response && response.data && response.data.data) {
         const responseData = response.data.data;
@@ -104,7 +106,7 @@ const ManageSiteTank = (props) => {
       company_id: values.company_id,
       site_id: values.site_id,
       start_date: values.start_date,
-    })
+    });
     try {
       const response = await getData(
         `/site/fuel-price/logs?site_id=${values.site_id}&drs_date=${values.start_date}&page=${currentPage}`
@@ -113,7 +115,11 @@ const ManageSiteTank = (props) => {
       if (response && response.data && response.data.data) {
         setData(response?.data?.data?.priceLogs);
         setCount(response.data.data.count);
-        setCurrentPage(response?.data?.data?.currentPage ? response?.data?.data?.currentPage : 1);
+        setCurrentPage(
+          response?.data?.data?.currentPage
+            ? response?.data?.data?.currentPage
+            : 1
+        );
         setHasMorePages(response?.data?.data?.hasMorePages);
 
         setLastPage(response?.data?.data?.lastPage);
@@ -121,7 +127,6 @@ const ManageSiteTank = (props) => {
         setTotal(response?.data?.data?.total);
       } else {
         throw new Error("No data available in the response");
-
       }
     } catch (error) {
       console.error("API error:", error);
@@ -302,10 +307,12 @@ const ManageSiteTank = (props) => {
     start_date: "",
   };
   const handleClearForm = (resetForm) => {
+    setMyFormData({});
     resetForm(initialValues);
     setSelectedSiteList([]);
     setSelectedCompanyList([]);
     setSelectedClientId("");
+    handleFetchListing();
   };
 
   useEffect(() => {
@@ -359,67 +366,68 @@ const ManageSiteTank = (props) => {
                         <Row>
                           {localStorage.getItem("superiorRole") !==
                             "Client" && (
-                              <Col lg={3} md={3}>
-                                <FormGroup>
-                                  <label
-                                    htmlFor="client_id"
-                                    className=" form-label mt-4"
-                                  >
-                                    Client
-                                  </label>
-                                  <Field
-                                    as="select"
-                                    className={`input101 ${errors.client_id && touched.client_id
+                            <Col lg={3} md={3}>
+                              <FormGroup>
+                                <label
+                                  htmlFor="client_id"
+                                  className=" form-label mt-4"
+                                >
+                                  Client
+                                </label>
+                                <Field
+                                  as="select"
+                                  className={`input101 ${
+                                    errors.client_id && touched.client_id
                                       ? "is-invalid"
                                       : ""
-                                      }`}
-                                    id="client_id"
-                                    name="client_id"
-                                    onChange={(e) => {
-                                      const selectedType = e.target.value;
+                                  }`}
+                                  id="client_id"
+                                  name="client_id"
+                                  onChange={(e) => {
+                                    const selectedType = e.target.value;
 
-                                      setFieldValue("client_id", selectedType);
-                                      setSelectedClientId(selectedType);
+                                    setFieldValue("client_id", selectedType);
+                                    setSelectedClientId(selectedType);
 
-                                      // Reset the selected company and site
-                                      setSelectedCompanyList([]);
-                                      setSelectedSiteList([]);
-                                      setFieldValue("company_id", "");
-                                      setFieldValue("site_id", "");
+                                    // Reset the selected company and site
+                                    setSelectedCompanyList([]);
+                                    setSelectedSiteList([]);
+                                    setFieldValue("company_id", "");
+                                    setFieldValue("site_id", "");
 
-                                      const selectedClient =
-                                        AddSiteData.data.find(
-                                          (client) => client.id === selectedType
-                                        );
+                                    const selectedClient =
+                                      AddSiteData.data.find(
+                                        (client) => client.id === selectedType
+                                      );
 
-                                      if (selectedClient) {
-                                        setSelectedCompanyList(
-                                          selectedClient.companies
-                                        );
-                                      }
-                                    }}
-                                  >
-                                    <option value="">Select a Client</option>
-                                    {AddSiteData.data &&
-                                      AddSiteData.data.length > 0 ? (
-                                      AddSiteData.data.map((item) => (
-                                        <option key={item.id} value={item.id}>
-                                          {item.client_name}
-                                        </option>
-                                      ))
-                                    ) : (
-                                      <option disabled>No Client</option>
-                                    )}
-                                  </Field>
+                                    if (selectedClient) {
+                                      setSelectedCompanyList(
+                                        selectedClient.companies
+                                      );
+                                    }
+                                  }}
+                                >
+                                  <option value="">Select a Client</option>
+                                  {AddSiteData.data &&
+                                  AddSiteData.data.length > 0 ? (
+                                    AddSiteData.data.map((item) => (
+                                      <option key={item.id} value={item.id}>
+                                        {item.client_name}
+                                      </option>
+                                    ))
+                                  ) : (
+                                    <option disabled>No Client</option>
+                                  )}
+                                </Field>
 
-                                  <ErrorMessage
-                                    component="div"
-                                    className="invalid-feedback"
-                                    name="client_id"
-                                  />
-                                </FormGroup>
-                              </Col>
-                            )}
+                                <ErrorMessage
+                                  component="div"
+                                  className="invalid-feedback"
+                                  name="client_id"
+                                />
+                              </FormGroup>
+                            </Col>
+                          )}
                           <Col lg={3} md={3}>
                             <FormGroup>
                               <label
@@ -430,10 +438,11 @@ const ManageSiteTank = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${errors.company_id && touched.company_id
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${
+                                  errors.company_id && touched.company_id
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="company_id"
                                 name="company_id"
                                 onChange={(e) => {
@@ -480,10 +489,11 @@ const ManageSiteTank = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${errors.site_id && touched.site_id
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${
+                                  errors.site_id && touched.site_id
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="site_id"
                                 name="site_id"
                                 onChange={(event) => {
@@ -521,10 +531,11 @@ const ManageSiteTank = (props) => {
                                 type="date"
                                 min={"2023-01-01"}
                                 onClick={hadndleShowDate}
-                                className={`input101 ${errors.start_date && touched.start_date
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${
+                                  errors.start_date && touched.start_date
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="start_date"
                                 name="start_date"
                               ></Field>
@@ -563,6 +574,7 @@ const ManageSiteTank = (props) => {
               <Card.Header>
                 <h3 className="card-title">Fuel price logs </h3>
               </Card.Header>
+
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
