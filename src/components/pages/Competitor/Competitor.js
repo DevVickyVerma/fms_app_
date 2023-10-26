@@ -130,6 +130,7 @@ const Competitor = (props) => {
 
   const fetchCommonListData = async () => {
     try {
+
       const response = await getData("/common/client-list");
 
       const { data } = response;
@@ -157,7 +158,14 @@ const Competitor = (props) => {
   };
 
   useEffect(() => {
-    fetchCommonListData();
+    const clientId = localStorage.getItem("superiorId");
+
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData()
+    } else {
+      setSelectedClientId(clientId);
+      GetCompanyList(clientId)
+    }
   }, []);
 
   const handleSubmit = async (values) => {
@@ -525,12 +533,11 @@ const Competitor = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.client_id &&
+                            className={`input101 ${formik.errors.client_id &&
                               formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="client_id"
                             name="client_id"
                             value={formik.values.client_id}
@@ -588,12 +595,11 @@ const Competitor = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.company_id &&
+                          className={`input101 ${formik.errors.company_id &&
                             formik.touched.company_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="company_id"
                           name="company_id"
                           value={formik.values.company_id}
@@ -643,11 +649,10 @@ const Competitor = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.site_id && formik.touched.site_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.site_id && formik.touched.site_id
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="site_id"
                           name="site_id"
                           value={formik.values.site_id}
