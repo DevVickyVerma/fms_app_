@@ -182,6 +182,7 @@ const CronModule = ({ getData, isLoading, postData }) => {
       const response = await getData(`${selectedCronList.url}`);
       if (response) {
         SuccessAlert(response?.data?.message);
+
       }
     } catch (error) {
       ErrorAlert(error);
@@ -189,7 +190,10 @@ const CronModule = ({ getData, isLoading, postData }) => {
 
     const postDataUrl = `/cron-job/create?cron_job_id=${selectedCronList?.value}`;
     await postData(postDataUrl); // Set the submission state to false after the API call is completed
+
+    await fetchCronJobApi()
   };
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}

@@ -34,6 +34,12 @@ const ManageSiteTank = (props) => {
   const [lastPage, setLastPage] = useState(1);
   const [perPage, setPerPage] = useState(20);
   const [total, setTotal] = useState(0);
+  const [myFormData, setMyFormData] = useState({
+    client_id: "",
+    company_id: "",
+    site_id: "",
+    start_date: "",
+  });
 
   const maxPagesToShow = 5; // Adjust the number of pages to show in the center
   const pages = [];
@@ -70,13 +76,13 @@ const ManageSiteTank = (props) => {
   }
   const handleFetchListing = async () => {
     try {
-      const response = await getData(`/site/fuel-price/logs?page=${currentPage}`);
+      const response = await getData(`/site/fuel-price/logs?site_id=${myFormData.site_id}&drs_date=${myFormData.start_date}&page=${currentPage}`);
 
       if (response && response.data && response.data.data) {
         const responseData = response.data.data;
         setData(responseData.priceLogs);
         setCount(responseData.count);
-        setCurrentPage(responseData.currentPage);
+        setCurrentPage(responseData.currentPage ? responseData.currentPage : 1);
         setHasMorePages(responseData.hasMorePages);
         setLastPage(responseData.lastPage);
         setPerPage(responseData.perPage);
@@ -93,15 +99,21 @@ const ManageSiteTank = (props) => {
     // handleFetchListing();
   }, []);
   const handleSubmit1 = async (values) => {
+    setMyFormData({
+      client_id: values.client_id,
+      company_id: values.company_id,
+      site_id: values.site_id,
+      start_date: values.start_date,
+    })
     try {
       const response = await getData(
-        `/site/fuel-price/logs?site_id=${values.site_id}?drs_date=${values.start_date}?page=${currentPage}`
+        `/site/fuel-price/logs?site_id=${values.site_id}&drs_date=${values.start_date}&page=${currentPage}`
       );
 
       if (response && response.data && response.data.data) {
         setData(response?.data?.data?.priceLogs);
         setCount(response.data.data.count);
-        setCurrentPage(response?.data?.data?.currentPage);
+        setCurrentPage(response?.data?.data?.currentPage ? response?.data?.data?.currentPage : 1);
         setHasMorePages(response?.data?.data?.hasMorePages);
 
         setLastPage(response?.data?.data?.lastPage);
@@ -109,6 +121,7 @@ const ManageSiteTank = (props) => {
         setTotal(response?.data?.data?.total);
       } else {
         throw new Error("No data available in the response");
+
       }
     } catch (error) {
       console.error("API error:", error);
