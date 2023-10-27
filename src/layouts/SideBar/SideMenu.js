@@ -659,7 +659,7 @@ export const MENUITEMS = [
             path: `/activity-logs`,
             title: "Activity Logs",
             type: "link",
-            permission: "email-logs",
+            permission: "activity-logs",
             visibility: false,
           },
           {
