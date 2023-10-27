@@ -85,7 +85,7 @@ const AddUsers = (props) => {
 
   const handleFetchData = async () => {
     try {
-      const response = await getData("/client/commonlist");
+      const response = await getData("/common/client-list");
 
       const { data } = response;
       if (data) {
