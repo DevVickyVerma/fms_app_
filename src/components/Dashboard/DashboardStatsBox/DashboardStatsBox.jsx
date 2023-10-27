@@ -29,8 +29,6 @@ const DashboardStatsBox = (props) => {
 
   useEffect(() => {
     if (UserPermissions) {
-      console.log(UserPermissions?.applyFilter, "ApplyFilterrequiredd");
-
       setPermissionsArray(UserPermissions?.permissions);
     }
   }, [UserPermissions]);
@@ -39,7 +37,6 @@ const DashboardStatsBox = (props) => {
   const navigate = useNavigate();
 
   const handleNavigateClick = () => {
-    console.log(UserPermissions?.applyFilter, "ApplyFilterrequiredd");
     let ApplyFilterrequired = UserPermissions?.applyFilter;
 
     if (searchdata && Object.keys(searchdata).length > 0) {
