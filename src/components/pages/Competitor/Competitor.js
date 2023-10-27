@@ -608,9 +608,9 @@ const Competitor = (props) => {
 
                             if (selectcompany) {
                               GetSiteList(selectcompany);
-                              formik.setFieldValue("company_id", selectcompany);
-                              formik.setFieldValue("site_id", "");
                               setSelectedCompanyId(selectcompany);
+                              formik.setFieldValue("site_id", "");
+                              formik.setFieldValue("company_id", selectcompany);
                             } else {
                               formik.setFieldValue("company_id", "");
                               formik.setFieldValue("site_id", "");

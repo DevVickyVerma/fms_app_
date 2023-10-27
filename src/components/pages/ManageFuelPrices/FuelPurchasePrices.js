@@ -10,30 +10,13 @@ import {
   Breadcrumb,
   Card,
   Col,
-  Form,
   FormGroup,
-  OverlayTrigger,
   Row,
-  Tooltip,
 } from "react-bootstrap";
-
-import {
-  FormControl,
-  Select,
-  MenuItem,
-  Checkbox,
-  ListItemText,
-  InputLabel,
-} from "@material-ui/core";
-import debounce from "lodash/debounce";
-import { Button } from "bootstrap";
 
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
-
 import * as Yup from "yup";
-import { Dropdown } from "react-bootstrap";
-
 import { useFormik } from "formik";
 import { Slide, toast } from "react-toastify";
 const ManageDsr = (props) => {
@@ -109,7 +92,6 @@ const ManageDsr = (props) => {
         );
 
         if (response) {
-          console.log(response, "company");
           setCompanyList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -128,7 +110,6 @@ const ManageDsr = (props) => {
         const response = await getData(`common/site-list?company_id=${values}`);
 
         if (response) {
-          console.log(response, "company");
           setSiteList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -674,7 +655,6 @@ const ManageDsr = (props) => {
                               value={formik.values.client_id}
                               onChange={(e) => {
                                 const selectedType = e.target.value;
-                                console.log(selectedType, "selectedType");
 
                                 if (selectedType) {
                                   GetCompanyList(selectedType);
@@ -736,12 +716,11 @@ const ManageDsr = (props) => {
                             value={formik.values.company_id}
                             onChange={(e) => {
                               const selectcompany = e.target.value;
-
                               if (selectcompany) {
                                 GetSiteList(selectcompany);
-                                formik.setFieldValue("company_id", selectcompany);
-                                formik.setFieldValue("site_id", "");
                                 setSelectedCompanyId(selectcompany);
+                                formik.setFieldValue("site_id", "");
+                                formik.setFieldValue("company_id", selectcompany);
                               } else {
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");

@@ -404,8 +404,8 @@ const SiteSettings = (props) => {
 
                             if (selectcompany) {
                               GetSiteList(selectcompany);
-                              formik.setFieldValue("company_id", selectcompany);
                               formik.setFieldValue("site_id", "");
+                              formik.setFieldValue("company_id", selectcompany);
                               setSelectedCompanyId(selectcompany);
                             } else {
                               formik.setFieldValue("company_id", "");

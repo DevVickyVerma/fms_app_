@@ -329,12 +329,11 @@ const UploadCompetitor = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.client_id &&
-                              formik.touched.client_id
+                            className={`input101 ${formik.errors.client_id &&
+                                formik.touched.client_id
                                 ? "is-invalid"
                                 : ""
-                            }`}
+                              }`}
                             id="client_id"
                             name="client_id"
                             value={formik.values.client_id}
@@ -391,12 +390,11 @@ const UploadCompetitor = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.company_id &&
-                            formik.touched.company_id
+                          className={`input101 ${formik.errors.company_id &&
+                              formik.touched.company_id
                               ? "is-invalid"
                               : ""
-                          }`}
+                            }`}
                           id="company_id"
                           name="company_id"
                           value={formik.values.company_id}
@@ -404,8 +402,8 @@ const UploadCompetitor = (props) => {
                             const selectcompany = e.target.value;
 
                             if (selectcompany) {
-                              formik.setFieldValue("company_id", selectcompany);
                               formik.setFieldValue("site_id", "");
+                              formik.setFieldValue("company_id", selectcompany);
                             } else {
                               formik.setFieldValue("company_id", "");
                               formik.setFieldValue("site_id", "");
@@ -443,11 +441,10 @@ const UploadCompetitor = (props) => {
                             File
                           </label>
                           <div
-                            className={`dropzone ${
-                              formik.errors.image && formik.touched.image
+                            className={`dropzone ${formik.errors.image && formik.touched.image
                                 ? "is-invalid"
                                 : ""
-                            }`}
+                              }`}
                             onDrop={(event) => handleDrop(event)}
                             onDragOver={(event) => event.preventDefault()}
                           >
@@ -523,7 +520,7 @@ const UploadCompetitor = (props) => {
                       paginationPerPage={20}
                       highlightOnHover
                       searchable={true}
-                      //   onChangePage={(newPage) => setCurrentPage(newPage)}
+                    //   onChangePage={(newPage) => setCurrentPage(newPage)}
                     />
                   </DataTableExtensions>
                 </div>
