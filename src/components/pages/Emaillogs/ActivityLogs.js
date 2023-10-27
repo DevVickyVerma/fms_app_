@@ -91,19 +91,7 @@ const ManageEmail = (props) => {
         </div>
       ),
     },
-    {
-      name: "Action",
-      selector: (row) => [row?.action],
-      sortable: false,
-      width: "12%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row?.action}</h6>
-          </div>
-        </div>
-      ),
-    },
+
     {
       name: "Message",
       selector: (row) => [row?.message],
@@ -117,19 +105,7 @@ const ManageEmail = (props) => {
         </div>
       ),
     },
-    {
-      name: "Status",
-      selector: (row) => [row?.status],
-      sortable: false,
-      width: "10%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row?.status}</h6>
-          </div>
-        </div>
-      ),
-    },
+
     {
       name: "Created Date",
       selector: (row) => [row?.created_date],
@@ -141,6 +117,56 @@ const ManageEmail = (props) => {
             <h6 className="mb-0 fs-14 fw-semibold">{row?.created_date}</h6>
           </div>
         </div>
+      ),
+    },
+    {
+      name: "Action",
+      selector: (row) => [row?.action],
+      sortable: false,
+      width: "12%",
+      cell: (row) => (
+        <span
+          className="text-muted fs-15 fw-semibold text-center"
+          style={{ cursor: "pointer" }}
+        >
+          <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
+            {row?.action == "0" ? (
+              <button
+                className="btn btn-success btn-sm"
+                style={{ cursor: "pointer" }}
+              >
+                Insert
+              </button>
+            ) : row?.action == "1" ? (
+              <button className="btn btn-info btn-sm">Update</button>
+            ) : row?.action == "2" ? (
+              <button className="btn btn-danger btn-sm">Delete</button>
+            ) : row?.action == "3" ? (
+              <button className="btn btn-dark btn-sm">Assign</button>
+            ) : (
+              <button className="badge">Unknown</button>
+            )}
+          </OverlayTrigger>
+        </span>
+      ),
+    },
+    {
+      name: "Status",
+      selector: (row) => [row?.status],
+      sortable: false,
+      width: "12%",
+      cell: (row) => (
+        <span className="text-muted fs-15 fw-semibold text-center">
+          <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
+            {row?.status == 1 ? (
+              <button className="btn btn-success btn-sm">Sent</button>
+            ) : row?.status == 0 ? (
+              <button className="btn btn-danger btn-sm">Failed</button>
+            ) : (
+              <button className="badge">Unknown</button>
+            )}
+          </OverlayTrigger>
+        </span>
       ),
     },
   ];
