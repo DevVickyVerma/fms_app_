@@ -16,6 +16,7 @@ import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import CenterFilterModal from "../../data/Modal/CenterFilterModal";
 import { ErrorAlert, SuccessAlert } from "../../Utils/ToastUtils";
 import DashboardStatsBox from "./DashboardStatsBox/DashboardStatsBox";
+import Swal from "sweetalert2";
 
 const Dashboard = (props) => {
   const { isLoading, getData } = props;
@@ -365,6 +366,38 @@ const Dashboard = (props) => {
   );
 
   const isTwoFactorPermissionAvailable = UserPermissions?.two_factor;
+  const [isOnline, setIsOnline] = useState(window.navigator.onLine);
+
+  useEffect(() => {
+    const handleNetworkChange = () => {
+      const newIsOnline = window.navigator.onLine;
+      setIsOnline(newIsOnline);
+
+      if (newIsOnline) {
+        // Display an online SweetAlert
+        Swal.fire({
+          title: "Online",
+          text: "You are now online.",
+          icon: "success",
+        });
+      } else {
+        // Display an offline SweetAlert
+        Swal.fire({
+          title: "Offline",
+          text: "You are now offline.",
+          icon: "error",
+        });
+      }
+    };
+
+    window.addEventListener("online", handleNetworkChange);
+    window.addEventListener("offline", handleNetworkChange);
+
+    return () => {
+      window.removeEventListener("online", handleNetworkChange);
+      window.removeEventListener("offline", handleNetworkChange);
+    };
+  }, []);
 
   return (
     <>
