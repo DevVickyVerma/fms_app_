@@ -14,7 +14,7 @@ const Header = (props) => {
   const { isLoading, getData } = props;
   const [isTwoFactorPermissionAvailable, setIsTwoFactorPermissionAvailable] =
     useState(null);
-  const [loading, setLoading] = useState(false);
+
   const [username, setUsername] = useState();
   const [headingusername, setHeadingUsername] = useState();
   const [usernotification, setnotification] = useState();
@@ -123,10 +123,44 @@ const Header = (props) => {
     setShowTruw(true);
     // setSidebarVisible1(!sidebarVisible1);
   };
+  const [ukDate, setUkDate] = useState("");
+  const [ukTime, setUkTime] = useState("");
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const currentDateTime = new Date();
+      const dateOptions = {
+        timeZone: "Europe/London",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      };
+      const timeOptions = {
+        timeZone: "Europe/London",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      };
+
+      const formattedDate = currentDateTime.toLocaleString(
+        "en-GB",
+        dateOptions
+      );
+      const formattedTime = currentDateTime.toLocaleString(
+        "en-GB",
+        timeOptions
+      );
+
+      setUkDate(formattedDate);
+      setUkTime(formattedTime);
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
   return (
     <Navbar expand="md" className="app-header header sticky">
-      {loading && <loderdata.Loadersbigsizes1 />}
       <Container fluid className="main-container">
         <div className="d-flex align-items-center">
           <Link
@@ -165,6 +199,14 @@ const Header = (props) => {
           <div className="d-flex order-lg-2 ms-auto header-right-icons">
             <div>
               <Navbar id="navbarSupportedContent-4">
+                <span className="uk-date-time">
+                  {" "}
+                  <i className="fa fa-calendar-o"></i>
+                  <span className="uk-time"> {ukDate}</span> <br />
+                  <i className="fa fa-clock-o "></i>
+                  <span className="uk-time">{ukTime}</span>
+                </span>
+
                 {storedKeyRef.current === "false" &&
                 isProfileUpdatePermissionAvailable ? (
                   <>
@@ -295,11 +337,12 @@ const Header = (props) => {
                       <div className="drop-heading">
                         <div className="text-center">
                           <h5 className="text-dark mb-0">
-                            {username ? username : "Admin"}
+                            {username ? username : "Admin"} <br />{" "}
                           </h5>
                         </div>
                       </div>
                       <div className="dropdown-divider m-0"></div>
+
                       {isProfileUpdatePermissionAvailable ? (
                         <Dropdown.Item as={Link} to="/editprofile">
                           <i className="dropdown-icon fe fe-user"></i> Edit
