@@ -656,6 +656,13 @@ export const MENUITEMS = [
             visibility: false,
           },
           {
+            path: `/activity-logs`,
+            title: "Activity Logs",
+            type: "link",
+            permission: "email-logs",
+            visibility: false,
+          },
+          {
             path: `/site-evobos-status`,
             title: "EvoBOS Sites",
             type: "link",

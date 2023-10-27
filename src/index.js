@@ -419,6 +419,9 @@ const Settings = React.lazy(() =>
 const Emaillogs = React.lazy(() =>
   import("./components/pages/Emaillogs/Emaillogs")
 );
+const Activitylogs = React.lazy(() =>
+  import("./components/pages/Emaillogs/ActivityLogs")
+);
 const FuelPriceslogs = React.lazy(() =>
   import("./components/pages/Emaillogs/FuelPriceLogs")
 );
@@ -584,6 +587,7 @@ const Root = () => {
   const WrappedNominalActivityCodes = withApi(NominalActivityCodes);
   const WrappedNominalTypes = withApi(NominalTypes);
   const WrappedNominalTaxCode = withApi(NominalTaxCode);
+  const WrappedActivitylogs = withApi(Activitylogs);
 
   return (
     <Fragment>
@@ -735,6 +739,10 @@ const Root = () => {
                   <Route
                     path={`/fuel-price-logs`}
                     element={<WrappedFuelPriceslogs />}
+                  />
+                  <Route
+                    path={`/activity-logs`}
+                    element={<WrappedActivitylogs />}
                   />
                   {/* Header  Components Start */}
                   {/* <Route
