@@ -108,7 +108,7 @@ h3.SidebarSearch-title {
   box-shadow: none;
 }
 
-.data-table-extensions>.data-table-extensions-filter>.filter-text {
+.data-table-extensions > .data-table-extensions-filter > .filter-text {
   /* border: 1px solid #eaedf1 !important; */
   border-bottom: 1px solid #eaedf1 !important;
   outline: none !important;
@@ -331,7 +331,6 @@ tbody tr {
 }
 
 @media screen and (max-width: 768px) {
-
   .table th,
   .table td {
     min-width: 22.28% !important;
@@ -553,7 +552,7 @@ input.table-input.readonly.total-input-card {
   border-radius: 50%;
 }
 
-.d-flex.chart-items>div:first-child {
+.d-flex.chart-items > div:first-child {
   margin-right: 0;
   margin-left: 0;
 }
@@ -1122,7 +1121,6 @@ span.ModalTitle-2fa {
   }
 }
 
-
 .single-Competitor-heading {
   background: #aeb1bd;
   padding: 12px;
@@ -1143,14 +1141,11 @@ span.ModalTitle-2fa {
   margin: 5px;
 }
 
-
-
 .single-Competitor-distance {
   opacity: 0.5;
   font-size: 12px;
   font-weight: 300;
 }
-
 
 .content_wrapper {
   display: flex;
@@ -1158,7 +1153,6 @@ span.ModalTitle-2fa {
   align-items: center;
   margin: 0 auto;
 }
-
 
 .card_bg {
   background: url(https://i.ibb.co/M9LB3Kq/Glassmorphism-Background.png);
@@ -1190,12 +1184,11 @@ span.ModalTitle-2fa {
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-@media screen and (max-width:"500px") {
+@media screen and (max-width: "500px") {
   .hidden-in-small-screen {
     display: none;
   }
 }
-
 
 .manage-site-dropdown-item-container {
   display: block;
@@ -1217,4 +1210,20 @@ span.ModalTitle-2fa {
 
 .compi-calender {
   min-width: 200px;
+}
+span.uk-date-time {
+  background: #6259ca;
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 5px;
+  color: #fff;
+  margin-left: 10px;
+}
+@media (max-width: 600px) {
+  span.uk-date-time {
+    display: none;
+  }
+}
+.uk-time {
+  margin-left: 6px;
 }
