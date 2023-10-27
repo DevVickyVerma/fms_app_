@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from "react";
-
-import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
-
-import { Formik, Field, ErrorMessage } from "formik";
+import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 import * as Yup from "yup";
-
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-
 import withApi from "../../../Utils/ApiHelper";
 import { useFormik } from "formik";
 import Loaderimg from "../../../Utils/Loader";
@@ -22,45 +17,13 @@ import {
 } from "@material-ui/core";
 
 const AddCompany = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
-
-  const navigate = useNavigate();
-
+  const { isLoading, getData, postData } = props;
   const [dropdownValue, setDropdownValue] = useState([]);
-
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  //   const fetchClientList = async () => {
-  //     try {
-  //       const response = await axiosInstance.get("/client/list");
-
-  //       if (response.data.data.clients.length > 0) {
-  //         // setData(response.data.data.sites);
-
-  //         setDropdownValue(response.data.data);
-  //       }
-  //     } catch (error) {
-  //       if (error.response && error.response.status === 401) {
-  //         navigate("/login");
-
-  //         localStorage.clear();
-  //       } else if (error.response && error.response.data.status_code === "403") {
-  //         navigate("/errorpage403");
-  //       }
-  //     }
-  //   };
-
   const [permissionsArray, setPermissionsArray] = useState([]);
   const [isPermissionsSet, setIsPermissionsSet] = useState(false);
   const [selectedSiteList1, setSelectedSiteList1] = useState([]);
   const { id } = useParams();
   const UserPermissions = useSelector((state) => state?.data?.data);
-
   const FetchmannegerList = async () => {
     try {
       const response = await getData(`/site/manager/${id}`);
@@ -186,19 +149,18 @@ const AddCompany = (props) => {
                           </label>
                           <select
                             as="select"
-                            className={`input101 ${
-                              formik.errors.client_id &&
+                            className={`input101 ${formik.errors.client_id &&
                               formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="client_id"
                             name="client_id"
                             onChange={formik.handleChange}
                           >
                             <option value=""> Select User</option>
                             {dropdownValue.users &&
-                            dropdownValue.users.length > 0 ? (
+                              dropdownValue.users.length > 0 ? (
                               dropdownValue.users.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.user_name}

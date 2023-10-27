@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
-
-import { Formik, Field, ErrorMessage } from "formik";
+import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 import * as Yup from "yup";
 
 import axios from "axios";
@@ -12,35 +10,13 @@ import withApi from "../../../Utils/ApiHelper";
 import { useFormik } from "formik";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import {
-  FormControl,
-  Select,
-  MenuItem,
-  Checkbox,
-  ListItemText,
-  InputLabel,
-} from "@material-ui/core";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 
 const AddCompany = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
-
-  const navigate = useNavigate();
-
+  const { isLoading, getData, postData } = props;
   const [dropdownValue, setDropdownValue] = useState([]);
-
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
   const [permissionsArray, setPermissionsArray] = useState([]);
   const [isPermissionsSet, setIsPermissionsSet] = useState(false);
-  const [selectedSiteList1, setSelectedSiteList1] = useState([]);
   const { id } = useParams();
   const UserPermissions = useSelector((state) => state?.data?.data);
   const [ReportsData, setReportsData] = useState([]);
@@ -213,12 +189,11 @@ const AddCompany = (props) => {
                       </label>
                       <select
                         as="select"
-                        className={`input101 ${
-                          formik.errors.userSelcetedid &&
+                        className={`input101 ${formik.errors.userSelcetedid &&
                           formik.touched.userSelcetedid
-                            ? "is-invalid"
-                            : ""
-                        }`}
+                          ? "is-invalid"
+                          : ""
+                          }`}
                         id="userSelcetedid"
                         name="userSelcetedid"
                         onChange={formik.handleChange}
@@ -226,7 +201,7 @@ const AddCompany = (props) => {
                       >
                         <option value=""> Select User</option>
                         {dropdownValue.users &&
-                        dropdownValue.users.length > 0 ? (
+                          dropdownValue.users.length > 0 ? (
                           dropdownValue.users.map((item) => (
                             <option key={item.id} value={item.id}>
                               {item.user_name}

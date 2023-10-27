@@ -48,8 +48,6 @@ const ManageDsr = (props) => {
 
   const UserPermissions = useSelector((state) => state?.data?.data);
   const [AddSiteData, setAddSiteData] = useState([]);
-
-  const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
@@ -69,7 +67,12 @@ const ManageDsr = (props) => {
   const [SiteId, setSiteId] = useState();
   const [DRSDate, setDRSDate] = useState();
   const [showModal, setShowModal] = useState(false); // State variable to control modal visibility
-
+  const [ClientList, setClientList] = useState([]);
+  const [CompanyList, setCompanyList] = useState([]);
+  const [SiteList, setSiteList] = useState([]);
+  const [selectedSiteId, setSelectedSiteId] = useState("");
+  const [selectedClientId, setSelectedClientId] = useState("");
+  const [selectedCompanyId, setSelectedCompanyId] = useState("");
   const { timeLeft, setTimeLeft, isTimerRunning, setIsTimerRunning } =
     useMyContext();
   const [selectedItem, setSelectedItem] = useState(null);
@@ -83,7 +86,6 @@ const ManageDsr = (props) => {
   }, [storedToken]);
 
   useEffect(() => {
-    FetchCommonData();
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
     if (UserPermissions) {
       setPermissionsArray(UserPermissions.permissions);
@@ -120,111 +122,27 @@ const ManageDsr = (props) => {
     }
   }
 
-  const FetchCommonData = async () => {
+
+
+  const fetchCommonListData = async () => {
     try {
-      const response = await getData("/client/commonlist");
+      const response = await getData("/common/client-list");
 
       const { data } = response;
       if (data) {
-        setAddSiteData(response.data);
-        const searchParams = new URLSearchParams(location?.search);
-        // const encodedData = searchParams?.get("data");
-        const encodedData = JSON.parse(
-          localStorage.getItem("dailyWorkFlowInput")
-        );
-        if (encodedData) {
-          try {
-            const decodedData = JSON.parse(decodeURIComponent(encodedData));
+        setClientList(response.data);
 
-            formik.setFieldValue("company_id", decodedData.company_id);
+        const clientId = localStorage.getItem("superiorId");
+        if (clientId) {
+          setSelectedClientId(clientId);
+          setSelectedCompanyList([]);
 
-            formik.setFieldValue("client_id", decodedData.client_id);
-
-            formik.setFieldValue("site_id", decodedData.site_id);
-            formik.setFieldValue("start_date", decodedData.start_date);
-
-            if (decodedData.client_id) {
-              setSelectedClientId(decodedData.client_id);
-
-              setSelectedCompanyList([]);
-
-              if (response?.data) {
-                const selectedClient = response?.data?.data?.find(
-                  (client) => client.id === decodedData.client_id
-                );
-                if (selectedClient) {
-                  setSelectedCompanyList(selectedClient?.companies);
-                }
-                setSelectedSiteList([]);
-                const selectedCompanyData = selectedClient?.companies.find(
-                  (company) => company.id === decodedData.company_id
-                );
-
-                if (selectedCompanyData) {
-                  setSelectedSiteList(selectedCompanyData.sites);
-                }
-              }
-            }
-
-            GetDataWithClient(decodedData);
-          } catch (error) {
-            console.error("Error decoding or parsing data:", error);
-          }
-
-          try {
-            formik.setFieldValue("company_id", encodedData.company_id);
-            formik.setFieldValue("client_id", encodedData.client_id);
-            formik.setFieldValue("site_id", encodedData.site_id);
-            formik.setFieldValue("start_date", encodedData.start_date);
-            setSiteId(encodedData.site_id);
-            setDRSDate(encodedData.start_date);
-
-            if (encodedData.client_id) {
-              setSelectedClientId(encodedData.client_id);
-
-              setSelectedCompanyList([]);
-
-              if (response?.data) {
-                const selectedClient = response?.data?.data?.find(
-                  (client) => client.id === encodedData.client_id
-                );
-                if (selectedClient) {
-                  setSelectedCompanyList(selectedClient?.companies);
-                }
-                setSelectedSiteList([]);
-                const selectedCompanyData = selectedClient?.companies.find(
-                  (company) => company.id === encodedData.company_id
-                );
-
-                if (selectedCompanyData) {
-                  setSelectedSiteList(selectedCompanyData.sites);
-                }
-              }
-            }
-
-            GetDataWithClient(encodedData);
-          } catch (error) {
-            console.error("Error decoding or parsing data:", error);
-          }
-        } else {
-        }
-
-        if (
-          response?.data &&
-          localStorage.getItem("superiorRole") === "Client"
-        ) {
-          const clientId = localStorage.getItem("superiorId");
-          if (clientId) {
-            setSelectedClientId(clientId);
-            setSelectedCompanyList([]);
-
-            if (response?.data) {
-              const selectedClient = response?.data?.data?.find(
-                (client) => client.id === clientId
-              );
-              if (selectedClient) {
-                setSelectedCompanyList(selectedClient?.companies);
-              }
+          if (response?.data) {
+            const selectedClient = response?.data?.data?.find(
+              (client) => client.id === clientId
+            );
+            if (selectedClient) {
+              setSelectedCompanyList(selectedClient?.companies);
             }
           }
         }
@@ -233,6 +151,57 @@ const ManageDsr = (props) => {
       console.error("API error:", error);
     }
   };
+
+  const GetCompanyList = async (values) => {
+    try {
+      if (values) {
+        const response = await getData(
+          `common/company-list?client_id=${values}`
+        );
+
+        if (response) {
+          console.log(response, "company");
+          setCompanyList(response?.data?.data);
+        } else {
+          throw new Error("No data available in the response");
+        }
+      } else {
+        console.error("No site_id found ");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+  const GetSiteList = async (values) => {
+    try {
+      if (values) {
+        const response = await getData(`common/site-list?company_id=${values}`);
+
+        if (response) {
+          console.log(response, "company");
+          setSiteList(response?.data?.data);
+        } else {
+          throw new Error("No data available in the response");
+        }
+      } else {
+        console.error("No site_id found ");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+  useEffect(() => {
+    const clientId = localStorage.getItem("superiorId");
+
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData()
+    } else {
+      setSelectedClientId(clientId);
+      GetCompanyList(clientId)
+    }
+  }, []);
 
   const clearTimerDataFromLocalStorage = () => {
     localStorage.removeItem("isTimerRunning");
@@ -505,39 +474,46 @@ const ManageDsr = (props) => {
                             htmlFor="client_id"
                             className="form-label mt-4"
                           >
-                            Client <span className="text-danger">*</span>
+                            Client
+                            <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.client_id &&
+                            className={`input101 ${formik.errors.client_id &&
                               formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="client_id"
                             name="client_id"
+                            value={formik.values.client_id}
                             onChange={(e) => {
-                              formik.handleChange(e);
-                              setSelectedCompanyList([]);
-                              setSelectedSiteList([]);
-                              formik.setFieldValue("company_id", "");
-                              formik.setFieldValue("site_id", "");
+                              const selectedType = e.target.value;
+                              console.log(selectedType, "selectedType");
 
-                              const selectedClient = AddSiteData.data.find(
-                                (client) => client.id === e.target.value
-                              );
-
-                              if (selectedClient) {
-                                setSelectedCompanyList(
-                                  selectedClient.companies
+                              if (selectedType) {
+                                GetCompanyList(selectedType);
+                                formik.setFieldValue("client_id", selectedType);
+                                setSelectedClientId(selectedType);
+                                setSiteList([]);
+                                formik.setFieldValue("company_id", "");
+                                formik.setFieldValue("site_id", "");
+                              } else {
+                                console.log(
+                                  selectedType,
+                                  "selectedType no values"
                                 );
+                                formik.setFieldValue("client_id", "");
+                                formik.setFieldValue("company_id", "");
+                                formik.setFieldValue("site_id", "");
+
+                                setSiteList([]);
+                                setCompanyList([]);
                               }
                             }}
-                            value={formik.values.client_id}
                           >
                             <option value="">Select a Client</option>
-                            {AddSiteData.data && AddSiteData.data.length > 0 ? (
-                              AddSiteData.data.map((item) => (
+                            {ClientList.data && ClientList.data.length > 0 ? (
+                              ClientList.data.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.client_name}
                                 </option>
@@ -546,6 +522,7 @@ const ManageDsr = (props) => {
                               <option disabled>No Client</option>
                             )}
                           </select>
+
                           {formik.errors.client_id &&
                             formik.touched.client_id && (
                               <div className="invalid-feedback">
@@ -555,42 +532,48 @@ const ManageDsr = (props) => {
                         </div>
                       </Col>
                     )}
-                    <Col lg={3} md={3}>
+
+                    <Col Col lg={3} md={3}>
                       <div className="form-group">
                         <label htmlFor="company_id" className="form-label mt-4">
                           Company
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.company_id &&
+                          className={`input101 ${formik.errors.company_id &&
                             formik.touched.company_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="company_id"
                           name="company_id"
                           value={formik.values.company_id}
                           onChange={(e) => {
-                            const selectedCompany = e.target.value;
-                            formik.setFieldValue("company_id", selectedCompany);
-                            setSelectedSiteList([]);
-                            const selectedCompanyData =
-                              selectedCompanyList.find(
-                                (company) => company.id === selectedCompany
-                              );
-                            if (selectedCompanyData) {
-                              setSelectedSiteList(selectedCompanyData.sites);
+                            const selectcompany = e.target.value;
+
+                            if (selectcompany) {
+                              GetSiteList(selectcompany);
+                              formik.setFieldValue("company_id", selectcompany);
+                              formik.setFieldValue("site_id", "");
+                              setSelectedCompanyId(selectcompany);
+                            } else {
+                              formik.setFieldValue("company_id", "");
+                              formik.setFieldValue("site_id", "");
+
+                              setSiteList([]);
                             }
                           }}
                         >
                           <option value="">Select a Company</option>
-                          {selectedCompanyList.length > 0 ? (
-                            selectedCompanyList.map((company) => (
-                              <option key={company.id} value={company.id}>
-                                {company.company_name}
-                              </option>
-                            ))
+                          {selectedClientId && CompanyList.length > 0 ? (
+                            <>
+                              setSelectedCompanyId([])
+                              {CompanyList.map((company) => (
+                                <option key={company.id} value={company.id}>
+                                  {company.company_name}
+                                </option>
+                              ))}
+                            </>
                           ) : (
                             <option disabled>No Company</option>
                           )}
@@ -605,29 +588,29 @@ const ManageDsr = (props) => {
                     </Col>
 
                     <Col lg={3} md={3}>
-                      <div classname="form-group">
+                      <div className="form-group">
                         <label htmlFor="site_id" className="form-label mt-4">
-                          Site <span className="text-danger">*</span>
+                          Site Name
+                          <span className="text-danger">*</span>
                         </label>
                         <select
-                          as="select"
-                          className={`input101 ${
-                            formik.errors.site_id && formik.touched.site_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.site_id && formik.touched.site_id
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="site_id"
                           name="site_id"
                           value={formik.values.site_id}
                           onChange={(e) => {
                             const selectedsite_id = e.target.value;
+
                             formik.setFieldValue("site_id", selectedsite_id);
-                            setSiteId(selectedsite_id);
+                            setSelectedSiteId(selectedsite_id);
                           }}
                         >
                           <option value="">Select a Site</option>
-                          {selectedSiteList.length > 0 ? (
-                            selectedSiteList.map((site) => (
+                          {CompanyList && SiteList.length > 0 ? (
+                            SiteList.map((site) => (
                               <option key={site.id} value={site.id}>
                                 {site.site_name}
                               </option>
@@ -655,12 +638,11 @@ const ManageDsr = (props) => {
                           min={"2023-01-01"}
                           max={getCurrentDate()}
                           onClick={hadndleShowDate}
-                          className={`input101 ${
-                            formik.errors.start_date &&
+                          className={`input101 ${formik.errors.start_date &&
                             formik.touched.start_date
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           value={formik.values.start_date}
                           id="start_date"
                           name="start_date"
@@ -801,9 +783,9 @@ const ManageDsr = (props) => {
               <Card.Header className="d-flex justify-content-space-between">
                 <h3 className="card-title">Daily Workflow</h3>
                 {getDataBtn === true &&
-                isAssignPermissionAvailable &&
-                DataEnteryList &&
-                DataEnteryList.length > 0 ? (
+                  isAssignPermissionAvailable &&
+                  DataEnteryList &&
+                  DataEnteryList.length > 0 ? (
                   <>
                     <Link
                       onClick={handleButtonClick}
@@ -825,20 +807,18 @@ const ManageDsr = (props) => {
                     DataEnteryList.map((item) => (
                       <Col md={12} xl={3} key={item.id}>
                         <Card
-                          className={`text-white ${
-                            item.bgColor === "amber"
-                              ? "bg-card-amber"
-                              : item.bgColor === "green"
+                          className={`text-white ${item.bgColor === "amber"
+                            ? "bg-card-amber"
+                            : item.bgColor === "green"
                               ? "bg-card-green"
                               : item.bgColor === "red"
-                              ? "bg-card-red"
-                              : "bg-primary"
-                          }`}
+                                ? "bg-card-red"
+                                : "bg-primary"
+                            }`}
                         >
                           <Card.Body
-                            className={`card-Div ${
-                              selectedItem === item ? "dsr-selected" : ""
-                            }`}
+                            className={`card-Div ${selectedItem === item ? "dsr-selected" : ""
+                              }`}
                             onClick={() => handleEnteryClick(item)} // Pass item.name as an argument
                           >
                             <h4 className="card-title">{item.name}</h4>

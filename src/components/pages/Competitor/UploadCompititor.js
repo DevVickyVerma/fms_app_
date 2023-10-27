@@ -14,8 +14,10 @@ const UploadCompetitor = (props) => {
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [CompetitorData, setCompetitorData] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
-
+  const [ClientList, setClientList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
+  const [CompanyList, setCompanyList] = useState([]);
+  const [SiteList, setSiteList] = useState([]);
 
   const [isdataLoading, setIsLoading] = useState(false);
 
@@ -50,16 +52,15 @@ const UploadCompetitor = (props) => {
 
   const fetchCommonListData = async () => {
     try {
-      const response = await getData("/client/commonlist");
+      const response = await getData("/common/client-list");
 
       const { data } = response;
       if (data) {
-        setCompetitorData(response.data);
+        setClientList(response.data);
 
         const clientId = localStorage.getItem("superiorId");
         if (clientId) {
           setSelectedClientId(clientId);
-
           setSelectedCompanyList([]);
 
           if (response?.data) {
@@ -70,7 +71,6 @@ const UploadCompetitor = (props) => {
               setSelectedCompanyList(selectedClient?.companies);
             }
           }
-          // }
         }
       }
     } catch (error) {
@@ -79,8 +79,36 @@ const UploadCompetitor = (props) => {
   };
 
   useEffect(() => {
-    fetchCommonListData();
+    const clientId = localStorage.getItem("superiorId");
+
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData()
+    } else {
+      setSelectedClientId(clientId);
+      GetCompanyList(clientId)
+    }
   }, []);
+
+  const GetCompanyList = async (values) => {
+    try {
+      if (values) {
+        const response = await getData(
+          `common/company-list?client_id=${values}`
+        );
+
+        if (response) {
+          console.log(response, "company");
+          setCompanyList(response?.data?.data);
+        } else {
+          throw new Error("No data available in the response");
+        }
+      } else {
+        console.error("No site_id found ");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
 
   const SuccessToast = (message) => {
     toast.success(message, {
@@ -196,7 +224,7 @@ const UploadCompetitor = (props) => {
                 <form onSubmit={formik.handleSubmit}>
                   <Row>
                     {localStorage.getItem("superiorRole") !== "Client" && (
-                      <Col lg={4} md={4}>
+                      <Col lg={4} md={6}>
                         <div className="form-group">
                           <label
                             htmlFor="client_id"
@@ -206,38 +234,42 @@ const UploadCompetitor = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.client_id &&
+                            className={`input101 ${formik.errors.client_id &&
                               formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="client_id"
                             name="client_id"
+                            value={formik.values.client_id}
                             onChange={(e) => {
                               const selectedType = e.target.value;
+                              console.log(selectedType, "selectedType");
 
-                              formik.setFieldValue("client_id", selectedType);
-                              setSelectedClientId(selectedType);
-
-                              // Reset the selected company and site
-                              setSelectedCompanyList([]);
-                              setSelectedSiteList([]);
-                              const selectedClient = CompetitorData.data.find(
-                                (client) => client.id === selectedType
-                              );
-
-                              if (selectedClient) {
-                                setSelectedCompanyList(
-                                  selectedClient.companies
+                              if (selectedType) {
+                                GetCompanyList(selectedType);
+                                formik.setFieldValue("client_id", selectedType);
+                                setSelectedClientId(selectedType);
+                                setSiteList([]);
+                                formik.setFieldValue("company_id", "");
+                                formik.setFieldValue("site_id", "");
+                              } else {
+                                console.log(
+                                  selectedType,
+                                  "selectedType no values"
                                 );
+                                formik.setFieldValue("client_id", "");
+                                formik.setFieldValue("company_id", "");
+                                formik.setFieldValue("site_id", "");
+
+                                setSiteList([]);
+                                setCompanyList([]);
                               }
                             }}
                           >
                             <option value="">Select a Client</option>
-                            {CompetitorData.data &&
-                            CompetitorData.data.length > 0 ? (
-                              CompetitorData.data.map((item) => (
+                            {ClientList.data && ClientList.data.length > 0 ? (
+                              ClientList.data.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.client_name}
                                 </option>
@@ -263,11 +295,10 @@ const UploadCompetitor = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <div
-                          className={`dropzone ${
-                            formik.errors.image && formik.touched.image
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`dropzone ${formik.errors.image && formik.touched.image
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           onDrop={(event) => handleDrop(event)}
                           onDragOver={(event) => event.preventDefault()}
                         >
