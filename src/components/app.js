@@ -35,7 +35,7 @@ const App = (props) => {
           window.location.replace("/");
         }, 500);
       } else {
-        throw new Error("No data available in the response");
+        throw new Error("No data available in the responses");
       }
     } catch (error) {
       console.error("API error:", error);
