@@ -30,8 +30,8 @@ const SiteSettings = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const navigate = useNavigate();
 
-
-
+  const [ClientList, setClientList] = useState([]);
+  const [SiteList, setSiteList] = useState([]);
   const [AddSiteData, setAddSiteData] = useState([]);
   const [ToleranceData, setToleranceData] = useState([]);
   // const [selectedBusinessType, setSelectedBusinessType] = useState("");
@@ -44,6 +44,7 @@ const SiteSettings = (props) => {
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
+  const [CompanyList, setCompanyList] = useState([]);
   const [data, setData] = useState();
   const [permissionsArray, setPermissionsArray] = useState([]);
 
@@ -71,50 +72,25 @@ const SiteSettings = (props) => {
     }
   }
 
-  useEffect(() => {
-    setclientIDLocalStorage(localStorage.getItem("superiorId"));
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
+  const fetchCommonListData = async () => {
     try {
-      handleFetchData();
-    } catch (error) {
-      handleError(error);
-    }
-
-    console.clear();
-    console.clear();
-  }, []);
-
-  const handleFetchData = async () => {
-    try {
-      const response = await getData("/client/commonlist");
+      const response = await getData("/common/client-list");
 
       const { data } = response;
       if (data) {
-        setToleranceData(response.data);
-        if (
-          response?.data &&
-          localStorage.getItem("superiorRole") === "Client"
-        ) {
-          const clientId = localStorage.getItem("superiorId");
-          if (clientId) {
-            setSelectedClientId(clientId);
+        setClientList(response.data);
 
-            setSelectedCompanyList([]);
+        const clientId = localStorage.getItem("superiorId");
+        if (clientId) {
+          setSelectedClientId(clientId);
+          setSelectedCompanyList([]);
 
-            if (response?.data) {
-              const selectedClient = response?.data?.data?.find(
-                (client) => client.id === clientId
-              );
-              if (selectedClient) {
-                setSelectedCompanyList(selectedClient?.companies);
-              }
+          if (response?.data) {
+            const selectedClient = response?.data?.data?.find(
+              (client) => client.id === clientId
+            );
+            if (selectedClient) {
+              setSelectedCompanyList(selectedClient?.companies);
             }
           }
         }
@@ -123,6 +99,58 @@ const SiteSettings = (props) => {
       console.error("API error:", error);
     }
   };
+
+  const GetCompanyList = async (values) => {
+    try {
+      if (values) {
+        const response = await getData(
+          `common/company-list?client_id=${values}`
+        );
+
+        if (response) {
+          console.log(response, "company");
+          setCompanyList(response?.data?.data);
+        } else {
+          throw new Error("No data available in the response");
+        }
+      } else {
+        console.error("No site_id found ");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+  const GetSiteList = async (values) => {
+    try {
+      if (values) {
+        const response = await getData(`common/site-list?company_id=${values}`);
+
+        if (response) {
+          console.log(response, "company");
+          setSiteList(response?.data?.data);
+        } else {
+          throw new Error("No data available in the response");
+        }
+      } else {
+        console.error("No site_id found ");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+
+  useEffect(() => {
+    const clientId = localStorage.getItem("superiorId");
+
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData()
+    } else {
+      setSelectedClientId(clientId);
+      GetCompanyList(clientId)
+    }
+  }, []);
 
   const handleSubmit = async (values) => {
     let clientIDCondition = "";
@@ -308,30 +336,35 @@ const SiteSettings = (props) => {
                               }`}
                             id="client_id"
                             name="client_id"
+                            value={formik.values.client_id}
                             onChange={(e) => {
                               const selectedType = e.target.value;
+                              console.log(selectedType, "selectedType");
 
-                              formik.setFieldValue("client_id", selectedType);
-                              setSelectedClientId(selectedType);
-
-                              // Reset the selected company and site
-                              setSelectedCompanyList([]);
-                              setSelectedSiteList([]);
-                              const selectedClient = ToleranceData.data.find(
-                                (client) => client.id === selectedType
-                              );
-
-                              if (selectedClient) {
-                                setSelectedCompanyList(
-                                  selectedClient.companies
+                              if (selectedType) {
+                                GetCompanyList(selectedType);
+                                formik.setFieldValue("client_id", selectedType);
+                                setSelectedClientId(selectedType);
+                                setSiteList([]);
+                                formik.setFieldValue("company_id", "");
+                                formik.setFieldValue("site_id", "");
+                              } else {
+                                console.log(
+                                  selectedType,
+                                  "selectedType no values"
                                 );
+                                formik.setFieldValue("client_id", "");
+                                formik.setFieldValue("company_id", "");
+                                formik.setFieldValue("site_id", "");
+
+                                setSiteList([]);
+                                setCompanyList([]);
                               }
                             }}
                           >
                             <option value="">Select a Client</option>
-                            {ToleranceData.data &&
-                              ToleranceData.data.length > 0 ? (
-                              ToleranceData.data.map((item) => (
+                            {ClientList.data && ClientList.data.length > 0 ? (
+                              ClientList.data.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.client_name}
                                 </option>
@@ -340,7 +373,7 @@ const SiteSettings = (props) => {
                               <option disabled>No Client</option>
                             )}
                           </select>
-                          {/* Replace this line with a self-closing tag */}
+
                           {formik.errors.client_id &&
                             formik.touched.client_id && (
                               <div className="invalid-feedback">
@@ -351,7 +384,7 @@ const SiteSettings = (props) => {
                       </Col>
                     )}
 
-                    <Col lg={4} md={6}>
+                    <Col Col lg={4} md={6}>
                       <div className="form-group">
                         <label htmlFor="company_id" className="form-label mt-4">
                           Company
@@ -365,29 +398,33 @@ const SiteSettings = (props) => {
                             }`}
                           id="company_id"
                           name="company_id"
+                          value={formik.values.company_id}
                           onChange={(e) => {
-                            const selectedCompany = e.target.value;
+                            const selectcompany = e.target.value;
 
-                            formik.setFieldValue("company_id", selectedCompany);
-                            setSelectedCompanyId(selectedCompany);
-                            setSelectedSiteList([]);
-                            const selectedCompanyData =
-                              selectedCompanyList.find(
-                                (company) => company.id === selectedCompany
-                              );
+                            if (selectcompany) {
+                              GetSiteList(selectcompany);
+                              formik.setFieldValue("company_id", selectcompany);
+                              formik.setFieldValue("site_id", "");
+                              setSelectedCompanyId(selectcompany);
+                            } else {
+                              formik.setFieldValue("company_id", "");
+                              formik.setFieldValue("site_id", "");
 
-                            if (selectedCompanyData) {
-                              setSelectedSiteList(selectedCompanyData.sites);
+                              setSiteList([]);
                             }
                           }}
                         >
                           <option value="">Select a Company</option>
-                          {selectedCompanyList.length > 0 ? (
-                            selectedCompanyList.map((company) => (
-                              <option key={company.id} value={company.id}>
-                                {company.company_name}
-                              </option>
-                            ))
+                          {selectedClientId && CompanyList.length > 0 ? (
+                            <>
+                              setSelectedCompanyId([])
+                              {CompanyList.map((company) => (
+                                <option key={company.id} value={company.id}>
+                                  {company.company_name}
+                                </option>
+                              ))}
+                            </>
                           ) : (
                             <option disabled>No Company</option>
                           )}

@@ -53,12 +53,19 @@ const ManageDsr = (props) => {
   );
 
   const [selectedItems1, setSelectedItems1] = useState([]);
+  const [ClientList, setClientList] = useState([]);
+  const [CompanyList, setCompanyList] = useState([]);
+  const [selectedCompanyList, setSelectedCompanyList] = useState([]);
+  const [SiteList, setSiteList] = useState([]);
+  const [selectedClientId, setSelectedClientId] = useState("");
+  const [selectedCompanyId, setSelectedCompanyId] = useState("");
+  const [selectedSiteId, setSelectedSiteId] = useState("");
 
   const handleItemClick1 = (event) => {
     setSelectedItems1(event.target.value);
 
     const selectedSiteNames = event.target.value;
-    const filteredSites = selectedSiteList1.filter((item) =>
+    const filteredSites = SiteList.filter((item) =>
       selectedSiteNames.includes(item.site_name)
     );
 
@@ -69,34 +76,63 @@ const ManageDsr = (props) => {
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
 
-    handleFetchData();
+    // handleFetchData();
     handleFetchName();
   }, [UserPermissions]);
 
-  const handleFetchData = async () => {
+  // const handleFetchData = async () => {
+  //   try {
+  //     const response = await getData("/client/commonlist");
+
+  //     const { data } = response;
+  //     if (data) {
+  //       setAddSiteData1(response.data);
+  //       if (
+  //         response?.data &&
+  //         localStorage.getItem("superiorRole") === "Client"
+  //       ) {
+  //         const clientId = localStorage.getItem("superiorId");
+  //         if (clientId) {
+  //           setSelectedClientId1(clientId);
+
+  //           setSelectedCompanyList1([]);
+
+  //           if (response?.data) {
+  //             const selectedClient = response?.data?.data?.find(
+  //               (client) => client.id === clientId
+  //             );
+  //             if (selectedClient) {
+  //               setSelectedCompanyList1(selectedClient?.companies);
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error("API error:", error);
+  //   }
+  // };
+
+
+  const fetchCommonListData = async () => {
     try {
-      const response = await getData("/client/commonlist");
+      const response = await getData("/common/client-list");
 
       const { data } = response;
       if (data) {
-        setAddSiteData1(response.data);
-        if (
-          response?.data &&
-          localStorage.getItem("superiorRole") === "Client"
-        ) {
-          const clientId = localStorage.getItem("superiorId");
-          if (clientId) {
-            setSelectedClientId1(clientId);
+        setClientList(response.data);
 
-            setSelectedCompanyList1([]);
+        const clientId = localStorage.getItem("superiorId");
+        if (clientId) {
+          setSelectedClientId(clientId);
+          setSelectedCompanyList([]);
 
-            if (response?.data) {
-              const selectedClient = response?.data?.data?.find(
-                (client) => client.id === clientId
-              );
-              if (selectedClient) {
-                setSelectedCompanyList1(selectedClient?.companies);
-              }
+          if (response?.data) {
+            const selectedClient = response?.data?.data?.find(
+              (client) => client.id === clientId
+            );
+            if (selectedClient) {
+              setSelectedCompanyList(selectedClient?.companies);
             }
           }
         }
@@ -105,6 +141,58 @@ const ManageDsr = (props) => {
       console.error("API error:", error);
     }
   };
+
+  const GetCompanyList = async (values) => {
+    try {
+      if (values) {
+        const response = await getData(
+          `common/company-list?client_id=${values}`
+        );
+
+        if (response) {
+          console.log(response, "company");
+          setCompanyList(response?.data?.data);
+        } else {
+          throw new Error("No data available in the response");
+        }
+      } else {
+        console.error("No site_id found ");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+  const GetSiteList = async (values) => {
+    try {
+      if (values) {
+        const response = await getData(`common/site-list?company_id=${values}`);
+
+        if (response) {
+          console.log(response, "company");
+          setSiteList(response?.data?.data);
+        } else {
+          throw new Error("No data available in the response");
+        }
+      } else {
+        console.error("No site_id found ");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+  useEffect(() => {
+    const clientId = localStorage.getItem("superiorId");
+
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData()
+    } else {
+      setSelectedClientId(clientId);
+      GetCompanyList(clientId)
+    }
+  }, []);
+
   const handleFetchName = async () => {
     try {
       const response = await getData("/business/subcategory");
@@ -119,7 +207,7 @@ const ManageDsr = (props) => {
   };
 
   const secondValidationSchema = Yup.object({
-    company_id1: Yup.string().required("Company is required"),
+    company_id: Yup.string().required("Company is required"),
     start_date1: Yup.date()
       .required("Start Date is required")
       .min(
@@ -138,9 +226,9 @@ const ManageDsr = (props) => {
 
   const formik2 = useFormik({
     initialValues: {
-      client_id1: "",
-      company_id1: "",
-      site_id1: "",
+      client_id: "",
+      company_id: "",
+      site_id: "",
       start_date1: "",
       platts: "",
       developmentfuels: "",
@@ -226,7 +314,7 @@ const ManageDsr = (props) => {
   };
   const [selected, setSelected] = useState([]);
 
-  const options = selectedSiteList1?.map((site) => ({
+  const options = SiteList?.map((site) => ({
     label: site.site_name,
     value: site.id,
   }));
@@ -266,54 +354,52 @@ const ManageDsr = (props) => {
                 <Card.Body>
                   <Row>
                     {localStorage.getItem("superiorRole") !== "Client" && (
-                      <Col lg={3} md={6}>
+                      <Col lg={3} md={3}>
                         <div className="form-group">
                           <label
-                            htmlFor="client_id1"
+                            htmlFor="client_id"
                             className="form-label mt-4"
                           >
                             Client
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            as="select"
-                            className={`input101 ${
-                              formik2.errors.client_id1 &&
-                              formik2.touched.client_id1
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            id="client_id1"
-                            name="client_id1"
+                            className={`input101 ${formik2.errors.client_id &&
+                              formik2.touched.client_id
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="client_id"
+                            name="client_id"
+                            value={formik2.values.client_id}
                             onChange={(e) => {
-                              const selectedType1 = e.target.value;
+                              const selectedType = e.target.value;
+                              console.log(selectedType, "selectedType");
 
-                              formik2.setFieldValue(
-                                "client_id1",
-                                selectedType1
-                              );
-                              setSelectedClientId1(selectedType1);
-                              setSelectedItems1([]);
-                              // Reset the selected company and site
-                              setSelectedCompanyList1([]);
-                              formik2.setFieldValue("company_id1", "");
-                              formik2.setFieldValue("site_id1", "");
-
-                              const selectedClient1 = AddSiteData1.data.find(
-                                (client) => client.id === selectedType1
-                              );
-
-                              if (selectedClient1) {
-                                setSelectedCompanyList1(
-                                  selectedClient1.companies
+                              if (selectedType) {
+                                GetCompanyList(selectedType);
+                                formik2.setFieldValue("client_id", selectedType);
+                                setSelectedClientId(selectedType);
+                                setSiteList([]);
+                                formik2.setFieldValue("company_id", "");
+                                formik2.setFieldValue("site_id", "");
+                              } else {
+                                console.log(
+                                  selectedType,
+                                  "selectedType no values"
                                 );
+                                formik2.setFieldValue("client_id", "");
+                                formik2.setFieldValue("company_id", "");
+                                formik2.setFieldValue("site_id", "");
+
+                                setSiteList([]);
+                                setCompanyList([]);
                               }
                             }}
                           >
                             <option value="">Select a Client</option>
-                            {AddSiteData1.data &&
-                            AddSiteData1.data.length > 0 ? (
-                              AddSiteData1.data.map((item) => (
+                            {ClientList.data && ClientList.data.length > 0 ? (
+                              ClientList.data.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.client_name}
                                 </option>
@@ -323,72 +409,71 @@ const ManageDsr = (props) => {
                             )}
                           </select>
 
-                          {formik2.errors.client_id1 &&
-                            formik2.touched.client_id1 && (
+                          {formik2.errors.client_id &&
+                            formik2.touched.client_id && (
                               <div className="invalid-feedback">
-                                {formik2.errors.client_id1}
+                                {formik2.errors.client_id}
                               </div>
                             )}
                         </div>
                       </Col>
                     )}
-                    <Col lg={3} md={6}>
+
+                    <Col Col lg={3} md={3}>
                       <div className="form-group">
-                        <label
-                          htmlFor="company_id1"
-                          className="form-label mt-4"
-                        >
+                        <label htmlFor="company_id" className="form-label mt-4">
                           Company
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          as="select"
-                          className={`input101 ${
-                            formik2.errors.company_id1 &&
-                            formik2.touched.company_id1
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          id="company_id1"
-                          name="company_id1"
+                          className={`input101 ${formik2.errors.company_id &&
+                            formik2.touched.company_id
+                            ? "is-invalid"
+                            : ""
+                            }`}
+                          id="company_id"
+                          name="company_id"
+                          value={formik2.values.company_id}
                           onChange={(e) => {
-                            const selectedCompany1 = e.target.value;
-                            formik2.setFieldValue(
-                              "company_id1",
-                              selectedCompany1
-                            );
-                            setSelectedItems1([]);
-                            setSelectedSiteList1([]);
-                            const selectedCompanyData1 =
-                              selectedCompanyList1.find(
-                                (company) => company.id === selectedCompany1
-                              );
-                            if (selectedCompanyData1) {
-                              setSelectedSiteList1(selectedCompanyData1.sites);
+                            const selectcompany = e.target.value;
+
+                            if (selectcompany) {
+                              GetSiteList(selectcompany);
+                              formik2.setFieldValue("company_id", selectcompany);
+                              formik2.setFieldValue("site_id", "");
+                              setSelectedCompanyId(selectcompany);
+                            } else {
+                              formik2.setFieldValue("company_id", "");
+                              formik2.setFieldValue("site_id", "");
+
+                              setSiteList([]);
                             }
                           }}
                         >
                           <option value="">Select a Company</option>
-                          {selectedCompanyList1.length > 0 ? (
-                            selectedCompanyList1.map((company) => (
-                              <option key={company.id} value={company.id}>
-                                {company.company_name}
-                              </option>
-                            ))
+                          {selectedClientId && CompanyList.length > 0 ? (
+                            <>
+                              setSelectedCompanyId([])
+                              {CompanyList.map((company) => (
+                                <option key={company.id} value={company.id}>
+                                  {company.company_name}
+                                </option>
+                              ))}
+                            </>
                           ) : (
                             <option disabled>No Company</option>
                           )}
                         </select>
-                        {formik2.errors.company_id1 &&
-                          formik2.touched.company_id1 && (
+                        {formik2.errors.company_id &&
+                          formik2.touched.company_id && (
                             <div className="invalid-feedback">
-                              {formik2.errors.company_id1}
+                              {formik2.errors.company_id}
                             </div>
                           )}
                       </div>
                     </Col>
 
-                    <Col lg={3} md={6}>
+                    <Col lg={3} md={3}>
                       <FormGroup>
                         <label className="form-label mt-4">
                           Select Sites
@@ -404,6 +489,8 @@ const ManageDsr = (props) => {
                         />
                       </FormGroup>
                     </Col>
+
+
                     <Col lg={3} md={6}>
                       <div className="form-group">
                         <label
@@ -418,12 +505,11 @@ const ManageDsr = (props) => {
                           min={"2023-01-01"}
                           max={getCurrentDate()}
                           onClick={hadndleShowDate}
-                          className={`input101 ${
-                            formik2.errors.start_date1 &&
+                          className={`input101 ${formik2.errors.start_date1 &&
                             formik2.touched.start_date1
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="start_date1"
                           name="start_date1"
                           onChange={formik2.handleChange}
@@ -444,12 +530,11 @@ const ManageDsr = (props) => {
                         </label>
                         <select
                           as="select"
-                          className={`input101 ${
-                            formik2.errors.fuel_name &&
+                          className={`input101 ${formik2.errors.fuel_name &&
                             formik2.touched.fuel_name
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="fuel_name"
                           name="fuel_name"
                           onChange={formik2.handleChange}
@@ -483,11 +568,10 @@ const ManageDsr = (props) => {
                         <input
                           type="number"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik2.errors.platts && formik2.touched.platts
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik2.errors.platts && formik2.touched.platts
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="platts"
                           name="platts"
                           placeholder="Platts"
@@ -513,11 +597,10 @@ const ManageDsr = (props) => {
                         <input
                           type="number"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik2.errors.premium && formik2.touched.premium
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik2.errors.premium && formik2.touched.premium
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="premium"
                           name="premium"
                           placeholder="Premium"
@@ -547,12 +630,11 @@ const ManageDsr = (props) => {
                         <input
                           type="number"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik2.errors.developmentfuels &&
+                          className={`input101 ${formik2.errors.developmentfuels &&
                             formik2.touched.developmentfuels
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="developmentfuels"
                           name="developmentfuels"
                           placeholder=" Development Fuels"
@@ -579,11 +661,10 @@ const ManageDsr = (props) => {
                         <input
                           type="number"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik2.errors.dutty && formik2.touched.dutty
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik2.errors.dutty && formik2.touched.dutty
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="dutty"
                           name="dutty"
                           placeholder="Dutty"
@@ -632,11 +713,10 @@ const ManageDsr = (props) => {
                         <input
                           type="number"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik2.errors.vat && formik2.touched.vat
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik2.errors.vat && formik2.touched.vat
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="vat"
                           name="vat"
                           placeholder="Vat%"
