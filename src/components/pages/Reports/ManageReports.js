@@ -9,29 +9,15 @@ import {
   Col,
   Form,
   FormGroup,
-  OverlayTrigger,
   Row,
-  ToggleButton,
-  Tooltip,
 } from "react-bootstrap";
-import {
-  FormControl,
-  Select,
-  MenuItem,
-  Checkbox,
-  ListItemText,
-  InputLabel,
-} from "@material-ui/core";
 
 import withApi from "../../../Utils/ApiHelper";
 
 import { useSelector } from "react-redux";
-import { ErrorMessage, Field, Formik } from "formik";
+import { ErrorMessage, Field, Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
-import * as fromadvanced from "../../../data/Form/formadvanced/formadvanced";
-import * as fromadvancede from "../../../data/Form/formelement/formelement";
 
 import { Slide, toast } from "react-toastify";
 import Switch from "react-switch";
@@ -45,10 +31,13 @@ const ManageReports = (props) => {
   const [dropdownValue, setDropdownValue] = useState([]);
   const [AddSiteData, setAddSiteData] = useState([]);
   const [ReportList, setReportList] = useState([]);
-  // const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  // const [subTypes, setSubTypes] = useState([]);
-  const [ShowButton, setShowButton] = useState(false);
   const [selectedClientId, setSelectedClientId] = useState("");
+  const [selectedCompanyId, setSelectedCompanyId] = useState("");
+  const [selectedSiteId, setSelectedSiteId] = useState("");
+  const [ClientList, setClientList] = useState([]);
+  const [CompanyList, setCompanyList] = useState([]);
+  const [SiteList, setSiteList] = useState([]);
+  const [ShowButton, setShowButton] = useState(false);
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [ReportDownloadUrl, setReportDownloadUrl] = useState();
@@ -80,42 +69,7 @@ const ManageReports = (props) => {
     }
   }, [UserPermissions]);
 
-  const handleFetchData = async () => {
-    try {
-      const response = await getData("/client/commonlist");
 
-      const { data } = response;
-      if (data) {
-        setAddSiteData(response?.data);
-        if (
-          response?.data &&
-          localStorage.getItem("superiorRole") === "Client"
-        ) {
-          const clientId = localStorage.getItem("superiorId");
-          if (clientId) {
-            FetchReportList(clientId);
-
-            setSelectedClientId(clientId);
-
-            setSelectedCompanyList([]);
-
-            // setShowButton(false);
-
-            if (response?.data) {
-              const selectedClient = response?.data?.data?.find(
-                (client) => client.id === clientId
-              );
-              if (selectedClient) {
-                setSelectedCompanyList(selectedClient?.companies);
-              }
-            }
-          }
-        }
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
   const FetchReportList = async (id) => {
     try {
       const response = await getData(`client/reportlist?client_id=${id}`);
@@ -199,15 +153,6 @@ const ManageReports = (props) => {
     console.log(item, "item");
   }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await handleFetchData(); // Wait for handleFetchData to complete
-    };
-
-    fetchData();
-    // console.clear();
-  }, []);
-  // Empty dependency array to run the effect only once
 
   const getCurrentDate = () => {
     const today = new Date();
@@ -227,10 +172,110 @@ const ManageReports = (props) => {
   };
   const [selected, setSelected] = useState([]);
 
-  const options = selectedSiteList?.map((site) => ({
+  const options = SiteList?.map((site) => ({
     label: site.site_name,
     value: site.id,
   }));
+
+
+  const formik = useFormik({
+    initialValues: {
+      report: "1",
+      client_id: "",
+      company_id: "",
+      sites: [],
+      start_date: "",
+      end_date: "",
+      reportmonth: "",
+    },
+    validationSchema: Yup.object({
+      report: Yup.string().required("Report is required"),
+      company_id: Yup.string().required("Company is required"),
+    }),
+
+    onSubmit: (values) => {
+      handleSubmit1(values);
+    },
+  });
+
+  const fetchCommonListData = async () => {
+    try {
+      const response = await getData("/common/client-list");
+
+      const { data } = response;
+      if (data) {
+        setClientList(response.data);
+
+        const clientId = localStorage.getItem("superiorId");
+        if (clientId) {
+          setSelectedClientId(clientId);
+          setSelectedCompanyList([]);
+
+          if (response?.data) {
+            const selectedClient = response?.data?.data?.find(
+              (client) => client.id === clientId
+            );
+            if (selectedClient) {
+              setSelectedCompanyList(selectedClient?.companies);
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+  const GetCompanyList = async (values) => {
+    try {
+      if (values) {
+        const response = await getData(
+          `common/company-list?client_id=${values}`
+        );
+
+        if (response) {
+          console.log(response, "company");
+          setCompanyList(response?.data?.data);
+        } else {
+          throw new Error("No data available in the response");
+        }
+      } else {
+        console.error("No site_id found ");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+  const GetSiteList = async (values) => {
+    try {
+      if (values) {
+        const response = await getData(`common/site-list?company_id=${values}`);
+
+        if (response) {
+          console.log(response, "company");
+          setSiteList(response?.data?.data);
+        } else {
+          throw new Error("No data available in the response");
+        }
+      } else {
+        console.error("No site_id found ");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+  useEffect(() => {
+    const clientId = localStorage.getItem("superiorId");
+
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData()
+    } else {
+      setSelectedClientId(clientId);
+      GetCompanyList(clientId)
+    }
+  }, []);
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -263,389 +308,372 @@ const ManageReports = (props) => {
                 <h3 className="card-title">Report</h3>
               </Card.Header>
               <Card.Body>
-                <Formik
-                  initialValues={{
-                    report: "1",
-                    client_id: "",
-                    company_id: "",
-                    sites: [],
-                    start_date: "",
-                    end_date: "",
-                    reportmonth: "",
-                  }}
-                  validationSchema={Yup.object().shape({
-                    report: Yup.string().required("Report is required"),
-                    company_id: Yup.string().required("Company is required"),
+                <form onSubmit={formik.handleSubmit}>
+                  <Row>
 
-                    // start_date: Yup.date().required("Start Date is required"),
-                    // end_date: Yup.date().required("End Date is required"),
-                    // reportmonth: Yup.date().required("reportmonth is required"),
-                  })}
-                  onSubmit={(values) => {
-                    handleSubmit1(values);
-                  }}
-                >
-                  {({ handleSubmit, errors, touched, setFieldValue }) => (
-                    <Form onSubmit={handleSubmit}>
-                      <Card.Body>
-                        <Row>
-                          {localStorage.getItem("superiorRole") !==
-                            "Client" && (
-                              <Col lg={4} md={6}>
-                                <FormGroup>
-                                  <label
-                                    htmlFor="client_id"
-                                    className=" form-label mt-4"
-                                  >
-                                    Client
-                                    <span className="text-danger">*</span>
-                                  </label>
-                                  <Field
-                                    as="select"
-                                    className={`input101 ${errors.client_id && touched.client_id
-                                      ? "is-invalid"
-                                      : ""
-                                      }`}
-                                    id="client_id"
-                                    name="client_id"
-                                    onChange={(e) => {
-                                      const selectedType = e.target.value;
-                                      FetchReportList(selectedType);
-                                      setFieldValue("client_id", selectedType);
-                                      setSelectedClientId(selectedType);
+                    {localStorage.getItem("superiorRole") !== "Client" && (
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="client_id"
+                            className="form-label mt-4"
+                          >
+                            Client
+                            <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${formik.errors.client_id &&
+                              formik.touched.client_id
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="client_id"
+                            name="client_id"
+                            value={formik.values.client_id}
+                            onChange={(e) => {
+                              const selectedType = e.target.value;
+                              console.log(selectedType, "selectedType");
+                              FetchReportList(selectedType)
+                              if (selectedType) {
+                                GetCompanyList(selectedType);
+                                formik.setFieldValue("client_id", selectedType);
+                                setSelectedClientId(selectedType);
+                                setSiteList([]);
+                                formik.setFieldValue("company_id", "");
+                                formik.setFieldValue("site_id", "");
+                              } else {
+                                console.log(
+                                  selectedType,
+                                  "selectedType no values"
+                                );
+                                formik.setFieldValue("client_id", "");
+                                formik.setFieldValue("company_id", "");
+                                formik.setFieldValue("site_id", "");
 
-                                      // Reset the selected company and site
-                                      setSelectedCompanyList([]);
-                                      setSelectedSiteList([]);
-                                      setFieldValue("company_id", "");
-                                      setFieldValue("site_id", "");
-                                      setShowButton(false);
-
-                                      const selectedClient =
-                                        AddSiteData.data.find(
-                                          (client) => client.id === selectedType
-                                        );
-
-                                      if (selectedClient) {
-                                        setSelectedCompanyList(
-                                          selectedClient.companies
-                                        );
-                                      }
-                                    }}
-                                  >
-                                    <option value="">Select a Client</option>
-                                    {AddSiteData.data &&
-                                      AddSiteData.data.length > 0 ? (
-                                      AddSiteData.data.map((item) => (
-                                        <option key={item.id} value={item.id}>
-                                          {item.client_name}
-                                        </option>
-                                      ))
-                                    ) : (
-                                      <option disabled>No Client</option>
-                                    )}
-                                  </Field>
-
-                                  <ErrorMessage
-                                    component="div"
-                                    className="invalid-feedback"
-                                    name="client_id"
-                                  />
-                                </FormGroup>
-                              </Col>
+                                setSiteList([]);
+                                setCompanyList([]);
+                              }
+                            }}
+                          >
+                            <option value="">Select a Client</option>
+                            {ClientList.data && ClientList.data.length > 0 ? (
+                              ClientList.data.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.client_name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled>No Client</option>
                             )}
-                          <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="company_id"
-                                className="form-label mt-4"
-                              >
-                                Company
-                                <span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${errors.company_id && touched.company_id
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
-                                id="company_id"
-                                name="company_id"
-                                onChange={(e) => {
-                                  const selectedCompany = e.target.value;
-                                  setFieldValue("company_id", selectedCompany);
-                                  setShowButton(false);
-                                  setSelectedItems([]);
-                                  setSelectedSiteList([]);
-                                  const selectedCompanyData =
-                                    selectedCompanyList.find(
-                                      (company) =>
-                                        company.id === selectedCompany
-                                    );
-                                  if (selectedCompanyData) {
-                                    setSelectedSiteList(
-                                      selectedCompanyData.sites
-                                    );
-                                  }
-                                }}
-                              >
-                                <option value="">Select a Company</option>
-                                {selectedCompanyList.length > 0 ? (
-                                  selectedCompanyList.map((company) => (
-                                    <option key={company.id} value={company.id}>
-                                      {company.company_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Company</option>
-                                )}
-                              </Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="company_id"
-                              />
-                            </FormGroup>
-                          </Col>
+                          </select>
 
-                          <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label className="form-label mt-4">
-                                Select Sites
-                                <span className="text-danger">*</span>
-                              </label>
-                              <MultiSelect
-                                value={selected}
-                                onChange={setSelected}
-                                labelledBy="Select Sites"
-                                disableSearch="true"
-                                options={options}
-                                showCheckbox="false"
-                              />
-                            </FormGroup>
-                          </Col>
+                          {formik.errors.client_id &&
+                            formik.touched.client_id && (
+                              <div className="invalid-feedback">
+                                {formik.errors.client_id}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                    )}
 
-                          <Col lg={4} md={6}>
-                            <FormGroup>
-                              <label
-                                className=" form-label mt-4"
-                                htmlFor="report"
-                              >
-                                Report
-                                <span className="text-danger">*</span>
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${errors.report && touched.report
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
-                                id="report"
-                                name="report"
-                                onChange={(e) => {
-                                  const selectedreport = e.target.value;
-                                  setReportCode(e.target.value);
-                                  setFieldValue("report", selectedreport);
-                                  setShowButton(false);
-                                }}
-                              >
-                                <option value="">Select a Report</option>
-                                {ReportList.data &&
-                                  ReportList?.data?.reports.length > 0 ? (
-                                  ReportList?.data?.reports.map((item) => (
-                                    <option
-                                      key={item.id}
-                                      value={item.report_code}
-                                      onClick={() => handleReportClick(item)}
-                                    >
-                                      {item.report_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Report</option>
-                                )}
-                              </Field>
+                    <Col Col lg={4} md={6}>
+                      <div className="form-group">
+                        <label htmlFor="company_id" className="form-label mt-4">
+                          Company
+                          <span className="text-danger">*</span>
+                        </label>
+                        <select
+                          className={`input101 ${formik.errors.company_id &&
+                            formik.touched.company_id
+                            ? "is-invalid"
+                            : ""
+                            }`}
+                          id="company_id"
+                          name="company_id"
+                          value={formik.values.company_id}
+                          onChange={(e) => {
+                            const selectcompany = e.target.value;
+                            if (selectcompany) {
+                              GetSiteList(selectcompany);
+                              setSelectedCompanyId(selectcompany);
+                              formik.setFieldValue("site_id", "");
+                              formik.setFieldValue("company_id", selectcompany);
+                            } else {
+                              formik.setFieldValue("company_id", "");
+                              formik.setFieldValue("site_id", "");
 
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="report"
-                              />
-                            </FormGroup>
-                          </Col>
-                          {toggleValue ? (
+                              setSiteList([]);
+                            }
+                          }}
+                        >
+                          <option value="">Select a Company</option>
+                          {selectedClientId && CompanyList.length > 0 ? (
                             <>
-                              <Col lg={4} md={6}>
-                                <FormGroup>
-                                  <label
-                                    htmlFor="start_date"
-                                    className="form-label mt-4"
-                                  >
-                                    Start Date
-                                  </label>
-                                  <Field
-                                    type="date"
-                                    min={"2023-01-01"}
-                                    max={getCurrentDate()}
-                                    onClick={handleShowDate}
-                                    className={`input101 ${errors.start_date && touched.start_date
-                                      ? "is-invalid"
-                                      : ""
-                                      }`}
-                                    id="start_date"
-                                    name="start_date"
-                                    onChange={(e) => {
-                                      const selectedstart_date = e.target.value;
-
-                                      setFieldValue(
-                                        "start_date",
-                                        selectedstart_date
-                                      );
-                                      setShowButton(false);
-                                    }}
-                                  ></Field>
-                                  <ErrorMessage
-                                    component="div"
-                                    className="invalid-feedback"
-                                    name="start_date"
-                                  />
-                                </FormGroup>
-                              </Col>
-                              <Col lg={4} md={6}>
-                                <FormGroup>
-                                  <label
-                                    htmlFor="end_date"
-                                    className="form-label mt-4"
-                                  >
-                                    End Date
-                                  </label>
-                                  <Field
-                                    type="date"
-                                    min={"2023-01-01"}
-                                    max={getCurrentDate()}
-                                    onClick={handleShowDate1}
-                                    className={`input101 ${errors.end_date && touched.end_date
-                                      ? "is-invalid"
-                                      : ""
-                                      }`}
-                                    id="end_date"
-                                    name="end_date"
-                                    onChange={(e) => {
-                                      const selectedend_date_date =
-                                        e.target.value;
-
-                                      setFieldValue(
-                                        "end_date",
-                                        selectedend_date_date
-                                      );
-                                      setShowButton(false);
-                                    }}
-                                  ></Field>
-                                  <ErrorMessage
-                                    component="div"
-                                    className="invalid-feedback"
-                                    name="end_date"
-                                  />
-                                </FormGroup>
-                              </Col>
+                              setSelectedCompanyId([])
+                              {CompanyList.map((company) => (
+                                <option key={company.id} value={company.id}>
+                                  {company.company_name}
+                                </option>
+                              ))}
                             </>
                           ) : (
-                            ""
+                            <option disabled>No Company</option>
                           )}
+                        </select>
+                        {formik.errors.company_id &&
+                          formik.touched.company_id && (
+                            <div className="invalid-feedback">
+                              {formik.errors.company_id}
+                            </div>
+                          )}
+                      </div>
+                    </Col>
+                    <Col lg={4} md={6}>
+                      <FormGroup>
+                        <label className="form-label mt-4">
+                          Select Sites
+                          <span className="text-danger">*</span>
+                        </label>
+                        <MultiSelect
+                          value={selected}
+                          onChange={setSelected}
+                          labelledBy="Select Sites"
+                          disableSearch="true"
+                          options={options}
+                          showCheckbox="false"
+                        />
+                      </FormGroup>
+                    </Col>
 
-                          {!toggleValue ? (
-                            <Col lg={4} md={6}>
-                              <FormGroup>
-                                <label
-                                  className=" form-label mt-4"
-                                  htmlFor="reportmonth"
-                                >
-                                  Months
-                                </label>
-                                <Field
-                                  as="select"
-                                  className={`input101 ${errors.reportmonth && touched.reportmonth
-                                    ? "is-invalid"
-                                    : ""
-                                    }`}
-                                  id="reportmonth"
-                                  name="reportmonth"
-                                  onChange={(e) => {
-                                    const selectedmonth = e.target.value;
+                    <Col lg={4} md={6}>
+                      <div className="form-group">
+                        <label
+                          className=" form-label mt-4"
+                          htmlFor="report"
+                        >
+                          Report
+                          <span className="text-danger">*</span>
+                        </label>
+                        <select
+                          as="select"
+                          className={`input101 ${formik.errors.report && formik.touched.report
+                            ? "is-invalid"
+                            : ""
+                            }`}
+                          id="report"
+                          name="report"
+                          onChange={(e) => {
+                            const selectedreport = e.target.value;
+                            setReportCode(e.target.value);
+                            formik.setFieldValue("report", selectedreport);
+                            setShowButton(false);
+                          }}
 
-                                    setFieldValue("reportmonth", selectedmonth);
-                                    setShowButton(false);
-                                  }}
-                                >
-                                  <option value="">Select a Month</option>
-                                  {ReportList.data &&
-                                    ReportList?.data?.months.length > 0 ? (
-                                    ReportList?.data?.months.map((item) => (
-                                      <option
-                                        key={item.value}
-                                        value={item.value}
-                                        onClick={() => handleReportClick(item)} // Modified line
-                                      >
-                                        {item.display}
-                                      </option>
-                                    ))
-                                  ) : (
-                                    <option disabled>No reportmonth</option>
-                                  )}
-                                </Field>
-
-                                <ErrorMessage
-                                  component="div"
-                                  className="invalid-feedback"
-                                  name="reportmonth"
-                                />
-                              </FormGroup>
-                            </Col>
+                        >
+                          <option value="">Select a Report</option>
+                          {ReportList.data &&
+                            ReportList?.data?.reports.length > 0 ? (
+                            ReportList?.data?.reports.map((item) => (
+                              <option
+                                key={item.id}
+                                value={item.report_code}
+                                onClick={() => handleReportClick(item)}
+                              >
+                                {item.report_name}
+                              </option>
+                            ))
                           ) : (
-                            ""
+                            <option disabled>No Report</option>
                           )}
-                        </Row>
-                        <Row>
-                          <Col lg={12} md={12}>
-                            <FormGroup>
-                              <label className="form-label mt-4">
-                                Get Reports By Date{" "}
-                              </label>
-                              <Switch
-                                id="customToggle"
-                                checked={toggleValue}
-                                onChange={handleToggleChange}
-                              />
-                            </FormGroup>
-                          </Col>
-                        </Row>
-                      </Card.Body>
-                      <Card.Footer className="text-end ">
-                        <button type="submit" className="btn btn-primary mx-2">
-                          Generate Report
-                        </button>
-                        {ShowButton ? (
-                          <button
-                            onClick={() => {
-                              window.open(
-                                process.env.REACT_APP_BASE_URL +
-                                ReportDownloadUrl,
-                                "_blank",
-                                "noopener noreferrer"
-                              );
-                            }}
-                            className="btn btn-danger me-2"
-                            type="button"
+                        </select>
+
+                        {formik.errors.report &&
+                          formik.touched.report && (
+                            <div className="invalid-feedback">
+                              {formik.errors.report}
+                            </div>
+                          )}
+                      </div>
+                    </Col>
+                    {toggleValue ? (
+                      <>
+                        <Col lg={4} md={6}>
+                          <div className="form-group">
+                            <label
+                              htmlFor="start_date"
+                              className="form-label mt-4"
+                            >
+                              Start Date
+                            </label>
+                            <input
+                              type="date"
+                              min={"2023-01-01"}
+                              max={getCurrentDate()}
+                              onClick={handleShowDate}
+                              className={`input101 ${formik.errors.start_date && formik.touched.start_date
+                                ? "is-invalid"
+                                : ""
+                                }`}
+                              id="start_date"
+                              name="start_date"
+                              onChange={(e) => {
+                                const selectedstart_date = e.target.value;
+
+                                formik.setFieldValue(
+                                  "start_date",
+                                  selectedstart_date
+                                );
+                                setShowButton(false);
+
+                              }}
+                              value={formik.values.start_date}
+                            ></input>
+                            {formik.errors.start_date &&
+                              formik.touched.start_date && (
+                                <div className="invalid-feedback">
+                                  {formik.errors.start_date}
+                                </div>
+                              )}
+                          </div>
+                        </Col>
+                        <Col lg={4} md={6}>
+                          <div className="form-group">
+                            <label
+                              htmlFor="end_date"
+                              className="form-label mt-4"
+                            >
+                              End Date
+                            </label>
+                            <input
+                              type="date"
+                              min={"2023-01-01"}
+                              max={getCurrentDate()}
+                              onClick={handleShowDate1}
+                              className={`input101 ${formik.errors.end_date && formik.touched.end_date
+                                ? "is-invalid"
+                                : ""
+                                }`}
+                              id="end_date"
+                              name="end_date"
+                              onChange={(e) => {
+                                const selectedend_date_date =
+                                  e.target.value;
+
+                                formik.setFieldValue(
+                                  "end_date",
+                                  selectedend_date_date
+                                );
+                                setShowButton(false);
+                              }}
+                              value={formik.values.end_date}
+                            ></input>
+                            {formik.errors.end_date &&
+                              formik.touched.end_date && (
+                                <div className="invalid-feedback">
+                                  {formik.errors.end_date}
+                                </div>
+                              )}
+                          </div>
+                        </Col>
+                      </>
+                    ) : (
+                      ""
+                    )}
+
+                    {!toggleValue ? (
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            className=" form-label mt-4"
+                            htmlFor="reportmonth"
                           >
-                            Download Report
-                          </button>
-                        ) : (
-                          ""
-                        )}
-                      </Card.Footer>
-                    </Form>
-                  )}
-                </Formik>
+                            Months
+                          </label>
+                          <select
+                            as="select"
+                            className={`input101 ${formik.errors.reportmonth && formik.touched.reportmonth
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="reportmonth"
+                            name="reportmonth"
+                            onChange={(e) => {
+                              const selectedmonth = e.target.value;
+
+                              formik.setFieldValue("reportmonth", selectedmonth);
+                              setShowButton(false);
+                            }}
+                            value={formik.values.reportmonth}
+                          >
+                            <option value="">Select a Month</option>
+                            {ReportList.data &&
+                              ReportList?.data?.months.length > 0 ? (
+                              ReportList?.data?.months.map((item) => (
+                                <option
+                                  key={item.value}
+                                  value={item.value}
+                                  onClick={() => handleReportClick(item)} // Modified line
+                                >
+                                  {item.display}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled>No reportmonth</option>
+                            )}
+                          </select>
+
+                          {formik.errors.reportmonth &&
+                            formik.touched.reportmonth && (
+                              <div className="invalid-feedback">
+                                {formik.errors.reportmonth}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                    ) : (
+                      ""
+                    )}
+                  </Row>
+                  <Row>
+                    <Col lg={12} md={12}>
+                      <div className="form-group">
+                        <label className="form-label mt-4">
+                          Get Reports By Date{" "}
+                        </label>
+                        <Switch
+                          id="customToggle"
+                          checked={toggleValue}
+                          onChange={handleToggleChange}
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                  <Card.Footer className="text-end ">
+                    <button type="submit" className="btn btn-primary mx-2">
+                      Generate Report
+                    </button>
+                    {ShowButton ? (
+                      <button
+                        onClick={() => {
+                          window.open(
+                            process.env.REACT_APP_BASE_URL +
+                            ReportDownloadUrl,
+                            "_blank",
+                            "noopener noreferrer"
+                          );
+                        }}
+                        className="btn btn-danger me-2"
+                        type="button"
+                      >
+                        Download Report
+                      </button>
+                    ) : (
+                      ""
+                    )}
+                  </Card.Footer>
+                </form>
+
               </Card.Body>
             </Card>
           </Col>

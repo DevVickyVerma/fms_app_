@@ -75,43 +75,10 @@ const ManageDsr = (props) => {
   const [SumTotal, setTotal] = useState();
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
-
-    // handleFetchData();
     handleFetchName();
   }, [UserPermissions]);
 
-  // const handleFetchData = async () => {
-  //   try {
-  //     const response = await getData("/client/commonlist");
 
-  //     const { data } = response;
-  //     if (data) {
-  //       setAddSiteData1(response.data);
-  //       if (
-  //         response?.data &&
-  //         localStorage.getItem("superiorRole") === "Client"
-  //       ) {
-  //         const clientId = localStorage.getItem("superiorId");
-  //         if (clientId) {
-  //           setSelectedClientId1(clientId);
-
-  //           setSelectedCompanyList1([]);
-
-  //           if (response?.data) {
-  //             const selectedClient = response?.data?.data?.find(
-  //               (client) => client.id === clientId
-  //             );
-  //             if (selectedClient) {
-  //               setSelectedCompanyList1(selectedClient?.companies);
-  //             }
-  //           }
-  //         }
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error("API error:", error);
-  //   }
-  // };
 
 
   const fetchCommonListData = async () => {
