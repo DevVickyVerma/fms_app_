@@ -553,12 +553,12 @@ const ManageDsr = (props) => {
 
                             if (selectcompany) {
                               GetSiteList(selectcompany);
-                              formik.setFieldValue("company_id", selectcompany);
-                              formik.setFieldValue("site_id", "");
                               setSelectedCompanyId(selectcompany);
-                            } else {
-                              formik.setFieldValue("company_id", "");
                               formik.setFieldValue("site_id", "");
+                              formik.setFieldValue("company_id", selectcompany);
+                            } else {
+                              formik.setFieldValue("site_id", "");
+                              formik.setFieldValue("company_id", "");
 
                               setSiteList([]);
                             }
@@ -603,9 +603,9 @@ const ManageDsr = (props) => {
                           value={formik.values.site_id}
                           onChange={(e) => {
                             const selectedsite_id = e.target.value;
-
-                            formik.setFieldValue("site_id", selectedsite_id);
+                            setSiteId(selectedsite_id)
                             setSelectedSiteId(selectedsite_id);
+                            formik.setFieldValue("site_id", selectedsite_id);
                           }}
                         >
                           <option value="">Select a Site</option>
