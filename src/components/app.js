@@ -21,9 +21,6 @@ const App = (props) => {
     },
   });
 
-  const loadingBarRef = useRef();
-  const location = useLocation();
-
   const logout = async () => {
     try {
       const response = await getData("/logout");
@@ -42,7 +39,8 @@ const App = (props) => {
       // Handle the error here, such as displaying an error message or performing other actions
     }
   };
-
+  const loadingBarRef = useRef();
+  const location = useLocation();
   const simulateLoadingAndNavigate = () => {
     loadingBarRef.current.continuousStart();
 
@@ -134,6 +132,39 @@ const App = (props) => {
     }
     console.clear();
   }, [isInactive, autoLogout, logoutTime]);
+
+  const [isOnline, setIsOnline] = useState(window.navigator.onLine);
+
+  useEffect(() => {
+    const handleNetworkChange = () => {
+      const newIsOnline = window.navigator.onLine;
+      setIsOnline(newIsOnline);
+
+      if (newIsOnline) {
+        // Display an online SweetAlert
+        Swal.fire({
+          title: "Online",
+          text: "You are now online.",
+          icon: "success",
+        });
+      } else {
+        // Display an offline SweetAlert
+        Swal.fire({
+          title: "Offline",
+          text: "You are now offline.",
+          icon: "error",
+        });
+      }
+    };
+
+    window.addEventListener("online", handleNetworkChange);
+    window.addEventListener("offline", handleNetworkChange);
+
+    return () => {
+      window.removeEventListener("online", handleNetworkChange);
+      window.removeEventListener("offline", handleNetworkChange);
+    };
+  }, []);
 
   return (
     <MyProvider>
