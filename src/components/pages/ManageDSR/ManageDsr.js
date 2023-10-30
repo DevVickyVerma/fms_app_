@@ -127,7 +127,6 @@ const ManageDsr = (props) => {
   const fetchCommonListData = async () => {
     try {
       const response = await getData("/common/client-list");
-
       const { data } = response;
       if (data) {
         setClientList(response.data);
@@ -160,7 +159,6 @@ const ManageDsr = (props) => {
         );
 
         if (response) {
-          console.log(response, "company");
           setCompanyList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -179,7 +177,6 @@ const ManageDsr = (props) => {
         const response = await getData(`common/site-list?company_id=${values}`);
 
         if (response) {
-          console.log(response, "company");
           setSiteList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -293,6 +290,31 @@ const ManageDsr = (props) => {
       setUploadTabname();
     }
   };
+
+  useEffect(() => {
+
+    const clientId = localStorage.getItem("superiorId");
+    if (localStorage.getItem("dailyWorkFlowInput")) {
+
+      let parsedDataFromLocal = JSON.parse(
+        localStorage.getItem("dailyWorkFlowInput")
+      ) ? JSON.parse(
+        localStorage.getItem("dailyWorkFlowInput")
+      ) : "null"
+
+      formik.setFieldValue("client_id", parsedDataFromLocal?.client_id || "")
+      formik.setFieldValue("company_id", parsedDataFromLocal?.company_id || "")
+      formik.setFieldValue("site_id", parsedDataFromLocal?.site_id || "")
+      formik.setFieldValue("start_date", parsedDataFromLocal?.start_date || "")
+      setSiteId(parsedDataFromLocal?.site_id)
+      setDRSDate(parsedDataFromLocal?.start_date)
+      GetCompanyList(parsedDataFromLocal?.client_id ? parsedDataFromLocal?.client_id : clientId)
+      GetSiteList(parsedDataFromLocal?.company_id ? parsedDataFromLocal?.company_id : null)
+      GetDataWithClient(parsedDataFromLocal)
+    }
+  }, [])
+
+
 
   const GetDataWithClient = async (values) => {
     localStorage.setItem("dailyWorkFlowInput", JSON.stringify(values));
@@ -488,7 +510,6 @@ const ManageDsr = (props) => {
                             value={formik.values.client_id}
                             onChange={(e) => {
                               const selectedType = e.target.value;
-                              console.log(selectedType, "selectedType");
 
                               if (selectedType) {
                                 GetCompanyList(selectedType);
