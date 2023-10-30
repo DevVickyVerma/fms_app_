@@ -80,7 +80,7 @@ export default function ForgotPassword() {
                       <Card.Body className="mx-auto">
                         <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} width={"271px"} className="forgot-body">
                           <div className="text-center ">
-                            <span className="login100-form-title">
+                            <span className="login100-form-title" style={{ paddingBottom: "12px" }}>
                               <img
                                 src={require("../../../assets/images/brand/logo.png")}
                                 className="header-brand-img"

@@ -110,16 +110,6 @@ export default function Login(props) {
         <div className="login-img">
           <div className="page">
             <div className="">
-              {/* <div className="col col-login mx-auto">
-                <div className="text-center login-logo">
-                  <img
-                    src={require("../../../assets/images/brand/logo.png")}
-                    className="header-brand-img"
-                    alt=""
-                  />
-                </div>
-              </div> */}
-
               <div className="container-login100">
 
                 <div className="wrap-login100 p-0">
