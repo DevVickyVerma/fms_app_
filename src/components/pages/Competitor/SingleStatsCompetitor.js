@@ -185,6 +185,25 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
         </div>
 
         <div className="ms-auto d-flex  gap-2 flex-wrap">
+          <div>
+
+            <label>
+              Filter By Site:
+            </label>
+            <div style={{ width: "200px" }}>
+
+              <Select
+                closeMenuOnSelect={false}
+                components={animatedComponents}
+                options={Optionssingle}
+                onChange={(value) => handleSitePathChange(value)}
+                className="test"
+                value={byDefaultSelectValue}
+              />
+            </div>
+
+          </div>
+
           <div >
             <Formik
               initialValues={{
@@ -254,24 +273,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
 
           </div>
 
-          <div>
 
-            <label>
-              Filter By Site:
-            </label>
-            <div style={{ width: "200px" }}>
-
-              <Select
-                closeMenuOnSelect={false}
-                components={animatedComponents}
-                options={Optionssingle}
-                onChange={(value) => handleSitePathChange(value)}
-                className="test"
-                value={byDefaultSelectValue}
-              />
-            </div>
-
-          </div>
 
         </div>
       </div>
