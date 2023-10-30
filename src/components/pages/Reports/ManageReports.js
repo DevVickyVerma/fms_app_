@@ -3,14 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import { MultiSelect } from "react-multi-select-component";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  Form,
-  FormGroup,
-  Row,
-} from "react-bootstrap";
+import { Breadcrumb, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
 
 import withApi from "../../../Utils/ApiHelper";
 
@@ -28,25 +21,23 @@ const ManageReports = (props) => {
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
-  const [dropdownValue, setDropdownValue] = useState([]);
-  const [AddSiteData, setAddSiteData] = useState([]);
+
   const [ReportList, setReportList] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
-  const [selectedSiteId, setSelectedSiteId] = useState("");
+
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
   const [ShowButton, setShowButton] = useState(false);
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
+
   const [ReportDownloadUrl, setReportDownloadUrl] = useState();
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
   const [ReportCode, setReportCode] = useState("");
 
-  const [selectedItems, setSelectedItems] = useState([]);
   const [toggleValue, setToggleValue] = useState(false); // State for the toggle
   const handleToggleChange = (checked) => {
     setToggleValue(checked);
@@ -68,7 +59,6 @@ const ManageReports = (props) => {
       setPermissionsArray(UserPermissions.permissions);
     }
   }, [UserPermissions]);
-
 
   const FetchReportList = async (id) => {
     try {
@@ -153,7 +143,6 @@ const ManageReports = (props) => {
     console.log(item, "item");
   }
 
-
   const getCurrentDate = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -176,7 +165,6 @@ const ManageReports = (props) => {
     label: site.site_name,
     value: site.id,
   }));
-
 
   const formik = useFormik({
     initialValues: {
@@ -270,10 +258,11 @@ const ManageReports = (props) => {
     const clientId = localStorage.getItem("superiorId");
 
     if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData()
+      fetchCommonListData();
     } else {
       setSelectedClientId(clientId);
-      GetCompanyList(clientId)
+      GetCompanyList(clientId);
+      FetchReportList(clientId);
     }
   }, []);
   return (
@@ -310,7 +299,6 @@ const ManageReports = (props) => {
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
                   <Row>
-
                     {localStorage.getItem("superiorRole") !== "Client" && (
                       <Col lg={4} md={6}>
                         <div className="form-group">
@@ -322,18 +310,19 @@ const ManageReports = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.client_id &&
+                            className={`input101 ${
+                              formik.errors.client_id &&
                               formik.touched.client_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="client_id"
                             name="client_id"
                             value={formik.values.client_id}
                             onChange={(e) => {
                               const selectedType = e.target.value;
                               console.log(selectedType, "selectedType");
-                              FetchReportList(selectedType)
+                              FetchReportList(selectedType);
                               if (selectedType) {
                                 GetCompanyList(selectedType);
                                 formik.setFieldValue("client_id", selectedType);
@@ -384,11 +373,12 @@ const ManageReports = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${formik.errors.company_id &&
+                          className={`input101 ${
+                            formik.errors.company_id &&
                             formik.touched.company_id
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="company_id"
                           name="company_id"
                           value={formik.values.company_id}
@@ -448,19 +438,17 @@ const ManageReports = (props) => {
 
                     <Col lg={4} md={6}>
                       <div className="form-group">
-                        <label
-                          className=" form-label mt-4"
-                          htmlFor="report"
-                        >
+                        <label className=" form-label mt-4" htmlFor="report">
                           Report
                           <span className="text-danger">*</span>
                         </label>
                         <select
                           as="select"
-                          className={`input101 ${formik.errors.report && formik.touched.report
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                          className={`input101 ${
+                            formik.errors.report && formik.touched.report
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           id="report"
                           name="report"
                           onChange={(e) => {
@@ -469,11 +457,10 @@ const ManageReports = (props) => {
                             formik.setFieldValue("report", selectedreport);
                             setShowButton(false);
                           }}
-
                         >
                           <option value="">Select a Report</option>
                           {ReportList.data &&
-                            ReportList?.data?.reports.length > 0 ? (
+                          ReportList?.data?.reports.length > 0 ? (
                             ReportList?.data?.reports.map((item) => (
                               <option
                                 key={item.id}
@@ -488,12 +475,11 @@ const ManageReports = (props) => {
                           )}
                         </select>
 
-                        {formik.errors.report &&
-                          formik.touched.report && (
-                            <div className="invalid-feedback">
-                              {formik.errors.report}
-                            </div>
-                          )}
+                        {formik.errors.report && formik.touched.report && (
+                          <div className="invalid-feedback">
+                            {formik.errors.report}
+                          </div>
+                        )}
                       </div>
                     </Col>
                     {toggleValue ? (
@@ -511,10 +497,12 @@ const ManageReports = (props) => {
                               min={"2023-01-01"}
                               max={getCurrentDate()}
                               onClick={handleShowDate}
-                              className={`input101 ${formik.errors.start_date && formik.touched.start_date
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                              className={`input101 ${
+                                formik.errors.start_date &&
+                                formik.touched.start_date
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="start_date"
                               name="start_date"
                               onChange={(e) => {
@@ -525,7 +513,6 @@ const ManageReports = (props) => {
                                   selectedstart_date
                                 );
                                 setShowButton(false);
-
                               }}
                               value={formik.values.start_date}
                             ></input>
@@ -550,15 +537,16 @@ const ManageReports = (props) => {
                               min={"2023-01-01"}
                               max={getCurrentDate()}
                               onClick={handleShowDate1}
-                              className={`input101 ${formik.errors.end_date && formik.touched.end_date
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                              className={`input101 ${
+                                formik.errors.end_date &&
+                                formik.touched.end_date
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="end_date"
                               name="end_date"
                               onChange={(e) => {
-                                const selectedend_date_date =
-                                  e.target.value;
+                                const selectedend_date_date = e.target.value;
 
                                 formik.setFieldValue(
                                   "end_date",
@@ -592,23 +580,28 @@ const ManageReports = (props) => {
                           </label>
                           <select
                             as="select"
-                            className={`input101 ${formik.errors.reportmonth && formik.touched.reportmonth
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.reportmonth &&
+                              formik.touched.reportmonth
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="reportmonth"
                             name="reportmonth"
                             onChange={(e) => {
                               const selectedmonth = e.target.value;
 
-                              formik.setFieldValue("reportmonth", selectedmonth);
+                              formik.setFieldValue(
+                                "reportmonth",
+                                selectedmonth
+                              );
                               setShowButton(false);
                             }}
                             value={formik.values.reportmonth}
                           >
                             <option value="">Select a Month</option>
                             {ReportList.data &&
-                              ReportList?.data?.months.length > 0 ? (
+                            ReportList?.data?.months.length > 0 ? (
                               ReportList?.data?.months.map((item) => (
                                 <option
                                   key={item.value}
@@ -657,8 +650,7 @@ const ManageReports = (props) => {
                       <button
                         onClick={() => {
                           window.open(
-                            process.env.REACT_APP_BASE_URL +
-                            ReportDownloadUrl,
+                            process.env.REACT_APP_BASE_URL + ReportDownloadUrl,
                             "_blank",
                             "noopener noreferrer"
                           );
@@ -673,7 +665,6 @@ const ManageReports = (props) => {
                     )}
                   </Card.Footer>
                 </form>
-
               </Card.Body>
             </Card>
           </Col>
