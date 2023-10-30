@@ -6,13 +6,7 @@ import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import Loaderimg from "../../../Utils/Loader";
 import { MultiSelect } from "react-multi-select-component";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  FormGroup,
-  Row,
-} from "react-bootstrap";
+import { Breadcrumb, Card, Col, FormGroup, Row } from "react-bootstrap";
 
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
@@ -32,7 +26,7 @@ const ManageDsr = (props) => {
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
   const [selectedSiteId, setSelectedSiteId] = useState("");
-  const [editable, setis_editable] = useState(true);
+
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
@@ -54,7 +48,6 @@ const ManageDsr = (props) => {
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
   }, [UserPermissions]);
-
 
   const fetchCommonListData = async () => {
     try {
@@ -126,14 +119,12 @@ const ManageDsr = (props) => {
     const clientId = localStorage.getItem("superiorId");
 
     if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData()
+      fetchCommonListData();
     } else {
       setSelectedClientId(clientId);
-      GetCompanyList(clientId)
+      GetCompanyList(clientId);
     }
   }, []);
-
-
 
   const handleSubmit = async (values) => {
     let clientIDCondition = "";
@@ -555,17 +546,9 @@ const ManageDsr = (props) => {
   const isEditPermissionAvailable = permissionsArray?.includes(
     "fuel-purchase-update"
   );
-  const isManagerPermissionAvailable = permissionsArray?.includes(
-    "site-assign-manager"
-  );
-  const issitesettingPermissionAvailable =
-    permissionsArray?.includes("site-setting");
+
   const isAddPermissionAvailable =
     permissionsArray?.includes("fuel-purchase-add");
-  const isDeletePermissionAvailable = permissionsArray?.includes("site-delete");
-  const isDetailsPermissionAvailable =
-    permissionsArray?.includes("site-detail");
-  const isAssignPermissionAvailable = permissionsArray?.includes("site-assign");
 
   const getCurrentDate = () => {
     const today = new Date();
@@ -581,7 +564,7 @@ const ManageDsr = (props) => {
 
   const [selected, setSelected] = useState([]);
 
-  const options = selectedSiteList?.map((site) => ({
+  const options = SiteList?.map((site) => ({
     label: site.site_name,
     value: site.id,
   }));
@@ -645,11 +628,12 @@ const ManageDsr = (props) => {
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              className={`input101 ${formik.errors.client_id &&
+                              className={`input101 ${
+                                formik.errors.client_id &&
                                 formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="client_id"
                               name="client_id"
                               value={formik.values.client_id}
@@ -658,7 +642,10 @@ const ManageDsr = (props) => {
 
                                 if (selectedType) {
                                   GetCompanyList(selectedType);
-                                  formik.setFieldValue("client_id", selectedType);
+                                  formik.setFieldValue(
+                                    "client_id",
+                                    selectedType
+                                  );
                                   setSelectedClientId(selectedType);
                                   setSiteList([]);
                                   formik.setFieldValue("company_id", "");
@@ -701,16 +688,20 @@ const ManageDsr = (props) => {
 
                       <Col Col lg={3} md={3}>
                         <div className="form-group">
-                          <label htmlFor="company_id" className="form-label mt-4">
+                          <label
+                            htmlFor="company_id"
+                            className="form-label mt-4"
+                          >
                             Company
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.company_id &&
+                            className={`input101 ${
+                              formik.errors.company_id &&
                               formik.touched.company_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="company_id"
                             name="company_id"
                             value={formik.values.company_id}
@@ -720,7 +711,10 @@ const ManageDsr = (props) => {
                                 GetSiteList(selectcompany);
                                 setSelectedCompanyId(selectcompany);
                                 formik.setFieldValue("site_id", "");
-                                formik.setFieldValue("company_id", selectcompany);
+                                formik.setFieldValue(
+                                  "company_id",
+                                  selectcompany
+                                );
                               } else {
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");
@@ -759,10 +753,11 @@ const ManageDsr = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.site_id && formik.touched.site_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                            className={`input101 ${
+                              formik.errors.site_id && formik.touched.site_id
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="site_id"
                             name="site_id"
                             value={formik.values.site_id}
@@ -806,11 +801,12 @@ const ManageDsr = (props) => {
                             min={"2023-01-01"}
                             max={getCurrentDate()}
                             onClick={hadndleShowDate}
-                            className={`input101 ${formik.errors.start_date &&
+                            className={`input101 ${
+                              formik.errors.start_date &&
                               formik.touched.start_date
-                              ? "is-invalid"
-                              : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                            }`}
                             id="start_date"
                             name="start_date"
                             onChange={formik.handleChange}
