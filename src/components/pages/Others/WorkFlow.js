@@ -7,11 +7,9 @@ import {
   Breadcrumb,
   Card,
   Col,
-  Form,
-  FormGroup,
   Row,
 } from "react-bootstrap";
-import { ErrorMessage, Field, Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
@@ -21,7 +19,6 @@ const ManageSite = (props) => {
   const { isLoading, getData, } = props;
 
   const [data, setData] = useState();
-  const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
@@ -80,11 +77,15 @@ const ManageSite = (props) => {
       site_id: row.id,
     };
 
+
+    localStorage.setItem("dailyWorkFlowInput", JSON.stringify(dataToSend));
+
     // Encode the data and create the query parameter string
     const queryParam = encodeURIComponent(JSON.stringify(dataToSend));
 
     // Construct the link URL with the encoded query parameter
-    const linkUrl = `/data-entry?data=${queryParam}`;
+    // const linkUrl = `/data-entry?data=${queryParam}`;
+    const linkUrl = `/data-entry`;
 
     // Navigate to the desired route
     window.location.href = linkUrl;
@@ -226,7 +227,6 @@ const ManageSite = (props) => {
         );
 
         if (response) {
-          console.log(response, "company");
           setCompanyList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -245,7 +245,6 @@ const ManageSite = (props) => {
         const response = await getData(`common/site-list?company_id=${values}`);
 
         if (response) {
-          console.log(response, "company");
           setSiteList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -328,7 +327,6 @@ const ManageSite = (props) => {
                             value={formik.values.client_id}
                             onChange={(e) => {
                               const selectedType = e.target.value;
-                              console.log(selectedType, "selectedType");
 
                               if (selectedType) {
                                 GetCompanyList(selectedType);
