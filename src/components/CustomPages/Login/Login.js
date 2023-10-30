@@ -110,7 +110,7 @@ export default function Login(props) {
         <div className="login-img">
           <div className="page">
             <div className="">
-              <div className="col col-login mx-auto">
+              {/* <div className="col col-login mx-auto">
                 <div className="text-center login-logo">
                   <img
                     src={require("../../../assets/images/brand/logo.png")}
@@ -118,8 +118,10 @@ export default function Login(props) {
                     alt=""
                   />
                 </div>
-              </div>
+              </div> */}
+
               <div className="container-login100">
+
                 <div className="wrap-login100 p-0">
                   <Card.Body>
                     <Formik
@@ -131,7 +133,13 @@ export default function Login(props) {
                     >
                       {({ errors, touched }) => (
                         <Form className="login100-form validate-form">
-                          <span className="login100-form-title">Login</span>
+                          <span className="login100-form-title">
+                            <img
+                              src={require("../../../assets/images/brand/logo.png")}
+                              className="header-brand-img"
+                              alt=""
+                            />
+                          </span>
 
                           <div>
                             <div
@@ -322,6 +330,15 @@ export default function Login(props) {
                       )}
                     </Formik>
                   </Card.Body>
+                  <Card.Footer className=" text-end p-2 color-white" style={{ background: "linear-gradient(90deg, #000000 0%, #353535 91.71%)", color: "white", fontSize: "12px" }}>
+                    <span className=" " style={{ paddingRight: "20px" }}>
+                      SECURE WITH {" "}
+                      <strong className="  font-weight-bold">
+                        2FA
+                      </strong>
+                      {" "}  <i class="fa fa-shield" aria-hidden="true"></i>
+                    </span>
+                  </Card.Footer>
                 </div>
               </div>
             </div>

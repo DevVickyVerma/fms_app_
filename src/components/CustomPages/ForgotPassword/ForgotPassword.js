@@ -60,11 +60,7 @@ export default function ForgotPassword() {
         <div className="">
           <div className="col col-login mx-auto">
             <div className="text-center login-logo">
-              <img
-                src={require("../../../assets/images/brand/logo.png")}
-                className="header-brand-img"
-                alt=""
-              />
+
             </div>
           </div>
           <div className="container-login100">
@@ -85,8 +81,15 @@ export default function ForgotPassword() {
                         <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} width={"271px"} className="forgot-body">
                           <div className="text-center ">
                             <span className="login100-form-title">
-                              Forgot Password
+                              <img
+                                src={require("../../../assets/images/brand/logo.png")}
+                                className="header-brand-img"
+                                alt=""
+                              />
                             </span>
+                            <p className=" m-0 p-0 font-weight-bold">
+                              Forgot Password
+                            </p>
                             <p className="text-muted">
                               Enter the email address registered on your account
                             </p>
@@ -131,6 +134,15 @@ export default function ForgotPassword() {
                           </div>
                         </Box>
                       </Card.Body>
+                      <Card.Footer className=" text-end p-2 color-white" style={{ background: "linear-gradient(90deg, #000000 0%, #353535 91.71%)", color: "white", fontSize: "12px" }}>
+                        <span className=" " style={{ paddingRight: "20px" }}>
+                          SECURE WITH {" "}
+                          <strong className="  font-weight-bold">
+                            2FA
+                          </strong>
+                          {" "}  <i class="fa fa-shield" aria-hidden="true"></i>
+                        </span>
+                      </Card.Footer>
                     </Form>
                   )}
                 </Formik>
