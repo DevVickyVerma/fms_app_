@@ -27,9 +27,6 @@ const FuelPrices = (props) => {
   const { apidata, error, getData, postData, SiteID, ReportDate, isLoading } =
     props;
 
-  // const [data, setData] = useState()
-  //   const [data, setData] = useState([]);
-  const [DeductionData, setDeductionData] = useState([]);
   const [editable, setis_editable] = useState();
 
   const [AddSiteData, setAddSiteData] = useState([]);
@@ -42,37 +39,15 @@ const FuelPrices = (props) => {
   );
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
-  const [selectedSiteId, setSelectedSiteId] = useState("");
+
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
 
-  const navigate = useNavigate();
-  const SuccessToast = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-  const ErrorToast = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
-
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
   }, []);
-
 
   const handleSubmit1 = async (values) => {
     setSelectedCompanyId(values.company_id);
@@ -138,7 +113,7 @@ const FuelPrices = (props) => {
   const renderTableData = () => {
     return data?.listing.map((item) => (
       <tr className="fuelprice-tr" key={item.id} style={{ padding: "0px" }}>
-        <td>
+        <td style={{ maxWidth: "14.28%" }}>
           <span
             className={
               item?.link_clickable
@@ -165,12 +140,13 @@ const FuelPrices = (props) => {
                 type="number"
                 step="0.010"
                 // className="table-input"
-                className={`table-input ${fuel?.status === "UP"
-                  ? "table-inputGreen"
-                  : fuel?.status === "DOWN"
+                className={`table-input ${
+                  fuel?.status === "UP"
+                    ? "table-inputGreen"
+                    : fuel?.status === "DOWN"
                     ? "table-inputRed"
                     : ""
-                  } ${!fuel?.is_editable ? "readonly" : ""}`}
+                } ${!fuel?.is_editable ? "readonly" : ""}`}
                 value={fuel.price}
                 readOnly={!fuel?.is_editable}
                 id={fuel.id}
@@ -366,13 +342,12 @@ const FuelPrices = (props) => {
     const clientId = localStorage.getItem("superiorId");
 
     if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData()
+      fetchCommonListData();
     } else {
       setSelectedClientId(clientId);
-      GetCompanyList(clientId)
+      GetCompanyList(clientId);
     }
   }, []);
-
 
   return (
     <>
@@ -410,11 +385,9 @@ const FuelPrices = (props) => {
           <Col md={12} xl={12}>
             <Card>
               <Card.Body>
-
                 <form onSubmit={formik.handleSubmit}>
                   <Row>
                     <Card.Body>
-
                       <Row>
                         {localStorage.getItem("superiorRole") !== "Client" && (
                           <Col lg={4} md={4}>
@@ -427,11 +400,12 @@ const FuelPrices = (props) => {
                                 <span className="text-danger">*</span>
                               </label>
                               <select
-                                className={`input101 ${formik.errors.client_id &&
+                                className={`input101 ${
+                                  formik.errors.client_id &&
                                   formik.touched.client_id
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="client_id"
                                 name="client_id"
                                 value={formik.values.client_id}
@@ -440,20 +414,24 @@ const FuelPrices = (props) => {
 
                                   if (selectedType) {
                                     GetCompanyList(selectedType);
-                                    formik.setFieldValue("client_id", selectedType);
+                                    formik.setFieldValue(
+                                      "client_id",
+                                      selectedType
+                                    );
                                     setSelectedClientId(selectedType);
                                     setSiteList([]);
                                     formik.setFieldValue("company_id", "");
                                     formik.setFieldValue("site_id", "");
 
-
                                     const selectedClient =
                                       ClientList?.data?.find(
-                                        (client) =>
-                                          client.id === selectedType
+                                        (client) => client.id === selectedType
                                       );
                                     if (selectedClient) {
-                                      formik.setFieldValue("client_name", selectedClient?.client_name);
+                                      formik.setFieldValue(
+                                        "client_name",
+                                        selectedClient?.client_name
+                                      );
                                     }
                                   } else {
                                     console.log(
@@ -470,7 +448,8 @@ const FuelPrices = (props) => {
                                 }}
                               >
                                 <option value="">Select a Client</option>
-                                {ClientList.data && ClientList.data.length > 0 ? (
+                                {ClientList.data &&
+                                ClientList.data.length > 0 ? (
                                   ClientList.data.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.client_name}
@@ -493,16 +472,20 @@ const FuelPrices = (props) => {
 
                         <Col Col lg={4} md={4}>
                           <div className="form-group">
-                            <label htmlFor="company_id" className="form-label mt-4">
+                            <label
+                              htmlFor="company_id"
+                              className="form-label mt-4"
+                            >
                               Company
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              className={`input101 ${formik.errors.company_id &&
+                              className={`input101 ${
+                                formik.errors.company_id &&
                                 formik.touched.company_id
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="company_id"
                               name="company_id"
                               value={formik.values.company_id}
@@ -511,22 +494,27 @@ const FuelPrices = (props) => {
 
                                 if (selectcompany) {
                                   GetSiteList(selectcompany);
-                                  formik.setFieldValue("company_id", selectcompany);
+                                  formik.setFieldValue(
+                                    "company_id",
+                                    selectcompany
+                                  );
                                   formik.setFieldValue("site_id", "");
                                   setSelectedCompanyId(selectcompany);
 
-                                  const selectedCompanyData =
-                                    CompanyList?.find(
-                                      (company) =>
-                                        company?.id ===
-                                        selectcompany
-                                    );
+                                  const selectedCompanyData = CompanyList?.find(
+                                    (company) => company?.id === selectcompany
+                                  );
                                   if (selectedCompanyData) {
-                                    formik.setFieldValue("company_name", selectedCompanyData?.company_name);
-                                    formik.setFieldValue("company_id", selectedCompanyData?.id);
+                                    formik.setFieldValue(
+                                      "company_name",
+                                      selectedCompanyData?.company_name
+                                    );
+                                    formik.setFieldValue(
+                                      "company_id",
+                                      selectedCompanyData?.id
+                                    );
                                     // setSelectedCompanyFullData(selectedCompanyData)
                                   }
-
                                 } else {
                                   formik.setFieldValue("company_id", "");
                                   formik.setFieldValue("site_id", "");
@@ -560,20 +548,28 @@ const FuelPrices = (props) => {
 
                         <Col lg={4} md={4}>
                           <div className="form-group">
-                            <label htmlFor="start_date" className="form-label mt-4">
+                            <label
+                              htmlFor="start_date"
+                              className="form-label mt-4"
+                            >
                               Start Date
                               <span className="text-danger">*</span>
                             </label>
                             <input
-                              className={`input101 ${formik.errors.start_date && formik.touched.start_date
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                              className={`input101 ${
+                                formik.errors.start_date &&
+                                formik.touched.start_date
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               type="date"
                               min="2023-01-01"
                               onChange={(e) => {
                                 const selectedstart_date = e.target.value;
-                                formik.setFieldValue("start_date", selectedstart_date);
+                                formik.setFieldValue(
+                                  "start_date",
+                                  selectedstart_date
+                                );
                                 // You can keep the logic for setting the field value here if needed
                               }}
                               id="start_date"
@@ -581,23 +577,26 @@ const FuelPrices = (props) => {
                               onClick={hadndleShowDate}
                               value={formik.values.start_date}
                             />
-                            {formik.errors.start_date && formik.touched.start_date && (
-                              <div className="invalid-feedback">
-                                {formik.errors.start_date}
-                              </div>
-                            )}
+                            {formik.errors.start_date &&
+                              formik.touched.start_date && (
+                                <div className="invalid-feedback">
+                                  {formik.errors.start_date}
+                                </div>
+                              )}
                           </div>
                         </Col>
                       </Row>
                       <hr />
                     </Card.Body>
-                    <Card.Footer className="text-end" style={{ border: "none" }}>
+                    <Card.Footer
+                      className="text-end"
+                      style={{ border: "none" }}
+                    >
                       <button className="btn btn-primary me-2" type="submit">
                         Submit
                       </button>
                     </Card.Footer>
                   </Row>
-
                 </form>
               </Card.Body>
             </Card>
@@ -618,7 +617,7 @@ const FuelPrices = (props) => {
                       overflowY: "auto",
                       maxHeight: "calc(100vh - 376px )",
                     }}
-                  // height:"245"
+                    // height:"245"
                   >
                     <table className="table">
                       <colgroup>
