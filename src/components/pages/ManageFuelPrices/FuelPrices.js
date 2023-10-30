@@ -70,13 +70,27 @@ const FuelPrices = (props) => {
       const response1 = await getData(
         `site/fuel-price?${clientIDCondition}company_id=${values.company_id}&drs_date=${values.start_date}`
       );
-
+      console.log(response1, "response1");
       const { data } = response1;
+
       if (data) {
-        setheadingData(data?.data?.head_array);
-        setData(data?.data);
-        setis_editable(data?.data?.btn_clickable);
-        setIsChecked(data?.data?.notify_operator);
+        if (data.api_response === "success") {
+          setheadingData(data.data?.head_array || []);
+          setData(data.data || {});
+          setis_editable(data.data?.btn_clickable || false);
+          setIsChecked(data.data?.notify_operator || false);
+        } else {
+          // Handle the error case
+          // You can display an error message or take appropriate action
+          console.error(data.message);
+        }
+      } else {
+        // Handle the case where data is null
+        // You may want to set default values or handle it differently
+        setheadingData([]);
+        setData({});
+        setis_editable(false);
+        setIsChecked(false);
       }
     } catch (error) {
       console.error("API error:", error);
@@ -87,9 +101,8 @@ const FuelPrices = (props) => {
   const renderTableHeader = () => {
     return (
       <tr className="fuelprice-tr" style={{ padding: "0px" }}>
-        {data?.head_array.map((item, index) => (
-          <th key={index}>{item}</th>
-        ))}
+        {data?.head_array &&
+          data.head_array.map((item, index) => <th key={index}>{item}</th>)}
       </tr>
     );
   };
@@ -111,8 +124,8 @@ const FuelPrices = (props) => {
   };
 
   const renderTableData = () => {
-    return data?.listing.map((item) => (
-      <tr className="fuelprice-tr" key={item.id} style={{ padding: "0px" }}>
+    return data?.listing?.map((item) => (
+      <tr className="fuelprice-tr" key={item?.id} style={{ padding: "0px" }}>
         <td style={{ maxWidth: "14.28%" }}>
           <span
             className={
@@ -120,41 +133,43 @@ const FuelPrices = (props) => {
                 ? "text-muted fs-15 fw-semibold text-center fuel-site-name"
                 : "text-muted fs-15 fw-semibold text-center"
             }
-            onClick={item?.link_clickable ? () => handleModalOpen(item) : ""}
+            onClick={item?.link_clickable ? () => handleModalOpen(item) : null}
           >
             {item?.site_name} <span className="itemcount">{item?.count}</span>
           </span>
         </td>
         <td>
-          <span class="text-muted fs-15 fw-semibold text-center">
-            {item.time}
+          <span className="text-muted fs-15 fw-semibold text-center">
+            {item?.time}
           </span>
         </td>
 
-        {item?.fuels.map((fuel, index) => (
-          <td key={index}>
-            {Array.isArray(fuel) ? (
-              <input type="text" className="table-input readonly" readOnly />
-            ) : (
-              <input
-                type="number"
-                step="0.010"
-                // className="table-input"
-                className={`table-input ${
-                  fuel?.status === "UP"
-                    ? "table-inputGreen"
-                    : fuel?.status === "DOWN"
-                    ? "table-inputRed"
-                    : ""
-                } ${!fuel?.is_editable ? "readonly" : ""}`}
-                value={fuel.price}
-                readOnly={!fuel?.is_editable}
-                id={fuel.id}
-                onChange={(e) => handleInputChange(e.target.id, e.target.value)}
-              />
-            )}
-          </td>
-        ))}
+        {Array.isArray(item?.fuels) &&
+          item.fuels.map((fuel, index) => (
+            <td key={index}>
+              {Array.isArray(fuel) ? (
+                <input type="text" className="table-input readonly" readOnly />
+              ) : (
+                <input
+                  type="number"
+                  step="0.010"
+                  className={`table-input ${
+                    fuel?.status === "UP"
+                      ? "table-inputGreen"
+                      : fuel?.status === "DOWN"
+                      ? "table-inputRed"
+                      : ""
+                  } ${!fuel?.is_editable ? "readonly" : ""}`}
+                  value={fuel?.price}
+                  readOnly={!fuel?.is_editable}
+                  id={fuel?.id}
+                  onChange={(e) =>
+                    handleInputChange(e.target.id, e.target.value)
+                  }
+                />
+              )}
+            </td>
+          ))}
       </tr>
     ));
   };
@@ -609,7 +624,7 @@ const FuelPrices = (props) => {
                 <h3 className="card-title">Fuel Price</h3>
               </Card.Header>
               <Card.Body>
-                {data ? (
+                {data?.head_array ? (
                   <div
                     className="table-container table-responsive"
                     // style={{ height: "700px", overflowY: "auto" }}
@@ -621,9 +636,10 @@ const FuelPrices = (props) => {
                   >
                     <table className="table">
                       <colgroup>
-                        {data?.head_array.map((_, index) => (
-                          <col key={index} />
-                        ))}
+                        {data?.head_array &&
+                          data.head_array.map((_, index) => (
+                            <col key={index} />
+                          ))}
                       </colgroup>
                       <thead
                         style={{
@@ -646,7 +662,7 @@ const FuelPrices = (props) => {
                 )}
               </Card.Body>
               <Card.Footer>
-                {data ? (
+                {data?.head_array ? (
                   <div className="text-end notification-class">
                     <div className="Notification">
                       <label
