@@ -75,7 +75,7 @@ const withApi = (WrappedComponent) => {
           const data = response.data;
           setApiData(data);
           setIsLoading(false);
-          return response; // Return the response object
+          return response; // Return the response 
         } else {
           throw new Error("Invalid response"); // Handle the case where the response or response.data is undefined
         }
