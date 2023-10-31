@@ -14,6 +14,8 @@ import * as Yup from "yup";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
+import CustomClient from "../../../Utils/CustomClient";
+import CustomCompany from "../../../Utils/CustomCompany";
 
 const ManageSite = (props) => {
   const { isLoading, getData, } = props;
@@ -306,123 +308,31 @@ const ManageSite = (props) => {
                 <form onSubmit={formik.handleSubmit}>
                   <Row>
 
-                    {localStorage.getItem("superiorRole") !== "Client" && (
-                      <Col lg={6} md={6}>
-                        <div className="form-group">
-                          <label
-                            htmlFor="client_id"
-                            className="form-label mt-4"
-                          >
-                            Client
-                            <span className="text-danger">*</span>
-                          </label>
-                          <select
-                            className={`input101 ${formik.errors.client_id &&
-                              formik.touched.client_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
-                            id="client_id"
-                            name="client_id"
-                            value={formik.values.client_id}
-                            onChange={(e) => {
-                              const selectedType = e.target.value;
 
-                              if (selectedType) {
-                                GetCompanyList(selectedType);
-                                formik.setFieldValue("client_id", selectedType);
-                                setSelectedClientId(selectedType);
-                                setSiteList([]);
-                                formik.setFieldValue("company_id", "");
-                                formik.setFieldValue("site_id", "");
-                              } else {
-                                console.log(
-                                  selectedType,
-                                  "selectedType no values"
-                                );
-                                formik.setFieldValue("client_id", "");
-                                formik.setFieldValue("company_id", "");
-                                formik.setFieldValue("site_id", "");
 
-                                setSiteList([]);
-                                setCompanyList([]);
-                              }
-                            }}
-                          >
-                            <option value="">Select a Client</option>
-                            {ClientList.data && ClientList.data.length > 0 ? (
-                              ClientList.data.map((item) => (
-                                <option key={item.id} value={item.id}>
-                                  {item.client_name}
-                                </option>
-                              ))
-                            ) : (
-                              <option disabled>No Client</option>
-                            )}
-                          </select>
+                    <CustomClient
+                      formik={formik}
+                      lg={6}
+                      md={6}
+                      ClientList={ClientList}
+                      setSelectedClientId={setSelectedClientId}
+                      setSiteList={setSiteList}
+                      setCompanyList={setCompanyList}
+                      GetCompanyList={GetCompanyList}
+                    />
 
-                          {formik.errors.client_id &&
-                            formik.touched.client_id && (
-                              <div className="invalid-feedback">
-                                {formik.errors.client_id}
-                              </div>
-                            )}
-                        </div>
-                      </Col>
-                    )}
-                    <Col Col lg={6} md={6}>
-                      <div className="form-group">
-                        <label htmlFor="company_id" className="form-label mt-4">
-                          Company
-                          <span className="text-danger">*</span>
-                        </label>
-                        <select
-                          className={`input101 ${formik.errors.company_id &&
-                            formik.touched.company_id
-                            ? "is-invalid"
-                            : ""
-                            }`}
-                          id="company_id"
-                          name="company_id"
-                          value={formik.values.company_id}
-                          onChange={(e) => {
-                            const selectcompany = e.target.value;
+                    <CustomCompany
+                      formik={formik}
+                      lg={6}
+                      md={6}
+                      CompanyList={CompanyList}
+                      setSelectedCompanyId={setSelectedCompanyId}
+                      setSiteList={setSiteList}
+                      selectedClientId={selectedClientId}
+                      GetSiteList={GetSiteList}
+                    />
 
-                            if (selectcompany) {
-                              GetSiteList(selectcompany);
-                              formik.setFieldValue("site_id", "");
-                              formik.setFieldValue("company_id", selectcompany);
-                              setSelectedCompanyId(selectcompany);
-                            } else {
-                              formik.setFieldValue("company_id", "");
-                              formik.setFieldValue("site_id", "");
 
-                              setSiteList([]);
-                            }
-                          }}
-                        >
-                          <option value="">Select a Company</option>
-                          {selectedClientId && CompanyList.length > 0 ? (
-                            <>
-                              setSelectedCompanyId([])
-                              {CompanyList.map((company) => (
-                                <option key={company.id} value={company.id}>
-                                  {company.company_name}
-                                </option>
-                              ))}
-                            </>
-                          ) : (
-                            <option disabled>No Company</option>
-                          )}
-                        </select>
-                        {formik.errors.company_id &&
-                          formik.touched.company_id && (
-                            <div className="invalid-feedback">
-                              {formik.errors.company_id}
-                            </div>
-                          )}
-                      </div>
-                    </Col>
                   </Row>
 
                   <Card.Footer className="text-end">
