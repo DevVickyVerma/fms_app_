@@ -63,7 +63,6 @@ const App = (props) => {
     try {
       const response = await axiosInstance.get(`/detail`);
       if (response) {
-        console.log(response?.data?.data?.auto_logout, "auto_logoutGetDetails");
         const autoLogoutValue = response?.data?.data?.auto_logout;
 
         setAutoLogout(autoLogoutValue); // Update the autoLogout state with the new value

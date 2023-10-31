@@ -58,7 +58,6 @@ export default function Settings() {
     try {
       const response = await axiosInstance.get(`/detail`);
       if (response) {
-        console.log(response?.data?.data?.auto_logout, "auto_logoutGetDetails");
         localStorage.setItem("auto_logout", response?.data?.data?.auto_logout);
       }
     } catch (error) {

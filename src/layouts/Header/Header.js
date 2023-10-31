@@ -202,28 +202,32 @@ const Header = (props) => {
               <Navbar id="navbarSupportedContent-4">
                 <div className=" d-flex header-time-section">
                   <span className=" d-flex flex-column uk-text-time">
-                    <span>B</span>
-                    <span>S</span>
-                    <span>T</span>
+                    <span style={{ fontWeight: "800" }}>B</span>
+                    <span style={{ fontWeight: "800" }}>S</span>
+                    <span style={{ fontWeight: "800" }}>T</span>
                   </span>
                   <span className="uk-date-time">
                     {" "}
-
                     <span>
-                      <i className="fa fa-calendar-o"></i>
+                      <i
+                        className="fa fa-calendar-o"
+                        style={{ fontWeight: "800" }}
+                      ></i>
                       <span className="uk-time"> {ukDate}</span> <br />
                     </span>
                     <span className="header-time-empty-section"></span>
                     <span>
-                      <i className="fa fa-clock-o "></i>
+                      <i
+                        className="fa fa-clock-o "
+                        style={{ fontWeight: "800" }}
+                      ></i>
                       <span className="uk-time">{ukTime}</span>
                     </span>
                   </span>
                 </div>
 
-
                 {storedKeyRef.current === "false" &&
-                  isProfileUpdatePermissionAvailable ? (
+                isProfileUpdatePermissionAvailable ? (
                   <>
                     <span
                       className=""
@@ -315,7 +319,7 @@ const Header = (props) => {
                     </div>
                     <div className="dropdown-divider m-0"></div>
                     {usernotification &&
-                      usernotification?.notifications?.length > 0 ? (
+                    usernotification?.notifications?.length > 0 ? (
                       <Dropdown.Item
                         eventKey="closeDropdown"
                         onClick={handleViewAllNotificationsClick}
