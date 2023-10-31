@@ -178,7 +178,6 @@ const Competitor = (props) => {
         client_id: values.client_id,
         company_id: values.company_id,
       };
-      // testisdas
       localStorage.setItem("manageCompetitor", JSON.stringify(competitor));
       const response = await getData(
         `site/competitor/list?site_id=${values?.site_id}`
