@@ -187,6 +187,7 @@ const Competitor = (props) => {
         setCompetitorList(response.data.data.competitors);
       } else {
         throw new Error("No data available in the response");
+
       }
     } catch (error) {
       console.error("API error:", error);
