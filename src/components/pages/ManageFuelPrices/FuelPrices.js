@@ -62,7 +62,6 @@ const FuelPrices = (props) => {
       const response1 = await getData(
         `site/fuel-price?${clientIDCondition}company_id=${values.company_id}&drs_date=${values.start_date}`
       );
-      console.log(response1, "response1");
       const { data } = response1;
 
       if (data) {
@@ -199,14 +198,12 @@ const FuelPrices = (props) => {
         });
       });
 
-      // selected.forEach((option) => {
-      //   formData.append("notify_operatorrrrr", option.value);
-      // });
-
-      // console.log(formData, "formData");
+      const isMobileSelected = selected.some(option => option.value === "mobile-sms");
+      const isEmailSelected = selected.some(option => option.value === "email");
 
       setSelectedItemDate(selectedDrsDate);
-      formData.append("notify_operator", isChecked);
+      formData.append("notify_operator-mobile", isMobileSelected);
+      formData.append("notify_operator", isEmailSelected);
       formData.append("drs_date", selectedDrsDate);
       formData.append("client_id", selectedClientId);
       formData.append("company_id", selectedCompanyId);
@@ -615,7 +612,7 @@ const FuelPrices = (props) => {
         </Row>
         <Row className="row-sm">
           <Col lg={12}>
-            <Card style={{ height: "calc(100vh - 203px)", overflowY: "auto" }}>
+            <Card style={{ height: "calc(100vh - 180px)", overflowY: "auto" }}>
               <Card.Header>
                 <h3 className="card-title">Fuel Price</h3>
               </Card.Header>
@@ -660,10 +657,7 @@ const FuelPrices = (props) => {
               <Card.Footer>
                 {data?.head_array ? (
                   <div className="text-end notification-class">
-                    <div
-                      //  className="Notification"
-                      style={{ width: "200px", textAlign: "left" }}
-                    >
+                    <div style={{ width: "200px", textAlign: "left" }} >
 
                       {!selected.length && (
                         <>
