@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { Breadcrumb, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import DashboardChildTable from "./DashboardChildTable";
@@ -10,37 +10,25 @@ import { useSelector } from "react-redux";
 import CenterFilterModal from "../../../data/Modal/CenterFilterModal";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import DashboardStatsBox from "../DashboardStatsBox/DashboardStatsBox";
+import { initialState, reducer } from "../../../Utils/CustomReducer";
 
 const DashBoardChild = (props) => {
   const { isLoading, getData } = props;
-  const [ShowTruw, setShowTruw] = useState(false);
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
-  const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
   const [SearchList, setSearchList] = useState(false);
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
+  const [reducerState, reducerDispatch] = useReducer(reducer, initialState);
+  const { shop_margin, shop_sale, fuel_value, gross_profit_value, gross_volume, gross_margin_value } = reducerState;
+
 
   const navigate = useNavigate();
   const UserPermissions = useSelector((state) => state?.data?.data);
   const {
     searchdata,
     setSearchdata,
-    setGrossMarginValue,
-    GrossProfitValue,
-    setGrossProfitValue,
-    FuelValue,
-    setFuelValue,
-    GrossVolume,
-    setGrossVolume,
-    shopsale,
-    setshopsale,
-    shopmargin,
-    setshopmargin,
-    GrossMarginValue,
-    setpiechartValues,
   } = useMyContext();
 
   const handleToggleSidebar1 = () => {
-    setShowTruw(true);
     setSidebarVisible1(!sidebarVisible1);
     setCenterFilterModalOpen(!centerFilterModalOpen);
   };
@@ -95,13 +83,22 @@ const DashBoardChild = (props) => {
 
       const { data } = response;
       if (data) {
-        setGrossMarginValue(data?.data?.gross_margin_);
-        setGrossVolume(data?.data?.gross_volume);
-        setGrossProfitValue(data?.data?.gross_profit);
-        setFuelValue(data?.data?.fuel_sales);
-        setshopsale(data?.data?.shop_sales);
-        setpiechartValues(data?.data?.pi_graph);
-        setshopmargin(data?.data?.shop_profit);
+        reducerDispatch({
+          type: "UPDATE_DATA",
+          payload: {
+            d_line_chart_values: data?.data?.d_line_graph?.series,
+            d_line_chart_option: data?.data?.d_line_graph?.option?.labels,
+            stacked_line_bar_data: data?.data?.line_graph?.datasets,
+            stacked_line_bar_label: data?.data?.line_graph?.labels,
+            pie_chart_values: data?.data?.pi_graph,
+            gross_margin_value: data?.data?.gross_margin_,
+            gross_volume: data?.data?.gross_volume,
+            gross_profit_value: data?.data?.gross_profit,
+            fuel_value: data?.data?.fuel_sales,
+            shop_sale: data?.data?.shop_sales,
+            shop_margin: data?.data?.shop_profit,
+          }
+        });
       }
     } catch (error) {
       handleError(error);
@@ -337,12 +334,12 @@ const DashBoardChild = (props) => {
 
       <Row>
         <DashboardStatsBox
-          GrossVolume={GrossVolume}
-          shopmargin={shopmargin}
-          GrossProfitValue={GrossProfitValue}
-          GrossMarginValue={GrossMarginValue}
-          FuelValue={FuelValue}
-          shopsale={shopsale}
+          GrossVolume={gross_volume}
+          shopmargin={shop_margin}
+          GrossProfitValue={gross_profit_value}
+          GrossMarginValue={gross_margin_value}
+          FuelValue={fuel_value}
+          shopsale={shop_sale}
           searchdata={searchdata}
         />
       </Row>
