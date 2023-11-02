@@ -43,8 +43,6 @@ const CustomModal = ({
     }
   }
 
-  console.log(selected, "yeeeeeeeeeeee");
-
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
@@ -141,9 +139,13 @@ const CustomModal = ({
       });
     });
 
+    const isMobileSelected = selected.some(option => option.value === "mobile-sms");
+    const isEmailSelected = selected.some(option => option.value === "email");
+
     formData.append("drs_date", selectedDrsDate);
     formData.append("site_id", selectedItem.id);
-    formData.append("notify_operator", isChecked);
+    formData.append("notify_operator", isEmailSelected);
+    formData.append("notify_operator-mobile", isMobileSelected);
     const token = localStorage.getItem("token");
     const axiosInstance = axios.create({
       baseURL: process.env.REACT_APP_BASE_URL,
