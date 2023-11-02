@@ -267,7 +267,7 @@ const AddSubBusinessCategory = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                          <Col lg={4} md={6}>
+                          <Col lg={6} md={12}>
                             <FormGroup>
                               <label
                                 htmlFor="business_category_id"

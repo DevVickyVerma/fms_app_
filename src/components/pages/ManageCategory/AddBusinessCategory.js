@@ -6,14 +6,11 @@ import {
   Card,
   Form,
   FormGroup,
-  FormControl,
-  ListGroup,
   Breadcrumb,
 } from "react-bootstrap";
 
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
@@ -22,7 +19,7 @@ import { useSelector } from "react-redux";
 import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const AddBusinessCategory = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, error, getData, postData } = props;
 
   const navigate = useNavigate();
   const [AddSiteData, setAddSiteData] = useState([]);
@@ -272,7 +269,7 @@ const AddBusinessCategory = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                          <Col lg={4} md={6}>
+                          <Col lg={6} md={12}>
                             <FormGroup>
                               <label
                                 htmlFor="business_type_id"

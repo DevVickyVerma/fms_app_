@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../Utils/ApiHelper";
 import { fetchData } from "../../Redux/dataSlice";
@@ -16,7 +16,7 @@ import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import CenterFilterModal from "../../data/Modal/CenterFilterModal";
 import { ErrorAlert, SuccessAlert } from "../../Utils/ToastUtils";
 import DashboardStatsBox from "./DashboardStatsBox/DashboardStatsBox";
-import Swal from "sweetalert2";
+import { initialState, reducer } from "../../Utils/CustomReducer";
 
 const Dashboard = (props) => {
   const { isLoading, getData } = props;
@@ -27,34 +27,14 @@ const Dashboard = (props) => {
   const [SearchList, setSearchList] = useState(false);
   const [justLoggedIn, setJustLoggedIn] = useState(false);
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
+  const [reducerState, reducerDispatch] = useReducer(reducer, initialState);
+  const { shop_margin, shop_sale, fuel_value, gross_profit_value, gross_volume, gross_margin_value, pie_chart_values, stacked_line_bar_label, stacked_line_bar_data, d_line_chart_option, d_line_chart_values } = reducerState;
+
+
 
   const {
     searchdata,
     setSearchdata,
-    GrossMarginValue,
-    setGrossMarginValue,
-    GrossProfitValue,
-    setGrossProfitValue,
-    FuelValue,
-    setFuelValue,
-    GrossVolume,
-    setGrossVolume,
-    shopsale,
-    setshopsale,
-    shopmargin,
-    setshopmargin,
-    piechartValues,
-    setpiechartValues,
-    setLinechartValues,
-    setLinechartOption,
-    DLinechartValues,
-    setDLinechartValues,
-    DLinechartOption,
-    setDLinechartOption,
-    stackedLineBarData,
-    setStackedLineBarData,
-    stackedLineBarLabels,
-    setStackedLineBarLabel,
     shouldNavigateToDetailsPage,
     setShouldNavigateToDetailsPage,
   } = useMyContext();
@@ -85,40 +65,22 @@ const Dashboard = (props) => {
       const { data } = response;
 
       if (data) {
-        setLinechartValues(data?.data?.line_graph?.series);
-        setDLinechartValues(data?.data?.d_line_graph?.series);
-        setLinechartOption(data?.data?.line_graph?.option?.labels);
-        setDLinechartOption(data?.data?.d_line_graph?.option?.labels);
-        setStackedLineBarData(data?.data?.line_graph?.datasets);
-        setStackedLineBarLabel(data?.data?.line_graph?.labels);
-        setpiechartValues(data?.data?.pi_graph);
-        setGrossMarginValue(data?.data?.gross_margin_);
-        setGrossVolume(data?.data?.gross_volume);
-        setGrossProfitValue(data?.data?.gross_profit);
-        setFuelValue(data?.data?.fuel_sales);
-        setshopsale(data?.data?.shop_sales);
-        setshopmargin(data?.data?.shop_profit);
-
-        const savedDataOfDashboard = {
-          LinechartValues: data?.data?.line_graph?.series,
-          DLinechartValues: data?.data?.d_line_graph?.series,
-          setpiechartValues: data?.data?.pi_graph,
-          stackedLineBarData: data?.data?.line_graph?.datasets,
-          stackedLineBarLabels: data?.data?.line_graph?.labels,
-          LinechartOption: data?.data?.line_graph?.option?.labels,
-          DLinechartOption: data?.data?.d_line_graph?.option?.labels,
-          GrossMarginValue: data?.data?.gross_margin_,
-          GrossVolume: data?.data?.gross_volume,
-          GrossProfitValue: data?.data?.gross_profit,
-          FuelValue: data?.data?.fuel_sales,
-          shopsale: data?.data?.shop_sales,
-          shopmargin: data?.data?.shop_profit,
-        };
-        // Save the data object to local storage
-        localStorage.setItem(
-          "savedDataOfDashboard",
-          JSON.stringify(savedDataOfDashboard)
-        );
+        reducerDispatch({
+          type: "UPDATE_DATA",
+          payload: {
+            d_line_chart_values: data?.data?.d_line_graph?.series,
+            d_line_chart_option: data?.data?.d_line_graph?.option?.labels,
+            stacked_line_bar_data: data?.data?.line_graph?.datasets,
+            stacked_line_bar_label: data?.data?.line_graph?.labels,
+            pie_chart_values: data?.data?.pi_graph,
+            gross_margin_value: data?.data?.gross_margin_,
+            gross_volume: data?.data?.gross_volume,
+            gross_profit_value: data?.data?.gross_profit,
+            fuel_value: data?.data?.fuel_sales,
+            shop_sale: data?.data?.shop_sales,
+            shop_margin: data?.data?.shop_profit,
+          }
+        });
       }
     } catch (error) {
       handleError(error);
@@ -226,42 +188,23 @@ const Dashboard = (props) => {
       const { data } = response;
 
       if (data) {
-        setShouldNavigateToDetailsPage(true);
-        setLinechartValues(data?.data?.line_graph?.series);
-        setDLinechartValues(data?.data?.d_line_graph?.series);
-        setLinechartOption(data?.data?.line_graph?.option?.labels);
-        setDLinechartOption(data?.data?.d_line_graph?.option?.labels);
-        setStackedLineBarData(data?.data?.line_graph?.datasets);
-        setStackedLineBarLabel(data?.data?.line_graph?.labels);
-        setGrossMarginValue(data?.data?.gross_margin_);
-        setLinechartValues(data?.data?.line_graph?.series);
-        setpiechartValues(data?.data?.pi_graph);
-        setGrossVolume(data?.data?.gross_volume);
-        setGrossProfitValue(data?.data?.gross_profit);
-        setFuelValue(data?.data?.fuel_sales);
-        setshopsale(data?.data?.shop_sales);
-        setshopmargin(data?.data?.shop_profit);
 
-        const savedDataOfDashboard = {
-          LinechartValues: data?.data?.line_graph?.series,
-          setpiechartValues: data?.data?.pi_graph,
-          DLinechartValues: data?.data?.d_line_graph?.series,
-          LinechartOption: data?.data?.line_graph?.series,
-          DLinechartOption: data?.data?.d_line_graph?.series,
-          stackedLineBarData: data?.data?.line_graph?.datasets,
-          stackedLineBarLabels: data?.data?.line_graph?.labels,
-          GrossMarginValue: data?.data?.gross_margin_,
-          GrossVolume: data?.data?.gross_volume,
-          GrossProfitValue: data?.data?.gross_profit,
-          FuelValue: data?.data?.fuel_sales,
-          shopsale: data?.data?.shop_sales,
-          shopmargin: data?.data?.shop_profit,
-        };
-        // Save the data object to local storage
-        localStorage.setItem(
-          "savedDataOfDashboard",
-          JSON.stringify(savedDataOfDashboard)
-        );
+        reducerDispatch({
+          type: "UPDATE_DATA",
+          payload: {
+            d_line_chart_values: data?.data?.d_line_graph?.series,
+            d_line_chart_option: data?.data?.d_line_graph?.option?.labels,
+            stacked_line_bar_data: data?.data?.line_graph?.datasets,
+            stacked_line_bar_label: data?.data?.line_graph?.labels,
+            pie_chart_values: data?.data?.pi_graph,
+            gross_margin_value: data?.data?.gross_margin_,
+            gross_volume: data?.data?.gross_volume,
+            gross_profit_value: data?.data?.gross_profit,
+            fuel_value: data?.data?.fuel_sales,
+            shop_sale: data?.data?.shop_sales,
+            shop_margin: data?.data?.shop_profit,
+          }
+        });
       }
     } catch (error) {
       handleError(error);
@@ -273,48 +216,17 @@ const Dashboard = (props) => {
   const [isLoadingState, setIsLoading] = useState(false);
   const ResetForm = async () => {
     myLocalSearchData = "";
-    setIsLoading(true);
+    // setIsLoading(true);
+    reducerDispatch({
+      type: 'RESET_STATE'
+    })
     setSearchdata({});
-    setTimeout(() => {}, 1000);
-
-    localStorage.removeItem("savedDataOfDashboard");
+    setTimeout(() => { }, 1000);
     localStorage.removeItem("mySearchData");
 
     if (superiorRole !== "Administrator") {
       // Assuming handleFetchSiteData is an asynchronous function
       handleFetchSiteData()
-        .then(() => {
-          // After the data is fetched, set isLoading to false
-          setTimeout(() => {
-            setIsLoading(false);
-          }, 1000);
-        })
-        .catch((error) => {
-          // Handle error and set isLoading to false
-          setTimeout(() => {
-            setIsLoading(false);
-          }, 1000);
-        });
-    } else {
-      // Assuming these functions are synchronous
-      setLinechartValues();
-      setLinechartOption();
-      setDLinechartValues();
-      setDLinechartOption();
-      setpiechartValues();
-      setGrossMarginValue();
-      setGrossVolume();
-      setGrossProfitValue();
-      setFuelValue();
-      setshopsale();
-      setshopmargin();
-      setStackedLineBarData();
-      setStackedLineBarLabel();
-
-      // Set isLoading to false after performing necessary actions
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
     }
   };
 
@@ -388,7 +300,7 @@ const Dashboard = (props) => {
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-          localStorage.getItem("role") === "Operator" ? (
+            localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -475,7 +387,7 @@ const Dashboard = (props) => {
                   </Box>
                 </>
                 {UserPermissions?.applyFilter &&
-                Object.keys(searchdata).length === 0 ? (
+                  Object.keys(searchdata).length === 0 ? (
                   <div
                     style={{
                       textAlign: "left",
@@ -606,8 +518,8 @@ const Dashboard = (props) => {
         />
 
         {isProfileUpdatePermissionAvailable &&
-        !isTwoFactorPermissionAvailable &&
-        ShowAuth ? (
+          !isTwoFactorPermissionAvailable &&
+          ShowAuth ? (
           <>
             <CenterAuthModal title="Auth Modal" />
           </>
@@ -616,12 +528,12 @@ const Dashboard = (props) => {
         )}
 
         <DashboardStatsBox
-          GrossVolume={GrossVolume}
-          shopmargin={shopmargin}
-          GrossProfitValue={GrossProfitValue}
-          GrossMarginValue={GrossMarginValue}
-          FuelValue={FuelValue}
-          shopsale={shopsale}
+          GrossVolume={gross_volume}
+          shopmargin={shop_margin}
+          GrossProfitValue={gross_profit_value}
+          GrossMarginValue={gross_margin_value}
+          FuelValue={fuel_value}
+          shopsale={shop_sale}
           searchdata={searchdata}
           shouldNavigateToDetailsPage={shouldNavigateToDetailsPage}
           setShouldNavigateToDetailsPage={setShouldNavigateToDetailsPage}
@@ -637,11 +549,11 @@ const Dashboard = (props) => {
               </Card.Header>
               <Card.Body className="card-body pb-0 dashboard-chart-height">
                 <div id="chart">
-                  {stackedLineBarData && stackedLineBarLabels ? (
+                  {stacked_line_bar_data && stacked_line_bar_label ? (
                     <>
                       <StackedLineBarChart
-                        stackedLineBarData={stackedLineBarData}
-                        stackedLineBarLabels={stackedLineBarLabels}
+                        stackedLineBarData={stacked_line_bar_data}
+                        stackedLineBarLabels={stacked_line_bar_label}
                       />
                     </>
                   ) : (
@@ -677,9 +589,9 @@ const Dashboard = (props) => {
               </Card.Header>
               <Card.Body className="card-body pb-0 dashboard-chart-height">
                 <div id="chart">
-                  {piechartValues ? (
+                  {pie_chart_values ? (
                     <>
-                      <DashboardOverallStatsPieChart data={piechartValues} />
+                      <DashboardOverallStatsPieChart data={pie_chart_values} />
                     </>
                   ) : (
                     <>
@@ -715,8 +627,8 @@ const Dashboard = (props) => {
               <Card.Body className="card-body pb-0">
                 <div id="chart">
                   <DashboardMultiLineChart
-                    LinechartValues={DLinechartValues}
-                    LinechartOption={DLinechartOption}
+                    LinechartValues={d_line_chart_values}
+                    LinechartOption={d_line_chart_option}
                   />
                 </div>
               </Card.Body>

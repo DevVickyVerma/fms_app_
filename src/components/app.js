@@ -12,7 +12,6 @@ import axios from "axios";
 
 const App = (props) => {
   const { getData } = props;
-
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -113,8 +112,8 @@ const App = (props) => {
 
   useEffect(() => {
     if (isInactive) {
-      localStorage.setItem("auto_logout_done",true);
-      localStorage.setItem("token", "data.data.access_token");
+      localStorage.setItem("auto_logout_done", true);
+      localStorage.setItem("token", "");
       Swal.fire({
         title: "Inactivity Alert",
         text: `Oops, there is no activity from the last ${autoLogout} minutes.`,
@@ -130,8 +129,8 @@ const App = (props) => {
       }).then((result) => {
         handleConfirm();
       });
-    }else{
-      localStorage.setItem("auto_logout_done",false);
+    } else {
+      localStorage.setItem("auto_logout_done", false);
     }
     // console.clear();
   }, [isInactive, autoLogout, logoutTime]);

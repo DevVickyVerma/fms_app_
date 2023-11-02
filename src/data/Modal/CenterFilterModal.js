@@ -4,15 +4,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import "react-datepicker/dist/react-datepicker.css";
 import Loaderimg from "../../Utils/Loader";
-import { ErrorMessage, Field, Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   Card,
   Col,
-  Form,
-  FormGroup,
   Row,
 } from "react-bootstrap";
 import { Dialog, DialogActions } from "@mui/material";
@@ -29,13 +27,7 @@ const CenterFilterModal = (props) => {
   } = props;
 
 
-  const [selectedClientFullData, setSelectedClientFullData] = useState("")
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [selectedCompanyFullData, setSelectedCompanyFullData] = useState("")
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
-  const [selectedSiteFullData, setSelectedSiteFullData] = useState("")
-  const [AddSiteData, setAddSiteData] = useState([]);
-  const [AddSiteId, setAddSiteId] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const [selectedClientId, setSelectedClientId] = useState("");
@@ -48,9 +40,9 @@ const CenterFilterModal = (props) => {
 
   function handleError(error) {
     if (error.response && error.response.deduction_status === 401) {
-      ErrorAlert("Invalid access token");
-      navigate("/login");
       localStorage.clear();
+      navigate("/login");
+      ErrorAlert("Invalid access token");
     } else if (
       error.response &&
       error.response.data.deduction_status_code === "403"
@@ -109,7 +101,7 @@ const CenterFilterModal = (props) => {
       }
       setIsLoading(false); // Set isLoading to false after the API call is complete
     } catch (error) {
-      handleError(error);
+      ErrorAlert(error);
       console.error("API error:", error);
       setIsLoading(false); // Set isLoading to false if there is an error
     }
@@ -122,8 +114,6 @@ const CenterFilterModal = (props) => {
       setIsLoading(true); // Set isLoading to true to indicate the loading state
       if (response) {
         setCompanyList(response?.data?.data);
-      } else {
-        throw new Error("No data available in the response");
       }
       setIsLoading(false); // Set isLoading to false after the API call is complete
     } catch (error) {
@@ -145,7 +135,7 @@ const CenterFilterModal = (props) => {
       }
       setIsLoading(false); // Set isLoading to false after the API call is complete
     } catch (error) {
-      handleError(error);
+      ErrorAlert(error);
       console.error("API error:", error);
       setIsLoading(false); // Set isLoading to false if there is an error
     }
@@ -247,7 +237,7 @@ const CenterFilterModal = (props) => {
                                 setSiteList([]);
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");
-                                setSelectedClientFullData(selectedType)
+                                // setSelectedClientFullData(selectedType)
 
                                 const selectedClient =
                                   ClientList?.data?.find(
@@ -325,7 +315,7 @@ const CenterFilterModal = (props) => {
                               if (selectedCompanyData) {
                                 formik.setFieldValue("company_name", selectedCompanyData?.company_name);
                                 formik.setFieldValue("company_id", selectedCompanyData?.id);
-                                setSelectedCompanyFullData(selectedCompanyData)
+                                // setSelectedCompanyFullData(selectedCompanyData)
                               }
                             } else {
                               formik.setFieldValue("company_id", "");

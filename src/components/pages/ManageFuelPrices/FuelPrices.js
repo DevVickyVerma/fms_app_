@@ -3,25 +3,15 @@ import {
   Breadcrumb,
   Card,
   Col,
-  Form,
-  FormGroup,
-  OverlayTrigger,
   Row,
-  Tooltip,
 } from "react-bootstrap";
-import DataTable from "react-data-table-component";
-import { Link, Navigate } from "react-router-dom";
-import DataTableExtensions from "react-data-table-component-extensions";
-
+import { Link } from "react-router-dom";
 import * as Yup from "yup";
-import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
-import { useNavigate } from "react-router-dom";
-import { Slide, toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
-import { ErrorMessage, Field, Formik, useFormik } from "formik";
-import MiddayModal from "../../../data/Modal/MiddayModal";
+import { useFormik } from "formik";
 import CustomModal from "../../../data/Modal/MiddayModal";
+import { MultiSelect } from "react-multi-select-component";
 
 const FuelPrices = (props) => {
   const { apidata, error, getData, postData, SiteID, ReportDate, isLoading } =
@@ -44,6 +34,8 @@ const FuelPrices = (props) => {
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
+
+  const [selected, setSelected] = useState([]);
 
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
@@ -153,13 +145,12 @@ const FuelPrices = (props) => {
                 <input
                   type="number"
                   step="0.010"
-                  className={`table-input ${
-                    fuel?.status === "UP"
-                      ? "table-inputGreen"
-                      : fuel?.status === "DOWN"
+                  className={`table-input ${fuel?.status === "UP"
+                    ? "table-inputGreen"
+                    : fuel?.status === "DOWN"
                       ? "table-inputRed"
                       : ""
-                  } ${!fuel?.is_editable ? "readonly" : ""}`}
+                    } ${!fuel?.is_editable ? "readonly" : ""}`}
                   value={fuel?.price}
                   readOnly={!fuel?.is_editable}
                   id={fuel?.id}
@@ -207,6 +198,12 @@ const FuelPrices = (props) => {
           }
         });
       });
+
+      // selected.forEach((option) => {
+      //   formData.append("notify_operatorrrrr", option.value);
+      // });
+
+      // console.log(formData, "formData");
 
       setSelectedItemDate(selectedDrsDate);
       formData.append("notify_operator", isChecked);
@@ -364,6 +361,8 @@ const FuelPrices = (props) => {
     }
   }, []);
 
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -415,12 +414,11 @@ const FuelPrices = (props) => {
                                 <span className="text-danger">*</span>
                               </label>
                               <select
-                                className={`input101 ${
-                                  formik.errors.client_id &&
+                                className={`input101 ${formik.errors.client_id &&
                                   formik.touched.client_id
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 id="client_id"
                                 name="client_id"
                                 value={formik.values.client_id}
@@ -464,7 +462,7 @@ const FuelPrices = (props) => {
                               >
                                 <option value="">Select a Client</option>
                                 {ClientList.data &&
-                                ClientList.data.length > 0 ? (
+                                  ClientList.data.length > 0 ? (
                                   ClientList.data.map((item) => (
                                     <option key={item.id} value={item.id}>
                                       {item.client_name}
@@ -495,12 +493,11 @@ const FuelPrices = (props) => {
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              className={`input101 ${
-                                formik.errors.company_id &&
+                              className={`input101 ${formik.errors.company_id &&
                                 formik.touched.company_id
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                                }`}
                               id="company_id"
                               name="company_id"
                               value={formik.values.company_id}
@@ -571,12 +568,11 @@ const FuelPrices = (props) => {
                               <span className="text-danger">*</span>
                             </label>
                             <input
-                              className={`input101 ${
-                                formik.errors.start_date &&
+                              className={`input101 ${formik.errors.start_date &&
                                 formik.touched.start_date
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                                }`}
                               type="date"
                               min="2023-01-01"
                               onChange={(e) => {
@@ -632,7 +628,7 @@ const FuelPrices = (props) => {
                       overflowY: "auto",
                       maxHeight: "calc(100vh - 376px )",
                     }}
-                    // height:"245"
+                  // height:"245"
                   >
                     <table className="table">
                       <colgroup>
@@ -664,19 +660,34 @@ const FuelPrices = (props) => {
               <Card.Footer>
                 {data?.head_array ? (
                   <div className="text-end notification-class">
-                    <div className="Notification">
-                      <label
-                        htmlFor="notificationCheckbox"
-                        className="form-label Notification ml-2"
-                      >
-                        <input
-                          type="checkbox"
-                          id="notificationCheckbox"
-                          checked={isChecked}
-                          onChange={SendNotification}
-                        />
-                        Send Notification
-                      </label>
+                    <div
+                      //  className="Notification"
+                      style={{ width: "200px", textAlign: "left" }}
+                    >
+
+                      {!selected.length && (
+                        <>
+                          {setSelected([{ label: "Send Notification Type", value: "", disabled: true }])}
+                        </>
+                      )}
+                      <MultiSelect
+                        value={selected}
+                        onChange={(values) => {
+                          // Remove the placeholder option if it's selected
+                          const updatedSelection = values.filter((value) => value.value !== "");
+                          setSelected(updatedSelection);
+                        }}
+                        labelledBy="Notification Type"
+                        disableSearch="true"
+                        options={[
+                          { label: "Mobile SMS Notification", value: "mobile-sms" },
+                          { label: "Email Notification", value: "email" }
+                        ]}
+                        showCheckbox="false"
+                        style={{ width: "200px" }}
+                        placeholder="Select Notification Type"
+                      />
+
                     </div>
 
                     {data?.btn_clickable ? (

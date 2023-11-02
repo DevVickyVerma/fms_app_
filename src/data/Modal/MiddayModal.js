@@ -10,9 +10,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
-import { Slide, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { ErrorAlert, SuccessAlert } from "../../Utils/ToastUtils";
+import { MultiSelect } from "react-multi-select-component";
 
 const CustomModal = ({
   open,
@@ -24,6 +24,7 @@ const CustomModal = ({
   const [isChecked, setIsChecked] = useState(false);
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [selected, setSelected] = useState([]);
 
   const navigate = useNavigate();
 
@@ -41,6 +42,8 @@ const CustomModal = ({
       ErrorAlert(errorMessage);
     }
   }
+
+  console.log(selected, "yeeeeeeeeeeee");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -303,7 +306,7 @@ const CustomModal = ({
         </DialogContent>
         <Card.Footer>
           <div className="text-end notification-class">
-            <div className="Notification">
+            {/* <div className="Notification">
               <input
                 type="checkbox"
                 id="notificationCheckboxmidday" // Add an id attribute here
@@ -314,8 +317,37 @@ const CustomModal = ({
                 htmlFor="notificationCheckboxmidday"
                 className="form-label ms-2 "
               >
-                Send Notification
+                Send Notifications
               </label>
+            </div> */}
+            <div
+              //  className="Notification"
+              style={{ width: "200px", textAlign: "left" }}
+            >
+              {!selected.length && (
+                <>
+                  {setSelected([{ label: "Send Notification Type", value: "", disabled: true }])}
+                </>
+              )}
+
+
+              <MultiSelect
+                value={selected}
+                onChange={(values) => {
+                  // Remove the placeholder option if it's selected
+                  const updatedSelection = values.filter((value) => value.value !== "");
+                  setSelected(updatedSelection);
+                }}
+                disableSearch={true}
+                options={[
+                  { label: "Mobile SMS Notification", value: "mobile-sms" },
+                  { label: "Email Notification", value: "email" }
+                ]}
+                showCheckbox="false"
+                style={{ width: "200px" }}
+                placeholder="Notification Type"
+              />
+
             </div>
 
             <button
@@ -338,7 +370,7 @@ const CustomModal = ({
             )}
           </div>
         </Card.Footer>
-      </Dialog>
+      </Dialog >
     </>
   );
 };
