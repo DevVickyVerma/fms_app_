@@ -9,6 +9,8 @@ import Swal from "sweetalert2";
 import withApi from "../Utils/ApiHelper";
 import { MyProvider } from "../Utils/MyContext";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchData } from "../Redux/dataSlice";
 
 const App = (props) => {
   const { getData } = props;
@@ -58,21 +60,14 @@ const App = (props) => {
   const [autoLogout, setAutoLogout] = useState(
     localStorage.getItem("auto_logout")
   );
-  const GetDetails = async () => {
-    try {
-      const response = await axiosInstance.get(`/detail`);
-      if (response) {
-        const autoLogoutValue = response?.data?.data?.auto_logout;
 
-        setAutoLogout(autoLogoutValue); // Update the autoLogout state with the new value
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const dispatch = useDispatch();
+  const GetDetails = async () => {
+    dispatch(fetchData())
   };
+
   useEffect(() => {
-    GetDetails();
-    // console.clear();
+    GetDetails()
   }, []);
 
   const [isInactive, setIsInactive] = useState(false);

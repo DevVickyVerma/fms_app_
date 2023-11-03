@@ -145,7 +145,7 @@ const CustomModal = ({
     formData.append("drs_date", selectedDrsDate);
     formData.append("site_id", selectedItem.id);
     formData.append("notify_operator", isEmailSelected);
-    formData.append("notify_operator-mobile", isMobileSelected);
+    formData.append("send-sms", isMobileSelected);
     const token = localStorage.getItem("token");
     const axiosInstance = axios.create({
       baseURL: process.env.REACT_APP_BASE_URL,

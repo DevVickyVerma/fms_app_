@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -449,6 +449,9 @@ const LockScreen = React.lazy(() =>
 const Errorpage400 = React.lazy(() =>
   import("./components/ErrorPages/ErrorPages/400/400")
 );
+const UnderConstruction = React.lazy(() =>
+  import("./components/ErrorPages/ErrorPages/UnderConstruction")
+);
 const Errorpage401 = React.lazy(() =>
   import("./components/ErrorPages/ErrorPages/401/401")
 );
@@ -474,8 +477,6 @@ const Root = () => {
       data: dataReducer,
     },
   });
-
-  store.dispatch(fetchData());
   const [token, setToken] = useState(localStorage.getItem("token"));
   const WrappedDashboard = withApi(Dashboard);
   const WrappedManageBusinessSubTypes = withApi(ManageBusinessSubTypes);
@@ -1126,6 +1127,10 @@ const Root = () => {
                 <Route
                   path={`/custompages/errorpages/errorpage503`}
                   element={<Errorpage503 />}
+                />
+                <Route
+                  path={`/under-construction`}
+                  element={<UnderConstruction />}
                 />
                 <Route path="*" element={<Errorpage400 />} />
               </Route>

@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Slide, toast } from "react-toastify";
+import { ErrorAlert } from "../Utils/ToastUtils";
 
 // Define the initial state
 const initialState = {
@@ -78,6 +79,9 @@ export const fetchData = createAsyncThunk(
         }
       } else {
         // Non-Axios error
+        console.error(error);
+        window.location.replace("/under-construction")
+        ErrorAlert(error.message);
         throw new Error("An error occurred.");
       }
     }
