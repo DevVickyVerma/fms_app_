@@ -96,6 +96,7 @@ export default function Login(props) {
         navigate("/errorpage403");
       } else {
         console.error(error);
+        navigate("/under-construction")
         ErrorAlert(error.message);
       }
     }

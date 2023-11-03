@@ -202,7 +202,7 @@ const FuelPrices = (props) => {
       const isEmailSelected = selected.some(option => option.value === "email");
 
       setSelectedItemDate(selectedDrsDate);
-      formData.append("notify_operator-mobile", isMobileSelected);
+      formData.append("send-sms", isMobileSelected);
       formData.append("notify_operator", isEmailSelected);
       formData.append("drs_date", selectedDrsDate);
       formData.append("client_id", selectedClientId);
@@ -248,10 +248,10 @@ const FuelPrices = (props) => {
   const headerHeight = 135;
 
   const containerStyles = {
-    overflowY: "scroll", // or 'auto'
-    overflowX: "hidden", // or 'auto'
+    // overflowY: "scroll", // or 'auto'
+    // overflowX: "hidden", // or 'auto'
     // maxHeight: "100vh", // Set a maximum height for the container
-    maxHeight: `calc(100vh - ${headerHeight}px)`,
+    // maxHeight: `calc(100vh - ${headerHeight}px)`,
     // border: "1px solid #ccc",
     // backgroundColor: "#f5f5f5",
     // padding: "10px",
@@ -612,7 +612,12 @@ const FuelPrices = (props) => {
         </Row>
         <Row className="row-sm">
           <Col lg={12}>
-            <Card style={{ height: "calc(100vh - 180px)", overflowY: "auto" }}>
+            <Card
+              style={{
+                //  height: "calc(100vh - 180px)",
+                overflowY: "auto"
+              }}
+            >
               <Card.Header>
                 <h3 className="card-title">Fuel Price</h3>
               </Card.Header>

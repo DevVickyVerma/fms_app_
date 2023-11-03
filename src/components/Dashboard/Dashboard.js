@@ -115,7 +115,6 @@ const Dashboard = (props) => {
 
     if (tokenUpdated) {
       window.location.reload();
-
       localStorage.setItem("tokenupdate", "false"); // Update the value to string "false"
       // Handle token update logic without page reload
     }
@@ -234,6 +233,10 @@ const Dashboard = (props) => {
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
+  const learnstate = useSelector((state) => state)
+
+  console.log("learnstate", learnstate);
+
   useEffect(() => {
     localStorage.setItem(
       "Dashboardsitestats",
@@ -253,11 +256,11 @@ const Dashboard = (props) => {
   const isStatusPermissionAvailable =
     permissionsArray?.includes("dashboard-view");
 
-  useEffect(() => {
-    if (token && storedToken) {
-      dispatch(fetchData());
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   if (token && storedToken) {
+  //     dispatch(fetchData());
+  //   }
+  // }, [token]);
 
   useEffect(() => {
     if (isStatusPermissionAvailable && superiorRole !== "Administrator") {
