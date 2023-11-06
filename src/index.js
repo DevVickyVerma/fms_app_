@@ -409,6 +409,10 @@ const EditRoles = React.lazy(() =>
 const EditCompany = React.lazy(() =>
   import("./components/pages/ManageCompany/EditCompany")
 );
+
+const CompanySageFuels = React.lazy(() =>
+  import("./components/pages/ManageCompany/CompanySageFuels")
+);
 const EditBusiness = React.lazy(() =>
   import("./components/pages/ManageBusinessTypes/EditBussinesType")
 );
@@ -494,6 +498,7 @@ const Root = () => {
   const WrappedManageCompany = withApi(ManageCompany);
   const WrappedAddCompany = withApi(AddCompany);
   const WrappeAddEditCompany = withApi(EditCompany);
+  const WrappedCompanySageFuels = withApi(CompanySageFuels);
   const WrappedManageRoles = withApi(ManageRoles);
   const WrappedAddRoles = withApi(AddRoles);
   const WrappeAddEditRoles = withApi(EditRoles);
@@ -680,6 +685,11 @@ const Root = () => {
                   <Route
                     path={`/editcompany`}
                     element={<WrappeAddEditCompany />}
+                  />
+
+                  <Route
+                    path={`/company/sage-fuels/:id`}
+                    element={<WrappedCompanySageFuels />}
                   />
 
                   {/* Company  Components End */}
