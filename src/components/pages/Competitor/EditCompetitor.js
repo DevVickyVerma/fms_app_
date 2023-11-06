@@ -129,6 +129,7 @@ const AddCompetitor = (props) => {
       supplier: "",
 
       address: "",
+      
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Competitor name is required"),

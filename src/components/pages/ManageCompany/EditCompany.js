@@ -91,7 +91,7 @@ const EditCompany = (props) => {
     console.clear();
     console.clear();
   }, []);
-  const token = localStorage.getItem("token");
+
 
   const handleFetchData = async () => {
     try {
@@ -106,7 +106,20 @@ const EditCompany = (props) => {
       console.error("API error:", error);
     }
   };
+  const handleMaOptionChange = (value) => {
+    const maOptionArray = [...formik.values.ma_option];
+    const index = maOptionArray.indexOf(value);
 
+    if (index === -1) {
+      // If the value is not in the array, add it
+      maOptionArray.push(value);
+    } else {
+      // If the value is in the array, remove it
+      maOptionArray.splice(index, 1);
+    }
+
+    formik.setFieldValue("ma_option", maOptionArray);
+  };
   const handleSubmit = async (event) => {
     const token = localStorage.getItem("token");
     const Company_id = localStorage.getItem("Company_id");
@@ -151,7 +164,13 @@ const EditCompany = (props) => {
 
       address: "",
 
-      // financial_start_month: "",
+      end_month: "",
+      start_month: "",
+      pc_code: "",
+      sm_add_code: "",
+      sm_sub_code: "",
+      bunkering_code: "",
+      ma_option: [],
 
       website: "",
 
@@ -170,13 +189,25 @@ const EditCompany = (props) => {
       address: Yup.string().required("Address is required"),
 
       website: Yup.string().required("website is required"),
+      end_month: Yup.string().required(
+        " End Month is required"
+      ),
+      start_month: Yup.string().required(
+        " Start Month is required"
+        ),
+        pc_code: Yup.string().required("Pc Code is required"),
+        sm_add_code: Yup.string().required(
+          "  Sm Add Code is required"
+        ),
+        sm_sub_code: Yup.string().required(
+          "  Sm Sub Code is required"
+        ),
+        bunkering_code: Yup.string().required(
+          " Bunkering Code is required"
+        ),
     }),
     onSubmit: handleSubmit,
   });
-
-  const isInvalid = formik.errors && formik.touched.name ? "is-invalid" : "";
-
-  // Use the isInvalid variable to conditionally set the class name
 
   return (
     <>
@@ -400,6 +431,268 @@ const EditCompany = (props) => {
                               {formik.errors.website}
                             </div>
                           )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="start_month"
+                            className="form-label mt-4"
+                          >
+                             Start Month
+                            <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${formik.errors.start_month &&
+                              formik.touched.start_month
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="start_month"
+                            name="start_month"
+                            onChange={formik.handleChange}
+                            value={formik.values.start_month}
+                          >
+                            <option value="">
+                              Select a  Start Month
+                            </option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                          </select>
+                          {formik.errors.start_month &&
+                            formik.touched.start_month && (
+                              <div className="invalid-feedback">
+                                {formik.errors.start_month}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="end_month"
+                            className="form-label mt-4"
+                          >
+                             End Month
+                            <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${formik.errors.end_month &&
+                              formik.touched.end_month
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="end_month"
+                            name="end_month"
+                            onChange={formik.handleChange}
+                            value={formik.values.end_month}
+                          >
+                            <option value="">
+                              Select a  End Month
+                            </option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                          </select>
+                          {formik.errors.end_month &&
+                            formik.touched.end_month && (
+                              <div className="invalid-feedback">
+                                {formik.errors.end_month}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            className="form-label mt-4"
+                            htmlFor="pc_code"
+                          >
+                            Pc Code<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="number"
+                            autoComplete="off"
+                            className={`input101 ${formik.errors.pc_code &&
+                              formik.touched.pc_code
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="pc_code"
+                            name="pc_code"
+                            placeholder="Pc Code"
+                            onChange={formik.handleChange}
+                            value={formik.values.pc_code || ""}
+                          />
+                          {formik.errors.pc_code &&
+                            formik.touched.pc_code && (
+                              <div className="invalid-feedback">
+                                {formik.errors.pc_code}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            className="form-label mt-4"
+                            htmlFor="sm_add_code"
+                          >
+                           Sm Add Code<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="number"
+                            autoComplete="off"
+                            className={`input101 ${formik.errors.sm_add_code &&
+                              formik.touched.sm_add_code
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="sm_add_code"
+                            name="sm_add_code"
+                            placeholder="Pc Code"
+                            onChange={formik.handleChange}
+                            value={formik.values.sm_add_code || ""}
+                          />
+                          {formik.errors.sm_add_code &&
+                            formik.touched.sm_add_code && (
+                              <div className="invalid-feedback">
+                                {formik.errors.sm_add_code}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            className="form-label mt-4"
+                            htmlFor="sm_sub_code"
+                          >
+                           Sm Sub Code<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="number"
+                            autoComplete="off"
+                            className={`input101 ${formik.errors.sm_sub_code &&
+                              formik.touched.sm_sub_code
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="sm_sub_code"
+                            name="sm_sub_code"
+                            placeholder="Pc Code"
+                            onChange={formik.handleChange}
+                            value={formik.values.sm_sub_code || ""}
+                          />
+                          {formik.errors.sm_sub_code &&
+                            formik.touched.sm_sub_code && (
+                              <div className="invalid-feedback">
+                                {formik.errors.sm_sub_code}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            className="form-label mt-4"
+                            htmlFor="bunkering_code"
+                          >
+                           Bunkering Code<span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="number"
+                            autoComplete="off"
+                            className={`input101 ${formik.errors.bunkering_code &&
+                              formik.touched.bunkering_code
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="bunkering_code"
+                            name="bunkering_code"
+                            placeholder="bunkering_code"
+                            onChange={formik.handleChange}
+                            value={formik.values.bunkering_code || ""}
+                          />
+                          {formik.errors.bunkering_code &&
+                            formik.touched.bunkering_code && (
+                              <div className="invalid-feedback">
+                                {formik.errors.bunkering_code}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+
+                      <Col lg={4} md={6}>
+                        <div>
+                          <label
+                            htmlFor="ma_option"
+                            className="form-label mt-4"
+                          >
+                            MA Options
+                            <span className="text-danger">*</span>
+                          </label>
+                          <div className="mapotions">
+                            <label>
+                              <input
+                                type="checkbox"
+                                name="ma_option"
+                                value="1"
+                                checked={formik.values?.ma_option?.includes("1")}
+                                onChange={() => handleMaOptionChange("1")}
+                                className="form-check-input"
+                              />
+                              <span className="ms-2"> Actual</span>
+                            </label>
+                          </div>
+                        </div>
+                        <div className="mapotions">
+                          <label>
+                            <input
+                              type="checkbox"
+                              name="ma_option"
+                              value="2"
+                              checked={formik.values?.ma_option?.includes("2")}
+                              onChange={() => handleMaOptionChange("2")}
+                              className="form-check-input"
+                            />
+
+                            <span className="ms-2"> Forecast</span>
+                          </label>
+                        </div>
+                        <div className="mapotions">
+                          <label>
+                            <input
+                              type="checkbox"
+                              name="ma_option"
+                              value="3"
+                              checked={formik.values?.ma_option?.includes("3")}
+                              onChange={() => handleMaOptionChange("3")}
+                              className="form-check-input"
+                            />
+
+                            <span className="ms-2"> Variance</span>
+                          </label>
                         </div>
                       </Col>
                     </Row>
