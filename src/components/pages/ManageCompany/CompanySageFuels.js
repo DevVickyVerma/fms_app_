@@ -192,7 +192,7 @@ const CompanySageFuels = (props) => {
                             type="number"
                             id={`sage_account_code-${index}`}
                             name={`data[${index}].sage_account_code`}
-                            className={"table-input readonly"}
+                            className={"table-input "}
                             value={formik.values.data[index]?.sage_account_code}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -226,7 +226,7 @@ const CompanySageFuels = (props) => {
                             type="number"
                             id={`sage_nominal_code-${index}`}
                             name={`data[${index}].sage_nominal_code`}
-                            className={"table-input readonly"}
+                            className={"table-input "}
                             value={formik.values.data[index]?.sage_nominal_code}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -258,7 +258,7 @@ const CompanySageFuels = (props) => {
                             type="number"
                             id={`sage_purchage_code-${index}`}
                             name={`data[${index}].sage_purchage_code`}
-                            className={"table-input readonly"}
+                            className={"table-input "}
                             value={formik.values.data[index]?.sage_purchage_code}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -294,14 +294,14 @@ const CompanySageFuels = (props) => {
                             className="w-100"
                             style={{ height: "36px" }}
                         >
-                            <option value="" className="table-input readonly">
+                            <option value="" className="table-input ">
                                 Select Positive Nominal Type Data
                             </option>
                             {typesData?.map((SingleType) => (
                                 <option
                                     key={SingleType.id}
                                     value={SingleType.id}
-                                    className="table-input readonly"
+                                    className="table-input "
                                 >
                                     {SingleType.name}
                                 </option>
@@ -338,14 +338,14 @@ const CompanySageFuels = (props) => {
                             className="w-100"
                             style={{ height: "36px" }}
                         >
-                            <option value="" className="table-input readonly">
+                            <option value="" className="table-input ">
                                 Select Positive Nominal Type Data
                             </option>
                             {typesData?.map((SingleType) => (
                                 <option
                                     key={SingleType.id}
                                     value={SingleType.id}
-                                    className="table-input readonly"
+                                    className="table-input "
                                 >
                                     {SingleType.name}
                                 </option>
@@ -382,14 +382,14 @@ const CompanySageFuels = (props) => {
                             className="w-100"
                             style={{ height: "36px" }}
                         >
-                            <option value="" className="table-input readonly">
+                            <option value="" className="table-input ">
                                 Select Positive Nominal Type Data
                             </option>
                             {typesData?.map((SingleType) => (
                                 <option
                                     key={SingleType.id}
                                     value={SingleType.id}
-                                    className="table-input readonly"
+                                    className="table-input "
                                 >
                                     {SingleType.name}
                                 </option>
@@ -502,7 +502,7 @@ const CompanySageFuels = (props) => {
                     <Col lg={12}>
                         <Card>
                             <Card.Header>
-                                <h3 className="card-title">Fuel Sales</h3>
+                                <h3 className="card-title">Sage</h3>
                             </Card.Header>
                             <Card.Body>
                                 {data?.length > 0 ? (
@@ -532,7 +532,7 @@ const CompanySageFuels = (props) => {
                                                     className="btn btn-primary me-2"
                                                     type="submit"
                                                 >
-                                                    Update
+                                                    Save
                                                 </button>
                                             </Card.Footer>
                                         </form>
