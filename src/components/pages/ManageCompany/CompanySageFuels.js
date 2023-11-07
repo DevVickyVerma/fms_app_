@@ -11,10 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const CompanySageFuels = (props) => {
     const {
-        apidata,
-        error,
-        getData,
-        postData,
+    
         company_id,
         client_id,
         site_id,
@@ -42,7 +39,6 @@ const CompanySageFuels = (props) => {
     const [taxCodes, setTaxCodes] = useState([]);
     const [typesData, setTypesData] = useState([]);
 
-    const [Apidata, setApiData] = useState([]);
     const [editable, setis_editable] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
@@ -130,66 +126,7 @@ const CompanySageFuels = (props) => {
         fetchData();
     }, []);
 
-    const SubmitFuelSalesForm = async (values) => {
-        console.log("aftersubmist", values);
 
-
-        // const token = localStorage.getItem("token");
-
-        // // Create a new FormData object
-        // const formData = new FormData();
-
-        // values.data.forEach((obj) => {
-        //     const id = obj.id;
-        //     const grossValueKey = `negative_nominal_type_id[${id}]`;
-        //     const discountKey = `discount[${id}]`;
-        //     const nettValueKey = `nominal_tax_code_id[${id}]`;
-        //     // const actionKey = `action[${id}]`;
-
-        //     const grossValue = obj.negative_nominal_type_id;
-        //     const discount = obj.discount;
-        //     const nettValue = obj.nominal_tax_code_id;
-        //     // const action = obj.action;
-
-        //     formData.append(grossValueKey, grossValue);
-        //     formData.append(discountKey, discount);
-        //     formData.append(nettValueKey, nettValue);
-        // });
-
-        // formData.append("site_id", site_id);
-        // formData.append("drs_date", start_date);
-
-        // try {
-        //     setIsLoading(true);
-        //     const response = await fetch(
-        //         `${process.env.REACT_APP_BASE_URL}/fuel-sale/update`,
-        //         {
-        //             method: "POST",
-        //             headers: {
-        //                 Authorization: `Bearer ${token}`,
-        //             },
-        //             body: formData,
-        //         }
-        //     );
-
-        //     const responseData = await response.json(); // Read the response once
-
-        //     if (response.ok) {
-        //         SuccessToast(responseData.message);
-        //         handleButtonClick();
-        //         window.scrollTo({ top: 0, behavior: "smooth" });
-        //     } else {
-        //         ErrorToast(responseData.message);
-
-        //         // Handle specific error cases if needed
-        //     }
-        // } catch (error) {
-        //     console.error("API error:", error);
-        //     handleError(error);
-        // } finally {
-        //     setIsLoading(false);
-        // }
-    };
 
     document.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
@@ -224,7 +161,7 @@ const CompanySageFuels = (props) => {
             name: "FUEL",
             selector: (row) => row.name,
             sortable: false,
-            width: "10%",
+            width: "14.2%",
             center: false,
             cell: (row) => (
                 <span className="text-muted fs-15 fw-semibold text-center">
@@ -233,10 +170,10 @@ const CompanySageFuels = (props) => {
             ),
         },
         {
-            name: "sage_account_code",
+            name: "Sage Account Code",
             selector: (row) => row.sage_account_code,
             sortable: false,
-            width: "10%",
+            width: "14.2%",
             center: true,
 
             cell: (row, index) =>
@@ -266,11 +203,11 @@ const CompanySageFuels = (props) => {
                 ),
         },
         {
-            name: "sage_nominal_code",
+            name: "Sage Nominal Code",
 
             selector: (row) => row.sage_nominal_code,
             sortable: false,
-            width: "10%",
+            width: "14.2%",
             center: true,
 
             cell: (row, index) =>
@@ -299,10 +236,10 @@ const CompanySageFuels = (props) => {
                 ),
         },
         {
-            name: "sage_purchage_code",
+            name: "Sage Purchage Code",
             selector: (row) => row.sage_purchage_code,
             sortable: false,
-            width: "10%",
+            width: "14.2%",
             center: true,
 
             cell: (row, index) =>
@@ -331,10 +268,10 @@ const CompanySageFuels = (props) => {
                 ),
         },
         {
-            name: "positive_nominal_type_id",
+            name: "Positive Nominal Type",
             selector: (row) => row.positive_nominal_type_id,
             sortable: false,
-            width: "10%",
+            width: "14.4%",
             center: true,
 
             cell: (row, index) =>
@@ -375,10 +312,10 @@ const CompanySageFuels = (props) => {
                 ),
         },
         {
-            name: "negative_nominal_type_id",
+            name: "Negative Nominal Type",
             selector: (row) => row.negative_nominal_type_id,
             sortable: false,
-            width: "10%",
+            width: "14.4%",
             center: true,
 
             cell: (row, index) =>
@@ -419,10 +356,10 @@ const CompanySageFuels = (props) => {
                 ),
         },
         {
-            name: "nominal_tax_code_id",
+            name: "Nominal Tax Code",
             selector: (row) => row.nominal_tax_code_id,
             sortable: false,
-            width: "10%",
+            width: "14.6%",
             center: true,
 
             cell: (row, index) =>
@@ -485,113 +422,74 @@ const CompanySageFuels = (props) => {
         // validationSchema: validationSchema,
     });
 
-    const handleSubmit1 = async (values, event) => {
+    // const handleSubmit1 = async (values) => {
+    //     console.log(values, "handleSubmit1");
+    // };
+
+    const handleSubmit1 = async (values) => {
+        console.log(values, "handleSubmit1");
         const token = localStorage.getItem("token");
-
-        const transformedData = values?.data.map(item => {
-            return {
-                id: item.id,
-                name: item.name,
-                negative_nominal_type_id: item.negative_nominal_type_id || "",
-                nominal_tax_code_id: item.nominal_tax_code_id || "",
-                positive_nominal_type_id: item.positive_nominal_type_id || "",
-                sage_account_code: item.sage_account_code || "",
-                sage_nominal_code: item.sage_nominal_code || "",
-                sage_purchage_code: item.sage_purchage_code || ""
-            };
-        });
-
-        // Now, the transformedData array contains the data in the desired format
-        console.log(transformedData, "transformedData");
-
-        console.log(values, "mydata");
-
+    
         const formData = new FormData();
-
+    
         for (const obj of values.data) {
-            const {
-                id,
-                name,
-                metered_sale,
-                metered_sale_value,
-                adjustment,
-                adjustment_euro,
-                adjusted_sale,
-                adjusted_sale_value,
-                actual_sales,
-                due_sales,
-                tests,
-                bunkered_sale,
-            } = obj;
+          const {
+            id,
+            negative_nominal_type_id,
+            nominal_tax_code_id,
+            positive_nominal_type_id,
+            sage_account_code,
+            sage_nominal_code,
+            sage_purchage_code,
 
-            console.log(obj.id, "opbj");
-            const fuel_priceKey = `fuel_price[${id}]`;
-            const idkey = obj.id;
-            const nameKey = `name[${id}]`;
-            const discountKey = `metered_sale[${id}]`;
-            const nettValueKey = `metered_sale_value[${id}]`;
-            const salesValueKey = `adjustment[${id}]`;
-            const actionKey = `adjustment_euro[${id}]`;
-            const bookStockKey = `adjusted_sale[${id}]`;
-            const adjusted_sale_valueKey = `adjusted_sale_value[${id}]`;
-            const adjusted_sale_valueLtKey = `actual_sales[${id}]`;
-            const adjusted_sale_valuePerKey = `due_sales[${id}]`;
-            const testsKey = `tests[${id}]`;
-            const bunkered_saleKey = `bunkered_sale[${id}]`;
 
-            formData.append(fuel_priceKey, name);
-
-            // formData.append("idkey", idkey);
-            // formData.append("name", obj.name);
-            // formData.append("negative_nominal_type_id", obj.negative_nominal_type_id);
-            // formData.append("nominal_tax_code_id", obj.nominal_tax_code_id);
-
-            // formData.append("positive_nominal_type_id", obj.positive_nominal_type_id);
-
-            // formData.append("sage_account_code", obj.sage_account_code);
-
-            // formData.append("sage_nominal_code", obj.sage_nominal_code);
-            // formData.append("sage_purchage_code", obj.sage_purchage_code);
+        
+          } = obj;
+          const gross_valueKey = `negative_nominal_type_id[${id}]`;
+          const discountKey = `nominal_tax_code_id[${id}]`;
+          const nettValueKey = `positive_nominal_type_id[${id}]`;
+          const sage_account_codenettValueKey = `sage_account_code[${id}]`;
+          const sage_nominal_codenettValueKey = `sage_nominal_code[${id}]`;
+          const sage_purchage_codeValueKey = `sage_purchage_code[${id}]`;
+    
+          formData.append(gross_valueKey, negative_nominal_type_id);
+          formData.append(discountKey, nominal_tax_code_id);
+          formData.append(nettValueKey, positive_nominal_type_id);
+          formData.append(sage_account_codenettValueKey, sage_account_code);
+          formData.append(sage_nominal_codenettValueKey, sage_nominal_code);
+          formData.append(sage_purchage_codeValueKey, sage_purchage_code);
         }
-
-
-        formData.append("site_id", site_id);
-        formData.append("drs_date", start_date);
-        console.log(formData, "afterloop")
-
+    
+       
+    
         try {
-            setIsLoading(true);
-            const response = await fetch(
-                `${process.env.REACT_APP_BASE_URL}/fuel-inventory/update`,
-                {
-                    method: "POST",
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                    body: formData,
-                }
-            );
-
-            const responseData = await response.json(); // Read the response once
-
-            if (response.ok) {
-                //
-                SuccessToast(responseData.message);
-                handleButtonClick();
-                window.scrollTo({ top: 0, behavior: "smooth" });
-            } else {
-                ErrorToast(responseData.message);
-
-                // Handle specific error cases if needed
+          setIsLoading(true);
+          const response = await fetch(
+            `${process.env.REACT_APP_BASE_URL}/company/sage-fuels`,
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+              body: formData,
             }
+          );
+    
+          const responseData = await response.json(); // Read the response once
+    
+          if (response.ok) {
+            handleButtonClick();
+            SuccessToast(responseData.message);
+          } else {
+            ErrorToast(responseData.message);
+          }
         } catch (error) {
-            // Handle request error
+          console.log("Request Error:", error);
+          // Handle request error
         } finally {
-            setIsLoading(false);
+          setIsLoading(false);
         }
-    };
-
-
+      };
 
 
     // console.log("formikvakuye", formik?.values)
