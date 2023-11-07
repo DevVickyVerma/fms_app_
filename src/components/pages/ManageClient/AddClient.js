@@ -26,16 +26,7 @@ const AddClient = (props) => {
   const navigate = useNavigate();
 
 
-  const [selectedItems, setSelectedItems] = useState(["1"]);
 
-  const handleCheckboxChange = (checkboxId) => {
-    if (selectedItems.includes(checkboxId)) {
-      setSelectedItems(selectedItems.filter((item) => item !== checkboxId));
-    } else {
-      setSelectedItems([...selectedItems, checkboxId]);
-    }
-    console.log(selectedItems, selectedItems);
-  };
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
@@ -67,14 +58,13 @@ const AddClient = (props) => {
       formData.append("first_name", values.first_name);
       formData.append("last_name", values.last_name);
       formData.append("client_code", values.client_code);
-      formData.append("financial_start_month", values.financial_start_month);
-      formData.append("financial_end_month", values.financial_end_month);
+
       formData.append("lommis_status", values.lommis_status);
       formData.append("work_flow", values.work_flow);
       formData.append("address", values.address);
 
       formData.append("send_mail", isChecked);
-      formData.append("ma_option", JSON.stringify(selectedItems));
+
 
       const postDataUrl = "/client/add";
       const navigatePath = "/clients";
@@ -186,9 +176,7 @@ const AddClient = (props) => {
                   first_name: "",
                   role: "",
 
-                  financial_end_month: "",
-
-                  financial_start_month: "",
+              
 
                   last_name: "",
                   email: "",
@@ -216,13 +204,7 @@ const AddClient = (props) => {
 
                   last_name: Yup.string().required("Last Name is required"),
                   status: Yup.string().required(" Status is required"),
-                  financial_end_month: Yup.string().required(
-                    "Financial End Month is required"
-                  ),
-
-                  financial_start_month: Yup.string().required(
-                    "Financial Start Month is required"
-                  ),
+              
                   address: Yup.string().required("Address is required"),
 
                   email: Yup.string()
@@ -489,90 +471,7 @@ const AddClient = (props) => {
                           </FormGroup>
                         </Col>
                         {/* Work Flow Status End */}
-                        <Col lg={4} md={6}>
-                          <FormGroup>
-                            <label
-                              htmlFor="financial_start_month"
-                              className=" form-label mt-4"
-                            >
-                              Financial Start Month
-                              <span className="text-danger">*</span>
-                            </label>
-                            <Field
-                              as="select"
-                              className={`input101 ${errors.financial_start_month &&
-                                touched.financial_start_month
-                                ? "is-invalid"
-                                : ""
-                                }`}
-                              id="financial_start_month"
-                              name="financial_start_month"
-                            >
-                              <option value="">
-                                Select a Financial Start Month
-                              </option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
-                              <option value="5">5</option>
-                              <option value="6">6</option>
-                              <option value="7">7</option>
-                              <option value="8">8</option>
-                              <option value="9">9</option>
-                              <option value="10">10</option>
-                              <option value="11">11</option>
-                              <option value="12">12</option>
-                            </Field>
-                            <ErrorMessage
-                              component="div"
-                              className="invalid-feedback"
-                              name="financial_start_month"
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col lg={4} md={6}>
-                          <FormGroup>
-                            <label
-                              htmlFor=" financial_end_month"
-                              className=" form-label mt-4"
-                            >
-                              Financial End Month
-                              <span className="text-danger">*</span>
-                            </label>
-                            <Field
-                              as="select"
-                              className={`input101 ${errors.financial_end_month &&
-                                touched.financial_end_month
-                                ? "is-invalid"
-                                : ""
-                                }`}
-                              id="financial_end_month"
-                              name="financial_end_month"
-                            >
-                              <option value="">
-                                Select a Financial End Month
-                              </option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
-                              <option value="5">5</option>
-                              <option value="6">6</option>
-                              <option value="7">7</option>
-                              <option value="8">8</option>
-                              <option value="9">9</option>
-                              <option value="10">10</option>
-                              <option value="11">11</option>
-                              <option value="12">12</option>
-                            </Field>
-                            <ErrorMessage
-                              component="div"
-                              className="invalid-feedback"
-                              name="financial_end_month"
-                            />
-                          </FormGroup>
-                        </Col>
+                     
 
                         <Col lg={4} md={6}>
                           <label
@@ -602,49 +501,7 @@ const AddClient = (props) => {
                             <strong>,</strong>
                           </span>
                         </Col>
-                        <Col lg={4} md={6}>
-                          <FormGroup>
-                            <label htmlFor="email" className=" form-label mt-4">
-                              MA Options
-                              <span className="text-danger">*</span>
-                            </label>
-                            <div className="mapotions">
-                              <div className="maoptions-cover">
-                                <input
-                                  type="checkbox"
-                                  checked
-                                  onChange={() => handleCheckboxChange("1")}
-                                  className="form-check-input"
-                                />
-                                <span className="mx-2">Actual</span>
-                              </div>
-
-                              <br></br>
-                              <div className="maoptions-cover">
-                                <input
-                                  type="checkbox"
-                                  onChange={() => handleCheckboxChange("2")}
-                                  className="form-check-input "
-                                />
-                                <span className="mx-2">Forecast</span>
-                              </div>
-                              <br></br>
-                              <div className="maoptions-cover">
-                                <input
-                                  type="checkbox"
-                                  onChange={() => handleCheckboxChange("3")}
-                                  className="form-check-input"
-                                />
-                                <span className="mx-2">Variance</span>
-                              </div>
-                            </div>
-                            <ErrorMessage
-                              component="div"
-                              className="invalid-feedback"
-                              name="email"
-                            />
-                          </FormGroup>
-                        </Col>
+                    
                         <Col lg={4} md={6}>
                           <FormGroup>
                             <label htmlFor="email" className="form-label mt-4">

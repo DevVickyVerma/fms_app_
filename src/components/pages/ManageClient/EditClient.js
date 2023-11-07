@@ -138,8 +138,7 @@ const EditClient = (props) => {
       client_name: "",
       created_date: "",
       email: "",
-      financial_end_month: "",
-      financial_start_month: "",
+    
       first_name: "",
       id: "",
       fairbank_email: [],
@@ -147,6 +146,8 @@ const EditClient = (props) => {
       loomis_status: "",
       work_flow: "",
       address: "",
+      financial_end_month: "",
+      financial_start_month: "",
       ma_option: [],
       status: "1",
     },
@@ -165,11 +166,11 @@ const EditClient = (props) => {
       financial_end_month: Yup.string().required(
         "Financial End Month is required"
       ),
-      address: Yup.string().required("Address is required"),
       financial_start_month: Yup.string().required(
         "Financial Start Month is required"
-      ),
-
+        ),
+        
+        address: Yup.string().required("Address is required"),
       first_name: Yup.string()
         .max(20, "Must be 20 characters or less")
         .required("First Name is required"),
