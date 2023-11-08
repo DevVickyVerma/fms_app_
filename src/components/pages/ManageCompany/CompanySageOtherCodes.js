@@ -216,6 +216,7 @@ const CompanySageOtherCodes = () => {
 
             if (response.ok) {
                 SuccessToast(responseData.message);
+                navigate("/managecompany");
             } else {
                 ErrorToast(responseData.message);
             }
