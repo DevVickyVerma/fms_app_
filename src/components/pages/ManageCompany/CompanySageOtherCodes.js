@@ -190,11 +190,15 @@ const CompanySageOtherCodes = () => {
                 slug,
                 nominal_code,
             } = obj;
-            const slugKey = `${slug}[${id}]`;
-            for (const singleNominalCode of nominal_code) {
-                formData.append(slugKey, singleNominalCode)
+            const slugKey = `${slug}`;
+            for (let i = 0; i < nominal_code.length; i++) {
+                const singleNominalCode = nominal_code[i];
+                formData.append(`${slugKey}[${i}]`, singleNominalCode);
             }
         }
+
+
+
         formData.append("company_id", urlId.id);
 
 
