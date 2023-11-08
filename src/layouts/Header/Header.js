@@ -21,6 +21,8 @@ const Header = (props) => {
   const [ShowTruw, setShowTruw] = useState(false);
 
   const logout = async (row) => {
+    localStorage.clear();
+    window.location.replace("/");
     try {
       const response = await getData("/logout");
 

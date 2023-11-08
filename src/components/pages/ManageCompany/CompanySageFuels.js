@@ -443,6 +443,7 @@ const CompanySageFuels = (props) => {
 
             if (response.ok) {
                 SuccessToast(responseData.message);
+                navigate("/managecompany");
             } else {
                 ErrorToast(responseData.message);
             }
@@ -458,7 +459,7 @@ const CompanySageFuels = (props) => {
 
     return (
         <>
-            {/* {isLoading ? <Loaderimg /> : null} */}
+            {isLoading ? <Loaderimg /> : null}
             <>
                 <div className="page-header d-flex">
                     <div>

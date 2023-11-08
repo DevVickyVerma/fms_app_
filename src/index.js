@@ -478,6 +478,9 @@ const COMINGSOON = React.lazy(() =>
 const manageNotification = React.lazy(() =>
   import("./layouts/Header/Notifications")
 );
+const managesms = React.lazy(() =>
+  import("./components/pages/ManageSmS/managesms")
+);
 
 const Root = () => {
   const store = configureStore({
@@ -599,6 +602,7 @@ const Root = () => {
   const WrappedNominalTypes = withApi(NominalTypes);
   const WrappedNominalTaxCode = withApi(NominalTaxCode);
   const WrappedActivitylogs = withApi(Activitylogs);
+  const Wrappedmanagesms = withApi(managesms);
 
   return (
     <Fragment>
@@ -1077,6 +1081,10 @@ const Root = () => {
                   <Route
                     path={`/nominal-tax-code`}
                     element={<WrappedNominalTaxCode />}
+                  />
+                  <Route
+                    path={`/manage-sms`}
+                    element={<Wrappedmanagesms />}
                   />
 
                   <Route>

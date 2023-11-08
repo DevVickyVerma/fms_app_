@@ -98,11 +98,13 @@ const App = (props) => {
   }, [logoutTime]);
 
   const handleConfirm = () => {
-    logout();
+    localStorage.clear();
+    window.location.replace("/");
   };
 
   const handleCancel = () => {
-    logout();
+    localStorage.clear();
+    window.location.replace("/");
   };
 
   useEffect(() => {
