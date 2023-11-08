@@ -686,23 +686,23 @@ export const MENUITEMS = [
         ],
       },
       //Sms
-      // {
-      //   title: "Manage SMS",
-      //   icon: "pie-chart",
-      //   type: "sub",
-      //   active: false,
-      //   permission: "report-type-list",
-      //   visibility: false,
-      //   children: [
-      //     {
-      //       path: `/manage-sms`,
-      //       title: "Manage SMS",
-      //       type: "link",
-      //       permission: "report-type-list",
-      //       visibility: false,
-      //     },
-      //   ],
-      // },
+      {
+        title: "Manage SMS",
+        icon: "pie-chart",
+        type: "sub",
+        active: false,
+        permission: "sms-create",
+        visibility: false,
+        children: [
+          {
+            path: `/manage-sms`,
+            title: "Manage SMS",
+            type: "link",
+            permission: "sms-create",
+            visibility: false,
+          },
+        ],
+      },
     ],
   },
 ];

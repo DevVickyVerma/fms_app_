@@ -4,24 +4,21 @@ import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  Pagination,
-  Row,
-} from "react-bootstrap";
-
+import { Breadcrumb, Card, Col, Modal, Pagination, Row } from "react-bootstrap";
+import * as Yup from "yup";
 import withApi from "../../../Utils/ApiHelper";
 
 import Loaderimg from "../../../Utils/Loader";
 
-import { ErrorMessage, Field, Formik, useFormik } from "formik";
-import * as Yup from "yup";
+import { useFormik } from "formik";
 
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 const ManageSiteTank = (props) => {
-  const { isLoading, getData } = props;
+  const { apidata, error, getData, postData, SiteID, ReportDate, isLoading } =
+    props;
   const [data, setData] = useState();
+  const [mybalance, setbalance] = useState();
+  const [BuyMoree, setBuyMore] = useState();
   const [count, setCount] = useState(0);
   const [AddSiteData, setAddSiteData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,21 +28,14 @@ const ManageSiteTank = (props) => {
   const [lastPage, setLastPage] = useState(1);
   const [perPage, setPerPage] = useState(20);
   const [total, setTotal] = useState(0);
-  const [myFormData, setMyFormData] = useState({
-    client_id: "",
-    company_id: "",
-    site_id: "",
-    start_date: "",
-  });
+
   const [selectedClientId, setSelectedClientId] = useState("");
-  const [selectedCompanyId, setSelectedCompanyId] = useState("");
-  const [selectedSiteId, setSelectedSiteId] = useState("");
+
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
-  const [handleListingCondition, setHandleListingCondition] = useState(false);
 
-  const maxPagesToShow = 5; // Adjust the number of pages to show in the center
+  const maxPagesToShow = 5;
   const pages = [];
 
   // Calculate the range of pages to display
@@ -78,46 +68,17 @@ const ManageSiteTank = (props) => {
   if (endPage < lastPage) {
     pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
   }
-  const handleFetchListing = async () => {
-    try {
-      const response = await getData(
-        `/site/fuel-price/logs?site_id=${myFormData.site_id}&drs_date=${myFormData.start_date}&page=${currentPage}`
-      );
-
-      if (response && response.data && response.data.data) {
-        const responseData = response.data.data;
-        setData(responseData.priceLogs);
-        setCount(responseData.count);
-        setCurrentPage(responseData.currentPage ? responseData.currentPage : 1);
-        setHasMorePages(responseData.hasMorePages);
-        setLastPage(responseData.lastPage);
-        setPerPage(responseData.perPage);
-        setTotal(responseData.total);
-        setHandleListingCondition(false)
-      } else {
-        setHandleListingCondition(false)
-        throw new Error("No data available in the response");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-
-    setHandleListingCondition(false)
-  };
   const handleSubmit1 = async (values) => {
-    setMyFormData({
-      client_id: values.client_id,
-      company_id: values.company_id,
-      site_id: values.site_id,
-      start_date: values.start_date,
-    });
+    console.log(values, "handleSubmit1");
+    const { client_id } = values;
     try {
-      const response = await getData(
-        `/site/fuel-price/logs?site_id=${values.site_id}&drs_date=${values.start_date}&page=${currentPage}`
-      );
+      const response = await getData(`/sms/list?client_id=${client_id}`);
 
       if (response && response.data && response.data.data) {
-        setData(response?.data?.data?.priceLogs);
+        setData(response?.data?.data?.history);
+        setbalance(response?.data?.data?.balance);
+        setBuyMore(response?.data?.data?.buy_more);
+        
         setCount(response.data.data.count);
         setCurrentPage(
           response?.data?.data?.currentPage
@@ -137,8 +98,6 @@ const ManageSiteTank = (props) => {
     }
   };
 
-
-
   const columns = [
     {
       name: "S.No",
@@ -156,7 +115,7 @@ const ManageSiteTank = (props) => {
       name: "Site",
       selector: (row) => [row.site],
       sortable: true,
-      width: "12%",
+        width: "16%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -166,93 +125,68 @@ const ManageSiteTank = (props) => {
       ),
     },
     {
-      name: "User  Name",
-      selector: (row) => [row.user],
+      name: "Credit",
+      selector: (row) => [row.credit],
       sortable: true,
-      width: "12%",
+        width: "16%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.user}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row.credit}</h6>
           </div>
         </div>
       ),
     },
     {
-      name: "Fuel Name",
-      selector: (row) => [row.name],
-      sortable: true,
-      width: "12%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
-          </div>
-        </div>
-      ),
-    },
-
-    {
-      name: " Action type",
+      name: " Debit",
       selector: (row) => [row.type],
       sortable: true,
-      width: "12%",
+        width: "16%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.type}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row.debit}</h6>
           </div>
         </div>
       ),
     },
     {
-      name: "Prev Price",
-      selector: (row) => [row.prev_price],
+      name: " Balance",
+      selector: (row) => [row.balance],
       sortable: true,
-      width: "8%",
+        width: "16%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.prev_price}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row.balance}</h6>
           </div>
         </div>
       ),
     },
+  
+
     {
-      name: " Price",
-      selector: (row) => [row.price],
+      name: "Creator By",
+      selector: (row) => [row.creator],
       sortable: true,
-      width: "8%",
+        width: "16%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.price}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row.creator}</h6>
           </div>
         </div>
       ),
     },
     {
-      name: "Price Date",
-      selector: (row) => [row.date],
+      name: "Created Date",
+      selector: (row) => [row.created_date],
       sortable: true,
-      width: "16%",
+        width: "16%",
       cell: (row, index) => (
-        <div className="d-flex" style={{ cursor: "default" }}>
+        <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold ">{row.date}</h6>
-          </div>
-        </div>
-      ),
-    },
-    {
-      name: "Log Date",
-      selector: (row) => [row.created],
-      sortable: true,
-      width: "16%",
-      cell: (row, index) => (
-        <div className="d-flex" style={{ cursor: "default" }}>
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold ">{row.created}</h6>
+            <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
           </div>
         </div>
       ),
@@ -267,12 +201,13 @@ const ManageSiteTank = (props) => {
   const formik = useFormik({
     initialValues: {
       client_id: "",
-      company_id: "",
-      site_id: "",
-      start_date: "",
     },
     onSubmit: (values) => {
-      handleSubmit1(values);
+      if (values.client_id) {
+        handleSubmit1(values);
+      } else {
+        ErrorAlert("please Select a client");
+      }
     },
   });
 
@@ -304,96 +239,89 @@ const ManageSiteTank = (props) => {
     }
   };
 
-  const GetCompanyList = async (values) => {
-    try {
-      if (values) {
-        const response = await getData(
-          `common/company-list?client_id=${values}`
-        );
-
-        if (response) {
-          console.log(response, "company");
-          setCompanyList(response?.data?.data);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } else {
-        console.error("No site_id found ");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  const GetSiteList = async (values) => {
-    try {
-      if (values) {
-        const response = await getData(`common/site-list?company_id=${values}`);
-
-        if (response) {
-          console.log(response, "company");
-          setSiteList(response?.data?.data);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } else {
-        console.error("No site_id found ");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
+  const [showModal, setShowModal] = useState(false); // State to control modal visibility
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   useEffect(() => {
     const clientId = localStorage.getItem("superiorId");
 
     if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData()
+      fetchCommonListData();
     } else {
+      const userclient = {
+        client_id: clientId,
+      };
+      handleSubmit1(userclient);
       setSelectedClientId(clientId);
-      GetCompanyList(clientId)
     }
   }, []);
-  const hadndleShowDate = () => {
-    const inputDateElement = document.querySelector('input[type="date"]');
-    inputDateElement.showPicker();
-  };
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
-  const initialValues = {
-    client_id: "",
-    company_id: "",
-    site_id: "",
-    start_date: "",
-  };
-
-
-
 
   const handleClearForm = async (resetForm) => {
-    setMyFormData(initialValues);
-    formik.setFieldValue("site_id", "")
-    formik.setFieldValue("start_date", "")
-    formik.setFieldValue("client_id", "")
-    formik.setFieldValue("company_id", "")
+    formik.setFieldValue("site_id", "");
+    formik.setFieldValue("start_date", "");
+    formik.setFieldValue("client_id", "");
+    formik.setFieldValue("company_id", "");
+    setData();
+    setbalance();
     setSelectedSiteList([]);
     setSelectedCompanyList([]);
     setSelectedClientId("");
-    setHandleListingCondition(true)
   };
 
-  useEffect(() => {
-    if (handleListingCondition) {
-      handleFetchListing();
-    }
-  }, [handleListingCondition])
+  const BuyMore = () => {
+    setShowModal(true);
+    formik.setFieldValue("smsamount", "");
+  };
+  const Smsvalidation = Yup.object().shape({
+    smsamount: Yup.string().required("Amount is required"),
+  });
 
-  useEffect(() => {
-    handleFetchListing(currentPage);
-    console.clear();
-  }, [currentPage]);
+  const Smsformik = useFormik({
+    initialValues: {
+      smsamount: "", // Initial value for the authentication code
+    },
+    validationSchema: Smsvalidation,
+    onSubmit: (values) => {
+      BuySmS(values);
+      console.log(values);
+    },
+  });
+  const BuySmS = async (values) => {
+    try {
+      const formData = new FormData();
+
+      formData.append("credit", values.smsamount);
+      formData.append("client_id", selectedClientId);
+
+      const postDataUrl = "sms/update-credit";
+  
+
+
+
+      const response = await postData(postDataUrl, formData);
+
+      if (apidata.api_response === "success") {
+        setShowModal(false);
+   
+        const userclient = {
+          client_id: selectedClientId,
+        };
+        formik.setFieldValue("smsamount", ""); // Assuming "smsamount" is the field name you want to clear
+
+
+        handleSubmit1(userclient);
+       
+      }
+    } catch (error) {
+      console.log(error); // Set the submission state to false if an error occurs
+    }
+  };
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -418,228 +346,15 @@ const ManageSiteTank = (props) => {
             </Breadcrumb>
           </div>
         </div>
-
-        <Row>
-          <Col md={12} xl={12}>
-            <Card>
-              <Card.Body>
-                {/* <Formik
-                  initialValues={initialValues}
-                  onSubmit={(values) => {
-                    handleSubmit1(values);
-                  }}
-                >
-                  {({
-                    handleSubmit,
-                    errors,
-                    touched,
-                    setFieldValue,
-                    resetForm,
-                  }) => (
-                    <Form onSubmit={handleSubmit}>
-                      <Card.Body>
-                        <Row>
-                          {localStorage.getItem("superiorRole") !==
-                            "Client" && (
-                              <Col lg={3} md={3}>
-                                <FormGroup>
-                                  <label
-                                    htmlFor="client_id"
-                                    className=" form-label mt-4"
-                                  >
-                                    Client
-                                  </label>
-                                  <Field
-                                    as="select"
-                                    className={`input101 ${errors.client_id && touched.client_id
-                                      ? "is-invalid"
-                                      : ""
-                                      }`}
-                                    id="client_id"
-                                    name="client_id"
-                                    onChange={(e) => {
-                                      const selectedType = e.target.value;
-
-                                      setFieldValue("client_id", selectedType);
-                                      setSelectedClientId(selectedType);
-
-                                      // Reset the selected company and site
-                                      setSelectedCompanyList([]);
-                                      setSelectedSiteList([]);
-                                      setFieldValue("company_id", "");
-                                      setFieldValue("site_id", "");
-
-                                      const selectedClient =
-                                        AddSiteData.data.find(
-                                          (client) => client.id === selectedType
-                                        );
-
-                                      if (selectedClient) {
-                                        setSelectedCompanyList(
-                                          selectedClient.companies
-                                        );
-                                      }
-                                    }}
-                                  >
-                                    <option value="">Select a Client</option>
-                                    {AddSiteData.data &&
-                                      AddSiteData.data.length > 0 ? (
-                                      AddSiteData.data.map((item) => (
-                                        <option key={item.id} value={item.id}>
-                                          {item.client_name}
-                                        </option>
-                                      ))
-                                    ) : (
-                                      <option disabled>No Client</option>
-                                    )}
-                                  </Field>
-
-                                  <ErrorMessage
-                                    component="div"
-                                    className="invalid-feedback"
-                                    name="client_id"
-                                  />
-                                </FormGroup>
-                              </Col>
-                            )}
-                          <Col lg={3} md={3}>
-                            <FormGroup>
-                              <label
-                                htmlFor="company_id"
-                                className="form-label mt-4"
-                              >
-                                Company
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${errors.company_id && touched.company_id
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
-                                id="company_id"
-                                name="company_id"
-                                onChange={(e) => {
-                                  const selectedCompany = e.target.value;
-                                  setFieldValue("company_id", selectedCompany);
-                                  setSelectedSiteList([]);
-                                  const selectedCompanyData =
-                                    selectedCompanyList.find(
-                                      (company) =>
-                                        company.id === selectedCompany
-                                    );
-                                  if (selectedCompanyData) {
-                                    setSelectedSiteList(
-                                      selectedCompanyData.sites
-                                    );
-                                  }
-                                }}
-                              >
-                                <option value="">Select a Company</option>
-                                {selectedCompanyList.length > 0 ? (
-                                  selectedCompanyList.map((company) => (
-                                    <option key={company.id} value={company.id}>
-                                      {company.company_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Company</option>
-                                )}
-                              </Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="company_id"
-                              />
-                            </FormGroup>
-                          </Col>
-                          <Col lg={3} md={3}>
-                            <FormGroup>
-                              <label
-                                htmlFor="site_id"
-                                className="form-label mt-4"
-                              >
-                                Site
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${errors.site_id && touched.site_id
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
-                                id="site_id"
-                                name="site_id"
-                                onChange={(event) => {
-                                  const site = event.target.value;
-                                  setFieldValue("site_id", site);
-                                }}
-                              >
-                                <option value="">Select a Site</option>
-                                {selectedSiteList.length > 0 ? (
-                                  selectedSiteList.map((site) => (
-                                    <option key={site.id} value={site.id}>
-                                      {site.site_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Site</option>
-                                )}
-                              </Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="site_id"
-                              />
-                            </FormGroup>
-                          </Col>
-                          <Col lg={3} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="start_date"
-                                className="form-label mt-4"
-                              >
-                                Date
-                              </label>
-                              <Field
-                                type="date"
-                                min={"2023-01-01"}
-                                onClick={hadndleShowDate}
-                                className={`input101 ${errors.start_date && touched.start_date
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
-                                id="start_date"
-                                name="start_date"
-                              ></Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="start_date"
-                              />
-                            </FormGroup>
-                          </Col>
-                        </Row>
-                      </Card.Body>
-                      <Card.Footer className="text-end">
-                        <button className="btn btn-primary me-2" type="submit">
-                          Submit
-                        </button>
-                        <button
-                          className="btn btn-danger me-2"
-                          type="button" // Set the type to "button" to prevent form submission
-                          onClick={() => handleClearForm(resetForm)} // Call a function to clear the form
-                        >
-                          Clear
-                        </button>
-                      </Card.Footer>
-                    </Form>
-                  )}
-                </Formik> */}
-
-                <form onSubmit={formik.handleSubmit}>
-                  <Card.Body>
-                    <Row>
-                      {localStorage.getItem("superiorRole") !== "Client" && (
-                        <Col lg={3} md={3}>
+        {localStorage.getItem("superiorRole") !== "Client" && (
+          <Row>
+            <Col md={12} xl={12}>
+              <Card>
+                <Card.Body>
+                  <form onSubmit={formik.handleSubmit}>
+                    <Card.Body>
+                      <Row>
+                        <Col lg={6} md={6}>
                           <div className="form-group">
                             <label
                               htmlFor="client_id"
@@ -649,11 +364,12 @@ const ManageSiteTank = (props) => {
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              className={`input101 ${formik.errors.client_id &&
+                              className={`input101 ${
+                                formik.errors.client_id &&
                                 formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="client_id"
                               name="client_id"
                               value={formik.values.client_id}
@@ -662,8 +378,10 @@ const ManageSiteTank = (props) => {
                                 console.log(selectedType, "selectedType");
 
                                 if (selectedType) {
-                                  GetCompanyList(selectedType);
-                                  formik.setFieldValue("client_id", selectedType);
+                                  formik.setFieldValue(
+                                    "client_id",
+                                    selectedType
+                                  );
                                   setSelectedClientId(selectedType);
                                   setSiteList([]);
                                   formik.setFieldValue("company_id", "");
@@ -702,158 +420,52 @@ const ManageSiteTank = (props) => {
                               )}
                           </div>
                         </Col>
-                      )}
-
-                      <Col Col lg={3} md={3}>
-                        <div className="form-group">
-                          <label htmlFor="company_id" className="form-label mt-4">
-                            Company
-                            <span className="text-danger">*</span>
-                          </label>
-                          <select
-                            className={`input101 ${formik.errors.company_id &&
-                              formik.touched.company_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
-                            id="company_id"
-                            name="company_id"
-                            value={formik.values.company_id}
-                            onChange={(e) => {
-                              const selectcompany = e.target.value;
-
-                              if (selectcompany) {
-                                GetSiteList(selectcompany);
-                                formik.setFieldValue("company_id", selectcompany);
-                                formik.setFieldValue("site_id", "");
-                                setSelectedCompanyId(selectcompany);
-                              } else {
-                                formik.setFieldValue("company_id", "");
-                                formik.setFieldValue("site_id", "");
-
-                                setSiteList([]);
-                              }
-                            }}
-                          >
-                            <option value="">Select a Company</option>
-                            {selectedClientId && CompanyList.length > 0 ? (
-                              <>
-                                setSelectedCompanyId([])
-                                {CompanyList.map((company) => (
-                                  <option key={company.id} value={company.id}>
-                                    {company.company_name}
-                                  </option>
-                                ))}
-                              </>
-                            ) : (
-                              <option disabled>No Company</option>
-                            )}
-                          </select>
-                          {formik.errors.company_id &&
-                            formik.touched.company_id && (
-                              <div className="invalid-feedback">
-                                {formik.errors.company_id}
-                              </div>
-                            )}
-                        </div>
-                      </Col>
-
-                      <Col lg={3} md={3}>
-                        <div className="form-group">
-                          <label htmlFor="site_id" className="form-label mt-4">
-                            Site Name
-                            <span className="text-danger">*</span>
-                          </label>
-                          <select
-                            className={`input101 ${formik.errors.site_id && formik.touched.site_id
-                              ? "is-invalid"
-                              : ""
-                              }`}
-                            id="site_id"
-                            name="site_id"
-                            value={formik.values.site_id}
-                            onChange={(e) => {
-                              const selectedsite_id = e.target.value;
-
-                              formik.setFieldValue("site_id", selectedsite_id);
-                              setSelectedSiteId(selectedsite_id);
-                            }}
-                          >
-                            <option value="">Select a Site</option>
-                            {CompanyList && SiteList.length > 0 ? (
-                              SiteList.map((site) => (
-                                <option key={site.id} value={site.id}>
-                                  {site.site_name}
-                                </option>
-                              ))
-                            ) : (
-                              <option disabled>No Site</option>
-                            )}
-                          </select>
-                          {formik.errors.site_id && formik.touched.site_id && (
-                            <div className="invalid-feedback">
-                              {formik.errors.site_id}
-                            </div>
-                          )}
-                        </div>
-                      </Col>
-
-                      <Col lg={3} md={6}>
-                        <div classname="form-group">
-                          <label
-                            htmlFor="start_date"
-                            className="form-label mt-4"
-                          >
-                            Date
-                            <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            type="date"
-                            min={"2023-01-01"}
-                            onClick={hadndleShowDate}
-                            className={`input101 ${formik.errors.start_date &&
-                              formik.touched.start_date
-                              ? "is-invalid"
-                              : ""
-                              }`}
-                            id="start_date"
-                            name="start_date"
-                            onChange={formik.handleChange}
-                            value={formik.values.start_date}
-                          ></input>
-                          {formik.errors.start_date &&
-                            formik.touched.start_date && (
-                              <div className="invalid-feedback">
-                                {formik.errors.start_date}
-                              </div>
-                            )}
-                        </div>
-                      </Col>
-                    </Row>
-                  </Card.Body>
-                  <Card.Footer className="text-end">
-                    <button className="btn btn-primary me-2" type="submit">
-                      Submit
-                    </button>
-                    <button
-                      className="btn btn-danger me-2"
-                      type="button" // Set the type to "button" to prevent form submission
-                      onClick={() => handleClearForm()} // Call a function to clear the form
-                    >
-                      Clear
-                    </button>
-                  </Card.Footer>
-                </form>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-
+                      </Row>
+                    </Card.Body>
+                    <Card.Footer className="text-end">
+                      <button className="btn btn-primary me-2" type="submit">
+                        Submit
+                      </button>
+                      <button
+                        className="btn btn-danger me-2"
+                        type="button" // Set the type to "button" to prevent form submission
+                        onClick={() => handleClearForm()} // Call a function to clear the form
+                      >
+                        Clear
+                      </button>
+                    </Card.Footer>
+                  </form>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        )}
         <Row className=" row-sm">
           <Col lg={12}>
             <Card>
-              <Card.Header>
+              <Card.Header className="d-flex justify-content-space-between">
                 <h3 className="card-title">Manage Sms </h3>
+                <span>
+                  <button
+                    className="btn btn-success me-2"
+                    type="button" // Set the type to "button" to prevent form submission
+                    style={{ cursor: "pointer" }}
+                  >
+                    Balance:{mybalance ? mybalance : "0"}
+                  </button>
+               
+                  {BuyMoree ? (
+                    <button
+                      className="btn btn-danger me-2"
+                      type="button" // Set the type to "button" to prevent form submission
+                      onClick={BuyMore}
+                    >
+                      Buy More
+                    </button>
+                  ) : (
+                    ""
+                  )}{" "}
+                </span>
               </Card.Header>
 
               <Card.Body>
@@ -912,6 +524,88 @@ const ManageSiteTank = (props) => {
                 <></>
               )}
             </Card>
+            <Modal
+              show={showModal}
+              onHide={handleCloseModal}
+              centered
+              style={{ paddingBottom: "0px" }}
+              className="custom-modal-width custom-modal-height"
+            >
+              <Modal.Header
+                style={{
+                  color: "#fff",
+                  background: "#6259ca",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <div style={{ paddingBottom: "0px" }}>
+                  <Modal.Title style={{ margin: "0px" }}>Buy Sms</Modal.Title>
+                </div>
+                <div>
+                  <span
+                    className="modal-icon close-button"
+                    onClick={handleCloseModal}
+                    style={{ cursor: "pointer" }}
+                  ></span>
+                </div>
+              </Modal.Header>
+              <Modal.Body
+                className="Disable2FA-modalsss "
+                style={{ paddingBottom: "0px" }}
+              >
+                <div className="modal-contentDisable2FAsss">
+                  <div className="card">
+                    <div className="card-body" style={{ padding: "10px" }}>
+                      <form onSubmit={Smsformik.handleSubmit}>
+                        <label htmlFor="start_date" className="form-label mt-4">
+                          Amount
+                          <span className="text-danger">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          className="input101 authentication-code-input mb-2"
+                          id="smsamount"
+                          name="smsamount"
+                          placeholder="Amount"
+                       
+                          onChange={Smsformik.handleChange}
+                          onBlur={Smsformik.handleBlur}
+                        />
+                        {Smsformik.touched.smsamount &&
+                          Smsformik.errors.smsamount && (
+                            <div className="error-message">
+                              {Smsformik.errors.smsamount}
+                            </div>
+                          )}
+                        <span className="mt-4 ">
+                          <strong>Final Amount:</strong>{" "}
+                          {Smsformik.values.smsamount * 0.008}
+                        </span>
+
+                        <div className="text-end mt-4">
+                          <button
+                            type="button"
+                            className="btn btn-danger mx-4"
+                            onClick={handleCloseModal}
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            className="btn btn-primary ml-4 verify-button"
+                            type="submit"
+                            disabled={!formik.isValid}
+                          >
+                            Buy Now
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </Modal.Body>
+            </Modal>
           </Col>
         </Row>
       </>

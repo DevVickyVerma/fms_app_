@@ -93,6 +93,7 @@ const Header = (props) => {
     document.querySelector(".app").classList.toggle("sidenav-toggled");
   };
   const stringValue = String(UserPermissions?.notifications);
+  const mybalance = String(UserPermissions?.smsCredit);
 
   const handleIconClick = async (row) => {
     try {
@@ -363,7 +364,11 @@ const Header = (props) => {
                         </div>
                       </div>
                       <div className="dropdown-divider m-0"></div>
-
+                      {localStorage.getItem("superiorRole") == "Client" ? (
+                        <Dropdown.Item as={Link} to="/editprofile">
+                          <i className="dropdown-icon fa fa-envelope-o"></i> MY SMS <span className="mybalance">{mybalance !== undefined ? mybalance : ""}</span>
+                        </Dropdown.Item>
+                      ) : null}
                       {isProfileUpdatePermissionAvailable ? (
                         <Dropdown.Item as={Link} to="/editprofile">
                           <i className="dropdown-icon fe fe-user"></i> Edit
