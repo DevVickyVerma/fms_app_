@@ -25,9 +25,12 @@ import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 import { Box } from "@mui/material";
+import UploadSageSales from "./UploadSageSales";
 
 const ManageCompany = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
+  const [showUploadSageSalesModal, setShowUploadSageSalesModal] = useState(false);
+  const [companyId, setCompanyId] = useState("")
   const [data, setData] = useState();
   const navigate = useNavigate();
   const handleDelete = (id) => {
@@ -166,6 +169,9 @@ const ManageCompany = (props) => {
     permissionsArray?.includes("company-delete");
   const isSagePermissionAvailable =
     permissionsArray?.includes("company-sage-config");
+
+  const isUploadSagePermissionAvailable =
+    permissionsArray?.includes("upload-sale");
   const anyPermissionAvailable =
     isEditPermissionAvailable ||
 
@@ -358,6 +364,23 @@ const ManageCompany = (props) => {
                       </Link>
                     </Dropdown.Item>
                   ) : null}
+                  {isUploadSagePermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link
+                        className="settingicon"
+                        onClick={() => handleUploadSageSale(row.id)}
+                      // to={`/company/sage-other-codes/${row.id}`}
+                      >
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            {""} <AssignmentIndIcon />
+                          </i>
+                          <span>Upload Sage Sales</span>
+                        </div>
+                      </Link>
+                      <UploadSageSales />
+                    </Dropdown.Item>
+                  ) : null}
                 </Dropdown.Menu>
               </Dropdown>
             ) : null}
@@ -366,6 +389,12 @@ const ManageCompany = (props) => {
       }
       : "",
   ];
+
+  const handleUploadSageSale = (rowId) => {
+    setShowUploadSageSalesModal(true);
+    setCompanyId(rowId)
+  };
+
 
   const tableDatas = {
     columns,
@@ -376,6 +405,12 @@ const ManageCompany = (props) => {
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
+        <UploadSageSales
+          showUploadSageSalesModal={showUploadSageSalesModal}
+          setShowUploadSageSalesModal={setShowUploadSageSalesModal}
+          companyId={companyId}
+        />
+
         <div className="page-header d-flex">
           <div>
             <h1 className="page-title ">Manage Companies</h1>

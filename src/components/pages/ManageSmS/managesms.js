@@ -78,7 +78,7 @@ const ManageSiteTank = (props) => {
         setData(response?.data?.data?.history);
         setbalance(response?.data?.data?.balance);
         setBuyMore(response?.data?.data?.buy_more);
-        
+
         setCount(response.data.data.count);
         setCurrentPage(
           response?.data?.data?.currentPage
@@ -103,7 +103,7 @@ const ManageSiteTank = (props) => {
       name: "S.No",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "5.5%",
+      width: "6%",
       center: true,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -115,7 +115,7 @@ const ManageSiteTank = (props) => {
       name: "Site",
       selector: (row) => [row.site],
       sortable: true,
-        width: "16%",
+      width: "23.5",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -125,27 +125,16 @@ const ManageSiteTank = (props) => {
       ),
     },
     {
-      name: "Credit",
+      name: "SMS",
       selector: (row) => [row.credit],
       sortable: true,
-        width: "16%",
+      width: "23.5",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.credit}</h6>
-          </div>
-        </div>
-      ),
-    },
-    {
-      name: " Debit",
-      selector: (row) => [row.type],
-      sortable: true,
-        width: "16%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.debit}</h6>
+            <h6 className={`mb-0 fs-14 fw-semibold btn btn-${row.bgColor} btn-sm`}>
+              {row.credit} {row.type}
+            </h6>
           </div>
         </div>
       ),
@@ -154,7 +143,7 @@ const ManageSiteTank = (props) => {
       name: " Balance",
       selector: (row) => [row.balance],
       sortable: true,
-        width: "16%",
+      width: "23.5",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -163,13 +152,13 @@ const ManageSiteTank = (props) => {
         </div>
       ),
     },
-  
+
 
     {
-      name: "Creator By",
+      name: "Created By",
       selector: (row) => [row.creator],
       sortable: true,
-        width: "16%",
+      width: "23.5",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -182,7 +171,7 @@ const ManageSiteTank = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: true,
-        width: "16%",
+      width: "23.5",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -300,7 +289,7 @@ const ManageSiteTank = (props) => {
       formData.append("client_id", selectedClientId);
 
       const postDataUrl = "sms/update-credit";
-  
+
 
 
 
@@ -308,7 +297,7 @@ const ManageSiteTank = (props) => {
 
       if (apidata.api_response === "success") {
         setShowModal(false);
-   
+
         const userclient = {
           client_id: selectedClientId,
         };
@@ -316,7 +305,7 @@ const ManageSiteTank = (props) => {
 
 
         handleSubmit1(userclient);
-       
+
       }
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
@@ -364,12 +353,11 @@ const ManageSiteTank = (props) => {
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              className={`input101 ${
-                                formik.errors.client_id &&
+                              className={`input101 ${formik.errors.client_id &&
                                 formik.touched.client_id
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                                }`}
                               id="client_id"
                               name="client_id"
                               value={formik.values.client_id}
@@ -453,7 +441,7 @@ const ManageSiteTank = (props) => {
                   >
                     Balance:{mybalance ? mybalance : "0"}
                   </button>
-               
+
                   {BuyMoree ? (
                     <button
                       className="btn btn-danger me-2"
@@ -569,7 +557,7 @@ const ManageSiteTank = (props) => {
                           id="smsamount"
                           name="smsamount"
                           placeholder="Amount"
-                       
+
                           onChange={Smsformik.handleChange}
                           onBlur={Smsformik.handleBlur}
                         />
@@ -579,10 +567,33 @@ const ManageSiteTank = (props) => {
                               {Smsformik.errors.smsamount}
                             </div>
                           )}
-                        <span className="mt-4 ">
-                          <strong>Final Amount:</strong>{" "}
-                          {Smsformik.values.smsamount * 0.008}
-                        </span>
+
+                        <div className="mt-4 d-flex flex-column justify-content-between">
+                          <div></div>
+                          <div className="mt-4 d-flex flex-column">
+                            <span className=" text-muted d-flex justify-content-between">
+                              <strong>Your Quantity </strong>{" "}
+
+                              {Smsformik.values.smsamount ? Smsformik.values.smsamount : 0}
+                            </span>
+                            <span className="text-muted d-flex justify-content-between">
+                              <strong>Cost To purchase An SMS</strong>{" "}
+                              £ 0.008
+                            </span>
+                            {/* <span className="text-muted d-flex">
+                              <span className="mt-4 text-muted d-flex ">Your Quantity  * </span>
+                              <span className="mt-4 text-muted d-flex ">Cost to purchase An SMS</span>
+                            </span> */}
+                            <span className="mt-4 d-flex justify-content-between">
+                              <strong>Final Amount </strong>{" "}
+                              {/* <span className="mt-4 "> {Smsformik.values.smsamount} * </span>
+                            <span className="mt-4 ">{0.008} = </span> */}
+                              £ {Smsformik.values.smsamount * 0.008}
+                            </span>
+                          </div>
+                        </div>
+
+
 
                         <div className="text-end mt-4">
                           <button
