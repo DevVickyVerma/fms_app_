@@ -4,15 +4,16 @@ import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import { Breadcrumb, Card, Col, Modal, Pagination, Row } from "react-bootstrap";
+import { Breadcrumb, Card, Col, Modal, Pagination, Row, Tab, Tabs } from "react-bootstrap";
 import * as Yup from "yup";
 import withApi from "../../../Utils/ApiHelper";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import Loaderimg from "../../../Utils/Loader";
-
 import { useFormik } from "formik";
-
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+
+
 const ManageSiteTank = (props) => {
   const { apidata, error, getData, postData, SiteID, ReportDate, isLoading } =
     props;
@@ -28,12 +29,19 @@ const ManageSiteTank = (props) => {
   const [lastPage, setLastPage] = useState(1);
   const [perPage, setPerPage] = useState(20);
   const [total, setTotal] = useState(0);
-
   const [selectedClientId, setSelectedClientId] = useState("");
-
+  const [selectedClientIdOnSubmit, setSelectedClientIdOnSubmit] = useState("");
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
+  const [activeTab, setActiveTab] = useState('tab5'); // 'tab5' is the default active tab
+
+
+  useEffect(() => {
+    if (selectedClientIdOnSubmit) {
+      handleTabSelect(activeTab)
+    }
+  }, [currentPage]);
 
   const maxPagesToShow = 5;
   const pages = [];
@@ -70,9 +78,11 @@ const ManageSiteTank = (props) => {
   }
   const handleSubmit1 = async (values) => {
     console.log(values, "handleSubmit1");
+    setSelectedClientIdOnSubmit(values);
     const { client_id } = values;
     try {
-      const response = await getData(`/sms/list?client_id=${client_id}`);
+
+      const response = await getData(`/sms/list?client_id=${client_id}&page=${currentPage}`);
 
       if (response && response.data && response.data.data) {
         setData(response?.data?.data?.history);
@@ -96,6 +106,14 @@ const ManageSiteTank = (props) => {
     } catch (error) {
       console.error("API error:", error);
     }
+  };
+
+  const statusColors = {
+    0: 'red',       // Failed
+    1: 'green',     // Delivered
+    2: 'orange',    // Undelivered
+    3: 'yellow',    // Rejected
+    4: 'blue',      // Expired
   };
 
   const columns = [
@@ -125,14 +143,14 @@ const ManageSiteTank = (props) => {
       ),
     },
     {
-      name: "SMS",
+      name: "SMS ",
       selector: (row) => [row.credit],
       sortable: true,
       width: "23.5",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className={`mb-0 fs-14 fw-semibold btn btn-${row.bgColor} btn-sm`}>
+            <h6 className={`mb-0 fs-14 fw-semibold btn text-${row.bgColor} btn-sm`}>
               {row.credit} {row.type}
             </h6>
           </div>
@@ -140,22 +158,46 @@ const ManageSiteTank = (props) => {
       ),
     },
     {
-      name: " Balance",
-      selector: (row) => [row.balance],
+      name: "SMS Status",
+      selector: (row) => [row.status],
       sortable: true,
       width: "23.5",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.balance}</h6>
+            {row.status === 0 && (
+              <h6 className={`mb-0 fs-14 fw-semibold btn btn-${statusColors[0]} btn-sm`}>
+                Failed
+              </h6>
+            )}
+            {row.status === 1 && (
+              <h6 className={`mb-0 fs-14 fw-semibold btn btn-${statusColors[1]} btn-sm`}>
+                Delivered
+              </h6>
+            )}
+            {row.status === 2 && (
+              <h6 className={`mb-0 fs-14 fw-semibold btn btn-${statusColors[2]} btn-sm`}>
+                Undelivered
+              </h6>
+            )}
+            {row.status === 3 && (
+              <h6 className={`mb-0 fs-14 fw-semibold btn btn-${statusColors[3]} btn-sm`}>
+                Rejected
+              </h6>
+            )}
+            {row.status === 4 && (
+              <h6 className={`mb-0 fs-14 fw-semibold btn btn-${statusColors[4]} btn-sm`}>
+                Expired
+              </h6>
+            )}
           </div>
+
         </div>
       ),
     },
 
-
     {
-      name: "Created By",
+      name: "SMS By",
       selector: (row) => [row.creator],
       sortable: true,
       width: "23.5",
@@ -168,7 +210,64 @@ const ManageSiteTank = (props) => {
       ),
     },
     {
-      name: "Created Date",
+      name: "Date",
+      selector: (row) => [row.created_date],
+      sortable: true,
+      width: "23.5",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.created_date}</h6>
+          </div>
+        </div>
+      ),
+    },
+  ];
+  const columns2 = [
+    {
+      name: "S.No",
+      selector: (row, index) => index + 1,
+      sortable: false,
+      width: "6%",
+      center: true,
+      cell: (row, index) => (
+        <span className="text-muted fs-15 fw-semibold text-center">
+          {index + 1}
+        </span>
+      ),
+    },
+
+    {
+      name: "SMS ",
+      selector: (row) => [row.credit],
+      sortable: true,
+      width: "23.5",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className={`mb-0 fs-14 fw-semibold btn text-${row.bgColor} btn-sm`}>
+              {row.credit} {row.type}
+            </h6>
+          </div>
+        </div>
+      ),
+    },
+
+    {
+      name: "SMS By",
+      selector: (row) => [row.creator],
+      sortable: true,
+      width: "23.5",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.creator}</h6>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Date",
       selector: (row) => [row.created_date],
       sortable: true,
       width: "23.5",
@@ -186,6 +285,7 @@ const ManageSiteTank = (props) => {
     columns,
     data,
   };
+
 
   const formik = useFormik({
     initialValues: {
@@ -278,7 +378,6 @@ const ManageSiteTank = (props) => {
     validationSchema: Smsvalidation,
     onSubmit: (values) => {
       BuySmS(values);
-      console.log(values);
     },
   });
   const BuySmS = async (values) => {
@@ -289,10 +388,6 @@ const ManageSiteTank = (props) => {
       formData.append("client_id", selectedClientId);
 
       const postDataUrl = "sms/update-credit";
-
-
-
-
       const response = await postData(postDataUrl, formData);
 
       if (apidata.api_response === "success") {
@@ -310,6 +405,44 @@ const ManageSiteTank = (props) => {
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
+  };
+
+
+  const handleTabSelect = async (selectedTab) => {
+    setActiveTab(selectedTab);
+    const { client_id } = selectedClientIdOnSubmit
+
+    let url;
+
+    if (selectedTab === 'tab6') {
+      url = `/sms/list?client_id=${client_id}&page=${currentPage}&type=credit&page=${currentPage}`;
+    } else {
+      url = `/sms/list?client_id=${client_id}&page=${currentPage}&page=${currentPage}`;
+    }
+    // Check if the selected tab is "Credit Log"
+    try {
+      const response = await getData(url);
+      if (response && response.data && response.data.data) {
+        setData(response?.data?.data?.history);
+        setbalance(response?.data?.data?.balance);
+        setBuyMore(response?.data?.data?.buy_more);
+        setCount(response.data.data.count);
+        setCurrentPage(
+          response?.data?.data?.currentPage
+            ? response?.data?.data?.currentPage
+            : 1
+        );
+        setHasMorePages(response?.data?.data?.hasMorePages);
+        setLastPage(response?.data?.data?.lastPage);
+        setPerPage(response?.data?.data?.perPage);
+        setTotal(response?.data?.data?.total);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+
   };
   return (
     <>
@@ -459,22 +592,54 @@ const ManageSiteTank = (props) => {
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table">
-                      <DataTableExtensions {...tableDatas}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          // center={true}
-                          persistTableHead
-                          highlightOnHover
-                          searchable={true}
-                        />
-                      </DataTableExtensions>
-                    </div>
+                    <Row>
+                      <Col xl={12}>
+                        <Card>
+                          <div className="tabs-menu ">
+                            <Tabs
+                              className=" nav panel-tabs"
+                              variant="pills"
+                              defaultActiveKey={activeTab}
+                              onSelect={handleTabSelect}
+                            >
+                              <Tab eventKey="tab5" className="me-1 " title="SMS Logs">
+                                <div className="table-responsive deleted-table">
+                                  <DataTable
+                                    columns={columns}
+                                    data={data}
+                                    noHeader
+                                    defaultSortField="id"
+                                    defaultSortAsc={false}
+                                    striped={true}
+                                    // center={true}
+                                    persistTableHead
+                                    highlightOnHover
+                                    searchable={true}
+                                  />
+                                </div>
+                              </Tab>
+                              &nbsp;
+                              <Tab eventKey="tab6" className="  me-1" title="Credit Log" >
+                                <div className="table-responsive deleted-table">
+                                  <DataTable
+                                    columns={columns2}
+                                    data={data}
+                                    noHeader
+                                    defaultSortField="id"
+                                    defaultSortAsc={false}
+                                    striped={true}
+                                    // center={true}
+                                    persistTableHead
+                                    highlightOnHover
+                                    searchable={true}
+                                  />
+                                </div>
+                              </Tab>
+                            </Tabs>
+                          </div>
+                        </Card>
+                      </Col>
+                    </Row>
                   </>
                 ) : (
                   <>
@@ -527,17 +692,23 @@ const ManageSiteTank = (props) => {
                   justifyContent: "space-between",
                   alignItems: "center",
                 }}
+              > <span
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+                className="ModalTitle"
               >
-                <div style={{ paddingBottom: "0px" }}>
-                  <Modal.Title style={{ margin: "0px" }}>Buy Sms</Modal.Title>
-                </div>
-                <div>
-                  <span
-                    className="modal-icon close-button"
-                    onClick={handleCloseModal}
-                    style={{ cursor: "pointer" }}
-                  ></span>
-                </div>
+                  <span>
+                    Buy Sms
+                  </span>
+                  <span onClick={handleCloseModal} >
+                    <button className="close-button">
+                      <FontAwesomeIcon icon={faTimes} />
+                    </button>
+                  </span>
+                </span>
               </Modal.Header>
               <Modal.Body
                 className="Disable2FA-modalsss "
@@ -580,14 +751,8 @@ const ManageSiteTank = (props) => {
                               <strong>Cost To purchase An SMS</strong>{" "}
                               £ 0.008
                             </span>
-                            {/* <span className="text-muted d-flex">
-                              <span className="mt-4 text-muted d-flex ">Your Quantity  * </span>
-                              <span className="mt-4 text-muted d-flex ">Cost to purchase An SMS</span>
-                            </span> */}
                             <span className="mt-4 d-flex justify-content-between">
                               <strong>Final Amount </strong>{" "}
-                              {/* <span className="mt-4 "> {Smsformik.values.smsamount} * </span>
-                            <span className="mt-4 ">{0.008} = </span> */}
                               £ {Smsformik.values.smsamount * 0.008}
                             </span>
                           </div>

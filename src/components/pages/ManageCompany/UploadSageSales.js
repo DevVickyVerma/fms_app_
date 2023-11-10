@@ -64,6 +64,7 @@ const UploadSageSales = (props) => {
     });
 
 
+
     const isShowButtonDisabled =
         // formik.values.company_id &&
         formik.values.image !== null &&
@@ -79,14 +80,14 @@ const UploadSageSales = (props) => {
             const postDataUrl = "/company/upload-sale";
 
             const postResponse = await postData(postDataUrl, formData);
-            console.log(postResponse?.status_code, "postResponse");
+            console.log(typeof postResponse?.status_code, "postResponse");
 
-            if (postResponse?.status_code === 200) {
+            if (postResponse?.status_code === "200") {
                 setShowUploadSageSalesModal(false)
             }
-            setIsLoading(false);
             formik.setFieldValue("image", "")
-
+            setIsLoading(false);
+            // setShowUploadSageSalesModal(false)
         } catch (error) {
             setIsLoading(false);
             formik.setFieldValue("image", "")

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Card, Col, Row } from "react-bootstrap";
+import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
 import axios from "axios";
 import { Slide, toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { MultiSelect } from "react-multi-select-component";
 import Loaderimg from "../../../Utils/Loader";
 
@@ -145,13 +145,13 @@ const CompanySageOtherCodes = () => {
                 >
                     <MultiSelect
                         value={options.filter((option) =>
-                            formik.values.data[index]?.nominal_code.includes(option.value)
+                            formik.values.data[index]?.nominal_code?.includes(option.value)
                         )}
                         onChange={(selectedOptions) =>
                             handleNominalCodeChange(index, selectedOptions)
                         }
                         labelledBy="Select Sites"
-                        disableSearch="true"
+                        // disableSearch="true"
                         options={options}
                         showCheckbox="false"
                     />
@@ -238,53 +238,88 @@ const CompanySageOtherCodes = () => {
         <>
             {isLoading ? <Loaderimg /> : null}
             <>
+                <div className="page-header ">
+                    <div>
+                        <h1 className="page-title">
+                            Sage Other Code
+                        </h1>
+                        <Breadcrumb className="breadcrumb">
+                            <Breadcrumb.Item
+                                className="breadcrumb-item"
+                                linkAs={Link}
+                                linkProps={{ to: "/dashboard" }}
+                            >
+                                Dashboard
+                            </Breadcrumb.Item>
+                            <Breadcrumb.Item
+                                className="breadcrumb-item"
+                                linkAs={Link}
+                                linkProps={{ to: "/managecompany" }}
+                            >
+                                Manage Company
+                            </Breadcrumb.Item>
+                            <Breadcrumb.Item
+                                className="breadcrumb-item active breadcrumds"
+                                aria-current="page"
+                            >
+                                Sage Other Code
+                            </Breadcrumb.Item>
+                        </Breadcrumb>
+                    </div>
+                </div>
                 <Row className="row-sm">
                     <Col lg={12}>
                         <Card>
                             <Card.Header>
                                 <h3 className="card-title">Sage Other Code</h3>
                             </Card.Header>
-                            <Card.Body>
-                                {data?.length > 0 ? (
-                                    <>
-                                        <form onSubmit={(event) => formik.handleSubmit(event)}>
-                                            <div className="table-responsive deleted-table">
-                                                <DataTableExtensions {...tableDatas}>
-                                                    <DataTable
-                                                        columns={columns}
-                                                        data={data}
-                                                        noHeader
-                                                        defaultSortField="id"
-                                                        defaultSortAsc={false}
-                                                        striped={true}
-                                                        persistTableHead
-                                                        highlightOnHover
-                                                        searchable={false}
-                                                    />
-                                                </DataTableExtensions>
-                                            </div>
-
-                                            <div className="d-flex justify-content-end">
-                                                <button
-                                                    className="btn btn-primary"
-                                                    type="submit"
-                                                >
-                                                    Update
-                                                </button>
-                                            </div>
-
-                                        </form>
-                                    </>
-                                ) : (
-                                    <>
-                                        <img
-                                            src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
-                                            alt="MyChartImage"
-                                            className="all-center-flex nodata-image"
-                                        />
-                                    </>
-                                )}
-                            </Card.Body>
+                            {/* <Card.Body> */}
+                            {data?.length > 0 ? (
+                                <>
+                                    <form onSubmit={(event) => formik.handleSubmit(event)}>
+                                        <Card.Body>
+                                            <Row>
+                                                <div className="table-responsive deleted-table">
+                                                    <DataTableExtensions {...tableDatas}>
+                                                        <DataTable
+                                                            columns={columns}
+                                                            data={data}
+                                                            noHeader
+                                                            defaultSortField="id"
+                                                            defaultSortAsc={false}
+                                                            striped={true}
+                                                            persistTableHead
+                                                            highlightOnHover
+                                                            searchable={false}
+                                                        />
+                                                    </DataTableExtensions>
+                                                </div>
+                                            </Row>
+                                        </Card.Body>
+                                        <Row>
+                                            <Card.Footer>
+                                                <div className="d-flex justify-content-end">
+                                                    <button
+                                                        className="btn btn-primary"
+                                                        type="submit"
+                                                    >
+                                                        Update
+                                                    </button>
+                                                </div>
+                                            </Card.Footer>
+                                        </Row>
+                                    </form>
+                                </>
+                            ) : (
+                                <>
+                                    <img
+                                        src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                                        alt="MyChartImage"
+                                        className="all-center-flex nodata-image"
+                                    />
+                                </>
+                            )}
+                            {/* </Card.Body> */}
                         </Card>
                     </Col>
                 </Row>

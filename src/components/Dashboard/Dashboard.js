@@ -233,10 +233,6 @@ const Dashboard = (props) => {
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
-  const learnstate = useSelector((state) => state)
-
-  console.log("learnstate", learnstate);
-
   useEffect(() => {
     localStorage.setItem(
       "Dashboardsitestats",

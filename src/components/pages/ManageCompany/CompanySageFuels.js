@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { Slide, toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const CompanySageFuels = (props) => {
     const id = useParams();
@@ -461,22 +461,26 @@ const CompanySageFuels = (props) => {
         <>
             {isLoading ? <Loaderimg /> : null}
             <>
-                <div className="page-header d-flex">
-                    <div>
-                        <h1 className="page-title ">Manage Sage</h1>
 
-                        <Breadcrumb className="breadcrumb breadcrumb-subheader">
+                <div className="page-header ">
+                    <div>
+                        <h1 className="page-title">
+                            Manage Sage
+                        </h1>
+                        <Breadcrumb className="breadcrumb">
                             <Breadcrumb.Item
                                 className="breadcrumb-item"
+                                linkAs={Link}
                                 linkProps={{ to: "/dashboard" }}
                             >
                                 Dashboard
                             </Breadcrumb.Item>
                             <Breadcrumb.Item
-                                className="breadcrumb-item  breadcrumds"
-                                aria-current="page"
+                                className="breadcrumb-item"
+                                linkAs={Link}
+                                linkProps={{ to: "/managecompany" }}
                             >
-                                Manage Companies
+                                Manage Company
                             </Breadcrumb.Item>
                             <Breadcrumb.Item
                                 className="breadcrumb-item active breadcrumds"

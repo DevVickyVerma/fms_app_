@@ -97,8 +97,8 @@ const EditClient = (props) => {
       formData.append("client_id", values.client_id);
       formData.append("created_date", values.created_date);
       formData.append("first_name", values.first_name);
-      formData.append("financial_end_month", values.financial_end_month);
-      formData.append("financial_start_month", values.financial_start_month);
+      // formData.append("financial_end_month", values.financial_end_month);
+      // formData.append("financial_start_month", values.financial_start_month);
       formData.append("last_name", values.last_name);
       formData.append("email", values.email);
       formData.append("address", values.address);
@@ -117,7 +117,7 @@ const EditClient = (props) => {
       formData.append("work_flow", values.work_flow);
       formData.append("full_name", values.full_name);
       formData.append("id", values.id);
-      formData.append("ma_option", values.ma_option);
+      // formData.append("ma_option", values.ma_option);
 
       const postDataUrl = "/client/update";
       const navigatePath = "/clients";
@@ -138,7 +138,7 @@ const EditClient = (props) => {
       client_name: "",
       created_date: "",
       email: "",
-    
+
       first_name: "",
       id: "",
       fairbank_email: [],
@@ -146,9 +146,9 @@ const EditClient = (props) => {
       loomis_status: "",
       work_flow: "",
       address: "",
-      financial_end_month: "",
-      financial_start_month: "",
-      ma_option: [],
+      // financial_end_month: "",
+      // financial_start_month: "",
+      // ma_option: [],
       status: "1",
     },
     validationSchema: Yup.object({
@@ -163,14 +163,14 @@ const EditClient = (props) => {
       email: Yup.string()
         .required(" Email is required")
         .email("Invalid email format"),
-      financial_end_month: Yup.string().required(
-        "Financial End Month is required"
-      ),
-      financial_start_month: Yup.string().required(
-        "Financial Start Month is required"
-        ),
-        
-        address: Yup.string().required("Address is required"),
+      // financial_end_month: Yup.string().required(
+      //   "Financial End Month is required"
+      // ),
+      // financial_start_month: Yup.string().required(
+      //   "Financial Start Month is required"
+      // ),
+
+      address: Yup.string().required("Address is required"),
       first_name: Yup.string()
         .max(20, "Must be 20 characters or less")
         .required("First Name is required"),
@@ -419,7 +419,7 @@ const EditClient = (props) => {
                           )}
                         </div>
                       </Col>
-                      <Col lg={4} md={6}>
+                      {/* <Col lg={4} md={6}>
                         <div className="form-group">
                           <label
                             htmlFor="financial_start_month"
@@ -506,7 +506,7 @@ const EditClient = (props) => {
                               </div>
                             )}
                         </div>
-                      </Col>
+                      </Col> */}
                       <Col lg={4} md={6}>
                         <div className="form-group">
                           <label
@@ -569,7 +569,7 @@ const EditClient = (props) => {
                         </div>
                       </Col>
                       {/* Work Flow Status End */}
-                      <Col lg={4} md={6}>
+                      {/* <Col lg={4} md={6}>
                         <div>
                           <label
                             htmlFor="ma_option"
@@ -620,7 +620,7 @@ const EditClient = (props) => {
                             <span className="ms-2"> Variance</span>
                           </label>
                         </div>
-                      </Col>
+                      </Col> */}
                       <Col lg={4} md={6}>
                         <label
                           htmlFor="fairbank_email"
