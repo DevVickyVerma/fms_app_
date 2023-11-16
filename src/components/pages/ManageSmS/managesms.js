@@ -3,8 +3,18 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
-import { Breadcrumb, Card, Col, Modal, Pagination, Row, Tab, Tabs } from "react-bootstrap";
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  Modal,
+  Pagination,
+  Row,
+  Tab,
+  Tabs,
+} from "react-bootstrap";
 import * as Yup from "yup";
 import withApi from "../../../Utils/ApiHelper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,6 +22,7 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import Loaderimg from "../../../Utils/Loader";
 import { useFormik } from "formik";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import { useSelector } from "react-redux";
 
 
 const ManageSiteTank = (props) => {
@@ -34,12 +45,24 @@ const ManageSiteTank = (props) => {
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
-  const [activeTab, setActiveTab] = useState('tab5'); // 'tab5' is the default active tab
+  const [activeTab, setActiveTab] = useState("tab5"); // 'tab5' is the default active tab
+  const [downloadedInvoice, setDownloadedInvoice] = useState(null);
+  const [permissionsArray, setPermissionsArray] = useState([]);
 
+  const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions?.permissions);
+    }
+  }, [UserPermissions]);
+
+  const issmsPermissionAvailable = permissionsArray?.includes(
+    "sms-invoice"
+  );
+  useEffect(() => {
     if (selectedClientIdOnSubmit) {
-      handleTabSelect(activeTab)
+      handleTabSelect(activeTab);
     }
   }, [currentPage]);
 
@@ -81,8 +104,9 @@ const ManageSiteTank = (props) => {
     setSelectedClientIdOnSubmit(values);
     const { client_id } = values;
     try {
-
-      const response = await getData(`/sms/list?client_id=${client_id}&page=${currentPage}`);
+      const response = await getData(
+        `/sms/list?client_id=${client_id}&page=${currentPage}`
+      );
 
       if (response && response.data && response.data.data) {
         setData(response?.data?.data?.history);
@@ -109,13 +133,182 @@ const ManageSiteTank = (props) => {
   };
 
   const statusColors = {
-    0: 'red',       // Failed
-    1: 'green',     // Delivered
-    2: 'orange',    // Undelivered
-    3: 'yellow',    // Rejected
-    4: 'blue',      // Expired
+    0: "red", // Failed
+    1: "green", // Delivered
+    2: "orange", // Undelivered
+    3: "yellow", // Rejected
+    4: "blue", // Expired
   };
+  const fetchInvoiceData = async (invoiceId) => {
+    console.log(invoiceId, "invoiceId");
+    const token = localStorage.getItem("token");
 
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/sms/invoice-detail/${invoiceId}`,
+        {
+          method: "GET", // Change to "GET" if you are fetching data
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      // Adjust the following based on your API response format
+      const data = await response.json(); // Assuming the response is JSON
+      console.log(data?.data, "json");
+      return data;
+    } catch (error) {
+      console.error("Error fetching invoice data:", error);
+      // Handle the error as needed
+      return null;
+    }
+  };
+  const handleDownloadInvoice = async (row) => {
+    try {
+        // Fetch the invoice data
+        const invoiceData = await fetchInvoiceData(row);
+
+        // Save the invoice data to state
+        setDownloadedInvoice(invoiceData);
+        console.log(invoiceData?.data?.logo, "invoiceData");
+        // Pass the logo URL when calling generateAndDownloadPDF
+        generateAndDownloadPDF(invoiceData, "invoice.pdf", invoiceData?.data.logo);
+    } catch (error) {
+        console.error("Error downloading invoice:", error);
+        // Handle the error as needed
+    }
+};
+
+const generateAndDownloadPDF = async  (data, fileName, logoUrl) => {
+  // Create a new jsPDF instance
+  const pdf = new jsPDF();
+  const pdfWidth = pdf.internal.pageSize.width;
+  pdf.setFontSize(10);
+  pdf.setFont('helvetica', 'bold');
+  const textWidth = pdf.getStringUnitWidth('Invoice') * pdf.getFontSize() / pdf.internal.scaleFactor;
+  const xCoordinate = (pdfWidth - textWidth) / 2;
+
+  pdf.text('Invoice', xCoordinate, 15);
+
+  // Set back to regular font for the rest of the content
+  pdf.setFont('helvetica', 'normal');
+
+  // Add a line under the header
+  pdf.line(10, 20, 200, 20);
+  const lineHeight = 6;
+  // Display "Invoice To" and "Invoice From" in parallel
+  // pdf.setFont('helvetica', 'bold');
+  // pdf.text(' To:', 20, 35 + lineHeight);
+  // pdf.text(' From:', 120, 35 + lineHeight);
+ // Increased line height for better readability
+  // Display recipient and sender details with bold labels
+  pdf.setFont('helvetica', 'bold');
+  pdf.text('Name:', 20, 30);
+  pdf.text('Email:', 20, 30 + lineHeight);
+  pdf.text('Address:', 20, 30 + 2 * lineHeight);
+
+  pdf.text('Name:', 120, 30);
+  pdf.text('Email:', 120, 30 + lineHeight);
+  pdf.text('Address:', 120, 30 + 2 * lineHeight);
+
+  // Reset font size to 12px for the address lines
+  pdf.setFontSize(10);
+
+  // Display recipient and sender details with normal font
+  pdf.setFont('helvetica', 'normal');
+  pdf.text(`${data?.data.invoice_to.name}`, 32, 30);
+  pdf.text(`${data?.data.invoice_to.email}`, 32, 30 + lineHeight);
+  // pdf.text(`${data?.data.invoice_to.address}`, 41, 50 + 2 * lineHeight);
+  const invoiceinvoice_toLines = pdf.splitTextToSize(data?.data.invoice_to.address, 60);
+  for (let i = 0; i < invoiceinvoice_toLines.length; i++) {
+    pdf.text(invoiceinvoice_toLines[i], 38, 30 + (2 + i) * lineHeight);
+  }
+  pdf.text(`${data?.data.invoice_from.name}`, 132, 30);
+  pdf.text(`${data?.data.invoice_from.email}`, 132, 30 + lineHeight);
+  // pdf.text(`${data?.data.invoice_from.address}`, 140, 50 + 2 * lineHeight);
+ // Display Invoice From address with multiple lines
+ const invoiceFromAddressLines = pdf.splitTextToSize(data?.data.invoice_from.address, 60);
+ for (let i = 0; i < invoiceFromAddressLines.length; i++) {
+   pdf.text(invoiceFromAddressLines[i], 138, 30 + (2 + i) * lineHeight);
+ }
+  // Add logo if provided
+  if (logoUrl) {
+    console.log(logoUrl, "logoUrl");
+
+    // Fetch the logo as a blob
+    try {
+      const logoResponse = await fetch(logoUrl);
+      const logoBlob = await logoResponse.blob();
+
+      // Create a data URL from the logo blob
+      const logoDataUrl = URL.createObjectURL(logoBlob);
+
+      // Add the logo to the PDF
+      pdf.addImage(logoDataUrl, 'PNG', 150, 10, 40, 15);
+    } catch (error) {
+      console.error("Error loading logo:", error);
+      // Handle the error as needed
+    }
+  }
+
+  // Display data in a table using autoTable
+  pdf.autoTable({
+    startY: 40 + 2 * 20,
+    head: [['Creator', 'Credit', 'Price', 'Total', 'Created Date']],
+    body: [[data?.data.creator, data?.data.credit, data?.data.price, data?.data.total, data?.data.created_date]],
+    headStyles: { fillColor: [98, 89, 202], textColor: [255, 255, 255], fontStyle: 'bold' },
+  });
+
+  // Reset font to normal for the footer
+  pdf.setFont('helvetica', 'normal');
+
+  // Add a footer with a line
+  pdf.line(10, pdf.autoTable.previous.finalY + 5, 200, pdf.autoTable.previous.finalY + 5);
+  pdf.text('Thank you for your business!', 70, pdf.autoTable.previous.finalY + 15);
+
+  // Save the PDF as a Blob
+  const pdfBlob = pdf.output('blob');
+
+  // Trigger the download
+  downloadFile(pdfBlob, fileName);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+  const downloadFile = (data, fileName) => {
+    const blob = new Blob([data], { type: "application/pdf" });
+
+    // Create a link element
+    const link = document.createElement("a");
+
+    // Set the download attribute and create an object URL for the blob
+    link.download = fileName;
+    link.href = window.URL.createObjectURL(blob);
+
+    // Append the link to the document and trigger the click event
+    document.body.appendChild(link);
+    link.click();
+
+    // Remove the link from the document
+    document.body.removeChild(link);
+  };
   const columns = [
     {
       name: "S.No",
@@ -150,7 +343,9 @@ const ManageSiteTank = (props) => {
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className={`mb-0 fs-14 fw-semibold btn text-${row.bgColor} btn-sm`}>
+            <h6
+              className={`mb-0 fs-14 fw-semibold btn text-${row.bgColor} btn-sm`} style={{ cursor: 'pointer' }}
+            >
               {row.credit} {row.type}
             </h6>
           </div>
@@ -166,32 +361,41 @@ const ManageSiteTank = (props) => {
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             {row.status === 0 && (
-              <h6 className={`mb-0 fs-14 fw-semibold btn btn-${statusColors[0]} btn-sm`}>
+              <h6
+                className={`mb-0 fs-14 fw-semibold btn btn-${statusColors[0]} btn-sm`}
+              >
                 Failed
               </h6>
             )}
             {row.status === 1 && (
-              <h6 className={`mb-0 fs-14 fw-semibold btn btn-${statusColors[1]} btn-sm`}>
+              <h6
+                className={`mb-0 fs-14 fw-semibold btn btn-${statusColors[1]} btn-sm`}
+              >
                 Delivered
               </h6>
             )}
             {row.status === 2 && (
-              <h6 className={`mb-0 fs-14 fw-semibold btn btn-${statusColors[2]} btn-sm`}>
+              <h6
+                className={`mb-0 fs-14 fw-semibold btn btn-${statusColors[2]} btn-sm`}
+              >
                 Undelivered
               </h6>
             )}
             {row.status === 3 && (
-              <h6 className={`mb-0 fs-14 fw-semibold btn btn-${statusColors[3]} btn-sm`}>
+              <h6
+                className={`mb-0 fs-14 fw-semibold btn btn-${statusColors[3]} btn-sm`}
+              >
                 Rejected
               </h6>
             )}
             {row.status === 4 && (
-              <h6 className={`mb-0 fs-14 fw-semibold btn btn-${statusColors[4]} btn-sm`}>
+              <h6
+                className={`mb-0 fs-14 fw-semibold btn btn-${statusColors[4]} btn-sm`}
+              >
                 Expired
               </h6>
             )}
           </div>
-
         </div>
       ),
     },
@@ -245,7 +449,10 @@ const ManageSiteTank = (props) => {
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className={`mb-0 fs-14 fw-semibold btn text-${row.bgColor} btn-sm`}>
+            <h6
+              className={`mb-0 fs-14 fw-semibold btn text-${row.bgColor} btn-sm`}
+              style={{ cursor: 'pointer' }}
+            >
               {row.credit} {row.type}
             </h6>
           </div>
@@ -279,13 +486,35 @@ const ManageSiteTank = (props) => {
         </div>
       ),
     },
+
+    issmsPermissionAvailable ? 
+      {
+        name: "Invoice",
+        selector: (row) => [row.id],
+        sortable: true,
+        width: "23.5",
+        cell: (row, index) => (
+          <div className="d-flex">
+            <div className="ms-2 mt-0 mt-sm-2 d-block">
+              <button onClick={() => handleDownloadInvoice(row.id)}>
+                <i className="fa fa-download" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        )
+      }
+      : "",
+    
+    
+    
+
+   
   ];
 
   const tableDatas = {
     columns,
     data,
   };
-
 
   const formik = useFormik({
     initialValues: {
@@ -398,23 +627,20 @@ const ManageSiteTank = (props) => {
         };
         formik.setFieldValue("smsamount", ""); // Assuming "smsamount" is the field name you want to clear
 
-
         handleSubmit1(userclient);
-
       }
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
 
-
   const handleTabSelect = async (selectedTab) => {
     setActiveTab(selectedTab);
-    const { client_id } = selectedClientIdOnSubmit
+    const { client_id } = selectedClientIdOnSubmit;
 
     let url;
 
-    if (selectedTab === 'tab6') {
+    if (selectedTab === "tab6") {
       url = `/sms/list?client_id=${client_id}&page=${currentPage}&type=credit&page=${currentPage}`;
     } else {
       url = `/sms/list?client_id=${client_id}&page=${currentPage}&page=${currentPage}`;
@@ -442,8 +668,10 @@ const ManageSiteTank = (props) => {
     } catch (error) {
       console.error("API error:", error);
     }
-
   };
+
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -486,11 +714,12 @@ const ManageSiteTank = (props) => {
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              className={`input101 ${formik.errors.client_id &&
+                              className={`input101 ${
+                                formik.errors.client_id &&
                                 formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="client_id"
                               name="client_id"
                               value={formik.values.client_id}
@@ -574,7 +803,6 @@ const ManageSiteTank = (props) => {
                   >
                     Balance:{mybalance ? mybalance : "0"}
                   </button>
-
                   {BuyMoree ? (
                     <button
                       className="btn btn-danger me-2"
@@ -590,7 +818,7 @@ const ManageSiteTank = (props) => {
               </Card.Header>
 
               <Card.Body>
-                {data?.length > 0 ? (
+                {selectedClientId ? (
                   <>
                     <Row>
                       <Col xl={12}>
@@ -602,7 +830,11 @@ const ManageSiteTank = (props) => {
                               defaultActiveKey={activeTab}
                               onSelect={handleTabSelect}
                             >
-                              <Tab eventKey="tab5" className="me-1 " title="SMS Logs">
+                              <Tab
+                                eventKey="tab5"
+                                className="me-1 "
+                                title="SMS Logs"
+                              >
                                 <div className="table-responsive deleted-table">
                                   <DataTable
                                     columns={columns}
@@ -619,7 +851,11 @@ const ManageSiteTank = (props) => {
                                 </div>
                               </Tab>
                               &nbsp;
-                              <Tab eventKey="tab6" className="  me-1" title="Credit Log" >
+                              <Tab
+                                eventKey="tab6"
+                                className="  me-1"
+                                title="Credit Log"
+                              >
                                 <div className="table-responsive deleted-table">
                                   <DataTable
                                     columns={columns2}
@@ -692,18 +928,18 @@ const ManageSiteTank = (props) => {
                   justifyContent: "space-between",
                   alignItems: "center",
                 }}
-              > <span
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-                className="ModalTitle"
               >
-                  <span>
-                    Buy Sms
-                  </span>
-                  <span onClick={handleCloseModal} >
+                {" "}
+                <span
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                  className="ModalTitle"
+                >
+                  <span>Buy Sms</span>
+                  <span onClick={handleCloseModal}>
                     <button className="close-button">
                       <FontAwesomeIcon icon={faTimes} />
                     </button>
@@ -728,7 +964,6 @@ const ManageSiteTank = (props) => {
                           id="smsamount"
                           name="smsamount"
                           placeholder="Amount"
-
                           onChange={Smsformik.handleChange}
                           onBlur={Smsformik.handleBlur}
                         />
@@ -744,21 +979,19 @@ const ManageSiteTank = (props) => {
                           <div className="mt-4 d-flex flex-column">
                             <span className=" text-muted d-flex justify-content-between">
                               <strong>Your Quantity </strong>{" "}
-
-                              {Smsformik.values.smsamount ? Smsformik.values.smsamount : 0}
+                              {Smsformik.values.smsamount
+                                ? Smsformik.values.smsamount
+                                : 0}
                             </span>
                             <span className="text-muted d-flex justify-content-between">
-                              <strong>Cost To purchase An SMS</strong>{" "}
-                              £ 0.008
+                              <strong>Cost To purchase An SMS</strong> £ 0.08
                             </span>
                             <span className="mt-4 d-flex justify-content-between">
-                              <strong>Final Amount </strong>{" "}
-                              £ {Smsformik.values.smsamount * 0.008}
+                              <strong>Final Amount </strong> £{" "}
+                              {Smsformik.values.smsamount * 0.008}
                             </span>
                           </div>
                         </div>
-
-
 
                         <div className="text-end mt-4">
                           <button
