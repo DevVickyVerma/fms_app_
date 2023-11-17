@@ -60,26 +60,29 @@ export function FormModal(props) {
     formData.append("client_id", props.selectedClientId);
     formData.append("type", props.PropsFile);
     formData.append("file", values.image);
+    formData.append("end_point", props.PropsFile);
+    formData.append("drs_date", props.DRSDate);
 
     setIsLoading(true);
 
     try {
-      let url;
+      // let url;
 
-      if (props.PropsFile === "sales") {
-        url = `${process.env.REACT_APP_UPLOAD_FILE_BASE_URL}/upload-prism-sales`;
-      } else if (props.PropsFile === "payments") {
-        url = `${process.env.REACT_APP_UPLOAD_FILE_BASE_URL}/upload-prism-payments`;
-      } else if (props.PropsFile === "paid") {
-        url = `${process.env.REACT_APP_UPLOAD_FILE_BASE_URL}/upload-prism-paid`;
-      } else if (props.PropsFile === "tanks") {
-        url = `${process.env.REACT_APP_UPLOAD_FILE_BASE_URL}/upload-prism-tanks`;
-      } else if (props.PropsFile === "vat") {
-        url = `${process.env.REACT_APP_UPLOAD_FILE_BASE_URL}/upload-prism-vat`;
-      } else {
-        url = "http://example.com/default-upload";
-      }
-      const response = await await fetch(url, {
+      // if (props.PropsFile === "sales") {
+      //   url = `${process.env.REACT_APP_BASE_URL}/upload-prism-sales`;
+      // } else if (props.PropsFile === "payments") {
+      //   url = `${process.env.REACT_APP_BASE_URL}/upload-prism-payments`;
+      // } else if (props.PropsFile === "paid") {
+      //   url = `${process.env.REACT_APP_BASE_URL}/upload-prism-paid`;
+      // } else if (props.PropsFile === "tanks") {
+      //   url = `${process.env.REACT_APP_BASE_URL}/upload-prism-tanks`;
+      // } else if (props.PropsFile === "vat") {
+      //   url = `${process.env.REACT_APP_BASE_URL}/upload-prism-vat`;
+      // } else {
+      //   url = "http://example.com/default-upload";
+      // }
+      const response = await await fetch(`${process.env.REACT_APP_BASE_URL}/drs/prism-upload`, {
+        
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

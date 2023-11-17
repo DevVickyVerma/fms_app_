@@ -659,6 +659,7 @@ const ManageDsr = (props) => {
                         PropsCompanyId={PropsCompanyId}
                         selectedClientId={selectedClientId}
                         PropsFile={PropsFile}
+                        DRSDate={DRSDate}
                         onClose={() => setShowModal(false)}
                         modalTitle={modalTitle} // Use the modalTitle variable
                         modalCancelButtonLabel="Cancel"

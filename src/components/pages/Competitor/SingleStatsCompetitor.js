@@ -491,7 +491,24 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                           <td key={colIndex}>
                             <span className="single-Competitor-body single-Competitor-heading cardd block w-99.9 ">
                               <span>
-                                <p className=" m-0 single-Competitor-distance"> {data[fuelType]?.[rowIndex]?.last_updated}</p>
+                                
+                                <OverlayTrigger
+                                      placement="top"
+                                      overlay={
+                                        <Tooltip
+                                          style={{
+                                            display: "flex",
+                                            alignItems: "flex-start",
+                                            justifyContent: "flex-start",
+                                          }}
+                                        >
+                                          {data[fuelType]?.[rowIndex]?.last_date}
+
+                                        </Tooltip>
+                                      }
+                                    >
+                                    <p className=" m-0 single-Competitor-distance" style={{ cursor: 'pointer' }}> {data[fuelType]?.[rowIndex]?.last_updated}</p>
+                                    </OverlayTrigger>
                               </span>
                               <span className=" d-flex justify-content-between align-items-center">
                                 <span >
