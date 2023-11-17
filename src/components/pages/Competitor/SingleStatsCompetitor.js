@@ -1,9 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Breadcrumb, Button, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Button,
+  Card,
+  Col,
+  Form,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import axios from "axios";
-import { AiFillCaretDown, AiFillCaretRight, AiOutlineArrowRight } from "react-icons/ai";
+import {
+  AiFillCaretDown,
+  AiFillCaretRight,
+  AiOutlineArrowRight,
+} from "react-icons/ai";
 import { BsFuelPumpFill } from "react-icons/bs";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
@@ -74,16 +87,12 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
 
   const handleClientStats = async () => {
     try {
-      const response = await getData(
-        `/client/sites`
-      );
-
+      const response = await getData(`/client/sites`);
 
       const { data } = response;
       if (data) {
         setSelected(data?.data);
       }
-
     } catch (error) {
       console.error("API error:", error);
     } // Set the submission state to false after the API call is completed
@@ -97,57 +106,58 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
   }
 
   if (!getCompetitorsPrice) {
-    return (<Row
-      style={{
-        marginBottom: "10px",
-        marginTop: "20px",
-      }}
-    >
-      <Col lg={12} md={12}>
-        <Card>
-          <Card.Header className="card-header">
-            <h4 className="card-title"> Local Competitor Stats</h4>
-          </Card.Header>
-          <Card.Body className="card-body pb-0 overflow-auto"> <img
-            src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
-            alt="MyChartImage"
-            className="all-center-flex nodata-image"
-          />
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
+    return (
+      <Row
+        style={{
+          marginBottom: "10px",
+          marginTop: "20px",
+        }}
+      >
+        <Col lg={12} md={12}>
+          <Card>
+            <Card.Header className="card-header">
+              <h4 className="card-title"> Local Competitor Stats</h4>
+            </Card.Header>
+            <Card.Body className="card-body pb-0 overflow-auto">
+              {" "}
+              <img
+                src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                alt="MyChartImage"
+                className="all-center-flex nodata-image"
+              />
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     );
   }
 
   const data = getCompetitorsPrice?.competitorListing;
   const animatedComponents = makeAnimated();
-  const Optionssingle = selected?.map(item => ({
+  const Optionssingle = selected?.map((item) => ({
     value: item?.id,
-    label: item?.site_name
-  }))
+    label: item?.site_name,
+  }));
 
   const handleSitePathChange = (values) => {
-    navigate(`/sitecompetitor/${values.value}`)
-  }
+    navigate(`/sitecompetitor/${values.value}`);
+  };
 
   const byDefaultSelectValue = {
     value: id,
-    label: getCompetitorsPrice?.siteName
-  }
+    label: getCompetitorsPrice?.siteName,
+  };
 
   const twoMonthsAgo = new Date(getCompetitorsPrice?.last_dayend);
   twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
-
 
   const handleShowDate = () => {
     const inputDateElement = document.querySelector("#start_date");
     inputDateElement.showPicker();
   };
 
-
   // Format twoMonthsAgo as "YYYY-MM-DD"
-  const formattedTwoMonthsAgo = twoMonthsAgo.toISOString().split('T')[0];
+  const formattedTwoMonthsAgo = twoMonthsAgo.toISOString().split("T")[0];
 
   return (
     <>
@@ -186,12 +196,8 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
 
         <div className="ms-auto d-flex  gap-2 flex-wrap">
           <div>
-
-            <label>
-              Filter By Site:
-            </label>
+            <label>Filter By Site:</label>
             <div style={{ width: "200px" }}>
-
               <Select
                 closeMenuOnSelect={false}
                 components={animatedComponents}
@@ -201,31 +207,31 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                 value={byDefaultSelectValue}
               />
             </div>
-
           </div>
 
-          <div >
+          <div>
             <Formik
               initialValues={{
                 start_date: mySelectedDate || "",
               }}
               validationSchema={Yup.object().shape({
-                start_date: Yup.date().required(
-                  "Start Date is required"
-                ),
+                start_date: Yup.date().required("Start Date is required"),
               })}
               onSubmit={(values) => {
                 FetchCompititorData(values);
               }}
             >
               {({ handleSubmit, errors, touched, setFieldValue }) => (
-                <Form onSubmit={handleSubmit} style={{ marginTop: "-11px", display: "flex", alignItems: "center" }} >
-
+                <Form
+                  onSubmit={handleSubmit}
+                  style={{
+                    marginTop: "-11px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
                   <div>
-                    <label
-                      htmlFor="start_date"
-                      className="form-label "
-                    >
+                    <label htmlFor="start_date" className="form-label ">
                       Date
                     </label>
                     <Field
@@ -233,21 +239,18 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                       min={formattedTwoMonthsAgo}
                       max={getCompetitorsPrice?.last_dayend}
                       onClick={handleShowDate}
-                      className={`input101 compi-calender ${errors.start_date && touched.start_date
-                        ? "is-invalid"
-                        : ""
-                        }`}
+                      className={`input101 compi-calender ${
+                        errors.start_date && touched.start_date
+                          ? "is-invalid"
+                          : ""
+                      }`}
                       id="start_date"
                       name="start_date"
                       value={mySelectedDate}
                       onChange={(e) => {
-                        const selectedstart_date =
-                          e.target.value;
+                        const selectedstart_date = e.target.value;
                         setMySelectedDate(selectedstart_date);
-                        setFieldValue(
-                          "start_date",
-                          selectedstart_date
-                        );
+                        setFieldValue("start_date", selectedstart_date);
                       }}
                     ></Field>
                     <ErrorMessage
@@ -256,25 +259,15 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                       name="start_date"
                     />
                   </div>
-                  <div
-                    style={{ marginTop: "38px", alignSelf: "baseline" }}
-                  >
-                    <button
-                      type="submit"
-                      className="btn btn-primary mx-2"
-                    >
+                  <div style={{ marginTop: "38px", alignSelf: "baseline" }}>
+                    <button type="submit" className="btn btn-primary mx-2">
                       Submit
                     </button>
                   </div>
                 </Form>
               )}
             </Formik>
-
-
           </div>
-
-
-
         </div>
       </div>
 
@@ -312,25 +305,17 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                 ml={"7px"}
                 variant="body1"
               >
-                {getCompetitorsPrice?.siteName ? (
-                  getCompetitorsPrice?.siteName
-                ) : (
-                  ""
-                )}
+                {getCompetitorsPrice?.siteName
+                  ? getCompetitorsPrice?.siteName
+                  : ""}
               </Typography>
             </Box>
           </Box>
 
           {/* RIGHT side heading title */}
           <Box gap={"20px"} display={["contents", "flex"]}>
-
-
             {/* last day end competitor */}
-            <Box
-              display={"flex"}
-              flexDirection={"column"}
-              bgcolor={"#ecf0f1"}
-            >
+            <Box display={"flex"} flexDirection={"column"} bgcolor={"#ecf0f1"}>
               <Box
                 my={"4px"}
                 color={"#2d3436"}
@@ -340,7 +325,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                 px={"13px"}
               >
                 <Typography fontSize={"14px"}>
-                  Last Day End : { }
+                  Last Day End : {}
                   {getCompetitorsPrice?.last_dayend ? (
                     moment(getCompetitorsPrice?.last_dayend).format("Do MMM")
                   ) : (
@@ -439,8 +424,11 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
         <Col lg={12} md={12} className="">
           <Card className="">
             <Card.Header className=" my-cardd card-header ">
-              <h4 className="card-title">  {getCompetitorsPrice ? getCompetitorsPrice?.siteName : ""}{" "}
-                Competitors Stats</h4>
+              <h4 className="card-title">
+                {" "}
+                {getCompetitorsPrice ? getCompetitorsPrice?.siteName : ""}{" "}
+                Competitors Stats
+              </h4>
             </Card.Header>
             <Card.Body className="my-cardd card-body pb-0 overflow-auto">
               <table className="w-100 mb-6">
@@ -452,8 +440,9 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                           Competitors Name <AiFillCaretDown />
                         </span>
                         <span className="text-end">
-                          Fuel <span className="hidden-in-small-screen"> Type
-                          </span> <AiFillCaretRight />
+                          Fuel{" "}
+                          <span className="hidden-in-small-screen"> Type</span>{" "}
+                          <AiFillCaretRight />
                         </span>
                       </span>
                     </th>
@@ -469,19 +458,29 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                     (competitorsName, rowIndex) => (
                       <tr key={rowIndex}>
                         <td>
-
                           <div className="single-Competitor-heading d-flex w-99.9 cardd">
                             <p className=" m-0 d-flex align-items-center">
                               <span>
-                                <img src={competitorsName?.supplierImage} alt="supplierImage" className=" mx-3" style={{ width: "36px", height: "36px" }} />
+                                <img
+                                  src={competitorsName?.supplierImage}
+                                  alt="supplierImage"
+                                  className=" mx-3"
+                                  style={{ width: "36px", height: "36px" }}
+                                />
                               </span>
                             </p>
 
-                            <p className=" d-flex flex-column m-0" style={{ minWidth: "55px" }}>
+                            <p
+                              className=" d-flex flex-column m-0"
+                              style={{ minWidth: "55px" }}
+                            >
                               <span className="single-Competitor-distance">
-                                <AiOutlineArrowRight /> {competitorsName?.station ? "My station" : `${competitorsName?.dist_miles} miles away`}
+                                <AiOutlineArrowRight />{" "}
+                                {competitorsName?.station
+                                  ? "My station"
+                                  : `${competitorsName?.dist_miles} miles away`}
                               </span>
-                              <span style={{ minWidth: "200px", }}>
+                              <span style={{ minWidth: "200px" }}>
                                 {competitorsName?.name}
                               </span>
                             </p>
@@ -490,66 +489,85 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                         {Object.keys(data).map((fuelType, colIndex) => (
                           <td key={colIndex}>
                             <span className="single-Competitor-body single-Competitor-heading cardd block w-99.9 ">
-                              <span>
-                                
-                                <OverlayTrigger
-                                      placement="top"
-                                      overlay={
-                                        <Tooltip
-                                          style={{
-                                            display: "flex",
-                                            alignItems: "flex-start",
-                                            justifyContent: "flex-start",
-                                          }}
-                                        >
-                                          {data[fuelType]?.[rowIndex]?.last_date}
-
-                                        </Tooltip>
-                                      }
-                                    >
-                                    <p className=" m-0 single-Competitor-distance" style={{ cursor: 'pointer' }}> {data[fuelType]?.[rowIndex]?.last_updated}</p>
-                                    </OverlayTrigger>
-                              </span>
-                              <span className=" d-flex justify-content-between align-items-center">
-                                <span >
-                                  {data[fuelType]?.[rowIndex]?.price}
-                                </span>
-
-                                {data[fuelType]?.[rowIndex]?.station ? "" : <>
-                                  <span className="" style={{ width: "25px", height: "25px", border: "1px solid black", borderRadius: "50%", background: "white", cursor: "pointer", marginLeft: "10px" }} >
-
-
-                                    <OverlayTrigger
-                                      placement="top"
-                                      overlay={
-                                        <Tooltip
-                                          style={{
-                                            display: "flex",
-                                            alignItems: "flex-start",
-                                            justifyContent: "flex-start",
-                                          }}
-                                        >
-                                          Experian Email
-
-                                        </Tooltip>
-                                      }
-                                    >
-                                      <img
-                                        alt=""
-                                        src={require("../../../assets/images/SingleStatsCompetitor/xpiera-logo.png")}
-                                        className="" style={{
-                                          // width: "px"
-                                          objectFit: "contain"
+                              <span className="circle-info">
+                                {data[fuelType]?.[rowIndex]?.last_updated}
+                                <span>
+                                  <OverlayTrigger
+                                    placement="top"
+                                    overlay={
+                                      <Tooltip
+                                        style={{
+                                          display: "flex",
+                                          alignItems: "flex-start",
+                                          justifyContent: "flex-start",
                                         }}
+                                      >
+                                        {data[fuelType]?.[rowIndex]?.last_date}
+                                      </Tooltip>
+                                    }
+                                  >
+                                    <p
+                                      className=" m-0 single-Competitor-distance"
+                                      style={{ cursor: "pointer" }}
+                                    >
+                                      {" "}
+                                      <i
+                                        class="fa fa-info-circle ms-1"
+                                        aria-hidden="true"
+                                        style={{ fontSize: "15px" }}
+                                      ></i>{" "}
+                                      <span></span>
+                                    </p>
+                                  </OverlayTrigger>
+                                </span>
+                              </span>
 
+                              <span className=" d-flex justify-content-between align-items-center">
+                                <span>{data[fuelType]?.[rowIndex]?.price}</span>
 
-                                      />
-                                    </OverlayTrigger>
-
-                                  </span>
-                                </>}
-
-
+                                {data[fuelType]?.[rowIndex]?.station ? (
+                                  ""
+                                ) : (
+                                  <>
+                                    <span
+                                      className=""
+                                      style={{
+                                        width: "25px",
+                                        height: "25px",
+                                        border: "1px solid black",
+                                        borderRadius: "50%",
+                                        background: "white",
+                                        cursor: "pointer",
+                                        marginLeft: "10px",
+                                      }}
+                                    >
+                                      <OverlayTrigger
+                                        placement="top"
+                                        overlay={
+                                          <Tooltip
+                                            style={{
+                                              display: "flex",
+                                              alignItems: "flex-start",
+                                              justifyContent: "flex-start",
+                                            }}
+                                          >
+                                            Experian Email
+                                          </Tooltip>
+                                        }
+                                      >
+                                        <img
+                                          alt=""
+                                          src={require("../../../assets/images/SingleStatsCompetitor/xpiera-logo.png")}
+                                          className=""
+                                          style={{
+                                            // width: "px"
+                                            objectFit: "contain",
+                                          }}
+                                        />
+                                      </OverlayTrigger>
+                                    </span>
+                                  </>
+                                )}
                               </span>
                             </span>
                           </td>
@@ -562,7 +580,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
             </Card.Body>
           </Card>
         </Col>
-      </Row >
+      </Row>
 
       <Row
         Row

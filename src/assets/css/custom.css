@@ -1281,3 +1281,9 @@ span.uk-date-time {
     width: 100px;
   }
 }
+span.circle-info {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  color: #7b7c7d;
+}
