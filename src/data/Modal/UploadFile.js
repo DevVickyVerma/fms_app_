@@ -77,7 +77,6 @@ export function FormModal(props) {
       } else if (props.PropsFile === "vat") {
         url = `${process.env.REACT_APP_UPLOAD_FILE_BASE_URL}/upload-prism-vat`;
       } else {
-        // Default URL if none of the conditions are met
         url = "http://example.com/default-upload";
       }
       const response = await await fetch(url, {

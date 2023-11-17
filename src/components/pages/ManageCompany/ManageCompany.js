@@ -343,7 +343,23 @@ const ManageCompany = (props) => {
                           <i className="setting-icon">
                             {""} <AssignmentIndIcon />
                           </i>
-                          <span>Manage Sage</span>
+                          <span>Manage Sage Fuel</span>
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isSagePermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link
+                        className="settingicon"
+                        // onClick={() => handleSage(row.id)}
+                        to={`/company/sage-items/${row.id}`}
+                      >
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            {""} <AssignmentIndIcon />
+                          </i>
+                          <span>Manage Sage Items</span>
                         </div>
                       </Link>
                     </Dropdown.Item>

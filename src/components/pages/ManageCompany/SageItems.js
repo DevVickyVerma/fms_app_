@@ -66,17 +66,17 @@ const CompanySageFuels = (props) => {
         try {
             setIsLoading(true); // Set loading state to true before fetching data
 
-            const response = await axiosInstance.get(`/company/sage-fuels/${id?.id}`);
+            const response = await axiosInstance.get(`/company/sage-items/${id?.id}`);
 
             const { data } = response;
             if (data) {
-                setData(data.data.fuels);
+                setData(data.data.items);
                 setTaxCodes(data.data.taxCodes);
                 setTypesData(data.data.types);
                 setis_editable(data.data);
 
                 // Create an array of form values based on the response data
-                const formValues = data.data.fuels.map((item) => {
+                const formValues = data.data.items.map((item) => {
                     return {
                         id: item.id || "",
                         name: item.name || "",
@@ -84,7 +84,7 @@ const CompanySageFuels = (props) => {
                         nominal_tax_code_id: item.nominal_tax_code_id || "",
                         positive_nominal_type_id: item.positive_nominal_type_id || "",
                         sage_account_code: item.sage_account_code || "",
-                        sage_nominal_code: item.sage_nominal_code || "",
+                        sage_sale_code: item.sage_sale_code || "",
                         sage_purchage_code: item.sage_purchage_code || "",
                     };
                 });
@@ -129,10 +129,10 @@ const CompanySageFuels = (props) => {
 
     const columns = [
         {
-            name: "FUEL",
+            name: "ITEMS",
             selector: (row) => row.name,
             sortable: false,
-            width: "14.2%",
+            width: "33.2%",
             center: false,
             cell: (row) => (
                 <span className="text-muted fs-15 fw-semibold text-center">
@@ -140,11 +140,45 @@ const CompanySageFuels = (props) => {
                 </span>
             ),
         },
+        // {
+        //     name: "Sage Account Code",
+        //     selector: (row) => row.sage_account_code,
+        //     sortable: false,
+        //     width: "33.2%",
+        //     center: true,
+
+        //     cell: (row, index) =>
+        //         row.name === "Total" ? (
+        //             <div>
+        //                 <input
+        //                     type="number"
+        //                     className={"table-input readonly"}
+        //                     value={row.sage_account_code}
+        //                     readOnly
+        //                 />
+        //             </div>
+        //         ) : (
+        //             <div>
+        //                 <input
+        //                     type="number"
+        //                     id={`sage_account_code-${index}`}
+        //                     name={`data[${index}].sage_account_code`}
+        //                     className={"table-input "}
+        //                     value={formik.values.data[index]?.sage_account_code}
+        //                     onChange={formik.handleChange}
+        //                     onBlur={formik.handleBlur}
+        //                 // readOnly
+        //                 />
+        //                 {/* Error handling code */}
+        //             </div>
+        //         ),
+        // },
         {
-            name: "Sage Account Code",
-            selector: (row) => row.sage_account_code,
+            name: "Sage Sale Code",
+
+            selector: (row) => row.sage_sale_code,
             sortable: false,
-            width: "14.2%",
+            width: "33.2%",
             center: true,
 
             cell: (row, index) =>
@@ -153,7 +187,7 @@ const CompanySageFuels = (props) => {
                         <input
                             type="number"
                             className={"table-input readonly"}
-                            value={row.sage_account_code}
+                            value={row.sage_sale_code}
                             readOnly
                         />
                     </div>
@@ -161,44 +195,10 @@ const CompanySageFuels = (props) => {
                     <div>
                         <input
                             type="number"
-                            id={`sage_account_code-${index}`}
-                            name={`data[${index}].sage_account_code`}
+                            id={`sage_sale_code-${index}`}
+                            name={`data[${index}].sage_sale_code`}
                             className={"table-input "}
-                            value={formik.values.data[index]?.sage_account_code}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                        // readOnly
-                        />
-                        {/* Error handling code */}
-                    </div>
-                ),
-        },
-        {
-            name: "Sage Nominal Code",
-
-            selector: (row) => row.sage_nominal_code,
-            sortable: false,
-            width: "14.2%",
-            center: true,
-
-            cell: (row, index) =>
-                row.name === "Total" ? (
-                    <div>
-                        <input
-                            type="number"
-                            className={"table-input readonly"}
-                            value={row.sage_nominal_code}
-                            readOnly
-                        />
-                    </div>
-                ) : (
-                    <div>
-                        <input
-                            type="number"
-                            id={`sage_nominal_code-${index}`}
-                            name={`data[${index}].sage_nominal_code`}
-                            className={"table-input "}
-                            value={formik.values.data[index]?.sage_nominal_code}
+                            value={formik.values.data[index]?.sage_sale_code}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                         />
@@ -210,7 +210,7 @@ const CompanySageFuels = (props) => {
             name: "Sage Purchage Code",
             selector: (row) => row.sage_purchage_code,
             sortable: false,
-            width: "14.2%",
+            width: "33.8%",
             center: true,
 
             cell: (row, index) =>
@@ -238,141 +238,141 @@ const CompanySageFuels = (props) => {
                     </div>
                 ),
         },
-        {
-            name: "Positive Nominal Type",
-            selector: (row) => row.positive_nominal_type_id,
-            sortable: false,
-            width: "14.4%",
-            center: true,
+        // {
+        //     name: "Positive Nominal Type",
+        //     selector: (row) => row.positive_nominal_type_id,
+        //     sortable: false,
+        //     width: "14.4%",
+        //     center: true,
 
-            cell: (row, index) =>
-                row.name === "Total" ? (
-                    <div>
-                        <input
-                            type="number"
-                            className={"table-input readonly"}
+        //     cell: (row, index) =>
+        //         row.name === "Total" ? (
+        //             <div>
+        //                 <input
+        //                     type="number"
+        //                     className={"table-input readonly"}
 
-                            value={row.positive_nominal_type_id}
-                            readOnly
-                        />
-                    </div>
-                ) : (
-                    <div>
-                        <select
-                            name={`data[${index}].positive_nominal_type_id`}
-                            value={formik.values.data[index]?.positive_nominal_type_id}
-                            onChange={(e) => handlePositiveNominalData(index, e.target.value)}
-                            onBlur={formik.handleBlur}
-                            className="w-100"
-                            style={{ height: "36px" }}
-                        >
-                            <option value="" className="table-input ">
-                                Select Positive Nominal Type Data
-                            </option>
-                            {typesData?.map((SingleType) => (
-                                <option
-                                    key={SingleType.id}
-                                    value={SingleType.id}
-                                    className="table-input "
-                                >
-                                    {SingleType.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                ),
-        },
-        {
-            name: "Negative Nominal Type",
-            selector: (row) => row.negative_nominal_type_id,
-            sortable: false,
-            width: "14.4%",
-            center: true,
+        //                     value={row.positive_nominal_type_id}
+        //                     readOnly
+        //                 />
+        //             </div>
+        //         ) : (
+        //             <div>
+        //                 <select
+        //                     name={`data[${index}].positive_nominal_type_id`}
+        //                     value={formik.values.data[index]?.positive_nominal_type_id}
+        //                     onChange={(e) => handlePositiveNominalData(index, e.target.value)}
+        //                     onBlur={formik.handleBlur}
+        //                     className="w-100"
+        //                     style={{ height: "36px" }}
+        //                 >
+        //                     <option value="" className="table-input ">
+        //                         Select Positive Nominal Type Data
+        //                     </option>
+        //                     {typesData?.map((SingleType) => (
+        //                         <option
+        //                             key={SingleType.id}
+        //                             value={SingleType.id}
+        //                             className="table-input "
+        //                         >
+        //                             {SingleType.name}
+        //                         </option>
+        //                     ))}
+        //                 </select>
+        //             </div>
+        //         ),
+        // },
+        // {
+        //     name: "Negative Nominal Type",
+        //     selector: (row) => row.negative_nominal_type_id,
+        //     sortable: false,
+        //     width: "14.4%",
+        //     center: true,
 
-            cell: (row, index) =>
-                row.name === "Total" ? (
-                    <div>
-                        <input
-                            type="number"
-                            className={"table-input readonly"}
-                            value={row.negative_nominal_type_id}
-                            readOnly
-                        />
-                    </div>
-                ) : (
-                    <div>
-                        <select
+        //     cell: (row, index) =>
+        //         row.name === "Total" ? (
+        //             <div>
+        //                 <input
+        //                     type="number"
+        //                     className={"table-input readonly"}
+        //                     value={row.negative_nominal_type_id}
+        //                     readOnly
+        //                 />
+        //             </div>
+        //         ) : (
+        //             <div>
+        //                 <select
 
-                            name={`data[${index}].negative_nominal_type_id`}
-                            value={formik.values.data[index]?.negative_nominal_type_id}
-                            onChange={(e) => handleNegativeNominalData(index, e.target.value)}
-                            onBlur={formik.handleBlur}
-                            className="w-100"
-                            style={{ height: "36px" }}
-                        >
-                            <option value="" className="table-input ">
-                                Select Negative Nominal Type
-                            </option>
-                            {typesData?.map((SingleType) => (
-                                <option
-                                    key={SingleType.id}
-                                    value={SingleType.id}
-                                    className="table-input "
-                                >
-                                    {SingleType.name}
-                                </option>
-                            ))}
-                        </select>
-                        {/* Error handling code */}
-                    </div>
-                ),
-        },
-        {
-            name: "Nominal Tax Code",
-            selector: (row) => row.nominal_tax_code_id,
-            sortable: false,
-            width: "14.6%",
-            center: true,
+        //                     name={`data[${index}].negative_nominal_type_id`}
+        //                     value={formik.values.data[index]?.negative_nominal_type_id}
+        //                     onChange={(e) => handleNegativeNominalData(index, e.target.value)}
+        //                     onBlur={formik.handleBlur}
+        //                     className="w-100"
+        //                     style={{ height: "36px" }}
+        //                 >
+        //                     <option value="" className="table-input ">
+        //                         Select Negative Nominal Type
+        //                     </option>
+        //                     {typesData?.map((SingleType) => (
+        //                         <option
+        //                             key={SingleType.id}
+        //                             value={SingleType.id}
+        //                             className="table-input "
+        //                         >
+        //                             {SingleType.name}
+        //                         </option>
+        //                     ))}
+        //                 </select>
+        //                 {/* Error handling code */}
+        //             </div>
+        //         ),
+        // },
+        // {
+        //     name: "Nominal Tax Code",
+        //     selector: (row) => row.nominal_tax_code_id,
+        //     sortable: false,
+        //     width: "14.6%",
+        //     center: true,
 
-            cell: (row, index) =>
-                row.name === "Total" ? (
-                    <div>
-                        <input
-                            type="number"
-                            className={"table-input readonly"}
-                            value={row.nominal_tax_code_id}
-                            readOnly
-                        />
-                    </div>
-                ) : (
-                    <div className=" w-100">
-                        <select
+        //     cell: (row, index) =>
+        //         row.name === "Total" ? (
+        //             <div>
+        //                 <input
+        //                     type="number"
+        //                     className={"table-input readonly"}
+        //                     value={row.nominal_tax_code_id}
+        //                     readOnly
+        //                 />
+        //             </div>
+        //         ) : (
+        //             <div className=" w-100">
+        //                 <select
 
-                            name={`data[${index}].nominal_tax_code_id`}
-                            value={formik.values.data[index]?.nominal_tax_code_id}
-                            onChange={(e) => handleTaxCodeData(index, e.target.value)}
-                            onBlur={formik.handleBlur}
-                            className="w-100"
-                            style={{ height: "36px" }}
-                        >
-                            <option value="" className="table-input ">
-                                Select Nominal Tax Code
-                            </option>
-                            {taxCodes?.map((SingleType) => (
-                                <option
-                                    key={SingleType.id}
-                                    value={SingleType.id}
-                                    className="table-input "
-                                >
-                                    {SingleType.name}
-                                </option>
-                            ))}
-                        </select>
+        //                     name={`data[${index}].nominal_tax_code_id`}
+        //                     value={formik.values.data[index]?.nominal_tax_code_id}
+        //                     onChange={(e) => handleTaxCodeData(index, e.target.value)}
+        //                     onBlur={formik.handleBlur}
+        //                     className="w-100"
+        //                     style={{ height: "36px" }}
+        //                 >
+        //                     <option value="" className="table-input ">
+        //                         Select Nominal Tax Code
+        //                     </option>
+        //                     {taxCodes?.map((SingleType) => (
+        //                         <option
+        //                             key={SingleType.id}
+        //                             value={SingleType.id}
+        //                             className="table-input "
+        //                         >
+        //                             {SingleType.name}
+        //                         </option>
+        //                     ))}
+        //                 </select>
 
-                        {/* Error handling code */}
-                    </div>
-                ),
-        },
+        //                 {/* Error handling code */}
+        //             </div>
+        //         ),
+        // },
 
         // ... remaining columns
     ];
@@ -407,21 +407,21 @@ const CompanySageFuels = (props) => {
                 nominal_tax_code_id,
                 positive_nominal_type_id,
                 sage_account_code,
-                sage_nominal_code,
+                sage_sale_code,
                 sage_purchage_code,
             } = obj;
             const negative_nominal_type_idKey = `negative_nominal_type_id[${id}]`;
             const nominal_tax_code_idKey = `nominal_tax_code_id[${id}]`;
             const positive_nominal_type_idKey = `positive_nominal_type_id[${id}]`;
             const sage_account_codeKey = `sage_account_code[${id}]`;
-            const sage_nominal_codeKey = `sage_nominal_code[${id}]`;
+            const sage_sale_codeKey = `sage_sale_code[${id}]`;
             const sage_purchage_codeKey = `sage_purchage_code[${id}]`;
 
             formData.append(negative_nominal_type_idKey, negative_nominal_type_id);
             formData.append(nominal_tax_code_idKey, nominal_tax_code_id);
             formData.append(positive_nominal_type_idKey, positive_nominal_type_id);
             formData.append(sage_account_codeKey, sage_account_code);
-            formData.append(sage_nominal_codeKey, sage_nominal_code);
+            formData.append(sage_sale_codeKey, sage_sale_code);
             formData.append(sage_purchage_codeKey, sage_purchage_code);
         }
         formData.append("company_id", id?.id);
@@ -465,7 +465,7 @@ const CompanySageFuels = (props) => {
                 <div className="page-header ">
                     <div>
                         <h1 className="page-title">
-                            Manage Sage Fuel
+                            Manage Sage Items
                         </h1>
                         <Breadcrumb className="breadcrumb">
                             <Breadcrumb.Item
@@ -486,7 +486,7 @@ const CompanySageFuels = (props) => {
                                 className="breadcrumb-item active breadcrumds"
                                 aria-current="page"
                             >
-                                Manage Sage Fuel
+                                Manage Sage Items
                             </Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
@@ -495,7 +495,7 @@ const CompanySageFuels = (props) => {
                     <Col lg={12}>
                         <Card>
                             <Card.Header>
-                                <h3 className="card-title">  Manage Sage Fuel</h3>
+                                <h3 className="card-title">  Manage Sage Items</h3>
                             </Card.Header>
                             <Card.Body>
                                 {data?.length > 0 ? (

@@ -413,6 +413,9 @@ const EditCompany = React.lazy(() =>
 const CompanySageFuels = React.lazy(() =>
   import("./components/pages/ManageCompany/CompanySageFuels")
 );
+const CompanySageitesms = React.lazy(() =>
+  import("./components/pages/ManageCompany/SageItems")
+);
 
 const CompanySageOtherCodes = React.lazy(() =>
   import("./components/pages/ManageCompany/CompanySageOtherCodes")
@@ -506,6 +509,7 @@ const Root = () => {
   const WrappedAddCompany = withApi(AddCompany);
   const WrappeAddEditCompany = withApi(EditCompany);
   const WrappedCompanySageFuels = withApi(CompanySageFuels);
+  const WrappedCompanySageitesms = withApi(CompanySageitesms);
   const WrappedCompanySageOtherCodes = withApi(CompanySageOtherCodes);
   const WrappedManageRoles = withApi(ManageRoles);
   const WrappedAddRoles = withApi(AddRoles);
@@ -699,6 +703,10 @@ const Root = () => {
                   <Route
                     path={`/company/sage-fuels/:id`}
                     element={<WrappedCompanySageFuels />}
+                  />
+                  <Route
+                    path={`/company/sage-items/:id`}
+                    element={<WrappedCompanySageitesms />}
                   />
 
                   <Route

@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import {
   Breadcrumb,
   Card,
@@ -24,7 +24,6 @@ import { useFormik } from "formik";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import { useSelector } from "react-redux";
 
-
 const ManageSiteTank = (props) => {
   const { apidata, error, getData, postData, SiteID, ReportDate, isLoading } =
     props;
@@ -41,6 +40,7 @@ const ManageSiteTank = (props) => {
   const [perPage, setPerPage] = useState(20);
   const [total, setTotal] = useState(0);
   const [selectedClientId, setSelectedClientId] = useState("");
+  const [Tabvalue, setTabvalue] = useState("");
   const [selectedClientIdOnSubmit, setSelectedClientIdOnSubmit] = useState("");
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
@@ -57,9 +57,7 @@ const ManageSiteTank = (props) => {
     }
   }, [UserPermissions]);
 
-  const issmsPermissionAvailable = permissionsArray?.includes(
-    "sms-invoice"
-  );
+  const issmsPermissionAvailable = permissionsArray?.includes("sms-invoice");
   useEffect(() => {
     if (selectedClientIdOnSubmit) {
       handleTabSelect(activeTab);
@@ -100,7 +98,8 @@ const ManageSiteTank = (props) => {
     pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
   }
   const handleSubmit1 = async (values) => {
-    console.log(values, "handleSubmit1");
+    console.log(values?.client_id, "handleSubmit1");
+    setTabvalue(values?.client_id);
     setSelectedClientIdOnSubmit(values);
     const { client_id } = values;
     try {
@@ -170,127 +169,198 @@ const ManageSiteTank = (props) => {
   };
   const handleDownloadInvoice = async (row) => {
     try {
-        // Fetch the invoice data
-        const invoiceData = await fetchInvoiceData(row);
+      // Fetch the invoice data
+      const invoiceData = await fetchInvoiceData(row);
 
-        // Save the invoice data to state
-        setDownloadedInvoice(invoiceData);
-        console.log(invoiceData?.data?.logo, "invoiceData");
-        // Pass the logo URL when calling generateAndDownloadPDF
-        generateAndDownloadPDF(invoiceData, "invoice.pdf", invoiceData?.data.logo);
+      // Save the invoice data to state
+      setDownloadedInvoice(invoiceData);
+      console.log(invoiceData?.data?.logo, "invoiceData");
+      // Pass the logo URL when calling generateAndDownloadPDF
+      generateAndDownloadPDF(
+        invoiceData,
+        "invoice.pdf",
+        invoiceData?.data.logo
+      );
     } catch (error) {
-        console.error("Error downloading invoice:", error);
-        // Handle the error as needed
-    }
-};
-
-const generateAndDownloadPDF = async  (data, fileName, logoUrl) => {
-  // Create a new jsPDF instance
-  const pdf = new jsPDF();
-  const pdfWidth = pdf.internal.pageSize.width;
-  pdf.setFontSize(10);
-  pdf.setFont('helvetica', 'bold');
-  const textWidth = pdf.getStringUnitWidth('Invoice') * pdf.getFontSize() / pdf.internal.scaleFactor;
-  const xCoordinate = (pdfWidth - textWidth) / 2;
-
-  pdf.text('Invoice', xCoordinate, 15);
-
-  // Set back to regular font for the rest of the content
-  pdf.setFont('helvetica', 'normal');
-
-  // Add a line under the header
-  pdf.line(10, 20, 200, 20);
-  const lineHeight = 6;
-  // Display "Invoice To" and "Invoice From" in parallel
-  // pdf.setFont('helvetica', 'bold');
-  // pdf.text(' To:', 20, 35 + lineHeight);
-  // pdf.text(' From:', 120, 35 + lineHeight);
- // Increased line height for better readability
-  // Display recipient and sender details with bold labels
-  pdf.setFont('helvetica', 'bold');
-  pdf.text('Name:', 20, 30);
-  pdf.text('Email:', 20, 30 + lineHeight);
-  pdf.text('Address:', 20, 30 + 2 * lineHeight);
-
-  pdf.text('Name:', 120, 30);
-  pdf.text('Email:', 120, 30 + lineHeight);
-  pdf.text('Address:', 120, 30 + 2 * lineHeight);
-
-  // Reset font size to 12px for the address lines
-  pdf.setFontSize(10);
-
-  // Display recipient and sender details with normal font
-  pdf.setFont('helvetica', 'normal');
-  pdf.text(`${data?.data.invoice_to.name}`, 32, 30);
-  pdf.text(`${data?.data.invoice_to.email}`, 32, 30 + lineHeight);
-  // pdf.text(`${data?.data.invoice_to.address}`, 41, 50 + 2 * lineHeight);
-  const invoiceinvoice_toLines = pdf.splitTextToSize(data?.data.invoice_to.address, 60);
-  for (let i = 0; i < invoiceinvoice_toLines.length; i++) {
-    pdf.text(invoiceinvoice_toLines[i], 38, 30 + (2 + i) * lineHeight);
-  }
-  pdf.text(`${data?.data.invoice_from.name}`, 132, 30);
-  pdf.text(`${data?.data.invoice_from.email}`, 132, 30 + lineHeight);
-  // pdf.text(`${data?.data.invoice_from.address}`, 140, 50 + 2 * lineHeight);
- // Display Invoice From address with multiple lines
- const invoiceFromAddressLines = pdf.splitTextToSize(data?.data.invoice_from.address, 60);
- for (let i = 0; i < invoiceFromAddressLines.length; i++) {
-   pdf.text(invoiceFromAddressLines[i], 138, 30 + (2 + i) * lineHeight);
- }
-  // Add logo if provided
-  if (logoUrl) {
-    console.log(logoUrl, "logoUrl");
-
-    // Fetch the logo as a blob
-    try {
-      const logoResponse = await fetch(logoUrl);
-      const logoBlob = await logoResponse.blob();
-
-      // Create a data URL from the logo blob
-      const logoDataUrl = URL.createObjectURL(logoBlob);
-
-      // Add the logo to the PDF
-      pdf.addImage(logoDataUrl, 'PNG', 150, 10, 40, 15);
-    } catch (error) {
-      console.error("Error loading logo:", error);
+      console.error("Error downloading invoice:", error);
       // Handle the error as needed
     }
-  }
+  };
 
-  // Display data in a table using autoTable
-  pdf.autoTable({
-    startY: 40 + 2 * 20,
-    head: [['Creator', 'Credit', 'Price', 'Total', 'Created Date']],
-    body: [[data?.data.creator, data?.data.credit, data?.data.price, data?.data.total, data?.data.created_date]],
-    headStyles: { fillColor: [98, 89, 202], textColor: [255, 255, 255], fontStyle: 'bold' },
-  });
+  const generateAndDownloadPDF = async (data, fileName, logoUrl) => {
+    // Create a new jsPDF instance
+    const pdf = new jsPDF();
+    const pdfWidth = pdf.internal.pageSize.width;
+    pdf.setFontSize(12);
+    pdf.setFont("Arial", "bold");
+    const textWidth =
+      (pdf.getStringUnitWidth("Invoice") * pdf.getFontSize()) /
+      pdf.internal.scaleFactor;
+    const xCoordinate = (pdfWidth - textWidth) / 2;
 
-  // Reset font to normal for the footer
-  pdf.setFont('helvetica', 'normal');
+    pdf.text("INVOICE", xCoordinate, 15);
 
-  // Add a footer with a line
-  pdf.line(10, pdf.autoTable.previous.finalY + 5, 200, pdf.autoTable.previous.finalY + 5);
-  pdf.text('Thank you for your business!', 70, pdf.autoTable.previous.finalY + 15);
+    // Set back to regular font for the rest of the content
+    pdf.setFont("Arial", "normal");
 
-  // Save the PDF as a Blob
-  const pdfBlob = pdf.output('blob');
+    // Add a line under the header
+    pdf.line(10, 20, 200, 20);
+    const lineHeight = 6;
+    // Display "Invoice To" and "Invoice From" in parallel
+    // pdf.setFont('Arial', 'bold');
+    // pdf.text(' To:', 20, 35 + lineHeight);
+    // pdf.text(' From:', 120, 35 + lineHeight);
+    // Increased line height for better readability
+    // Display recipient and sender details with bold labels
+    pdf.setFont("Arial", "bold");
+    pdf.text("Name:", 20, 30);
+    pdf.text("Email:", 20, 30 + lineHeight);
+    if (
+      data &&
+      data.data &&
+      data.data.invoice_to &&
+      data.data.invoice_to.address !== "N/A"
+    ) {
+      pdf.text(
+        "Address: " ,
+        20,
+        30 + 2 * lineHeight
+      );
+    }
 
-  // Trigger the download
-  downloadFile(pdfBlob, fileName);
-};
+    pdf.text("Name:", 120, 30);
+    pdf.text("Email:", 120, 30 + lineHeight);
 
+    if (
+      data &&
+      data.data &&
+      data.data.invoice_from &&
+      data.data.invoice_from.address !== "N/A"
+    ) {
+      pdf.text("Address:", 120, 30 + 2 * lineHeight);
+    }
 
+    // Reset font size to 12px for the address lines
+    pdf.setFontSize(12);
 
+    // Display recipient and sender details with normal font
+    pdf.setFont("Arial", "normal");
+    pdf.text(`${data?.data.invoice_to.name}`, 32, 30);
+    pdf.text(`${data?.data.invoice_to.email}`, 32, 30 + lineHeight);
+    // pdf.text(`${data?.data.invoice_to.address}`, 41, 50 + 2 * lineHeight);
+    if (
+      data &&
+      data.data &&
+      data.data.invoice_to &&
+      data.data.invoice_to.address !== "N/A"
+    ) {
+      const invoiceinvoice_toLines = pdf.splitTextToSize(
+        data?.data.invoice_to.address,
+        60
+      );
+      for (let i = 0; i < invoiceinvoice_toLines.length; i++) {
+        pdf.text(invoiceinvoice_toLines[i], 20, 30 + (3 + i) * lineHeight);
+      }
+    }
 
+    pdf.text(`${data?.data.invoice_from.name}`, 132, 30);
+    pdf.text(`${data?.data.invoice_from.email}`, 132, 30 + lineHeight);
+    // pdf.text(`${data?.data.invoice_from.address}`, 140, 50 + 2 * lineHeight);
+    // Display Invoice From address with multiple lines
 
+    if (
+      data &&
+      data.data &&
+      data.data.invoice_from &&
+      data.data.invoice_from.address !== "N/A"
+    ) {
+      const invoiceFromAddressLines = pdf.splitTextToSize(
+        data?.data.invoice_from.address,
+        60
+      );
+      for (let i = 0; i < invoiceFromAddressLines.length; i++) {
+        pdf.text(invoiceFromAddressLines[i], 120, 30 + (3 + i) * lineHeight);
+      }
+    }
+    // Add logo if provided
+    if (logoUrl) {
+      console.log(logoUrl, "logoUrl");
 
+      // Fetch the logo as a blob
+      try {
+        const logoResponse = await fetch(logoUrl);
+        const logoBlob = await logoResponse.blob();
 
+        // Create a data URL from the logo blob
+        const logoDataUrl = URL.createObjectURL(logoBlob);
 
+        // Add the logo to the PDF
+        pdf.addImage(logoDataUrl, "PNG", 150, 10, 40, 15);
+      } catch (error) {
+        console.error("Error loading logo:", error);
+        // Handle the error as needed
+      }
+    }
 
+    // Display data in a table using autoTable
+    pdf.autoTable({
+      startY: 40 + 2 * 20,
+      head: [[" SMS Credited", "Price", "Total", "Date"]],
+      body: [
+        [
+          data?.data.credit,
+          data?.data.price,
+          data?.data.total,
+          data?.data.created_date,
+        ],
+      ],
+      headStyles: {
+        fillColor: [98, 89, 202],
+        textColor: [255, 255, 255],
+        fontStyle: "bold",
+        font: "Arial", // Specify the font family here
+      },
+      bodyStyles: {
+        font: "Arial", // Specify the font family here
+      },
+    });
 
+    // Reset font to normal for the footer
+    pdf.setFont("Arial", "normal");
 
+    // Add a footer with a line
+    pdf.line(
+      10,
+      pdf.autoTable.previous.finalY + 5,
+      200,
+      pdf.autoTable.previous.finalY + 5
+    );
 
-  
+    // Calculate the width of the page
+    const pageWidth = pdf.internal.pageSize.getWidth();
 
+    // Calculate the width of the text
+    const ThankWidth =
+      (pdf.getStringUnitWidth("Thank you for your business!") *
+        pdf.internal.getFontSize()) /
+      pdf.internal.scaleFactor;
+
+    // Calculate the x-coordinate to center the text
+    const ThankxCoordinate = (pageWidth - ThankWidth) / 2;
+
+    // Add the centered text to the footer
+    pdf.text(
+      "Thank you for your business!",
+      ThankxCoordinate,
+      pdf.autoTable.previous.finalY + 15
+    );
+
+    // Save the PDF as a Blob
+    const pdfBlob = pdf.output("blob");
+
+    // Trigger the download
+    downloadFile(pdfBlob, fileName);
+  };
 
   const downloadFile = (data, fileName) => {
     const blob = new Blob([data], { type: "application/pdf" });
@@ -344,7 +414,8 @@ const generateAndDownloadPDF = async  (data, fileName, logoUrl) => {
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6
-              className={`mb-0 fs-14 fw-semibold btn text-${row.bgColor} btn-sm`} style={{ cursor: 'pointer' }}
+              className={`mb-0 fs-14 fw-semibold btn text-${row.bgColor} btn-sm`}
+              style={{ cursor: "pointer" }}
             >
               {row.credit} {row.type}
             </h6>
@@ -451,7 +522,7 @@ const generateAndDownloadPDF = async  (data, fileName, logoUrl) => {
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6
               className={`mb-0 fs-14 fw-semibold btn text-${row.bgColor} btn-sm`}
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: "pointer" }}
             >
               {row.credit} {row.type}
             </h6>
@@ -487,28 +558,23 @@ const generateAndDownloadPDF = async  (data, fileName, logoUrl) => {
       ),
     },
 
-    issmsPermissionAvailable ? 
-      {
-        name: "Invoice",
-        selector: (row) => [row.id],
-        sortable: true,
-        width: "23.5",
-        cell: (row, index) => (
-          <div className="d-flex">
-            <div className="ms-2 mt-0 mt-sm-2 d-block">
-              <button onClick={() => handleDownloadInvoice(row.id)}>
-                <i className="fa fa-download" aria-hidden="true"></i>
-              </button>
+    issmsPermissionAvailable
+      ? {
+          name: "Invoice",
+          selector: (row) => [row.id],
+          sortable: true,
+          width: "23.5",
+          cell: (row, index) => (
+            <div className="d-flex">
+              <div className="ms-2 mt-0 mt-sm-2 d-block">
+                <button onClick={() => handleDownloadInvoice(row.id)}>
+                  <i className="fa fa-download" aria-hidden="true"></i>
+                </button>
+              </div>
             </div>
-          </div>
-        )
-      }
+          ),
+        }
       : "",
-    
-    
-    
-
-   
   ];
 
   const tableDatas = {
@@ -587,6 +653,7 @@ const generateAndDownloadPDF = async  (data, fileName, logoUrl) => {
     formik.setFieldValue("company_id", "");
     setData();
     setbalance();
+    setTabvalue("");
     setSelectedSiteList([]);
     setSelectedCompanyList([]);
     setSelectedClientId("");
@@ -669,8 +736,6 @@ const generateAndDownloadPDF = async  (data, fileName, logoUrl) => {
       console.error("API error:", error);
     }
   };
-
-
 
   return (
     <>
@@ -818,7 +883,7 @@ const generateAndDownloadPDF = async  (data, fileName, logoUrl) => {
               </Card.Header>
 
               <Card.Body>
-                {selectedClientId ? (
+                {Tabvalue ? (
                   <>
                     <Row>
                       <Col xl={12}>
@@ -836,18 +901,26 @@ const generateAndDownloadPDF = async  (data, fileName, logoUrl) => {
                                 title="SMS Logs"
                               >
                                 <div className="table-responsive deleted-table">
-                                  <DataTable
-                                    columns={columns}
-                                    data={data}
-                                    noHeader
-                                    defaultSortField="id"
-                                    defaultSortAsc={false}
-                                    striped={true}
-                                    // center={true}
-                                    persistTableHead
-                                    highlightOnHover
-                                    searchable={true}
-                                  />
+                                  {data ? (
+                                    <DataTable
+                                      columns={columns}
+                                      data={data}
+                                      noHeader
+                                      defaultSortField="id"
+                                      defaultSortAsc={false}
+                                      striped={true}
+                                      // center={true}
+                                      persistTableHead
+                                      highlightOnHover
+                                      searchable={true}
+                                    />
+                                  ) : (
+                                    <img
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      alt="MyChartImage"
+                      className="all-center-flex nodata-image"
+                    />
+                                  )}
                                 </div>
                               </Tab>
                               &nbsp;
@@ -856,20 +929,30 @@ const generateAndDownloadPDF = async  (data, fileName, logoUrl) => {
                                 className="  me-1"
                                 title="Credit Log"
                               >
-                                <div className="table-responsive deleted-table">
-                                  <DataTable
-                                    columns={columns2}
-                                    data={data}
-                                    noHeader
-                                    defaultSortField="id"
-                                    defaultSortAsc={false}
-                                    striped={true}
-                                    // center={true}
-                                    persistTableHead
-                                    highlightOnHover
-                                    searchable={true}
-                                  />
-                                </div>
+                                
+                                  {data ? (
+                                    <div className="table-responsive deleted-table">
+                                    <DataTable
+                                      columns={columns2}
+                                      data={data}
+                                      noHeader
+                                      defaultSortField="id"
+                                      defaultSortAsc={false}
+                                      striped={true}
+                                      // center={true}
+                                      persistTableHead
+                                      highlightOnHover
+                                      searchable={true}
+                                    />
+                                     </div>
+                                  ) : (
+                                    <img
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      alt="MyChartImage"
+                      className="all-center-flex nodata-image"
+                    />
+                                  )}
+                               
                               </Tab>
                             </Tabs>
                           </div>
