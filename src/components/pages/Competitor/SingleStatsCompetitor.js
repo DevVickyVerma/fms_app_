@@ -500,6 +500,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                                           display: "flex",
                                           alignItems: "flex-start",
                                           justifyContent: "flex-start",
+                                          width: "300px", // Set your desired width here
                                         }}
                                       >
                                         {data[fuelType]?.[rowIndex]?.last_date}
