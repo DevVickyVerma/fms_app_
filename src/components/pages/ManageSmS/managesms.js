@@ -108,7 +108,8 @@ const ManageSiteTank = (props) => {
       );
 
       if (response && response.data && response.data.data) {
-        setData(response?.data?.data?.history);
+      
+        setData(response?.data?.data);
         setbalance(response?.data?.data?.balance);
         setBuyMore(response?.data?.data?.buy_more);
 
@@ -221,11 +222,7 @@ const ManageSiteTank = (props) => {
       data.data.invoice_to &&
       data.data.invoice_to.address !== "N/A"
     ) {
-      pdf.text(
-        "Address: " ,
-        20,
-        30 + 2 * lineHeight
-      );
+      pdf.text("Address: ", 20, 30 + 2 * lineHeight);
     }
 
     pdf.text("Name:", 120, 30);
@@ -716,7 +713,7 @@ const ManageSiteTank = (props) => {
     try {
       const response = await getData(url);
       if (response && response.data && response.data.data) {
-        setData(response?.data?.data?.history);
+        setData(response?.data?.data);
         setbalance(response?.data?.data?.balance);
         setBuyMore(response?.data?.data?.buy_more);
         setCount(response.data.data.count);
@@ -901,10 +898,11 @@ const ManageSiteTank = (props) => {
                                 title="SMS Logs"
                               >
                                 <div className="table-responsive deleted-table">
-                                  {data ? (
+                                  {console.log(data?.history.length, "datacolumnIndex")}
+                                  {data?.history.length > 0 ? (
                                     <DataTable
                                       columns={columns}
-                                      data={data}
+                                      data={data?.history}
                                       noHeader
                                       defaultSortField="id"
                                       defaultSortAsc={false}
@@ -916,10 +914,10 @@ const ManageSiteTank = (props) => {
                                     />
                                   ) : (
                                     <img
-                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
-                      alt="MyChartImage"
-                      className="all-center-flex nodata-image"
-                    />
+                                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                                      alt="MyChartImage"
+                                      className="all-center-flex nodata-image"
+                                    />
                                   )}
                                 </div>
                               </Tab>
@@ -929,12 +927,11 @@ const ManageSiteTank = (props) => {
                                 className="  me-1"
                                 title="Credit Log"
                               >
-                                
-                                  {data ? (
-                                    <div className="table-responsive deleted-table">
+                                {data?.history.length > 0 ? (
+                                  <div className="table-responsive deleted-table">
                                     <DataTable
                                       columns={columns2}
-                                      data={data}
+                                      data={data?.history}
                                       noHeader
                                       defaultSortField="id"
                                       defaultSortAsc={false}
@@ -944,15 +941,14 @@ const ManageSiteTank = (props) => {
                                       highlightOnHover
                                       searchable={true}
                                     />
-                                     </div>
-                                  ) : (
-                                    <img
-                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
-                      alt="MyChartImage"
-                      className="all-center-flex nodata-image"
-                    />
-                                  )}
-                               
+                                  </div>
+                                ) : (
+                                  <img
+                                    src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                                    alt="MyChartImage"
+                                    className="all-center-flex nodata-image"
+                                  />
+                                )}
                               </Tab>
                             </Tabs>
                           </div>
