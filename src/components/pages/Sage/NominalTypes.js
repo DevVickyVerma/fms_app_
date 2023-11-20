@@ -287,9 +287,7 @@ const UploadCompetitor = (props) => {
               >
                 Dashboard
               </Breadcrumb.Item>
-              <Breadcrumb.Item className="breadcrumb-item">
-                Sage
-              </Breadcrumb.Item>
+          
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
