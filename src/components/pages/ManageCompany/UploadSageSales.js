@@ -58,6 +58,9 @@ const UploadSageSales = (props) => {
             company_id: companyId || "",
             image: null,
         },
+        validationSchema: Yup.object({
+            image: Yup.string().required("image is required"),
+        }),
         onSubmit: (values) => {
             handleSubmit(values);
         },
