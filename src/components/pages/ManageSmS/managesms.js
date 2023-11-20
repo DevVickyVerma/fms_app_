@@ -108,7 +108,7 @@ const ManageSiteTank = (props) => {
       );
 
       if (response && response.data && response.data.data) {
-      
+
         setData(response?.data?.data);
         setbalance(response?.data?.data?.balance);
         setBuyMore(response?.data?.data?.buy_more);
@@ -378,7 +378,7 @@ const ManageSiteTank = (props) => {
   };
   const columns = [
     {
-      name: "S.No",
+      name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
       width: "6%",
@@ -390,20 +390,7 @@ const ManageSiteTank = (props) => {
       ),
     },
     {
-      name: "Site",
-      selector: (row) => [row.site],
-      sortable: true,
-      width: "23.5",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.site}</h6>
-          </div>
-        </div>
-      ),
-    },
-    {
-      name: "SMS ",
+      name: "Credited By",
       selector: (row) => [row.credit],
       sortable: true,
       width: "23.5",
@@ -420,6 +407,20 @@ const ManageSiteTank = (props) => {
         </div>
       ),
     },
+    {
+      name: "Site",
+      selector: (row) => [row.site],
+      sortable: true,
+      width: "23.5",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.site}</h6>
+          </div>
+        </div>
+      ),
+    },
+
     {
       name: "SMS Status",
       selector: (row) => [row.status],
@@ -497,7 +498,7 @@ const ManageSiteTank = (props) => {
   ];
   const columns2 = [
     {
-      name: "S.No",
+      name: "Sr. No",
       selector: (row, index) => index + 1,
       sortable: false,
       width: "6%",
@@ -508,7 +509,19 @@ const ManageSiteTank = (props) => {
         </span>
       ),
     },
-
+    {
+      name: "Credited By",
+      selector: (row) => [row.creator],
+      sortable: true,
+      width: "23.5",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.creator}</h6>
+          </div>
+        </div>
+      ),
+    },
     {
       name: "SMS ",
       selector: (row) => [row.credit],
@@ -528,19 +541,7 @@ const ManageSiteTank = (props) => {
       ),
     },
 
-    {
-      name: "SMS By",
-      selector: (row) => [row.creator],
-      sortable: true,
-      width: "23.5",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row.creator}</h6>
-          </div>
-        </div>
-      ),
-    },
+
     {
       name: "Date",
       selector: (row) => [row.created_date],
@@ -557,20 +558,20 @@ const ManageSiteTank = (props) => {
 
     issmsPermissionAvailable
       ? {
-          name: "Invoice",
-          selector: (row) => [row.id],
-          sortable: true,
-          width: "23.5",
-          cell: (row, index) => (
-            <div className="d-flex">
-              <div className="ms-2 mt-0 mt-sm-2 d-block">
-                <button onClick={() => handleDownloadInvoice(row.id)}>
-                  <i className="fa fa-download" aria-hidden="true"></i>
-                </button>
-              </div>
+        name: "Invoice",
+        selector: (row) => [row.id],
+        sortable: true,
+        width: "23.5",
+        cell: (row, index) => (
+          <div className="d-flex">
+            <div className="ms-2 mt-0 mt-sm-2 d-block">
+              <button onClick={() => handleDownloadInvoice(row.id)}>
+                <i className="fa fa-download" aria-hidden="true"></i>
+              </button>
             </div>
-          ),
-        }
+          </div>
+        ),
+      }
       : "",
   ];
 
@@ -703,6 +704,8 @@ const ManageSiteTank = (props) => {
     const { client_id } = selectedClientIdOnSubmit;
 
     let url;
+    setData()
+    setbalance()
 
     if (selectedTab === "tab6") {
       url = `/sms/list?client_id=${client_id}&page=${currentPage}&type=credit&page=${currentPage}`;
@@ -776,12 +779,11 @@ const ManageSiteTank = (props) => {
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              className={`input101 ${
-                                formik.errors.client_id &&
+                              className={`input101 ${formik.errors.client_id &&
                                 formik.touched.client_id
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                                }`}
                               id="client_id"
                               name="client_id"
                               value={formik.values.client_id}

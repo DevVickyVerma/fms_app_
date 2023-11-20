@@ -180,7 +180,7 @@ const ManageCompany = (props) => {
 
   const columns = [
     {
-      name: "S.No",
+      name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
       width: "7%",
@@ -313,7 +313,7 @@ const ManageCompany = (props) => {
                       >
                         <div style={{ width: "100%" }}>
                           <i className="setting-icon">
-                          <i class="fa fa-pencil" aria-hidden="true"></i> {" "}
+                            <i class="fa fa-pencil" aria-hidden="true"></i> {" "}
                           </i>
                           Edit
                         </div>
@@ -325,7 +325,7 @@ const ManageCompany = (props) => {
                       <Link to="#" onClick={() => handleDelete(row.id)}>
                         <div style={{ width: "100%" }}>
                           <i className="setting-icon">
-                          <i class="fa fa-trash" aria-hidden="true"></i> {" "}
+                            <i class="fa fa-trash" aria-hidden="true"></i> {" "}
                           </i>
                           Delete
                         </div>
@@ -389,7 +389,7 @@ const ManageCompany = (props) => {
                       >
                         <div style={{ width: "100%" }}>
                           <i className="setting-icon">
-                          <i class="fa fa-upload" aria-hidden="true"></i>
+                            <i class="fa fa-upload" aria-hidden="true"></i>
                           </i> {" "} {" "}
                           <span>Upload Sage Sales</span>
                         </div>

@@ -62,7 +62,7 @@ const ManageEmail = (props) => {
 
   const columns = [
     {
-      name: "S.No",
+      name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
       width: "10%",
@@ -269,7 +269,7 @@ const ManageEmail = (props) => {
             className="center-filter-modal-responsive"
           >
             {localStorage.getItem("superiorRole") === "Client" &&
-            localStorage.getItem("role") === "Operator" ? (
+              localStorage.getItem("role") === "Operator" ? (
               ""
             ) : (
               <Box
