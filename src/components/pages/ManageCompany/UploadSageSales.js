@@ -13,11 +13,13 @@ const UploadSageSales = (props) => {
 
     const { showUploadSageSalesModal, setShowUploadSageSalesModal, companyId, postData, apidata } = props;
     const [isLoading, setIsLoading] = useState(false);
+    const [showErrorMessage, setShowErrorMessage] = useState("")
     const navigate = useNavigate();
-
     const token = localStorage.getItem("token");
     const handleCloseModal = () => {
+        formik.setFieldValue("image", "")
         setShowUploadSageSalesModal(false);
+        setShowErrorMessage("")
     };
     const SuccessToast = (message) => {
         toast.success(message, {
@@ -59,7 +61,7 @@ const UploadSageSales = (props) => {
             image: null,
         },
         validationSchema: Yup.object({
-            image: Yup.string().required("image is required"),
+            image: Yup.string().required("Sage File Is Required"),
         }),
         onSubmit: (values) => {
             handleSubmit(values);
@@ -83,7 +85,6 @@ const UploadSageSales = (props) => {
             const postDataUrl = "/company/upload-sale";
 
             const postResponse = await postData(postDataUrl, formData);
-            console.log(typeof postResponse?.status_code, "postResponse");
 
             if (postResponse?.status_code === "200") {
                 setShowUploadSageSalesModal(false)
@@ -101,6 +102,10 @@ const UploadSageSales = (props) => {
 
     const handleSubmit = async (values) => {
         try {
+            const formData = new FormData();
+
+            formData.append("company_id", companyId);
+            formData.append("sales", formik.values.image);
             setIsLoading(true);
             const response = await fetch(
                 `${process.env.REACT_APP_BASE_URL}/company/upload-sale`,
@@ -109,7 +114,7 @@ const UploadSageSales = (props) => {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
-                    // body: formData,
+                    body: formData,
                 }
             );
 
@@ -118,10 +123,9 @@ const UploadSageSales = (props) => {
             if (response.ok) {
                 handleCloseModal()
                 SuccessToast(responseData.message);
-                // navigate("/managecompany");
-
             } else {
                 ErrorToast(responseData.message);
+                setShowErrorMessage(responseData.message)
             }
         } catch (error) {
             console.log("Request Error:", error);
@@ -138,9 +142,14 @@ const UploadSageSales = (props) => {
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
-        formik.setFieldValue("image", file);
-        formik.setFieldTouched("image", true);
-        formik.setFieldError("image", "");
+        setShowErrorMessage("")
+        if (file) {
+            formik.setFieldValue("image", file);
+            formik.setFieldTouched("image", true);
+        } else {
+            formik.setFieldValue("image", "");
+            formik.setFieldTouched("image", false);
+        }
     };
     return (
         <>
@@ -170,13 +179,13 @@ const UploadSageSales = (props) => {
                 </div>
 
                 <Modal.Body className="Disable2FA-modal">
-                    <form>
+                    <form onSubmit={formik.handleSubmit}>
                         <Card.Body>
                             <Row>
                                 <Col lg={12} md={12}>
                                     <div className="form-group">
                                         <label htmlFor="image" className="form-label mt-4">
-                                            File
+                                            File *
                                         </label>
                                         <div
                                             className={`dropzone ${formik.errors.image && formik.touched.image
@@ -200,6 +209,9 @@ const UploadSageSales = (props) => {
                                                 {formik.errors.image}
                                             </div>
                                         )}
+                                        <div className=' text-red my-1'>
+                                            {showErrorMessage}
+                                        </div>
                                     </div>
                                 </Col>
                             </Row>
@@ -207,12 +219,16 @@ const UploadSageSales = (props) => {
                         <Card.Footer>
                             <div className="text-end">
                                 <button
-                                    type="button" // Change the type to "button" to prevent form submission
+                                    type="submit" // Change the type to "button" to prevent form submission
                                     className="btn btn-primary me-2"
-                                    disabled={!isShowButtonDisabled}
-                                    onClick={() => {
-                                        Onupload();
-                                    }}
+                                // disabled={!isShowButtonDisabled}
+                                // onClick={() => {
+                                //     // Onupload();
+                                //     handleSubmit();
+                                // }}
+                                // onClick={() => {
+                                //     handleSubmit();
+                                // }}
                                 >
                                     Submit
                                 </button>
@@ -227,8 +243,8 @@ const UploadSageSales = (props) => {
 
 
 UploadSageSales.propTypes = {
-    title: PropTypes.string.isRequired,
-    visible: PropTypes.bool.isRequired,
+    // title: PropTypes.string.isRequired,
+    // visible: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     // onSubmit: PropTypes.func.isRequired,
     // searchListstatus: PropTypes.bool.isRequired,
