@@ -387,13 +387,13 @@ const CenterAuthModal = (props) => {
 };
 
 CenterAuthModal.propTypes = {
-  title: PropTypes.string.isRequired,
-  // sidebarContent: PropTypes.node.isRequired,
-  visible: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  searchListstatus: PropTypes.bool.isRequired,
+  // title: PropTypes.string.isRequired,
+  // // sidebarContent: PropTypes.node.isRequired,
+  // visible: PropTypes.bool.isRequired,
+  // onClose: PropTypes.func.isRequired,
+  // onCancel: PropTypes.func.isRequired,
+  // onSubmit: PropTypes.func.isRequired,
+  // searchListstatus: PropTypes.bool.isRequired,
 };
 
 export default CenterAuthModal;

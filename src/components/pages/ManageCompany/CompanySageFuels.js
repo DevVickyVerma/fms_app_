@@ -388,14 +388,10 @@ const CompanySageFuels = (props) => {
         },
         onSubmit: (values) => {
             handleSubmit1(values);
-            // console.log(values, "zxczxc");
         },
-        // onSubmit: (SubmitFuelSalesForm),
-        // validationSchema: validationSchema,
     });
 
     const handleSubmit1 = async (values) => {
-        console.log(values, "handleSubmit1");
         const token = localStorage.getItem("token");
 
         const formData = new FormData();
@@ -454,8 +450,6 @@ const CompanySageFuels = (props) => {
             setIsLoading(false);
         }
     };
-
-    // console.log("formikvakuye", formik?.values)
 
     return (
         <>

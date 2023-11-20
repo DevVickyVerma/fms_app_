@@ -97,8 +97,8 @@ const ManageSiteTank = (props) => {
   if (endPage < lastPage) {
     pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
   }
+
   const handleSubmit1 = async (values) => {
-    console.log(values?.client_id, "handleSubmit1");
     setTabvalue(values?.client_id);
     setSelectedClientIdOnSubmit(values);
     const { client_id } = values;
@@ -140,7 +140,6 @@ const ManageSiteTank = (props) => {
     4: "blue", // Expired
   };
   const fetchInvoiceData = async (invoiceId) => {
-    console.log(invoiceId, "invoiceId");
     const token = localStorage.getItem("token");
 
     try {
@@ -160,7 +159,6 @@ const ManageSiteTank = (props) => {
 
       // Adjust the following based on your API response format
       const data = await response.json(); // Assuming the response is JSON
-      console.log(data?.data, "json");
       return data;
     } catch (error) {
       console.error("Error fetching invoice data:", error);
@@ -175,7 +173,6 @@ const ManageSiteTank = (props) => {
 
       // Save the invoice data to state
       setDownloadedInvoice(invoiceData);
-      console.log(invoiceData?.data?.logo, "invoiceData");
       // Pass the logo URL when calling generateAndDownloadPDF
       generateAndDownloadPDF(
         invoiceData,
@@ -281,7 +278,6 @@ const ManageSiteTank = (props) => {
     }
     // Add logo if provided
     if (logoUrl) {
-      console.log(logoUrl, "logoUrl");
 
       // Fetch the logo as a blob
       try {
@@ -355,21 +351,21 @@ const ManageSiteTank = (props) => {
     );
     const footerHeight = 10; // Adjust as needed
     const footerY = pdf.internal.pageSize.height - footerHeight - 15; // Adjust as needed
-    
+
     // Set background color for the footer
     const footerBackgroundColor = "#6259ca"; // Specify your desired color
     pdf.setFillColor(footerBackgroundColor);
     pdf.rect(10, footerY, pdf.internal.pageSize.width - 20, footerHeight, "F"); // "F" means "fill"
-    
+
     // Add content to the footer
     pdf.setTextColor(255, 255, 255); // Set text color to white
-    
+
     // Add the centered text to the footer
     const footerText = "Copyright © 2023 Credentia. ";
     const footertextWidth = pdf.getStringUnitWidth(footerText) * pdf.internal.getFontSize();
     const textX = (pdf.internal.pageSize.width - footertextWidth + 15); // Adjust the offset as needed
     const textY = footerY + 7;
-    
+
     pdf.text(footerText, textX, textY);
     // Save the PDF as a Blob
     const pdfBlob = pdf.output("blob");
@@ -727,9 +723,9 @@ const ManageSiteTank = (props) => {
     setbalance()
 
     if (selectedTab === "tab6") {
-      url = `/sms/list?client_id=${client_id}&page=${currentPage}&type=credit&page=${currentPage}`;
+      url = `/sms/list?client_id=${client_id}&page=${currentPage}&type=credit`;
     } else {
-      url = `/sms/list?client_id=${client_id}&page=${currentPage}&page=${currentPage}`;
+      url = `/sms/list?client_id=${client_id}&page=${currentPage}`;
     }
     // Check if the selected tab is "Credit Log"
     try {
@@ -808,7 +804,7 @@ const ManageSiteTank = (props) => {
                               value={formik.values.client_id}
                               onChange={(e) => {
                                 const selectedType = e.target.value;
-                                console.log(selectedType, "selectedType");
+
 
                                 if (selectedType) {
                                   formik.setFieldValue(
@@ -820,10 +816,7 @@ const ManageSiteTank = (props) => {
                                   formik.setFieldValue("company_id", "");
                                   formik.setFieldValue("site_id", "");
                                 } else {
-                                  console.log(
-                                    selectedType,
-                                    "selectedType no values"
-                                  );
+
                                   formik.setFieldValue("client_id", "");
                                   formik.setFieldValue("company_id", "");
                                   formik.setFieldValue("site_id", "");
@@ -915,11 +908,10 @@ const ManageSiteTank = (props) => {
                             >
                               <Tab
                                 eventKey="tab5"
-                                className="me-1 "
+                                className="me-1"
                                 title="SMS Logs"
                               >
                                 <div className="table-responsive deleted-table">
-                                  {console.log(data?.history.length, "datacolumnIndex")}
                                   {data?.history.length > 0 ? (
                                     <DataTable
                                       columns={columns}
@@ -1088,7 +1080,7 @@ const ManageSiteTank = (props) => {
                             </span>
                             <span className="mt-4 d-flex justify-content-between">
                               <strong>Final Amount </strong> £{" "}
-                              {Smsformik.values.smsamount * 0.008}
+                              {(Smsformik.values.smsamount * 0.008).toFixed(2)}
                             </span>
                           </div>
                         </div>

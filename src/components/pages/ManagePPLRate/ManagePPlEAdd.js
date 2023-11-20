@@ -142,7 +142,7 @@ const AddSitePump = (props) => {
         );
 
         if (response) {
-          console.log(response, "company");
+
           setCompanyList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -161,7 +161,7 @@ const AddSitePump = (props) => {
         const response = await getData(`common/site-list?company_id=${values}`);
 
         if (response) {
-          console.log(response, "company");
+
           setSiteList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -184,8 +184,6 @@ const AddSitePump = (props) => {
       GetCompanyList(clientId)
     }
   }, []);
-
-  console.log(formik.values, "formikvalue");
 
   return (
     <>

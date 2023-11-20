@@ -90,7 +90,6 @@ const AddUsers = (props) => {
       const { data } = response;
       if (data) {
         setselectRole(response?.data?.data);
-        console.log(response?.data, "setAddSiteData");
       }
     } catch (error) {
       console.error("API error:", error);
@@ -103,8 +102,6 @@ const AddUsers = (props) => {
 
       if (response && response.data && response.data.data) {
         setRoleItems(response?.data?.data);
-
-        console.log(response?.data?.data, "columnIndex");
       } else {
         throw new Error("No data available in the response");
       }

@@ -176,7 +176,6 @@ const CompanySageOtherCodes = () => {
     };
 
     const handleSubmit1 = async (values) => {
-        console.log(values, "handleSubmit1");
         const token = localStorage.getItem("token");
 
         const formData = new FormData();

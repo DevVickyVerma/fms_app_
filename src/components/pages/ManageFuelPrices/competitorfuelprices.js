@@ -215,7 +215,7 @@ const CompetitorFuelPrices = (props) => {
         );
 
         if (response) {
-          console.log(response, "company");
+
           setCompanyList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -234,7 +234,7 @@ const CompetitorFuelPrices = (props) => {
         const response = await getData(`common/site-list?company_id=${values}`);
 
         if (response) {
-          console.log(response, "company");
+
           setSiteList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -527,10 +527,7 @@ const CompetitorFuelPrices = (props) => {
                                       formik.setFieldValue("client_name", selectedClient?.client_name);
                                     }
                                   } else {
-                                    console.log(
-                                      selectedType,
-                                      "selectedType no values"
-                                    );
+
                                     formik.setFieldValue("client_id", "");
                                     formik.setFieldValue("company_id", "");
                                     formik.setFieldValue("site_id", "");
@@ -581,7 +578,7 @@ const CompetitorFuelPrices = (props) => {
                                 const selectcompany = e.target.value;
 
                                 if (selectcompany) {
-                                  console.log(formik.values, "formikvalues");
+
                                   formik.setFieldValue("company_id", selectcompany);
                                   GetSiteList(selectcompany);
 
@@ -595,7 +592,6 @@ const CompetitorFuelPrices = (props) => {
                                         selectcompany
                                     );
                                   if (selectedCompanyData) {
-                                    console.log(selectedCompanyData, "selectedCompanyData");
                                     formik.setFieldValue("company_name", selectedCompanyData?.company_name);
                                     formik.setFieldValue("company_id", selectedCompanyData?.id);
                                     // setSelectedCompanyFullData(selectedCompanyData)

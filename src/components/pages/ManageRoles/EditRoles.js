@@ -82,7 +82,6 @@ const EditRoles = (props) => {
 
       if (response && response.data) {
         const { data } = response.data;
-        console.log(data, "response");
         formik.setFieldValue("permissionsname", data?.name);
 
         // Initialize an empty array to hold the filtered permission names
@@ -204,7 +203,7 @@ const EditRoles = (props) => {
       const navigatePath = `/roles`;
 
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const [selectAllChecked, setSelectAllChecked] = useState(false);
@@ -291,11 +290,10 @@ const EditRoles = (props) => {
                         id="name"
                         name="name"
                         placeholder="RoleName"
-                        className={`input101 ${
-                          formik.touched.name && formik.errors.name
-                            ? "is-invalid"
-                            : ""
-                        }`}
+                        className={`input101 ${formik.touched.name && formik.errors.name
+                          ? "is-invalid"
+                          : ""
+                          }`}
                         value={formik.values.name}
                         onChange={formik.handleChange}
                       />
@@ -341,12 +339,11 @@ const EditRoles = (props) => {
                                   className="form-check form-check-inline"
                                 >
                                   <input
-                                    className={`form-check-input ${
-                                      formik.touched.permissions &&
+                                    className={`form-check-input ${formik.touched.permissions &&
                                       formik.errors.permissions
-                                        ? "is-invalid"
-                                        : ""
-                                    }`}
+                                      ? "is-invalid"
+                                      : ""
+                                      }`}
                                     type="checkbox"
                                     name="permissions"
                                     value={nameItem.name}

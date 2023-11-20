@@ -227,7 +227,6 @@ const ManageEmail = (props) => {
   const handleFormSubmit = (values) => {
     closeModal();
     handleFetchSiteData(values);
-    console.log(values, "values");
     setFormValues(values);
   };
   const superiorRole = localStorage.getItem("superiorRole");

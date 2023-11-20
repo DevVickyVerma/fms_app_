@@ -74,7 +74,6 @@ const CompanySageFuels = (props) => {
         setTaxCodes(data.data.taxCodes);
         setTypesData(data.data.types);
         setis_editable(data.data);
-console.log(data.data.items,"data.data.items")
         // Create an array of form values based on the response data
         const formValues = data.data.items.map((item) => {
           return {
@@ -82,9 +81,9 @@ console.log(data.data.items,"data.data.items")
             name: item.name || "",
             sage_purchage_code: item.sage_purchage_code || "",
             sage_sale_code: item.sage_sale_code || "",
-          
-           
-           
+
+
+
           };
         });
         // Set the formik values using setFieldValue
@@ -370,14 +369,10 @@ console.log(data.data.items,"data.data.items")
     },
     onSubmit: (values) => {
       handleSubmit1(values);
-      // console.log(values, "zxczxc");
     },
-    // onSubmit: (SubmitFuelSalesForm),
-    // validationSchema: validationSchema,
   });
 
   const handleSubmit1 = async (values) => {
-    console.log(values, "handleSubmit1");
     const token = localStorage.getItem("token");
 
     const formData = new FormData();
@@ -389,11 +384,11 @@ console.log(data.data.items,"data.data.items")
         sage_sale_code,
         sage_purchage_code,
       } = obj;
-    ;
+      ;
       const sage_sale_codeKey = `sage_sale_code[${id}]`;
       const sage_purchage_codeKey = `sage_purchage_code[${id}]`;
 
-   
+
       formData.append(sage_sale_codeKey, sage_sale_code);
       formData.append(sage_purchage_codeKey, sage_purchage_code);
     }
@@ -427,8 +422,6 @@ console.log(data.data.items,"data.data.items")
       setIsLoading(false);
     }
   };
-
-  // console.log("formikvakuye", formik?.values)
 
   return (
     <>
@@ -472,7 +465,7 @@ console.log(data.data.items,"data.data.items")
                   <>
                     <form
                       onSubmit={(event) => formik.handleSubmit(event)}
-                      // onSubmit={formik.SubmitFuelSalesForm}
+                    // onSubmit={formik.SubmitFuelSalesForm}
                     >
                       <div className="table-responsive deleted-table">
                         <DataTableExtensions {...tableDatas}>

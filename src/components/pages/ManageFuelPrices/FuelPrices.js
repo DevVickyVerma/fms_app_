@@ -315,7 +315,7 @@ const FuelPrices = (props) => {
         );
 
         if (response) {
-          console.log(response, "company");
+
           setCompanyList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -334,7 +334,7 @@ const FuelPrices = (props) => {
         const response = await getData(`common/site-list?company_id=${values}`);
 
         if (response) {
-          console.log(response, "company");
+
           setSiteList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -444,10 +444,7 @@ const FuelPrices = (props) => {
                                       );
                                     }
                                   } else {
-                                    console.log(
-                                      selectedType,
-                                      "selectedType no values"
-                                    );
+
                                     formik.setFieldValue("client_id", "");
                                     formik.setFieldValue("company_id", "");
                                     formik.setFieldValue("site_id", "");

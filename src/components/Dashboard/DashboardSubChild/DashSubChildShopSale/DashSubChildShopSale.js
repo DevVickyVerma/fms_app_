@@ -554,8 +554,6 @@ const DashSubChildShopSale = ({
                             ),
                         })}
                         onSubmit={(values) => {
-                          // handleSubmit1(values);
-                          console.log(values, "columnIndex");
                           startDate = values.start_date;
                           endDate = values.end_date;
                           fetchData(values);

@@ -158,7 +158,7 @@ export function Dropimg() {
 }
 // //OuterDropzone
 export function OuterDropzone() {
-  const handleChangeStatus = ({ meta }, status) => {};
+  const handleChangeStatus = ({ meta }, status) => { };
 
   const handleSubmit = (files, allFiles) => {
     allFiles.forEach((f) => f.remove());
@@ -201,7 +201,6 @@ export function Dropimg1() {
   };
 
   const handleChangeStatus = ({ meta }, status) => {
-    console.log(status, meta);
   };
 
   const handleSubmit = (files, allFiles) => {
@@ -268,10 +267,10 @@ export function CustomSelectIcon() {
           <i className="fa fa-clock-o tx-16 lh-0 op-6"></i>
         </>
       }
-      onKeyPressFn={function noRefCheck() {}}
-      onRemove={function noRefCheck() {}}
-      onSearch={function noRefCheck() {}}
-      onSelect={function noRefCheck() {}}
+      onKeyPressFn={function noRefCheck() { }}
+      onRemove={function noRefCheck() { }}
+      onSearch={function noRefCheck() { }}
+      onSelect={function noRefCheck() { }}
       options={[
         {
           cat: "Group 1",
@@ -375,10 +374,10 @@ export function GroupOptionMutipleSelect1() {
   return (
     <MultiSelect
       isObject={false}
-      onKeyPressFn={function noRefCheck() {}}
-      onRemove={function noRefCheck() {}}
-      onSearch={function noRefCheck() {}}
-      onSelect={function noRefCheck() {}}
+      onKeyPressFn={function noRefCheck() { }}
+      onRemove={function noRefCheck() { }}
+      onSearch={function noRefCheck() { }}
+      onSelect={function noRefCheck() { }}
       options={[
         "January",
         "February",

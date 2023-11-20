@@ -61,7 +61,6 @@ const UploadCompetitor = (props) => {
 
       const { data } = response;
       if (data) {
-        console.log(data?.data, "company_id");
         setData(data?.data);
       }
     } catch (error) {
@@ -204,7 +203,6 @@ const UploadCompetitor = (props) => {
 
       const { data } = response;
       if (data) {
-        console.log(data?.data, "company_id");
         setData(data?.data);
       }
     } catch (error) {
@@ -237,7 +235,6 @@ const UploadCompetitor = (props) => {
       const postDataUrl = "/sage/nominal-code/import";
 
       const postResponse = await postData(postDataUrl, formData);
-      console.log(postResponse?.status_code, "postResponse");
       if (postResponse?.status_code == 200) {
         ShowLogs(formik.values);
       }
@@ -254,7 +251,7 @@ const UploadCompetitor = (props) => {
         );
 
         if (response) {
-          console.log(response, "company");
+
           setCompanyList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -335,7 +332,7 @@ const UploadCompetitor = (props) => {
                             value={formik.values.client_id}
                             onChange={(e) => {
                               const selectedType = e.target.value;
-                              console.log(selectedType, "selectedType");
+
 
                               if (selectedType) {
                                 GetCompanyList(selectedType);
@@ -345,10 +342,6 @@ const UploadCompetitor = (props) => {
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");
                               } else {
-                                console.log(
-                                  selectedType,
-                                  "selectedType no values"
-                                );
                                 formik.setFieldValue("client_id", "");
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");

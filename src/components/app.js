@@ -55,7 +55,7 @@ const App = (props) => {
   useEffect(() => {
     simulateLoadingAndNavigate();
 
-    console.clear();
+    // console.clear();
   }, [location.pathname]);
   const [autoLogout, setAutoLogout] = useState(
     localStorage.getItem("auto_logout")
@@ -68,7 +68,7 @@ const App = (props) => {
 
   useEffect(() => {
     GetDetails()
-    console.clear();
+    // console.clear();
   }, []);
 
   const [isInactive, setIsInactive] = useState(false);
@@ -130,7 +130,7 @@ const App = (props) => {
     } else {
       localStorage.setItem("auto_logout_done", false);
     }
-    console.clear();
+    // console.clear();
   }, [isInactive, autoLogout, logoutTime]);
 
   const [isOnline, setIsOnline] = useState(window.navigator.onLine);

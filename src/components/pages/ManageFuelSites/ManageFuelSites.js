@@ -122,7 +122,6 @@ const ManageDeductions = (props) => {
   const FetchTableData = async () => {
     try {
       const response = await getData("/deduction/list");
-      console.log(response.data.data, "deductions");
 
       if (response && response.data && response.data.data) {
         setData(response.data.data.deductions);
