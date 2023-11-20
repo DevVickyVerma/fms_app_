@@ -336,6 +336,7 @@ const ManageSiteTank = (props) => {
     // Calculate the width of the page
     const pageWidth = pdf.internal.pageSize.getWidth();
 
+
     // Calculate the width of the text
     const ThankWidth =
       (pdf.getStringUnitWidth("Thank you for your business!") *
@@ -345,13 +346,31 @@ const ManageSiteTank = (props) => {
     // Calculate the x-coordinate to center the text
     const ThankxCoordinate = (pageWidth - ThankWidth) / 2;
 
+
     // Add the centered text to the footer
     pdf.text(
       "Thank you for your business!",
       ThankxCoordinate,
       pdf.autoTable.previous.finalY + 15
     );
-
+    const footerHeight = 10; // Adjust as needed
+    const footerY = pdf.internal.pageSize.height - footerHeight - 15; // Adjust as needed
+    
+    // Set background color for the footer
+    const footerBackgroundColor = "#6259ca"; // Specify your desired color
+    pdf.setFillColor(footerBackgroundColor);
+    pdf.rect(10, footerY, pdf.internal.pageSize.width - 20, footerHeight, "F"); // "F" means "fill"
+    
+    // Add content to the footer
+    pdf.setTextColor(255, 255, 255); // Set text color to white
+    
+    // Add the centered text to the footer
+    const footerText = "Copyright © 2023 Credentia. ";
+    const footertextWidth = pdf.getStringUnitWidth(footerText) * pdf.internal.getFontSize();
+    const textX = (pdf.internal.pageSize.width - footertextWidth + 15); // Adjust the offset as needed
+    const textY = footerY + 7;
+    
+    pdf.text(footerText, textX, textY);
     // Save the PDF as a Blob
     const pdfBlob = pdf.output("blob");
 
