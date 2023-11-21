@@ -12,7 +12,6 @@ export const MENUITEMS = [
         visibility: false,
         title: "Dashboard",
       },
-
       //user
       {
         title: "Manage Users",
@@ -164,6 +163,13 @@ export const MENUITEMS = [
             title: "Nominal Types",
             type: "link",
             permission: "nominal-types-list",
+            visibility: false,
+          },
+          {
+            path: `/manage-items`,
+            title: "Manage Items",
+            type: "link",
+            permission: "itemhead-list",
             visibility: false,
           },
         ],

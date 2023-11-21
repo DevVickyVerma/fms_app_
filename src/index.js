@@ -123,6 +123,9 @@ const NominalTypes = React.lazy(() =>
 const NominalTaxCode = React.lazy(() =>
   import("./components/pages/Sage/NominalTaxCode")
 );
+const MapDepartmentitems = React.lazy(() =>
+  import("./components/pages/Sage/MapDepartmentItems")
+);
 
 // Sage End
 
@@ -603,6 +606,7 @@ const Root = () => {
   const WrappedSkipDates = withApi(SkipDates);
   const WrappedCronModule = withApi(CronModule);
   const WrappedNominalActivityCodes = withApi(NominalActivityCodes);
+  const WrappedNominalMapDepartmentitems = withApi(MapDepartmentitems);
   const WrappedNominalTypes = withApi(NominalTypes);
   const WrappedNominalTaxCode = withApi(NominalTaxCode);
   const WrappedActivitylogs = withApi(Activitylogs);
@@ -1078,6 +1082,10 @@ const Root = () => {
                     element={<WrappedCronModule />}
                   />
 
+                  <Route
+                    path={`/manage-items`}
+                    element={<WrappedNominalMapDepartmentitems />}
+                  />
                   <Route
                     path={`/nominal-activity-codes`}
                     element={<WrappedNominalActivityCodes />}

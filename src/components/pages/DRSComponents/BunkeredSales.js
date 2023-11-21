@@ -257,23 +257,7 @@ const DepartmentShop = (props) => {
     ],
   };
 
-  const validationSchema = Yup.object().shape({
-    bunkeredSales: Yup.array().of(
-      Yup.object().shape({
-        fuel: Yup.string().required("Please select a fuel"),
 
-        card: Yup.string().required("Please select a tank"),
-        volume: Yup.number()
-          .typeError("Volume must be a number")
-          .positive("Volume must be a positive number")
-          .required("Volume is required"),
-        value: Yup.number()
-          .typeError("Value must be a number")
-          .positive("Value must be a positive number")
-          .required("Value is required"),
-      })
-    ),
-  });
 
   const nonbunkeredsalesValidationSchema = Yup.object().shape({
     nonbunkeredsalesvalue: Yup.array().of(
