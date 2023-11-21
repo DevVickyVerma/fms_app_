@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-const DepartmentItems = (props) => {
+const SageBanking = (props) => {
   const { getData, isLoading, postData } = props;
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
 
@@ -66,11 +66,11 @@ const DepartmentItems = (props) => {
   const handleSubmit = async (values) => {
     if (formik.values.company_id === "" && formik.values.department_id === "") {
       // Show alert or perform any other action
-      ErrorAlert("Both company_id and department_id are empty!");
+      ErrorAlert("Both company and Banking are empty!");
     } else {
       try {
         const response = await getData(
-          `sage/item/heads?company_id=${values.company_id}&item_id=${values.department_id}`
+          `sage/banking/heads?company_id=${values.company_id}&banking_summary_id=${values.department_id}`
         );
 
         const { data } = response;
@@ -139,8 +139,7 @@ const DepartmentItems = (props) => {
     }
   }, []);
 
- 
-  const isUpdatePermissionAvailable = permissionsArray?.includes("itemhead-update");
+  const isUpdatePermissionAvailable = permissionsArray?.includes("bankinghead-update");
 
   const isButtonDisabled = formik.values.client_id && formik.values.company_id;
 
@@ -167,11 +166,11 @@ const DepartmentItems = (props) => {
   const GetDepartmentList = async (values) => {
     try {
       if (values) {
-        const response = await getData(`sage/item/list?company_id=${values}`);
+        const response = await getData(`sage/banking/list?company_id=${values}`);
 
         if (response) {
           console.log(response, "company");
-          setDepartmentList(response?.data?.data?.items);
+          setDepartmentList(response?.data?.data?.bankings);
         } else {
           throw new Error("No data available in the response");
         }
@@ -314,10 +313,10 @@ const DepartmentItems = (props) => {
       }
       formData.append("company_id", formik.values.company_id);
 
-      formData.append("item_id", formik.values.department_id);
+      formData.append("banking_summary_id", formik.values.department_id);
 
-      const postDataUrl = "/sage/item/head-update";
-      const navigatePath = `/clients`;
+      const postDataUrl = "/sage/banking/head-update";
+   
 
       await postData(postDataUrl, formData,); // Set the submission state to false after the API call is completed
     } catch (error) { }
@@ -328,7 +327,7 @@ const DepartmentItems = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title">Manage Items</h1>
+            <h1 className="page-title">Manage Banking Summary</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -342,7 +341,7 @@ const DepartmentItems = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Manage Items
+                Manage Banking Summary
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -352,7 +351,7 @@ const DepartmentItems = (props) => {
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Header className="d-flex justify-content-space-between">
-                <h3 className="card-title">Manage Items</h3>
+                <h3 className="card-title">Manage Banking Summary</h3>
               </Card.Header>
               {/* here my body will start */}
               <Card.Body>
@@ -486,7 +485,7 @@ const DepartmentItems = (props) => {
                           htmlFor="department_id"
                           className="form-label mt-4"
                         >
-                          Department Item
+                          Banking
                           <span className="text-danger">*</span>
                         </label>
                         <select
@@ -529,7 +528,7 @@ const DepartmentItems = (props) => {
                             }
                           }}
                         >
-                          <option value="">Select a Item</option>
+                          <option value="">Select a Banking</option>
                           {DepartmentList && DepartmentList.length > 0 ? (
                             <>
                               setSelectedCompanyId([])
@@ -543,7 +542,7 @@ const DepartmentItems = (props) => {
                               ))}
                             </>
                           ) : (
-                            <option disabled>No Department</option>
+                            <option disabled>No Banking</option>
                           )}
                         </select>
                         {formik.errors.department_id &&
@@ -574,7 +573,7 @@ const DepartmentItems = (props) => {
         </Row>
         <Card>
           <Card.Header>
-            <h3 className="card-title">Map to Sage Account </h3>
+          <h3 className="card-title">Map to Sage Account </h3>
           </Card.Header>
           <Card.Body>
             {data?.sageExport.length > 0 ? (
@@ -813,7 +812,7 @@ const DepartmentItems = (props) => {
                       </Form.Group>
                     </Col>
                     <Col lg={1} md={1}>
-                      <Form.Label>  ACTION</Form.Label>
+                      <Form.Label> ACTION</Form.Label>
 
                       <div className="bunkered-action">
                         <button
@@ -870,4 +869,4 @@ const DepartmentItems = (props) => {
   );
 };
 
-export default withApi(DepartmentItems);
+export default withApi(SageBanking);

@@ -23,7 +23,8 @@ import DashSubChild from "./components/Dashboard/DashboardSubChild/DashSubChild"
 import DashSubChildBaseAPIS from "./components/Dashboard/DashboardSubChild/DashSubChildBaseAPIS";
 import CronModule from "./components/pages/CronModule/CronModule";
 import SingleStatsCompetitor from "./components/pages/Competitor/SingleStatsCompetitor";
-
+import UpdateCardGroup from "./components/pages/ManageCards/UpdateCardGroup";
+import AddCardGroup from "./components/pages/ManageCards/AddCardGroup";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -126,6 +127,18 @@ const NominalTaxCode = React.lazy(() =>
 const MapDepartmentitems = React.lazy(() =>
   import("./components/pages/Sage/MapDepartmentItems")
 );
+const SageCharges = React.lazy(() =>
+  import("./components/pages/Sage/ManageSageCharges")
+);
+const SageDeduction = React.lazy(() =>
+  import("./components/pages/Sage/SageDeduction")
+);
+const SageCards = React.lazy(() =>
+  import("./components/pages/Sage/SageCards")
+);
+const Sagebanking = React.lazy(() =>
+  import("./components/pages/Sage/SageBanking")
+);
 
 // Sage End
 
@@ -158,6 +171,10 @@ const AddCards = React.lazy(() =>
 const EditCards = React.lazy(() =>
   import("./components/pages/ManageCards/EditCards")
 );
+const CardGroup = React.lazy(() =>
+  import("./components/pages/ManageCards/CardGroup")
+);
+
 
 // Cards End
 
@@ -532,6 +549,9 @@ const Root = () => {
   const WrappedManageCards = withApi(ManageCards);
   const WrappedAddCards = withApi(AddCards);
   const WrappedEditCards = withApi(EditCards);
+  const WrappedCardGroup = withApi(CardGroup);
+  const WrappedUpdateCardGroup = withApi(UpdateCardGroup);
+  const WrappedAddCardGroup = withApi(AddCardGroup);
   const WrappedManageDeductions = withApi(ManageDeductions);
   const WrappedAddDeductions = withApi(AddDeductions);
   const WrappedEditDeductions = withApi(EditDeductions);
@@ -607,6 +627,10 @@ const Root = () => {
   const WrappedCronModule = withApi(CronModule);
   const WrappedNominalActivityCodes = withApi(NominalActivityCodes);
   const WrappedNominalMapDepartmentitems = withApi(MapDepartmentitems);
+  const WrappedNominalSageCharges = withApi(SageCharges);
+  const WrappedNominalSageDeduction = withApi(SageDeduction);
+  const WrappedNominalSageCards = withApi(SageCards);
+  const WrappedNominalSagebanking = withApi(Sagebanking);
   const WrappedNominalTypes = withApi(NominalTypes);
   const WrappedNominalTaxCode = withApi(NominalTaxCode);
   const WrappedActivitylogs = withApi(Activitylogs);
@@ -871,6 +895,19 @@ const Root = () => {
                     path={`/editcard/:id`}
                     element={<WrappedEditCards />}
                   />
+                  <Route
+                    path={`/card-group`}
+                    element={<WrappedCardGroup />}
+                  />
+                  <Route
+                    path={`/card-group/:id`}
+                    element={<WrappedUpdateCardGroup />}
+                  />
+
+                  <Route
+                    path={`/add-group/:id`}
+                    element={<WrappedAddCardGroup />}
+                  />
 
                   {/* Cards components end */}
 
@@ -1085,6 +1122,22 @@ const Root = () => {
                   <Route
                     path={`/manage-items`}
                     element={<WrappedNominalMapDepartmentitems />}
+                  />
+                  <Route
+                    path={`/manage-sage-charges`}
+                    element={<WrappedNominalSageCharges />}
+                  />
+                  <Route
+                    path={`/manage-sage-deduction`}
+                    element={<WrappedNominalSageDeduction />}
+                  />
+                  <Route
+                    path={`/manage-sage-cards`}
+                    element={<WrappedNominalSageCards />}
+                  />
+                  <Route
+                    path={`/manage-sage-banking`}
+                    element={<WrappedNominalSagebanking />}
                   />
                   <Route
                     path={`/nominal-activity-codes`}

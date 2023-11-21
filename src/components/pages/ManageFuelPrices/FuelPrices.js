@@ -202,7 +202,7 @@ const FuelPrices = (props) => {
       const isEmailSelected = selected.some(option => option.value === "email");
 
       setSelectedItemDate(selectedDrsDate);
-      formData.append("send-sms", isMobileSelected);
+      formData.append("send_sms", isMobileSelected);
       formData.append("notify_operator", isEmailSelected);
       formData.append("drs_date", selectedDrsDate);
       formData.append("client_id", selectedClientId);
