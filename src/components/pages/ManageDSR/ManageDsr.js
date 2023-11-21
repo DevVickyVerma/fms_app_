@@ -364,13 +364,17 @@ const ManageDsr = (props) => {
     }
   };
 
+  const handleShowModal = (item) => {
+    setShowModal(true);
+  }
+
   const handleCardClick = (item) => {
     setPropsFile(item.code);
     setUploadTabname(item);
     setModalTitle(item.name); // Set the modalTitle state to the itemName
     setShowModal(true); // Toggle the value of showModal
-
     // Show or hide the modal based on the new value of showModal
+    handleShowModal()
   };
 
   const handleEnteryClick = (item) => {
@@ -654,6 +658,8 @@ const ManageDsr = (props) => {
                   >
                     <Col md={3} xl={3}>
                       <FormModal
+                        setShowModal={setShowModal}
+                        showModal={showModal}
                         open={showModal}
                         PropsSiteId={PropsSiteId}
                         PropsCompanyId={PropsCompanyId}
@@ -670,6 +676,34 @@ const ManageDsr = (props) => {
                 ) : (
                   ""
                 )}
+
+                {/* {showModal ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "10vh",
+                    }}
+                  >
+                    <Col md={3} xl={3}>
+                      <FormModal
+                        open={showModal}
+                        PropsSiteId={PropsSiteId}
+                        PropsCompanyId={PropsCompanyId}
+                        selectedClientId={selectedClientId}
+                        PropsFile={PropsFile}
+                        DRSDate={DRSDate}
+                        onClose={() => setShowModal(false)}
+                        modalTitle={modalTitle} // Use the modalTitle variable
+                        modalCancelButtonLabel="Cancel"
+                        modalSaveButtonLabel="Save"
+                      />
+                    </Col>
+                  </div>
+                ) : (
+                  ""
+                )} */}
               </Card>
             </Col>
           </Row>

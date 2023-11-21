@@ -189,28 +189,34 @@ const ManageSiteTank = (props) => {
     // Create a new jsPDF instance
     const pdf = new jsPDF();
     const pdfWidth = pdf.internal.pageSize.width;
-    pdf.setFontSize(12);
-    pdf.setFont("Arial", "bold");
+    pdf.setFontSize(11);
+    pdf.setFont("helvetica", "bold");
     const textWidth =
       (pdf.getStringUnitWidth("Invoice") * pdf.getFontSize()) /
       pdf.internal.scaleFactor;
     const xCoordinate = (pdfWidth - textWidth) / 2;
 
+    // pdf.addImage(data?.data?.logo, "JPEG", 15);
+
+
     pdf.text("INVOICE", xCoordinate, 15);
 
+
+
+
     // Set back to regular font for the rest of the content
-    pdf.setFont("Arial", "normal");
+    pdf.setFont("helvetica", "normal");
 
     // Add a line under the header
     pdf.line(10, 20, 200, 20);
     const lineHeight = 6;
     // Display "Invoice To" and "Invoice From" in parallel
-    // pdf.setFont('Arial', 'bold');
+    // pdf.setFont('helvetica', 'bold');
     // pdf.text(' To:', 20, 35 + lineHeight);
     // pdf.text(' From:', 120, 35 + lineHeight);
     // Increased line height for better readability
     // Display recipient and sender details with bold labels
-    pdf.setFont("Arial", "bold");
+    pdf.setFont("helvetica", "bold");
     pdf.text("Name:", 20, 30);
     pdf.text("Email:", 20, 30 + lineHeight);
     if (
@@ -235,12 +241,12 @@ const ManageSiteTank = (props) => {
     }
 
     // Reset font size to 12px for the address lines
-    pdf.setFontSize(12);
+    pdf.setFontSize(11);
 
     // Display recipient and sender details with normal font
-    pdf.setFont("Arial", "normal");
-    pdf.text(`${data?.data.invoice_to.name}`, 32, 30);
-    pdf.text(`${data?.data.invoice_to.email}`, 32, 30 + lineHeight);
+    pdf.setFont("helvetica", "normal");
+    pdf.text(`${data?.data.invoice_to.name}`, 33, 30);
+    pdf.text(`${data?.data.invoice_to.email}`, 33, 30 + lineHeight);
     // pdf.text(`${data?.data.invoice_to.address}`, 41, 50 + 2 * lineHeight);
     if (
       data &&
@@ -257,8 +263,8 @@ const ManageSiteTank = (props) => {
       }
     }
 
-    pdf.text(`${data?.data.invoice_from.name}`, 132, 30);
-    pdf.text(`${data?.data.invoice_from.email}`, 132, 30 + lineHeight);
+    pdf.text(`${data?.data.invoice_from.name}`, 133, 30);
+    pdf.text(`${data?.data.invoice_from.email}`, 133, 30 + lineHeight);
     // pdf.text(`${data?.data.invoice_from.address}`, 140, 50 + 2 * lineHeight);
     // Display Invoice From address with multiple lines
 
@@ -311,15 +317,15 @@ const ManageSiteTank = (props) => {
         fillColor: [98, 89, 202],
         textColor: [255, 255, 255],
         fontStyle: "bold",
-        font: "Arial", // Specify the font family here
+        font: "helvetica", // Specify the font family here
       },
       bodyStyles: {
-        font: "Arial", // Specify the font family here
+        font: "helvetica", // Specify the font family here
       },
     });
 
     // Reset font to normal for the footer
-    pdf.setFont("Arial", "normal");
+    pdf.setFont("helvetica", "normal");
 
     // Add a footer with a line
     pdf.line(
@@ -364,7 +370,7 @@ const ManageSiteTank = (props) => {
     const footerText = "Copyright © 2023 Credentia. ";
     const footertextWidth = pdf.getStringUnitWidth(footerText) * pdf.internal.getFontSize();
     const textX = (pdf.internal.pageSize.width - footertextWidth + 15); // Adjust the offset as needed
-    const textY = footerY + 7;
+    const textY = footerY + 6;
 
     pdf.text(footerText, textX, textY);
     // Save the PDF as a Blob

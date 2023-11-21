@@ -425,7 +425,7 @@ CenterFilterModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  searchListstatus: PropTypes.bool.isRequired,
+  // searchListstatus: PropTypes.bool.isRequired,
 };
 
 export default CenterFilterModal;

@@ -15,19 +15,17 @@ import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 
 export function FormModal(props) {
-  const [open, setOpen] = useState(false);
+  const { showModal, setShowModal } = props
+  // const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
   const handleClose = () => {
-    setOpen(false);
+    // setOpen(false);
+    setShowModal(false)
   };
 
   const SuccessToast = (message) => {
@@ -82,7 +80,7 @@ export function FormModal(props) {
       //   url = "http://example.com/default-upload";
       // }
       const response = await await fetch(`${process.env.REACT_APP_BASE_URL}/drs/prism-upload`, {
-        
+
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -141,23 +139,7 @@ export function FormModal(props) {
     <>
       {isLoading ? <Loaderimg /> : null}
       <div>
-        <Button
-          className="modal-effect d-grid mb-3 upload-btn"
-          // href={`#${props.modalId}`}
-          variant="danger"
-          onClick={handleClickOpen}
-        >
-          <div className="d-flex">
-            <h4 class="card-title">
-              {" "}
-              {props.modalTitle}
-              <span>
-                <UploadFileIcon />
-              </span>
-            </h4>
-          </div>
-        </Button>
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog open={showModal} onClose={handleClose}>
           <DialogTitle>
             {props.modalTitle}
             <Button onClick={handleClose} className="btn-close" variant="">
@@ -195,9 +177,8 @@ export function FormModal(props) {
                   <div className="form-group">
                     <label htmlFor="image">Image</label>
                     <div
-                      className={`dropzone ${
-                        errors.image && touched.image ? "is-invalid" : ""
-                      }`}
+                      className={`dropzone ${errors.image && touched.image ? "is-invalid" : ""
+                        }`}
                       onDrop={(event) => handleDrop(event, setFieldValue)}
                       onDragOver={(event) => event.preventDefault()}
                     >
