@@ -15,7 +15,6 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 const DepartmentItems = (props) => {
   const { getData, isLoading, postData } = props;
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-
   const [selectedClientId, setSelectedClientId] = useState("");
 
   const [ClientList, setClientList] = useState([]);
@@ -92,7 +91,6 @@ const DepartmentItems = (props) => {
 
           formik2.setFieldValue("headsvalue", head_formik_values);
         }
-   
       } catch (error) {
         console.error("API error:", error);
       }
@@ -139,8 +137,8 @@ const DepartmentItems = (props) => {
     }
   }, []);
 
- 
-  const isUpdatePermissionAvailable = permissionsArray?.includes("itemhead-update");
+  const isUpdatePermissionAvailable =
+    permissionsArray?.includes("itemhead-update");
 
   const isButtonDisabled = formik.values.client_id && formik.values.company_id;
 
@@ -152,7 +150,6 @@ const DepartmentItems = (props) => {
         );
 
         if (response) {
-       
           setCompanyList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -170,7 +167,6 @@ const DepartmentItems = (props) => {
         const response = await getData(`sage/item/list?company_id=${values}`);
 
         if (response) {
-         
           setDepartmentList(response?.data?.data?.items);
         } else {
           throw new Error("No data available in the response");
@@ -254,11 +250,7 @@ const DepartmentItems = (props) => {
     formik2.setFieldValue("headsvalue", updatedRows);
   };
 
- 
- 
   const combinedOnSubmit = async () => {
-  
-
     try {
       const formData = new FormData();
 
@@ -319,8 +311,8 @@ const DepartmentItems = (props) => {
       const postDataUrl = "/sage/item/head-update";
       const navigatePath = `/clients`;
 
-      await postData(postDataUrl, formData,); // Set the submission state to false after the API call is completed
-    } catch (error) { }
+      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+    } catch (error) {}
   };
   return (
     <>
@@ -380,7 +372,6 @@ const DepartmentItems = (props) => {
                             value={formik.values.client_id}
                             onChange={(e) => {
                               const selectedType = e.target.value;
-                 
 
                               if (selectedType) {
                                 GetCompanyList(selectedType);
@@ -391,7 +382,6 @@ const DepartmentItems = (props) => {
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("department_id", "");
                               } else {
-                              
                                 formik.setFieldValue("client_id", "");
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("department_id", "");
@@ -498,11 +488,8 @@ const DepartmentItems = (props) => {
                           value={formik.values.department_id}
                           onChange={(e) => {
                             const selectedType = e.target.value;
-                         
 
                             if (selectedType) {
-                         
-
                               formik.setFieldValue(
                                 "department_id",
                                 selectedType
@@ -512,7 +499,6 @@ const DepartmentItems = (props) => {
 
                               formik.setFieldValue("site_id", "");
                             } else {
-                          
                               formik.setFieldValue("client_id", "");
                               formik.setFieldValue("company_id", "");
                               formik.setFieldValue("department_id", "");
@@ -567,268 +553,283 @@ const DepartmentItems = (props) => {
           </Col>
         </Row>
         <Card>
-          <Card.Header>
-            <h3 className="card-title">Map to Sage Account </h3>
+          <Card.Header className="d-flex justify-content-between">
+            <div>
+              <h3 className="card-title">Map to Sage Account </h3>
+            </div>
+            <span className="text-end">
+              {data?.sageExport.length > 0 ? (
+                <button
+                  className="btn btn-primary"
+                  type="button"
+                  onClick={pushnonbunkeredSalesRow}
+                >
+                  <AddBoxIcon />
+                </button>
+              ) : null}
+            </span>
           </Card.Header>
           <Card.Body>
             {data?.sageExport.length > 0 ? (
               <Row>
                 {formik2.values.headsvalue.map((item, index) => (
-                  <React.Fragment key={index}>
-                    <Col lg={2} md={2}>
-                      <Form.Group
-                        controlId={`headsvalue[${index}].sage_export_type`}
-                      >
-                        <Form.Label> Sage Export Type:</Form.Label>
-                        <Form.Control
-                          as="select"
-                          className={`input101 ${
-                            formik2.errors.headsvalue?.[index]
-                              ?.sage_export_type &&
+                  <>
+                    <React.Fragment key={index}>
+                      <Col lg={4} md={4}>
+                        <Form.Group
+                          controlId={`headsvalue[${index}].sage_export_type`}
+                        >
+                          <Form.Label> Sage Export Types:</Form.Label>
+                          <Form.Control
+                            as="select"
+                            className={`input101 ${
+                              formik2.errors.headsvalue?.[index]
+                                ?.sage_export_type &&
+                              formik2.touched[
+                                `headsvalue[${index}].sage_export_type`
+                              ]
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            name={`headsvalue[${index}].sage_export_type`}
+                            onChange={formik2.handleChange}
+                            value={item?.sage_export_type || ""}
+                          >
+                            <option value="">Select a Export Types</option>
+                            {data?.sageExport?.map((sage_export_type) => (
+                              <option
+                                key={sage_export_type.id}
+                                value={sage_export_type.id}
+                              >
+                                {sage_export_type.name}
+                              </option>
+                            ))}
+                          </Form.Control>
+                          {formik2.errors.headsvalue?.[index]
+                            ?.sage_export_type &&
                             formik2.touched[
                               `headsvalue[${index}].sage_export_type`
-                            ]
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          name={`headsvalue[${index}].sage_export_type`}
-                          onChange={formik2.handleChange}
-                          value={item?.sage_export_type || ""}
+                            ] && (
+                              <div className="invalid-feedback">
+                                {
+                                  formik2.errors.headsvalue[index]
+                                    .sage_export_type
+                                }
+                              </div>
+                            )}
+                        </Form.Group>
+                      </Col>
+                      <Col lg={4} md={4}>
+                        <Form.Group
+                          controlId={`headsvalue[${index}].account_code`}
                         >
-                          <option value="">Select a Export Type</option>
-                          {data?.sageExport?.map((sage_export_type) => (
-                            <option
-                              key={sage_export_type.id}
-                              value={sage_export_type.id}
-                            >
-                              {sage_export_type.name}
-                            </option>
-                          ))}
-                        </Form.Control>
-                        {formik2.errors.headsvalue?.[index]?.sage_export_type &&
-                          formik2.touched[
-                            `headsvalue[${index}].sage_export_type`
-                          ] && (
-                            <div className="invalid-feedback">
-                              {
-                                formik2.errors.headsvalue[index]
-                                  .sage_export_type
-                              }
-                            </div>
-                          )}
-                      </Form.Group>
-                    </Col>
-                    <Col lg={2} md={2}>
-                      <Form.Group
-                        controlId={`headsvalue[${index}].account_code`}
-                      >
-                        <Form.Label> Sage Account Code:</Form.Label>
-                        <Form.Control
-                          type="text"
-                          className={`input101 ${
-                            formik2.errors.headsvalue?.[index]?.account_code &&
-                            formik2.touched[`headsvalue[${index}].account_code`]
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          name={`headsvalue[${index}].account_code`}
-                          onChange={formik2.handleChange}
-                          placeholder="Account Code"
-                          value={item?.account_code || ""}
-                        />
-                        {formik2.errors.headsvalue?.[index]?.account_code &&
-                          formik2.touched[
-                            `headsvalue[${index}].account_code`
-                          ] && (
-                            <div className="invalid-feedback">
-                              {formik2.errors.headsvalue[index].account_code}
-                            </div>
-                          )}
-                      </Form.Group>
-                    </Col>
-                    <Col lg={2} md={2}>
-                      <Form.Group
-                        controlId={`headsvalue[${index}].nominal_code`}
-                      >
-                        <Form.Label> Sage Nominal Code:</Form.Label>
-                        <Form.Control
-                          type="number"
-                          className={`input101 ${
-                            formik2.errors.headsvalue?.[index]?.nominal_code &&
-                            formik2.touched[`headsvalue[${index}].nominal_code`]
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          name={`headsvalue[${index}].nominal_code`}
-                          onChange={formik2.handleChange}
-                          placeholder="Nominal Code"
-                          value={item?.nominal_code || ""}
-                        />
-                        {formik2.errors.headsvalue?.[index]?.nominal_code &&
-                          formik2.touched[
-                            `headsvalue[${index}].nominal_code`
-                          ] && (
-                            <div className="invalid-feedback">
-                              {formik2.errors.headsvalue[index].nominal_code}
-                            </div>
-                          )}
-                      </Form.Group>
-                    </Col>
-                    <Col lg={2} md={2}>
-                      <Form.Group
-                        controlId={`headsvalue[${index}].positive_nominal_type_id`}
-                      >
-                        <Form.Label> Sage Positive Type:</Form.Label>
-                        <Form.Control
-                          as="select"
-                          className={`input101 ${
-                            formik2.errors.headsvalue?.[index]
-                              ?.positive_nominal_type_id &&
+                          <Form.Label> Sage Account Code:</Form.Label>
+                          <Form.Control
+                            type="text"
+                            className={`input101 ${
+                              formik2.errors.headsvalue?.[index]
+                                ?.account_code &&
+                              formik2.touched[
+                                `headsvalue[${index}].account_code`
+                              ]
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            name={`headsvalue[${index}].account_code`}
+                            onChange={formik2.handleChange}
+                            placeholder="Account Code"
+                            value={item?.account_code || ""}
+                          />
+                          {formik2.errors.headsvalue?.[index]?.account_code &&
+                            formik2.touched[
+                              `headsvalue[${index}].account_code`
+                            ] && (
+                              <div className="invalid-feedback">
+                                {formik2.errors.headsvalue[index].account_code}
+                              </div>
+                            )}
+                        </Form.Group>
+                      </Col>
+                      <Col lg={4} md={4}>
+                        <Form.Group
+                          controlId={`headsvalue[${index}].nominal_code`}
+                        >
+                          <Form.Label> Sage Nominal Code:</Form.Label>
+                          <Form.Control
+                            type="number"
+                            className={`input101 ${
+                              formik2.errors.headsvalue?.[index]
+                                ?.nominal_code &&
+                              formik2.touched[
+                                `headsvalue[${index}].nominal_code`
+                              ]
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            name={`headsvalue[${index}].nominal_code`}
+                            onChange={formik2.handleChange}
+                            placeholder="Nominal Code"
+                            value={item?.nominal_code || ""}
+                          />
+                          {formik2.errors.headsvalue?.[index]?.nominal_code &&
+                            formik2.touched[
+                              `headsvalue[${index}].nominal_code`
+                            ] && (
+                              <div className="invalid-feedback">
+                                {formik2.errors.headsvalue[index].nominal_code}
+                              </div>
+                            )}
+                        </Form.Group>
+                      </Col>
+                      <Col lg={4} md={4}>
+                        <Form.Group
+                          controlId={`headsvalue[${index}].positive_nominal_type_id`}
+                        >
+                          <Form.Label> Sage Positive Types:</Form.Label>
+                          <Form.Control
+                            as="select"
+                            className={`input101 ${
+                              formik2.errors.headsvalue?.[index]
+                                ?.positive_nominal_type_id &&
+                              formik2.touched[
+                                `headsvalue[${index}].positive_nominal_type_id`
+                              ]
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            name={`headsvalue[${index}].positive_nominal_type_id`}
+                            onChange={formik2.handleChange}
+                            value={item?.positive_nominal_type_id || ""}
+                          >
+                            <option value="">Select a Positive Types</option>
+                            {data?.types?.map((sage_export_type) => (
+                              <option
+                                key={sage_export_type.id}
+                                value={sage_export_type.id}
+                              >
+                                {sage_export_type.name}
+                              </option>
+                            ))}
+                          </Form.Control>
+                          {formik2.errors.headsvalue?.[index]
+                            ?.positive_nominal_type_id &&
                             formik2.touched[
                               `headsvalue[${index}].positive_nominal_type_id`
-                            ]
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          name={`headsvalue[${index}].positive_nominal_type_id`}
-                          onChange={formik2.handleChange}
-                          value={item?.positive_nominal_type_id || ""}
+                            ] && (
+                              <div className="invalid-feedback">
+                                {
+                                  formik2.errors.headsvalue[index]
+                                    .positive_nominal_type_id
+                                }
+                              </div>
+                            )}
+                        </Form.Group>
+                      </Col>
+                      <Col lg={4} md={4}>
+                        <Form.Group
+                          controlId={`headsvalue[${index}].negative_nominal_type_id`}
                         >
-                          <option value="">Select a Positive Type</option>
-                          {data?.types?.map((sage_export_type) => (
-                            <option
-                              key={sage_export_type.id}
-                              value={sage_export_type.id}
-                            >
-                              {sage_export_type.name}
-                            </option>
-                          ))}
-                        </Form.Control>
-                        {formik2.errors.headsvalue?.[index]
-                          ?.positive_nominal_type_id &&
-                          formik2.touched[
-                            `headsvalue[${index}].positive_nominal_type_id`
-                          ] && (
-                            <div className="invalid-feedback">
-                              {
-                                formik2.errors.headsvalue[index]
-                                  .positive_nominal_type_id
-                              }
-                            </div>
-                          )}
-                      </Form.Group>
-                    </Col>
-                    <Col lg={2} md={2}>
-                      <Form.Group
-                        controlId={`headsvalue[${index}].negative_nominal_type_id`}
-                      >
-                        <Form.Label> Sage Negative Type:</Form.Label>
-                        <Form.Control
-                          as="select"
-                          className={`input101 ${
-                            formik2.errors.headsvalue?.[index]
-                              ?.negative_nominal_type_id &&
+                          <Form.Label> Sage Negative Types:</Form.Label>
+                          <Form.Control
+                            as="select"
+                            className={`input101 ${
+                              formik2.errors.headsvalue?.[index]
+                                ?.negative_nominal_type_id &&
+                              formik2.touched[
+                                `headsvalue[${index}].negative_nominal_type_id`
+                              ]
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            name={`headsvalue[${index}].negative_nominal_type_id`}
+                            onChange={formik2.handleChange}
+                            value={item?.negative_nominal_type_id || ""}
+                          >
+                            <option value="">Select a Negative Types</option>
+                            {data?.types?.map((sage_export_type) => (
+                              <option
+                                key={sage_export_type.id}
+                                value={sage_export_type.id}
+                              >
+                                {sage_export_type.name}
+                              </option>
+                            ))}
+                          </Form.Control>
+                          {formik2.errors.headsvalue?.[index]
+                            ?.negative_nominal_type_id &&
                             formik2.touched[
                               `headsvalue[${index}].negative_nominal_type_id`
-                            ]
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          name={`headsvalue[${index}].negative_nominal_type_id`}
-                          onChange={formik2.handleChange}
-                          value={item?.negative_nominal_type_id || ""}
+                            ] && (
+                              <div className="invalid-feedback">
+                                {
+                                  formik2.errors.headsvalue[index]
+                                    .negative_nominal_type_id
+                                }
+                              </div>
+                            )}
+                        </Form.Group>
+                      </Col>
+                      <Col lg={3} md={3}>
+                        <Form.Group
+                          controlId={`headsvalue[${index}].nominal_tax_code_id`}
                         >
-                          <option value="">Select a Negative Type</option>
-                          {data?.types?.map((sage_export_type) => (
-                            <option
-                              key={sage_export_type.id}
-                              value={sage_export_type.id}
-                            >
-                              {sage_export_type.name}
-                            </option>
-                          ))}
-                        </Form.Control>
-                        {formik2.errors.headsvalue?.[index]
-                          ?.negative_nominal_type_id &&
-                          formik2.touched[
-                            `headsvalue[${index}].negative_nominal_type_id`
-                          ] && (
-                            <div className="invalid-feedback">
-                              {
-                                formik2.errors.headsvalue[index]
-                                  .negative_nominal_type_id
-                              }
-                            </div>
-                          )}
-                      </Form.Group>
-                    </Col>
-                    <Col lg={1} md={1}>
-                      <Form.Group
-                        controlId={`headsvalue[${index}].nominal_tax_code_id`}
-                      >
-                        <Form.Label> Sage Tax Code:</Form.Label>
-                        <Form.Control
-                          as="select"
-                          className={`input101 ${
-                            formik2.errors.headsvalue?.[index]
-                              ?.nominal_tax_code_id &&
+                          <Form.Label> Sage Tax Code:</Form.Label>
+                          <Form.Control
+                            as="select"
+                            className={`input101 ${
+                              formik2.errors.headsvalue?.[index]
+                                ?.nominal_tax_code_id &&
+                              formik2.touched[
+                                `headsvalue[${index}].nominal_tax_code_id`
+                              ]
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            name={`headsvalue[${index}].nominal_tax_code_id`}
+                            onChange={formik2.handleChange}
+                            value={item?.nominal_tax_code_id || ""}
+                          >
+                            <option value="">Select a Tax Code</option>
+                            {data?.taxCodes?.map((sage_export_type) => (
+                              <option
+                                key={sage_export_type.id}
+                                value={sage_export_type.id}
+                              >
+                                {sage_export_type.name}
+                              </option>
+                            ))}
+                          </Form.Control>
+                          {formik2.errors.headsvalue?.[index]
+                            ?.nominal_tax_code_id &&
                             formik2.touched[
                               `headsvalue[${index}].nominal_tax_code_id`
-                            ]
-                              ? "is-invalid"
-                              : ""
-                          }`}
-                          name={`headsvalue[${index}].nominal_tax_code_id`}
-                          onChange={formik2.handleChange}
-                          value={item?.nominal_tax_code_id || ""}
-                        >
-                          <option value="">Select a Tax Code</option>
-                          {data?.taxCodes?.map((sage_export_type) => (
-                            <option
-                              key={sage_export_type.id}
-                              value={sage_export_type.id}
-                            >
-                              {sage_export_type.name}
-                            </option>
-                          ))}
-                        </Form.Control>
-                        {formik2.errors.headsvalue?.[index]
-                          ?.nominal_tax_code_id &&
-                          formik2.touched[
-                            `headsvalue[${index}].nominal_tax_code_id`
-                          ] && (
-                            <div className="invalid-feedback">
-                              {
-                                formik2.errors.headsvalue[index]
-                                  .nominal_tax_code_id
-                              }
-                            </div>
-                          )}
-                      </Form.Group>
-                    </Col>
-                    <Col lg={1} md={1}>
-                      <Form.Label>  ACTION</Form.Label>
-
-                      <div className="bunkered-action">
-                        <button
-                          className="btn btn-danger me-2"
-                          onClick={() => removenonbunkeredSalesRow(index)}
-                        >
-                          <RemoveCircleIcon />
-                        </button>
-                        {index === formik2.values.headsvalue.length - 1 &&
-                        data?.sageExport.length > 0 ? (
+                            ] && (
+                              <div className="invalid-feedback">
+                                {
+                                  formik2.errors.headsvalue[index]
+                                    .nominal_tax_code_id
+                                }
+                              </div>
+                            )}
+                        </Form.Group>
+                      </Col>
+                      <Col lg={1} md={1} className="text-end">
+                      <Form.Label>Action </Form.Label>
+                        <div className="text-end ">
                           <button
-                            className="btn btn-primary"
-                            type="button"
-                            onClick={pushnonbunkeredSalesRow}
+                            className="btn btn-danger"
+                            onClick={() => removenonbunkeredSalesRow(index)}
                           >
-                            <AddBoxIcon />
+                            <RemoveCircleIcon />
                           </button>
-                        ) : null}
-                      </div>
-                    </Col>
-                  </React.Fragment>
+                        </div>
+                      </Col>
+                    </React.Fragment>
+                    {index !== formik2.values.headsvalue.length - 1 &&
+                    data?.sageExport.length > 0 ? (
+                      <hr className="mt-4"></hr>
+                    ) : null}
+                  </>
                 ))}
               </Row>
             ) : (
