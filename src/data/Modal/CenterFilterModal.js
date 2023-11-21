@@ -248,10 +248,7 @@ const CenterFilterModal = (props) => {
                                   formik.setFieldValue("client_name", selectedClient?.client_name);
                                 }
                               } else {
-                                console.log(
-                                  selectedType,
-                                  "selectedType no values"
-                                );
+                              
                                 formik.setFieldValue("client_id", "");
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");

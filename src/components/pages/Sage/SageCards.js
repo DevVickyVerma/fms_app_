@@ -92,7 +92,7 @@ const SageDeduction = (props) => {
 
           formik2.setFieldValue("headsvalue", head_formik_values);
         }
-        console.log(formik2.values, "formik23");
+       
       } catch (error) {
         console.error("API error:", error);
       }
@@ -151,7 +151,7 @@ const SageDeduction = (props) => {
         );
 
         if (response) {
-          console.log(response, "company");
+        
           setCompanyList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -169,7 +169,7 @@ const SageDeduction = (props) => {
         const response = await getData(`sage/card-group/list?company_id=${values}`);
 
         if (response) {
-          console.log(response, "company");
+        
           setDepartmentList(response?.data?.data?.cardGroups);
         } else {
           throw new Error("No data available in the response");
@@ -379,7 +379,7 @@ const SageDeduction = (props) => {
                             value={formik.values.client_id}
                             onChange={(e) => {
                               const selectedType = e.target.value;
-                              console.log(selectedType, "selectedType");
+                           
 
                               if (selectedType) {
                                 GetCompanyList(selectedType);
@@ -390,10 +390,7 @@ const SageDeduction = (props) => {
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("department_id", "");
                               } else {
-                                console.log(
-                                  selectedType,
-                                  "selectedType no values"
-                                );
+                              
                                 formik.setFieldValue("client_id", "");
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("department_id", "");
@@ -500,10 +497,10 @@ const SageDeduction = (props) => {
                           value={formik.values.department_id}
                           onChange={(e) => {
                             const selectedType = e.target.value;
-                            console.log(selectedType, "selectedType");
+                         
 
                             if (selectedType) {
-                              console.log(formik.values, "columnIndex");
+                         
 
                               formik.setFieldValue(
                                 "department_id",

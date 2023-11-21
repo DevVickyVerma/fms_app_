@@ -23,6 +23,7 @@ export default function Login(props) {
         setCapsLockActive(false);
       }
     });
+    console.clear()
   }, [localStorage.getItem("token")]);
   if (localStorage.getItem("myKey") === null) {
     if (!localStorage.getItem("refreshed")) {

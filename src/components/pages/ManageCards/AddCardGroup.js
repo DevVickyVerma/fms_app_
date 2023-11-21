@@ -24,7 +24,7 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
     };
 
 
-    // console.log(formik?.values, "formikvalues");
+   
 
     const formik = useFormik({
         initialValues,
@@ -33,7 +33,7 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
         }),
         onSubmit: (values) => {
             handleSettingSubmit(values);
-            console.log(values, "aftersubmit");
+          
         },
         // ... Add other Formik configuration options as needed
     });
@@ -66,7 +66,7 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
                 const { id, for_tenant, checked, name } = obj;
                 // const card_valueKey = `card_id`;
 
-                console.log(checked, "checked");
+          
                 if (checked) {
                     formData.append(`card_id[${index}]`, id);
                     index++; // Increment index for the next iteration
@@ -88,7 +88,7 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
 
     }
 
-    console.log(cardData, "cardData");
+
 
     const cardDataColumn = [
         {
