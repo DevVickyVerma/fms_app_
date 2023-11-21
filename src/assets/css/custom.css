@@ -1281,9 +1281,24 @@ span.uk-date-time {
     width: 100px;
   }
 }
+
 span.circle-info {
   display: flex;
   justify-content: start;
   align-items: center;
   color: #7b7c7d;
+}
+
+
+.CardGroupModalItems {
+  background-color: #f2f2f8;
+  color: black;
+  border-radius: 5px;
+}
+
+
+.CardGroupModalHeader {
+  background-color: #b6b6b9;
+  color: black;
+  border-radius: 5px;
 }
