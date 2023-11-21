@@ -36,6 +36,10 @@ const FuelPrices = (props) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const [selected, setSelected] = useState([]);
+  const [notificationTypes, setNotificationTypes] = useState({
+    mobileSMS: false,
+    email: false,
+  });
 
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
@@ -64,12 +68,20 @@ const FuelPrices = (props) => {
       );
       const { data } = response1;
 
+
+
       if (data) {
         if (data.api_response === "success") {
           setheadingData(data.data?.head_array || []);
           setData(data.data || {});
           setis_editable(data.data?.btn_clickable || false);
           setIsChecked(data.data?.notify_operator || false);
+
+          // setNotificationTypes((prevTypes) => ({
+          //   mobileSMS: data.data?.notify_operator || false,
+          //   // email: data?.data?.
+          // }));
+
         } else {
           // Handle the error case
           // You can display an error message or take appropriate action
@@ -87,6 +99,7 @@ const FuelPrices = (props) => {
       console.error("API error:", error);
     }
   };
+  console.log(notificationTypes, "notificationTypes");
 
   const [data, setData] = useState();
   const renderTableHeader = () => {
@@ -202,8 +215,8 @@ const FuelPrices = (props) => {
       const isEmailSelected = selected.some(option => option.value === "email");
 
       setSelectedItemDate(selectedDrsDate);
-      formData.append("send_sms", isMobileSelected);
-      formData.append("notify_operator", isEmailSelected);
+      formData.append("send_sms", notificationTypes?.mobileSMS);
+      formData.append("notify_operator", notificationTypes?.email);
       formData.append("drs_date", selectedDrsDate);
       formData.append("client_id", selectedClientId);
       formData.append("company_id", selectedCompanyId);
@@ -257,12 +270,16 @@ const FuelPrices = (props) => {
     // padding: "10px",
   };
 
+  console.log(formik?.values, "updatedvalues");
+
   const formik = useFormik({
     initialValues: {
       client_id: "",
       company_id: "",
       site_id: "",
       start_date: "",
+      notify_operator: "",
+      email: false,
     },
     validationSchema: Yup.object({
       company_id: Yup.string().required("Company is required"),
@@ -357,6 +374,25 @@ const FuelPrices = (props) => {
       GetCompanyList(clientId);
     }
   }, []);
+
+  const options = [
+    { label: "Mobile SMS Notification", value: "mobile-sms" },
+    { label: "Email Notification", value: "email" },
+  ];
+
+  const handleSelectionChange = (event) => {
+    setSelected(event.target.value);
+  };
+
+  const handleCheckboxChange = (name) => {
+    setNotificationTypes((prevTypes) => ({
+      ...prevTypes,
+      [name]: !prevTypes[name],
+    }));
+  };
+
+
+
 
 
 
@@ -661,30 +697,70 @@ const FuelPrices = (props) => {
                   <div className="text-end notification-class">
                     <div style={{ width: "200px", textAlign: "left" }} >
 
-                      {!selected.length && (
+                      {/* {!selected.length && (
                         <>
                           {setSelected([{ label: "Send Notification Type", value: "", disabled: true }])}
                         </>
-                      )}
-                      <MultiSelect
-                        value={selected}
-                        onChange={(values) => {
-                          // Remove the placeholder option if it's selected
-                          const updatedSelection = values.filter((value) => value.value !== "");
-                          setSelected(updatedSelection);
-                        }}
-                        labelledBy="Notification Type"
-                        disableSearch="true"
-                        options={[
-                          { label: "Mobile SMS Notification", value: "mobile-sms" },
-                          { label: "Email Notification", value: "email" }
-                        ]}
-                        showCheckbox="false"
-                        style={{ width: "200px" }}
-                        placeholder="Select Notification Type"
-                      />
+                      )} */}
+
+
 
                     </div>
+
+                    {/* <div>
+                      <label>
+                        <input
+                          type="checkbox"
+                          name="notify_operator"
+                          checked={formik.values.notify_operator}
+                          onChange={formik.handleChange}
+                        />
+                        {" "}Mobile SMS Notification
+                      </label>
+                    </div>
+                    <div>
+                      <label>
+                        <input
+                          type="checkbox"
+                          name="email"
+                          checked={formik.values.email}
+                          onChange={formik.handleChange}
+                        />
+                        {" "} Email Notification
+                      </label>
+                    </div> */}
+                    <div>
+                      <strong>Send Notification</strong>
+                      <div style={{ display: "flex", gap: "10px" }}>
+                        <div>
+                          <label>
+                            <input
+                              type="checkbox"
+                              name="mobileSMS"
+                              checked={notificationTypes.mobileSMS}
+                              onChange={() => handleCheckboxChange("mobileSMS")}
+                            />
+                            {" "}Mobile
+                          </label>
+                        </div>
+                        <div>
+                          <label>
+                            <input
+                              type="checkbox"
+                              name="email"
+                              checked={notificationTypes.email}
+                              onChange={() => handleCheckboxChange("email")}
+                            />
+                            {" "}Email
+                          </label>
+                        </div>
+
+
+                      </div>
+                    </div>
+
+
+
 
                     {data?.btn_clickable ? (
                       <button

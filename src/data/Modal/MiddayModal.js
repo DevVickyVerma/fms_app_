@@ -25,6 +25,10 @@ const CustomModal = ({
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [selected, setSelected] = useState([]);
+  const [notificationTypes, setNotificationTypes] = useState({
+    mobileSMS: false,
+    email: false,
+  });
 
   const navigate = useNavigate();
 
@@ -144,8 +148,8 @@ const CustomModal = ({
 
     formData.append("drs_date", selectedDrsDate);
     formData.append("site_id", selectedItem.id);
-    formData.append("notify_operator", isEmailSelected);
-    formData.append("send_sms", isMobileSelected);
+    formData.append("send_sms", notificationTypes?.mobileSMS);
+    formData.append("notify_operator", notificationTypes?.email);
     const token = localStorage.getItem("token");
     const axiosInstance = axios.create({
       baseURL: process.env.REACT_APP_BASE_URL,
@@ -197,6 +201,13 @@ const CustomModal = ({
   const sendDataToParent = () => {
     const dataToSend = "Data from child 123";
     onDataFromChild(dataToSend); // Call the callback function with the data
+  };
+
+  const handleCheckboxChange = (name) => {
+    setNotificationTypes((prevTypes) => ({
+      ...prevTypes,
+      [name]: !prevTypes[name],
+    }));
   };
   return (
     <>
@@ -322,7 +333,7 @@ const CustomModal = ({
                 Send Notifications
               </label>
             </div> */}
-            <div
+            {/* <div
               //  className="Notification"
               style={{ width: "200px", textAlign: "left" }}
             >
@@ -350,6 +361,35 @@ const CustomModal = ({
                 placeholder="Notification Type"
               />
 
+            </div> */}
+            <div>
+              <strong>Send Notification</strong>
+              <div style={{ display: "flex", gap: "10px" }}>
+                <div>
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="mobileSMS"
+                      checked={notificationTypes.mobileSMS}
+                      onChange={() => handleCheckboxChange("mobileSMS")}
+                    />
+                    {" "}Mobile
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="email"
+                      checked={notificationTypes.email}
+                      onChange={() => handleCheckboxChange("email")}
+                    />
+                    {" "}Email
+                  </label>
+                </div>
+
+
+              </div>
             </div>
 
             <button
