@@ -216,7 +216,7 @@ const CenterFilterModal = (props) => {
                             className="form-label mt-4"
                           >
                             Client
-                            <span className="text-danger">*</span>
+                            {/* <span className="text-danger">*</span> */}
                           </label>
                           <select
                             className={`input101 ${formik.errors.client_id &&
@@ -248,7 +248,7 @@ const CenterFilterModal = (props) => {
                                   formik.setFieldValue("client_name", selectedClient?.client_name);
                                 }
                               } else {
-                              
+
                                 formik.setFieldValue("client_id", "");
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");
@@ -348,7 +348,7 @@ const CenterFilterModal = (props) => {
                       <div className="form-group">
                         <label htmlFor="site_id" className="form-label mt-4">
                           Site Name
-                          <span className="text-danger">*</span>
+                          {/* <span className="text-danger">*</span> */}
                         </label>
                         <select
                           className={`input101 ${formik.errors.site_id && formik.touched.site_id
