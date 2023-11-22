@@ -25,6 +25,9 @@ import CronModule from "./components/pages/CronModule/CronModule";
 import SingleStatsCompetitor from "./components/pages/Competitor/SingleStatsCompetitor";
 import UpdateCardGroup from "./components/pages/ManageCards/UpdateCardGroup";
 import AddCardGroup from "./components/pages/ManageCards/AddCardGroup";
+import DepartmentAddCardGroup from "./components/pages/ManageItems/DepartmentAddCardGroup";
+import DepartmentCardGroup from "./components/pages/ManageItems/DepartmentCardGroup";
+import DepartmentUpdateCardGroup from "./components/pages/ManageItems/DepartmentUpdateCardGroup";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -550,8 +553,11 @@ const Root = () => {
   const WrappedAddCards = withApi(AddCards);
   const WrappedEditCards = withApi(EditCards);
   const WrappedCardGroup = withApi(CardGroup);
+  const WrappedDepartmentCardGroup = withApi(DepartmentCardGroup);
   const WrappedUpdateCardGroup = withApi(UpdateCardGroup);
+  const WrappedDepartmentUpdateCardGroup = withApi(DepartmentUpdateCardGroup);
   const WrappedAddCardGroup = withApi(AddCardGroup);
+  const WrappedDepartmentAddCardGroup = withApi(DepartmentAddCardGroup);
   const WrappedManageDeductions = withApi(ManageDeductions);
   const WrappedAddDeductions = withApi(AddDeductions);
   const WrappedEditDeductions = withApi(EditDeductions);
@@ -907,6 +913,20 @@ const Root = () => {
                   <Route
                     path={`/add-group`}
                     element={<WrappedAddCardGroup />}
+                  />
+
+                  <Route
+                    path={`/department-item-group`}
+                    element={<WrappedDepartmentCardGroup />}
+                  />
+                  <Route
+                    path={`/department-item-group/:id`}
+                    element={<WrappedDepartmentUpdateCardGroup />}
+                  />
+
+                  <Route
+                    path={`/department-add-group`}
+                    element={<WrappedDepartmentAddCardGroup />}
                   />
 
                   {/* Cards components end */}

@@ -678,6 +678,13 @@ export const MENUITEMS = [
             permission: "department-item-create",
             visibility: false,
           },
+          {
+            path: `/department-item-group`,
+            title: "Manage Item Group",
+            type: "link",
+            permission: "department-item-group",
+            visibility: false,
+          },
         ],
       },
       //Logs
