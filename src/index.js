@@ -905,7 +905,7 @@ const Root = () => {
                   />
 
                   <Route
-                    path={`/add-group/:id`}
+                    path={`/add-group`}
                     element={<WrappedAddCardGroup />}
                   />
 

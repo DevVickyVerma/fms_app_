@@ -1302,3 +1302,7 @@ span.circle-info {
   color: black;
   border-radius: 5px;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}

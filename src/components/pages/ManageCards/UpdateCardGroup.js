@@ -5,6 +5,7 @@ import { Breadcrumb, Card, Col, Row } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import { useFormik } from 'formik';
+import * as Yup from "yup";
 
 const UpdateCardGroup = ({ isLoading, getData, postData }) => {
     const [cardData, setCardData] = useState();
@@ -26,12 +27,16 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
 
     const formik = useFormik({
         initialValues,
+        validationSchema: Yup.object({
+            card_name: Yup.string().required("Card group name is required"),
+        }),
         onSubmit: (values) => {
             handleSettingSubmit(values);
-           
         },
         // ... Add other Formik configuration options as needed
     });
+
+    console.log("updateformik", formik?.values);
 
     const fetchUpdateCardDetail = async () => {
         try {
@@ -65,7 +70,7 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                 const { id, for_tenant, checked, name } = obj;
                 // const card_valueKey = `card_id`;
 
-         
+
                 if (checked) {
                     formData.append(`card_id[${index}]`, id);
                     index++; // Increment index for the next iteration
@@ -102,7 +107,7 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                         type="checkbox"
                         id={`checked-${index}`}
                         name={`AssignFormikCards[${index}].checked`}
-                        className="table-checkbox-input"
+                        className="table-checkbox-input cursor-pointer"
                         checked={
                             formik.values?.AssignFormikCards?.[index]?.checked ?? false
                         }
@@ -114,7 +119,7 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
             ),
         },
         {
-            name: "Card Model",
+            name: "Cards",
             selector: (row) => row.name,
             sortable: true,
             width: "85%",
@@ -169,10 +174,11 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                     <Row>
                         <form onSubmit={formik.handleSubmit}>
                             <Col lg={12} md={12}>
-                                <Col lg={4} md={6}>
+                                <div lg={4} md={6}>
                                     <div className="form-group">
                                         <label className="form-label mt-4" htmlFor="card_name">
-                                            Card Name
+                                            Card Group Name
+                                            <span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -183,7 +189,7 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                                                 }`}
                                             id="card_name"
                                             name="card_name"
-                                            placeholder="Card Name"
+                                            placeholder="Card Group Name"
                                             onChange={formik.handleChange}
                                             value={formik.values.card_name}
                                         />
@@ -193,7 +199,7 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                                             </div>
                                         )}
                                     </div>
-                                </Col>
+                                </div>
                                 <Card.Header className="cardheader-table">
                                     <h3 className="card-title">Assign Card</h3>
                                 </Card.Header>
@@ -224,12 +230,28 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                                         </>
                                     )}
 
-                                <Card.Footer>
+                                {/* <Card.Footer>
                                     <div className="d-flex justify-content-end mt-3">
                                         <button className="btn btn-primary" type="submit">
                                             Submit
                                         </button>
                                     </div>
+                                </Card.Footer> */}
+
+                                <Card.Footer className="text-end">
+                                    <Link
+                                        type="submit"
+                                        className="btn btn-danger me-2 "
+                                        to={`/card-group/`}
+                                    >
+                                        Cancel
+                                    </Link>
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary me-2 "
+                                    >
+                                        Submit
+                                    </button>
                                 </Card.Footer>
 
                             </Col>

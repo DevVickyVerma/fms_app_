@@ -176,7 +176,7 @@ const CardGroup = ({ isLoading, getData }) => {
             ),
         },
         {
-            name: "Card ",
+            name: "Card Group",
             selector: (row) => [row.name],
             sortable: true,
             width: "30%",
@@ -189,7 +189,7 @@ const CardGroup = ({ isLoading, getData }) => {
             ),
         },
         {
-            name: "Card Name",
+            name: "Cards",
             selector: (row) => [row.name],
             sortable: true,
             width: "30%",
@@ -267,8 +267,13 @@ const CardGroup = ({ isLoading, getData }) => {
                 <Row>
                     <Col md={12} xl={12}>
                         <Card>
-                            <Card.Body>
-                                <form onSubmit={formik.handleSubmit}>
+                            <form onSubmit={formik.handleSubmit}>
+                                <Card.Header>
+                                    <h3 className="card-title">
+                                        Card Group
+                                    </h3>
+                                </Card.Header>
+                                <Card.Body>
                                     <Row>
 
                                         <CustomClient
@@ -295,21 +300,22 @@ const CardGroup = ({ isLoading, getData }) => {
 
 
                                     </Row>
+                                </Card.Body>
 
-                                    <Card.Footer className="text-end">
-                                        <Link
-                                            type="submit"
-                                            className="btn btn-danger me-2 "
-                                            to={`/dashboard`}
-                                        >
-                                            Cancel
-                                        </Link>
-                                        <button className="btn btn-primary m-2 " type="submit">
-                                            Submit
-                                        </button>
-                                    </Card.Footer>
-                                </form>
-                            </Card.Body>
+                                <Card.Footer className="text-end">
+                                    <Link
+                                        type="submit"
+                                        className="btn btn-danger me-2 "
+                                        to={`/dashboard`}
+                                    >
+                                        Cancel
+                                    </Link>
+                                    <button className="btn btn-primary m-2 " type="submit">
+                                        Submit
+                                    </button>
+                                </Card.Footer>
+                            </form>
+
                         </Card>
                     </Col>
                 </Row>
@@ -327,7 +333,7 @@ const CardGroup = ({ isLoading, getData }) => {
                                 <div className="input-group">
                                     {isAddPermissionAvailable && showAddButton ? (
                                         <Link
-                                            to={`/add-group/${selectedCompanyId}`}
+                                            to={`/add-group`}
                                             className="btn btn-primary ms-2"
                                             style={{ borderRadius: "4px" }}
                                         >

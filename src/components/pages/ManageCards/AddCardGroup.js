@@ -18,30 +18,28 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
     }, []);
 
     const initialValues = {
-        cardData: cardData,
-        AssignFormikCards: [],
+        cardData: cardData || "",
+        AssignFormikCards: "",
         card_name: "",
     };
 
 
-   
+
 
     const formik = useFormik({
         initialValues,
         validationSchema: Yup.object({
-            card_name: Yup.string().required("Card name is required"),
+            card_name: Yup.string().required("Card group name is required"),
         }),
         onSubmit: (values) => {
             handleSettingSubmit(values);
-          
         },
         // ... Add other Formik configuration options as needed
     });
 
     const fetchUpdateCardDetail = async () => {
         try {
-            const response = await getData(`/sage/card-group/detail/${paramId?.id}`);
-
+            const response = await getData(`/sage/card-group/list?company_id=${companyId}`);
             const { data } = response;
             if (data) {
                 setCardData(data?.data ? data.data.cards : [])
@@ -66,7 +64,7 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
                 const { id, for_tenant, checked, name } = obj;
                 // const card_valueKey = `card_id`;
 
-          
+
                 if (checked) {
                     formData.append(`card_id[${index}]`, id);
                     index++; // Increment index for the next iteration
@@ -88,6 +86,13 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
 
     }
 
+    const handleCheckboxChange = (index) => {
+        formik.setFieldValue(
+            `AssignFormikCards[${index}].checked`,
+            !formik.values?.AssignFormikCards?.[index]?.checked
+        );
+    };
+
 
 
     const cardDataColumn = [
@@ -103,11 +108,9 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
                         type="checkbox"
                         id={`checked-${index}`}
                         name={`AssignFormikCards[${index}].checked`}
-                        className="table-checkbox-input"
-                        checked={
-                            formik.values?.AssignFormikCards?.[index]?.checked ?? false
-                        }
-                        onChange={formik.handleChange}
+                        className="table-checkbox-input cursor-pointer"
+                        checked={formik.values?.AssignFormikCards?.[index]?.checked || false}
+                        onChange={() => handleCheckboxChange(index)}
                         onBlur={formik.handleBlur}
                     />
                     {/* Error handling code */}
@@ -115,7 +118,7 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
             ),
         },
         {
-            name: "Card Model",
+            name: "Cards",
             selector: (row) => row.name,
             sortable: true,
             width: "85%",
@@ -170,10 +173,11 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
                     <Row>
                         <form onSubmit={formik.handleSubmit}>
                             <Col lg={12} md={12}>
-                                <Col lg={4} md={6}>
+                                <div lg={4} md={6}>
                                     <div className="form-group">
                                         <label className="form-label mt-4" htmlFor="card_name">
-                                            Card Name
+                                            Card Group Name
+                                            <span className="text-danger">*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -184,7 +188,7 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
                                                 }`}
                                             id="card_name"
                                             name="card_name"
-                                            placeholder="Card Name"
+                                            placeholder="Card Group Name"
                                             onChange={formik.handleChange}
                                             value={formik.values.card_name}
                                         />
@@ -194,7 +198,7 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
                                             </div>
                                         )}
                                     </div>
-                                </Col>
+                                </div>
                                 <Card.Header className="cardheader-table">
                                     <h3 className="card-title">Assign Card</h3>
                                 </Card.Header>
@@ -225,12 +229,20 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
                                         </>
                                     )}
 
-                                <Card.Footer>
-                                    <div className="d-flex justify-content-end mt-3">
-                                        <button className="btn btn-primary" type="submit">
-                                            Submit
-                                        </button>
-                                    </div>
+                                <Card.Footer className="text-end">
+                                    <Link
+                                        type="submit"
+                                        className="btn btn-danger me-2 "
+                                        to={`/card-group/`}
+                                    >
+                                        Cancel
+                                    </Link>
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary me-2 "
+                                    >
+                                        Add
+                                    </button>
                                 </Card.Footer>
 
                             </Col>
