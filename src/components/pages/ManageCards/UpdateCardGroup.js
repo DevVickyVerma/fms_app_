@@ -127,7 +127,18 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                         <span className='all-center-flex' style={{
                             width: "40px", height: "25px", display: "flex", justifyContent: "center"
                         }}>
-                            <img src={row?.logo} alt='' />
+                            {/* <img src={row?.logo} alt='' /> */}
+                            <img
+                                src={row?.logo}
+                                alt=''
+                                style={{
+                                    // width: "60px",
+                                    // height: "40px",
+                                    background: "rgb(225 214 214)",
+                                    padding: "5px",
+                                    borderRadius: "8px",
+                                }}
+                            />
                         </span>
                         <h6 className="mb-0 fs-14 fw-semibold all-center-flex">{row.name}</h6>
                     </div>

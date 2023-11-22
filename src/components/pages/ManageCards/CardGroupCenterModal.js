@@ -75,8 +75,8 @@ const CardGroupCenterModal = (props) => {
 };
 
 CardGroupCenterModal.propTypes = {
-    title: PropTypes.string.isRequired,
-    visible: PropTypes.bool.isRequired,
+    // title: PropTypes.string.isRequired,
+    // visible: PropTypes.bool.isRequired,
 };
 
 export default CardGroupCenterModal;
