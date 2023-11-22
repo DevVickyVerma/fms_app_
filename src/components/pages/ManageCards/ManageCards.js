@@ -139,8 +139,6 @@ const ManageCards = (props) => {
     },
   });
 
-  console.log(currentPage, "currentPage");
-
   const FetchTableData = async (itemsPerPage) => {
     try {
       const response = await getData(`card/list?page=${currentPage}&search_keywords=${searchQuery}`);

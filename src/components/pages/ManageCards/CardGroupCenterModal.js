@@ -9,7 +9,6 @@ const CardGroupCenterModal = (props) => {
         setShowModal(false);
     };
 
-    console.log(detailApiData?.names, "detailApiData");
 
     return (
         <Modal
