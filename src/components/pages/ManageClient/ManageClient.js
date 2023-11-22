@@ -258,11 +258,24 @@ const ManageClient = (props) => {
       name: "Client",
       selector: (row) => [row.full_name],
       sortable: true,
-      width: "25%",
+      width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">{row.full_name}</h6>
+          </div>
+        </div>
+      ),
+    },
+    {
+      name: "Sms Balance",
+      selector: (row) => [row.sms_balance],
+      sortable: true,
+      width: "12%",
+      cell: (row, index) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.sms_balance}</h6>
           </div>
         </div>
       ),
@@ -301,7 +314,7 @@ const ManageClient = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: true,
-      width: "12%",
+      width: "10%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -342,7 +355,7 @@ const ManageClient = (props) => {
         name: "Action",
         selector: (row) => [row.action],
         sortable: true,
-        width: "20%",
+        width: "15%",
         cell: (row) => (
           <span className="text-center">
             {anyPermissionAvailable ? (

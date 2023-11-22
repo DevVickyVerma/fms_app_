@@ -1306,3 +1306,18 @@ span.circle-info {
 .cursor-pointer {
   cursor: pointer;
 }
+.balance-alert {
+  display: flex;
+  justify-content: space-between;
+}
+.balance-badge {
+  display: flex;
+  background-color: #fff;
+  border-color: none;
+  padding: 0px 11px;
+  border-radius: 7px;
+  color: #000;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px !important;
+}

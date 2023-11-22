@@ -729,7 +729,7 @@ export const MENUITEMS = [
       //Sms
       {
         title: "Manage SMS",
-        icon: "pie-chart",
+        icon: "comments",
         type: "sub",
         active: false,
         permission: "sms-create",

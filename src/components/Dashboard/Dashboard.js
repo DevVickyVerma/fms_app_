@@ -28,9 +28,19 @@ const Dashboard = (props) => {
   const [justLoggedIn, setJustLoggedIn] = useState(false);
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
   const [reducerState, reducerDispatch] = useReducer(reducer, initialState);
-  const { shop_margin, shop_sale, fuel_value, gross_profit_value, gross_volume, gross_margin_value, pie_chart_values, stacked_line_bar_label, stacked_line_bar_data, d_line_chart_option, d_line_chart_values } = reducerState;
-
-
+  const {
+    shop_margin,
+    shop_sale,
+    fuel_value,
+    gross_profit_value,
+    gross_volume,
+    gross_margin_value,
+    pie_chart_values,
+    stacked_line_bar_label,
+    stacked_line_bar_data,
+    d_line_chart_option,
+    d_line_chart_values,
+  } = reducerState;
 
   const {
     searchdata,
@@ -79,7 +89,7 @@ const Dashboard = (props) => {
             fuel_value: data?.data?.fuel_sales,
             shop_sale: data?.data?.shop_sales,
             shop_margin: data?.data?.shop_profit,
-          }
+          },
         });
       }
     } catch (error) {
@@ -187,7 +197,6 @@ const Dashboard = (props) => {
       const { data } = response;
 
       if (data) {
-
         reducerDispatch({
           type: "UPDATE_DATA",
           payload: {
@@ -202,7 +211,7 @@ const Dashboard = (props) => {
             fuel_value: data?.data?.fuel_sales,
             shop_sale: data?.data?.shop_sales,
             shop_margin: data?.data?.shop_profit,
-          }
+          },
         });
       }
     } catch (error) {
@@ -217,15 +226,15 @@ const Dashboard = (props) => {
     myLocalSearchData = "";
     // setIsLoading(true);
     reducerDispatch({
-      type: 'RESET_STATE'
-    })
+      type: "RESET_STATE",
+    });
     setSearchdata({});
-    setTimeout(() => { }, 1000);
+    setTimeout(() => {}, 1000);
     localStorage.removeItem("mySearchData");
 
     if (superiorRole !== "Administrator") {
       // Assuming handleFetchSiteData is an asynchronous function
-      handleFetchSiteData()
+      handleFetchSiteData();
     }
   };
 
@@ -281,6 +290,36 @@ const Dashboard = (props) => {
   return (
     <>
       {isLoading || isLoadingState ? <Loaderimg /> : null}
+
+      {UserPermissions?.role == "Client" && UserPermissions?.sms_balance < 3 ? (
+        <div
+          className="balance-alert"
+          style={{
+            textAlign: "left",
+            margin: " 10px 0",
+            fontSize: "16px",
+            color: "white",
+            background: "#b52d2d",
+            padding: "8px",
+            borderRadius: "7px",
+          }}
+        >
+          <div>
+            Your SMS balance seems low, please buy more SMS to send
+            notifications
+          </div>
+          <div className="balance-badge">
+            <span >Sms Balance : {" "}</span>
+            <span style={{marginLeft:"6px"}} >
+              {" "}
+              {UserPermissions?.sms_balance}{" "}
+            </span>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+
       <div>
         <Box
           display={"flex"}
@@ -299,7 +338,7 @@ const Dashboard = (props) => {
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-            localStorage.getItem("role") === "Operator" ? (
+          localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -386,7 +425,7 @@ const Dashboard = (props) => {
                   </Box>
                 </>
                 {UserPermissions?.applyFilter &&
-                  Object.keys(searchdata).length === 0 ? (
+                Object.keys(searchdata).length === 0 ? (
                   <div
                     style={{
                       textAlign: "left",
@@ -517,8 +556,8 @@ const Dashboard = (props) => {
         />
 
         {isProfileUpdatePermissionAvailable &&
-          !isTwoFactorPermissionAvailable &&
-          ShowAuth ? (
+        !isTwoFactorPermissionAvailable &&
+        ShowAuth ? (
           <>
             <CenterAuthModal title="Auth Modal" />
           </>

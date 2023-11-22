@@ -829,17 +829,21 @@ const SageDeduction = (props) => {
                             )}
                         </Form.Group>
                       </Col>
-                      <Col lg={1} md={1} className="text-end">
-                      <Form.Label>Action </Form.Label>
-                        <div className="text-end ">
-                          <button
-                            className="btn btn-danger"
-                            onClick={() => removenonbunkeredSalesRow(index)}
+                      {formik2.values.headsvalue.length > 1 && (
+                        <Col lg={1} md={1} className="text-end">
+                          <div
+                            className="text-end"
+                            style={{ marginTop: "36px" }}
                           >
-                            <RemoveCircleIcon />
-                          </button>
-                        </div>
-                      </Col>
+                            <button
+                              className="btn btn-danger"
+                              onClick={() => removenonbunkeredSalesRow(index)}
+                            >
+                              <RemoveCircleIcon />
+                            </button>
+                          </div>
+                        </Col>
+                      )}
                     </React.Fragment>
                     {index !== formik2.values.headsvalue.length - 1 &&
                     data?.sageExport.length > 0 ? (
@@ -859,7 +863,7 @@ const SageDeduction = (props) => {
             )}
           </Card.Body>
           <Card.Footer>
-            {data?.sageExport.length > 0 && isUpdatePermissionAvailable ? (
+            {isUpdatePermissionAvailable ? (
               <div className="bunkered-action">
                 <div className="text-end mt-3">
                   <button

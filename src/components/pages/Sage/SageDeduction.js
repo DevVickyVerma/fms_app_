@@ -92,7 +92,6 @@ const SageDeduction = (props) => {
 
           formik2.setFieldValue("headsvalue", head_formik_values);
         }
-       
       } catch (error) {
         console.error("API error:", error);
       }
@@ -139,7 +138,9 @@ const SageDeduction = (props) => {
     }
   }, []);
 
-  const isUpdatePermissionAvailable = permissionsArray?.includes("deductionhead-update");
+  const isUpdatePermissionAvailable = permissionsArray?.includes(
+    "deductionhead-update"
+  );
 
   const isButtonDisabled = formik.values.client_id && formik.values.company_id;
 
@@ -151,7 +152,6 @@ const SageDeduction = (props) => {
         );
 
         if (response) {
-        
           setCompanyList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -166,10 +166,11 @@ const SageDeduction = (props) => {
   const GetDepartmentList = async (values) => {
     try {
       if (values) {
-        const response = await getData(`sage/deduction/list?company_id=${values}`);
+        const response = await getData(
+          `sage/deduction/list?company_id=${values}`
+        );
 
         if (response) {
-        
           setDepartmentList(response?.data?.data?.deductions);
         } else {
           throw new Error("No data available in the response");
@@ -253,11 +254,7 @@ const SageDeduction = (props) => {
     formik2.setFieldValue("headsvalue", updatedRows);
   };
 
- 
- 
   const combinedOnSubmit = async () => {
-  
-
     try {
       const formData = new FormData();
 
@@ -318,8 +315,8 @@ const SageDeduction = (props) => {
       const postDataUrl = "/sage/deduction/head-update";
       const navigatePath = `/clients`;
 
-      await postData(postDataUrl, formData,); // Set the submission state to false after the API call is completed
-    } catch (error) { }
+      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+    } catch (error) {}
   };
   return (
     <>
@@ -379,7 +376,6 @@ const SageDeduction = (props) => {
                             value={formik.values.client_id}
                             onChange={(e) => {
                               const selectedType = e.target.value;
-                           
 
                               if (selectedType) {
                                 GetCompanyList(selectedType);
@@ -390,7 +386,6 @@ const SageDeduction = (props) => {
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("department_id", "");
                               } else {
-                              
                                 formik.setFieldValue("client_id", "");
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("department_id", "");
@@ -482,7 +477,7 @@ const SageDeduction = (props) => {
                           htmlFor="department_id"
                           className="form-label mt-4"
                         >
-                          Deductions 
+                          Deductions
                           <span className="text-danger">*</span>
                         </label>
                         <select
@@ -497,11 +492,8 @@ const SageDeduction = (props) => {
                           value={formik.values.department_id}
                           onChange={(e) => {
                             const selectedType = e.target.value;
-                         
 
                             if (selectedType) {
-                         
-
                               formik.setFieldValue(
                                 "department_id",
                                 selectedType
@@ -829,17 +821,21 @@ const SageDeduction = (props) => {
                             )}
                         </Form.Group>
                       </Col>
-                      <Col lg={1} md={1} className="text-end">
-                      <Form.Label>Action </Form.Label>
-                        <div className="text-end ">
-                          <button
-                            className="btn btn-danger"
-                            onClick={() => removenonbunkeredSalesRow(index)}
+                      {formik2.values.headsvalue.length > 1 && (
+                        <Col lg={1} md={1} className="text-end">
+                          <div
+                            className="text-end"
+                            style={{ marginTop: "36px" }}
                           >
-                            <RemoveCircleIcon />
-                          </button>
-                        </div>
-                      </Col>
+                            <button
+                              className="btn btn-danger"
+                              onClick={() => removenonbunkeredSalesRow(index)}
+                            >
+                              <RemoveCircleIcon />
+                            </button>
+                          </div>
+                        </Col>
+                      )}
                     </React.Fragment>
                     {index !== formik2.values.headsvalue.length - 1 &&
                     data?.sageExport.length > 0 ? (
@@ -859,7 +855,7 @@ const SageDeduction = (props) => {
             )}
           </Card.Body>
           <Card.Footer>
-            {data?.sageExport.length > 0 && isUpdatePermissionAvailable ? (
+            {isUpdatePermissionAvailable ? (
               <div className="bunkered-action">
                 <div className="text-end mt-3">
                   <button
