@@ -36,8 +36,6 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
         // ... Add other Formik configuration options as needed
     });
 
-    console.log("updateformik", formik?.values);
-
     const fetchUpdateCardDetail = async () => {
         try {
             const response = await getData(`/sage/card-group/detail/${paramId?.id}`);
