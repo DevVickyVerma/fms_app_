@@ -101,6 +101,7 @@ const EditUsers = (props) => {
       formData.append("first_name", values.first_name);
 
       formData.append("last_name", values.last_name);
+      formData.append("phone_number", values.phone_number);
 
       formData.append("id", id);
 
@@ -124,7 +125,7 @@ const EditUsers = (props) => {
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
-
+  const phoneRegExp = /^[0-9]{10}$/;
   const formik = useFormik({
     initialValues: {
       first_name: "",
@@ -132,6 +133,7 @@ const EditUsers = (props) => {
       role_id: "",
       last_name: "",
       work_flow: "",
+      phone_number: "",
 
       status: "1",
     },
@@ -143,7 +145,9 @@ const EditUsers = (props) => {
       last_name: Yup.string()
         .max(20, "Must be 20 characters or less")
         .required("Last Name is required"),
-
+        phone_number: Yup.string()
+        .matches(phoneRegExp, "Phone number is not valid")
+        .required("Phone Number is required"),
       status: Yup.string().required(" Status is required"),
     }),
     onSubmit: (values) => {
@@ -260,6 +264,31 @@ const EditUsers = (props) => {
                           formik.touched.last_name && (
                             <div className="invalid-feedback">
                               {formik.errors.last_name}
+                            </div>
+                          )}
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <label htmlFor="phone_number" className="form-label mt-4">
+                        Phone Number<span className="text-danger">*</span>
+                        </label>
+                        <input
+                          type="number"
+                          autoComplete="off"
+                          className={`input101 ${formik.errors.phone_number && formik.touched.phone_number
+                            ? "is-invalid"
+                            : ""
+                            }`}
+                          id="phone_number"
+                          name="phone_number"
+                          placeholder="Phone Number"
+                          onChange={formik.handleChange}
+                          value={formik.values.phone_number || ""}
+                          
+                        />
+                        {formik.errors.phone_number &&
+                          formik.touched.last_name && (
+                            <div className="invalid-feedback">
+                              {formik.errors.phone_number}
                             </div>
                           )}
                       </Col>
@@ -410,6 +439,7 @@ const EditUsers = (props) => {
                       ) : (
                         ""
                       )}
+                   
                     </Row>
 
                     <div className="text-end my-5 text-end-small-screen">

@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Col,
-  Row,
-  Card,
-  Form,
-  FormGroup,
-  Breadcrumb,
-} from "react-bootstrap";
+import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
@@ -21,7 +14,6 @@ const AddUsers = (props) => {
   const [roleitems, setRoleItems] = useState("");
   const [selectRole, setselectRole] = useState([]);
   const navigate = useNavigate();
-
 
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -45,6 +37,7 @@ const AddUsers = (props) => {
       const formData = new FormData();
       formData.append("email", values.email);
       formData.append("password", values.password);
+      formData.append("phone_number", values.phone_number);
       formData.append("first_name", values.first_name);
       formData.append("last_name", values.last_name);
       formData.append("role_id", values.role);
@@ -115,6 +108,7 @@ const AddUsers = (props) => {
     label: site?.full_name,
     value: site?.id,
   }));
+  const phoneRegExp = /^[0-9]{10}$/;
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -167,6 +161,7 @@ const AddUsers = (props) => {
 
                   send_mail: "1",
                   work_flow: "",
+                  phone_number: "",
                 }}
                 validationSchema={Yup.object({
                   first_name: Yup.string()
@@ -181,6 +176,9 @@ const AddUsers = (props) => {
                     .email("Invalid email format"),
 
                   password: Yup.string().required("Password is required"),
+                  phone_number: Yup.string()
+                    .matches(phoneRegExp, "Phone number is not valid")
+                    .required("Phone Number is required"),
                 })}
                 onSubmit={(values, { setSubmitting }) => {
                   handleSubmit1(values, setSubmitting);
@@ -207,10 +205,11 @@ const AddUsers = (props) => {
                             <Field
                               type="text"
                               autoComplete="off"
-                              className={`input101 ${errors.first_name && touched.first_name
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                              className={`input101 ${
+                                errors.first_name && touched.first_name
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="first_name"
                               name="first_name"
                               placeholder="First Name"
@@ -233,10 +232,11 @@ const AddUsers = (props) => {
                             <Field
                               type="text"
                               autoComplete="off"
-                              className={`input101 ${errors.last_name && touched.last_name
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                              className={`input101 ${
+                                errors.last_name && touched.last_name
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="last_name"
                               name="last_name"
                               placeholder="Last Name"
@@ -248,7 +248,32 @@ const AddUsers = (props) => {
                             />
                           </FormGroup>
                         </Col>
-
+                        <Col lg={4} md={6}>
+                          <FormGroup>
+                            <label
+                              htmlFor="phone_number "
+                              className=" form-label mt-4"
+                            >
+                              Phone Number<span className="text-danger">*</span>
+                            </label>
+                            <Field
+                              type="number"
+                              className={`input101 ${
+                                errors.phone_number && touched.phone_number
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
+                              id="phone_number"
+                              name="phone_number"
+                              placeholder="Phone Number"
+                            />
+                            <ErrorMessage
+                              component="div"
+                              className="invalid-feedback"
+                              name="phone_number"
+                            />
+                          </FormGroup>
+                        </Col>
                         <Col lg={4} md={6}>
                           <FormGroup>
                             <label htmlFor="email" className=" form-label mt-4">
@@ -258,10 +283,11 @@ const AddUsers = (props) => {
                             <Field
                               type="text"
                               autoComplete="off"
-                              className={`input101 ${errors.email && touched.email
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                              className={`input101 ${
+                                errors.email && touched.email
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="email"
                               name="email"
                               placeholder="Email"
@@ -283,10 +309,11 @@ const AddUsers = (props) => {
                             </label>
                             <Field
                               type="password"
-                              className={`input101 ${errors.password && touched.password
-                                ? "is-invalid"
-                                : ""
-                                }`}
+                              className={`input101 ${
+                                errors.password && touched.password
+                                  ? "is-invalid"
+                                  : ""
+                              }`}
                               id="password"
                               name="password"
                               placeholder="Password"
@@ -307,8 +334,9 @@ const AddUsers = (props) => {
                             </label>
                             <Field
                               as="select"
-                              className={`input101 ${errors.role && touched.role ? "is-invalid" : ""
-                                }`}
+                              className={`input101 ${
+                                errors.role && touched.role ? "is-invalid" : ""
+                              }`}
                               id="role"
                               name="role"
                             >
@@ -362,10 +390,11 @@ const AddUsers = (props) => {
                               </label>
                               <Field
                                 as="select"
-                                className={`input101 ${errors.work_flow && touched.work_flow
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input101 ${
+                                  errors.work_flow && touched.work_flow
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 id="work_flow"
                                 name="work_flow"
                               >
@@ -383,6 +412,7 @@ const AddUsers = (props) => {
                         ) : (
                           ""
                         )}
+                    
                         <Col lg={4} md={6}>
                           <FormGroup className="sendemail">
                             <label htmlFor="email" className="form-label mt-4">
@@ -395,7 +425,7 @@ const AddUsers = (props) => {
                                 onChange={SendMail}
                                 className="form-check-input"
                               />
-                              <span className="ms-1">Yes</span>
+                              <span className="ms-2 mt-2">Yes</span>
                             </div>
                             <ErrorMessage
                               component="div"
@@ -418,7 +448,7 @@ const AddUsers = (props) => {
                       <button
                         type="submit"
                         className="btn btn-primary me-2 "
-                      // disabled={Object.keys(errors).length > 0}
+                        // disabled={Object.keys(errors).length > 0}
                       >
                         Save
                       </button>
