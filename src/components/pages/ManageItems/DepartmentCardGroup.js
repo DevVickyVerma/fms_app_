@@ -12,6 +12,7 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import { useSelector } from 'react-redux'
 import { AiOutlineEye } from "react-icons/ai";
 import DepartmentCardGroupCenterModal from './DepartmentCardGroupCenterModal'
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const DepartmentCardGroup = ({ isLoading, getData }) => {
     const [selectedClientId, setSelectedClientId] = useState("");
@@ -339,7 +340,7 @@ const DepartmentCardGroup = ({ isLoading, getData }) => {
                                             className="btn btn-primary ms-2"
                                             style={{ borderRadius: "4px" }}
                                         >
-                                            Add items
+                                                Add items Group     <AddCircleOutlineIcon />
                                         </Link>
                                     ) : null}
                                 </div>
