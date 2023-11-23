@@ -7,7 +7,7 @@ import DataTable from 'react-data-table-component';
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 
-const UpdateCardGroup = ({ isLoading, getData, postData }) => {
+const DepartmentAddCardGroup = ({ isLoading, getData, postData }) => {
     const [cardData, setCardData] = useState();
     const companyId = localStorage.getItem("cardsCompanyId");
 
@@ -15,13 +15,15 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
 
     useEffect(() => {
         fetchUpdateCardDetail()
+        console.clear()
     }, []);
 
     const initialValues = {
-        cardData: cardData,
-        AssignFormikCards: [],
+        cardData: cardData || "",
+        AssignFormikCards: "",
         card_name: "",
     };
+
 
 
 
@@ -38,18 +40,13 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
 
     const fetchUpdateCardDetail = async () => {
         try {
-            const response = await getData(`/sage/card-group/detail/${paramId?.id}`);
-
+            const response = await getData(`/department-item/group/list?company_id=${companyId}`);
             const { data } = response;
             if (data) {
-                setCardData(data?.data ? data.data.cards : [])
+                setCardData(data?.data ? data.data.items : [])
                 formik.setFieldValue(
                     "AssignFormikCards",
-                    data?.data?.cards
-                );
-                formik.setFieldValue(
-                    "card_name",
-                    data?.data?.name
+                    data?.data?.items
                 );
             }
         } catch (error) {
@@ -70,18 +67,19 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
 
 
                 if (checked) {
-                    formData.append(`card_id[${index}]`, id);
+                    formData.append(`item_id[${index}]`, id);
                     index++; // Increment index for the next iteration
                 }
             }
             formData.append("company_id", companyId);
             formData.append("name", values?.card_name);
-            formData.append("group_id", paramId.id);
+            // formData.append("group_id", paramId.id);
 
-            const postDataUrl = "/sage/card-group/update";
-            const navigatePath = "/card-group";
+            const postDataUrl = "/department-item/group/update";
+            const navigatePath = "/department-item-group";
 
             await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
+
             // await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
 
         } catch (error) {
@@ -89,6 +87,13 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
         }
 
     }
+
+    const handleCheckboxChange = (index) => {
+        formik.setFieldValue(
+            `AssignFormikCards[${index}].checked`,
+            !formik.values?.AssignFormikCards?.[index]?.checked
+        );
+    };
 
 
 
@@ -106,10 +111,8 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                         id={`checked-${index}`}
                         name={`AssignFormikCards[${index}].checked`}
                         className="table-checkbox-input cursor-pointer"
-                        checked={
-                            formik.values?.AssignFormikCards?.[index]?.checked ?? false
-                        }
-                        onChange={formik.handleChange}
+                        checked={formik.values?.AssignFormikCards?.[index]?.checked || false}
+                        onChange={() => handleCheckboxChange(index)}
                         onBlur={formik.handleBlur}
                     />
                     {/* Error handling code */}
@@ -117,29 +120,13 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
             ),
         },
         {
-            name: "Cards",
+            name: "Items",
             selector: (row) => row.name,
             sortable: true,
             width: "85%",
             cell: (row) => (
                 <div className="d-flex">
                     <div className=" my-2 d-flex justify-content-center align-items-center gap-1 all-center-flex">
-                        <span className='all-center-flex' style={{
-                            width: "40px", height: "25px", display: "flex", justifyContent: "center"
-                        }}>
-                            {/* <img src={row?.logo} alt='' /> */}
-                            <img
-                                src={row?.logo}
-                                alt=''
-                                style={{
-                                    // width: "60px",
-                                    // height: "40px",
-                                    background: "rgb(225 214 214)",
-                                    padding: "5px",
-                                    borderRadius: "8px",
-                                }}
-                            />
-                        </span>
                         <h6 className="mb-0 fs-14 fw-semibold all-center-flex">{row.name}</h6>
                     </div>
                 </div>
@@ -154,7 +141,7 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
             {isLoading ? <Loaderimg /> : null}
             <div className="page-header ">
                 <div>
-                    <h1 className="page-title">Update Card Group</h1>
+                    <h1 className="page-title">Add Department Item Group</h1>
                     <Breadcrumb className="breadcrumb">
                         <Breadcrumb.Item
                             className="breadcrumb-item"
@@ -167,15 +154,15 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                             className="breadcrumb-item breadcrumds"
                             aria-current="page"
                             linkAs={Link}
-                            linkProps={{ to: "/card-group" }}
+                            linkProps={{ to: "/department-item-group/" }}
                         >
-                            Card Group
+                            Item Group
                         </Breadcrumb.Item>
                         <Breadcrumb.Item
                             className="breadcrumb-item active breadcrumds"
                             aria-current="page"
                         >
-                            Update Card Group
+                            Add Department Item Group
                         </Breadcrumb.Item>
                     </Breadcrumb>
 
@@ -191,7 +178,7 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                                 <div lg={4} md={6}>
                                     <div className="form-group">
                                         <label className="form-label mt-4" htmlFor="card_name">
-                                            Card Group Name
+                                            Item Group Name
                                             <span className="text-danger">*</span>
                                         </label>
                                         <input
@@ -203,7 +190,7 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                                                 }`}
                                             id="card_name"
                                             name="card_name"
-                                            placeholder="Card Group Name"
+                                            placeholder="Item Group Name"
                                             onChange={formik.handleChange}
                                             value={formik.values.card_name}
                                         />
@@ -215,7 +202,7 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                                     </div>
                                 </div>
                                 <Card.Header className="cardheader-table">
-                                    <h3 className="card-title">Assign Card</h3>
+                                    <h3 className="card-title">Assign Items</h3>
                                 </Card.Header>
                                 {
                                     cardData?.length > 0 ? (
@@ -244,14 +231,6 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                                         </>
                                     )}
 
-                                {/* <Card.Footer>
-                                    <div className="d-flex justify-content-end mt-3">
-                                        <button className="btn btn-primary" type="submit">
-                                            Submit
-                                        </button>
-                                    </div>
-                                </Card.Footer> */}
-
                                 <Card.Footer className="text-end">
                                     <Link
                                         type="submit"
@@ -264,7 +243,7 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                                         type="submit"
                                         className="btn btn-primary me-2 "
                                     >
-                                        Submit
+                                        Add
                                     </button>
                                 </Card.Footer>
 
@@ -277,4 +256,4 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
     )
 }
 
-export default withApi(UpdateCardGroup);
+export default withApi(DepartmentAddCardGroup);

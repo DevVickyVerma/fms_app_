@@ -2,7 +2,7 @@ import { Card, Col, Modal, Row } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { AiOutlineClose } from "react-icons/ai";
 
-const CardGroupCenterModal = (props) => {
+const DepartmentCardGroupCenterModal = (props) => {
     const { showModal, setShowModal, detailApiData } = props;
 
     const handleCloseModal = () => {
@@ -21,7 +21,7 @@ const CardGroupCenterModal = (props) => {
                 class="modal-header"
                 style={{ color: "#fff", background: "#6259ca" }}
             >
-                <h5 class="modal-title">Cards</h5>
+                <h5 class="modal-title">Items</h5>
                 <button
                     type="button"
                     class="close"
@@ -74,9 +74,9 @@ const CardGroupCenterModal = (props) => {
     );
 };
 
-CardGroupCenterModal.propTypes = {
+DepartmentCardGroupCenterModal.propTypes = {
     // title: PropTypes.string.isRequired,
     // visible: PropTypes.bool.isRequired,
 };
 
-export default CardGroupCenterModal;
+export default DepartmentCardGroupCenterModal;
