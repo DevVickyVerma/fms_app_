@@ -30,7 +30,7 @@ const DepartmentAddCardGroup = ({ isLoading, getData, postData }) => {
     const formik = useFormik({
         initialValues,
         validationSchema: Yup.object({
-            card_name: Yup.string().required("Card group name is required"),
+            card_name: Yup.string().required("Items Group name is required"),
         }),
         onSubmit: (values) => {
             handleSettingSubmit(values);
