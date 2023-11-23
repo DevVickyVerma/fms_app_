@@ -51,7 +51,22 @@ const CardGroupCenterModal = (props) => {
                                                     justifyContent: "center"
                                                 }}>
                                                     <strong style={{ fontWeight: 700 }}>
-                                                        {singleName}
+                                                        <div className=" my-2 d-flex justify-content-center align-items-center gap-1 all-center-flex">
+                                                            <span className='all-center-flex' style={{
+                                                                width: "40px", height: "25px", display: "flex", justifyContent: "center"
+                                                            }}>
+                                                                <img
+                                                                    src={singleName?.logo}
+                                                                    alt=''
+                                                                    style={{
+                                                                        background: "rgb(225 214 214)",
+                                                                        padding: "5px",
+                                                                        borderRadius: "8px",
+                                                                    }}
+                                                                />
+                                                            </span>
+                                                            <h6 className="mb-0 fs-14 fw-semibold all-center-flex">{singleName?.name}</h6>
+                                                        </div>
                                                     </strong>
                                                 </span>
                                             </Col>

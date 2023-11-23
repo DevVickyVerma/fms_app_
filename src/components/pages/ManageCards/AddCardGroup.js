@@ -104,12 +104,12 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
             center: true,
             width: "15%",
             cell: (row, index) => (
-                <div>
+                <div className="all-center-flex">
                     <input
                         type="checkbox"
                         id={`checked-${index}`}
                         name={`AssignFormikCards[${index}].checked`}
-                        className="table-checkbox-input cursor-pointer"
+                        className="form-check-input cursor-pointer"
                         checked={formik.values?.AssignFormikCards?.[index]?.checked || false}
                         onChange={() => handleCheckboxChange(index)}
                         onBlur={formik.handleBlur}

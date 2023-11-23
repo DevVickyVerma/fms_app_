@@ -99,7 +99,6 @@ const FuelPrices = (props) => {
       console.error("API error:", error);
     }
   };
-  console.log(notificationTypes, "notificationTypes");
 
   const [data, setData] = useState();
   const renderTableHeader = () => {
@@ -269,8 +268,6 @@ const FuelPrices = (props) => {
     // backgroundColor: "#f5f5f5",
     // padding: "10px",
   };
-
-  console.log(formik?.values, "updatedvalues");
 
   const formik = useFormik({
     initialValues: {
