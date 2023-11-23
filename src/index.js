@@ -504,6 +504,9 @@ const manageNotification = React.lazy(() =>
 const managesms = React.lazy(() =>
   import("./components/pages/ManageSmS/managesms")
 );
+const payrolss = React.lazy(() =>
+  import("./components/pages/Payrols/Payrols")
+);
 
 const Root = () => {
   const store = configureStore({
