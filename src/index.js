@@ -644,6 +644,7 @@ const Root = () => {
   const WrappedNominalTaxCode = withApi(NominalTaxCode);
   const WrappedActivitylogs = withApi(Activitylogs);
   const Wrappedmanagesms = withApi(managesms);
+  const Wrappedpayrolss = withApi(payrolss);
 
   return (
     <Fragment>
@@ -1177,6 +1178,10 @@ const Root = () => {
                   <Route
                     path={`/manage-sms`}
                     element={<Wrappedmanagesms />}
+                  />
+                  <Route
+                    path={`/manage-payrols`}
+                    element={<Wrappedpayrolss />}
                   />
 
                   <Route>

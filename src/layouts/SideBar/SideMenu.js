@@ -12,6 +12,23 @@ export const MENUITEMS = [
         visibility: false,
         title: "Dashboard",
       },
+      {
+        title: "Manage payrols",
+        icon: "comments",
+        type: "sub",
+        active: false,
+        permission: "sms-create",
+        visibility: false,
+        children: [
+          {
+            path: `/manage-payrols`,
+            title: "Manage payrols",
+            type: "link",
+            permission: "sms-create",
+            visibility: false,
+          },
+        ],
+      },
       //user
       {
         title: "Manage Users",
@@ -751,6 +768,7 @@ export const MENUITEMS = [
           },
         ],
       },
+   
     ],
   },
 ];
