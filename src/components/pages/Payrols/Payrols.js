@@ -7,17 +7,17 @@ import { format, parse, addDays, differenceInCalendarWeeks } from "date-fns";
 import { enUS } from "date-fns/locale";
 
 const validationSchema = Yup.object().shape({
-  users: Yup.array().of(
-    Yup.object().shape({
-      Weeks: Yup.object().shape({
-        role: Yup.string().required("Role is required"),
-        startTime: Yup.string().required("Start time is required"),
-        endTime: Yup.string().required("End time is required"),
-        budget: Yup.number().required("Budget is required"),
-        forecast: Yup.number().required("Forecast is required"),
-      }),
-    })
-  ),
+  // users: Yup.array().of(
+  //   Yup.object().shape({
+  //     Weeks: Yup.object().shape({
+  //       role: Yup.string().required("Role is required"),
+  //       startTime: Yup.string().required("Start time is required"),
+  //       endTime: Yup.string().required("End time is required"),
+  //       budget: Yup.number().required("Budget is required"),
+  //       forecast: Yup.number().required("Forecast is required"),
+  //     }),
+  //   })
+  // ),
 });
 
 const getWeekDays = (startDate) => {
@@ -48,33 +48,73 @@ const initialValues = {
     {
       username: "User4",
       Weeks: {
-        role: "",
-        startTime: "",
-        endTime: "",
-        budget: 0,
-        forecast: 0,
+        "24/11/2023": [{
+          differentId: 1,
+          role: "",
+          startTime: "",
+          endTime: "",
+          budget: 0,
+          forecast: 0,
+        }],
+        "25/11/2023": [{
+          differentId: 1,
+          role: "",
+          startTime: "",
+          endTime: "",
+          budget: 0,
+          forecast: 0,
+        }],
+        "26/11/2023": [{
+          differentId: 1,
+          role: "",
+          startTime: "",
+          endTime: "",
+          budget: 0,
+          forecast: 0,
+        }],
+
       },
     },
     {
       username: "User5",
       Weeks: {
-        role: "",
-        startTime: "",
-        endTime: "",
-        budget: 0,
-        forecast: 0,
+        "24/11/2023": [{
+          differentId: 1,
+          role: "",
+          startTime: "",
+          endTime: "",
+          budget: 0,
+          forecast: 0,
+        }],
+        "25/11/2023": [{
+          differentId: 1,
+          role: "",
+          startTime: "",
+          endTime: "",
+          budget: 0,
+          forecast: 0,
+        }],
+        "26/11/2023": [{
+          differentId: 1,
+          role: "",
+          startTime: "",
+          endTime: "",
+          budget: 0,
+          forecast: 0,
+        }],
       },
     },
-    {
-      username: "User6",
-      Weeks: {
-        role: "",
-        startTime: "",
-        endTime: "",
-        budget: 0,
-        forecast: 0,
-      },
-    },
+    // {
+    //   username: "User6",
+    //   Weeks: {
+    //     differentId: 3,
+    //     role: "",
+    //     startTime: "",
+    //     endTime: "",
+    //     budget: 0,
+    //     forecast: 0,
+    //   },
+    // },
     // Additional rows
   ],
 };
@@ -89,7 +129,9 @@ const MyForm = () => {
 
   const weekDays = getWeekDays(currentWeekStartDate);
 
-  const onSubmit = (values) => {
+  console.log(weekDays, "weekdays");
+
+  const handleSubmit1 = (values) => {
     // Handle submission logic here
     console.log("Submitted Values:", values);
     // You can assign unique IDs and log individual inputs
@@ -104,8 +146,14 @@ const MyForm = () => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit,
+    onSubmit: (values) => {
+      handleSubmit1(values);
+    },
   });
+
+
+
+  console.log(formik?.values, "formikvalues");
 
   const handleNextWeek = () => {
     const nextWeekStartDate = new Date(currentWeekStartDate);
@@ -159,6 +207,9 @@ const MyForm = () => {
     // Other logic to fetch data for the selected week
   };
 
+  // Assuming you have a dummy array of cost forecast data
+  const costForecastData = [100, 150, 200, 180, 220, 250, 300, 280, 300];
+
   return (
     <div className="container-fluid">
       <form onSubmit={formik.handleSubmit}>
@@ -205,14 +256,31 @@ const MyForm = () => {
             })}
           </select>
         </div>
+        <div className="text-end my-4">
+          <button
+            className="btn btn-primary"
+            style={{ marginLeft: "10px" }}
+            type="button"
+            onClick={handlePreviousWeek}
+          >
+            <ArrowBackIosIcon />
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary ms-2"
+            onClick={handleNextWeek}
+          >
+            <ArrowForwardIosIcon />
+          </button>
+        </div>
 
         <div className="table-width">
           <table className="table table-responsive">
             <thead>
               <tr>
+                <th >Usernames</th>
                 <th>Budget</th>
                 <th>Forecast</th>
-                <th>Usernames</th>
                 {weekDays.map((day, index) => {
                   const parsedDate = parse(day, "dd/MM/yyyy", new Date());
                   const formattedDate = format(parsedDate, "EEE", {
@@ -220,8 +288,10 @@ const MyForm = () => {
                   });
 
                   return (
-                    <th key={index}>
-                      <div className="d-flex flex-column align-items-center">
+                    <th key={index} className=" m-0 p-0">
+                      <div
+                        className="d-flex flex-column "
+                      >
                         <span>{day}</span>
                         <span>{formattedDate}</span>
                       </div>
@@ -229,15 +299,72 @@ const MyForm = () => {
                   );
                 })}
               </tr>
+
+              <tr >
+                <th className=" pay-role-custom-input-box" style={{ width: "10%" }}>Cost Forecast</th>
+                {costForecastData.map((cost, index) => (
+                  <th style={{ width: "10%" }}>
+                    <span key={index}>{`$${cost}`}</span>
+                  </th>
+                ))}
+              </tr>
+
+              <tr >
+                <th className=" pay-role-custom-input-box" style={{ width: "10%" }}>Hours</th>
+                {costForecastData.map((cost, index) => (
+                  <th style={{ width: "10%" }}>
+                    <span key={index}>{`$${cost}`}</span>
+                  </th>
+                ))}
+              </tr>
+              <tr >
+                <th className=" pay-role-custom-input-box" style={{ width: "10%" }}>Salaries</th>
+                {costForecastData.map((cost, index) => (
+                  <th style={{ width: "10%" }}>
+                    <span key={index}>{`$${cost}`}</span>
+                  </th>
+                ))}
+              </tr>
             </thead>
+
+
+
+
+
+
             <tbody>
+
 
               {formik.values.users.map((user, rowIndex) => (
                 <tr key={rowIndex}>
+
+                  <td>
+                    {user.username}
+                    <div className="d-flex ">
+                      <input
+                        type="text"
+                        className="input101 pay-role-custom-input-box "
+                        name={`users[${rowIndex}].Weeks.startTime`}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.users[rowIndex].Weeks.startTime}
+                        id={generateTableId("startTime", rowIndex)}
+                      />
+                      <input
+                        type="text"
+                        className="input101 pay-role-custom-input-box ms-2"
+                        name={`users[${rowIndex}].Weeks.endTime`}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.users[rowIndex].Weeks.endTime}
+                        id={generateTableId("endTime", rowIndex)}
+                      />
+                    </div>
+                  </td>
                   <td>
                     <input
                       type="number"
-                      className="input101"
+                      className="input101 pay-role-custom-input-box"
                       name={`users[${rowIndex}].budget`}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -248,7 +375,7 @@ const MyForm = () => {
                   <td>
                     <input
                       type="number"
-                      className="input101"
+                      className="input101 pay-role-custom-input-box"
                       name={`users[${rowIndex}].forecast`}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -256,46 +383,29 @@ const MyForm = () => {
                       id={generateInputId("forecast", rowIndex)}
                     />
                   </td>
-                  <td>
-                    {user.username}
-                    <div className="d-flex ">
-                      <input
-                        type="text"
-                        className="input101"
-                        name={`users[${rowIndex}].Weeks.startTime`}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.users[rowIndex].Weeks.startTime}
-                        id={generateTableId("startTime", rowIndex)}
-                      />
-                      <input
-                        type="text"
-                        className="input101 ms-2"
-                        name={`users[${rowIndex}].Weeks.endTime`}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.users[rowIndex].Weeks.endTime}
-                        id={generateTableId("endTime", rowIndex)}
-                      />
-                    </div>
-                  </td>
+
+                  {
+                    console.log(weekDays, "weeee")
+                  }
+
+
 
                   {weekDays.map((day, colIndex) => (
                     <td key={colIndex}>
                       <label>
                         <select
-                          name={`users[${rowIndex}].Weeks.role`}
-                          className={`input101 ${formik.errors.users && formik.touched.users
+                          name={`users[${rowIndex}].Weeks.[${day}][0].role`}
+                          className={`input101 pay-role-custom-input-box ${formik?.errors?.users && formik?.touched?.users
                             ? "is-invalid"
                             : ""
                             }`}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          value={formik.values.users[rowIndex].Weeks.role}
+                          onChange={formik?.handleChange}
+                          onBlur={formik?.handleBlur}
+                          value={formik?.values?.users?.[rowIndex]?.Weeks?.[day]?.[0].role}
                           id={generateTableId("role", rowIndex, colIndex)}
                         >
                           <option value="" label="Select a role" />
-                          {roles.map((role) => (
+                          {roles?.map((role) => (
                             <option key={role} value={role}>
                               {role}
                             </option>
@@ -307,20 +417,20 @@ const MyForm = () => {
                       <div className="d-flex ">
                         <input
                           type="text"
-                          className="input101"
-                          name={`users[${rowIndex}].Weeks.startTime`}
+                          className="input101 pay-role-custom-input-box"
+                          name={`users[${rowIndex}].Weeks.[${day}][0].startTime`}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          value={formik.values.users[rowIndex].Weeks.startTime}
+                          value={formik?.values?.users?.[rowIndex]?.Weeks?.[day]?.[0].startTime}
                           id={generateTableId("startTime", rowIndex, colIndex)}
                         />
                         <input
                           type="text"
-                          className="input101 ms-2"
-                          name={`users[${rowIndex}].Weeks.endTime`}
+                          className="input101 pay-role-custom-input-box ms-2"
+                          name={`users[${rowIndex}].Weeks.[${day}][0].endTime`}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          value={formik.values.users[rowIndex].Weeks.endTime}
+                          value={formik?.values?.users?.[rowIndex]?.Weeks?.[day]?.[0].endTime}
                           id={generateTableId("endTime", rowIndex, colIndex)}
                         />
                       </div>
@@ -329,6 +439,7 @@ const MyForm = () => {
                 </tr>
               ))}
             </tbody>
+
           </table>
         </div>
 

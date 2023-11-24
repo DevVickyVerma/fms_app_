@@ -1338,3 +1338,7 @@ span.circle-info {
   font-size: 12px;
   margin-top: 3px;
 }
+
+.pay-role-custom-input-box {
+  border-radius: 1px dotted #cb2323 !important;
+}
