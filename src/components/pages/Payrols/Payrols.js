@@ -43,27 +43,7 @@ const generateTableId = (fieldName, rowIndex, colIndex) => {
 };
 
 const initialValues = {
-  Row1users: [
-    {
-      username: "Cost Forecast",
-      Weeks: {
-        headingdata: "CostForecast1",
-      },
-    },
-    {
-      username: "Hours",
-      Weeks: {
-        headingdata: "eeee",
-      },
-    },
-    {
-      username: "Salaries",
-      Weeks: {
-        headingdata: "Salaries",
-      },
-    },
-    // Additional rows
-  ],
+
   users: [
     {
       username: "User4",
@@ -251,16 +231,7 @@ const MyForm = () => {
               </tr>
             </thead>
             <tbody>
-              {formik.values.Row1users.map((user, rowIndex) => (
-                <tr key={rowIndex}>
-                  <td>{user.username}</td>
-                  {weekDays.map((day, colIndex) => (
-                    <td key={colIndex}>
-                      <span>{user.Weeks.headingdata}</span>
-                    </td>
-                  ))}
-                </tr>
-              ))}
+
               {formik.values.users.map((user, rowIndex) => (
                 <tr key={rowIndex}>
                   <td>
@@ -314,11 +285,10 @@ const MyForm = () => {
                       <label>
                         <select
                           name={`users[${rowIndex}].Weeks.role`}
-                          className={`input101 ${
-                            formik.errors.users && formik.touched.users
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.users && formik.touched.users
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                           value={formik.values.users[rowIndex].Weeks.role}

@@ -199,6 +199,8 @@ const ManageSite = (props) => {
   const isEditPermissionAvailable = permissionsArray?.includes("site-edit");
   const isBankManagerPermissionAvailable =
     permissionsArray?.includes("bankmanager-list");
+  const isOpeningBalancePermissionAvailable =
+    permissionsArray?.includes("opening-list");
   const isManagerPermissionAvailable = permissionsArray?.includes(
     "site-assign-manager"
   );
@@ -436,6 +438,20 @@ const ManageSite = (props) => {
                             <AccountBalanceIcon />
                           </i>
                           Bank Manager
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isOpeningBalancePermissionAvailable ? (
+                    <Dropdown.Item className=" p-0 m-0"
+                    //  className="dropdown-item"
+                    >
+                      <Link to={`/opening-balance/${row.id}`}>
+                        <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <AccountBalanceIcon />
+                          </i>
+                          Opening Balance
                         </div>
                       </Link>
                     </Dropdown.Item>

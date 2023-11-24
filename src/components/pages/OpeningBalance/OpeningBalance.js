@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import withApi from '../../../Utils/ApiHelper'
 import Loaderimg from '../../../Utils/Loader';
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
+import { Breadcrumb, Card, Col, OverlayTrigger, Pagination, Row, Tooltip } from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -10,9 +10,25 @@ import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { ErrorAlert } from '../../../Utils/ToastUtils';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
-const ManageBank = ({ isLoading, getData }) => {
-    const [data, setData] = useState();
+const OpeningBalance = ({ isLoading, getData }) => {
+    const [data, setData] = useState(); const [count, setCount] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [hasMorePage, setHasMorePages] = useState("");
+    const [lastPage, setLastPage] = useState(1);
+    const [perPage, setPerPage] = useState(20);
+    const [total, setTotal] = useState(0);
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
+
+    useEffect(() => {
+        fetchOpeningBalanceList()
+    }, [currentPage]);
+
+
     const [permissionsArray, setPermissionsArray] = useState([]);
     const UserPermissions = useSelector((state) => state?.data?.data);
     useEffect(() => {
@@ -20,15 +36,12 @@ const ManageBank = ({ isLoading, getData }) => {
             setPermissionsArray(UserPermissions.permissions);
         }
     }, [UserPermissions]);
-    useEffect(() => {
-        fetchBankManagerList();
-    }, []);
-    const isAddPermissionAvailable = permissionsArray?.includes("bankmanager-create");
+    const isAddPermissionAvailable = permissionsArray?.includes("opening-create");
     const isDeletePermissionAvailable = permissionsArray?.includes(
-        "bankmanager-delete"
+        "opening-delete"
     );
     const isEditPermissionAvailable = permissionsArray?.includes(
-        "bankmanager-edit"
+        "opening-edit"
     );
     const { id } = useParams();
 
@@ -62,7 +75,7 @@ const ManageBank = ({ isLoading, getData }) => {
                 const DeleteRole = async () => {
                     try {
                         const response = await axiosInstance.post(
-                            "site/bank-manager/delete",
+                            "site/opening-balance/delete",
                             formData
                         );
                         setData(response.data.data);
@@ -72,7 +85,7 @@ const ManageBank = ({ isLoading, getData }) => {
                             icon: "success",
                             confirmButtonText: "OK",
                         });
-                        fetchBankManagerList();
+                        fetchOpeningBalanceList();
                     } catch (error) {
                         handleError(error);
                     } finally {
@@ -99,11 +112,17 @@ const ManageBank = ({ isLoading, getData }) => {
         }
     }
 
-    const fetchBankManagerList = async () => {
+    const fetchOpeningBalanceList = async () => {
         try {
-            const response = await getData(`/site/bank-manager/list?site_id=${id}`);
+            const response = await getData(`/site/opening-balance/list?site_id=${id}&page=${currentPage}`);
             if (response && response.data) {
-                setData(response?.data?.data?.managers);
+                setData(response?.data?.data?.balances);
+                setCount(response.data.data.count);
+                setCurrentPage(response?.data?.data?.currentPage);
+                setHasMorePages(response?.data?.data?.hasMorePages);
+                setLastPage(response?.data?.data?.lastPage);
+                setPerPage(response?.data?.data?.perPage);
+                setTotal(response?.data?.data?.total);
             } else {
                 throw new Error("No data available in the response");
             }
@@ -114,104 +133,74 @@ const ManageBank = ({ isLoading, getData }) => {
 
     const columns = [
         {
-            name: "Sr. No.",
-            selector: (row, index) => index + 1,
-            sortable: false,
-            width: "10%",
-            center: true,
-            cell: (row, index) => (
-                <span className="text-muted fs-15 fw-semibold text-center">
-                    {index + 1}
-                </span>
-            ),
-        },
-        {
-            name: "Manager Name",
-            selector: (row) => [row.manager_name],
+            name: "Balance Type",
+            selector: (row) => [row?.opening_balance_type],
             sortable: true,
-            width: "12.8%",
+            width: "12.5%",
             cell: (row, index) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.manager_name}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row?.opening_balance_type}</h6>
                     </div>
                 </div>
             ),
         },
         {
-            name: "Bank Name",
-            selector: (row) => [row.bank_name],
-            sortable: false,
-            width: "12.8%",
-            cell: (row) => (
-                <div
-                    className="d-flex"
-                    style={{ cursor: "default" }}
-                // onClick={() => handleToggleSidebar(row)}
-                >
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold ">{row.bank_name}</h6>
-                    </div>
-                </div>
-            ),
-        },
-        {
-            name: "Account Name",
-            selector: (row) => [row.account_name],
+            name: "Opening Balance",
+            selector: (row) => [row?.opening_balance],
             sortable: true,
-            width: "12.8%",
+            width: "12.5%",
             cell: (row, index) => (
-                <div
-                    className="d-flex"
-                    style={{ cursor: "default" }}
-                // onClick={() => handleToggleSidebar(row)}
-                >
+                <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold ">{row.account_name}</h6>
-                    </div>
-                </div>
-            ),
-        },
-        {
-            name: "Account No.",
-            selector: (row) => [row.account_no],
-            sortable: true,
-            width: "12.8%",
-            cell: (row, index) => (
-                <div
-                    className="d-flex"
-                    style={{ cursor: "default" }}
-                // onClick={() => handleToggleSidebar(row)}
-                >
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold ">{row.account_no}</h6>
-                    </div>
-                </div>
-            ),
-        },
-        {
-            name: "Sort Code",
-            selector: (row) => [row.sort_code],
-            sortable: false,
-            width: "12.8%",
-            cell: (row) => (
-                <div
-                    className="d-flex"
-                    style={{ cursor: "default" }}
-                // onClick={() => handleToggleSidebar(row)}
-                >
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold ">{row.sort_code}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold">{row?.opening_balance}</h6>
                     </div>
                 </div>
             ),
         },
 
         {
-            name: "Created Date",
-            selector: (row) => [row.created_date],
+            name: "LOOMIS OPENING BALANCE",
+            selector: (row) => [row?.opening_balance_loomis],
+            sortable: true,
+            width: "12.5%",
+            cell: (row, index) => (
+                <div
+                    className="d-flex"
+                    style={{ cursor: "default" }}
+                // onClick={() => handleToggleSidebar(row)}
+                >
+                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold ">{row?.opening_balance_loomis}</h6>
+                    </div>
+                </div>
+            ),
+        },
+
+
+        {
+            name: "LOOMIS UNDER/OVER BALANCE",
+            selector: (row) => [row?.opening_balance_ou_loomis],
+            sortable: true,
+            width: "12.5%",
+            cell: (row, index) => (
+                <div
+                    className="d-flex"
+                    style={{ cursor: "default" }}
+                // onClick={() => handleToggleSidebar(row)}
+                >
+                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold ">{row?.opening_balance_ou_loomis}</h6>
+                    </div>
+                </div>
+            ),
+        },
+
+        {
+            name: "BANK UNDER/OVER BALANCE",
+            selector: (row) => [row?.opening_balance_ou_bank],
             sortable: false,
-            width: "12.8%",
+            width: "12.5%",
             cell: (row) => (
                 <div
                     className="d-flex"
@@ -219,7 +208,43 @@ const ManageBank = ({ isLoading, getData }) => {
                 // onClick={() => handleToggleSidebar(row)}
                 >
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
+                        <h6 className="mb-0 fs-14 fw-semibold ">{row?.opening_balance_ou_bank}</h6>
+                    </div>
+                </div>
+            ),
+        },
+
+        {
+            name: "CLOSING BALANCE ADJUSTMENT",
+            selector: (row) => [row?.closing_balance_adjustment],
+            sortable: false,
+            width: "12.5%",
+            cell: (row) => (
+                <div
+                    className="d-flex"
+                    style={{ cursor: "default" }}
+                // onClick={() => handleToggleSidebar(row)}
+                >
+                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold ">{row?.closing_balance_adjustment}</h6>
+                    </div>
+                </div>
+            ),
+        },
+
+        {
+            name: " OPENING BALANCE DATE",
+            selector: (row) => [row?.opening_balance_date],
+            sortable: false,
+            width: "12.5%",
+            cell: (row) => (
+                <div
+                    className="d-flex"
+                    style={{ cursor: "default" }}
+                // onClick={() => handleToggleSidebar(row)}
+                >
+                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                        <h6 className="mb-0 fs-14 fw-semibold ">{row?.opening_balance_date}</h6>
                     </div>
                 </div>
             ),
@@ -227,15 +252,15 @@ const ManageBank = ({ isLoading, getData }) => {
 
         {
             name: "Action",
-            selector: (row) => [row.action],
+            selector: (row) => [row?.action],
             sortable: false,
-            width: "12.8%",
+            width: "12.5%",
             cell: (row) => (
                 <span className="text-center">
                     {isEditPermissionAvailable ? (
                         <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
                             <Link
-                                to={`/editbankmanager/${row.id}`}
+                                to={`/edit-opening-balance/${row?.id}`}
                                 className="btn btn-primary btn-sm rounded-11 me-2"
                             >
                                 <i>
@@ -258,7 +283,7 @@ const ManageBank = ({ isLoading, getData }) => {
                             <Link
                                 to="#"
                                 className="btn btn-danger btn-sm rounded-11"
-                                onClick={() => handleDelete(row.id)}
+                                onClick={() => handleDelete(row?.id)}
                             >
                                 <i>
                                     <svg
@@ -286,13 +311,49 @@ const ManageBank = ({ isLoading, getData }) => {
         data,
     };
 
+
+    const maxPagesToShow = 5; // Adjust the number of pages to show in the center
+    const pages = [];
+
+    // Calculate the range of pages to display
+    let startPage = Math.max(currentPage - Math.floor(maxPagesToShow / 2), 1);
+    let endPage = Math.min(startPage + maxPagesToShow - 1, lastPage);
+
+    // Handle cases where the range is near the beginning or end
+    if (endPage - startPage + 1 < maxPagesToShow) {
+        startPage = Math.max(endPage - maxPagesToShow + 1, 1);
+    }
+
+    // Render the pagination items
+    for (let i = startPage; i <= endPage; i++) {
+        pages.push(
+            <Pagination.Item
+                key={i}
+                active={i === currentPage}
+                onClick={() => handlePageChange(i)}
+            >
+                {i}
+            </Pagination.Item>
+        );
+    }
+
+    // Add ellipsis if there are more pages before or after the displayed range
+    if (startPage > 1) {
+        pages.unshift(<Pagination.Ellipsis key="ellipsis-start" disabled />);
+    }
+
+    if (endPage < lastPage) {
+        pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
+    }
+
+
     return (
         <>
             {isLoading ? <Loaderimg /> : null}
             <div>
                 <div className="page-header d-flex">
                     <div>
-                        <h1 className="page-title">Bank Manager </h1>
+                        <h1 className="page-title">Opening Balance </h1>
                         <Breadcrumb className="breadcrumb">
                             <Breadcrumb.Item
                                 className="breadcrumb-item"
@@ -312,7 +373,7 @@ const ManageBank = ({ isLoading, getData }) => {
                                 className="breadcrumb-item active breadcrumds"
                                 aria-current="page"
                             >
-                                Bank Manager
+                                Opening Balance
                             </Breadcrumb.Item>
                         </Breadcrumb>
                     </div>
@@ -320,11 +381,11 @@ const ManageBank = ({ isLoading, getData }) => {
                         <div className="input-group">
                             {isAddPermissionAvailable ? (
                                 <Link
-                                    to={`/addbank/${id}`}
+                                    to={`/add-opening-balance/${id}`}
                                     className="btn btn-primary ms-2"
                                     style={{ borderRadius: "4px" }}
                                 >
-                                    Add Bank Manager
+                                    Add Opening Balance  <AddCircleOutlineIcon />
                                 </Link>
                             ) : (
                                 ""
@@ -335,10 +396,10 @@ const ManageBank = ({ isLoading, getData }) => {
 
 
                 <Row className=" row-sm">
-                    <Col lg={12}>
+                    <Col lg={12} md={12}>
                         <Card>
                             <Card.Header>
-                                <h3 className="card-title">Bank Manager </h3>
+                                <h3 className="card-title">Opening Balance </h3>
                             </Card.Header>
                             <Card.Body>
                                 {data?.length > 0 ? (
@@ -352,13 +413,13 @@ const ManageBank = ({ isLoading, getData }) => {
                                                     defaultSortField="id"
                                                     defaultSortAsc={false}
                                                     striped={true}
-                                                    // center={true}
+                                                    center={true}
                                                     persistTableHead
-                                                    pagination
-                                                    paginationPerPage={20}
                                                     highlightOnHover
-                                                    searchable={true}
-                                                    fixedHeader
+                                                    className=' overflow-hidden'
+                                                    style={{ overflow: "hidden" }}
+
+
                                                 />
                                             </DataTableExtensions>
                                         </div>
@@ -373,6 +434,31 @@ const ManageBank = ({ isLoading, getData }) => {
                                     </>
                                 )}
                             </Card.Body>
+                            <Card.Footer>
+                                {data?.length > 0 ? (
+                                    <>
+                                        <div style={{ float: "right" }}>
+                                            <Pagination>
+                                                <Pagination.First onClick={() => handlePageChange(1)} />
+                                                <Pagination.Prev
+                                                    onClick={() => handlePageChange(currentPage - 1)}
+                                                    disabled={currentPage === 1}
+                                                />
+                                                {pages}
+                                                <Pagination.Next
+                                                    onClick={() => handlePageChange(currentPage + 1)}
+                                                    disabled={currentPage === lastPage}
+                                                />
+                                                <Pagination.Last
+                                                    onClick={() => handlePageChange(lastPage)}
+                                                />
+                                            </Pagination>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <></>
+                                )}
+                            </Card.Footer>
                         </Card>
                     </Col>
                 </Row>
@@ -385,4 +471,4 @@ const ManageBank = ({ isLoading, getData }) => {
     )
 }
 
-export default withApi(ManageBank);
+export default withApi(OpeningBalance);

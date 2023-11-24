@@ -13,7 +13,15 @@ const AddUsers = (props) => {
   const { isLoading, getData, postData } = props;
   const [roleitems, setRoleItems] = useState("");
   const [selectRole, setselectRole] = useState([]);
+  const [selectedCountryCode, setSelectedCountryCode] = useState("+44");
+
   const navigate = useNavigate();
+
+
+  const handleCountryCodeChange = (e) => {
+    setSelectedCountryCode(e.target.value);
+
+  };
 
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -30,6 +38,20 @@ const AddUsers = (props) => {
     }
   }
 
+  const countryCodes = [
+    { code: "+1", name: "United States", flag: "🇺🇸", shortName: "USA" },
+    { code: "+44", name: "United Kingdom", flag: "🇬🇧", shortName: "UK" },
+    { code: "+61", name: "Australia", flag: "🇦🇺", shortName: "AUS" },
+    { code: "+49", name: "Germany", flag: "🇩🇪", shortName: "GER" },
+    { code: "+33", name: "France", flag: "🇫🇷", shortName: "FRA" },
+    { code: "+91", name: "India", flag: "🇮🇳", shortName: "IND" },
+    { code: "+86", name: "China", flag: "🇨🇳", shortName: "CHN" },
+    { code: "+55", name: "Brazil", flag: "🇧🇷", shortName: "BRA" },
+    { code: "+81", name: "Japan", flag: "🇯🇵", shortName: "JPN" },
+  ];
+
+
+
   const handleSubmit1 = async (values, setSubmitting) => {
     try {
       setSubmitting(true); // Set the submission state to true before making the API call
@@ -42,6 +64,7 @@ const AddUsers = (props) => {
       formData.append("last_name", values.last_name);
       formData.append("role_id", values.role);
       formData.append("send_mail", isChecked);
+      formData.append("country_code", selectedCountryCode);
       localStorage.getItem("superiorRole") === "Client" &&
         formData.append("work_flow", values.work_flow);
 
@@ -108,7 +131,9 @@ const AddUsers = (props) => {
     label: site?.full_name,
     value: site?.id,
   }));
-  const phoneRegExp = /^[0-9]{10}$/;
+  const phoneRegExp = /^=-[0-9]{10}$/;
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -162,6 +187,7 @@ const AddUsers = (props) => {
                   send_mail: "1",
                   work_flow: "",
                   phone_number: "",
+                  selected_country_code: "+44",
                 }}
                 validationSchema={Yup.object({
                   first_name: Yup.string()
@@ -176,9 +202,13 @@ const AddUsers = (props) => {
                     .email("Invalid email format"),
 
                   password: Yup.string().required("Password is required"),
+                  // phone_number: Yup.string()
+                  //   .matches(phoneRegExp, "Phone number is not valid")
+                  //   .required("Phone Number is required"),
                   phone_number: Yup.string()
-                    .matches(phoneRegExp, "Phone number is not valid")
+                    .matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number")
                     .required("Phone Number is required"),
+                  // selectedCountryCode: Yup.string().required("Country Code is required"),
                 })}
                 onSubmit={(values, { setSubmitting }) => {
                   handleSubmit1(values, setSubmitting);
@@ -255,9 +285,19 @@ const AddUsers = (props) => {
                               Phone Number<span className="text-danger">*</span>
                             </label>
                             <div className=" d-flex cursor-pointer">
-                              <span className=" d-flex align-items-center disable-pre-number ">
-                                +44
-                              </span>
+                              <Field
+                                as="select"
+                                value={selectedCountryCode}
+                                onChange={handleCountryCodeChange}
+                                className="d-flex align-items-center disable-pre-number "
+                                style={{ borderRadius: "5px 0px 0px 5px", width: "100px" }}
+                              >
+                                {countryCodes.map((country, index) => (
+                                  <option key={index} value={country.code}>
+                                    {`${country.code} (${country.shortName})`}
+                                  </option>
+                                ))}
+                              </Field>
                               <Field
                                 type="number"
                                 className={`input101 ${errors.phone_number && touched.phone_number
@@ -272,7 +312,7 @@ const AddUsers = (props) => {
                             </div>
                             <ErrorMessage
                               component="div"
-                              className="invalid-feedback"
+                              className="custom-error-class"
                               name="phone_number"
                             />
                           </FormGroup>

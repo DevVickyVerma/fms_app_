@@ -1332,3 +1332,9 @@ span.circle-info {
   border: 1px solid #bdc3c7;
   box-shadow: 1px 1px #e3e3e3;
 }
+
+.custom-error-class {
+  color: red;
+  font-size: 12px;
+  margin-top: 3px;
+}

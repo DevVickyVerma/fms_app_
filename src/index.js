@@ -28,6 +28,9 @@ import AddCardGroup from "./components/pages/ManageCards/AddCardGroup";
 import DepartmentAddCardGroup from "./components/pages/ManageItems/DepartmentAddCardGroup";
 import DepartmentCardGroup from "./components/pages/ManageItems/DepartmentCardGroup";
 import DepartmentUpdateCardGroup from "./components/pages/ManageItems/DepartmentUpdateCardGroup";
+import OpeningBalance from "./components/pages/OpeningBalance/OpeningBalance";
+import AddOpeningBalance from "./components/pages/OpeningBalance/AddOpeningBalance";
+import EditOpeningBalance from "./components/pages/OpeningBalance/EditOpeningBalance";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -630,6 +633,11 @@ const Root = () => {
   const WrappedAddBank = withApi(AddBank);
   const WrappedEditBankManneger = withApi(EditBank);
 
+
+  const WrappedOpeningBalance = withApi(OpeningBalance);
+  const WrappedAddOpeningBalance = withApi(AddOpeningBalance);
+  const WrappedEditOpeningBalance = withApi(EditOpeningBalance);
+
   const WrappedmanageNotification = withApi(manageNotification);
   const WrappedEditCompetitorFuelPrices = withApi(EditCompetitorFuelPrices);
   const WrappedSkipDates = withApi(SkipDates);
@@ -645,7 +653,6 @@ const Root = () => {
   const WrappedActivitylogs = withApi(Activitylogs);
   const Wrappedmanagesms = withApi(managesms);
   const Wrappedpayrolss = withApi(payrolss);
-
   return (
     <Fragment>
       <BrowserRouter>
@@ -712,6 +719,7 @@ const Root = () => {
                   />
 
                   <Route path={`/sites`} element={<Managesite />} />
+
                   <Route
                     path={`/managebank/:id`}
                     element={<WrappedManageBank />}
@@ -720,6 +728,17 @@ const Root = () => {
                   <Route
                     path={`/editbankmanager/:id`}
                     element={<WrappedEditBankManneger />}
+                  />
+
+
+                  <Route
+                    path={`/opening-balance/:id`}
+                    element={<WrappedOpeningBalance />}
+                  />
+                  <Route path={`/add-opening-balance/:id`} element={<WrappedAddOpeningBalance />} />
+                  <Route
+                    path={`/edit-opening-balance/:id`}
+                    element={<WrappedEditOpeningBalance />}
                   />
                   <Route
                     path={`/dailyfacilityfees`}
@@ -1183,7 +1202,6 @@ const Root = () => {
                     path={`/manage-payrols`}
                     element={<Wrappedpayrolss />}
                   />
-
                   <Route>
                     <Route path={`/editprofile`} element={<EditProfile />} />
 
