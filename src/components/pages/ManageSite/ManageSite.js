@@ -31,6 +31,7 @@ import CenterSearchmodal from "../../../data/Modal/CenterSearchmodal";
 import { Box } from "@mui/material";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import { ErrorAlert } from "../../../Utils/ToastUtils";
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 const ManageSite = (props) => {
   const { apidata, isLoading, getData, postData } = props;
 
@@ -449,7 +450,7 @@ const ManageSite = (props) => {
                       <Link to={`/opening-balance/${row.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
                           <i className="setting-icon">
-                            <AccountBalanceIcon />
+                            <AccountBalanceWalletIcon />
                           </i>
                           Opening Balance
                         </div>
