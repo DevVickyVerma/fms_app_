@@ -262,84 +262,10 @@ const MyForm = () => {
               </div>
 
             </Card.Header>
-            <Card.Body className="w-100 p-0">
+            <Card.Body className="w-100 ">
 
               <div className="container-fluid">
                 <form onSubmit={formik.handleSubmit}>
-
-                  <Row>
-
-                    <Col lg={4} md={6}>
-                      <div className="form-group">
-                        <label className=" form-label mt-4" htmlFor="monthDropdown">
-                          Select Month:
-                        </label>
-                        <select
-                          className={`input101 ${formik.errors.monthDropdown && formik.touched.monthDropdown
-                            ? "is-invalid"
-                            : ""
-                            }`}
-                          id="monthDropdown"
-                          name="monthDropdown"
-                          onChange={formik.handleChange}
-                          value={formik.values.monthDropdown}
-                        >
-                          {Array.from({ length: 12 }).map((_, index) => (
-                            <option key={index} value={index}>
-                              {new Date(0, index).toLocaleDateString(undefined, {
-                                month: "long",
-                              })}
-                            </option>
-                          ))}
-                        </select>
-                        {formik.errors.monthDropdown && formik.touched.monthDropdown && (
-                          <div className="invalid-feedback">
-                            {formik.errors.monthDropdown}
-                          </div>
-                        )}
-                      </div>
-                    </Col>
-
-                    <Col lg={4} md={6}>
-                      <div className="form-group">
-                        <label className=" form-label mt-4" htmlFor="weekDropdown">
-                          Select Week:
-                        </label>
-                        <select
-                          className={`input101 ${formik.errors.weekDropdown && formik.touched.weekDropdown
-                            ? "is-invalid"
-                            : ""
-                            }`}
-                          id="weekDropdown"
-                          name="weekDropdown"
-                          onChange={formik.handleChange}
-                          value={formik.values.weekDropdown}
-                        >
-                          {Array.from({ length: 4 }).map((_, index) => {
-                            const startOfWeek = addDays(currentWeekStartDate, index * 7);
-                            const formattedDate = format(startOfWeek, "dd/MM/yyyy");
-                            const dayName = format(startOfWeek, "EEEE");
-
-                            return (
-                              <option key={index} value={index}>
-                                Week {index + 1} - {formattedDate} ({dayName})
-                              </option>
-                            );
-                          })}
-                        </select>
-                        {formik.errors.weekDropdown && formik.touched.weekDropdown && (
-                          <div className="invalid-feedback">
-                            {formik.errors.weekDropdown}
-                          </div>
-                        )}
-                      </div>
-                    </Col>
-
-
-                  </Row>
-
-
-
                   <div className="mb-3">
                     <label htmlFor="monthDropdown" className="form-label">
                       Select Month:
@@ -406,7 +332,7 @@ const MyForm = () => {
                                   // className=" "
                                   className="d-flex flex-column pay-role-custom-header"
                                 >
-                                  <span>{day} ( {formattedDate} )</span>
+                                  <span>{day} ({formattedDate})</span>
                                   <span></span>
                                 </div>
                               </th>
@@ -415,26 +341,41 @@ const MyForm = () => {
                         </tr>
 
                         <tr >
-                          <th className="pay-role-custom-header" style={{ width: "10%" }}>Cost Forecast</th>
+                          <th className="pay-role-custom-header"
+                          //  style={{ width: "13%" }}
+                          >Cost Forecast</th>
                           {costForecastData.map((cost, index) => (
-                            <th style={{ width: "10%", borderRight: "1px dotted #6259ca", borderBottom: "1px dotted #6259ca" }}>
+                            <th style={{
+                              // width: "13%", 
+                              borderRight: "1px dotted #6259ca", borderBottom: "1px dotted #6259ca"
+                            }}>
                               <span key={index}>{`$${cost}`}</span>
                             </th>
                           ))}
                         </tr>
 
                         <tr >
-                          <th className="pay-role-custom-header" style={{ width: "10%", }}>Hours</th>
+                          <th className="pay-role-custom-header"
+                          // style={{ width: "10%", }}
+                          >Hours</th>
                           {costForecastData.map((cost, index) => (
-                            <th style={{ width: "10%", borderRight: "1px dotted #6259ca", borderBottom: "1px dotted #6259ca" }}>
+                            <th style={{
+                              // width: "10%",
+                              borderRight: "1px dotted #6259ca", borderBottom: "1px dotted #6259ca"
+                            }}>
                               <span key={index}>{`$${cost}`}</span>
                             </th>
                           ))}
                         </tr>
                         <tr style={{ borderBottom: "1px dotted black" }}>
-                          <th className="pay-role-custom-header " style={{ width: "10%", }}>Salaries</th>
+                          <th className="pay-role-custom-header "
+                          // style={{ width: "10%", }}
+                          >Salaries</th>
                           {costForecastData.map((cost, index) => (
-                            <th style={{ width: "10%", borderRight: "1px dotted #6259ca", borderBottom: "1px dotted #6259ca" }}>
+                            <th style={{
+                              // width: "10%", 
+                              borderRight: "1px dotted #6259ca", borderBottom: "1px dotted #6259ca"
+                            }}>
                               <span key={index}>{`$${cost}`}</span>
                             </th>
                           ))}
@@ -445,17 +386,14 @@ const MyForm = () => {
 
 
                       <tbody>
-                        <div className=" py-2"></div>
+                        <div className=" py-5"></div>
                         {formik.values.users.map((user, rowIndex) => (
-                          <tr key={rowIndex}>
-
-
-
+                          <tr key={rowIndex} className=" my-2 py-2">
                             <td>
-                              <span className="input-102">
+                              <span className="input-102 ">
                                 {user.username}
                               </span>
-                              <div className="d-flex">
+                              <div className="d-flex  mb-6" style={{ minWidth: "200px", gap: "14px" }}>
                                 <input
                                   type="text"
                                   className="input101 "
@@ -464,7 +402,6 @@ const MyForm = () => {
                                   onBlur={formik.handleBlur}
                                   value={formik.values.users[rowIndex].Weeks.startTime}
                                   id={generateTableId("startTime", rowIndex)}
-
                                 />
                                 <input
                                   type="text"
@@ -479,11 +416,11 @@ const MyForm = () => {
                               </div>
                             </td>
 
-                            <td>
+                            <td className="pay-role-input-field " style={{ minWidth: "200px" }}>
                               <span className="input-102"></span>
                               <input
                                 type="number"
-                                className="input101"
+                                className="input101 mb-6"
                                 placeholder="Enter Budget"
                                 name={`users[${rowIndex}].budget`}
                                 onChange={formik.handleChange}
@@ -493,11 +430,11 @@ const MyForm = () => {
                               />
                             </td>
 
-                            <td>
-                              <span className="input-102"></span>
+                            <td className="pay-role-input-field " style={{ minWidth: "200px" }}>
+                              <span className="input-102 "></span>
                               <input
                                 type="number"
-                                className="input101"
+                                className="input101 mb-6"
                                 placeholder="Enter Forecast"
                                 name={`users[${rowIndex}].forecast`}
                                 onChange={formik.handleChange}
@@ -507,13 +444,8 @@ const MyForm = () => {
                               />
                             </td>
 
-
-
-
-
-
                             {weekDays.map((day, colIndex) => (
-                              <td key={colIndex}>
+                              <td className="pay-role-input-field" key={colIndex} style={{ minWidth: "200px" }}>
                                 <label className="w-100">
                                   <select
                                     name={`users[${rowIndex}].Weeks.[${day}][0].role`}
@@ -536,11 +468,11 @@ const MyForm = () => {
                                 </label>
 
                                 {/* <br /> */}
-                                <div className="d-flex ">
+                                <div className="d-flex gap-2 mb-6" >
                                   <input
                                     type="time"
                                     className="input101"
-                                    style={{ maxWidth: "90px" }}
+                                    // style={{ maxWidth: "90px" }}
 
                                     // style={{ maxWidth: "94px" }}
                                     name={`users[${rowIndex}].Weeks.[${day}][0].startTime`}
@@ -552,7 +484,7 @@ const MyForm = () => {
 
                                   <input
                                     type="time"
-                                    style={{ maxWidth: "90px" }}
+                                    // style={{ maxWidth: "90px" }}
 
                                     // style={{ maxWidth: "94px" }}
                                     className="input101 "
@@ -570,11 +502,11 @@ const MyForm = () => {
                             ))}
                           </tr>
                         ))}
+                        <div className=" py-2"></div>
                       </tbody>
 
                     </table>
                   </div>
-
 
                   <div className="text-end mt-4">
                     <button className="btn btn-primary" type="submit">
@@ -583,13 +515,11 @@ const MyForm = () => {
                   </div>
                 </form >
               </div >
+
             </Card.Body>
           </Card>
-        </Col>
-      </Row>
-
-
-
+        </Col >
+      </Row >
 
     </>
   );
