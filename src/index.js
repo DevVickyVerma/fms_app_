@@ -31,6 +31,22 @@ import DepartmentUpdateCardGroup from "./components/pages/ManageItems/Department
 import OpeningBalance from "./components/pages/OpeningBalance/OpeningBalance";
 import AddOpeningBalance from "./components/pages/OpeningBalance/AddOpeningBalance";
 import EditOpeningBalance from "./components/pages/OpeningBalance/EditOpeningBalance";
+import Shifts from "./components/pages/Payrols/Shifts/Shifts";
+import AddShifts from "./components/pages/Payrols/Shifts/AddShifts";
+import UpdateShifts from "./components/pages/Payrols/Shifts/UpdateShifts";
+import Types from "./components/pages/Payrols/Types/Types";
+import AddTypes from "./components/pages/Payrols/Types/AddTypes";
+
+import EditTypes from "./components/pages/Payrols/Types/EditTypes";
+import EditHoliday from "./components/pages/Payrols/Holiday/EditHoliday";
+import AddHoliday from "./components/pages/Payrols/Holiday/AddHoliday";
+import Holiday from "./components/pages/Payrols/Holiday/Holiday";
+import Designation from "./components/pages/Payrols/Designation/Designation";
+import AddDesignation from "./components/pages/Payrols/Designation/AddDesignation";
+import EditDesignation from "./components/pages/Payrols/Designation/EditDesignation";
+import Addition from "./components/pages/Payrols/Addition/Addition";
+import EditAddition from "./components/pages/Payrols/Addition/EditAddition";
+import AddAddition from "./components/pages/Payrols/Addition/AddAddition";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -653,6 +669,27 @@ const Root = () => {
   const WrappedActivitylogs = withApi(Activitylogs);
   const Wrappedmanagesms = withApi(managesms);
   const Wrappedpayrolss = withApi(payrolss);
+  const WrappedShifts = withApi(Shifts);
+  const WrappedAddShifts = withApi(AddShifts);
+  const WrappedUpdateShifts = withApi(UpdateShifts);
+  const WrappedTypes = withApi(Types);
+  const WrappedAddTypes = withApi(AddTypes);
+  const WrappedUpdateTypes = withApi(EditTypes);
+
+  const WrappedHoliday = withApi(Holiday);
+  const WrappedAddHoliday = withApi(AddHoliday);
+  const WrappedEditHoliday = withApi(EditHoliday);
+
+  const WrappedDesignation = withApi(Designation);
+  const WrappedAddDesignation = withApi(AddDesignation);
+  const WrappedEditDesignation = withApi(EditDesignation);
+
+  const WrappedAddition = withApi(Addition);
+  const WrappedAddAddition = withApi(AddAddition);
+  const WrappedEditAddition = withApi(EditAddition);
+
+
+
   return (
     <Fragment>
       <BrowserRouter>
@@ -1201,6 +1238,66 @@ const Root = () => {
                   <Route
                     path={`/manage-payrols`}
                     element={<Wrappedpayrolss />}
+                  />
+                  <Route
+                    path={`/shifts`}
+                    element={<WrappedShifts />}
+                  />
+                  <Route
+                    path={`/add-shifts`}
+                    element={<WrappedAddShifts />}
+                  />
+                  <Route
+                    path={`/update-shifts/:id`}
+                    element={<WrappedUpdateShifts />}
+                  />
+                  <Route
+                    path={`/type-list`}
+                    element={<WrappedTypes />}
+                  />
+                  <Route
+                    path={`/add-type-list`}
+                    element={<WrappedAddTypes />}
+                  />
+                  <Route
+                    path={`/update-type-list/:id`}
+                    element={<WrappedUpdateTypes />}
+                  />
+                  <Route
+                    path={`/holiday-list`}
+                    element={<WrappedHoliday />}
+                  />
+                  <Route
+                    path={`/add-holiday-list`}
+                    element={<WrappedAddHoliday />}
+                  />
+                  <Route
+                    path={`/update-holiday-list/:id`}
+                    element={<WrappedEditHoliday />}
+                  />
+                  <Route
+                    path={`/designation-list`}
+                    element={<WrappedDesignation />}
+                  />
+                  <Route
+                    path={`/add-designation-list`}
+                    element={<WrappedAddDesignation />}
+                  />
+                  <Route
+                    path={`/update-designation-list/:id`}
+                    element={<WrappedEditDesignation />}
+                  />
+                  <Route
+                    path={`/addition-list`}
+                    element={<WrappedAddition />}
+                  />
+                  <Route
+                    path={`/add-addition-list`}
+                    element={<WrappedAddAddition />}
+                  />
+                  <Route
+                    path={`/update-addition-list/:id`}
+                    element={<WrappedEditAddition />}
                   />
                   <Route>
                     <Route path={`/editprofile`} element={<EditProfile />} />

@@ -27,6 +27,41 @@ export const MENUITEMS = [
             permission: "sms-create",
             visibility: false,
           },
+          {
+            path: `/shifts`,
+            title: "Shifts",
+            type: "link",
+            permission: "shift-list",
+            visibility: false,
+          },
+          {
+            path: `/type-list`,
+            title: "Types",
+            type: "link",
+            permission: "type-list",
+            visibility: false,
+          },
+          {
+            path: `/holiday-list`,
+            title: "Holiday",
+            type: "link",
+            permission: "holiday-list",
+            visibility: false,
+          },
+          {
+            path: `/designation-list`,
+            title: "Designation",
+            type: "link",
+            permission: "designation-list",
+            visibility: false,
+          },
+          {
+            path: `/addition-list`,
+            title: "Addition",
+            type: "link",
+            permission: "addition-list",
+            visibility: false,
+          },
         ],
       },
       //user
@@ -768,7 +803,7 @@ export const MENUITEMS = [
           },
         ],
       },
-   
+
     ],
   },
 ];

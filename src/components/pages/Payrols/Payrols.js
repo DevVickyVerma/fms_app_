@@ -7,18 +7,19 @@ import { format, parse, addDays, differenceInCalendarWeeks } from "date-fns";
 import { enUS } from "date-fns/locale";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import { Card, Col, Row } from "react-bootstrap";
+import { TextField } from "@mui/material";
 
 const validationSchema = Yup.object().shape({
   // users: Yup.array().of(
-  //   Yup.object().shape({
-  //     Weeks: Yup.object().shape({
-  //       role: Yup.string().required("Role is required"),
-  //       startTime: Yup.string().required("Start time is required"),
-  //       endTime: Yup.string().required("End time is required"),
-  //       budget: Yup.number().required("Budget is required"),
-  //       forecast: Yup.number().required("Forecast is required"),
-  //     }),
-  //   })
+  // Yup.object().shape({
+  //   Weeks: Yup.object().shape({
+  //     role: Yup.string().required("Role is required"),
+  //     startTime: Yup.string().required("Start time is required"),
+  //     endTime: Yup.string().required("End time is required"),
+  //     budget: Yup.number().required("Budget is required"),
+  //     forecast: Yup.number().required("Forecast is required"),
+  //   }),
+  // })
   // ),
 });
 
@@ -49,6 +50,8 @@ const initialValues = {
   users: [
     {
       username: "User4",
+      budget: 50,
+      forecast: 10,
       Weeks: {
         "24/11/2023": [{
           differentId: 1,
@@ -79,6 +82,8 @@ const initialValues = {
     },
     {
       username: "User5",
+      budget: 60,
+      forecast: 200,
       Weeks: {
         "24/11/2023": [{
           differentId: 1,
@@ -108,6 +113,8 @@ const initialValues = {
     },
     {
       username: "User6",
+      budget: 70,
+      forecast: 450,
       Weeks: {
         "24/11/2023": [{
           differentId: 1,
@@ -149,8 +156,6 @@ const MyForm = () => {
 
   const weekDays = getWeekDays(currentWeekStartDate);
 
-  console.log(weekDays, "weekdays");
-
   const handleSubmit1 = (values) => {
     // Handle submission logic here
     console.log("Submitted Values:", values);
@@ -158,7 +163,7 @@ const MyForm = () => {
     values.users.forEach((user, rowIndex) => {
       Object.keys(user.Weeks).forEach((fieldName, colIndex) => {
         const inputId = generateInputId(fieldName, rowIndex);
-        console.log(`Input ID: ${inputId}, Value: ${user.Weeks[fieldName]}`);
+        // console.log(`Input ID: ${inputId}, Value: ${user.Weeks[fieldName]}`);
       });
     });
   };
@@ -172,8 +177,6 @@ const MyForm = () => {
   });
 
 
-
-  console.log(formik?.values, "formikvalues");
 
   const handleNextWeek = () => {
     const nextWeekStartDate = new Date(currentWeekStartDate);
@@ -189,28 +192,26 @@ const MyForm = () => {
     setSelectedWeek(selectedWeek - 1);
   };
 
+
+
   const handleMonthChange = (event) => {
     const selectedMonth = parseInt(event.target.value, 10);
     setSelectedMonth(selectedMonth);
 
     // Recalculate the number of weeks in the selected month
-    const firstDayOfMonth = new Date(
-      new Date().getFullYear(),
-      selectedMonth,
-      1
-    );
-    const lastDayOfMonth = new Date(
-      new Date().getFullYear(),
-      selectedMonth + 1,
-      0
-    );
-    const weeksInMonth =
-      differenceInCalendarWeeks(lastDayOfMonth, firstDayOfMonth) + 1;
+    const firstDayOfMonth = new Date(new Date().getFullYear(), selectedMonth, 1);
+    const lastDayOfMonth = new Date(new Date().getFullYear(), selectedMonth + 1, 0);
+    const weeksInMonth = differenceInCalendarWeeks(lastDayOfMonth, firstDayOfMonth) + 1;
 
     // Update the number of weeks and selected week
     setNumberOfWeeks(weeksInMonth);
     setSelectedWeek(0);
+
+    // Update the current week start date based on the selected month
+    const newCurrentWeekStartDate = addDays(firstDayOfMonth, selectedWeek * 7);
+    setCurrentWeekStartDate(newCurrentWeekStartDate);
   };
+
 
   const handleWeekChange = (event) => {
     const selectedWeek = parseInt(event.target.value, 10);
@@ -228,12 +229,25 @@ const MyForm = () => {
   };
 
   // Assuming you have a dummy array of cost forecast data
-  const costForecastData = [100, 150, 200, 180, 220, 250, 300, 280, 300];
+  // const costForecastData = [100, 150, 200, 180, 220, 250, 300];
+  // const hoursArray = [1, 4, 7, 10, 13, 16, 19];
+  // const salariesArray = [50000, 60000, 75000, 90000, 80000, 100000, 120000];
+
+  const weeklyTableData = {
+    costForecastData: [100, 150, 200, 180, 220, 250, 300],
+    hoursArray: [1, 4, 7, 10, 13, 16, 19],
+    salariesArray: [50000, 60000, 75000, 90000, 80000, 100000, 120000]
+  };
+  const LeftSideTableData = {
+    cost_forecast: [200, 300],
+    hours: [10, 8],
+    salaries: [5000, 5300],
+  };
+
 
   return (
 
     <>
-
       <Row className=" row-sm">
         <Col lg={12}>
           <Card>
@@ -312,201 +326,248 @@ const MyForm = () => {
                     </select>
                   </div>
 
+                  <div className=" d-flex">
+                    <div className="table-width">
+                      <table className="pay-role-table table-responsive">
+                        <thead className=" pay-rol-background-color">
+                          <tr>
+                            <th className="pay-role-custom-header" style={{ backgroundColor: "#6259ca !impotent" }}>Usernames</th>
+                            <th className="pay-role-custom-header">Budget</th>
+                            <th className="pay-role-custom-header">Forecast</th>
+                          </tr>
 
-                  <div className="table-width">
-                    <table className="pay-role-table table-responsive">
-                      <thead>
-                        <tr>
-                          <th className="pay-role-custom-header" style={{ backgroundColor: "#6259ca !impotent" }}>Usernames</th>
-                          <th className="pay-role-custom-header">Budget</th>
-                          <th className="pay-role-custom-header">Forecast</th>
-                          {weekDays.map((day, index) => {
-                            const parsedDate = parse(day, "dd/MM/yyyy", new Date());
-                            const formattedDate = format(parsedDate, "EEE", {
-                              locale: enUS,
-                            });
-
-                            return (
-                              <th key={index} className=" m-0 p-0">
-                                <div
-                                  // className=" "
-                                  className="d-flex flex-column pay-role-custom-header"
-                                >
-                                  <span>{day} ({formattedDate})</span>
-                                  <span></span>
-                                </div>
+                          <tr >
+                            <th className="pay-role-custom-header"
+                            >Cost Forecast</th>
+                            {LeftSideTableData?.cost_forecast?.map((cost, index) => (
+                              <th style={{
+                                borderRight: "1px dotted #6259ca", borderBottom: "1px dotted #6259ca"
+                              }}>
+                                <span key={index}>{`$${cost}`}</span>
                               </th>
-                            );
-                          })}
-                        </tr>
-
-                        <tr >
-                          <th className="pay-role-custom-header"
-                          //  style={{ width: "13%" }}
-                          >Cost Forecast</th>
-                          {costForecastData.map((cost, index) => (
-                            <th style={{
-                              // width: "13%", 
-                              borderRight: "1px dotted #6259ca", borderBottom: "1px dotted #6259ca"
-                            }}>
-                              <span key={index}>{`$${cost}`}</span>
-                            </th>
-                          ))}
-                        </tr>
-
-                        <tr >
-                          <th className="pay-role-custom-header"
-                          // style={{ width: "10%", }}
-                          >Hours</th>
-                          {costForecastData.map((cost, index) => (
-                            <th style={{
-                              // width: "10%",
-                              borderRight: "1px dotted #6259ca", borderBottom: "1px dotted #6259ca"
-                            }}>
-                              <span key={index}>{`$${cost}`}</span>
-                            </th>
-                          ))}
-                        </tr>
-                        <tr style={{ borderBottom: "1px dotted black" }}>
-                          <th className="pay-role-custom-header "
-                          // style={{ width: "10%", }}
-                          >Salaries</th>
-                          {costForecastData.map((cost, index) => (
-                            <th style={{
-                              // width: "10%", 
-                              borderRight: "1px dotted #6259ca", borderBottom: "1px dotted #6259ca"
-                            }}>
-                              <span key={index}>{`$${cost}`}</span>
-                            </th>
-                          ))}
-                        </tr>
-                      </thead>
-
-
-
-
-                      <tbody>
-                        <div className=" py-5"></div>
-                        {formik.values.users.map((user, rowIndex) => (
-                          <tr key={rowIndex} className=" my-2 py-2">
-                            <td>
-                              <span className="input-102 ">
-                                {user.username}
-                              </span>
-                              <div className="d-flex  mb-6" style={{ minWidth: "200px", gap: "14px" }}>
-                                <input
-                                  type="text"
-                                  className="input101 "
-                                  name={`users[${rowIndex}].Weeks.startTime`}
-                                  onChange={formik.handleChange}
-                                  onBlur={formik.handleBlur}
-                                  value={formik.values.users[rowIndex].Weeks.startTime}
-                                  id={generateTableId("startTime", rowIndex)}
-                                />
-                                <input
-                                  type="text"
-                                  className="input101 ms-2"
-                                  name={`users[${rowIndex}].Weeks.endTime`}
-                                  onChange={formik.handleChange}
-                                  onBlur={formik.handleBlur}
-                                  value={formik.values.users[rowIndex].Weeks.endTime}
-                                  id={generateTableId("endTime", rowIndex)}
-
-                                />
-                              </div>
-                            </td>
-
-                            <td className="pay-role-input-field " style={{ minWidth: "200px" }}>
-                              <span className="input-102"></span>
-                              <input
-                                type="number"
-                                className="input101 mb-6"
-                                placeholder="Enter Budget"
-                                name={`users[${rowIndex}].budget`}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.users[rowIndex].budget}
-                                id={generateInputId("budget", rowIndex)}
-                              />
-                            </td>
-
-                            <td className="pay-role-input-field " style={{ minWidth: "200px" }}>
-                              <span className="input-102 "></span>
-                              <input
-                                type="number"
-                                className="input101 mb-6"
-                                placeholder="Enter Forecast"
-                                name={`users[${rowIndex}].forecast`}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.users[rowIndex].forecast}
-                                id={generateInputId("forecast", rowIndex)}
-                              />
-                            </td>
-
-                            {weekDays.map((day, colIndex) => (
-                              <td className="pay-role-input-field" key={colIndex} style={{ minWidth: "200px" }}>
-                                <label className="w-100">
-                                  <select
-                                    name={`users[${rowIndex}].Weeks.[${day}][0].role`}
-                                    className={`input101  ${formik?.errors?.users && formik?.touched?.users
-                                      ? "is-invalid"
-                                      : ""
-                                      }`}
-                                    onChange={formik?.handleChange}
-                                    onBlur={formik?.handleBlur}
-                                    value={formik?.values?.users?.[rowIndex]?.Weeks?.[day]?.[0].role}
-                                    id={generateTableId("role", rowIndex, colIndex)}
-                                  >
-                                    <option value="" label="Select a role" />
-                                    {roles?.map((role) => (
-                                      <option key={role} value={role}>
-                                        {role}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </label>
-
-                                {/* <br /> */}
-                                <div className="d-flex gap-2 mb-6" >
-                                  <input
-                                    type="time"
-                                    className="input101"
-                                    // style={{ maxWidth: "90px" }}
-
-                                    // style={{ maxWidth: "94px" }}
-                                    name={`users[${rowIndex}].Weeks.[${day}][0].startTime`}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik?.values?.users?.[rowIndex]?.Weeks?.[day]?.[0].startTime}
-                                    id={generateTableId("startTime", rowIndex, colIndex)}
-                                  />
-
-                                  <input
-                                    type="time"
-                                    // style={{ maxWidth: "90px" }}
-
-                                    // style={{ maxWidth: "94px" }}
-                                    className="input101 "
-                                    placeholder="exit Time"
-                                    name={`users[${rowIndex}].Weeks.[${day}][0].endTime`}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik?.values?.users?.[rowIndex]?.Weeks?.[day]?.[0].endTime}
-                                    id={generateTableId("endTime", rowIndex, colIndex)}
-                                  />
-                                </div>
-
-                                {/* <br /> */}
-                              </td>
                             ))}
                           </tr>
-                        ))}
-                        <div className=" py-2"></div>
-                      </tbody>
 
-                    </table>
+                          <tr >
+                            <th className="pay-role-custom-header"
+                            >Hours</th>
+                            {LeftSideTableData?.hours?.map((cost, index) => (
+                              <th style={{
+                                borderRight: "1px dotted #6259ca", borderBottom: "1px dotted #6259ca"
+                              }}>
+                                <span key={index}>{`${cost} H`}</span>
+                              </th>
+                            ))}
+                          </tr>
+                          <tr style={{ borderBottom: "1px dotted black" }}>
+                            <th className="pay-role-custom-header "
+                            >Salaries</th>
+                            {LeftSideTableData?.salaries?.map((cost, index) => (
+                              <th style={{
+                                borderRight: "1px dotted #6259ca", borderBottom: "1px dotted #6259ca"
+                              }}>
+                                <span key={index}>{`$${cost}`}</span>
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+
+                        <tbody className="pay-rol-border pay-rol-background-color" >
+                          {formik.values.users.map((user, rowIndex) => (
+                            <tr key={rowIndex} className=" my-2 py-2">
+                              <td className="pay-rol-border pay-role-input-field">
+                                <div className=" my-3">
+
+                                  <span className="input-103 ">
+                                    {user.username}
+                                  </span>
+                                  <div className="d-flex" style={{ minWidth: "200px", gap: "14px" }}>
+                                    <input
+                                      type="text"
+                                      className="input101 "
+                                      name={`users[${rowIndex}].unknown_input`}
+                                      onChange={formik.handleChange}
+                                      onBlur={formik.handleBlur}
+                                      value={formik.values.users[rowIndex].unknown_input}
+                                      id={generateInputId("unknown_input", rowIndex)}
+                                    />
+                                    <input
+                                      type="text"
+                                      className="input101 ms-2"
+                                      name={`users[${rowIndex}].unknown_output`}
+                                      onChange={formik.handleChange}
+                                      onBlur={formik.handleBlur}
+                                      value={formik.values.users[rowIndex].unknown_output}
+                                      id={generateInputId("unknown_output", rowIndex)}
+                                    />
+                                  </div>
+
+                                </div>
+
+                              </td>
+
+                              <td className="pay-role-input-field pay-rol-border" style={{ minWidth: "200px" }}>
+                                <div className=" my-3">
+                                  <span className="input-102"></span>
+
+                                  <input
+                                    type="number"
+                                    className="input101 "
+                                    placeholder="Enter Budget"
+                                    name={`users[${rowIndex}].budget`}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.users[rowIndex].budget}
+                                    id={generateInputId("budget", rowIndex)}
+                                  />
+                                </div>
+                              </td>
+
+                              <td className="pay-role-input-field pay-rol-border" style={{ minWidth: "200px" }}>
+                                <div className=" my-3">
+                                  <span className="input-102 "></span>
+
+                                  <input
+                                    type="number"
+                                    className="input101"
+                                    placeholder="Enter Forecast"
+                                    name={`users[${rowIndex}].forecast`}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.users[rowIndex].forecast}
+                                    id={generateInputId("forecast", rowIndex)}
+                                  />
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+
+                      </table>
+                    </div>
+                    <div className="table-width overflow-auto">
+                      <table className="pay-role-table table-responsive">
+                        <thead>
+                          <tr>
+                            {weekDays.map((day, index) => {
+                              const parsedDate = parse(day, "dd/MM/yyyy", new Date());
+                              const formattedDate = format(parsedDate, "EEE", {
+                                locale: enUS,
+                              });
+
+                              return (
+                                <th key={index} className=" m-0 p-0">
+                                  <div
+                                    // className=" "
+                                    className="d-flex flex-column pay-role-custom-header"
+                                  >
+                                    <span>{day} ({formattedDate})</span>
+                                    <span></span>
+                                  </div>
+                                </th>
+                              );
+                            })}
+                          </tr>
+
+                          <tr >
+                            {weeklyTableData?.costForecastData.map((cost, index) => (
+                              <th style={{
+                                borderRight: "1px dotted #6259ca", borderBottom: "1px dotted #6259ca"
+                              }}>
+                                <span key={index}>{`$${cost}`}</span>
+                              </th>
+                            ))}
+                          </tr>
+
+                          <tr >
+                            {weeklyTableData?.hoursArray?.map((cost, index) => (
+                              <th style={{
+                                // width: "10%",
+                                borderRight: "1px dotted #6259ca", borderBottom: "1px dotted #6259ca"
+                              }}>
+                                <span key={index}>{`${cost}`}H</span>
+                              </th>
+                            ))}
+                          </tr>
+                          <tr style={{ borderBottom: "1px dotted black" }}>
+                            {weeklyTableData?.salariesArray?.map((cost, index) => (
+                              <th style={{
+                                // width: "10%", 
+                                borderRight: "1px dotted #6259ca", borderBottom: "1px dotted #6259ca"
+                              }}>
+                                <span key={index}>{`$${cost}`}</span>
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+
+
+
+
+                        <tbody className="pay-rol-border">
+                          {formik.values.users.map((user, rowIndex) => (
+                            <tr key={rowIndex} className=" my-2 py-2">
+
+                              {weekDays.map((day, colIndex) => (
+                                <td className="pay-role-input-field pay-rol-border my-3" key={colIndex} style={{ minWidth: "200px" }}>
+                                  <div className=" my-3">
+                                    <label className="w-100">
+                                      <select
+                                        name={`users[${rowIndex}].Weeks.[${day}][0].role`}
+                                        className={`input101  ${formik?.errors?.users && formik?.touched?.users
+                                          ? "is-invalid"
+                                          : ""
+                                          }`}
+                                        onChange={formik?.handleChange}
+                                        onBlur={formik?.handleBlur}
+                                        value={formik?.values?.users?.[rowIndex]?.Weeks?.[day]?.[0].role}
+                                        id={generateTableId("role", rowIndex, colIndex)}
+                                      >
+                                        <option value="" label="Select a role" />
+                                        {roles?.map((role) => (
+                                          <option key={role} value={role}>
+                                            {role}
+                                          </option>
+                                        ))}
+                                      </select>
+                                    </label>
+
+                                    <div className="d-flex gap-2 " >
+                                      <input
+                                        type="time"
+                                        className="input101"
+                                        name={`users[${rowIndex}].Weeks.[${day}][0].startTime`}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik?.values?.users?.[rowIndex]?.Weeks?.[day]?.[0].startTime}
+                                        id={generateTableId("startTime", rowIndex, colIndex)}
+                                      />
+
+                                      <input
+                                        type="time"
+                                        className="input101 "
+                                        placeholder="exit Time"
+                                        name={`users[${rowIndex}].Weeks.[${day}][0].endTime`}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik?.values?.users?.[rowIndex]?.Weeks?.[day]?.[0].endTime}
+                                        id={generateTableId("endTime", rowIndex, colIndex)}
+                                      />
+                                    </div>
+
+                                  </div>
+                                </td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+
+                      </table>
+                    </div>
                   </div>
+
+
+
 
                   <div className="text-end mt-4">
                     <button className="btn btn-primary" type="submit">
