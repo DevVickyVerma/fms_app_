@@ -320,7 +320,7 @@ const UpdateShifts = (props) => {
                                             <Link
                                                 type="submit"
                                                 className="btn btn-danger me-2 "
-                                                to={`/managecards/`}
+                                                to={`/shifts-list/`}
                                             >
                                                 Cancel
                                             </Link>

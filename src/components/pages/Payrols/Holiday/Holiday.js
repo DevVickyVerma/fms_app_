@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap'
+import { Breadcrumb, Card, Col, OverlayTrigger, Pagination, Row, Tooltip } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from "yup";
@@ -35,6 +35,59 @@ const Holiday = ({ isLoading, getData, postData, apidata }) => {
     const isDeletePermissionAvailable = permissionsArray?.includes("holiday-delete");
     const navigate = useNavigate();
 
+    const [count, setCount] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [hasMorePage, setHasMorePages] = useState("");
+    const [lastPage, setLastPage] = useState(1);
+    const [perPage, setPerPage] = useState(20);
+    const [total, setTotal] = useState(0);
+
+    const maxPagesToShow = 5; // Adjust the number of pages to show in the center
+    const pages = [];
+
+
+    // Calculate the range of pages to display
+    let startPage = Math.max(currentPage - Math.floor(maxPagesToShow / 2), 1);
+    let endPage = Math.min(startPage + maxPagesToShow - 1, lastPage);
+
+    // Handle cases where the range is near the beginning or end
+    if (endPage - startPage + 1 < maxPagesToShow) {
+        startPage = Math.max(endPage - maxPagesToShow + 1, 1);
+    }
+
+    // Render the pagination items
+    for (let i = startPage; i <= endPage; i++) {
+        pages.push(
+            <Pagination.Item
+                key={i}
+                active={i === currentPage}
+                onClick={() => handlePageChange(i)}
+            >
+                {i}
+            </Pagination.Item>
+        );
+    }
+
+    // Add ellipsis if there are more pages before or after the displayed range
+    if (startPage > 1) {
+        pages.unshift(<Pagination.Ellipsis key="ellipsis-start" disabled />);
+    }
+
+    if (endPage < lastPage) {
+        pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
+    }
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
+
+
+    useEffect(() => {
+        if (localStorage.getItem("cardsCompanyId")) {
+            afterUpdateListApi();
+        }
+    }, [currentPage]);
+
     const isstatusPermissionAvailable =
         permissionsArray?.includes("holiday-edit");
 
@@ -61,11 +114,17 @@ const Holiday = ({ isLoading, getData, postData, apidata }) => {
     const handleSubmit1 = async (values) => {
         try {
             const response = await getData(
-                `/payroll/holiday/list?company_id=${values.company_id}`
+                `/payroll/holiday/list?company_id=${values.company_id}&page=${currentPage}`
             );
             setSelectedCompanyId(values?.company_id)
             setData(response?.data?.data?.balances);
             setShowAddButton(true);
+            setCount(response.data.data.count);
+            setCurrentPage(response?.data?.data?.currentPage || 1);
+            setHasMorePages(response?.data?.data?.hasMorePages);
+            setLastPage(response?.data?.data?.lastPage);
+            setPerPage(response?.data?.data?.perPage);
+            setTotal(response?.data?.data?.total);
         } catch (error) {
             console.error("API error:", error);
         }
@@ -74,10 +133,16 @@ const Holiday = ({ isLoading, getData, postData, apidata }) => {
     const afterUpdateListApi = async () => {
         try {
             const response = await getData(
-                `/payroll/holiday/list?company_id=${selectedCompanyId}`
+                `/payroll/holiday/list?company_id=${selectedCompanyId}&page=${currentPage}`
             );
             setData(response?.data?.data?.balances);
             setShowAddButton(true);
+            setCount(response.data.data.count);
+            setCurrentPage(response?.data?.data?.currentPage || 1);
+            setHasMorePages(response?.data?.data?.hasMorePages);
+            setLastPage(response?.data?.data?.lastPage);
+            setPerPage(response?.data?.data?.perPage);
+            setTotal(response?.data?.data?.total);
         } catch (error) {
             console.error("API error:", error);
         }
@@ -521,8 +586,8 @@ const Holiday = ({ isLoading, getData, postData, apidata }) => {
                                                 striped={true}
                                                 // center={true}
                                                 persistTableHead
-                                                pagination
-                                                paginationPerPage={20}
+                                                // pagination
+                                                // paginationPerPage={20}
                                                 highlightOnHover
                                                 searchable={true}
                                             />
@@ -539,6 +604,31 @@ const Holiday = ({ isLoading, getData, postData, apidata }) => {
                                 </>
                             )}
                         </Card.Body>
+                        <Card.Footer>
+                            {data?.length > 0 ? (
+                                <>
+                                    <div style={{ float: "right" }}>
+                                        <Pagination>
+                                            <Pagination.First onClick={() => handlePageChange(1)} />
+                                            <Pagination.Prev
+                                                onClick={() => handlePageChange(currentPage - 1)}
+                                                disabled={currentPage === 1}
+                                            />
+                                            {pages}
+                                            <Pagination.Next
+                                                onClick={() => handlePageChange(currentPage + 1)}
+                                                disabled={currentPage === lastPage}
+                                            />
+                                            <Pagination.Last
+                                                onClick={() => handlePageChange(lastPage)}
+                                            />
+                                        </Pagination>
+                                    </div>
+                                </>
+                            ) : (
+                                <></>
+                            )}
+                        </Card.Footer>
                     </Card>
                 </Col>
             </Row>

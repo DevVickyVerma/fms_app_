@@ -158,7 +158,7 @@ const AddDesignation = (props) => {
                                                                 className=" form-label mt-4"
                                                                 htmlFor="name"
                                                             >
-                                                                Type Name
+                                                                Designation Name
                                                                 <span className="text-danger">*</span>
                                                             </label>
                                                             <Field
@@ -171,7 +171,7 @@ const AddDesignation = (props) => {
                                                                     }`}
                                                                 id="name"
                                                                 name="name"
-                                                                placeholder="Type Name"
+                                                                placeholder="Designation Name"
                                                             />
                                                             <ErrorMessage
                                                                 component="div"
@@ -188,7 +188,7 @@ const AddDesignation = (props) => {
                                                                 className=" form-label mt-4"
                                                                 htmlFor="type_status"
                                                             >
-                                                                Type Status
+                                                                Designation Status
                                                                 <span className="text-danger">*</span>
                                                             </label>
                                                             <Field
