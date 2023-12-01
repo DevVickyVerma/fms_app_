@@ -12,8 +12,9 @@ import { useSelector } from "react-redux";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import Swal from "sweetalert2";
 const DepartmentItems = (props) => {
-  const { getData, isLoading, postData } = props;
+  const { getData, isLoading, postData,apidata } = props;
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
 
@@ -27,7 +28,21 @@ const DepartmentItems = (props) => {
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
-
+  const navigate = useNavigate();
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      ErrorAlert("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      const errorMessage = Array.isArray(error.response.data.message)
+        ? error.response.data.message.join(" ")
+        : error.response.data.message;
+      ErrorAlert(errorMessage);
+    }
+  }
   useEffect(() => {
     if (UserPermissions) {
       setPermissionsArray(UserPermissions?.permissions);
@@ -230,6 +245,7 @@ const DepartmentItems = (props) => {
   const pushnonbunkeredSalesRow = () => {
     if (formik2.isValid) {
       formik2.values.headsvalue.push({
+        id: "",
         sage_export_type: "",
         account_code: "",
         nominal_code: "",
@@ -244,11 +260,50 @@ const DepartmentItems = (props) => {
       );
     }
   };
-  const removenonbunkeredSalesRow = (index) => {
+  const handleRemoveClick = (index) => {
+    // Assuming your data structure has some property like 'id'
+    const clickedId = formik2.values.headsvalue[index].id;
+    removenonbunkeredSalesRow(index, clickedId);
+  };
+  const removenonbunkeredSalesRow = (index, clickedId) => {
     const updatedRows = [...formik2.values.headsvalue];
+    console.log(updatedRows, "updatedRows");
     updatedRows.splice(index, 1);
     formik2.setFieldValue("headsvalue", updatedRows);
+ 
+    {
+      clickedId && handleDelete(clickedId) 
+    }
   };
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will not be able to recover this item!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const formData = new FormData();
+        formData.append("id", id);
+        DeleteClient(formData);
+      }
+    });
+  };
+  const DeleteClient = async (formData) => {
+    try {
+      const response = await postData("sage/item/head-delete", formData);
+      // Console log the response
+      if (apidata.api_response === "success") {
+ 
+      }
+    } catch (error) {
+      handleError(error);
+    }
+  };
+  
 
   const combinedOnSubmit = async () => {
     try {
@@ -821,7 +876,7 @@ const DepartmentItems = (props) => {
                           >
                             <button
                               className="btn btn-danger"
-                              onClick={() => removenonbunkeredSalesRow(index)}
+                              onClick={() => handleRemoveClick(index)}
                             >
                               <RemoveCircleIcon />
                             </button>
