@@ -13,6 +13,7 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
   const companyId = localStorage.getItem("cardsCompanyId");
   const [selected, setSelected] = useState([]);
   const [SiteList, setSiteList] = useState([]);
+  const [loadingFetchUpdateCard, setLoadingFetchUpdateCard] = useState(false);
   const GetSiteList = async (companyId) => {
     try {
       if (companyId) {
@@ -61,18 +62,23 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
   });
 
   const fetchUpdateCardDetail = async () => {
+    setLoadingFetchUpdateCard(true)
     try {
       const response = await getData(`/sage/card-group/detail/${paramId?.id}`);
 
       const { data } = response;
       if (data) {
+        await formik.setFieldValue("card_name", data?.data?.name);
+        await formik.setFieldValue("AssignFormikCards", data?.data?.cards);
         setCardData(data?.data ? data.data.cards : []);
-        formik.setFieldValue("AssignFormikCards", data?.data?.cards);
-        formik.setFieldValue("card_name", data?.data?.name);
+        setLoadingFetchUpdateCard(false)
       }
     } catch (error) {
+      setLoadingFetchUpdateCard(false)
+
       console.error("API error:", error);
     }
+    setLoadingFetchUpdateCard(false)
   };
 
   const handleSettingSubmit = async (values) => {
@@ -174,7 +180,7 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
 
   return (
     <>
-      {isLoading ? <Loaderimg /> : null}
+      {isLoading || loadingFetchUpdateCard ? <Loaderimg /> : null}
       <div className="page-header ">
         <div>
           <h1 className="page-title">Update Card Group</h1>
@@ -213,36 +219,35 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
             <Card.Body>
               <form onSubmit={formik.handleSubmit}>
                 <Row>
-                 
-                <Col lg={6} md={6}>
-                      <div className="form-group">
-                        <label className="form-label mt-4" htmlFor="card_name">
-                          Card Group Name
-                          <span className="text-danger">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.card_name && formik.touched.card_name
-                              ? "is-invalid"
-                              : ""
+
+                  <Col lg={6} md={6}>
+                    <div className="form-group">
+                      <label className="form-label mt-4" htmlFor="card_name">
+                        Card Group Name
+                        <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        autoComplete="off"
+                        className={`input101 ${formik.errors.card_name && formik.touched.card_name
+                          ? "is-invalid"
+                          : ""
                           }`}
-                          id="card_name"
-                          name="card_name"
-                          placeholder="Card Group Name"
-                          onChange={formik.handleChange}
-                          value={formik.values.card_name}
-                        />
-                        {formik.errors.card_name &&
-                          formik.touched.card_name && (
-                            <div className="invalid-feedback">
-                              {formik.errors.card_name}
-                            </div>
-                          )}
-                      </div>
-                    </Col>
-                    <Col lg={6} md={6}>
+                        id="card_name"
+                        name="card_name"
+                        placeholder="Card Group Name"
+                        onChange={formik.handleChange}
+                        value={formik.values.card_name}
+                      />
+                      {formik.errors.card_name &&
+                        formik.touched.card_name && (
+                          <div className="invalid-feedback">
+                            {formik.errors.card_name}
+                          </div>
+                        )}
+                    </div>
+                  </Col>
+                  <Col lg={6} md={6}>
                     <FormGroup>
                       <label className="form-label mt-4">
                         Select Sites
@@ -258,9 +263,9 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                       />
                     </FormGroup>
                   </Col>
-                    <Col lg={12} md={12}>
-                 
-                 <Card.Header className="cardheader-table">
+                  <Col lg={12} md={12}>
+
+                    <Card.Header className="cardheader-table">
                       <h3 className="card-title">Assign Card</h3>
                     </Card.Header>
                     {cardData?.length > 0 ? (
@@ -274,7 +279,7 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                             striped={true}
                             persistTableHead
                             highlightOnHover
-                            
+
                             responsive
                           />
                         </div>
@@ -301,9 +306,9 @@ const UpdateCardGroup = ({ isLoading, getData, postData }) => {
                         Submit
                       </button>
                     </div>
-                 </Col>
-                 </Row>
-              
+                  </Col>
+                </Row>
+
               </form>
             </Card.Body>
           </Card>

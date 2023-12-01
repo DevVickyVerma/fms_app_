@@ -33,6 +33,7 @@ const EditUsers = (props) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [SelectedClient, setSelectedClient] = useState();
   const [roleItems, setRoleItems] = useState("");
+  const [LoadingFetchUserDetail, setLoadingFetchUserDetail] = useState(false);
 
 
   const handleCountryCodeChange = (e) => {
@@ -98,6 +99,7 @@ const EditUsers = (props) => {
   let combinedClientNames = [];
   let combinedClientId = [];
   const fetchClientList = async () => {
+    setLoadingFetchUserDetail(true)
     try {
       const response = await axiosInstance.get(`/user/detail?id=${id}`);
 
@@ -109,10 +111,14 @@ const EditUsers = (props) => {
         });
 
         setSelectedItems(combinedClientNames);
+        setLoadingFetchUserDetail(false)
+
       }
     } catch (error) {
+      setLoadingFetchUserDetail(false)
       handleError(error);
     }
+    setLoadingFetchUserDetail(false)
   };
 
   const handleSubmit = async (values) => {
@@ -196,7 +202,7 @@ const EditUsers = (props) => {
 
   return (
     <>
-      {isLoading ? <Loaderimg /> : null}
+      {isLoading || LoadingFetchUserDetail ? <Loaderimg /> : null}
       <>
         <div>
           <div className="page-header">

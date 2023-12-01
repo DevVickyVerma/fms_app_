@@ -12,8 +12,9 @@ import { useSelector } from "react-redux";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import Swal from "sweetalert2";
 const SageDeduction = (props) => {
-  const { getData, isLoading, postData } = props;
+  const { getData, isLoading, postData, apidata } = props;
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
 
   const [selectedClientId, setSelectedClientId] = useState("");
@@ -28,6 +29,21 @@ const SageDeduction = (props) => {
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
+  const navigate = useNavigate();
+  function handleError(error) {
+    if (error.response && error.response.status === 401) {
+      navigate("/login");
+      ErrorAlert("Invalid access token");
+      localStorage.clear();
+    } else if (error.response && error.response.data.status_code === "403") {
+      navigate("/errorpage403");
+    } else {
+      const errorMessage = Array.isArray(error.response.data.message)
+        ? error.response.data.message.join(" ")
+        : error.response.data.message;
+      ErrorAlert(errorMessage);
+    }
+  }
 
   useEffect(() => {
     if (UserPermissions) {
@@ -248,10 +264,56 @@ const SageDeduction = (props) => {
       );
     }
   };
-  const removenonbunkeredSalesRow = (index) => {
-    const updatedRows = [...formik2.values.headsvalue];
-    updatedRows.splice(index, 1);
-    formik2.setFieldValue("headsvalue", updatedRows);
+
+
+  const handleRemoveClick = (index) => {
+    // Assuming your data structure has some property like 'id'
+    const clickedId = formik2.values.headsvalue[index].id;
+    removenonbunkeredSalesRow(index, clickedId);
+  };
+
+  const removenonbunkeredSalesRow = (index, clickedId) => {
+    if (!clickedId) {
+      const updatedRows = [...formik2.values.headsvalue];
+      updatedRows.splice(index, 1);
+      formik2.setFieldValue("headsvalue", updatedRows);
+    }
+
+    clickedId && handleDelete(clickedId, index)
+
+  };
+
+  const handleDelete = (id, index) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will not be able to recover this item!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const formData = new FormData();
+        formData.append("id", id);
+        DeleteClient(formData, index);
+      }
+    });
+  };
+  const DeleteClient = async (formData, index) => {
+    try {
+      const response = await postData("sage/deduction/head-delete", formData);
+      // Console log the response
+      if (apidata.api_response === "success") {
+        const updatedRows = [...formik2.values.headsvalue];
+        console.log(updatedRows, "updatedRows");
+        updatedRows.splice(index, 1);
+        formik2.setFieldValue("headsvalue", updatedRows);
+        handleSubmit(formik?.values)
+      }
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   const combinedOnSubmit = async () => {
@@ -269,21 +331,23 @@ const SageDeduction = (props) => {
           account_code,
         } = obj;
 
+        const index = formik2.values.headsvalue.indexOf(obj);
+
         // Assuming you have the variables id, fuel, volume, and value with their respective values
 
         if (nominal_code !== null && nominal_code !== "") {
-          formData.append(`nominal_code[${id ? id : 0}]`, nominal_code);
+          formData.append(`nominal_code[${id ? id : index}]`, nominal_code);
         }
         if (sage_export_type !== null && sage_export_type !== "") {
-          formData.append(`sage_export_type[${id ? id : 0}]`, sage_export_type);
+          formData.append(`sage_export_type[${id ? id : index}]`, sage_export_type);
         }
 
         if (account_code !== null && account_code !== "") {
-          formData.append(`account_code[${id ? id : 0}]`, account_code);
+          formData.append(`account_code[${id ? id : index}]`, account_code);
         }
         if (nominal_tax_code_id !== null && nominal_tax_code_id !== "") {
           formData.append(
-            `nominal_tax_code_id[${id ? id : 0}]`,
+            `nominal_tax_code_id[${id ? id : index}]`,
             nominal_tax_code_id
           );
         }
@@ -293,7 +357,7 @@ const SageDeduction = (props) => {
           negative_nominal_type_id !== ""
         ) {
           formData.append(
-            `negative_nominal_type_id[${id ? id : 0}]`,
+            `negative_nominal_type_id[${id ? id : index}]`,
             negative_nominal_type_id
           );
         }
@@ -303,7 +367,7 @@ const SageDeduction = (props) => {
           positive_nominal_type_id !== ""
         ) {
           formData.append(
-            `positive_nominal_type_id[${id ? id : 0}]`,
+            `positive_nominal_type_id[${id ? id : index}]`,
             positive_nominal_type_id
           );
         }
@@ -316,7 +380,12 @@ const SageDeduction = (props) => {
       const navigatePath = `/clients`;
 
       await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
-    } catch (error) {}
+
+
+      if (apidata.api_response === "success") {
+        handleSubmit(formik?.values)
+      }
+    } catch (error) { }
   };
   return (
     <>
@@ -365,12 +434,11 @@ const SageDeduction = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.client_id &&
+                            className={`input101 ${formik.errors.client_id &&
                               formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="client_id"
                             name="client_id"
                             value={formik.values.client_id}
@@ -424,12 +492,11 @@ const SageDeduction = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.company_id &&
+                          className={`input101 ${formik.errors.company_id &&
                             formik.touched.company_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="company_id"
                           name="company_id"
                           value={formik.values.company_id}
@@ -481,12 +548,11 @@ const SageDeduction = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.department_id &&
+                          className={`input101 ${formik.errors.department_id &&
                             formik.touched.department_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="department_id"
                           name="department_id"
                           value={formik.values.department_id}
@@ -590,15 +656,14 @@ const SageDeduction = (props) => {
                           <Form.Label> Sage Export Types:</Form.Label>
                           <Form.Control
                             as="select"
-                            className={`input101 ${
-                              formik2.errors.headsvalue?.[index]
-                                ?.sage_export_type &&
+                            className={`input101 ${formik2.errors.headsvalue?.[index]
+                              ?.sage_export_type &&
                               formik2.touched[
-                                `headsvalue[${index}].sage_export_type`
+                              `headsvalue[${index}].sage_export_type`
                               ]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`headsvalue[${index}].sage_export_type`}
                             onChange={formik2.handleChange}
                             value={item?.sage_export_type || ""}
@@ -616,7 +681,7 @@ const SageDeduction = (props) => {
                           {formik2.errors.headsvalue?.[index]
                             ?.sage_export_type &&
                             formik2.touched[
-                              `headsvalue[${index}].sage_export_type`
+                            `headsvalue[${index}].sage_export_type`
                             ] && (
                               <div className="invalid-feedback">
                                 {
@@ -634,15 +699,14 @@ const SageDeduction = (props) => {
                           <Form.Label> Sage Account Code:</Form.Label>
                           <Form.Control
                             type="text"
-                            className={`input101 ${
-                              formik2.errors.headsvalue?.[index]
-                                ?.account_code &&
+                            className={`input101 ${formik2.errors.headsvalue?.[index]
+                              ?.account_code &&
                               formik2.touched[
-                                `headsvalue[${index}].account_code`
+                              `headsvalue[${index}].account_code`
                               ]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`headsvalue[${index}].account_code`}
                             onChange={formik2.handleChange}
                             placeholder="Account Code"
@@ -650,7 +714,7 @@ const SageDeduction = (props) => {
                           />
                           {formik2.errors.headsvalue?.[index]?.account_code &&
                             formik2.touched[
-                              `headsvalue[${index}].account_code`
+                            `headsvalue[${index}].account_code`
                             ] && (
                               <div className="invalid-feedback">
                                 {formik2.errors.headsvalue[index].account_code}
@@ -665,15 +729,14 @@ const SageDeduction = (props) => {
                           <Form.Label> Sage Nominal Code:</Form.Label>
                           <Form.Control
                             type="number"
-                            className={`input101 ${
-                              formik2.errors.headsvalue?.[index]
-                                ?.nominal_code &&
+                            className={`input101 ${formik2.errors.headsvalue?.[index]
+                              ?.nominal_code &&
                               formik2.touched[
-                                `headsvalue[${index}].nominal_code`
+                              `headsvalue[${index}].nominal_code`
                               ]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`headsvalue[${index}].nominal_code`}
                             onChange={formik2.handleChange}
                             placeholder="Nominal Code"
@@ -681,7 +744,7 @@ const SageDeduction = (props) => {
                           />
                           {formik2.errors.headsvalue?.[index]?.nominal_code &&
                             formik2.touched[
-                              `headsvalue[${index}].nominal_code`
+                            `headsvalue[${index}].nominal_code`
                             ] && (
                               <div className="invalid-feedback">
                                 {formik2.errors.headsvalue[index].nominal_code}
@@ -696,15 +759,14 @@ const SageDeduction = (props) => {
                           <Form.Label> Sage Positive Types:</Form.Label>
                           <Form.Control
                             as="select"
-                            className={`input101 ${
-                              formik2.errors.headsvalue?.[index]
-                                ?.positive_nominal_type_id &&
+                            className={`input101 ${formik2.errors.headsvalue?.[index]
+                              ?.positive_nominal_type_id &&
                               formik2.touched[
-                                `headsvalue[${index}].positive_nominal_type_id`
+                              `headsvalue[${index}].positive_nominal_type_id`
                               ]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`headsvalue[${index}].positive_nominal_type_id`}
                             onChange={formik2.handleChange}
                             value={item?.positive_nominal_type_id || ""}
@@ -722,7 +784,7 @@ const SageDeduction = (props) => {
                           {formik2.errors.headsvalue?.[index]
                             ?.positive_nominal_type_id &&
                             formik2.touched[
-                              `headsvalue[${index}].positive_nominal_type_id`
+                            `headsvalue[${index}].positive_nominal_type_id`
                             ] && (
                               <div className="invalid-feedback">
                                 {
@@ -740,15 +802,14 @@ const SageDeduction = (props) => {
                           <Form.Label> Sage Negative Types:</Form.Label>
                           <Form.Control
                             as="select"
-                            className={`input101 ${
-                              formik2.errors.headsvalue?.[index]
-                                ?.negative_nominal_type_id &&
+                            className={`input101 ${formik2.errors.headsvalue?.[index]
+                              ?.negative_nominal_type_id &&
                               formik2.touched[
-                                `headsvalue[${index}].negative_nominal_type_id`
+                              `headsvalue[${index}].negative_nominal_type_id`
                               ]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`headsvalue[${index}].negative_nominal_type_id`}
                             onChange={formik2.handleChange}
                             value={item?.negative_nominal_type_id || ""}
@@ -766,7 +827,7 @@ const SageDeduction = (props) => {
                           {formik2.errors.headsvalue?.[index]
                             ?.negative_nominal_type_id &&
                             formik2.touched[
-                              `headsvalue[${index}].negative_nominal_type_id`
+                            `headsvalue[${index}].negative_nominal_type_id`
                             ] && (
                               <div className="invalid-feedback">
                                 {
@@ -784,15 +845,14 @@ const SageDeduction = (props) => {
                           <Form.Label> Sage Tax Code:</Form.Label>
                           <Form.Control
                             as="select"
-                            className={`input101 ${
-                              formik2.errors.headsvalue?.[index]
-                                ?.nominal_tax_code_id &&
+                            className={`input101 ${formik2.errors.headsvalue?.[index]
+                              ?.nominal_tax_code_id &&
                               formik2.touched[
-                                `headsvalue[${index}].nominal_tax_code_id`
+                              `headsvalue[${index}].nominal_tax_code_id`
                               ]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`headsvalue[${index}].nominal_tax_code_id`}
                             onChange={formik2.handleChange}
                             value={item?.nominal_tax_code_id || ""}
@@ -810,7 +870,7 @@ const SageDeduction = (props) => {
                           {formik2.errors.headsvalue?.[index]
                             ?.nominal_tax_code_id &&
                             formik2.touched[
-                              `headsvalue[${index}].nominal_tax_code_id`
+                            `headsvalue[${index}].nominal_tax_code_id`
                             ] && (
                               <div className="invalid-feedback">
                                 {
@@ -821,24 +881,23 @@ const SageDeduction = (props) => {
                             )}
                         </Form.Group>
                       </Col>
-                      {formik2.values.headsvalue.length > 1 && (
-                        <Col lg={1} md={1} className="text-end">
-                          <div
-                            className="text-end"
-                            style={{ marginTop: "36px" }}
+
+                      <Col lg={1} md={1} className="text-end">
+                        <div
+                          className="text-end"
+                          style={{ marginTop: "36px" }}
+                        >
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => handleRemoveClick(index)}
                           >
-                            <button
-                              className="btn btn-danger"
-                              onClick={() => removenonbunkeredSalesRow(index)}
-                            >
-                              <RemoveCircleIcon />
-                            </button>
-                          </div>
-                        </Col>
-                      )}
+                            <RemoveCircleIcon />
+                          </button>
+                        </div>
+                      </Col>
                     </React.Fragment>
                     {index !== formik2.values.headsvalue.length - 1 &&
-                    data?.sageExport.length > 0 ? (
+                      data?.sageExport.length > 0 ? (
                       <hr className="mt-4"></hr>
                     ) : null}
                   </>
@@ -855,7 +914,7 @@ const SageDeduction = (props) => {
             )}
           </Card.Body>
           <Card.Footer>
-            {isUpdatePermissionAvailable ? (
+            {isUpdatePermissionAvailable && formik2.values.headsvalue.length > 0 ? (
               <div className="bunkered-action">
                 <div className="text-end mt-3">
                   <button

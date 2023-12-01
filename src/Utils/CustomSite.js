@@ -1,15 +1,17 @@
 import React from 'react'
 import { Col } from 'react-bootstrap';
 
-const CustomSite = ({ formik, lg, md, SiteList, setSelectedSiteId, CompanyList, setSiteId }) => {
+const CustomSite = ({ formik, lg, md, SiteList, setSelectedSiteId, CompanyList, setSiteId, hideStarIcon }) => {
     return (
         <>
             <Col lg={lg} md={md}>
                 <div className="form-group">
+
                     <label htmlFor="site_id" className="form-label mt-4">
                         Site Name
-                        <span className="text-danger">*</span>
+                        <span className={`text-danger ${hideStarIcon ? "hide-star-icon" : ""}`}>*</span>
                     </label>
+
                     <select
                         className={`input101 ${formik.errors.site_id && formik.touched.site_id
                             ? "is-invalid"
@@ -42,7 +44,7 @@ const CustomSite = ({ formik, lg, md, SiteList, setSelectedSiteId, CompanyList, 
                         </div>
                     )}
                 </div>
-            </Col>
+            </Col >
         </>
     )
 }

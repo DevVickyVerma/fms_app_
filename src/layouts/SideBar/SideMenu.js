@@ -65,78 +65,78 @@ export const MENUITEMS = [
       //   ],
       // },
       // types
-      {
-        title: "Manage Types",
-        icon: "pie-chart",
-        type: "sub",
-        active: false,
-        permission: "type-list",
-        visibility: false,
-        children: [
-          {
-            path: `/type-list`,
-            type: "link",
-            title: "Manage Types",
-            permission: "type-list",
-            visibility: false,
-          },
-        ],
-      },
-      // holidays
-      {
-        title: "Manage Holidays",
-        icon: "coffee",
-        type: "sub",
-        active: false,
-        permission: "holiday-list",
-        visibility: false,
-        children: [
-          {
-            path: `/holiday-list`,
-            type: "link",
-            title: "Manage Holidays",
-            permission: "holiday-list",
-            visibility: false,
-          },
-        ],
-      },
-      //designation-list
-      {
-        title: "Manage Designation",
-        icon: "graduation-cap",
-        // icon: "sitemap",
-        type: "sub",
-        active: false,
-        permission: "designation-list",
-        visibility: false,
-        children: [
-          {
-            path: `/designation-list`,
-            type: "link",
-            title: "Manage Designation",
-            permission: "designation-list",
-            visibility: false,
-          },
-        ],
-      },
-      // Addition -list
-      {
-        title: "Manage Addition",
-        icon: "user-plus",
-        type: "sub",
-        active: false,
-        permission: "addition-list",
-        visibility: false,
-        children: [
-          {
-            path: `/addition-list`,
-            type: "link",
-            title: "Manage Addition",
-            permission: "addition-list",
-            visibility: false,
-          },
-        ],
-      },
+      // {
+      //   title: "Manage Types",
+      //   icon: "pie-chart",
+      //   type: "sub",
+      //   active: false,
+      //   permission: "type-list",
+      //   visibility: false,
+      //   children: [
+      //     {
+      //       path: `/type-list`,
+      //       type: "link",
+      //       title: "Manage Types",
+      //       permission: "type-list",
+      //       visibility: false,
+      //     },
+      //   ],
+      // },
+      // // holidays
+      // {
+      //   title: "Manage Holidays",
+      //   icon: "coffee",
+      //   type: "sub",
+      //   active: false,
+      //   permission: "holiday-list",
+      //   visibility: false,
+      //   children: [
+      //     {
+      //       path: `/holiday-list`,
+      //       type: "link",
+      //       title: "Manage Holidays",
+      //       permission: "holiday-list",
+      //       visibility: false,
+      //     },
+      //   ],
+      // },
+      // //designation-list
+      // {
+      //   title: "Manage Designation",
+      //   icon: "graduation-cap",
+      //   // icon: "sitemap",
+      //   type: "sub",
+      //   active: false,
+      //   permission: "designation-list",
+      //   visibility: false,
+      //   children: [
+      //     {
+      //       path: `/designation-list`,
+      //       type: "link",
+      //       title: "Manage Designation",
+      //       permission: "designation-list",
+      //       visibility: false,
+      //     },
+      //   ],
+      // },
+      // // Addition -list
+      // {
+      //   title: "Manage Addition",
+      //   icon: "user-plus",
+      //   type: "sub",
+      //   active: false,
+      //   permission: "addition-list",
+      //   visibility: false,
+      //   children: [
+      //     {
+      //       path: `/addition-list`,
+      //       type: "link",
+      //       title: "Manage Addition",
+      //       permission: "addition-list",
+      //       visibility: false,
+      //     },
+      //   ],
+      // },
       //user
       {
         title: "Manage Users",

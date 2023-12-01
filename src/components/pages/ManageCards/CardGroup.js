@@ -28,11 +28,11 @@ const CardGroup = ({ isLoading, getData }) => {
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
-
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [data, setData] = useState();
   const [permissionsArray, setPermissionsArray] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [hideStarIcon, sethideStarIcon] = useState(true);
   const [showAddButton, setShowAddButton] = useState(false);
   const [detailApiData, setDetailApiData] = useState();
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -315,6 +315,7 @@ const CardGroup = ({ isLoading, getData }) => {
                       setSelectedSiteId={setSelectedSiteId}
                       CompanyList={CompanyList}
                       setSiteId={setSiteId}
+                      hideStarIcon={hideStarIcon}
                     />
                   </Row>
                 </Card.Body>
