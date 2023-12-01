@@ -1,7 +1,6 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../Utils/ApiHelper";
-import { fetchData } from "../../Redux/dataSlice";
 import SortIcon from "@mui/icons-material/Sort";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Loaderimg from "../../Utils/Loader";
@@ -149,6 +148,7 @@ const Dashboard = (props) => {
         // Handle token update logic without page reload
       }
     }
+    console.clear();
   }, [Client_login]);
 
   const handleToggleSidebar1 = () => {
@@ -229,7 +229,7 @@ const Dashboard = (props) => {
       type: "RESET_STATE",
     });
     setSearchdata({});
-    setTimeout(() => {}, 1000);
+    setTimeout(() => { }, 1000);
     localStorage.removeItem("mySearchData");
 
     if (superiorRole !== "Administrator") {
@@ -257,15 +257,12 @@ const Dashboard = (props) => {
       setPermissionsArray(UserPermissions?.permissions);
     }
     navigate(UserPermissions?.route);
+    console.clear();
+
   }, [UserPermissions, permissionsArray]);
   const isStatusPermissionAvailable =
     permissionsArray?.includes("dashboard-view");
 
-  // useEffect(() => {
-  //   if (token && storedToken) {
-  //     dispatch(fetchData());
-  //   }
-  // }, [token]);
 
   useEffect(() => {
     if (isStatusPermissionAvailable && superiorRole !== "Administrator") {
@@ -273,12 +270,14 @@ const Dashboard = (props) => {
         handleFetchSiteData();
       }
     }
+    console.clear();
   }, [permissionsArray]);
 
   useEffect(() => {
     if (myLocalSearchData) {
       handleFormSubmit(myLocalSearchData);
     }
+    console.clear();
   }, []);
 
   const isProfileUpdatePermissionAvailable = permissionsArray?.includes(
@@ -310,7 +309,7 @@ const Dashboard = (props) => {
           </div>
           <div className="balance-badge">
             <span >Sms Balance : {" "}</span>
-            <span style={{marginLeft:"6px"}} >
+            <span style={{ marginLeft: "6px" }} >
               {" "}
               {UserPermissions?.sms_balance}{" "}
             </span>
@@ -338,7 +337,7 @@ const Dashboard = (props) => {
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-          localStorage.getItem("role") === "Operator" ? (
+            localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -425,7 +424,7 @@ const Dashboard = (props) => {
                   </Box>
                 </>
                 {UserPermissions?.applyFilter &&
-                Object.keys(searchdata).length === 0 ? (
+                  Object.keys(searchdata).length === 0 ? (
                   <div
                     style={{
                       textAlign: "left",
@@ -556,8 +555,8 @@ const Dashboard = (props) => {
         />
 
         {isProfileUpdatePermissionAvailable &&
-        !isTwoFactorPermissionAvailable &&
-        ShowAuth ? (
+          !isTwoFactorPermissionAvailable &&
+          ShowAuth ? (
           <>
             <CenterAuthModal title="Auth Modal" />
           </>
