@@ -25,13 +25,30 @@ const validationSchema = Yup.object().shape({
 
 const getWeekDays = (startDate) => {
   const days = [];
+  const currentDay = startDate.getDay(); // Get the day of the week (0-6, where 0 is Sunday and 6 is Saturday)
+
+  // Calculate the difference between the current day and Monday
+  const daysFromMonday = (currentDay + 6) % 7;
+
   for (let i = 0; i < 7; i++) {
     const currentDate = new Date(startDate);
-    currentDate.setDate(startDate.getDate() + i);
+    currentDate.setDate(startDate.getDate() - daysFromMonday + i);
     days.push(currentDate.toLocaleDateString());
   }
   return days;
 };
+
+
+
+// const getWeekDays = (startDate) => {
+//   const days = [];
+//   for (let i = 0; i < 7; i++) {
+//     const currentDate = new Date(startDate);
+//     currentDate.setDate(startDate.getDate() + i);
+//     days.push(currentDate.toLocaleDateString());
+//   }
+//   return days;
+// };
 
 const generateUniqueId = (prefix, rowIndex, colIndex) => {
   return `${prefix}_${rowIndex}_${colIndex}`;
@@ -177,12 +194,12 @@ const MyForm = () => {
   });
 
 
-
   const handleNextWeek = () => {
     const nextWeekStartDate = new Date(currentWeekStartDate);
     nextWeekStartDate.setDate(currentWeekStartDate.getDate() + 7);
     setCurrentWeekStartDate(nextWeekStartDate);
     setSelectedWeek(selectedWeek + 1);
+    updateMonthAndWeek(nextWeekStartDate, selectedWeek + 1);
   };
 
   const handlePreviousWeek = () => {
@@ -190,43 +207,130 @@ const MyForm = () => {
     previousWeekStartDate.setDate(currentWeekStartDate.getDate() - 7);
     setCurrentWeekStartDate(previousWeekStartDate);
     setSelectedWeek(selectedWeek - 1);
+    updateMonthAndWeek(previousWeekStartDate, selectedWeek - 1);
   };
 
+  const updateMonthAndWeek = (newWeekStartDate, newSelectedWeek) => {
+    const newSelectedMonth = newWeekStartDate.getMonth();
+    const firstDayOfMonth = new Date(newWeekStartDate.getFullYear(), newSelectedMonth, 1);
+    const lastDayOfMonth = new Date(newWeekStartDate.getFullYear(), newSelectedMonth + 1, 0);
+    const weeksInMonth = differenceInCalendarWeeks(lastDayOfMonth, firstDayOfMonth) + 1;
 
+    setSelectedMonth(newSelectedMonth);
+    setNumberOfWeeks(weeksInMonth);
+  };
+
+  console.log(selectedMonth, "selectedMonthoutside");
+  console.log(selectedWeek, "selectedWeek ");
 
   const handleMonthChange = (event) => {
     const selectedMonth = parseInt(event.target.value, 10);
     setSelectedMonth(selectedMonth);
 
-    // Recalculate the number of weeks in the selected month
-    const firstDayOfMonth = new Date(new Date().getFullYear(), selectedMonth, 1);
-    const lastDayOfMonth = new Date(new Date().getFullYear(), selectedMonth + 1, 0);
-    const weeksInMonth = differenceInCalendarWeeks(lastDayOfMonth, firstDayOfMonth) + 1;
-
-    // Update the number of weeks and selected week
+    // Update the number of weeks in the selected month
+    const weeksInMonth = calculateWeeksInMonth(selectedMonth);
     setNumberOfWeeks(weeksInMonth);
+
+    // Set the selected week to 0 (first week of the month)
     setSelectedWeek(0);
 
-    // Update the current week start date based on the selected month
-    const newCurrentWeekStartDate = addDays(firstDayOfMonth, selectedWeek * 7);
+    // Calculate the new current week start date based on the selected month and keep the year unchanged
+    const newCurrentWeekStartDate = new Date(currentWeekStartDate.getFullYear(), selectedMonth, 1);
     setCurrentWeekStartDate(newCurrentWeekStartDate);
   };
 
 
+
+  // const handleMonthChange = (event) => {
+  //   const selectedMonth = parseInt(event.target.value, 10);
+  //   setSelectedMonth(selectedMonth);
+
+  //   // Update the number of weeks in the selected month
+  //   const weeksInMonth = calculateWeeksInMonth(selectedMonth);
+  //   setNumberOfWeeks(weeksInMonth);
+
+  //   // Set the selected week to 0 (first week of the month)
+  //   setSelectedWeek(0);
+
+  //   // Calculate the new current week start date based on the selected month and week
+  //   const firstDayOfMonth = new Date(new Date().getFullYear(), selectedMonth, 1);
+  //   const newCurrentWeekStartDate = addDays(firstDayOfMonth, 0);
+  //   setCurrentWeekStartDate(newCurrentWeekStartDate);
+  // };
+
+
+  // const handleMonthChange = (event) => {
+  //   const selectedMonth = parseInt(event.target.value, 10);
+  //   setSelectedMonth(selectedMonth);
+  //   setNumberOfWeeks(calculateWeeksInMonth(selectedMonth));
+  //   console.log(selectedMonth, "selectedMonthselectedMonth");
+  //   setSelectedWeek(0);
+  // };
+
+  const calculateWeeksInMonth = (selectedMonth) => {
+    const firstDayOfMonth = new Date(new Date().getFullYear(), selectedMonth, 1);
+    const lastDayOfMonth = new Date(new Date().getFullYear(), selectedMonth + 1, 0);
+    const weeksInMonth = differenceInCalendarWeeks(lastDayOfMonth, firstDayOfMonth) + 1;
+    return weeksInMonth;
+  };
+
   const handleWeekChange = (event) => {
     const selectedWeek = parseInt(event.target.value, 10);
     setSelectedWeek(selectedWeek);
-
-    // Calculate the start date of the selected week
-    const startOfWeek = addDays(currentWeekStartDate, selectedWeek * 7);
-
-    // Check if the start date falls into a different month
-    if (startOfWeek.getMonth() !== selectedMonth) {
-      setSelectedMonth(startOfWeek.getMonth());
-    }
-
-    // Other logic to fetch data for the selected week
   };
+
+
+
+
+  // const handleNextWeek = () => {
+  //   const nextWeekStartDate = new Date(currentWeekStartDate);
+  //   nextWeekStartDate.setDate(currentWeekStartDate.getDate() + 7);
+  //   setCurrentWeekStartDate(nextWeekStartDate);
+  //   setSelectedWeek(selectedWeek + 1);
+  // };
+
+  // const handlePreviousWeek = () => {
+  //   const previousWeekStartDate = new Date(currentWeekStartDate);
+  //   previousWeekStartDate.setDate(currentWeekStartDate.getDate() - 7);
+  //   setCurrentWeekStartDate(previousWeekStartDate);
+  //   setSelectedWeek(selectedWeek - 1);
+  // };
+
+
+
+  // const handleMonthChange = (event) => {
+  //   const selectedMonth = parseInt(event.target.value, 10);
+  //   setSelectedMonth(selectedMonth);
+
+  //   // Recalculate the number of weeks in the selected month
+  //   const firstDayOfMonth = new Date(new Date().getFullYear(), selectedMonth, 1);
+  //   const lastDayOfMonth = new Date(new Date().getFullYear(), selectedMonth + 1, 0);
+  //   const weeksInMonth = differenceInCalendarWeeks(lastDayOfMonth, firstDayOfMonth) + 1;
+
+  //   // Update the number of weeks and selected week
+  //   setNumberOfWeeks(weeksInMonth);
+  //   setSelectedWeek(0);
+
+  //   // Update the current week start date based on the selected month
+  //   const newCurrentWeekStartDate = addDays(firstDayOfMonth, selectedWeek * 7);
+  //   setCurrentWeekStartDate(newCurrentWeekStartDate);
+  // };
+
+
+  // const handleWeekChange = (event) => {
+  //   const selectedWeek = parseInt(event.target.value, 10);
+  //   setSelectedWeek(selectedWeek);
+
+  //   // Calculate the start date of the selected week
+  //   const startOfWeek = addDays(currentWeekStartDate, selectedWeek * 7);
+
+  //   // Check if the start date falls into a different month
+  //   if (startOfWeek.getMonth() !== selectedMonth) {
+  //     setSelectedMonth(startOfWeek.getMonth());
+  //   }
+
+  //   // Other logic to fetch data for the selected week
+  // };
 
   // Assuming you have a dummy array of cost forecast data
   // const costForecastData = [100, 150, 200, 180, 220, 250, 300];
@@ -302,7 +406,7 @@ const MyForm = () => {
 
 
 
-                  <div className="mb-3">
+                  {/* <div className="mb-3">
                     <label htmlFor="weekDropdown" className="form-label">
                       Select Week:
                     </label>
@@ -312,19 +416,24 @@ const MyForm = () => {
                       onChange={handleWeekChange}
                       value={selectedWeek}
                     >
+
                       {Array.from({ length: 4 }).map((_, index) => {
                         const startOfWeek = addDays(currentWeekStartDate, index * 7);
-                        const formattedDate = format(startOfWeek, "dd/MM/yyyy");
+                        const endOfWeek = addDays(startOfWeek, 6); // Assuming a week ends after 6 days
+                        const formattedStartDate = format(startOfWeek, "dd/MM/yyyy");
+                        const formattedEndDate = format(endOfWeek, "dd/MM/yyyy");
                         const dayName = format(startOfWeek, "EEEE");
+                        const endName = format(endOfWeek, "EEEE");
 
                         return (
                           <option key={index} value={index}>
-                            Week {index + 1} - {formattedDate} ({dayName})
+                            {formattedStartDate}  to {formattedEndDate}
                           </option>
                         );
                       })}
+
                     </select>
-                  </div>
+                  </div> */}
 
                   <div className=" d-flex">
                     <div className="table-width">

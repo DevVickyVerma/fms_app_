@@ -150,6 +150,7 @@ const CenterFilterModal = (props) => {
       setSelectedClientId(clientId);
       GetCompanyList(clientId)
     }
+    console.clear()
   }, []);
 
 
