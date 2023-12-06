@@ -4,13 +4,12 @@ import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
 
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
-import axios from "axios";
+
 import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import { FileInput, ImageInput } from "formik-file-and-image-input/lib";
+
 
 const AddCards = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
