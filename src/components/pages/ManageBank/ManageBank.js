@@ -114,7 +114,7 @@ const ManageBank = ({ isLoading, getData }) => {
 
     const columns = [
         {
-            name: "S.No",
+            name: "Sr. No.",
             selector: (row, index) => index + 1,
             sortable: false,
             width: "10%",
@@ -300,6 +300,13 @@ const ManageBank = ({ isLoading, getData }) => {
                                 linkProps={{ to: "/dashboard" }}
                             >
                                 Dashboard
+                            </Breadcrumb.Item>
+                            <Breadcrumb.Item
+                                className="breadcrumb-item"
+                                linkAs={Link}
+                                linkProps={{ to: "/sites" }}
+                            >
+                                sites
                             </Breadcrumb.Item>
                             <Breadcrumb.Item
                                 className="breadcrumb-item active breadcrumds"

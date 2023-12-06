@@ -127,8 +127,6 @@ const ManageSiteTank = (props) => {
       const response = await getData(
         `/site-ppl/list?site_id=${values.site_id}`
       );
-      // site-tank/list?site_id=Vk1tRWpGNlZYdDNkbkVIQlg1UTBVZz09
-      console.log(response.data.data, "pump");
 
       if (response && response.data && response.data.data) {
         setData(response.data.data);
@@ -201,7 +199,7 @@ const ManageSiteTank = (props) => {
 
   const columns = [
     {
-      name: "S.No",
+      name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
       width: "6%",
@@ -406,7 +404,7 @@ const ManageSiteTank = (props) => {
         );
 
         if (response) {
-          console.log(response, "company");
+
           setCompanyList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -425,7 +423,7 @@ const ManageSiteTank = (props) => {
         const response = await getData(`common/site-list?company_id=${values}`);
 
         if (response) {
-          console.log(response, "company");
+
           setSiteList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");

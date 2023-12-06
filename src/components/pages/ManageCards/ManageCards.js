@@ -139,8 +139,6 @@ const ManageCards = (props) => {
     },
   });
 
-  console.log(currentPage, "currentPage");
-
   const FetchTableData = async (itemsPerPage) => {
     try {
       const response = await getData(`card/list?page=${currentPage}&search_keywords=${searchQuery}`);
@@ -178,7 +176,7 @@ const ManageCards = (props) => {
 
   const columns = [
     {
-      name: "S.No",
+      name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
       width: "10%",

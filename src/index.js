@@ -23,7 +23,14 @@ import DashSubChild from "./components/Dashboard/DashboardSubChild/DashSubChild"
 import DashSubChildBaseAPIS from "./components/Dashboard/DashboardSubChild/DashSubChildBaseAPIS";
 import CronModule from "./components/pages/CronModule/CronModule";
 import SingleStatsCompetitor from "./components/pages/Competitor/SingleStatsCompetitor";
-
+import UpdateCardGroup from "./components/pages/ManageCards/UpdateCardGroup";
+import AddCardGroup from "./components/pages/ManageCards/AddCardGroup";
+import DepartmentAddCardGroup from "./components/pages/ManageItems/DepartmentAddCardGroup";
+import DepartmentCardGroup from "./components/pages/ManageItems/DepartmentCardGroup";
+import DepartmentUpdateCardGroup from "./components/pages/ManageItems/DepartmentUpdateCardGroup";
+import OpeningBalance from "./components/pages/OpeningBalance/OpeningBalance";
+import AddOpeningBalance from "./components/pages/OpeningBalance/AddOpeningBalance";
+import EditOpeningBalance from "./components/pages/OpeningBalance/EditOpeningBalance";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -123,6 +130,21 @@ const NominalTypes = React.lazy(() =>
 const NominalTaxCode = React.lazy(() =>
   import("./components/pages/Sage/NominalTaxCode")
 );
+const MapDepartmentitems = React.lazy(() =>
+  import("./components/pages/Sage/MapDepartmentItems")
+);
+const SageCharges = React.lazy(() =>
+  import("./components/pages/Sage/ManageSageCharges")
+);
+const SageDeduction = React.lazy(() =>
+  import("./components/pages/Sage/SageDeduction")
+);
+const SageCards = React.lazy(() =>
+  import("./components/pages/Sage/SageCards")
+);
+const Sagebanking = React.lazy(() =>
+  import("./components/pages/Sage/SageBanking")
+);
 
 // Sage End
 
@@ -155,6 +177,10 @@ const AddCards = React.lazy(() =>
 const EditCards = React.lazy(() =>
   import("./components/pages/ManageCards/EditCards")
 );
+const CardGroup = React.lazy(() =>
+  import("./components/pages/ManageCards/CardGroup")
+);
+
 
 // Cards End
 
@@ -413,6 +439,13 @@ const EditCompany = React.lazy(() =>
 const CompanySageFuels = React.lazy(() =>
   import("./components/pages/ManageCompany/CompanySageFuels")
 );
+const CompanySageitesms = React.lazy(() =>
+  import("./components/pages/ManageCompany/SageItems")
+);
+
+const CompanySageOtherCodes = React.lazy(() =>
+  import("./components/pages/ManageCompany/CompanySageOtherCodes")
+);
 const EditBusiness = React.lazy(() =>
   import("./components/pages/ManageBusinessTypes/EditBussinesType")
 );
@@ -474,6 +507,9 @@ const COMINGSOON = React.lazy(() =>
 const manageNotification = React.lazy(() =>
   import("./layouts/Header/Notifications")
 );
+const managesms = React.lazy(() =>
+  import("./components/pages/ManageSmS/managesms")
+);
 
 const Root = () => {
   const store = configureStore({
@@ -499,6 +535,8 @@ const Root = () => {
   const WrappedAddCompany = withApi(AddCompany);
   const WrappeAddEditCompany = withApi(EditCompany);
   const WrappedCompanySageFuels = withApi(CompanySageFuels);
+  const WrappedCompanySageitesms = withApi(CompanySageitesms);
+  const WrappedCompanySageOtherCodes = withApi(CompanySageOtherCodes);
   const WrappedManageRoles = withApi(ManageRoles);
   const WrappedAddRoles = withApi(AddRoles);
   const WrappeAddEditRoles = withApi(EditRoles);
@@ -517,6 +555,12 @@ const Root = () => {
   const WrappedManageCards = withApi(ManageCards);
   const WrappedAddCards = withApi(AddCards);
   const WrappedEditCards = withApi(EditCards);
+  const WrappedCardGroup = withApi(CardGroup);
+  const WrappedDepartmentCardGroup = withApi(DepartmentCardGroup);
+  const WrappedUpdateCardGroup = withApi(UpdateCardGroup);
+  const WrappedDepartmentUpdateCardGroup = withApi(DepartmentUpdateCardGroup);
+  const WrappedAddCardGroup = withApi(AddCardGroup);
+  const WrappedDepartmentAddCardGroup = withApi(DepartmentAddCardGroup);
   const WrappedManageDeductions = withApi(ManageDeductions);
   const WrappedAddDeductions = withApi(AddDeductions);
   const WrappedEditDeductions = withApi(EditDeductions);
@@ -586,14 +630,27 @@ const Root = () => {
   const WrappedAddBank = withApi(AddBank);
   const WrappedEditBankManneger = withApi(EditBank);
 
+
+  const WrappedOpeningBalance = withApi(OpeningBalance);
+  const WrappedAddOpeningBalance = withApi(AddOpeningBalance);
+  const WrappedEditOpeningBalance = withApi(EditOpeningBalance);
+
   const WrappedmanageNotification = withApi(manageNotification);
   const WrappedEditCompetitorFuelPrices = withApi(EditCompetitorFuelPrices);
   const WrappedSkipDates = withApi(SkipDates);
   const WrappedCronModule = withApi(CronModule);
   const WrappedNominalActivityCodes = withApi(NominalActivityCodes);
+  const WrappedNominalMapDepartmentitems = withApi(MapDepartmentitems);
+  const WrappedNominalSageCharges = withApi(SageCharges);
+  const WrappedNominalSageDeduction = withApi(SageDeduction);
+  const WrappedNominalSageCards = withApi(SageCards);
+  const WrappedNominalSagebanking = withApi(Sagebanking);
   const WrappedNominalTypes = withApi(NominalTypes);
   const WrappedNominalTaxCode = withApi(NominalTaxCode);
   const WrappedActivitylogs = withApi(Activitylogs);
+  const Wrappedmanagesms = withApi(managesms);
+
+
 
   return (
     <Fragment>
@@ -661,6 +718,7 @@ const Root = () => {
                   />
 
                   <Route path={`/sites`} element={<Managesite />} />
+
                   <Route
                     path={`/managebank/:id`}
                     element={<WrappedManageBank />}
@@ -669,6 +727,17 @@ const Root = () => {
                   <Route
                     path={`/editbankmanager/:id`}
                     element={<WrappedEditBankManneger />}
+                  />
+
+
+                  <Route
+                    path={`/opening-balance/:id`}
+                    element={<WrappedOpeningBalance />}
+                  />
+                  <Route path={`/add-opening-balance/:id`} element={<WrappedAddOpeningBalance />} />
+                  <Route
+                    path={`/edit-opening-balance/:id`}
+                    element={<WrappedEditOpeningBalance />}
                   />
                   <Route
                     path={`/dailyfacilityfees`}
@@ -690,6 +759,15 @@ const Root = () => {
                   <Route
                     path={`/company/sage-fuels/:id`}
                     element={<WrappedCompanySageFuels />}
+                  />
+                  <Route
+                    path={`/company/sage-items/:id`}
+                    element={<WrappedCompanySageitesms />}
+                  />
+
+                  <Route
+                    path={`/company/sage-other-codes/:id`}
+                    element={<WrappedCompanySageOtherCodes />}
                   />
 
                   {/* Company  Components End */}
@@ -844,6 +922,33 @@ const Root = () => {
                   <Route
                     path={`/editcard/:id`}
                     element={<WrappedEditCards />}
+                  />
+                  <Route
+                    path={`/card-group`}
+                    element={<WrappedCardGroup />}
+                  />
+                  <Route
+                    path={`/card-group/:id`}
+                    element={<WrappedUpdateCardGroup />}
+                  />
+
+                  <Route
+                    path={`/add-group`}
+                    element={<WrappedAddCardGroup />}
+                  />
+
+                  <Route
+                    path={`/department-item-group`}
+                    element={<WrappedDepartmentCardGroup />}
+                  />
+                  <Route
+                    path={`/department-item-group/:id`}
+                    element={<WrappedDepartmentUpdateCardGroup />}
+                  />
+
+                  <Route
+                    path={`/department-add-group`}
+                    element={<WrappedDepartmentAddCardGroup />}
                   />
 
                   {/* Cards components end */}
@@ -1057,6 +1162,26 @@ const Root = () => {
                   />
 
                   <Route
+                    path={`/manage-items`}
+                    element={<WrappedNominalMapDepartmentitems />}
+                  />
+                  <Route
+                    path={`/manage-sage-charges`}
+                    element={<WrappedNominalSageCharges />}
+                  />
+                  <Route
+                    path={`/manage-sage-deduction`}
+                    element={<WrappedNominalSageDeduction />}
+                  />
+                  <Route
+                    path={`/manage-sage-cards`}
+                    element={<WrappedNominalSageCards />}
+                  />
+                  <Route
+                    path={`/manage-sage-banking`}
+                    element={<WrappedNominalSagebanking />}
+                  />
+                  <Route
                     path={`/nominal-activity-codes`}
                     element={<WrappedNominalActivityCodes />}
                   />
@@ -1068,7 +1193,10 @@ const Root = () => {
                     path={`/nominal-tax-code`}
                     element={<WrappedNominalTaxCode />}
                   />
-
+                  <Route
+                    path={`/manage-sms`}
+                    element={<Wrappedmanagesms />}
+                  />
                   <Route>
                     <Route path={`/editprofile`} element={<EditProfile />} />
 

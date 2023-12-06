@@ -1,7 +1,6 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../Utils/ApiHelper";
-import { fetchData } from "../../Redux/dataSlice";
 import SortIcon from "@mui/icons-material/Sort";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Loaderimg from "../../Utils/Loader";
@@ -28,9 +27,19 @@ const Dashboard = (props) => {
   const [justLoggedIn, setJustLoggedIn] = useState(false);
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
   const [reducerState, reducerDispatch] = useReducer(reducer, initialState);
-  const { shop_margin, shop_sale, fuel_value, gross_profit_value, gross_volume, gross_margin_value, pie_chart_values, stacked_line_bar_label, stacked_line_bar_data, d_line_chart_option, d_line_chart_values } = reducerState;
-
-
+  const {
+    shop_margin,
+    shop_sale,
+    fuel_value,
+    gross_profit_value,
+    gross_volume,
+    gross_margin_value,
+    pie_chart_values,
+    stacked_line_bar_label,
+    stacked_line_bar_data,
+    d_line_chart_option,
+    d_line_chart_values,
+  } = reducerState;
 
   const {
     searchdata,
@@ -79,7 +88,7 @@ const Dashboard = (props) => {
             fuel_value: data?.data?.fuel_sales,
             shop_sale: data?.data?.shop_sales,
             shop_margin: data?.data?.shop_profit,
-          }
+          },
         });
       }
     } catch (error) {
@@ -139,6 +148,7 @@ const Dashboard = (props) => {
         // Handle token update logic without page reload
       }
     }
+    console.clear();
   }, [Client_login]);
 
   const handleToggleSidebar1 = () => {
@@ -187,7 +197,6 @@ const Dashboard = (props) => {
       const { data } = response;
 
       if (data) {
-
         reducerDispatch({
           type: "UPDATE_DATA",
           payload: {
@@ -202,7 +211,7 @@ const Dashboard = (props) => {
             fuel_value: data?.data?.fuel_sales,
             shop_sale: data?.data?.shop_sales,
             shop_margin: data?.data?.shop_profit,
-          }
+          },
         });
       }
     } catch (error) {
@@ -217,25 +226,21 @@ const Dashboard = (props) => {
     myLocalSearchData = "";
     // setIsLoading(true);
     reducerDispatch({
-      type: 'RESET_STATE'
-    })
+      type: "RESET_STATE",
+    });
     setSearchdata({});
     setTimeout(() => { }, 1000);
     localStorage.removeItem("mySearchData");
 
     if (superiorRole !== "Administrator") {
       // Assuming handleFetchSiteData is an asynchronous function
-      handleFetchSiteData()
+      handleFetchSiteData();
     }
   };
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
-
-  const learnstate = useSelector((state) => state)
-
-  console.log("learnstate", learnstate);
 
   useEffect(() => {
     localStorage.setItem(
@@ -252,15 +257,12 @@ const Dashboard = (props) => {
       setPermissionsArray(UserPermissions?.permissions);
     }
     navigate(UserPermissions?.route);
+    console.clear();
+
   }, [UserPermissions, permissionsArray]);
   const isStatusPermissionAvailable =
     permissionsArray?.includes("dashboard-view");
 
-  // useEffect(() => {
-  //   if (token && storedToken) {
-  //     dispatch(fetchData());
-  //   }
-  // }, [token]);
 
   useEffect(() => {
     if (isStatusPermissionAvailable && superiorRole !== "Administrator") {
@@ -268,12 +270,14 @@ const Dashboard = (props) => {
         handleFetchSiteData();
       }
     }
+    console.clear();
   }, [permissionsArray]);
 
   useEffect(() => {
     if (myLocalSearchData) {
       handleFormSubmit(myLocalSearchData);
     }
+    console.clear();
   }, []);
 
   const isProfileUpdatePermissionAvailable = permissionsArray?.includes(
@@ -285,6 +289,36 @@ const Dashboard = (props) => {
   return (
     <>
       {isLoading || isLoadingState ? <Loaderimg /> : null}
+
+      {UserPermissions?.role == "Client" && UserPermissions?.sms_balance < 3 ? (
+        <div
+          className="balance-alert"
+          style={{
+            textAlign: "left",
+            margin: " 10px 0",
+            fontSize: "16px",
+            color: "white",
+            background: "#b52d2d",
+            padding: "8px",
+            borderRadius: "7px",
+          }}
+        >
+          <div>
+            Your SMS balance seems low, please buy more SMS to send
+            notifications
+          </div>
+          <div className="balance-badge">
+            <span >Sms Balance : {" "}</span>
+            <span style={{ marginLeft: "6px" }} >
+              {" "}
+              {UserPermissions?.sms_balance}{" "}
+            </span>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+
       <div>
         <Box
           display={"flex"}

@@ -12,7 +12,131 @@ export const MENUITEMS = [
         visibility: false,
         title: "Dashboard",
       },
-
+      // {
+      //   title: "Manage payrols",
+      //   icon: "comments",
+      //   type: "sub",
+      //   active: false,
+      //   permission: "sms-create",
+      //   visibility: false,
+      //   children: [
+      //     {
+      //       path: `/manage-payrols`,
+      //       title: "Manage payrols",
+      //       type: "link",
+      //       permission: "sms-create",
+      //       visibility: false,
+      //     },
+      //     // {
+      //     //   path: `/shifts`,
+      //     //   title: "Shifts",
+      //     //   type: "link",
+      //     //   permission: "shift-list",
+      //     //   visibility: false,
+      //     // },
+      //     // {
+      //     //   path: `/type-list`,
+      //     //   title: "Types",
+      //     //   type: "link",
+      //     //   permission: "type-list",
+      //     //   visibility: false,
+      //     // },
+      //     // {
+      //     //   path: `/holiday-list`,
+      //     //   title: "Holiday",
+      //     //   type: "link",
+      //     //   permission: "holiday-list",
+      //     //   visibility: false,
+      //     // },
+      //     // {
+      //     //   path: `/designation-list`,
+      //     //   title: "Designation",
+      //     //   type: "link",
+      //     //   permission: "designation-list",
+      //     //   visibility: false,
+      //     // },
+      //     // {
+      //     //   path: `/addition-list`,
+      //     //   title: "Addition",
+      //     //   type: "link",
+      //     //   permission: "addition-list",
+      //     //   visibility: false,
+      //     // },
+      //   ],
+      // },
+      // types
+      // {
+      //   title: "Manage Types",
+      //   icon: "pie-chart",
+      //   type: "sub",
+      //   active: false,
+      //   permission: "type-list",
+      //   visibility: false,
+      //   children: [
+      //     {
+      //       path: `/type-list`,
+      //       type: "link",
+      //       title: "Manage Types",
+      //       permission: "type-list",
+      //       visibility: false,
+      //     },
+      //   ],
+      // },
+      // // holidays
+      // {
+      //   title: "Manage Holidays",
+      //   icon: "coffee",
+      //   type: "sub",
+      //   active: false,
+      //   permission: "holiday-list",
+      //   visibility: false,
+      //   children: [
+      //     {
+      //       path: `/holiday-list`,
+      //       type: "link",
+      //       title: "Manage Holidays",
+      //       permission: "holiday-list",
+      //       visibility: false,
+      //     },
+      //   ],
+      // },
+      // //designation-list
+      // {
+      //   title: "Manage Designation",
+      //   icon: "graduation-cap",
+      //   // icon: "sitemap",
+      //   type: "sub",
+      //   active: false,
+      //   permission: "designation-list",
+      //   visibility: false,
+      //   children: [
+      //     {
+      //       path: `/designation-list`,
+      //       type: "link",
+      //       title: "Manage Designation",
+      //       permission: "designation-list",
+      //       visibility: false,
+      //     },
+      //   ],
+      // },
+      // // Addition -list
+      // {
+      //   title: "Manage Addition",
+      //   icon: "user-plus",
+      //   type: "sub",
+      //   active: false,
+      //   permission: "addition-list",
+      //   visibility: false,
+      //   children: [
+      //     {
+      //       path: `/addition-list`,
+      //       type: "link",
+      //       title: "Manage Addition",
+      //       permission: "addition-list",
+      //       visibility: false,
+      //     },
+      //   ],
+      // },
       //user
       {
         title: "Manage Users",
@@ -164,6 +288,41 @@ export const MENUITEMS = [
             title: "Nominal Types",
             type: "link",
             permission: "nominal-types-list",
+            visibility: false,
+          },
+          {
+            path: `/manage-items`,
+            title: "Manage Items",
+            type: "link",
+            permission: "itemhead-list",
+            visibility: false,
+          },
+          {
+            path: `/manage-sage-charges`,
+            title: "Manage Charges",
+            type: "link",
+            permission: "chargehead-list",
+            visibility: false,
+          },
+          {
+            path: `/manage-sage-deduction`,
+            title: "Manage Deductions",
+            type: "link",
+            permission: "deductionhead-list",
+            visibility: false,
+          },
+          {
+            path: `/manage-sage-cards`,
+            title: "Manage Cards",
+            type: "link",
+            permission: "cardgroup-list",
+            visibility: false,
+          },
+          {
+            path: `/manage-sage-banking`,
+            title: "Manage Banking Head",
+            type: "link",
+            permission: "bankinghead-list",
             visibility: false,
           },
         ],
@@ -479,6 +638,13 @@ export const MENUITEMS = [
             permission: "card-create",
             visibility: false,
           },
+          {
+            path: `/card-group`,
+            title: "Card  Group",
+            type: "link",
+            permission: "cardgroup-list",
+            visibility: false,
+          },
         ],
       },
       //Deductions
@@ -637,6 +803,13 @@ export const MENUITEMS = [
             permission: "department-item-create",
             visibility: false,
           },
+          {
+            path: `/department-item-group`,
+            title: "Manage Item Group",
+            type: "link",
+            permission: "department-item-group",
+            visibility: false,
+          },
         ],
       },
       //Logs
@@ -685,6 +858,25 @@ export const MENUITEMS = [
           },
         ],
       },
+      //Sms
+      {
+        title: "Manage SMS",
+        icon: "comments",
+        type: "sub",
+        active: false,
+        permission: "sms-create",
+        visibility: false,
+        children: [
+          {
+            path: `/manage-sms`,
+            title: "Manage SMS",
+            type: "link",
+            permission: "sms-create",
+            visibility: false,
+          },
+        ],
+      },
+
     ],
   },
 ];

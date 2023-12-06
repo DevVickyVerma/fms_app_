@@ -4,21 +4,11 @@ import {
   Col,
   Row,
   Card,
-  Form,
-  FormGroup,
-  FormControl,
-  ListGroup,
   Breadcrumb,
-  FormFloating,
 } from "react-bootstrap";
-
-import { Formik, Field, ErrorMessage } from "formik";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
-import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { ReactMultiEmail } from "react-multi-email";
@@ -28,8 +18,9 @@ const EditClient = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
   const navigate = useNavigate();
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
+  const [LoadingFetchClientDetail, setLoadingFetchClientDetail] = useState(false);
+
 
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -58,6 +49,7 @@ const EditClient = (props) => {
   }, [id]);
 
   const FetchRoleList = async () => {
+    LoadingFetchClientDetail(true)
     try {
       const response = await getData(`/client-detail?id=${id}`);
 
@@ -65,29 +57,23 @@ const EditClient = (props) => {
         formik.setValues(response.data.data);
 
         setDropdownValue(response.data.data);
+        LoadingFetchClientDetail(false)
+
       } else {
+        LoadingFetchClientDetail(false)
         throw new Error("No data available in the response");
       }
+      LoadingFetchClientDetail(false)
+
     } catch (error) {
+      LoadingFetchClientDetail(false)
+
       console.error("API error:", error);
     }
+    LoadingFetchClientDetail(false)
   };
 
-  const token = localStorage.getItem("token");
-  const handleMaOptionChange = (value) => {
-    const maOptionArray = [...formik.values.ma_option];
-    const index = maOptionArray.indexOf(value);
 
-    if (index === -1) {
-      // If the value is not in the array, add it
-      maOptionArray.push(value);
-    } else {
-      // If the value is in the array, remove it
-      maOptionArray.splice(index, 1);
-    }
-
-    formik.setFieldValue("ma_option", maOptionArray);
-  };
 
   const handleSubmit = async (values) => {
     try {
@@ -97,8 +83,6 @@ const EditClient = (props) => {
       formData.append("client_id", values.client_id);
       formData.append("created_date", values.created_date);
       formData.append("first_name", values.first_name);
-      formData.append("financial_end_month", values.financial_end_month);
-      formData.append("financial_start_month", values.financial_start_month);
       formData.append("last_name", values.last_name);
       formData.append("email", values.email);
       formData.append("address", values.address);
@@ -117,7 +101,6 @@ const EditClient = (props) => {
       formData.append("work_flow", values.work_flow);
       formData.append("full_name", values.full_name);
       formData.append("id", values.id);
-      formData.append("ma_option", values.ma_option);
 
       const postDataUrl = "/client/update";
       const navigatePath = "/clients";
@@ -127,18 +110,13 @@ const EditClient = (props) => {
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
-
-  // const handleSubmit = (values) => {
-
-  //
-  // };
   const formik = useFormik({
     initialValues: {
       client_code: "",
       client_name: "",
       created_date: "",
       email: "",
-    
+
       first_name: "",
       id: "",
       fairbank_email: [],
@@ -146,31 +124,17 @@ const EditClient = (props) => {
       loomis_status: "",
       work_flow: "",
       address: "",
-      financial_end_month: "",
-      financial_start_month: "",
-      ma_option: [],
       status: "1",
     },
     validationSchema: Yup.object({
       client_code: Yup.string()
         .max(20, "Must be 20 characters or less")
-        // .min(10, "The client code must be 10 digits")
         .required("Client Code is required"),
-      // client_name: Yup.string()
-      //   .max(20, "Must be 20 characters or less")
-      //   .required("Client Code is required"),
       created_date: Yup.string().required("Client Code is required"),
       email: Yup.string()
         .required(" Email is required")
         .email("Invalid email format"),
-      financial_end_month: Yup.string().required(
-        "Financial End Month is required"
-      ),
-      financial_start_month: Yup.string().required(
-        "Financial Start Month is required"
-        ),
-        
-        address: Yup.string().required("Address is required"),
+      address: Yup.string().required("Address is required"),
       first_name: Yup.string()
         .max(20, "Must be 20 characters or less")
         .required("First Name is required"),
@@ -178,7 +142,6 @@ const EditClient = (props) => {
         .max(20, "Must be 20 characters or less")
         .required("Last Name is required"),
       loomis_status: Yup.string().required("Lommis Status is required"),
-
       status: Yup.string().required(" Status is required"),
       fairbank_email: Yup.array()
         .required("At least one email is required")
@@ -213,7 +176,7 @@ const EditClient = (props) => {
 
   return (
     <>
-      {isLoading ? <Loaderimg /> : null}
+      {isLoading || LoadingFetchClientDetail ? <Loaderimg /> : null}
       <>
         <div>
           <div className="page-header">
@@ -419,7 +382,7 @@ const EditClient = (props) => {
                           )}
                         </div>
                       </Col>
-                      <Col lg={4} md={6}>
+                      {/* <Col lg={4} md={6}>
                         <div className="form-group">
                           <label
                             htmlFor="financial_start_month"
@@ -506,7 +469,7 @@ const EditClient = (props) => {
                               </div>
                             )}
                         </div>
-                      </Col>
+                      </Col> */}
                       <Col lg={4} md={6}>
                         <div className="form-group">
                           <label
@@ -569,7 +532,7 @@ const EditClient = (props) => {
                         </div>
                       </Col>
                       {/* Work Flow Status End */}
-                      <Col lg={4} md={6}>
+                      {/* <Col lg={4} md={6}>
                         <div>
                           <label
                             htmlFor="ma_option"
@@ -620,7 +583,7 @@ const EditClient = (props) => {
                             <span className="ms-2"> Variance</span>
                           </label>
                         </div>
-                      </Col>
+                      </Col> */}
                       <Col lg={4} md={6}>
                         <label
                           htmlFor="fairbank_email"

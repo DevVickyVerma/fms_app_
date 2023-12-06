@@ -199,7 +199,7 @@ const CashBanking = (props) => {
 
   const columns = [
     {
-      name: "S.No",
+      name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
       width: "10%",
@@ -355,12 +355,11 @@ const CashBanking = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.reference &&
-                              formik.touched.reference
+                            className={`input101 ${formik.errors.reference &&
+                                formik.touched.reference
                                 ? "is-invalid"
                                 : ""
-                            }`}
+                              }`}
                             id="reference"
                             name="reference"
                             placeholder="Refrence"
@@ -383,11 +382,10 @@ const CashBanking = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.value && formik.touched.value
+                            className={`input101 ${formik.errors.value && formik.touched.value
                                 ? "is-invalid"
                                 : ""
-                            }`}
+                              }`}
                             id="value"
                             name="value"
                             placeholder="Value"

@@ -54,7 +54,7 @@ const ManageEmail = (props) => {
 
   const columns = [
     {
-      name: "S.No",
+      name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
       width: "7%",
@@ -159,9 +159,9 @@ const ManageEmail = (props) => {
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
             {row?.status == 1 ? (
-              <button className="btn btn-success btn-sm">Sent</button>
+              <button className="btn btn-success btn-sm">Success</button>
             ) : row?.status == 0 ? (
-              <button className="btn btn-danger btn-sm">Failed</button>
+              <button className="btn btn-danger btn-sm">Error</button>
             ) : (
               <button className="badge">Unknown</button>
             )}

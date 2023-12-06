@@ -149,7 +149,7 @@ const ManageRoles = (props) => {
 
   const columns = [
     {
-      name: "S.No",
+      name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
       width: "10%",
@@ -281,10 +281,8 @@ const ManageRoles = (props) => {
 
         // Console log the response
         if (apidata.api_response === "success") {
-          console.log(response);
           handleCloseModal();
           FetchmannegerList();
-          console.log(formData, "formData");
         }
       } catch (error) {
         handleError(error);

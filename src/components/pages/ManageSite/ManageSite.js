@@ -31,6 +31,7 @@ import CenterSearchmodal from "../../../data/Modal/CenterSearchmodal";
 import { Box } from "@mui/material";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import { ErrorAlert } from "../../../Utils/ToastUtils";
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 const ManageSite = (props) => {
   const { apidata, isLoading, getData, postData } = props;
 
@@ -199,6 +200,8 @@ const ManageSite = (props) => {
   const isEditPermissionAvailable = permissionsArray?.includes("site-edit");
   const isBankManagerPermissionAvailable =
     permissionsArray?.includes("bankmanager-list");
+  const isOpeningBalancePermissionAvailable =
+    permissionsArray?.includes("opening-list");
   const isManagerPermissionAvailable = permissionsArray?.includes(
     "site-assign-manager"
   );
@@ -219,7 +222,7 @@ const ManageSite = (props) => {
 
   const columns = [
     {
-      name: "S.No",
+      name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
       width: "7%",
@@ -436,6 +439,20 @@ const ManageSite = (props) => {
                             <AccountBalanceIcon />
                           </i>
                           Bank Manager
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isOpeningBalancePermissionAvailable ? (
+                    <Dropdown.Item className=" p-0 m-0"
+                    //  className="dropdown-item"
+                    >
+                      <Link to={`/opening-balance/${row.id}`}>
+                        <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <AccountBalanceWalletIcon />
+                          </i>
+                          Opening Balance
                         </div>
                       </Link>
                     </Dropdown.Item>

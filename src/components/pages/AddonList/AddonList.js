@@ -53,12 +53,12 @@ const AddCompany = (props) => {
       center: true,
       width: "20%",
       cell: (row, index) => (
-        <div>
+        <div className="all-center-flex">
           <input
             type="checkbox"
             id={`checked-${index}`}
             name={`FormikreportsData[${index}].checked`}
-            className="table-input"
+            className="form-check-input"
             checked={
               formik.values?.FormikreportsData?.[index]?.checked ?? false
             }

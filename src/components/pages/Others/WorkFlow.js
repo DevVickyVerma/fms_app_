@@ -94,7 +94,7 @@ const ManageSite = (props) => {
   };
   const columns = [
     {
-      name: "S.No",
+      name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
       width: "15%",

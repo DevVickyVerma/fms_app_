@@ -43,11 +43,11 @@ const SiteEvobossStatus = (props) => {
     FetchSitedata(rowData);
   };
 
-  useEffect(() => {}, [siteData]);
+  useEffect(() => { }, [siteData]);
 
   const columns = [
     {
-      name: "S.No",
+      name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
       width: "15%",
@@ -108,7 +108,7 @@ const SiteEvobossStatus = (props) => {
 
   const secondColumns = [
     {
-      name: "S.No",
+      name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
       width: "10%",
@@ -308,7 +308,7 @@ const SiteEvobossStatus = (props) => {
                             paginationPerPage={20}
                             highlightOnHover
                             searchable={true}
-                            //   onChangePage={(newPage) => setCurrentPage(newPage)}
+                          //   onChangePage={(newPage) => setCurrentPage(newPage)}
                           />
                         </DataTableExtensions>
                       </div>

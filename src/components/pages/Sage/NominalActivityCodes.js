@@ -61,7 +61,6 @@ const UploadCompetitor = (props) => {
 
       const { data } = response;
       if (data) {
-        console.log(data?.data, "company_id");
         setData(data?.data);
       }
     } catch (error) {
@@ -121,7 +120,7 @@ const UploadCompetitor = (props) => {
   };
   const columns = [
     {
-      name: "S.No",
+      name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
       width: "8%",
@@ -204,7 +203,6 @@ const UploadCompetitor = (props) => {
 
       const { data } = response;
       if (data) {
-        console.log(data?.data, "company_id");
         setData(data?.data);
       }
     } catch (error) {
@@ -237,7 +235,6 @@ const UploadCompetitor = (props) => {
       const postDataUrl = "/sage/nominal-code/import";
 
       const postResponse = await postData(postDataUrl, formData);
-      console.log(postResponse?.status_code, "postResponse");
       if (postResponse?.status_code == 200) {
         ShowLogs(formik.values);
       }
@@ -254,7 +251,7 @@ const UploadCompetitor = (props) => {
         );
 
         if (response) {
-          console.log(response, "company");
+
           setCompanyList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -286,9 +283,7 @@ const UploadCompetitor = (props) => {
               >
                 Dashboard
               </Breadcrumb.Item>
-              <Breadcrumb.Item className="breadcrumb-item">
-                Sage
-              </Breadcrumb.Item>
+
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
@@ -328,16 +323,16 @@ const UploadCompetitor = (props) => {
                           </label>
                           <select
                             className={`input101 ${formik.errors.client_id &&
-                                formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
+                              formik.touched.client_id
+                              ? "is-invalid"
+                              : ""
                               }`}
                             id="client_id"
                             name="client_id"
                             value={formik.values.client_id}
                             onChange={(e) => {
                               const selectedType = e.target.value;
-                              console.log(selectedType, "selectedType");
+
 
                               if (selectedType) {
                                 GetCompanyList(selectedType);
@@ -347,10 +342,6 @@ const UploadCompetitor = (props) => {
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");
                               } else {
-                                console.log(
-                                  selectedType,
-                                  "selectedType no values"
-                                );
                                 formik.setFieldValue("client_id", "");
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");
@@ -389,9 +380,9 @@ const UploadCompetitor = (props) => {
                         </label>
                         <select
                           className={`input101 ${formik.errors.company_id &&
-                              formik.touched.company_id
-                              ? "is-invalid"
-                              : ""
+                            formik.touched.company_id
+                            ? "is-invalid"
+                            : ""
                             }`}
                           id="company_id"
                           name="company_id"
@@ -440,8 +431,8 @@ const UploadCompetitor = (props) => {
                           </label>
                           <div
                             className={`dropzone ${formik.errors.image && formik.touched.image
-                                ? "is-invalid"
-                                : ""
+                              ? "is-invalid"
+                              : ""
                               }`}
                             onDrop={(event) => handleDrop(event)}
                             onDragOver={(event) => event.preventDefault()}

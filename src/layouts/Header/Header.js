@@ -21,6 +21,8 @@ const Header = (props) => {
   const [ShowTruw, setShowTruw] = useState(false);
 
   const logout = async (row) => {
+    localStorage.clear();
+    window.location.replace("/");
     try {
       const response = await getData("/logout");
 
@@ -91,6 +93,7 @@ const Header = (props) => {
     document.querySelector(".app").classList.toggle("sidenav-toggled");
   };
   const stringValue = String(UserPermissions?.notifications);
+  const mybalance = String(UserPermissions?.smsCredit);
 
   const handleIconClick = async (row) => {
     try {
@@ -227,7 +230,7 @@ const Header = (props) => {
                 </div>
 
                 {storedKeyRef.current === "false" &&
-                isProfileUpdatePermissionAvailable ? (
+                  isProfileUpdatePermissionAvailable ? (
                   <>
                     <span
                       className=""
@@ -319,7 +322,7 @@ const Header = (props) => {
                     </div>
                     <div className="dropdown-divider m-0"></div>
                     {usernotification &&
-                    usernotification?.notifications?.length > 0 ? (
+                      usernotification?.notifications?.length > 0 ? (
                       <Dropdown.Item
                         eventKey="closeDropdown"
                         onClick={handleViewAllNotificationsClick}
@@ -361,7 +364,11 @@ const Header = (props) => {
                         </div>
                       </div>
                       <div className="dropdown-divider m-0"></div>
-
+                      {localStorage.getItem("superiorRole") == "Client" ? (
+                        <Dropdown.Item as={Link} to="/manage-sms">
+                          <i className="dropdown-icon fa fa-envelope-o"></i> MY SMS <span className="mybalance">{mybalance !== undefined ? mybalance : ""}</span>
+                        </Dropdown.Item>
+                      ) : null}
                       {isProfileUpdatePermissionAvailable ? (
                         <Dropdown.Item as={Link} to="/editprofile">
                           <i className="dropdown-icon fe fe-user"></i> Edit

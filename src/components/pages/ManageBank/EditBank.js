@@ -17,8 +17,6 @@ const EditBank = ({ isLoading, getData, postData }) => {
         fetchBankManagerList();
     }, [])
 
-    console.log(data, "data");
-
     function handleError(error) {
         if (error.response && error.response.status === 401) {
             navigate("/login");

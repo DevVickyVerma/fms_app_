@@ -324,13 +324,13 @@ const SingleAuthModal = (props) => {
 };
 
 SingleAuthModal.propTypes = {
-  title: PropTypes.string.isRequired,
+  // title: PropTypes.string.isRequired,
   // sidebarContent: PropTypes.node.isRequired,
-  visible: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  searchListstatus: PropTypes.bool.isRequired,
+  // visible: PropTypes.bool.isRequired,
+  // onClose: PropTypes.func.isRequired,
+  // onCancel: PropTypes.func.isRequired,
+  // onSubmit: PropTypes.func.isRequired,
+  // searchListstatus: PropTypes.bool.isRequired,
 };
 
 export default withApi(SingleAuthModal);

@@ -25,9 +25,12 @@ import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 import { Box } from "@mui/material";
+import UploadSageSales from "./UploadSageSales";
 
 const ManageCompany = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
+  const [showUploadSageSalesModal, setShowUploadSageSalesModal] = useState(false);
+  const [companyId, setCompanyId] = useState("")
   const [data, setData] = useState();
   const navigate = useNavigate();
   const handleDelete = (id) => {
@@ -166,6 +169,9 @@ const ManageCompany = (props) => {
     permissionsArray?.includes("company-delete");
   const isSagePermissionAvailable =
     permissionsArray?.includes("company-sage-config");
+
+  const isUploadSagePermissionAvailable =
+    permissionsArray?.includes("upload-sale");
   const anyPermissionAvailable =
     isEditPermissionAvailable ||
 
@@ -174,7 +180,7 @@ const ManageCompany = (props) => {
 
   const columns = [
     {
-      name: "S.No",
+      name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
       width: "7%",
@@ -307,7 +313,7 @@ const ManageCompany = (props) => {
                       >
                         <div style={{ width: "100%" }}>
                           <i className="setting-icon">
-                            <ModeEditIcon />
+                            <i class="fa fa-pencil" aria-hidden="true"></i> {" "}
                           </i>
                           Edit
                         </div>
@@ -319,7 +325,7 @@ const ManageCompany = (props) => {
                       <Link to="#" onClick={() => handleDelete(row.id)}>
                         <div style={{ width: "100%" }}>
                           <i className="setting-icon">
-                            <DeleteIcon />
+                            <i class="fa fa-trash" aria-hidden="true"></i> {" "}
                           </i>
                           Delete
                         </div>
@@ -335,11 +341,60 @@ const ManageCompany = (props) => {
                       >
                         <div style={{ width: "100%" }}>
                           <i className="setting-icon">
-                            {""} <AssignmentIndIcon />
+                            {""} <i class="fa fa-flask" aria-hidden="true"></i> {" "}
                           </i>
-                          <span>Manage Sage</span>
+                          <span>Manage Sage Fuel</span>
                         </div>
                       </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isSagePermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link
+                        className="settingicon"
+                        // onClick={() => handleSage(row.id)}
+                        to={`/company/sage-items/${row.id}`}
+                      >
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            {""} <i class="fa fa-shopping-cart" aria-hidden="true"></i>  {""}
+                          </i> {""}
+                          <span>Manage Sage Items</span>
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isSagePermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link
+                        className="settingicon"
+                        // onClick={() => handleSage(row.id)}
+                        to={`/company/sage-other-codes/${row.id}`}
+                      >
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            {""} <i class="fa fa-code" aria-hidden="true"></i> {" "}
+                          </i>
+                          <span>Sage Other Code</span>
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isUploadSagePermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link
+                        className="settingicon"
+                        onClick={() => handleUploadSageSale(row.id)}
+                      // to={`/company/sage-other-codes/${row.id}`}
+                      >
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <i class="fa fa-upload" aria-hidden="true"></i>
+                          </i> {" "} {" "}
+                          <span>Upload Sage Sales</span>
+                        </div>
+                      </Link>
+                      <UploadSageSales />
                     </Dropdown.Item>
                   ) : null}
                 </Dropdown.Menu>
@@ -351,6 +406,12 @@ const ManageCompany = (props) => {
       : "",
   ];
 
+  const handleUploadSageSale = (rowId) => {
+    setShowUploadSageSalesModal(true);
+    setCompanyId(rowId)
+  };
+
+
   const tableDatas = {
     columns,
     data,
@@ -360,6 +421,12 @@ const ManageCompany = (props) => {
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
+        <UploadSageSales
+          showUploadSageSalesModal={showUploadSageSalesModal}
+          setShowUploadSageSalesModal={setShowUploadSageSalesModal}
+          companyId={companyId}
+        />
+
         <div className="page-header d-flex">
           <div>
             <h1 className="page-title ">Manage Companies</h1>

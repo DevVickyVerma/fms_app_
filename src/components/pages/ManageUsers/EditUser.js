@@ -27,11 +27,33 @@ import { ErrorAlert } from "../../../Utils/ToastUtils";
 const EditUsers = (props) => {
   const { isLoading, getData, postData } = props;
 
+  const [selectedCountryCode, setSelectedCountryCode] = useState("+44");
   const navigate = useNavigate();
   const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [SelectedClient, setSelectedClient] = useState();
   const [roleItems, setRoleItems] = useState("");
+  const [LoadingFetchUserDetail, setLoadingFetchUserDetail] = useState(false);
+
+
+  const handleCountryCodeChange = (e) => {
+    setSelectedCountryCode(e.target.value);
+    formik.setFieldValue("country_code", e.target.value)
+
+  };
+
+  const countryCodes = [
+    { code: "+1", name: "United States", flag: "🇺🇸", shortName: "USA" },
+    { code: "+44", name: "United Kingdom", flag: "🇬🇧", shortName: "UK" },
+    { code: "+61", name: "Australia", flag: "🇦🇺", shortName: "AUS" },
+    { code: "+49", name: "Germany", flag: "🇩🇪", shortName: "GER" },
+    { code: "+33", name: "France", flag: "🇫🇷", shortName: "FRA" },
+    { code: "+91", name: "India", flag: "🇮🇳", shortName: "IND" },
+    { code: "+86", name: "China", flag: "🇨🇳", shortName: "CHN" },
+    { code: "+55", name: "Brazil", flag: "🇧🇷", shortName: "BRA" },
+    { code: "+81", name: "Japan", flag: "🇯🇵", shortName: "JPN" },
+  ];
+
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
@@ -77,6 +99,7 @@ const EditUsers = (props) => {
   let combinedClientNames = [];
   let combinedClientId = [];
   const fetchClientList = async () => {
+    setLoadingFetchUserDetail(true)
     try {
       const response = await axiosInstance.get(`/user/detail?id=${id}`);
 
@@ -88,10 +111,14 @@ const EditUsers = (props) => {
         });
 
         setSelectedItems(combinedClientNames);
+        setLoadingFetchUserDetail(false)
+
       }
     } catch (error) {
+      setLoadingFetchUserDetail(false)
       handleError(error);
     }
+    setLoadingFetchUserDetail(false)
   };
 
   const handleSubmit = async (values) => {
@@ -101,10 +128,13 @@ const EditUsers = (props) => {
       formData.append("first_name", values.first_name);
 
       formData.append("last_name", values.last_name);
+      formData.append("phone_number", values.phone_number);
 
       formData.append("id", id);
 
       formData.append("role_id", values.role_id);
+
+      formData.append("country_code", selectedCountryCode);
 
       localStorage.getItem("superiorRole") === "Client" &&
         formData.append("work_flow", values.work_flow);
@@ -124,7 +154,7 @@ const EditUsers = (props) => {
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
-
+  const phoneRegExp = /^=+-[0-9]{10}$/;
   const formik = useFormik({
     initialValues: {
       first_name: "",
@@ -132,7 +162,8 @@ const EditUsers = (props) => {
       role_id: "",
       last_name: "",
       work_flow: "",
-
+      phone_number: "",
+      selected_country_code: "+44",
       status: "1",
     },
     validationSchema: Yup.object({
@@ -143,7 +174,12 @@ const EditUsers = (props) => {
       last_name: Yup.string()
         .max(20, "Must be 20 characters or less")
         .required("Last Name is required"),
-
+      // phone_number: Yup.string()
+      //   .matches(phoneRegExp, "Phone number is not valid")
+      //   .required("Phone Number is required"),
+      phone_number: Yup.string()
+        .matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number")
+        .required("Phone Number is required"),
       status: Yup.string().required(" Status is required"),
     }),
     onSubmit: (values) => {
@@ -166,7 +202,7 @@ const EditUsers = (props) => {
 
   return (
     <>
-      {isLoading ? <Loaderimg /> : null}
+      {isLoading || LoadingFetchUserDetail ? <Loaderimg /> : null}
       <>
         <div>
           <div className="page-header">
@@ -260,6 +296,49 @@ const EditUsers = (props) => {
                           formik.touched.last_name && (
                             <div className="invalid-feedback">
                               {formik.errors.last_name}
+                            </div>
+                          )}
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <label htmlFor="phone_number" className="form-label mt-4">
+                          Phone Number<span className="text-danger">*</span>
+                        </label>
+                        <div className=" d-flex cursor-pointer">
+                          {/* <span className=" d-flex align-items-center disable-pre-number">
+                            +44
+                          </span> */}
+                          <select
+                            value={selectedCountryCode}
+                            onChange={handleCountryCodeChange}
+                            className="d-flex align-items-center disable-pre-number "
+                            style={{ borderRadius: "5px 0px 0px 5px", width: "100px" }}
+                          >
+                            {countryCodes.map((country, index) => (
+                              <option key={index} value={country.code}>
+                                {`${country.code} (${country.shortName})`}
+                              </option>
+                            ))}
+                          </select>
+                          <input
+                            type="number"
+                            autoComplete="off"
+                            className={`input101 ${formik.errors.phone_number && formik.touched.phone_number
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="phone_number"
+                            name="phone_number"
+                            placeholder="Phone Number"
+                            onChange={formik.handleChange}
+                            value={formik.values.phone_number || ""}
+                            style={{ borderRadius: "0px 5px 5px 0px" }}
+                          />
+                        </div>
+
+                        {formik.errors.phone_number &&
+                          formik.touched.last_name && (
+                            <div className="custom-error-class">
+                              {formik.errors.phone_number}
                             </div>
                           )}
                       </Col>
@@ -410,6 +489,7 @@ const EditUsers = (props) => {
                       ) : (
                         ""
                       )}
+
                     </Row>
 
                     <div className="text-end my-5 text-end-small-screen">

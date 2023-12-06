@@ -41,7 +41,7 @@ const AddBank = ({ isLoading, postData }) => {
             formData.append("sort_code", values.sort_code);
 
             const postDataUrl = "/site/bank-manager/add";
-            const navigatePath = `/managebank/:${id}`;
+            const navigatePath = `/managebank/${id}`;
 
             await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
         } catch (error) {

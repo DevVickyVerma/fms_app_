@@ -194,17 +194,17 @@ const EditCompany = (props) => {
       ),
       start_month: Yup.string().required(
         " Start Month is required"
-        ),
-        pc_code: Yup.string().required("Pc Code is required"),
-        sm_add_code: Yup.string().required(
-          "  Sm Add Code is required"
-        ),
-        sm_sub_code: Yup.string().required(
-          "  Sm Sub Code is required"
-        ),
-        bunkering_code: Yup.string().required(
-          " Bunkering Code is required"
-        ),
+      ),
+      pc_code: Yup.string().required("Pc Code is required"),
+      sm_add_code: Yup.string().required(
+        "  Sm Add Code is required"
+      ),
+      sm_sub_code: Yup.string().required(
+        "  Sm Sub Code is required"
+      ),
+      bunkering_code: Yup.string().required(
+        " Bunkering Code is required"
+      ),
     }),
     onSubmit: handleSubmit,
   });
@@ -439,7 +439,7 @@ const EditCompany = (props) => {
                             htmlFor="start_month"
                             className="form-label mt-4"
                           >
-                             Start Month
+                            Start Month
                             <span className="text-danger">*</span>
                           </label>
                           <select
@@ -483,7 +483,7 @@ const EditCompany = (props) => {
                             htmlFor="end_month"
                             className="form-label mt-4"
                           >
-                             End Month
+                            End Month
                             <span className="text-danger">*</span>
                           </label>
                           <select
@@ -558,7 +558,7 @@ const EditCompany = (props) => {
                             className="form-label mt-4"
                             htmlFor="sm_add_code"
                           >
-                           Sm Add Code<span className="text-danger">*</span>
+                            Sm Add Code<span className="text-danger">*</span>
                           </label>
                           <input
                             type="number"
@@ -570,7 +570,7 @@ const EditCompany = (props) => {
                               }`}
                             id="sm_add_code"
                             name="sm_add_code"
-                            placeholder="Pc Code"
+                            placeholder="Sm Add Code"
                             onChange={formik.handleChange}
                             value={formik.values.sm_add_code || ""}
                           />
@@ -588,7 +588,7 @@ const EditCompany = (props) => {
                             className="form-label mt-4"
                             htmlFor="sm_sub_code"
                           >
-                           Sm Sub Code<span className="text-danger">*</span>
+                            Sm Sub Code<span className="text-danger">*</span>
                           </label>
                           <input
                             type="number"
@@ -600,7 +600,7 @@ const EditCompany = (props) => {
                               }`}
                             id="sm_sub_code"
                             name="sm_sub_code"
-                            placeholder="Pc Code"
+                            placeholder="Sm Sub Code"
                             onChange={formik.handleChange}
                             value={formik.values.sm_sub_code || ""}
                           />
@@ -618,7 +618,7 @@ const EditCompany = (props) => {
                             className="form-label mt-4"
                             htmlFor="bunkering_code"
                           >
-                           Bunkering Code<span className="text-danger">*</span>
+                            Bunkering Code<span className="text-danger">*</span>
                           </label>
                           <input
                             type="number"

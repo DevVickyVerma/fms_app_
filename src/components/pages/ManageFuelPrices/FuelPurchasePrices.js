@@ -514,9 +514,7 @@ const ManageDsr = (props) => {
         formData.append(total, total_values);
       });
 
-      // formik.values.sites.forEach((site, index) => {
-      //   formData.append(`site_id[${index}]`, site.id);
-      // });
+    
       const selectedSiteIds = selected?.map((site) => site.value);
 
       selectedSiteIds?.forEach((id, index) => {
@@ -526,8 +524,8 @@ const ManageDsr = (props) => {
       formData.append("date", formik.values.start_date);
 
       const postDataUrl = "/site/fuel/purchase-price/update";
-      const navigatePath = `/dashboard`;
-      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
+    
+      await postData(postDataUrl, formData, ); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
@@ -611,7 +609,7 @@ const ManageDsr = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Fuel Price calculator</h3>
+                <h3 className="card-title">Fuel Purchase Price </h3>
               </Card.Header>
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
@@ -628,12 +626,11 @@ const ManageDsr = (props) => {
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              className={`input101 ${
-                                formik.errors.client_id &&
-                                formik.touched.client_id
+                              className={`input101 ${formik.errors.client_id &&
+                                  formik.touched.client_id
                                   ? "is-invalid"
                                   : ""
-                              }`}
+                                }`}
                               id="client_id"
                               name="client_id"
                               value={formik.values.client_id}
@@ -651,10 +648,7 @@ const ManageDsr = (props) => {
                                   formik.setFieldValue("company_id", "");
                                   formik.setFieldValue("site_id", "");
                                 } else {
-                                  console.log(
-                                    selectedType,
-                                    "selectedType no values"
-                                  );
+
                                   formik.setFieldValue("client_id", "");
                                   formik.setFieldValue("company_id", "");
                                   formik.setFieldValue("site_id", "");
@@ -696,12 +690,11 @@ const ManageDsr = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.company_id &&
-                              formik.touched.company_id
+                            className={`input101 ${formik.errors.company_id &&
+                                formik.touched.company_id
                                 ? "is-invalid"
                                 : ""
-                            }`}
+                              }`}
                             id="company_id"
                             name="company_id"
                             value={formik.values.company_id}
@@ -750,14 +743,13 @@ const ManageDsr = (props) => {
                         <div className="form-group">
                           <label htmlFor="site_id" className="form-label mt-4">
                             Site Name
-                            <span className="text-danger">*</span>
+                            
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.site_id && formik.touched.site_id
+                            className={`input101 ${formik.errors.site_id && formik.touched.site_id
                                 ? "is-invalid"
                                 : ""
-                            }`}
+                              }`}
                             id="site_id"
                             name="site_id"
                             value={formik.values.site_id}
@@ -801,12 +793,11 @@ const ManageDsr = (props) => {
                             min={"2023-01-01"}
                             max={getCurrentDate()}
                             onClick={hadndleShowDate}
-                            className={`input101 ${
-                              formik.errors.start_date &&
-                              formik.touched.start_date
+                            className={`input101 ${formik.errors.start_date &&
+                                formik.touched.start_date
                                 ? "is-invalid"
                                 : ""
-                            }`}
+                              }`}
                             id="start_date"
                             name="start_date"
                             onChange={formik.handleChange}

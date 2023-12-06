@@ -199,8 +199,6 @@ const MyModal = (props) => {
                       if (selectedType.length > 0 && selectedType) {
                         fetchCompanyList(selectedType);
                         formik.setFieldValue("clientlist", selectedType);
-                      } else {
-                        console.log(e.target.value, "dd");
                       }
                     }}
                     onBlur={formik.handleBlur}

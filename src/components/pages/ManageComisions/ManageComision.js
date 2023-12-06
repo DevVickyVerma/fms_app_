@@ -236,7 +236,7 @@ const ManageDsr = (props) => {
         );
 
         if (response) {
-          console.log(response, "company");
+
           setCompanyList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -255,7 +255,7 @@ const ManageDsr = (props) => {
         const response = await getData(`common/site-list?company_id=${values}`);
 
         if (response) {
-          console.log(response, "company");
+
           setSiteList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -523,7 +523,7 @@ const ManageDsr = (props) => {
                               value={formik2.values.client_id}
                               onChange={(e) => {
                                 const selectedType = e.target.value;
-                                console.log(selectedType, "selectedType");
+
 
                                 if (selectedType) {
                                   GetCompanyList(selectedType);
@@ -533,10 +533,7 @@ const ManageDsr = (props) => {
                                   formik2.setFieldValue("company_id", "");
                                   formik2.setFieldValue("site_id", "");
                                 } else {
-                                  console.log(
-                                    selectedType,
-                                    "selectedType no values"
-                                  );
+
                                   formik2.setFieldValue("client_id", "");
                                   formik2.setFieldValue("company_id", "");
                                   formik2.setFieldValue("site_id", "");

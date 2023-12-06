@@ -35420,7 +35420,7 @@ body.rtl {
   -o-transition: border-left-color 0.3s ease, background-color 0.3s ease;
   transition: border-left-color 0.3s ease, background-color 0.3s ease;
   color: #0e2273;
-  border-radius: 0 60px 60px 0;
+  /* border-radius: 0 60px 60px 0; */
   margin: 2px 0px;
 }
 
@@ -35437,7 +35437,8 @@ body.rtl {
   text-decoration: none;
   color: #ffffff;
   background: #6259ca !important;
-  border-radius: 0 0px 0px 0;
+  /* border-radius: 0 0px 0px 0; */
+  border-radius: 0px !important;
   box-shadow: 0 7px 12px 0 rgba(95, 118, 232, 0.21);
 }
 
@@ -35446,7 +35447,7 @@ body.rtl {
   text-decoration: none;
   color: var(--primary-bg-color);
   background: #f9fbfd !important;
-  border-radius: 0 60px 60px 0;
+  /* border-radius: 0 60px 60px 0; */
 }
 
 .side-menu__item:hover .side-menu__icon,

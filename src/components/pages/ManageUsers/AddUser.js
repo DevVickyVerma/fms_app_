@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Col,
-  Row,
-  Card,
-  Form,
-  FormGroup,
-  Breadcrumb,
-} from "react-bootstrap";
+import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
@@ -20,8 +13,15 @@ const AddUsers = (props) => {
   const { isLoading, getData, postData } = props;
   const [roleitems, setRoleItems] = useState("");
   const [selectRole, setselectRole] = useState([]);
+  const [selectedCountryCode, setSelectedCountryCode] = useState("+44");
+
   const navigate = useNavigate();
 
+
+  const handleCountryCodeChange = (e) => {
+    setSelectedCountryCode(e.target.value);
+
+  };
 
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -38,6 +38,20 @@ const AddUsers = (props) => {
     }
   }
 
+  const countryCodes = [
+    { code: "+1", name: "United States", flag: "🇺🇸", shortName: "USA" },
+    { code: "+44", name: "United Kingdom", flag: "🇬🇧", shortName: "UK" },
+    { code: "+61", name: "Australia", flag: "🇦🇺", shortName: "AUS" },
+    { code: "+49", name: "Germany", flag: "🇩🇪", shortName: "GER" },
+    { code: "+33", name: "France", flag: "🇫🇷", shortName: "FRA" },
+    { code: "+91", name: "India", flag: "🇮🇳", shortName: "IND" },
+    { code: "+86", name: "China", flag: "🇨🇳", shortName: "CHN" },
+    { code: "+55", name: "Brazil", flag: "🇧🇷", shortName: "BRA" },
+    { code: "+81", name: "Japan", flag: "🇯🇵", shortName: "JPN" },
+  ];
+
+
+
   const handleSubmit1 = async (values, setSubmitting) => {
     try {
       setSubmitting(true); // Set the submission state to true before making the API call
@@ -45,10 +59,12 @@ const AddUsers = (props) => {
       const formData = new FormData();
       formData.append("email", values.email);
       formData.append("password", values.password);
+      formData.append("phone_number", values.phone_number);
       formData.append("first_name", values.first_name);
       formData.append("last_name", values.last_name);
       formData.append("role_id", values.role);
       formData.append("send_mail", isChecked);
+      formData.append("country_code", selectedCountryCode);
       localStorage.getItem("superiorRole") === "Client" &&
         formData.append("work_flow", values.work_flow);
 
@@ -90,7 +106,6 @@ const AddUsers = (props) => {
       const { data } = response;
       if (data) {
         setselectRole(response?.data?.data);
-        console.log(response?.data, "setAddSiteData");
       }
     } catch (error) {
       console.error("API error:", error);
@@ -103,8 +118,6 @@ const AddUsers = (props) => {
 
       if (response && response.data && response.data.data) {
         setRoleItems(response?.data?.data);
-
-        console.log(response?.data?.data, "columnIndex");
       } else {
         throw new Error("No data available in the response");
       }
@@ -118,6 +131,9 @@ const AddUsers = (props) => {
     label: site?.full_name,
     value: site?.id,
   }));
+  const phoneRegExp = /^=-[0-9]{10}$/;
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -170,6 +186,8 @@ const AddUsers = (props) => {
 
                   send_mail: "1",
                   work_flow: "",
+                  phone_number: "",
+                  selected_country_code: "+44",
                 }}
                 validationSchema={Yup.object({
                   first_name: Yup.string()
@@ -184,6 +202,13 @@ const AddUsers = (props) => {
                     .email("Invalid email format"),
 
                   password: Yup.string().required("Password is required"),
+                  // phone_number: Yup.string()
+                  //   .matches(phoneRegExp, "Phone number is not valid")
+                  //   .required("Phone Number is required"),
+                  phone_number: Yup.string()
+                    .matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number")
+                    .required("Phone Number is required"),
+                  // selectedCountryCode: Yup.string().required("Country Code is required"),
                 })}
                 onSubmit={(values, { setSubmitting }) => {
                   handleSubmit1(values, setSubmitting);
@@ -251,7 +276,47 @@ const AddUsers = (props) => {
                             />
                           </FormGroup>
                         </Col>
-
+                        <Col lg={4} md={6}>
+                          <FormGroup>
+                            <label
+                              htmlFor="phone_number "
+                              className=" form-label mt-4"
+                            >
+                              Phone Number<span className="text-danger">*</span>
+                            </label>
+                            <div className=" d-flex cursor-pointer">
+                              <Field
+                                as="select"
+                                value={selectedCountryCode}
+                                onChange={handleCountryCodeChange}
+                                className="d-flex align-items-center disable-pre-number "
+                                style={{ borderRadius: "5px 0px 0px 5px", width: "100px" }}
+                              >
+                                {countryCodes.map((country, index) => (
+                                  <option key={index} value={country.code}>
+                                    {`${country.code} (${country.shortName})`}
+                                  </option>
+                                ))}
+                              </Field>
+                              <Field
+                                type="number"
+                                className={`input101 ${errors.phone_number && touched.phone_number
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
+                                id="phone_number"
+                                name="phone_number"
+                                placeholder="Phone Number"
+                                style={{ borderRadius: "0px 5px 5px 0px" }}
+                              />
+                            </div>
+                            <ErrorMessage
+                              component="div"
+                              className="custom-error-class"
+                              name="phone_number"
+                            />
+                          </FormGroup>
+                        </Col>
                         <Col lg={4} md={6}>
                           <FormGroup>
                             <label htmlFor="email" className=" form-label mt-4">
@@ -386,6 +451,7 @@ const AddUsers = (props) => {
                         ) : (
                           ""
                         )}
+
                         <Col lg={4} md={6}>
                           <FormGroup className="sendemail">
                             <label htmlFor="email" className="form-label mt-4">
@@ -398,7 +464,7 @@ const AddUsers = (props) => {
                                 onChange={SendMail}
                                 className="form-check-input"
                               />
-                              <span className="ms-1">Yes</span>
+                              <span className="ms-2 mt-2">Yes</span>
                             </div>
                             <ErrorMessage
                               component="div"

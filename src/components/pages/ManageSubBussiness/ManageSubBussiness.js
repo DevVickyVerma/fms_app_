@@ -20,7 +20,6 @@ const ManageSubBusinessTypes = (props) => {
     try {
       const response = await getData("/business/sub-types");
       const { data } = response;
-      console.log(apidata, "data");
 
       if (data) {
         const firstName = data.data?.first_name || "";
@@ -151,7 +150,7 @@ const ManageSubBusinessTypes = (props) => {
 
   const columns = [
     {
-      name: "S.No",
+      name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
       width: "10%",

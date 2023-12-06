@@ -140,7 +140,6 @@ const ManageReports = (props) => {
   };
 
   function handleReportClick(item) {
-    console.log(item, "item");
   }
 
   const getCurrentDate = () => {
@@ -222,7 +221,7 @@ const ManageReports = (props) => {
         );
 
         if (response) {
-          console.log(response, "company");
+
           setCompanyList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -241,7 +240,7 @@ const ManageReports = (props) => {
         const response = await getData(`common/site-list?company_id=${values}`);
 
         if (response) {
-          console.log(response, "company");
+
           setSiteList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -310,18 +309,17 @@ const ManageReports = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.client_id &&
+                            className={`input101 ${formik.errors.client_id &&
                               formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="client_id"
                             name="client_id"
                             value={formik.values.client_id}
                             onChange={(e) => {
                               const selectedType = e.target.value;
-                              console.log(selectedType, "selectedType");
+
                               FetchReportList(selectedType);
                               if (selectedType) {
                                 GetCompanyList(selectedType);
@@ -331,10 +329,6 @@ const ManageReports = (props) => {
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");
                               } else {
-                                console.log(
-                                  selectedType,
-                                  "selectedType no values"
-                                );
                                 formik.setFieldValue("client_id", "");
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");
@@ -373,12 +367,11 @@ const ManageReports = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.company_id &&
+                          className={`input101 ${formik.errors.company_id &&
                             formik.touched.company_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="company_id"
                           name="company_id"
                           value={formik.values.company_id}
@@ -444,11 +437,10 @@ const ManageReports = (props) => {
                         </label>
                         <select
                           as="select"
-                          className={`input101 ${
-                            formik.errors.report && formik.touched.report
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.report && formik.touched.report
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="report"
                           name="report"
                           onChange={(e) => {
@@ -460,7 +452,7 @@ const ManageReports = (props) => {
                         >
                           <option value="">Select a Report</option>
                           {ReportList.data &&
-                          ReportList?.data?.reports.length > 0 ? (
+                            ReportList?.data?.reports.length > 0 ? (
                             ReportList?.data?.reports.map((item) => (
                               <option
                                 key={item.id}
@@ -497,12 +489,11 @@ const ManageReports = (props) => {
                               min={"2023-01-01"}
                               max={getCurrentDate()}
                               onClick={handleShowDate}
-                              className={`input101 ${
-                                formik.errors.start_date &&
+                              className={`input101 ${formik.errors.start_date &&
                                 formik.touched.start_date
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                                }`}
                               id="start_date"
                               name="start_date"
                               onChange={(e) => {
@@ -537,12 +528,11 @@ const ManageReports = (props) => {
                               min={"2023-01-01"}
                               max={getCurrentDate()}
                               onClick={handleShowDate1}
-                              className={`input101 ${
-                                formik.errors.end_date &&
+                              className={`input101 ${formik.errors.end_date &&
                                 formik.touched.end_date
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
+                                ? "is-invalid"
+                                : ""
+                                }`}
                               id="end_date"
                               name="end_date"
                               onChange={(e) => {
@@ -580,12 +570,11 @@ const ManageReports = (props) => {
                           </label>
                           <select
                             as="select"
-                            className={`input101 ${
-                              formik.errors.reportmonth &&
+                            className={`input101 ${formik.errors.reportmonth &&
                               formik.touched.reportmonth
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="reportmonth"
                             name="reportmonth"
                             onChange={(e) => {
@@ -601,7 +590,7 @@ const ManageReports = (props) => {
                           >
                             <option value="">Select a Month</option>
                             {ReportList.data &&
-                            ReportList?.data?.months.length > 0 ? (
+                              ReportList?.data?.months.length > 0 ? (
                               ReportList?.data?.months.map((item) => (
                                 <option
                                   key={item.value}

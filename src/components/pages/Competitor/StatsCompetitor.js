@@ -69,7 +69,7 @@ const StatsCompetitor = ({ isLoading, getData }) => {
 
     const columns = [
         {
-            name: "S.No",
+            name: "Sr. No.",
             selector: (row, index) => index + 1,
             sortable: false,
             width: "15%",
@@ -274,10 +274,6 @@ const StatsCompetitor = ({ isLoading, getData }) => {
                                                             formik.setFieldValue("company_id", "");
                                                             formik.setFieldValue("site_id", "");
                                                         } else {
-                                                            console.log(
-                                                                selectedType,
-                                                                "selectedType no values"
-                                                            );
                                                             formik.setFieldValue("client_id", "");
                                                             formik.setFieldValue("company_id", "");
                                                             formik.setFieldValue("site_id", "");

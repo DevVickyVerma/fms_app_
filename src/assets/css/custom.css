@@ -108,7 +108,7 @@ h3.SidebarSearch-title {
   box-shadow: none;
 }
 
-.data-table-extensions > .data-table-extensions-filter > .filter-text {
+.data-table-extensions>.data-table-extensions-filter>.filter-text {
   /* border: 1px solid #eaedf1 !important; */
   border-bottom: 1px solid #eaedf1 !important;
   outline: none !important;
@@ -332,6 +332,7 @@ tbody tr {
 }
 
 @media screen and (max-width: 768px) {
+
   .table th,
   .table td {
     min-width: 22.28% !important;
@@ -553,7 +554,7 @@ input.table-input.readonly.total-input-card {
   border-radius: 50%;
 }
 
-.d-flex.chart-items > div:first-child {
+.d-flex.chart-items>div:first-child {
   margin-right: 0;
   margin-left: 0;
 }
@@ -1269,4 +1270,144 @@ span.uk-date-time {
   display: flex;
   color: black;
   border-top: 1px solid rgb(24 26 26 / 52%);
+}
+
+.company-sage-other-code-table-container {
+  width: 300px;
+}
+
+@media screen and (max-width :500px) {
+  .company-sage-other-code-table-container {
+    width: 100px;
+  }
+}
+
+span.circle-info {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  color: #7b7c7d;
+}
+
+
+.CardGroupModalItems {
+  background-color: #f2f2f8;
+  color: black;
+  border-radius: 5px;
+}
+
+
+.CardGroupModalHeader {
+  background-color: #b6b6b9;
+  color: black;
+  border-radius: 5px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.balance-alert {
+  display: flex;
+  justify-content: space-between;
+}
+
+.balance-badge {
+  display: flex;
+  background-color: #fff;
+  border-color: none;
+  padding: 0px 11px;
+  border-radius: 7px;
+  color: #000;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px !important;
+}
+
+
+.disable-pre-number {
+  background-color: #bdc3c7;
+  padding: 0px 7px;
+  border-radius: 5px 0px 0px 5px;
+  border: 1px solid #bdc3c7;
+  box-shadow: 1px 1px #e3e3e3;
+}
+
+.custom-error-class {
+  color: red;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.pay-role-custom-input-box {
+  border-radius: 1px dotted #cb2323 !important;
+}
+
+.pay-role-table thead th {
+  vertical-align: bottom;
+  /* border-bottom: 1px solid #6259ca; */
+  /* border-bottom-width: 1px; */
+  border-top: 0;
+  /* border-bottom: 1px solid #6259ca ; */
+  padding: 13px 4px;
+  min-width: 14.28% !important;
+  /* background-color: #6259ca !important; */
+  /* max-width: 14.28% !important; */
+  min-height: 48px;
+  text-align: center;
+  /* color: white; */
+}
+
+.pay-role-custom-header {
+  vertical-align: bottom;
+  border-top: 0;
+  border-bottom: 1px solid #6259ca !important;
+  padding: 13px 4px;
+  min-width: 14.28% !important;
+  background-color: #6259ca !important;
+  min-height: 48px;
+  color: white;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+span.input-102 {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #000;
+  display: block;
+  width: 100%;
+  /* background: #ffffff; */
+  height: 45px;
+  padding: 0.375rem 0.75rem;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+span.input-103 {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #000;
+  display: block;
+  width: 100%;
+  /* background: #ffffff; */
+  height: 45px;
+  padding: 0.375rem 0.75rem;
+  border-radius: 5px;
+  margin-bottom: 0.4rem;
+}
+
+.pay-role-input-field {
+  padding: 0px 10px;
+}
+
+.pay-rol-border {
+  border: 1px solid rgb(98, 89, 202);
+}
+
+.pay-rol-background-color {
+  background-color: rgb(241 242 248);
+}
+
+.hide-star-icon {
+  display: none;
 }
