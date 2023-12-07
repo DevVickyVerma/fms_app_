@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 
 const AddCards = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
-  const imageFormats = ["image/png", "image/svg", "image/jpeg"];
+ 
   const [previewImage, setPreviewImage] = useState(null);
 
   const handleSubmit1 = async (values) => {

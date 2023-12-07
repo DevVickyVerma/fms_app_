@@ -428,7 +428,10 @@ const CoffeeValet = (props) => {
               type="number"
               id={`tests-${index}`}
               name={`data[${index}].tests`}
-              className={"table-input readonly "}
+    
+              className={
+                editable?.is_editable ? "table-input " : "table-input readonly "
+              }
               value={formik.values.data[index]?.tests}
               onChange={formik.handleChange}
               // onBlur={formik.handleBlur}

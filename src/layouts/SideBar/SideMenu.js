@@ -225,14 +225,14 @@ export const MENUITEMS = [
             permission: "competitor-list",
             visibility: false,
           },
-          {
-            path: `/uploadCompetitor-price`,
-            type: "link",
-            title: "Upload Competitor",
-            permission: "competitor-create",
+          // {
+          //   path: `/uploadCompetitor-price`,
+          //   type: "link",
+          //   title: "Upload Competitor",
+          //   permission: "competitor-create",
 
-            visibility: false,
-          },
+          //   visibility: false,
+          // },
         ],
       },
       //Company
