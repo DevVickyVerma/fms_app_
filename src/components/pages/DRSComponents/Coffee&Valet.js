@@ -338,14 +338,16 @@ const CoffeeValet = (props) => {
               type="number"
               id={`tests-${index}`}
               name={`data[${index}].tests`}
-              className={"table-input readonly "}
+              className={
+                editable?.is_tests_editable ? "table-input " : "table-input readonly "
+              }
               value={formik.values.data[index]?.tests}
               onChange={formik.handleChange}
               onBlur={(e) => {
                 formik.handleBlur(e);
                 calculateSum(index);
               }}
-              readOnly={editable?.is_editable ? false : true}
+              readOnly={editable?.is_tests_editable ? false : true}
             />
             {/* Error handling code */}
           </div>
