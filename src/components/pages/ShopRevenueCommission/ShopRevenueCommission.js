@@ -663,7 +663,7 @@ const SageDeduction = (props) => {
               {formik2.values.headsvalue.map((item, index) => (
                 <>
                   <React.Fragment key={index}>
-                    <Col lg={3} md={3}>
+                    {/* <Col lg={3} md={3}>
                       <Form.Group
                         controlId={`headsvalue[${index}].commission_type`}
                       >
@@ -697,6 +697,38 @@ const SageDeduction = (props) => {
                             </div>
                           )}
                       </Form.Group>
+                    </Col> */}
+                    <Col lg={3} md={3}>
+                      <div className="form-group">
+                        <label      controlId={`headsvalue[${index}].commission_type`} className="form-label mt-4">
+                        Commission Type
+                          <span className="text-danger">*</span>
+                        </label>
+                        <select
+                          className={`input101 ${
+                            formik.errors.company_id &&
+                            formik.touched.company_id
+                              ? "is-invalid"
+                              : ""
+                          }`}
+                          id={`headsvalue[${index}].commission_type`}
+                          name={`headsvalue[${index}].commission_type`}
+                          onChange={formik2.handleChange}
+                          value={item?.commission_type || ""}
+                        >
+                             <option value="">Commission Type</option>
+                          <option value="0">Daily</option>
+                          <option value="1">Weakly</option>
+                        </select>
+                        {formik2.errors.headsvalue?.[index]?.commission_type &&
+                          formik2.touched[
+                            `headsvalue[${index}].commission_type`
+                          ] && (
+                            <div className="invalid-feedback">
+                              {formik2.errors.headsvalue[index].commission_type}
+                            </div>
+                          )}
+                      </div>
                     </Col>
                     
                     <Col lg={2} md={2}>
