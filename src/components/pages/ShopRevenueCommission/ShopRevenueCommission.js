@@ -372,9 +372,9 @@ const SageDeduction = (props) => {
       formData.append("department_item_id", formik.values.department_item_id);
 
       const postDataUrl = "/shop-revenue-commission/update";
-      //   const navigatePath = `/clients`;
+        const navigatePath = `/clients`;
 
-      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+      await postData(postDataUrl, formData,navigatePath); // Set the submission state to false after the API call is completed
 
       //   if (apidata.api_response === "success") {
       //     handleSubmit(formik?.values);
