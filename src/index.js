@@ -348,6 +348,9 @@ const valetcommission = React.lazy(() =>
 const Assignaddon = React.lazy(() =>
   import("./components/pages/AddonList/AddonList")
 );
+const ShopRevenueCommission = React.lazy(() =>
+  import("./components/pages/ShopRevenueCommission/ShopRevenueCommission")
+);
 const Assignreport = React.lazy(() =>
   import("./components/pages/AssignReports/AssignReports")
 );
@@ -649,6 +652,7 @@ const Root = () => {
   const WrappedNominalTaxCode = withApi(NominalTaxCode);
   const WrappedActivitylogs = withApi(Activitylogs);
   const Wrappedmanagesms = withApi(managesms);
+  const WrappedShopRevenueCommission = withApi(ShopRevenueCommission);
 
 
 
@@ -949,6 +953,10 @@ const Root = () => {
                   <Route
                     path={`/department-add-group`}
                     element={<WrappedDepartmentAddCardGroup />}
+                  />
+  <Route
+                    path={`/shop-revenue`}
+                    element={<WrappedShopRevenueCommission />}
                   />
 
                   {/* Cards components end */}

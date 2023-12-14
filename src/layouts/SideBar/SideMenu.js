@@ -537,6 +537,13 @@ export const MENUITEMS = [
             permission: "valet-item-commission-list",
             visibility: false,
           },
+          {
+            path: `/shop-revenue`,
+            title: "Shop Revenue Commission",
+            type: "link",
+            permission: "valet-item-commission-list",
+            visibility: false,
+          },
         ],
       },
       //Business Types
