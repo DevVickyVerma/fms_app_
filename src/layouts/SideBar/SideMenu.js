@@ -541,7 +541,7 @@ export const MENUITEMS = [
             path: `/shop-revenue`,
             title: "Shop Revenue Commission",
             type: "link",
-            permission: "valet-item-commission-list",
+            permission: "revenuecommission-list",
             visibility: false,
           },
         ],
