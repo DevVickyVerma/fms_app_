@@ -750,7 +750,7 @@ const SageDeduction = (props) => {
                         <Form.Group
                           controlId={`headsvalue[${index}].commission`}
                         >
-                          <Form.Label> Commission:</Form.Label>
+                          <Form.Label> Commission:<span className="text-danger">*</span></Form.Label>
                           <Form.Control
                             type="number"
                             className={`input101 ${
@@ -782,7 +782,7 @@ const SageDeduction = (props) => {
                         <Form.Group
                           controlId={`headsvalue[${index}].start_value`}
                         >
-                          <Form.Label> Start Value:</Form.Label>
+                          <Form.Label> Start Value:<span className="text-danger">*</span></Form.Label>
                           <Form.Control
                             type="number"
                             className={`input101 ${
@@ -816,7 +816,7 @@ const SageDeduction = (props) => {
                         <Form.Group
                           controlId={`headsvalue[${index}].end_value`}
                         >
-                          <Form.Label> End Value:</Form.Label>
+                          <Form.Label> End Value:<span className="text-danger">*</span></Form.Label>
                           <Form.Control
                             type="number"
                             className={`input101 ${
