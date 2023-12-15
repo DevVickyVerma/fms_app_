@@ -398,9 +398,8 @@ const SageDeduction = (props) => {
       formData.append("department_item_id", formik.values.department_item_id);
 
       const postDataUrl = "/shop-revenue-commission/update";
-      const navigatePath = `/clients`;
 
-      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
+      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
 
       //   if (apidata.api_response === "success") {
       //     handleSubmit(formik?.values);
@@ -698,9 +697,12 @@ const SageDeduction = (props) => {
               )}
             </span>
           </Card.Header>
-          {console.log(formik2.values.headsvalue?.length, "headsvaluecolumnIndex")}
+          {console.log(
+            formik2.values.headsvalue?.length,
+            "headsvaluecolumnIndex"
+          )}
           <Card.Body>
-            {data && formik2.values.headsvalue?.length > 0 ?(
+            {data && formik2.values.headsvalue?.length > 0 ? (
               <Row>
                 {formik2.values.headsvalue.map((item, index) => (
                   <>
@@ -750,7 +752,10 @@ const SageDeduction = (props) => {
                         <Form.Group
                           controlId={`headsvalue[${index}].commission`}
                         >
-                          <Form.Label> Commission:<span className="text-danger">*</span></Form.Label>
+                          <Form.Label>
+                            {" "}
+                            Commission:<span className="text-danger">*</span>
+                          </Form.Label>
                           <Form.Control
                             type="number"
                             className={`input101 ${
@@ -782,7 +787,10 @@ const SageDeduction = (props) => {
                         <Form.Group
                           controlId={`headsvalue[${index}].start_value`}
                         >
-                          <Form.Label> Start Value:<span className="text-danger">*</span></Form.Label>
+                          <Form.Label>
+                            {" "}
+                            Start Value:<span className="text-danger">*</span>
+                          </Form.Label>
                           <Form.Control
                             type="number"
                             className={`input101 ${
@@ -816,7 +824,10 @@ const SageDeduction = (props) => {
                         <Form.Group
                           controlId={`headsvalue[${index}].end_value`}
                         >
-                          <Form.Label> End Value:<span className="text-danger">*</span></Form.Label>
+                          <Form.Label>
+                            {" "}
+                            End Value:<span className="text-danger">*</span>
+                          </Form.Label>
                           <Form.Control
                             type="number"
                             className={`input101 ${
