@@ -139,9 +139,7 @@ const SageCharges = React.lazy(() =>
 const SageDeduction = React.lazy(() =>
   import("./components/pages/Sage/SageDeduction")
 );
-const SageCards = React.lazy(() =>
-  import("./components/pages/Sage/SageCards")
-);
+const SageCards = React.lazy(() => import("./components/pages/Sage/SageCards"));
 const Sagebanking = React.lazy(() =>
   import("./components/pages/Sage/SageBanking")
 );
@@ -180,7 +178,6 @@ const EditCards = React.lazy(() =>
 const CardGroup = React.lazy(() =>
   import("./components/pages/ManageCards/CardGroup")
 );
-
 
 // Cards End
 
@@ -513,6 +510,9 @@ const manageNotification = React.lazy(() =>
 const managesms = React.lazy(() =>
   import("./components/pages/ManageSmS/managesms")
 );
+const setuppayroll = React.lazy(() =>
+  import("./components/pages/ManageClient/SetupPayroll")
+);
 
 const Root = () => {
   const store = configureStore({
@@ -633,13 +633,13 @@ const Root = () => {
   const WrappedAddBank = withApi(AddBank);
   const WrappedEditBankManneger = withApi(EditBank);
 
-
   const WrappedOpeningBalance = withApi(OpeningBalance);
   const WrappedAddOpeningBalance = withApi(AddOpeningBalance);
   const WrappedEditOpeningBalance = withApi(EditOpeningBalance);
 
   const WrappedmanageNotification = withApi(manageNotification);
   const WrappedEditCompetitorFuelPrices = withApi(EditCompetitorFuelPrices);
+  const Wrappedsetuppayroll = withApi(setuppayroll);
   const WrappedSkipDates = withApi(SkipDates);
   const WrappedCronModule = withApi(CronModule);
   const WrappedNominalActivityCodes = withApi(NominalActivityCodes);
@@ -653,8 +653,6 @@ const Root = () => {
   const WrappedActivitylogs = withApi(Activitylogs);
   const Wrappedmanagesms = withApi(managesms);
   const WrappedShopRevenueCommission = withApi(ShopRevenueCommission);
-
-
 
   return (
     <Fragment>
@@ -733,12 +731,14 @@ const Root = () => {
                     element={<WrappedEditBankManneger />}
                   />
 
-
                   <Route
                     path={`/opening-balance/:id`}
                     element={<WrappedOpeningBalance />}
                   />
-                  <Route path={`/add-opening-balance/:id`} element={<WrappedAddOpeningBalance />} />
+                  <Route
+                    path={`/add-opening-balance/:id`}
+                    element={<WrappedAddOpeningBalance />}
+                  />
                   <Route
                     path={`/edit-opening-balance/:id`}
                     element={<WrappedEditOpeningBalance />}
@@ -927,10 +927,7 @@ const Root = () => {
                     path={`/editcard/:id`}
                     element={<WrappedEditCards />}
                   />
-                  <Route
-                    path={`/card-group`}
-                    element={<WrappedCardGroup />}
-                  />
+                  <Route path={`/card-group`} element={<WrappedCardGroup />} />
                   <Route
                     path={`/card-group/:id`}
                     element={<WrappedUpdateCardGroup />}
@@ -954,7 +951,7 @@ const Root = () => {
                     path={`/department-add-group`}
                     element={<WrappedDepartmentAddCardGroup />}
                   />
-  <Route
+                  <Route
                     path={`/shop-revenue`}
                     element={<WrappedShopRevenueCommission />}
                   />
@@ -1095,6 +1092,10 @@ const Root = () => {
                     path={`/edit-competitor/:id`}
                     element={<WrappedEditCompetitorFuelPrices />}
                   />
+                  <Route
+                    path={`/setup-payroll/:id`}
+                    element={<Wrappedsetuppayroll />}
+                  />
 
                   {/* Import Types components end */}
 
@@ -1201,10 +1202,7 @@ const Root = () => {
                     path={`/nominal-tax-code`}
                     element={<WrappedNominalTaxCode />}
                   />
-                  <Route
-                    path={`/manage-sms`}
-                    element={<Wrappedmanagesms />}
-                  />
+                  <Route path={`/manage-sms`} element={<Wrappedmanagesms />} />
                   <Route>
                     <Route path={`/editprofile`} element={<EditProfile />} />
 
