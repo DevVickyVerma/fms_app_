@@ -1,15 +1,54 @@
-import React, { useEffect, useRef, useState } from "react";
-import TreeView from "deni-react-treeview";
+import React, { useEffect, useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useNavigate, useParams } from "react-router-dom";
 import { Breadcrumb, Row, Col, Card } from "react-bootstrap";
-import { Link, useNavigate, useParams } from "react-router-dom";
 import { ErrorAlert } from "../../../Utils/ToastUtils";
+import Loaderimg from "../../../Utils/Loader";
 
-export default function Treeview(props) {
+const validationSchema = Yup.object().shape({
+  tree1: Yup.array().of(
+    Yup.object().shape({
+      id: Yup.string().required("ID is required"),
+      text: Yup.string().required("Text is required"),
+      checked: Yup.boolean(),
+      children: Yup.array().of(
+        Yup.object().shape({
+          id: Yup.string().required("ID is required"),
+          text: Yup.string().required("Text is required"),
+          checked: Yup.boolean(),
+        })
+      ),
+    })
+  ),
+  tree2: Yup.array().of(
+    Yup.object().shape({
+      id: Yup.string().required("ID is required"),
+      text: Yup.string().required("Text is required"),
+      checked: Yup.boolean(),
+      children: Yup.array().of(
+        Yup.object().shape({
+          id: Yup.string().required("ID is required"),
+          text: Yup.string().required("Text is required"),
+          checked: Yup.boolean(),
+        })
+      ),
+    })
+  ),
+});
+const initialValues = {
+  tree1: [],
+  tree2: [],
+};
+
+const TreeForm = (props) => {
+  const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
   const { isLoading, getData, postData } = props;
   const navigate = useNavigate();
-  const [treeview1, setCompanyList] = useState([]);
-  const [treeview2, setCompanyList2] = useState([]);
+  const [tree1, setCompanyList] = useState([]);
+  const [tree2, setCompanyList2] = useState([]);
   const [data, setData] = useState([]);
+  const { id } = useParams();
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
@@ -24,231 +63,366 @@ export default function Treeview(props) {
       ErrorAlert(errorMessage);
     }
   }
-
-  const { id } = useParams();
-
   useEffect(() => {
     try {
       GetSiteData();
     } catch (error) {
       handleError(error);
     }
-    console.clear();
   }, [id]);
+
   const GetSiteData = async () => {
     try {
       const response = await getData(`/payroll/setup/${id}`);
 
       if (response) {
-        console.log(response?.data?.data?.companies, "columnIndex");
-        setCompanyList(response?.data?.data?.companies);
-        setCompanyList2(response?.data?.data?.roles);
+        setCompanyList(response?.data?.data);
+        setCompanyList2(response?.data?.data);
         setData(response?.data?.data);
-        // setDropdownValue(response.data.data);
+        console.log(
+          response?.data?.data?.companies,
+          " response?.data?.data?.companies"
+        );
+        formik.setFieldValue("tree1", response?.data?.data?.companies);
+        formik.setFieldValue("tree2", response?.data?.data?.roles);
       } else {
         throw new Error("No data available in the response");
       }
     } catch (error) {
-      console.error("API error:", error);
+      handleError(error);
     }
   };
 
-  // const handleSubmit = () => {
-  //   const selectedItem = treeviewRef.current.api.getSelectedItem();
-  //   const selectedItem2 = treeviewRef2.current.api.getSelectedItem();
-
-  //   // Assuming you have an array to store selected items
-  //   const selectedItemsArray = []; // Initialize or manage this array based on your component state
-
-  //   if (selectedItem) {
-  //     console.log(selectedItem, "selectedItem3");
-  //     console.log("Selected Node ID:", selectedItem.id);
-
-  //     // Push the selected item into the array
-  //     selectedItemsArray.push(selectedItem);
-  //   } else {
-  //     console.error("No node selected");
-  //   }
-  // };
-  const handleSubmit = async (event, values) => {
-    // event.preventDefault();
-
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: (values) => {
+      console.log(formik.values, "ddd");
+      handleSubmit(formik.values);
+    },
+  });
+  const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
-      const selectedItem = treeviewRef.current.api.getSelectedItem();
-      const selectedItem2 = treeviewRef2.current.api.getSelectedItem();
-      formData.append("company_id[0]", selectedItem.id);
-      if (selectedItem && selectedItem.children) {
-        selectedItem.children.forEach((child, index) => {
-          formData.append(`site_id[${index}]`, child.id);
+
+      // Initialize counters
+      let companyIndex = 0;
+      let siteIndex = 0;
+      let roleIndex = 0;
+      let userIndex = 0;
+
+      // Process tree1
+      if (values.tree1 && values.tree1.length > 0) {
+        values.tree1.forEach((company) => {
+          if (company.checked) {
+            // Append company_id
+            formData.append(`company_id[${companyIndex}]`, company.id);
+
+            // Process children of the company
+            if (company.children && company.children.length > 0) {
+              company.children.forEach((child) => {
+                if (child.checked) {
+                  // Append site_id
+                  formData.append(`site_id[${siteIndex}]`, child.id);
+                  siteIndex++;
+                }
+              });
+            }
+            companyIndex++;
+          }
         });
       }
-      formData.append("roles[0]", selectedItem2.id);
-      if (selectedItem2 && selectedItem2.children) {
-        selectedItem2.children.forEach((child, index) => {
-          formData.append(`users[${index}]`, child.id);
+
+      // Process tree2
+      if (values.tree2 && values.tree2.length > 0) {
+        values.tree2.forEach((company) => {
+          if (company.checked) {
+            // Append roles
+            formData.append(`roles[${roleIndex}]`, company.id);
+
+            // Process children of the company
+            if (company.children && company.children.length > 0) {
+              company.children.forEach((child) => {
+                if (child.checked) {
+                  // Append users
+                  formData.append(`users[${userIndex}]`, child.id);
+                  userIndex++;
+                }
+              });
+            }
+            roleIndex++;
+          }
         });
       }
+
+      // Append client_id
       formData.append("client_id", id);
 
+      // Example: Log form data before submitting
+      for (const pair of formData.entries()) {
+        console.log(pair[0] + ", " + pair[1]);
+      }
+
+      // Perform the API call
       const postDataUrl = "/payroll/save-setup";
       const navigatePath = `/clients`;
-
-      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
-    } catch (error) {}
-  };
-
-  const modifiedTreeview2 = treeview2.map((node) => {
-    if (node.id === 1 && node.text === "Structure") {
-      // If it's the node to hide the checkbox, set showCheckbox to false
-      return { ...node, showCheckbox: false };
-    } else {
-      // Otherwise, leave the node unchanged
-      return node;
-    }
-  });
-
-  const [selectedNode, setSelectedNode] = useState(null);
-  console.log(selectedNode, "selectedNode");
-
-  // ... (rest of the code remains the same)
-
-  const handleNodeSelect = (item) => {
-    console.log(item, "item");
-    // Update the state with the selected node information
-    setSelectedNode(item);
-  };
-
-  const [selectedItems, setSelectedItems] = useState([]);
-
-  const onSelectItem = (item) => {
-    console.log(item, "Selected item changed");
-
-    // Assuming you want to store all selected items
-    setSelectedItems((prevSelectedItems) => {
-      // Check if the item is already in the array to avoid duplicates
-      const isAlreadySelected = prevSelectedItems.some(
-        (selectedItem) => selectedItem.id === item.id
-      );
-
-      if (isAlreadySelected) {
-        // Item is deselected, remove it from the array
-        return prevSelectedItems.filter(
-          (selectedItem) => selectedItem.id !== item.id
-        );
-      } else {
-        // Item is selected, add it to the array
-        return [...prevSelectedItems, item];
-      }
-    });
-  };
-
-  // Create a ref for the TreeView component
-  const treeviewRef = useRef();
-  const treeviewRef2 = useRef();
-  const [checkedItems, setCheckedItems] = useState([]);
-
-  const handleChecked = (item, checked) => {
-    // Update the checked state
-    if (checked) {
-      setCheckedItems([...checkedItems, item.id]);
-    } else {
-      setCheckedItems(checkedItems.filter((checkedItem) => checkedItem !== item.id));
+      await postData(postDataUrl, formData, navigatePath);
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
+  const toggleDropdown = (index) => {
+    setOpenDropdownIndex((prevIndex) => (prevIndex === index ? null : index));
+  };
+
+  const handleParentCheckboxChange = (index, treeKey) => {
+    const newTree = [...formik.values[treeKey]];
+    newTree[index] = {
+      ...newTree[index],
+      checked: !newTree[index].checked,
+      children: newTree[index].children.map((child) => ({
+        ...child,
+        checked: !newTree[index].checked,
+      })),
+    };
+    formik.setFieldValue(treeKey, newTree);
+  };
+  console.log(
+    tree1?.companies && `tree1 has ${tree1.companies.length} companies.`
+  );
+  console.log(tree1?.companies?.length > 0 ? "Hello" : "Noo", "cjjdjdjjd");
 
   return (
-    <div>
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">Setup Payroll</h1>
-          <Breadcrumb className="breadcrumb">
-            <Breadcrumb.Item className="breadcrumb-item" href="#">
-              Dashboard
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item active breadcrumds"
-              aria-current="page"
-              linkAs={Link}
-              linkProps={{ to: "/clients" }}
-            >
-              Clients
-            </Breadcrumb.Item>
-            <Breadcrumb.Item
-              className="breadcrumb-item active breadcrumds"
-              aria-current="page"
-            >
-              Setup Payroll
-            </Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
-      </div>
-      <Row>
-        <Col md={12}>
-          <Card>
-            <Card.Body>
-              <div className="main-content-label mg-b-5">
-                Setup Payroll = {data?.text}
-              </div>
-              <Row>
-                <Col className=" mt-4 mt-lg-0" lg={6} xl={4}>
-                  <Card>
-                    <Card.Header>Company</Card.Header>
-                    <Card.Body>
-                      <ul id="tree3" className="tree">
-                        <li className="branch">
-                        <TreeView
-      id="treeview1"
-      style={{ height: 'auto' }}
-      showIcon={false}
-      showCheckbox={true}
-      className="branch"
-      items={treeview1}
-      theme="purple"
-      onChecked={handleChecked}
-      onSelectItem={onSelectItem}
-    />
-                        </li>
-                      </ul>
-                    </Card.Body>
-                  </Card>
-                </Col>
-                <Col className=" mt-4 mt-lg-0" lg={6} xl={4}>
-                  <Card>
-                    <Card.Header>Company</Card.Header>
-                    <Card.Body>
-                      <ul id="tree4" className="tree">
-                        <li className="branch">
-                          <TreeView
-                            id="treeview2"
-                            style={{ height: "auto" }}
-                            showIcon={false}
-                            showCheckbox={true}
-                            className="branch"
-                            items={modifiedTreeview2}
-                            theme={"purple"}
-                            ref={treeviewRef2} // Use the ref for the second TreeView
-                          />
-                        </li>
-                      </ul>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              </Row>
-            </Card.Body>
-            <Card.Footer>
-              <button
-                variant="primary"
-                className="btn btn-primary"
-                onClick={handleSubmit}
-              >
-                Submit
-              </button>
-            </Card.Footer>
-          </Card>
-        </Col>
-      </Row>
-    </div>
+    <>
+      {isLoading ? <Loaderimg /> : null}
+      <>
+        <form onSubmit={formik.handleSubmit}>
+          <Row>
+            <Col md={12}>
+              <Card>
+                <Card.Header>Setup Payroll - {data?.text}</Card.Header>
+                <Card.Body>
+                  {tree1?.companies?.length > 0 ? (
+                    <Row>
+                      <Col lg={6} xl={6}>
+                        <Card>
+                          <Card.Header>Company</Card.Header>
+                          <Card.Body>
+                            <ul className="Ul-parentsiteList">
+                              {formik.values.tree1?.map((node, index) => (
+                                <li
+                                  key={index}
+                                  className="Ul-parentsiteList-childlist"
+                                >
+                                  <label>
+                                    <input
+                                      type="checkbox"
+                                      name={`tree1[${index}].checked`}
+                                      checked={node.checked}
+                                      onChange={() =>
+                                        handleParentCheckboxChange(
+                                          index,
+                                          "tree1"
+                                        )
+                                      }
+                                      className="form-check-input mb-2"
+                                      style={{ marginLeft: "10px" }}
+                                    />
+                                    <span className="tree-label">
+                                      {node.text}
+                                    </span>
+                                  </label>
+                                  {node.children &&
+                                    node.children.length > 0 && (
+                                      <>
+                                        <button
+                                          type="button"
+                                          onClick={() => toggleDropdown(index)}
+                                        >
+                                          {openDropdownIndex === index ? (
+                                            <span>
+                                              <i
+                                                class="fa fa-chevron-up"
+                                                aria-hidden="true"
+                                                style={{ color: "#fff" }}
+                                              ></i>
+                                            </span>
+                                          ) : (
+                                            <span>
+                                              <i
+                                                class="fa fa-chevron-down"
+                                                aria-hidden="true"
+                                                style={{ color: "#fff" }}
+                                              ></i>
+                                            </span>
+                                          )}
+                                        </button>
+                                        {openDropdownIndex === index && (
+                                          <ul
+                                            style={{
+                                              background: "#fff",
+                                              color: "#000",
+                                            }}
+                                            className="Ul-childsiteList p-2"
+                                          >
+                                            {node.children.map(
+                                              (child, childIndex) => (
+                                                <li key={childIndex}>
+                                                  <label className="ms-2">
+                                                    <input
+                                                      type="checkbox"
+                                                      name={`tree1[${index}].children[${childIndex}].checked`}
+                                                      checked={child.checked}
+                                                      onChange={
+                                                        formik.handleChange
+                                                      }
+                                                      className="form-check-input mb-2"
+                                                      style={{
+                                                        marginLeft: "10px",
+                                                      }}
+                                                    />
+                                                    <span className="tree-label">
+                                                      {child.text}
+                                                    </span>
+                                                  </label>
+                                                </li>
+                                              )
+                                            )}
+                                          </ul>
+                                        )}
+                                      </>
+                                    )}
+                                </li>
+                              ))}
+                            </ul>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                      <Col lg={6} xl={6}>
+                        <Card>
+                          <Card.Header>Roles</Card.Header>
+                          <Card.Body>
+                            <ul className="Ul-parentsiteList">
+                              {formik.values.tree2?.map((node, index) => (
+                                <li
+                                  key={index}
+                                  className="Ul-parentsiteList-childlist"
+                                >
+                                  <label>
+                                    <input
+                                      type="checkbox"
+                                      name={`tree2[${index}].checked`}
+                                      checked={node.checked}
+                                      onChange={() =>
+                                        handleParentCheckboxChange(
+                                          index,
+                                          "tree2"
+                                        )
+                                      }
+                                      className="form-check-input mb-2"
+                                      style={{ marginLeft: "10px" }}
+                                    />
+
+                                    <span className="tree-label">
+                                      {node.text}
+                                    </span>
+                                  </label>
+                                  {node.children &&
+                                    node.children.length > 0 && (
+                                      <>
+                                        <button
+                                          type="button"
+                                          onClick={() => toggleDropdown(index)}
+                                        >
+                                          {openDropdownIndex === index ? (
+                                            <span>
+                                              <i
+                                                class="fa fa-chevron-up"
+                                                aria-hidden="true"
+                                                style={{ color: "#fff" }}
+                                              ></i>
+                                            </span>
+                                          ) : (
+                                            <span>
+                                              <i
+                                                class="fa fa-chevron-down"
+                                                aria-hidden="true"
+                                                style={{ color: "#fff" }}
+                                              ></i>
+                                            </span>
+                                          )}
+                                        </button>
+                                        {openDropdownIndex === index && (
+                                          <ul
+                                            style={{
+                                              background: "#fff",
+                                              color: "#000",
+                                            }}
+                                          >
+                                            {node.children.map(
+                                              (child, childIndex) => (
+                                                <li key={childIndex}>
+                                                  <label className="ms-2">
+                                                    <input
+                                                      type="checkbox"
+                                                      name={`tree2[${index}].children[${childIndex}].checked`}
+                                                      checked={child.checked}
+                                                      onChange={
+                                                        formik.handleChange
+                                                      }
+                                                      className="form-check-input mb-2"
+                                                      style={{
+                                                        marginLeft: "10px",
+                                                      }}
+                                                    />
+
+                                                    <span className="tree-label">
+                                                      {child.text}
+                                                    </span>
+                                                  </label>
+                                                </li>
+                                              )
+                                            )}
+                                          </ul>
+                                        )}
+                                      </>
+                                    )}
+                                </li>
+                              ))}
+                            </ul>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    </Row>
+                  ) : (
+                    <>
+                      <img
+                        src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                        alt="MyChartImage"
+                        className="all-center-flex nodata-image"
+                      />
+                    </>
+                  )}
+                </Card.Body>
+                <Card.Footer>
+                  {tree1?.companies?.length > 0 ? (
+                    <div className="text-end">
+                      <button type="submit" className="btn btn-primary">
+                        Submit
+                      </button>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                </Card.Footer>
+              </Card>
+            </Col>
+          </Row>
+        </form>
+      </>
+    </>
   );
-}
+};
+
+export default TreeForm;
