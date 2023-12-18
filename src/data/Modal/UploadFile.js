@@ -1,31 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Dialog,
-  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
 import { Button } from "react-bootstrap";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
+
 import Loaderimg from "../../Utils/Loader";
-import { useNavigate } from "react-router-dom";
+
 import { Slide, toast } from "react-toastify";
 
 export function FormModal(props) {
-  const { showModal, setShowModal } = props
-  // const [open, setOpen] = useState(false);
+  const { showModal, setShowModal } = props;
+
   const [isLoading, setIsLoading] = useState(false);
-  const [inputValue, setInputValue] = useState("");
-  const [error, setError] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [previewImage, setPreviewImage] = useState(null);
 
   const handleClose = () => {
-    // setOpen(false);
-    setShowModal(false)
+    setShowModal(false);
   };
 
   const SuccessToast = (message) => {
@@ -64,31 +58,29 @@ export function FormModal(props) {
     setIsLoading(true);
 
     try {
-      // let url;
+      const baseUrl = process.env.REACT_APP_BASE_URL;
+      let uploadEndpoint;
+      console.log(props.PropsType, "props.PropsFile");
+      if (props.PropsType === "HTECH") {
+        uploadEndpoint = "/drs/htech-upload";
+      } else if (props.PropsType === "PRISM") {
+        uploadEndpoint = "/drs/prism-upload";
+      } else {
+      }
 
-      // if (props.PropsFile === "sales") {
-      //   url = `${process.env.REACT_APP_BASE_URL}/upload-prism-sales`;
-      // } else if (props.PropsFile === "payments") {
-      //   url = `${process.env.REACT_APP_BASE_URL}/upload-prism-payments`;
-      // } else if (props.PropsFile === "paid") {
-      //   url = `${process.env.REACT_APP_BASE_URL}/upload-prism-paid`;
-      // } else if (props.PropsFile === "tanks") {
-      //   url = `${process.env.REACT_APP_BASE_URL}/upload-prism-tanks`;
-      // } else if (props.PropsFile === "vat") {
-      //   url = `${process.env.REACT_APP_BASE_URL}/upload-prism-vat`;
-      // } else {
-      //   url = "http://example.com/default-upload";
-      // }
-      const response = await await fetch(`${process.env.REACT_APP_BASE_URL}/drs/prism-upload`, {
-
+      const response = await fetch(`${baseUrl}${uploadEndpoint}`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          // Add Content-Type header if necessary:
-          // "Content-Type": "multipart/form-data",
         },
         body: formData,
       });
+
+      console.log(response?.status, "columnIndex");
+
+      if (response?.status == 200) {
+        props.onSuccess(" Child message");
+      }
 
       if (response.ok) {
         const data = await response.json();
@@ -113,25 +105,18 @@ export function FormModal(props) {
     const file = event.currentTarget.files[0];
     setFieldValue("image", file);
 
-    // Preview the image
     const reader = new FileReader();
-    reader.onload = () => {
-      setPreviewImage(reader.result);
-    };
+
     reader.readAsDataURL(file);
   };
 
   const handleDrop = (event, setFieldValue) => {
     event.preventDefault();
-    setIsDragging(false);
     const file = event.dataTransfer.files[0];
     setFieldValue("image", file);
 
-    // Preview the image
     const reader = new FileReader();
-    reader.onload = () => {
-      setPreviewImage(reader.result);
-    };
+
     reader.readAsDataURL(file);
   };
 
@@ -177,8 +162,9 @@ export function FormModal(props) {
                   <div className="form-group">
                     <label htmlFor="image">Image</label>
                     <div
-                      className={`dropzone ${errors.image && touched.image ? "is-invalid" : ""
-                        }`}
+                      className={`dropzone ${
+                        errors.image && touched.image ? "is-invalid" : ""
+                      }`}
                       onDrop={(event) => handleDrop(event, setFieldValue)}
                       onDragOver={(event) => event.preventDefault()}
                     >

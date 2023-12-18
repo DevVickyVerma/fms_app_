@@ -416,18 +416,18 @@ const ManageClient = (props) => {
                       </Link>
                     </Dropdown.Item>
                   ) : null}
-                  {/* { permissionsArray?.includes("addons-assign") ? (
+                  { permissionsArray?.includes("addons-assign") ? (
                     <Dropdown.Item className="dropdown-item">
                       <Link to={`/setup-payroll/${row.id}`}>
                         <div style={{ width: "100%" }}>
                           <i className="setting-icon">
                             <AssignmentIndIcon />
                           </i>
-                          SetuP Payroll
+                          Setup Payroll
                         </div>
                       </Link>
                     </Dropdown.Item>
-                  ) : null} */}
+                  ) : null}
                   {isReportsPermissionAvailable ? (
                     <Dropdown.Item className="dropdown-item">
                       <Link

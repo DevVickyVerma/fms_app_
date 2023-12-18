@@ -400,10 +400,6 @@ const SageDeduction = (props) => {
       const postDataUrl = "/shop-revenue-commission/update";
 
       await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
-
-      //   if (apidata.api_response === "success") {
-      //     handleSubmit(formik?.values);
-      //   }
     } catch (error) {}
   };
   console.clear();
@@ -731,7 +727,7 @@ const SageDeduction = (props) => {
                           >
                             <option value="">Commission Type</option>
                             <option value="0">Daily</option>
-                            <option value="1">Weakly</option>
+                            <option value="1">weekly</option>
                           </select>
                           {formik2.errors.headsvalue?.[index]
                             ?.commission_type &&

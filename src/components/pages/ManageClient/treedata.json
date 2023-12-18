@@ -1,0 +1,88 @@
+{
+  "id": "OUFuemREbDhlcFBnVkg0bEM3c2ZkUT09",
+  "text": "Scott Williams (DFL)",
+  "companies": [
+      {
+          "id": "MkJWd25aSTlDekVwcWg4azgrNVh3UT09",
+          "text": "DK Forecourts (1209)",
+          "isLeaf": true,
+          "children": [
+              {
+                  "id": "VjJnTmt5QUhiaExnN29WME5JL3l3Zz09",
+                  "text": "St Mellons  (1001)",
+                  "isLeaf": false
+              },
+              {
+                  "id": "ekErS0habFMzeitISkl4R0QvWVI0Zz09",
+                  "text": "Crown Cross Serv Stn  (1002)",
+                  "isLeaf": false
+              },
+              {
+                  "id": "Ym1oSVZFVWhSSSs2MU1LLzlNVGVjZz09",
+                  "text": "Church Village Service Station  (1003)",
+                  "isLeaf": false
+              }
+          ]
+      },
+      {
+          "id": "L3J6ckhTNy9ZdmFxU3djM3BwK0VBZz09",
+          "text": "LLEWELLYNS GARAGE LIMITED (1209)",
+          "isLeaf": true,
+          "children": [
+              {
+                  "id": "MlVib3hpRzAzSCtxTTlzQ1BTK0xiUT09",
+                  "text": "LLEWELLYNS GARAGE LIMITED (1004)",
+                  "isLeaf": false
+              }
+          ]
+      },
+      {
+          "id": "U2dXNXN4OG5rSkdsOGZ0TXhTR0ZQZz09",
+          "text": "Pontllanfraith Service Station (1209)",
+          "isLeaf": true,
+          "children": [
+              {
+                  "id": "N3phSmlKOW5HNVc1dCs3cXoxVkZKZz09",
+                  "text": "Pontllanfraith Service Station (1007)",
+                  "isLeaf": false
+              }
+          ]
+      }
+  ],
+  "roles": [
+      {
+          "id": "U2wrWHB3T0FOSXRvV2lDUXg3cktUdz09",
+          "text": "SiteManager",
+          "isLeaf": true,
+          "children": [
+              {
+                  "id": "TC8za2NhS0pTZ0pLSTcxTWd4V2NmZz09",
+                  "text": "Scott William (SiteManager)",
+                  "isLeaf": false
+              }
+          ]
+      },
+      {
+          "id": "V0wyR0Y4YUJmM0NJcGVqNXUzUWtaQT09",
+          "text": "Operator",
+          "isLeaf": true,
+          "children": [
+              {
+                  "id": "bTB4V2JrRmgvSG0wR1ZQczluaVJkQT09",
+                  "text": "Ravi Ravi (Operator)",
+                  "isLeaf": false
+              },
+              {
+                  "id": "OHpscUQ3THlLUUxqOTZwcDhHdlVUZz09",
+                  "text": "Krish crown (Operator)",
+                  "isLeaf": false
+              },
+              {
+                  "id": "SGtSakpKcXU5VjN4TmoxRUdMRFBjdz09",
+                  "text": "Krish Church (Operator)",
+                  "isLeaf": false
+              }
+          ]
+      }
+  ]
+}

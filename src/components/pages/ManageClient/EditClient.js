@@ -49,7 +49,7 @@ const EditClient = (props) => {
   }, [id]);
 
   const FetchRoleList = async () => {
-    LoadingFetchClientDetail(true)
+    setLoadingFetchClientDetail(true)
     try {
       const response = await getData(`/client-detail?id=${id}`);
 
@@ -57,20 +57,20 @@ const EditClient = (props) => {
         formik.setValues(response.data.data);
 
         setDropdownValue(response.data.data);
-        LoadingFetchClientDetail(false)
+        setLoadingFetchClientDetail(false)
 
       } else {
-        LoadingFetchClientDetail(false)
+        setLoadingFetchClientDetail(false)
         throw new Error("No data available in the response");
       }
-      LoadingFetchClientDetail(false)
+      setLoadingFetchClientDetail(false)
 
     } catch (error) {
-      LoadingFetchClientDetail(false)
+      setLoadingFetchClientDetail(false)
 
       console.error("API error:", error);
     }
-    LoadingFetchClientDetail(false)
+    setLoadingFetchClientDetail(false)
   };
 
 

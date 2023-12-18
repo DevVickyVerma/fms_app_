@@ -41,7 +41,6 @@ import CustomClient from "../../../Utils/CustomClient";
 import CustomCompany from "../../../Utils/CustomCompany";
 import CustomSite from "../../../Utils/CustomSite";
 
-
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   // const receivedData = props?.location?.state;
@@ -66,6 +65,7 @@ const ManageDsr = (props) => {
   const [PropsCompanyId, setPropsCompanyId] = useState();
   const [PropsClientId, setPropsClientId] = useState();
   const [PropsFile, setPropsFile] = useState();
+  const [PropsType, setPropsType] = useState();
   const [PropsDate, setPropsDate] = useState();
   const [getDataBtn, setgetDataBtn] = useState();
   const [SiteId, setSiteId] = useState();
@@ -82,6 +82,7 @@ const ManageDsr = (props) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const dispatch = useDispatch();
   const storedToken = localStorage.getItem("token");
+  const [successMessage, setSuccessMessage] = useState("");
   useEffect(() => {
     if (storedToken) {
       dispatch(fetchData());
@@ -125,8 +126,6 @@ const ManageDsr = (props) => {
       ErrorAlert(errorMessage);
     }
   }
-
-
 
   const fetchCommonListData = async () => {
     try {
@@ -197,10 +196,10 @@ const ManageDsr = (props) => {
     const clientId = localStorage.getItem("superiorId");
 
     if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData()
+      fetchCommonListData();
     } else {
       setSelectedClientId(clientId);
-      GetCompanyList(clientId)
+      GetCompanyList(clientId);
     }
   }, []);
 
@@ -296,29 +295,48 @@ const ManageDsr = (props) => {
   };
 
   useEffect(() => {
-
     const clientId = localStorage.getItem("superiorId");
     if (localStorage.getItem("dailyWorkFlowInput")) {
-
       let parsedDataFromLocal = JSON.parse(
         localStorage.getItem("dailyWorkFlowInput")
-      ) ? JSON.parse(
-        localStorage.getItem("dailyWorkFlowInput")
-      ) : "null"
+      )
+        ? JSON.parse(localStorage.getItem("dailyWorkFlowInput"))
+        : "null";
 
-      formik.setFieldValue("client_id", parsedDataFromLocal?.client_id || "")
-      formik.setFieldValue("company_id", parsedDataFromLocal?.company_id || "")
-      formik.setFieldValue("site_id", parsedDataFromLocal?.site_id || "")
-      formik.setFieldValue("start_date", parsedDataFromLocal?.start_date || "")
-      setSiteId(parsedDataFromLocal?.site_id)
-      setDRSDate(parsedDataFromLocal?.start_date)
-      GetCompanyList(parsedDataFromLocal?.client_id ? parsedDataFromLocal?.client_id : clientId)
-      GetSiteList(parsedDataFromLocal?.company_id ? parsedDataFromLocal?.company_id : null)
-      GetDataWithClient(parsedDataFromLocal)
+      formik.setFieldValue("client_id", parsedDataFromLocal?.client_id || "");
+      formik.setFieldValue("company_id", parsedDataFromLocal?.company_id || "");
+      formik.setFieldValue("site_id", parsedDataFromLocal?.site_id || "");
+      formik.setFieldValue("start_date", parsedDataFromLocal?.start_date || "");
+      setSiteId(parsedDataFromLocal?.site_id);
+      setDRSDate(parsedDataFromLocal?.start_date);
+      GetCompanyList(
+        parsedDataFromLocal?.client_id
+          ? parsedDataFromLocal?.client_id
+          : clientId
+      );
+      GetSiteList(
+        parsedDataFromLocal?.company_id ? parsedDataFromLocal?.company_id : null
+      );
+      GetDataWithClient(parsedDataFromLocal);
     }
-  }, [])
+  }, []);
 
+  const GetDataHttech = (data) => {
+    if (localStorage.getItem("dailyWorkFlowInput")) {
+      let parsedDataFromLocal = JSON.parse(
+        localStorage.getItem("dailyWorkFlowInput")
+      )
+        ? JSON.parse(localStorage.getItem("dailyWorkFlowInput"))
+        : "null";
 
+      formik.setFieldValue("client_id", parsedDataFromLocal?.client_id || "");
+      formik.setFieldValue("company_id", parsedDataFromLocal?.company_id || "");
+      formik.setFieldValue("site_id", parsedDataFromLocal?.site_id || "");
+      formik.setFieldValue("start_date", parsedDataFromLocal?.start_date || "");
+
+      GetDataWithClient(parsedDataFromLocal);
+    }
+  };
 
   const GetDataWithClient = async (values) => {
     localStorage.setItem("dailyWorkFlowInput", JSON.stringify(values));
@@ -366,15 +384,16 @@ const ManageDsr = (props) => {
 
   const handleShowModal = (item) => {
     setShowModal(true);
-  }
+  };
 
   const handleCardClick = (item) => {
     setPropsFile(item.code);
+    setPropsType(Uploadtitle?.b_mdl);
     setUploadTabname(item);
     setModalTitle(item.name); // Set the modalTitle state to the itemName
     setShowModal(true); // Toggle the value of showModal
     // Show or hide the modal based on the new value of showModal
-    handleShowModal()
+    handleShowModal();
   };
 
   const handleEnteryClick = (item) => {
@@ -464,7 +483,12 @@ const ManageDsr = (props) => {
     setSelectedClientId("");
     localStorage.removeItem("dailyWorkFlowInput");
   };
-
+  const handleSuccess = (message) => {
+    setSuccessMessage(message);
+    GetDataHttech();
+    console.log(message, "handleSuccess");
+    // Do any additional processing with the success message if needed
+  };
 
   return (
     <>
@@ -541,11 +565,12 @@ const ManageDsr = (props) => {
                           min={"2023-01-01"}
                           max={getCurrentDate()}
                           onClick={hadndleShowDate}
-                          className={`input101 ${formik.errors.start_date &&
+                          className={`input101 ${
+                            formik.errors.start_date &&
                             formik.touched.start_date
-                            ? "is-invalid"
-                            : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                          }`}
                           value={formik.values.start_date}
                           id="start_date"
                           name="start_date"
@@ -609,10 +634,10 @@ const ManageDsr = (props) => {
           </Col>
         </Row>
 
-        {Uploadtitle?.b_mdl === "PRISM" ? (
+        {Uploadtitle?.b_mdl === "PRISM" || Uploadtitle?.b_mdl === "HTECH" ? (
           <Row>
             <Col md={12} xl={12}>
-              <Card>
+              <Card >
                 <Card.Header>
                   <h3 className="card-title">
                     Upload Files {Uploadtitle ? `(${Uploadtitle.b_mdl})` : ""}
@@ -620,11 +645,20 @@ const ManageDsr = (props) => {
                 </Card.Header>
                 <Card.Body>
                   <Row>
-                    {Uploadtitle?.b_mdl === "PRISM" ? (
+                    {Uploadtitle?.b_mdl === "PRISM" ||
+                    Uploadtitle?.b_mdl === "HTECH" ? (
                       UploadList && UploadList.length > 0 ? (
                         UploadList.map((item) => (
                           <Col md={12} xl={3} key={item.id}>
-                            <Card className="text-white bg-primary">
+                            <Card      className={`text-white ${
+                            item.bgColor === "blue"
+                              ? "bg-primary"
+                              : item.bgColor === "green"
+                              ? "bg-card-green"
+                              : item.bgColor === "red"
+                              ? "bg-card-red"
+                              : "bg-primary"
+                          }`}>
                               <Card.Body
                                 className="card-Div"
                                 onClick={() => handleCardClick(item)} // Pass item.name as an argument
@@ -665,11 +699,13 @@ const ManageDsr = (props) => {
                         PropsCompanyId={PropsCompanyId}
                         selectedClientId={selectedClientId}
                         PropsFile={PropsFile}
+                        PropsType={PropsType}
                         DRSDate={DRSDate}
                         onClose={() => setShowModal(false)}
                         modalTitle={modalTitle} // Use the modalTitle variable
                         modalCancelButtonLabel="Cancel"
                         modalSaveButtonLabel="Save"
+                        onSuccess={handleSuccess}
                       />
                     </Col>
                   </div>
@@ -717,9 +753,9 @@ const ManageDsr = (props) => {
               <Card.Header className="d-flex justify-content-space-between">
                 <h3 className="card-title">Daily Workflow</h3>
                 {getDataBtn === true &&
-                  isAssignPermissionAvailable &&
-                  DataEnteryList &&
-                  DataEnteryList.length > 0 ? (
+                isAssignPermissionAvailable &&
+                DataEnteryList &&
+                DataEnteryList.length > 0 ? (
                   <>
                     <Link
                       onClick={handleButtonClick}
@@ -741,18 +777,20 @@ const ManageDsr = (props) => {
                     DataEnteryList.map((item) => (
                       <Col md={12} xl={3} key={item.id}>
                         <Card
-                          className={`text-white ${item.bgColor === "amber"
-                            ? "bg-card-amber"
-                            : item.bgColor === "green"
+                          className={`text-white ${
+                            item.bgColor === "amber"
+                              ? "bg-card-amber"
+                              : item.bgColor === "green"
                               ? "bg-card-green"
                               : item.bgColor === "red"
-                                ? "bg-card-red"
-                                : "bg-primary"
-                            }`}
+                              ? "bg-card-red"
+                              : "bg-primary"
+                          }`}
                         >
                           <Card.Body
-                            className={`card-Div ${selectedItem === item ? "dsr-selected" : ""
-                              }`}
+                            className={`card-Div ${
+                              selectedItem === item ? "dsr-selected" : ""
+                            }`}
                             onClick={() => handleEnteryClick(item)} // Pass item.name as an argument
                           >
                             <h4 className="card-title">{item.name}</h4>
