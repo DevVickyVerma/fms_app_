@@ -40,7 +40,6 @@ const ManageClient = (props) => {
   const navigate = useNavigate();
   const [searchdata, setSearchdata] = useState({});
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
-  const [activeArray, setActiveArray] = useState([]);
   const [SearchList, setSearchList] = useState(false);
 
   const handleDelete = (id) => {
@@ -174,7 +173,7 @@ const ManageClient = (props) => {
     }
   };
 
-  let isPermissionAvailable = false;
+
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -185,9 +184,6 @@ const ManageClient = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable = permissionsArray?.includes(
-    "client-status-update"
-  );
   const isEditPermissionAvailable = permissionsArray?.includes("client-edit");
   const isLoginPermissionAvailable = permissionsArray?.includes(
     "client-account-access"
@@ -199,8 +195,7 @@ const ManageClient = (props) => {
     permissionsArray?.includes("client-delete");
   const isReportsPermissionAvailable =
     permissionsArray?.includes("report-assign");
-  const isAssignPermissionAvailable =
-    permissionsArray?.includes("client-assign");
+
   const anyPermissionAvailable =
     isEditPermissionAvailable ||
     isLoginPermissionAvailable ||
@@ -416,7 +411,7 @@ const ManageClient = (props) => {
                       </Link>
                     </Dropdown.Item>
                   ) : null}
-                  { permissionsArray?.includes("addons-assign") ? (
+                  { permissionsArray?.includes("payroll-setup") ? (
                     <Dropdown.Item className="dropdown-item">
                       <Link to={`/setup-payroll/${row.id}`}>
                         <div style={{ width: "100%" }}>
