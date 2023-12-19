@@ -1463,7 +1463,7 @@ li.Ul-parentsiteList-childlist {
   background: #6259cabf;
   color: #fff;
   margin-bottom: 10px;
-  padding: 6px;
+  padding: 1px;
 }
 .form-payroll-input {
   width: 1.5em;
@@ -1483,4 +1483,8 @@ li.Ul-parentsiteList-childlist {
 span.tree-label {
   margin-left: 54px;
   margin-top: 5px;
+}
+li.ms-2.disabled-checkbox {
+  background: #ddd;
+  margin-bottom: 3px;
 }

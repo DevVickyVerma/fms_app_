@@ -83,6 +83,10 @@ const TreeForm = (props) => {
           response?.data?.data?.companies,
           " response?.data?.data?.companies"
         );
+        console.log(
+          response?.data?.data?.roles,
+          " response?.data?.data?.roles"
+        );
         formik.setFieldValue("tree1", response?.data?.data?.companies);
         formik.setFieldValue("tree2", response?.data?.data?.roles);
       } else {
@@ -183,15 +187,19 @@ const TreeForm = (props) => {
       checked: !newTree[index].checked,
       children: newTree[index].children.map((child) => ({
         ...child,
-        checked: !newTree[index].checked,
+        checked: child.hasOwnProperty('isCheckable') ? (child.isCheckable ? !newTree[index].checked : child.checked) : true,
       })),
     };
+  
     formik.setFieldValue(treeKey, newTree);
+  
+    // Check if the parent checkbox is checked, then call toggleDropdown
+    if (newTree[index].checked) {
+      toggleDropdown(index);
+    }
   };
-  console.log(
-    tree1?.companies && `tree1 has ${tree1.companies.length} companies.`
-  );
-  console.log(tree1?.companies?.length > 0 ? "Hello" : "Noo", "cjjdjdjjd");
+  
+  
 
   return (
     <>
@@ -239,6 +247,7 @@ const TreeForm = (props) => {
                                         <button
                                           type="button"
                                           onClick={() => toggleDropdown(index)}
+                                          style={{ float: "right" }}
                                         >
                                           {openDropdownIndex === index ? (
                                             <span>
@@ -268,7 +277,8 @@ const TreeForm = (props) => {
                                           >
                                             {node.children.map(
                                               (child, childIndex) => (
-                                                <li key={childIndex}>
+                                           
+                                                <li key={childIndex} className={`ms-2 ${!child.isCheckable ? "disabled-checkbox" : ""}`}>
                                                   <label className="ms-2">
                                                     <input
                                                       type="checkbox"
@@ -281,6 +291,9 @@ const TreeForm = (props) => {
                                                       style={{
                                                         marginLeft: "10px",
                                                       }}
+                                                      disabled={
+                                                        !child.isCheckable
+                                                      }
                                                     />
                                                     <span className="tree-label">
                                                       {child.text}
@@ -334,6 +347,7 @@ const TreeForm = (props) => {
                                         <button
                                           type="button"
                                           onClick={() => toggleDropdown(index)}
+                                          style={{ float: "right" }}
                                         >
                                           {openDropdownIndex === index ? (
                                             <span>
@@ -359,6 +373,7 @@ const TreeForm = (props) => {
                                               background: "#fff",
                                               color: "#000",
                                             }}
+                                            className="Ul-childsiteList p-2"
                                           >
                                             {node.children.map(
                                               (child, childIndex) => (

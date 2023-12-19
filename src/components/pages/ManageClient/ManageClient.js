@@ -411,7 +411,7 @@ const ManageClient = (props) => {
                       </Link>
                     </Dropdown.Item>
                   ) : null}
-                  {/* { permissionsArray?.includes("payroll-setup") ? (
+                  { permissionsArray?.includes("payroll-setup") ? (
                     <Dropdown.Item className="dropdown-item">
                       <Link to={`/setup-payroll/${row.id}`}>
                         <div style={{ width: "100%" }}>
@@ -422,7 +422,7 @@ const ManageClient = (props) => {
                         </div>
                       </Link>
                     </Dropdown.Item>
-                  ) : null} */}
+                  ) : null}
                   {isReportsPermissionAvailable ? (
                     <Dropdown.Item className="dropdown-item">
                       <Link
