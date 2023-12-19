@@ -42,7 +42,7 @@ const initialValues = {
 };
 
 const TreeForm = (props) => {
-  const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
+  // const [openDropdownId, setopenDropdownId] = useState(null);
   const { isLoading, getData, postData } = props;
   const navigate = useNavigate();
   const [tree1, setCompanyList] = useState([]);
@@ -176,8 +176,10 @@ const TreeForm = (props) => {
     }
   };
 
-  const toggleDropdown = (index) => {
-    setOpenDropdownIndex((prevIndex) => (prevIndex === index ? null : index));
+  const [openDropdownId, setOpenDropdownId] = useState(null);
+
+  const toggleDropdown = (id) => {
+    setOpenDropdownId((prevId) => (prevId === id ? null : id));
   };
 
   const handleParentCheckboxChange = (index, treeKey) => {
@@ -187,19 +189,21 @@ const TreeForm = (props) => {
       checked: !newTree[index].checked,
       children: newTree[index].children.map((child) => ({
         ...child,
-        checked: child.hasOwnProperty('isCheckable') ? (child.isCheckable ? !newTree[index].checked : child.checked) : true,
+        checked: child.hasOwnProperty("isCheckable")
+          ? child.isCheckable
+            ? !newTree[index].checked
+            : child.checked
+          : true,
       })),
     };
-  
+
     formik.setFieldValue(treeKey, newTree);
-  
-    // Check if the parent checkbox is checked, then call toggleDropdown
-    if (newTree[index].checked) {
-      toggleDropdown(index);
+
+    if (newTree[id].checked) {
+      setOpenDropdownId((prevId) => (prevId === id ? null : id));
     }
+
   };
-  
-  
 
   return (
     <>
@@ -246,10 +250,10 @@ const TreeForm = (props) => {
                                       <>
                                         <button
                                           type="button"
-                                          onClick={() => toggleDropdown(index)}
+                                          onClick={() => toggleDropdown(node.id)}
                                           style={{ float: "right" }}
                                         >
-                                          {openDropdownIndex === index ? (
+                                          {openDropdownId === node.id ? (
                                             <span>
                                               <i
                                                 class="fa fa-chevron-up"
@@ -267,7 +271,7 @@ const TreeForm = (props) => {
                                             </span>
                                           )}
                                         </button>
-                                        {openDropdownIndex === index && (
+                                        {openDropdownId === node.id && (
                                           <ul
                                             style={{
                                               background: "#fff",
@@ -277,8 +281,14 @@ const TreeForm = (props) => {
                                           >
                                             {node.children.map(
                                               (child, childIndex) => (
-                                           
-                                                <li key={childIndex} className={`ms-2 ${!child.isCheckable ? "disabled-checkbox" : ""}`}>
+                                                <li
+                                                  key={childIndex}
+                                                  className={`ms-2 ${
+                                                    !child.isCheckable
+                                                      ? "disabled-checkbox"
+                                                      : ""
+                                                  }`}
+                                                >
                                                   <label className="ms-2">
                                                     <input
                                                       type="checkbox"
@@ -346,10 +356,10 @@ const TreeForm = (props) => {
                                       <>
                                         <button
                                           type="button"
-                                          onClick={() => toggleDropdown(index)}
+                                          onClick={() => toggleDropdown(node.id)}
                                           style={{ float: "right" }}
                                         >
-                                          {openDropdownIndex === index ? (
+                                          {openDropdownId === node.id ? (
                                             <span>
                                               <i
                                                 class="fa fa-chevron-up"
@@ -367,7 +377,7 @@ const TreeForm = (props) => {
                                             </span>
                                           )}
                                         </button>
-                                        {openDropdownIndex === index && (
+                                        {openDropdownId === node.id && (
                                           <ul
                                             style={{
                                               background: "#fff",

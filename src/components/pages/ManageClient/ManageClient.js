@@ -29,6 +29,7 @@ import Loaderimg from "../../../Utils/Loader";
 // import KeyIcon from '@mui/icons-material/Key';
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CenterSearchmodal from "../../../data/Modal/CenterSearchmodal";
@@ -416,7 +417,7 @@ const ManageClient = (props) => {
                       <Link to={`/setup-payroll/${row.id}`}>
                         <div style={{ width: "100%" }}>
                           <i className="setting-icon">
-                            <AssignmentIndIcon />
+                            <AccountBalanceIcon />
                           </i>
                           Setup Payroll
                         </div>
