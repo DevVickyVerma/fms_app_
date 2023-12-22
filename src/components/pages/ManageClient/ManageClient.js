@@ -29,6 +29,7 @@ import Loaderimg from "../../../Utils/Loader";
 // import KeyIcon from '@mui/icons-material/Key';
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CenterSearchmodal from "../../../data/Modal/CenterSearchmodal";
@@ -40,7 +41,6 @@ const ManageClient = (props) => {
   const navigate = useNavigate();
   const [searchdata, setSearchdata] = useState({});
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
-  const [activeArray, setActiveArray] = useState([]);
   const [SearchList, setSearchList] = useState(false);
 
   const handleDelete = (id) => {
@@ -174,7 +174,7 @@ const ManageClient = (props) => {
     }
   };
 
-  let isPermissionAvailable = false;
+
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -185,9 +185,6 @@ const ManageClient = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable = permissionsArray?.includes(
-    "client-status-update"
-  );
   const isEditPermissionAvailable = permissionsArray?.includes("client-edit");
   const isLoginPermissionAvailable = permissionsArray?.includes(
     "client-account-access"
@@ -199,8 +196,7 @@ const ManageClient = (props) => {
     permissionsArray?.includes("client-delete");
   const isReportsPermissionAvailable =
     permissionsArray?.includes("report-assign");
-  const isAssignPermissionAvailable =
-    permissionsArray?.includes("client-assign");
+
   const anyPermissionAvailable =
     isEditPermissionAvailable ||
     isLoginPermissionAvailable ||
@@ -412,6 +408,18 @@ const ManageClient = (props) => {
                             <AssignmentIndIcon />
                           </i>
                           Assign Addon
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  { permissionsArray?.includes("payroll-setup") ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link to={`/setup-payroll/${row.id}`}>
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <AccountBalanceIcon />
+                          </i>
+                          Setup Payroll
                         </div>
                       </Link>
                     </Dropdown.Item>

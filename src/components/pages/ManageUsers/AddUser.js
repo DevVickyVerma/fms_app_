@@ -170,7 +170,7 @@ const AddUsers = (props) => {
 
         <Row>
           <Col lg={12} xl={12} md={12} sm={12}>
-            <Card>
+            <Card style={{minHeight:"700px"}}>
               <Card.Header>
                 <Card.Title as="h3">Add User</Card.Title>
               </Card.Header>

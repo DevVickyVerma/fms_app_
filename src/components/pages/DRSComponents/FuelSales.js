@@ -3,24 +3,14 @@ import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { Slide, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const FuelSales = (props) => {
-  const {
-    apidata,
-    error,
-    getData,
-    postData,
-    company_id,
-    client_id,
-    site_id,
-    start_date,
-    sendDataToParent,
-  } = props;
+  const { company_id, client_id, site_id, start_date, sendDataToParent } =
+    props;
 
   const handleButtonClick = () => {
     const allPropsData = {
@@ -36,8 +26,7 @@ const FuelSales = (props) => {
 
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
-  const [Apidata, setApiData] = useState([]);
-  const [editable, setis_editable] = useState();
+
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const SuccessToast = (message) => {
@@ -93,7 +82,6 @@ const FuelSales = (props) => {
       const { data } = response;
       if (data) {
         setData(data.data.listing);
-        setis_editable(data.data);
 
         // Create an array of form values based on the response data
         const formValues = data.data.listing.map((item) => {

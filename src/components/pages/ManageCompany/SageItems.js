@@ -81,9 +81,6 @@ const CompanySageFuels = (props) => {
             name: item.name || "",
             sage_purchage_code: item.sage_purchage_code || "",
             sage_sale_code: item.sage_sale_code || "",
-
-
-
           };
         });
         // Set the formik values using setFieldValue
@@ -96,17 +93,15 @@ const CompanySageFuels = (props) => {
       setIsLoading(false); // Set loading state to false after data fetching is complete
     }
   };
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   document.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
       event.preventDefault();
     }
   });
-
-
 
   const columns = [
     {
@@ -121,39 +116,7 @@ const CompanySageFuels = (props) => {
         </span>
       ),
     },
-    // {
-    //     name: "Sage Account Code",
-    //     selector: (row) => row.sage_account_code,
-    //     sortable: false,
-    //     width: "33.2%",
-    //     center: true,
 
-    //     cell: (row, index) =>
-    //         row.name === "Total" ? (
-    //             <div>
-    //                 <input
-    //                     type="number"
-    //                     className={"table-input readonly"}
-    //                     value={row.sage_account_code}
-    //                     readOnly
-    //                 />
-    //             </div>
-    //         ) : (
-    //             <div>
-    //                 <input
-    //                     type="number"
-    //                     id={`sage_account_code-${index}`}
-    //                     name={`data[${index}].sage_account_code`}
-    //                     className={"table-input "}
-    //                     value={formik.values.data[index]?.sage_account_code}
-    //                     onChange={formik.handleChange}
-    //                     onBlur={formik.handleBlur}
-    //                 // readOnly
-    //                 />
-    //                 {/* Error handling code */}
-    //             </div>
-    //         ),
-    // },
     {
       name: "Sage Sale Code",
 
@@ -384,10 +347,8 @@ const CompanySageFuels = (props) => {
         sage_sale_code,
         sage_purchage_code,
       } = obj;
-      ;
       const sage_sale_codeKey = `sage_sale_code[${id}]`;
       const sage_purchage_codeKey = `sage_purchage_code[${id}]`;
-
 
       formData.append(sage_sale_codeKey, sage_sale_code);
       formData.append(sage_purchage_codeKey, sage_purchage_code);
@@ -465,7 +426,7 @@ const CompanySageFuels = (props) => {
                   <>
                     <form
                       onSubmit={(event) => formik.handleSubmit(event)}
-                    // onSubmit={formik.SubmitFuelSalesForm}
+                      // onSubmit={formik.SubmitFuelSalesForm}
                     >
                       <div className="table-responsive deleted-table">
                         <DataTableExtensions {...tableDatas}>

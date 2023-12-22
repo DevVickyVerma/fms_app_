@@ -225,14 +225,14 @@ export const MENUITEMS = [
             permission: "competitor-list",
             visibility: false,
           },
-          {
-            path: `/uploadCompetitor-price`,
-            type: "link",
-            title: "Upload Competitor",
-            permission: "competitor-create",
+          // {
+          //   path: `/uploadCompetitor-price`,
+          //   type: "link",
+          //   title: "Upload Competitor",
+          //   permission: "competitor-create",
 
-            visibility: false,
-          },
+          //   visibility: false,
+          // },
         ],
       },
       //Company
@@ -535,6 +535,13 @@ export const MENUITEMS = [
             title: "Valet Commission",
             type: "link",
             permission: "valet-item-commission-list",
+            visibility: false,
+          },
+          {
+            path: `/shop-revenue`,
+            title: "Shop Revenue Commission",
+            type: "link",
+            permission: "revenuecommission-list",
             visibility: false,
           },
         ],

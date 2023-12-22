@@ -108,7 +108,7 @@ h3.SidebarSearch-title {
   box-shadow: none;
 }
 
-.data-table-extensions>.data-table-extensions-filter>.filter-text {
+.data-table-extensions > .data-table-extensions-filter > .filter-text {
   /* border: 1px solid #eaedf1 !important; */
   border-bottom: 1px solid #eaedf1 !important;
   outline: none !important;
@@ -332,7 +332,6 @@ tbody tr {
 }
 
 @media screen and (max-width: 768px) {
-
   .table th,
   .table td {
     min-width: 22.28% !important;
@@ -554,7 +553,7 @@ input.table-input.readonly.total-input-card {
   border-radius: 50%;
 }
 
-.d-flex.chart-items>div:first-child {
+.d-flex.chart-items > div:first-child {
   margin-right: 0;
   margin-left: 0;
 }
@@ -1276,7 +1275,7 @@ span.uk-date-time {
   width: 300px;
 }
 
-@media screen and (max-width :500px) {
+@media screen and (max-width: 500px) {
   .company-sage-other-code-table-container {
     width: 100px;
   }
@@ -1289,13 +1288,11 @@ span.circle-info {
   color: #7b7c7d;
 }
 
-
 .CardGroupModalItems {
   background-color: #f2f2f8;
   color: black;
   border-radius: 5px;
 }
-
 
 .CardGroupModalHeader {
   background-color: #b6b6b9;
@@ -1323,7 +1320,6 @@ span.circle-info {
   align-items: center;
   font-size: 15px !important;
 }
-
 
 .disable-pre-number {
   background-color: #bdc3c7;
@@ -1410,4 +1406,85 @@ span.input-103 {
 
 .hide-star-icon {
   display: none;
+}
+.tree-form {
+  font-family: Arial, sans-serif;
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+.tree-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.tree-item {
+  margin-bottom: 8px;
+}
+
+.tree-label {
+  display: flex;
+  align-items: center;
+}
+
+.toggle-button {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.child-list {
+  list-style-type: none;
+  margin-top: 6px;
+  padding-left: 20px;
+}
+
+.child-item {
+  margin-bottom: 4px;
+}
+
+.child-label {
+  display: flex;
+  align-items: center;
+}
+
+.submit-button {
+  background-color: #27ae60;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+li.Ul-parentsiteList-childlist {
+  background: #6259cabf;
+  color: #fff;
+  margin-bottom: 10px;
+  padding: 1px;
+}
+.form-payroll-input {
+  width: 1.5em;
+  height: 1.5em;
+  margin-top: 0.25em;
+  vertical-align: top;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-print-color-adjust: exact;
+  color-adjust: exact;
+}
+span.tree-label {
+  margin-left: 54px;
+  margin-top: 5px;
+}
+li.ms-2.disabled-checkbox {
+  background: #ddd;
+  margin-bottom: 3px;
 }
