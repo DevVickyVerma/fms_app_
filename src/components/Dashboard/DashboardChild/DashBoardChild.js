@@ -69,16 +69,21 @@ const DashBoardChild = (props) => {
         ? values.client_id
         : localStorage.getItem("superiorId");
 
+    // const companyId =
+    //   values.company_id !== undefined
+    //     ? values.company_id
+    //     : localStorage.getItem("PresetCompanyID") ? localStorage.getItem("PresetCompanyID") : "";
     const companyId =
-      values.company_id !== undefined
+      values.company_id !== undefined && values.company_id !== null
         ? values.company_id
-        : localStorage.getItem("PresetCompanyID");
+        : localStorage.getItem("PresetCompanyID") || "";
+
 
     try {
       const response = await getData(
         localStorage.getItem("superiorRole") !== "Client"
-          ? `dashboard/stats?client_id=${clientId}&company_id=${companyId}&site_id=${values.site_id}`
-          : `dashboard/stats?client_id=${clientId}&company_id=${companyId}&site_id=${values.site_id}`
+          ? `dashboard/stats?client_id=${clientId == null ? " " : clientId}&company_id=${companyId == null ? "" : companyId}&site_id=${values.site_id}`
+          : `dashboard/stats?client_id=${clientId == null ? " " : clientId}&company_id=${companyId == null ? "" : companyId}&site_id=${values.site_id}`
       );
 
       const { data } = response;

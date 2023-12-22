@@ -27,6 +27,14 @@ const Dashboard = (props) => {
   const [justLoggedIn, setJustLoggedIn] = useState(false);
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
   const [reducerState, reducerDispatch] = useReducer(reducer, initialState);
+  const [IDsToLocal, setIDsToLocal] = useState()
+  const [myclientID, setMyClientID] = useState(localStorage.getItem("superiorId"));
+  const [myLocalSearchData, setmyLocalSearchData] = useState(localStorage.getItem(localStorage.getItem("mySearchData")
+    ? JSON.parse(localStorage.getItem("mySearchData"))
+    : ""));
+
+
+
   const {
     shop_margin,
     shop_sale,
@@ -48,30 +56,59 @@ const Dashboard = (props) => {
     setShouldNavigateToDetailsPage,
   } = useMyContext();
 
-  let myLocalSearchData = localStorage.getItem("mySearchData")
-    ? JSON.parse(localStorage.getItem("mySearchData"))
-    : "";
+  // let myLocalSearchData = localStorage.getItem("mySearchData")
+  //   ? JSON.parse(localStorage.getItem("mySearchData"))
+  //   : "";
 
   const superiorRole = localStorage.getItem("superiorRole");
   const role = localStorage.getItem("role");
   const handleFetchSiteData = async () => {
     try {
-      const clientId = localStorage.getItem("superiorId");
+      let clientId = localStorage.getItem("superiorId");
       const superiorRole = localStorage.getItem("superiorRole");
       const role = localStorage.getItem("role");
       const companyId = localStorage.getItem("PresetCompanyID");
       let url = "";
+
+
       if (superiorRole === "Administrator") {
         url = "/dashboard/stats";
       } else if (superiorRole === "Client" && role === "Client") {
-        url = `/dashboard/stats?client_id=${clientId}`;
+        url = `/dashboard/stats?client_id=${clientId == null ? " " : clientId}`;
+
+        setIDsToLocal(
+          localStorage.setItem("mySearchData", JSON.stringify({
+            "client_id": clientId,
+            "client_name": "",
+            "company_id": "",
+            "company_name": "",
+            "site_id": "",
+            "site_name": " ",
+          }))
+        )
+
+        // Corrected: Use JSON.stringify to convert the object to a JSON string
+
       } else if (superiorRole === "Client" && role === "Operator") {
         url = "/dashboard/stats";
       } else if (superiorRole === "Client" && role !== "Client") {
-        url = `dashboard/stats?client_id=${clientId}&company_id=${companyId}`;
+        url = `dashboard/stats?client_id=${clientId == null ? "" : clientId}&company_id=${companyId == null ? "" : companyId}`;
+        // Corrected: Use JSON.stringify to convert the object to a JSON string
+        localStorage.setItem("mySearchData", JSON.stringify({
+          "client_id": clientId,
+          "client_name": "",
+          "company_id": localStorage.getItem("PresetCompanyID"),
+          "company_name": "",
+          "site_id": "",
+          "site_name": " ",
+        }));
       }
       const response = await getData(url);
       const { data } = response;
+
+      setMyClientID(localStorage.getItem("superiorId"))
+
+
 
       if (data) {
         reducerDispatch({
@@ -190,11 +227,13 @@ const Dashboard = (props) => {
     try {
       const response = await getData(
         localStorage.getItem("superiorRole") !== "Client"
-          ? `dashboard/stats?client_id=${clientId}&company_id=${companyId}&site_id=${values.site_id}`
-          : `dashboard/stats?client_id=${clientId}&company_id=${companyId}&site_id=${values.site_id}`
+          ? `dashboard/stats?client_id=${clientId == null ? " " : clientId}&company_id=${companyId == null ? "" : companyId}&site_id=${values.site_id}`
+          : `dashboard/stats?client_id=${clientId == null ? " " : clientId}&company_id=${companyId == null ? "" : companyId}&site_id=${values.site_id}`
       );
 
       const { data } = response;
+
+      setMyClientID(localStorage.getItem("superiorId"))
 
       if (data) {
         reducerDispatch({
@@ -224,6 +263,7 @@ const Dashboard = (props) => {
   const [isLoadingState, setIsLoading] = useState(false);
   const ResetForm = async () => {
     myLocalSearchData = "";
+    setmyLocalSearchData = "";
     // setIsLoading(true);
     reducerDispatch({
       type: "RESET_STATE",
@@ -271,14 +311,16 @@ const Dashboard = (props) => {
       }
     }
     console.clear();
-  }, [permissionsArray]);
+  }, [permissionsArray, myclientID]);
+
 
   useEffect(() => {
+
     if (myLocalSearchData) {
       handleFormSubmit(myLocalSearchData);
     }
     console.clear();
-  }, []);
+  }, [myclientID]);
 
   const isProfileUpdatePermissionAvailable = permissionsArray?.includes(
     "profile-update-profile"
