@@ -147,8 +147,10 @@ const CenterFilterModal = (props) => {
     if (localStorage.getItem("superiorRole") !== "Client") {
       fetchCommonListData()
     } else {
-      setSelectedClientId(clientId);
-      GetCompanyList(clientId)
+      setTimeout(() => {
+        GetCompanyList(localStorage.getItem("superiorId"))
+        setSelectedClientId(localStorage.getItem("superiorId"));
+      }, 500);
     }
     console.clear()
   }, []);

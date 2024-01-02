@@ -262,8 +262,9 @@ const Dashboard = (props) => {
 
   const [isLoadingState, setIsLoading] = useState(false);
   const ResetForm = async () => {
-    myLocalSearchData = "";
-    setmyLocalSearchData = "";
+    // myLocalSearchData = "";
+    // setmyLocalSearchData = "";
+    setmyLocalSearchData(localStorage.removeItem("mySearchData"))
     // setIsLoading(true);
     reducerDispatch({
       type: "RESET_STATE",
