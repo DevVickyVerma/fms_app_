@@ -552,7 +552,7 @@ const ManageDsr = (props) => {
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate() - 1).padStart(2, "0"); // Subtract one day from the current date
+    const day = String(today.getDate()).padStart(2, "0"); // Subtract one day from the current date
     return `${year}-${month}-${day}`;
   };
   const hadndleShowDate = () => {
@@ -573,7 +573,7 @@ const ManageDsr = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title"> Purchase Cost Prices</h1>
+            <h1 className="page-title"> Fuel Purchase Price</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -586,7 +586,7 @@ const ManageDsr = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Purchase Cost Prices
+                Fuel Purchase Price
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -833,7 +833,7 @@ const ManageDsr = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Purchase Cost Prices</h3>
+                <h3 className="card-title">Fuel Purchase Price</h3>
               </Card.Header>
               <Card.Body>
                 {data?.length > 0 ? (
