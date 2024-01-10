@@ -133,6 +133,7 @@ export default function AddSite(props) {
       cashback_status: "",
       auto_dayend: "",
       ignore_tolerance: "",
+      d_deduction: "",
       security_amount: "",
       is_reconciled: "",
       consider_keyfules_cards: "",
@@ -167,6 +168,7 @@ export default function AddSite(props) {
         "Bunker Upload Status is required"
       ),
       security_amount: Yup.string().required("Security Amount is required"),
+      d_deduction: Yup.string().required("Deduct Deduction is required"),
       cashback_status: Yup.string().required("Cashback Status  is required"),
       loomis_status: Yup.string().required(" Loomis Status  is required"),
       apply_sc: Yup.string().required("Apply Shop Commission  is required"),
@@ -267,12 +269,11 @@ export default function AddSite(props) {
                             name="site_code"
                             type="text"
                             autoComplete="off"
-                            className={`input101 readonly ${
-                              formik.errors.site_code &&
+                            className={`input101 readonly ${formik.errors.site_code &&
                               formik.touched.site_code
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             placeholder="Site Code"
                             onChange={formik.handleChange}
                             value={formik.values.site_code || ""}
@@ -297,12 +298,11 @@ export default function AddSite(props) {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.site_name &&
+                            className={`input101 ${formik.errors.site_name &&
                               formik.touched.site_name
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="site_name"
                             name="site_name"
                             placeholder="Site Name"
@@ -327,12 +327,11 @@ export default function AddSite(props) {
                         <input
                           type="text"
                           autoComplete="off"
-                          className={`input101 ${
-                            formik.errors.site_display_name &&
+                          className={`input101 ${formik.errors.site_display_name &&
                             formik.touched.site_display_name
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="site_display_name"
                           name="site_display_name"
                           placeholder="Display Name"
@@ -355,12 +354,11 @@ export default function AddSite(props) {
                             Supplier Id<span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.supplier_id &&
+                            className={`input101 ${formik.errors.supplier_id &&
                               formik.touched.supplier_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="supplier_id"
                             name="supplier_id"
                             onChange={formik.handleChange}
@@ -368,7 +366,7 @@ export default function AddSite(props) {
                           >
                             <option value="">Select a Supplier Id</option>
                             {AddSiteData.suppliers &&
-                            AddSiteData.suppliers.length > 0 ? (
+                              AddSiteData.suppliers.length > 0 ? (
                               AddSiteData.suppliers.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.supplier_name}
@@ -395,12 +393,11 @@ export default function AddSite(props) {
                             Site Status<span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.site_status &&
+                            className={`input101 ${formik.errors.site_status &&
                               formik.touched.site_status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="site_status"
                             name="site_status"
                             onChange={formik.handleChange}
@@ -408,7 +405,7 @@ export default function AddSite(props) {
                           >
                             <option value="">Select a Site Status</option>
                             {AddSiteData.site_status &&
-                            AddSiteData.site_status.length > 0 ? (
+                              AddSiteData.site_status.length > 0 ? (
                               AddSiteData.site_status.map((item) => (
                                 <option key={item.value} value={item.value}>
                                   {item.name}
@@ -435,12 +432,11 @@ export default function AddSite(props) {
                             Bussiness Type<span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.business_type &&
+                            className={`input101 ${formik.errors.business_type &&
                               formik.touched.business_type
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="business_type"
                             name="business_type"
                             onChange={handleBusinessTypeChange}
@@ -448,7 +444,7 @@ export default function AddSite(props) {
                           >
                             <option value="">Select a Bussiness Type</option>
                             {AddSiteData.busines_types &&
-                            AddSiteData.busines_types.length > 0 ? (
+                              AddSiteData.busines_types.length > 0 ? (
                               AddSiteData.busines_types.map((item) => (
                                 <option key={item.id} value={item.name}>
                                   {item.name}
@@ -480,12 +476,11 @@ export default function AddSite(props) {
                           </label>
                           <input
                             type="number" // Change the <select> element to <input> and set the "type" attribute to "number"
-                            className={`input101 ${
-                              formik.errors.sage_department_id &&
+                            className={`input101 ${formik.errors.sage_department_id &&
                               formik.touched.sage_department_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="sage_department_id"
                             name="sage_department_id"
                             onChange={formik.handleChange}
@@ -513,12 +508,11 @@ export default function AddSite(props) {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.department_sage_code &&
+                            className={`input101 ${formik.errors.department_sage_code &&
                               formik.touched.department_sage_code
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="department_sage_code"
                             name="department_sage_code"
                             placeholder="Sage Department code"
@@ -546,12 +540,11 @@ export default function AddSite(props) {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.bp_credit_card_site_no &&
+                            className={`input101 ${formik.errors.bp_credit_card_site_no &&
                               formik.touched.bp_credit_card_site_no
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="bp_credit_card_site_no"
                             name="bp_credit_card_site_no"
                             placeholder="BP NCTT Site No"
@@ -581,12 +574,11 @@ export default function AddSite(props) {
                             min={"2023-01-01"}
                             max={getCurrentDate()}
                             onClick={hadndleShowDate}
-                            className={`input101 ${
-                              formik.errors.start_date &&
+                            className={`input101 ${formik.errors.start_date &&
                               formik.touched.start_date
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="start_date"
                             name="start_date"
                             placeholder="DRS Start Date"
@@ -620,12 +612,11 @@ export default function AddSite(props) {
                             Report Generation Status
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.site_report_status &&
+                            className={`input101 ${formik.errors.site_report_status &&
                               formik.touched.site_report_status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="site_report_status"
                             name="site_report_status"
                             onChange={formik.handleChange}
@@ -655,12 +646,11 @@ export default function AddSite(props) {
                             Report Date Type
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.site_report_date_type &&
+                            className={`input101 ${formik.errors.site_report_date_type &&
                               formik.touched.site_report_date_type
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="site_report_date_type"
                             name="site_report_date_type"
                             onChange={formik.handleChange}
@@ -688,12 +678,11 @@ export default function AddSite(props) {
                             Fuel Commission Type
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.fuel_commission_calc_status &&
+                            className={`input101 ${formik.errors.fuel_commission_calc_status &&
                               formik.touched.fuel_commission_calc_status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="fuel_commission_calc_status"
                             name="fuel_commission_calc_status"
                             onChange={formik.handleChange}
@@ -723,12 +712,11 @@ export default function AddSite(props) {
                             Paper Work Status
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.paperwork_status &&
+                            className={`input101 ${formik.errors.paperwork_status &&
                               formik.touched.paperwork_status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="paperwork_status"
                             name="paperwork_status"
                             onChange={formik.handleChange}
@@ -756,12 +744,11 @@ export default function AddSite(props) {
                             Bunkered Sale Status
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.bunker_upload_status &&
+                            className={`input101 ${formik.errors.bunker_upload_status &&
                               formik.touched.bunker_upload_status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="bunker_upload_status"
                             name="bunker_upload_status"
                             onChange={formik.handleChange}
@@ -791,12 +778,11 @@ export default function AddSite(props) {
                             DRS Upload Status
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.drs_upload_status &&
+                            className={`input101 ${formik.errors.drs_upload_status &&
                               formik.touched.drs_upload_status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="drs_upload_status"
                             name="drs_upload_status"
                             onChange={formik.handleChange}
@@ -824,12 +810,11 @@ export default function AddSite(props) {
                             Site Address<span className="text-danger">*</span>
                           </label>
                           <textarea
-                            className={`input101 ${
-                              formik.errors.site_address &&
+                            className={`input101 ${formik.errors.site_address &&
                               formik.touched.site_address
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="site_address"
                             name="site_address"
                             onChange={formik.handleChange}
@@ -855,12 +840,11 @@ export default function AddSite(props) {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.data_import_type_id &&
+                            className={`input101 ${formik.errors.data_import_type_id &&
                               formik.touched.data_import_type_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="data_import_type_id"
                             name="data_import_type_id"
                             onChange={formik.handleChange}
@@ -869,7 +853,7 @@ export default function AddSite(props) {
                           >
                             <option value=""> Select Data Import Types</option>
                             {AddSiteData.data_import_types &&
-                            AddSiteData.data_import_types.length > 0 ? (
+                              AddSiteData.data_import_types.length > 0 ? (
                               AddSiteData.data_import_types.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.import_type_name}
@@ -901,12 +885,11 @@ export default function AddSite(props) {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.security_amount &&
+                            className={`input101 ${formik.errors.security_amount &&
                               formik.touched.security_amount
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="security_amount"
                             name="security_amount"
                             placeholder="Security Amount"
@@ -934,12 +917,11 @@ export default function AddSite(props) {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.shop_commission &&
+                            className={`input101 ${formik.errors.shop_commission &&
                               formik.touched.shop_commission
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="shop_commission"
                             name="shop_commission"
                             placeholder="  Lottery Commission"
@@ -966,12 +948,11 @@ export default function AddSite(props) {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.lottery_commission &&
+                            className={`input101 ${formik.errors.lottery_commission &&
                               formik.touched.lottery_commission
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="lottery_commission"
                             name="lottery_commission"
                             placeholder="  Lottery Commission"
@@ -998,12 +979,11 @@ export default function AddSite(props) {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.instant_lottery_commission &&
+                            className={`input101 ${formik.errors.instant_lottery_commission &&
                               formik.touched.instant_lottery_commission
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="instant_lottery_commission"
                             name="instant_lottery_commission"
                             placeholder="Instant Lottery Commission"
@@ -1030,12 +1010,11 @@ export default function AddSite(props) {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.paypoint_commission &&
+                            className={`input101 ${formik.errors.paypoint_commission &&
                               formik.touched.paypoint_commission
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="paypoint_commission"
                             name="paypoint_commission"
                             placeholder="Paypoint Commission"
@@ -1059,11 +1038,10 @@ export default function AddSite(props) {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.apply_sc && formik.touched.apply_sc
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.apply_sc && formik.touched.apply_sc
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="apply_sc"
                             name="apply_sc"
                             onChange={formik.handleChange}
@@ -1092,12 +1070,11 @@ export default function AddSite(props) {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.consider_keyfules_cards &&
+                            className={`input101 ${formik.errors.consider_keyfules_cards &&
                               formik.touched.consider_keyfules_cards
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="consider_keyfules_cards"
                             name="consider_keyfules_cards"
                             onChange={formik.handleChange}
@@ -1106,7 +1083,7 @@ export default function AddSite(props) {
                           >
                             <option value=""> Consider Keyfules Cards</option>
                             <option value="1">Yes</option>
-                                <option value="0">No</option>
+                            <option value="0">No</option>
                           </select>
                           {formik.errors.consider_keyfules_cards &&
                             formik.touched.consider_keyfules_cards && (
@@ -1127,12 +1104,11 @@ export default function AddSite(props) {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.is_reconciled &&
+                            className={`input101 ${formik.errors.is_reconciled &&
                               formik.touched.is_reconciled
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="is_reconciled"
                             name="is_reconciled"
                             onChange={formik.handleChange}
@@ -1161,11 +1137,10 @@ export default function AddSite(props) {
                             Paidout
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.paidout && formik.touched.paidout
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.paidout && formik.touched.paidout
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="paidout"
                             name="paidout"
                             onChange={formik.handleChange}
@@ -1192,12 +1167,11 @@ export default function AddSite(props) {
                             Loomis Status
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.loomis_status &&
+                            className={`input101 ${formik.errors.loomis_status &&
                               formik.touched.loomis_status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="loomis_status"
                             name="loomis_status"
                             onChange={formik.handleChange}
@@ -1225,12 +1199,11 @@ export default function AddSite(props) {
                             Cashback Status
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.cashback_status &&
+                            className={`input101 ${formik.errors.cashback_status &&
                               formik.touched.cashback_status
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="cashback_status"
                             name="cashback_status"
                             onChange={formik.handleChange}
@@ -1260,12 +1233,11 @@ export default function AddSite(props) {
                             DRS Auto Dayend
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.auto_dayend &&
+                            className={`input101 ${formik.errors.auto_dayend &&
                               formik.touched.auto_dayend
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="auto_dayend"
                             name="auto_dayend"
                             onChange={formik.handleChange}
@@ -1294,12 +1266,11 @@ export default function AddSite(props) {
                             Ignore Tolerance
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.ignore_tolerance &&
+                            className={`input101 ${formik.errors.ignore_tolerance &&
                               formik.touched.ignore_tolerance
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="ignore_tolerance"
                             name="ignore_tolerance"
                             onChange={formik.handleChange}
@@ -1314,6 +1285,38 @@ export default function AddSite(props) {
                             formik.touched.ignore_tolerance && (
                               <div className="invalid-feedback">
                                 {formik.errors.ignore_tolerance}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="d_deduction"
+                            className="form-label mt-4"
+                          >
+                            Deduct Deduction<span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${formik.errors.d_deduction &&
+                              formik.touched.d_deduction
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="d_deduction"
+                            name="d_deduction"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.d_deduction}
+                          >
+                            <option value="">Select a Deduct Deduction</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                          </select>
+                          {formik.errors.d_deduction &&
+                            formik.touched.d_deduction && (
+                              <div className="invalid-feedback">
+                                {formik.errors.d_deduction}
                               </div>
                             )}
                         </div>
