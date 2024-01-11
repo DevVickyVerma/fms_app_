@@ -31,6 +31,9 @@ import DepartmentUpdateCardGroup from "./components/pages/ManageItems/Department
 import OpeningBalance from "./components/pages/OpeningBalance/OpeningBalance";
 import AddOpeningBalance from "./components/pages/OpeningBalance/AddOpeningBalance";
 import EditOpeningBalance from "./components/pages/OpeningBalance/EditOpeningBalance";
+import BunkeringBalance from "./components/pages/BunkeringBalance/BunkeringBalance";
+import EditBunkeringBalance from "./components/pages/BunkeringBalance/EditBunkeringBalance";
+import AddBunkeringBalance from "./components/pages/BunkeringBalance/AddBunkeringBalance";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -636,7 +639,9 @@ const Root = () => {
   const WrappedOpeningBalance = withApi(OpeningBalance);
   const WrappedAddOpeningBalance = withApi(AddOpeningBalance);
   const WrappedEditOpeningBalance = withApi(EditOpeningBalance);
-
+  const WrappedBunkeringBalance = withApi(BunkeringBalance);
+  const WrappedAddBunkeringBalance = withApi(AddBunkeringBalance);
+  const WrappedEditBunkeringBalance = withApi(EditBunkeringBalance);
   const WrappedmanageNotification = withApi(manageNotification);
   const WrappedEditCompetitorFuelPrices = withApi(EditCompetitorFuelPrices);
   const Wrappedsetuppayroll = withApi(setuppayroll);
@@ -742,6 +747,18 @@ const Root = () => {
                   <Route
                     path={`/edit-opening-balance/:id`}
                     element={<WrappedEditOpeningBalance />}
+                  />
+                  <Route
+                    path={`/bunkering-balance/:id`}
+                    element={<WrappedBunkeringBalance />}
+                  />
+                  <Route
+                    path={`/add-bunkering-balance/:id`}
+                    element={<WrappedAddBunkeringBalance />}
+                  />
+                  <Route
+                    path={`/edit-bunkering-balance/:id`}
+                    element={<WrappedEditBunkeringBalance />}
                   />
                   <Route
                     path={`/dailyfacilityfees`}
