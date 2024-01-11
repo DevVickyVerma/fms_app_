@@ -114,6 +114,7 @@ export default function AddSite(props) {
       start_date: "",
       site_display_name: "",
       sage_department_id: "",
+      bank_ref: "",
       department_sage_code: "",
       bp_credit_card_site_no: "",
       site_report_status: "",
@@ -157,6 +158,9 @@ export default function AddSite(props) {
       sage_department_id: Yup.string().required(
         "Sage Department ID is required"
       ),
+      bank_ref: Yup.number()
+        .required("Bank Reference Number is required")
+        .min(1, "Number should be greater than zero"),
       department_sage_code: Yup.string().required(
         "Department Sage Code is required"
       ),
@@ -491,6 +495,36 @@ export default function AddSite(props) {
                             formik.touched.sage_department_id && (
                               <div className="invalid-feedback">
                                 {formik.errors.sage_department_id}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="bank_ref"
+                            className="form-label mt-4"
+                          >
+                            Bank Reference Number
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="number" // Change the <select> element to <input> and set the "type" attribute to "number"
+                            className={`input101 ${formik.errors.bank_ref &&
+                              formik.touched.bank_ref
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="bank_ref"
+                            name="bank_ref"
+                            onChange={formik.handleChange}
+                            placeholder=" Bank Reference Number"
+                            value={formik.values.bank_ref}
+                          />
+                          {formik.errors.bank_ref &&
+                            formik.touched.bank_ref && (
+                              <div className="invalid-feedback">
+                                {formik.errors.bank_ref}
                               </div>
                             )}
                         </div>
@@ -1317,6 +1351,40 @@ export default function AddSite(props) {
                             formik.touched.d_deduction && (
                               <div className="invalid-feedback">
                                 {formik.errors.d_deduction}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="display_all_sales"
+                            className="form-label mt-4"
+                          >
+                            Display All Sales
+                            <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${formik.errors.display_all_sales &&
+                              formik.touched.display_all_sales
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="display_all_sales"
+                            name="display_all_sales"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.display_all_sales}
+                          >
+                            <option value="">Select a Display All Sales
+                            </option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                          </select>
+                          {formik.errors.display_all_sales &&
+                            formik.touched.display_all_sales && (
+                              <div className="invalid-feedback">
+                                {formik.errors.display_all_sales}
                               </div>
                             )}
                         </div>

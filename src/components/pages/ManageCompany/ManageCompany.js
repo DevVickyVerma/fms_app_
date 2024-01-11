@@ -30,6 +30,8 @@ import UploadSageSales from "./UploadSageSales";
 const ManageCompany = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [showUploadSageSalesModal, setShowUploadSageSalesModal] = useState(false);
+  const [UploadModalTitle, setUploadModalTitle] = useState();
+  const [UploadModalURLPath, setUploadModalURLPath] = useState();
   const [companyId, setCompanyId] = useState("")
   const [data, setData] = useState();
   const navigate = useNavigate();
@@ -172,6 +174,8 @@ const ManageCompany = (props) => {
 
   const isUploadSagePermissionAvailable =
     permissionsArray?.includes("upload-sale");
+  const isUploadBankReferencePermissionAvailable =
+    permissionsArray?.includes("company-upload-bank-ref");
   const anyPermissionAvailable =
     isEditPermissionAvailable ||
 
@@ -397,6 +401,23 @@ const ManageCompany = (props) => {
                       <UploadSageSales />
                     </Dropdown.Item>
                   ) : null}
+                  {isUploadBankReferencePermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link
+                        className="settingicon"
+                        onClick={() => handleUploadBankReferenceSale(row.id)}
+                      // to={`/company/sage-other-codes/${row.id}`}
+                      >
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <i class="fa fa-upload" aria-hidden="true"></i>
+                          </i> {" "} {" "}
+                          <span>Upload Bank Reference</span>
+                        </div>
+                      </Link>
+                      <UploadSageSales />
+                    </Dropdown.Item>
+                  ) : null}
                 </Dropdown.Menu>
               </Dropdown>
             ) : null}
@@ -408,6 +429,14 @@ const ManageCompany = (props) => {
 
   const handleUploadSageSale = (rowId) => {
     setShowUploadSageSalesModal(true);
+    setUploadModalTitle("Upload Sage Sales");
+    setUploadModalURLPath("upload-sale")
+    setCompanyId(rowId)
+  };
+  const handleUploadBankReferenceSale = (rowId) => {
+    setShowUploadSageSalesModal(true);
+    setUploadModalTitle("Upload Bank Reference")
+    setUploadModalURLPath("upload-bank-ref")
     setCompanyId(rowId)
   };
 
@@ -425,6 +454,8 @@ const ManageCompany = (props) => {
           showUploadSageSalesModal={showUploadSageSalesModal}
           setShowUploadSageSalesModal={setShowUploadSageSalesModal}
           companyId={companyId}
+          title={UploadModalTitle}
+          shortUrl={UploadModalURLPath}
         />
 
         <div className="page-header d-flex">

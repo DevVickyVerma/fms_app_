@@ -238,7 +238,7 @@ const DepartmentUpdateCardGroup = ({ isLoading, getData, postData }) => {
                                     <Link
                                         type="submit"
                                         className="btn btn-danger me-2 "
-                                        to={`/card-group/`}
+                                        to={`/department-item-group/`}
                                     >
                                         Cancel
                                     </Link>

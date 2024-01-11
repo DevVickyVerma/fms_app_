@@ -11,7 +11,7 @@ import withApi from '../../../Utils/ApiHelper';
 
 const UploadSageSales = (props) => {
 
-    const { showUploadSageSalesModal, setShowUploadSageSalesModal, companyId, postData, apidata } = props;
+    const { showUploadSageSalesModal, setShowUploadSageSalesModal, companyId, postData, title, shortUrl, apidata } = props;
     const [isLoading, setIsLoading] = useState(false);
     const [showErrorMessage, setShowErrorMessage] = useState("")
     const navigate = useNavigate();
@@ -61,7 +61,7 @@ const UploadSageSales = (props) => {
             image: null,
         },
         validationSchema: Yup.object({
-            image: Yup.string().required("Sage File Is Required"),
+            image: Yup.string().required("File Is Required"),
         }),
         onSubmit: (values) => {
             handleSubmit(values);
@@ -105,10 +105,16 @@ const UploadSageSales = (props) => {
             const formData = new FormData();
 
             formData.append("company_id", companyId);
-            formData.append("sales", formik.values.image);
+            if (shortUrl === "upload-sale") {
+
+                formData.append("sales", formik.values.image);
+            } else if (shortUrl === "upload-bank-ref") {
+
+                formData.append("references", formik.values.image);
+            }
             setIsLoading(true);
             const response = await fetch(
-                `${process.env.REACT_APP_BASE_URL}/company/upload-sale`,
+                `${process.env.REACT_APP_BASE_URL}/company/${shortUrl}`,
                 {
                     method: "POST",
                     headers: {
@@ -165,7 +171,7 @@ const UploadSageSales = (props) => {
                     class="modal-header"
                     style={{ color: "#fff", background: "#6259ca" }}
                 >
-                    <h5 class="modal-title"> Upload Sage Sales</h5>
+                    <h5 class="modal-title"> {title}</h5>
                     <button
                         type="button"
                         class="close"

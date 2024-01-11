@@ -106,6 +106,7 @@ const AddSite = (props) => {
       formData.append("start_date", values.DRS_Start_Date);
       formData.append("department_sage_code", values.Saga_department_name);
       formData.append("bp_credit_card_site_no", values.Bp_nctt_site_no);
+      formData.append("bank_ref", values.bank_ref);
       formData.append("supplier_id", values.supplier);
       formData.append("site_report_status", values.Report_generation_Status);
       formData.append("site_report_date_type", values.Report_date_type);
@@ -139,6 +140,7 @@ const AddSite = (props) => {
       formData.append("auto_dayend", values.auto_dayend);
       formData.append("ignore_tolerance", values.ignore_tolerance);
       formData.append("d_deduction", values.d_deduction);
+      formData.append("display_all_sales", values.display_all_sales);
       formData.append("is_reconciled", values.is_reconciled);
 
       const postDataUrl = "/site/add";
@@ -253,7 +255,7 @@ const AddSite = (props) => {
                     // supplier: "",
                     Saga_department_name: "",
                     Bp_nctt_site_no: "",
-
+                    bank_ref: "",
                     Report_generation_Status: "",
                     Report_date_type: "",
                     consider_keyfules_cards: "",
@@ -274,6 +276,7 @@ const AddSite = (props) => {
                     auto_dayend: 0,
                     ignore_tolerance: 0,
                     d_deduction: 1,
+                    display_all_sales: 1,
                     security_amount: "",
                     loomis_status: 0,
                     cashback_status: 0,
@@ -323,6 +326,12 @@ const AddSite = (props) => {
                     Bp_nctt_site_no: Yup.string().required(
                       "Bp Nctt Site No is required"
                     ),
+                    bank_ref: Yup.number()
+                      .required("Bank Reference Number is required")
+                      .min(1, "Number should be greater than zero"),
+                    // bank_ref: Yup.string().required(
+                    //   "Bank Reference Number is required"
+                    // ).min(1, "Number should be greater than zero"),
                     security_amount: Yup.string().required(
                       "Security Amount is required"
                     ),
@@ -340,6 +349,9 @@ const AddSite = (props) => {
                     ),
                     d_deduction: Yup.string().required(
                       "  Deduct Deduction  is required"
+                    ),
+                    display_all_sales: Yup.string().required(
+                      "  Display All Sales is required"
                     ),
                   })}
                   onSubmit={(values, { setSubmitting }) => {
@@ -729,6 +741,34 @@ const AddSite = (props) => {
                                 component="div"
                                 className="invalid-feedback"
                                 name="Bp_nctt_site_no"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="bank_ref"
+                                className=" form-label mt-4"
+                              >
+                                Bank Reference Number{" "}
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Field
+                                type="number"
+                                autoComplete="off"
+                                className={`input101 ${errors.bank_ref &&
+                                  touched.bank_ref
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
+                                id="bank_ref"
+                                name="bank_ref"
+                                placeholder="Bank Reference Number"
+                              />
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="bank_ref"
                               />
                             </FormGroup>
                           </Col>
@@ -1441,6 +1481,39 @@ const AddSite = (props) => {
                               />
                             </FormGroup>
                           </Col>
+                          {/* Display All Sales
+ */}
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor=" display_all_sales"
+                                className=" form-label mt-4"
+                              >
+                                Display All Sales
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${errors.display_all_sales &&
+                                  touched.display_all_sales
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
+                                id="display_all_sales"
+                                name="display_all_sales"
+                              >
+                                <option value="">Select a Display All Sales
+                                </option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="display_all_sales"
+                              />
+                            </FormGroup>
+                          </Col>
                         </Row>
                       </Card.Body>
 
@@ -1468,7 +1541,8 @@ const AddSite = (props) => {
             </Col>
           </Row>
         </>
-      )}
+      )
+      }
     </>
   );
 };
