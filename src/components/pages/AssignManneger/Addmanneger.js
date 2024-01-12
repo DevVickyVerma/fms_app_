@@ -101,7 +101,7 @@ const AddCompany = (props) => {
         <div>
           <div className="page-header">
             <div>
-              <h1 className="page-title">Assign Site Manager</h1>
+              <h1 className="page-title">Add Assign Manager</h1>
 
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item
@@ -115,15 +115,15 @@ const AddCompany = (props) => {
                   className="breadcrumb-item  breadcrumds"
                   aria-current="page"
                   linkAs={Link}
-                  linkProps={{ to: "/sites" }}
+                  linkProps={{ to: `/assignmanger/${id}` }}
                 >
-                  Manage Site Manager
+                  Assign Manager
                 </Breadcrumb.Item>
                 <Breadcrumb.Item
                   className="breadcrumb-item active breadcrumds"
                   aria-current="page"
                 >
-                  Assign Site Manager
+                  Add Assign Manager
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>
@@ -133,7 +133,7 @@ const AddCompany = (props) => {
             <Col lg={12} xl={12} md={12} sm={12}>
               <Card>
                 <Card.Header>
-                  <Card.Title as="h3">Assign User</Card.Title>
+                  <Card.Title as="h3">Add Assign Manager</Card.Title>
                 </Card.Header>
 
                 <form onSubmit={(event) => formik.handleSubmit(event)}>
@@ -210,6 +210,13 @@ const AddCompany = (props) => {
                   </Card.Body>
 
                   <Card.Footer className="text-end">
+                    <Link
+                      type="submit"
+                      className="btn btn-danger me-2 "
+                      to={`/assignmanger/${id}`}
+                    >
+                      Cancel
+                    </Link>
                     <button className="btn btn-primary me-2" type="submit">
                       Submit
                     </button>

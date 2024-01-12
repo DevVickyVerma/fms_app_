@@ -15,6 +15,8 @@ const ManageBank = ({ isLoading, getData }) => {
     const [data, setData] = useState();
     const [permissionsArray, setPermissionsArray] = useState([]);
     const UserPermissions = useSelector((state) => state?.data?.data);
+    const [siteName, setSiteName] = useState("");
+
     useEffect(() => {
         if (UserPermissions) {
             setPermissionsArray(UserPermissions.permissions);
@@ -104,6 +106,7 @@ const ManageBank = ({ isLoading, getData }) => {
             const response = await getData(`/site/bank-manager/list?site_id=${id}`);
             if (response && response.data) {
                 setData(response?.data?.data?.managers);
+                setSiteName(response?.data?.data?.site_name)
             } else {
                 throw new Error("No data available in the response");
             }
@@ -292,7 +295,7 @@ const ManageBank = ({ isLoading, getData }) => {
             <div>
                 <div className="page-header d-flex">
                     <div>
-                        <h1 className="page-title">Bank Manager </h1>
+                        <h1 className="page-title">Bank Manager ({siteName})</h1>
                         <Breadcrumb className="breadcrumb">
                             <Breadcrumb.Item
                                 className="breadcrumb-item"
@@ -306,7 +309,7 @@ const ManageBank = ({ isLoading, getData }) => {
                                 linkAs={Link}
                                 linkProps={{ to: "/sites" }}
                             >
-                                sites
+                                Sites
                             </Breadcrumb.Item>
                             <Breadcrumb.Item
                                 className="breadcrumb-item active breadcrumds"
@@ -320,7 +323,7 @@ const ManageBank = ({ isLoading, getData }) => {
                         <div className="input-group">
                             {isAddPermissionAvailable ? (
                                 <Link
-                                    to={`/addbank/${id}`}
+                                    to={`/addbank/${siteName}/${id}`}
                                     className="btn btn-primary ms-2"
                                     style={{ borderRadius: "4px" }}
                                 >

@@ -11,7 +11,7 @@ const AddOpeningBalance = ({ isLoading, postData }) => {
 
     const navigate = useNavigate();
     // const ErrorAlert = (message) => toast.error(message);
-    const { id } = useParams()
+    const { id, siteName } = useParams()
 
 
     function handleError(error) {
@@ -95,7 +95,7 @@ const AddOpeningBalance = ({ isLoading, postData }) => {
             <div>
                 <div className="page-header">
                     <div>
-                        <h1 className="page-title">Add Opening Balance</h1>
+                        <h1 className="page-title">Add Opening Balance  ({siteName})</h1>
 
                         <Breadcrumb className="breadcrumb">
                             <Breadcrumb.Item

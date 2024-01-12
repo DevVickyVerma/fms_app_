@@ -11,11 +11,11 @@ const AddOpeningBalance = ({ isLoading, postData }) => {
 
     const navigate = useNavigate();
     // const ErrorAlert = (message) => toast.error(message);
-    const { id } = useParams()
+    const { id, siteName } = useParams()
 
 
     function handleError(error) {
-        if (error.response && error.response.opening_balance_type === 401) {
+        if (error.response && error.response.bunkering_balance_type === 401) {
             navigate("/login");
             ErrorAlert("Invalid access token");
             localStorage.clear();
@@ -80,7 +80,7 @@ const AddOpeningBalance = ({ isLoading, postData }) => {
             <div>
                 <div className="page-header">
                     <div>
-                        <h1 className="page-title">Add Bunkering Balance</h1>
+                        <h1 className="page-title">Add Bunkering Balance ({siteName})</h1>
 
                         <Breadcrumb className="breadcrumb">
                             <Breadcrumb.Item
@@ -94,7 +94,7 @@ const AddOpeningBalance = ({ isLoading, postData }) => {
                                 className="breadcrumb-item  breadcrumds"
                                 aria-current="page"
                                 linkAs={Link}
-                                linkProps={{ to: `/opening-balance/${id}` }}
+                                linkProps={{ to: `/bunkering-balance/${id}` }}
                             >
                                 Manage Bunkering Balance
                             </Breadcrumb.Item>
@@ -153,7 +153,7 @@ const AddOpeningBalance = ({ isLoading, postData }) => {
                                                     className="form-label mt-4"
                                                     htmlFor="amount"
                                                 >
-                                                    Bunkering Balance amount :<span className="text-danger">*</span>
+                                                    Bunkering Balance Amount :<span className="text-danger">*</span>
                                                 </label>
                                                 <input
                                                     type="number"
@@ -165,7 +165,7 @@ const AddOpeningBalance = ({ isLoading, postData }) => {
                                                         }`}
                                                     id="amount"
                                                     name="amount"
-                                                    placeholder="Enter Bunkering Balance amount"
+                                                    placeholder="Enter Bunkering Balance Amount"
                                                     onChange={formik.handleChange}
                                                     value={formik.values.amount}
                                                 />

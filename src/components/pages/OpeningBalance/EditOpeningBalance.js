@@ -9,6 +9,7 @@ import { ErrorAlert } from '../../../Utils/ToastUtils';
 
 const EditOpeningBalance = ({ isLoading, postData, getData }) => {
     const [data, setData] = useState();
+    const [siteName, setSiteName] = useState("");
 
     useEffect(() => {
         fetchOpeningBalanceList();
@@ -23,6 +24,7 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
             const response = await getData(`site/opening-balance/detail/${id}`);
             if (response && response.data) {
                 setData(response?.data?.data);
+                setSiteName(response?.data?.data?.site_name)
                 formik.setValues(response?.data?.data)
             } else {
                 throw new Error("No data available in the response");
@@ -117,7 +119,7 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
             <div>
                 <div className="page-header">
                     <div>
-                        <h1 className="page-title">Edit Opening Balance</h1>
+                        <h1 className="page-title">Edit Opening Balance  ({siteName})</h1>
 
                         <Breadcrumb className="breadcrumb">
                             <Breadcrumb.Item

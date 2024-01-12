@@ -222,7 +222,11 @@ export default function AddSite(props) {
         <div>
           <div className="page-header">
             <div>
-              <h1 className="page-title">Edit Site</h1>
+              <h1 className="page-title">Edit Site
+                (
+                {formik?.values?.site_display_name}
+                )
+              </h1>
 
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item

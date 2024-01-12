@@ -11,6 +11,7 @@ import { ErrorAlert } from '../../../Utils/ToastUtils';
 
 const EditBank = ({ isLoading, getData, postData }) => {
     const [data, setData] = useState();
+    const [siteName, setSiteName] = useState("");
     const { id } = useParams();
     const navigate = useNavigate();
     useEffect(() => {
@@ -37,6 +38,7 @@ const EditBank = ({ isLoading, getData, postData }) => {
             const response = await getData(`site/bank-manager/detail/${id}`);
             if (response && response.data) {
                 setData(response?.data?.data);
+                setSiteName(response?.data?.data?.site_name)
                 formik.setValues(response?.data?.data)
             } else {
                 throw new Error("No data available in the response");
@@ -93,7 +95,7 @@ const EditBank = ({ isLoading, getData, postData }) => {
             <div>
                 <div className="page-header">
                     <div>
-                        <h1 className="page-title">Edit Bank Manager</h1>
+                        <h1 className="page-title">Edit Bank Manager ({siteName}) </h1>
 
                         <Breadcrumb className="breadcrumb">
                             <Breadcrumb.Item
@@ -107,9 +109,9 @@ const EditBank = ({ isLoading, getData, postData }) => {
                                 className="breadcrumb-item  breadcrumds"
                                 aria-current="page"
                                 linkAs={Link}
-                                linkProps={{ to: "/sites" }}
+                                linkProps={{ to: `/managebank/${formik?.values?.site_id}` }}
                             >
-                                Manage Bank Manager
+                                Bank Manager
                             </Breadcrumb.Item>
                             <Breadcrumb.Item
                                 className="breadcrumb-item active breadcrumds"
@@ -287,6 +289,13 @@ const EditBank = ({ isLoading, getData, postData }) => {
                                 </Card.Body>
                                 <Card.Footer>
                                     <div className="text-end my-5 text-end-small-screen">
+                                        <Link
+                                            type="submit"
+                                            className="btn btn-danger me-2 "
+                                            to={`/managebank/${formik?.values?.site_id}`}
+                                        >
+                                            Cancel
+                                        </Link>
                                         <button type="submit" className="btn btn-primary">
                                             Submit
                                         </button>

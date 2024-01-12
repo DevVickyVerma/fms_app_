@@ -11,7 +11,7 @@ const AddBank = ({ isLoading, postData }) => {
 
     const navigate = useNavigate();
     // const ErrorAlert = (message) => toast.error(message);
-    const { id } = useParams()
+    const { id, siteName } = useParams()
 
 
     function handleError(error) {
@@ -82,7 +82,7 @@ const AddBank = ({ isLoading, postData }) => {
             <div>
                 <div className="page-header">
                     <div>
-                        <h1 className="page-title">Add Bank Manager</h1>
+                        <h1 className="page-title">Add Bank Manager ({siteName})</h1>
 
                         <Breadcrumb className="breadcrumb">
                             <Breadcrumb.Item
@@ -96,9 +96,9 @@ const AddBank = ({ isLoading, postData }) => {
                                 className="breadcrumb-item  breadcrumds"
                                 aria-current="page"
                                 linkAs={Link}
-                                linkProps={{ to: "/sites" }}
+                                linkProps={{ to: `/managebank/${id}` }}
                             >
-                                Manage Bank Manager
+                                Bank Manager
                             </Breadcrumb.Item>
                             <Breadcrumb.Item
                                 className="breadcrumb-item active breadcrumds"
@@ -277,6 +277,13 @@ const AddBank = ({ isLoading, postData }) => {
                                 </Card.Body>
                                 <Card.Footer>
                                     <div className="text-end my-5 text-end-small-screen">
+                                        <Link
+                                            type="submit"
+                                            className="btn btn-danger me-2 "
+                                            to={`/managebank/${id}`}
+                                        >
+                                            Cancel
+                                        </Link>
                                         <button type="submit" className="btn btn-primary">
                                             Submit
                                         </button>

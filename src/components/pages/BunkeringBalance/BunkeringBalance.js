@@ -19,6 +19,7 @@ const BunkeringBalance = ({ isLoading, getData }) => {
     const [lastPage, setLastPage] = useState(1);
     const [perPage, setPerPage] = useState(20);
     const [total, setTotal] = useState(0);
+    const [siteName, setSiteName] = useState("");
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
@@ -123,6 +124,7 @@ const BunkeringBalance = ({ isLoading, getData }) => {
                 setLastPage(response?.data?.data?.lastPage);
                 setPerPage(response?.data?.data?.perPage);
                 setTotal(response?.data?.data?.total);
+                setSiteName(response?.data?.data?.site_name)
             } else {
                 throw new Error("No data available in the response");
             }
@@ -268,7 +270,7 @@ const BunkeringBalance = ({ isLoading, getData }) => {
             <div>
                 <div className="page-header d-flex">
                     <div>
-                        <h1 className="page-title">Bunkering Balance </h1>
+                        <h1 className="page-title" > Bunkering Balance ({siteName})</h1>
                         <Breadcrumb className="breadcrumb">
                             <Breadcrumb.Item
                                 className="breadcrumb-item"
@@ -282,7 +284,7 @@ const BunkeringBalance = ({ isLoading, getData }) => {
                                 linkAs={Link}
                                 linkProps={{ to: "/sites" }}
                             >
-                                sites
+                                Sites
                             </Breadcrumb.Item>
                             <Breadcrumb.Item
                                 className="breadcrumb-item active breadcrumds"
@@ -296,7 +298,7 @@ const BunkeringBalance = ({ isLoading, getData }) => {
                         <div className="input-group">
                             {isAddPermissionAvailable ? (
                                 <Link
-                                    to={`/add-bunkering-balance/${id}`}
+                                    to={`/add-bunkering-balance/${siteName}/${id}`}
                                     className="btn btn-primary ms-2"
                                     style={{ borderRadius: "4px" }}
                                 >

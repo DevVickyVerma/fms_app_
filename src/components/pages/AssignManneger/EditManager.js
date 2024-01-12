@@ -150,7 +150,7 @@ const AddCompany = (props) => {
         <div>
           <div className="page-header">
             <div>
-              <h1 className="page-title">Edit User</h1>
+              <h1 className="page-title">Edit Site Manager</h1>
 
               <Breadcrumb className="breadcrumb">
                 <Breadcrumb.Item
@@ -161,11 +161,12 @@ const AddCompany = (props) => {
                   Dashboard
                 </Breadcrumb.Item>
 
+
                 <Breadcrumb.Item
                   className="breadcrumb-item active breadcrumds"
                   aria-current="page"
                 >
-                  Edit User
+                  Edit Site Manager
                 </Breadcrumb.Item>
               </Breadcrumb>
             </div>

@@ -730,7 +730,7 @@ const Root = () => {
                     path={`/managebank/:id`}
                     element={<WrappedManageBank />}
                   />
-                  <Route path={`/addbank/:id`} element={<WrappedAddBank />} />
+                  <Route path={`/addbank/:siteName/:id`} element={<WrappedAddBank />} />
                   <Route
                     path={`/editbankmanager/:id`}
                     element={<WrappedEditBankManneger />}
@@ -741,7 +741,7 @@ const Root = () => {
                     element={<WrappedOpeningBalance />}
                   />
                   <Route
-                    path={`/add-opening-balance/:id`}
+                    path={`/add-opening-balance/:siteName/:id`}
                     element={<WrappedAddOpeningBalance />}
                   />
                   <Route
@@ -753,7 +753,7 @@ const Root = () => {
                     element={<WrappedBunkeringBalance />}
                   />
                   <Route
-                    path={`/add-bunkering-balance/:id`}
+                    path={`/add-bunkering-balance/:siteName/:id`}
                     element={<WrappedAddBunkeringBalance />}
                   />
                   <Route
@@ -822,7 +822,7 @@ const Root = () => {
                     element={<WrappedAssignmanneger />}
                   />
                   <Route
-                    path={`/addmanager/:id`}
+                    path={`/addmanager/:siteName/:id`}
                     element={<WrappedAddManneger />}
                   />
                   <Route

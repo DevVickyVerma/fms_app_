@@ -26,6 +26,7 @@ import Loaderimg from "../../../Utils/Loader";
 const ManageRoles = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
+  const [siteName, setSiteName] = useState("");
   const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
@@ -107,6 +108,8 @@ const ManageRoles = (props) => {
 
       if (response && response.data) {
         setData(response?.data?.data?.managers);
+
+        setSiteName(response?.data?.data?.site_name)
       } else {
         throw new Error("No data available in the response");
       }
@@ -268,7 +271,7 @@ const ManageRoles = (props) => {
       <>
         <div className="page-header ">
           <div>
-            <h1 className="page-title">Site Manager </h1>
+            <h1 className="page-title">Assign Manager  ({siteName})</h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
                 className="breadcrumb-item"
@@ -278,10 +281,17 @@ const ManageRoles = (props) => {
                 Dashboard
               </Breadcrumb.Item>
               <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/sites" }}
+              >
+                Sites
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Site Manager
+                Assign Manager
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -289,11 +299,11 @@ const ManageRoles = (props) => {
             <div className="input-group">
               {isAddPermissionAvailable ? (
                 <Link
-                  to={`/addmanager/${id}`}
+                  to={`/addmanager/${siteName}/${id}`}
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Site Manager
+                  Add Assign Manager
                 </Link>
               ) : (
                 ""
@@ -306,7 +316,7 @@ const ManageRoles = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Site Manager </h3>
+                <h3 className="card-title">Assign Manager </h3>
               </Card.Header>
               <Card.Body>
                 {data?.length > 0 ? (

@@ -9,8 +9,6 @@ import {
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
-import * as Yup from "yup";
-import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
@@ -32,6 +30,7 @@ const SiteSettings = (props) => {
   const [SiteItems, setSiteItems] = useState([]);
   const [ReportsData, setReportsData] = useState([]);
   const [CashDayData, setCashDayData] = useState([]);
+  const [siteName, setSiteName] = useState("");
 
   const { id } = useParams();
 
@@ -55,6 +54,8 @@ const SiteSettings = (props) => {
         setCardsModelData(data?.data ? data.data.cards : []);
         setCashDayData(data?.data ? data.data.cash_days : []);
         setis_editable(data?.data ? data.data : {});
+
+        setSiteName(response?.data?.data?.site_name)
 
         formik.setFieldValue(
           "AssignFormikbussiness",
@@ -884,7 +885,7 @@ const SiteSettings = (props) => {
       <>
         <div className="page-header">
           <div>
-            <h1 className="page-title">Site Settings</h1>
+            <h1 className="page-title">Site Settings ({siteName})</h1>
 
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -1153,6 +1154,13 @@ const SiteSettings = (props) => {
                 </Card.Body>
                 <Card.Footer>
                   <div className="d-flex justify-content-end mt-3">
+                    <Link
+                      type="submit"
+                      className="btn btn-danger me-2 "
+                      to={`/sites/`}
+                    >
+                      Cancel
+                    </Link>
                     <button className="btn btn-primary" type="submit">
                       Submit
                     </button>

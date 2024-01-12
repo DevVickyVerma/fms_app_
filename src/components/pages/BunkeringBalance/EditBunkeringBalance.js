@@ -9,6 +9,7 @@ import { ErrorAlert } from '../../../Utils/ToastUtils';
 
 const EditOpeningBalance = ({ isLoading, postData, getData }) => {
     const [data, setData] = useState();
+    const [siteName, setSiteName] = useState("");
 
     useEffect(() => {
         fetchOpeningBalanceList();
@@ -17,11 +18,32 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
     const navigate = useNavigate();
     const { id } = useParams()
 
+
+
+    const validationSchema = Yup.object({
+        balance_date: Yup.string().required('Bunkering Balance Date is required'),
+        amount: Yup.string().required('Bunkering Balance Amount is required'),
+    });
+
+    const formik = useFormik({
+        initialValues: {
+            site_id: id,
+            amount: "",
+            balance_date: "",
+        },
+        validationSchema: validationSchema,
+        onSubmit: (values) => {
+            // alert(JSON.stringify(values, null, 2));
+            handlePostData(values);
+        },
+    });
+
     const fetchOpeningBalanceList = async () => {
         try {
             const response = await getData(`site/bunkering-balance/detail/${id}`);
             if (response && response.data) {
                 setData(response?.data?.data);
+                setSiteName(response?.data?.data?.site_name)
                 formik.setValues(response?.data?.data)
             } else {
                 throw new Error("No data available in the response");
@@ -67,26 +89,11 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
     }
 
 
-    const validationSchema = Yup.object({
-        amount: Yup.string().required('Bunkering Balance Amount is required'),
-        balance_date: Yup.string().required('Bunkering Balance Date is required'),
-    });
 
 
 
 
-    const formik = useFormik({
-        initialValues: {
-            site_id: id,
-            amount: "",
-            balance_date: "",
-        },
-        validationSchema: validationSchema,
-        onSubmit: (values) => {
-            // alert(JSON.stringify(values, null, 2));
-            handlePostData(values);
-        },
-    });
+
 
 
     return (
@@ -95,7 +102,7 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
             <div>
                 <div className="page-header">
                     <div>
-                        <h1 className="page-title">Edit Bunkering Balance</h1>
+                        <h1 className="page-title">Edit Bunkering Balance ({siteName}) </h1>
 
                         <Breadcrumb className="breadcrumb">
                             <Breadcrumb.Item
@@ -171,7 +178,7 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
                                                     className="form-label mt-4"
                                                     htmlFor="amount"
                                                 >
-                                                    Bank Balance Amount :<span className="text-danger">*</span>
+                                                    Bunkering Balance Amount :<span className="text-danger">*</span>
                                                 </label>
                                                 <input
                                                     type="number"
@@ -183,7 +190,7 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
                                                         }`}
                                                     id="amount"
                                                     name="amount"
-                                                    placeholder="Enter Bank Balance Amount"
+                                                    placeholder="Bunkering Balance Amount"
                                                     onChange={formik.handleChange}
                                                     value={formik.values.amount}
                                                 />
