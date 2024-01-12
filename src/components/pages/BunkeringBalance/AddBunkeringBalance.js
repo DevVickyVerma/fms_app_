@@ -185,7 +185,7 @@ const AddOpeningBalance = ({ isLoading, postData }) => {
                                     <Link
                                         type="submit"
                                         className="btn btn-danger me-2 "
-                                        to={`/opening-balance/${formik?.values?.site_id}`}
+                                        to={`/bunkering-balance/${formik?.values?.site_id}`}
                                     >
                                         Cancel
                                     </Link>

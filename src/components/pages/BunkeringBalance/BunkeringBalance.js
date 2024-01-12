@@ -6,7 +6,6 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import DataTableExtensions from "react-data-table-component-extensions";
 import DataTable from 'react-data-table-component';
-import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { ErrorAlert } from '../../../Utils/ToastUtils';
@@ -134,23 +133,10 @@ const BunkeringBalance = ({ isLoading, getData }) => {
 
     const columns = [
         {
-            name: "Created Date",
-            selector: (row) => [row?.created_date],
-            sortable: true,
-            width: "25%",
-            cell: (row, index) => (
-                <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row?.created_date}</h6>
-                    </div>
-                </div>
-            ),
-        },
-        {
             name: "Bunkering Balance Date",
             selector: (row) => [row?.balance_date],
             sortable: true,
-            width: "25%",
+            width: "33.33%",
             cell: (row, index) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -164,7 +150,7 @@ const BunkeringBalance = ({ isLoading, getData }) => {
             name: "Bunkering Balance Amount",
             selector: (row) => [row?.amount],
             sortable: true,
-            width: "25%",
+            width: "33.33%",
             cell: (row, index) => (
                 <div
                     className="d-flex"
@@ -183,7 +169,7 @@ const BunkeringBalance = ({ isLoading, getData }) => {
             name: "Action",
             selector: (row) => [row?.action],
             sortable: false,
-            width: "25%",
+            width: "33.33%",
             cell: (row) => (
                 <span className="text-center">
                     {isEditPermissionAvailable ? (

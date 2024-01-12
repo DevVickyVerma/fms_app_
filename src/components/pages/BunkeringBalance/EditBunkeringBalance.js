@@ -15,7 +15,6 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
     }, [])
 
     const navigate = useNavigate();
-    // const ErrorAlert = (message) => toast.error(message);
     const { id } = useParams()
 
     const fetchOpeningBalanceList = async () => {
@@ -69,7 +68,7 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
 
 
     const validationSchema = Yup.object({
-        amount: Yup.string().required('Bunkering Balance Type is required'),
+        amount: Yup.string().required('Bunkering Balance Amount is required'),
         balance_date: Yup.string().required('Bunkering Balance Date is required'),
     });
 
@@ -89,10 +88,6 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
         },
     });
 
-    const handleShowDate = () => {
-        const inputDateElement = document.querySelector('input[type="date"]');
-        inputDateElement.showPicker();
-    };
 
     return (
         <>
@@ -137,44 +132,46 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
                             <form onSubmit={formik.handleSubmit}>
                                 <Card.Body>
                                     <Row>
-                                        <Col lg={4} md={4}>
+
+
+                                        <Col lg={4} md={6}>
                                             <div className="form-group">
-                                                <label htmlFor="balance_date" className="form-label mt-4">
-                                                    Start Date
-                                                    <span className="text-danger">*</span>
+                                                <label
+                                                    className="form-label mt-4"
+                                                    htmlFor="balance_date"
+                                                >
+                                                    Month :<span className="text-danger">*</span>
                                                 </label>
                                                 <input
-                                                    readOnly
-                                                    className={`input101 readonly ${formik.errors.balance_date && formik.touched.balance_date
+                                                    type="text"
+                                                    autoComplete="off"
+                                                    className={`input101 readonly ${formik.errors.balance_date &&
+                                                        formik.touched.balance_date
                                                         ? "is-invalid"
                                                         : ""
                                                         }`}
-                                                    type="date"
-                                                    onChange={(e) => {
-                                                        const selectedOpeningBalanceDate = e.target.value;
-                                                        formik.setFieldValue("balance_date", selectedOpeningBalanceDate);
-                                                        // You can keep the logic for setting the field value here if needed
-                                                    }}
+                                                    readOnly
                                                     id="balance_date"
                                                     name="balance_date"
-                                                    onClick={handleShowDate}
+                                                    placeholder="Month"
+                                                    onChange={formik.handleChange}
                                                     value={formik.values.balance_date}
                                                 />
-                                                {formik.errors.balance_date && formik.touched.balance_date && (
-                                                    <div className="invalid-feedback">
-                                                        {formik.errors.balance_date}
-                                                    </div>
-                                                )}
+                                                {formik.errors.balance_date &&
+                                                    formik.touched.balance_date && (
+                                                        <div className="invalid-feedback">
+                                                            {formik.errors.balance_date}
+                                                        </div>
+                                                    )}
                                             </div>
                                         </Col>
-
                                         <Col lg={4} md={6}>
                                             <div className="form-group">
                                                 <label
                                                     className="form-label mt-4"
                                                     htmlFor="amount"
                                                 >
-                                                    Bank under/over Balance :<span className="text-danger">*</span>
+                                                    Bank Balance Amount :<span className="text-danger">*</span>
                                                 </label>
                                                 <input
                                                     type="number"
@@ -186,7 +183,7 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
                                                         }`}
                                                     id="amount"
                                                     name="amount"
-                                                    placeholder="Enter Bank under/over Balance"
+                                                    placeholder="Enter Bank Balance Amount"
                                                     onChange={formik.handleChange}
                                                     value={formik.values.amount}
                                                 />
