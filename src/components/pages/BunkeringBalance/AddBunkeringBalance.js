@@ -165,7 +165,7 @@ const AddOpeningBalance = ({ isLoading, postData }) => {
                                                         }`}
                                                     id="amount"
                                                     name="amount"
-                                                    placeholder="Enter Bunkering Balance Amount"
+                                                    placeholder="Bunkering Balance Amount"
                                                     onChange={formik.handleChange}
                                                     value={formik.values.amount}
                                                 />
