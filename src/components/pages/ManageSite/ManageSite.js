@@ -209,6 +209,8 @@ const ManageSite = (props) => {
   );
   const issitesettingPermissionAvailable =
     permissionsArray?.includes("site-setting");
+  const isAssignbusinessPermissionAvailable =
+    permissionsArray?.includes("assign-business-sub-category-list");
   const isAddPermissionAvailable = permissionsArray?.includes("site-create");
   const isDeletePermissionAvailable = permissionsArray?.includes("site-delete");
   const isDetailsPermissionAvailable =
@@ -386,6 +388,21 @@ const ManageSite = (props) => {
                   Actions
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="dropdown-menu" style={{ margin: "0px !important", padding: "0px !important" }}>
+                  {isAssignbusinessPermissionAvailable ? (
+                    <Dropdown.Item
+                      //  className="dropdown-item"
+                      className=" p-0 m-0"
+                    >
+                      <Link to={`/assign-business-sub-categories/${row.id}`}>
+                        <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <SettingsIcon />
+                          </i>
+                          assign-business-sub-category-list
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
                   {issitesettingPermissionAvailable ? (
                     <Dropdown.Item
                       //  className="dropdown-item"

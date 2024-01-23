@@ -371,6 +371,14 @@ const ManageReports = React.lazy(() =>
 const SiteSettings = React.lazy(() =>
   import("./components/pages/SiteSetting/SiteSettings")
 );
+const Assignbusiness = React.lazy(() =>
+  import("./components/pages/AssignBusinessSubCategories/Assignbusinessubcat")
+);
+const AddAssignbusiness = React.lazy(() =>
+  import(
+    "./components/pages/AssignBusinessSubCategories/AddAssignbusinessubcat"
+  )
+);
 
 const Tolerances = React.lazy(() =>
   import("./components/pages/SiteSetting/Tolerances")
@@ -587,6 +595,8 @@ const Root = () => {
   const WrappedManageReports = withApi(ManageReports);
   const WrappedWorkFlows = withApi(WorkFlows);
   const WrappedSiteSettings = withApi(SiteSettings);
+  const Wrappedassignbusiness = withApi(Assignbusiness);
+  const WrappedAddAssignbusiness = withApi(AddAssignbusiness);
   const WrappedTolerances = withApi(Tolerances);
 
   const WrappedManageSitePump = withApi(ManageSitePump);
@@ -638,6 +648,7 @@ const Root = () => {
 
   const WrappedOpeningBalance = withApi(OpeningBalance);
   const WrappedAddOpeningBalance = withApi(AddOpeningBalance);
+
   const WrappedEditOpeningBalance = withApi(EditOpeningBalance);
   const WrappedBunkeringBalance = withApi(BunkeringBalance);
   const WrappedAddBunkeringBalance = withApi(AddBunkeringBalance);
@@ -723,6 +734,14 @@ const Root = () => {
                     path={`/site-setting/:id`}
                     element={<WrappedSiteSettings />}
                   />
+                  <Route
+                    path={`/assign-business-sub-categories/:id`}
+                    element={<Wrappedassignbusiness />}
+                  />
+                  <Route
+                    path={`/addassign-business-sub-categories/:siteName/:id`}
+                    element={<WrappedAddAssignbusiness />}
+                  />
 
                   <Route path={`/sites`} element={<Managesite />} />
 
@@ -730,7 +749,10 @@ const Root = () => {
                     path={`/managebank/:id`}
                     element={<WrappedManageBank />}
                   />
-                  <Route path={`/addbank/:siteName/:id`} element={<WrappedAddBank />} />
+                  <Route
+                    path={`/addbank/:siteName/:id`}
+                    element={<WrappedAddBank />}
+                  />
                   <Route
                     path={`/editbankmanager/:id`}
                     element={<WrappedEditBankManneger />}
