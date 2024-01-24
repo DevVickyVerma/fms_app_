@@ -123,7 +123,7 @@ const OpeningBalance = ({ isLoading, getData }) => {
         `/assignsubcategory/list?site_id=${id}&page=${currentPage?currentPage:1}`
       );
       if (response && response.data) {
-        setData(response?.data?.data?.balances);
+        setData(response?.data?.data?.categoires);
         setCount(response.data.data.count);
         setCurrentPage(response?.data?.data?.currentPage);
         setHasMorePages(response?.data?.data?.hasMorePages);
@@ -141,39 +141,41 @@ const OpeningBalance = ({ isLoading, getData }) => {
 
   const columns = [
     {
-      name: "Balance Type",
-      selector: (row) => [row?.opening_balance_type],
+      name: "S.NO",
+      selector: (row, index) => index + 1,
+      sortable: false,
+      width: "10%",
+      center: true,
+      cell: (row, index) => (
+        <span className="text-muted fs-15 fw-semibold text-center">
+          {index + 1}
+        </span>
+      ),
+    },
+
+    {
+      name: "Main Category Name",
+      selector: (row) => [row?.main_category_name],
       sortable: true,
-      width: "12.5%",
+      width: "35%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
-              {row?.opening_balance_type}
+              {row?.main_category_name}
             </h6>
           </div>
         </div>
       ),
     },
-    {
-      name: "Assign Business Sub Categories",
-      selector: (row) => [row?.opening_balance],
-      sortable: true,
-      width: "12.5%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row?.opening_balance}</h6>
-          </div>
-        </div>
-      ),
-    },
+
+
 
     {
-      name: "LOOMIS Assign Business Sub Categories",
-      selector: (row) => [row?.opening_balance_loomis],
+      name: "Sub Category Name",
+      selector: (row) => [row?.sub_category_name],
       sortable: true,
-      width: "12.5%",
+      width: "30%",
       cell: (row, index) => (
         <div
           className="d-flex"
@@ -182,98 +184,20 @@ const OpeningBalance = ({ isLoading, getData }) => {
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">
-              {row?.opening_balance_loomis}
+              {row?.sub_category_name}
             </h6>
           </div>
         </div>
       ),
     },
 
-    {
-      name: "LOOMIS UNDER/OVER BALANCE",
-      selector: (row) => [row?.opening_balance_ou_loomis],
-      sortable: true,
-      width: "12.5%",
-      cell: (row, index) => (
-        <div
-          className="d-flex"
-          style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
-        >
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold ">
-              {row?.opening_balance_ou_loomis}
-            </h6>
-          </div>
-        </div>
-      ),
-    },
 
-    {
-      name: "BANK UNDER/OVER BALANCE",
-      selector: (row) => [row?.opening_balance_ou_bank],
-      sortable: false,
-      width: "12.5%",
-      cell: (row) => (
-        <div
-          className="d-flex"
-          style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
-        >
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold ">
-              {row?.opening_balance_ou_bank}
-            </h6>
-          </div>
-        </div>
-      ),
-    },
-
-    {
-      name: "CLOSING BALANCE ADJUSTMENT",
-      selector: (row) => [row?.closing_balance_adjustment],
-      sortable: false,
-      width: "12.5%",
-      cell: (row) => (
-        <div
-          className="d-flex"
-          style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
-        >
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold ">
-              {row?.closing_balance_adjustment}
-            </h6>
-          </div>
-        </div>
-      ),
-    },
-
-    {
-      name: " Assign Business Sub Categories DATE",
-      selector: (row) => [row?.opening_balance_date],
-      sortable: false,
-      width: "12.5%",
-      cell: (row) => (
-        <div
-          className="d-flex"
-          style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
-        >
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold ">
-              {row?.opening_balance_date}
-            </h6>
-          </div>
-        </div>
-      ),
-    },
 
     {
       name: "Action",
       selector: (row) => [row?.action],
       sortable: false,
-      width: "12.5%",
+      width: "25%",
       cell: (row) => (
         <span className="text-center">
           {isEditPermissionAvailable ? (

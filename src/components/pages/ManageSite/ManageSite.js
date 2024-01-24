@@ -156,13 +156,7 @@ const ManageSite = (props) => {
     }
   };
 
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+ 
 
   const FetchTableData = async () => {
     try {
@@ -178,14 +172,7 @@ const ManageSite = (props) => {
     }
   };
 
-  const permissionsToCheck = [
-    "site-list",
-    "site-create",
-    "site-status-update",
-    "site-edit",
-    "site-delete",
-  ];
-  let isPermissionAvailable = false;
+
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -388,7 +375,7 @@ const ManageSite = (props) => {
                   Actions
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="dropdown-menu" style={{ margin: "0px !important", padding: "0px !important" }}>
-                  {/* {isAssignbusinessPermissionAvailable ? (
+                  {isAssignbusinessPermissionAvailable ? (
                     <Dropdown.Item
                       //  className="dropdown-item"
                       className=" p-0 m-0"
@@ -398,11 +385,11 @@ const ManageSite = (props) => {
                           <i className="setting-icon">
                             <SettingsIcon />
                           </i>
-                          assign-business-sub-category-list
+                          Assign Business Sub Categories
                         </div>
                       </Link>
                     </Dropdown.Item>
-                  ) : null} */}
+                  ) : null}
                   {issitesettingPermissionAvailable ? (
                     <Dropdown.Item
                       //  className="dropdown-item"
