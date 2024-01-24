@@ -204,7 +204,8 @@ const ManageSite = (props) => {
     permissionsArray?.includes("site-detail");
   const isSkipDatePermissionAvailable =
     permissionsArray?.includes("skipdate-list");
-  const isAssignPermissionAvailable = permissionsArray?.includes("site-assign");
+  const isHidebusinessPermissionAvailable =
+    permissionsArray?.includes("hide-category-list");
   const anyPermissionAvailable =
     isEditPermissionAvailable ||
     isDeletePermissionAvailable ||
@@ -375,21 +376,7 @@ const ManageSite = (props) => {
                   Actions
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="dropdown-menu" style={{ margin: "0px !important", padding: "0px !important" }}>
-                  {isAssignbusinessPermissionAvailable ? (
-                    <Dropdown.Item
-                      //  className="dropdown-item"
-                      className=" p-0 m-0"
-                    >
-                      <Link to={`/assign-business-sub-categories/${row.id}`}>
-                        <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <SettingsIcon />
-                          </i>
-                          Assign Business Sub Categories
-                        </div>
-                      </Link>
-                    </Dropdown.Item>
-                  ) : null}
+             
                   {issitesettingPermissionAvailable ? (
                     <Dropdown.Item
                       //  className="dropdown-item"
@@ -473,6 +460,36 @@ const ManageSite = (props) => {
                             <AccountBalanceWalletIcon />
                           </i>
                           Bunkering Balance
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isAssignbusinessPermissionAvailable ? (
+                    <Dropdown.Item
+                      //  className="dropdown-item"
+                      className=" p-0 m-0"
+                    >
+                      <Link to={`/assign-business-sub-categories/${row.id}`}>
+                        <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <SettingsIcon />
+                          </i>
+                          Assign Business Sub Categories
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {isHidebusinessPermissionAvailable ? (
+                    <Dropdown.Item
+                      //  className="dropdown-item"
+                      className=" p-0 m-0"
+                    >
+                      <Link to={`/hide-business-categories/${row.id}`}>
+                        <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <SettingsIcon />
+                          </i>
+                          Hide Business Categories
                         </div>
                       </Link>
                     </Dropdown.Item>
@@ -563,9 +580,6 @@ const ManageSite = (props) => {
 
       SearchList();
     }
-
-    // Clear the form input values
-    // Resetting the formData to an empty object
 
     handleToggleSidebar1();
   };
@@ -700,17 +714,17 @@ const ManageSite = (props) => {
             onClose={handleCloseSidebar}
           />
         </Suspense>
-        <Row className=" row-sm">
+        <Row className=" row-sm" >
           <Col lg={12}>
             <Card>
               <Card.Header>
                 <h3 className="card-title">Manage Site</h3>
               </Card.Header>
-              <Card.Body>
+              <Card.Body style={{minHeight:"900px"}} >
                 {data?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table">
-                      <DataTableExtensions {...tableDatas}>
+                    <div className="table-responsive deleted-table" >
+                      <DataTableExtensions {...tableDatas} >
                         <DataTable
                           columns={columns}
                           data={data}
@@ -724,6 +738,7 @@ const ManageSite = (props) => {
                           paginationPerPage={20}
                           highlightOnHover
                           searchable={false}
+                          style={{minHeight:"900px"}}
                         />
                       </DataTableExtensions>
                     </div>

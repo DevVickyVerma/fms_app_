@@ -45,10 +45,10 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
       setPermissionsArray(UserPermissions.permissions);
     }
   }, [UserPermissions]);
-  const isAddPermissionAvailable = permissionsArray?.includes("assign-business-sub-category-create");
+  const isAddPermissionAvailable = permissionsArray?.includes("hide-category-add");
   const isDeletePermissionAvailable =
-    permissionsArray?.includes("assign-business-sub-category-delete");
-  const isEditPermissionAvailable = permissionsArray?.includes("assign-business-sub-category-edit");
+    permissionsArray?.includes("hide-category-delete");
+
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -68,13 +68,13 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
         const formData = new FormData();
         formData.append("id", id);
 
-        Deleteassignsubcategory(formData);
+        Deletehidecategory(formData);
       }
     });
   };
-  const Deleteassignsubcategory = async (formData) => {
+  const Deletehidecategory = async (formData) => {
     try {
-      const response = await postData("/assignsubcategory/delete", formData);
+      const response = await postData("/hidecategory/delete", formData);
       // Console log the response
       if (apidata.api_response === "success") {
         fetchOpeningBalanceList()
@@ -102,7 +102,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
   const fetchOpeningBalanceList = async () => {
     try {
       const response = await getData(
-        `/assignsubcategory/list?site_id=${id}&page=${
+        `/hidecategory/list?site_id=${id}&page=${
           currentPage ? currentPage : 1
         }`
       );
@@ -139,39 +139,21 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
 
     {
       name: "Main Category Name",
-      selector: (row) => [row?.main_category_name],
+      selector: (row) => [row?.name],
       sortable: true,
       width: "35%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold">
-              {row?.main_category_name}
+              {row?.name}
             </h6>
           </div>
         </div>
       ),
     },
 
-    {
-      name: "Sub Category Name",
-      selector: (row) => [row?.sub_category_name],
-      sortable: true,
-      width: "30%",
-      cell: (row, index) => (
-        <div
-          className="d-flex"
-          style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
-        >
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold ">
-              {row?.sub_category_name}
-            </h6>
-          </div>
-        </div>
-      ),
-    },
+
 
     {
       name: "Action",
@@ -180,27 +162,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
       width: "25%",
       cell: (row) => (
         <span className="text-center">
-          {isEditPermissionAvailable ? (
-            <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
-              <Link
-                to={`/editassign-business-sub-categories/${row?.id}`}
-                className="btn btn-primary btn-sm rounded-11 me-2"
-              >
-                <i>
-                  <svg
-                    className="table-edit"
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    width="16"
-                  >
-                    <path d="M0 0h24v24H0V0z" fill="none" />
-                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM5.92 19H5v-.92l9.06-9.06.92.92L5.92 19zM20.71 5.63l-2.34-2.34c-.2-.2-.45-.29-.71-.29s-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41z" />
-                  </svg>
-                </i>
-              </Link>
-            </OverlayTrigger>
-          ) : null}
+  
           {isDeletePermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
@@ -274,7 +236,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
         <div className="page-header d-flex">
           <div>
             <h1 className="page-title">
-              Assign Business Sub Categories ({siteName})
+             Hide Business Categories ({siteName})
             </h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -295,7 +257,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Assign Business Sub Categories
+               Hide Business Categories
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -303,11 +265,11 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
             <div className="input-group">
               {isAddPermissionAvailable ? (
                 <Link
-                  to={`/addassign-business-sub-categories/${siteName}/${id}`}
+                  to={`/addhide-business-categories/${siteName}/${id}`}
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Assign Business Sub Categories <AddCircleOutlineIcon />
+                  Add Hide Business Categories <AddCircleOutlineIcon />
                 </Link>
               ) : (
                 ""
@@ -320,7 +282,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
           <Col lg={12} md={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Assign Business Sub Categories </h3>
+                <h3 className="card-title">Hide Business Categories </h3>
               </Card.Header>
               <Card.Body>
                 {data?.length > 0 ? (

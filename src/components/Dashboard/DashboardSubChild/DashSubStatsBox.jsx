@@ -200,7 +200,21 @@ const DashSubStatsBox = (props) => {
                             <>
                               <h4 className="mb-2 number-font">
                                 {" "}
-                                {singleSiteGrossMargin?.gross_margin} ppl
+                                {singleSiteGrossMargin?.gross_margin} ppl {""}{singleSiteGrossMargin?.is_ppl == 1 ? (
+                                  <OverlayTrigger
+                                    placement="top"
+                                    overlay={
+                                      <Tooltip>{`${singleSiteGrossMargin?.ppl_msg}%`}</Tooltip>
+                                    }
+                                  >
+                                    <i
+                                      class="fa fa-info-circle"
+                                      aria-hidden="true"
+                                    ></i>
+                                  </OverlayTrigger>
+                                ) : (
+                                  ""
+                                )}
                               </h4>
                               <OverlayTrigger
                                 placement="top"

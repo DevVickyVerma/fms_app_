@@ -385,6 +385,20 @@ const EditAssignbusiness = React.lazy(() =>
   )
 );
 
+const HideBusinessCategories = React.lazy(() =>
+  import("./components/pages/HideBusinessCategories/HideBusinessCategories")
+);
+const AddHideBusinessCategories = React.lazy(() =>
+  import(
+    "./components/pages/HideBusinessCategories/AddHideBusinessCategories"
+  )
+);
+const EditAddHideBusinessCategories = React.lazy(() =>
+  import(
+    "./components/pages/HideBusinessCategories/EditHideBusinessCategories"
+  )
+);
+
 const Tolerances = React.lazy(() =>
   import("./components/pages/SiteSetting/Tolerances")
 );
@@ -603,6 +617,9 @@ const Root = () => {
   const Wrappedassignbusiness = withApi(Assignbusiness);
   const WrappedAddAssignbusiness = withApi(AddAssignbusiness);
   const WrappedEditAssignbusiness = withApi(EditAssignbusiness);
+  const WrappedHideBusinessCategories = withApi(HideBusinessCategories);
+  const WrappedAddHideBusinessCategoriess = withApi(AddHideBusinessCategories);
+  const WrappedEditAddHideBusinessCategories = withApi(EditAddHideBusinessCategories);
   const WrappedTolerances = withApi(Tolerances);
 
   const WrappedManageSitePump = withApi(ManageSitePump);
@@ -751,6 +768,18 @@ const Root = () => {
                   <Route
                     path={`/editassign-business-sub-categories/:id`}
                     element={<WrappedEditAssignbusiness />}
+                  />
+                  <Route
+                    path={`/hide-business-categories/:id`}
+                    element={<WrappedHideBusinessCategories />}
+                  />
+                  <Route
+                    path={`/addhide-business-categories/:siteName/:id`}
+                    element={<WrappedAddHideBusinessCategoriess />}
+                  />
+                  <Route
+                    path={`/edithide-business-categories/:id`}
+                    element={<WrappedEditAddHideBusinessCategories />}
                   />
 
                   <Route path={`/sites`} element={<Managesite />} />

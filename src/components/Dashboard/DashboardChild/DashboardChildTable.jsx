@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Col, Row } from "react-bootstrap";
+import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
@@ -249,7 +249,21 @@ const DashboardChildTable = (props) => {
                   <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                       <h6 className="mb-0 fs-14 fw-semibold">
-                        {item?.gross_margin?.gross_margin} ppl
+                        {item?.gross_margin?.gross_margin} ppl{""}  {item?.gross_margin?.is_ppl == 1 ? (
+                                  <OverlayTrigger
+                                    placement="top"
+                                    overlay={
+                                      <Tooltip>{`${item?.gross_margin?.ppl_msg}%`}</Tooltip>
+                                    }
+                                  >
+                                    <i
+                                      class="fa fa-info-circle"
+                                      aria-hidden="true"
+                                    ></i>
+                                  </OverlayTrigger>
+                                ) : (
+                                  ""
+                                )}
                       </h6>
                       <p
                         className={`me-1 ${item?.gross_margin?.status === "up"
@@ -596,7 +610,7 @@ const DashboardChildTable = (props) => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <b>{UserPermissions?.d_label}</b>
+            <b>Site Stats</b>
             </Card.Header>
             <Card.Body>
               {data ? (
