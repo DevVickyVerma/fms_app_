@@ -388,7 +388,7 @@ const ManageSite = (props) => {
                   Actions
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="dropdown-menu" style={{ margin: "0px !important", padding: "0px !important" }}>
-                  {isAssignbusinessPermissionAvailable ? (
+                  {/* {isAssignbusinessPermissionAvailable ? (
                     <Dropdown.Item
                       //  className="dropdown-item"
                       className=" p-0 m-0"
@@ -402,7 +402,7 @@ const ManageSite = (props) => {
                         </div>
                       </Link>
                     </Dropdown.Item>
-                  ) : null}
+                  ) : null} */}
                   {issitesettingPermissionAvailable ? (
                     <Dropdown.Item
                       //  className="dropdown-item"
