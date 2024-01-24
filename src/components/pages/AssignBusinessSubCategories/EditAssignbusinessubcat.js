@@ -48,7 +48,6 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
   useEffect(() => {
     FetchSubCategoryList();
     FetchCategoryList();
-  
   }, []);
 
   const navigate = useNavigate();
@@ -59,7 +58,6 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
     try {
       const response = await getData(`assignsubcategory/detail/${id}`);
       if (response && response.data) {
-      
         setSiteName(response?.data?.data?.site_name);
         formik.setFieldValue(
           "business_sub_category_id",
@@ -159,11 +157,9 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
                 className="breadcrumb-item  breadcrumds"
                 aria-current="page"
                 linkAs={Link}
-                linkProps={{
-                  to: `/opening-balance/${formik?.values?.site_id}`,
-                }}
+                linkProps={{ to: `/assign-business-sub-categories/${id}` }}
               >
-                Manage Opening Balance
+                Assign Business Sub Categories
               </Breadcrumb.Item>
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"

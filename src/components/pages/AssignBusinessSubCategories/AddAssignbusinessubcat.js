@@ -119,9 +119,9 @@ const AddOpeningBalance = ({ isLoading, postData, getData }) => {
                 className="breadcrumb-item  breadcrumds"
                 aria-current="page"
                 linkAs={Link}
-                linkProps={{ to: `/bunkering-balance/${id}` }}
+                linkProps={{ to: `/assign-business-sub-categories/${id}` }}
               >
-                Manage Bunkering Balance
+               Assign Business Sub Categories
               </Breadcrumb.Item>
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"

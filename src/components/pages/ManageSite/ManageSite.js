@@ -464,7 +464,7 @@ const ManageSite = (props) => {
                       </Link>
                     </Dropdown.Item>
                   ) : null}
-                  {/* {isAssignbusinessPermissionAvailable ? (
+                  {isAssignbusinessPermissionAvailable ? (
                     <Dropdown.Item
                       //  className="dropdown-item"
                       className=" p-0 m-0"
@@ -493,7 +493,7 @@ const ManageSite = (props) => {
                         </div>
                       </Link>
                     </Dropdown.Item>
-                  ) : null} */}
+                  ) : null}
                   {isEditPermissionAvailable ? (
                     <Dropdown.Item
                       className=" p-0 m-0"
