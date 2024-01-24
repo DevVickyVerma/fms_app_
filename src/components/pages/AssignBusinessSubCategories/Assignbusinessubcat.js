@@ -20,7 +20,7 @@ import axios from "axios";
 import { ErrorAlert } from "../../../Utils/ToastUtils";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
-const OpeningBalance = ({ isLoading, getData }) => {
+const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
   const [data, setData] = useState();
   const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -65,41 +65,23 @@ const OpeningBalance = ({ isLoading, getData }) => {
       reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        const token = localStorage.getItem("token");
-
         const formData = new FormData();
         formData.append("id", id);
 
-        const axiosInstance = axios.create({
-          baseURL: process.env.REACT_APP_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-        const DeleteRole = async () => {
-          try {
-            const response = await axiosInstance.post(
-              "site/opening-balance/delete",
-              formData
-            );
-            setData(response.data.data);
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your item has been deleted.",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-            fetchOpeningBalanceList();
-          } catch (error) {
-            handleError(error);
-          } finally {
-          }
-          // setIsLoading(false);
-        };
-        DeleteRole();
+        Deleteassignsubcategory(formData);
       }
     });
+  };
+  const Deleteassignsubcategory = async (formData) => {
+    try {
+      const response = await postData("/assignsubcategory/delete", formData);
+      // Console log the response
+      if (apidata.api_response === "success") {
+        fetchOpeningBalanceList()
+      }
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   function handleError(error) {
@@ -120,7 +102,9 @@ const OpeningBalance = ({ isLoading, getData }) => {
   const fetchOpeningBalanceList = async () => {
     try {
       const response = await getData(
-        `/assignsubcategory/list?site_id=${id}&page=${currentPage?currentPage:1}`
+        `/assignsubcategory/list?site_id=${id}&page=${
+          currentPage ? currentPage : 1
+        }`
       );
       if (response && response.data) {
         setData(response?.data?.data?.categoires);
@@ -169,8 +153,6 @@ const OpeningBalance = ({ isLoading, getData }) => {
       ),
     },
 
-
-
     {
       name: "Sub Category Name",
       selector: (row) => [row?.sub_category_name],
@@ -191,8 +173,6 @@ const OpeningBalance = ({ isLoading, getData }) => {
       ),
     },
 
-
-
     {
       name: "Action",
       selector: (row) => [row?.action],
@@ -203,7 +183,7 @@ const OpeningBalance = ({ isLoading, getData }) => {
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
-                to={`/edit-opening-balance/${row?.id}`}
+                to={`/editassign-business-sub-categories/${row?.id}`}
                 className="btn btn-primary btn-sm rounded-11 me-2"
               >
                 <i>

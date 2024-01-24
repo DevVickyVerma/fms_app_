@@ -379,6 +379,11 @@ const AddAssignbusiness = React.lazy(() =>
     "./components/pages/AssignBusinessSubCategories/AddAssignbusinessubcat"
   )
 );
+const EditAssignbusiness = React.lazy(() =>
+  import(
+    "./components/pages/AssignBusinessSubCategories/EditAssignbusinessubcat"
+  )
+);
 
 const Tolerances = React.lazy(() =>
   import("./components/pages/SiteSetting/Tolerances")
@@ -597,6 +602,7 @@ const Root = () => {
   const WrappedSiteSettings = withApi(SiteSettings);
   const Wrappedassignbusiness = withApi(Assignbusiness);
   const WrappedAddAssignbusiness = withApi(AddAssignbusiness);
+  const WrappedEditAssignbusiness = withApi(EditAssignbusiness);
   const WrappedTolerances = withApi(Tolerances);
 
   const WrappedManageSitePump = withApi(ManageSitePump);
@@ -741,6 +747,10 @@ const Root = () => {
                   <Route
                     path={`/addassign-business-sub-categories/:siteName/:id`}
                     element={<WrappedAddAssignbusiness />}
+                  />
+                  <Route
+                    path={`/editassign-business-sub-categories/:id`}
+                    element={<WrappedEditAssignbusiness />}
                   />
 
                   <Route path={`/sites`} element={<Managesite />} />
