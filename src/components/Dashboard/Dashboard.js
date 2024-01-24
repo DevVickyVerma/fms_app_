@@ -29,9 +29,11 @@ const Dashboard = (props) => {
   const [reducerState, reducerDispatch] = useReducer(reducer, initialState);
   const [IDsToLocal, setIDsToLocal] = useState()
   const [myclientID, setMyClientID] = useState(localStorage.getItem("superiorId"));
-  const [myLocalSearchData, setmyLocalSearchData] = useState(localStorage.getItem(localStorage.getItem("mySearchData")
-    ? JSON.parse(localStorage.getItem("mySearchData"))
-    : ""));
+  const [myLocalSearchData, setmyLocalSearchData] = useState(
+    localStorage.getItem("mySearchData")
+      ? JSON.parse(localStorage.getItem("mySearchData"))
+      : ""
+  );
 
 
 
@@ -62,6 +64,16 @@ const Dashboard = (props) => {
 
   const superiorRole = localStorage.getItem("superiorRole");
   const role = localStorage.getItem("role");
+
+  useEffect(() => {
+
+    if (myLocalSearchData) {
+      handleFormSubmit(myLocalSearchData);
+    }
+    //  console.clear();
+  }, [myLocalSearchData, myclientID]);
+
+
   const handleFetchSiteData = async () => {
     try {
       let clientId = localStorage.getItem("superiorId");
@@ -185,7 +197,7 @@ const Dashboard = (props) => {
         // Handle token update logic without page reload
       }
     }
-    console.clear();
+    //  console.clear();
   }, [Client_login]);
 
   const handleToggleSidebar1 = () => {
@@ -193,6 +205,9 @@ const Dashboard = (props) => {
     setSidebarVisible1(!sidebarVisible1);
     setCenterFilterModalOpen(!centerFilterModalOpen);
   };
+
+
+
 
   const handleFormSubmit = async (values) => {
     setSearchdata(values);
@@ -298,7 +313,7 @@ const Dashboard = (props) => {
       setPermissionsArray(UserPermissions?.permissions);
     }
     navigate(UserPermissions?.route);
-    console.clear();
+    //  console.clear();
 
   }, [UserPermissions, permissionsArray]);
   const isStatusPermissionAvailable =
@@ -311,17 +326,13 @@ const Dashboard = (props) => {
         handleFetchSiteData();
       }
     }
-    console.clear();
+    //  console.clear();
   }, [permissionsArray, myclientID]);
 
 
-  useEffect(() => {
 
-    if (myLocalSearchData) {
-      handleFormSubmit(myLocalSearchData);
-    }
-    console.clear();
-  }, [myclientID]);
+
+
 
   const isProfileUpdatePermissionAvailable = permissionsArray?.includes(
     "profile-update-profile"
