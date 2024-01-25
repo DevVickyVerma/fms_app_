@@ -392,7 +392,6 @@ const ManageDsr = (props) => {
     setUploadTabname(item);
     setModalTitle(item.name); // Set the modalTitle state to the itemName
     setShowModal(true); // Toggle the value of showModal
-    // Show or hide the modal based on the new value of showModal
     handleShowModal();
   };
 

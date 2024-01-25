@@ -142,7 +142,7 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
           <div>
             <h1 className="page-title">
               {" "}
-              Edit Assign Business Sub Categories ({siteName})
+              Edit Assigned Business Sub Categories ({siteName})
             </h1>
 
             <Breadcrumb className="breadcrumb">
@@ -154,18 +154,25 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
                 Dashboard
               </Breadcrumb.Item>
               <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/sites" }}
+              >
+                Sites
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
                 className="breadcrumb-item  breadcrumds"
                 aria-current="page"
                 linkAs={Link}
-                linkProps={{ to: `/assign-business-sub-categories/${id}` }}
+                linkProps={{ to: `/assign-business-sub-categories/${formik.values.site_id}` }}
               >
-                Assign Business Sub Categories
+                 Manage Assigned Business Sub Categories
               </Breadcrumb.Item>
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Edit Assign Business Sub Categories
+                Edit Assigned Business Sub Categories
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -177,7 +184,7 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
               <Card.Header>
                 <Card.Title as="h3">
                   {" "}
-                  Edit Assign Business Sub Categories
+                  Edit Assigned Business Sub Categories
                 </Card.Title>
               </Card.Header>
               <form onSubmit={formik.handleSubmit}>

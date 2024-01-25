@@ -104,7 +104,7 @@ const AddOpeningBalance = ({ isLoading, postData, getData }) => {
         <div className="page-header">
           <div>
             <h1 className="page-title">
-              Add Assign Business Sub Categories ({siteName})
+               Assign Business Sub Categories ({siteName})
             </h1>
 
             <Breadcrumb className="breadcrumb">
@@ -116,18 +116,25 @@ const AddOpeningBalance = ({ isLoading, postData, getData }) => {
                 Dashboard
               </Breadcrumb.Item>
               <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/sites" }}
+              >
+                Sites
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
                 className="breadcrumb-item  breadcrumds"
                 aria-current="page"
                 linkAs={Link}
                 linkProps={{ to: `/assign-business-sub-categories/${id}` }}
               >
-               Assign Business Sub Categories
+                Manage Assigned Business Sub Categories
               </Breadcrumb.Item>
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Add Assign Business Sub Categories
+                 Assign Business Sub Categories
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -138,7 +145,7 @@ const AddOpeningBalance = ({ isLoading, postData, getData }) => {
             <Card>
               <Card.Header>
                 <Card.Title as="h3">
-                  Add Assign Business Sub Categories
+                   Assign Business Sub Categories
                 </Card.Title>
               </Card.Header>
               <form onSubmit={formik.handleSubmit}>
@@ -228,7 +235,7 @@ const AddOpeningBalance = ({ isLoading, postData, getData }) => {
                     Cancel
                   </Link>
                   <button type="submit" className="btn btn-primary me-2 ">
-                    Add Assign Business Sub Categories
+                     Assign Business Sub Categories
                   </button>
                 </Card.Footer>
               </form>

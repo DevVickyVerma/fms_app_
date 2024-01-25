@@ -274,7 +274,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
         <div className="page-header d-flex">
           <div>
             <h1 className="page-title">
-              Assign Business Sub Categories ({siteName})
+            Manage Assigned Business Sub Categories ({siteName})
             </h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -295,7 +295,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Assign Business Sub Categories
+               Manage Assigned Business Sub Categories
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -307,7 +307,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Assign Business Sub Categories <AddCircleOutlineIcon />
+                   Assign Business Sub Categories <AddCircleOutlineIcon />
                 </Link>
               ) : (
                 ""
@@ -320,7 +320,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
           <Col lg={12} md={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Assign Business Sub Categories </h3>
+                <h3 className="card-title"> Manage Assigned Business Sub Categories </h3>
               </Card.Header>
               <Card.Body>
                 {data?.length > 0 ? (

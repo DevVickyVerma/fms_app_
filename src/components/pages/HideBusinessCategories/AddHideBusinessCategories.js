@@ -86,7 +86,7 @@ const AddOpeningBalance = ({ isLoading, postData, getData }) => {
         <div className="page-header">
           <div>
             <h1 className="page-title">
-              Add Hide Business Categories ({siteName})
+               Hide Business Categories ({siteName})
             </h1>
 
             <Breadcrumb className="breadcrumb">
@@ -98,18 +98,25 @@ const AddOpeningBalance = ({ isLoading, postData, getData }) => {
                 Dashboard
               </Breadcrumb.Item>
               <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/sites" }}
+              >
+                Sites
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
                 className="breadcrumb-item  breadcrumds"
                 aria-current="page"
                 linkAs={Link}
-                linkProps={{ to: `/hide-business-categories/${id}` }}
+                linkProps={{ to: `/hide-business-categories/${formik.values.site_id}` }}
               >
-              Hide Business Categories
+              Manage Hide Business Categories
               </Breadcrumb.Item>
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                Add Hide Business Categories
+                 Hide Business Categories
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -119,7 +126,7 @@ const AddOpeningBalance = ({ isLoading, postData, getData }) => {
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Header>
-                <Card.Title as="h3">Add Hide Business Categories</Card.Title>
+                <Card.Title as="h3"> Hide Business Categories</Card.Title>
               </Card.Header>
               <form onSubmit={formik.handleSubmit}>
                 <Card.Body>
@@ -175,7 +182,7 @@ const AddOpeningBalance = ({ isLoading, postData, getData }) => {
                     Cancel
                   </Link>
                   <button type="submit" className="btn btn-primary me-2 ">
-                    Add Hide Business Categories
+                  Hide Business Categories
                   </button>
                 </Card.Footer>
               </form>

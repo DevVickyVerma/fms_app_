@@ -236,7 +236,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
         <div className="page-header d-flex">
           <div>
             <h1 className="page-title">
-             Hide Business Categories ({siteName})
+            Manage  Hide Business Categories ({siteName})
             </h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -257,7 +257,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-               Hide Business Categories
+             Manage Hide Business Categories
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -269,7 +269,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Hide Business Categories <AddCircleOutlineIcon />
+                  Hide Business Categories <AddCircleOutlineIcon />
                 </Link>
               ) : (
                 ""
@@ -282,7 +282,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
           <Col lg={12} md={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Hide Business Categories </h3>
+                <h3 className="card-title">Manage Hide Business Categories </h3>
               </Card.Header>
               <Card.Body>
                 {data?.length > 0 ? (

@@ -156,6 +156,13 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
                 Dashboard
               </Breadcrumb.Item>
               <Breadcrumb.Item
+                className="breadcrumb-item"
+                linkAs={Link}
+                linkProps={{ to: "/sites" }}
+              >
+                Sites
+              </Breadcrumb.Item>
+              <Breadcrumb.Item
                 className="breadcrumb-item  breadcrumds"
                 aria-current="page"
                 linkAs={Link}
