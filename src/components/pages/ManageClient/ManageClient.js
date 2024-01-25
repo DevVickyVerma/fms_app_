@@ -229,6 +229,7 @@ const ManageClient = (props) => {
         localStorage.removeItem("passData");
         localStorage.removeItem("mySearchData");
         localStorage.removeItem("savedDataOfDashboard");
+        window.location.reload();
       } else {
         throw new Error("No data available in the response");
       }
@@ -412,7 +413,7 @@ const ManageClient = (props) => {
                       </Link>
                     </Dropdown.Item>
                   ) : null}
-                  { permissionsArray?.includes("payroll-setup") ? (
+                  {permissionsArray?.includes("payroll-setup") ? (
                     <Dropdown.Item className="dropdown-item">
                       <Link to={`/setup-payroll/${row.id}`}>
                         <div style={{ width: "100%" }}>

@@ -28,6 +28,8 @@ const CenterFilterModal = (props) => {
 
 
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
+  const [myclientID, setMyClientID] = useState(localStorage.getItem("superiorId"));
+  const [myClientRole, setMyClientRole] = useState(localStorage.getItem("superiorRole"));
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const [selectedClientId, setSelectedClientId] = useState("");
@@ -144,16 +146,16 @@ const CenterFilterModal = (props) => {
   useEffect(() => {
     const clientId = localStorage.getItem("superiorId");
 
-    if (localStorage.getItem("superiorRole") !== "Client") {
+    if (myClientRole !== "Client") {
       fetchCommonListData()
     } else {
       setTimeout(() => {
-        GetCompanyList(localStorage.getItem("superiorId"))
-        setSelectedClientId(localStorage.getItem("superiorId"));
+        GetCompanyList(myclientID)
+        setSelectedClientId(myclientID);
       }, 500);
     }
     console.clear()
-  }, []);
+  }, [myclientID, myClientRole]);
 
 
 
