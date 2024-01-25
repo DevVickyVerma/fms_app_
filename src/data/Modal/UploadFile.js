@@ -65,6 +65,8 @@ export function FormModal(props) {
         uploadEndpoint = "/drs/htech-upload";
       } else if (props.PropsType === "PRISM") {
         uploadEndpoint = "/drs/prism-upload";
+      } else if (props.PropsType === "EDGEPoS") {
+        uploadEndpoint = "/drs/edgepos-upload";
       } else {
       }
 

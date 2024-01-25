@@ -392,6 +392,7 @@ const ManageDsr = (props) => {
     setUploadTabname(item);
     setModalTitle(item.name); // Set the modalTitle state to the itemName
     setShowModal(true); // Toggle the value of showModal
+
     handleShowModal();
   };
 
@@ -633,7 +634,7 @@ const ManageDsr = (props) => {
           </Col>
         </Row>
 
-        {Uploadtitle?.b_mdl === "PRISM" || Uploadtitle?.b_mdl === "HTECH" ? (
+        {Uploadtitle?.b_mdl === "PRISM" || Uploadtitle?.b_mdl === "HTECH" || Uploadtitle?.b_mdl === "EDGEPoS" ? (
           <Row>
             <Col md={12} xl={12}>
               <Card >
@@ -645,7 +646,7 @@ const ManageDsr = (props) => {
                 <Card.Body>
                   <Row>
                     {Uploadtitle?.b_mdl === "PRISM" ||
-                    Uploadtitle?.b_mdl === "HTECH" ? (
+                    Uploadtitle?.b_mdl === "HTECH" || Uploadtitle?.b_mdl === "EDGEPoS" ? (
                       UploadList && UploadList.length > 0 ? (
                         UploadList.map((item) => (
                           <Col md={12} xl={3} key={item.id}>
