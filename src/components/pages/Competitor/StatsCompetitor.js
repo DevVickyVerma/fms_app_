@@ -26,7 +26,7 @@ const StatsCompetitor = ({ isLoading, getData }) => {
     const [commonListLoading, setCommonListLoading] = useState(false);
     const [selectedClientId, setSelectedClientId] = useState("");
     const [selectedCompanyId, setSelectedCompanyId] = useState("");
-    const [selectedSiteId, setSelectedSiteId] = useState("");
+
     const [ClientList, setClientList] = useState([]);
     const [CompanyList, setCompanyList] = useState([]);
     const [SiteList, setSiteList] = useState([]);

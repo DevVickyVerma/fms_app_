@@ -1488,3 +1488,10 @@ li.ms-2.disabled-checkbox {
   background: #ddd;
   margin-bottom: 3px;
 }
+.PetrolPrices-img img {
+  width: 16px;
+  height: 100%;
+  display: flex;
+  justify-content: end;
+  margin-left: 12px;
+}

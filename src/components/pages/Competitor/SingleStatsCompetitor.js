@@ -531,13 +531,11 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                                 ) : (
                                   <>
                                     <span
-                                      className=""
+                                      className="PetrolPrices-img"
                                       style={{
                                         width: "25px",
                                         height: "25px",
-                                        border: "1px solid black",
-                                        borderRadius: "50%",
-                                        background: "white",
+                                        fontSize: "20px",
                                         cursor: "pointer",
                                         marginLeft: "10px",
                                       }}
@@ -552,16 +550,16 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                                               justifyContent: "flex-start",
                                             }}
                                           >
-                                            Experian Email
+                                            PetrolPrices
                                           </Tooltip>
                                         }
                                       >
                                         <img
                                           alt=""
-                                          src={require("../../../assets/images/SingleStatsCompetitor/xpiera-logo.png")}
+                                          src={require("../../../assets/images/SingleStatsCompetitor/PetrolPrices-Icon-512px (2).png")}
                                           className=""
                                           style={{
-                                            // width: "px"
+                                           
                                             objectFit: "contain",
                                           }}
                                         />
