@@ -18,7 +18,7 @@ const DashBoardChild = (props) => {
   const [SearchList, setSearchList] = useState(false);
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
   const [reducerState, reducerDispatch] = useReducer(reducer, initialState);
-  const { shop_margin, shop_sale, fuel_value, gross_profit_value, gross_volume, gross_margin_value } = reducerState;
+  const { shop_margin, shop_sale, fuel_value, gross_profit_value, gross_volume, gross_margin_value,dashboard_dates } = reducerState;
 
 
   const navigate = useNavigate();
@@ -68,11 +68,6 @@ const DashBoardChild = (props) => {
       (values.client_id !== undefined && values.client_id !== "")
         ? values.client_id
         : localStorage.getItem("superiorId");
-
-    // const companyId =
-    //   values.company_id !== undefined
-    //     ? values.company_id
-    //     : localStorage.getItem("PresetCompanyID") ? localStorage.getItem("PresetCompanyID") : "";
     const companyId =
       values.company_id !== undefined && values.company_id !== null
         ? values.company_id
@@ -88,6 +83,7 @@ const DashBoardChild = (props) => {
 
       const { data } = response;
       if (data) {
+ 
         reducerDispatch({
           type: "UPDATE_DATA",
           payload: {
@@ -102,6 +98,7 @@ const DashBoardChild = (props) => {
             fuel_value: data?.data?.fuel_sales,
             shop_sale: data?.data?.shop_sales,
             shop_margin: data?.data?.shop_profit,
+            dashboard_dates: data?.data?.dateString,
           }
         });
       }
@@ -143,7 +140,7 @@ const DashBoardChild = (props) => {
           <Box alignSelf={["center", "flex-start"]}
             mt={["0px", "33px"]}>
             <h1 className="page-title  dashboard-page-title">
-              Dashboard Details ({UserPermissions?.dates})
+              Dashboard Details   ({dashboard_dates ? dashboard_dates : UserPermissions?.dates})
             </h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item

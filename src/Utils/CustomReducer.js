@@ -11,6 +11,7 @@ export const initialState = {
     fuel_value: null,
     shop_sale: null,
     shop_margin: null,
+    dashboard_dates: null,
 };
 
 export const reducer = (state, action) => {
