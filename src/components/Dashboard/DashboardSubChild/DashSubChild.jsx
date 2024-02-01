@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomModal from "../../../data/Modal/DashboardSiteDetails";
 import { BsCalendarWeek } from "react-icons/bs";
 import {
@@ -10,7 +10,14 @@ import {
   LinearScale,
   PointElement,
 } from "chart.js";
-import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { BsFillFuelPumpFill } from "react-icons/bs";
 import moment from "moment/moment";
 import StackedLineBarChart from "../StackedLineBarChart";
@@ -22,11 +29,17 @@ import { Link } from "react-router-dom";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
-const DashSubChild = ({
-  getSiteStats,
-  setGetSiteStats,
-  getSiteDetails,
-}) => {
+const DashSubChild = ({ getSiteStats, setGetSiteStats, getSiteDetails }) => {
+  const [showLoader, setShowLoader] = useState(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowLoader(false);
+    }, 2000);
+
+    return () => clearTimeout(timeout);
+  }, []); // Empty dependency array ensures the effect runs only once on mount
+
   const dateStr = getSiteDetails?.last_fuel_delivery_stats?.last_day
     ? getSiteDetails.last_fuel_delivery_stats.last_day
     : "";
@@ -63,7 +76,8 @@ const DashSubChild = ({
           <h1 className="page-title">
             {getSiteStats?.data?.site_name
               ? getSiteStats?.data?.site_name
-              : "DashBoard Site details"}
+              : "DashBoard Site details"}{" "}
+            ({getSiteStats?.data?.dateString})
           </h1>
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item
@@ -89,6 +103,51 @@ const DashSubChild = ({
                 : "DashBoard Site details"}
             </Breadcrumb.Item>
           </Breadcrumb>
+        </div>
+        <div className="Show-title" >
+          <span>
+            {" "}
+            <OverlayTrigger
+              placement="top"
+              overlay={
+                <Tooltip
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  {" "}
+                  Opening Time :{" "}
+                  {" "}{getSiteStats?.data?.opening ? (
+                    moment(getSiteStats?.data?.opening).format("Do MMM, HH:mm")
+                  ) : (
+                    <span class="Smallloader"></span>
+                  )}
+                  <br />
+                  Closing Time :{" "}
+                  {" "}{getSiteStats?.data?.closing ? (
+                    moment(getSiteStats?.data?.closing).format("Do MMM, HH:mm")
+                  ) : (
+                    <span class="Smallloader"></span>
+                  )}
+                  <br />
+                </Tooltip>
+              }
+            >
+              <h1 className="page-title" style={{fontSize:"15px",fontWeight:"400"}}>
+                Last Day End :{" "}
+                {getSiteStats?.data?.last_dayend ? (
+                  moment(getSiteStats?.data?.last_dayend).format("Do MMM")
+                ) : (
+                  <span class="Smallloader"></span>
+                )}{" "}
+                <i class="fa fa-info-circle" aria-hidden="true">
+                  {" "}
+                </i>
+              </h1>
+            </OverlayTrigger>
+          </span>
         </div>
       </div>
 
@@ -192,11 +251,9 @@ const DashSubChild = ({
                   ml={"7px"}
                   variant="body1"
                 >
-                  {getSiteStats?.data?.site_name ? (
-                    getSiteStats?.data?.site_name
-                  ) : (
-                    ""
-                  )}
+                  {getSiteStats?.data?.site_name
+                    ? getSiteStats?.data?.site_name
+                    : ""}
                 </Typography>
               </Box>
             </Box>
@@ -282,7 +339,7 @@ const DashSubChild = ({
               </Box>
 
               {/* last day end competitor */}
-              <Box
+              {/* <Box
                 display={"flex"}
                 flexDirection={"column"}
                 bgcolor={"#ecf0f1"}
@@ -296,8 +353,7 @@ const DashSubChild = ({
                   px={"13px"}
                 >
                   <Typography fontSize={"14px"}>
-                    Last Day End : { }
-                    {/* {formattedMonthForHeading} */}
+                    Last Day End : {}
                     {getSiteStats?.data?.last_dayend ? (
                       moment(getSiteStats?.data?.last_dayend).format("Do MMM")
                     ) : (
@@ -317,7 +373,6 @@ const DashSubChild = ({
                 </Box>
 
                 <Box display={"flex"}>
-                  {/* Calendar Date With Updated OPening Time*/}
                   <Box>
                     <Typography
                       height={"48px"}
@@ -354,7 +409,7 @@ const DashSubChild = ({
                       </Typography>
                     </Typography>
                   </Box>
-                  {/* Calendar Date With Updated Closing Time */}
+
                   <Box>
                     <Typography
                       height={"48px"}
@@ -392,7 +447,7 @@ const DashSubChild = ({
                     </Typography>
                   </Box>
                 </Box>
-              </Box>
+              </Box> */}
             </Box>
           </Box>
         </>
@@ -434,11 +489,11 @@ const DashSubChild = ({
               >
                 <strong style={{ fontWeight: 700 }}>
                   {" "}
-                  {moment(MonthLastDelivery, "MMM").isValid() ? (
-                    MonthLastDelivery
-                  ) : (
-                    ""  // <span class="Smallloader"></span>
-                  )}
+                  {
+                    moment(MonthLastDelivery, "MMM").isValid()
+                      ? MonthLastDelivery
+                      : "" // <span class="Smallloader"></span>
+                  }
                 </strong>
                 <Typography
                   height={"27px"}
@@ -454,11 +509,8 @@ const DashSubChild = ({
                   justifyContent={"center"}
                   alignItems={"center"}
                 >
-                  {moment(day, "DD").isValid() ? (
-                    day
-                  ) : (
-                    <span class="Smallloader"></span>
-                  )}
+                  {showLoader && <span className="Smallloader"></span>}
+                  {!showLoader && moment(day, "DD").isValid() && day}
                 </Typography>
               </Typography>
               <Box variant="body1">
@@ -504,13 +556,14 @@ const DashSubChild = ({
         </Box>
 
         {/* Grads Section */}
-        <DashSubChildGrads
-          getSiteStats={getSiteStats}
-        />
+        <DashSubChildGrads getSiteStats={getSiteStats} />
       </div>
 
       {/* new Shop sale */}
-      <DashSubChildShopSale getSiteDetails={getSiteDetails} getSiteStats={getSiteStats} />
+      <DashSubChildShopSale
+        getSiteDetails={getSiteDetails}
+        getSiteStats={getSiteStats}
+      />
 
       {/* tank analysis */}
       <Row
@@ -583,10 +636,7 @@ const DashSubChild = ({
         </Col>
       </Row>
 
-      <Row>
-
-      </Row>
-
+      <Row></Row>
 
       <Row
         style={{

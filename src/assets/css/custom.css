@@ -1495,3 +1495,8 @@ li.ms-2.disabled-checkbox {
   justify-content: end;
   margin-left: 12px;
 }
+.tooltip-inner {
+  text-align: left !important;
+  max-width: 500px !important;
+  /* background-color: var(--primary-bg-color); */
+}
