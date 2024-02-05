@@ -239,7 +239,7 @@ const ManageSite = (props) => {
       center: true,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
-          {index + 1}
+          {row?.sr_no}
         </span>
       ),
     },
