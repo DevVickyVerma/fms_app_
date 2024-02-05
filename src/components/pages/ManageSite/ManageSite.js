@@ -2,7 +2,6 @@ import React, { Suspense, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import {
   Breadcrumb,
   Card,
@@ -15,8 +14,6 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
-
-import { toast } from "react-toastify";
 import CommonSidebar from "../../../data/Modal/CommonSidebar";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
@@ -31,7 +28,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CenterSearchmodal from "../../../data/Modal/CenterSearchmodal";
 import { Box } from "@mui/material";
 import DateRangeIcon from "@mui/icons-material/DateRange";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 const ManageSite = (props) => {
   const { apidata, isLoading, getData, postData } = props;
@@ -45,6 +42,7 @@ const ManageSite = (props) => {
   const [SearchList, setSearchList] = useState(false);
   const [sidebardataobject, setSideDataobject] = useState();
 
+  const [searchQuery, setSearchQuery] = useState('');
   const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMorePage, setHasMorePages] = useState("");
@@ -57,20 +55,6 @@ const ManageSite = (props) => {
   };
 
 
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
   const handleToggleSidebar = async (row) => {
     await getSiteDetails(row);
@@ -172,10 +156,11 @@ const ManageSite = (props) => {
 
   const FetchTableData = async () => {
     try {
-      const response = await getData(`/site/list?page=${currentPage}`);
+      const response = await getData(`/site/list?page=${currentPage}&search_keywords=${searchQuery}`);
 
       if (response && response.data && response.data.data.sites) {
         setData(response.data.data.sites);
+        // setSearchQuery("")
         setCount(response.data.data.count);
         setCurrentPage(response?.data?.data?.currentPage || 1);
         setHasMorePages(response?.data?.data?.hasMorePages);
@@ -636,6 +621,31 @@ const ManageSite = (props) => {
     pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
   }
 
+  const handleBlur = () => {
+    FetchTableData();
+  };
+
+  const handleResetSearch = async () => {
+    try {
+      const response = await getData(`site/list?page=${currentPage}&search_keywords=${''}`);
+      if (response && response.data && response.data.data) {
+        setSearchQuery("")
+        setData(response.data.data.sites);
+        setCount(response.data.data.count);
+        setCurrentPage(response?.data?.data?.currentPage);
+        setHasMorePages(response?.data?.data?.hasMorePages);
+        setLastPage(response?.data?.data?.lastPage);
+        setPerPage(response?.data?.data?.perPage);
+        setTotal(response?.data?.data?.total);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      handleError(error)
+      console.error("API error:", error);
+    }
+  }
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -695,10 +705,15 @@ const ManageSite = (props) => {
               ) : (
                 ""
               )}
+
+              <div>
+                {searchQuery ? (
+                  <button className="btn btn-danger btn-sm ms-2" onClick={handleResetSearch}> <RestartAltIcon /></button>
+                ) : null}
+              </div>
             </Box>
 
             <Link
-              // style={{ marginBottom: "7px" }}
               onClick={() => {
                 handleToggleSidebar1();
               }}
@@ -775,24 +790,42 @@ const ManageSite = (props) => {
               <Card.Body style={{ minHeight: "900px" }} >
                 {data?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table" >
-                      <DataTableExtensions {...tableDatas} >
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          // center={true}
-                          persistTableHead
-                          // pagination
-                          // paginationPerPage={20}
-                          highlightOnHover
-                          searchable={false}
-                          style={{ minHeight: "900px" }}
+                    <div className="table-responsive deleted-table">
+
+                      <div className="data-table-extensions">
+                        <input
+                          type="text"
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          onBlur={handleBlur} // Call the API on blur
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              handleBlur();
+                            }
+                          }}
+                          placeholder="Search"
+                          className="data-table-extensions-filter"
+                          style={{
+                            border: "1px solid #eaedf1",
+                            padding: "10px",
+                          }}
                         />
-                      </DataTableExtensions>
+                      </div>
+                      <DataTable
+                        columns={columns}
+                        data={data}
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        striped={true}
+                        center={true}
+                        persistTableHead
+                        highlightOnHover
+                        searchable={false}
+                        subHeader={false}
+
+
+                      />
                     </div>
                   </>
                 ) : (
