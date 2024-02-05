@@ -16,7 +16,7 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
 
   const FetchCategoryList = async () => {
     try {
-      const response = await getData(`business/category`);
+      const response = await getData(`common/category-list`);
 
       if (response && response.data) {
         // setData(response.data.data.roles);

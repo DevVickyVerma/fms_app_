@@ -27,15 +27,16 @@ const Dashboard = (props) => {
   const [justLoggedIn, setJustLoggedIn] = useState(false);
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
   const [reducerState, reducerDispatch] = useReducer(reducer, initialState);
-  const [IDsToLocal, setIDsToLocal] = useState()
-  const [myclientID, setMyClientID] = useState(localStorage.getItem("superiorId"));
+  const [IDsToLocal, setIDsToLocal] = useState();
+
+  const [myclientID, setMyClientID] = useState(
+    localStorage.getItem("superiorId")
+  );
   const [myLocalSearchData, setmyLocalSearchData] = useState(
     localStorage.getItem("mySearchData")
       ? JSON.parse(localStorage.getItem("mySearchData"))
       : ""
   );
-
-
 
   const {
     shop_margin,
@@ -49,6 +50,7 @@ const Dashboard = (props) => {
     stacked_line_bar_data,
     d_line_chart_option,
     d_line_chart_values,
+    dashboard_dates,
   } = reducerState;
 
   const {
@@ -66,13 +68,11 @@ const Dashboard = (props) => {
   const role = localStorage.getItem("role");
 
   useEffect(() => {
-
     if (myLocalSearchData) {
       handleFormSubmit(myLocalSearchData);
     }
     //  console.clear();
   }, [myLocalSearchData, myclientID]);
-
 
   const handleFetchSiteData = async () => {
     try {
@@ -82,45 +82,49 @@ const Dashboard = (props) => {
       const companyId = localStorage.getItem("PresetCompanyID");
       let url = "";
 
-
       if (superiorRole === "Administrator") {
         url = "/dashboard/stats";
       } else if (superiorRole === "Client" && role === "Client") {
         url = `/dashboard/stats?client_id=${clientId == null ? " " : clientId}`;
 
         setIDsToLocal(
-          localStorage.setItem("mySearchData", JSON.stringify({
-            "client_id": clientId,
-            "client_name": "",
-            "company_id": "",
-            "company_name": "",
-            "site_id": "",
-            "site_name": " ",
-          }))
-        )
+          localStorage.setItem(
+            "mySearchData",
+            JSON.stringify({
+              client_id: clientId,
+              client_name: "",
+              company_id: "",
+              company_name: "",
+              site_id: "",
+              site_name: " ",
+            })
+          )
+        );
 
         // Corrected: Use JSON.stringify to convert the object to a JSON string
-
       } else if (superiorRole === "Client" && role === "Operator") {
         url = "/dashboard/stats";
       } else if (superiorRole === "Client" && role !== "Client") {
-        url = `dashboard/stats?client_id=${clientId == null ? "" : clientId}&company_id=${companyId == null ? "" : companyId}`;
+        url = `dashboard/stats?client_id=${
+          clientId == null ? "" : clientId
+        }&company_id=${companyId == null ? "" : companyId}`;
         // Corrected: Use JSON.stringify to convert the object to a JSON string
-        localStorage.setItem("mySearchData", JSON.stringify({
-          "client_id": clientId,
-          "client_name": "",
-          "company_id": localStorage.getItem("PresetCompanyID"),
-          "company_name": "",
-          "site_id": "",
-          "site_name": " ",
-        }));
+        localStorage.setItem(
+          "mySearchData",
+          JSON.stringify({
+            client_id: clientId,
+            client_name: "",
+            company_id: localStorage.getItem("PresetCompanyID"),
+            company_name: "",
+            site_id: "",
+            site_name: " ",
+          })
+        );
       }
       const response = await getData(url);
       const { data } = response;
 
-      setMyClientID(localStorage.getItem("superiorId"))
-
-
+      setMyClientID(localStorage.getItem("superiorId"));
 
       if (data) {
         reducerDispatch({
@@ -137,6 +141,7 @@ const Dashboard = (props) => {
             fuel_value: data?.data?.fuel_sales,
             shop_sale: data?.data?.shop_sales,
             shop_margin: data?.data?.shop_profit,
+            dashboard_dates: data?.data?.dateString,
           },
         });
       }
@@ -206,9 +211,6 @@ const Dashboard = (props) => {
     setCenterFilterModalOpen(!centerFilterModalOpen);
   };
 
-
-
-
   const handleFormSubmit = async (values) => {
     setSearchdata(values);
 
@@ -242,13 +244,21 @@ const Dashboard = (props) => {
     try {
       const response = await getData(
         localStorage.getItem("superiorRole") !== "Client"
-          ? `dashboard/stats?client_id=${clientId == null ? " " : clientId}&company_id=${companyId == null ? "" : companyId}&site_id=${values.site_id}`
-          : `dashboard/stats?client_id=${clientId == null ? " " : clientId}&company_id=${companyId == null ? "" : companyId}&site_id=${values.site_id}`
+          ? `dashboard/stats?client_id=${
+              clientId == null ? " " : clientId
+            }&company_id=${companyId == null ? "" : companyId}&site_id=${
+              values.site_id
+            }`
+          : `dashboard/stats?client_id=${
+              clientId == null ? " " : clientId
+            }&company_id=${companyId == null ? "" : companyId}&site_id=${
+              values.site_id
+            }`
       );
 
       const { data } = response;
 
-      setMyClientID(localStorage.getItem("superiorId"))
+      setMyClientID(localStorage.getItem("superiorId"));
 
       if (data) {
         reducerDispatch({
@@ -265,6 +275,7 @@ const Dashboard = (props) => {
             fuel_value: data?.data?.fuel_sales,
             shop_sale: data?.data?.shop_sales,
             shop_margin: data?.data?.shop_profit,
+            dashboard_dates: data?.data?.dateString,
           },
         });
       }
@@ -279,13 +290,13 @@ const Dashboard = (props) => {
   const ResetForm = async () => {
     // myLocalSearchData = "";
     // setmyLocalSearchData = "";
-    setmyLocalSearchData(localStorage.removeItem("mySearchData"))
+    setmyLocalSearchData(localStorage.removeItem("mySearchData"));
     // setIsLoading(true);
     reducerDispatch({
       type: "RESET_STATE",
     });
     setSearchdata({});
-    setTimeout(() => { }, 1000);
+    setTimeout(() => {}, 1000);
     localStorage.removeItem("mySearchData");
 
     if (superiorRole !== "Administrator") {
@@ -314,11 +325,9 @@ const Dashboard = (props) => {
     }
     navigate(UserPermissions?.route);
     //  console.clear();
-
   }, [UserPermissions, permissionsArray]);
   const isStatusPermissionAvailable =
     permissionsArray?.includes("dashboard-view");
-
 
   useEffect(() => {
     if (isStatusPermissionAvailable && superiorRole !== "Administrator") {
@@ -328,11 +337,6 @@ const Dashboard = (props) => {
     }
     //  console.clear();
   }, [permissionsArray, myclientID]);
-
-
-
-
-
 
   const isProfileUpdatePermissionAvailable = permissionsArray?.includes(
     "profile-update-profile"
@@ -362,8 +366,8 @@ const Dashboard = (props) => {
             notifications
           </div>
           <div className="balance-badge">
-            <span >Sms Balance : {" "}</span>
-            <span style={{ marginLeft: "6px" }} >
+            <span>Sms Balance : </span>
+            <span style={{ marginLeft: "6px" }}>
               {" "}
               {UserPermissions?.sms_balance}{" "}
             </span>
@@ -386,12 +390,13 @@ const Dashboard = (props) => {
               className="page-title dashboard-page-title"
               style={{ alignItems: "center" }}
             >
-              Dashboard ({UserPermissions?.dates})
+              Dashboard (
+              {dashboard_dates ? dashboard_dates : UserPermissions?.dates})
             </h1>
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-            localStorage.getItem("role") === "Operator" ? (
+          localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -478,7 +483,7 @@ const Dashboard = (props) => {
                   </Box>
                 </>
                 {UserPermissions?.applyFilter &&
-                  Object.keys(searchdata).length === 0 ? (
+                Object.keys(searchdata).length === 0 ? (
                   <div
                     style={{
                       textAlign: "left",
@@ -609,8 +614,8 @@ const Dashboard = (props) => {
         />
 
         {isProfileUpdatePermissionAvailable &&
-          !isTwoFactorPermissionAvailable &&
-          ShowAuth ? (
+        !isTwoFactorPermissionAvailable &&
+        ShowAuth ? (
           <>
             <CenterAuthModal title="Auth Modal" />
           </>

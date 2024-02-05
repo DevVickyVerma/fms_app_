@@ -16,7 +16,7 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
 
   const FetchCategoryList = async () => {
     try {
-      const response = await getData(`business/category`);
+      const response = await getData(`common/category-list`);
 
       if (response && response.data) {
         // setData(response.data.data.roles);
@@ -28,25 +28,10 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
       console.error("API error:", error);
     }
   };
-  const FetchSubCategoryList = async () => {
-    try {
-      const response = await getData(
-        `/site-fuel/sub-categories-list?site_id=${id}`
-      );
 
-      if (response && response.data) {
-        fetchOpeningBalanceList();
-        setSubCatSiteData(response.data);
-      } else {
-        throw new Error("No data available in the response");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
 
   useEffect(() => {
-    FetchSubCategoryList();
+
     FetchCategoryList();
   
   }, []);
@@ -55,28 +40,7 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
   // const ErrorAlert = (message) => toast.error(message);
   const { id } = useParams();
 
-  const fetchOpeningBalanceList = async () => {
-    try {
-      const response = await getData(`assignsubcategory/detail/${id}`);
-      if (response && response.data) {
-      
-        setSiteName(response?.data?.data?.site_name);
-        formik.setFieldValue(
-          "business_sub_category_id",
-          response?.data?.data?.business_sub_category_id
-        );
-        formik.setFieldValue("site_id", response?.data?.data?.site_id);
-        formik.setFieldValue(
-          "business_category_id",
-          response?.data?.data?.business_category_id
-        );
-      } else {
-        throw new Error("No data available in the response");
-      }
-    } catch (error) {
-      handleError(error); // Set the submission state to false if an error occurs
-    }
-  };
+
 
   function handleError(error) {
     if (error.response && error.response.opening_balance_type === 401) {
