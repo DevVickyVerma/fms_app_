@@ -11,7 +11,7 @@ import withApi from '../../../Utils/ApiHelper';
 
 const UploadSageSales = (props) => {
 
-    const { showUploadSageSalesModal, setShowUploadSageSalesModal, companyId, postData, title, shortUrl, apidata } = props;
+    const { showUploadSageSalesModal, setShowUploadSageSalesModal, companyId, postData, title, shortUrl } = props;
     const [isLoading, setIsLoading] = useState(false);
     const [showErrorMessage, setShowErrorMessage] = useState("")
     const navigate = useNavigate();
@@ -40,20 +40,6 @@ const UploadSageSales = (props) => {
             theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
         });
     };
-    function handleError(error) {
-        if (error.response && error.response.status === 401) {
-            navigate("/login");
-            SuccessToast("Invalid access token");
-            localStorage.clear();
-        } else if (error.response && error.response.data.status_code === "403") {
-            navigate("/errorpage403");
-        } else {
-            const errorMessage = Array?.isArray(error?.response?.data?.message)
-                ? error?.response?.data?.message?.join(" ")
-                : error?.response?.data?.message;
-            ErrorToast(errorMessage);
-        }
-    }
 
     const formik = useFormik({
         initialValues: {
@@ -69,37 +55,6 @@ const UploadSageSales = (props) => {
     });
 
 
-
-    const isShowButtonDisabled =
-        // formik.values.company_id &&
-        formik.values.image !== null &&
-        formik.values.image;
-
-    const Onupload = async () => {
-        setIsLoading(true);
-        try {
-            const formData = new FormData();
-
-            formData.append("company_id", companyId);
-            formData.append("sales", formik.values.image);
-            const postDataUrl = "/company/upload-sale";
-
-            const postResponse = await postData(postDataUrl, formData);
-
-            if (postResponse?.status_code === "200") {
-                setShowUploadSageSalesModal(false)
-            }
-            formik.setFieldValue("image", "")
-            setIsLoading(false);
-            // setShowUploadSageSalesModal(false)
-        } catch (error) {
-            setIsLoading(false);
-            formik.setFieldValue("image", "")
-            handleError(error);
-        }
-        setIsLoading(false);
-    };
-
     const handleSubmit = async (values) => {
         try {
             const formData = new FormData();
@@ -109,8 +64,10 @@ const UploadSageSales = (props) => {
 
                 formData.append("sales", formik.values.image);
             } else if (shortUrl === "upload-bank-ref") {
-
                 formData.append("references", formik.values.image);
+            }
+            else if (shortUrl === "upload-bank-reimbursement") {
+                formData.append("file", formik.values.image);
             }
             setIsLoading(true);
             const response = await fetch(
@@ -135,6 +92,7 @@ const UploadSageSales = (props) => {
             }
         } catch (error) {
             console.log("Request Error:", error);
+
             // Handle request error
         } finally {
             setIsLoading(false);
@@ -143,7 +101,6 @@ const UploadSageSales = (props) => {
     const handleDrop = (event) => {
         event.preventDefault();
     };
-    const isButtonDisabled = formik.values.client_id && formik.values.company_id;
 
 
     const handleImageChange = (event) => {
@@ -165,7 +122,6 @@ const UploadSageSales = (props) => {
                 onHide={handleCloseModal}
                 centered
                 className="custom-modal-width custom-modal-height"
-            // style={{ overflow: "auto" }}
             >
                 <div
                     class="modal-header"
@@ -191,7 +147,7 @@ const UploadSageSales = (props) => {
                                 <Col lg={12} md={12}>
                                     <div className="form-group">
                                         <label htmlFor="image" className="form-label mt-4">
-                                            File *
+                                            File <span className="text-danger">*</span>
                                         </label>
                                         <div
                                             className={`dropzone ${formik.errors.image && formik.touched.image
@@ -227,14 +183,6 @@ const UploadSageSales = (props) => {
                                 <button
                                     type="submit" // Change the type to "button" to prevent form submission
                                     className="btn btn-primary me-2"
-                                // disabled={!isShowButtonDisabled}
-                                // onClick={() => {
-                                //     // Onupload();
-                                //     handleSubmit();
-                                // }}
-                                // onClick={() => {
-                                //     handleSubmit();
-                                // }}
                                 >
                                     Submit
                                 </button>
@@ -249,11 +197,7 @@ const UploadSageSales = (props) => {
 
 
 UploadSageSales.propTypes = {
-    // title: PropTypes.string.isRequired,
-    // visible: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    // onSubmit: PropTypes.func.isRequired,
-    // searchListstatus: PropTypes.bool.isRequired,
 };
 
 export default withApi(UploadSageSales);

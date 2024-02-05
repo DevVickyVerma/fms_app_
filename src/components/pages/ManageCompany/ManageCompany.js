@@ -27,6 +27,7 @@ import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 import { Box } from "@mui/material";
 import UploadSageSales from "./UploadSageSales";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const ManageCompany = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -95,22 +96,7 @@ const ManageCompany = (props) => {
       }
     });
   };
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -164,13 +150,6 @@ const ManageCompany = (props) => {
     localStorage.setItem("Company_Client_id", row.client_id);
   };
 
-  const permissionsToCheck = [
-    "company-list",
-    "company-create",
-    "company-edit",
-    "company-details",
-  ];
-  let isPermissionAvailable = false;
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -181,9 +160,6 @@ const ManageCompany = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable = permissionsArray?.includes(
-    "company-status-update"
-  );
   const isEditPermissionAvailable = permissionsArray?.includes("company-edit");
   const isAddPermissionAvailable = permissionsArray?.includes("company-create");
   const isDeletePermissionAvailable =
@@ -195,6 +171,8 @@ const ManageCompany = (props) => {
     permissionsArray?.includes("upload-sale");
   const isUploadBankReferencePermissionAvailable =
     permissionsArray?.includes("company-upload-bank-ref");
+  const isCompanyUploadBankReimbursementPermissionAvailable =
+    permissionsArray?.includes("company-upload-bank-reimbursement");
   const anyPermissionAvailable =
     isEditPermissionAvailable ||
 
@@ -437,6 +415,23 @@ const ManageCompany = (props) => {
                       <UploadSageSales />
                     </Dropdown.Item>
                   ) : null}
+                  {isCompanyUploadBankReimbursementPermissionAvailable ? (
+                    <Dropdown.Item className="dropdown-item">
+                      <Link
+                        className="settingicon"
+                        onClick={() => handleUploadBankReimbursementsSale(row.id)}
+                      // to={`/company/sage-other-codes/${row.id}`}
+                      >
+                        <div style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <i class="fa fa-upload" aria-hidden="true"></i>
+                          </i> {" "} {" "}
+                          <span>Upload Bank Reimbursements</span>
+                        </div>
+                      </Link>
+                      <UploadSageSales />
+                    </Dropdown.Item>
+                  ) : null}
                 </Dropdown.Menu>
               </Dropdown>
             ) : null}
@@ -456,6 +451,12 @@ const ManageCompany = (props) => {
     setShowUploadSageSalesModal(true);
     setUploadModalTitle("Upload Bank Reference")
     setUploadModalURLPath("upload-bank-ref")
+    setCompanyId(rowId)
+  };
+  const handleUploadBankReimbursementsSale = (rowId) => {
+    setShowUploadSageSalesModal(true);
+    setUploadModalTitle("Upload Bank Reimbursements")
+    setUploadModalURLPath("upload-bank-reimbursement")
     setCompanyId(rowId)
   };
 
