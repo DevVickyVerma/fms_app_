@@ -382,7 +382,6 @@ const ManageSite = (props) => {
 
                   {issitesettingPermissionAvailable ? (
                     <Dropdown.Item
-                      //  className="dropdown-item"
                       className=" p-0 m-0"
                     >
                       <Link to={`/site-setting/${row.id}`}>
@@ -413,7 +412,6 @@ const ManageSite = (props) => {
                   {isSkipDatePermissionAvailable ? (
                     <Dropdown.Item
                       className=" p-0 m-0"
-                    // className="dropdown-item"
                     >
                       <Link to={`/skipdates/${row.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
@@ -568,10 +566,16 @@ const ManageSite = (props) => {
       const SearchList = async (row) => {
         try {
           const params = new URLSearchParams(formData).toString();
-          const response = await getData(`/site/list?${params}`);
+          const response = await getData(`/site/list?${params}&search_keywords=${searchQuery}`);
 
           if (response && response.data && response.data.data) {
             setData(response.data.data.sites);
+            setCount(response.data.data.count);
+            setCurrentPage(response?.data?.data?.currentPage || 1);
+            setHasMorePages(response?.data?.data?.hasMorePages);
+            setLastPage(response?.data?.data?.lastPage);
+            setPerPage(response?.data?.data?.perPage);
+            setTotal(response?.data?.data?.total);
           } else {
             throw new Error("No data available in the response");
           }
@@ -621,30 +625,6 @@ const ManageSite = (props) => {
     pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
   }
 
-  const handleBlur = () => {
-    FetchTableData();
-  };
-
-  const handleResetSearch = async () => {
-    try {
-      const response = await getData(`site/list?page=${currentPage}&search_keywords=${''}`);
-      if (response && response.data && response.data.data) {
-        setSearchQuery("")
-        setData(response.data.data.sites);
-        setCount(response.data.data.count);
-        setCurrentPage(response?.data?.data?.currentPage);
-        setHasMorePages(response?.data?.data?.hasMorePages);
-        setLastPage(response?.data?.data?.lastPage);
-        setPerPage(response?.data?.data?.perPage);
-        setTotal(response?.data?.data?.total);
-      } else {
-        throw new Error("No data available in the response");
-      }
-    } catch (error) {
-      handleError(error)
-      console.error("API error:", error);
-    }
-  }
 
   return (
     <>
@@ -706,11 +686,7 @@ const ManageSite = (props) => {
                 ""
               )}
 
-              <div>
-                {searchQuery ? (
-                  <button className="btn btn-danger btn-sm ms-2" onClick={handleResetSearch}> <RestartAltIcon /></button>
-                ) : null}
-              </div>
+
             </Box>
 
             <Link
@@ -791,26 +767,6 @@ const ManageSite = (props) => {
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table">
-
-                      <div className="data-table-extensions">
-                        <input
-                          type="text"
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          onBlur={handleBlur} // Call the API on blur
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                              handleBlur();
-                            }
-                          }}
-                          placeholder="Search"
-                          className="data-table-extensions-filter"
-                          style={{
-                            border: "1px solid #eaedf1",
-                            padding: "10px",
-                          }}
-                        />
-                      </div>
                       <DataTable
                         columns={columns}
                         data={data}
