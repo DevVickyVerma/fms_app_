@@ -16,10 +16,10 @@ import { Slide, toast } from "react-toastify";
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
-  const [AddSiteData, setAddSiteData] = useState([]);
+  const UserPermissions = useSelector((state) => state?.data?.data);
 
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
+
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
@@ -30,19 +30,6 @@ const ManageDsr = (props) => {
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
-
-  const [selectedItems, setSelectedItems] = useState([]);
-
-  const handleItemClick = (event) => {
-    setSelectedItems(event.target.value);
-
-    const selectedSiteNames = event.target.value;
-    const filteredSites = selectedSiteList.filter((item) =>
-      selectedSiteNames.includes(item.site_name)
-    );
-
-    formik.setFieldValue("sites", filteredSites);
-  };
 
   const [data, setData] = useState();
   useEffect(() => {
@@ -55,7 +42,9 @@ const ManageDsr = (props) => {
 
       const { data } = response;
       if (data) {
-        setClientList(response.data);
+
+        console.log(data, "fetchCommonListData");
+        setClientList(response?.data);
 
         const clientId = localStorage.getItem("superiorId");
         if (clientId) {
@@ -514,7 +503,6 @@ const ManageDsr = (props) => {
         formData.append(total, total_values);
       });
 
-    
       const selectedSiteIds = selected?.map((site) => site.value);
 
       selectedSiteIds?.forEach((id, index) => {
@@ -524,16 +512,14 @@ const ManageDsr = (props) => {
       formData.append("date", formik.values.start_date);
 
       const postDataUrl = "/site/fuel/purchase-price/update";
-    
-      await postData(postDataUrl, formData, ); // Set the submission state to false after the API call is completed
+
+      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
     } catch (error) {
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
 
   const [permissionsArray, setPermissionsArray] = useState([]);
-
-  const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
     if (UserPermissions) {
@@ -626,11 +612,12 @@ const ManageDsr = (props) => {
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              className={`input101 ${formik.errors.client_id &&
-                                  formik.touched.client_id
+                              className={`input101 ${
+                                formik.errors.client_id &&
+                                formik.touched.client_id
                                   ? "is-invalid"
                                   : ""
-                                }`}
+                              }`}
                               id="client_id"
                               name="client_id"
                               value={formik.values.client_id}
@@ -648,7 +635,6 @@ const ManageDsr = (props) => {
                                   formik.setFieldValue("company_id", "");
                                   formik.setFieldValue("site_id", "");
                                 } else {
-
                                   formik.setFieldValue("client_id", "");
                                   formik.setFieldValue("company_id", "");
                                   formik.setFieldValue("site_id", "");
@@ -659,8 +645,8 @@ const ManageDsr = (props) => {
                               }}
                             >
                               <option value="">Select a Client</option>
-                              {ClientList.data && ClientList.data.length > 0 ? (
-                                ClientList.data.map((item) => (
+                              {ClientList?.data && ClientList?.data.length > 0 ? (
+                                ClientList?.data.map((item) => (
                                   <option key={item.id} value={item.id}>
                                     {item.client_name}
                                   </option>
@@ -690,11 +676,12 @@ const ManageDsr = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${formik.errors.company_id &&
-                                formik.touched.company_id
+                            className={`input101 ${
+                              formik.errors.company_id &&
+                              formik.touched.company_id
                                 ? "is-invalid"
                                 : ""
-                              }`}
+                            }`}
                             id="company_id"
                             name="company_id"
                             value={formik.values.company_id}
@@ -743,13 +730,13 @@ const ManageDsr = (props) => {
                         <div className="form-group">
                           <label htmlFor="site_id" className="form-label mt-4">
                             Site Name
-                            
                           </label>
                           <select
-                            className={`input101 ${formik.errors.site_id && formik.touched.site_id
+                            className={`input101 ${
+                              formik.errors.site_id && formik.touched.site_id
                                 ? "is-invalid"
                                 : ""
-                              }`}
+                            }`}
                             id="site_id"
                             name="site_id"
                             value={formik.values.site_id}
@@ -793,11 +780,12 @@ const ManageDsr = (props) => {
                             min={"2023-01-01"}
                             max={getCurrentDate()}
                             onClick={hadndleShowDate}
-                            className={`input101 ${formik.errors.start_date &&
-                                formik.touched.start_date
+                            className={`input101 ${
+                              formik.errors.start_date &&
+                              formik.touched.start_date
                                 ? "is-invalid"
                                 : ""
-                              }`}
+                            }`}
                             id="start_date"
                             name="start_date"
                             onChange={formik.handleChange}

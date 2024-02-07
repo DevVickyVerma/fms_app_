@@ -57,7 +57,7 @@ const DashboardStatsBox = (props) => {
       // );
     }
   };
-  console.log(GrossMarginValue, "GrossMarginValue");
+
   return (
     <div>
       <Row>
@@ -140,7 +140,7 @@ const DashboardStatsBox = (props) => {
                             </>
                           )}
                         </div>
-                        <div className="col col-auto">
+                        <div className="col-auto">
                           <div className="counter-icon bg-danger-gradient box-shadow-danger brround  ms-auto">
                             <i className="icon icon-pound-sign text-white mb-5 ">
                               ℓ
