@@ -528,7 +528,7 @@ const ManageDsr = (props) => {
                       </Col>
 
                       <Col lg={3} md={6}>
-                        <div classname="form-group">
+                        <div className="form-group">
                           <label
                             htmlFor="start_date"
                             className="form-label mt-4"

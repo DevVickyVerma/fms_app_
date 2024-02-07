@@ -7,14 +7,12 @@ import { ColorRing } from "react-loader-spinner";
 const Loaderimg = () => {
   const [expanded, setExpanded] = React.useState(true);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+
   return (
     <div id="global-loader">
-      <div class="fullscreen">
+      <div className="fullscreen">
         <Card className="card card-none">
-          <Collapse in={expanded} timeout="auto">
+          <Collapse in={expanded}  timeout={500}>
             <div className="card-body ">
               <div className="dimmer active">
                 <span className="loader"></span>

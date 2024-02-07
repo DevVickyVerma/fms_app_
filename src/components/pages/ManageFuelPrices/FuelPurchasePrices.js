@@ -43,7 +43,7 @@ const ManageDsr = (props) => {
       const { data } = response;
       if (data) {
 
-        console.log(data, "fetchCommonListData");
+       
         setClientList(response?.data);
 
         const clientId = localStorage.getItem("superiorId");
@@ -767,7 +767,7 @@ const ManageDsr = (props) => {
                       </Col>
 
                       <Col lg={3} md={6}>
-                        <div classname="form-group">
+                        <div className="form-group">
                           <label
                             htmlFor="start_date"
                             className="form-label mt-4"

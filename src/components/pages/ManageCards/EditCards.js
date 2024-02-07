@@ -265,7 +265,7 @@ const EditCards = (props) => {
                   <Card.Title as="h3">Edit cards</Card.Title>
                 </Card.Header>
 
-                <div class="card-body">
+                <div className="card-body">
                   <form onSubmit={formik.handleSubmit}>
                     <Row>
                       <Col lg={6} md={6}>

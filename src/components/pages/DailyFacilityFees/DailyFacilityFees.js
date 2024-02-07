@@ -317,7 +317,7 @@ const SiteSettings = (props) => {
                 <Card.Title as="h3">Daily Facility Fees</Card.Title>
               </Card.Header>
 
-              <div class="card-body">
+              <div className="card-body">
                 <form onSubmit={formik.handleSubmit}>
                   <Row>
                     <CustomClient
@@ -368,7 +368,7 @@ const SiteSettings = (props) => {
                 <Card.Title as="h3">Daily Facility Fees</Card.Title>
               </Card.Header>
 
-              <div class="card-body">
+              <div className="card-body">
                 {data?.length > 0 ? (
                   <>
                     <form onSubmit={handleSubmitForm1}>

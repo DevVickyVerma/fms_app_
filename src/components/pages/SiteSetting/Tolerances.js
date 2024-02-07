@@ -274,7 +274,7 @@ const SiteSettings = (props) => {
                 <Card.Title as="h3">Tolerances</Card.Title>
               </Card.Header>
 
-              <div class="card-body">
+              <div className="card-body">
                 <form onSubmit={formik.handleSubmit}>
                   <Row>
                     {localStorage.getItem("superiorRole") !== "Client" && (

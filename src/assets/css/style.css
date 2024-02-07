@@ -40640,7 +40640,7 @@ A VERTICAL event
 .fc {
   /* bg */
   /* fg events */
-  /* (the mirror segs are put into a separate container with same classname, */
+  /* (the mirror segs are put into a separate container with same className, */
   /* and they must be after the normal seg container to appear at a higher z-index) */
   /* now indicator */
 }

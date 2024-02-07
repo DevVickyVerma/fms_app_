@@ -486,7 +486,7 @@ const ManageDsr = (props) => {
                       </div>
                     </Col>
                     <Col lg={3} md={12}>
-                      <div classname="form-group">
+                      <div className="form-group">
                         <label htmlFor="fuel_name" className="form-label mt-4">
                           Fuel Name
                           <span className="text-danger">*</span>

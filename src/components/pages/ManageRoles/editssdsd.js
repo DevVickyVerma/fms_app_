@@ -203,7 +203,7 @@ export default function EditRoles() {
             <Card.Header>
               <h4 className="card-title">Edit Role</h4>
             </Card.Header>
-            <div class="card-body">
+            <div className="card-body">
               <Row>
                 <div className="col-lg- col-md-12">
                   <form onSubmit={formik.handleSubmit1}>

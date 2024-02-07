@@ -124,13 +124,13 @@ const UploadSageSales = (props) => {
                 className="custom-modal-width custom-modal-height"
             >
                 <div
-                    class="modal-header"
+                    className="modal-header"
                     style={{ color: "#fff", background: "#6259ca" }}
                 >
-                    <h5 class="modal-title"> {title}</h5>
+                    <h5 className="modal-title"> {title}</h5>
                     <button
                         type="button"
-                        class="close"
+                        className="close"
                         data-dismiss="modal"
                         aria-label="Close"
                     >

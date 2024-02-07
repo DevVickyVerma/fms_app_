@@ -314,7 +314,7 @@ const ManageCompany = (props) => {
                       >
                         <div style={{ width: "100%" }}>
                           <i className="setting-icon">
-                            <i class="fa fa-pencil" aria-hidden="true"></i> {" "}
+                            <i className="fa fa-pencil" aria-hidden="true"></i> {" "}
                           </i>
                           Edit
                         </div>
@@ -326,7 +326,7 @@ const ManageCompany = (props) => {
                       <Link to="#" onClick={() => handleDelete(row.id)}>
                         <div style={{ width: "100%" }}>
                           <i className="setting-icon">
-                            <i class="fa fa-trash" aria-hidden="true"></i> {" "}
+                            <i className="fa fa-trash" aria-hidden="true"></i> {" "}
                           </i>
                           Delete
                         </div>
@@ -342,7 +342,7 @@ const ManageCompany = (props) => {
                       >
                         <div style={{ width: "100%" }}>
                           <i className="setting-icon">
-                            {""} <i class="fa fa-flask" aria-hidden="true"></i> {" "}
+                            {""} <i className="fa fa-flask" aria-hidden="true"></i> {" "}
                           </i>
                           <span>Manage Sage Fuel</span>
                         </div>
@@ -358,7 +358,7 @@ const ManageCompany = (props) => {
                       >
                         <div style={{ width: "100%" }}>
                           <i className="setting-icon">
-                            {""} <i class="fa fa-shopping-cart" aria-hidden="true"></i>  {""}
+                            {""} <i className="fa fa-shopping-cart" aria-hidden="true"></i>  {""}
                           </i> {""}
                           <span>Manage Sage Items</span>
                         </div>
@@ -374,7 +374,7 @@ const ManageCompany = (props) => {
                       >
                         <div style={{ width: "100%" }}>
                           <i className="setting-icon">
-                            {""} <i class="fa fa-code" aria-hidden="true"></i> {" "}
+                            {""} <i className="fa fa-code" aria-hidden="true"></i> {" "}
                           </i>
                           <span>Sage Other Code</span>
                         </div>
@@ -390,7 +390,7 @@ const ManageCompany = (props) => {
                       >
                         <div style={{ width: "100%" }}>
                           <i className="setting-icon">
-                            <i class="fa fa-upload" aria-hidden="true"></i>
+                            <i className="fa fa-upload" aria-hidden="true"></i>
                           </i> {" "} {" "}
                           <span>Upload Sage Sales</span>
                         </div>
@@ -407,7 +407,7 @@ const ManageCompany = (props) => {
                       >
                         <div style={{ width: "100%" }}>
                           <i className="setting-icon">
-                            <i class="fa fa-upload" aria-hidden="true"></i>
+                            <i className="fa fa-upload" aria-hidden="true"></i>
                           </i> {" "} {" "}
                           <span>Upload Bank Reference</span>
                         </div>
@@ -424,7 +424,7 @@ const ManageCompany = (props) => {
                       >
                         <div style={{ width: "100%" }}>
                           <i className="setting-icon">
-                            <i class="fa fa-upload" aria-hidden="true"></i>
+                            <i className="fa fa-upload" aria-hidden="true"></i>
                           </i> {" "} {" "}
                           <span>Upload Bank Reimbursements</span>
                         </div>

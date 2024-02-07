@@ -330,7 +330,7 @@ export function Loadersbigsizes() {
 export function Loadersbigsizes1() {
   const [expanded] = React.useState(true);
   return (
-    <div class="fullscreen">
+    <div className="fullscreen">
       <Card className="card">
         <Collapse in={expanded} timeout="auto">
           <div className="card-body">

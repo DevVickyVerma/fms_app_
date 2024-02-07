@@ -304,7 +304,7 @@ const UploadCompetitor = (props) => {
                 <>
                   <Link className="btn btn-danger me-2" onClick={openURL}>
                     Download Sample{" "}
-                    <i class="fa fa-download" aria-hidden="true"></i>
+                    <i className="fa fa-download" aria-hidden="true"></i>
                   </Link>
                 </>
               </Card.Header>
