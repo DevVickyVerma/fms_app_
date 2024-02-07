@@ -763,7 +763,7 @@ const ManageSite = (props) => {
               <Card.Header>
                 <h3 className="card-title">Manage Site</h3>
               </Card.Header>
-              <Card.Body style={{ minHeight: "900px" }} >
+              <Card.Body  >
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table">

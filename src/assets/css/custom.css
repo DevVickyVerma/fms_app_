@@ -108,7 +108,7 @@ h3.SidebarSearch-title {
   box-shadow: none;
 }
 
-.data-table-extensions > .data-table-extensions-filter > .filter-text {
+.data-table-extensions>.data-table-extensions-filter>.filter-text {
   /* border: 1px solid #eaedf1 !important; */
   border-bottom: 1px solid #eaedf1 !important;
   outline: none !important;
@@ -332,6 +332,7 @@ tbody tr {
 }
 
 @media screen and (max-width: 768px) {
+
   .table th,
   .table td {
     min-width: 22.28% !important;
@@ -553,7 +554,7 @@ input.table-input.readonly.total-input-card {
   border-radius: 50%;
 }
 
-.d-flex.chart-items > div:first-child {
+.d-flex.chart-items>div:first-child {
   margin-right: 0;
   margin-left: 0;
 }
@@ -1407,6 +1408,7 @@ span.input-103 {
 .hide-star-icon {
   display: none;
 }
+
 .tree-form {
   font-family: Arial, sans-serif;
   max-width: 400px;
@@ -1459,12 +1461,14 @@ span.input-103 {
   margin-top: 10px;
   cursor: pointer;
 }
+
 li.Ul-parentsiteList-childlist {
   background: #6259cabf;
   color: #fff;
   margin-bottom: 10px;
   padding: 1px;
 }
+
 .form-payroll-input {
   width: 1.5em;
   height: 1.5em;
@@ -1480,14 +1484,17 @@ li.Ul-parentsiteList-childlist {
   -webkit-print-color-adjust: exact;
   color-adjust: exact;
 }
+
 span.tree-label {
   margin-left: 54px;
   margin-top: 5px;
 }
+
 li.ms-2.disabled-checkbox {
   background: #ddd;
   margin-bottom: 3px;
 }
+
 .PetrolPrices-img img {
   width: 16px;
   height: 100%;
@@ -1495,8 +1502,13 @@ li.ms-2.disabled-checkbox {
   justify-content: end;
   margin-left: 12px;
 }
+
 .tooltip-inner {
   text-align: left !important;
   max-width: 500px !important;
   /* background-color: var(--primary-bg-color); */
+}
+
+.rdt_TableBody {
+  min-height: 700px !important;
 }
