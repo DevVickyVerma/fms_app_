@@ -209,7 +209,7 @@ const DepartmentItems = (props) => {
     ],
   };
   const headsvalueonsubmit = () => {
-    console.log(formik2.values);
+    console.log(formik2?.values);
   };
   const formik2 = useFormik({
     initialValues: headsvalueinitialValues,

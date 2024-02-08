@@ -58,7 +58,7 @@ const SageCharges = (props) => {
     }
   }, [data]);
   const headsvalueonsubmit = () => {
-    console.log(formik2.values);
+    console.log(formik2?.values);
   };
   const GetCompanyList = async (values) => {
     try {
