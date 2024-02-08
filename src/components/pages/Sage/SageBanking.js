@@ -30,6 +30,19 @@ const SageBanking = (props) => {
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
+
+  useEffect(() => {
+    const clientId = localStorage.getItem("superiorId");
+
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData();
+    } else {
+      formik.setFieldValue("client_id", clientId);
+      setSelectedClientId(clientId);
+      GetCompanyList(clientId);
+    }
+  }, []);
+
   const navigate = useNavigate();
   function handleError(error) {
     if (error.response && error.response.status === 401) {
@@ -143,22 +156,11 @@ const SageBanking = (props) => {
     }
   };
 
-  useEffect(() => {
-    const clientId = localStorage.getItem("superiorId");
 
-    if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData();
-    } else {
-      formik.setFieldValue("client_id", clientId);
-      setSelectedClientId(clientId);
-      GetCompanyList(clientId);
-    }
-  }, []);
 
   const isUpdatePermissionAvailable =
     permissionsArray?.includes("bankinghead-update");
 
-  const isButtonDisabled = formik.values.client_id && formik.values.company_id;
 
   const GetCompanyList = async (values) => {
     try {

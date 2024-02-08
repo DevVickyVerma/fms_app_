@@ -17,16 +17,11 @@ const StatsCompetitor = ({ isLoading, getData }) => {
     const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
         localStorage.getItem("superiorId")
     );
-
     const navigate = useNavigate()
-    const [selected, setSelected] = useState([]);
-    const [AddSiteData, setAddSiteData] = useState([]);
     const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-    const [selectedSiteList, setSelectedSiteList] = useState([]);
     const [commonListLoading, setCommonListLoading] = useState(false);
     const [selectedClientId, setSelectedClientId] = useState("");
     const [selectedCompanyId, setSelectedCompanyId] = useState("");
-
     const [ClientList, setClientList] = useState([]);
     const [CompanyList, setCompanyList] = useState([]);
     const [SiteList, setSiteList] = useState([]);

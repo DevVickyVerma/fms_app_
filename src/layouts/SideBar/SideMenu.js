@@ -222,7 +222,7 @@ export const MENUITEMS = [
             path: `/competitorstats`,
             type: "link",
             title: "Competitor Stats",
-            permission: "competitor-list",
+            permission: "competitor-stats",
             visibility: false,
           },
           // {

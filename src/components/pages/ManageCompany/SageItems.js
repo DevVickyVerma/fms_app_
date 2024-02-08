@@ -39,63 +39,7 @@ const CompanySageFuels = (props) => {
       theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
     });
   };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      SuccessToast("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorToast(errorMessage);
-    }
-  }
-  const fetchData = async () => {
-    const token = localStorage.getItem("token");
 
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    try {
-      setIsLoading(true); // Set loading state to true before fetching data
-
-      const response = await axiosInstance.get(`/company/sage-items/${id?.id}`);
-
-      const { data } = response;
-      if (data) {
-        setData(data.data.items);
-        setTaxCodes(data.data.taxCodes);
-        setTypesData(data.data.types);
-        setis_editable(data.data);
-        // Create an array of form values based on the response data
-        const formValues = data.data.items.map((item) => {
-          return {
-            id: item.id || "",
-            name: item.name || "",
-            sage_purchage_code: item.sage_purchage_code || "",
-            sage_sale_code: item.sage_sale_code || "",
-          };
-        });
-        // Set the formik values using setFieldValue
-        formik.setFieldValue("data", formValues);
-      }
-    } catch (error) {
-      console.error("API error:", error);
-      handleError(error);
-    } finally {
-      setIsLoading(false); // Set loading state to false after data fetching is complete
-    }
-  };
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
 
   document.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
@@ -426,7 +370,7 @@ const CompanySageFuels = (props) => {
                   <>
                     <form
                       onSubmit={(event) => formik.handleSubmit(event)}
-                      // onSubmit={formik.SubmitFuelSalesForm}
+                    // onSubmit={formik.SubmitFuelSalesForm}
                     >
                       <div className="table-responsive deleted-table">
                         <DataTableExtensions {...tableDatas}>

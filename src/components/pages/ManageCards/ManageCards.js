@@ -31,6 +31,35 @@ const ManageCards = (props) => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [data, setData] = useState();
+
+  const [count, setCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMorePage, setHasMorePages] = useState("");
+  const [lastPage, setLastPage] = useState(1);
+  const [perPage, setPerPage] = useState(20);
+  const [total, setTotal] = useState(0);
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions?.permissions);
+    }
+  }, [UserPermissions]);
+
+  const isEditPermissionAvailable = permissionsArray?.includes("card-edit");
+  const isAddPermissionAvailable = permissionsArray?.includes("card-create");
+  const isDeletePermissionAvailable = permissionsArray?.includes("card-delete");
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  useEffect(() => {
+    FetchTableData();
+  }, [currentPage]);
+
   const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
@@ -94,20 +123,6 @@ const ManageCards = (props) => {
     }
   }
 
-  const [count, setCount] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [hasMorePage, setHasMorePages] = useState("");
-  const [lastPage, setLastPage] = useState(1);
-  const [perPage, setPerPage] = useState(20);
-  const [total, setTotal] = useState(0);
-
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
-
-  useEffect(() => {
-    FetchTableData();
-  }, [currentPage]);
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -160,19 +175,7 @@ const ManageCards = (props) => {
     }
   };
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
 
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-    }
-  }, [UserPermissions]);
-
-  const isEditPermissionAvailable = permissionsArray?.includes("card-edit");
-  const isAddPermissionAvailable = permissionsArray?.includes("card-create");
-  const isDeletePermissionAvailable = permissionsArray?.includes("card-delete");
 
   const columns = [
     {

@@ -38,6 +38,82 @@ const SageCharges = (props) => {
       setPermissionsArray(UserPermissions?.permissions);
     }
   }, [UserPermissions]);
+  useEffect(() => {
+    const clientId = localStorage.getItem("superiorId");
+
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData();
+    } else {
+      formik.setFieldValue("client_id", clientId);
+      setSelectedClientId(clientId);
+      GetCompanyList(clientId);
+    }
+  }, []);
+  useEffect(() => {
+    if (data?.heads?.length > 0) {
+      // Loop through each head and set field values
+      data.heads.forEach((head, index) => {
+        setFieldValuesFromHeads(head);
+      });
+    }
+  }, [data]);
+  const GetCompanyList = async (values) => {
+    try {
+      if (values) {
+        const response = await getData(
+          `common/company-list?client_id=${values}`
+        );
+
+        if (response) {
+
+          setCompanyList(response?.data?.data);
+        } else {
+          throw new Error("No data available in the response");
+        }
+      } else {
+        console.error("No site_id found ");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+  const GetDepartmentList = async (values) => {
+    try {
+      if (values) {
+        const response = await getData(`sage/charge/list?company_id=${values}`);
+
+        if (response) {
+
+          setDepartmentList(response?.data?.data?.charges);
+        } else {
+          throw new Error("No data available in the response");
+        }
+      } else {
+        console.error("No site_id found ");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+  const headsvalueinitialValues = {
+    headsvalue: [
+      {
+        sage_export_type: "",
+        account_code: "",
+        nominal_code: "",
+        positive_nominal_type_id: "",
+        negative_nominal_type_id: "",
+        nominal_tax_code_id: "",
+      },
+    ],
+  };
+  const formik2 = useFormik({
+    initialValues: headsvalueinitialValues,
+
+    onSubmit: headsvalueonsubmit,
+  });
+  const isUpdatePermissionAvailable = permissionsArray?.includes("chargehead-list");
 
   const formik = useFormik({
     initialValues: {
@@ -131,78 +207,6 @@ const SageCharges = (props) => {
     }
   };
 
-  useEffect(() => {
-    const clientId = localStorage.getItem("superiorId");
-
-    if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData();
-    } else {
-      formik.setFieldValue("client_id", clientId);
-      setSelectedClientId(clientId);
-      GetCompanyList(clientId);
-    }
-  }, []);
-
-  const isUpdatePermissionAvailable = permissionsArray?.includes("chargehead-list");
-
-  const isButtonDisabled = formik.values.client_id && formik.values.company_id;
-
-  const GetCompanyList = async (values) => {
-    try {
-      if (values) {
-        const response = await getData(
-          `common/company-list?client_id=${values}`
-        );
-
-        if (response) {
-
-          setCompanyList(response?.data?.data);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } else {
-        console.error("No site_id found ");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-  const GetDepartmentList = async (values) => {
-    try {
-      if (values) {
-        const response = await getData(`sage/charge/list?company_id=${values}`);
-
-        if (response) {
-
-          setDepartmentList(response?.data?.data?.charges);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } else {
-        console.error("No site_id found ");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  const headsvalueinitialValues = {
-    headsvalue: [
-      {
-        sage_export_type: "",
-        account_code: "",
-        nominal_code: "",
-        positive_nominal_type_id: "",
-        negative_nominal_type_id: "",
-        nominal_tax_code_id: "",
-      },
-    ],
-  };
-  const formik2 = useFormik({
-    initialValues: headsvalueinitialValues,
-
-    onSubmit: headsvalueonsubmit,
-  });
 
   const headsvalueonsubmit = () => {
     console.log(formik2.values);
@@ -225,14 +229,7 @@ const SageCharges = (props) => {
     formik2.setFieldValue("nominal_code", head?.nominal_code || "");
   };
 
-  useEffect(() => {
-    if (data?.heads?.length > 0) {
-      // Loop through each head and set field values
-      data.heads.forEach((head, index) => {
-        setFieldValuesFromHeads(head);
-      });
-    }
-  }, [data]);
+
   // formik2.setFieldValue("headsvalue", head_formik_values);
   const pushnonbunkeredSalesRow = () => {
     if (formik2.isValid) {
@@ -259,9 +256,7 @@ const SageCharges = (props) => {
     removenonbunkeredSalesRow(index, clickedId);
   };
   const removenonbunkeredSalesRow = (index, clickedId) => {
-    // const updatedRows = [...formik2.values.headsvalue];
-    // updatedRows.splice(index, 1);
-    // formik2.setFieldValue("headsvalue", updatedRows);
+
 
     if (!clickedId) {
       const updatedRows = [...formik2.values.headsvalue];

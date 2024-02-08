@@ -30,6 +30,27 @@ const SageDeduction = (props) => {
 
   const UserPermissions = useSelector((state) => state?.data?.data);
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions?.permissions);
+    }
+  }, [UserPermissions]);
+
+  useEffect(() => {
+    const clientId = localStorage.getItem("superiorId");
+
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData();
+    } else {
+      formik.setFieldValue("client_id", clientId);
+      setSelectedClientId(clientId);
+      GetCompanyList(clientId);
+    }
+  }, []);
+
+
   function handleError(error) {
     if (error.response && error.response.status === 401) {
       navigate("/login");
@@ -45,11 +66,6 @@ const SageDeduction = (props) => {
     }
   }
 
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-    }
-  }, [UserPermissions]);
 
   const formik = useFormik({
     initialValues: {
@@ -140,23 +156,12 @@ const SageDeduction = (props) => {
     }
   };
 
-  useEffect(() => {
-    const clientId = localStorage.getItem("superiorId");
 
-    if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData();
-    } else {
-      formik.setFieldValue("client_id", clientId);
-      setSelectedClientId(clientId);
-      GetCompanyList(clientId);
-    }
-  }, []);
 
   const isUpdatePermissionAvailable = permissionsArray?.includes(
     "revenuecommission-update"
   );
 
-  const isButtonDisabled = formik.values.client_id && formik.values.company_id;
 
   const GetCompanyList = async (values) => {
     try {
@@ -227,23 +232,7 @@ const SageDeduction = (props) => {
   const headsvalueonsubmit = () => {
     console.log(formik2.values);
   };
-  const setFieldValuesFromHeads = (head) => {
-    formik2.setFieldValue("commission_type", head?.commission_type || "");
 
-    formik2.setFieldValue("commission", head?.commission || "");
-    formik2.setFieldValue("end_value", head?.end_value || "");
-    formik2.setFieldValue("start_value", head?.start_value || "");
-  };
-
-  //   useEffect(() => {
-  //     if (data?.heads?.length > 0) {
-  //       // Loop through each head and set field values
-  //       data.heads.forEach((head, index) => {
-  //         setFieldValuesFromHeads(head);
-  //       });
-  //     }
-  //   }, [data]);
-  // formik2.setFieldValue("headsvalue", head_formik_values);
   const pushnonbunkeredSalesRow = () => {
     if (formik2.isValid) {
       formik2.values.headsvalue.push({
@@ -400,7 +389,7 @@ const SageDeduction = (props) => {
       const postDataUrl = "/shop-revenue-commission/update";
 
       await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
-    } catch (error) {}
+    } catch (error) { }
   };
   console.clear();
   return (
@@ -450,12 +439,11 @@ const SageDeduction = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.client_id &&
+                            className={`input101 ${formik.errors.client_id &&
                               formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="client_id"
                             name="client_id"
                             value={formik.values.client_id}
@@ -510,12 +498,11 @@ const SageDeduction = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.company_id &&
+                          className={`input101 ${formik.errors.company_id &&
                             formik.touched.company_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="company_id"
                           name="company_id"
                           value={formik.values.company_id}
@@ -566,11 +553,10 @@ const SageDeduction = (props) => {
                           <span className="text-danger">*</span>
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.site_id && formik.touched.site_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.errors.site_id && formik.touched.site_id
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="site_id"
                           name="site_id"
                           value={formik.values.site_id}
@@ -610,12 +596,11 @@ const SageDeduction = (props) => {
                           Department
                         </label>
                         <select
-                          className={`input101 ${
-                            formik.errors.department_item_id &&
+                          className={`input101 ${formik.errors.department_item_id &&
                             formik.touched.department_item_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="department_item_id"
                           name="department_item_id"
                           value={formik.values.department_item_id}
@@ -714,12 +699,11 @@ const SageDeduction = (props) => {
                             <span className="text-danger">*</span>
                           </Form.Label>
                           <select
-                            className={`input101 ${
-                              formik.errors.company_id &&
+                            className={`input101 ${formik.errors.company_id &&
                               formik.touched.company_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id={`headsvalue[${index}].commission_type`}
                             name={`headsvalue[${index}].commission_type`}
                             onChange={formik2.handleChange}
@@ -732,7 +716,7 @@ const SageDeduction = (props) => {
                           {formik2.errors.headsvalue?.[index]
                             ?.commission_type &&
                             formik2.touched[
-                              `headsvalue[${index}].commission_type`
+                            `headsvalue[${index}].commission_type`
                             ] && (
                               <div className="invalid-feedback">
                                 {
@@ -754,12 +738,11 @@ const SageDeduction = (props) => {
                           </Form.Label>
                           <Form.Control
                             type="number"
-                            className={`input101 ${
-                              formik2.errors.headsvalue?.[index]?.commission &&
+                            className={`input101 ${formik2.errors.headsvalue?.[index]?.commission &&
                               formik2.touched[`headsvalue[${index}].commission`]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`headsvalue[${index}].commission`}
                             onChange={formik2.handleChange}
                             placeholder="Commission"
@@ -771,7 +754,7 @@ const SageDeduction = (props) => {
                           />
                           {formik2.errors.headsvalue?.[index]?.commission &&
                             formik2.touched[
-                              `headsvalue[${index}].commission`
+                            `headsvalue[${index}].commission`
                             ] && (
                               <div className="invalid-feedback">
                                 {formik2.errors.headsvalue[index].commission}
@@ -789,14 +772,13 @@ const SageDeduction = (props) => {
                           </Form.Label>
                           <Form.Control
                             type="number"
-                            className={`input101 ${
-                              formik2.errors.headsvalue?.[index]?.start_value &&
+                            className={`input101 ${formik2.errors.headsvalue?.[index]?.start_value &&
                               formik2.touched[
-                                `headsvalue[${index}].start_value`
+                              `headsvalue[${index}].start_value`
                               ]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`headsvalue[${index}].start_value`}
                             onChange={formik2.handleChange}
                             placeholder="Start Value"
@@ -808,7 +790,7 @@ const SageDeduction = (props) => {
                           />
                           {formik2.errors.headsvalue?.[index]?.start_value &&
                             formik2.touched[
-                              `headsvalue[${index}].start_value`
+                            `headsvalue[${index}].start_value`
                             ] && (
                               <div className="invalid-feedback">
                                 {formik2.errors.headsvalue[index].start_value}
@@ -826,12 +808,11 @@ const SageDeduction = (props) => {
                           </Form.Label>
                           <Form.Control
                             type="number"
-                            className={`input101 ${
-                              formik2.errors.headsvalue?.[index]?.end_value &&
+                            className={`input101 ${formik2.errors.headsvalue?.[index]?.end_value &&
                               formik2.touched[`headsvalue[${index}].end_value`]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`headsvalue[${index}].end_value`}
                             onChange={formik2.handleChange}
                             placeholder="End Value"
@@ -843,7 +824,7 @@ const SageDeduction = (props) => {
                           />
                           {formik2.errors.headsvalue?.[index]?.end_value &&
                             formik2.touched[
-                              `headsvalue[${index}].end_value`
+                            `headsvalue[${index}].end_value`
                             ] && (
                               <div className="invalid-feedback">
                                 {formik2.errors.headsvalue[index].end_value}

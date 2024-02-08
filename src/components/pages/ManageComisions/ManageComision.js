@@ -49,12 +49,86 @@ const ManageDsr = (props) => {
     }
   }, [UserPermissions]);
 
-  const isStatusPermissionAvailable = permissionsArray?.includes(
-    "supplier-status-update"
-  );
-  const isEditPermissionAvailable = permissionsArray?.includes("supplier-edit");
-  const isAddPermissionAvailable =
-    permissionsArray?.includes("supplier-create");
+  useEffect(() => {
+    const clientId = localStorage.getItem("superiorId");
+
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData()
+    } else {
+      setSelectedClientId(clientId);
+      GetCompanyList(clientId)
+    }
+  }, []);
+
+  const fetchCommonListData = async () => {
+    try {
+      const response = await getData("/common/client-list");
+
+      const { data } = response;
+      if (data) {
+        setClientList(response.data);
+
+        const clientId = localStorage.getItem("superiorId");
+        if (clientId) {
+          setSelectedClientId(clientId);
+          setSelectedCompanyList([]);
+
+          if (response?.data) {
+            const selectedClient = response?.data?.data?.find(
+              (client) => client.id === clientId
+            );
+            if (selectedClient) {
+              setSelectedCompanyList(selectedClient?.companies);
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+  const GetCompanyList = async (values) => {
+    try {
+      if (values) {
+        const response = await getData(
+          `common/company-list?client_id=${values}`
+        );
+
+        if (response) {
+
+          setCompanyList(response?.data?.data);
+        } else {
+          throw new Error("No data available in the response");
+        }
+      } else {
+        console.error("No site_id found ");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+  const GetSiteList = async (values) => {
+    try {
+      if (values) {
+        const response = await getData(`common/site-list?company_id=${values}`);
+
+        if (response) {
+
+          setSiteList(response?.data?.data);
+        } else {
+          throw new Error("No data available in the response");
+        }
+      } else {
+        console.error("No site_id found ");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
+
 
 
 
@@ -200,84 +274,7 @@ const ManageDsr = (props) => {
     },
   });
 
-  const fetchCommonListData = async () => {
-    try {
-      const response = await getData("/common/client-list");
 
-      const { data } = response;
-      if (data) {
-        setClientList(response.data);
-
-        const clientId = localStorage.getItem("superiorId");
-        if (clientId) {
-          setSelectedClientId(clientId);
-          setSelectedCompanyList([]);
-
-          if (response?.data) {
-            const selectedClient = response?.data?.data?.find(
-              (client) => client.id === clientId
-            );
-            if (selectedClient) {
-              setSelectedCompanyList(selectedClient?.companies);
-            }
-          }
-        }
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  const GetCompanyList = async (values) => {
-    try {
-      if (values) {
-        const response = await getData(
-          `common/company-list?client_id=${values}`
-        );
-
-        if (response) {
-
-          setCompanyList(response?.data?.data);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } else {
-        console.error("No site_id found ");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  const GetSiteList = async (values) => {
-    try {
-      if (values) {
-        const response = await getData(`common/site-list?company_id=${values}`);
-
-        if (response) {
-
-          setSiteList(response?.data?.data);
-        } else {
-          throw new Error("No data available in the response");
-        }
-      } else {
-        console.error("No site_id found ");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
-  useEffect(() => {
-    const clientId = localStorage.getItem("superiorId");
-
-    if (localStorage.getItem("superiorRole") !== "Client") {
-      fetchCommonListData()
-    } else {
-      setSelectedClientId(clientId);
-      GetCompanyList(clientId)
-    }
-  }, []);
 
   return (
     <>

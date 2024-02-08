@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import DataTableExtensions from "react-data-table-component-extensions";
 import {
   Breadcrumb,
   Card,
@@ -14,17 +13,13 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
-import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const ManageDeductions = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -39,6 +34,22 @@ const ManageDeductions = (props) => {
   const [lastPage, setLastPage] = useState(1);
   const [perPage, setPerPage] = useState(20);
   const [total, setTotal] = useState(0);
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions.permissions);
+    }
+  }, [UserPermissions]);
+
+  const isEditPermissionAvailable =
+    permissionsArray?.includes("deduction-edit");
+  const isAddPermissionAvailable =
+    permissionsArray?.includes("deduction-create");
+  const isDeletePermissionAvailable =
+    permissionsArray?.includes("deduction-delete");
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -150,22 +161,7 @@ const ManageDeductions = (props) => {
     }
   };
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
 
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions.permissions);
-    }
-  }, [UserPermissions]);
-
-  const isEditPermissionAvailable =
-    permissionsArray?.includes("deduction-edit");
-  const isAddPermissionAvailable =
-    permissionsArray?.includes("deduction-create");
-  const isDeletePermissionAvailable =
-    permissionsArray?.includes("deduction-delete");
 
   const columns = [
     {

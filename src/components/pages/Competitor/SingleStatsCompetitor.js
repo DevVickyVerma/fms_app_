@@ -65,8 +65,8 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
         // Use async/await to fetch data
         const response3 = await axiosInstance.get(
           selectedValues?.start_date
-            ? `/dashboard/get-competitors-price?site_id=${id}&drs_date=${selectedValues?.start_date}`
-            : `/dashboard/get-competitors-price?site_id=${id}`
+            ? `/site/competitor-price/stats?site_id=${id}&drs_date=${selectedValues?.start_date}`
+            : `/site/competitor-price/stats?site_id=${id}`
         );
 
         if (response3 && response3.data) {
@@ -239,11 +239,10 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                       min={formattedTwoMonthsAgo}
                       max={getCompetitorsPrice?.last_dayend}
                       onClick={handleShowDate}
-                      className={`input101 compi-calender ${
-                        errors.start_date && touched.start_date
-                          ? "is-invalid"
-                          : ""
-                      }`}
+                      className={`input101 compi-calender ${errors.start_date && touched.start_date
+                        ? "is-invalid"
+                        : ""
+                        }`}
                       id="start_date"
                       name="start_date"
                       value={mySelectedDate}
@@ -325,7 +324,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                 px={"13px"}
               >
                 <Typography fontSize={"14px"}>
-                  Last Day End : {}
+                  Last Day End : { }
                   {getCompetitorsPrice?.last_dayend ? (
                     moment(getCompetitorsPrice?.last_dayend).format("Do MMM")
                   ) : (
@@ -559,7 +558,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                                           src={require("../../../assets/images/SingleStatsCompetitor/PetrolPrices-Icon-512px (2).png")}
                                           className=""
                                           style={{
-                                           
+
                                             objectFit: "contain",
                                           }}
                                         />

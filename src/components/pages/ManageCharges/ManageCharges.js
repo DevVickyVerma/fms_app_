@@ -34,6 +34,26 @@ const ManageCharges = (props) => {
   const [lastPage, setLastPage] = useState(1);
   const [perPage, setPerPage] = useState(20);
   const [total, setTotal] = useState(0);
+  const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+
+  useEffect(() => {
+    FetchTableData(currentPage);
+    console.clear();
+  }, [currentPage]);
+
+  useEffect(() => {
+    if (UserPermissions) {
+      setPermissionsArray(UserPermissions.permissions);
+    }
+  }, [UserPermissions]);
+
+  const isEditPermissionAvailable = permissionsArray?.includes("charges-edit");
+  const isAddPermissionAvailable = permissionsArray?.includes("charges-create");
+  const isDeletePermissionAvailable =
+    permissionsArray?.includes("charges-delete");
 
   const ErrorAlert = (message) => toast.error(message);
 
@@ -99,10 +119,6 @@ const ManageCharges = (props) => {
     }
   }
 
-  useEffect(() => {
-    FetchTableData(currentPage);
-    console.clear();
-  }, [currentPage]);
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -147,20 +163,6 @@ const ManageCharges = (props) => {
 
 
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
-
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions.permissions);
-    }
-  }, [UserPermissions]);
-
-  const isEditPermissionAvailable = permissionsArray?.includes("charges-edit");
-  const isAddPermissionAvailable = permissionsArray?.includes("charges-create");
-  const isDeletePermissionAvailable =
-    permissionsArray?.includes("charges-delete");
 
   const columns = [
     {
