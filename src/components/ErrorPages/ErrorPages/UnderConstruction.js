@@ -8,7 +8,7 @@ export default function UnderConstruction() {
                         <div className="error-template">
 
                             <div>
-                                <h4>Site is under maintenance please try again later...........</h4>
+                                <h4>This site is temporarily unavailable due to maintenance. Please try again later...</h4>
                                 <img
                                     src={require("../../../assets/images/under-construction/under-constuction.jpg")}
                                     alt="MyChartImage"
