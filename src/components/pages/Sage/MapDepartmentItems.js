@@ -208,15 +208,16 @@ const DepartmentItems = (props) => {
       },
     ],
   };
+  const headsvalueonsubmit = () => {
+    console.log(formik2.values);
+  };
   const formik2 = useFormik({
     initialValues: headsvalueinitialValues,
 
     onSubmit: headsvalueonsubmit,
   });
 
-  const headsvalueonsubmit = () => {
-    console.log(formik2.values);
-  };
+
   const setFieldValuesFromHeads = (head) => {
     formik2.setFieldValue("sage_export_type", head?.sage_export_type || "");
     formik2.setFieldValue(

@@ -223,15 +223,16 @@ const SageDeduction = (props) => {
       },
     ],
   };
+  const headsvalueonsubmit = () => {
+    console.log(formik2.values);
+  };
   const formik2 = useFormik({
     initialValues: headsvalueinitialValues,
 
     onSubmit: headsvalueonsubmit,
   });
 
-  const headsvalueonsubmit = () => {
-    console.log(formik2.values);
-  };
+
 
   const pushnonbunkeredSalesRow = () => {
     if (formik2.isValid) {

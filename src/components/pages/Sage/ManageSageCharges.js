@@ -57,6 +57,9 @@ const SageCharges = (props) => {
       });
     }
   }, [data]);
+  const headsvalueonsubmit = () => {
+    console.log(formik2.values);
+  };
   const GetCompanyList = async (values) => {
     try {
       if (values) {
@@ -208,9 +211,7 @@ const SageCharges = (props) => {
   };
 
 
-  const headsvalueonsubmit = () => {
-    console.log(formik2.values);
-  };
+
   const setFieldValuesFromHeads = (head) => {
     formik2.setFieldValue("sage_export_type", head?.sage_export_type || "");
     formik2.setFieldValue(
@@ -903,7 +904,7 @@ const SageCharges = (props) => {
                       </Col>
 
                     </React.Fragment>
-                    {index !== formik2.values.headsvalue.length - 1 &&
+                    {index !== formik2?.values?.headsvalue.length - 1 &&
                       data?.sageExport.length > 0 ? (
                       <hr className="mt-4"></hr>
                     ) : null}
