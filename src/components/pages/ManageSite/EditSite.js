@@ -144,7 +144,7 @@ export default function AddSite(props) {
         .max(20, "Must be 20 characters or less")
         .required("Site Code is required"),
       site_name: Yup.string()
-        .max(30, "Must be 30 characters or less")
+        .max(150, "Must be 30 characters or less")
         .required("Site Name is required"),
       site_address: Yup.string().required("Site Address is required"),
       site_status: Yup.string().required("Site Status is required"),
