@@ -613,7 +613,7 @@ const Dashboard = (props) => {
           setCenterFilterModalOpen={setCenterFilterModalOpen}
         />
 
-        {isProfileUpdatePermissionAvailable &&
+        {/* {isProfileUpdatePermissionAvailable &&
         !isTwoFactorPermissionAvailable &&
         ShowAuth ? (
           <>
@@ -621,7 +621,7 @@ const Dashboard = (props) => {
           </>
         ) : (
           ""
-        )}
+        )} */}
 
         <DashboardStatsBox
           GrossVolume={gross_volume}
