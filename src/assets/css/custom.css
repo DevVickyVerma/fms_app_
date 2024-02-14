@@ -1512,3 +1512,7 @@ li.ms-2.disabled-checkbox {
 .rdt_TableBody {
   min-height: 700px !important;
 }
+.accordion-button{
+  background-color: #fff !important;
+  border-bottom: 1px solid #ddd;
+}

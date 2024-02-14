@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import {
+  Collapse,
   Col,
   Row,
   Card,
   Breadcrumb,
+  Accordion,
 } from "react-bootstrap";
 
 import DataTable from "react-data-table-component";
@@ -13,12 +15,14 @@ import Loaderimg from "../../../Utils/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
-import { Field } from "formik";
+import { useSelector } from "react-redux";
 
 const SiteSettings = (props) => {
   const { apidata, error, getData, postData, SiteID, ReportDate, isLoading } =
     props;
-
+  const UserPermissions = useSelector(
+    (state) => state?.data?.data?.permissions
+  );
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
   const [DeductionData, setDeductionData] = useState([]);
@@ -29,6 +33,7 @@ const SiteSettings = (props) => {
   const [DrsData, setDrsData] = useState([]);
   const [SiteItems, setSiteItems] = useState([]);
   const [ReportsData, setReportsData] = useState([]);
+  const [CldoReportsReportsData, setCldoReportsReportsData] = useState([]);
   const [CashDayData, setCashDayData] = useState([]);
   const [siteName, setSiteName] = useState("");
 
@@ -49,13 +54,14 @@ const SiteSettings = (props) => {
         setFuelData(data?.data ? data.data.fuels : []);
         setDrsData(data?.data ? data.data.drsCard : []);
         setReportsData(data?.data ? data.data.reports : []);
+        setCldoReportsReportsData(data?.data ? data.data.cldoSheets : []);
         setSiteItems(data?.data ? data.data.site_items : []);
         setBussinesModelData(data?.data ? data.data.business_models : []);
         setCardsModelData(data?.data ? data.data.cards : []);
         setCashDayData(data?.data ? data.data.cash_days : []);
         setis_editable(data?.data ? data.data : {});
 
-        setSiteName(response?.data?.data?.site_name)
+        setSiteName(response?.data?.data?.site_name);
 
         formik.setFieldValue(
           "AssignFormikbussiness",
@@ -68,7 +74,7 @@ const SiteSettings = (props) => {
         formik.setFieldValue("FormikFuelData", data?.data?.fuels);
         formik.setFieldValue("FormikDRSData", data?.data?.drsCard);
         formik.setFieldValue("FormikreportsData", data?.data?.reports);
-
+        formik.setFieldValue("FormikCldoReports", data?.data?.cldoSheets);
         formik.setFieldValue("AssignFormikCards", data?.data?.cards);
         formik.setFieldValue("CahsDayFormikData", data?.data?.cash_days);
       } else {
@@ -268,6 +274,7 @@ const SiteSettings = (props) => {
   };
 
   const [selectAllCheckedReports, setSelectAllCheckedReports] = useState(false);
+  const [selectAllCldoReports, setSelectAllCldoReports] = useState(false);
 
   const [selectAllCheckedDrsCards, setSelectAllCheckedDrsCards] =
     useState(false);
@@ -282,6 +289,7 @@ const SiteSettings = (props) => {
 
     formik.setFieldValue("FormikreportsData", updatedRowData);
   };
+
   const handleSelectAllDrsCards = () => {
     const updatedRowData = DrsData.map((row) => ({
       ...row,
@@ -456,7 +464,7 @@ const SiteSettings = (props) => {
             // value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-          // readOnly={editable?.is_editable ? false : true}
+            // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -567,7 +575,7 @@ const SiteSettings = (props) => {
             // value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-          // readOnly={editable?.is_editable ? false : true}
+            // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -677,7 +685,7 @@ const SiteSettings = (props) => {
             // value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-          // readOnly={editable?.is_editable ? false : true}
+            // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -877,7 +885,91 @@ const SiteSettings = (props) => {
     },
   ];
 
-  // Define an array to store the combined objects
+  const CldoReportsColumn = [
+    {
+      name: "Select",
+
+      selector: (row) => row.checked,
+      sortable: false,
+      center: true,
+      width: "20%",
+
+      cell: (row, index) => (
+        <div>
+          <input
+            type="checkbox"
+            id={`checked-${index}`}
+            name={`FormikCldoReports[${index}].checked`}
+            className="table-checkbox-input"
+            checked={
+              formik.values?.FormikCldoReports?.[index]?.checked ?? false
+            }
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {/* Error handling code */}
+        </div>
+      ),
+    },
+    {
+      name: "Sheet Name",
+      selector: (row) => row.sheet_name,
+      sortable: true,
+      width: "80%",
+      cell: (row) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.sheet_name}</h6>
+          </div>
+        </div>
+      ),
+    },
+  ];
+  const handleSelectAllCldoReports = () => {
+    const updatedRowData = CldoReportsReportsData.map((row) => ({
+      ...row,
+      checked: !selectAllCldoReports,
+    }));
+    formik.setFieldValue("FormikCldoReports", updatedRowData);
+    setSelectAllCldoReports(!selectAllCldoReports);
+
+    formik.setFieldValue("FormikCldoReports", updatedRowData);
+  };
+
+  const cldosubmit = async (event) => {
+    event.preventDefault();
+    try {
+      // Create a new FormData object
+      const formData = new FormData();
+      const selectedcldoIds = [];
+      const reports_models_valueKey = "cldosheets";
+
+      for (let i = 0; i < formik.values.FormikCldoReports.length; i++) {
+        const { id, checked } = formik.values.FormikCldoReports[i];
+
+        if (checked) {
+          selectedcldoIds.push({
+            [reports_models_valueKey + "[" + i + "]"]: id,
+          });
+        }
+      }
+
+      selectedcldoIds.forEach((item) => {
+        const key = Object.keys(item)[0];
+        const value = item[key];
+        formData.append(key, value);
+      });
+
+      formData.append("id", id);
+
+      const postDataUrl = "/site/update-advance-setting";
+      const navigatePath = "/sites";
+
+      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
+    } catch (error) {
+      console.log(error); // Set the submission state to false if an error occurs
+    }
+  };
 
   return (
     <>
@@ -1170,6 +1262,54 @@ const SiteSettings = (props) => {
             </div>
           </form>
         </Row>
+        {UserPermissions?.includes("site-advance-setting") ? (
+          <Col sm={12} md={12} lg={12} xl={12}>
+            <Accordion defaultActiveKey="Accordion Item #1">
+              <Accordion.Item eventKey="Accordion Item #1" className="mb-2">
+                <Accordion.Header style={{ background: "#fff" }}>
+                  Advance Site Settings
+                </Accordion.Header>
+                <Accordion.Body>
+                  <form onSubmit={cldosubmit}>
+                    <div className=" m-4">
+                      <Row className="mt-4">
+                        <Col lg={4} md={4}>
+                          <Card.Header className="cardheader-table">
+                            <h3 className="card-title">Cldo Reports</h3>
+                          </Card.Header>
+                          <div className="module-height">
+                            <DataTable
+                              columns={CldoReportsColumn}
+                              data={CldoReportsReportsData}
+                              defaultSortField="id"
+                              defaultSortAsc={false}
+                              striped={true}
+                              persistTableHead
+                              highlightOnHover
+                              searchable={false}
+                              responsive
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                      <div className="d-flex justify-content-end mt-3">
+                        <Link className="btn btn-danger me-2" to={`/sites/`}>
+                          Cancel
+                        </Link>
+                        {/* Make sure the button type is set to "submit" */}
+                        <button className="btn btn-primary" type="submit">
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+          </Col>
+        ) : (
+          ""
+        )}
       </>
     </>
   );

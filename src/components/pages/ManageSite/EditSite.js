@@ -138,6 +138,9 @@ export default function AddSite(props) {
       security_amount: "",
       is_reconciled: "",
       consider_keyfules_cards: "",
+      fuel_discount:"",
+      vat_summary:"",
+      include_bunkered_sales:"",
     },
     validationSchema: Yup.object({
       site_code: Yup.string()
@@ -1393,6 +1396,109 @@ export default function AddSite(props) {
                             )}
                         </div>
                       </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="fuel_discount"
+                            className="form-label mt-4"
+                          >
+                            Fuel Discount
+                            
+                          </label>
+                          <select
+                            className={`input101 ${formik.errors.fuel_discount &&
+                              formik.touched.fuel_discount
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="fuel_discount"
+                            name="fuel_discount"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.fuel_discount}
+                          >
+                            <option value="">Select a Fuel Discount
+                            </option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                          </select>
+                          {formik.errors.fuel_discount &&
+                            formik.touched.fuel_discount && (
+                              <div className="invalid-feedback">
+                                {formik.errors.fuel_discount}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="include_bunkered_sales"
+                            className="form-label mt-4"
+                          >
+                            Include Bunkered Sales
+                            
+                          </label>
+                          <select
+                            className={`input101 ${formik.errors.include_bunkered_sales &&
+                              formik.touched.include_bunkered_sales
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="include_bunkered_sales"
+                            name="include_bunkered_sales"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.include_bunkered_sales}
+                          >
+                            <option value="">Select a Include Bunkered Sales
+                            </option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                          </select>
+                          {formik.errors.include_bunkered_sales &&
+                            formik.touched.include_bunkered_sales && (
+                              <div className="invalid-feedback">
+                                {formik.errors.include_bunkered_sales}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="vat_summary"
+                            className="form-label mt-4"
+                          >
+                             Vat Summary
+                            
+                          </label>
+                          <select
+                            className={`input101 ${formik.errors.vat_summary &&
+                              formik.touched.vat_summary
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="vat_summary"
+                            name="vat_summary"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.vat_summary}
+                          >
+                            <option value="">Select a  Vat Summary
+                            </option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                          </select>
+                          {formik.errors.vat_summary &&
+                            formik.touched.vat_summary && (
+                              <div className="invalid-feedback">
+                                {formik.errors.vat_summary}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      
                     </Row>
                     <div className="text-end">
                       <Link
