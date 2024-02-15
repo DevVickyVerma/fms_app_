@@ -16,6 +16,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const SiteSettings = (props) => {
   const { apidata, error, getData, postData, SiteID, ReportDate, isLoading } =
@@ -81,6 +82,7 @@ const SiteSettings = (props) => {
         throw new Error("No data available in the response");
       }
     } catch (error) {
+      handleError(error);
       console.error("API error:", error);
     }
   };
@@ -234,6 +236,7 @@ const SiteSettings = (props) => {
 
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
+      handleError(error);
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
@@ -938,6 +941,9 @@ const SiteSettings = (props) => {
 
   const cldosubmit = async (event) => {
     event.preventDefault();
+
+
+
     try {
       // Create a new FormData object
       const formData = new FormData();
@@ -967,7 +973,7 @@ const SiteSettings = (props) => {
 
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
-      console.log(error); // Set the submission state to false if an error occurs
+      handleError(error)// Set the submission state to false if an error occurs
     }
   };
 
@@ -1262,7 +1268,7 @@ const SiteSettings = (props) => {
             </div>
           </form>
         </Row>
-        {/* {UserPermissions?.includes("site-advance-setting") ? (
+        {UserPermissions?.includes("site-advance-setting") ? (
           <Col sm={12} md={12} lg={12} xl={12}>
             <Accordion defaultActiveKey="Accordion Item #1">
               <Accordion.Item eventKey="Accordion Item #1" className="mb-2">
@@ -1309,7 +1315,7 @@ const SiteSettings = (props) => {
           </Col>
         ) : (
           ""
-        )} */}
+        )}
       </>
     </>
   );
