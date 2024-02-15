@@ -1262,7 +1262,7 @@ const SiteSettings = (props) => {
             </div>
           </form>
         </Row>
-        {UserPermissions?.includes("site-advance-setting") ? (
+        {/* {UserPermissions?.includes("site-advance-setting") ? (
           <Col sm={12} md={12} lg={12} xl={12}>
             <Accordion defaultActiveKey="Accordion Item #1">
               <Accordion.Item eventKey="Accordion Item #1" className="mb-2">
@@ -1296,7 +1296,7 @@ const SiteSettings = (props) => {
                         <Link className="btn btn-danger me-2" to={`/sites/`}>
                           Cancel
                         </Link>
-                        {/* Make sure the button type is set to "submit" */}
+
                         <button className="btn btn-primary" type="submit">
                           Submit
                         </button>
@@ -1309,7 +1309,7 @@ const SiteSettings = (props) => {
           </Col>
         ) : (
           ""
-        )}
+        )} */}
       </>
     </>
   );
