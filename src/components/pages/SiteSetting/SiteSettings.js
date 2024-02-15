@@ -941,9 +941,6 @@ const SiteSettings = (props) => {
 
   const cldosubmit = async (event) => {
     event.preventDefault();
-
-
-
     try {
       // Create a new FormData object
       const formData = new FormData();
