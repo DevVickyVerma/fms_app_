@@ -543,6 +543,9 @@ const managesms = React.lazy(() =>
 const setuppayroll = React.lazy(() =>
   import("./components/pages/ManageClient/SetupPayroll")
 );
+const canvaseditor = React.lazy(() =>
+  import("./components/pages/Canvas")
+);
 
 const Root = () => {
   const store = configureStore({
@@ -552,6 +555,7 @@ const Root = () => {
   });
   const [token, setToken] = useState(localStorage.getItem("token"));
   const WrappedDashboard = withApi(Dashboard);
+  const Wrappedcanvaseditor = withApi(canvaseditor);
   const WrappedManageBusinessSubTypes = withApi(ManageBusinessSubTypes);
   const WrappeAddBusinessSubTypes = withApi(AddBusinessSubTypes);
   const WrappedManageClient = withApi(ManageClient);
@@ -998,6 +1002,10 @@ const Root = () => {
                   <Route
                     path={`/managecards`}
                     element={<WrappedManageCards />}
+                  />
+                  <Route
+                    path={`/editor`}
+                    element={<Wrappedcanvaseditor />}
                   />
 
                   <Route path={`/addcards`} element={<WrappedAddCards />} />
