@@ -12,16 +12,16 @@ export const MENUITEMS = [
         visibility: false,
         title: "Dashboard",
       },
-      {
-        path: `/editor`,
-        icon: "home",
-        type: "link",
-        active: false,
+      // {
+      //   path: `/editor`,
+      //   icon: "home",
+      //   type: "link",
+      //   active: false,
 
-        permission: "dashboard-view",
-        visibility: false,
-        title: "editor",
-      },
+      //   permission: "dashboard-view",
+      //   visibility: false,
+      //   title: "editor",
+      // },
       // {
       //   title: "Manage payrols",
       //   icon: "comments",
