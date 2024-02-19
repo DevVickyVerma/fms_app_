@@ -569,7 +569,7 @@ input.table-input.readonly.total-input-card {
   /* Other styles */
 }
 
-.rdt_Table {
+/* .rdt_Table {
   position: relative;
   width: 100%;
   border-radius: inherit;
@@ -577,7 +577,7 @@ input.table-input.readonly.total-input-card {
   overflow-y: hidden;
   min-height: 405px;
   overflow: hidden;
-}
+} */
 
 [data-role="table"] {
   /* Your custom styles here */
@@ -1509,10 +1509,23 @@ li.ms-2.disabled-checkbox {
   /* background-color: var(--primary-bg-color); */
 }
 
-.rdt_TableBody {
+/* .rdt_TableBody {
   min-height: 700px !important;
-}
+} */
 .accordion-button{
   background-color: #fff !important;
   border-bottom: 1px solid #ddd;
+}
+.manage-site-dropdown-item {
+  position: relative; /* Ensure the parent has a relative position */
+}
+
+.dropdown-menu {
+  z-index: 1000; /* Set a higher z-index value */
+  position: absolute;
+  /* Add any other necessary styles */
+}
+
+.table-responsive.site_deleted_table .iLyphs {
+  min-height: 800px;
 }

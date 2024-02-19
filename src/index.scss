@@ -3179,7 +3179,8 @@ form.richText {
 .transparent-mode {
   .deleted-table {
     .gZWIKX {
-      background-color: $transparent-body !important;
+      // background-color: $transparent-body !important;
+      background-color:#000 !important;
     }
   }
 }

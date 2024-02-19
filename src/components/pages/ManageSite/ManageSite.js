@@ -378,7 +378,7 @@ const ManageSite = (props) => {
                 >
                   Actions
                 </Dropdown.Toggle>
-                <Dropdown.Menu className="dropdown-menu" style={{ margin: "0px !important", padding: "0px !important" }}>
+                <Dropdown.Menu className="dropdown-menu"  style={{ margin: "0px", padding: "0px", position: "absolute", right: "0" }}>
 
                   {issitesettingPermissionAvailable ? (
                     <Dropdown.Item
@@ -766,7 +766,7 @@ const ManageSite = (props) => {
               <Card.Body  >
                 {data?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table">
+                    <div className="table-responsive site_deleted_table"  style={{ minHeight: "700px !important" }}>
                       <DataTable
                         columns={columns}
                         data={data}
@@ -779,6 +779,7 @@ const ManageSite = (props) => {
                         highlightOnHover
                         searchable={false}
                         subHeader={false}
+                       
 
 
                       />
