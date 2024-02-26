@@ -19,8 +19,15 @@ import { useSelector } from "react-redux";
 import { handleError } from "../../../Utils/ToastUtils";
 
 const SiteSettings = (props) => {
-  const { apidata, error, getData, postData, SiteID, ReportDate, isLoading } =
-    props;
+  const {
+    apidata,
+    error,
+    getData,
+    postData,
+    SiteID,
+    ReportDate,
+    isLoading,
+  } = props;
   const UserPermissions = useSelector(
     (state) => state?.data?.data?.permissions
   );
@@ -35,6 +42,7 @@ const SiteSettings = (props) => {
   const [SiteItems, setSiteItems] = useState([]);
   const [ReportsData, setReportsData] = useState([]);
   const [CldoReportsReportsData, setCldoReportsReportsData] = useState([]);
+  const [vat_summaryData, setvat_summaryData] = useState([]);
   const [CashDayData, setCashDayData] = useState([]);
   const [siteName, setSiteName] = useState("");
 
@@ -56,13 +64,14 @@ const SiteSettings = (props) => {
         setDrsData(data?.data ? data.data.drsCard : []);
         setReportsData(data?.data ? data.data.reports : []);
         setCldoReportsReportsData(data?.data ? data.data.cldoSheets : []);
+        setvat_summaryData(data?.data ? data.data.vatsummaryitems : []);
         setSiteItems(data?.data ? data.data.site_items : []);
         setBussinesModelData(data?.data ? data.data.business_models : []);
         setCardsModelData(data?.data ? data.data.cards : []);
         setCashDayData(data?.data ? data.data.cash_days : []);
         setis_editable(data?.data ? data.data : {});
 
-        setSiteName(response?.data?.data?.site_name);
+        setSiteName(response?.data?.data);
 
         formik.setFieldValue(
           "AssignFormikbussiness",
@@ -76,6 +85,7 @@ const SiteSettings = (props) => {
         formik.setFieldValue("FormikDRSData", data?.data?.drsCard);
         formik.setFieldValue("FormikreportsData", data?.data?.reports);
         formik.setFieldValue("FormikCldoReports", data?.data?.cldoSheets);
+        formik.setFieldValue("vat_summaryData", data?.data?.vatsummaryitems);
         formik.setFieldValue("AssignFormikCards", data?.data?.cards);
         formik.setFieldValue("CahsDayFormikData", data?.data?.cash_days);
       } else {
@@ -279,8 +289,9 @@ const SiteSettings = (props) => {
   const [selectAllCheckedReports, setSelectAllCheckedReports] = useState(false);
   const [selectAllCldoReports, setSelectAllCldoReports] = useState(false);
 
-  const [selectAllCheckedDrsCards, setSelectAllCheckedDrsCards] =
-    useState(false);
+  const [selectAllCheckedDrsCards, setSelectAllCheckedDrsCards] = useState(
+    false
+  );
 
   const handleSelectAllReports = () => {
     const updatedRowData = ReportsData.map((row) => ({
@@ -928,6 +939,42 @@ const SiteSettings = (props) => {
       ),
     },
   ];
+  const vat_summaryColumn = [
+    {
+      name: "Select",
+      selector: (row) => row.checked,
+      sortable: false,
+      center: true,
+      width: "20%",
+      cell: (row, index) => (
+        <div>
+          <input
+            type="checkbox"
+            id={`checked-${index}`}
+            name={`vat_summaryData[${index}].checked`}
+            className="table-checkbox-input"
+            checked={formik.values?.vat_summaryData?.[index]?.checked ?? false}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {/* Error handling code */}
+        </div>
+      ),
+    },
+    {
+      name: "Name",
+      selector: (row) => row.name,
+      sortable: true,
+      width: "80%",
+      cell: (row) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
+          </div>
+        </div>
+      ),
+    },
+  ];
   const handleSelectAllCldoReports = () => {
     const updatedRowData = CldoReportsReportsData.map((row) => ({
       ...row,
@@ -963,6 +1010,25 @@ const SiteSettings = (props) => {
         formData.append(key, value);
       });
 
+      const vat_summaryIds = [];
+      const vat_summaryIdsKey = "department_item";
+
+      for (let i = 0; i < formik.values.vat_summaryData.length; i++) {
+        const { id, checked } = formik.values.vat_summaryData[i];
+
+        if (checked) {
+          vat_summaryIds.push({
+            [vat_summaryIdsKey + "[" + i + "]"]: id,
+          });
+        }
+      }
+
+      vat_summaryIds.forEach((item) => {
+        const key = Object.keys(item)[0];
+        const value = item[key];
+        formData.append(key, value);
+      });
+
       formData.append("id", id);
 
       const postDataUrl = "/site/update-advance-setting";
@@ -970,7 +1036,7 @@ const SiteSettings = (props) => {
 
       await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
     } catch (error) {
-      handleError(error)// Set the submission state to false if an error occurs
+      handleError(error); // Set the submission state to false if an error occurs
     }
   };
 
@@ -980,7 +1046,9 @@ const SiteSettings = (props) => {
       <>
         <div className="page-header">
           <div>
-            <h1 className="page-title">Site Settings ({siteName})</h1>
+            <h1 className="page-title">
+              Site Settings ({siteName?.site_name})
+            </h1>
 
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -1275,35 +1343,64 @@ const SiteSettings = (props) => {
                 <Accordion.Body>
                   <form onSubmit={cldosubmit}>
                     <div className=" m-4">
-                      <Row className="mt-4">
-                        <Col lg={4} md={4}>
-                          <Card.Header className="cardheader-table">
-                            <h3 className="card-title">Cldo Reports</h3>
-                          </Card.Header>
-                          <div className="module-height">
-                            <DataTable
-                              columns={CldoReportsColumn}
-                              data={CldoReportsReportsData}
-                              defaultSortField="id"
-                              defaultSortAsc={false}
-                              striped={true}
-                              persistTableHead
-                              highlightOnHover
-                              searchable={false}
-                              responsive
-                            />
-                          </div>
-                        </Col>
-                      </Row>
-                      <div className="d-flex justify-content-end mt-3">
-                        <Link className="btn btn-danger me-2" to={`/sites/`}>
-                          Cancel
-                        </Link>
+                      <Card.Body className="pt-0">
+                        <Row className="mt-4">
+                          <Col lg={4} md={4}>
+                            <Card.Header className="cardheader-table">
+                              <h3 className="card-title">Cldo Reports</h3>
+                            </Card.Header>
+                            <div className="module-height">
+                              <DataTable
+                                columns={CldoReportsColumn}
+                                data={CldoReportsReportsData}
+                                defaultSortField="id"
+                                defaultSortAsc={false}
+                                striped={true}
+                                persistTableHead
+                                highlightOnHover
+                                searchable={false}
+                                responsive
+                              />
+                            </div>
+                          </Col>
 
-                        <button className="btn btn-primary" type="submit">
-                          Submit
-                        </button>
-                      </div>
+                          {siteName?.vat_summary ? (
+                            <Col lg={4} md={4}>
+                              <Card.Header className="cardheader-table">
+                                <h3 className="card-title">
+                                  Vat Summary Items
+                                </h3>
+                              </Card.Header>
+                              <div className="module-height">
+                                <DataTable
+                                  columns={vat_summaryColumn}
+                                  data={vat_summaryData}
+                                  defaultSortField="id"
+                                  defaultSortAsc={false}
+                                  striped={true}
+                                  persistTableHead
+                                  highlightOnHover
+                                  searchable={false}
+                                  responsive
+                                />
+                              </div>
+                            </Col>
+                          ) : (
+                            ""
+                          )}
+                        </Row>
+                      </Card.Body>
+                      <Card.Footer>
+                        <div className="d-flex justify-content-end mt-3">
+                          <Link className="btn btn-danger me-2" to={`/sites/`}>
+                            Cancel
+                          </Link>
+
+                          <button className="btn btn-primary" type="submit">
+                            Submit
+                          </button>
+                        </div>
+                      </Card.Footer>
                     </div>
                   </form>
                 </Accordion.Body>
