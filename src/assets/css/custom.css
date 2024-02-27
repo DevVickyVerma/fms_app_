@@ -1526,6 +1526,6 @@ li.ms-2.disabled-checkbox {
   /* Add any other necessary styles */
 }
 
-.table-responsive.site_deleted_table .iLyphs {
+.table-responsive .iLyphs {
   min-height: 800px;
 }
