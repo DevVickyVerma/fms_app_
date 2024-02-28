@@ -221,7 +221,7 @@ const ManageReports = (props) => {
         );
 
         if (response) {
-
+          setSelected([])
           setCompanyList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -326,13 +326,14 @@ const ManageReports = (props) => {
                                 formik.setFieldValue("client_id", selectedType);
                                 setSelectedClientId(selectedType);
                                 setSiteList([]);
+                                setSelected([])
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");
                               } else {
                                 formik.setFieldValue("client_id", "");
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");
-
+                                setSelected([])
                                 setSiteList([]);
                                 setCompanyList([]);
                               }
@@ -382,9 +383,11 @@ const ManageReports = (props) => {
                               setSelectedCompanyId(selectcompany);
                               formik.setFieldValue("site_id", "");
                               formik.setFieldValue("company_id", selectcompany);
+                              setSelected([])
                             } else {
                               formik.setFieldValue("company_id", "");
-                              formik.setFieldValue("site_id", "");
+                              formik.setFieldValue("site_id", "");  
+                                setSelected([])
 
                               setSiteList([]);
                             }

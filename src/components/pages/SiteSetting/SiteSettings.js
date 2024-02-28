@@ -13,7 +13,7 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
 import Loaderimg from "../../../Utils/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Slide, toast } from "react-toastify";
+
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import { handleError } from "../../../Utils/ToastUtils";
@@ -344,7 +344,7 @@ const SiteSettings = (props) => {
     {
       name: "Business Models",
       selector: "item_name",
-      sortable: true,
+      sortable: false,
       width: "45%",
       cell: (row) => (
         <div className="d-flex">
@@ -411,7 +411,7 @@ const SiteSettings = (props) => {
     {
       name: "Card Model",
       selector: (row) => row.card_name,
-      sortable: true,
+      sortable: false,
       width: "85%",
       cell: (row) => (
         <div className="d-flex">
@@ -451,7 +451,7 @@ const SiteSettings = (props) => {
       name: "CHARGE GROUPS",
       width: "25%",
       selector: (row) => row.charge_name,
-      sortable: true,
+      sortable: false,
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -560,7 +560,7 @@ const SiteSettings = (props) => {
       name: "CHARGE GROUPS",
       width: "25%",
       selector: (row) => row.deduction_name,
-      sortable: true,
+      sortable: false,
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -672,7 +672,7 @@ const SiteSettings = (props) => {
     {
       name: "Department Name",
       selector: (row) => row.dept_name,
-      sortable: true,
+      sortable: false,
       width: "40%",
       cell: (row) => (
         <div className="d-flex">
@@ -757,7 +757,7 @@ const SiteSettings = (props) => {
     {
       name: "Fuel Name",
       selector: (row) => row.fuel_name,
-      sortable: true,
+      sortable: false,
       width: "80%",
       cell: (row) => (
         <div className="d-flex">
@@ -802,7 +802,7 @@ const SiteSettings = (props) => {
     {
       name: "Fuel Name",
       selector: (row) => row.drs_card_name,
-      sortable: true,
+      sortable: false,
       width: "80%",
       cell: (row) => (
         <div className="d-flex">
@@ -840,7 +840,7 @@ const SiteSettings = (props) => {
     {
       name: "Cash Day",
       selector: (row) => row.day,
-      sortable: true,
+      sortable: false,
       width: "80%",
       cell: (row) => (
         <div className="d-flex">
@@ -887,7 +887,7 @@ const SiteSettings = (props) => {
     {
       name: "Reports",
       selector: (row) => row.report_name,
-      sortable: true,
+      sortable: false,
       width: "80%",
       cell: (row) => (
         <div className="d-flex">
@@ -928,7 +928,7 @@ const SiteSettings = (props) => {
     {
       name: "Sheet Name",
       selector: (row) => row.sheet_name,
-      sortable: true,
+      sortable: false,
       width: "80%",
       cell: (row) => (
         <div className="d-flex">
@@ -948,13 +948,21 @@ const SiteSettings = (props) => {
       width: "20%",
       cell: (row, index) => (
         <div>
+  
           <input
             type="checkbox"
             id={`checked-${index}`}
             name={`vat_summaryData[${index}].checked`}
             className="table-checkbox-input"
             checked={formik.values?.vat_summaryData?.[index]?.checked ?? false}
-            onChange={formik.handleChange}
+            onChange={(e) => {
+              formik.handleChange(e);
+              console.log(
+                `Checkbox ${row?.id} is now ${
+                  e.target.checked ? "checked" : "unchecked"
+                }`
+              );
+            }}
             onBlur={formik.handleBlur}
           />
           {/* Error handling code */}
@@ -964,7 +972,7 @@ const SiteSettings = (props) => {
     {
       name: "Name",
       selector: (row) => row.name,
-      sortable: true,
+      sortable: false,
       width: "80%",
       cell: (row) => (
         <div className="d-flex">
@@ -1012,7 +1020,10 @@ const SiteSettings = (props) => {
 
       const vat_summaryIds = [];
       const vat_summaryIdsKey = "department_item";
-
+      console.log(
+        formik.values.vat_summaryData,
+        "formik.values.vat_summaryData"
+      );
       for (let i = 0; i < formik.values.vat_summaryData.length; i++) {
         const { id, checked } = formik.values.vat_summaryData[i];
 
@@ -1034,12 +1045,19 @@ const SiteSettings = (props) => {
       const postDataUrl = "/site/update-advance-setting";
       const navigatePath = "/sites";
 
-      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
+      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
     } catch (error) {
       handleError(error); // Set the submission state to false if an error occurs
     }
   };
-
+  // const vat_summaryColumnDates = {
+  //   vat_summaryColumn,
+  //   vat_summaryData,
+  // };
+  const tableData = {
+    data: vat_summaryData,
+    columns: vat_summaryColumn,
+  };
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -1342,8 +1360,8 @@ const SiteSettings = (props) => {
                 </Accordion.Header>
                 <Accordion.Body>
                   <form onSubmit={cldosubmit}>
-                    <div className=" m-4">
-                      <Card.Body className="pt-0">
+                    <div className=" mssss-4">
+                      <Card.Body className="p-0">
                         <Row className="mt-4">
                           <Col lg={4} md={4}>
                             <Card.Header className="cardheader-table">
@@ -1358,7 +1376,7 @@ const SiteSettings = (props) => {
                                 striped={true}
                                 persistTableHead
                                 highlightOnHover
-                                searchable={false}
+                                searchable={true}
                                 responsive
                               />
                             </div>
@@ -1372,17 +1390,31 @@ const SiteSettings = (props) => {
                                 </h3>
                               </Card.Header>
                               <div className="module-height">
-                                <DataTable
-                                  columns={vat_summaryColumn}
-                                  data={vat_summaryData}
-                                  defaultSortField="id"
-                                  defaultSortAsc={false}
-                                  striped={true}
-                                  persistTableHead
-                                  highlightOnHover
-                                  searchable={false}
-                                  responsive
-                                />
+                                {/* <DataTable
+                                    columns={vat_summaryColumn}
+                                    data={vat_summaryData}
+                                    defaultSortField="id"
+                                    defaultSortAsc={false}
+                                    striped={true}
+                                    persistTableHead
+                                    highlightOnHover
+                                    searchable={false}
+                                    responsive
+                                  /> */}
+
+                                <DataTableExtensions {...tableData}>
+                                  <DataTable
+                                    columns={vat_summaryColumn}
+                                    data={vat_summaryData}
+                                    defaultSortField="id"
+                                    defaultSortAsc={false}
+                                    striped={true}
+                                    persistTableHead
+                                    highlightOnHover
+                                    searchable={false}
+                                    responsive
+                                  />
+                                </DataTableExtensions>
                               </div>
                             </Col>
                           ) : (

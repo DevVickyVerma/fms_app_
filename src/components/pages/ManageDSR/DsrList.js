@@ -363,6 +363,7 @@ const ManageEmail = (props) => {
                           data={data}
                           noHeader
                           defaultSortField="id"
+                          pagination={false}
                           defaultSortAsc={false}
                           striped={true}
                           persistTableHead
