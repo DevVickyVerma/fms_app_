@@ -141,6 +141,7 @@ export default function AddSite(props) {
       fuel_discount:"",
       vat_summary:"",
       include_bunkered_sales:"",
+      show_admin_sale:"",
     },
     validationSchema: Yup.object({
       site_code: Yup.string()
@@ -1498,6 +1499,41 @@ export default function AddSite(props) {
                             )}
                         </div>
                       </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="show_admin_sale"
+                            className="form-label mt-4"
+                          >
+                             Show Owner Shop Sales(in CLDO)
+                            
+                          </label>
+                          <select
+                            className={`input101 ${formik.errors.show_admin_sale &&
+                              formik.touched.show_admin_sale
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="show_admin_sale"
+                            name="show_admin_sale"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.show_admin_sale}
+                          >
+                            <option value="">Select Show Owner Shop Sales(in CLDO)
+                            </option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                          </select>
+                          {formik.errors.show_admin_sale &&
+                            formik.touched.show_admin_sale && (
+                              <div className="invalid-feedback">
+                                {formik.errors.show_admin_sale}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      
                       
                     </Row>
                     <div className="text-end">

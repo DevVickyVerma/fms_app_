@@ -144,6 +144,7 @@ const AddSite = (props) => {
       formData.append("fuel_discount", values.fuel_discount);
       formData.append("vat_summary", values.vat_summary);
       formData.append("include_bunkered_sales", values.include_bunkered_sales);
+      formData.append("show_admin_sale", values.show_admin_sale);
 
       const postDataUrl = "/site/add";
 
@@ -283,6 +284,7 @@ const AddSite = (props) => {
                     fuel_discount: 0,
                     vat_summary: 0,
                     include_bunkered_sales: 0,
+                    show_admin_sale: 0,
                   }}
                   validationSchema={Yup.object({
                     site_code: Yup.string()
@@ -1643,6 +1645,38 @@ const AddSite = (props) => {
                                 component="div"
                                 className="invalid-feedback"
                                 name="include_bunkered_sales"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="show_admin_sale"
+                                className=" form-label mt-4"
+                              >
+                               Show Owner Shop Sales(in CLDO)
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${
+                                  errors.show_admin_sale &&
+                                  touched.show_admin_sale
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="show_admin_sale"
+                                name="show_admin_sale"
+                              >
+                                <option value="">
+                                  Select Show Owner Shop Sales(in CLDO)
+                                </option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="show_admin_sale"
                               />
                             </FormGroup>
                           </Col>
