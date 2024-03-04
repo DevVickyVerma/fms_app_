@@ -16,15 +16,14 @@ export default function Login(props) {
   const [passwordVisible, setPasswordVisible] = useState(true);
 
   useEffect(() => {
-    document.addEventListener("keydown", function (event) {
-      if (event.getModifierState("CapsLock")) {
-        setCapsLockActive(true);
-      } else {
-        setCapsLockActive(false);
-      }
+    document.addEventListener("keydown", function(event) {
+      // Check CapsLock state without getModifierState
+      const isCapsLockActive = event.getModifierState("CapsLock");
+      setCapsLockActive(isCapsLockActive);
     });
-    console.clear()
+    console.clear();
   }, [localStorage.getItem("token")]);
+
   if (localStorage.getItem("myKey") === null) {
     if (!localStorage.getItem("refreshed")) {
       localStorage.setItem("refreshed", "true");
@@ -47,10 +46,11 @@ export default function Login(props) {
   const navigate = useNavigate();
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().email("Invalid email").required("Email is required"),
+    email: Yup.string()
+      .email("Invalid email")
+      .required("Email is required"),
     password: Yup.string().required("Password is required"),
   });
-
 
   const handleSubmit = async (values) => {
     setLoading(true);
@@ -97,7 +97,7 @@ export default function Login(props) {
         navigate("/errorpage403");
       } else {
         console.error(error);
-        navigate("/under-construction")
+        navigate("/under-construction");
         ErrorAlert(error.message);
       }
     }
@@ -113,7 +113,6 @@ export default function Login(props) {
           <div className="page">
             <div className="">
               <div className="container-login100">
-
                 <div className="wrap-login100 p-0">
                   <Card.Body>
                     <Formik
@@ -139,10 +138,11 @@ export default function Login(props) {
                               style={{ display: "flex" }}
                             >
                               <Field
-                                className={`input100 ${errors.email && touched.email
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input100 ${
+                                  errors.email && touched.email
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 // type="password"
                                 type="text"
                                 name="email"
@@ -218,10 +218,11 @@ export default function Login(props) {
                               style={{ display: "flex" }}
                             >
                               <Field
-                                className={`input100 ${errors.password && touched.password
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`input100 ${
+                                  errors.password && touched.password
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 // type="password"
                                 type={passwordVisible ? "password" : "text"}
                                 name="password"
@@ -322,13 +323,19 @@ export default function Login(props) {
                       )}
                     </Formik>
                   </Card.Body>
-                  <Card.Footer className=" text-end p-2 color-white" style={{ background: "linear-gradient(90deg, #000000 0%, #353535 91.71%)", color: "white", fontSize: "12px" }}>
+                  <Card.Footer
+                    className=" text-end p-2 color-white"
+                    style={{
+                      background:
+                        "linear-gradient(90deg, #000000 0%, #353535 91.71%)",
+                      color: "white",
+                      fontSize: "12px",
+                    }}
+                  >
                     <span className=" " style={{ paddingRight: "20px" }}>
-                      SECURE WITH {" "}
-                      <strong className="  font-weight-bold">
-                        2FA
-                      </strong>
-                      {" "}  <i class="fa fa-shield" aria-hidden="true"></i>
+                      SECURE WITH{" "}
+                      <strong className="  font-weight-bold">2FA</strong>{" "}
+                      <i class="fa fa-shield" aria-hidden="true"></i>
                     </span>
                   </Card.Footer>
                 </div>
