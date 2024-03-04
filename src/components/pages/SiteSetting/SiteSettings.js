@@ -1390,7 +1390,7 @@ const SiteSettings = (props) => {
                                 </h3>
                               </Card.Header>
                               <div className="module-height">
-                                {/* <DataTable
+                                <DataTable
                                     columns={vat_summaryColumn}
                                     data={vat_summaryData}
                                     defaultSortField="id"
@@ -1400,9 +1400,9 @@ const SiteSettings = (props) => {
                                     highlightOnHover
                                     searchable={false}
                                     responsive
-                                  /> */}
+                                  />
 
-                                <DataTableExtensions {...tableData}>
+                                {/* <DataTableExtensions {...tableData}>
                                   <DataTable
                                     columns={vat_summaryColumn}
                                     data={vat_summaryData}
@@ -1414,7 +1414,7 @@ const SiteSettings = (props) => {
                                     searchable={false}
                                     responsive
                                   />
-                                </DataTableExtensions>
+                                </DataTableExtensions> */}
                               </div>
                             </Col>
                           ) : (
