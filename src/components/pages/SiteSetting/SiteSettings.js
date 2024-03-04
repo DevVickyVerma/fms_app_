@@ -948,7 +948,6 @@ const SiteSettings = (props) => {
       width: "20%",
       cell: (row, index) => (
         <div>
-  
           <input
             type="checkbox"
             id={`checked-${index}`}
@@ -1020,10 +1019,7 @@ const SiteSettings = (props) => {
 
       const vat_summaryIds = [];
       const vat_summaryIdsKey = "department_item";
-      console.log(
-        formik.values.vat_summaryData,
-        "formik.values.vat_summaryData"
-      );
+
       for (let i = 0; i < formik.values.vat_summaryData.length; i++) {
         const { id, checked } = formik.values.vat_summaryData[i];
 
@@ -1391,17 +1387,16 @@ const SiteSettings = (props) => {
                               </Card.Header>
                               <div className="module-height">
                                 <DataTable
-                                    columns={vat_summaryColumn}
-                                    data={vat_summaryData}
-                                    defaultSortField="id"
-                                    defaultSortAsc={false}
-                                    striped={true}
-                                    persistTableHead
-                                    highlightOnHover
-                                    searchable={false}
-                                    responsive
-                                  />
-
+                                  columns={vat_summaryColumn}
+                                  data={vat_summaryData}
+                                  defaultSortField="id"
+                                  defaultSortAsc={false}
+                                  striped={true}
+                                  persistTableHead
+                                  highlightOnHover
+                                  searchable={false}
+                                  responsive
+                                />
                                 {/* <DataTableExtensions {...tableData}>
                                   <DataTable
                                     columns={vat_summaryColumn}
