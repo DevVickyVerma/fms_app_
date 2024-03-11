@@ -1525,9 +1525,7 @@ li.ms-2.disabled-checkbox {
   /* Add any other necessary styles */
 }
 
-.table-responsive .sc-cxabCf.ipgMgL {
-  min-height: 600px;
-}
-.sc-cxabCf.ipgMgL {
+
+.table-responsive .rdt_Table{
   min-height: 600px;
 }
