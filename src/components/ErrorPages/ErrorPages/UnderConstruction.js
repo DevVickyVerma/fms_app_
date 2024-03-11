@@ -1,26 +1,68 @@
-import React from "react";
-export default function UnderConstruction() {
-    return (
-        <div className="error-bg w-100 h-100">
-            <div className="page">
-                <div className="page-content error-page error2" >
-                    <div className="container text-center">
-                        <div className="error-template">
+import React, { useEffect, useState } from "react";
+import withApi from "../../../Utils/ApiHelper";
+import { useSelector } from "react-redux";
+import Loaderimg from "../../../Utils/Loader";
+import axios from "axios";
+import { handleError } from "../../../Utils/ToastUtils";
+import { useNavigate } from "react-router-dom";
+const UnderConstruction = (props) => {
+  const { getData } = props;
 
-                            <div>
-                                <h4>This site is temporarily unavailable due to maintenance. Please try again later...</h4>
-                                <img
-                                    src={require("../../../assets/images/under-construction/under-constuction.jpg")}
-                                    alt="MyChartImage"
-                                    className="all-center-flex nodata-image"
-                                />
-                            </div>
+  const [isLoading, setLoading] = useState(false);
+  const UserPermissions = useSelector((state) => state?.data?.data);
 
+  console.log(UserPermissions.permissions, "UserPermissions");
 
-                        </div>
-                    </div>
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const GetDetails = async () => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.get(`/detail`);
+      if (response) {
+        navigate(response?.data?.data?.route);
+        setLoading(false);
+      }
+    } catch (error) {
+      handleError(error);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    GetDetails();
+  }, []);
+  return (
+    <>
+      {isLoading ? <Loaderimg /> : null}
+
+      <div className="error-bg w-100 h-100">
+        <div className="page">
+          <div className="page-content error-page error2">
+            <div className="container text-center">
+              <div className="error-template">
+                <div>
+                  <h4>
+                    This site is temporarily unavailable due to maintenance.
+                    Please try again later...
+                  </h4>
+                  <img
+                    src={require("../../../assets/images/under-construction/under-constuction.jpg")}
+                    alt="MyChartImage"
+                    className="all-center-flex nodata-image"
+                  />
                 </div>
+              </div>
             </div>
+          </div>
         </div>
-    );
-}
+      </div>
+    </>
+  );
+};
+export default withApi(UnderConstruction);
