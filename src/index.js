@@ -227,6 +227,15 @@ const AddManneger = React.lazy(() =>
 const EditManneger = React.lazy(() =>
   import("./components/pages/AssignManneger/EditManager")
 );
+const AutoDayEnd = React.lazy(() =>
+  import("./components/pages/AutoDayEnd/AutoDayEnd")
+);
+const AddAutoDayEnd = React.lazy(() =>
+  import("./components/pages/AutoDayEnd/AddAutoDayEnd")
+);
+const EditAutoDayEnd = React.lazy(() =>
+  import("./components/pages/AutoDayEnd/EditAutoDayEnd")
+);
 
 // const AddSuppliers = React.lazy(() =>
 //   import("./components/pages/ManageSuppliers/AddSuppliers")
@@ -565,7 +574,6 @@ const Root = () => {
   const Wrapped2FAuthentiion = withApi(FAuthentiion);
   const WrappedAddUser = withApi(AddUser);
   const WrappeAddEditUser = withApi(EditUser);
-  const WrappedManageSite = withApi(Managesite);
   const WrappedAddSite = withApi(AddSite);
   const WrappeAddEditSite = withApi(EditSite);
   const WrappedManageCompany = withApi(ManageCompany);
@@ -648,6 +656,9 @@ const Root = () => {
   const WrappedAssignmanneger = withApi(Assignmanneger);
   const WrappedAddManneger = withApi(AddManneger);
   const WrappedEditManneger = withApi(EditManneger);
+  const WrappedAddAutoDayEnd = withApi(AddAutoDayEnd);
+  const WrappedAutoDayEnd = withApi(AutoDayEnd);
+  const WrappedEditAutoDayEnd = withApi(EditAutoDayEnd);
   const WrappedManagecommission = withApi(Managecommission);
   const Wrappedvaletcommission = withApi(valetcommission);
   const WrappedAssignaddon = withApi(Assignaddon);
@@ -893,6 +904,18 @@ const Root = () => {
                   <Route
                     path={`/editmanager/:id`}
                     element={<WrappedEditManneger />}
+                  />
+                  <Route
+                    path={`/autodayend/:id`}
+                    element={<WrappedAutoDayEnd />}
+                  />
+                  <Route
+                    path={`/addautodayend/:siteName/:id`}
+                    element={<WrappedAddAutoDayEnd />}
+                  />
+                  <Route
+                    path={`/editautodayend/:id`}
+                    element={<WrappedEditAutoDayEnd />}
                   />
 
                   {/* Role  Components End */}

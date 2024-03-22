@@ -394,6 +394,21 @@ const ManageSite = (props) => {
                       </Link>
                     </Dropdown.Item>
                   ) : null}
+                  { permissionsArray?.includes("auto-report-list") ? (
+                    <Dropdown.Item
+                      className=" p-0 m-0"
+                    // className="dropdown-item"
+                    >
+                      <Link to={`/autodayend/${row.id}`}>
+                        <div className="manage-site-dropdown-item" style={{ width: "100%" }} >
+                          <i className="setting-icon">
+                            <AssignmentTurnedInIcon />
+                          </i>
+                          Site Auto Report
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
                   {isManagerPermissionAvailable ? (
                     <Dropdown.Item
                       className=" p-0 m-0"

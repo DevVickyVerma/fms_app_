@@ -4,13 +4,9 @@ import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
 
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-
 import "react-datepicker/dist/react-datepicker.css";
-
-import { useSelector } from "react-redux";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { ErrorAlert } from "../../../Utils/ToastUtils";
@@ -145,6 +141,7 @@ const AddSite = (props) => {
       formData.append("vat_summary", values.vat_summary);
       formData.append("include_bunkered_sales", values.include_bunkered_sales);
       formData.append("show_admin_sale", values.show_admin_sale);
+      formData.append("send_auto_report", values.send_auto_report);
 
       const postDataUrl = "/site/add";
 
@@ -155,36 +152,9 @@ const AddSite = (props) => {
     }
   };
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
-  const [isPermissionsSet, setIsPermissionsSet] = useState(false);
-  const UserPermissions = useSelector((state) => state?.data?.data);
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-      setIsPermissionsSet(true);
-    }
-  }, [UserPermissions]);
 
-  useEffect(() => {
-    if (isPermissionsSet) {
-      const isAddPermissionAvailable =
-        permissionsArray?.includes("site-create");
 
-      if (permissionsArray?.length > 0) {
-        if (isAddPermissionAvailable) {
-          // Perform action when permission is available
-          // Your code here
-        } else {
-          // Perform action when permission is not available
-          // Your code here
-          navigate("/errorpage403");
-        }
-      }
-      // else {
-      //   navigate("/errorpage403");
-      // }
-    }
-  }, [isPermissionsSet, permissionsArray]);
+
   const getCurrentDate = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -285,6 +255,8 @@ const AddSite = (props) => {
                     vat_summary: 0,
                     include_bunkered_sales: 0,
                     show_admin_sale: 0,
+                    send_auto_report: 0,
+                
                   }}
                   validationSchema={Yup.object({
                     site_code: Yup.string()
@@ -358,6 +330,7 @@ const AddSite = (props) => {
                     display_all_sales: Yup.string().required(
                       "  Display All Sales is required"
                     ),
+                 
                   })}
                   onSubmit={(values, { setSubmitting }) => {
                     handleSubmit1(values, setSubmitting);
@@ -1677,6 +1650,39 @@ const AddSite = (props) => {
                                 component="div"
                                 className="invalid-feedback"
                                 name="show_admin_sale"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="send_auto_report"
+                                className=" form-label mt-4"
+                              >
+                                 Send Auto Report
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${
+                                  errors.send_auto_report &&
+                                  touched.send_auto_report
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="send_auto_report"
+                                name="send_auto_report"
+                              >
+                                <option value="">
+                                Select Send Auto Report
+                                </option>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                         
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="send_auto_report"
                               />
                             </FormGroup>
                           </Col>
