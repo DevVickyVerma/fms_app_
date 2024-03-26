@@ -318,7 +318,7 @@ const AddCompany = (props) => {
                     <Link
                       type="submit"
                       className="btn btn-danger me-2 "
-                      to={`/assignmanger/${id}`}
+                      to={`/autodayend/${id}`}
                     >
                       Cancel
                     </Link>

@@ -54,7 +54,7 @@ const ManageRoles = (props) => {
         const DeleteRole = async () => {
           try {
             const response = await axiosInstance.post(
-              "/site/manager/delete",
+              "site/auto-report/delete",
               formData
             );
             setData(response.data.data);
