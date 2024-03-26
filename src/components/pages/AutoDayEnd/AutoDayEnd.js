@@ -127,6 +127,31 @@ const ManageRoles = (props) => {
     "site-assign-manager"
   );
 
+  const toggleActive = (row) => {
+    const formData = new FormData();
+    formData.append("id", row.id);
+
+    const newStatus = row.status === 1 ? 0 : 1;
+    formData.append("status", newStatus);
+
+    ToggleStatus(formData);
+  };
+
+  const ToggleStatus = async (formData) => {
+    try {
+      const response = await postData("/site/auto-report/update-status", formData);
+      // Console log the response
+      if (apidata.api_response === "success") {
+        FetchmannegerList();
+      }
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+
+
+
   const columns = [
     {
       name: "Sr. No.",
@@ -168,6 +193,46 @@ const ManageRoles = (props) => {
             <h6 className="mb-0 fs-14 fw-semibold ">{row.report_name}</h6>
           </div>
         </div>
+      ),
+    },
+    {
+      name: "Status",
+      selector: (row) => [row.status],
+      sortable: false,
+      width: "12%",
+      cell: (row) => (
+        <span className="text-muted fs-15 fw-semibold text-center">
+          <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
+            {row.status === 1 ? (
+              <button
+                className="btn btn-success btn-sm"
+                onClick={
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
+                }
+              >
+                Active
+              </button>
+            ) : row.status === 0 ? (
+              <button
+                className="btn btn-danger btn-sm"
+                onClick={
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
+                }
+              >
+                Inactive
+              </button>
+            ) : (
+              <button
+                className="badge"
+                onClick={
+                  isEditPermissionAvailable ? () => toggleActive(row) : null
+                }
+              >
+                Unknown
+              </button>
+            )}
+          </OverlayTrigger>
+        </span>
       ),
     },
 

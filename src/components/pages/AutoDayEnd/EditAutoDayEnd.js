@@ -16,30 +16,24 @@ const AddCompany = (props) => {
   const UserPermissions = useSelector((state) => state?.data?.data?.data);
   const [ReportsData, setReportsData] = useState();
 
-  const FetchReportList = async () => {
-    try {
-      const response = await getData(`/site/report-list?id=${id}`);
-      if (response && response.data) {
-        console.log(response?.data, "columnIndex");
-        setDropdownValue(response.data);
-      } else {
-        throw new Error("No data available in the response");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange1 = (event) => {
+    setIsChecked(event.target.checked);
   };
 
   const FetchmannegerList = async () => {
     try {
       const response = await getData(`/site/auto-report/detail/${id}`);
       if (response && response.data) {
+        setIsChecked(response.data?.data?.include_date === 1 ? true : false);
         formik.setValues({
           client_id: response.data?.data?.report_name,
           subject: response.data?.data?.subject,
           ccemails: response.data?.data?.cc_emails,
           to_emails: response.data?.data?.to_emails,
           site_id: response.data?.data?.site_id,
+          include_date: response.data?.data?.site_id,
         });
       } else {
         throw new Error("No data available in the response");
@@ -60,7 +54,7 @@ const AddCompany = (props) => {
       formData.append("id", id);
       // formData.append("report_id", formik.values.client_id);
       formData.append("subject", formik.values.subject);
-      // formData.append("include_date", isChecked);
+      formData.append("include_date", isChecked ? 1 : 0);
 
       if (
         formik.values.to_emails !== null &&
@@ -270,7 +264,7 @@ const AddCompany = (props) => {
                   </span>
                 </Col>
 
-                {/* <Col lg={4} md={6}>
+                 <Col lg={4} md={6}>
                   <div className="form-group">
                     <label htmlFor="email" className="form-label mt-4">
                       Include Date
@@ -290,7 +284,7 @@ const AddCompany = (props) => {
                       </div>
                     )}
                   </div>
-                </Col> */}
+                </Col> 
               </Row>
             </Card.Body>
             {console.log(formik.values, "formik.values")}
