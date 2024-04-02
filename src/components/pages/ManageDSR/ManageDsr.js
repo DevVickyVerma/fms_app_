@@ -368,7 +368,7 @@ const ManageDsr = (props) => {
           setUploadList(response1?.data?.data.list);
           setDataEnteryList(response1?.data?.data?.cards);
           setUploadTabname();
-          setgetDataBtn(response1?.data?.data.showBtn);
+          setgetDataBtn(response1?.data?.data);
           setUploadtitle(response1?.data?.data);
           // setUploadTabname();
         }
@@ -489,6 +489,22 @@ const ManageDsr = (props) => {
     console.log(message, "handleSuccess");
     // Do any additional processing with the success message if needed
   };
+  const handleSendEmail = async (event, values) => {
+    // event.preventDefault();
+
+    try {
+      const formData = new FormData();
+
+      formData.append("site_id", PropsSiteId);
+      formData.append("drs_date", formik.values.start_date);
+
+      const postDataUrl = "/send-report/email";
+
+      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+    } catch (error) {
+      console.log(error); // Set the submission state to false if an error occurs
+    }
+  };
 
   return (
     <>
@@ -590,6 +606,22 @@ const ManageDsr = (props) => {
                     </Col>
                   </Row>
                   <div className="text-end">
+                    {getDataBtn?.sendReportEmail && DataEnteryList ? (
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={<Tooltip>Send Email</Tooltip>}
+                      >
+                        <button
+                          to="#"
+                          className="btn btn-info me-2 rounded-11"
+                          onClick={() => handleSendEmail()}
+                        >
+                          Send Email
+                        </button>
+                      </OverlayTrigger>
+                    ) : (
+                      ""
+                    )}
                     {isDeletePermissionAvailable && DataEnteryList ? (
                       <OverlayTrigger
                         placement="top"
@@ -634,10 +666,12 @@ const ManageDsr = (props) => {
           </Col>
         </Row>
 
-        {Uploadtitle?.b_mdl === "PRISM" || Uploadtitle?.b_mdl === "HTECH" || Uploadtitle?.b_mdl === "EDGEPoS" ? (
+        {Uploadtitle?.b_mdl === "PRISM" ||
+        Uploadtitle?.b_mdl === "HTECH" ||
+        Uploadtitle?.b_mdl === "EDGEPoS" ? (
           <Row>
             <Col md={12} xl={12}>
-              <Card >
+              <Card>
                 <Card.Header>
                   <h3 className="card-title">
                     Upload Files {Uploadtitle ? `(${Uploadtitle.b_mdl})` : ""}
@@ -646,19 +680,22 @@ const ManageDsr = (props) => {
                 <Card.Body>
                   <Row>
                     {Uploadtitle?.b_mdl === "PRISM" ||
-                    Uploadtitle?.b_mdl === "HTECH" || Uploadtitle?.b_mdl === "EDGEPoS" ? (
+                    Uploadtitle?.b_mdl === "HTECH" ||
+                    Uploadtitle?.b_mdl === "EDGEPoS" ? (
                       UploadList && UploadList.length > 0 ? (
                         UploadList.map((item) => (
                           <Col md={12} xl={3} key={item.id}>
-                            <Card      className={`text-white ${
-                            item.bgColor === "blue"
-                              ? "bg-primary"
-                              : item.bgColor === "green"
-                              ? "bg-card-green"
-                              : item.bgColor === "red"
-                              ? "bg-card-red"
-                              : "bg-primary"
-                          }`}>
+                            <Card
+                              className={`text-white ${
+                                item.bgColor === "blue"
+                                  ? "bg-primary"
+                                  : item.bgColor === "green"
+                                  ? "bg-card-green"
+                                  : item.bgColor === "red"
+                                  ? "bg-card-red"
+                                  : "bg-primary"
+                              }`}
+                            >
                               <Card.Body
                                 className="card-Div"
                                 onClick={() => handleCardClick(item)} // Pass item.name as an argument
@@ -752,7 +789,7 @@ const ManageDsr = (props) => {
             <Card>
               <Card.Header className="d-flex justify-content-space-between">
                 <h3 className="card-title">Daily Workflow</h3>
-                {getDataBtn === true &&
+                {getDataBtn?.showBtn === true &&
                 isAssignPermissionAvailable &&
                 DataEnteryList &&
                 DataEnteryList.length > 0 ? (
