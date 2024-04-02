@@ -1526,6 +1526,9 @@ li.ms-2.disabled-checkbox {
 }
 
 
-.table-responsive .rdt_Table{
-  min-height: 600px;
+.site_deleted_table.table-responsive .rdt_Table {
+  min-height: 1000px;
+}
+.table-responsive .rdt_Table {
+  min-height: 1000px;
 }

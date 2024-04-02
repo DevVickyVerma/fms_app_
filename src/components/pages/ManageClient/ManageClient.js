@@ -570,7 +570,7 @@ const ManageClient = (props) => {
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table">
+                    <div className="table-responsive deleted-table site_deleted_table">
                       <DataTableExtensions {...tableDatas}>
                         <DataTable
                           columns={columns}
