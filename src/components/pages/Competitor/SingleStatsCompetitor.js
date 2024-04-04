@@ -148,16 +148,21 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
     label: getCompetitorsPrice?.siteName,
   };
 
-  const twoMonthsAgo = new Date(getCompetitorsPrice?.last_dayend);
-  twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
-
   const handleShowDate = () => {
     const inputDateElement = document.querySelector("#start_date");
     inputDateElement.showPicker();
   };
 
-  // Format twoMonthsAgo as "YYYY-MM-DD"
-  const formattedTwoMonthsAgo = twoMonthsAgo.toISOString().split("T")[0];
+  const today = new Date(); // Current date
+  const maxDate = new Date(today); // Set max date as current date
+  maxDate.setDate(today.getDate() - 1); // Set max date to yesterday
+  const formattedMaxDate = maxDate.toISOString().split("T")[0]; // Format max date
+
+  const minDate = new Date(today); // Set min date as current date
+  minDate.setMonth(minDate.getMonth() - 2); // Set min date to 2 months ago
+  const formattedMinDate = minDate.toISOString().split("T")[0]; // Format min date
+
+
 
   return (
     <>
@@ -236,13 +241,14 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                     </label>
                     <Field
                       type="date"
-                      min={formattedTwoMonthsAgo}
-                      max={getCompetitorsPrice?.last_dayend}
+                      min={formattedMinDate} // Use formattedMinDate for the min attribute
+                      max={formattedMaxDate} // Use formattedMaxDate for the max attribute
                       onClick={handleShowDate}
-                      className={`input101 compi-calender ${errors.start_date && touched.start_date
-                        ? "is-invalid"
-                        : ""
-                        }`}
+                      className={`input101 compi-calender ${
+                        errors.start_date && touched.start_date
+                          ? "is-invalid"
+                          : ""
+                      }`}
                       id="start_date"
                       name="start_date"
                       value={mySelectedDate}
@@ -324,7 +330,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                 px={"13px"}
               >
                 <Typography fontSize={"14px"}>
-                  Last Day End : { }
+                  Last Day End : {}
                   {getCompetitorsPrice?.last_dayend ? (
                     moment(getCompetitorsPrice?.last_dayend).format("Do MMM")
                   ) : (
@@ -558,7 +564,6 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                                           src={require("../../../assets/images/SingleStatsCompetitor/PetrolPrices-Icon-512px (2).png")}
                                           className=""
                                           style={{
-
                                             objectFit: "contain",
                                           }}
                                         />
