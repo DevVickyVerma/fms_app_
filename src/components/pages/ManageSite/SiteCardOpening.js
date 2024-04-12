@@ -2,25 +2,29 @@ import React, { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
 import { Link, useParams } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import { handleError } from "../../../Utils/ToastUtils";
 
+import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+
 const SiteCardOpening = (props) => {
-  const { getData, postData, isLoading } =
-    props;
+  const { getData, postData, isLoading } = props;
 
   const [data, setData] = useState();
+  const [startdate, setStartdate] = useState();
   const { id } = useParams(); // Destructure id from useParams()
 
-  const GetListing = async () => {
-    // Removed the id parameter since it's already being captured from useParams()
+  const GetListing = async (start_date) => {
+    setStartdate(start_date)
+    const [year, month] = start_date.split("-");
+    formik.setFieldValue("year", year);
+    formik.setFieldValue("month", month);
     try {
       const response = await getData(
-        `/site/card-opening/list?site_id=${id}&month=4&year=2024`
+        `/site/card-opening/list?site_id=${id}&month=${month}&year=${year}`
       );
       if (response) {
-
         setData(response?.data?.data);
         formik.setValues(response?.data?.data);
       }
@@ -29,9 +33,6 @@ const SiteCardOpening = (props) => {
     }
   };
 
-  useEffect(() => {
-    GetListing();
-  }, []);
   const validationSchema = Yup.object().shape({
     group_card: Yup.array().of(
       Yup.object().shape({
@@ -40,24 +41,30 @@ const SiteCardOpening = (props) => {
             value: Yup.number()
               .required("Card value is required")
               .positive("Value must be positive"),
-         
-            amexValue: Yup.number().positive().when("$cardName", {
-              is: "Amex",
-              then: Yup.number().min(Yup.ref("value"), "Amex value must be greater than or equal to its value")
-            })
+
+            amexValue: Yup.number()
+              .positive()
+              .when("$cardName", {
+                is: "Amex",
+                then: Yup.number().min(
+                  Yup.ref("value"),
+                  "Amex value must be greater than or equal to its value"
+                ),
+              }),
           })
-        )
+        ),
       })
-    )
+    ),
   });
   const onSubmit = async (values) => {
     try {
-      console.log(values, "values");
+      console.log(startdate, "startdate");
+      const [year, month] = startdate.split("-");
       const formData = new FormData();
       formData.append(`site_id`, id);
-      formData.append(`year`, 2024);
-      formData.append(`month`, 4);
-      
+      formData.append(`year`, year);
+      formData.append(`month`, month);
+
       values.group_card.forEach((group) => {
         group.cards.forEach((card) => {
           formData.append(`value[${card.id}]`, card.value);
@@ -65,8 +72,6 @@ const SiteCardOpening = (props) => {
       });
 
       const postDataUrl = "site/card-opening/add";
-      const navigatePath = "/manageitems";
-
       await postData(postDataUrl, formData);
     } catch (error) {
       handleError(error);
@@ -79,63 +84,196 @@ const SiteCardOpening = (props) => {
     onSubmit: onSubmit,
   });
 
-
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    return `${year}-${month}`;
+  };
+  console.log(formik.values.year, "getCurrentDate");
+  const validationSchema1 = Yup.object().shape({
+    start_date: Yup.string().required("Start date is required"),
+  });
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
-      {data ? (
-        <form onSubmit={formik.handleSubmit}>
-          <div className="row">
-            {formik.values?.group_card.map((group) => (
-              <div className="col-12 col-lg-6" key={group.group_id}>
-                <div className="card mb-3">
-                  <div className="card-header">
-                    <h4 className="card-title" style={{ minHeight: "32px" }}>
-                      {group.name}
-                    </h4>
-                  </div>
-                  <div className="card-body">
-                    <div className="row">
-                      {group.cards.map((card) => (
-                        <div className="col-6" key={card.id}>
-                          <div className="form-group">
-                            <label className="form-label" htmlFor={card.id}>
-                              {card.name} <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              id={card.id}
-                              name={`group_card.${formik.values.group_card.indexOf(group)}.cards.${group.cards.indexOf(card)}.value`}
-                              type="number"
-                              className={`input101 ${
-                                formik.errors.group_card?.[formik.values.group_card.indexOf(group)]?.cards?.[group.cards.indexOf(card)]?.value && formik.touched.group_card?.[formik.values.group_card.indexOf(group)]?.cards?.[group.cards.indexOf(card)]?.value
-                                  ? "is-invalid"
-                                  : ""
-                              }`}
-                              onChange={formik.handleChange}
-                              onBlur={formik.handleBlur}
-                              value={formik.values.group_card?.[formik.values.group_card.indexOf(group)]?.cards?.[group.cards.indexOf(card)]?.value}
-                            />
-                            {formik.errors.group_card?.[formik.values.group_card.indexOf(group)]?.cards?.[group.cards.indexOf(card)]?.value && formik.touched.group_card?.[formik.values.group_card.indexOf(group)]?.cards?.[group.cards.indexOf(card)]?.value ? (
-                              <div className="invalid-feedback">
-                                {formik.errors.group_card[formik.values.group_card.indexOf(group)].cards[group.cards.indexOf(card)].value}
-                              </div>
-                            ) : null}
+
+      <Card>
+        <Card.Header>Filter By Month:</Card.Header>
+        <Card.Body>
+          <Formik
+            initialValues={{
+              start_date: "",
+            }}
+            validationSchema={validationSchema1}
+            onSubmit={(values, { resetForm }) => {
+              const { start_date } = values; // Destructuring to extract start_date
+              console.log("Submitted date:", start_date);
+
+              GetListing(start_date);
+            }}
+          >
+            {(formik) => (
+              <form onSubmit={formik.handleSubmit}>
+                <Row>
+                  <Col lg={3} md={3}>
+                    <div className="form-group">
+                      <label htmlFor="start_date" className="form-label mt-4">
+                        Date
+                        <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="month"
+                        max={getCurrentDate()}
+                        className={`input101 ${
+                          formik.errors.start_date && formik.touched.start_date
+                            ? "is-invalid"
+                            : ""
+                        }`}
+                        value={formik.values.start_date}
+                        id="start_date"
+                        name="start_date"
+                        onChange={formik.handleChange}
+                      ></input>
+                      {formik.errors.start_date &&
+                        formik.touched.start_date && (
+                          <div className="invalid-feedback">
+                            {formik.errors.start_date}
+                          </div>
+                        )}
+                    </div>
+                  </Col>
+                </Row>
+                <div className="text-end">
+                  <Link type="button" className="btn btn-danger me-2">
+                    Reset
+                  </Link>
+                  <button className="btn btn-primary me-2" type="submit">
+                    Submit
+                  </button>
+                </div>
+              </form>
+            )}
+          </Formik>
+        </Card.Body>
+      </Card>
+      <Row className=" row-sm">
+        <Col lg={12}>
+          <Card>
+            <Card.Header>
+              <h3 className="card-title"> Site Card Opening </h3>
+            </Card.Header>
+
+            <Card.Body>
+              {formik.values?.group_card?.length > 0 ? (
+                <form onSubmit={formik.handleSubmit}>
+                  <div className="row">
+                    {formik.values?.group_card.map((group) => (
+                      <div className="col-12 col-lg-6" key={group.group_id}>
+                        <div className="card mb-3">
+                          <div className="card-header">
+                            <h4
+                              className="card-title"
+                              style={{ minHeight: "32px" }}
+                            >
+                              {group.name}
+                            </h4>
+                          </div>
+                          <div className="card-body">
+                            <div className="row">
+                              {group.cards.map((card) => (
+                                <div className="col-6" key={card.id}>
+                                  <div className="form-group">
+                                    <label
+                                      className="form-label"
+                                      htmlFor={card.id}
+                                    >
+                                      {card.name}{" "}
+                                      <span className="text-danger">*</span>
+                                    </label>
+                                    <input
+                                      id={card.id}
+                                      name={`group_card.${formik.values.group_card.indexOf(
+                                        group
+                                      )}.cards.${group.cards.indexOf(
+                                        card
+                                      )}.value`}
+                                      type="number"
+                                      className={`input101 ${
+                                        formik.errors.group_card?.[
+                                          formik.values.group_card.indexOf(
+                                            group
+                                          )
+                                        ]?.cards?.[group.cards.indexOf(card)]
+                                          ?.value &&
+                                        formik.touched.group_card?.[
+                                          formik.values.group_card.indexOf(
+                                            group
+                                          )
+                                        ]?.cards?.[group.cards.indexOf(card)]
+                                          ?.value
+                                          ? "is-invalid"
+                                          : ""
+                                      }`}
+                                      onChange={formik.handleChange}
+                                      onBlur={formik.handleBlur}
+                                      value={
+                                        formik.values.group_card?.[
+                                          formik.values.group_card.indexOf(
+                                            group
+                                          )
+                                        ]?.cards?.[group.cards.indexOf(card)]
+                                          ?.value
+                                      }
+                                    />
+                                    {formik.errors.group_card?.[
+                                      formik.values.group_card.indexOf(group)
+                                    ]?.cards?.[group.cards.indexOf(card)]
+                                      ?.value &&
+                                    formik.touched.group_card?.[
+                                      formik.values.group_card.indexOf(group)
+                                    ]?.cards?.[group.cards.indexOf(card)]
+                                      ?.value ? (
+                                      <div className="invalid-feedback">
+                                        {
+                                          formik.errors.group_card[
+                                            formik.values.group_card.indexOf(
+                                              group
+                                            )
+                                          ].cards[group.cards.indexOf(card)]
+                                            .value
+                                        }
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
                           </div>
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    ))}
                   </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="card-footer text-end">
-            <button type="submit" className="btn btn-primary">
-              Submit
-            </button>
-          </div>
-        </form>
-      ) : null}
+
+                  <div className="card-footer text-end">
+                    <button type="submit" className="btn btn-primary">
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <>
+                  <img
+                    src={require("../../../../src/assets/images/noDataFoundImage/noDataFound.jpg")}
+                    alt="MyChartImage"
+                    className="all-center-flex nodata-image"
+                  />
+                </>
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     </>
   );
 };
