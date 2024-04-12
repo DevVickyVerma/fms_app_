@@ -34,6 +34,7 @@ import EditOpeningBalance from "./components/pages/OpeningBalance/EditOpeningBal
 import BunkeringBalance from "./components/pages/BunkeringBalance/BunkeringBalance";
 import EditBunkeringBalance from "./components/pages/BunkeringBalance/EditBunkeringBalance";
 import AddBunkeringBalance from "./components/pages/BunkeringBalance/AddBunkeringBalance";
+import sitecardopening from "./components/pages/ManageSite/SiteCardOpening";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -506,6 +507,7 @@ const DailyFacilityFees = React.lazy(() =>
 );
 
 const FAQS = React.lazy(() => import("./components/pages/FAQS/FAQS"));
+const Sitecardopening = React.lazy(() => import("./components/pages/ManageSite/SiteCardOpening"));
 
 //custom Pages
 const Login = React.lazy(() => import("./components/CustomPages/Login/Login"));
@@ -575,6 +577,7 @@ const Root = () => {
   const WrappedAddUser = withApi(AddUser);
   const WrappeAddEditUser = withApi(EditUser);
   const WrappedAddSite = withApi(AddSite);
+  const WrappedSitecardopening= withApi(Sitecardopening);
   const WrappeAddEditSite = withApi(EditSite);
   const WrappedManageCompany = withApi(ManageCompany);
   const WrappedAddCompany = withApi(AddCompany);
@@ -767,6 +770,10 @@ const Root = () => {
                   <Route
                     path={`editsite/:id`}
                     element={<WrappeAddEditSite />}
+                  />
+                  <Route
+                    path={`site-card-opening/:id`}
+                    element={<WrappedSitecardopening />}
                   />
                   <Route
                     path={`/site-setting/:id`}

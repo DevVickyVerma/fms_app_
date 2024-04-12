@@ -379,6 +379,52 @@ const ManageSite = (props) => {
                   Actions
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="dropdown-menu"  style={{ margin: "0px", padding: "0px", position: "absolute", right: "0" }}>
+                {isEditPermissionAvailable ? (
+                    <Dropdown.Item
+                      className=" p-0 m-0"
+                    // className="dropdown-item"
+                    >
+                      <Link to={`/editsite/${row.id}`}>
+                        <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <ModeEditIcon />
+                          </i>
+                          Edit
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+
+                  {isDeletePermissionAvailable ? (
+                    <Dropdown.Item
+                      className=" p-0 m-0"
+                    // className="dropdown-item"
+                    >
+                      <Link to="#" onClick={() => handleDelete(row.id)}>
+                        <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <DeleteIcon />
+                          </i>
+                          Delete
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
+                  {permissionsArray?.includes("site-card-opening-list") ? (
+                    <Dropdown.Item
+                      className=" p-0 m-0"
+                    // className="dropdown-item"
+                    >
+                      <Link to={`/site-card-opening/${row.id}`}>
+                        <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <DeleteIcon />
+                          </i>
+                          Card Opening
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
 
                   {issitesettingPermissionAvailable ? (
                     <Dropdown.Item
@@ -510,37 +556,7 @@ const ManageSite = (props) => {
                       </Link>
                     </Dropdown.Item>
                   ) : null}
-                  {isEditPermissionAvailable ? (
-                    <Dropdown.Item
-                      className=" p-0 m-0"
-                    // className="dropdown-item"
-                    >
-                      <Link to={`/editsite/${row.id}`}>
-                        <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <ModeEditIcon />
-                          </i>
-                          Edit
-                        </div>
-                      </Link>
-                    </Dropdown.Item>
-                  ) : null}
-
-                  {isDeletePermissionAvailable ? (
-                    <Dropdown.Item
-                      className=" p-0 m-0"
-                    // className="dropdown-item"
-                    >
-                      <Link to="#" onClick={() => handleDelete(row.id)}>
-                        <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
-                          <i className="setting-icon">
-                            <DeleteIcon />
-                          </i>
-                          Delete
-                        </div>
-                      </Link>
-                    </Dropdown.Item>
-                  ) : null}
+             
                 </Dropdown.Menu>
               </Dropdown>
             ) : (
