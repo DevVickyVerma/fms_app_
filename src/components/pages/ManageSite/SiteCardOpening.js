@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { handleError } from "../../../Utils/ToastUtils";
 
+import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 const SiteCardOpening = (props) => {
   const { apidata, error, getData, postData, SiteID, ReportDate, isLoading } =
     props;
@@ -95,55 +96,57 @@ const SiteCardOpening = (props) => {
       {isLoading ? <Loaderimg /> : null}
       {data ? (
         <form onSubmit={formik.handleSubmit}>
-          <div className="row">
-            {data.group_card.map((group) => (
-              <div className="col-6" key={group.group_id}>
-                <div className="card mb-3">
-                  <div className="card-header">
-                    <h3>{group.name}</h3>
-                  </div>
-
-                  <div className="card-body">
-                    {group.cards.map((card) => (
-                      <div className="col-12" key={card.id}>
-                        <div className="form-group">
-                          <label className="form-label" htmlFor={card.id}>
-                            {card.name} <span className="text-danger">*</span>
-                          </label>
-
-                          
-                          <input
-                            id={card.id}
-                            name={card.id}
-                            type="number"
-                            className={`input101 ${
-                              formik.errors[card.id] && formik.touched[card.id]
-                                ? "is-invalid"
-                                : ""
-                            }`}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values[card.id]} // Display the value of the card
-                          />
-                          {formik.touched[card.id] && formik.errors[card.id] ? (
-                            <div className="invalid-feedback">
-                              {formik.errors[card.id]}
-                            </div>
-                          ) : null}
-                        </div>
+  <div className="row">
+    {data.group_card.map((group) => (
+      <div className="col-12 col-lg-6" key={group.group_id}>
+        <div className="card mb-3">
+          <div className="card-header">
+            <h4 className="card-title" style={{ minHeight: "32px" }}>
+              {group.name}
+            </h4>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              {group.cards.map((card) => (
+                <div className="col-6" key={card.id}>
+                  <div className="form-group">
+                    <label className="form-label" htmlFor={card.id}>
+                      {card.name} <span className="text-danger">*</span>
+                    </label>
+                    <input
+                      id={card.id}
+                      name={card.id}
+                      type="number"
+                      className={`input101 ${
+                        formik.errors[card.id] && formik.touched[card.id]
+                          ? "is-invalid"
+                          : ""
+                      }`}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values[card.id]} // Display the value of the card
+                    />
+                    {formik.touched[card.id] && formik.errors[card.id] ? (
+                      <div className="invalid-feedback">
+                        {formik.errors[card.id]}
                       </div>
-                    ))}
+                    ) : null}
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-          <div className="card-footer text-end">
-            <button type="submit" className="btn btn-primary">
-              Submit
-            </button>
-          </div>
-        </form>
+        </div>
+      </div>
+    ))}
+  </div>
+  <div className="card-footer text-end">
+    <button type="submit" className="btn btn-primary">
+      Submit
+    </button>
+  </div>
+</form>
+
       ) : null}
     </>
   );
