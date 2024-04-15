@@ -32,6 +32,8 @@ const AddCompany = (props) => {
         setData(response.data?.data)
         setIsChecked(response.data?.data?.include_date === 1 ? true : false);
         FetchSiteList( response.data?.data?.company_id)
+        const preselectedIds = response?.data?.data?.sites || [];
+        setSelected(preselectedIds);
         formik.setValues({
           client_id: response.data?.data?.report_name,
           subject: response.data?.data?.subject,
@@ -49,16 +51,8 @@ const AddCompany = (props) => {
   };
   const FetchSiteList = async (company_id) => {
     try {
-      const response = await getData(`company/auto-report/site-list?company_id=${company_id}&detail_id=${id}`);
-      if (response && response.data) {
-        const preselectedIds = response?.data?.data;
-
-        // Filter the array to get only the objects with checked === true, then map to get only the IDs
-        const selectedIds = preselectedIds.filter(item => item.checked).map(item => item.id);
-        
-        // Push the selected IDs into setSelected
-        setSelected(selectedIds);
-        
+      const response = await getData(`company/auto-report/site-list?company_id=${company_id}`);
+      if (response && response.data) { 
         setdropdowSite(response);
       } else {
         throw new Error("No data available in the response");
