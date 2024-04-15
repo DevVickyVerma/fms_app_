@@ -25,6 +25,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import CenterSearchmodal from "../../../data/Modal/CenterSearchmodal";
 import { Box } from "@mui/material";
 import DateRangeIcon from "@mui/icons-material/DateRange";
@@ -418,7 +419,7 @@ const ManageSite = (props) => {
                       <Link to={`/site-card-opening/${row.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
                           <i className="setting-icon">
-                            <DeleteIcon />
+                            <AddBusinessIcon />
                           </i>
                           Card Opening
                         </div>
