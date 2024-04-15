@@ -38,7 +38,7 @@ const AddCompany = (props) => {
       const response = await getData(`company/auto-report/site-list?company_id=${id}`);
       if (response && response.data) {
         console.log(response?.data, "FetchSiteList");
-        setdropdowSite(response?.data);
+        setdropdowSite(response);
       } else {
         throw new Error("No data available in the response");
       }
