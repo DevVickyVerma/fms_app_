@@ -343,7 +343,7 @@ console.log(selected, "selected");
               <Link
                 type="submit"
                 className="btn btn-danger me-2 "
-                to={`/companyautoreport/${formik.values?.site_id}`}
+                to={`/companyautoreport/${id}`}
               >
                 Cancel
               </Link>
