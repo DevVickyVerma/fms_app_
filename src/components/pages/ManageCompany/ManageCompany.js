@@ -16,11 +16,8 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { FormModal } from "../../../data/Modal/Modal";
-import { toast } from "react-toastify";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
@@ -333,6 +330,22 @@ const ManageCompany = (props) => {
                       </Link>
                     </Dropdown.Item>
                   ) : null}
+                
+                  {permissionsArray?.includes("company-auto-report-list") ? (
+                    <Dropdown.Item
+                      className=" p-0 m-0"
+                    // className="dropdown-item"
+                    >
+                      <Link to={`/companyautoreport/${row.id}`}>
+                        <div className="manage-site-dropdown-item" style={{ width: "100%" }} >
+                        <i className="setting-icon">
+                            {""} <i className="fa fa-flask" aria-hidden="true"></i> {" "}
+                          </i>
+                          Company Auto Report
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
                   {isSagePermissionAvailable ? (
                     <Dropdown.Item className="dropdown-item">
                       <Link
@@ -500,9 +513,7 @@ const ManageCompany = (props) => {
     pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
   }
 
-  const handleBlur = () => {
-    FetchTableData();
-  };
+
 
   return (
     <>
@@ -556,7 +567,7 @@ const ManageCompany = (props) => {
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table">
+                  <div className="table-responsive deleted-table site_deleted_table">
                       <DataTableExtensions {...tableDatas}>
                         <DataTable
                           columns={columns}

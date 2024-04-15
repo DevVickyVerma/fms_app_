@@ -238,6 +238,16 @@ const EditAutoDayEnd = React.lazy(() =>
   import("./components/pages/AutoDayEnd/EditAutoDayEnd")
 );
 
+const CompanyAutoReport = React.lazy(() =>
+  import("./components/pages/CompanyAutoReport/CompanyAutoReport")
+);
+const AddCompanyAutoReport= React.lazy(() =>
+  import("./components/pages/CompanyAutoReport/AddCompanyAutoReport")
+);
+const EditCompanyAutoReport = React.lazy(() =>
+  import("./components/pages/CompanyAutoReport/EditCompanyAutoReport")
+);
+
 // const AddSuppliers = React.lazy(() =>
 //   import("./components/pages/ManageSuppliers/AddSuppliers")
 // );
@@ -662,6 +672,9 @@ const Root = () => {
   const WrappedAddAutoDayEnd = withApi(AddAutoDayEnd);
   const WrappedAutoDayEnd = withApi(AutoDayEnd);
   const WrappedEditAutoDayEnd = withApi(EditAutoDayEnd);
+  const WrappedAddCompanyAutoReport= withApi(AddCompanyAutoReport);
+  const WrappedCompanyAutoReport = withApi(CompanyAutoReport);
+  const WrappedEditCompanyAutoReport = withApi(EditCompanyAutoReport);
   const WrappedManagecommission = withApi(Managecommission);
   const Wrappedvaletcommission = withApi(valetcommission);
   const WrappedAssignaddon = withApi(Assignaddon);
@@ -923,6 +936,18 @@ const Root = () => {
                   <Route
                     path={`/editautodayend/:id`}
                     element={<WrappedEditAutoDayEnd />}
+                  />
+                  <Route
+                    path={`/companyautoreport/:id`}
+                    element={<WrappedCompanyAutoReport />}
+                  />
+                  <Route
+                    path={`/addcompanyautoreport/:siteName/:id`}
+                    element={<WrappedAddCompanyAutoReport />}
+                  />
+                  <Route
+                    path={`/editcompanyautoreport/:id`}
+                    element={<WrappedEditCompanyAutoReport />}
                   />
 
                   {/* Role  Components End */}
