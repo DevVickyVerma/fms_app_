@@ -81,7 +81,7 @@ const ManageRoles = (props) => {
 
       if (response && response.data) {
         setData(response?.data?.data?.autoreports);
-
+        localStorage.setItem('reportclientID', response?.data?.data?.client_id);
         setSiteName(response?.data?.data?.company_name)
       } else {
         throw new Error("No data available in the response");
@@ -282,6 +282,10 @@ const ManageRoles = (props) => {
     data,
   };
 
+  const handleLinkClick = (id) => {
+    // Set the item ID in localStorage
+    localStorage.setItem('selectedItemId', id);
+};
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -319,6 +323,7 @@ const ManageRoles = (props) => {
                   to={`/addcompanyautoreport/${siteName}/${id}`}
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
+              
                 >
                   Add Company Auto Report
                 </Link>

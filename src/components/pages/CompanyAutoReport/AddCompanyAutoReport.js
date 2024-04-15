@@ -20,12 +20,12 @@ const AddCompany = (props) => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState([]);
   const UserPermissions = useSelector((state) => state?.data?.data);
-  const FetchReportList = async () => {
+  const FetchReportList = async (storedItemId) => {
     try {
-      const response = await getData(`/site/report-list?id=${id}`);
+      const response = await getData(`/client/reportlist?client_id=${storedItemId}`);
       if (response && response.data) {
-        console.log(response?.data, "columnIndex");
-        setDropdownValue(response.data);
+        console.log(response?.data, "reportlist");
+        setDropdownValue(response?.data?.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -38,7 +38,7 @@ const AddCompany = (props) => {
       const response = await getData(`company/auto-report/site-list?company_id=${id}`);
       if (response && response.data) {
         console.log(response?.data, "FetchSiteList");
-        setdropdowSite(response);
+        setdropdowSite(response?.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -48,7 +48,20 @@ const AddCompany = (props) => {
   };
 
   useEffect(() => {
-    FetchReportList();
+
+// Retrieve the stored item ID from localStorage
+const storedItemId = localStorage.getItem('reportclientID');
+
+// Check if the stored item ID exists and is not null
+if (storedItemId) {
+  FetchReportList(storedItemId);
+    // Use the retrieved ID as needed
+    console.log("Stored item ID:", storedItemId);
+} else {
+    console.log("No item ID stored in localStorage");
+}
+
+    
     FetchSiteList();
   }, [UserPermissions]);
   const options =
@@ -171,7 +184,7 @@ const AddCompany = (props) => {
                   className="breadcrumb-item  breadcrumds"
                   aria-current="page"
                   linkAs={Link}
-                  linkProps={{ to: `/autodayend/${id}` }}
+                  linkProps={{ to: `/companyautoreport/${id}` }}
                 >
                   Company Auto Report
                 </Breadcrumb.Item>
@@ -233,11 +246,12 @@ const AddCompany = (props) => {
                             onChange={formik.handleChange}
                           >
                             <option value=""> Select Report</option>
-                            {dropdownValue.data &&
-                            dropdownValue.data.length > 0 ? (
-                              dropdownValue.data.map((item) => (
+                        {    console.log(dropdownValue, "dropdownValue")}
+                            {dropdownValue.reports &&
+                            dropdownValue.reports.length > 0 ? (
+                              dropdownValue.reports.map((item) => (
                                 <option key={item.id} value={item.id}>
-                                  {item.name}
+                                  {item.report_name}
                                 </option>
                               ))
                             ) : (
@@ -362,7 +376,7 @@ const AddCompany = (props) => {
                     <Link
                       type="submit"
                       className="btn btn-danger me-2 "
-                      to={`/autodayend/${id}`}
+                      to={`/companyautoreport/${id}`}
                     >
                       Cancel
                     </Link>
