@@ -101,7 +101,7 @@ const SiteCardOpening = (props) => {
         <div>
           <h1 className="page-title dashboard-page-title">
             {" "}
-            Site Card Opening
+            Site Card Opening ({(data?.site_name)})
           </h1>
 
           <Breadcrumb className="breadcrumb">
@@ -123,7 +123,7 @@ const SiteCardOpening = (props) => {
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Site Card Opening {(data?.site_name)}
+              Site Card Opening 
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -191,7 +191,7 @@ const SiteCardOpening = (props) => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <h3 className="card-title"> Site Card Opening  {(data?.site_name)} </h3>
+              <h3 className="card-title"> Site Card Opening  ({(data?.site_name)}) </h3>
             </Card.Header>
 
             <Card.Body>
