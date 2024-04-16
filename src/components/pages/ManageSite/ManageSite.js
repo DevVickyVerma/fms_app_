@@ -411,7 +411,7 @@ const ManageSite = (props) => {
                       </Link>
                     </Dropdown.Item>
                   ) : null}
-                  {permissionsArray?.includes("site-card-opening-list") ? (
+                  {/* {permissionsArray?.includes("site-card-opening-list") ? (
                     <Dropdown.Item
                       className=" p-0 m-0"
                     // className="dropdown-item"
@@ -425,7 +425,7 @@ const ManageSite = (props) => {
                         </div>
                       </Link>
                     </Dropdown.Item>
-                  ) : null}
+                  ) : null} */}
 
                   {issitesettingPermissionAvailable ? (
                     <Dropdown.Item
