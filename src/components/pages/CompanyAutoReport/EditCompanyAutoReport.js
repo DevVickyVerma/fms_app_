@@ -106,7 +106,7 @@ const AddCompany = (props) => {
         });
       }
       const postDataUrl = "/company/auto-report/update";
-      const navigatePath = `/companyautoreport/${id}`;
+      const navigatePath = `/companyautoreport/${data?.company_id}`;
       await postData(postDataUrl, formData, navigatePath);
     } catch (error) {
       console.log(error);
@@ -342,7 +342,7 @@ console.log(selected, "selected");
               <Link
                 type="submit"
                 className="btn btn-danger me-2 "
-                to={`/companyautoreport/${id}`}
+                to={`/companyautoreport/${data?.company_id}`}
               >
                 Cancel
               </Link>
