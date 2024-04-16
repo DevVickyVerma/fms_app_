@@ -364,7 +364,9 @@ const DashSubStatsBox = (props) => {
                           ) : (
                             <>
                               <h4 className="mb-2 number-font">
-                                £{singleSiteShopSale?.shop_sales}
+                                £
+                                {/* {singleSiteShopSale?.shop_sales} */}
+                                {parseFloat(singleSiteShopSale?.shop_sales)?.toLocaleString()}
                               </h4>
                               <OverlayTrigger
                                 placement="top"
@@ -432,7 +434,9 @@ const DashSubStatsBox = (props) => {
                           ) : (
                             <>
                               <h4 className="mb-2 number-font">
-                                £{singleSiteShopMargin?.shop_profit}
+                                £
+                                {/* {singleSiteShopMargin?.shop_profit} */}
+                                {parseFloat(singleSiteShopMargin?.shop_profit)?.toLocaleString()}
                               </h4>
                               <OverlayTrigger
                                 placement="top"
