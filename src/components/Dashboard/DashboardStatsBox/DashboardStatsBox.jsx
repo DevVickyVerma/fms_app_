@@ -427,7 +427,7 @@ const DashboardStatsBox = (props) => {
                           ) : (
                             <>
                               <h4 className="mb-2 number-font">
-                                £{parseFloat(shopsale?.shop_sales)?.toLocaleString()}
+                                £{shopsale?.shop_sales ? parseFloat(shopsale?.shop_sales)?.toLocaleString() : ""}
                                 {/* {shopsale?.shop_sales} */}
                               </h4>
                               <OverlayTrigger
@@ -505,7 +505,7 @@ const DashboardStatsBox = (props) => {
                             <>
                               <h4 className="mb-2 number-font">
                                 £
-                                {parseFloat(shopmargin?.shop_profit)?.toLocaleString()}
+                                {shopmargin?.shop_profit ? parseFloat(shopmargin?.shop_profit)?.toLocaleString() : " "}
                                 {/* {shopmargin?.shop_profit} */}
                               </h4>
                               <OverlayTrigger

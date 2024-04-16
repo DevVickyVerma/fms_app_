@@ -250,20 +250,20 @@ const DashboardChildTable = (props) => {
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                       <h6 className="mb-0 fs-14 fw-semibold">
                         {item?.gross_margin?.gross_margin} ppl{""}  {item?.gross_margin?.is_ppl == 1 ? (
-                                  <OverlayTrigger
-                                    placement="top"
-                                    overlay={
-                                      <Tooltip>{`${item?.gross_margin?.ppl_msg}%`}</Tooltip>
-                                    }
-                                  >
-                                    <i
-                                      class="fa fa-info-circle"
-                                      aria-hidden="true"
-                                    ></i>
-                                  </OverlayTrigger>
-                                ) : (
-                                  ""
-                                )}
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip>{`${item?.gross_margin?.ppl_msg}%`}</Tooltip>
+                            }
+                          >
+                            <i
+                              class="fa fa-info-circle"
+                              aria-hidden="true"
+                            ></i>
+                          </OverlayTrigger>
+                        ) : (
+                          ""
+                        )}
                       </h6>
                       <p
                         className={`me-1 ${item?.gross_margin?.status === "up"
@@ -297,7 +297,10 @@ const DashboardChildTable = (props) => {
                   <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                       <h6 className="mb-0 fs-14 fw-semibold">
-                        £{item?.shop_sales?.shop_sales}
+                        £
+                        {/* {item?.shop_sales?.shop_sales} */}
+
+                        {item?.shop_sales?.shop_sales ? parseFloat(item?.shop_sales?.shop_sales)?.toLocaleString() : ""}
                       </h6>
                       <p
                         className={`me-1 ${item?.shop_sales?.status === "up"
@@ -330,7 +333,9 @@ const DashboardChildTable = (props) => {
                   <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                       <h6 className="mb-0 fs-14 fw-semibold">
-                        £{item?.shop_profit?.shop_profit || "0.00"}
+                        £
+                        {item?.shop_profit?.shop_profit ? parseFloat(item?.shop_profit?.shop_profit)?.toLocaleString() : "0.00"}
+                        {/* {item?.shop_profit?.shop_profit || "0.00"} */}
                       </h6>
                       <p
                         className={`me-1 ${item?.shop_profit?.status === "up"
@@ -535,7 +540,8 @@ const DashboardChildTable = (props) => {
               <div className="d-flex">
                 <div className="ms-2 mt-0 mt-sm-2 d-block">
                   <h6 className="mb-0 fs-14 fw-semibold">
-                    £{item?.shop_sales?.shop_sales}
+                    £ {item?.shop_sales?.shop_sales ? parseFloat(item?.shop_sales?.shop_sales)?.toLocaleString() : ""}
+                    {/* {item?.shop_sales?.shop_sales} */}
                   </h6>
                   <p
                     className={`me-1 ${item?.shop_sales?.status === "up"
@@ -568,7 +574,8 @@ const DashboardChildTable = (props) => {
               <div className="d-flex">
                 <div className="ms-2 mt-0 mt-sm-2 d-block">
                   <h6 className="mb-0 fs-14 fw-semibold">
-                    £{item?.shop_profit?.shop_profit || 0.0}
+                    £ {item?.shop_profit?.shop_profit ? parseFloat(item?.shop_profit?.shop_profit)?.toLocaleString() : 0.0}
+                    {/* {item?.shop_profit?.shop_profit || 0.0} */}
                   </h6>
                   <p
                     className={`me-1 ${item?.shop_profit?.status === "up"
@@ -610,7 +617,7 @@ const DashboardChildTable = (props) => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-            <b>Site Stats</b>
+              <b>Site Stats</b>
             </Card.Header>
             <Card.Body>
               {data ? (
