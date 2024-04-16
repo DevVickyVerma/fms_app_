@@ -81,7 +81,6 @@ const AddCompany = (props) => {
     try {
       const formData = new FormData();
       formData.append("id", id);
-      // formData.append("report_id", formik.values.client_id);
       formData.append("subject", formik.values.subject);
       formData.append("include_date", isChecked ? 1 : 0);
       if (selected !== null && selected !== undefined) {
