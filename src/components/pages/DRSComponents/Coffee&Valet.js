@@ -77,58 +77,60 @@ const CoffeeValet = (props) => {
   }
 
   useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
 
-      const axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_BASE_URL,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      try {
-        const response = await axiosInstance.get(
-          `/valet-coffee/list?site_id=${site_id}&drs_date=${start_date}`
-        );
-
-        const { data } = response;
-        if (data) {
-          setData(data?.data?.listing ? data.data.listing : []);
-          setis_editable(data?.data ? data.data : {});
-
-          const formValues = data?.data?.listing
-            ? data.data.listing.map((item) => {
-                return {
-                  id: item.id,
-                  opening: item.opening,
-                  closing: item.closing,
-                  tests: item.tests,
-                  adjust: item.adjust,
-                  sale: item.sale,
-                  price: item.price,
-                  value: item.value,
-                  com_rate: item.com_rate,
-                  commission: item.commission,
-                  // value_per: item.value_per ,
-                  // Add other properties as needed
-                };
-              })
-            : [];
-
-          // Set the formik values using setFieldValue
-          formik.setFieldValue("data", formValues);
-        }
-      } catch (error) {
-        console.error("API error:", error);
-        handleError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
 
     fetchData();
   }, [site_id, start_date]);
+  const fetchData = async () => {
+    const token = localStorage.getItem("token");
+
+    const axiosInstance = axios.create({
+      baseURL: process.env.REACT_APP_BASE_URL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    try {
+      const response = await axiosInstance.get(
+        `/valet-coffee/list?site_id=${site_id}&drs_date=${start_date}`
+      );
+
+      const { data } = response;
+      if (data) {
+        setData(data?.data?.listing ? data.data.listing : []);
+        setis_editable(data?.data ? data.data : {});
+
+        const formValues = data?.data?.listing
+          ? data.data.listing.map((item) => {
+              return {
+                id: item.id,
+                opening: item.opening,
+                closing: item.closing,
+                tests: item.tests,
+                adjust: item.adjust,
+                sale: item.sale,
+                price: item.price,
+                value: item.value,
+                com_rate: item.com_rate,
+                commission: item.commission,
+                file: item.file,
+                // value_per: item.value_per ,
+                // Add other properties as needed
+              };
+            })
+          : [];
+
+        // Set the formik values using setFieldValue
+        formik.setFieldValue("data", formValues);
+      }
+    } catch (error) {
+      console.error("API error:", error);
+      handleError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleSubmit = async (values) => {
     const token = localStorage.getItem("token");
@@ -230,6 +232,51 @@ const CoffeeValet = (props) => {
       setIsLoading(false);
     }
   };
+  const handleFileChange = async (event, rowIndex, row) => {
+    const file = event.target.files[0]; // Get the selected file
+    // Do whatever you need to with the file, such as storing it in state or dispatching an action
+    console.log("Selected file:", file, row);
+
+    const token = localStorage.getItem("token");
+
+    // Create a new FormData object
+    const formData = new FormData();
+    formData.append("site_id", site_id);
+    formData.append("drs_date", start_date);
+    formData.append("department_item_id", row.department_item_id);
+    formData.append("file", file);
+
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/valet-coffee/upload-file`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+
+      const responseData = await response.json(); // Read the response once
+
+      if (response.ok) {
+        SuccessToast(responseData.message);
+        fetchData()
+       console.log(response, "response");
+      } else {
+        ErrorToast(responseData.message);
+
+        // Handle specific error cases if needed
+      }
+    } catch (error) {
+      console.log("Request Error:", error);
+      // Handle request error
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const columns = [
     // ... existing columns
@@ -269,7 +316,9 @@ const CoffeeValet = (props) => {
               id={`opening-${index}`}
               name={`data[${index}].opening`}
               className={
-                editable?.is_opening_editable ? "table-input " : "table-input readonly "
+                editable?.is_opening_editable
+                  ? "table-input "
+                  : "table-input readonly "
               }
               value={formik.values.data[index]?.opening}
               onChange={formik.handleChange}
@@ -342,7 +391,9 @@ const CoffeeValet = (props) => {
               id={`tests-${index}`}
               name={`data[${index}].tests`}
               className={
-                editable?.is_tests_editable ? "table-input " : "table-input readonly "
+                editable?.is_tests_editable
+                  ? "table-input "
+                  : "table-input readonly "
               }
               value={formik.values.data[index]?.tests}
               onChange={formik.handleChange}
@@ -357,6 +408,7 @@ const CoffeeValet = (props) => {
         ),
     },
     {
+
       name: "ADJUST",
       selector: (row) => row.adjust,
       sortable: false,
@@ -579,6 +631,39 @@ const CoffeeValet = (props) => {
           </div>
         ),
     },
+    {
+      ...(editable?.is_upload_file
+        ? {
+            name: "File",
+            selector: (row) => row.file,
+            sortable: false,
+            width: "9.5%",
+            center: true,
+            cell: (row, index) => {
+              const hasFile = row.file && row.file.trim() !== ""; // Check if row.file has a non-empty value
+              return (
+                <div>
+                  {hasFile && ( // Conditionally render the icon if file is present
+                    <a href={row.file} target="_blank" rel="noopener noreferrer">
+                      <span>View Image</span>
+                    </a>
+                  )}
+                  <input
+                    type="file"
+                    id={`file-${index}`}
+                    name={`data[${index}].file`}
+                    className="table-input"
+                    onChange={(e) => handleFileChange(e, index, row)}
+                  />
+                  {/* Error handling code */}
+                </div>
+              );
+            },
+          }
+        : {})
+    }
+    
+    
   ];
 
   const tableDatas = {
