@@ -65,16 +65,14 @@ const DashboardStatsBox = (props) => {
           <Row>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden Dashboard-card ${
-                  GrossVolume?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden Dashboard-card ${GrossVolume?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <Card.Body
-                  className={`${
-                    isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                  }`}
+                  className={`${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                    }`}
                 >
                   <Row>
                     <div className="col">
@@ -111,11 +109,10 @@ const DashboardStatsBox = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      shopmargin?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${shopmargin?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                     data-tip={`${GrossVolume?.percentage}%`}
                                   >
                                     {GrossVolume?.status === "up" ? (
@@ -154,16 +151,14 @@ const DashboardStatsBox = (props) => {
               </Card>
             </Col>
             <div
-              className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 ${
-                isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-              }`}
+              className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 ${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                }`}
             >
               <div
-                className={`card overflow-hidden Dashboard-card ${
-                  GrossProfitValue?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden Dashboard-card ${GrossProfitValue?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <div className="card-body ">
                   <Row>
@@ -190,11 +185,10 @@ const DashboardStatsBox = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      GrossProfitValue?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${GrossProfitValue?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {GrossProfitValue?.status === "up" ? (
                                       <>
@@ -233,16 +227,14 @@ const DashboardStatsBox = (props) => {
             </div>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden Dashboard-card ${
-                  GrossMarginValue?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden Dashboard-card ${GrossMarginValue?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <Card.Body
-                  className={`${
-                    isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                  }`}
+                  className={`${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                    }`}
                 >
                   <Row>
                     <div className="col">
@@ -283,11 +275,10 @@ const DashboardStatsBox = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      GrossMarginValue?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${GrossMarginValue?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {GrossMarginValue?.status === "up" ? (
                                       <>
@@ -331,16 +322,14 @@ const DashboardStatsBox = (props) => {
           <Row>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden Dashboard-card ${
-                  FuelValue?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden Dashboard-card ${FuelValue?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <Card.Body
-                  className={`${
-                    isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                  }`}
+                  className={`${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                    }`}
                 >
                   <Row>
                     <div className="col">
@@ -357,7 +346,7 @@ const DashboardStatsBox = (props) => {
                                 <div>
                                   <h6>Fuel Sales</h6>
                                   <h4 className="mb-2 number-font">
-                                    £{FuelValue?.gross_value}
+                                    £   {FuelValue?.gross_value}
                                   </h4>
                                 </div>
                                 <div className="border-left"></div>
@@ -376,11 +365,10 @@ const DashboardStatsBox = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      FuelValue?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${FuelValue?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {FuelValue?.status === "up" ? (
                                       <>
@@ -416,16 +404,14 @@ const DashboardStatsBox = (props) => {
               </Card>
             </Col>
             <div
-              className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 ${
-                isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-              }`}
+              className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 ${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                }`}
             >
               <div
-                className={`card overflow-hidden Dashboard-card ${
-                  shopsale?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden Dashboard-card ${shopsale?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <div className="card-body ">
                   <Row>
@@ -441,7 +427,8 @@ const DashboardStatsBox = (props) => {
                           ) : (
                             <>
                               <h4 className="mb-2 number-font">
-                                £{shopsale?.shop_sales}
+                                £{shopsale?.shop_sales ? parseFloat(shopsale?.shop_sales)?.toLocaleString() : ""}
+                                {/* {shopsale?.shop_sales} */}
                               </h4>
                               <OverlayTrigger
                                 placement="top"
@@ -451,11 +438,10 @@ const DashboardStatsBox = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      shopsale?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${shopsale?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {shopsale?.status === "up" ? (
                                       <>
@@ -494,16 +480,14 @@ const DashboardStatsBox = (props) => {
             </div>
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
-                className={`card overflow-hidden Dashboard-card ${
-                  shopmargin?.status === "up"
-                    ? "Dashboard-success-border"
-                    : "Dashboard-loss-border"
-                }`}
+                className={`card overflow-hidden Dashboard-card ${shopmargin?.status === "up"
+                  ? "Dashboard-success-border"
+                  : "Dashboard-loss-border"
+                  }`}
               >
                 <Card.Body
-                  className={`${
-                    isDetailPermissionAvailable ? "show-pointer-cursor" : ""
-                  }`}
+                  className={`${isDetailPermissionAvailable ? "show-pointer-cursor" : ""
+                    }`}
                 >
                   <Row>
                     <div className="col">
@@ -520,7 +504,9 @@ const DashboardStatsBox = (props) => {
                           ) : (
                             <>
                               <h4 className="mb-2 number-font">
-                                £{shopmargin?.shop_profit}
+                                £
+                                {shopmargin?.shop_profit ? parseFloat(shopmargin?.shop_profit)?.toLocaleString() : " "}
+                                {/* {shopmargin?.shop_profit} */}
                               </h4>
                               <OverlayTrigger
                                 placement="top"
@@ -530,11 +516,10 @@ const DashboardStatsBox = (props) => {
                               >
                                 <p className="text-muted mb-0 mt-4">
                                   <span
-                                    className={`me-1 ${
-                                      shopmargin?.status === "up"
-                                        ? "text-success"
-                                        : "text-danger"
-                                    }`}
+                                    className={`me-1 ${shopmargin?.status === "up"
+                                      ? "text-success"
+                                      : "text-danger"
+                                      }`}
                                   >
                                     {shopmargin?.status === "up" ? (
                                       <>
