@@ -1529,3 +1529,12 @@ li.ms-2.disabled-checkbox {
 .site_deleted_table.table-responsive .rdt_Table {
   min-height: 1000px;
 }
+
+span.text-error {
+  background: #b52d2d;
+  float: right;
+  /* margin-bottom: 23px; */
+  margin-top: 10px;
+  padding: 2px 9px;
+  color: #fff;
+}

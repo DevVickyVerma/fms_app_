@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Col, Row } from "react-bootstrap";
+import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
@@ -77,8 +77,6 @@ const CoffeeValet = (props) => {
   }
 
   useEffect(() => {
-
-
     fetchData();
   }, [site_id, start_date]);
   const fetchData = async () => {
@@ -263,8 +261,8 @@ const CoffeeValet = (props) => {
 
       if (response.ok) {
         SuccessToast(responseData.message);
-        fetchData()
-       console.log(response, "response");
+        fetchData();
+        console.log(response, "response");
       } else {
         ErrorToast(responseData.message);
 
@@ -297,7 +295,7 @@ const CoffeeValet = (props) => {
       name: "OPENING",
       selector: (row) => row.opening,
       sortable: false,
-      width: "8.5%",
+      width: !editable?.is_upload_file ? "9.5%" : "8.5%",
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -334,7 +332,7 @@ const CoffeeValet = (props) => {
       name: "CLOSING ",
       selector: (row) => row.closing,
       sortable: false,
-      width: "8.5%",
+      width: !editable?.is_upload_file ? "9.5%" : "8.5%",
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -372,7 +370,7 @@ const CoffeeValet = (props) => {
       name: "TESTS",
       selector: (row) => row.tests,
       sortable: false,
-      width: "8.5%",
+      width: !editable?.is_upload_file ? "9.5%" : "8.5%",
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -408,11 +406,10 @@ const CoffeeValet = (props) => {
         ),
     },
     {
-
       name: "ADJUST",
       selector: (row) => row.adjust,
       sortable: false,
-      width: "8.5%",
+      width: !editable?.is_upload_file ? "9.5%" : "8.5%",
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -449,7 +446,7 @@ const CoffeeValet = (props) => {
       name: "SALES",
       selector: (row) => row.sale,
       sortable: false,
-      width: "8.5%",
+      width: !editable?.is_upload_file ? "9.5%" : "8.5%",
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -489,7 +486,7 @@ const CoffeeValet = (props) => {
       name: "PRICE",
       selector: (row) => row.price,
       sortable: false,
-      width: "8.5%",
+      width: !editable?.is_upload_file ? "9.5%" : "8.5%",
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -525,7 +522,7 @@ const CoffeeValet = (props) => {
       name: "VALUE",
       selector: (row) => row.value,
       sortable: false,
-      width: "8.5%",
+      width: !editable?.is_upload_file ? "9.5%" : "8.5%",
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -562,7 +559,7 @@ const CoffeeValet = (props) => {
       name: "COMMISSION RATE",
       selector: (row) => row.com_rate,
       sortable: false,
-      width: "8.5%",
+      width: !editable?.is_upload_file ? "9.5%" : "8.5%",
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -594,7 +591,7 @@ const CoffeeValet = (props) => {
       name: "COMMISSION VALUE",
       selector: (row) => row.commission,
       sortable: false,
-      width: "8.5%",
+      width: !editable?.is_upload_file ? "10%" : "8.5%",
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -631,35 +628,53 @@ const CoffeeValet = (props) => {
           </div>
         ),
     },
-    ...(!editable?.is_upload_file
+    ...(editable?.is_upload_file
       ? [
           {
-            name: "File",
+            name: "Invoices",
             selector: (row) => row.file,
             sortable: false,
             width: "9.5%",
             center: true,
             cell: (row, index) => {
               if (row.item_category === "Total") {
-                // If item_category is "Total", return null to hide the content
                 return null;
               }
-  
+
               const hasFile = row.file && row.file.trim() !== ""; // Check if row.file has a non-empty value
               return (
                 <div>
+                  <label htmlFor={`file-${index}`} className="file-upload-icon">
+                    <i
+                      class="fa fa-upload btn btn-sm btn-primary"
+                      aria-hidden="true"
+                    ></i>
+                    <input
+                      type="file"
+                      id={`file-${index}`}
+                      name={`data[${index}].file`}
+                      className="table-input visually-hidden"
+                      onChange={(e) => handleFileChange(e, index, row)}
+                      title="Choose a file to upload"
+                    />
+                  </label>
+
                   {hasFile && (
-                    <a href={row.file} target="_blank" rel="noopener noreferrer">
-                      <span>View Image</span>
+                    <a
+                      href={row.file}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="View image"
+                    >
+                      <span>
+                        <i
+                          class="fa fa-file-image-o btn btn-sm btn-info ms-2"
+                          aria-hidden="true"
+                        ></i>
+                      </span>
                     </a>
                   )}
-                  <input
-                    type="file"
-                    id={`file-${index}`}
-                    name={`data[${index}].file`}
-                    className="table-input"
-                    onChange={(e) => handleFileChange(e, index, row)}
-                  />
+
                   {/* Error handling code */}
                 </div>
               );
@@ -667,8 +682,6 @@ const CoffeeValet = (props) => {
           },
         ]
       : []),
-    
-    
   ];
 
   const tableDatas = {
@@ -794,8 +807,12 @@ const CoffeeValet = (props) => {
                           />
                         </DataTableExtensions>
                       </div>
+
+                  
+                       
+
                       <div className="d-flex justify-content-end mt-3">
-                        {editable?.is_editable ? (
+                        {editable?.is_editable && editable?.is_submittable ? (
                           <button className="btn btn-primary" type="submit">
                             Submit
                           </button>
@@ -807,8 +824,13 @@ const CoffeeValet = (props) => {
                           >
                             Submit
                           </button>
-                        )}
+                          
+                        )
+                        
+                        }
+
                       </div>
+                      {!editable?.is_submittable ?<span className="text-error">*Please Upload Invoices for All Items</span>:""}
                     </form>
                   </>
                 ) : (
