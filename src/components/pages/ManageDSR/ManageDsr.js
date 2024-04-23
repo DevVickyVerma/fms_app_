@@ -41,6 +41,20 @@ import CustomClient from "../../../Utils/CustomClient";
 import CustomCompany from "../../../Utils/CustomCompany";
 import CustomSite from "../../../Utils/CustomSite";
 
+
+
+
+
+// Function to get the date two months back from the current date
+const getMinDate = () => {
+  const today = new Date();
+  today.setMonth(today.getMonth() - 2);
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   // const receivedData = props?.location?.state;
@@ -83,6 +97,14 @@ const ManageDsr = (props) => {
   const dispatch = useDispatch();
   const storedToken = localStorage.getItem("token");
   const [successMessage, setSuccessMessage] = useState("");
+  const [minDate, setMinDate] = useState(getMinDate());
+
+  useEffect(() => {
+    setMinDate(getMinDate());
+  }, []); // Set minDate initially and only when the component mounts
+
+
+
   useEffect(() => {
     if (storedToken) {
       dispatch(fetchData());
@@ -447,6 +469,11 @@ const ManageDsr = (props) => {
     const day = String(today.getDate()).padStart(2, "0"); // Subtract one day from the current date
     return `${year}-${month}-${day}`;
   };
+
+
+
+
+
   const hadndleShowDate = () => {
     const inputDateElement = document.querySelector('input[type="date"]');
     inputDateElement.showPicker();
@@ -578,15 +605,15 @@ const ManageDsr = (props) => {
                         </label>
                         <input
                           type="date"
-                          min={"2023-01-01"}
+                          // min={"2023-01-01"}
+                          min={minDate}
                           max={getCurrentDate()}
                           onClick={hadndleShowDate}
-                          className={`input101 ${
-                            formik.errors.start_date &&
+                          className={`input101 ${formik.errors.start_date &&
                             formik.touched.start_date
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           value={formik.values.start_date}
                           id="start_date"
                           name="start_date"
@@ -667,8 +694,8 @@ const ManageDsr = (props) => {
         </Row>
 
         {Uploadtitle?.b_mdl === "PRISM" ||
-        Uploadtitle?.b_mdl === "HTECH" ||
-        Uploadtitle?.b_mdl === "EDGEPoS" ? (
+          Uploadtitle?.b_mdl === "HTECH" ||
+          Uploadtitle?.b_mdl === "EDGEPoS" ? (
           <Row>
             <Col md={12} xl={12}>
               <Card>
@@ -680,21 +707,20 @@ const ManageDsr = (props) => {
                 <Card.Body>
                   <Row>
                     {Uploadtitle?.b_mdl === "PRISM" ||
-                    Uploadtitle?.b_mdl === "HTECH" ||
-                    Uploadtitle?.b_mdl === "EDGEPoS" ? (
+                      Uploadtitle?.b_mdl === "HTECH" ||
+                      Uploadtitle?.b_mdl === "EDGEPoS" ? (
                       UploadList && UploadList.length > 0 ? (
                         UploadList.map((item) => (
                           <Col md={12} xl={3} key={item.id}>
                             <Card
-                              className={`text-white ${
-                                item.bgColor === "blue"
-                                  ? "bg-primary"
-                                  : item.bgColor === "green"
+                              className={`text-white ${item.bgColor === "blue"
+                                ? "bg-primary"
+                                : item.bgColor === "green"
                                   ? "bg-card-green"
                                   : item.bgColor === "red"
-                                  ? "bg-card-red"
-                                  : "bg-primary"
-                              }`}
+                                    ? "bg-card-red"
+                                    : "bg-primary"
+                                }`}
                             >
                               <Card.Body
                                 className="card-Div"
@@ -790,9 +816,9 @@ const ManageDsr = (props) => {
               <Card.Header className="d-flex justify-content-space-between">
                 <h3 className="card-title">Daily Workflow</h3>
                 {getDataBtn?.showBtn === true &&
-                isAssignPermissionAvailable &&
-                DataEnteryList &&
-                DataEnteryList.length > 0 ? (
+                  isAssignPermissionAvailable &&
+                  DataEnteryList &&
+                  DataEnteryList.length > 0 ? (
                   <>
                     <Link
                       onClick={handleButtonClick}
@@ -814,20 +840,18 @@ const ManageDsr = (props) => {
                     DataEnteryList.map((item) => (
                       <Col md={12} xl={3} key={item.id}>
                         <Card
-                          className={`text-white ${
-                            item.bgColor === "amber"
-                              ? "bg-card-amber"
-                              : item.bgColor === "green"
+                          className={`text-white ${item.bgColor === "amber"
+                            ? "bg-card-amber"
+                            : item.bgColor === "green"
                               ? "bg-card-green"
                               : item.bgColor === "red"
-                              ? "bg-card-red"
-                              : "bg-primary"
-                          }`}
+                                ? "bg-card-red"
+                                : "bg-primary"
+                            }`}
                         >
                           <Card.Body
-                            className={`card-Div ${
-                              selectedItem === item ? "dsr-selected" : ""
-                            }`}
+                            className={`card-Div ${selectedItem === item ? "dsr-selected" : ""
+                              }`}
                             onClick={() => handleEnteryClick(item)} // Pass item.name as an argument
                           >
                             <h4 className="card-title">{item.name}</h4>
