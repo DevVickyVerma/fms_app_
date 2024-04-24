@@ -339,7 +339,7 @@ const ManageCompany = (props) => {
                       <Link to={`/companyautoreport/${row.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }} >
                         <i className="setting-icon">
-                            {""} <i className="fa fa-flask" aria-hidden="true"></i> {" "}
+                            {""} <i class="fa fa-magic" aria-hidden="true"></i> {" "}
                           </i>
                           Company Auto Report
                         </div>
