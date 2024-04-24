@@ -331,7 +331,7 @@ const ManageCompany = (props) => {
                     </Dropdown.Item>
                   ) : null}
                 
-                  {/* {permissionsArray?.includes("company-auto-report-list") ? (
+               {permissionsArray?.includes("company-auto-report-list") ? (
                     <Dropdown.Item
                       className=" p-0 m-0"
                     // className="dropdown-item"
@@ -345,7 +345,7 @@ const ManageCompany = (props) => {
                         </div>
                       </Link>
                     </Dropdown.Item>
-                  ) : null} */}
+                  ) : null}
                   {isSagePermissionAvailable ? (
                     <Dropdown.Item className="dropdown-item">
                       <Link
