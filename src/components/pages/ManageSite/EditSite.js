@@ -13,29 +13,11 @@ export default function AddSite(props) {
   const { isLoading, getData, postData } = props;
   const [AddSiteData, setAddSiteData] = useState([]);
 
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
-
+ 
   const { id } = useParams();
 
   useEffect(() => {
-    try {
-      FetchRoleList();
-    } catch (error) {
-      handleError(error);
-    }
+    FetchRoleList();
     console.clear();
   }, [id]);
 
@@ -140,6 +122,7 @@ export default function AddSite(props) {
       include_bunkered_sales: "",
       show_admin_sale: "",
       send_auto_report: "",
+      cashback_enable: "",
     },
     validationSchema: Yup.object({
       site_code: Yup.string()
@@ -154,6 +137,7 @@ export default function AddSite(props) {
       business_type: Yup.string().required("Business Type is required"),
       supplier_id: Yup.string().required("Supplier ID is required"),
       start_date: Yup.string().required("DRS Start Date is required"),
+      cashback_enable: Yup.string().required("Cashback Enable is required"),
       data_import_type_id: Yup.string().required(
         "Data Import Types is required"
       ),
@@ -1586,6 +1570,40 @@ export default function AddSite(props) {
                             formik.touched.send_auto_report && (
                               <div className="invalid-feedback">
                                 {formik.errors.send_auto_report}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="cashback_enable"
+                            className="form-label mt-4"
+                          >
+                           Send Cashback Enable <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.cashback_enable &&
+                              formik.touched.cashback_enable
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="cashback_enable"
+                            name="cashback_enable"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.cashback_enable}
+                          >
+                          
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                       
+                          </select>
+                          {formik.errors.cashback_enable &&
+                            formik.touched.cashback_enable && (
+                              <div className="invalid-feedback">
+                                {formik.errors.cashback_enable}
                               </div>
                             )}
                         </div>

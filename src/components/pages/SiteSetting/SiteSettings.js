@@ -44,6 +44,7 @@ const SiteSettings = (props) => {
   const [CldoReportsReportsData, setCldoReportsReportsData] = useState([]);
   const [vat_summaryData, setvat_summaryData] = useState([]);
   const [CashDayData, setCashDayData] = useState([]);
+  const [AssignCashCards, setAssignCashCards] = useState([]);
   const [siteName, setSiteName] = useState("");
 
   const { id } = useParams();
@@ -69,6 +70,7 @@ const SiteSettings = (props) => {
         setBussinesModelData(data?.data ? data.data.business_models : []);
         setCardsModelData(data?.data ? data.data.cards : []);
         setCashDayData(data?.data ? data.data.cash_days : []);
+        setAssignCashCards(data?.data ? data.data.cashCards : []);
         setis_editable(data?.data ? data.data : {});
 
         setSiteName(response?.data?.data);
@@ -88,6 +90,7 @@ const SiteSettings = (props) => {
         formik.setFieldValue("vat_summaryData", data?.data?.vatsummaryitems);
         formik.setFieldValue("AssignFormikCards", data?.data?.cards);
         formik.setFieldValue("CahsDayFormikData", data?.data?.cash_days);
+        formik.setFieldValue("CahsCardsFormikData", data?.data?.cashCards);
       } else {
         throw new Error("No data available in the response");
       }
@@ -410,6 +413,44 @@ const SiteSettings = (props) => {
     },
     {
       name: "Card Model",
+      selector: (row) => row.card_name,
+      sortable: false,
+      width: "85%",
+      cell: (row) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.card_name}</h6>
+          </div>
+        </div>
+      ),
+    },
+  ];
+  const cashCardsModelColumn = [
+    {
+      name: "Select",
+      selector: "checked",
+      sortable: false,
+      center: true,
+      width: "15%",
+      cell: (row, index) => (
+        <div>
+          <input
+            type="checkbox"
+            id={`checked-${index}`}
+            name={`CahsCardsFormikData[${index}].checked`}
+            className="table-checkbox-input"
+            checked={
+              formik.values?.CahsCardsFormikData?.[index]?.checked ?? false
+            }
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {/* Error handling code */}
+        </div>
+      ),
+    },
+    {
+      name: "Card Name",
       selector: (row) => row.card_name,
       sortable: false,
       width: "85%",
@@ -1029,12 +1070,34 @@ const SiteSettings = (props) => {
           });
         }
       }
-
       vat_summaryIds.forEach((item) => {
         const key = Object.keys(item)[0];
         const value = item[key];
         formData.append(key, value);
       });
+
+console.log(formik.values.FormikCldoReports, "formik.values.FormikCldoReports");
+
+console.log(formik.values.CahsCardsFormikData, "formik.values.CahsCardsFormikData");
+console.log(formik.values, "formik.values");
+      const CahsCardsFormikDataids = [];
+      const CahsCardsFormikDataKey = "cash_cards";
+
+      for (let i = 0; i < formik.values.CahsCardsFormikData.length; i++) {
+        const { id, checked } = formik.values.CahsCardsFormikData[i];
+
+        if (checked) {
+          CahsCardsFormikDataids.push({
+            [CahsCardsFormikDataKey + "[" + i + "]"]: id,
+          });
+        }
+      }
+      CahsCardsFormikDataids.forEach((item) => {
+        const key = Object.keys(item)[0];
+        const value = item[key];
+        formData.append(key, value);
+      });
+  
 
       formData.append("id", id);
 
@@ -1046,14 +1109,7 @@ const SiteSettings = (props) => {
       handleError(error); // Set the submission state to false if an error occurs
     }
   };
-  // const vat_summaryColumnDates = {
-  //   vat_summaryColumn,
-  //   vat_summaryData,
-  // };
-  const tableData = {
-    data: vat_summaryData,
-    columns: vat_summaryColumn,
-  };
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -1415,6 +1471,36 @@ const SiteSettings = (props) => {
                           ) : (
                             ""
                           )}
+                          <Col lg={4} md={4}>
+                                  <Card.Header className="cardheader-table">
+                                    <h3 className="card-title">Assign Cash Cards</h3>
+                                  </Card.Header>
+                                  {AssignCashCards?.length > 0 ? (
+                                    <>
+                                      <div className="module-height">
+                                        <DataTable
+                                          columns={cashCardsModelColumn}
+                                          data={AssignCashCards}
+                                          defaultSortField="id"
+                                          defaultSortAsc={false}
+                                          striped={true}
+                                          persistTableHead
+                                          highlightOnHover
+                                          searchable={false}
+                                          responsive
+                                        />
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <img
+                                        src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                                        alt="MyChartImage"
+                                        className="all-center-flex nodata-image"
+                                      />
+                                    </>
+                                  )}
+                                </Col>
                         </Row>
                       </Card.Body>
                       <Card.Footer>

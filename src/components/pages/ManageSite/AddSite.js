@@ -142,6 +142,7 @@ const AddSite = (props) => {
       formData.append("include_bunkered_sales", values.include_bunkered_sales);
       formData.append("show_admin_sale", values.show_admin_sale);
       formData.append("send_auto_report", values.send_auto_report);
+    formData.append("cashback_enable", values.cashback_enable);
 
       const postDataUrl = "/site/add";
 
@@ -240,6 +241,7 @@ const AddSite = (props) => {
                     instant_lottery_commission: "",
                     consider_keyfules_cards: "",
                     paypoint_commission: "",
+                    cashback_enable: 0,
                     shop_commission: 0,
                     paidout: 0,
                     apply_sc: 0,
@@ -288,7 +290,7 @@ const AddSite = (props) => {
                     Select_machine_type: Yup.string().required(
                       " Data Import Types is required"
                     ),
-                    // display_name: Yup.string().required("Display name is required"),
+                    
                     Saga_department_code: Yup.string().required(
                       "Sage Department Code  is required"
                     ),
@@ -306,9 +308,6 @@ const AddSite = (props) => {
                     bank_ref: Yup.number()
                       .required("Bank Reference Number is required")
                       .min(1, "Number should be greater than zero"),
-                    // bank_ref: Yup.string().required(
-                    //   "Bank Reference Number is required"
-                    // ).min(1, "Number should be greater than zero"),
                     security_amount: Yup.string().required(
                       "Security Amount is required"
                     ),
@@ -329,6 +328,9 @@ const AddSite = (props) => {
                     ),
                     display_all_sales: Yup.string().required(
                       "  Display All Sales is required"
+                    ),
+                    cashback_enable: Yup.string().required(
+                      "  Cashback Enable is required"
                     ),
                  
                   })}
@@ -1683,6 +1685,37 @@ const AddSite = (props) => {
                                 component="div"
                                 className="invalid-feedback"
                                 name="send_auto_report"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="send_auto_report"
+                                className=" form-label mt-4"
+                              >
+                                 Cashback Enable <span className="text-danger">*</span>
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${
+                                  errors.cashback_enable &&
+                                  touched.cashback_enable
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="cashback_enable"
+                                name="cashback_enable"
+                              >
+                             
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                         
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="cashback_enable"
                               />
                             </FormGroup>
                           </Col>
