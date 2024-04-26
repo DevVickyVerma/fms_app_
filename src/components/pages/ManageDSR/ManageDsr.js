@@ -40,31 +40,22 @@ import { useMyContext } from "../../../Utils/MyContext";
 import CustomClient from "../../../Utils/CustomClient";
 import CustomCompany from "../../../Utils/CustomCompany";
 import CustomSite from "../../../Utils/CustomSite";
+import { handleError } from "../../../Utils/ToastUtils";
 
 
 
 
 
 // Function to get the date two months back from the current date
-const getMinDate = () => {
-  const today = new Date();
-  today.setMonth(today.getMonth() - 2);
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-};
+
 
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
-  // const receivedData = props?.location?.state;
-  const location = useLocation();
-  const navigate = useNavigate();
+
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
-  const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
@@ -97,11 +88,22 @@ const ManageDsr = (props) => {
   const dispatch = useDispatch();
   const storedToken = localStorage.getItem("token");
   const [successMessage, setSuccessMessage] = useState("");
-  const [minDate, setMinDate] = useState(getMinDate());
+  const [minDate, setMinDate] = useState();
+  const getMinDate = () => {
+    const today = new Date();
+    today.setMonth(today.getMonth() - 2);
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+const isAdmin = UserPermissions?.role == "Administrator"; // Change this to true if the user is an admin
 
   useEffect(() => {
-    setMinDate(getMinDate());
-  }, []); // Set minDate initially and only when the component mounts
+    if (!isAdmin) {
+      setMinDate(getMinDate());
+    }
+  }, [isAdmin]); 
 
 
 
@@ -124,30 +126,8 @@ const ManageDsr = (props) => {
 
   const isAssignPermissionAvailable = permissionsArray?.includes("drs-hit-api");
 
-  const ErrorAlert = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
+ 
 
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
   const fetchCommonListData = async () => {
     try {
@@ -606,7 +586,7 @@ const ManageDsr = (props) => {
                         <input
                           type="date"
                           // min={"2023-01-01"}
-                          min={minDate}
+                          min={!isAdmin ? minDate : undefined} 
                           max={getCurrentDate()}
                           onClick={hadndleShowDate}
                           className={`input101 ${formik.errors.start_date &&
