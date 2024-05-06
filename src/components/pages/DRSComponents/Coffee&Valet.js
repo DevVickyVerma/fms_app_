@@ -232,6 +232,8 @@ const CoffeeValet = (props) => {
     }
   };
   const handleFileChange = async (event, rowIndex, row) => {
+    console.log(rowIndex, "rowIndex");
+
     const file = event.target.files[0]; // Get the selected file
     // Do whatever you need to with the file, such as storing it in state or dispatching an action
     console.log("Selected file:", file, row);
@@ -262,7 +264,15 @@ const CoffeeValet = (props) => {
 
       if (response.ok) {
         SuccessToast(responseData.message);
-        fetchData();
+        const updatedData = [...data]; // Create a copy of the existing data
+        updatedData[rowIndex] = {
+          ...updatedData[rowIndex],
+          file: responseData?.data?.file,
+        }; // Update the specific item with the new file information
+
+        setData(updatedData); // Update the state with the concatenated data
+
+        // fetchData();
         console.log(response, "response");
       } else {
         ErrorToast(responseData.message);
@@ -277,12 +287,12 @@ const CoffeeValet = (props) => {
     }
   };
 
-
-if((editable?.is_file || editable?.is_upload_file)){
-  console.log(editable?.is_file,editable?.is_upload_file, "show width");
-}else{
-  console.log("no width");
-}
+  if (editable?.is_file || editable?.is_upload_file) {
+    console.log(editable?.is_file, editable?.is_upload_file, "show width");
+  } else {
+    console.log("no width");
+  }
+  console.log(data, "columns");
   const columns = [
     // ... existing columns
 
@@ -302,7 +312,7 @@ if((editable?.is_file || editable?.is_upload_file)){
       name: "OPENING",
       selector: (row) => row.opening,
       sortable: false,
-      width: (editable?.is_file || editable?.is_upload_file) ? "8.5%" : "9.5%",
+      width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -339,7 +349,7 @@ if((editable?.is_file || editable?.is_upload_file)){
       name: "CLOSING ",
       selector: (row) => row.closing,
       sortable: false,
-      width:(editable?.is_file || editable?.is_upload_file) ? "8.5%" : "9.5%",
+      width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -377,7 +387,7 @@ if((editable?.is_file || editable?.is_upload_file)){
       name: "TESTS",
       selector: (row) => row.tests,
       sortable: false,
-      width:(editable?.is_file || editable?.is_upload_file) ?  "8.5%" : "9.5%",
+      width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -416,7 +426,7 @@ if((editable?.is_file || editable?.is_upload_file)){
       name: "ADJUST",
       selector: (row) => row.adjust,
       sortable: false,
-      width: (editable?.is_file || editable?.is_upload_file) ?  "8.5%" : "9.5%",
+      width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -453,7 +463,7 @@ if((editable?.is_file || editable?.is_upload_file)){
       name: "SALES",
       selector: (row) => row.sale,
       sortable: false,
-      width: (editable?.is_file || editable?.is_upload_file) ?  "8.5%" : "9.5%",
+      width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
       cell: (row, index) =>
         row.item_category === "Total" ? (
           <div>
@@ -492,7 +502,7 @@ if((editable?.is_file || editable?.is_upload_file)){
       name: "PRICE",
       selector: (row) => row.price,
       sortable: false,
-      width: (editable?.is_file || editable?.is_upload_file) ?  "8.5%" : "9.5%",
+      width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -528,7 +538,7 @@ if((editable?.is_file || editable?.is_upload_file)){
       name: "VALUE",
       selector: (row) => row.value,
       sortable: false,
-      width: (editable?.is_file || editable?.is_upload_file) ?  "8.5%" : "9.5%",
+      width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
       cell: (row, index) =>
         row.item_category === "Total" ? (
           <div>
@@ -564,8 +574,8 @@ if((editable?.is_file || editable?.is_upload_file)){
       name: "COMMISSION RATE",
       selector: (row) => row.com_rate,
       sortable: false,
-      width: (editable?.is_file || editable?.is_upload_file) ? "8.5%" : "9.5%",
-      
+      width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "9.5%",
+
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -597,7 +607,7 @@ if((editable?.is_file || editable?.is_upload_file)){
       name: "COMMISSION VALUE",
       selector: (row) => row.commission,
       sortable: false,
-      width: (editable?.is_file || editable?.is_upload_file) ?  "8.5%" : "10%",
+      width: editable?.is_file || editable?.is_upload_file ? "8.5%" : "10%",
       center: true,
       cell: (row, index) =>
         row.item_category === "Total" ? (
@@ -634,7 +644,7 @@ if((editable?.is_file || editable?.is_upload_file)){
           </div>
         ),
     },
-    ...(editable?.is_file || editable?.is_upload_file 
+    ...(editable?.is_file || editable?.is_upload_file
       ? [
           {
             name: "Invoices",
@@ -833,7 +843,7 @@ if((editable?.is_file || editable?.is_upload_file)){
                           </button>
                         )}
                       </div>
-                      {editable?.is_show_message  ? (
+                      {editable?.is_show_message ? (
                         <span className="text-error">
                           *Please Upload Invoices for All Items
                         </span>
