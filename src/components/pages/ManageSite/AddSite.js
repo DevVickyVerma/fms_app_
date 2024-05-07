@@ -142,7 +142,8 @@ const AddSite = (props) => {
       formData.append("include_bunkered_sales", values.include_bunkered_sales);
       formData.append("show_admin_sale", values.show_admin_sale);
       formData.append("send_auto_report", values.send_auto_report);
-    formData.append("cashback_enable", values.cashback_enable);
+      formData.append("consider_fuel_sales ", values.consider_fuel_sales);
+      formData.append("cashback_enable", values.cashback_enable);
 
       const postDataUrl = "/site/add";
 
@@ -152,9 +153,6 @@ const AddSite = (props) => {
       console.log(error); // Set the submission state to false if an error occurs
     }
   };
-
-
-
 
   const getCurrentDate = () => {
     const today = new Date();
@@ -258,7 +256,7 @@ const AddSite = (props) => {
                     include_bunkered_sales: 0,
                     show_admin_sale: 0,
                     send_auto_report: 0,
-                
+                    consider_fuel_sales: 1,
                   }}
                   validationSchema={Yup.object({
                     site_code: Yup.string()
@@ -290,7 +288,7 @@ const AddSite = (props) => {
                     Select_machine_type: Yup.string().required(
                       " Data Import Types is required"
                     ),
-                    
+
                     Saga_department_code: Yup.string().required(
                       "Sage Department Code  is required"
                     ),
@@ -332,7 +330,6 @@ const AddSite = (props) => {
                     cashback_enable: Yup.string().required(
                       "  Cashback Enable is required"
                     ),
-                 
                   })}
                   onSubmit={(values, { setSubmitting }) => {
                     handleSubmit1(values, setSubmitting);
@@ -1629,7 +1626,7 @@ const AddSite = (props) => {
                                 htmlFor="show_admin_sale"
                                 className=" form-label mt-4"
                               >
-                               Show Owner Shop Sales(in CLDO)
+                                Show Owner Shop Sales(in CLDO)
                               </label>
                               <Field
                                 as="select"
@@ -1661,7 +1658,7 @@ const AddSite = (props) => {
                                 htmlFor="send_auto_report"
                                 className=" form-label mt-4"
                               >
-                                 Send Auto Report
+                                Send Auto Report
                               </label>
                               <Field
                                 as="select"
@@ -1675,11 +1672,10 @@ const AddSite = (props) => {
                                 name="send_auto_report"
                               >
                                 <option value="">
-                                Select Send Auto Report
+                                  Select Send Auto Report
                                 </option>
                                 <option value="0">No</option>
                                 <option value="1">Yes</option>
-                         
                               </Field>
                               <ErrorMessage
                                 component="div"
@@ -1694,7 +1690,8 @@ const AddSite = (props) => {
                                 htmlFor="send_auto_report"
                                 className=" form-label mt-4"
                               >
-                                 Cashback Enable <span className="text-danger">*</span>
+                                Cashback Enable{" "}
+                                <span className="text-danger">*</span>
                               </label>
                               <Field
                                 as="select"
@@ -1707,15 +1704,46 @@ const AddSite = (props) => {
                                 id="cashback_enable"
                                 name="cashback_enable"
                               >
-                             
                                 <option value="0">No</option>
                                 <option value="1">Yes</option>
-                         
                               </Field>
                               <ErrorMessage
                                 component="div"
                                 className="invalid-feedback"
                                 name="cashback_enable"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="consider_fuel_sales "
+                                className=" form-label mt-4"
+                              >
+                                Consider Fuel Sales{" "}
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${
+                                  errors.consider_fuel_sales &&
+                                  touched.consider_fuel_sales
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="consider_fuel_sales "
+                                name="consider_fuel_sales "
+                              >
+                                {" "}
+                                <option value="1">Sales Summary</option>
+                                <option value="0">
+                                  Grades Dispensed Summary
+                                </option>
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="consider_fuel_sales "
                               />
                             </FormGroup>
                           </Col>

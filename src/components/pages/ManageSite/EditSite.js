@@ -13,7 +13,6 @@ export default function AddSite(props) {
   const { isLoading, getData, postData } = props;
   const [AddSiteData, setAddSiteData] = useState([]);
 
- 
   const { id } = useParams();
 
   useEffect(() => {
@@ -122,6 +121,7 @@ export default function AddSite(props) {
       include_bunkered_sales: "",
       show_admin_sale: "",
       send_auto_report: "",
+      consider_fuel_sales: "",
       cashback_enable: "",
     },
     validationSchema: Yup.object({
@@ -133,6 +133,9 @@ export default function AddSite(props) {
         .required("Site Name is required"),
       site_address: Yup.string().required("Site Address is required"),
       send_auto_report: Yup.string().required("Send Auto  Report is required"),
+      consider_fuel_sales: Yup.string().required(
+        "Consider Fuel Sales  is required"
+      ),
       site_status: Yup.string().required("Site Status is required"),
       business_type: Yup.string().required("Business Type is required"),
       supplier_id: Yup.string().required("Supplier ID is required"),
@@ -1544,7 +1547,7 @@ export default function AddSite(props) {
                             htmlFor="send_auto_report"
                             className="form-label mt-4"
                           >
-                           Send Auto Report
+                            Send Auto Report
                           </label>
                           <select
                             className={`input101 ${
@@ -1559,12 +1562,9 @@ export default function AddSite(props) {
                             onBlur={formik.handleBlur}
                             value={formik.values.send_auto_report}
                           >
-                            <option value="">
-                            Select Send Auto Report
-                            </option>
+                            <option value="">Select Send Auto Report</option>
                             <option value="0">No</option>
                             <option value="1">Yes</option>
-                       
                           </select>
                           {formik.errors.send_auto_report &&
                             formik.touched.send_auto_report && (
@@ -1580,7 +1580,8 @@ export default function AddSite(props) {
                             htmlFor="cashback_enable"
                             className="form-label mt-4"
                           >
-                           Send Cashback Enable <span className="text-danger">*</span>
+                            Send Cashback Enable{" "}
+                            <span className="text-danger">*</span>
                           </label>
                           <select
                             className={`input101 ${
@@ -1595,15 +1596,46 @@ export default function AddSite(props) {
                             onBlur={formik.handleBlur}
                             value={formik.values.cashback_enable}
                           >
-                          
                             <option value="0">No</option>
                             <option value="1">Yes</option>
-                       
                           </select>
                           {formik.errors.cashback_enable &&
                             formik.touched.cashback_enable && (
                               <div className="invalid-feedback">
                                 {formik.errors.cashback_enable}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="consider_fuel_sales"
+                            className="form-label mt-4"
+                          >
+                            Consider Fuel Sales{" "}
+                            <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.consider_fuel_sales &&
+                              formik.touched.consider_fuel_sales
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="consider_fuel_sales"
+                            name="consider_fuel_sales"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.consider_fuel_sales}
+                          >
+                            <option value="1">Sales Summary</option>
+                            <option value="0">Grades Dispensed Summary</option>
+                          </select>
+                          {formik.errors.consider_fuel_sales &&
+                            formik.touched.consider_fuel_sales && (
+                              <div className="invalid-feedback">
+                                {formik.errors.consider_fuel_sales}
                               </div>
                             )}
                         </div>
