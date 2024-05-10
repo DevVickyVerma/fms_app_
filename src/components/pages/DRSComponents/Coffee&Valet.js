@@ -102,22 +102,22 @@ const CoffeeValet = (props) => {
 
         const formValues = data?.data?.listing
           ? data.data.listing.map((item) => {
-              return {
-                id: item.id,
-                opening: item.opening,
-                closing: item.closing,
-                tests: item.tests,
-                adjust: item.adjust,
-                sale: item.sale,
-                price: item.price,
-                value: item.value,
-                com_rate: item.com_rate,
-                commission: item.commission,
-                file: item.file,
-                // value_per: item.value_per ,
-                // Add other properties as needed
-              };
-            })
+            return {
+              id: item.id,
+              opening: item.opening,
+              closing: item.closing,
+              tests: item.tests,
+              adjust: item.adjust,
+              sale: item.sale,
+              price: item.price,
+              value: item.value,
+              com_rate: item.com_rate,
+              commission: item.commission,
+              file: item.file,
+              // value_per: item.value_per ,
+              // Add other properties as needed
+            };
+          })
           : [];
 
         // Set the formik values using setFieldValue
@@ -292,7 +292,7 @@ const CoffeeValet = (props) => {
   } else {
     console.log("no width");
   }
-  console.log(data, "columns");
+
   const columns = [
     // ... existing columns
 
@@ -339,7 +339,7 @@ const CoffeeValet = (props) => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               readOnly={editable?.is_opening_editable ? false : true}
-              // readOnly
+            // readOnly
             />
             {/* Error handling code */}
           </div>
@@ -365,7 +365,8 @@ const CoffeeValet = (props) => {
           <div>
             <input
               type="number"
-              min={row.opening}
+              // min={row.opening}
+              min={formik?.values?.data?.[index]?.opening}
               id={`closing-${index}`}
               name={`data[${index}].closing`}
               className={
@@ -646,61 +647,61 @@ const CoffeeValet = (props) => {
     },
     ...(editable?.is_file || editable?.is_upload_file
       ? [
-          {
-            name: "Invoices",
-            selector: (row) => row.file,
-            sortable: false,
-            width: "9.5%",
-            center: true,
-            cell: (row, index) => {
-              if (row.item_category === "Total") {
-                return null;
-              }
+        {
+          name: "Invoices",
+          selector: (row) => row.file,
+          sortable: false,
+          width: "9.5%",
+          center: true,
+          cell: (row, index) => {
+            if (row.item_category === "Total") {
+              return null;
+            }
 
-              const hasFile = row.file && row.file.trim() !== ""; // Check if row.file has a non-empty value
-              const is_uploadfile = editable?.is_upload_file; // Check if row.file has a non-empty value
-              return (
-                <div>
-                  {is_uploadfile && (
-                    <label
-                      htmlFor={`file-${index}`}
-                      className="file-upload-icon"
-                    >
+            const hasFile = row.file && row.file.trim() !== ""; // Check if row.file has a non-empty value
+            const is_uploadfile = editable?.is_upload_file; // Check if row.file has a non-empty value
+            return (
+              <div>
+                {is_uploadfile && (
+                  <label
+                    htmlFor={`file-${index}`}
+                    className="file-upload-icon"
+                  >
+                    <i
+                      class="fa fa-upload btn btn-sm btn-primary"
+                      aria-hidden="true"
+                    ></i>
+                    <input
+                      type="file"
+                      id={`file-${index}`}
+                      name={`data[${index}].file`}
+                      className="table-input visually-hidden"
+                      onChange={(e) => handleFileChange(e, index, row)}
+                      title="Choose a file to upload"
+                    />
+                  </label>
+                )}
+
+                {hasFile && (
+                  <a
+                    href={row.file}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="View image"
+                  >
+                    <span>
                       <i
-                        class="fa fa-upload btn btn-sm btn-primary"
+                        class="fa fa-file-image-o btn btn-sm btn-info ms-2"
                         aria-hidden="true"
                       ></i>
-                      <input
-                        type="file"
-                        id={`file-${index}`}
-                        name={`data[${index}].file`}
-                        className="table-input visually-hidden"
-                        onChange={(e) => handleFileChange(e, index, row)}
-                        title="Choose a file to upload"
-                      />
-                    </label>
-                  )}
-
-                  {hasFile && (
-                    <a
-                      href={row.file}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title="View image"
-                    >
-                      <span>
-                        <i
-                          class="fa fa-file-image-o btn btn-sm btn-info ms-2"
-                          aria-hidden="true"
-                        ></i>
-                      </span>
-                    </a>
-                  )}
-                </div>
-              );
-            },
+                    </span>
+                  </a>
+                )}
+              </div>
+            );
           },
-        ]
+        },
+      ]
       : []),
   ];
 
