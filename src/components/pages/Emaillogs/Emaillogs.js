@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
@@ -15,18 +15,25 @@ import {
 
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import EmailDetailModal from "./EmailDetailModal";
 
 const ManageEmail = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData } = props;
   const [data, setData] = useState();
-  const navigate = useNavigate();
-  const [count, setCount] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [hasMorePage, setHasMorePages] = useState("");
-  const [lastPage, setLastPage] = useState(1);
-  const [perPage, setPerPage] = useState(20);
-  const [total, setTotal] = useState(0);
 
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const [lastPage, setLastPage] = useState(1);
+
+  const [selectedRowId, setSelectedRowId] = useState(null);
+  const [addshowModal, setaddshowModal] = useState(false);
+
+  const AddCloseModal = () => setaddshowModal(false);
+  const handleaddshowModal = (rowId) => {
+    console.log(rowId, "rowId");
+    setSelectedRowId(rowId);
+    setaddshowModal(true);
+  };
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
@@ -40,13 +47,10 @@ const ManageEmail = (props) => {
     try {
       const response = await getData(`/email/logs?page=${pageNumber}`);
       setData(response?.data?.data?.logs);
-      setCount(response.data.data.count);
+
       setCurrentPage(response?.data?.data?.currentPage);
-      setHasMorePages(response?.data?.data?.hasMorePages);
 
       setLastPage(response?.data?.data?.lastPage);
-      setPerPage(response?.data?.data?.perPage);
-      setTotal(response?.data?.data?.total);
     } catch (error) {
       console.error("API error:", error);
     }
@@ -57,7 +61,7 @@ const ManageEmail = (props) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "7%",
+      width: "6%",
       center: true,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -71,10 +75,20 @@ const ManageEmail = (props) => {
       sortable: false,
       width: "25%",
       cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row?.subject}</h6>
-          </div>
+        <div>
+          {row?.raw_data !== null ? (
+            <div className="d-flex" onClick={() => handleaddshowModal(row)} style={{cursor:"pointer"}}>
+              <div className="ms-2 mt-0 mt-sm-2 d-block">
+                <h6 className="mb-0 fs-14 " style={{fontWeight:"bold"}}>{row?.subject}</h6>
+              </div>
+            </div>
+          ) : (
+            <div className="d-flex">
+              <div className="ms-2 mt-0 mt-sm-2 d-block">
+                <h6 className="mb-0 fs-14 fw-semibold">{row?.subject}</h6>
+              </div>
+            </div>
+          )}
         </div>
       ),
     },
@@ -92,7 +106,7 @@ const ManageEmail = (props) => {
       ),
     },
     {
-      name: "Email ",
+      name: "Email",
       selector: (row) => [row?.email],
       sortable: false,
       width: "20%",
@@ -115,6 +129,7 @@ const ManageEmail = (props) => {
         }
       },
     },
+    
     {
       name: "Created Date",
       selector: (row) => [row?.created_date],
@@ -124,7 +139,7 @@ const ManageEmail = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-        // onClick={() => handleToggleSidebar(row)}
+          // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row?.created_date}</h6>
@@ -222,7 +237,12 @@ const ManageEmail = (props) => {
               <Card.Header>
                 <h3 className="card-title"> Email Logs</h3>
               </Card.Header>
-
+              <EmailDetailModal
+                addshowModal={addshowModal}
+                getData={getData}
+                AddCloseModal={AddCloseModal}
+                selectedRowId={selectedRowId}
+              />
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
