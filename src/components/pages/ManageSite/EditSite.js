@@ -119,7 +119,7 @@ export default function AddSite(props) {
       include_bunkered_sales: "",
       show_admin_sale: "",
       send_auto_report: "",
-      consider_fuel_sales: "",
+      // consider_fuel_sales: "",
       cashback_enable: "",
     },
     validationSchema: Yup.object({
@@ -131,9 +131,9 @@ export default function AddSite(props) {
         .required("Site Name is required"),
       site_address: Yup.string().required("Site Address is required"),
       send_auto_report: Yup.string().required("Send Auto  Report is required"),
-      consider_fuel_sales: Yup.string().required(
-        "Consider Fuel Sales  is required"
-      ),
+      // consider_fuel_sales: Yup.string().required(
+      //   "Consider Fuel Sales  is required"
+      // ),
       site_status: Yup.string().required("Site Status is required"),
       business_type: Yup.string().required("Business Type is required"),
       supplier_id: Yup.string().required("Supplier ID is required"),
@@ -1605,7 +1605,7 @@ export default function AddSite(props) {
                             )}
                         </div>
                       </Col>
-                      <Col lg={4} md={6}>
+                      {/* <Col lg={4} md={6}>
                         <div className="form-group">
                           <label
                             htmlFor="consider_fuel_sales"
@@ -1637,7 +1637,7 @@ export default function AddSite(props) {
                               </div>
                             )}
                         </div>
-                      </Col>
+                      </Col> */}
                     </Row>
                     <div className="text-end">
                       <Link

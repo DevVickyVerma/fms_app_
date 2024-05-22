@@ -40,17 +40,17 @@ const SiteCardOpening = (props) => {
           Yup.object().shape({
             value: Yup.number()
               .required("Card value is required")
-              .positive("Value must be positive"),
+              // .positive("Value must be positive"),
 
-            amexValue: Yup.number()
-              .positive()
-              .when("$cardName", {
-                is: "Amex",
-                then: Yup.number().min(
-                  Yup.ref("value"),
-                  "Amex value must be greater than or equal to its value"
-                ),
-              }),
+            // amexValue: Yup.number()
+            //   .positive()
+            //   .when("$cardName", {
+            //     is: "Amex",
+            //     then: Yup.number().min(
+            //       Yup.ref("value"),
+            //       "Amex value must be greater than or equal to its value"
+            //     ),
+            //   }),
           })
         ),
       })

@@ -129,7 +129,7 @@ const AddSite = (props) => {
       formData.append("include_bunkered_sales", values.include_bunkered_sales);
       formData.append("show_admin_sale", values.show_admin_sale);
       formData.append("send_auto_report", values.send_auto_report);
-      formData.append("consider_fuel_sales ", values.consider_fuel_sales);
+      // formData.append("consider_fuel_sales ", values.consider_fuel_sales);
       formData.append("cashback_enable", values.cashback_enable);
 
       const postDataUrl = "/site/add";
@@ -1701,7 +1701,7 @@ const AddSite = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                          <Col lg={4} md={6}>
+                          {/* <Col lg={4} md={6}>
                             <FormGroup>
                               <label
                                 htmlFor="consider_fuel_sales "
@@ -1733,7 +1733,7 @@ const AddSite = (props) => {
                                 name="consider_fuel_sales "
                               />
                             </FormGroup>
-                          </Col>
+                          </Col> */}
                         </Row>
                       </Card.Body>
 
