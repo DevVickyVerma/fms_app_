@@ -127,8 +127,8 @@ const AddSite = (props) => {
       formData.append("include_bunkered_sales", values.include_bunkered_sales);
       formData.append("show_admin_sale", values.show_admin_sale);
       formData.append("send_auto_report", values.send_auto_report);
-      formData.append("consider_fuel_sales ", values.consider_fuel_sales);
-      formData.append("shop_sale_file_upload ", values.shop_sale_file_upload);
+      formData.append("consider_fuel_sales", values.consider_fuel_sales);
+      formData.append("shop_sale_file_upload", values.shop_sale_file_upload);
       formData.append("cashback_enable", values.cashback_enable);
 
       const postDataUrl = "/site/add";
