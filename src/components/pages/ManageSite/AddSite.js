@@ -20,8 +20,6 @@ const AddSite = (props) => {
 
   const [Listcompany, setCompanylist] = useState([]);
 
-
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     const axiosInstance = axios.create({
@@ -129,7 +127,8 @@ const AddSite = (props) => {
       formData.append("include_bunkered_sales", values.include_bunkered_sales);
       formData.append("show_admin_sale", values.show_admin_sale);
       formData.append("send_auto_report", values.send_auto_report);
-      // formData.append("consider_fuel_sales ", values.consider_fuel_sales);
+      formData.append("consider_fuel_sales ", values.consider_fuel_sales);
+      formData.append("shop_sale_file_upload ", values.shop_sale_file_upload);
       formData.append("cashback_enable", values.cashback_enable);
 
       const postDataUrl = "/site/add";
@@ -244,6 +243,7 @@ const AddSite = (props) => {
                     show_admin_sale: 0,
                     send_auto_report: 0,
                     consider_fuel_sales: 1,
+                    shop_sale_file_upload: 0,
                   }}
                   validationSchema={Yup.object({
                     site_code: Yup.string()
@@ -1701,7 +1701,7 @@ const AddSite = (props) => {
                               />
                             </FormGroup>
                           </Col>
-                          {/* <Col lg={4} md={6}>
+                          <Col lg={4} md={6}>
                             <FormGroup>
                               <label
                                 htmlFor="consider_fuel_sales "
@@ -1733,7 +1733,39 @@ const AddSite = (props) => {
                                 name="consider_fuel_sales "
                               />
                             </FormGroup>
-                          </Col> */}
+                          </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="shop_sale_file_upload "
+                                className=" form-label mt-4"
+                              >
+                                Shop Sale File Upload{" "}
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${
+                                  errors.shop_sale_file_upload &&
+                                  touched.shop_sale_file_upload
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="shop_sale_file_upload "
+                                name="shop_sale_file_upload "
+                              >
+                                {" "}
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                             
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="shop_sale_file_upload "
+                              />
+                            </FormGroup>
+                          </Col>
                         </Row>
                       </Card.Body>
 

@@ -119,7 +119,8 @@ export default function AddSite(props) {
       include_bunkered_sales: "",
       show_admin_sale: "",
       send_auto_report: "",
-      // consider_fuel_sales: "",
+      consider_fuel_sales: "",
+      shop_sale_file_upload: "",
       cashback_enable: "",
     },
     validationSchema: Yup.object({
@@ -131,9 +132,12 @@ export default function AddSite(props) {
         .required("Site Name is required"),
       site_address: Yup.string().required("Site Address is required"),
       send_auto_report: Yup.string().required("Send Auto  Report is required"),
-      // consider_fuel_sales: Yup.string().required(
-      //   "Consider Fuel Sales  is required"
-      // ),
+      consider_fuel_sales: Yup.string().required(
+        "Consider Fuel Sales  is required"
+      ),
+      shop_sale_file_upload: Yup.string().required(
+        "Shop Sale File Upload is required"
+      ),
       site_status: Yup.string().required("Site Status is required"),
       business_type: Yup.string().required("Business Type is required"),
       supplier_id: Yup.string().required("Supplier ID is required"),
@@ -1605,7 +1609,7 @@ export default function AddSite(props) {
                             )}
                         </div>
                       </Col>
-                      {/* <Col lg={4} md={6}>
+                      <Col lg={4} md={6}>
                         <div className="form-group">
                           <label
                             htmlFor="consider_fuel_sales"
@@ -1637,7 +1641,40 @@ export default function AddSite(props) {
                               </div>
                             )}
                         </div>
-                      </Col> */}
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="shop_sale_file_upload"
+                            className="form-label mt-4"
+                          >
+                            Shop Sale File Upload{" "}
+                            <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${
+                              formik.errors.shop_sale_file_upload &&
+                              formik.touched.shop_sale_file_upload
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            id="shop_sale_file_upload"
+                            name="shop_sale_file_upload"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.shop_sale_file_upload}
+                          >
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                          </select>
+                          {formik.errors.shop_sale_file_upload &&
+                            formik.touched.shop_sale_file_upload && (
+                              <div className="invalid-feedback">
+                                {formik.errors.shop_sale_file_upload}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
                     </Row>
                     <div className="text-end">
                       <Link
