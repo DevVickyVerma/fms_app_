@@ -242,8 +242,8 @@ const AddSite = (props) => {
                     include_bunkered_sales: 0,
                     show_admin_sale: 0,
                     send_auto_report: 0,
-                    consider_fuel_sales: 1,
-                    shop_sale_file_upload: 0,
+                    consider_fuel_sales:1,
+                    shop_sale_file_upload:1,
                   }}
                   validationSchema={Yup.object({
                     site_code: Yup.string()
