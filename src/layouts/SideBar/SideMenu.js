@@ -12,142 +12,6 @@ export const MENUITEMS = [
         visibility: false,
         title: "Dashboard",
       },
-      // {
-      //   path: `/editor`,
-      //   icon: "home",
-      //   type: "link",
-      //   active: false,
-
-      //   permission: "dashboard-view",
-      //   visibility: false,
-      //   title: "editor",
-      // },
-      // {
-      //   title: "Manage payrols",
-      //   icon: "comments",
-      //   type: "sub",
-      //   active: false,
-      //   permission: "sms-create",
-      //   visibility: false,
-      //   children: [
-      //     {
-      //       path: `/manage-payrols`,
-      //       title: "Manage payrols",
-      //       type: "link",
-      //       permission: "sms-create",
-      //       visibility: false,
-      //     },
-      //     // {
-      //     //   path: `/shifts`,
-      //     //   title: "Shifts",
-      //     //   type: "link",
-      //     //   permission: "shift-list",
-      //     //   visibility: false,
-      //     // },
-      //     // {
-      //     //   path: `/type-list`,
-      //     //   title: "Types",
-      //     //   type: "link",
-      //     //   permission: "type-list",
-      //     //   visibility: false,
-      //     // },
-      //     // {
-      //     //   path: `/holiday-list`,
-      //     //   title: "Holiday",
-      //     //   type: "link",
-      //     //   permission: "holiday-list",
-      //     //   visibility: false,
-      //     // },
-      //     // {
-      //     //   path: `/designation-list`,
-      //     //   title: "Designation",
-      //     //   type: "link",
-      //     //   permission: "designation-list",
-      //     //   visibility: false,
-      //     // },
-      //     // {
-      //     //   path: `/addition-list`,
-      //     //   title: "Addition",
-      //     //   type: "link",
-      //     //   permission: "addition-list",
-      //     //   visibility: false,
-      //     // },
-      //   ],
-      // },
-      // types
-      // {
-      //   title: "Manage Types",
-      //   icon: "pie-chart",
-      //   type: "sub",
-      //   active: false,
-      //   permission: "type-list",
-      //   visibility: false,
-      //   children: [
-      //     {
-      //       path: `/type-list`,
-      //       type: "link",
-      //       title: "Manage Types",
-      //       permission: "type-list",
-      //       visibility: false,
-      //     },
-      //   ],
-      // },
-      // // holidays
-      // {
-      //   title: "Manage Holidays",
-      //   icon: "coffee",
-      //   type: "sub",
-      //   active: false,
-      //   permission: "holiday-list",
-      //   visibility: false,
-      //   children: [
-      //     {
-      //       path: `/holiday-list`,
-      //       type: "link",
-      //       title: "Manage Holidays",
-      //       permission: "holiday-list",
-      //       visibility: false,
-      //     },
-      //   ],
-      // },
-      // //designation-list
-      // {
-      //   title: "Manage Designation",
-      //   icon: "graduation-cap",
-      //   // icon: "sitemap",
-      //   type: "sub",
-      //   active: false,
-      //   permission: "designation-list",
-      //   visibility: false,
-      //   children: [
-      //     {
-      //       path: `/designation-list`,
-      //       type: "link",
-      //       title: "Manage Designation",
-      //       permission: "designation-list",
-      //       visibility: false,
-      //     },
-      //   ],
-      // },
-      // // Addition -list
-      // {
-      //   title: "Manage Addition",
-      //   icon: "user-plus",
-      //   type: "sub",
-      //   active: false,
-      //   permission: "addition-list",
-      //   visibility: false,
-      //   children: [
-      //     {
-      //       path: `/addition-list`,
-      //       type: "link",
-      //       title: "Manage Addition",
-      //       permission: "addition-list",
-      //       visibility: false,
-      //     },
-      //   ],
-      // },
-      //user
       {
         title: "Manage Users",
         icon: "users",
@@ -235,14 +99,7 @@ export const MENUITEMS = [
             permission: "competitor-stats",
             visibility: false,
           },
-          // {
-          //   path: `/uploadCompetitor-price`,
-          //   type: "link",
-          //   title: "Upload Competitor",
-          //   permission: "competitor-create",
-
-          //   visibility: false,
-          // },
+    
         ],
       },
       //Company
@@ -270,7 +127,7 @@ export const MENUITEMS = [
           },
         ],
       },
-      //Sage
+ 
       {
         title: "Manage Sage",
         icon: "building",

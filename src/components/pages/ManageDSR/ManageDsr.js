@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { Link, Navigate, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 
 import Loaderimg from "../../../Utils/Loader";
@@ -13,7 +13,6 @@ import {
   Tooltip,
 } from "react-bootstrap";
 
-import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -33,7 +32,6 @@ import DepartmentShop from "../DRSComponents/DepartmentShop";
 import CreditCardBanking from "../DRSComponents/CreditCardBanking";
 import Summary from "../DRSComponents/Summary";
 import BunkeredSales from "../DRSComponents/BunkeredSales";
-import { Slide, toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { fetchData } from "../../../Redux/dataSlice";
 import { useMyContext } from "../../../Utils/MyContext";

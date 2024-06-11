@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { useMyContext } from "../../../Utils/MyContext";
 import { Slide, toast } from "react-toastify";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
 import DashSubChild from "./DashSubChild";
 
 const DashSubChildBaseAPIS = (props) => {
@@ -34,20 +34,7 @@ const DashSubChildBaseAPIS = (props) => {
     });
   };
 
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      SuccessToast("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response?.data?.message)
-        ? error.response?.data?.message.join(" ")
-        : error.response?.data?.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
   const FetchTableData = async () => {
     try {

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Row, Col, Card, } from "react-bootstrap";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Slide, ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import Loaderimg from "../../../Utils/Loader";
 import { Box } from "@material-ui/core";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";

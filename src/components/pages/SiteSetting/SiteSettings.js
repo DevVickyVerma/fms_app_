@@ -72,14 +72,11 @@ const SiteSettings = (props) => {
         setCashDayData(data?.data ? data.data.cash_days : []);
         setAssignCashCards(data?.data ? data.data.cashCards : []);
         setis_editable(data?.data ? data.data : {});
-
         setSiteName(response?.data?.data);
-
         formik.setFieldValue(
           "AssignFormikbussiness",
           data?.data?.business_models
         );
-
         formik.setFieldValue("FormikDeductionData", data?.data?.deductions);
         formik.setFieldValue("Formiksite_items", data?.data?.site_items);
         formik.setFieldValue("FormikChargesData", data?.data?.charges);

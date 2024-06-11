@@ -126,19 +126,7 @@ const AddRoles = (props) => {
     }
   };
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
-  const [isPermissionsSet, setIsPermissionsSet] = useState(false);
 
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-      setIsPermissionsSet(true);
-    }
-  }, [UserPermissions]);
-
-  const [selectedMembers, setSelectedMembers] = useState([]);
   const formik = useFormik({
     initialValues,
     validationSchema,
