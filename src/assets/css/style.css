@@ -17009,15 +17009,16 @@ div.conv-form-wrapper div.options div.option.selected {
 .statistics-info .counter-icon {
   margin-bottom: 1rem;
   display: inline-flex;
-  width: 4rem;
-  height: 4rem;
+  width: 50px;
+  height: 50px;
   padding: 1.3rem 1.4rem;
   border-radius: 50%;
   text-align: center;
 }
 
+
 .statistics-info .counter-icon i {
-  font-size: 1.2rem;
+  font-size: 30px;
 }
 
 .service .item-box i {
@@ -43862,8 +43863,8 @@ iframe {
   display: -ms-flexbox;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center;
+  align-items: center; */
   padding: 15px;
   z-index: 999;
 }

@@ -1610,9 +1610,20 @@ span.text-error {
 .page-title {
   color: #2d8ba8;
 }
-.margin-div{
-  background: #dddddd3d;
+.margin-div {
+  background: #ffffffcf;
   padding: 7px 10px;
-  width: 37%;
+  width: 42%;
   margin-top: 10px;
+  /* color: #fff; */
+  font-size: 15px;
+}
+.boxtitle{
+  font-size: 17px;
+    margin-top: 4px;
+}
+.c-login-img {
+  height: 450px;
+  width: 450px;
+  object-fit: contain;
 }
