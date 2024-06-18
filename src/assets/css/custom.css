@@ -1563,3 +1563,27 @@ span.text-error {
 .pie-card-default-height {
   height: calc(100% - 25px);
 }
+
+.dash-plates-1 {
+  background-color: #2D8BA8 !important;
+}
+
+.dash-plates-2 {
+  background-color: #3D83B2 !important;
+}
+
+.dash-plates-3 {
+  background-color: #5D78B3 !important;
+}
+
+.dash-plates-4 {
+  background-color: #7E6AAA !important;
+}
+
+.dash-plates-5 {
+  background-color: #9A5B95 !important;
+}
+
+.dash-plates-6 {
+  background-color: #AC4D78 !important;
+}
