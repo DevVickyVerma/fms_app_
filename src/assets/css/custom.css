@@ -952,16 +952,17 @@ span.ModalTitle-2fa {
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
   }
 
-  @keyframes rotation {
-  0% {
-      transform: rotate(0deg);
-  }
   100% {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
-  } 
+}
 
 .primary-loader {
   width: 10px;
@@ -1589,27 +1590,34 @@ span.text-error {
   border-radius: 5px;
   padding: 7px;
 }
+
 .badge {
   background-color: #2d8ba8;
 
   /* font-size: 30px; */
 }
+
 .badge-value {
   font-size: 14px;
 }
+
 .badge-key {
   font-size: 14px;
 }
+
 .btn-sm,
-.btn-group-sm > .btn {
+.btn-group-sm>.btn {
   font-size: 15px;
 }
+
 .swal2-styled.swal2-confirm {
   background-color: #2d8ba8 !important;
 }
+
 .page-title {
   color: #2d8ba8;
 }
+
 .margin-div {
   background: #ffffffcf;
   padding: 7px 10px;
@@ -1618,10 +1626,12 @@ span.text-error {
   /* color: #fff; */
   font-size: 15px;
 }
-.boxtitle{
+
+.boxtitle {
   font-size: 17px;
-    margin-top: 4px;
+  margin-top: 4px;
 }
+
 .c-login-img {
   height: 450px;
   width: 450px;
