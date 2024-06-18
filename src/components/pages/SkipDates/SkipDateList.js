@@ -451,14 +451,14 @@ const ManageRoles = (props) => {
           style={{ minHeight: "700px" }}
         >
           {/* <DialogTitle
-            style={{ background: "#6259ca", color: "#fff", padding: "8px" }}
+            style={{ background: "#2D8BA8", color: "#fff", padding: "8px" }}
           >
             Set Skiped Dates
           </DialogTitle> */}
           <Modal.Header
             style={{
               color: "#fff",
-              background: "#6259ca",
+              background: "#2D8BA8",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",

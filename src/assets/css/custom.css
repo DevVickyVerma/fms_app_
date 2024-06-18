@@ -37,7 +37,7 @@ span.text-danger.danger-title {
   /* font-size: 12px !important; */
   text-decoration: none;
   color: #ffffff;
-  background: #6259ca;
+  background: #2D8BA8;
   padding: 30.5px 10px;
   border-radius: 0px;
   box-shadow: 0 7px 12px 0 rgba(95, 118, 232, 0.21);
@@ -108,7 +108,7 @@ h3.SidebarSearch-title {
   box-shadow: none;
 }
 
-.data-table-extensions > .data-table-extensions-filter > .filter-text {
+.data-table-extensions>.data-table-extensions-filter>.filter-text {
   /* border: 1px solid #eaedf1 !important; */
   border-bottom: 1px solid #eaedf1 !important;
   outline: none !important;
@@ -332,6 +332,7 @@ tbody tr {
 }
 
 @media screen and (max-width: 768px) {
+
   .table th,
   .table td {
     min-width: 22.28% !important;
@@ -553,7 +554,7 @@ input.table-input.readonly.total-input-card {
   border-radius: 50%;
 }
 
-.d-flex.chart-items > div:first-child {
+.d-flex.chart-items>div:first-child {
   margin-right: 0;
   margin-left: 0;
 }
@@ -596,7 +597,7 @@ span.ModalTitle {
   padding: 8px 15px;
   margin-bottom: 0px;
   color: #fff;
-  background: #6259ca;
+  background: #2D8BA8;
 }
 
 .profile-box {
@@ -605,7 +606,7 @@ span.ModalTitle {
 }
 
 .header-name {
-  color: #6259ca;
+  color: #2D8BA8;
   font-size: 14px;
   font-weight: 400;
   padding: 10px;
@@ -717,7 +718,7 @@ span.fairbank-title {
 }
 
 span.Fuelinvenrtytime_range {
-  background: #6259ca;
+  background: #2D8BA8;
   padding: 4px;
   color: #fff;
   border-radius: 2px;
@@ -934,7 +935,7 @@ span.ModalTitle-2fa {
 .dashboard-shop-sale-icon {
   height: 25px;
   width: 25px;
-  background: #6259ca;
+  background: #2D8BA8;
   border-radius: 50%;
   color: white;
   display: flex;
@@ -947,7 +948,7 @@ span.ModalTitle-2fa {
   display: block;
   margin: 15px auto;
   position: relative;
-  color: #6259ca;
+  color: #2D8BA8;
   box-sizing: border-box;
   animation: animloader 1s linear infinite alternate;
 }
@@ -971,7 +972,7 @@ span.ModalTitle-2fa {
   display: block;
   margin: 15px auto;
   position: relative;
-  color: #6259ca;
+  color: #2D8BA8;
   box-sizing: border-box;
   animation: animloader 1s linear infinite alternate;
 }
@@ -983,7 +984,7 @@ span.ModalTitle-2fa {
   display: block;
   margin: 15px auto;
   position: relative;
-  color: #6259ca;
+  color: #2D8BA8;
   box-sizing: border-box;
   animation: animloader 1s linear infinite alternate;
 }
@@ -1045,7 +1046,7 @@ span.ModalTitle-2fa {
 .MidSmallloader {
   width: 48px;
   height: 48px;
-  border: 3px dotted #6259ca;
+  border: 3px dotted #2D8BA8;
   border-style: solid solid dotted dotted;
   border-radius: 50%;
   display: inline-block;
@@ -1075,7 +1076,7 @@ span.ModalTitle-2fa {
 .Smallloader {
   width: 20px;
   height: 20px;
-  border: 3px dotted #6259ca;
+  border: 3px dotted #2D8BA8;
   border-style: solid solid dotted dotted;
   border-radius: 50%;
   display: inline-block;
@@ -1214,7 +1215,7 @@ span.ModalTitle-2fa {
 }
 
 span.uk-date-time {
-  color: #6259ca;
+  color: #2D8BA8;
   padding: 0px 5px;
   font-size: 12px;
   border-radius: 5px;
@@ -1246,7 +1247,7 @@ span.uk-date-time {
 }
 
 .uk-text-time {
-  color: #6259ca;
+  color: #2D8BA8;
   padding: 0px 5px;
   font-size: 8.7px;
   /* border-radius: 5px; */
@@ -1341,13 +1342,13 @@ span.circle-info {
 
 .pay-role-table thead th {
   vertical-align: bottom;
-  /* border-bottom: 1px solid #6259ca; */
+  /* border-bottom: 1px solid #2D8BA8; */
   /* border-bottom-width: 1px; */
   border-top: 0;
-  /* border-bottom: 1px solid #6259ca ; */
+  /* border-bottom: 1px solid #2D8BA8 ; */
   padding: 13px 4px;
   min-width: 14.28% !important;
-  /* background-color: #6259ca !important; */
+  /* background-color: #2D8BA8 !important; */
   /* max-width: 14.28% !important; */
   min-height: 48px;
   text-align: center;
@@ -1357,10 +1358,10 @@ span.circle-info {
 .pay-role-custom-header {
   vertical-align: bottom;
   border-top: 0;
-  border-bottom: 1px solid #6259ca !important;
+  border-bottom: 1px solid #2D8BA8 !important;
   padding: 13px 4px;
   min-width: 14.28% !important;
-  background-color: #6259ca !important;
+  background-color: #2D8BA8 !important;
   min-height: 48px;
   color: white;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -1462,7 +1463,7 @@ span.input-103 {
 }
 
 li.Ul-parentsiteList-childlist {
-  background: #6259cabf;
+  background: #2D8BA8bf;
   color: #fff;
   margin-bottom: 10px;
   padding: 1px;
@@ -1515,12 +1516,15 @@ li.ms-2.disabled-checkbox {
   background-color: #fff !important;
   border-bottom: 1px solid #ddd;
 }
+
 .manage-site-dropdown-item {
-  position: relative; /* Ensure the parent has a relative position */
+  position: relative;
+  /* Ensure the parent has a relative position */
 }
 
 .dropdown-menu {
-  z-index: 1000; /* Set a higher z-index value */
+  z-index: 1000;
+  /* Set a higher z-index value */
   position: absolute;
   /* Add any other necessary styles */
 }
@@ -1538,7 +1542,19 @@ span.text-error {
   padding: 2px 9px;
   color: #fff;
 }
+
 .offcanvas-end {
   width: 651px;
+
+}
+
+.statscard {
+  cursor: pointer;
+  padding: "24px";
+
+}
+
+.statscard:hover {
+  background: #dddddd42;
 
 }

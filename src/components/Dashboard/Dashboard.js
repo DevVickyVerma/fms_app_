@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../Utils/ApiHelper";
 import SortIcon from "@mui/icons-material/Sort";
@@ -10,7 +10,6 @@ import { Box } from "@material-ui/core";
 import { useMyContext } from "../../Utils/MyContext";
 import StackedLineBarChart from "./StackedLineBarChart";
 import DashboardOverallStatsPieChart from "./DashboardOverallStatsPieChart";
-import CenterAuthModal from "../../data/Modal/CenterAuthModal";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import CenterFilterModal from "../../data/Modal/CenterFilterModal";
 import { ErrorAlert, SuccessAlert } from "../../Utils/ToastUtils";
@@ -105,9 +104,8 @@ const Dashboard = (props) => {
       } else if (superiorRole === "Client" && role === "Operator") {
         url = "/dashboard/stats";
       } else if (superiorRole === "Client" && role !== "Client") {
-        url = `dashboard/stats?client_id=${
-          clientId == null ? "" : clientId
-        }&company_id=${companyId == null ? "" : companyId}`;
+        url = `dashboard/stats?client_id=${clientId == null ? "" : clientId
+          }&company_id=${companyId == null ? "" : companyId}`;
         // Corrected: Use JSON.stringify to convert the object to a JSON string
         localStorage.setItem(
           "mySearchData",
@@ -244,16 +242,12 @@ const Dashboard = (props) => {
     try {
       const response = await getData(
         localStorage.getItem("superiorRole") !== "Client"
-          ? `dashboard/stats?client_id=${
-              clientId == null ? " " : clientId
-            }&company_id=${companyId == null ? "" : companyId}&site_id=${
-              values.site_id
-            }`
-          : `dashboard/stats?client_id=${
-              clientId == null ? " " : clientId
-            }&company_id=${companyId == null ? "" : companyId}&site_id=${
-              values.site_id
-            }`
+          ? `dashboard/stats?client_id=${clientId == null ? " " : clientId
+          }&company_id=${companyId == null ? "" : companyId}&site_id=${values.site_id
+          }`
+          : `dashboard/stats?client_id=${clientId == null ? " " : clientId
+          }&company_id=${companyId == null ? "" : companyId}&site_id=${values.site_id
+          }`
       );
 
       const { data } = response;
@@ -296,7 +290,7 @@ const Dashboard = (props) => {
       type: "RESET_STATE",
     });
     setSearchdata({});
-    setTimeout(() => {}, 1000);
+    setTimeout(() => { }, 1000);
     localStorage.removeItem("mySearchData");
 
     if (superiorRole !== "Administrator") {
@@ -396,7 +390,7 @@ const Dashboard = (props) => {
           </Box>
 
           {localStorage.getItem("superiorRole") === "Client" &&
-          localStorage.getItem("role") === "Operator" ? (
+            localStorage.getItem("role") === "Operator" ? (
             ""
           ) : (
             <Box
@@ -483,7 +477,7 @@ const Dashboard = (props) => {
                   </Box>
                 </>
                 {UserPermissions?.applyFilter &&
-                Object.keys(searchdata).length === 0 ? (
+                  Object.keys(searchdata).length === 0 ? (
                   <div
                     style={{
                       textAlign: "left",

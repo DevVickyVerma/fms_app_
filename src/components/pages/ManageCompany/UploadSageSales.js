@@ -125,7 +125,7 @@ const UploadSageSales = (props) => {
             >
                 <div
                     className="modal-header"
-                    style={{ color: "#fff", background: "#6259ca" }}
+                    style={{ color: "#fff", background: "#2D8BA8" }}
                 >
                     <h5 className="modal-title"> {title}</h5>
                     <button

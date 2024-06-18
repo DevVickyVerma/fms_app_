@@ -33,9 +33,44 @@ const DashboardOverallStatsPieChart = ({ data }) => {
     colors: ["rgb(255, 99, 132)", "rgb(54, 162, 235)", "rgb(154, 62, 251)"],
   };
 
+
+  const optionss = {
+    chart: {
+      type: 'donut',
+      width: 450, // Adjust width for larger chart
+      height: 450, // Adjust height for larger chart
+    },
+    labels: formattedLabels, // Replace with your formattedLabels
+    colors: ["rgb(255, 99, 132)", "rgb(54, 162, 235)", "rgb(154, 62, 251)"],
+    responsive: [{
+      breakpoint: 180,
+      options: {
+        chart: {
+          width: 300, // Adjust width for responsive design
+          height: 300, // Adjust height for responsive design
+        },
+        legend: {
+          position: 'bottom'
+        }
+      }
+    }]
+  };
+
+  const series = [44, 55, 41, 17, 15]; // Data series for the donut chart
+
+
   return (
     <div id="chart" style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-      <div className="d-flex chart-items">
+
+      {/* <ReactApexChart options={options} series={consoleValues} type="pie"
+        width={"100%"}
+      // height={"100%"}
+      /> */}
+      <ReactApexChart options={optionss} series={consoleValues} type="donut"
+        width={"100%"}
+      // height={"100%"}
+      />
+      <div className="d-flex chart-items mt-7">
         {labels.map((label, index) => {
           const formattedLabel = label
             .replace(/_/g, " ")
@@ -56,10 +91,6 @@ const DashboardOverallStatsPieChart = ({ data }) => {
           );
         })}
       </div>
-      <ReactApexChart options={options} series={consoleValues} type="pie"
-        width={"100%"}
-      // height={"100%"}
-      />
     </div>
   );
 };

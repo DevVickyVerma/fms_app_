@@ -401,11 +401,10 @@ export default function EditProfile() {
                                     ? "password"
                                     : "text"
                                 }
-                                className={` input101 ${
-                                  errors.old_password && touched.old_password
+                                className={` input101 ${errors.old_password && touched.old_password
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 name="old_password"
                                 placeholder=" Current Password"
                               />
@@ -489,11 +488,10 @@ export default function EditProfile() {
                                 type={
                                   passwordVisibleForNew ? "password" : "text"
                                 }
-                                className={`input101  ${
-                                  errors.password && touched.password
+                                className={`input101  ${errors.password && touched.password
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 name="password"
                                 placeholder=" New Password"
                               />
@@ -575,12 +573,11 @@ export default function EditProfile() {
                                     ? "password"
                                     : "text"
                                 }
-                                className={`input101 ${
-                                  errors.password_confirmation &&
-                                  touched.password_confirmation
+                                className={`input101 ${errors.password_confirmation &&
+                                    touched.password_confirmation
                                     ? "is-invalid"
                                     : ""
-                                }`}
+                                  }`}
                                 onKeyPress={handleKeyPress}
                                 name="password_confirmation"
                                 placeholder="Confirm Password"
@@ -683,12 +680,11 @@ export default function EditProfile() {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.first_name &&
-                              formik.touched.first_name
+                            className={`input101 ${formik.errors.first_name &&
+                                formik.touched.first_name
                                 ? "is-invalid"
                                 : ""
-                            }`}
+                              }`}
                             id="first_name"
                             name="first_name"
                             onChange={formik.handleChange}
@@ -715,12 +711,11 @@ export default function EditProfile() {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.last_name &&
-                              formik.touched.last_name
+                            className={`input101 ${formik.errors.last_name &&
+                                formik.touched.last_name
                                 ? "is-invalid"
                                 : ""
-                            }`}
+                              }`}
                             id="last_name"
                             name="last_name"
                             placeholder="Last Name"
@@ -817,7 +812,7 @@ export default function EditProfile() {
                 <Modal.Header
                   style={{
                     color: "#fff",
-                    background: "#6259ca",
+                    background: "#2D8BA8",
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",

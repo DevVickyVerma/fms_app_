@@ -3,77 +3,93 @@
 input {
 	outline: none;
 	border: none;
-  }
-  
-  textarea {
+}
+
+textarea {
 	outline: none;
 	border: none;
-  
+
 	&:focus {
-	  border-color: none !important;
+		border-color: none !important;
 	}
-  }
-  
-  input:focus {
+}
+
+input:focus {
 	border-color: none !important;
-  
-	&::-webkit-input-placeholder, &:-moz-placeholder, &::-moz-placeholder, &:-ms-input-placeholder {
-	  color: transparent;
+
+	&::-webkit-input-placeholder,
+	&:-moz-placeholder,
+	&::-moz-placeholder,
+	&:-ms-input-placeholder {
+		color: transparent;
 	}
-  }
-  
-  textarea:focus {
-	&::-webkit-input-placeholder, &:-moz-placeholder, &::-moz-placeholder, &:-ms-input-placeholder {
-	  color: transparent;
+}
+
+textarea:focus {
+
+	&::-webkit-input-placeholder,
+	&:-moz-placeholder,
+	&::-moz-placeholder,
+	&:-ms-input-placeholder {
+		color: transparent;
 	}
-  }
-  
-  input {
-	&::-webkit-input-placeholder, &:-moz-placeholder, &::-moz-placeholder, &:-ms-input-placeholder {
-	  color: rgba(0, 0, 0, 0.5);
+}
+
+input {
+
+	&::-webkit-input-placeholder,
+	&:-moz-placeholder,
+	&::-moz-placeholder,
+	&:-ms-input-placeholder {
+		color: rgba(0, 0, 0, 0.5);
 	}
-  }
-  
-  textarea {
-	&::-webkit-input-placeholder, &:-moz-placeholder, &::-moz-placeholder, &:-ms-input-placeholder {
-	  color: rgba(0, 0, 0, 0.5);
+}
+
+textarea {
+
+	&::-webkit-input-placeholder,
+	&:-moz-placeholder,
+	&::-moz-placeholder,
+	&:-ms-input-placeholder {
+		color: rgba(0, 0, 0, 0.5);
 	}
-  }
-  
-  /*---------------------------------------------*/
-  
-  button {
+}
+
+/*---------------------------------------------*/
+
+button {
 	outline: none !important;
 	border: none;
 	background: transparent;
-  
+
 	&:hover {
-	  cursor: pointer;
+		cursor: pointer;
 	}
-  }
-  
-  iframe {
+}
+
+iframe {
 	border: none !important;
-  }
-  
-  /*//////////////////////////////////////////////////////////////////
+}
+
+/*//////////////////////////////////////////////////////////////////
   [ Utility ]*/
-  
-  .txt1, .txt2 {
+
+.txt1,
+.txt2 {
 	font-size: 13px;
 	line-height: 1.5;
 	color: #24214c;
-  }
-  
-  /*//////////////////////////////////////////////////////////////////
+}
+
+/*//////////////////////////////////////////////////////////////////
   [ login ]*/
-  
-  .limiter {
+
+.limiter {
 	width: 100%;
 	margin: 0 auto;
-  }
-  
-  .container-login100 {
+}
+
+.container-login100 {
 	width: 100%;
 	height: 100%;
 	display: -webkit-box;
@@ -86,9 +102,9 @@ input {
 	align-items: center;
 	padding: 15px;
 	z-index: 999;
-  }
-  
-  .wrap-login100 {
+}
+
+.wrap-login100 {
 	/*width: 960px;*/
 	background: #fff;
 	overflow: hidden;
@@ -97,27 +113,27 @@ input {
 	padding: 137px 130px 137px 95px;
 	box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.06);
 	border-radius: 5px;
-  }
-  
-  /*------------------------------------------------------------------
+}
+
+/*------------------------------------------------------------------
   [  ]*/
-  
-  .login100-pic {
+
+.login100-pic {
 	width: 316px;
-  
+
 	img {
-	  max-width: 100%;
+		max-width: 100%;
 	}
-  }
-  
-  /*------------------------------------------------------------------
+}
+
+/*------------------------------------------------------------------
   [  ]*/
-  
-  .login100-form {
+
+.login100-form {
 	width: 320px;
-  }
-  
-  .login100-form-title {
+}
+
+.login100-form-title {
 	font-size: 24px;
 	line-height: 1.2;
 	text-align: center;
@@ -125,18 +141,18 @@ input {
 	display: block;
 	padding-bottom: 30px;
 	color: #424344;
-  }
-  
-  /*---------------------------------------------*/
-  
-  .wrap-input100 {
+}
+
+/*---------------------------------------------*/
+
+.wrap-input100 {
 	position: relative;
 	width: 100%;
 	z-index: 1;
 	margin-bottom: 10px;
-  }
-  
-  .input100 {
+}
+
+.input100 {
 	font-size: 15px;
 	line-height: 1.5;
 	color: #000;
@@ -147,12 +163,12 @@ input {
 	padding: 0 30px 0 54px;
 	border-radius: 5px;
 	border: 1px solid #ecf0fa;
-  }
-  
-  /*------------------------------------------------------------------
+}
+
+/*------------------------------------------------------------------
   [ Focus ]*/
-  
-  .focus-input100 {
+
+.focus-input100 {
 	display: block;
 	position: absolute;
 	border-radius: 5px;
@@ -163,12 +179,12 @@ input {
 	height: 100%;
 	box-shadow: 0px 0px 0px 0px;
 	text-transform: uppercase;
-	background: #6259ca;
+	background: #2D8BA8;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
-  }
-  
-  .symbol-input100 {
+}
+
+.symbol-input100 {
 	font-size: 17px;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -189,19 +205,19 @@ input {
 	-moz-transition: all 0.4s;
 	transition: all 0.4s;
 	color: #828996;
-  }
-  
-  .input100.focus-input100 + .symbol-input100 {
+}
+
+.input100.focus-input100+.symbol-input100 {
 	text-transform: uppercase;
-	background: #6259ca;
+	background: #2D8BA8;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
-  }
-  
-  /*------------------------------------------------------------------
+}
+
+/*------------------------------------------------------------------
   [ Button ]*/
-  
-  .container-login100-form-btn {
+
+.container-login100-form-btn {
 	width: 100%;
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -211,9 +227,9 @@ input {
 	flex-wrap: wrap;
 	justify-content: center;
 	padding-top: 15px;
-  }
-  
-  .login100-form-btn {
+}
+
+.login100-form-btn {
 	line-height: 1.5;
 	color: #fff;
 	width: 100%;
@@ -227,43 +243,43 @@ input {
 	align-items: center;
 	padding: 0 25px;
 	border-radius: 5px;
-  }
-  
-  /*------------------------------------------------------------------
+}
+
+/*------------------------------------------------------------------
   [ Responsive ]*/
-  
-  @media (max-width: 992px) {
+
+@media (max-width: 992px) {
 	.wrap-login100 {
-	  padding: 35px 90px 35px 85px;
+		padding: 35px 90px 35px 85px;
 	}
-  
+
 	.login100-pic {
-	  width: 35%;
-	  display: none;
+		width: 35%;
+		display: none;
 	}
-  
+
 	.login100-form {
-	  width: 100%;
+		width: 100%;
 	}
-  }
-  
-  @media (max-width: 768px) {
+}
+
+@media (max-width: 768px) {
 	.wrap-login100 {
-	  padding: 30px 80px 30px 80px;
+		padding: 30px 80px 30px 80px;
 	}
-  
+
 	.login100-form {
-	  width: 100%;
+		width: 100%;
 	}
-  }
-  
-  @media (max-width: 576px) {
+}
+
+@media (max-width: 576px) {
 	.wrap-login100 {
-	  padding: 25px 15px 25px 15px;
+		padding: 25px 15px 25px 15px;
 	}
-  }
-  
-  .btn-social {
+}
+
+.btn-social {
 	position: relative;
 	text-align: left;
 	white-space: nowrap;
@@ -272,51 +288,51 @@ input {
 	border: 1px solid #e2e7eb;
 	padding-left: 60px;
 	background-color: #fff;
-  
+
 	> :first-child {
-	  position: absolute;
-	  left: 0;
-	  top: 0;
-	  bottom: 0;
-	  width: 40px;
-	  line-height: 36px;
-	  font-size: 1.2em;
-	  text-align: center;
-	  border-right: 1px solid #ecf0fa;
-	}
-  
-	&.btn-lg {
-	  padding-left: 61px;
-  
-	  > :first-child {
-		line-height: 45px;
-		width: 45px;
-		font-size: 1.8em;
-	  }
-	}
-  
-	&.btn-sm {
-	  padding-left: 38px;
-  
-	  > :first-child {
-		line-height: 28px;
-		width: 28px;
-		font-size: 1.4em;
-	  }
-	}
-  
-	&.btn-xs {
-	  padding-left: 30px;
-  
-	  > :first-child {
-		line-height: 20px;
-		width: 20px;
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 40px;
+		line-height: 36px;
 		font-size: 1.2em;
-	  }
+		text-align: center;
+		border-right: 1px solid #ecf0fa;
 	}
-  }
-  
-  .btn-social-icon {
+
+	&.btn-lg {
+		padding-left: 61px;
+
+		> :first-child {
+			line-height: 45px;
+			width: 45px;
+			font-size: 1.8em;
+		}
+	}
+
+	&.btn-sm {
+		padding-left: 38px;
+
+		> :first-child {
+			line-height: 28px;
+			width: 28px;
+			font-size: 1.4em;
+		}
+	}
+
+	&.btn-xs {
+		padding-left: 30px;
+
+		> :first-child {
+			line-height: 20px;
+			width: 20px;
+			font-size: 1.2em;
+		}
+	}
+}
+
+.btn-social-icon {
 	position: relative;
 	padding-left: 44px;
 	text-align: left;
@@ -326,74 +342,74 @@ input {
 	height: 34px;
 	width: 34px;
 	padding: 0;
-  
+
 	> :first-child {
-	  position: absolute;
-	  left: 0;
-	  top: 0;
-	  bottom: 0;
-	  width: 32px;
-	  line-height: 34px;
-	  font-size: 1.6em;
-	  text-align: center;
-	  border-right: 1px solid rgba(0, 0, 0, 0.2);
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 32px;
+		line-height: 34px;
+		font-size: 1.6em;
+		text-align: center;
+		border-right: 1px solid rgba(0, 0, 0, 0.2);
 	}
-  
+
 	&.btn-lg {
-	  padding-left: 61px;
-  
-	  > :first-child {
-		line-height: 45px;
+		padding-left: 61px;
+
+		> :first-child {
+			line-height: 45px;
+			width: 45px;
+			font-size: 1.8em;
+		}
+	}
+
+	&.btn-sm {
+		padding-left: 38px;
+
+		> :first-child {
+			line-height: 28px;
+			width: 28px;
+			font-size: 1.4em;
+		}
+	}
+
+	&.btn-xs {
+		padding-left: 30px;
+
+		> :first-child {
+			line-height: 20px;
+			width: 20px;
+			font-size: 1.2em;
+		}
+	}
+
+	> :first-child {
+		border: none;
+		text-align: center;
+		width: 100%;
+		color: #fff;
+	}
+
+	&.btn-lg {
+		height: 45px;
 		width: 45px;
-		font-size: 1.8em;
-	  }
+		padding-left: 0;
+		padding-right: 0;
 	}
-  
+
 	&.btn-sm {
-	  padding-left: 38px;
-  
-	  > :first-child {
-		line-height: 28px;
-		width: 28px;
-		font-size: 1.4em;
-	  }
+		height: 30px;
+		width: 30px;
+		padding-left: 0;
+		padding-right: 0;
 	}
-  
+
 	&.btn-xs {
-	  padding-left: 30px;
-  
-	  > :first-child {
-		line-height: 20px;
-		width: 20px;
-		font-size: 1.2em;
-	  }
+		height: 22px;
+		width: 22px;
+		padding-left: 0;
+		padding-right: 0;
 	}
-  
-	> :first-child {
-	  border: none;
-	  text-align: center;
-	  width: 100%;
-	  color: #fff;
-	}
-  
-	&.btn-lg {
-	  height: 45px;
-	  width: 45px;
-	  padding-left: 0;
-	  padding-right: 0;
-	}
-  
-	&.btn-sm {
-	  height: 30px;
-	  width: 30px;
-	  padding-left: 0;
-	  padding-right: 0;
-	}
-  
-	&.btn-xs {
-	  height: 22px;
-	  width: 22px;
-	  padding-left: 0;
-	  padding-right: 0;
-	}
-  }
+}

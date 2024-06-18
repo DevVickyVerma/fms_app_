@@ -19,7 +19,7 @@ const DepartmentCardGroupCenterModal = (props) => {
         >
             <div
                 className="modal-header"
-                style={{ color: "#fff", background: "#6259ca" }}
+                style={{ color: "#fff", background: "#2D8BA8" }}
             >
                 <h5 className="modal-title">Items</h5>
                 <button

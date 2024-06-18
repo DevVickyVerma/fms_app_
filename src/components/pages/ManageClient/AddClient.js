@@ -176,7 +176,7 @@ const AddClient = (props) => {
                   first_name: "",
                   role: "",
 
-              
+
 
                   last_name: "",
                   email: "",
@@ -193,7 +193,7 @@ const AddClient = (props) => {
                 validationSchema={Yup.object({
                   client_code: Yup.string()
                     .max(20, "Must be 20 characters or less")
-                    .required("Clinet Code is required"),
+                    .required("Client Code is required"),
                   first_name: Yup.string()
                     .max(20, "Must be 20 characters or less")
                     .required("First Name is required"),
@@ -204,7 +204,7 @@ const AddClient = (props) => {
 
                   last_name: Yup.string().required("Last Name is required"),
                   status: Yup.string().required(" Status is required"),
-              
+
                   address: Yup.string().required("Address is required"),
 
                   email: Yup.string()
@@ -471,7 +471,7 @@ const AddClient = (props) => {
                           </FormGroup>
                         </Col>
                         {/* Work Flow Status End */}
-                     
+
 
                         <Col lg={4} md={6}>
                           <label
@@ -501,7 +501,7 @@ const AddClient = (props) => {
                             <strong>,</strong>
                           </span>
                         </Col>
-                    
+
                         <Col lg={4} md={6}>
                           <FormGroup>
                             <label htmlFor="email" className="form-label mt-4">

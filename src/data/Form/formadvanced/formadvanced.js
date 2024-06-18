@@ -27,7 +27,7 @@ import Creatable from "react-select/creatable";
 import DualListBox from "react-dual-listbox";
 // //ColorPicker
 export function ColorPicker() {
-  const [initial] = useState("#6259ca");
+  const [initial] = useState("#2D8BA8");
 
   return (
     <div className="colorpickers">
@@ -1300,7 +1300,7 @@ function Buttons() {
 }
 export function Transparencyselection() {
   return (
-    <ThemeProvider initialColor="#6259ca">
+    <ThemeProvider initialColor="#2D8BA8">
       <PickerVisibilityProvider>
         <Buttons />
         <Picker />

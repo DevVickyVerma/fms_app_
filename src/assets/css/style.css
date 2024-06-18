@@ -89,7 +89,7 @@ License        :   Licensed under ThemeForest License
 */
 /* ######## FONT ######## */
 /*-------- Bootstrap Framework -------*/
-@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900");
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700,900");
 
 /* ######## BOOTSTRAP ######## */
 /*Color variables*/
@@ -99,13 +99,13 @@ License        :   Licensed under ThemeForest License
 /*shadow variables*/
 /* ###### Bootstrap ###### */
 :root {
-  --primary-bg-color: #6259ca;
-  --primary-bg-hover: #233ac5;
-  --primary-bg-border: #5161c1;
+  --primary-bg-color: #2D8BA8;
+  --primary-bg-hover: #259dc2;
+  --primary-bg-border: #2d8ba8e0;
   --dark-body: #292e4a;
   --dark-border: #30314e;
-  --dark-primary: #6259ca;
-  --transparent-primary: #6259ca;
+  --dark-primary: var(--primary-bg-color);
+  --transparent-primary: var(--primary-bg-color);
   --transparent-body: #452293;
   --transparent-theme: rgba(0, 0, 0, 0.2);
   --transparent-border: rgba(255, 255, 255, 0.1);
@@ -125,7 +125,7 @@ License        :   Licensed under ThemeForest License
   --white: #ffffff;
   --gray: #6c757d;
   --gray-dark: #343a40;
-  --primary: #6259ca;
+  --primary: var(--primary-bg-color);
   --secondary: #6c757d;
   --success: #28a745;
   --info: #17a2b8;
@@ -138,11 +138,14 @@ License        :   Licensed under ThemeForest License
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
-  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI",
+  /* --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; */
+  --font-family-sans-serif: "Roboto", "Helvetica Neue", Arial, "Noto Sans", sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
+  --font-family-monospace: "Liberation Mono", "Courier New", monospace;
+  /* --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace; */
 }
 
 * {
@@ -35058,9 +35061,9 @@ body.rtl {
   display: flex;
   z-index: 999 !important;
   border-bottom: 1px solid #eaedf1;
-  /* background: linear-gradient(to bottom right, #6259ca 0%, var(--primary06) 100%);
+  /* background: linear-gradient(to bottom right, var(--primary-bg-color) 0%, var(--primary06) 100%);
   background: linear-gradient(to bottom right, var(--primary-bg-color) 0%, var(--primary06) 100%); */
-  background-color: #6259ca;
+  background-color: var(--primary-bg-color);
   transition: padding-left 0.3s ease;
   height: 62px;
   margin: 0;
@@ -35414,7 +35417,7 @@ body.rtl {
   -ms-flex-align: center;
   align-items: center;
   padding: 10px 30px;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 400;
   -webkit-transition: border-left-color 0.3s ease, background-color 0.3s ease;
   -o-transition: border-left-color 0.3s ease, background-color 0.3s ease;
@@ -35427,7 +35430,7 @@ body.rtl {
 .side-menu__item.active {
   text-decoration: none;
   color: #ffffff;
-  background: #6259ca;
+  background: var(--primary-bg-color);
   border-radius: 0 0px 0px 0;
   box-shadow: 0 7px 12px 0 rgba(95, 118, 232, 0.21);
 }
@@ -35436,7 +35439,7 @@ body.rtl {
 .side-menu__item.active:focus {
   text-decoration: none;
   color: #ffffff;
-  background: #6259ca !important;
+  background: var(--primary-bg-color) !important;
   /* border-radius: 0 0px 0px 0; */
   border-radius: 0px !important;
   box-shadow: 0 7px 12px 0 rgba(95, 118, 232, 0.21);
@@ -35547,7 +35550,7 @@ body.rtl {
   -ms-flex-align: center;
   align-items: center;
   padding: 8px 8px;
-  font-size: 13px;
+  font-size: 15px;
   color: #76839a;
 }
 
@@ -35975,7 +35978,7 @@ body.rtl {
   -o-transition: left 0.2s ease, width 0.2s ease;
   transition: left 0.2s ease, width 0.2s ease;
   height: 62px;
-  background: #6259ca;
+  background: var(--primary-bg-color);
 }
 
 .sidebar-mini.sidenav-toggled .app-sidebar__toggle {
@@ -41024,7 +41027,7 @@ A VERTICAL event
 }
 
 .fc-event {
-  border: 0px solid #6259ca !important;
+  border: 0px solid var(--primary-bg-color) !important;
 }
 
 .fc-theme-standard .fc-list-day-cushion .fc-list-day-text,
@@ -43956,7 +43959,7 @@ iframe {
   height: 100%;
   box-shadow: 0px 0px 0px 0px;
   text-transform: uppercase;
-  background: #6259ca;
+  background: var(--primary-bg-color);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -43986,7 +43989,7 @@ iframe {
 
 .input100.focus-input100+.symbol-input100 {
   text-transform: uppercase;
-  background: #6259ca;
+  background: var(--primary-bg-color);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -44374,10 +44377,10 @@ iframe {
 }
 
 .wrapper>h1 span {
-  border-bottom: 2px solid #6259ca;
+  border-bottom: 2px solid var(--primary-bg-color);
   display: inline-block;
   padding: 0 10px 10px;
-  color: #6259ca;
+  color: var(--primary-bg-color);
   transition: all 0.5s linear;
 }
 
@@ -44438,7 +44441,7 @@ iframe {
 
 .tab_wrapper .controller span {
   padding: 8px 22px;
-  background: #6259ca;
+  background: var(--primary-bg-color);
   color: #fff;
   text-transform: uppercase;
   display: inline-block;
@@ -44483,7 +44486,7 @@ iframe {
 }
 
 .tab_wrapper .content_wrapper .accordian_header.active {
-  color: #6259ca;
+  color: var(--primary-bg-color);
   border: 1px solid #eee;
 }
 
@@ -44494,7 +44497,7 @@ iframe {
   content: "";
   width: 5px;
   height: 100%;
-  background: #6259ca;
+  background: var(--primary-bg-color);
 }
 
 .tab_wrapper .content_wrapper .accordian_header .arrow {
@@ -44524,8 +44527,8 @@ iframe {
 .tab_wrapper .content_wrapper .accordian_header.active .arrow {
   transform: rotate(45deg);
   margin-top: 5px;
-  border-top: 3px solid #6259ca;
-  border-left: 3px solid #6259ca;
+  border-top: 3px solid var(--primary-bg-color);
+  border-left: 3px solid var(--primary-bg-color);
 }
 
 .tab_wrapper.left_side>ul {
@@ -44563,7 +44566,7 @@ iframe {
   top: 0;
   width: 5px;
   height: 100%;
-  background: #6259ca;
+  background: var(--primary-bg-color);
 }
 
 .tab_wrapper.left_side>ul li.active:before {
@@ -47973,9 +47976,12 @@ ul li .legend-dots {
 .wizard>.steps a:active .number {
   flex-shrink: 0;
   font-weight: 700;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  font-family: "Roboto",
     "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; */
   color: var(--primary-bg-color);
   display: block;
   text-align: center;
@@ -55963,7 +55969,7 @@ h3.Sidebar-title {
   text-decoration: none;
   color: #ffffff;
   background: linear-gradient(to bottom right,
-      #6259ca 0%,
+      var(--primary-bg-color) 0%,
       var(--primary06) 100%);
   background: linear-gradient(to bottom right,
       var(--primary-bg-color) 0%,
@@ -55980,10 +55986,10 @@ button.close-button {
   text-decoration: none;
   color: #ffffff;
   background: linear-gradient(to bottom right,
-      #6259cad6 0%,
+      #2D8BA8d6 0%,
       var(--primary06) 100%);
   background: linear-gradient(to bottom right,
-      #6259ca00 0%,
+      #2D8BA800 0%,
       var(--primary06) 100%);
   border-radius: 0 0px 0px 0;
   box-shadow: 0 7px 12px 0 rgb(245 245 245 / 65%);
@@ -55998,7 +56004,7 @@ li.li-row {
 }
 
 .Tablename {
-  color: #6259ca;
+  color: var(--primary-bg-color);
 }
 
 .error-message {

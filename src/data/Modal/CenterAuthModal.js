@@ -278,7 +278,7 @@ const CenterAuthModal = (props) => {
         <Modal.Header
           style={{
             color: "#fff",
-            background: "#6259ca",
+            background: "#2D8BA8",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",

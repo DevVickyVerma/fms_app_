@@ -359,7 +359,7 @@ const ManageSiteTank = (props) => {
     const footerY = pdf.internal.pageSize.height - footerHeight - 15; // Adjust as needed
 
     // Set background color for the footer
-    const footerBackgroundColor = "#6259ca"; // Specify your desired color
+    const footerBackgroundColor = "#2D8BA8"; // Specify your desired color
     pdf.setFillColor(footerBackgroundColor);
     pdf.rect(10, footerY, pdf.internal.pageSize.width - 20, footerHeight, "F"); // "F" means "fill"
 
@@ -1021,7 +1021,7 @@ const ManageSiteTank = (props) => {
               <Modal.Header
                 style={{
                   color: "#fff",
-                  background: "#6259ca",
+                  background: "#2D8BA8",
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",

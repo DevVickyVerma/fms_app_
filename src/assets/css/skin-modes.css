@@ -2260,7 +2260,7 @@
     }
 
     .gradient-menu.horizontal .app-sidebar.horizontal-main {
-        background: linear-gradient(to right, #9e88f5 0%, #6259ca 100%) !important;
+        background: linear-gradient(to right, #9e88f5 0%, #2D8BA8 100%) !important;
     }
 }
 
@@ -2268,4 +2268,5 @@
 .dark-mode.gradient-menu .side-menu__item.active {
     box-shadow: none;
 }
+
 /*# sourceMappingURL=skin-modes.css.map */
