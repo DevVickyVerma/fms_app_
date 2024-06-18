@@ -60,7 +60,11 @@ const DashboardOverallStatsPieChart = ({ data }) => {
 
 
   return (
-    <div id="chart" style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+    <div id="charttt"
+
+      className=" d-flex justify-content-around align-items-center flex-column h-100"
+    // style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}
+    >
 
       {/* <ReactApexChart options={options} series={consoleValues} type="pie"
         width={"100%"}

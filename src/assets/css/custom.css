@@ -12,11 +12,13 @@ span.text-danger.danger-title {
 .disable-chart {
   /* margin: "auto", height: "50%", wid: "50%", */
   margin: auto;
-  height: 50%;
-  width: 50%;
+  /* height: 50%;
+  width: 50%; */
   opacity: 0.4 !important;
   filter: drop-shadow(2px 4px 6px black) !important;
   margin-bottom: 20px;
+  height: 200px;
+  width: 200px;
 }
 
 .dashboardSubChildCard:hover {
@@ -1556,5 +1558,8 @@ span.text-error {
 
 .statscard:hover {
   background: #dddddd42;
+}
 
+.pie-card-default-height {
+  height: calc(100% - 25px);
 }

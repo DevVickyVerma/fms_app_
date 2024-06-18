@@ -630,24 +630,39 @@ const Dashboard = (props) => {
         />
 
         <Row style={{ marginBottom: "10px", marginTop: "20px" }}>
-          <Col style={{ width: "60%" }}>
+          <Col
+            lg={8}
+          // style={{ width: "60%" }}
+          >
             <Card>
               <Card.Header className="card-header">
-                <h4 className="card-title" style={{ minHeight: "32px" }}>
+                <h4 className="card-title" >
                   Total Transactions
                 </h4>
               </Card.Header>
-              <Card.Body className="card-body pb-0 dashboard-chart-height">
-                <div id="chart">
-                  {stacked_line_bar_data && stacked_line_bar_label ? (
+              <Card.Body className="card-body pb-0 
+              
+              ">
+                {/* // dashboard-chart-height */}
+                {stacked_line_bar_data && stacked_line_bar_label ? (
+                  <div id="chart">
                     <>
                       <StackedLineBarChart
                         stackedLineBarData={stacked_line_bar_data}
                         stackedLineBarLabels={stacked_line_bar_label}
                       />
                     </>
-                  ) : (
-                    <>
+
+                  </div>
+                ) : (
+                  <>
+
+                    <div className=" h-100">
+                      <img
+                        src={require("../../assets/images/dashboard/noChartFound.png")}
+                        alt="MyChartImage"
+                        className="all-center-flex disable-chart"
+                      />
                       <p
                         style={{
                           fontWeight: 500,
@@ -658,33 +673,40 @@ const Dashboard = (props) => {
                       >
                         Please Apply Filter To Visualize Chart.....
                       </p>
-                      <img
-                        src={require("../../assets/images/dashboard/noChartFound.png")}
-                        alt="MyChartImage"
-                        className="all-center-flex disable-chart"
-                      />
-                    </>
-                  )}
-                </div>
+                    </div>
+
+
+                  </>
+                )}
               </Card.Body>
             </Card>
           </Col>
 
-          <Col>
-            <Card>
+          <Col lg={4}>
+            <Card className=" pie-card-default-height">
               <Card.Header className="card-header">
-                <h4 className="card-title" style={{ minHeight: "32px" }}>
+                <h4 className="card-title" >
                   Overall Stats
                 </h4>
               </Card.Header>
-              <Card.Body className="card-body pb-0 dashboard-chart-height">
-                <div id="chart">
+              <Card.Body className="card-body pb-0 
+              
+              ">
+                {/* // dashboard-chart-height */}
+                <div id="chart" className=" h-100">
                   {pie_chart_values ? (
                     <>
                       <DashboardOverallStatsPieChart data={pie_chart_values} />
                     </>
                   ) : (
                     <>
+
+                      <img
+                        src={require("../../assets/images/dashboard/noChartFound.png")}
+                        alt="MyChartImage"
+                        className="all-center-flex disable-chart"
+                      />
+
                       <p
                         style={{
                           fontWeight: 500,
@@ -695,11 +717,6 @@ const Dashboard = (props) => {
                       >
                         Please Apply Filter To Visualize Chart.....
                       </p>
-                      <img
-                        src={require("../../assets/images/dashboard/noChartFound.png")}
-                        alt="MyChartImage"
-                        className="all-center-flex disable-chart"
-                      />
                     </>
                   )}
                 </div>
@@ -731,3 +748,4 @@ const Dashboard = (props) => {
 };
 
 export default withApi(Dashboard);
+
