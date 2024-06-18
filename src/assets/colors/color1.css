@@ -27,11 +27,9 @@ button.bg-primary:focus {
 
 /*--- gradient-backgrounds --*/
 .bg-primary-gradient {
-  background: linear-gradient(
-    to bottom right,
-    var(--primary-bg-color) 0%,
-    var(--primary06) 100%
-  ) !important;
+  background: linear-gradient(to bottom right,
+      var(--primary-bg-color) 0%,
+      var(--primary06) 100%) !important;
 }
 
 a.bg-primary-gradient:hover,
@@ -61,8 +59,8 @@ a.text-primary:focus {
   background-color: #d2cdf9;
 }
 
-.table-primary > th,
-.table-primary > td {
+.table-primary>th,
+.table-primary>td {
   background-color: #d2cdf9;
 }
 
@@ -70,19 +68,16 @@ a.text-primary:focus {
   background-color: #b7cded;
 }
 
-.table-hover .table-primary:hover > td,
-.table-hover .table-primary:hover > th {
+.table-hover .table-primary:hover>td,
+.table-hover .table-primary:hover>th {
   background-color: #b7cded;
 }
 
-.select2-container--default.select2-container--focus
-  .select2-selection--multiple {
+.select2-container--default.select2-container--focus .select2-selection--multiple {
   border-color: var(--primary-bg-color);
 }
 
-.select2-container--default
-  .select2-selection--multiple
-  .select2-selection__choice {
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
   background-color: var(--primary-bg-color) !important;
   border: 1px solid var(--primary-bg-color) !important;
 }
@@ -119,7 +114,7 @@ a.text-primary:focus {
   border-color: var(--primary-bg-color);
 }
 
-.show > .btn-primary.dropdown-toggle {
+.show>.btn-primary.dropdown-toggle {
   color: #fff;
   background-color: #5a51c7;
   border-color: #5a51c7;
@@ -130,7 +125,7 @@ a.text-primary:focus {
   box-shadow: 0 0 0 2px rgba(98, 89, 202, 0.9);
 }
 
-.show > .btn-primary.dropdown-toggle:focus {
+.show>.btn-primary.dropdown-toggle:focus {
   box-shadow: 0 0 0 2px rgba(98, 89, 202, 0.9);
 }
 
@@ -153,11 +148,9 @@ a.text-primary:focus {
 
 .btn-primary-gradient {
   color: #fff;
-  background: linear-gradient(
-    to bottom right,
-    var(--primary-bg-color) 0%,
-    var(--primary06) 100%
-  ) !important;
+  background: linear-gradient(to bottom right,
+      var(--primary-bg-color) 0%,
+      var(--primary06) 100%) !important;
   border-color: var(--primary-bg-color) !important;
   box-shadow: 0 5px 10px rgba(98, 89, 202, 0.3);
 }
@@ -187,7 +180,7 @@ a.text-primary:focus {
   border-color: var(--primary-bg-color);
 }
 
-.show > .btn-primary-gradient.dropdown-toggle {
+.show>.btn-primary-gradient.dropdown-toggle {
   color: #fff;
   background-color: var(--primary-bg-color);
   border-color: var(--primary-bg-color);
@@ -198,7 +191,7 @@ a.text-primary:focus {
   box-shadow: 0 0 0 2px rgba(98, 89, 202, 0.9);
 }
 
-.show > .btn-primary-gradient.dropdown-toggle:focus {
+.show>.btn-primary-gradient.dropdown-toggle:focus {
   box-shadow: 0 0 0 2px rgba(98, 89, 202, 0.9);
 }
 
@@ -233,7 +226,7 @@ a.text-primary:focus {
   border-color: var(--primary-bg-color);
 }
 
-.show > .btn-outline-primary.dropdown-toggle {
+.show>.btn-outline-primary.dropdown-toggle {
   color: #fff;
   background-color: var(--primary-bg-color);
   border-color: var(--primary-bg-color);
@@ -244,7 +237,7 @@ a.text-primary:focus {
   box-shadow: 0 0 0 2px rgba(98, 89, 202, 0.1);
 }
 
-.show > .btn-outline-primary.dropdown-toggle:focus {
+.show>.btn-outline-primary.dropdown-toggle:focus {
   box-shadow: 0 0 0 2px rgba(98, 89, 202, 0.1);
 }
 
@@ -271,35 +264,29 @@ a.text-primary:focus {
   border: 6px solid var(--primary-bg-color);
 }
 
-.custom-control-input:checked ~ .custom-control-label::before {
+.custom-control-input:checked~.custom-control-label::before {
   color: #fff;
   background-color: var(--primary-bg-color);
   border-color: var(--primary-bg-color);
 }
 
-.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before,
-.custom-checkbox
-  .custom-control-input:indeterminate
-  ~ .custom-control-label::before,
-.custom-checkbox
-  .custom-control-input:disabled:checked
-  ~ .custom-control-label::before {
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before,
+.custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before,
+.custom-checkbox .custom-control-input:disabled:checked~.custom-control-label::before {
   background-color: var(--primary-bg-color);
 }
 
-.custom-radio .custom-control-input:checked ~ .custom-control-label::before {
+.custom-radio .custom-control-input:checked~.custom-control-label::before {
   background-color: var(--primary-bg-color);
   border-color: var(--primary-bg-color);
 }
 
-.custom-radio
-  .custom-control-input:disabled:checked
-  ~ .custom-control-label::before {
+.custom-radio .custom-control-input:disabled:checked~.custom-control-label::before {
   background-color: var(--primary-bg-color);
 }
 
 .form-select:focus,
-.form-file-input:focus ~ .form-file-label::after {
+.form-file-input:focus~.form-file-label::after {
   border-color: none;
 }
 
@@ -314,7 +301,7 @@ a.text-primary:focus {
 }
 
 .nav-pills .nav-link.active,
-.nav-pills .show > .nav-link {
+.nav-pills .show>.nav-link {
   background-color: var(--primary-bg-color);
 }
 
@@ -341,7 +328,7 @@ a.text-primary:focus {
   outline-color: var(--primary-bg-color);
 }
 
-.panel.price > .panel-heading {
+.panel.price>.panel-heading {
   background: var(--primary-bg-color);
 }
 
@@ -376,11 +363,11 @@ a.text-primary:focus {
   background: #f2f1f9 !important;
 }
 
-.btn.dropdown-toggle.btn-primary ~ .dropdown-menu .dropdown-plus-title {
+.btn.dropdown-toggle.btn-primary~.dropdown-menu .dropdown-plus-title {
   border-color: rgb(98, 89, 202) !important;
 }
 
-.panel-default > .panel-heading {
+.panel-default>.panel-heading {
   color: var(--primary-bg-color);
 }
 
@@ -418,18 +405,13 @@ a.text-primary:focus {
 .header-bg {
   background: var(--primary-bg-color);
   /* fallback for old browsers */
-  background: -webkit-
-    linear-gradient(
-      to bottom right,
+  background: -webkit- linear-gradient(to bottom right,
       var(--primary-bg-color) 0%,
-      var(--primary06) 100%
-    ) !important;
+      var(--primary06) 100%) !important;
   /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to bottom right,
-    var(--primary-bg-color) 0%,
-    var(--primary06) 100%
-  ) !important;
+  background: linear-gradient(to bottom right,
+      var(--primary-bg-color) 0%,
+      var(--primary06) 100%) !important;
 }
 
 .footer a:not(.btn) {
@@ -447,7 +429,7 @@ a.text-primary:focus {
   }
 }
 
-.expanel-primary > .expanel-heading {
+.expanel-primary>.expanel-heading {
   color: #fff !important;
   background-color: var(--primary-bg-color) !important;
   border-color: var(--primary-bg-color) !important;
@@ -457,7 +439,7 @@ a.text-primary:focus {
   background: var(--primary-bg-color);
 } */
 .login-img {
-  background: linear-gradient(45deg, #665be7, #2ca489, #a49ee7);
+  background: linear-gradient(45deg, #3D83B2, #2D8BA8, #9A5B95, #5D78B3, #7E6AAA, #AC4D78, );
   background-size: 600% 100%;
   animation: gradient 16s linear infinite;
   animation-direction: alternate;
@@ -467,6 +449,7 @@ a.text-primary:focus {
   0% {
     background-position: 0%;
   }
+
   100% {
     background-position: 100%;
   }
@@ -475,7 +458,8 @@ a.text-primary:focus {
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
   .login-img {
-    background-size: 100% 100%; /* Adjust the background size for smaller screens */
+    background-size: 100% 100%;
+    /* Adjust the background size for smaller screens */
   }
 }
 
@@ -520,21 +504,21 @@ a.chip:hover {
   color: #fff;
 }
 
-.selectgroup-input:checked + .selectgroup-button {
+.selectgroup-input:checked+.selectgroup-button {
   border-color: var(--primary-bg-color);
   z-index: 1;
   color: var(--primary-bg-color);
   background: #f6f4fb;
 }
 
-.selectgroup-input:focus + .selectgroup-button {
+.selectgroup-input:focus+.selectgroup-button {
   border-color: var(--primary-bg-color);
   z-index: 2;
   color: var(--primary-bg-color);
   box-shadow: 0 0 0 2px rgba(98, 89, 202, 0.25);
 }
 
-.custom-switch-input:checked ~ .custom-switch-indicator {
+.custom-switch-input:checked~.custom-switch-indicator {
   background: var(--primary-bg-color);
 }
 
@@ -547,11 +531,9 @@ a.chip:hover {
 }
 
 #back-to-top {
-  background-image: linear-gradient(
-    to bottom right,
-    var(--primary-bg-color) 0%,
-    var(--primary06) 100%
-  );
+  background-image: linear-gradient(to bottom right,
+      var(--primary-bg-color) 0%,
+      var(--primary06) 100%);
 }
 
 #back-to-top:hover {
@@ -593,11 +575,9 @@ a.chip:hover {
 /* --------Added--------- css*/
 .wizard-card .moving-tab {
   margin-top: 5px;
-  background: linear-gradient(
-    to bottom right,
-    var(--primary-bg-color) 0%,
-    var(--primary06) 100%
-  );
+  background: linear-gradient(to bottom right,
+      var(--primary-bg-color) 0%,
+      var(--primary06) 100%);
 }
 
 .cal1 .clndr .clndr-table .header-days {
@@ -625,11 +605,7 @@ a.chip:hover {
   background: var(--primary-bg-color);
 }
 
-.cal1
-  .clndr
-  .clndr-controls
-  .clndr-control-button
-  .clndr-previous-button:hover {
+.cal1 .clndr .clndr-controls .clndr-control-button .clndr-previous-button:hover {
   background: var(--primary-bg-color);
 }
 
@@ -684,17 +660,17 @@ div.conv-form-wrapper div#messages div.message.from {
   border: 6px solid var(--primary-bg-color);
 }
 
-.accordionjs .acc_section.acc_active > .acc_head {
+.accordionjs .acc_section.acc_active>.acc_head {
   background: #f2f1f9;
   color: var(--primary-bg-color) !important;
 }
 
-.tab_wrapper > ul li.active {
+.tab_wrapper>ul li.active {
   border-color: var(--primary-bg-color);
   background: var(--primary-bg-color);
 }
 
-.tab_wrapper.right_side > ul li.active:after {
+.tab_wrapper.right_side>ul li.active:after {
   background: var(--primary-bg-color);
 }
 
@@ -729,62 +705,50 @@ div.conv-form-wrapper div#messages div.message.from {
 
 .product-grid6 .icons li a:hover {
   color: #fff;
-  background-image: linear-gradient(
-    to bottom right,
-    var(--primary-bg-color) 0%,
-    var(--primary06) 100%
-  );
+  background-image: linear-gradient(to bottom right,
+      var(--primary-bg-color) 0%,
+      var(--primary06) 100%);
 }
 
 .product-grid6 .icons li a:after,
 .product-grid6 .icons li a:before {
-  background-image: linear-gradient(
-    to bottom right,
-    var(--primary-bg-color) 0%,
-    var(--primary06) 100%
-  );
+  background-image: linear-gradient(to bottom right,
+      var(--primary-bg-color) 0%,
+      var(--primary06) 100%);
 }
 
 .card-counter.primary {
-  background-image: linear-gradient(
-    to bottom right,
-    var(--primary-bg-color) 0%,
-    var(--primary06) 100%
-  );
+  background-image: linear-gradient(to bottom right,
+      var(--primary-bg-color) 0%,
+      var(--primary06) 100%);
   color: #fff;
 }
 
-#user-profile .profile-details a > i,
+#user-profile .profile-details a>i,
 #user-profile .profile-details i {
   color: var(--primary-bg-color);
 }
 
 @media (max-width: 767.98px) and (min-width: 576px) {
   .search-show .search-element {
-    background-image: linear-gradient(
-      to bottom right,
-      var(--primary-bg-color) 0%,
-      var(--primary06) 100%
-    );
+    background-image: linear-gradient(to bottom right,
+        var(--primary-bg-color) 0%,
+        var(--primary06) 100%);
   }
 }
 
 @media (max-width: 575.98px) {
   .search-show .search-element {
-    background-image: linear-gradient(
-      to bottom right,
-      var(--primary-bg-color) 0%,
-      var(--primary06) 100%
-    );
+    background-image: linear-gradient(to bottom right,
+        var(--primary-bg-color) 0%,
+        var(--primary06) 100%);
   }
 }
 
 .text-primary-gradient {
-  background: linear-gradient(
-    to bottom right,
-    var(--primary-bg-color) 0%,
-    var(--primary06) 100%
-  );
+  background: linear-gradient(to bottom right,
+      var(--primary-bg-color) 0%,
+      var(--primary06) 100%);
 }
 
 .chat .msg_head,
@@ -817,7 +781,7 @@ div.conv-form-wrapper div#messages div.message.from {
   color: var(--primary-bg-color);
 }
 
-.custom-switch-input:checked ~ .custom-switch-indicator {
+.custom-switch-input:checked~.custom-switch-indicator {
   background: var(--primary-bg-color);
 }
 
@@ -854,33 +818,26 @@ div.conv-form-wrapper div#messages div.message.from {
 }
 
 /*-- Horizontal-menu --*/
-.horizontalMenu > .horizontalMenu-list > li > ul.sub-menu > li > a:hover,
-.horizontalMenu
-  > .horizontalMenu-list
-  > li
-  > ul.sub-menu
-  > li
-  > ul.sub-menu
-  > li
-  > a:hover {
+.horizontalMenu>.horizontalMenu-list>li>ul.sub-menu>li>a:hover,
+.horizontalMenu>.horizontalMenu-list>li>ul.sub-menu>li>ul.sub-menu>li>a:hover {
   color: var(--primary-bg-color);
 }
 
-.onoffswitch-checkbox:checked + .onoffswitch-label {
+.onoffswitch-checkbox:checked+.onoffswitch-label {
   background-color: var(--primary-bg-color);
   border-color: var(--primary-bg-color);
 }
 
-.onoffswitch-checkbox:checked + .onoffswitch-label:before {
+.onoffswitch-checkbox:checked+.onoffswitch-label:before {
   border-color: var(--primary-bg-color);
 }
 
-.onoffswitch2-checkbox:checked + .onoffswitch2-label {
+.onoffswitch2-checkbox:checked+.onoffswitch2-label {
   background-color: var(--primary-bg-color);
 }
 
-.onoffswitch2-checkbox:checked + .onoffswitch-label2,
-.onoffswitch2-checkbox:checked + .onoffswitch2-label:before {
+.onoffswitch2-checkbox:checked+.onoffswitch-label2,
+.onoffswitch2-checkbox:checked+.onoffswitch2-label:before {
   border-color: var(--primary-bg-color);
 }
 
@@ -900,22 +857,8 @@ div.conv-form-wrapper div#messages div.message.from {
   color: #8061ce;
 }
 
-.dark-mode
-  .horizontalMenu
-  > .horizontalMenu-list
-  > li
-  > ul.sub-menu
-  > li
-  > a:hover,
-.dark-mode
-  .horizontalMenu
-  > .horizontalMenu-list
-  > li
-  > ul.sub-menu
-  > li
-  > ul.sub-menu
-  > li
-  > a:hover {
+.dark-mode .horizontalMenu>.horizontalMenu-list>li>ul.sub-menu>li>a:hover,
+.dark-mode .horizontalMenu>.horizontalMenu-list>li>ul.sub-menu>li>ul.sub-menu>li>a:hover {
   color: #827ae0;
 }
 
@@ -954,7 +897,7 @@ div.conv-form-wrapper div#messages div.message.from {
   color: #746ae8 !important;
 }
 
-.dark-mode .panel-default > .panel-heading,
+.dark-mode .panel-default>.panel-heading,
 .dark-mode .panel-tabs a {
   color: #dedefd;
 }
@@ -1003,7 +946,7 @@ div.conv-form-wrapper div#messages div.message.from {
 }
 
 @media only screen and (max-width: 991px) {
-  .dark-mode .horizontalMenu > .horizontalMenu-list {
+  .dark-mode .horizontalMenu>.horizontalMenu-list {
     background: #30304d;
   }
 }
@@ -1102,4 +1045,5 @@ div.conv-form-wrapper div#messages div.message.from {
     background: var(--primary-bg-color) !important;
   }
 }
+
 /*# sourceMappingURL=color1.css.map */
