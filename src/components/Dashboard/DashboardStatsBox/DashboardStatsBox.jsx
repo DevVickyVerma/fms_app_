@@ -60,18 +60,21 @@ const DashboardStatsBox = (props) => {
 
   return (
     <div>
-      <Row>
+
+
+    {
+      GrossVolume?  <Row>
         <Col sm={12} md={6} lg={6} xl={4} key={Math.random()}>
           <Card
             onClick={handleNavigateClick}
          
-            className={`card  bg-primary img-card box-primary-shadow`}
+            className={`card  dash-plates-1 img-card box-primary-shadow`}
           >
             <Card.Body  className="statscard">
               <div className="d-flex">
                 <div className="text-white">
                   <h2
-                    style={{ fontSize: "1.67rem" }}
+                    style={{ fontSize: "20px" }}
                     className="mb-0 number-font"
                   >
                     {" "}
@@ -81,7 +84,7 @@ const DashboardStatsBox = (props) => {
                 </div>
                 <div className="text-white " style={{ marginLeft: "80px" }}>
                   <h2
-                    style={{ fontSize: "1.67rem" }}
+                    style={{ fontSize: "20px" }}
                     className="mb-0 number-font"
                   >
                     {" "}
@@ -92,13 +95,13 @@ const DashboardStatsBox = (props) => {
                 <div className="ms-auto">
                   <div
                     className="counter-icon  brround  ms-auto"
-                    style={{ fontSize: "1.67rem" }}
+                    style={{ fontSize: "20px" }}
                   >
                     <i className="icon icon-pound-sign text-white mb-5 ">ℓ</i>
                   </div>
                 </div>
               </div>
-              <p className="text-muted">
+              <p className="margin-div">
                 <span
                   className={`me-1 ${
                     shopmargin?.status === "up" ? "text-success" : "text-danger"
@@ -130,13 +133,13 @@ const DashboardStatsBox = (props) => {
           <Card
             onClick={handleNavigateClick}
          
-            className={`card bg-success img-card box-success-shadow`}
+            className={`card dash-plates-6 img-card box-success-shadow`}
           >
             <Card.Body  className="statscard">
               <div className="d-flex">
                 <div className="text-white">
                   <h2
-                    style={{ fontSize: "1.67rem" }}
+                    style={{ fontSize: "20px" }}
                     className="mb-0 number-font"
                   >
                     {" "}
@@ -148,7 +151,7 @@ const DashboardStatsBox = (props) => {
                 <div className="ms-auto">
                   <div
                     className="counter-icon  brround  ms-auto"
-                    style={{ fontSize: "1.67rem" }}
+                    style={{ fontSize: "20px" }}
                   >
                     <i className="icon icon-pound-sign text-white mb-5 ">
                       &#163;
@@ -156,7 +159,7 @@ const DashboardStatsBox = (props) => {
                   </div>
                 </div>
               </div>
-              <p className="text-muted">
+              <p className="margin-div">
                 <span
                   className={`me-1 ${
                     shopmargin?.status === "up" ? "text-success" : "text-danger"
@@ -188,17 +191,32 @@ const DashboardStatsBox = (props) => {
           <Card
             onClick={handleNavigateClick}
          
-            className={`card bg-info img-card box-info-shadow`}
+            className={`card dash-plates-2 img-card box-info-shadow`}
           >
             <Card.Body  className="statscard">
               <div className="d-flex">
                 <div className="text-white">
                   <h2
-                    style={{ fontSize: "1.67rem" }}
+                    style={{ fontSize: "20px" }}
                     className="mb-0 number-font"
                   >
                     {" "}
-                    {GrossMarginValue?.gross_margin} ppl
+                    {GrossMarginValue?.gross_margin} ppl {" "}
+                    {GrossMarginValue?.is_ppl == 1 ? (
+                                  <OverlayTrigger
+                                    placement="top"
+                                    overlay={
+                                      <Tooltip>{`${GrossMarginValue?.ppl_msg}%`}</Tooltip>
+                                    }
+                                  >
+                                    <i
+                                      class="fa fa-info-circle"
+                                      aria-hidden="true"
+                                    ></i>
+                                  </OverlayTrigger>
+                                ) : (
+                                  ""
+                                )}
                   </h2>
                   <p className="text-white mb-0">Gross Margin</p>
                 </div>
@@ -206,7 +224,7 @@ const DashboardStatsBox = (props) => {
                 <div className="ms-auto">
                   <div
                     className="counter-icon  brround  ms-auto"
-                    style={{ fontSize: "1.67rem" }}
+                    style={{ fontSize: "20px" }}
                   >
                     <div className="counter-icon bg-secondary-gradient box-shadow-secondary brround ms-auto text-white">
                       <OilBarrelIcon />
@@ -214,7 +232,7 @@ const DashboardStatsBox = (props) => {
                   </div>
                 </div>
               </div>
-              <p className="text-muted">
+              <p className="margin-div">
                 <span
                   className={`me-1 ${
                     shopmargin?.status === "up" ? "text-success" : "text-danger"
@@ -246,13 +264,13 @@ const DashboardStatsBox = (props) => {
           <Card
             onClick={handleNavigateClick}
          
-            className={`card bg-danger img-card box-danger-shadow`}
+            className={`card dash-plates-3 img-card box-danger-shadow`}
           >
             <Card.Body  className="statscard">
               <div className="d-flex">
                 <div className="text-white">
                   <h2
-                    style={{ fontSize: "1.67rem" }}
+                    style={{ fontSize: "20px" }}
                     className="mb-0 number-font"
                   >
                     {" "}
@@ -262,7 +280,7 @@ const DashboardStatsBox = (props) => {
                 </div>
                 <div className="text-white" style={{ marginLeft: "80px" }}>
                   <h2
-                    style={{ fontSize: "1.67rem" }}
+                    style={{ fontSize: "20px" }}
                     className="mb-0 number-font"
                   >
                     {" "}
@@ -274,7 +292,7 @@ const DashboardStatsBox = (props) => {
                 <div className="ms-auto">
                   <div
                     className="counter-icon  brround  ms-auto"
-                    style={{ fontSize: "1.67rem" }}
+                    style={{ fontSize: "20px" }}
                   >
                     <i className="icon icon-pound-sign text-white mb-5 ">
                       &#163;
@@ -282,7 +300,7 @@ const DashboardStatsBox = (props) => {
                   </div>
                 </div>
               </div>
-              <p className="text-muted">
+              <p className="margin-div">
                 <span
                   className={`me-1 ${
                     shopmargin?.status === "up" ? "text-success" : "text-danger"
@@ -314,13 +332,13 @@ const DashboardStatsBox = (props) => {
           <Card
             onClick={handleNavigateClick}
          
-            className={`card bg-warning img-card box-warning-shadow`}
+            className={`card dash-plates-4 img-card box-warning-shadow`}
           >
             <Card.Body  className="statscard">
               <div className="d-flex">
                 <div className="text-white">
                   <h2
-                    style={{ fontSize: "1.67rem" }}
+                    style={{ fontSize: "20px" }}
                     className="mb-0 number-font"
                   >
                     {" "}
@@ -335,7 +353,7 @@ const DashboardStatsBox = (props) => {
                 <div className="ms-auto">
                   <div
                     className="counter-icon  brround  ms-auto"
-                    style={{ fontSize: "1.67rem" }}
+                    style={{ fontSize: "20px" }}
                   >
                     <i className="icon icon-pound-sign text-white mb-5 ">
                       &#163;
@@ -343,7 +361,7 @@ const DashboardStatsBox = (props) => {
                   </div>
                 </div>
               </div>
-              <p className="text-muted">
+              <p className="margin-div">
                 <span
                   className={`me-1 ${
                     shopmargin?.status === "up" ? "text-success" : "text-danger"
@@ -375,13 +393,13 @@ const DashboardStatsBox = (props) => {
           <Card
             onClick={handleNavigateClick}
          
-            className={`card  bg-primary img-card box-primary-shadow`}
+            className={`card  dash-plates-5 img-card box-primary-shadow`}
           >
             <Card.Body  className="statscard">
               <div className="d-flex">
                 <div className="text-white">
                   <h2
-                    style={{ fontSize: "1.67rem" }}
+                    style={{ fontSize: "20px" }}
                     className="mb-0 number-font"
                   >
                     {" "}
@@ -396,7 +414,7 @@ const DashboardStatsBox = (props) => {
                 <div className="ms-auto">
                   <div
                     className="counter-icon  brround  ms-auto"
-                    style={{ fontSize: "1.67rem" }}
+                    style={{ fontSize: "20px" }}
                   >
                     <i className="icon icon-pound-sign text-white mb-5 ">
                       &#163;
@@ -404,7 +422,7 @@ const DashboardStatsBox = (props) => {
                   </div>
                 </div>
               </div>
-              <p className="text-muted">
+              <p className="margin-div">
                 <span
                   className={`me-1 ${
                     shopmargin?.status === "up" ? "text-success" : "text-danger"
@@ -432,7 +450,9 @@ const DashboardStatsBox = (props) => {
             </Card.Body>
           </Card>
         </Col>
-      </Row>
+      </Row>:<></>
+    }
+    
       <Row>
         <Col lg={12} md={12} sm={12} xl={12}>
           <Row>

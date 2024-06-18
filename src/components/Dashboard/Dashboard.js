@@ -414,68 +414,60 @@ const Dashboard = (props) => {
                   flexWrap: "wrap",
                 }}
               >
-                <>
-                  <Box
-                    display={["none", "none", "flex"]}
-                    flexWrap={"wrap"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    className=" gap-1"
-                  >
-                    {/* Assuming this code is within a React component */}
-                    {Object.entries(searchdata).some(
-                      ([key, value]) =>
-                        [
-                          "client_name",
-                          "TOdate",
-                          "company_name",
-                          "site_name",
-                          "fromdate",
-                        ].includes(key) &&
-                        value != null &&
-                        value !== ""
-                    ) ? (
-                      Object.entries(searchdata).map(([key, value]) => {
-                        if (
-                          [
-                            "client_name",
-                            "TOdate",
-                            "company_name",
-                            "site_name",
-                            "fromdate",
-                          ].includes(key) &&
-                          value != null &&
-                          value !== ""
-                        ) {
-                          const formattedKey = key
-                            .toLowerCase()
-                            .split("_")
-                            .map(
-                              (word) =>
-                                word.charAt(0).toUpperCase() + word.slice(1)
-                            )
-                            .join(" ");
+            <>
+  {/* Assuming this code is within a React component */}
+  {Object.entries(searchdata).some(
+    ([key, value]) =>
+      [
+        "client_name",
+        "TOdate",
+        "company_name",
+        "site_name",
+        "fromdate",
+      ].includes(key) &&
+      value != null &&
+      value !== ""
+  ) ? (
+    <div className="badge-div">
+      {Object.entries(searchdata).map(([key, value]) => {
+        if (
+          [
+            "client_name",
+            "TOdate",
+            "company_name",
+            "site_name",
+            "fromdate",
+          ].includes(key) &&
+          value != null &&
+          value !== ""
+        ) {
+          const formattedKey = key
+            .toLowerCase()
+            .split("_")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
 
-                          return (
-                            <div key={key} className="badge">
-                              <span className="badge-key">{formattedKey}:</span>
-                              <span className="badge-value">{value}</span>
-                            </div>
-                          );
-                        } else {
-                          return null;
-                        }
-                      })
-                    ) : superiorRole === "Client" && role !== "Client" ? (
-                      <div className="badge">
-                        <span className="badge-key">Company Name:</span>
-                        <span className="badge-value">
-                          {localStorage.getItem("PresetCompanyName")}
-                        </span>
-                      </div>
-                    ) : null}
-                  </Box>
-                </>
+          return (
+            <div key={key} className="badge">
+              <span className="badge-key">{formattedKey}:</span>
+              <span className="badge-value">{value}</span>
+            </div>
+          );
+        } else {
+          return null;
+        }
+      })}
+    </div>
+  ) : superiorRole === "Client" && role !== "Client" ? (
+    <div className="badge">
+      <span className="badge-key">Company Name:</span>
+      <span className="badge-value">
+        {localStorage.getItem("PresetCompanyName")}
+      </span>
+    </div>
+  ) : null}
+</>
+
                 {UserPermissions?.applyFilter &&
                   Object.keys(searchdata).length === 0 ? (
                   <div

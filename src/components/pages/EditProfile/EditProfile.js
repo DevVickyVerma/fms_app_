@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { BsCapslock } from "react-icons/bs";
 import {
@@ -777,7 +777,7 @@ export default function EditProfile() {
                 <Card.Body>
                   <p className="all-center-flex f2a" style={{ height: "100%" }}>
                     <img
-                      src={require("../../../assets/images/brand/2fa.png")}
+                      src={require("../../../assets/images/brand/Two factor authentication-bro.png")}
                       className="header-brand-img desktop-logo"
                       alt={"logo"}
                     />

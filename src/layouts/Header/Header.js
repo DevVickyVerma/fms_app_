@@ -229,7 +229,7 @@ const Header = (props) => {
                   </span>
                 </div>
 
-                {storedKeyRef.current === "false" &&
+                {/* {storedKeyRef.current === "false" &&
                   isProfileUpdatePermissionAvailable ? (
                   <>
                     <span
@@ -248,7 +248,7 @@ const Header = (props) => {
                   </>
                 ) : (
                   ""
-                )}
+                )} */}
 
                 {ShowTruw && localStorage.getItem("two_factor") === "false" ? (
                   <>

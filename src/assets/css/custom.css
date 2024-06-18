@@ -944,28 +944,24 @@ span.ModalTitle-2fa {
 }
 
 .loader {
-  width: 12px;
-  height: 12px;
+  width: 58px;
+  height: 58px;
+  border: 7px solid #FFF;
+  border-bottom-color: #2d8ba8;
   border-radius: 50%;
-  display: block;
-  margin: 15px auto;
-  position: relative;
-  color: #2D8BA8;
+  display: inline-block;
   box-sizing: border-box;
-  animation: animloader 1s linear infinite alternate;
-}
+  animation: rotation 1s linear infinite;
+  }
 
-.loader {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  display: block;
-  margin: 15px auto;
-  position: relative;
-  color: #f0f0f8;
-  box-sizing: border-box;
-  animation: animloader 1s linear infinite alternate;
-}
+  @keyframes rotation {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+  } 
 
 .primary-loader {
   width: 10px;
@@ -1586,4 +1582,37 @@ span.text-error {
 
 .dash-plates-6 {
   background-color: #AC4D78 !important;
+}
+
+.badge-div {
+  background: #2d8ba83d;
+  border-radius: 5px;
+  padding: 7px;
+}
+.badge {
+  background-color: #2d8ba8;
+
+  /* font-size: 30px; */
+}
+.badge-value {
+  font-size: 14px;
+}
+.badge-key {
+  font-size: 14px;
+}
+.btn-sm,
+.btn-group-sm > .btn {
+  font-size: 15px;
+}
+.swal2-styled.swal2-confirm {
+  background-color: #2d8ba8 !important;
+}
+.page-title {
+  color: #2d8ba8;
+}
+.margin-div{
+  background: #dddddd3d;
+  padding: 7px 10px;
+  width: 37%;
+  margin-top: 10px;
 }
