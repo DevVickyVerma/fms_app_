@@ -452,7 +452,7 @@ const DashboardStatsBox = (props) => {
                         ? parseFloat(shopmargin?.shop_profit)?.toLocaleString()
                         : ""}
                     </h2>
-                    <p className="boxtitle">Shop Sales</p>
+                    <p className="boxtitle">Shop Profit</p>
                   </div>
 
                   <div className="ms-auto">
@@ -776,9 +776,9 @@ const DashboardStatsBox = (props) => {
         </Col>
       </Row> */}
 
-      <Row>
+      {/* <Row>
         <Col lg={12} md={12} sm={12} xl={12}>
-          <Row>
+          <Row> */}
             {/* <Col lg={6} md={12} sm={12} xl={4}>
               <Card
                 className={`card overflow-hidden Dashboard-card ${
@@ -947,7 +947,7 @@ const DashboardStatsBox = (props) => {
                 </div>
               </div>
             </div> */}
-            <Col lg={6} md={12} sm={12} xl={4}>
+            {/* <Col lg={6} md={12} sm={12} xl={4}>
               <Card
                 className={`card overflow-hidden Dashboard-card ${
                   shopmargin?.status === "up"
@@ -981,7 +981,7 @@ const DashboardStatsBox = (props) => {
                                       shopmargin?.shop_profit
                                     )?.toLocaleString()
                                   : " "}
-                                {/* {shopmargin?.shop_profit} */}
+                               
                               </h4>
                               <OverlayTrigger
                                 placement="top"
@@ -1031,10 +1031,10 @@ const DashboardStatsBox = (props) => {
                   </Row>
                 </Card.Body>
               </Card>
-            </Col>
-          </Row>
+            </Col> */}
+          {/* </Row>
         </Col>
-      </Row>
+      </Row> */}
     </div>
   );
 };

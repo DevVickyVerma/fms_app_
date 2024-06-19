@@ -2,7 +2,6 @@ import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 import CustomModal from "../../../data/Modal/DashboardSiteDetails";
-import { BsCalendarWeek } from "react-icons/bs";
 import {
   Chart as ChartJS,
   LineElement,
