@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { Breadcrumb, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import DashboardChildTable from "./DashboardChildTable";
@@ -8,7 +8,7 @@ import { Box } from "@mui/material";
 import SortIcon from "@mui/icons-material/Sort";
 import { useSelector } from "react-redux";
 import CenterFilterModal from "../../../data/Modal/CenterFilterModal";
-import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, SuccessAlert, handleError } from "../../../Utils/ToastUtils";
 import DashboardStatsBox from "../DashboardStatsBox/DashboardStatsBox";
 import { initialState, reducer } from "../../../Utils/CustomReducer";
 
@@ -43,20 +43,7 @@ const DashBoardChild = (props) => {
     }
   }, [])
 
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      SuccessAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
   const superiorRole = localStorage.getItem("superiorRole");
 
   const role = localStorage.getItem("role");
@@ -185,7 +172,7 @@ const DashBoardChild = (props) => {
                 }}
               >
                 <>
-                  <Box display={["none", "none", "flex"]} flexWrap={"wrap"} justifyContent={"center"} alignItems={"center"} className=" gap-1" >
+                  <Box display={["none", "none", "flex"]} flexWrap={"wrap"} justifyContent={"center"} alignItems={"center"} className=" gap-1 badge-div" >
                     {/* Assuming this code is within a React component */}
                     {Object.entries(searchdata).some(
                       ([key, value]) =>
@@ -231,7 +218,7 @@ const DashBoardChild = (props) => {
                         }
                       })
                     ) : superiorRole === "Client" && role !== "Client" ? (
-                      <div className="badge">
+                      <div className="badge ">
                         <span className="badge-key">Company Name:</span>
                         <span className="badge-value">
                           {localStorage.getItem("PresetCompanyName")}
