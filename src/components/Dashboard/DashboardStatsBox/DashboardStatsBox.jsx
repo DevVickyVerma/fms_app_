@@ -67,7 +67,7 @@ const DashboardStatsBox = (props) => {
               className={`card  dash-plates-1 img-card box-primary-shadow`}
             >
               <Card.Body className="statscard">
-                <div className="d-flex">
+                <div className="d-flex justify-content-between">
                   <div className="text-white">
                     <h2
                       style={{ fontSize: "20px" }}
@@ -78,7 +78,7 @@ const DashboardStatsBox = (props) => {
                     </h2>
                     <p className="boxtitle">Gross Volume</p>
                   </div>
-                  <div className="text-white " style={{ marginLeft: "80px" }}>
+                  <div className="text-white " >
                     <h2
                       style={{ fontSize: "20px" }}
                       className="mb-0 number-font"
@@ -88,10 +88,10 @@ const DashboardStatsBox = (props) => {
                     </h2>
                     <p className="boxtitle">Bunkered Volume</p>
                   </div>
-                  <div className="ms-auto">
+                  <div className="">
                     <div
                       className="counter-icon  brround  ms-auto"
-              
+
                       style={{ background: "#fff", color: "#ddd" }}
                     >
                       <div
@@ -111,11 +111,10 @@ const DashboardStatsBox = (props) => {
                 </div>
                 <p className="margin-div">
                   <span
-                    className={`me-1 ${
-                      shopmargin?.status === "up"
-                        ? "text-success"
-                        : "text-danger"
-                    }`}
+                    className={`me-1 ${shopmargin?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                      }`}
                     data-tip={`${GrossVolume?.percentage}%`}
                   >
                     {GrossVolume?.status === "up" ? (
@@ -144,7 +143,7 @@ const DashboardStatsBox = (props) => {
               className={`card dash-plates-6 img-card box-success-shadow`}
             >
               <Card.Body className="statscard">
-                <div className="d-flex">
+                <div className="d-flex ">
                   <div className="text-white">
                     <h2
                       style={{ fontSize: "20px" }}
@@ -178,11 +177,10 @@ const DashboardStatsBox = (props) => {
                 </div>
                 <p className="margin-div">
                   <span
-                    className={`me-1 ${
-                      shopmargin?.status === "up"
-                        ? "text-success"
-                        : "text-danger"
-                    }`}
+                    className={`me-1 ${shopmargin?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                      }`}
                     data-tip={`${GrossProfitValue?.percentage}%`}
                   >
                     {GrossProfitValue?.status === "up" ? (
@@ -238,7 +236,7 @@ const DashboardStatsBox = (props) => {
                   <div className="ms-auto">
                     <div
                       className="counter-icon  brround  ms-auto"
-                 
+
                       style={{ background: "#fff", color: "#ddd" }}
                     >
                       <div
@@ -258,11 +256,10 @@ const DashboardStatsBox = (props) => {
                 </div>
                 <p className="margin-div">
                   <span
-                    className={`me-1 ${
-                      shopmargin?.status === "up"
-                        ? "text-success"
-                        : "text-danger"
-                    }`}
+                    className={`me-1 ${shopmargin?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                      }`}
                     data-tip={`${GrossMarginValue?.percentage}%`}
                   >
                     {GrossMarginValue?.status === "up" ? (
@@ -291,7 +288,7 @@ const DashboardStatsBox = (props) => {
               className={`card dash-plates-3 img-card box-danger-shadow`}
             >
               <Card.Body className="statscard">
-                <div className="d-flex">
+                <div className="d-flex justify-content-between">
                   <div className="text-white">
                     <h2
                       style={{ fontSize: "20px" }}
@@ -302,7 +299,7 @@ const DashboardStatsBox = (props) => {
                     </h2>
                     <p className="boxtitle">Fuel Sales</p>
                   </div>
-                  <div className="text-white" style={{ marginLeft: "80px" }}>
+                  <div className="text-white" >
                     <h2
                       style={{ fontSize: "20px" }}
                       className="mb-0 number-font"
@@ -313,10 +310,10 @@ const DashboardStatsBox = (props) => {
                     <p className="boxtitle">Bunkered Sales</p>
                   </div>
 
-                  <div className="ms-auto">
+                  <div className="">
                     <div
                       className="counter-icon  brround  ms-auto"
-                 
+
                       style={{ background: "#fff", color: "#ddd" }}
                     >
                       <div
@@ -336,11 +333,10 @@ const DashboardStatsBox = (props) => {
                 </div>
                 <p className="margin-div">
                   <span
-                    className={`me-1 ${
-                      shopmargin?.status === "up"
-                        ? "text-success"
-                        : "text-danger"
-                    }`}
+                    className={`me-1 ${shopmargin?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                      }`}
                     data-tip={`${FuelValue?.percentage}%`}
                   >
                     {FuelValue?.status === "up" ? (
@@ -387,7 +383,7 @@ const DashboardStatsBox = (props) => {
                   <div className="ms-auto">
                     <div
                       className="counter-icon  brround  ms-auto"
-                 
+
                       style={{ background: "#fff", color: "#ddd" }}
                     >
                       <div
@@ -407,11 +403,10 @@ const DashboardStatsBox = (props) => {
                 </div>
                 <p className="margin-div">
                   <span
-                    className={`me-1 ${
-                      shopmargin?.status === "up"
-                        ? "text-success"
-                        : "text-danger"
-                    }`}
+                    className={`me-1 ${shopmargin?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                      }`}
                     data-tip={`${shopsale?.percentage}%`}
                   >
                     {shopsale?.status === "up" ? (
@@ -458,7 +453,7 @@ const DashboardStatsBox = (props) => {
                   <div className="ms-auto">
                     <div
                       className="counter-icon  brround  ms-auto"
-                 
+
                       style={{ background: "#fff", color: "#ddd" }}
                     >
                       <div
@@ -478,11 +473,10 @@ const DashboardStatsBox = (props) => {
                 </div>
                 <p className="margin-div">
                   <span
-                    className={`me-1 ${
-                      shopmargin?.status === "up"
-                        ? "text-success"
-                        : "text-danger"
-                    }`}
+                    className={`me-1 ${shopmargin?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                      }`}
                     data-tip={`${shopmargin?.percentage}%`}
                   >
                     {shopmargin?.status === "up" ? (
@@ -779,7 +773,7 @@ const DashboardStatsBox = (props) => {
       {/* <Row>
         <Col lg={12} md={12} sm={12} xl={12}>
           <Row> */}
-            {/* <Col lg={6} md={12} sm={12} xl={4}>
+      {/* <Col lg={6} md={12} sm={12} xl={4}>
               <Card
                 className={`card overflow-hidden Dashboard-card ${
                   FuelValue?.status === "up"
@@ -865,7 +859,7 @@ const DashboardStatsBox = (props) => {
                 </Card.Body>
               </Card>
             </Col> */}
-            {/* <div
+      {/* <div
               className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 ${
                 isDetailPermissionAvailable ? "show-pointer-cursor" : ""
               }`}
@@ -947,7 +941,7 @@ const DashboardStatsBox = (props) => {
                 </div>
               </div>
             </div> */}
-            {/* <Col lg={6} md={12} sm={12} xl={4}>
+      {/* <Col lg={6} md={12} sm={12} xl={4}>
               <Card
                 className={`card overflow-hidden Dashboard-card ${
                   shopmargin?.status === "up"
@@ -1032,7 +1026,7 @@ const DashboardStatsBox = (props) => {
                 </Card.Body>
               </Card>
             </Col> */}
-          {/* </Row>
+      {/* </Row>
         </Col>
       </Row> */}
     </div>
