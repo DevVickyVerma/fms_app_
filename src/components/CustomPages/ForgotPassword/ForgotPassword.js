@@ -57,7 +57,7 @@ export default function ForgotPassword() {
       {isLoading ? <Loaderimg /> : null}
 
       <Row>
-        <Col lg={8} sm={0}>
+        <Col lg={7} sm={0} className="c-login-left-card">
           <div className="page">
 
             <div className=" d-flex align-items-center justify-content-center">
@@ -71,7 +71,7 @@ export default function ForgotPassword() {
         </Col>
 
 
-        <Col lg={4} sm={0} style={{ background: "#fff" }}>
+        <Col lg={5} sm={0} className="c-login-right-card">
           <div className="page">
             <div className="container-login100 d-flex justify-content-center">
 

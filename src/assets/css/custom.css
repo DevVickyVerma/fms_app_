@@ -1637,3 +1637,17 @@ span.text-error {
   width: 450px;
   object-fit: contain;
 }
+
+.c-login-right-card {
+  background-color: #fff;
+}
+
+@media screen and (max-width : 990px) {
+  .c-login-left-card {
+    display: none;
+  }
+
+  .c-login-right-card {
+    background-color: unset;
+  }
+}
