@@ -141,7 +141,7 @@ const EditBussiness = (props) => {
     },
     validationSchema: Yup.object({
       sub_category_name: Yup.string()
-        .max(20, "Must be 20 characters or less")
+        
         .required("Sub-Business Category Name is required"),
 
       sub_category_code: Yup.string()

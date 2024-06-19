@@ -128,7 +128,7 @@ const EditClient = (props) => {
     },
     validationSchema: Yup.object({
       client_code: Yup.string()
-        .max(20, "Must be 20 characters or less")
+        
         .required("Client Code is required"),
       created_date: Yup.string().required("Client Code is required"),
       email: Yup.string()
@@ -136,10 +136,10 @@ const EditClient = (props) => {
         .email("Invalid email format"),
       address: Yup.string().required("Address is required"),
       first_name: Yup.string()
-        .max(20, "Must be 20 characters or less")
+        
         .required("First Name is required"),
       last_name: Yup.string()
-        .max(20, "Must be 20 characters or less")
+        
         .required("Last Name is required"),
       loomis_status: Yup.string().required("Lommis Status is required"),
       status: Yup.string().required(" Status is required"),

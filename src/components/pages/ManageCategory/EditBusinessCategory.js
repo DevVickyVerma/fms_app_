@@ -141,7 +141,6 @@ const EditBussiness = (props) => {
     },
     validationSchema: Yup.object({
       category_name: Yup.string()
-        .max(20, "Must be 20 characters or less")
         .required("Business Category is required"),
 
       category_code: Yup.string()
@@ -166,20 +165,7 @@ const EditBussiness = (props) => {
     onSubmit: handleSubmit,
   });
 
-  const isInvalid = formik.errors && formik.touched.name ? "is-invalid" : "";
-
-  // Use the isInvalid variable to conditionally set the class name
-  const inputClass = `form-control ${isInvalid}`;
-  const handleBusinessTypeChange = (e) => {
-    const selectedType = e.target.value;
-
-    formik.setFieldValue("business_type", selectedType);
-    setSelectedBusinessType(selectedType);
-    const selectedTypeData = AddSiteData.business_types.find(
-      (type) => type.name === selectedType
-    );
-    setSubTypes(selectedTypeData.sub_types);
-  };
+ 
 
   return (
     <>

@@ -123,7 +123,7 @@ const AddCompany = (props) => {
       userSelectedid: "",
     },
     validationSchema: Yup.object({
-      userSelectedid: Yup.string().max(20, "Must be 20 characters or less"),
+      userSelectedid: Yup.string(),
     }),
     onSubmit: (values) => {
       handleSubmit(values);

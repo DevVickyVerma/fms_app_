@@ -125,7 +125,7 @@ const Editsuppliers = (props) => {
     },
     validationSchema: Yup.object({
       supplier_code: Yup.string()
-        .max(20, "Must be 20 characters or less")
+        
         .required("Supplier code is required"),
 
       supplier_name: Yup.string()

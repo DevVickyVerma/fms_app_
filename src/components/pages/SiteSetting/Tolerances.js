@@ -127,7 +127,7 @@ const SiteSettings = (props) => {
     },
     validationSchema: Yup.object({
       max_dip_gain_loss_variance: Yup.string()
-        .max(20, "Must be 20 characters or less")
+        
         .required("Max Dips Gians/Loss Variance is required"),
       max_banking_variance: Yup.string()
         .max(30, "Must be 30 characters or less")

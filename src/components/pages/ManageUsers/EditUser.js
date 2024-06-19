@@ -169,10 +169,10 @@ const EditUsers = (props) => {
     validationSchema: Yup.object({
       role_id: Yup.string().required("Role is required"),
       first_name: Yup.string()
-        .max(20, "Must be 20 characters or less")
+        
         .required("First Name is required"),
       last_name: Yup.string()
-        .max(20, "Must be 20 characters or less")
+        
         .required("Last Name is required"),
       // phone_number: Yup.string()
       //   .matches(phoneRegExp, "Phone number is not valid")

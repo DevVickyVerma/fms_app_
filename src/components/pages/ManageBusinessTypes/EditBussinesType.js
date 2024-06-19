@@ -109,7 +109,7 @@ const EditBussiness = (props) => {
     },
     validationSchema: Yup.object({
       business_name: Yup.string()
-        .max(20, "Must be 20 characters or less")
+        
         .required("Business Type Name is required"),
 
       slug: Yup.string()

@@ -112,7 +112,7 @@ const Editdeductions = (props) => {
     },
     validationSchema: Yup.object({
       deduction_code: Yup.string()
-        .max(20, "Must be 20 characters or less")
+        
         .required("Deduction code is required"),
 
       deduction_name: Yup.string()

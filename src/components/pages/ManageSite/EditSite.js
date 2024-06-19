@@ -125,7 +125,7 @@ export default function AddSite(props) {
     },
     validationSchema: Yup.object({
       site_code: Yup.string()
-        .max(20, "Must be 20 characters or less")
+        
         .required("Site Code is required"),
       site_name: Yup.string()
         .max(150, "Must be 30 characters or less")

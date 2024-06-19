@@ -187,7 +187,7 @@ const EditCards = (props) => {
     },
     validationSchema: Yup.object({
       card_code: Yup.string()
-        .max(20, "Must be 20 characters or less")
+        
         .required("card code is required"),
 
       card_name: Yup.string()

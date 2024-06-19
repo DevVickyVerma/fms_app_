@@ -192,7 +192,7 @@ export default function EditProfile() {
     validationSchema: Yup.object({
       first_name: Yup.string().required("First name is required"),
       last_name: Yup.string()
-        .max(20, "Must be 20 characters or less")
+        
         .required("Last name is required"),
     }),
     onSubmit: (values, { setSubmitting }) => {

@@ -192,10 +192,10 @@ const AddClient = (props) => {
                 }}
                 validationSchema={Yup.object({
                   client_code: Yup.string()
-                    .max(20, "Must be 20 characters or less")
+                    
                     .required("Client Code is required"),
                   first_name: Yup.string()
-                    .max(20, "Must be 20 characters or less")
+                    
                     .required("First Name is required"),
 
                   lommis_status: Yup.string().required(

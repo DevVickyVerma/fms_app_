@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { Breadcrumb, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Button } from "bootstrap";
-import axios from "axios";
 import Swal from "sweetalert2";
-import { toast } from "react-toastify";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import withApi from "../../../Utils/ApiHelper";
 import * as loderdata from "../../../data/Component/loderdata/loderdata";
@@ -16,26 +13,7 @@ import { useSelector } from "react-redux";
 const ManageSubBusinessTypes = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
-  const fetchData = async () => {
-    try {
-      const response = await getData("/business/sub-types");
-      const { data } = response;
-
-      if (data) {
-        const firstName = data.data?.first_name || "";
-        const lastName = data.data?.last_name || "";
-        const phoneNumber = data.data?.phone_number || "";
-        const fullName = data.data?.full_name || "";
-
-        localStorage.setItem("First_name", firstName);
-        localStorage.setItem("Last_name", lastName);
-        localStorage.setItem("Phone_Number", phoneNumber);
-        localStorage.setItem("full_name", fullName);
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
+  
 
   useEffect(() => {
     handleFetchData();

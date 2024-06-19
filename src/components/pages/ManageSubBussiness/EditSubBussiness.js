@@ -1,23 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import {
-  Col,
-  Row,
-  Card,
-  Form,
-  FormGroup,
-  FormControl,
-  ListGroup,
-  Breadcrumb,
-} from "react-bootstrap";
+import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 
-import { Formik, Field, ErrorMessage } from "formik";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, SuccessAlert, handleError } from "../../../Utils/ToastUtils";
 
 export default function AddSite() {
   const navigate = useNavigate();
@@ -27,20 +16,7 @@ export default function AddSite() {
   const [subTypes, setSubTypes] = useState([]);
   const [EditSiteData, setEditSiteData] = useState();
   const [dropdownValue, setDropdownValue] = useState([]);
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
   const { id } = useParams();
 
   useEffect(() => {
@@ -150,7 +126,6 @@ export default function AddSite() {
     },
     validationSchema: Yup.object({
       business_sub_name: Yup.string()
-        .max(20, "Must be 20 characters or less")
         .required("Company Code is required"),
 
       business_type_id: Yup.string().required("status is required"),
@@ -174,20 +149,7 @@ export default function AddSite() {
     onSubmit: handleSubmit,
   });
 
-  const isInvalid = formik.errors && formik.touched.name ? "is-invalid" : "";
 
-  // Use the isInvalid variable to conditionally set the class name
-  const inputClass = `form-control ${isInvalid}`;
-  const handleBusinessTypeChange = (e) => {
-    const selectedType = e.target.value;
-
-    formik.setFieldValue("business_type", selectedType);
-    setSelectedBusinessType(selectedType);
-    const selectedTypeData = AddSiteData.busines_types.find(
-      (type) => type.name === selectedType
-    );
-    setSubTypes(selectedTypeData.sub_types);
-  };
 
   return (
     <div>

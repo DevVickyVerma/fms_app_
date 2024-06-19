@@ -510,7 +510,7 @@ const DashboardStatsBox = (props) => {
         <></>
       )}
 
-      <Row>
+      {/* <Row>
         <Col lg={12} md={12} sm={12} xl={12}>
           <Row>
             <Col lg={6} md={12} sm={12} xl={4}>
@@ -774,12 +774,12 @@ const DashboardStatsBox = (props) => {
             </Col>
           </Row>
         </Col>
-      </Row>
+      </Row> */}
 
       <Row>
         <Col lg={12} md={12} sm={12} xl={12}>
           <Row>
-            <Col lg={6} md={12} sm={12} xl={4}>
+            {/* <Col lg={6} md={12} sm={12} xl={4}>
               <Card
                 className={`card overflow-hidden Dashboard-card ${
                   FuelValue?.status === "up"
@@ -864,8 +864,8 @@ const DashboardStatsBox = (props) => {
                   </Row>
                 </Card.Body>
               </Card>
-            </Col>
-            <div
+            </Col> */}
+            {/* <div
               className={`col-lg-6 col-md-12 col-sm-12 col-xl-4 ${
                 isDetailPermissionAvailable ? "show-pointer-cursor" : ""
               }`}
@@ -897,7 +897,6 @@ const DashboardStatsBox = (props) => {
                                       shopsale?.shop_sales
                                     )?.toLocaleString()
                                   : ""}
-                                {/* {shopsale?.shop_sales} */}
                               </h4>
                               <OverlayTrigger
                                 placement="top"
@@ -947,7 +946,7 @@ const DashboardStatsBox = (props) => {
                   </Row>
                 </div>
               </div>
-            </div>
+            </div> */}
             <Col lg={6} md={12} sm={12} xl={4}>
               <Card
                 className={`card overflow-hidden Dashboard-card ${

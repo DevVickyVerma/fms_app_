@@ -179,11 +179,11 @@ const EditCompany = (props) => {
     },
     validationSchema: Yup.object({
       company_code: Yup.string()
-        .max(20, "Must be 20 characters or less")
+        
         .required("Company Code is required"),
       company_details: Yup.string().required("Company Details is required"),
       company_name: Yup.string()
-        .max(100, "Must be 100 characters or less")
+        
         .required("Company Name is required"),
 
       address: Yup.string().required("Address is required"),
