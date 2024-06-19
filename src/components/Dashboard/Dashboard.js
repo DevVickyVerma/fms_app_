@@ -651,7 +651,7 @@ const Dashboard = (props) => {
 
                     <div className=" h-100">
                       <img
-                        src={require("../../assets/images/no-chart-img.jpg")}
+                        src={require("../../assets/images/no-chart-img.png")}
                         alt="MyChartImage"
                         className="all-center-flex disable-chart"
                       />
@@ -694,7 +694,7 @@ const Dashboard = (props) => {
                     <>
 
                       <img
-                        src={require("../../assets/images/no-chart-img.jpg")}
+                        src={require("../../assets/images/no-chart-img.png")}
                         alt="MyChartImage"
                         className="all-center-flex disable-chart"
                       />
