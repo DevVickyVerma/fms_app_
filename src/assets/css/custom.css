@@ -66,7 +66,7 @@ h3.SidebarSearch-title {
   background-color: #898989;
   border-color: none;
   padding: 11px;
-  border-radius: 7px;
+  border-radius: 4px;
   margin-right: 2px;
   color: #fff;
 }
@@ -1623,7 +1623,7 @@ span.text-error {
   padding: 7px 10px;
   width: 42%;
   margin-top: 10px;
-  /* color: #fff; */
+  border-radius: 4px;
   font-size: 15px;
 }
 
