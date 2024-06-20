@@ -302,7 +302,7 @@ const BunkeringBalance = ({ isLoading, getData }) => {
                                     className="btn btn-primary ms-2"
                                     style={{ borderRadius: "4px" }}
                                 >
-                                    Add Bunkering Balance  <AddCircleOutlineIcon />
+                                    Add Bunkering Balance  <AddCircleOutlineIcon className=" ms-1" />
                                 </Link>
                             ) : (
                                 ""

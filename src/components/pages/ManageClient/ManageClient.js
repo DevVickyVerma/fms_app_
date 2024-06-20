@@ -530,7 +530,7 @@ const ManageClient = (props) => {
                 <Box component="span" display={["none", "unset"]}>
                   Add
                 </Box>  Client {""}
-                <AddCircleOutlineIcon />
+                <AddCircleOutlineIcon className=" ms-1" />
               </Link>
             ) : null}
           </div>

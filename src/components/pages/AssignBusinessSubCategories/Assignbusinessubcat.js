@@ -20,7 +20,7 @@ import axios from "axios";
 import { ErrorAlert } from "../../../Utils/ToastUtils";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
-const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
+const OpeningBalance = ({ isLoading, getData, postData, apidata }) => {
   const [data, setData] = useState();
   const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -102,8 +102,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
   const fetchOpeningBalanceList = async () => {
     try {
       const response = await getData(
-        `/assignsubcategory/list?site_id=${id}&page=${
-          currentPage ? currentPage : 1
+        `/assignsubcategory/list?site_id=${id}&page=${currentPage ? currentPage : 1
         }`
       );
       if (response && response.data) {
@@ -162,7 +161,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
+        // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">
@@ -274,7 +273,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
         <div className="page-header d-flex">
           <div>
             <h1 className="page-title">
-            Manage Assigned Business Sub Categories ({siteName})
+              Manage Assigned Business Sub Categories ({siteName})
             </h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -295,7 +294,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-               Manage Assigned Business Sub Categories
+                Manage Assigned Business Sub Categories
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -307,7 +306,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                   Assign Business Sub Categories <AddCircleOutlineIcon />
+                  Assign Business Sub Categories <AddCircleOutlineIcon className=" ms-1" />
                 </Link>
               ) : (
                 ""

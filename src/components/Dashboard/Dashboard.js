@@ -428,7 +428,7 @@ const Dashboard = (props) => {
                       value != null &&
                       value !== ""
                   ) ? (
-                    <div className="badge-div">
+                    <div className="badge-div c-dash-badge">
                       {Object.entries(searchdata).map(([key, value]) => {
                         if (
                           [

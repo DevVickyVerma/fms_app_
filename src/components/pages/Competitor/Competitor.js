@@ -526,7 +526,7 @@ const Competitor = (props) => {
                     Add
                   </Box>{" "}
                   Competitor
-                  <AddCircleOutlineIcon />
+                  <AddCircleOutlineIcon className=" ms-1" />
                 </Link>
               ) : null}
             </div>

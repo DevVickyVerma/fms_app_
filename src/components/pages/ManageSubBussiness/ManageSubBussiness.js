@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 const ManageSubBusinessTypes = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
   const [data, setData] = useState();
-  
+
 
   useEffect(() => {
     handleFetchData();
@@ -326,7 +326,7 @@ const ManageSubBusinessTypes = (props) => {
                 />
                 {isAddPermissionAvailable ? (
                   <Link to="/addsub-business" className="btn btn-primary ms-2">
-                    Add Sub-Business Types <AddCircleOutlineIcon />
+                    Add Sub-Business Types <AddCircleOutlineIcon className=" ms-1" />
                   </Link>
                 ) : null}
               </div>

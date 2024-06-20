@@ -359,7 +359,7 @@ const ManageUser = (props) => {
                   style={{ borderRadius: "4px" }}
                 >
                   Add Users
-                  <AddCircleOutlineIcon />
+                  <AddCircleOutlineIcon className=" ms-1" />
                 </Link>
               ) : null}
             </div>

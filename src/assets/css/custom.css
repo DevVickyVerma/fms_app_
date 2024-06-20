@@ -1651,3 +1651,25 @@ span.text-error {
     background-color: unset;
   }
 }
+
+@media screen and (max-width : 1500px) {
+  .counter-icon {
+    display: none;
+  }
+}
+
+@media screen and (max-width : 1200px) {
+  .counter-icon {
+    display: block;
+  }
+}
+
+@media screen and (max-width : 960px) {
+  .c-dash-badge {
+    display: none;
+  }
+}
+
+.Toastify__progress-bar--success {
+  background: var(--primary-bg-color);
+}

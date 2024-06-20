@@ -334,7 +334,7 @@ const ManageShops = (props) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Add Shops <AddCircleOutlineIcon />
+                  Add Shops <AddCircleOutlineIcon className=" ms-1" />
                 </Link>
               ) : null}
             </div>

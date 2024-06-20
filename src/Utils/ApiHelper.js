@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Slide, toast } from "react-toastify";
+import { Bounce, Slide, toast } from "react-toastify";
 
 const withApi = (WrappedComponent) => {
   const WithApi = (props) => {
@@ -14,19 +14,18 @@ const withApi = (WrappedComponent) => {
       toast.success(message, {
         autoClose: 1000,
         position: toast.POSITION.TOP_RIGHT,
-        hideProgressBar: true,
-        transition: Slide,
-        autoClose: 1000,
-        theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+        hideProgressBar: false,
+        transition: Bounce,
+        theme: "light", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
       });
     };
     const ErrorToast = (message) => {
       toast.error(message, {
         position: toast.POSITION.TOP_RIGHT,
-        hideProgressBar: true,
-        transition: Slide,
+        hideProgressBar: false,
+        transition: Bounce,
         autoClose: 1000,
-        theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+        theme: "light", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
       });
     };
     function handleError(error) {

@@ -379,8 +379,8 @@ const ManageSite = (props) => {
                 >
                   Actions
                 </Dropdown.Toggle>
-                <Dropdown.Menu className="dropdown-menu"  style={{ margin: "0px", padding: "0px", position: "absolute", right: "0" }}>
-                {isEditPermissionAvailable ? (
+                <Dropdown.Menu className="dropdown-menu" style={{ margin: "0px", padding: "0px", position: "absolute", right: "0" }}>
+                  {isEditPermissionAvailable ? (
                     <Dropdown.Item
                       className=" p-0 m-0"
                     // className="dropdown-item"
@@ -441,7 +441,7 @@ const ManageSite = (props) => {
                       </Link>
                     </Dropdown.Item>
                   ) : null}
-                  { permissionsArray?.includes("auto-report-list") ? (
+                  {permissionsArray?.includes("auto-report-list") ? (
                     <Dropdown.Item
                       className=" p-0 m-0"
                     // className="dropdown-item"
@@ -557,7 +557,7 @@ const ManageSite = (props) => {
                       </Link>
                     </Dropdown.Item>
                   ) : null}
-             
+
                 </Dropdown.Menu>
               </Dropdown>
             ) : (
@@ -743,7 +743,7 @@ const ManageSite = (props) => {
                 <Box component="span" display={["none", "unset"]}>
                   Add
                 </Box>{" "}
-                Site <AddCircleOutlineIcon />
+                Site <AddCircleOutlineIcon className=" ms-1" />
               </Link>
             ) : null}
           </div>
@@ -795,7 +795,7 @@ const ManageSite = (props) => {
               <Card.Body  >
                 {data?.length > 0 ? (
                   <>
-                    <div className="table-responsive site_deleted_table"  style={{ minHeight: "700px !important" }}>
+                    <div className="table-responsive site_deleted_table" style={{ minHeight: "700px !important" }}>
                       <DataTable
                         columns={columns}
                         data={data}
@@ -808,7 +808,7 @@ const ManageSite = (props) => {
                         highlightOnHover
                         searchable={false}
                         subHeader={false}
-                       
+
 
 
                       />

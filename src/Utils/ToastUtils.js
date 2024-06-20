@@ -1,12 +1,12 @@
 // toastUtils.js
-import { Slide, toast } from "react-toastify";
+import { Bounce, Slide, toast } from "react-toastify";
 const SuccessAlert = (message) => {
     toast.success(message, {
         autoClose: 1000,
         position: toast.POSITION.TOP_RIGHT,
         hideProgressBar: true,
-        transition: Slide,
-        theme: "colored",
+        transition: Bounce,
+        theme: "light",
     });
 };
 
@@ -14,9 +14,9 @@ const ErrorAlert = (message) => {
     toast.error(message, {
         position: toast.POSITION.TOP_RIGHT,
         hideProgressBar: true,
-        transition: Slide,
+        transition: Bounce,
         autoClose: 1000,
-        theme: "colored",
+        theme: "light",
     });
 };
 

@@ -330,15 +330,15 @@ const ManageCompany = (props) => {
                       </Link>
                     </Dropdown.Item>
                   ) : null}
-                
-               {permissionsArray?.includes("company-auto-report-list") ? (
+
+                  {permissionsArray?.includes("company-auto-report-list") ? (
                     <Dropdown.Item
                       className=" p-0 m-0"
                     // className="dropdown-item"
                     >
                       <Link to={`/companyautoreport/${row.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }} >
-                        <i className="setting-icon">
+                          <i className="setting-icon">
                             {""} <i class="fa fa-magic" aria-hidden="true"></i> {" "}
                           </i>
                           Company Auto Report
@@ -552,7 +552,7 @@ const ManageCompany = (props) => {
               <Link to="/addcompany" className="btn btn-primary ms-2">
                 <Box component="span" display={["none", "unset"]} m="{1}">
                   Add
-                </Box> Company <AddCircleOutlineIcon />
+                </Box> Company <AddCircleOutlineIcon className=" ms-1" />
               </Link>
             ) : null}
           </div>
@@ -567,7 +567,7 @@ const ManageCompany = (props) => {
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
-                  <div className="table-responsive deleted-table site_deleted_table">
+                    <div className="table-responsive deleted-table site_deleted_table">
                       <DataTableExtensions {...tableDatas}>
                         <DataTable
                           columns={columns}

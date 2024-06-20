@@ -20,7 +20,7 @@ import axios from "axios";
 import { ErrorAlert } from "../../../Utils/ToastUtils";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
-const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
+const OpeningBalance = ({ isLoading, getData, postData, apidata }) => {
   const [data, setData] = useState();
   const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -102,8 +102,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
   const fetchOpeningBalanceList = async () => {
     try {
       const response = await getData(
-        `/hidecategory/list?site_id=${id}&page=${
-          currentPage ? currentPage : 1
+        `/hidecategory/list?site_id=${id}&page=${currentPage ? currentPage : 1
         }`
       );
       if (response && response.data) {
@@ -162,7 +161,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
       width: "25%",
       cell: (row) => (
         <span className="text-center">
-  
+
           {isDeletePermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <Link
@@ -236,7 +235,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
         <div className="page-header d-flex">
           <div>
             <h1 className="page-title">
-            Manage  Hide Business Categories ({siteName})
+              Manage  Hide Business Categories ({siteName})
             </h1>
             <Breadcrumb className="breadcrumb">
               <Breadcrumb.Item
@@ -257,7 +256,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-             Manage Hide Business Categories
+                Manage Hide Business Categories
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -269,7 +268,7 @@ const OpeningBalance = ({ isLoading, getData, postData ,apidata}) => {
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
                 >
-                  Hide Business Categories <AddCircleOutlineIcon />
+                  Hide Business Categories <AddCircleOutlineIcon className=" ms-1" />
                 </Link>
               ) : (
                 ""
