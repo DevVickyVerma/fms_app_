@@ -721,7 +721,7 @@ img {
 }
 #back-to-top i {
 	padding-top: 15px;
-	font-size: 17px;
+	font-size: 16px;
 }
 #back-to-top:hover {
 	background-image: linear-gradient(80deg, #fd4198, #da0266);
@@ -1771,7 +1771,7 @@ textarea.form-control {
 	margin-left: 35px;
 }
 .fluid_header .navbar-nav.navbar-left li:first-child a {
-	font-size: 15px;
+	font-size: 14px;
 }
 .fluid_header .navbar-nav.navbar-left li:first-child a i {
 	font-size: 16px;
@@ -3500,7 +3500,7 @@ p.lead {
 .blog.quote_blog .media .media-body p {
 	font-weight: 300;
 	font-family: 'Nunito', sans-serif;
-	font-size: 17px;
+	font-size: 16px;
 	line-height: 28px;
 }
 .blog.quote_blog .media .media-body .quote_writer {
@@ -3580,7 +3580,7 @@ p.lead {
 	background: #da0266;
 	color: #FFF;
 	font-family: 'Nunito', sans-serif;
-	font-size: 15px;
+	font-size: 14px;
 	font-weight: 300;
 	width: 100%;
 	line-height: 36px;
@@ -4119,7 +4119,7 @@ p.lead {
 .post_author .media-body p {
 	color: #FFF;
 	font-family: 'Nunito', sans-serif;
-	font-size: 15px;
+	font-size: 14px;
 	line-height: 25px;
 }
 .post_author .media-body .nav {
@@ -5613,7 +5613,7 @@ p.lead {
     color: #6cd0c3;
 }
 .statistics p {
-    font-size: 17px;
+    font-size: 16px;
     margin: 0 auto;
     text-align: center;
 }
@@ -6650,7 +6650,7 @@ ul.list-solid li:last-child {
 #qsSlider .slabels .label {
     display: inline-block;
     padding-top: 6px;
-	font-size: 15px;
+	font-size: 14px;
     margin-top: -10px;
 	border-radius:0px;
 	min-width:80px;
@@ -6973,7 +6973,7 @@ ul.list-solid li:last-child {
 .vps-seps{
 	width: 25px;
     height: 25px;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.6;
     border-radius: 100%;
     position: absolute;

@@ -32,14 +32,14 @@
 			a {
 				color: $primary-1;
 				font-weight: 500;
-				font-size: 15px;
+				font-size: 14px;
 				display: flex;
 				justify-content: center;
 				align-items: center;
 				&:hover, &:active {
 					color: $primary-1;
 					font-weight: 500;
-					font-size: 15px;
+					font-size: 14px;
 					display: flex;
 					justify-content: center;
 					align-items: center;
@@ -247,7 +247,7 @@
 @media (min-width: 576px) {
 	.wizard>.steps a {
 		.number, &:hover .number, &:active .number {
-			font-size: 15px;
+			font-size: 14px;
 			font-weight: 600;
 			line-height: 1.9;
 			width: 30px;

@@ -21341,7 +21341,7 @@ textarea.parsley-success:focus {
 
 .billed-from h6 {
   color: #2D8BA8;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .billed-from p {
@@ -21350,7 +21350,7 @@ textarea.parsley-success:focus {
 
 .billed-to h6 {
   color: #031938;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .billed-to p {
@@ -21900,7 +21900,7 @@ textarea.parsley-success:focus {
 }
 
 .message-header .media .media-body h6 {
-  font-size: 15px;
+  font-size: 14px;
   margin-bottom: 5px;
   color: #031938;
 }
@@ -22438,7 +22438,7 @@ textarea.parsley-success:focus {
 
 .card-profile-position {
   margin-bottom: 5px;
-  font-size: 15px;
+  font-size: 14px;
   color: #495057;
   line-height: 1.7;
 }
@@ -22680,7 +22680,7 @@ textarea.parsley-success:focus {
 
 .card-experience .position-name {
   color: #031938;
-  font-size: 15px;
+  font-size: 14px;
   margin-bottom: 5px;
 }
 
@@ -23996,7 +23996,7 @@ textarea.parsley-success:focus {
 
 @media (min-width: 768px) {
   .demo-screen-headline h5 {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 1.5;
     color: #d3c7ff;
@@ -24035,7 +24035,7 @@ textarea.parsley-success:focus {
 
   .demo-screen-demo p {
     margin-top: 0;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 30px;
     font-family: inherit;
     text-align: left;
@@ -24209,7 +24209,7 @@ textarea.parsley-success:focus {
 
   .demo-screen-skin .sub-text {
     margin-top: 0;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 30px;
     font-family: inherit;
     text-align: left;
@@ -57157,7 +57157,7 @@ a.hover-white-8:focus {
 }
 
 .tx-15 {
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .tx-15-force {
@@ -57726,7 +57726,7 @@ a.hover-white-8:focus {
   }
 
   .tx-xs-15 {
-    font-size: 15px;
+    font-size: 14px;
   }
 
   .tx-xs-15-force {
@@ -58412,7 +58412,7 @@ a.hover-white-8:focus {
   }
 
   .tx-sm-15 {
-    font-size: 15px;
+    font-size: 14px;
   }
 
   .tx-sm-15-force {
@@ -59098,7 +59098,7 @@ a.hover-white-8:focus {
   }
 
   .tx-md-15 {
-    font-size: 15px;
+    font-size: 14px;
   }
 
   .tx-md-15-force {
@@ -59784,7 +59784,7 @@ a.hover-white-8:focus {
   }
 
   .tx-lg-15 {
-    font-size: 15px;
+    font-size: 14px;
   }
 
   .tx-lg-15-force {
@@ -60470,7 +60470,7 @@ a.hover-white-8:focus {
   }
 
   .tx-xl-15 {
-    font-size: 15px;
+    font-size: 14px;
   }
 
   .tx-xl-15-force {
@@ -69577,12 +69577,12 @@ tl-item.active .tl-dot:before {
 }
 
 .tl-item .title {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 500;
 }
 
 .tl-item .desc {
-  font-size: 15px;
+  font-size: 14px;
   color: #76839a !important;
 }
 
@@ -69973,7 +69973,7 @@ tl-item.active .tl-dot:before {
   position: relative;
   text-align: left;
   color: #424e79;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
 }
 
@@ -70069,7 +70069,7 @@ tl-item.active .tl-dot:before {
 
 .dashboard-list li span {
   /* color:#0d0c22; */
-  font-size: 15px;
+  font-size: 14px;
   cursor: pointer;
 }
 

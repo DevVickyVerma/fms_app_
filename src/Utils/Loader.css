@@ -1,6 +1,6 @@
 .custom-spinner {
     width: 8px;
-    height: 40px;
+    height: 60px;
     border-radius: 4px;
     display: block;
     margin: 20px auto;
@@ -13,7 +13,7 @@
   .custom-spinner::after, .custom-spinner::before {
     content: '';
     width: 8px;
-    height: 40px;
+    height: 60px;
     border-radius: 4px;
     position: absolute;
     top: 50%;
@@ -21,16 +21,17 @@
     box-sizing: border-box;
     animation: animloader 0.3s 0.45s linear infinite alternate;
   }
+
   
   .custom-spinner::before {
     left: -20px;
-    background: #fff; /* Color for the left bar */
+    background: #ac4d78; /* Color for the left bar */
     animation-delay: 0s;
   }
   
   .custom-spinner::after {
     left: 20px;
-    background: #fff; /* Color for the right bar */
+    background: #5d78b3; /* Color for the right bar */
   }
   
   @keyframes animloader {

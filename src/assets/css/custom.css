@@ -142,7 +142,7 @@ button.modal-effect.d-grid.mb-3.upload-btn.btn.btn-danger {
 .Dps-data {
   display: flex;
   justify-content: space-between;
-  font-size: 15px;
+  font-size: 14px;
   border-bottom: 1px solid #ddd;
   font-weight: 400;
 }
@@ -617,7 +617,7 @@ span.ModalTitle {
 .email-input {
   width: 100%;
   /* max-width: 400px; */
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.5;
   color: #000;
   display: block;
@@ -666,7 +666,7 @@ span.ModalTitle {
   width: 100%;
   height: 100%;
   background: #ddd;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.5;
   color: #000;
   display: block;
@@ -811,7 +811,7 @@ p.f2a img {
 }
 
 .instruction-text {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
 }
 
@@ -820,7 +820,7 @@ p.f2a img {
   display: flex;
   color: #000 !important;
   padding: 11px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   background: #dedede;
 }
@@ -1020,7 +1020,7 @@ span.ModalTitle-2fa {
 
 @media screen and (max-width: 600px) {
   .dashboard-page-title {
-    font-size: 15px;
+    font-size: 14px;
   }
 }
 
@@ -1367,7 +1367,7 @@ span.circle-info {
 }
 
 span.input-102 {
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.5;
   color: #000;
   display: block;
@@ -1380,7 +1380,7 @@ span.input-102 {
 }
 
 span.input-103 {
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.5;
   color: #000;
   display: block;
@@ -1607,7 +1607,7 @@ span.text-error {
 
 .btn-sm,
 .btn-group-sm>.btn {
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .swal2-styled.swal2-confirm {
@@ -1624,11 +1624,11 @@ span.text-error {
   width: 56%;
   margin-top: 10px;
   border-radius: 4px;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .boxtitle {
-  font-size: 17px;
+  font-size: 16px;
   margin-top: 4px;
 }
 
