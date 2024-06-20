@@ -12,20 +12,20 @@ const withApi = (WrappedComponent) => {
     const navigate = useNavigate();
     const SuccessToast = (message) => {
       toast.success(message, {
-        autoClose: 1000,
-        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+        position: toast.POSITION.TOP_CENTER,
         hideProgressBar: false,
         transition: Bounce,
-        theme: "light", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
+        theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
       });
     };
     const ErrorToast = (message) => {
       toast.error(message, {
-        position: toast.POSITION.TOP_RIGHT,
+        position: toast.POSITION.TOP_CENTER,
         hideProgressBar: false,
         transition: Bounce,
-        autoClose: 1000,
-        theme: "light", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
+        autoClose: 2000,
+        theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
       });
     };
     function handleError(error) {

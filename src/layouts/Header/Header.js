@@ -203,7 +203,7 @@ const Header = (props) => {
           <div className="d-flex order-lg-2 ms-auto header-right-icons">
             <div>
               <Navbar id="navbarSupportedContent-4">
-                <div className=" d-flex header-time-section">
+                {/* <div className=" d-flex header-time-section">
                   <span className=" d-flex flex-column uk-text-time">
                     <span style={{ fontWeight: "800" }}>B</span>
                     <span style={{ fontWeight: "800" }}>S</span>
@@ -227,7 +227,7 @@ const Header = (props) => {
                       <span className="uk-time">{ukTime}</span>
                     </span>
                   </span>
-                </div>
+                </div> */}
 
                 {/* {storedKeyRef.current === "false" &&
                   isProfileUpdatePermissionAvailable ? (
@@ -261,7 +261,7 @@ const Header = (props) => {
                   ""
                 )}
 
-                <Dropdown
+                {/* <Dropdown
                   className="d-md-flex notifications"
                   show={isDropdownOpen}
                   onSelect={(eventKey) => {
@@ -334,7 +334,7 @@ const Header = (props) => {
                       ""
                     )}
                   </Dropdown.Menu>
-                </Dropdown>
+                </Dropdown> */}
 
                 <div className="d-flex order-lg-2">
                   <Dropdown className=" d-md-flex profile-1">
