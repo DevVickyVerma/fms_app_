@@ -5,7 +5,26 @@ import { Line } from "react-chartjs-2";
 const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
   if (!LinechartValues || !LinechartOption) {
     // Data is not available yet, return a loading state or null
-    return <p> Please Apply Filter To Visualize Chart.....</p>;
+    return (
+<>
+<img
+      src={require("../../assets/images/no-chart-img.png")}
+      alt="MyChartImage"
+      className="all-center-flex disable-chart"
+    />
+
+    <p
+      style={{
+        fontWeight: 500,
+        fontSize: "0.785rem",
+        textAlign: "center",
+        color: "#d63031",
+      }}
+    >
+      Please Apply Filter To Visualizesss Chart.....
+    </p>
+</>
+    );
   }
 
   const labels = LinechartOption?.map((label) => label);

@@ -4,6 +4,7 @@ import { Chart as ChartJS } from "chart.js/auto";  // its very impotent to impor
 const StackedLineBarChart = ({ stackedLineBarLabels, stackedLineBarData }) => {
   if (!stackedLineBarLabels || !stackedLineBarData) {
     // Data is not available yet, return a loading state or null
+    
     return <p> Please Apply Filter To Visualize Charttt.....</p>;
   }
 

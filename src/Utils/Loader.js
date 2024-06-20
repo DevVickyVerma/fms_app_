@@ -1,28 +1,16 @@
-import React from "react";
+import React from 'react';
+import './Loader.css'; // Ensure the path is correct based on your project structure
 
-import * as loderdata from "../data/Component/loderdata/loderdata";
-import { Card, Collapse } from "react-bootstrap";
-import { ColorRing } from "react-loader-spinner";
-
-const Loaderimg = () => {
-  const [expanded, setExpanded] = React.useState(true);
-
-
+const LoaderImg = () => {
   return (
-    <div id="global-loader">
-      <div className="fullscreen">
-        <Card className="card card-none">
-          <Collapse in={expanded}  timeout={500}>
-            <div className="card-body ">
-              <div className="dimmer active">
-                <span className="loader"></span>
-              </div>
-            </div>
-          </Collapse>
-        </Card>
+    <div id='global-loader' className='main-content'>
+      <div className='fullscreen'>
+        <div>
+          <span className='custom-spinner'></span>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Loaderimg;
+export default LoaderImg;
