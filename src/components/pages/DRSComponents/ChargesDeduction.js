@@ -101,11 +101,11 @@ const ShopSales = (props) => {
           // Create an array of form values based on the response data
           const formValues = data?.data?.charges
             ? data.data.charges.map((item) => ({
-                id: item.charge_id,
-                charge_value: item.charge_value,
-                // value_per: item.value_per,
-                // Add other properties as needed
-              }))
+              id: item.charge_id,
+              charge_value: item.charge_value,
+              // value_per: item.value_per,
+              // Add other properties as needed
+            }))
             : [];
 
           // Set the formik values using setFieldValue
@@ -114,10 +114,10 @@ const ShopSales = (props) => {
           // Create an array of deduction form values based on the response data
           const deductionFormValues = data?.data?.deductions
             ? data.data.deductions.map((item) => ({
-                id: item.deduction_id,
-                deduction_value: item.deduction_value,
-                // Add other properties as needed
-              }))
+              id: item.deduction_id,
+              deduction_value: item.deduction_value,
+              // Add other properties as needed
+            }))
             : [];
 
           // Set the formik values for deductions using setFieldValue
@@ -334,7 +334,7 @@ const ShopSales = (props) => {
                     ) : (
                       <>
                         <img
-                          src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                          src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
                           alt="MyChartImage"
                           className="all-center-flex nodata-image"
                         />
@@ -359,7 +359,7 @@ const ShopSales = (props) => {
                     ) : (
                       <>
                         <img
-                          src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                          src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
                           alt="MyChartImage"
                           className="all-center-flex nodata-image"
                         />

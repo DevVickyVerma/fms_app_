@@ -121,7 +121,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
             <Card.Body className="card-body pb-0 overflow-auto">
               {" "}
               <img
-                src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
                 alt="MyChartImage"
                 className="all-center-flex nodata-image"
               />
@@ -244,11 +244,10 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                       min={formattedMinDate} // Use formattedMinDate for the min attribute
                       max={formattedMaxDate} // Use formattedMaxDate for the max attribute
                       onClick={handleShowDate}
-                      className={`input101 compi-calender ${
-                        errors.start_date && touched.start_date
+                      className={`input101 compi-calender ${errors.start_date && touched.start_date
                           ? "is-invalid"
                           : ""
-                      }`}
+                        }`}
                       id="start_date"
                       name="start_date"
                       value={mySelectedDate}
@@ -330,7 +329,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                 px={"13px"}
               >
                 <Typography fontSize={"14px"}>
-                  Last Day End : {}
+                  Last Day End : { }
                   {getCompetitorsPrice?.last_dayend ? (
                     moment(getCompetitorsPrice?.last_dayend).format("Do MMM")
                   ) : (

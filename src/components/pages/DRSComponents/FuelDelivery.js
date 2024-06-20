@@ -97,21 +97,21 @@ const FuelDelivery = (props) => {
           // Create an array of form values based on the response data
           const formValues = data?.data?.listing
             ? data.data.listing.map((item) => {
-                return {
-                  id: item.id,
-                  opening: item.opening,
-                  bunkd_delivery_volume: item.bunkd_delivery_volume,
-                  delivery_volume: item.delivery_volume,
-                  dips_stock: item.dips_stock,
-                  sales_volume: item.sales_volume,
-                  book_stock: item.book_stock,
-                  variance: item.variance,
-                  percentage_sales: item.percentage_sales,
-                  variance_lt: item.variance_lt,
-                  variance_per: item.variance_per,
-                  // Add other properties as needed
-                };
-              })
+              return {
+                id: item.id,
+                opening: item.opening,
+                bunkd_delivery_volume: item.bunkd_delivery_volume,
+                delivery_volume: item.delivery_volume,
+                dips_stock: item.dips_stock,
+                sales_volume: item.sales_volume,
+                book_stock: item.book_stock,
+                variance: item.variance,
+                percentage_sales: item.percentage_sales,
+                variance_lt: item.variance_lt,
+                variance_per: item.variance_per,
+                // Add other properties as needed
+              };
+            })
             : [];
 
           // Set the formik values using setFieldValue
@@ -244,8 +244,8 @@ const FuelDelivery = (props) => {
               row.update_opening
                 ? "UpdateValueInput"
                 : editable?.is_editable
-                ? "table-input"
-                : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
             }
             value={formik.values.data[index]?.opening}
             onChange={formik.handleChange}
@@ -272,8 +272,8 @@ const FuelDelivery = (props) => {
               row.update_bunkd_delivery_volume
                 ? "UpdateValueInput"
                 : editable?.is_editable
-                ? "table-input"
-                : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
             }
             value={formik.values.data[index]?.bunkd_delivery_volume}
             onChange={formik.handleChange}
@@ -300,8 +300,8 @@ const FuelDelivery = (props) => {
               row.update_delivery_volume
                 ? "UpdateValueInput"
                 : editable?.is_editable
-                ? "table-input"
-                : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
             }
             value={formik.values.data[index]?.delivery_volume}
             onChange={formik.handleChange}
@@ -328,8 +328,8 @@ const FuelDelivery = (props) => {
               row.update_dips_stock
                 ? "UpdateValueInput"
                 : editable?.is_editable
-                ? "table-input"
-                : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
             }
             value={formik.values.data[index]?.dips_stock}
             onChange={formik.handleChange}
@@ -356,8 +356,8 @@ const FuelDelivery = (props) => {
               row.update_sales_volume
                 ? "UpdateValueInput"
                 : editable?.is_editable
-                ? "table-input"
-                : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
             }
             value={formik.values.data[index]?.sales_volume}
             onChange={formik.handleChange}
@@ -408,8 +408,8 @@ const FuelDelivery = (props) => {
               row.update_variance
                 ? "UpdateValueInput"
                 : editable?.is_editable
-                ? "table-input "
-                : "table-input readonly "
+                  ? "table-input "
+                  : "table-input readonly "
             }
             value={formik.values.data[index]?.variance}
             onChange={formik.handleChange}
@@ -436,8 +436,8 @@ const FuelDelivery = (props) => {
               row.update_gross_value
                 ? "UpdateValueInput"
                 : editable?.is_editable
-                ? "table-input"
-                : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
             }
             value={formik.values.data[index]?.percentage_sales}
             onChange={formik.handleChange}
@@ -464,8 +464,8 @@ const FuelDelivery = (props) => {
               row.update_gross_value
                 ? "UpdateValueInput"
                 : editable?.is_editable
-                ? "table-input"
-                : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
             }
             value={formik.values.data[index]?.variance_lt}
             onChange={formik.handleChange}
@@ -492,8 +492,8 @@ const FuelDelivery = (props) => {
               row.update_gross_value
                 ? "UpdateValueInput"
                 : editable?.is_editable
-                ? "table-input"
-                : "table-input readonly"
+                  ? "table-input"
+                  : "table-input readonly"
             }
             value={formik.values.data[index]?.variance_per}
             onChange={formik.handleChange}
@@ -570,7 +570,7 @@ const FuelDelivery = (props) => {
                 ) : (
                   <>
                     <img
-                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
                       alt="MyChartImage"
                       className="all-center-flex nodata-image"
                     />

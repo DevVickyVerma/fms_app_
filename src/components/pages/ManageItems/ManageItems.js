@@ -493,7 +493,7 @@ const ManageItems = (props) => {
                 ) : (
                   <>
                     <img
-                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
                       alt="MyChartImage"
                       className="all-center-flex nodata-image"
                     />

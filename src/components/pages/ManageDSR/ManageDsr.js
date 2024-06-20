@@ -95,13 +95,13 @@ const ManageDsr = (props) => {
     const day = String(today.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
-const isAdmin = UserPermissions?.role == "Administrator"; // Change this to true if the user is an admin
+  const isAdmin = UserPermissions?.role == "Administrator"; // Change this to true if the user is an admin
 
   useEffect(() => {
     if (!isAdmin) {
       setMinDate(getMinDate());
     }
-  }, [isAdmin]); 
+  }, [isAdmin]);
 
 
 
@@ -124,7 +124,7 @@ const isAdmin = UserPermissions?.role == "Administrator"; // Change this to true
 
   const isAssignPermissionAvailable = permissionsArray?.includes("drs-hit-api");
 
- 
+
 
 
   const fetchCommonListData = async () => {
@@ -584,7 +584,7 @@ const isAdmin = UserPermissions?.role == "Administrator"; // Change this to true
                         <input
                           type="date"
                           // min={"2023-01-01"}
-                          min={!isAdmin ? minDate : undefined} 
+                          min={!isAdmin ? minDate : undefined}
                           max={getCurrentDate()}
                           onClick={hadndleShowDate}
                           className={`input101 ${formik.errors.start_date &&
@@ -713,7 +713,7 @@ const isAdmin = UserPermissions?.role == "Administrator"; // Change this to true
                         <>
                           <p>Please select site first......</p>
                           <img
-                            src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                            src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
                             alt="MyChartImage"
                             className="all-center-flex nodata-image"
                           />
@@ -841,7 +841,7 @@ const isAdmin = UserPermissions?.role == "Administrator"; // Change this to true
                     <>
                       <p>Please select site first......</p>
                       <img
-                        src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                        src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
                         alt="MyChartImage"
                         className="all-center-flex nodata-image"
                       />

@@ -40,7 +40,7 @@ const SiteCardOpening = (props) => {
           Yup.object().shape({
             value: Yup.number()
               .required("Card value is required")
-              // .positive("Value must be positive"),
+            // .positive("Value must be positive"),
 
             // amexValue: Yup.number()
             //   .positive()
@@ -123,7 +123,7 @@ const SiteCardOpening = (props) => {
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Site Card Opening 
+              Site Card Opening
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -155,11 +155,10 @@ const SiteCardOpening = (props) => {
                       <input
                         type="month"
                         max={getCurrentDate()}
-                        className={`input101 ${
-                          formik.errors.start_date && formik.touched.start_date
+                        className={`input101 ${formik.errors.start_date && formik.touched.start_date
                             ? "is-invalid"
                             : ""
-                        }`}
+                          }`}
                         value={formik.values.start_date}
                         id="start_date"
                         name="start_date"
@@ -229,22 +228,21 @@ const SiteCardOpening = (props) => {
                                         card
                                       )}.value`}
                                       type="number"
-                                      className={`input101 ${
-                                        formik.errors.group_card?.[
+                                      className={`input101 ${formik.errors.group_card?.[
                                           formik.values.group_card.indexOf(
                                             group
                                           )
                                         ]?.cards?.[group.cards.indexOf(card)]
                                           ?.value &&
-                                        formik.touched.group_card?.[
-                                          formik.values.group_card.indexOf(
-                                            group
-                                          )
-                                        ]?.cards?.[group.cards.indexOf(card)]
-                                          ?.value
+                                          formik.touched.group_card?.[
+                                            formik.values.group_card.indexOf(
+                                              group
+                                            )
+                                          ]?.cards?.[group.cards.indexOf(card)]
+                                            ?.value
                                           ? "is-invalid"
                                           : ""
-                                      }`}
+                                        }`}
                                       onChange={formik.handleChange}
                                       onBlur={formik.handleBlur}
                                       value={
@@ -260,10 +258,10 @@ const SiteCardOpening = (props) => {
                                       formik.values.group_card.indexOf(group)
                                     ]?.cards?.[group.cards.indexOf(card)]
                                       ?.value &&
-                                    formik.touched.group_card?.[
-                                      formik.values.group_card.indexOf(group)
-                                    ]?.cards?.[group.cards.indexOf(card)]
-                                      ?.value ? (
+                                      formik.touched.group_card?.[
+                                        formik.values.group_card.indexOf(group)
+                                      ]?.cards?.[group.cards.indexOf(card)]
+                                        ?.value ? (
                                       <div className="invalid-feedback">
                                         {
                                           formik.errors.group_card[
@@ -294,7 +292,7 @@ const SiteCardOpening = (props) => {
               ) : (
                 <>
                   <img
-                    src={require("../../../../src/assets/images/noDataFoundImage/noDataFound.jpg")}
+                    src={require("../../../../src/assets/images/noDataFoundImage/noDataFound.png")}
                     alt="MyChartImage"
                     className="all-center-flex nodata-image"
                   />

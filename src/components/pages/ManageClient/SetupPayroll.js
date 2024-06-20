@@ -283,11 +283,10 @@ const TreeForm = (props) => {
                                               (child, childIndex) => (
                                                 <li
                                                   key={childIndex}
-                                                  className={`ms-2 ${
-                                                    !child.isCheckable
+                                                  className={`ms-2 ${!child.isCheckable
                                                       ? "disabled-checkbox"
                                                       : ""
-                                                  }`}
+                                                    }`}
                                                 >
                                                   <label className="ms-2">
                                                     <input
@@ -423,7 +422,7 @@ const TreeForm = (props) => {
                   ) : (
                     <>
                       <img
-                        src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                        src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
                         alt="MyChartImage"
                         className="all-center-flex nodata-image"
                       />

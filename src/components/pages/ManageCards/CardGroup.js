@@ -26,7 +26,7 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { handleError } from "../../../Utils/ToastUtils";
 import Swal from "sweetalert2";
-const CardGroup = ({ isLoading, getData,postData,apidata }) => {
+const CardGroup = ({ isLoading, getData, postData, apidata }) => {
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
   const [selectedSiteId, setSelectedSiteId] = useState("");
@@ -183,42 +183,42 @@ const CardGroup = ({ isLoading, getData,postData,apidata }) => {
 
 
   const isEditPermissionAvailable =
-  permissionsArray?.includes("cardgroup-update");
-const isAddPermissionAvailable =
-  permissionsArray?.includes("cardgroup-update");
+    permissionsArray?.includes("cardgroup-update");
+  const isAddPermissionAvailable =
+    permissionsArray?.includes("cardgroup-update");
   const isDeletePermissionAvailable = permissionsArray?.includes("cardgroup-delete");
   const anyPermissionAvailable =
     isEditPermissionAvailable ||
     isDeletePermissionAvailable;
-    const handleDelete = (id) => {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You will not be able to recover this item!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "Cancel",
-        reverseButtons: true,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const formData = new FormData();
-          formData.append("id", id);
-          DeleteClient(formData);
-        }
-      });
-    };
-    const DeleteClient = async (formData) => {
-      try {
-        const response = await postData("sage/card-group/delete", formData);
-        // Console log the response
-        if (apidata.api_response === "success") {
-          console.log(formik.values, "formik.values");
-          handleSubmit1(formik.values);
-        }
-      } catch (error) {
-        handleError(error);
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will not be able to recover this item!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const formData = new FormData();
+        formData.append("id", id);
+        DeleteClient(formData);
       }
-    };
+    });
+  };
+  const DeleteClient = async (formData) => {
+    try {
+      const response = await postData("sage/card-group/delete", formData);
+      // Console log the response
+      if (apidata.api_response === "success") {
+        console.log(formik.values, "formik.values");
+        handleSubmit1(formik.values);
+      }
+    } catch (error) {
+      handleError(error);
+    }
+  };
 
 
   const columns = [
@@ -275,7 +275,7 @@ const isAddPermissionAvailable =
         <span className="text-center d-flex justify-content-center gap-1 flex-wrap">
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
-              <Link  
+              <Link
                 to={`/card-group/${row.id}`}
                 className="btn btn-primary btn-sm rounded-11 me-2 responsive-btn"
               >
@@ -316,11 +316,11 @@ const isAddPermissionAvailable =
               </Link>
             </OverlayTrigger>
           ) : null}
-    
+
         </span>
       ),
     },
- 
+
   ];
 
   const tableDatas = {
@@ -469,7 +469,7 @@ const isAddPermissionAvailable =
               ) : (
                 <>
                   <img
-                    src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                    src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
                     alt="MyChartImage"
                     className="all-center-flex nodata-image"
                   />

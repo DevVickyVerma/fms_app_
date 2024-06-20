@@ -516,7 +516,7 @@ const SiteSettings = (props) => {
             // value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            // readOnly={editable?.is_editable ? false : true}
+          // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -627,7 +627,7 @@ const SiteSettings = (props) => {
             // value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            // readOnly={editable?.is_editable ? false : true}
+          // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -737,7 +737,7 @@ const SiteSettings = (props) => {
             // value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            // readOnly={editable?.is_editable ? false : true}
+          // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -995,8 +995,7 @@ const SiteSettings = (props) => {
             onChange={(e) => {
               formik.handleChange(e);
               console.log(
-                `Checkbox ${row?.id} is now ${
-                  e.target.checked ? "checked" : "unchecked"
+                `Checkbox ${row?.id} is now ${e.target.checked ? "checked" : "unchecked"
                 }`
               );
             }}
@@ -1073,10 +1072,10 @@ const SiteSettings = (props) => {
         formData.append(key, value);
       });
 
-console.log(formik.values.FormikCldoReports, "formik.values.FormikCldoReports");
+      console.log(formik.values.FormikCldoReports, "formik.values.FormikCldoReports");
 
-console.log(formik.values.CahsCardsFormikData, "formik.values.CahsCardsFormikData");
-console.log(formik.values, "formik.values");
+      console.log(formik.values.CahsCardsFormikData, "formik.values.CahsCardsFormikData");
+      console.log(formik.values, "formik.values");
       const CahsCardsFormikDataids = [];
       const CahsCardsFormikDataKey = "cash_cards";
 
@@ -1094,7 +1093,7 @@ console.log(formik.values, "formik.values");
         const value = item[key];
         formData.append(key, value);
       });
-  
+
 
       formData.append("id", id);
 
@@ -1172,7 +1171,7 @@ console.log(formik.values, "formik.values");
                       ) : (
                         <>
                           <img
-                            src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                            src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
                             alt="MyChartImage"
                             className="all-center-flex nodata-image"
                           />
@@ -1208,7 +1207,7 @@ console.log(formik.values, "formik.values");
                       ) : (
                         <>
                           <img
-                            src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                            src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
                             alt="MyChartImage"
                             className="all-center-flex nodata-image"
                           />
@@ -1239,7 +1238,7 @@ console.log(formik.values, "formik.values");
                       ) : (
                         <>
                           <img
-                            src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                            src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
                             alt="MyChartImage"
                             className="all-center-flex nodata-image"
                           />
@@ -1469,35 +1468,35 @@ console.log(formik.values, "formik.values");
                             ""
                           )}
                           <Col lg={4} md={4}>
-                                  <Card.Header className="cardheader-table">
-                                    <h3 className="card-title">Assign Cash Cards</h3>
-                                  </Card.Header>
-                                  {AssignCashCards?.length > 0 ? (
-                                    <>
-                                      <div className="module-height">
-                                        <DataTable
-                                          columns={cashCardsModelColumn}
-                                          data={AssignCashCards}
-                                          defaultSortField="id"
-                                          defaultSortAsc={false}
-                                          striped={true}
-                                          persistTableHead
-                                          highlightOnHover
-                                          searchable={false}
-                                          responsive
-                                        />
-                                      </div>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <img
-                                        src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
-                                        alt="MyChartImage"
-                                        className="all-center-flex nodata-image"
-                                      />
-                                    </>
-                                  )}
-                                </Col>
+                            <Card.Header className="cardheader-table">
+                              <h3 className="card-title">Assign Cash Cards</h3>
+                            </Card.Header>
+                            {AssignCashCards?.length > 0 ? (
+                              <>
+                                <div className="module-height">
+                                  <DataTable
+                                    columns={cashCardsModelColumn}
+                                    data={AssignCashCards}
+                                    defaultSortField="id"
+                                    defaultSortAsc={false}
+                                    striped={true}
+                                    persistTableHead
+                                    highlightOnHover
+                                    searchable={false}
+                                    responsive
+                                  />
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <img
+                                  src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
+                                  alt="MyChartImage"
+                                  className="all-center-flex nodata-image"
+                                />
+                              </>
+                            )}
+                          </Col>
                         </Row>
                       </Card.Body>
                       <Card.Footer>

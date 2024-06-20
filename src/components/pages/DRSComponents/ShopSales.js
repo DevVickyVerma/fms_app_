@@ -47,9 +47,9 @@ const ShopSales = (props) => {
         // Create an array of form values based on the response data
         const formValues = data?.data?.charges
           ? data.data.charges.map((item) => ({
-              id: item.id,
-              charge_value: item.charge_value,
-            }))
+            id: item.id,
+            charge_value: item.charge_value,
+          }))
           : [];
 
         // Set the formik values using setFieldValue
@@ -57,9 +57,9 @@ const ShopSales = (props) => {
 
         const deductionFormValues = data?.data?.deductions
           ? data.data.deductions.map((item) => ({
-              id: item.id,
-              deduction_value: item.deduction_value,
-            }))
+            id: item.id,
+            deduction_value: item.deduction_value,
+          }))
           : [];
 
         // Set the formik values for deductions using setFieldValue
@@ -234,59 +234,59 @@ const ShopSales = (props) => {
     },
     editable?.is_charge_file || editable?.is_upload_file
       ? {
-          name: "Invoices",
-          selector: (row) => row.file,
-          sortable: false,
-          width: "20%",
-          center: true,
-          cell: (row, index) => {
-            if (row.item_category === "Total") {
-              return null;
-            }
-            const hasFile = row.file && row.file.trim() !== "";
-            const is_uploadfile = editable?.is_upload_file;
-            return (
-              <div>
-                {is_uploadfile && (
-                  <label
-                    htmlFor={`file-charge-${index}`}
-                    className="file-upload-icon"
-                  >
+        name: "Invoices",
+        selector: (row) => row.file,
+        sortable: false,
+        width: "20%",
+        center: true,
+        cell: (row, index) => {
+          if (row.item_category === "Total") {
+            return null;
+          }
+          const hasFile = row.file && row.file.trim() !== "";
+          const is_uploadfile = editable?.is_upload_file;
+          return (
+            <div>
+              {is_uploadfile && (
+                <label
+                  htmlFor={`file-charge-${index}`}
+                  className="file-upload-icon"
+                >
+                  <i
+                    className="fa fa-upload btn btn-sm btn-primary"
+                    aria-hidden="true"
+                  ></i>
+                  <input
+                    type="file"
+                    id={`file-charge-${index}`}
+                    name={`data[${index}].file`}
+                    className="table-input visually-hidden"
+                    onChange={(e) =>
+                      handleFileChange(e, index, row, "charge")
+                    }
+                    title="Choose a file to upload"
+                  />
+                </label>
+              )}
+              {hasFile && (
+                <a
+                  href={row.file}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="View image"
+                >
+                  <span>
                     <i
-                      className="fa fa-upload btn btn-sm btn-primary"
+                      className="fa fa-file-image-o btn btn-sm btn-info ms-2"
                       aria-hidden="true"
                     ></i>
-                    <input
-                      type="file"
-                      id={`file-charge-${index}`}
-                      name={`data[${index}].file`}
-                      className="table-input visually-hidden"
-                      onChange={(e) =>
-                        handleFileChange(e, index, row, "charge")
-                      }
-                      title="Choose a file to upload"
-                    />
-                  </label>
-                )}
-                {hasFile && (
-                  <a
-                    href={row.file}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title="View image"
-                  >
-                    <span>
-                      <i
-                        className="fa fa-file-image-o btn btn-sm btn-info ms-2"
-                        aria-hidden="true"
-                      ></i>
-                    </span>
-                  </a>
-                )}
-              </div>
-            );
-          },
-        }
+                  </span>
+                </a>
+              )}
+            </div>
+          );
+        },
+      }
       : {},
   ];
 
@@ -334,56 +334,56 @@ const ShopSales = (props) => {
     },
     editable?.is_charge_file || editable?.is_upload_file
       ? {
-          name: "Invoices",
-          selector: (row) => row.file,
-          sortable: false,
-          width: "20%",
-          center: true,
-          cell: (row, index) => {
-            const hasFile = row.file && row.file.trim() !== "";
-            const is_uploadfile = editable?.is_upload_file;
-            return (
-              <div>
-                {is_uploadfile && (
-                  <label
-                    htmlFor={`file-deduction-${index}`}
-                    className="file-upload-icon"
-                  >
+        name: "Invoices",
+        selector: (row) => row.file,
+        sortable: false,
+        width: "20%",
+        center: true,
+        cell: (row, index) => {
+          const hasFile = row.file && row.file.trim() !== "";
+          const is_uploadfile = editable?.is_upload_file;
+          return (
+            <div>
+              {is_uploadfile && (
+                <label
+                  htmlFor={`file-deduction-${index}`}
+                  className="file-upload-icon"
+                >
+                  <i
+                    className="fa fa-upload btn btn-sm btn-primary"
+                    aria-hidden="true"
+                  ></i>
+                  <input
+                    type="file"
+                    id={`file-deduction-${index}`}
+                    name={`deductions[${index}].file`}
+                    className="table-input visually-hidden"
+                    onChange={(e) =>
+                      handleFileChange(e, index, row, "deduction")
+                    }
+                    title="Choose a file to upload"
+                  />
+                </label>
+              )}
+              {hasFile && (
+                <a
+                  href={row.file}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="View image"
+                >
+                  <span>
                     <i
-                      className="fa fa-upload btn btn-sm btn-primary"
+                      className="fa fa-file-image-o btn btn-sm btn-info ms-2"
                       aria-hidden="true"
                     ></i>
-                    <input
-                      type="file"
-                      id={`file-deduction-${index}`}
-                      name={`deductions[${index}].file`}
-                      className="table-input visually-hidden"
-                      onChange={(e) =>
-                        handleFileChange(e, index, row, "deduction")
-                      }
-                      title="Choose a file to upload"
-                    />
-                  </label>
-                )}
-                {hasFile && (
-                  <a
-                    href={row.file}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title="View image"
-                  >
-                    <span>
-                      <i
-                        className="fa fa-file-image-o btn btn-sm btn-info ms-2"
-                        aria-hidden="true"
-                      ></i>
-                    </span>
-                  </a>
-                )}
-              </div>
-            );
-          },
-        }
+                  </span>
+                </a>
+              )}
+            </div>
+          );
+        },
+      }
       : {},
   ];
 
@@ -394,83 +394,83 @@ const ShopSales = (props) => {
           <Loaderimg />
         </div>
       )}
-  
-        <Row>
-          <Col>
-            <Card>
-              <Card.Header>
-                <Card.Title as="h3">Charges</Card.Title>
-              </Card.Header>
-              <Card.Body>
+
+      <Row>
+        <Col>
+          <Card>
+            <Card.Header>
+              <Card.Title as="h3">Charges</Card.Title>
+            </Card.Header>
+            <Card.Body>
               {data?.length > 0 ? (
-                  <>
-                    <form onSubmit={formik.handleSubmit}>
-                      <div className="table-responsive deleted-table">
-                        <Row>
-                          <Col lg={6} md={6}>
-                            <DataTable
-                              columns={chargesColumns}
-                              data={data}
-                              noHeader
-                              defaultSortField="id"
-                              defaultSortAsc={false}
-                              striped={true}
-                              persistTableHead
-                              highlightOnHover
-                              searchable={false}
-                              responsive
-                            />
-                
-                          </Col>
-                          <Col lg={6} md={6}>
-                            <DataTable
-                              columns={deductionsColumns}
-                              data={DeductionData}
-                              noHeader
-                              defaultSortField="id"
-                              defaultSortAsc={false}
-                              striped={true}
-                              persistTableHead
-                              highlightOnHover
-                              searchable={false}
-                              responsive
-                            />
-                          </Col>
-                        </Row>
-                      </div>
-                      <div className="d-flex justify-content-end mt-3">
-                        {editable?.is_editable ? (
-                          <button className="btn btn-primary" type="submit">
-                            Submit
-                          </button>
-                        ) : (
-                          <button
-                            className="btn btn-primary"
-                            type="submit"
-                            disabled
-                          >
-                            Submit
-                          </button>
-                        )}
-                      </div>
-                    </form>
-                  </>
-                ) : (
-                  <>
-                    <img
-                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
-                      alt="MyChartImage"
-                      className="all-center-flex nodata-image"
-                    />
-                  </>
-                )}
-           
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-     
-   
+                <>
+                  <form onSubmit={formik.handleSubmit}>
+                    <div className="table-responsive deleted-table">
+                      <Row>
+                        <Col lg={6} md={6}>
+                          <DataTable
+                            columns={chargesColumns}
+                            data={data}
+                            noHeader
+                            defaultSortField="id"
+                            defaultSortAsc={false}
+                            striped={true}
+                            persistTableHead
+                            highlightOnHover
+                            searchable={false}
+                            responsive
+                          />
+
+                        </Col>
+                        <Col lg={6} md={6}>
+                          <DataTable
+                            columns={deductionsColumns}
+                            data={DeductionData}
+                            noHeader
+                            defaultSortField="id"
+                            defaultSortAsc={false}
+                            striped={true}
+                            persistTableHead
+                            highlightOnHover
+                            searchable={false}
+                            responsive
+                          />
+                        </Col>
+                      </Row>
+                    </div>
+                    <div className="d-flex justify-content-end mt-3">
+                      {editable?.is_editable ? (
+                        <button className="btn btn-primary" type="submit">
+                          Submit
+                        </button>
+                      ) : (
+                        <button
+                          className="btn btn-primary"
+                          type="submit"
+                          disabled
+                        >
+                          Submit
+                        </button>
+                      )}
+                    </div>
+                  </form>
+                </>
+              ) : (
+                <>
+                  <img
+                    src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
+                    alt="MyChartImage"
+                    className="all-center-flex nodata-image"
+                  />
+                </>
+              )}
+
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+
+
     </>
   );
 };

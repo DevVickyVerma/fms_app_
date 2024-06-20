@@ -173,7 +173,7 @@ button.modal-effect.d-grid.mb-3.upload-btn.btn.btn-danger {
 
 .cardheader-table.card-header {
   padding: 10px 15px;
-  background: #8b84d8;
+  background: var(--primary-bg-color);
   color: #fff;
 }
 
@@ -547,7 +547,7 @@ input.table-input.readonly.total-input-card {
 }
 
 .react-switch-bg {
-  background: rgb(128 19 207) !important;
+  background: var(--primary-bg-color) !important;
 }
 
 .chart-color-radius {

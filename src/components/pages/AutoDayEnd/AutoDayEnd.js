@@ -323,7 +323,7 @@ const ManageRoles = (props) => {
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-               Site Auto Report
+                Site Auto Report
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -375,7 +375,7 @@ const ManageRoles = (props) => {
                 ) : (
                   <>
                     <img
-                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
                       alt="MyChartImage"
                       className="all-center-flex nodata-image"
                     />

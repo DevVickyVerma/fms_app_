@@ -228,11 +228,10 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
                       <input
                         type="text"
                         autoComplete="off"
-                        className={`input101 ${
-                          formik.errors.card_name && formik.touched.card_name
+                        className={`input101 ${formik.errors.card_name && formik.touched.card_name
                             ? "is-invalid"
                             : ""
-                        }`}
+                          }`}
                         id="card_name"
                         name="card_name"
                         placeholder="Card Group Name"
@@ -285,7 +284,7 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
                     ) : (
                       <>
                         <img
-                          src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                          src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
                           alt="MyChartImage"
                           className="all-center-flex nodata-image"
                         />

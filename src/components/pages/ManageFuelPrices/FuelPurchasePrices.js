@@ -43,7 +43,7 @@ const ManageDsr = (props) => {
       const { data } = response;
       if (data) {
 
-       
+
         setClientList(response?.data);
 
         const clientId = localStorage.getItem("superiorId");
@@ -612,12 +612,11 @@ const ManageDsr = (props) => {
                               <span className="text-danger">*</span>
                             </label>
                             <select
-                              className={`input101 ${
-                                formik.errors.client_id &&
-                                formik.touched.client_id
+                              className={`input101 ${formik.errors.client_id &&
+                                  formik.touched.client_id
                                   ? "is-invalid"
                                   : ""
-                              }`}
+                                }`}
                               id="client_id"
                               name="client_id"
                               value={formik.values.client_id}
@@ -676,12 +675,11 @@ const ManageDsr = (props) => {
                             <span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.company_id &&
-                              formik.touched.company_id
+                            className={`input101 ${formik.errors.company_id &&
+                                formik.touched.company_id
                                 ? "is-invalid"
                                 : ""
-                            }`}
+                              }`}
                             id="company_id"
                             name="company_id"
                             value={formik.values.company_id}
@@ -732,11 +730,10 @@ const ManageDsr = (props) => {
                             Site Name
                           </label>
                           <select
-                            className={`input101 ${
-                              formik.errors.site_id && formik.touched.site_id
+                            className={`input101 ${formik.errors.site_id && formik.touched.site_id
                                 ? "is-invalid"
                                 : ""
-                            }`}
+                              }`}
                             id="site_id"
                             name="site_id"
                             value={formik.values.site_id}
@@ -780,12 +777,11 @@ const ManageDsr = (props) => {
                             min={"2023-01-01"}
                             max={getCurrentDate()}
                             onClick={hadndleShowDate}
-                            className={`input101 ${
-                              formik.errors.start_date &&
-                              formik.touched.start_date
+                            className={`input101 ${formik.errors.start_date &&
+                                formik.touched.start_date
                                 ? "is-invalid"
                                 : ""
-                            }`}
+                              }`}
                             id="start_date"
                             name="start_date"
                             onChange={formik.handleChange}
@@ -878,7 +874,7 @@ const ManageDsr = (props) => {
                 ) : (
                   <>
                     <img
-                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
                       alt="MyChartImage"
                       className="all-center-flex nodata-image"
                     />

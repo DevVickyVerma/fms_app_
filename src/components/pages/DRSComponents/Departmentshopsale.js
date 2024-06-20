@@ -117,21 +117,21 @@ const Departmentshopsale = (props) => {
           // Create an array of form values based on the response data
           const formValues = data?.data?.listing
             ? data.data.listing.map((item) => {
-                return {
-                  id: item.id,
-                  gross_value: item.gross_value,
-                  disc_value: item.disc_value,
-                  nett_value: item.nett_value,
-                  adjust: item.adjust,
-                  sale: item.sale,
-                  price: item.price,
-                  value: item.value,
-                  com_rate: item.com_rate,
-                  commission: item.commission,
-                  // value_per: item.value_per ,
-                  // Add other properties as needed
-                };
-              })
+              return {
+                id: item.id,
+                gross_value: item.gross_value,
+                disc_value: item.disc_value,
+                nett_value: item.nett_value,
+                adjust: item.adjust,
+                sale: item.sale,
+                price: item.price,
+                value: item.value,
+                com_rate: item.com_rate,
+                commission: item.commission,
+                // value_per: item.value_per ,
+                // Add other properties as needed
+              };
+            })
             : [];
 
           // Set the formik values using setFieldValue
@@ -253,8 +253,8 @@ const Departmentshopsale = (props) => {
                 row.update_gross_value
                   ? "UpdateValueInput"
                   : editable?.is_editable
-                  ? "table-input"
-                  : "table-input readonly"
+                    ? "table-input"
+                    : "table-input readonly"
               }
               value={formik.values.data[index]?.gross_value}
               onChange={formik.handleChange}
@@ -292,8 +292,8 @@ const Departmentshopsale = (props) => {
                 row.update_disc_value
                   ? "UpdateValueInput"
                   : editable?.is_editable
-                  ? "table-input"
-                  : "table-input readonly"
+                    ? "table-input"
+                    : "table-input readonly"
               }
               value={formik.values.data[index]?.disc_value}
               onChange={formik.handleChange}
@@ -330,8 +330,8 @@ const Departmentshopsale = (props) => {
                 row.update_nett_value
                   ? "UpdateValueInput"
                   : editable?.is_editable
-                  ? "table-input"
-                  : "table-input readonly"
+                    ? "table-input"
+                    : "table-input readonly"
               }
               value={formik.values.data[index]?.nett_value}
               onChange={formik.handleChange}
@@ -409,7 +409,7 @@ const Departmentshopsale = (props) => {
                 ) : (
                   <>
                     <img
-                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
                       alt="MyChartImage"
                       className="all-center-flex nodata-image"
                     />

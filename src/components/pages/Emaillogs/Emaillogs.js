@@ -77,9 +77,9 @@ const ManageEmail = (props) => {
       cell: (row, index) => (
         <div>
           {row?.raw_data !== null ? (
-            <div className="d-flex" onClick={() => handleaddshowModal(row)} style={{cursor:"pointer"}}>
+            <div className="d-flex" onClick={() => handleaddshowModal(row)} style={{ cursor: "pointer" }}>
               <div className="ms-2 mt-0 mt-sm-2 d-block">
-                <h6 className="mb-0 fs-14 " style={{fontWeight:"bold"}}>{row?.subject}</h6>
+                <h6 className="mb-0 fs-14 " style={{ fontWeight: "bold" }}>{row?.subject}</h6>
               </div>
             </div>
           ) : (
@@ -129,7 +129,7 @@ const ManageEmail = (props) => {
         }
       },
     },
-    
+
     {
       name: "Created Date",
       selector: (row) => [row?.created_date],
@@ -139,7 +139,7 @@ const ManageEmail = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-          // onClick={() => handleToggleSidebar(row)}
+        // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row?.created_date}</h6>
@@ -268,7 +268,7 @@ const ManageEmail = (props) => {
                 ) : (
                   <>
                     <img
-                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
                       alt="MyChartImage"
                       className="all-center-flex nodata-image"
                     />

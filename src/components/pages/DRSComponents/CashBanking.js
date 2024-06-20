@@ -356,9 +356,9 @@ const CashBanking = (props) => {
                             type="text"
                             autoComplete="off"
                             className={`input101 ${formik.errors.reference &&
-                                formik.touched.reference
-                                ? "is-invalid"
-                                : ""
+                              formik.touched.reference
+                              ? "is-invalid"
+                              : ""
                               }`}
                             id="reference"
                             name="reference"
@@ -383,8 +383,8 @@ const CashBanking = (props) => {
                             type="text"
                             autoComplete="off"
                             className={`input101 ${formik.errors.value && formik.touched.value
-                                ? "is-invalid"
-                                : ""
+                              ? "is-invalid"
+                              : ""
                               }`}
                             id="value"
                             name="value"
@@ -452,7 +452,7 @@ const CashBanking = (props) => {
                 ) : (
                   <>
                     <img
-                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
                       alt="MyChartImage"
                       className="all-center-flex nodata-image"
                     />

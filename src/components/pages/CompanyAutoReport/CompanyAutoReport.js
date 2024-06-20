@@ -285,7 +285,7 @@ const ManageRoles = (props) => {
   const handleLinkClick = (id) => {
     // Set the item ID in localStorage
     localStorage.setItem('selectedItemId', id);
-};
+  };
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -306,13 +306,13 @@ const ManageRoles = (props) => {
                 linkAs={Link}
                 linkProps={{ to: "/managecompany" }}
               >
-              Manage  Company
+                Manage  Company
               </Breadcrumb.Item>
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-               Company Auto Report
+                Company Auto Report
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -323,7 +323,7 @@ const ManageRoles = (props) => {
                   to={`/addcompanyautoreport/${siteName}/${id}`}
                   className="btn btn-primary ms-2"
                   style={{ borderRadius: "4px" }}
-              
+
                 >
                   Add Company Auto Report
                 </Link>
@@ -365,7 +365,7 @@ const ManageRoles = (props) => {
                 ) : (
                   <>
                     <img
-                      src={require("../../../assets/images/noDataFoundImage/noDataFound.jpg")}
+                      src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
                       alt="MyChartImage"
                       className="all-center-flex nodata-image"
                     />
