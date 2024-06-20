@@ -1,12 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Dropdown, Navbar, Container } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import * as loderdata from "../../data/Component/loderdata/loderdata";
 
 import withApi from "../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
-import Loaderimg from "../../Utils/Loader";
 import SingleAuthModal from "../../data/Modal/SingleAuthModal";
 import { SuccessAlert } from "../../Utils/ToastUtils";
 
