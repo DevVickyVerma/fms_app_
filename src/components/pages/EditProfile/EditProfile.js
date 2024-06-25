@@ -777,7 +777,7 @@ export default function EditProfile() {
                 <Card.Body>
                   <p className="all-center-flex f2a" style={{ height: "100%" }}>
                     <img
-                      src={require("../../../assets/images/brand/Two factor authentication-bro.png")}
+                      src={require("../../../assets/images/brand/two_factor.png")}
                       className="header-brand-img desktop-logo"
                       alt={"logo"}
                     />

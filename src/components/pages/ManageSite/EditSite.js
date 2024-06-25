@@ -122,6 +122,7 @@ export default function AddSite(props) {
       consider_fuel_sales: "",
       shop_sale_file_upload: "",
       cashback_enable: "",
+      e_code: "",
     },
     validationSchema: Yup.object({
       site_code: Yup.string()
@@ -307,6 +308,38 @@ export default function AddSite(props) {
                             formik.touched.site_name && (
                               <div className="invalid-feedback">
                                 {formik.errors.site_name}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            className="form-label mt-4"
+                            htmlFor="e_code"
+                          >
+                            Site Id
+                          </label>
+                          <input
+                            id="e_code"
+                            name="e_code"
+                            type="text"
+                            autoComplete="off"
+                            className={`input101  ${
+                              formik.errors.e_code &&
+                              formik.touched.e_code
+                                ? "is-invalid"
+                                : ""
+                            }`}
+                            placeholder="Site Id"
+                            onChange={formik.handleChange}
+                            value={formik.values.e_code || ""}
+                            
+                          />
+                          {formik.errors.e_code &&
+                            formik.touched.e_code && (
+                              <div className="invalid-feedback">
+                                {formik.errors.e_code}
                               </div>
                             )}
                         </div>
@@ -1675,6 +1708,7 @@ export default function AddSite(props) {
                             )}
                         </div>
                       </Col>
+                   
                     </Row>
                     <div className="text-end">
                       <Link

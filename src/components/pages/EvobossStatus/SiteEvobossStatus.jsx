@@ -272,7 +272,7 @@ const SiteEvobossStatus = (props) => {
                         Please select Any Site Name....
                       </span>
                       <img
-                        src={require("../../../assets/images/commonimages/noDataFound.png")}
+                        src={require("../../../assets/images/commonimages/no_data.png")}
                         alt="MyChartImage"
                         className="all-center-flex nodata-image"
                       />
@@ -316,7 +316,7 @@ const SiteEvobossStatus = (props) => {
                   ) : (
                     <>
                       <img
-                        src={require("../../../assets/images/commonimages/noDataFound.png")}
+                        src={require("../../../assets/images/commonimages/no_data.png")}
                         alt="MyChartImage"
                         className="all-center-flex nodata-image"
                       />

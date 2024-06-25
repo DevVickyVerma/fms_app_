@@ -130,6 +130,7 @@ const AddSite = (props) => {
       formData.append("consider_fuel_sales", values.consider_fuel_sales);
       formData.append("shop_sale_file_upload", values.shop_sale_file_upload);
       formData.append("cashback_enable", values.cashback_enable);
+      formData.append("e_code", values.e_code );
 
       const postDataUrl = "/site/add";
 
@@ -223,7 +224,7 @@ const AddSite = (props) => {
                     company_id: "",
                     lottery_commission: "",
                     instant_lottery_commission: "",
-                    consider_keyfules_cards: "",
+                    e_code : "",
                     paypoint_commission: "",
                     cashback_enable: 0,
                     shop_commission: 0,
@@ -379,6 +380,7 @@ const AddSite = (props) => {
                               />
                             </FormGroup>
                           </Col>
+                       
                           <Col lg={4} md={6}>
                             <div className="form-group">
                               <label
@@ -513,6 +515,34 @@ const AddSite = (props) => {
                                 component="div"
                                 className="invalid-feedback"
                                 name="site_name"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                className="form-label mt-4"
+                                htmlFor="e_code"
+                              >
+                               Site Id
+                              </label>
+
+                              <Field
+                                type="text"
+                                autoComplete="off"
+                                className={`input101 ${
+                                  errors.e_code && touched.e_code
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
+                                id="e_code"
+                                name="e_code"
+                                placeholder="Site Id"
+                              />
+                              <ErrorMessage
+                                name="e_code"
+                                component="div"
+                                className="invalid-feedback"
                               />
                             </FormGroup>
                           </Col>
@@ -1766,6 +1796,7 @@ const AddSite = (props) => {
                               />
                             </FormGroup>
                           </Col>
+                     
                         </Row>
                       </Card.Body>
 

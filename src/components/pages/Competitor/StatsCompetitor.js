@@ -390,7 +390,7 @@ const StatsCompetitor = ({ isLoading, getData }) => {
                     ) : (
                         <>
                             <img
-                                src={require("../../../assets/images/commonimages/noDataFound.png")}
+                                src={require("../../../assets/images/commonimages/no_data.png")}
                                 alt="MyChartImage"
                                 className="all-center-flex nodata-image"
                             />

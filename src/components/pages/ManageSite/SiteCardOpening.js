@@ -292,7 +292,7 @@ const SiteCardOpening = (props) => {
               ) : (
                 <>
                   <img
-                    src={require("../../../../src/assets/images/commonimages/noDataFound.png")}
+                    src={require("../../../../src/assets/images/commonimages/no_data.png")}
                     alt="MyChartImage"
                     className="all-center-flex nodata-image"
                   />

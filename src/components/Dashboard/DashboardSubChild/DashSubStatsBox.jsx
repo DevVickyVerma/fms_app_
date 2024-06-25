@@ -38,7 +38,7 @@ const DashSubStatsBox = (props) => {
               <div className="d-flex justify-content-between">
                 <div className="text-white">
                   <h2
-                    style={{ fontSize: "20px" }}
+                    style={{ fontSize: "18px" }}
                     className="mb-0 number-font"
                   >
                     {" "}
@@ -48,7 +48,7 @@ const DashSubStatsBox = (props) => {
                 </div>
                 <div className="text-white " >
                   <h2
-                    style={{ fontSize: "20px" }}
+                    style={{ fontSize: "18px" }}
                     className="mb-0 number-font"
                   >
                     {" "}
@@ -114,7 +114,7 @@ const DashSubStatsBox = (props) => {
               <div className="d-flex">
                 <div className="text-white">
                   <h2
-                    style={{ fontSize: "20px" }}
+                    style={{ fontSize: "18px" }}
                     className="mb-0 number-font"
                   >
                     {" "}
@@ -126,7 +126,7 @@ const DashSubStatsBox = (props) => {
                 <div className="ms-auto">
                   <div
                     className="counter-icon  brround  ms-auto"
-                    style={{ fontSize: "20px" }}
+                    style={{ fontSize: "18px" }}
                   >
                     <div
                       style={{ background: "#fff", color: "#ddd" }}
@@ -180,7 +180,7 @@ const DashSubStatsBox = (props) => {
               <div className="d-flex">
                 <div className="text-white">
                   <h2
-                    style={{ fontSize: "20px" }}
+                    style={{ fontSize: "18px" }}
                     className="mb-0 number-font"
                   >
                     {" "}
@@ -259,7 +259,7 @@ const DashSubStatsBox = (props) => {
               <div className="d-flex justify-content-between">
                 <div className="text-white">
                   <h2
-                    style={{ fontSize: "20px" }}
+                    style={{ fontSize: "18px" }}
                     className="mb-0 number-font"
                   >
                     {" "}
@@ -269,7 +269,7 @@ const DashSubStatsBox = (props) => {
                 </div>
                 <div className="text-white" >
                   <h2
-                    style={{ fontSize: "20px" }}
+                    style={{ fontSize: "18px" }}
                     className="mb-0 number-font"
                   >
                     {" "}
@@ -336,7 +336,7 @@ const DashSubStatsBox = (props) => {
               <div className="d-flex">
                 <div className="text-white">
                   <h2
-                    style={{ fontSize: "20px" }}
+                    style={{ fontSize: "18px" }}
                     className="mb-0 number-font"
                   >
                     {" "}
@@ -406,7 +406,7 @@ const DashSubStatsBox = (props) => {
               <div className="d-flex">
                 <div className="text-white">
                   <h2
-                    style={{ fontSize: "20px" }}
+                    style={{ fontSize: "18px" }}
                     className="mb-0 number-font"
                   >
                     {" "}
