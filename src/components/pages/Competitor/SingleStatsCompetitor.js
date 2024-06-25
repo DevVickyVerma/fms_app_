@@ -121,7 +121,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
             <Card.Body className="card-body pb-0 overflow-auto">
               {" "}
               <img
-                src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
+                src={require("../../../assets/images/commonimages/noDataFound.png")}
                 alt="MyChartImage"
                 className="all-center-flex nodata-image"
               />

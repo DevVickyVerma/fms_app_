@@ -376,7 +376,7 @@ const ManageBusinessCategory = (props) => {
                 ) : (
                   <>
                     <img
-                      src={require("../../../assets/images/noDataFoundImage/noDataFound.png")}
+                      src={require("../../../assets/images/commonimages/noDataFound.png")}
                       alt="MyChartImage"
                       className="all-center-flex nodata-image"
                     />
