@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import DataTableExtensions from "react-data-table-component-extensions";
 import {
   Breadcrumb,
   Card,
@@ -35,10 +34,7 @@ const ManageCharges = (props) => {
   const [perPage, setPerPage] = useState(20);
   const [total, setTotal] = useState(0);
   const [permissionsArray, setPermissionsArray] = useState([]);
-
   const UserPermissions = useSelector((state) => state?.data?.data);
-
-
   useEffect(() => {
     FetchTableData(currentPage);
     console.clear();
@@ -316,10 +312,6 @@ const ManageCharges = (props) => {
     FetchTableData()
   };
 
-  const tableDatas = {
-    columns,
-    data,
-  };
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
