@@ -123,23 +123,17 @@ const FuelSales = (props) => {
       const grossValueKey = `gross_value[${id}]`;
       const discountKey = `discount[${id}]`;
       const nettValueKey = `nett_value[${id}]`;
-      const sales_volume = `sales_volume[${id}]`;
-      // const actionKey = `action[${id}]`;
+      const salesVolumeKey = `sales_volume[${id}]`;
 
-      const grossValue = obj.gross_value;
-      const discount = obj.discount;
-      const nettValue = obj.nett_value;
-      const salesValue = obj.sales_volume;
-      // const action = obj.action;
-
-      formData.append(grossValueKey, grossValue);
-      formData.append(discountKey, discount);
-      formData.append(nettValueKey, nettValue);
-      formData.append(sales_volume, salesValue);
+      formData.append(grossValueKey, obj.gross_value.toString());
+      formData.append(discountKey, obj.discount.toString());
+      formData.append(nettValueKey, obj.nett_value.toString());
+      formData.append(salesVolumeKey, obj.sales_volume.toString());
     });
 
-    formData.append("site_id", site_id);
-    formData.append("drs_date", start_date);
+    // formData.append('site_id',stationId? stationId:""); // Assuming stationId is your site_id
+    // formData.append('drs_date', startDate); // Assuming startDate is your drs_date
+
 
     try {
       setIsLoading(true);
