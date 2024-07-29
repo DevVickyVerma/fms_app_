@@ -769,6 +769,9 @@ const DashSubChild = ({
       </Row>
       <Col xl={12}>
         <Card>
+        <Card.Header>
+          Competitor Stats
+        </Card.Header>
           <Card.Body className="p-6">
             <div className="panel panel-primary">
               <div className=" tab-menu-heading border">
@@ -776,7 +779,7 @@ const DashSubChild = ({
                   <Tabs
                     as="li"
                     variant="pills"
-                    defaultActiveKey="tab6"
+                    defaultActiveKey="tab5"
                     className="panel-tabs"
                   >
                     <Tab
@@ -990,7 +993,7 @@ const DashSubChild = ({
                       as="li"
                       eventKey="tab6"
                       className="  me-1"
-                      title=" Local Competitor Stats "
+                      title="Competitor Stats Graph "
                     >
                       <Row
                         style={{
