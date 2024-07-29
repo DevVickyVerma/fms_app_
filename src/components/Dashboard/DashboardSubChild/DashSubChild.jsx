@@ -15,22 +15,42 @@ import {
   Col,
   OverlayTrigger,
   Row,
+  Tab,
+  Tabs,
   Tooltip,
 } from "react-bootstrap";
-import { BsFillFuelPumpFill } from "react-icons/bs";
+import makeAnimated from "react-select/animated";
+import { BsFillFuelPumpFill, BsFuelPumpFill } from "react-icons/bs";
 import moment from "moment/moment";
 import StackedLineBarChart from "../StackedLineBarChart";
 import DashSubStatsBox from "./DashSubStatsBox";
 import DashSubChildGrads from "./DashSubChildGrads";
 import DashSubChildShopSale from "./DashSubChildShopSale/DashSubChildShopSale";
 import DashSubChildTankAnalysis from "./DashSubChildTankAnalysis";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import CompetitorSingleGraph from "../../pages/Competitor/CompetitorSingleGraph";
+import { handleError } from "../../../Utils/ToastUtils";
+import LoaderImg from "../../../Utils/Loader";
+import axios from "axios";
+import {
+  AiFillCaretDown,
+  AiFillCaretRight,
+  AiOutlineArrowRight,
+} from "react-icons/ai";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
-const DashSubChild = ({ getSiteStats, setGetSiteStats, getSiteDetails }) => {
+const DashSubChild = ({
+  getSiteStats,
+  CompititorStats,
+  setGetSiteStats,
+  statsID,
+  getSiteDetails,
+}) => {
   const [showLoader, setShowLoader] = useState(true);
-
+  const id = useParams();
+  console.log(id, "id");
+  // console.log(DashId, "DashId");
   useEffect(() => {
     const timeout = setTimeout(() => {
       setShowLoader(false);
@@ -60,6 +80,7 @@ const DashSubChild = ({ getSiteStats, setGetSiteStats, getSiteDetails }) => {
   const handleModalClose = () => {
     setModalOpen(false);
   };
+
   const colors = [
     { name: "About to Finish", color: "#e84118" },
     { name: "Low Fuel", color: "#ffa801" },
@@ -67,6 +88,114 @@ const DashSubChild = ({ getSiteStats, setGetSiteStats, getSiteDetails }) => {
   ];
 
   const alertStatus = getSiteStats?.data?.cash_tracker?.alert_status;
+  // const id = useParams();
+  console.log(getSiteStats, "getSiteStats");
+  const [getCompetitorsPrice, setGetCompetitorsPrice] =
+    useState(CompititorStats);
+  const [Compititorloading, setCompititorloading] = useState(false);
+  const [selected, setSelected] = useState();
+  const [mySelectedDate, setMySelectedDate] = useState();
+
+  const navigate = useNavigate();
+
+  const token = localStorage.getItem("token");
+  const axiosInstance = axios.create({
+    baseURL: process.env.REACT_APP_BASE_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const FetchCompititorData = async (selectedValues) => {
+    setCompititorloading(true);
+    if (localStorage.getItem("Dashboardsitestats") === "true") {
+      try {
+        // Use async/await to fetch data
+        const response3 = await axiosInstance.get(
+          selectedValues?.start_date
+            ? `/site/competitor-price/stats?site_id=${id}&drs_date=${selectedValues?.start_date}`
+            : `/site/competitor-price/stats?site_id=${statsID}`
+        );
+
+        if (response3 && response3.data) {
+          setGetCompetitorsPrice(response3?.data?.data);
+        } else {
+          throw new Error("No data available in the response");
+        }
+      } catch (error) {
+        // Handle errors that occur during the asynchronous operations
+        console.error("API error:", error);
+        handleError(error);
+      } finally {
+        // Set Compititorloading to false when the request is complete (whether successful or not)
+        setCompititorloading(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    FetchCompititorData();
+  }, [id]);
+  if (Compititorloading) {
+    return <LoaderImg />;
+  }
+
+  if (!getCompetitorsPrice) {
+    return (
+      <Row
+        style={{
+          marginBottom: "10px",
+          marginTop: "20px",
+        }}
+      >
+        <Col lg={12} md={12}>
+          <Card>
+            <Card.Header className="card-header">
+              <h4 className="card-title"> Local Competitor Stats</h4>
+            </Card.Header>
+            <Card.Body className="card-body pb-0 overflow-auto">
+              {" "}
+              <img
+                src={require("../../../assets/images/commonimages/no_data.png")}
+                alt="MyChartImage"
+                className="all-center-flex nodata-image"
+              />
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    );
+  }
+
+  const data = getCompetitorsPrice?.competitorListing;
+  console.log(data, "getCompetitorsPrice");
+  const animatedComponents = makeAnimated();
+  const Optionssingle = selected?.map((item) => ({
+    value: item?.id,
+    label: item?.site_name,
+  }));
+
+  const handleSitePathChange = (values) => {
+    navigate(`/sitecompetitor/${values.value}`);
+  };
+
+  const byDefaultSelectValue = {
+    value: id,
+    label: getCompetitorsPrice?.siteName,
+  };
+
+  const handleShowDate = () => {
+    const inputDateElement = document.querySelector("#start_date");
+    inputDateElement.showPicker();
+  };
+
+  const today = new Date(); // Current date
+  const maxDate = new Date(today); // Set max date as current date
+  maxDate.setDate(today.getDate() - 1); // Set max date to yesterday
+  const formattedMaxDate = maxDate.toISOString().split("T")[0]; // Format max date
+
+  const minDate = new Date(today); // Set min date as current date
+  minDate.setMonth(minDate.getMonth() - 2); // Set min date to 2 months ago
+  const formattedMinDate = minDate.toISOString().split("T")[0]; // Format min date
 
   return (
     <>
@@ -103,7 +232,8 @@ const DashSubChild = ({ getSiteStats, setGetSiteStats, getSiteDetails }) => {
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
-        <div className="Show-title" >
+
+        <div className="Show-title">
           <span>
             {" "}
             <OverlayTrigger
@@ -118,14 +248,14 @@ const DashSubChild = ({ getSiteStats, setGetSiteStats, getSiteDetails }) => {
                 >
                   {" "}
                   Opening Time :{" "}
-                  {" "}{getSiteStats?.data?.opening ? (
+                  {getSiteStats?.data?.opening ? (
                     moment(getSiteStats?.data?.opening).format("Do MMM, HH:mm")
                   ) : (
                     <span class="Smallloader"></span>
                   )}
                   <br />
                   Closing Time :{" "}
-                  {" "}{getSiteStats?.data?.closing ? (
+                  {getSiteStats?.data?.closing ? (
                     moment(getSiteStats?.data?.closing).format("Do MMM, HH:mm")
                   ) : (
                     <span class="Smallloader"></span>
@@ -134,7 +264,10 @@ const DashSubChild = ({ getSiteStats, setGetSiteStats, getSiteDetails }) => {
                 </Tooltip>
               }
             >
-              <h1 className="page-title" style={{fontSize:"15px",fontWeight:"400"}}>
+              <h1
+                className="page-title"
+                style={{ fontSize: "15px", fontWeight: "400" }}
+              >
                 Last Day End :{" "}
                 {getSiteStats?.data?.last_dayend ? (
                   moment(getSiteStats?.data?.last_dayend).format("Do MMM")
@@ -634,7 +767,260 @@ const DashSubChild = ({ getSiteStats, setGetSiteStats, getSiteDetails }) => {
           </Card>
         </Col>
       </Row>
+      <Col xl={12}>
+        <Card>
+          <Card.Body className="p-6">
+            <div className="panel panel-primary">
+              <div className=" tab-menu-heading border">
+                <div className="tabs-menu1 tabstyle2">
+                  <Tabs
+                    as="li"
+                    variant="pills"
+                    defaultActiveKey="tab6"
+                    className="panel-tabs"
+                  >
+                    <Tab
+                      as="li"
+                      eventKey="tab5"
+                      className=" me-1"
+                      title="Competitors Stats"
+                    >
+                      <Row
+                        style={{
+                          marginBottom: "10px",
+                          marginTop: "20px",
+                        }}
+                      >
+                        <Col lg={12} md={12} className="">
+                          <Card className="">
+                            <Card.Header className=" my-cardd card-header ">
+                              <h4 className="card-title">
+                                {" "}
+                                {getCompetitorsPrice
+                                  ? getCompetitorsPrice?.siteName
+                                  : ""}{" "}
+                                Competitors Stats
+                              </h4>
+                            </Card.Header>
+                            <Card.Body className="my-cardd card-body pb-0 overflow-auto">
+                              <table className="w-100 mb-6">
+                                <tbody>
+                                  <tr>
+                                    <th>
+                                      <span className="single-Competitor-heading cardd  d-flex justify-content-between w-99">
+                                        <span>
+                                          Competitors Name <AiFillCaretDown />
+                                        </span>
+                                        <span className="text-end">
+                                          Fuel{" "}
+                                          <span className="hidden-in-small-screen">
+                                            {" "}
+                                            Type
+                                          </span>{" "}
+                                          <AiFillCaretRight />
+                                        </span>
+                                      </span>
+                                    </th>
+                                    {Object.keys(data).map((fuelType) => (
+                                      <th key={fuelType}>
+                                        <span className="single-Competitor-heading cardd block w-99 ">
+                                          <BsFuelPumpFill /> {fuelType}
+                                        </span>
+                                      </th>
+                                    ))}
+                                  </tr>
+                                  {getCompetitorsPrice?.competitors?.map(
+                                    (competitorsName, rowIndex) => (
+                                      <tr key={rowIndex}>
+                                        <td>
+                                          <div className="single-Competitor-heading d-flex w-99.9 cardd">
+                                            <p className=" m-0 d-flex align-items-center">
+                                              <span>
+                                                <img
+                                                  src={
+                                                    competitorsName?.supplierImage
+                                                  }
+                                                  alt="supplierImage"
+                                                  className=" mx-3"
+                                                  style={{
+                                                    width: "36px",
+                                                    height: "36px",
+                                                  }}
+                                                />
+                                              </span>
+                                            </p>
 
+                                            <p
+                                              className=" d-flex flex-column m-0"
+                                              style={{ minWidth: "55px" }}
+                                            >
+                                              <span className="single-Competitor-distance">
+                                                <AiOutlineArrowRight />{" "}
+                                                {competitorsName?.station
+                                                  ? "My station"
+                                                  : `${competitorsName?.dist_miles} miles away`}
+                                              </span>
+                                              <span
+                                                style={{ minWidth: "200px" }}
+                                              >
+                                                {competitorsName?.name}
+                                              </span>
+                                            </p>
+                                          </div>
+                                        </td>
+                                        {Object.keys(data).map(
+                                          (fuelType, colIndex) => (
+                                            <td key={colIndex}>
+                                              <span className="single-Competitor-body single-Competitor-heading cardd block w-99.9 ">
+                                                <span className="circle-info">
+                                                  {
+                                                    data[fuelType]?.[rowIndex]
+                                                      ?.last_updated
+                                                  }
+                                                  <span>
+                                                    <OverlayTrigger
+                                                      placement="top"
+                                                      overlay={
+                                                        <Tooltip
+                                                          style={{
+                                                            display: "flex",
+                                                            alignItems:
+                                                              "flex-start",
+                                                            justifyContent:
+                                                              "flex-start",
+                                                            width: "300px", // Set your desired width here
+                                                          }}
+                                                        >
+                                                          {
+                                                            data[fuelType]?.[
+                                                              rowIndex
+                                                            ]?.last_date
+                                                          }
+                                                        </Tooltip>
+                                                      }
+                                                    >
+                                                      <p
+                                                        className=" m-0 single-Competitor-distance"
+                                                        style={{
+                                                          cursor: "pointer",
+                                                        }}
+                                                      >
+                                                        {" "}
+                                                        <i
+                                                          class="fa fa-info-circle ms-1"
+                                                          aria-hidden="true"
+                                                          style={{
+                                                            fontSize: "15px",
+                                                          }}
+                                                        ></i>{" "}
+                                                        <span></span>
+                                                      </p>
+                                                    </OverlayTrigger>
+                                                  </span>
+                                                </span>
+
+                                                <span className=" d-flex justify-content-between align-items-center">
+                                                  <span>
+                                                    {
+                                                      data[fuelType]?.[rowIndex]
+                                                        ?.price
+                                                    }
+                                                  </span>
+
+                                                  {data[fuelType]?.[rowIndex]
+                                                    ?.station ? (
+                                                    ""
+                                                  ) : (
+                                                    <>
+                                                      <span
+                                                        className="PetrolPrices-img"
+                                                        style={{
+                                                          width: "25px",
+                                                          height: "25px",
+                                                          fontSize: "20px",
+                                                          cursor: "pointer",
+                                                          marginLeft: "10px",
+                                                        }}
+                                                      >
+                                                        <OverlayTrigger
+                                                          placement="top"
+                                                          overlay={
+                                                            <Tooltip
+                                                              style={{
+                                                                display: "flex",
+                                                                alignItems:
+                                                                  "flex-start",
+                                                                justifyContent:
+                                                                  "flex-start",
+                                                              }}
+                                                            >
+                                                              PetrolPrices
+                                                            </Tooltip>
+                                                          }
+                                                        >
+                                                          <img
+                                                            alt=""
+                                                            src={require("../../../assets/images/SingleStatsCompetitor/PetrolPrices-Icon-512px (2).png")}
+                                                            className=""
+                                                            style={{
+                                                              objectFit:
+                                                                "contain",
+                                                            }}
+                                                          />
+                                                        </OverlayTrigger>
+                                                      </span>
+                                                    </>
+                                                  )}
+                                                </span>
+                                              </span>
+                                            </td>
+                                          )
+                                        )}
+                                      </tr>
+                                    )
+                                  )}
+                                </tbody>
+                              </table>
+                            </Card.Body>
+                          </Card>
+                        </Col>
+                      </Row>
+                    </Tab>
+                    <Tab
+                      as="li"
+                      eventKey="tab6"
+                      className="  me-1"
+                      title=" Local Competitor Stats "
+                    >
+                      <Row
+                        style={{
+                          marginBottom: "10px",
+                          marginTop: "20px",
+                        }}
+                      >
+                        <Col lg={12} md={12}>
+                          <Card>
+                            <Card.Body className="card-body pb-0">
+                              <div id="chart">
+                                <CompetitorSingleGraph
+                                  getCompetitorsPrice={getCompetitorsPrice}
+                                  setGetCompetitorsPrice={
+                                    setGetCompetitorsPrice
+                                  }
+                                />
+                              </div>
+                            </Card.Body>
+                          </Card>
+                        </Col>
+                      </Row>
+                    </Tab>
+                  </Tabs>
+                </div>
+              </div>
+            </div>
+          </Card.Body>
+        </Card>
+      </Col>
       <Row></Row>
 
       <Row

@@ -1,18 +1,10 @@
-import React, { useEffect, useState } from "react";
-import {
-  Collapse,
-  Col,
-  Row,
-  Card,
-  Breadcrumb,
-  Accordion,
-} from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Col, Row, Card, Breadcrumb, Accordion } from "react-bootstrap";
 
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
 import Loaderimg from "../../../Utils/Loader";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
@@ -20,12 +12,9 @@ import { handleError } from "../../../Utils/ToastUtils";
 
 const SiteSettings = (props) => {
   const {
-    apidata,
-    error,
     getData,
     postData,
-    SiteID,
-    ReportDate,
+
     isLoading,
   } = props;
   const UserPermissions = useSelector(
@@ -45,6 +34,7 @@ const SiteSettings = (props) => {
   const [vat_summaryData, setvat_summaryData] = useState([]);
   const [CashDayData, setCashDayData] = useState([]);
   const [AssignCashCards, setAssignCashCards] = useState([]);
+  const [SiteValet, setSiteValet] = useState([]);
   const [siteName, setSiteName] = useState("");
 
   const { id } = useParams();
@@ -71,6 +61,7 @@ const SiteSettings = (props) => {
         setCardsModelData(data?.data ? data.data.cards : []);
         setCashDayData(data?.data ? data.data.cash_days : []);
         setAssignCashCards(data?.data ? data.data.cashCards : []);
+        setSiteValet(data?.data ? data.data.valetitems : []);
         setis_editable(data?.data ? data.data : {});
         setSiteName(response?.data?.data);
         formik.setFieldValue(
@@ -88,6 +79,7 @@ const SiteSettings = (props) => {
         formik.setFieldValue("AssignFormikCards", data?.data?.cards);
         formik.setFieldValue("CahsDayFormikData", data?.data?.cash_days);
         formik.setFieldValue("CahsCardsFormikData", data?.data?.cashCards);
+        formik.setFieldValue("SiteValetFormikData", data?.data?.valetitems);
       } else {
         throw new Error("No data available in the response");
       }
@@ -289,9 +281,8 @@ const SiteSettings = (props) => {
   const [selectAllCheckedReports, setSelectAllCheckedReports] = useState(false);
   const [selectAllCldoReports, setSelectAllCldoReports] = useState(false);
 
-  const [selectAllCheckedDrsCards, setSelectAllCheckedDrsCards] = useState(
-    false
-  );
+  const [selectAllCheckedDrsCards, setSelectAllCheckedDrsCards] =
+    useState(false);
 
   const handleSelectAllReports = () => {
     const updatedRowData = ReportsData.map((row) => ({
@@ -460,6 +451,44 @@ const SiteSettings = (props) => {
       ),
     },
   ];
+  const SiteValetModelColumn = [
+    {
+      name: "Select",
+      selector: "checked",
+      sortable: false,
+      center: true,
+      width: "15%",
+      cell: (row, index) => (
+        <div>
+          <input
+            type="checkbox"
+            id={`checked-${index}`}
+            name={`SiteValetFormikData[${index}].checked`}
+            className="table-checkbox-input"
+            checked={
+              formik.values?.SiteValetFormikData?.[index]?.checked ?? false
+            }
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {/* Error handling code */}
+        </div>
+      ),
+    },
+    {
+      name: "Name",
+      selector: (row) => row.name,
+      sortable: false,
+      width: "85%",
+      cell: (row) => (
+        <div className="d-flex">
+          <div className="ms-2 mt-0 mt-sm-2 d-block">
+            <h6 className="mb-0 fs-14 fw-semibold">{row.name}</h6>
+          </div>
+        </div>
+      ),
+    },
+  ];
 
   const chargesColumns = [
     {
@@ -516,7 +545,7 @@ const SiteSettings = (props) => {
             // value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-          // readOnly={editable?.is_editable ? false : true}
+            // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -627,7 +656,7 @@ const SiteSettings = (props) => {
             // value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-          // readOnly={editable?.is_editable ? false : true}
+            // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -737,7 +766,7 @@ const SiteSettings = (props) => {
             // value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-          // readOnly={editable?.is_editable ? false : true}
+            // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -995,7 +1024,8 @@ const SiteSettings = (props) => {
             onChange={(e) => {
               formik.handleChange(e);
               console.log(
-                `Checkbox ${row?.id} is now ${e.target.checked ? "checked" : "unchecked"
+                `Checkbox ${row?.id} is now ${
+                  e.target.checked ? "checked" : "unchecked"
                 }`
               );
             }}
@@ -1072,10 +1102,8 @@ const SiteSettings = (props) => {
         formData.append(key, value);
       });
 
-      console.log(formik.values.FormikCldoReports, "formik.values.FormikCldoReports");
-
-      console.log(formik.values.CahsCardsFormikData, "formik.values.CahsCardsFormikData");
-      console.log(formik.values, "formik.values");
+ 
+ 
       const CahsCardsFormikDataids = [];
       const CahsCardsFormikDataKey = "cash_cards";
 
@@ -1093,14 +1121,33 @@ const SiteSettings = (props) => {
         const value = item[key];
         formData.append(key, value);
       });
+ 
+      const SiteValetFormikDataids = [];
+      const SiteValetFormikDataKey = "valet_department_items";
 
+      for (let i = 0; i < formik.values.SiteValetFormikData.length; i++) {
+        const { id, checked } = formik.values.SiteValetFormikData[i];
+
+        if (checked) {
+          SiteValetFormikDataids.push({
+            [SiteValetFormikDataKey + "[" + i + "]"]: id,
+          });
+        }
+      }
+      SiteValetFormikDataids.forEach((item) => {
+        const key = Object.keys(item)[0];
+        const value = item[key];
+        formData.append(key, value);
+      });
 
       formData.append("id", id);
 
       const postDataUrl = "/site/update-advance-setting";
       const navigatePath = "/sites";
 
-      await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
+      await postData(postDataUrl, formData,navigatePath); // Set the submission state to false after the API call is completed
+
+      
     } catch (error) {
       handleError(error); // Set the submission state to false if an error occurs
     }
@@ -1449,19 +1496,6 @@ const SiteSettings = (props) => {
                                   searchable={false}
                                   responsive
                                 />
-                                {/* <DataTableExtensions {...tableData}>
-                                  <DataTable
-                                    columns={vat_summaryColumn}
-                                    data={vat_summaryData}
-                                    defaultSortField="id"
-                                    defaultSortAsc={false}
-                                    striped={true}
-                                    persistTableHead
-                                    highlightOnHover
-                                    searchable={false}
-                                    responsive
-                                  />
-                                </DataTableExtensions> */}
                               </div>
                             </Col>
                           ) : (
@@ -1477,6 +1511,36 @@ const SiteSettings = (props) => {
                                   <DataTable
                                     columns={cashCardsModelColumn}
                                     data={AssignCashCards}
+                                    defaultSortField="id"
+                                    defaultSortAsc={false}
+                                    striped={true}
+                                    persistTableHead
+                                    highlightOnHover
+                                    searchable={false}
+                                    responsive
+                                  />
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                <img
+                                  src={require("../../../assets/images/commonimages/no_data.png")}
+                                  alt="MyChartImage"
+                                  className="all-center-flex nodata-image"
+                                />
+                              </>
+                            )}
+                          </Col>
+                          <Col lg={4} md={4}>
+                            <Card.Header className="cardheader-table">
+                              <h3 className="card-title">Site Valet</h3>
+                            </Card.Header>
+                            {SiteValet?.length > 0 ? (
+                              <>
+                                <div className="module-height">
+                                  <DataTable
+                                    columns={SiteValetModelColumn}
+                                    data={SiteValet}
                                     defaultSortField="id"
                                     defaultSortAsc={false}
                                     striped={true}

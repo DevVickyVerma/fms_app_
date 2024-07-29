@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Breadcrumb, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  Form,
+  OverlayTrigger,
+  Row,
+  Tooltip,
+} from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import axios from "axios";
@@ -12,16 +20,17 @@ import { BsFuelPumpFill } from "react-icons/bs";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { handleError } from "../../../Utils/ToastUtils";
-import CompetitorSingleGraph from "./CompetitorSingleGraph";
+
 import { Box, Typography } from "@mui/material";
 import * as Yup from "yup";
 import { ErrorMessage, Field, Formik } from "formik";
 import moment from "moment";
+import CompetitorSingleGraph from "../../pages/Competitor/CompetitorSingleGraph";
 
-const SingleStatsCompetitor = ({ isLoading, getData }) => {
+const CompititorDashStats = ({ isLoading, getData, id }) => {
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
   const [Compititorloading, setCompititorloading] = useState(false);
-  const { id } = useParams();
+
   const [selected, setSelected] = useState();
   const [mySelectedDate, setMySelectedDate] = useState();
 
@@ -33,7 +42,6 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
     },
   });
   const navigate = useNavigate();
-
 
   const FetchCompititorData = async (selectedValues) => {
     setCompititorloading(true);
@@ -77,7 +85,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
   useEffect(() => {
     FetchCompititorData();
     handleClientStats();
-  }, [id]);
+  }, []);
   if (Compititorloading) {
     return <Loaderimg />;
   }
@@ -110,7 +118,6 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
   }
 
   const data = getCompetitorsPrice?.competitorListing;
-  console.log(data, "getCompetitorsPrice");
   const animatedComponents = makeAnimated();
   const Optionssingle = selected?.map((item) => ({
     value: item?.id,
@@ -139,8 +146,6 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
   const minDate = new Date(today); // Set min date as current date
   minDate.setMonth(minDate.getMonth() - 2); // Set min date to 2 months ago
   const formattedMinDate = minDate.toISOString().split("T")[0]; // Format min date
-
-
 
   return (
     <>
@@ -222,10 +227,11 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                       min={formattedMinDate} // Use formattedMinDate for the min attribute
                       max={formattedMaxDate} // Use formattedMaxDate for the max attribute
                       onClick={handleShowDate}
-                      className={`input101 compi-calender ${errors.start_date && touched.start_date
+                      className={`input101 compi-calender ${
+                        errors.start_date && touched.start_date
                           ? "is-invalid"
                           : ""
-                        }`}
+                      }`}
                       id="start_date"
                       name="start_date"
                       value={mySelectedDate}
@@ -307,7 +313,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                 px={"13px"}
               >
                 <Typography fontSize={"14px"}>
-                  Last Day End : { }
+                  Last Day End : {}
                   {getCompetitorsPrice?.last_dayend ? (
                     moment(getCompetitorsPrice?.last_dayend).format("Do MMM")
                   ) : (
@@ -563,6 +569,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
       </Row>
 
       <Row
+        Row
         style={{
           marginBottom: "10px",
           marginTop: "20px",
@@ -588,4 +595,4 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
   );
 };
 
-export default SingleStatsCompetitor;
+export default CompititorDashStats;

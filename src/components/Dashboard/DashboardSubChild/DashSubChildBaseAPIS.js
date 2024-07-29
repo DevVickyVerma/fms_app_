@@ -14,8 +14,10 @@ const DashSubChildBaseAPIS = (props) => {
   const {
     setGradsGetSiteDetails,
     setDashboardShopSaleData,
-    setDashboardGradsLoading, setDashboardSiteDetailsLoading,
-    dashSubChildShopSaleLoading, setDashSubChildShopSaleLoading
+    setDashboardGradsLoading,
+    setDashboardSiteDetailsLoading,
+    dashSubChildShopSaleLoading,
+    setDashSubChildShopSaleLoading,
   } = useMyContext();
   const { id } = useParams();
   const [ClientID, setClientID] = useState(localStorage.getItem("superiorId"));
@@ -23,18 +25,7 @@ const DashSubChildBaseAPIS = (props) => {
   const [getSiteDetails, setGetSiteDetails] = useState(null);
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
   const [permissionsArray, setPermissionsArray] = useState([]);
-  const navigate = useNavigate();
-  const SuccessToast = (message) => {
-    toast.success(message, {
-      autoClose: 500,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-
-
+  const [CompititorStats, setCompititorStats] = useState("");
 
   const FetchTableData = async () => {
     try {
@@ -68,15 +59,12 @@ const DashSubChildBaseAPIS = (props) => {
         setGetSiteStats(response1?.data);
       } else {
         throw new Error("No data available in the response");
-
       }
     } catch (error) {
-      handleError(error)
+      handleError(error);
       console.error("API error:", error);
     }
-
   };
-
 
   const FetchGetSiteDetailsApi = async () => {
     setDashboardSiteDetailsLoading(true);
@@ -112,10 +100,10 @@ const DashSubChildBaseAPIS = (props) => {
     } catch (error) {
       setDashboardSiteDetailsLoading(false);
       console.error("API error:", error);
-      handleError(error)
+      handleError(error);
     }
     setDashboardSiteDetailsLoading(false);
-  }
+  };
   const token = localStorage.getItem("token");
 
   const axiosInstance = axios.create({
@@ -126,8 +114,8 @@ const DashSubChildBaseAPIS = (props) => {
   });
   const [scrollY, setScrollY] = useState(0);
   const [callShopSaleApi, setCallShopSaleApi] = useState(false);
-  const [callSiteFuelPerformanceApi, setCallSiteFuelPerformanceApi] = useState(false);
-
+  const [callSiteFuelPerformanceApi, setCallSiteFuelPerformanceApi] =
+    useState(false);
 
   const FetchShopSaleData = async () => {
     try {
@@ -164,7 +152,7 @@ const DashSubChildBaseAPIS = (props) => {
     } catch (error) {
       console.error("API error:", error);
       setDashSubChildShopSaleLoading(false);
-      handleError(error)
+      handleError(error);
     } finally {
       setDashSubChildShopSaleLoading(false);
     }
@@ -172,7 +160,7 @@ const DashSubChildBaseAPIS = (props) => {
   };
 
   const FetchSiteFuelPerformanceData = async () => {
-    setDashboardGradsLoading(true)
+    setDashboardGradsLoading(true);
     try {
       if (localStorage.getItem("Dashboardsitestats") === "true") {
         try {
@@ -218,10 +206,10 @@ const DashSubChildBaseAPIS = (props) => {
       }
     } catch (error) {
       setDashboardGradsLoading(false);
-      handleError(error)
+      handleError(error);
     }
     setDashboardGradsLoading(false);
-  }
+  };
 
   useEffect(() => {
     FetchTableData();
@@ -260,7 +248,6 @@ const DashSubChildBaseAPIS = (props) => {
     if (callSiteFuelPerformanceApi) {
       // Call FetchCompititorData when alertShown becomes true
       FetchSiteFuelPerformanceData();
-
     }
   }, [callSiteFuelPerformanceApi]);
 
@@ -271,7 +258,24 @@ const DashSubChildBaseAPIS = (props) => {
       setPermissionsArray(UserPermissions?.permissions);
     }
   }, [UserPermissions]);
+  // useEffect(() => {
+  //   const GetTabsData = async () => {
+  //     try {
+  //       const response2 = await axiosInstance.get(`/site/competitor-price/stats?site_id=${id}`);
 
+  //       if (response2 && response2.data) {
+  //         setCompititorStats(response2.data)
+  //         console.log(response2?.data, "columnIndex");
+  //       }
+  //     } catch (error) {
+  //       handleError(error);
+  //     }
+  //   };
+
+  //   GetTabsData(); // Call the async function
+
+  // }, [id]); // Dependency array - the effect will run when 'id' changes
+  console.log(CompititorStats, "CompititorStats");
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -284,6 +288,8 @@ const DashSubChildBaseAPIS = (props) => {
           setGetSiteDetails={setGetSiteDetails}
           getCompetitorsPrice={getCompetitorsPrice}
           setGetCompetitorsPrice={setGetCompetitorsPrice}
+          CompititorStats={CompititorStats}
+          statsID={id}
         />
       </div>
     </>
