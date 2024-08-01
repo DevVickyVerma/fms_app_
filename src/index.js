@@ -35,6 +35,7 @@ import BunkeringBalance from "./components/pages/BunkeringBalance/BunkeringBalan
 import EditBunkeringBalance from "./components/pages/BunkeringBalance/EditBunkeringBalance";
 import AddBunkeringBalance from "./components/pages/BunkeringBalance/AddBunkeringBalance";
 import sitecardopening from "./components/pages/ManageSite/SiteCardOpening";
+import SetFuelGrades from "./components/pages/ManageSite/SetFuelGrades";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -241,7 +242,7 @@ const EditAutoDayEnd = React.lazy(() =>
 const CompanyAutoReport = React.lazy(() =>
   import("./components/pages/CompanyAutoReport/CompanyAutoReport")
 );
-const AddCompanyAutoReport= React.lazy(() =>
+const AddCompanyAutoReport = React.lazy(() =>
   import("./components/pages/CompanyAutoReport/AddCompanyAutoReport")
 );
 const EditCompanyAutoReport = React.lazy(() =>
@@ -587,7 +588,7 @@ const Root = () => {
   const WrappedAddUser = withApi(AddUser);
   const WrappeAddEditUser = withApi(EditUser);
   const WrappedAddSite = withApi(AddSite);
-  const WrappedSitecardopening= withApi(Sitecardopening);
+  const WrappedSitecardopening = withApi(Sitecardopening);
   const WrappeAddEditSite = withApi(EditSite);
   const WrappedManageCompany = withApi(ManageCompany);
   const WrappedAddCompany = withApi(AddCompany);
@@ -639,6 +640,7 @@ const Root = () => {
   const WrappedManageReports = withApi(ManageReports);
   const WrappedWorkFlows = withApi(WorkFlows);
   const WrappedSiteSettings = withApi(SiteSettings);
+  const WrappedSetFuelGrades = withApi(SetFuelGrades);
   const Wrappedassignbusiness = withApi(Assignbusiness);
   const WrappedAddAssignbusiness = withApi(AddAssignbusiness);
   const WrappedEditAssignbusiness = withApi(EditAssignbusiness);
@@ -672,7 +674,7 @@ const Root = () => {
   const WrappedAddAutoDayEnd = withApi(AddAutoDayEnd);
   const WrappedAutoDayEnd = withApi(AutoDayEnd);
   const WrappedEditAutoDayEnd = withApi(EditAutoDayEnd);
-  const WrappedAddCompanyAutoReport= withApi(AddCompanyAutoReport);
+  const WrappedAddCompanyAutoReport = withApi(AddCompanyAutoReport);
   const WrappedCompanyAutoReport = withApi(CompanyAutoReport);
   const WrappedEditCompanyAutoReport = withApi(EditCompanyAutoReport);
   const WrappedManagecommission = withApi(Managecommission);
@@ -791,6 +793,10 @@ const Root = () => {
                   <Route
                     path={`/site-setting/:id`}
                     element={<WrappedSiteSettings />}
+                  />
+                  <Route
+                    path={`/set-fuel-grades/:id`}
+                    element={<WrappedSetFuelGrades />}
                   />
                   <Route
                     path={`/assign-business-sub-categories/:id`}

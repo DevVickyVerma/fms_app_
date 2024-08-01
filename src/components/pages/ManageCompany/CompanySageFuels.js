@@ -331,7 +331,7 @@ const CompanySageFuels = (props) => {
             name: "Nominal Tax Code",
             selector: (row) => row.nominal_tax_code_id,
             sortable: false,
-            width: "14.6%",
+            width: "14%",
             center: true,
 
             cell: (row, index) =>

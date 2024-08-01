@@ -1,17 +1,9 @@
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogContentText } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import Loaderimg from "../../Utils/Loader";
 import SearchIcon from "@mui/icons-material/Search";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { AiOutlineClose } from "react-icons/ai";
 
 const CenterSearchmodal = (props) => {
@@ -115,7 +107,7 @@ const CenterSearchmodal = (props) => {
       <div className="d-flex searchbar-top">
         <Button
           variant="primary"
-          className="modal-effect d-grid mb-2 d-flex"
+          className="modal-effect d-grid  d-flex"
           href="#modaldemo8"
           onClick={handleClickOpen}
         >

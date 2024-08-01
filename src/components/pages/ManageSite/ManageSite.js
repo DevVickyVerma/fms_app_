@@ -26,6 +26,7 @@ import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import GradeIcon from '@mui/icons-material/Grade';
 import CenterSearchmodal from "../../../data/Modal/CenterSearchmodal";
 import { Box } from "@mui/material";
 import DateRangeIcon from "@mui/icons-material/DateRange";
@@ -426,6 +427,21 @@ const ManageSite = (props) => {
                       </Link>
                     </Dropdown.Item>
                   ) : null}
+                  {permissionsArray?.includes("site-fuel-grade-list") ? (
+                    <Dropdown.Item
+                      className=" p-0 m-0"
+                    // className="dropdown-item"
+                    >
+                      <Link to={`/set-fuel-grades/${row.id}`}>
+                        <div className="manage-site-dropdown-item" style={{ width: "100%" }}>
+                          <i className="setting-icon">
+                            <GradeIcon />
+                          </i>
+                          Set Fuel Grades
+                        </div>
+                      </Link>
+                    </Dropdown.Item>
+                  ) : null}
 
                   {issitesettingPermissionAvailable ? (
                     <Dropdown.Item
@@ -724,7 +740,7 @@ const ManageSite = (props) => {
               }}
               className="btn-sm"
             >
-              <span className="ms-2">
+              <span className="">
                 <CenterSearchmodal
                   title="Search"
                   visible={sidebarVisible1}
