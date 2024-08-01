@@ -323,7 +323,7 @@ const AddSite = (props) => {
                       "  Cashback Enable is required"
                     ),
                     update_tlm_price: Yup.string().required(
-                      "TLM Price is required"
+                      "Update TLM Price is required"
                     ),
                   })}
                   onSubmit={(values, { setSubmitting }) => {
@@ -1765,7 +1765,7 @@ const AddSite = (props) => {
                                 htmlFor="update_tlm_price"
                                 className=" form-label mt-4"
                               >
-                                TLM Price{" "}
+                                Update TLM Price{" "}
                                 <span className="text-danger">*</span>
                               </label>
                               <Field

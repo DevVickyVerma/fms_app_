@@ -141,7 +141,7 @@ export default function AddSite(props) {
         "Shop Sale File Upload is required"
       ),
       update_tlm_price: Yup.string().required(
-        "TLM price is required"
+        "Update TLM Price is required"
       ),
       site_status: Yup.string().required("Site Status is required"),
       business_type: Yup.string().required("Business Type is required"),
@@ -1675,7 +1675,7 @@ export default function AddSite(props) {
                             htmlFor="update_tlm_price"
                             className="form-label mt-4"
                           >
-                            TLM Price{" "}
+                            Update TLM Price{" "}
                             <span className="text-danger">*</span>
                           </label>
                           <select
