@@ -1673,3 +1673,7 @@ span.text-error {
 .Toastify__progress-bar--success {
   background: var(--primary-bg-color);
 }
+
+.pointer {
+  cursor: pointer;
+}

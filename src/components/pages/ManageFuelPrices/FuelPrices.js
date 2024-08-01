@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Breadcrumb,
   Card,
@@ -11,7 +11,6 @@ import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
 import { useFormik } from "formik";
 import CustomModal from "../../../data/Modal/MiddayModal";
-import { MultiSelect } from "react-multi-select-component";
 
 const FuelPrices = (props) => {
   const { apidata, error, getData, postData, SiteID, ReportDate, isLoading } =
@@ -726,7 +725,7 @@ const FuelPrices = (props) => {
                         {" "} Email Notification
                       </label>
                     </div> */}
-                    <div>
+                    {/* <div>
                       <strong>Send Notification</strong>
                       <div style={{ display: "flex", gap: "10px" }}>
                         <div>
@@ -754,7 +753,7 @@ const FuelPrices = (props) => {
 
 
                       </div>
-                    </div>
+                    </div> */}
 
 
 

@@ -36,6 +36,7 @@ import EditBunkeringBalance from "./components/pages/BunkeringBalance/EditBunker
 import AddBunkeringBalance from "./components/pages/BunkeringBalance/AddBunkeringBalance";
 import sitecardopening from "./components/pages/ManageSite/SiteCardOpening";
 import SetFuelGrades from "./components/pages/ManageSite/SetFuelGrades";
+import FuturePriceLogs from "./components/pages/Emaillogs/FuturePriceLogs";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -691,6 +692,7 @@ const Root = () => {
   const WrappedDashBoardSiteDetail = withApi(DashSubChildBaseAPIS);
   const WrappedEmaillogs = withApi(Emaillogs);
   const WrappedFuelPriceslogs = withApi(FuelPriceslogs);
+  const WrappedFuturePricelogs = withApi(FuturePriceLogs);
   const WrappedCompetitorFuelPrices = withApi(CompetitorFuelPrices);
   const WrappedCompetitor = withApi(Competitor);
   const WrappedAddCompetitor = withApi(AddCompetitor);
@@ -975,6 +977,10 @@ const Root = () => {
                   <Route
                     path={`/fuel-price-logs`}
                     element={<WrappedFuelPriceslogs />}
+                  />
+                  <Route
+                    path={`/future-price-logs`}
+                    element={<WrappedFuturePricelogs />}
                   />
                   <Route
                     path={`/activity-logs`}

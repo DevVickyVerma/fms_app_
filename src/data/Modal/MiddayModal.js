@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +12,6 @@ import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
 import { useNavigate } from "react-router-dom";
 import { ErrorAlert, SuccessAlert } from "../../Utils/ToastUtils";
-import { MultiSelect } from "react-multi-select-component";
 
 const CustomModal = ({
   open,
@@ -82,6 +81,13 @@ const CustomModal = ({
             ),
           })),
         });
+
+
+        if (responseData?.update_tlm_price == 1) {
+          formik.setFieldValue("update_tlm_price", true)
+        }
+
+
       } catch (error) {
         console.error("API error:", error);
         handleError(error);
@@ -105,6 +111,7 @@ const CustomModal = ({
   const formik = useFormik({
     initialValues: {
       listing: data?.listing || [], // Initialize with fetched data or an empty array
+      update_tlm_price: false
     },
     onSubmit: (values) => {
       // Handle form submission
@@ -112,6 +119,8 @@ const CustomModal = ({
       handleSubmit(values);
     },
   });
+
+  console.log(data, "data");
   const handleSubmit = async (values) => {
     setIsLoading(true);
     const formData = new FormData();
@@ -150,6 +159,7 @@ const CustomModal = ({
     formData.append("site_id", selectedItem.id);
     formData.append("send_sms", notificationTypes?.mobileSMS);
     formData.append("notify_operator", notificationTypes?.email);
+    formData.append("update_tlm_price", values?.update_tlm_price);
     const token = localStorage.getItem("token");
     const axiosInstance = axios.create({
       baseURL: process.env.REACT_APP_BASE_URL,
@@ -209,6 +219,8 @@ const CustomModal = ({
       [name]: !prevTypes[name],
     }));
   };
+
+  console.log(formik?.values, "formik valuess");
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -362,7 +374,7 @@ const CustomModal = ({
               />
 
             </div> */}
-            <div>
+            {/* <div>
               <strong>Send Notification</strong>
               <div style={{ display: "flex", gap: "10px" }}>
                 <div>
@@ -387,10 +399,30 @@ const CustomModal = ({
                     {" "}Email
                   </label>
                 </div>
-
-
               </div>
-            </div>
+            </div> */}
+
+            {data?.update_tlm_price == 1 && (<>
+              <div className="pointer" onClick={() => formik.setFieldValue('update_tlm_price', !formik.values.update_tlm_price)}>
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <div>
+                    <input
+                      type="checkbox"
+                      name="update_tlm_price"
+                      onChange={formik?.handleChange}
+                      checked={formik.values.update_tlm_price}
+                      className="form-check-input pointer mx-2"
+                    />
+                    <label htmlFor={"update_tlm_price"} className="mt-1 ms-6 pointer">
+                      Update TLM Price
+                    </label>
+
+                  </div>
+                </div>
+              </div>
+            </>)}
+
+
 
             <button
               className="btn btn-danger me-2"

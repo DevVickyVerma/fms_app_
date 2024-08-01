@@ -99,7 +99,7 @@ export const MENUITEMS = [
             permission: "competitor-stats",
             visibility: false,
           },
-    
+
         ],
       },
       //Company
@@ -127,7 +127,7 @@ export const MENUITEMS = [
           },
         ],
       },
- 
+
       {
         title: "Manage Sage",
         icon: "building",
@@ -728,6 +728,13 @@ export const MENUITEMS = [
             title: "Fuel Price Logs",
             type: "link",
             permission: "fuel-price-logs",
+            visibility: false,
+          },
+          {
+            path: `/future-price-logs`,
+            title: "Future Price Logs",
+            type: "link",
+            permission: "fuel-price-history",
             visibility: false,
           },
         ],
