@@ -149,7 +149,7 @@ const FuturePriceErrorModal = (props) => {
 
                                                     <ul style={{ display: 'flex', listStyleType: 'none', padding: 0 }} className=" my-2">
                                                         <li style={{ flex: 1 }}>
-                                                            <span className=' text-capitalize'>{data && <><span className='fw-bold me-1'>IP Address:</span>
+                                                            <span className=' text-capitalize'>{data && <><span className='fw-bold me-1'>IP:</span>
                                                                 {data?.rawData ? data?.rawData?.ip : "--"}
                                                             </>}</span>
                                                         </li>
