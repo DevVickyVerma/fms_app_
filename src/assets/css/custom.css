@@ -1677,3 +1677,22 @@ span.text-error {
 .pointer {
   cursor: pointer;
 }
+
+.c-dashed-line {
+  height: 1px;
+  border: 1px dashed gray;
+}
+
+.c-msg-h {
+  max-height: 100px;
+  overflow: auto;
+}
+
+
+.custom-matiral-modal>div>div {
+  border-radius: 0px !important;
+}
+
+.c-f-log-title {
+  font-size: 19px;
+}

@@ -12,6 +12,7 @@ import { useFormik } from "formik";
 import moment from "moment";
 import Swal from "sweetalert2";
 import { handleError } from "../../../Utils/ToastUtils";
+import FuturePriceErrorModal from "./FuturePriceErrorModal";
 
 const FuturePriceLogs = (props) => {
     const { isLoading, getData, postData, apidata } = props;
@@ -25,6 +26,8 @@ const FuturePriceLogs = (props) => {
     const [lastPage, setLastPage] = useState(1);
     const [perPage, setPerPage] = useState(20);
     const [total, setTotal] = useState(0);
+    const [showModal, setShowModal] = useState(false);
+    const [SelectedRow, setSelectedRow] = useState(false);
     const [myFormData, setMyFormData] = useState({
         client_id: "",
         company_id: "",
@@ -232,27 +235,54 @@ const FuturePriceLogs = (props) => {
     };
 
 
+    const handleErrorModal = (row) => {
+        console.log(row, "row");
+        setShowModal(true)
+        setSelectedRow(row)
+    }
+
+
 
     const columns = [
         {
             name: "Site",
             selector: (row) => [row.site_name],
             sortable: true,
-            width: "14%",
+            width: "18%",
             cell: (row, index) => (
-                <div className="d-flex">
+                <div className="d-flex" onClick={() => handleErrorModal(row)}>
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row?.site_name}
+                        <h6 className="mb-0 fs-14 fw-bold pointer">
+                            <span className=" me-2">{row?.site_name}</span>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={
+                                    <Tooltip>
+                                        {" "}
+                                        Updated By :{" "}
+                                        {
+                                            row?.created_by
+                                        }
+                                        {" "}
+                                        <br />
+                                    </Tooltip>
+                                }
+                            >
+                                <i
+                                    class="fa fa-info-circle"
+                                    aria-hidden="true"
+                                ></i>
+                            </OverlayTrigger>
                         </h6>
                     </div>
                 </div>
             ),
         },
         {
-            name: "Category Name",
+            name: "Fuel",
             selector: (row) => [row?.category_name],
             sortable: true,
-            width: "14%",
+            width: "16%",
             cell: (row, index) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -264,10 +294,10 @@ const FuturePriceLogs = (props) => {
 
 
         {
-            name: "Price Date",
+            name: "Price Requested Date/Time",
             selector: (row) => [row.price_date],
             sortable: true,
-            width: "12%",
+            width: "16%",
             cell: (row, index) => (
                 <div className="d-flex" style={{ cursor: "default" }}>
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -277,49 +307,52 @@ const FuturePriceLogs = (props) => {
             ),
         },
         {
-            name: "Old Price",
+            name: "Updated Price",
             selector: (row) => [row.old_price],
             sortable: true,
-            width: "8%",
+            width: "12%",
             cell: (row, index) => (
-                <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.old_price}</h6>
+                <div className="d-flex w-100 h-100" style={{ background: row?.price_color }}>
+                    <div className="ms-2 mt-0 d-flex align-items-center  w-100 h-100">
+                        <h6 className="mb-0 fs-14 fw-semibold">
+                            <span className=" text-decoration-line-through">{row.old_price}</span>
+                            <span className=" ms-2">{row.new_price}</span>
+                        </h6>
                     </div>
                 </div>
             ),
         },
-        {
-            name: "New Price",
-            selector: (row) => [row.new_price],
-            sortable: true,
-            width: "8%",
-            cell: (row, index) => (
-                <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.new_price}</h6>
-                    </div>
-                </div>
-            ),
-        },
-        {
-            name: "Created By",
-            selector: (row) => [row.created_by],
-            sortable: true,
-            width: "14%",
-            cell: (row, index) => (
-                <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">{row.created_by}</h6>
-                    </div>
-                </div>
-            ),
-        },
+        // {
+        //     name: "New Price",
+        //     selector: (row) => [row.new_price],
+        //     sortable: true,
+        //     width: "8%",
+        //     cell: (row, index) => (
+        //         <div className="d-flex">
+        //             <div className="ms-2 mt-0 mt-sm-2 d-block">
+        //                 <h6 className="mb-0 fs-14 fw-semibold">{row.new_price}</h6>
+        //             </div>
+        //         </div>
+        //     ),
+        // },
+        // {
+        //     name: "Updated By",
+        //     selector: (row) => [row.created_by],
+        //     sortable: true,
+        //     width: "14%",
+        //     cell: (row, index) => (
+        //         <div className="d-flex">
+        //             <div className="ms-2 mt-0 mt-sm-2 d-block">
+        //                 <h6 className="mb-0 fs-14 fw-semibold">{row.created_by}</h6>
+        //             </div>
+        //         </div>
+        //     ),
+        // },
         {
             name: "Created Date",
             selector: (row) => [row.created_date],
             sortable: true,
-            width: "12%",
+            width: "16%",
             cell: (row, index) => (
                 <div className="d-flex" style={{ cursor: "default" }}>
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -332,7 +365,7 @@ const FuturePriceLogs = (props) => {
             name: "Status",
             selector: (row) => [row.status],
             sortable: true,
-            width: "8%",
+            width: "12%",
             cell: (row, index) => (
                 <span className="text-muted fs-15 fw-semibold text-center">
                     <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -364,7 +397,7 @@ const FuturePriceLogs = (props) => {
 
         {
             name: "Action",
-            selector: (row) => [row.created_by],
+            selector: (row) => [row.deleted_at],
             sortable: true,
             width: "10%",
             cell: (row, index) => (
@@ -373,28 +406,28 @@ const FuturePriceLogs = (props) => {
                         <h6 className="mb-0 fs-14 fw-semibold">
 
 
-                            {/* {isDeletePermissionAvailable ? ( */}
-                            <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
-                                <Link
-                                    to="#"
-                                    className="btn btn-danger btn-sm rounded-11 responsive-btn"
-                                // onClick={() => handleDelete(row.id)}
-                                >
-                                    <i>
-                                        <svg
-                                            className="table-delete"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            height="20"
-                                            viewBox="0 0 24 24"
-                                            width="16"
-                                        >
-                                            <path d="M0 0h24v24H0V0z" fill="none" />
-                                            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
-                                        </svg>
-                                    </i>
-                                </Link>
-                            </OverlayTrigger>
-                            {/* ) : null} */}
+                            {row?.deleted_at ? (
+                                <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
+                                    <Link
+                                        to="#"
+                                        className="btn btn-danger btn-sm rounded-11 responsive-btn"
+                                        onClick={() => handleDelete(row.id)}
+                                    >
+                                        <i>
+                                            <svg
+                                                className="table-delete"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                width="16"
+                                            >
+                                                <path d="M0 0h24v24H0V0z" fill="none" />
+                                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
+                                            </svg>
+                                        </i>
+                                    </Link>
+                                </OverlayTrigger>
+                            ) : null}
                         </h6>
                     </div >
                 </div >
@@ -547,11 +580,15 @@ const FuturePriceLogs = (props) => {
         formik.setFieldValue('endDate', dates[1]);
     };
 
-    console.log(formik?.values, "formik values");
-
-
     return (
         <>
+            <FuturePriceErrorModal
+                showModal={showModal}
+                setShowModal={setShowModal}
+                SelectedRow={SelectedRow}
+            // detailApiData={detailApiData}
+            />
+
             {isLoading ? <Loaderimg /> : null}
             <>
                 <div className="page-header ">

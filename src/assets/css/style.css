@@ -9608,8 +9608,8 @@ ul.labels-info li a i {
   justify-content: space-between;
   padding: 10px !important;
   border-bottom: 1px solid #eaedf1;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
 }
 
 .modal-header .btn-close {
@@ -9620,6 +9620,7 @@ ul.labels-info li a i {
 .modal-title {
   margin-bottom: 0;
   line-height: 1.5;
+  font-weight: bold;
 }
 
 .modal-body {
