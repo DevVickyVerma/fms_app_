@@ -86,7 +86,7 @@ const FuturePriceLogs = (props) => {
     const handleDelete = (id) => {
         Swal.fire({
             title: "Are you sure?",
-            text: "You will not be able to recover this item!",
+            text: "The request will be cancelled and the last updated price will be updated",
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Yes, Cancel it!",
