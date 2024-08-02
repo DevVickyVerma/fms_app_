@@ -250,7 +250,7 @@ const FuturePriceLogs = (props) => {
 
 
     useEffect(() => {
-        handleFetchListing(currentPage);
+        handleFetchListing();
         console.clear();
     }, [currentPage]);
 

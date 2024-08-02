@@ -13,18 +13,17 @@ import withApi from "../../../Utils/ApiHelper";
 import { useFormik } from "formik";
 import CustomModal from "../../../data/Modal/MiddayModal";
 import { useSelector } from "react-redux";
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+
 
 const FuelPrices = (props) => {
-  const { apidata, error, getData, postData, SiteID, ReportDate, isLoading } =
+  const { apidata, getData, postData, isLoading } =
     props;
 
   const [editable, setis_editable] = useState();
   const navigate = useNavigate()
-
-  const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedDrsDate, setSelectedDrsDate] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [headingData, setheadingData] = useState([]);
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
@@ -674,7 +673,7 @@ const FuelPrices = (props) => {
                       <Button className="btn btn-primary btn-icon text-white me-3" onClick={handleLinkClick}>
                         <span>
                         </span>
-                        Go To Future Price
+                        Go To Future Price Logs <ExitToAppIcon />
                       </Button>
                     </>)}
 
