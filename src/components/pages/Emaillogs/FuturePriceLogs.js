@@ -14,12 +14,12 @@ import Swal from "sweetalert2";
 import { handleError } from "../../../Utils/ToastUtils";
 import FuturePriceErrorModal from "./FuturePriceErrorModal";
 import { useSelector } from "react-redux";
+import CloseIcon from '@mui/icons-material/Close';
 
 const FuturePriceLogs = (props) => {
     const { isLoading, getData, postData, apidata } = props;
     const [data, setData] = useState();
     const [count, setCount] = useState(0);
-    const [AddSiteData, setAddSiteData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedCompanyList, setSelectedCompanyList] = useState([]);
     const [selectedSiteList, setSelectedSiteList] = useState([]);
@@ -89,7 +89,7 @@ const FuturePriceLogs = (props) => {
             text: "You will not be able to recover this item!",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonText: "Yes, delete it!",
+            confirmButtonText: "Yes, Cancel it!",
             cancelButtonText: "Cancel",
             reverseButtons: true,
         }).then((result) => {
@@ -278,7 +278,7 @@ const FuturePriceLogs = (props) => {
             name: "Site",
             selector: (row) => [row.site_name],
             sortable: true,
-            width: "18%",
+            width: "22%",
             cell: (row, index) => (
                 <div className="d-flex" onClick={() => handleErrorModal(row)}>
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -292,6 +292,12 @@ const FuturePriceLogs = (props) => {
                                         Updated By :{" "}
                                         {
                                             row?.created_by
+                                        }
+                                        {" "}
+                                        <br />
+                                        Created Date :{" "}
+                                        {
+                                            row?.created_date
                                         }
                                         {" "}
                                         <br />
@@ -312,7 +318,7 @@ const FuturePriceLogs = (props) => {
             name: "Fuel",
             selector: (row) => [row?.category_name],
             sortable: true,
-            width: "16%",
+            width: "22%",
             cell: (row, index) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -327,7 +333,7 @@ const FuturePriceLogs = (props) => {
             name: "Price Requested Date/Time",
             selector: (row) => [row.price_date],
             sortable: true,
-            width: "16%",
+            width: "20%",
             cell: (row, index) => (
                 <div className="d-flex" style={{ cursor: "default" }}>
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -340,7 +346,7 @@ const FuturePriceLogs = (props) => {
             name: "Updated Price",
             selector: (row) => [row.old_price],
             sortable: true,
-            width: "12%",
+            width: "14%",
             cell: (row, index) => (
                 <div className="d-flex w-100 h-100" style={{ background: row?.price_color }}>
                     <div className="ms-2 mt-0 d-flex align-items-center  w-100 h-100">
@@ -348,45 +354,6 @@ const FuturePriceLogs = (props) => {
                             <span className=" text-decoration-line-through">{row.old_price}</span>
                             <span className=" ms-2">{row.new_price}</span>
                         </h6>
-                    </div>
-                </div>
-            ),
-        },
-        // {
-        //     name: "New Price",
-        //     selector: (row) => [row.new_price],
-        //     sortable: true,
-        //     width: "8%",
-        //     cell: (row, index) => (
-        //         <div className="d-flex">
-        //             <div className="ms-2 mt-0 mt-sm-2 d-block">
-        //                 <h6 className="mb-0 fs-14 fw-semibold">{row.new_price}</h6>
-        //             </div>
-        //         </div>
-        //     ),
-        // },
-        // {
-        //     name: "Updated By",
-        //     selector: (row) => [row.created_by],
-        //     sortable: true,
-        //     width: "14%",
-        //     cell: (row, index) => (
-        //         <div className="d-flex">
-        //             <div className="ms-2 mt-0 mt-sm-2 d-block">
-        //                 <h6 className="mb-0 fs-14 fw-semibold">{row.created_by}</h6>
-        //             </div>
-        //         </div>
-        //     ),
-        // },
-        {
-            name: "Created Date",
-            selector: (row) => [row.created_date],
-            sortable: true,
-            width: "16%",
-            cell: (row, index) => (
-                <div className="d-flex" style={{ cursor: "default" }}>
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>
                     </div>
                 </div>
             ),
@@ -441,24 +408,14 @@ const FuturePriceLogs = (props) => {
 
                                 {row?.deleted_at ? (
                                     null
-                                ) : <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
+                                ) : <OverlayTrigger placement="top" overlay={<Tooltip>Cancel</Tooltip>}>
                                     <Link
                                         to="#"
                                         className="btn btn-danger btn-sm rounded-11 responsive-btn"
                                         onClick={() => handleDelete(row.id)}
                                     >
-                                        <i>
-                                            <svg
-                                                className="table-delete"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                height="20"
-                                                viewBox="0 0 24 24"
-                                                width="16"
-                                            >
-                                                <path d="M0 0h24v24H0V0z" fill="none" />
-                                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
-                                            </svg>
-                                        </i>
+
+                                        <CloseIcon />
                                     </Link>
                                 </OverlayTrigger>}
                             </h6>
