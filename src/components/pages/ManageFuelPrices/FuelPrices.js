@@ -42,9 +42,6 @@ const FuelPrices = (props) => {
     email: false,
   });
 
-  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
-  const isAddPermissionAvailable = UserPermissions?.includes("add-note");
-
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
   }, []);
@@ -384,9 +381,7 @@ const FuelPrices = (props) => {
     { label: "Email Notification", value: "email" },
   ];
 
-  const handleSelectionChange = (event) => {
-    setSelected(event.target.value);
-  };
+
 
   const handleCheckboxChange = (name) => {
     setNotificationTypes((prevTypes) => ({
