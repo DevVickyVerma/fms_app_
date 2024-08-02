@@ -120,7 +120,6 @@ const CustomModal = ({
     },
   });
 
-  console.log(data, "data");
   const handleSubmit = async (values) => {
     setIsLoading(true);
     const formData = new FormData();
@@ -220,7 +219,6 @@ const CustomModal = ({
     }));
   };
 
-  console.log(formik?.values, "formik valuess");
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -277,6 +275,7 @@ const CustomModal = ({
                             className="table-input"
                             name={`listing[0].fuels[0][${rowIndex}].time`}
                             type="time"
+                            placeholder="Enter Values"
                             value={
                               formik.values?.listing[0]?.fuels[0][rowIndex]
                                 ?.time
@@ -307,6 +306,7 @@ const CustomModal = ({
                                     : ""
                                   }`}
                                 type="number"
+                                placeholder="Enter Values"
                                 name={`listing[0].fuels[${columnIndex}][${rowIndex}].price`}
                                 value={
                                   formik.values?.listing[0]?.fuels[columnIndex][

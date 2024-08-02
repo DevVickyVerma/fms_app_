@@ -13,6 +13,7 @@ import moment from "moment";
 import Swal from "sweetalert2";
 import { handleError } from "../../../Utils/ToastUtils";
 import FuturePriceErrorModal from "./FuturePriceErrorModal";
+import { useSelector } from "react-redux";
 
 const FuturePriceLogs = (props) => {
     const { isLoading, getData, postData, apidata } = props;
@@ -41,6 +42,12 @@ const FuturePriceLogs = (props) => {
     const [CompanyList, setCompanyList] = useState([]);
     const [SiteList, setSiteList] = useState([]);
     const [handleListingCondition, setHandleListingCondition] = useState(false);
+    const UserPermissions = useSelector(
+        (state) => state?.data?.data?.permissions || [],
+    );
+    const isFuelPricePermissionAvailable = UserPermissions?.includes('fuel-price-cancel');
+
+    console.log(isFuelPricePermissionAvailable, "isFuelPricePermissionAvailable");
 
     const maxPagesToShow = 5; // Adjust the number of pages to show in the center
     const pages = [];
@@ -90,12 +97,13 @@ const FuturePriceLogs = (props) => {
             if (result.isConfirmed) {
 
                 const formData = new FormData();
+
                 formData.append("id", id);
 
 
                 const DeleteClient = async (formData) => {
                     try {
-                        const response = await postData("drs/cash-banking/delete", formData);
+                        const response = await postData("fuel-price/history/cancel", formData);
 
 
                         console.log(response, "response");
@@ -107,7 +115,7 @@ const FuturePriceLogs = (props) => {
                         handleError(error);
                     }
                 };
-                DeleteClient();
+                DeleteClient(formData);
             }
         });
     };
@@ -178,13 +186,13 @@ const FuturePriceLogs = (props) => {
         });
 
 
-        const formattedStartDate = moment(formik?.values?.startDate).format('DD-MM-YYYY');
-        const formattedEndDate = moment(formik?.values?.endDate).format('DD-MM-YYYY');
+        const formattedStartDate = moment(values?.startDate).format('DD-MM-YYYY');
+        const formattedEndDate = moment(values?.endDate).format('DD-MM-YYYY');
 
         // Construct custom date range string
 
         let customDateRange = '';
-        if (formik?.values?.startDate && formik?.values?.endDate) {
+        if (values?.startDate && values?.endDate) {
             customDateRange += `${formattedStartDate}/${formattedEndDate}`;
         }
 
@@ -199,9 +207,9 @@ const FuturePriceLogs = (props) => {
         };
 
         const params = {
-            client_id: formik.values?.client_id,
-            company_id: formik.values?.company_id,
-            site_id: formik.values?.site_id,
+            client_id: values?.client_id,
+            company_id: values?.company_id,
+            site_id: values?.site_id,
             daterange: customDateRange,
             page: currentPage,
         };
@@ -241,6 +249,35 @@ const FuturePriceLogs = (props) => {
         setSelectedRow(row)
     }
 
+
+    // useEffect(() => {
+    //     if (handleListingCondition) {
+    //         handleFetchListing();
+    //     }
+    // }, [handleListingCondition])
+
+    useEffect(() => {
+        handleFetchListing(currentPage);
+        console.clear();
+    }, [currentPage]);
+
+
+    useEffect(() => {
+        const futurepriceLog = JSON.parse(localStorage.getItem('futurepriceLog'));
+        if (futurepriceLog) {
+            formik.setFieldValue('client_id', futurepriceLog.client_id);
+            formik.setFieldValue('company_id', futurepriceLog.company_id);
+            formik.setFieldValue('site_id', futurepriceLog.site_id);
+
+            if (futurepriceLog?.startDate && futurepriceLog?.endDate) {
+                formik.setFieldValue('startDate', new Date(futurepriceLog?.startDate));
+                formik.setFieldValue('endDate', new Date(futurepriceLog?.endDate));
+            }
+            GetCompanyList(futurepriceLog.client_id);
+            GetSiteList(futurepriceLog.company_id)
+            handleSubmit1(futurepriceLog);
+        }
+    }, []);
 
 
     const columns = [
@@ -395,19 +432,23 @@ const FuturePriceLogs = (props) => {
             ),
         },
 
-        {
-            name: "Action",
-            selector: (row) => [row.deleted_at],
-            sortable: true,
-            width: "10%",
-            cell: (row, index) => (
-                <div className="d-flex">
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
-                        <h6 className="mb-0 fs-14 fw-semibold">
+
+        isFuelPricePermissionAvailable
+            ?
+            {
+                name: "Action",
+                selector: (row) => [row.deleted_at],
+                sortable: true,
+                width: "10%",
+                cell: (row, index) => (
+                    <div className="d-flex">
+                        <div className="ms-2 mt-0 mt-sm-2 d-block">
+                            <h6 className="mb-0 fs-14 fw-semibold">
 
 
-                            {row?.deleted_at ? (
-                                <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
+                                {row?.deleted_at ? (
+                                    null
+                                ) : <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
                                     <Link
                                         to="#"
                                         className="btn btn-danger btn-sm rounded-11 responsive-btn"
@@ -426,14 +467,14 @@ const FuturePriceLogs = (props) => {
                                             </svg>
                                         </i>
                                     </Link>
-                                </OverlayTrigger>
-                            ) : null}
-                        </h6>
+                                </OverlayTrigger>}
+                            </h6>
+                        </div >
                     </div >
-                </div >
-            ),
-        },
+                ),
+            }
 
+            : "",
 
 
 
@@ -445,9 +486,11 @@ const FuturePriceLogs = (props) => {
             client_id: "",
             company_id: "",
             site_id: "",
-            start_date: "",
+            startDate: null,
+            endDate: null,
         },
         onSubmit: (values) => {
+            localStorage.setItem('futurepriceLog', JSON.stringify(values));
             handleSubmit1(values);
         },
     });
@@ -561,18 +604,20 @@ const FuturePriceLogs = (props) => {
         setSelectedCompanyList([]);
         setSelectedClientId("");
         setHandleListingCondition(true)
+
+        localStorage.removeItem("futurepriceLog")
+
+        let empty = {
+            "client_id": "",
+            "company_id": "",
+            "site_id": "",
+            "startDate": "",
+            "endDate": ""
+        }
+        handleSubmit1(empty)
     };
 
-    useEffect(() => {
-        if (handleListingCondition) {
-            handleFetchListing();
-        }
-    }, [handleListingCondition])
 
-    useEffect(() => {
-        handleFetchListing(currentPage);
-        console.clear();
-    }, [currentPage]);
 
 
     const handleDateChange = (dates) => {

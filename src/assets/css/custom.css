@@ -298,10 +298,10 @@ tbody td {
   /* border-bottom: 1px solid #aeb1bd; */
   border-bottom-width: 1px;
   border-top: 0;
-  border-bottom: 1px solid #aeb1bd !important;
+  border-bottom: 1px solid #e6e7e9 !important;
   padding: 13px 4px;
   min-width: 14.28% !important;
-  background-color: #aeb1bd !important;
+  background-color: #e6e7e9 !important;
 
   /* max-width: 14.28% !important; */
   min-height: 48px;

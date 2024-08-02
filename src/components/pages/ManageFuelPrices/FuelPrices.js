@@ -1,22 +1,25 @@
 import { useEffect, useState } from "react";
 import {
   Breadcrumb,
+  Button,
   Card,
   Col,
   Row,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
 import { useFormik } from "formik";
 import CustomModal from "../../../data/Modal/MiddayModal";
+import { useSelector } from "react-redux";
 
 const FuelPrices = (props) => {
   const { apidata, error, getData, postData, SiteID, ReportDate, isLoading } =
     props;
 
   const [editable, setis_editable] = useState();
+  const navigate = useNavigate()
 
   const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedDrsDate, setSelectedDrsDate] = useState("");
@@ -40,6 +43,9 @@ const FuelPrices = (props) => {
     email: false,
   });
 
+  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const isAddPermissionAvailable = UserPermissions?.includes("add-note");
+
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
   }, []);
@@ -56,6 +62,7 @@ const FuelPrices = (props) => {
 
       // ...
 
+      setSelectedClientId(values?.client_id)
       let clientIDCondition = "";
       if (localStorage.getItem("superiorRole") !== "Client") {
         clientIDCondition = `client_id=${values.client_id}&`;
@@ -65,6 +72,8 @@ const FuelPrices = (props) => {
       const response1 = await getData(
         `site/fuel-price?${clientIDCondition}company_id=${values.company_id}&drs_date=${values.start_date}`
       );
+
+
       const { data } = response1;
 
 
@@ -209,8 +218,8 @@ const FuelPrices = (props) => {
         });
       });
 
-      const isMobileSelected = selected.some(option => option.value === "mobile-sms");
-      const isEmailSelected = selected.some(option => option.value === "email");
+      // const isMobileSelected = selected.some(option => option.value === "mobile-sms");
+      // const isEmailSelected = selected.some(option => option.value === "email");
 
       setSelectedItemDate(selectedDrsDate);
       formData.append("send_sms", notificationTypes?.mobileSMS);
@@ -218,7 +227,7 @@ const FuelPrices = (props) => {
       formData.append("drs_date", selectedDrsDate);
       formData.append("client_id", selectedClientId);
       formData.append("company_id", selectedCompanyId);
-
+      // setSelectedClientId()
       const response = await postData(
         "/site/fuel-price/update-midday",
         formData
@@ -387,8 +396,14 @@ const FuelPrices = (props) => {
     }));
   };
 
-
-
+  const handleLinkClick = () => {
+    const futurepriceLog = {
+      client_id: formik?.values?.client_id,
+      company_id: formik?.values?.company_id,
+    };
+    localStorage.setItem('futurepriceLog', JSON.stringify(futurepriceLog));
+    navigate('/future-price-logs');
+  };
 
 
 
@@ -648,7 +663,24 @@ const FuelPrices = (props) => {
               }}
             >
               <Card.Header>
-                <h3 className="card-title">Fuel Price</h3>
+                <h3 className="card-title w-100 ">
+
+                  <div className=" d-flex w-100 justify-content-between align-items-center">
+                    <span>
+                      Fuel Price
+                    </span>
+
+                    {formik?.values?.client_id && formik?.values?.company_id && (<>
+                      <Button className="btn btn-primary btn-icon text-white me-3" onClick={handleLinkClick}>
+                        <span>
+                        </span>
+                        Go To Future Price
+                      </Button>
+                    </>)}
+
+
+                  </div>
+                </h3>
               </Card.Header>
               <Card.Body>
                 {data?.head_array ? (
