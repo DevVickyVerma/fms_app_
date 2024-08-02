@@ -47,7 +47,6 @@ const FuturePriceLogs = (props) => {
     );
     const isFuelPricePermissionAvailable = UserPermissions?.includes('fuel-price-cancel');
 
-    console.log(isFuelPricePermissionAvailable, "isFuelPricePermissionAvailable");
 
     const maxPagesToShow = 5; // Adjust the number of pages to show in the center
     const pages = [];
@@ -249,12 +248,6 @@ const FuturePriceLogs = (props) => {
         setSelectedRow(row)
     }
 
-
-    // useEffect(() => {
-    //     if (handleListingCondition) {
-    //         handleFetchListing();
-    //     }
-    // }, [handleListingCondition])
 
     useEffect(() => {
         handleFetchListing(currentPage);
