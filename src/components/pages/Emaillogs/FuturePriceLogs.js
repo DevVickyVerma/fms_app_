@@ -414,17 +414,21 @@ const FuturePriceLogs = (props) => {
                     <div className="d-flex future-back-color" style={{ background: row?.expired }}>
                         <div className="ms-2 mt-0 mt-sm-2 d-block">
                             <h6 className="mb-0 fs-14 fw-semibold">
-                                {row?.deleted_at ? (
-                                    null
-                                ) : <OverlayTrigger placement="top" overlay={<Tooltip>Cancel</Tooltip>}>
-                                    <Link
-                                        to="#"
-                                        className="btn btn-danger btn-sm rounded-11 responsive-btn"
-                                        onClick={() => handleDelete(row.id)}
-                                    >
-                                        <CloseIcon />
-                                    </Link>
-                                </OverlayTrigger>}
+                                {row?.deleted_at == true ? (
+                                    <></>
+                                ) :
+                                    <span>
+                                        <OverlayTrigger placement="top" overlay={<Tooltip>Cancel</Tooltip>}>
+                                            <Link
+                                                to="#"
+                                                className="btn btn-danger btn-sm rounded-11 responsive-btn"
+                                                onClick={() => handleDelete(row.id)}
+                                            >
+                                                <CloseIcon />
+                                            </Link>
+                                        </OverlayTrigger>
+                                    </span>
+                                }
                             </h6>
                         </div >
                     </div >

@@ -93,22 +93,10 @@ const FuturePriceErrorModal = (props) => {
                                                             </>}</span>
                                                         </li>
                                                         <li style={{ flex: 1 }}>
-                                                            <span className=' text-capitalize '>{data && <><span>
-                                                                <span className='fw-bold me-1'>Updated Price:{" "}</span>
-                                                            </span> {data?.price_date ? data?.price_date : "--"}</>}</span>
-                                                        </li>
-                                                    </ul>
-
-                                                    <ul style={{ display: 'flex', listStyleType: 'none', padding: 0 }} className=" my-2">
-                                                        <li style={{ flex: 1 }}>
-                                                            <span className=' text-capitalize'>{data && <><span className='fw-bold me-1'>Created Date:</span>
-                                                                {data?.created_date ? data?.created_date : "--"}
-                                                            </>}</span>
-                                                        </li>
-                                                        <li style={{ flex: 1 }}>
-                                                            <span className=' text-capitalize '>{data && <><span>
-                                                                <span className='fw-bold me-1'>Status:{" "}</span>
-                                                            </span>
+                                                            <span className=' text-capitalize '>{data && <>
+                                                                <span>
+                                                                    <span className='fw-bold me-1'>Status:{" "}</span>
+                                                                </span>
                                                                 <span className="text-muted fs-15 fw-semibold text-center">
                                                                     <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
                                                                         {data?.status === 1 ? (
@@ -134,6 +122,23 @@ const FuturePriceErrorModal = (props) => {
                                                                         )}
                                                                     </OverlayTrigger>
                                                                 </span>
+                                                            </>}
+                                                            </span>
+
+                                                        </li>
+                                                    </ul>
+
+                                                    <ul style={{ display: 'flex', listStyleType: 'none', padding: 0 }} className=" my-2">
+                                                        <li style={{ flex: 1 }}>
+
+
+                                                            <span className=' text-capitalize '>{data && <><span>
+                                                                <span className='fw-bold me-1'>Price Requested Date/Time:{" "}</span>
+                                                            </span> {data?.price_date ? data?.price_date : "--"}</>}</span>
+                                                        </li>
+                                                        <li style={{ flex: 1 }}>
+                                                            <span className=' text-capitalize'>{data && <><span className='fw-bold me-1'>Updated Date:</span>
+                                                                {data?.created_date ? data?.created_date : "--"}
                                                             </>}</span>
                                                         </li>
                                                     </ul>
