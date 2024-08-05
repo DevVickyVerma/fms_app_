@@ -179,7 +179,7 @@ const ManageRoles = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: true,
-      width: "35%",
+      width: "30%",
       cell: (row, index) => (
         <div
           className="d-flex"
@@ -197,7 +197,7 @@ const ManageRoles = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "29%",
+      width: "30%",
       cell: (row) => (
         <span className="text-center">
           {isEditPermissionAvailable ? (
