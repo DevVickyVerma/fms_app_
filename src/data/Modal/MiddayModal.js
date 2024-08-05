@@ -39,9 +39,9 @@ const CustomModal = ({
     } else if (error.response && error.response.data.status_code === "403") {
       navigate("/errorpage403");
     } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
+      const errorMessage = Array?.isArray(error?.response?.data?.message)
+        ? error?.response?.data?.message?.join(" ")
+        : error?.response?.data?.message;
       ErrorAlert(errorMessage);
     }
   }
@@ -89,7 +89,7 @@ const CustomModal = ({
 
 
       } catch (error) {
-        console.error("API error:", error);
+        console?.error("API error:", error);
         handleError(error);
       } finally {
         setIsLoading(false); // Set loading state to false after data fetching is complete

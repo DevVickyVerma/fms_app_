@@ -114,6 +114,33 @@ const FuelPrices = (props) => {
 
 
 
+  const handleClearForm = async (resetForm) => {
+    formik.setFieldValue("site_id", "")
+    formik.setFieldValue("start_date", "")
+    formik.setFieldValue("client_id", "")
+    formik.setFieldValue("company_id", "")
+    formik.setFieldValue("endDate", "")
+    formik.setFieldValue("startDate", "")
+    formik.resetForm()
+    setSelectedCompanyList([]);
+    setSelectedClientId("");
+    setCompanyList([])
+    setData(null)
+    localStorage.removeItem("fuelSellingPrice")
+    const clientId = localStorage.getItem("superiorId");
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData();
+      formik.setFieldValue("client_id", "")
+      setCompanyList([])
+    } else {
+      setSelectedClientId(clientId);
+      GetCompanyList(clientId);
+      formik.setFieldValue("client_id", clientId)
+    }
+  };
+
+
+
 
   const [data, setData] = useState();
   const renderTableHeader = () => {
@@ -304,6 +331,7 @@ const FuelPrices = (props) => {
     }),
 
     onSubmit: (values) => {
+      localStorage.setItem('fuelSellingPrice', JSON.stringify(values));
       handleSubmit1(values);
     },
   });
@@ -388,6 +416,20 @@ const FuelPrices = (props) => {
     }
   }, []);
 
+  useEffect(() => {
+    const fuelSellingPrice = JSON.parse(localStorage.getItem('fuelSellingPrice'));
+    if (fuelSellingPrice) {
+      formik.setFieldValue('client_id', fuelSellingPrice.client_id);
+      formik.setFieldValue('company_id', fuelSellingPrice.company_id);
+      formik.setFieldValue('start_date', fuelSellingPrice.start_date);
+
+
+      GetCompanyList(fuelSellingPrice.client_id);
+      GetSiteList(fuelSellingPrice.company_id)
+      handleSubmit1(fuelSellingPrice);
+    }
+  }, []);
+
 
 
   const handleLinkClick = () => {
@@ -398,6 +440,9 @@ const FuelPrices = (props) => {
     localStorage.setItem('futurepriceLog', JSON.stringify(futurepriceLog));
     navigate('/future-price-logs');
   };
+
+
+  console.log(formik?.values, "forrmik values");
 
 
   return (
@@ -639,6 +684,13 @@ const FuelPrices = (props) => {
                     >
                       <button className="btn btn-primary me-2" type="submit">
                         Submit
+                      </button>
+                      <button
+                        className="btn btn-danger me-2"
+                        type="button" // Set the type to "button" to prevent form submission
+                        onClick={() => handleClearForm()} // Call a function to clear the form
+                      >
+                        Clear
                       </button>
                     </Card.Footer>
                   </Row>

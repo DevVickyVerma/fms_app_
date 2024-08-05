@@ -17,7 +17,7 @@ import { useSelector } from "react-redux";
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 const FuturePriceLogs = (props) => {
     const { isLoading, getData, postData, apidata } = props;
@@ -849,7 +849,7 @@ const FuturePriceLogs = (props) => {
                                         <Button className="btn btn-primary btn-icon text-white me-3" onClick={handleLinkClick}>
                                             <span>
                                             </span>
-                                            Go To Fuel Price
+                                            Go To Fuel Price <ExitToAppIcon />
                                         </Button>
                                     </>)}
                                 </div>
