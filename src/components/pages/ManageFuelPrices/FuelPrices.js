@@ -89,7 +89,7 @@ const FuelPrices = (props) => {
         } else {
           // Handle the error case
           // You can display an error message or take appropriate action
-          console.error(data.message);
+          console.error(data?.message);
         }
       } else {
         // Handle the case where data is null
@@ -146,7 +146,7 @@ const FuelPrices = (props) => {
           </span>
         </td>
         <td>
-          <span className="text-muted fs-15 fw-semibold text-center">
+          <span className="text-muted fs-15 fw-semibold text-center ">
             {item?.time}
           </span>
         </td>
@@ -677,34 +677,113 @@ const FuelPrices = (props) => {
                 </h3>
               </Card.Header>
               <Card.Body>
+
+
                 {data?.head_array ? (
-                  <div
-                    className="table-container table-responsive"
-                    // style={{ height: "700px", overflowY: "auto" }}
-                    style={{
-                      overflowY: "auto",
-                      maxHeight: "calc(100vh - 376px )",
-                    }}
-                  // height:"245"
-                  >
-                    <table className="table">
-                      <colgroup>
-                        {data?.head_array &&
-                          data.head_array.map((_, index) => (
-                            <col key={index} />
-                          ))}
-                      </colgroup>
-                      <thead
-                        style={{
+                  <div style={{
+                    overflowY: "auto",
+                    maxHeight: "calc(100vh - 376px )",
+                  }}>
+                    <>
+                      <table className='table table-modern'>
+                        <thead style={{
                           position: "sticky",
                           top: "0",
                           width: "100%",
-                        }}
-                      >
-                        <tr className="fuelprice-tr">{renderTableHeader()}</tr>
-                      </thead>
-                      <tbody>{renderTableData()}</tbody>
-                    </table>
+                        }}>
+                          <tr
+                            // className="fuelprice-tr" 
+                            style={{ padding: "0px" }}>
+                            {data?.head_array &&
+                              data?.head_array?.map((item, index) => <th key={index} scope='col'>{item}</th>)}
+                          </tr>
+                        </thead>
+                        <tbody style={{ border: "1px solid #eaedf1", maxHeight: "200px", overflow: "auto" }}>
+                          {data?.listing?.map((item) => (
+                            <tr key={item.id}>
+                              <td className=" align-middle">
+                                <div className='fuel-site-name'>
+                                  <div
+                                    className={
+                                      item?.link_clickable
+                                        ? "text-muted fs-15 fw-semibold  flex-grow-1 "
+                                        : "text-muted fs-15 fw-semibold  flex-grow-1"
+                                    }
+                                    onClick={item?.link_clickable ? () => handleModalOpen(item) : null}
+                                  >
+                                    {item?.site_name} <span className="itemcount">
+                                      <span className=" d-flex justify-content-center">
+                                        {item?.count}
+                                      </span>
+                                    </span>
+                                  </div>
+                                </div>
+                              </td>
+                              <td className=" align-middle">
+                                <span className="text-muted fs-15 fw-semibold text-center fuel-site-time">
+                                  {item?.time}
+                                </span>
+                              </td>
+
+                              {Array.isArray(item?.fuels) &&
+                                item.fuels.map((fuel, index) => (
+                                  <td key={index}>
+                                    {Array.isArray(fuel) ? (
+                                      <input type="text" className="table-input readonly" readOnly />
+                                    ) : (
+                                      <input
+                                        type="number"
+                                        step="0.010"
+                                        className={`table-input ${fuel?.status === "UP"
+                                          ? "table-inputGreen"
+                                          : fuel?.status === "DOWN"
+                                            ? "table-inputRed"
+                                            : ""
+                                          } ${!fuel?.is_editable ? "readonly" : ""}`}
+                                        value={fuel?.price}
+                                        readOnly={!fuel?.is_editable}
+                                        id={fuel?.id}
+                                        onChange={(e) =>
+                                          handleInputChange(e.target.id, e.target.value)
+                                        }
+                                      />
+                                    )}
+                                  </td>
+                                ))}
+
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </>
+                    {/* <div
+                      className="table-container table-responsive"
+                      // style={{ height: "700px", overflowY: "auto" }}
+                      style={{
+                        overflowY: "auto",
+                        maxHeight: "calc(100vh - 376px )",
+                      }}
+                    // height:"245"
+                    >
+                      <table className="table">
+                        <colgroup>
+                          {data?.head_array &&
+                            data.head_array.map((_, index) => (
+                              <col key={index} />
+                            ))}
+                        </colgroup>
+                        <thead
+                          style={{
+                            position: "sticky",
+                            top: "0",
+                            width: "100%",
+                          }}
+                        >
+                          <tr className="fuelprice-tr">{renderTableHeader()}</tr>
+                        </thead>
+                        <tbody>{renderTableData()}</tbody>
+                      </table>
+                    </div> */}
                   </div>
                 ) : (
                   <img
@@ -719,67 +798,13 @@ const FuelPrices = (props) => {
                   <div className="text-end notification-class">
                     <div style={{ width: "200px", textAlign: "left" }} >
 
-                      {/* {!selected.length && (
-                        <>
-                          {setSelected([{ label: "Send Notification Type", value: "", disabled: true }])}
-                        </>
-                      )} */}
+
 
 
 
                     </div>
 
-                    {/* <div>
-                      <label>
-                        <input
-                          type="checkbox"
-                          name="notify_operator"
-                          checked={formik.values.notify_operator}
-                          onChange={formik.handleChange}
-                        />
-                        {" "}Mobile SMS Notification
-                      </label>
-                    </div>
-                    <div>
-                      <label>
-                        <input
-                          type="checkbox"
-                          name="email"
-                          checked={formik.values.email}
-                          onChange={formik.handleChange}
-                        />
-                        {" "} Email Notification
-                      </label>
-                    </div> */}
-                    {/* <div>
-                      <strong>Send Notification</strong>
-                      <div style={{ display: "flex", gap: "10px" }}>
-                        <div>
-                          <label>
-                            <input
-                              type="checkbox"
-                              name="mobileSMS"
-                              checked={notificationTypes.mobileSMS}
-                              onChange={() => handleCheckboxChange("mobileSMS")}
-                            />
-                            {" "}Mobile
-                          </label>
-                        </div>
-                        <div>
-                          <label>
-                            <input
-                              type="checkbox"
-                              name="email"
-                              checked={notificationTypes.email}
-                              onChange={() => handleCheckboxChange("email")}
-                            />
-                            {" "}Email
-                          </label>
-                        </div>
 
-
-                      </div>
-                    </div> */}
 
 
 
@@ -803,7 +828,7 @@ const FuelPrices = (props) => {
             </Card>
           </Col>
         </Row>
-      </div>
+      </div >
     </>
   );
 };

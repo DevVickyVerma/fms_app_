@@ -707,6 +707,11 @@ span.fairbank-title {
 .fuel-site-name {
   color: #7500ca !important;
   cursor: pointer;
+  max-width: 139px;
+}
+
+.fuel-site-time {
+  min-width: 105px;
 }
 
 .show-pointer-cursor {
@@ -1695,4 +1700,20 @@ span.text-error {
 
 .c-f-log-title {
   font-size: 19px;
+}
+
+.future-price-log-table>.sc-dmRaPn>.sc-fLlhyt>.rdt_Table>.rdt_TableBody>.rdt_TableRow>.sc-hKMtZM {
+  margin: 0px;
+  padding: 0px;
+}
+
+.future-price-log-table>.sc-dmRaPn>.sc-fLlhyt>.rdt_Table>.rdt_TableBody>.rdt_TableRow {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+
+.future-back-color {
+  height: 100%;
+  width: 100%;
 }

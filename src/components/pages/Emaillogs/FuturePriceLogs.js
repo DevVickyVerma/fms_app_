@@ -15,6 +15,9 @@ import { handleError } from "../../../Utils/ToastUtils";
 import FuturePriceErrorModal from "./FuturePriceErrorModal";
 import { useSelector } from "react-redux";
 import CloseIcon from '@mui/icons-material/Close';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 
 const FuturePriceLogs = (props) => {
     const { isLoading, getData, postData, apidata } = props;
@@ -280,8 +283,8 @@ const FuturePriceLogs = (props) => {
             sortable: true,
             width: "22%",
             cell: (row, index) => (
-                <div className="d-flex" onClick={() => handleErrorModal(row)}>
-                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                <div className="d-flex future-back-color align-items-center" onClick={() => handleErrorModal(row)} style={{ backgroundColor: row?.expired }}>
+                    <div className="ms-2 mt-0 mt-sm-2 d-block ">
                         <h6 className="mb-0 fs-14 fw-bold pointer">
                             <span className=" me-2">{row?.site_name}</span>
                             <OverlayTrigger
@@ -320,7 +323,7 @@ const FuturePriceLogs = (props) => {
             sortable: true,
             width: "22%",
             cell: (row, index) => (
-                <div className="d-flex">
+                <div className="d-flex future-back-color  align-items-center" style={{ background: row?.expired }}>
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold">{row?.category_name}</h6>
                     </div>
@@ -335,7 +338,7 @@ const FuturePriceLogs = (props) => {
             sortable: true,
             width: "20%",
             cell: (row, index) => (
-                <div className="d-flex" style={{ cursor: "default" }}>
+                <div className="d-flex future-back-color  align-items-center" style={{ cursor: "default", background: row?.expired }} >
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                         <h6 className="mb-0 fs-14 fw-semibold ">{row.price_date}</h6>
                     </div>
@@ -348,10 +351,19 @@ const FuturePriceLogs = (props) => {
             sortable: true,
             width: "14%",
             cell: (row, index) => (
-                <div className="d-flex w-100 h-100" style={{ background: row?.price_color }}>
+                <div className="d-flex w-100 h-100 future-back-color" style={{ background: row?.expired }} >
                     <div className="ms-2 mt-0 d-flex align-items-center  w-100 h-100">
-                        <h6 className="mb-0 fs-14 fw-semibold">
+                        <h6 className="mb-0 fs-14 fw-semibold" style={{ color: row?.price_color }}>
                             <span className=" text-decoration-line-through">{row.old_price}</span>
+                            <span>{row?.price_status === "UP" && <>
+                                <ArrowUpwardIcon />
+                            </>}</span>
+                            <span>{row?.price_status === "DOWN" && <>
+                                <ArrowDownwardIcon />
+                            </>}</span>
+                            {/* <span>{row?.price_status === "SAME" && <>
+                                <ArrowRightAltIcon />
+                            </>}</span> */}
                             <span className=" ms-2">{row.new_price}</span>
                         </h6>
                     </div>
@@ -364,7 +376,7 @@ const FuturePriceLogs = (props) => {
             sortable: true,
             width: "12%",
             cell: (row, index) => (
-                <span className="text-muted fs-15 fw-semibold text-center">
+                <span className="text-muted fs-15 fw-semibold text-center future-back-color py-2" style={{ background: row?.expired }}>
                     <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
                         {row.status === 1 ? (
                             <button
@@ -391,8 +403,6 @@ const FuturePriceLogs = (props) => {
                 </span>
             ),
         },
-
-
         isFuelPricePermissionAvailable
             ?
             {
@@ -401,11 +411,9 @@ const FuturePriceLogs = (props) => {
                 sortable: true,
                 width: "10%",
                 cell: (row, index) => (
-                    <div className="d-flex">
+                    <div className="d-flex future-back-color" style={{ background: row?.expired }}>
                         <div className="ms-2 mt-0 mt-sm-2 d-block">
                             <h6 className="mb-0 fs-14 fw-semibold">
-
-
                                 {row?.deleted_at ? (
                                     null
                                 ) : <OverlayTrigger placement="top" overlay={<Tooltip>Cancel</Tooltip>}>
@@ -414,7 +422,6 @@ const FuturePriceLogs = (props) => {
                                         className="btn btn-danger btn-sm rounded-11 responsive-btn"
                                         onClick={() => handleDelete(row.id)}
                                     >
-
                                         <CloseIcon />
                                     </Link>
                                 </OverlayTrigger>}
@@ -828,7 +835,7 @@ const FuturePriceLogs = (props) => {
                             <Card.Body>
                                 {data?.length > 0 ? (
                                     <>
-                                        <div className="table-responsive deleted-table">
+                                        <div className="table-responsive deleted-table future-price-log-table">
                                             <DataTable
                                                 columns={columns}
                                                 data={data}
@@ -836,10 +843,10 @@ const FuturePriceLogs = (props) => {
                                                 defaultSortField="id"
                                                 defaultSortAsc={false}
                                                 striped={true}
-                                                // center={true}
-                                                persistTableHead
-                                                highlightOnHover
-                                                searchable={true}
+                                            // center={true}
+                                            // persistTableHead
+                                            // highlightOnHover
+                                            // searchable={true}
                                             />
                                         </div>
                                     </>

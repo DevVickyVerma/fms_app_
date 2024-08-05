@@ -122,6 +122,7 @@ export default function AddSite(props) {
       consider_fuel_sales: "",
       shop_sale_file_upload: "",
       update_tlm_price: 0,
+      change_back_date_price: 0,
       cashback_enable: "",
       e_code: "",
     },
@@ -1697,6 +1698,38 @@ export default function AddSite(props) {
                             formik.touched.update_tlm_price && (
                               <div className="invalid-feedback">
                                 {formik.errors.update_tlm_price}
+                              </div>
+                            )}
+                        </div>
+                      </Col>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label
+                            htmlFor="change_back_date_price"
+                            className="form-label mt-4"
+                          >
+                            Update Previous Date Price{" "}
+                            <span className="text-danger">*</span>
+                          </label>
+                          <select
+                            className={`input101 ${formik.errors.change_back_date_price &&
+                              formik.touched.change_back_date_price
+                              ? "is-invalid"
+                              : ""
+                              }`}
+                            id="change_back_date_price"
+                            name="change_back_date_price"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.change_back_date_price}
+                          >
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                          </select>
+                          {formik.errors.change_back_date_price &&
+                            formik.touched.change_back_date_price && (
+                              <div className="invalid-feedback">
+                                {formik.errors.change_back_date_price}
                               </div>
                             )}
                         </div>

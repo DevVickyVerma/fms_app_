@@ -130,6 +130,7 @@ const AddSite = (props) => {
       formData.append("consider_fuel_sales", values.consider_fuel_sales);
       formData.append("shop_sale_file_upload", values.shop_sale_file_upload);
       formData.append("update_tlm_price", values.update_tlm_price);
+      formData.append("change_back_date_price", values.change_back_date_price);
       formData.append("cashback_enable", values.cashback_enable);
       formData.append("e_code", values.e_code);
 
@@ -249,6 +250,7 @@ const AddSite = (props) => {
                     consider_fuel_sales: 1,
                     shop_sale_file_upload: 1,
                     update_tlm_price: 0,
+                    change_back_date_price: 0,
                   }}
                   validationSchema={Yup.object({
                     site_code: Yup.string()
@@ -1787,6 +1789,38 @@ const AddSite = (props) => {
                                 component="div"
                                 className="invalid-feedback"
                                 name="update_tlm_price"
+                              />
+                            </FormGroup>
+                          </Col>
+
+                          <Col lg={4} md={6}>
+                            <FormGroup>
+                              <label
+                                htmlFor="change_back_date_price"
+                                className=" form-label mt-4"
+                              >
+                                Update Previous Date Price{" "}
+                                <span className="text-danger">*</span>
+                              </label>
+                              <Field
+                                as="select"
+                                className={`input101 ${errors.change_back_date_price &&
+                                  touched.change_back_date_price
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
+                                id="change_back_date_price"
+                                name="change_back_date_price"
+                              >
+                                {" "}
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+
+                              </Field>
+                              <ErrorMessage
+                                component="div"
+                                className="invalid-feedback"
+                                name="change_back_date_price"
                               />
                             </FormGroup>
                           </Col>
