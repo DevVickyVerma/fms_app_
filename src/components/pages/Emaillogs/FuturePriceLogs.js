@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import { Breadcrumb, Card, Col, OverlayTrigger, Pagination, Row, Tooltip } from "react-bootstrap";
+import { Breadcrumb, Button, Card, Col, OverlayTrigger, Pagination, Row, Tooltip } from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import DatePicker from 'react-datepicker';
@@ -50,6 +50,7 @@ const FuturePriceLogs = (props) => {
     );
     const isFuelPricePermissionAvailable = UserPermissions?.includes('fuel-price-cancel');
 
+    const navigate = useNavigate()
 
     const maxPagesToShow = 5; // Adjust the number of pages to show in the center
     const pages = [];
@@ -586,6 +587,10 @@ const FuturePriceLogs = (props) => {
         formik.setFieldValue('endDate', dates[1]);
     };
 
+    const handleLinkClick = () => {
+        navigate('/fuelprice');
+    };
+
     return (
         <>
             <FuturePriceErrorModal
@@ -833,7 +838,20 @@ const FuturePriceLogs = (props) => {
                     <Col lg={12}>
                         <Card>
                             <Card.Header>
-                                <h3 className="card-title">Future Price Logs </h3>
+                                {/* <h3 className="card-title"> </h3> */}
+                                <div className=" d-flex w-100 justify-content-between align-items-center  card-title w-100 ">
+                                    <span>
+                                        Future Price Logs
+                                    </span>
+
+                                    <Button className="btn btn-primary btn-icon text-white me-3" onClick={handleLinkClick}>
+                                        <span>
+                                        </span>
+                                        Go To Fuel Price
+                                    </Button>
+
+
+                                </div>
                             </Card.Header>
 
                             <Card.Body>
