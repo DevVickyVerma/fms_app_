@@ -12,8 +12,8 @@ import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
 import { useFormik } from "formik";
 import CustomModal from "../../../data/Modal/MiddayModal";
-import { useSelector } from "react-redux";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { useSelector } from "react-redux";
 
 
 const FuelPrices = (props) => {
@@ -41,6 +41,10 @@ const FuelPrices = (props) => {
     mobileSMS: false,
     email: false,
   });
+  const UserPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || [],
+  );
+  const isFuelHistoryPermissionAvailable = UserPermissions?.includes('fuel-price-history');
 
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
@@ -64,9 +68,11 @@ const FuelPrices = (props) => {
         clientIDCondition = `client_id=${values.client_id}&`;
       } else {
         clientIDCondition = `client_id=${clientIDLocalStorage}&`;
+        formik.setFieldValue("client_id", clientIDLocalStorage)
+        GetCompanyList(clientIDLocalStorage);
       }
       const response1 = await getData(
-        `site/fuel-price?${clientIDCondition}company_id=${values.company_id}&drs_date=${values.start_date}`
+        `site/fuel-price?${clientIDCondition}company_id=${values?.company_id}&drs_date=${values.start_date}`
       );
 
 
@@ -80,6 +86,8 @@ const FuelPrices = (props) => {
           setData(data.data || {});
           setis_editable(data.data?.btn_clickable || false);
           setIsChecked(data.data?.notify_operator || false);
+
+
 
           // setNotificationTypes((prevTypes) => ({
           //   mobileSMS: data.data?.notify_operator || false,
@@ -103,6 +111,9 @@ const FuelPrices = (props) => {
       console.error("API error:", error);
     }
   };
+
+
+
 
   const [data, setData] = useState();
   const renderTableHeader = () => {
@@ -373,22 +384,11 @@ const FuelPrices = (props) => {
     } else {
       setSelectedClientId(clientId);
       GetCompanyList(clientId);
+      formik.setFieldValue("client_id", clientId)
     }
   }, []);
 
-  const options = [
-    { label: "Mobile SMS Notification", value: "mobile-sms" },
-    { label: "Email Notification", value: "email" },
-  ];
 
-
-
-  const handleCheckboxChange = (name) => {
-    setNotificationTypes((prevTypes) => ({
-      ...prevTypes,
-      [name]: !prevTypes[name],
-    }));
-  };
 
   const handleLinkClick = () => {
     const futurepriceLog = {
@@ -398,7 +398,6 @@ const FuelPrices = (props) => {
     localStorage.setItem('futurepriceLog', JSON.stringify(futurepriceLog));
     navigate('/future-price-logs');
   };
-
 
 
   return (
@@ -664,7 +663,7 @@ const FuelPrices = (props) => {
                       Fuel Price
                     </span>
 
-                    {formik?.values?.client_id && formik?.values?.company_id && (<>
+                    {formik?.values?.client_id && formik?.values?.company_id && isFuelHistoryPermissionAvailable && (<>
                       <Button className="btn btn-primary btn-icon text-white me-3" onClick={handleLinkClick}>
                         <span>
                         </span>
