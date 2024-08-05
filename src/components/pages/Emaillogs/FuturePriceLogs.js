@@ -48,7 +48,8 @@ const FuturePriceLogs = (props) => {
     const UserPermissions = useSelector(
         (state) => state?.data?.data?.permissions || [],
     );
-    const isFuelPricePermissionAvailable = UserPermissions?.includes('fuel-price-cancel');
+    const isFuelPriceCancelPermissionAvailable = UserPermissions?.includes('fuel-price-cancel');
+    const isFuelPricePermissionAvailable = UserPermissions?.includes('fuel-price-update');
 
     const navigate = useNavigate()
 
@@ -404,7 +405,7 @@ const FuturePriceLogs = (props) => {
                 </span>
             ),
         },
-        isFuelPricePermissionAvailable
+        isFuelPriceCancelPermissionAvailable
             ?
             {
                 name: "Action",
@@ -844,13 +845,13 @@ const FuturePriceLogs = (props) => {
                                         Future Price Logs
                                     </span>
 
-                                    <Button className="btn btn-primary btn-icon text-white me-3" onClick={handleLinkClick}>
-                                        <span>
-                                        </span>
-                                        Go To Fuel Price
-                                    </Button>
-
-
+                                    {isFuelPricePermissionAvailable && (<>
+                                        <Button className="btn btn-primary btn-icon text-white me-3" onClick={handleLinkClick}>
+                                            <span>
+                                            </span>
+                                            Go To Fuel Price
+                                        </Button>
+                                    </>)}
                                 </div>
                             </Card.Header>
 
