@@ -441,9 +441,41 @@ const ManageSiteTank = (props) => {
     }),
 
     onSubmit: (values) => {
+      localStorage.setItem('manageSiteNozzle', JSON.stringify(values));
       handleSubmit1(values);
     },
   });
+
+  useEffect(() => {
+    const manageSiteNozzle = JSON.parse(localStorage.getItem('manageSiteNozzle'));
+    if (manageSiteNozzle) {
+      formik.setFieldValue('client_id', manageSiteNozzle.client_id);
+      formik.setFieldValue('company_id', manageSiteNozzle.company_id);
+      formik.setFieldValue('site_id', manageSiteNozzle.site_id);
+
+      GetCompanyList(manageSiteNozzle.client_id);
+      GetSiteList(manageSiteNozzle.company_id)
+      handleSubmit1(manageSiteNozzle);
+    }
+  }, []);
+
+
+  const handleClearForm = async (resetForm) => {
+    formik.setFieldValue("site_id", "")
+    formik.setFieldValue("start_date", "")
+    formik.setFieldValue("client_id", "")
+    formik.setFieldValue("company_id", "")
+    formik.setFieldValue("endDate", "")
+    formik.setFieldValue("startDate", "")
+    formik.resetForm()
+    setSelectedSiteList([]);
+    setSelectedCompanyList([]);
+    setSelectedClientId("");
+
+    localStorage.removeItem("manageSiteNozzle")
+
+    setData(null)
+  };
 
   const fetchCommonListData = async () => {
     try {
@@ -604,9 +636,10 @@ const ManageSiteTank = (props) => {
                     <Link
                       type="submit"
                       className="btn btn-danger me-2 "
-                      to={`/dashboard`}
+                      // to={`/dashboard`}
+                      onClick={() => handleClearForm()} // Call a function to clear the form
                     >
-                      Cancel
+                      Clear
                     </Link>
                     <button className="btn btn-primary me-2" type="submit">
                       Submit

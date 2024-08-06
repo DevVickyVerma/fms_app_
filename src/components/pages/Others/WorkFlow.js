@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
@@ -181,6 +181,20 @@ const ManageSite = (props) => {
   };
 
 
+  useEffect(() => {
+    const workFlowStatus = JSON.parse(localStorage.getItem('workFlowStatus'));
+    if (workFlowStatus) {
+      formik.setFieldValue('client_id', workFlowStatus.client_id);
+      formik.setFieldValue('company_id', workFlowStatus.company_id);
+      formik.setFieldValue('site_id', workFlowStatus.site_id);
+
+      GetCompanyList(workFlowStatus.client_id);
+      GetSiteList(workFlowStatus.company_id)
+      handleSubmit1(workFlowStatus);
+    }
+  }, []);
+
+
   const formik = useFormik({
     initialValues: {
       client_id: "",
@@ -191,6 +205,7 @@ const ManageSite = (props) => {
     }),
 
     onSubmit: (values) => {
+      localStorage.setItem('workFlowStatus', JSON.stringify(values));
       handleSubmit1(values);
     },
   });
@@ -269,6 +284,9 @@ const ManageSite = (props) => {
       GetCompanyList(clientId)
     }
   }, []);
+
+  console.log(formik?.values, "formik");
+
 
   return (
     <>

@@ -1,19 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  Form,
-  FormGroup,
-  OverlayTrigger,
-  Row,
-  Tooltip,
-} from "react-bootstrap";
+import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
@@ -21,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import { ErrorMessage, Field, Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const ManageSiteTank = (props) => {
@@ -158,7 +149,7 @@ const ManageSiteTank = (props) => {
         throw new Error("No data available in the response");
       }
     } catch (error) {
-      console.error("API error:", error);
+      console?.error("API error:", error);
     }
   };
 
@@ -180,26 +171,6 @@ const ManageSiteTank = (props) => {
       console.error("API error:", error);
     }
   };
-
-  useEffect(() => {
-    const localStorageData = localStorage.getItem("SitePump");
-    setclientIDLocalStorage(localStorage.getItem("superiorId"));
-    // Parse the data as JSON
-    const parsedData = JSON.parse(localStorageData);
-
-    // Get the value of site_id
-    const siteId = parsedData?.site_id;
-
-    const siteName = parsedData?.sitename;
-
-    setlocalStorageSiteID(siteId);
-    setlocalStorageSiteName(siteName);
-
-    // handleFetchData();
-    if (localStorageSiteID) {
-      FetchDatawithlocalstorage();
-    }
-  }, [localStorageSiteID]);
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
@@ -338,7 +309,7 @@ const ManageSiteTank = (props) => {
           {isEditPermissionAvailable ? (
             <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
               <Link
-                to={`/editsitepump/${row.id}`} // Assuming `row.id` contains the ID
+                to={`/editsitepump/${row?.id}`} // Assuming `row.id` contains the ID
                 className="btn btn-primary btn-sm rounded-11 me-2"
               >
                 <i>
@@ -400,9 +371,24 @@ const ManageSiteTank = (props) => {
     }),
 
     onSubmit: (values) => {
+      localStorage.setItem('managesitepump', JSON.stringify(values));
       handleSubmit1(values);
     },
   });
+
+  useEffect(() => {
+    const managesitepump = JSON.parse(localStorage.getItem('managesitepump'));
+    if (managesitepump) {
+      formik.setFieldValue('client_id', managesitepump.client_id);
+      formik.setFieldValue('company_id', managesitepump.company_id);
+      formik.setFieldValue('site_id', managesitepump.site_id);
+
+
+      GetCompanyList(managesitepump.client_id);
+      GetSiteList(managesitepump.company_id)
+      handleSubmit1(managesitepump);
+    }
+  }, []);
 
   const fetchCommonListData = async () => {
     try {
@@ -482,6 +468,23 @@ const ManageSiteTank = (props) => {
       GetCompanyList(clientId)
     }
   }, []);
+
+  const handleClearForm = async (resetForm) => {
+    formik.setFieldValue("site_id", "")
+    formik.setFieldValue("start_date", "")
+    formik.setFieldValue("client_id", "")
+    formik.setFieldValue("company_id", "")
+    formik.setFieldValue("endDate", "")
+    formik.setFieldValue("startDate", "")
+    formik.resetForm()
+    setSelectedSiteList([]);
+    setSelectedCompanyList([]);
+    setSelectedClientId("");
+
+    localStorage.removeItem("managesitepump")
+
+    setData(null);
+  };
 
   return (
     <>
@@ -687,9 +690,10 @@ const ManageSiteTank = (props) => {
                     <Link
                       type="submit"
                       className="btn btn-danger me-2 "
-                      to={`/dashboard`}
+                      // to={`/dashboard`}
+                      onClick={() => handleClearForm()} // Call a function to clear the form
                     >
-                      Cancel
+                      Clear
                     </Link>
                     <button className="btn btn-primary me-2" type="submit">
                       Submit

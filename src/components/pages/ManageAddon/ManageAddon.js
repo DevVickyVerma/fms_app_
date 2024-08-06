@@ -166,7 +166,7 @@ const ManageAddon = (props) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "15%",
+      width: "10%",
       center: true,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -178,7 +178,7 @@ const ManageAddon = (props) => {
       name: "Addon",
       selector: (row) => [row.name],
       sortable: true,
-      width: "40%",
+      width: "30%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -191,7 +191,7 @@ const ManageAddon = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: true,
-      width: "25%",
+      width: "30%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
