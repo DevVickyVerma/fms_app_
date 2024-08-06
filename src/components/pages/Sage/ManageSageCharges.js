@@ -655,13 +655,13 @@ const SageCharges = (props) => {
                   <hr />
                   <div className="text-end">
 
-                    <button
+                    {/* <button
                       className="btn btn-danger me-2"
                       type="button" // Set the type to "button" to prevent form submission
                       onClick={() => handleClearForm()} // Call a function to clear the form
                     >
                       Clear
-                    </button>
+                    </button> */}
 
                     <button
                       type="submit" // Change the type to "button" to prevent form submission
