@@ -349,7 +349,7 @@ const ManageSiteTank = (props) => {
       name: "Site Tank Code",
       selector: (row) => [row.tank_code],
       sortable: true,
-      width: "15%",
+      width: "13%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">

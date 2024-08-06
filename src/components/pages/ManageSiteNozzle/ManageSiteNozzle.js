@@ -475,6 +475,16 @@ const ManageSiteTank = (props) => {
     localStorage.removeItem("manageSiteNozzle")
 
     setData(null)
+
+    const clientId = localStorage.getItem("superiorId");
+
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData();
+    } else {
+      formik.setFieldValue("client_id", clientId);
+      setSelectedClientId(clientId);
+      GetCompanyList(clientId);
+    }
   };
 
   const fetchCommonListData = async () => {

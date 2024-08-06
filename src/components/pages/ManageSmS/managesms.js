@@ -676,6 +676,14 @@ const ManageSiteTank = (props) => {
     setSelectedSiteList([]);
     setSelectedCompanyList([]);
     setSelectedClientId("");
+
+    const clientId = localStorage.getItem("superiorId");
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData();
+    } else {
+      formik.setFieldValue("client_id", clientId);
+      // GetCompanyList(clientId);
+    }
   };
 
   const BuyMore = () => {

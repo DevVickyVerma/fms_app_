@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { Slide, toast } from "react-toastify";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
@@ -127,6 +128,7 @@ const ManageDsr = (props) => {
       const response = await getData(
         `site/fuel/purchase-price?${clientIDCondition}&company_id=${values.company_id}&date=${values.start_date}&site_id=${values.site_id}`
       );
+
       const { data } = response;
       if (data) {
         setData(data?.data);
@@ -435,7 +437,7 @@ const ManageDsr = (props) => {
       client_id: "",
       company_id: "",
       site_id: "",
-      start_date: "",
+      start_date: '',
     },
     validationSchema: Yup.object({
       company_id: Yup.string().required("Company is required"),
@@ -448,17 +450,37 @@ const ManageDsr = (props) => {
         ),
     }),
 
-    onSubmit: handleSubmit,
+    onSubmit: (values) => {
+
+      console.log(values, "valuesvalues");
+
+      localStorage.setItem('fuelPurchasePrice', JSON.stringify(values));
+      // onSubmit: handleSubmit,
+      handleSubmit(values);
+    },
   });
-  const ErrorToast = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
+
+
+  useEffect(() => {
+    const fuelPurchasePrice = JSON.parse(localStorage.getItem('fuelPurchasePrice'));
+
+
+    if (fuelPurchasePrice) {
+
+      formik.setFieldValue('start_date', fuelPurchasePrice?.start_date);
+      formik.setFieldValue('client_id', fuelPurchasePrice.client_id);
+      formik.setFieldValue('company_id', fuelPurchasePrice.company_id);
+      formik.setFieldValue('site_id', fuelPurchasePrice.site_id);
+
+
+      GetCompanyList(fuelPurchasePrice.client_id);
+      GetSiteList(fuelPurchasePrice.company_id)
+      handleSubmit(fuelPurchasePrice);
+    }
+  }, []);
+
+
+
   const handleSubmitForm1 = async (event) => {
     event.preventDefault();
     if (
@@ -466,7 +488,7 @@ const ManageDsr = (props) => {
       selected === null ||
       (Array.isArray(selected) && selected.length === 0)
     ) {
-      ErrorToast("Please select at least one site");
+      ErrorAlert("Please select at least one site");
     }
 
     try {
@@ -552,6 +574,34 @@ const ManageDsr = (props) => {
     label: site.site_name,
     value: site.id,
   }));
+
+
+  const handleClearForm = async (resetForm) => {
+    formik.setFieldValue("site_id", "")
+    formik.setFieldValue("start_date", "")
+    formik.setFieldValue("client_id", "")
+    formik.setFieldValue("company_id", "")
+    formik.setFieldValue("endDate", "")
+    formik.setFieldValue("startDate", "")
+    formik.resetForm()
+    setSelectedCompanyList([]);
+    setSelectedClientId("");
+    setCompanyList([])
+    setData(null)
+    localStorage.removeItem("fuelPurchasePrice")
+    const clientId = localStorage.getItem("superiorId");
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData();
+      formik.setFieldValue("client_id", "")
+      setCompanyList([])
+    } else {
+      setSelectedClientId(clientId);
+      GetCompanyList(clientId);
+      formik.setFieldValue("client_id", clientId)
+    }
+  };
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -613,9 +663,9 @@ const ManageDsr = (props) => {
                             </label>
                             <select
                               className={`input101 ${formik.errors.client_id &&
-                                  formik.touched.client_id
-                                  ? "is-invalid"
-                                  : ""
+                                formik.touched.client_id
+                                ? "is-invalid"
+                                : ""
                                 }`}
                               id="client_id"
                               name="client_id"
@@ -676,9 +726,9 @@ const ManageDsr = (props) => {
                           </label>
                           <select
                             className={`input101 ${formik.errors.company_id &&
-                                formik.touched.company_id
-                                ? "is-invalid"
-                                : ""
+                              formik.touched.company_id
+                              ? "is-invalid"
+                              : ""
                               }`}
                             id="company_id"
                             name="company_id"
@@ -731,8 +781,8 @@ const ManageDsr = (props) => {
                           </label>
                           <select
                             className={`input101 ${formik.errors.site_id && formik.touched.site_id
-                                ? "is-invalid"
-                                : ""
+                              ? "is-invalid"
+                              : ""
                               }`}
                             id="site_id"
                             name="site_id"
@@ -763,6 +813,8 @@ const ManageDsr = (props) => {
                         </div>
                       </Col>
 
+
+
                       <Col lg={3} md={6}>
                         <div className="form-group">
                           <label
@@ -776,15 +828,16 @@ const ManageDsr = (props) => {
                             type="date"
                             min={"2023-01-01"}
                             max={getCurrentDate()}
+                            onChange={formik.handleChange}
                             onClick={hadndleShowDate}
                             className={`input101 ${formik.errors.start_date &&
-                                formik.touched.start_date
-                                ? "is-invalid"
-                                : ""
+                              formik.touched.start_date
+                              ? "is-invalid"
+                              : ""
                               }`}
                             id="start_date"
+                            value={formik.values.start_date}
                             name="start_date"
-                            onChange={formik.handleChange}
                           ></input>
                           {formik.errors.start_date &&
                             formik.touched.start_date && (
@@ -800,9 +853,10 @@ const ManageDsr = (props) => {
                     <Link
                       type="submit"
                       className="btn btn-danger me-2 "
-                      to={`/dashboard`}
+                      onClick={() => handleClearForm()} // Call a function to clear the form
+
                     >
-                      Cancel
+                      Clear
                     </Link>
                     <button className="btn btn-primary me-2" type="submit">
                       Submit

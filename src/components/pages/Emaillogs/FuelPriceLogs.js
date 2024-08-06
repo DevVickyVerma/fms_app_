@@ -382,6 +382,16 @@ const ManageSiteTank = (props) => {
     setSelectedCompanyList([]);
     setSelectedClientId("");
     setHandleListingCondition(true)
+
+    const clientId = localStorage.getItem("superiorId");
+
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData();
+    } else {
+      formik.setFieldValue("client_id", clientId);
+      setSelectedClientId(clientId);
+      GetCompanyList(clientId);
+    }
   };
 
   useEffect(() => {

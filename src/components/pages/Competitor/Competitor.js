@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
 import {
   Breadcrumb,
@@ -13,6 +13,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
+import DataTableExtensions from "react-data-table-component-extensions";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import DataTable from "react-data-table-component";
@@ -242,7 +243,7 @@ const Competitor = (props) => {
               "/site/competitor/delete",
               formData
             );
-            setCompetitorList(response.data.data);
+            // setCompetitorList(response.data.data);
             Swal.fire({
               title: "Deleted!",
               text: "Your item has been deleted.",
@@ -292,7 +293,7 @@ const Competitor = (props) => {
       selector: (row, index) => index + 1,
       sortable: false,
       width: "7%",
-      center: true,
+      center: false,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           {index + 1}
@@ -303,8 +304,8 @@ const Competitor = (props) => {
       name: "Name",
       selector: (row, index) => [row.name],
       sortable: false,
-      width: "15%",
-      center: true,
+      width: "18%",
+      center: false,
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -359,7 +360,7 @@ const Competitor = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: true,
-      width: "11%",
+      width: "10%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -399,7 +400,7 @@ const Competitor = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "27%",
+      width: "15%",
       cell: (row) => (
         <span className="text-center">
           {isEditPermissionAvailable ? (
@@ -488,6 +489,11 @@ const Competitor = (props) => {
     }
   };
 
+
+  const tableDatas = {
+    columns,
+    CompetitorList,
+  };
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -604,10 +610,11 @@ const Competitor = (props) => {
                         defaultSortAsc={false}
                         striped={true}
                         persistTableHead
-                        pagination
+                        // pagination
                         highlightOnHover
                         searchable={false}
                       />
+
                     </div>
                   </>
                 ) : (

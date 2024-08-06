@@ -577,7 +577,18 @@ const FuturePriceLogs = (props) => {
             "startDate": "",
             "endDate": ""
         }
+
         handleSubmit1(empty)
+        const clientId = localStorage.getItem("superiorId");
+
+        if (localStorage.getItem("superiorRole") !== "Client") {
+            fetchCommonListData();
+        } else {
+            formik.setFieldValue("client_id", clientId);
+            setSelectedClientId(clientId);
+            GetCompanyList(clientId);
+        }
+
     };
 
 

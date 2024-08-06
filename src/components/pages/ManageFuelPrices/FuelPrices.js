@@ -442,7 +442,6 @@ const FuelPrices = (props) => {
   };
 
 
-  console.log(formik?.values, "forrmik values");
 
 
   return (

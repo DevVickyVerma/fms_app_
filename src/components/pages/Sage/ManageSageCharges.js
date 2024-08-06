@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
-import { Breadcrumb, Button, Card, Col, Form, Row } from "react-bootstrap";
+import { Breadcrumb, Card, Col, Form, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useFormik } from "formik";
@@ -9,7 +9,7 @@ import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 
 import { useSelector } from "react-redux";
-import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Swal from "sweetalert2";
@@ -52,7 +52,7 @@ const SageCharges = (props) => {
   useEffect(() => {
     if (data?.heads?.length > 0) {
       // Loop through each head and set field values
-      data.heads.forEach((head, index) => {
+      data?.heads?.forEach((head, index) => {
         setFieldValuesFromHeads(head);
       });
     }
@@ -130,9 +130,29 @@ const SageCharges = (props) => {
     }),
 
     onSubmit: (values) => {
-      handleSubmit(values);
+      localStorage.setItem('manageSageCharges', JSON.stringify(values));
+      handleSubmit(values,);
     },
   });
+
+
+  useEffect(() => {
+    const manageSageCharges = JSON.parse(localStorage.getItem('manageSageCharges'));
+    if (manageSageCharges) {
+      formik.setFieldValue('client_id', manageSageCharges.client_id);
+      formik.setFieldValue('company_id', manageSageCharges.company_id);
+      formik.setFieldValue('site_id', manageSageCharges.site_id);
+      formik.setFieldValue('department_id', manageSageCharges.department_id);
+      let showError = false
+      GetCompanyList(manageSageCharges?.client_id);
+      GetDepartmentList(manageSageCharges?.company_id);
+
+      handleSubmit(manageSageCharges, showError);
+    }
+  }, []);
+
+
+
   const dummyData = [
     {
       id: "",
@@ -146,8 +166,8 @@ const SageCharges = (props) => {
 
     // Add more dummy data items as needed
   ];
-  const handleSubmit = async (values) => {
-    if (formik.values.company_id === "" && formik.values.department_id === "") {
+  const handleSubmit = async (values, showError = true) => {
+    if (formik.values.company_id === "" && formik.values.department_id === "" && showError) {
       // Show alert or perform any other action
       ErrorAlert("Both Company and Charge Items are empty!");
     } else {
@@ -301,20 +321,7 @@ const SageCharges = (props) => {
     }
   };
 
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
 
 
@@ -391,6 +398,35 @@ const SageCharges = (props) => {
       }
     } catch (error) { }
   };
+
+
+  const handleClearForm = async (resetForm) => {
+    formik2.resetForm()
+    formik.resetForm()
+    formik.setFieldValue("site_id", "")
+    formik.setFieldValue("start_date", "")
+    formik.setFieldValue("client_id", "")
+    formik.setFieldValue("company_id", "")
+    formik.setFieldValue("endDate", "")
+    formik.setFieldValue("startDate", "")
+
+    // setSelectedCompanyList([]);
+    setSelectedClientId("");
+    localStorage.removeItem("manageSageCharges")
+    setData(null)
+
+    const clientId = localStorage.getItem("superiorId");
+
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData();
+    } else {
+      formik.setFieldValue("client_id", clientId);
+      setSelectedClientId(clientId);
+      GetCompanyList(clientId);
+    }
+  };
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -618,12 +654,21 @@ const SageCharges = (props) => {
                   </Row>
                   <hr />
                   <div className="text-end">
+
                     <button
-                      type="button" // Change the type to "button" to prevent form submission
+                      className="btn btn-danger me-2"
+                      type="button" // Set the type to "button" to prevent form submission
+                      onClick={() => handleClearForm()} // Call a function to clear the form
+                    >
+                      Clear
+                    </button>
+
+                    <button
+                      type="submit" // Change the type to "button" to prevent form submission
                       className="btn btn-primary me-2"
-                      onClick={() => {
-                        handleSubmit(formik.values); // Call handleSubmit when the button is clicked
-                      }}
+                    // onClick={() => {
+                    //   handleSubmit(formik.values); // Call handleSubmit when the button is clicked
+                    // }}
                     >
                       Submit
                     </button>
@@ -640,6 +685,7 @@ const SageCharges = (props) => {
             </div>
             <span className="text-end">
               {data?.sageExport.length > 0 ? (
+
                 <button
                   className="btn btn-primary"
                   type="button"
@@ -647,6 +693,8 @@ const SageCharges = (props) => {
                 >
                   <AddBoxIcon />
                 </button>
+
+
               ) : null}
             </span>
           </Card.Header>
@@ -932,6 +980,7 @@ const SageCharges = (props) => {
                   >
                     Submit
                   </button>
+
                 </div>
               </div>
             ) : (
