@@ -4,7 +4,9 @@ import {
   Button,
   Card,
   Col,
+  OverlayTrigger,
   Row,
+  Tooltip,
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
@@ -747,14 +749,36 @@ const FuelPrices = (props) => {
                             // className="fuelprice-tr" 
                             style={{ padding: "0px" }}>
                             {data?.head_array &&
-                              data?.head_array?.map((item, index) => <th key={index} scope='col'>{item}</th>)}
+                              data?.head_array?.map((item, index) => <th key={index} scope='col'>
+
+                                <OverlayTrigger
+                                  placement="top"
+                                  overlay={
+                                    <Tooltip
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "flex-start",
+                                        justifyContent: "flex-start",
+                                      }}
+                                    >
+                                      {item}
+
+
+                                    </Tooltip>
+                                  }
+                                >
+                                  <span>
+                                    {item?.length > 10 ? `${item?.substring(0, 10)}...` : item}
+                                  </span>
+                                </OverlayTrigger>
+                              </th>)}
                           </tr>
                         </thead>
                         <tbody style={{ border: "1px solid #eaedf1", maxHeight: "200px", overflow: "auto" }}>
                           {data?.listing?.map((item) => (
                             <tr key={item.id}>
                               <td className=" align-middle">
-                                <div className='fuel-site-name'>
+                                <div className='fuel-site-name fuel-price-conent'>
                                   <div
                                     className={
                                       item?.link_clickable
@@ -763,7 +787,7 @@ const FuelPrices = (props) => {
                                     }
                                     onClick={item?.link_clickable ? () => handleModalOpen(item) : null}
                                   >
-                                    {item?.site_name} <span className="itemcount">
+                                    {item?.site_name} <span className="itemcount ">
                                       <span className=" d-flex justify-content-center">
                                         {item?.count}
                                       </span>
@@ -771,8 +795,8 @@ const FuelPrices = (props) => {
                                   </div>
                                 </div>
                               </td>
-                              <td className=" align-middle">
-                                <span className="text-muted fs-15 fw-semibold text-center fuel-site-time">
+                              <td className=" align-middle fuel-price-conent">
+                                <span className="text-muted fs-15 fw-semibold text-center  ">
                                   {item?.time}
                                 </span>
                               </td>
@@ -781,12 +805,13 @@ const FuelPrices = (props) => {
                                 item.fuels.map((fuel, index) => (
                                   <td key={index}>
                                     {Array.isArray(fuel) ? (
-                                      <input type="text" className="table-input readonly" readOnly />
+                                      <input type="text" className="table-input readonly fuel-price-conent" readOnly />
                                     ) : (
                                       <input
                                         type="number"
                                         step="0.010"
-                                        className={`table-input ${fuel?.status === "UP"
+                                        placeholder="Enter Values"
+                                        className={`table-input fuel-price-conent ${fuel?.status === "UP"
                                           ? "table-inputGreen"
                                           : fuel?.status === "DOWN"
                                             ? "table-inputRed"
