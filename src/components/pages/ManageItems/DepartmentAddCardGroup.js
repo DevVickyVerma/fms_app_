@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import withApi from '../../../Utils/ApiHelper'
 import Loaderimg from '../../../Utils/Loader';
 import { Breadcrumb, Card, Col, Row } from 'react-bootstrap';
@@ -23,6 +23,7 @@ const DepartmentAddCardGroup = ({ isLoading, getData, postData }) => {
         AssignFormikCards: "",
         card_name: "",
     };
+    console.log(paramId, "paramIdparamId");
 
 
 
@@ -40,7 +41,7 @@ const DepartmentAddCardGroup = ({ isLoading, getData, postData }) => {
 
     const fetchUpdateCardDetail = async () => {
         try {
-            const response = await getData(`/department-item/group/list?company_id=${companyId}`);
+            const response = await getData(`/department-item/group/list?company_id=${paramId?.id}`);
             const { data } = response;
             if (data) {
                 setCardData(data?.data ? data.data.items : [])
@@ -71,7 +72,7 @@ const DepartmentAddCardGroup = ({ isLoading, getData, postData }) => {
                     index++; // Increment index for the next iteration
                 }
             }
-            formData.append("company_id", companyId);
+            formData.append("company_id", paramId?.id);
             formData.append("name", values?.card_name);
             // formData.append("group_id", paramId.id);
 

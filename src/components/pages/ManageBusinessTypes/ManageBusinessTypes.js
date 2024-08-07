@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
@@ -11,10 +11,7 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import { Button } from "bootstrap";
-import axios from "axios";
 import Swal from "sweetalert2";
-import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
@@ -155,7 +152,7 @@ const ManageBusinessTypes = (props) => {
       name: "S.NO",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "15%",
+      width: "10%",
       center: true,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">

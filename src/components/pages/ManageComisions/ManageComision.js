@@ -260,9 +260,51 @@ const ManageDsr = (props) => {
     }),
 
     onSubmit: (values) => {
+      localStorage.setItem('shopCommision', JSON.stringify(values));
       handleSubmit1(values);
     },
   });
+
+
+  useEffect(() => {
+    const shopCommision = JSON.parse(localStorage.getItem('shopCommision'));
+    if (shopCommision) {
+      formik2?.setFieldValue('client_id', shopCommision?.client_id);
+      formik2?.setFieldValue('company_id', shopCommision?.company_id);
+      formik2?.setFieldValue('site_id', shopCommision?.site_id);
+      formik2?.setFieldValue('start_date', shopCommision?.start_date);
+
+
+      GetCompanyList(shopCommision?.client_id);
+      GetSiteList(shopCommision?.company_id)
+      handleSubmit1(shopCommision);
+    }
+  }, []);
+
+  const handleClearForm = async (resetForm) => {
+    formik2?.setFieldValue("site_id", "")
+    formik2?.setFieldValue("start_date", "")
+    formik2?.setFieldValue("client_id", "")
+    formik2?.setFieldValue("company_id", "")
+    formik2?.setFieldValue("endDate", "")
+    formik2?.setFieldValue("startDate", "")
+    formik2?.resetForm()
+    setSelectedCompanyList([]);
+    setSelectedClientId("");
+    setCompanyList([])
+    setData(null)
+    localStorage.removeItem("shopCommision")
+    const clientId = localStorage.getItem("superiorId");
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData();
+      formik2?.setFieldValue("client_id", "")
+      setCompanyList([])
+    } else {
+      setSelectedClientId(clientId);
+      GetCompanyList(clientId);
+      formik2?.setFieldValue("client_id", clientId)
+    }
+  };
 
 
 
@@ -460,16 +502,17 @@ const ManageDsr = (props) => {
                     </Row>
                   </Card.Body>
                   <Card.Footer className="text-end">
-                    <Link
-                      type="submit"
-                      className="btn btn-danger me-2 "
-                      to={`/dashboard`}
+                    <button
+                      className="btn btn-danger me-2"
+                      type="button" // Set the type to "button" to prevent form submission
+                      onClick={() => handleClearForm()} // Call a function to clear the form
                     >
-                      Cancel
-                    </Link>
+                      Clear
+                    </button>
                     <button className="btn btn-primary me-2" type="submit">
                       Submit
                     </button>
+
                   </Card.Footer>
                 </form>
               </Card.Body>

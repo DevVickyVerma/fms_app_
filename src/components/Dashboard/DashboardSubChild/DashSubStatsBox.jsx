@@ -1,6 +1,4 @@
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
-import Spinners from "../Spinner";
-import OilBarrelIcon from "@mui/icons-material/OilBarrel";
 
 const DashSubStatsBox = (props) => {
   const { isLoading } = props;
@@ -26,6 +24,16 @@ const DashSubStatsBox = (props) => {
     ? singleSiteParsedData?.shop_sales
     : null;
 
+  const formatNumber = (num) => {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(1) + 'm';
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(1) + 'k';
+    } else {
+      return num;
+    }
+  };
+
   return (
     <div>
       <Row>
@@ -42,7 +50,9 @@ const DashSubStatsBox = (props) => {
                     className="mb-0 number-font"
                   >
                     {" "}
-                    ℓ{singleSiteFuelVolume?.gross_volume}
+                    ℓ  {singleSiteFuelVolume?.gross_volume
+                      ? formatNumber(singleSiteFuelVolume?.gross_volume)
+                      : ""}
                   </h2>
                   <p className="boxtitle">Fuel Volume</p>
                 </div>
@@ -52,7 +62,9 @@ const DashSubStatsBox = (props) => {
                     className="mb-0 number-font"
                   >
                     {" "}
-                    ℓ{singleSiteFuelVolume?.bunkered_volume}
+                    ℓ {singleSiteFuelVolume?.bunkered_volume
+                      ? formatNumber(singleSiteFuelVolume?.bunkered_volume)
+                      : ""}
                   </h2>
                   <p className="boxtitle">Bunkered Volume</p>
                 </div>
@@ -118,9 +130,23 @@ const DashSubStatsBox = (props) => {
                     className="mb-0 number-font"
                   >
                     {" "}
-                    £{singleSiteGrossProfit?.gross_profit}
+                    £ {singleSiteGrossProfit?.gross_profit
+                      ? formatNumber(singleSiteGrossProfit?.gross_profit)
+                      : ""}
                   </h2>
-                  <p className="boxtitle">Gross Profit</p>
+                  <p className="boxtitle">Gross Profit
+
+                    <span className="ms-1">
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={
+                          <Tooltip>{`Gross Profit = Total Sales - Opening Stock- Purchases(Deliveries) + Closing Stock`}</Tooltip>
+                        }
+                      >
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                      </OverlayTrigger>
+                    </span>
+                  </p>
                 </div>
 
                 <div className="ms-auto">
@@ -184,7 +210,10 @@ const DashSubStatsBox = (props) => {
                     className="mb-0 number-font"
                   >
                     {" "}
-                    {singleSiteGrossMargin?.gross_margin} ppl{" "}
+
+                    {singleSiteGrossMargin?.gross_margin
+                      ? formatNumber(singleSiteGrossMargin?.gross_margin)
+                      : ""} ppl{" "}
                     {singleSiteGrossMargin?.is_ppl == 1 ? (
                       <OverlayTrigger
                         placement="top"
@@ -198,7 +227,19 @@ const DashSubStatsBox = (props) => {
                       ""
                     )}
                   </h2>
-                  <p className="boxtitle">Gross Margin</p>
+                  <p className="boxtitle">Gross Margin
+
+                    <span className="ms-1">
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={
+                          <Tooltip>{`Gross Margin = (Gross Profit/Sales) * 100`}</Tooltip>
+                        }
+                      >
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                      </OverlayTrigger>
+                    </span>
+                  </p>
                 </div>
 
                 <div className="ms-auto">
@@ -263,7 +304,9 @@ const DashSubStatsBox = (props) => {
                     className="mb-0 number-font"
                   >
                     {" "}
-                    £{singleSiteFuelSales?.gross_value}
+                    £ {singleSiteFuelSales?.gross_value
+                      ? formatNumber(singleSiteFuelSales?.gross_value)
+                      : ""}
                   </h2>
                   <p className="boxtitle">Fuel Sales</p>
                 </div>
@@ -273,7 +316,9 @@ const DashSubStatsBox = (props) => {
                     className="mb-0 number-font"
                   >
                     {" "}
-                    £{singleSiteFuelSales?.bunkered_value}
+                    £ {singleSiteFuelSales?.bunkered_value
+                      ? formatNumber(singleSiteFuelSales?.bunkered_value)
+                      : ""}
                   </h2>
                   <p className="boxtitle">Bunkered Sales</p>
                 </div>
@@ -340,9 +385,8 @@ const DashSubStatsBox = (props) => {
                     className="mb-0 number-font"
                   >
                     {" "}
-                    £
-                    {singleSiteShopSale?.shop_sales
-                      ? parseFloat(singleSiteShopSale?.shop_sales)?.toLocaleString()
+                    £ {singleSiteShopSale?.shop_sales
+                      ? formatNumber(singleSiteShopSale?.shop_sales)
                       : ""}
                   </h2>
                   <p className="boxtitle">Shop Sales</p>
@@ -410,12 +454,24 @@ const DashSubStatsBox = (props) => {
                     className="mb-0 number-font"
                   >
                     {" "}
-                    £
-                    {singleSiteShopMargin?.shop_profit
-                      ? parseFloat(singleSiteShopMargin?.shop_profit)?.toLocaleString()
+                    £ {singleSiteShopMargin?.shop_profit
+                      ? formatNumber(singleSiteShopMargin?.shop_profit)
                       : ""}
+
                   </h2>
-                  <p className="boxtitle">Shop Profit</p>
+                  <p className="boxtitle">Shop Profit
+
+                    <span className="ms-1">
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={
+                          <Tooltip>{`The data is accurately sourced from our back-office system`}</Tooltip>
+                        }
+                      >
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                      </OverlayTrigger>
+                    </span>
+                  </p>
                 </div>
 
                 <div className="ms-auto">
@@ -470,7 +526,7 @@ const DashSubStatsBox = (props) => {
 
       </Row>
 
-  
+
     </div >
   );
 };

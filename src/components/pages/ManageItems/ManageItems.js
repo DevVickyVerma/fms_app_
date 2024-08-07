@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
@@ -11,18 +11,14 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
-import SearchIcon from "@mui/icons-material/Search";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const ManageItems = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -274,7 +270,7 @@ const ManageItems = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "20%",
+      width: "18%",
       cell: (row) => (
         <span className="text-center">
           {isEditPermissionAvailable ? (

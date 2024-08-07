@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
-import Spinners from "../Spinner";
-import OilBarrelIcon from "@mui/icons-material/OilBarrel";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -57,6 +55,18 @@ const DashboardStatsBox = (props) => {
     }
   };
 
+
+  const formatNumber = (num) => {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(1) + 'm';
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(1) + 'k';
+    } else {
+      return num;
+    }
+  };
+
+
   return (
     <div>
       {GrossVolume ? (
@@ -74,7 +84,9 @@ const DashboardStatsBox = (props) => {
                       className="mb-0 number-font"
                     >
                       {" "}
-                      ℓ{GrossVolume?.gross_volume}
+                      ℓ {GrossVolume?.gross_volume
+                        ? formatNumber(GrossVolume?.gross_volume)
+                        : ""}
                     </h2>
                     <p className="boxtitle">Gross Volume</p>
                   </div>
@@ -84,7 +96,9 @@ const DashboardStatsBox = (props) => {
                       className="mb-0 number-font"
                     >
                       {" "}
-                      ℓ{GrossVolume?.bunkered_volume}
+                      ℓ  {GrossVolume?.bunkered_volume
+                        ? formatNumber(GrossVolume?.bunkered_volume)
+                        : ""}
                     </h2>
                     <p className="boxtitle">Bunkered Volume</p>
                   </div>
@@ -150,9 +164,23 @@ const DashboardStatsBox = (props) => {
                       className="mb-0 number-font"
                     >
                       {" "}
-                      £{GrossProfitValue?.gross_profit}
+                      £ {GrossProfitValue?.gross_profit
+                        ? formatNumber(GrossProfitValue?.gross_profit)
+                        : ""}
                     </h2>
-                    <p className="boxtitle">Gross Profit</p>
+                    <p className="boxtitle">Gross Profit
+                      <span className="ms-1">
+                        <OverlayTrigger
+                          placement="top"
+                          overlay={
+                            <Tooltip>{`Gross Profit = Total Sales - Opening Stock- Purchases(Deliveries) + Closing Stock`}</Tooltip>
+                          }
+                        >
+                          <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        </OverlayTrigger>
+                      </span>
+
+                    </p>
                   </div>
 
                   <div className="ms-auto">
@@ -216,7 +244,10 @@ const DashboardStatsBox = (props) => {
                       className="mb-0 number-font"
                     >
                       {" "}
-                      {GrossMarginValue?.gross_margin} ppl{" "}
+
+                      {GrossMarginValue?.gross_margin
+                        ? formatNumber(GrossMarginValue?.gross_margin)
+                        : ""} ppl{" "}
                       {GrossMarginValue?.is_ppl == 1 ? (
                         <OverlayTrigger
                           placement="top"
@@ -230,7 +261,19 @@ const DashboardStatsBox = (props) => {
                         ""
                       )}
                     </h2>
-                    <p className="boxtitle">Gross Margin</p>
+                    <p className="boxtitle">Gross Margin
+
+                      <span className="ms-1">
+                        <OverlayTrigger
+                          placement="top"
+                          overlay={
+                            <Tooltip>{`Gross Margin = (Gross Profit/Sales) * 100`}</Tooltip>
+                          }
+                        >
+                          <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        </OverlayTrigger>
+                      </span>
+                    </p>
                   </div>
 
                   <div className="ms-auto">
@@ -295,7 +338,10 @@ const DashboardStatsBox = (props) => {
                       className="mb-0 number-font"
                     >
                       {" "}
-                      £{FuelValue?.gross_value}
+                      £ {FuelValue?.gross_value
+                        ? formatNumber(FuelValue?.gross_value)
+                        : ""}
+
                     </h2>
                     <p className="boxtitle">Fuel Sales</p>
                   </div>
@@ -305,7 +351,9 @@ const DashboardStatsBox = (props) => {
                       className="mb-0 number-font"
                     >
                       {" "}
-                      £{FuelValue?.bunkered_value}
+                      £  {FuelValue?.bunkered_value
+                        ? formatNumber(FuelValue?.bunkered_value)
+                        : ""}
                     </h2>
                     <p className="boxtitle">Bunkered Sales</p>
                   </div>
@@ -372,10 +420,11 @@ const DashboardStatsBox = (props) => {
                       className="mb-0 number-font"
                     >
                       {" "}
-                      £
-                      {shopsale?.shop_sales
-                        ? parseFloat(shopsale?.shop_sales)?.toLocaleString()
+                      £  {shopsale?.shop_sales
+                        ? formatNumber(shopsale?.shop_sales)
                         : ""}
+
+
                     </h2>
                     <p className="boxtitle">Shop Sales</p>
                   </div>
@@ -442,12 +491,23 @@ const DashboardStatsBox = (props) => {
                       className="mb-0 number-font"
                     >
                       {" "}
-                      £
-                      {shopmargin?.shop_profit
-                        ? parseFloat(shopmargin?.shop_profit)?.toLocaleString()
+                      £  {shopmargin?.shop_profit
+                        ? formatNumber(shopmargin?.shop_profit)
                         : ""}
                     </h2>
-                    <p className="boxtitle">Shop Profit</p>
+                    <p className="boxtitle">Shop Profit
+
+                      <span className="ms-1">
+                        <OverlayTrigger
+                          placement="top"
+                          overlay={
+                            <Tooltip>{`The data is accurately sourced from our back-office system`}</Tooltip>
+                          }
+                        >
+                          <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        </OverlayTrigger>
+                      </span>
+                    </p>
                   </div>
 
                   <div className="ms-auto">

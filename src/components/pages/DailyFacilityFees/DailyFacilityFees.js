@@ -1,48 +1,30 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import {
-  Col,
-  Row,
-  Card,
-  Form,
-  FormGroup,
-  FormControl,
-  ListGroup,
-  Breadcrumb,
-} from "react-bootstrap";
+import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 
-import { Formik, Field, ErrorMessage } from "formik";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { Slide, toast } from "react-toastify";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { useSelector } from "react-redux";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
 import CustomCompany from "../../../Utils/CustomCompany";
 import CustomClient from "../../../Utils/CustomClient";
 
 const SiteSettings = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
   const navigate = useNavigate();
 
   const [ClientList, setClientList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
-  const [AddSiteData, setAddSiteData] = useState([]);
-  const [ToleranceData, setToleranceData] = useState([]);
   // const [selectedBusinessType, setSelectedBusinessType] = useState("");
   // const [subTypes, setSubTypes] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
-  const [selectedSiteId, setSelectedSiteId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
@@ -59,20 +41,7 @@ const SiteSettings = (props) => {
   const isEditPermissionAvailable = permissionsArray?.includes(
     "shop-update-facility-fees"
   );
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array?.isArray(error?.response?.data?.message)
-        ? error?.response?.data?.message?.join(" ")
-        : error?.response?.data?.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
   const fetchCommonListData = async () => {
     try {
@@ -196,9 +165,54 @@ const SiteSettings = (props) => {
     validationSchema: Yup.object({
       company_id: Yup.string().required("Company is required"),
     }),
-
-    onSubmit: handleSubmit,
+    onSubmit: (values) => {
+      localStorage.setItem('localDailyFacilityFees', JSON.stringify(values));
+      handleSubmit(values);
+    },
   });
+
+  useEffect(() => {
+    const localDailyFacilityFees = JSON.parse(localStorage.getItem('localDailyFacilityFees'));
+    if (localDailyFacilityFees) {
+      formik.setFieldValue('client_id', localDailyFacilityFees.client_id);
+      formik.setFieldValue('company_id', localDailyFacilityFees.company_id);
+      formik.setFieldValue('start_date', localDailyFacilityFees.start_date);
+
+
+      GetCompanyList(localDailyFacilityFees.client_id);
+      GetSiteList(localDailyFacilityFees.company_id)
+      handleSubmit(localDailyFacilityFees);
+    }
+  }, []);
+
+  const handleClearForm = async (resetForm) => {
+    formik.setFieldValue("site_id", "")
+    formik.setFieldValue("start_date", "")
+    formik.setFieldValue("client_id", "")
+    formik.setFieldValue("company_id", "")
+    formik.setFieldValue("endDate", "")
+    formik.setFieldValue("startDate", "")
+    formik.resetForm()
+    setSelectedCompanyList([]);
+    setSelectedClientId("");
+    setCompanyList([])
+    setData(null)
+    localStorage.removeItem("localDailyFacilityFees")
+    const clientId = localStorage.getItem("superiorId");
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData();
+      formik.setFieldValue("client_id", "")
+      setCompanyList([])
+    } else {
+      setSelectedClientId(clientId);
+      GetCompanyList(clientId);
+      formik.setFieldValue("client_id", clientId)
+    }
+  };
+
+
+
+
   const columns = [
     {
       name: "SITE NAME",
@@ -344,13 +358,13 @@ const SiteSettings = (props) => {
 
                   </Row>
                   <div className="text-end">
-                    <Link
-                      type="sussbmit"
-                      className="btn btn-danger me-2 "
-                      to={`/sites/`}
+                    <button
+                      className="btn btn-danger me-2"
+                      type="button" // Set the type to "button" to prevent form submission
+                      onClick={() => handleClearForm()} // Call a function to clear the form
                     >
-                      Cancel
-                    </Link>
+                      Clear
+                    </button>
 
                     <button type="submit" className="btn btn-primary">
                       Submit

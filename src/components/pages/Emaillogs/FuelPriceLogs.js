@@ -144,7 +144,7 @@ const ManageSiteTank = (props) => {
       name: "Sr. No.",
       selector: (row, index) => index + 1,
       sortable: false,
-      width: "5.5%",
+      width: "5%",
       center: true,
       cell: (row, index) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -182,7 +182,7 @@ const ManageSiteTank = (props) => {
       name: "Fuel Name",
       selector: (row) => [row.name],
       sortable: true,
-      width: "12%",
+      width: "11%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -404,6 +404,8 @@ const ManageSiteTank = (props) => {
     handleFetchListing(currentPage);
     console.clear();
   }, [currentPage]);
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -433,218 +435,6 @@ const ManageSiteTank = (props) => {
           <Col md={12} xl={12}>
             <Card>
               <Card.Body>
-                {/* <Formik
-                  initialValues={initialValues}
-                  onSubmit={(values) => {
-                    handleSubmit1(values);
-                  }}
-                >
-                  {({
-                    handleSubmit,
-                    errors,
-                    touched,
-                    setFieldValue,
-                    resetForm,
-                  }) => (
-                    <Form onSubmit={handleSubmit}>
-                      <Card.Body>
-                        <Row>
-                          {localStorage.getItem("superiorRole") !==
-                            "Client" && (
-                              <Col lg={3} md={3}>
-                                <FormGroup>
-                                  <label
-                                    htmlFor="client_id"
-                                    className=" form-label mt-4"
-                                  >
-                                    Client
-                                  </label>
-                                  <Field
-                                    as="select"
-                                    className={`input101 ${errors.client_id && touched.client_id
-                                      ? "is-invalid"
-                                      : ""
-                                      }`}
-                                    id="client_id"
-                                    name="client_id"
-                                    onChange={(e) => {
-                                      const selectedType = e.target.value;
-
-                                      setFieldValue("client_id", selectedType);
-                                      setSelectedClientId(selectedType);
-
-                                      // Reset the selected company and site
-                                      setSelectedCompanyList([]);
-                                      setSelectedSiteList([]);
-                                      setFieldValue("company_id", "");
-                                      setFieldValue("site_id", "");
-
-                                      const selectedClient =
-                                        AddSiteData.data.find(
-                                          (client) => client.id === selectedType
-                                        );
-
-                                      if (selectedClient) {
-                                        setSelectedCompanyList(
-                                          selectedClient.companies
-                                        );
-                                      }
-                                    }}
-                                  >
-                                    <option value="">Select a Client</option>
-                                    {AddSiteData.data &&
-                                      AddSiteData.data.length > 0 ? (
-                                      AddSiteData.data.map((item) => (
-                                        <option key={item.id} value={item.id}>
-                                          {item.client_name}
-                                        </option>
-                                      ))
-                                    ) : (
-                                      <option disabled>No Client</option>
-                                    )}
-                                  </Field>
-
-                                  <ErrorMessage
-                                    component="div"
-                                    className="invalid-feedback"
-                                    name="client_id"
-                                  />
-                                </FormGroup>
-                              </Col>
-                            )}
-                          <Col lg={3} md={3}>
-                            <FormGroup>
-                              <label
-                                htmlFor="company_id"
-                                className="form-label mt-4"
-                              >
-                                Company
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${errors.company_id && touched.company_id
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
-                                id="company_id"
-                                name="company_id"
-                                onChange={(e) => {
-                                  const selectedCompany = e.target.value;
-                                  setFieldValue("company_id", selectedCompany);
-                                  setSelectedSiteList([]);
-                                  const selectedCompanyData =
-                                    selectedCompanyList.find(
-                                      (company) =>
-                                        company.id === selectedCompany
-                                    );
-                                  if (selectedCompanyData) {
-                                    setSelectedSiteList(
-                                      selectedCompanyData.sites
-                                    );
-                                  }
-                                }}
-                              >
-                                <option value="">Select a Company</option>
-                                {selectedCompanyList.length > 0 ? (
-                                  selectedCompanyList.map((company) => (
-                                    <option key={company.id} value={company.id}>
-                                      {company.company_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Company</option>
-                                )}
-                              </Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="company_id"
-                              />
-                            </FormGroup>
-                          </Col>
-                          <Col lg={3} md={3}>
-                            <FormGroup>
-                              <label
-                                htmlFor="site_id"
-                                className="form-label mt-4"
-                              >
-                                Site
-                              </label>
-                              <Field
-                                as="select"
-                                className={`input101 ${errors.site_id && touched.site_id
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
-                                id="site_id"
-                                name="site_id"
-                                onChange={(event) => {
-                                  const site = event.target.value;
-                                  setFieldValue("site_id", site);
-                                }}
-                              >
-                                <option value="">Select a Site</option>
-                                {selectedSiteList.length > 0 ? (
-                                  selectedSiteList.map((site) => (
-                                    <option key={site.id} value={site.id}>
-                                      {site.site_name}
-                                    </option>
-                                  ))
-                                ) : (
-                                  <option disabled>No Site</option>
-                                )}
-                              </Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="site_id"
-                              />
-                            </FormGroup>
-                          </Col>
-                          <Col lg={3} md={6}>
-                            <FormGroup>
-                              <label
-                                htmlFor="start_date"
-                                className="form-label mt-4"
-                              >
-                                Date
-                              </label>
-                              <Field
-                                type="date"
-                                min={"2023-01-01"}
-                                onClick={hadndleShowDate}
-                                className={`input101 ${errors.start_date && touched.start_date
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
-                                id="start_date"
-                                name="start_date"
-                              ></Field>
-                              <ErrorMessage
-                                component="div"
-                                className="invalid-feedback"
-                                name="start_date"
-                              />
-                            </FormGroup>
-                          </Col>
-                        </Row>
-                      </Card.Body>
-                      <Card.Footer className="text-end">
-                        <button className="btn btn-primary me-2" type="submit">
-                          Submit
-                        </button>
-                        <button
-                          className="btn btn-danger me-2"
-                          type="button" // Set the type to "button" to prevent form submission
-                          onClick={() => handleClearForm(resetForm)} // Call a function to clear the form
-                        >
-                          Clear
-                        </button>
-                      </Card.Footer>
-                    </Form>
-                  )}
-                </Formik> */}
-
                 <form onSubmit={formik.handleSubmit}>
                   <Card.Body>
                     <Row>

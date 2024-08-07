@@ -1101,7 +1101,7 @@ const Root = () => {
                   />
 
                   <Route
-                    path={`/department-add-group`}
+                    path={`/department-add-group/:id`}
                     element={<WrappedDepartmentAddCardGroup />}
                   />
                   <Route

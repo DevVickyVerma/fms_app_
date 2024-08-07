@@ -1,37 +1,22 @@
-import React, { useEffect, useState } from "react";
-
-import { Link, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import Loaderimg from "../../../Utils/Loader";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  Form,
-  FormGroup,
-  OverlayTrigger,
-  Row,
-  Tooltip,
-} from "react-bootstrap";
-import { Button } from "bootstrap";
-
+import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
-
 import { useSelector } from "react-redux";
-import { ErrorMessage, Field, Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const ManageDsr = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
-  const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [SelectedsiteID, setsiteID] = useState();
   const [SelectedDate, setDate] = useState();
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
@@ -112,7 +97,7 @@ const ManageDsr = (props) => {
       name: " CATEGORY NAME",
       selector: (row) => row.name,
       sortable: false,
-      width: "25%",
+      width: "40%",
       center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -124,7 +109,7 @@ const ManageDsr = (props) => {
       name: "PRICE(£)",
       selector: (row) => row.price,
       sortable: false,
-      width: "40%",
+      width: "30%",
       center: true,
 
       cell: (row, index) =>
@@ -149,7 +134,7 @@ const ManageDsr = (props) => {
       name: "COMMISSION(%)",
       selector: (row) => row.commission,
       sortable: false,
-      width: "40%",
+      width: "30%",
       center: true,
 
       cell: (row, index) =>
@@ -241,9 +226,52 @@ const ManageDsr = (props) => {
     }),
 
     onSubmit: (values) => {
+
+      localStorage.setItem('localValetCommission', JSON.stringify(values));
       handleSubmit1(values);
     },
   });
+
+
+  useEffect(() => {
+    const localValetCommission = JSON.parse(localStorage.getItem('localValetCommission'));
+    if (localValetCommission) {
+      formik2?.setFieldValue('client_id', localValetCommission?.client_id);
+      formik2?.setFieldValue('company_id', localValetCommission?.company_id);
+      formik2?.setFieldValue('site_id', localValetCommission?.site_id);
+      formik2?.setFieldValue('start_date', localValetCommission?.start_date);
+
+
+      GetCompanyList(localValetCommission?.client_id);
+      GetSiteList(localValetCommission?.company_id)
+      handleSubmit1(localValetCommission);
+    }
+  }, []);
+
+  const handleClearForm = async (resetForm) => {
+    formik2?.setFieldValue("site_id", "")
+    formik2?.setFieldValue("start_date", "")
+    formik2?.setFieldValue("client_id", "")
+    formik2?.setFieldValue("company_id", "")
+    formik2?.setFieldValue("endDate", "")
+    formik2?.setFieldValue("startDate", "")
+    formik2?.resetForm()
+    setSelectedCompanyList([]);
+    setSelectedClientId("");
+    setCompanyList([])
+    setData(null)
+    localStorage.removeItem("localValetCommission")
+    const clientId = localStorage.getItem("superiorId");
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData();
+      formik2?.setFieldValue("client_id", "")
+      setCompanyList([])
+    } else {
+      setSelectedClientId(clientId);
+      GetCompanyList(clientId);
+      formik2?.setFieldValue("client_id", clientId)
+    }
+  };
 
 
   const getCurrentDate = () => {
@@ -546,6 +574,7 @@ const ManageDsr = (props) => {
                               ? "is-invalid"
                               : ""
                               }`}
+                            value={formik2?.values?.start_date}
                             id="start_date"
                             name="start_date"
                             onChange={formik2.handleChange}
@@ -561,13 +590,13 @@ const ManageDsr = (props) => {
                     </Row>
                   </Card.Body>
                   <Card.Footer className="text-end">
-                    <Link
-                      type="submit"
-                      className="btn btn-danger me-2 "
-                      to={`/dashboard`}
+                    <button
+                      className="btn btn-danger me-2"
+                      type="button" // Set the type to "button" to prevent form submission
+                      onClick={() => handleClearForm()} // Call a function to clear the form
                     >
-                      Cancel
-                    </Link>
+                      Clear
+                    </button>
                     <button className="btn btn-primary me-2" type="submit">
                       Submit
                     </button>

@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
 import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import { useFormik } from "formik";
 import { Collapse, Table } from "antd";
-
 import Compititormodal from "../../../data/Modal/Midaymodalcompititor";
+
+
 
 const { Panel } = Collapse;
 
@@ -21,12 +21,10 @@ const CompetitorFuelPrices = (props) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedDrsDate, setSelectedDrsDate] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [accordionSiteID, setaccordionSiteID] = useState();
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
-  const [selectedSiteId, setSelectedSiteId] = useState("");
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
@@ -263,7 +261,6 @@ const CompetitorFuelPrices = (props) => {
         const response = await getData(`common/site-list?company_id=${values}`);
 
         if (response) {
-
           setSiteList(response?.data?.data);
         } else {
           throw new Error("No data available in the response");
@@ -505,9 +502,6 @@ const CompetitorFuelPrices = (props) => {
                       <hr />
                     </Card.Body>
                     <Card.Footer className="text-end" style={{ border: "none" }}>
-                      <button className="btn btn-primary me-2" type="submit">
-                        Submit
-                      </button>
                       <button
                         className="btn btn-danger me-2"
                         type="button" // Set the type to "button" to prevent form submission
@@ -515,6 +509,11 @@ const CompetitorFuelPrices = (props) => {
                       >
                         Clear
                       </button>
+
+                      <button className="btn btn-primary me-2" type="submit">
+                        Submit
+                      </button>
+
                     </Card.Footer>
                   </Row>
 

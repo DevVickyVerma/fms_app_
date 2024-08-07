@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import DataTableExtensions from "react-data-table-component-extensions";
 
 import {
   Breadcrumb,
@@ -15,14 +14,11 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import { Button } from "bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
-import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 
@@ -241,7 +237,7 @@ const ManageCards = (props) => {
       name: "Status",
       selector: (row) => [row.card_status],
       sortable: true,
-      width: "13%",
+      width: "15%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -282,7 +278,7 @@ const ManageCards = (props) => {
       name: "Action",
       selector: (row) => [row.action],
       sortable: false,
-      width: "20%",
+      width: "15%",
       cell: (row) => (
         <span className="text-center">
           {isEditPermissionAvailable ? (

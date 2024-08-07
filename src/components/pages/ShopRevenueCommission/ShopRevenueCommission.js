@@ -71,6 +71,7 @@ const SageDeduction = (props) => {
     initialValues: {
       client_id: "",
       company_id: "",
+      site_id: "",
       department_item_id: "",
     },
     validationSchema: Yup.object({
@@ -79,9 +80,57 @@ const SageDeduction = (props) => {
     }),
 
     onSubmit: (values) => {
+      localStorage.setItem('localShopRevenueCommission', JSON.stringify(values));
       handleSubmit(values);
     },
   });
+  useEffect(() => {
+    const localShopRevenueCommission = JSON.parse(localStorage.getItem('localShopRevenueCommission'));
+    if (localShopRevenueCommission) {
+      formik.setFieldValue('client_id', localShopRevenueCommission?.client_id);
+      formik.setFieldValue('company_id', localShopRevenueCommission?.company_id);
+      formik.setFieldValue('site_id', localShopRevenueCommission?.site_id);
+      formik.setFieldValue('start_date', localShopRevenueCommission?.start_date);
+      formik.setFieldValue('department_item_id', localShopRevenueCommission?.department_item_id);
+
+      let showError = false;
+      GetCompanyList(localShopRevenueCommission?.client_id);
+      GetDepartmentList();
+      GetSiteList(localShopRevenueCommission?.company_id)
+      handleSubmit(localShopRevenueCommission, showError);
+    }
+  }, []);
+
+  const handleClearForm = async (resetForm) => {
+    formik.setFieldValue("site_id", "")
+    formik.setFieldValue("start_date", "")
+    formik.setFieldValue("client_id", "")
+    formik.setFieldValue("company_id", "")
+    formik.setFieldValue("endDate", "")
+    formik.setFieldValue("startDate", "")
+    formik.resetForm()
+    setSelectedCompanyList([]);
+    setSelectedClientId("");
+    setCompanyList([])
+    setData(null)
+    localStorage.removeItem("localShopRevenueCommission")
+    const clientId = localStorage.getItem("superiorId");
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData();
+      formik.setFieldValue("client_id", "")
+      setCompanyList([])
+    } else {
+      setSelectedClientId(clientId);
+      GetCompanyList(clientId);
+      formik.setFieldValue("client_id", clientId)
+    }
+  };
+
+
+
+
+
+
   const dummyData = [
     {
       id: "",
@@ -93,10 +142,11 @@ const SageDeduction = (props) => {
 
     // Add more dummy data items as needed
   ];
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, showError = true) => {
     if (
       formik.values.company_id === "" &&
-      formik.values.department_item_id === ""
+      formik.values.department_item_id === "" &&
+      showError
     ) {
       // Show alert or perform any other action
       ErrorAlert("Both Comapny and Site ID are empty!");
@@ -392,7 +442,9 @@ const SageDeduction = (props) => {
       await postData(postDataUrl, formData); // Set the submission state to false after the API call is completed
     } catch (error) { }
   };
-  console.clear();
+
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -646,15 +698,25 @@ const SageDeduction = (props) => {
                   </Row>
                   <hr />
                   <div className="text-end">
+
                     <button
-                      type="button" // Change the type to "button" to prevent form submission
+                      className="btn btn-danger me-2"
+                      type="button" // Set the type to "button" to prevent form submission
+                      onClick={() => handleClearForm()} // Call a function to clear the form
+                    >
+                      Clear
+                    </button>
+                    <button
+                      type="submit" // Change the type to "button" to prevent form submission
                       className="btn btn-primary me-2"
-                      onClick={() => {
-                        handleSubmit(formik.values); // Call handleSubmit when the button is clicked
-                      }}
+                    // onClick={() => {
+                    //   handleSubmit(formik.values); // Call handleSubmit when the button is clicked
+                    // }}
                     >
                       Submit
                     </button>
+
+
                   </div>
                 </form>
               </Card.Body>

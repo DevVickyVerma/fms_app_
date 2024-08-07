@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import Loaderimg from '../../../Utils/Loader'
 import withApi from '../../../Utils/ApiHelper'
 import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap'
@@ -51,9 +51,50 @@ const DepartmentCardGroup = ({ isLoading, getData, postData, apidata }) => {
         }),
 
         onSubmit: (values) => {
+            localStorage.setItem('localDepartmentItemGroup', JSON.stringify(values));
             handleSubmit1(values);
         },
     });
+
+
+    useEffect(() => {
+        const localDepartmentItemGroup = JSON.parse(localStorage.getItem('localDepartmentItemGroup'));
+        if (localDepartmentItemGroup) {
+            formik.setFieldValue('client_id', localDepartmentItemGroup.client_id);
+            formik.setFieldValue('company_id', localDepartmentItemGroup.company_id);
+            formik.setFieldValue('start_date', localDepartmentItemGroup.start_date);
+
+
+            GetCompanyList(localDepartmentItemGroup.client_id);
+            GetSiteList(localDepartmentItemGroup.company_id)
+            handleSubmit1(localDepartmentItemGroup);
+        }
+    }, []);
+
+    const handleClearForm = async (resetForm) => {
+        formik.setFieldValue("site_id", "")
+        formik.setFieldValue("start_date", "")
+        formik.setFieldValue("client_id", "")
+        formik.setFieldValue("company_id", "")
+        formik.setFieldValue("endDate", "")
+        formik.setFieldValue("startDate", "")
+        formik.resetForm()
+        setSelectedCompanyList([]);
+        setSelectedClientId("");
+        setCompanyList([])
+        setData(null)
+        localStorage.removeItem("localDepartmentItemGroup")
+        const clientId = localStorage.getItem("superiorId");
+        if (localStorage.getItem("superiorRole") !== "Client") {
+            fetchCommonListData();
+            formik.setFieldValue("client_id", "")
+            setCompanyList([])
+        } else {
+            setSelectedClientId(clientId);
+            GetCompanyList(clientId);
+            formik.setFieldValue("client_id", clientId)
+        }
+    };
 
     const handleSubmit1 = async (values) => {
         try {
@@ -214,7 +255,7 @@ const DepartmentCardGroup = ({ isLoading, getData, postData, apidata }) => {
             name: "Item Group",
             selector: (row) => [row.name],
             sortable: true,
-            width: "30%",
+            width: "40%",
             cell: (row, index) => (
                 <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block ">
@@ -372,13 +413,13 @@ const DepartmentCardGroup = ({ isLoading, getData, postData, apidata }) => {
                                 </Card.Body>
 
                                 <Card.Footer className="text-end">
-                                    <Link
-                                        type="submit"
-                                        className="btn btn-danger me-2 "
-                                        to={`/dashboard`}
+                                    <button
+                                        className="btn btn-danger me-2"
+                                        type="button" // Set the type to "button" to prevent form submission
+                                        onClick={() => handleClearForm()} // Call a function to clear the form
                                     >
-                                        Cancel
-                                    </Link>
+                                        Clear
+                                    </button>
                                     <button className="btn btn-primary m-2 " type="submit">
                                         Submit
                                     </button>
@@ -400,9 +441,9 @@ const DepartmentCardGroup = ({ isLoading, getData, postData, apidata }) => {
 
                             <div className="ms-auto pageheader-btn  d-flex align-items-center">
                                 <div className="input-group">
-                                    {isAddPermissionAvailable && showAddButton ? (
+                                    {isAddPermissionAvailable && showAddButton && formik?.values?.company_id ? (
                                         <Link
-                                            to={`/department-add-group`}
+                                            to={`/department-add-group/${formik?.values?.company_id}`}
                                             className="btn btn-primary ms-2"
                                             style={{ borderRadius: "4px" }}
                                         >

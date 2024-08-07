@@ -1,45 +1,30 @@
-import React, { useEffect, useState } from "react";
-
-import { Link, Navigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  Form,
-  FormGroup,
-  OverlayTrigger,
-  Row,
-  Tooltip,
-} from "react-bootstrap";
-import { Button } from "bootstrap";
+import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { FormModal } from "../../../data/Modal/Modal";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
-import SearchIcon from "@mui/icons-material/Search";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { ErrorMessage, Field, Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 import CustomClient from "../../../Utils/CustomClient";
 import CustomCompany from "../../../Utils/CustomCompany";
 import CustomSite from "../../../Utils/CustomSite";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const ManageSiteTank = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, } = props;
   const [data, setData] = useState();
   const navigate = useNavigate();
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
-  const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [submitSiteID, setsubmitSiteID] = useState();
   const [localStorageSiteName, setlocalStorageSiteName] = useState();
   const [localStorageSiteID, setlocalStorageSiteID] = useState();
@@ -98,28 +83,8 @@ const ManageSiteTank = (props) => {
       }
     });
   };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+
 
   const handleSubmit1 = async (values) => {
     try {
@@ -364,9 +329,49 @@ const ManageSiteTank = (props) => {
     }),
 
     onSubmit: (values) => {
+      localStorage.setItem('localPPLRate', JSON.stringify(values));
       handleSubmit1(values);
     },
   });
+
+  useEffect(() => {
+    const localPPLRate = JSON.parse(localStorage.getItem('localPPLRate'));
+    if (localPPLRate) {
+      formik.setFieldValue('client_id', localPPLRate?.client_id);
+      formik.setFieldValue('company_id', localPPLRate?.company_id);
+      formik.setFieldValue('site_id', localPPLRate?.site_id);
+      formik.setFieldValue('start_date', localPPLRate?.start_date);
+
+      GetCompanyList(localPPLRate?.client_id);
+      GetSiteList(localPPLRate?.company_id)
+      handleSubmit1(localPPLRate);
+    }
+  }, []);
+
+  const handleClearForm = async (resetForm) => {
+    formik.setFieldValue("site_id", "")
+    formik.setFieldValue("start_date", "")
+    formik.setFieldValue("client_id", "")
+    formik.setFieldValue("company_id", "")
+    formik.setFieldValue("endDate", "")
+    formik.setFieldValue("startDate", "")
+    formik.resetForm()
+    setSelectedCompanyList([]);
+    setSelectedClientId("");
+    setCompanyList([])
+    setData(null)
+    localStorage.removeItem("localPPLRate")
+    const clientId = localStorage.getItem("superiorId");
+    if (localStorage.getItem("superiorRole") !== "Client") {
+      fetchCommonListData();
+      formik.setFieldValue("client_id", "")
+      setCompanyList([])
+    } else {
+      setSelectedClientId(clientId);
+      GetCompanyList(clientId);
+      formik.setFieldValue("client_id", clientId)
+    }
+  };
 
   const fetchCommonListData = async () => {
     try {
@@ -527,6 +532,13 @@ const ManageSiteTank = (props) => {
                     />
                   </Row>
                   <Card.Footer className="text-end">
+                    <button
+                      className="btn btn-danger me-2"
+                      type="button" // Set the type to "button" to prevent form submission
+                      onClick={() => handleClearForm()} // Call a function to clear the form
+                    >
+                      Clear
+                    </button>
                     <button className="btn btn-primary me-2" type="submit">
                       Submit
                     </button>
