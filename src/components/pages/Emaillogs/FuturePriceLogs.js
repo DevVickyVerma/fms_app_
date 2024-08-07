@@ -829,9 +829,6 @@ const FuturePriceLogs = (props) => {
                                         </Row>
                                     </Card.Body>
                                     <Card.Footer className="text-end">
-                                        <button className="btn btn-primary me-2" type="submit">
-                                            Submit
-                                        </button>
                                         <button
                                             className="btn btn-danger me-2"
                                             type="button" // Set the type to "button" to prevent form submission
@@ -839,6 +836,10 @@ const FuturePriceLogs = (props) => {
                                         >
                                             Clear
                                         </button>
+                                        <button className="btn btn-primary me-2" type="submit">
+                                            Submit
+                                        </button>
+
                                     </Card.Footer>
                                 </form>
                             </Card.Body>

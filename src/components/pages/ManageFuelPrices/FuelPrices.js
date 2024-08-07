@@ -681,9 +681,7 @@ const FuelPrices = (props) => {
                       className="text-end"
                       style={{ border: "none" }}
                     >
-                      <button className="btn btn-primary me-2" type="submit">
-                        Submit
-                      </button>
+
                       <button
                         className="btn btn-danger me-2"
                         type="button" // Set the type to "button" to prevent form submission
@@ -691,6 +689,10 @@ const FuelPrices = (props) => {
                       >
                         Clear
                       </button>
+                      <button className="btn btn-primary me-2" type="submit">
+                        Submit
+                      </button>
+
                     </Card.Footer>
                   </Row>
                 </form>
