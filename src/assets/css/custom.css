@@ -1717,3 +1717,11 @@ span.text-error {
   height: 100%;
   width: 100%;
 }
+
+.dash-card-default-height {
+  height: calc(100% - 25px);
+}
+
+.fuel-price-conent {
+  min-width: 120px;
+}
