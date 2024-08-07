@@ -323,10 +323,10 @@ const FuelPrices = (props) => {
     validationSchema: Yup.object({
       company_id: Yup.string().required("Company is required"),
       start_date: Yup.date()
-        .required("Start Date is required")
+        .required("Date is required")
         .min(
           new Date("2023-01-01"),
-          "Start Date cannot be before January 1, 2023"
+          "Date cannot be before January 1, 2023"
         ),
     }),
 
@@ -642,7 +642,7 @@ const FuelPrices = (props) => {
                               htmlFor="start_date"
                               className="form-label mt-4"
                             >
-                              Start Date
+                              Date
                               <span className="text-danger">*</span>
                             </label>
                             <input

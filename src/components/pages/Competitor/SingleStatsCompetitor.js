@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Breadcrumb, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import { Breadcrumb, Button, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import axios from "axios";
@@ -17,6 +17,8 @@ import { Box, Typography } from "@mui/material";
 import * as Yup from "yup";
 import { ErrorMessage, Field, Formik } from "formik";
 import moment from "moment";
+import CompiMiddayModal from "./CompiMiddayModal";
+import { useSelector } from "react-redux";
 
 const SingleStatsCompetitor = ({ isLoading, getData }) => {
   const [getCompetitorsPrice, setGetCompetitorsPrice] = useState(null);
@@ -25,6 +27,16 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
   const [selected, setSelected] = useState();
   const [mySelectedDate, setMySelectedDate] = useState();
 
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedDrsDate, setSelectedDrsDate] = useState("");
+
+
+
+  const UserPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || [],
+  );
+  const isFuelPriceUpdatePermissionAvailable = UserPermissions?.includes('fuel-price-update');
   const token = localStorage.getItem("token");
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -33,6 +45,19 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
     },
   });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Dynamically set the initial date
+    const initialDate = getInitialDate();
+    setSelectedDrsDate(initialDate);
+  }, []);
+
+  // Function to get the initial date
+  const getInitialDate = () => {
+    // Calculate or fetch the initial date dynamically
+    const today = new Date();
+    return today.toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+  };
 
 
   const FetchCompititorData = async (selectedValues) => {
@@ -141,10 +166,47 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
   const formattedMinDate = minDate.toISOString().split("T")[0]; // Format min date
 
 
+  const handleModalOpen = (item) => {
+    setSelectedItem(id); // Set the selected item
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+  const handleDataFromChild = async (dataFromChild) => {
+    try {
+      // Assuming you have the 'values' object constructed from 'dataFromChild'
+      const values = {
+        start_date: selectedDrsDate,
+        // client_id: selectedClientId,
+        // company_id: selectedCompanyId,
+      };
+
+      // await handleSubmit1(values);
+    } catch (error) {
+      console.error("Error handling data from child:", error);
+    }
+  };
 
   return (
     <>
       {Compititorloading ? <Loaderimg /> : null}
+
+      {modalOpen && (<>
+        <CompiMiddayModal
+          open={modalOpen}
+          onClose={handleModalClose}
+          selectedItem={selectedItem}
+          selectedDrsDate={selectedDrsDate}
+          setSelectedDrsDate={setSelectedDrsDate}
+          onDataFromChild={handleDataFromChild}
+          getCompetitorsPrice={getCompetitorsPrice}
+        />
+      </>)}
+
+
+
       <div className="page-header d-flex flex-wrap">
         <div>
           <h1 className="page-title ">
@@ -223,8 +285,8 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                       max={formattedMaxDate} // Use formattedMaxDate for the max attribute
                       onClick={handleShowDate}
                       className={`input101 compi-calender ${errors.start_date && touched.start_date
-                          ? "is-invalid"
-                          : ""
+                        ? "is-invalid"
+                        : ""
                         }`}
                       id="start_date"
                       name="start_date"
@@ -406,11 +468,21 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
         <Col lg={12} md={12} className="">
           <Card className="">
             <Card.Header className=" my-cardd card-header ">
-              <h4 className="card-title">
-                {" "}
-                {getCompetitorsPrice ? getCompetitorsPrice?.siteName : ""}{" "}
-                Competitors Stats
-              </h4>
+
+
+              <div className=" d-flex w-100 justify-content-between align-items-center  card-title w-100 ">
+                <h4 className="card-title">
+                  {" "}
+                  {getCompetitorsPrice ? getCompetitorsPrice?.siteName : ""}{" "}
+                  Competitors Stats
+                </h4>
+
+                {isFuelPriceUpdatePermissionAvailable && (<>
+                  <Button className="btn btn-primary btn-icon text-white me-3" onClick={() => handleModalOpen()}>
+                    Update Fuel Price
+                  </Button>
+                </>)}
+              </div>
             </Card.Header>
             <Card.Body className="my-cardd card-body pb-0 overflow-auto">
               <table className="w-100 mb-6">
@@ -572,6 +644,8 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
           <Card>
             <Card.Header className="card-header">
               <h4 className="card-title"> Local Competitor Stats</h4>
+
+
             </Card.Header>
             <Card.Body className="card-body pb-0">
               <div id="chart">

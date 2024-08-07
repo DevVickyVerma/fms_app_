@@ -147,6 +147,9 @@ const CompititorDashStats = ({ isLoading, getData, id }) => {
   minDate.setMonth(minDate.getMonth() - 2); // Set min date to 2 months ago
   const formattedMinDate = minDate.toISOString().split("T")[0]; // Format min date
 
+
+
+
   return (
     <>
       {Compititorloading ? <Loaderimg /> : null}
@@ -227,11 +230,10 @@ const CompititorDashStats = ({ isLoading, getData, id }) => {
                       min={formattedMinDate} // Use formattedMinDate for the min attribute
                       max={formattedMaxDate} // Use formattedMaxDate for the max attribute
                       onClick={handleShowDate}
-                      className={`input101 compi-calender ${
-                        errors.start_date && touched.start_date
-                          ? "is-invalid"
-                          : ""
-                      }`}
+                      className={`input101 compi-calender ${errors.start_date && touched.start_date
+                        ? "is-invalid"
+                        : ""
+                        }`}
                       id="start_date"
                       name="start_date"
                       value={mySelectedDate}
@@ -313,7 +315,7 @@ const CompititorDashStats = ({ isLoading, getData, id }) => {
                 px={"13px"}
               >
                 <Typography fontSize={"14px"}>
-                  Last Day End : {}
+                  Last Day End : { }
                   {getCompetitorsPrice?.last_dayend ? (
                     moment(getCompetitorsPrice?.last_dayend).format("Do MMM")
                   ) : (
