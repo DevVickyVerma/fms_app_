@@ -74,6 +74,18 @@ const DashboardChildTable = (props) => {
     localStorage.setItem("singleSiteData", rowDataString);
   }
 
+
+  const formatNumber = (num) => {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(1) + 'm';
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(1) + 'k';
+    } else {
+      return num;
+    }
+  };
+
+
   const renderTableHeader = () => {
     return (
       <tr className="fuelprice-tr " style={{ padding: "0px" }}>
@@ -83,6 +95,7 @@ const DashboardChildTable = (props) => {
         <th className="dashboard-child-thead">Gross Profit</th>
         <th className="dashboard-child-thead">Gross Margin</th>
         <th className="dashboard-child-thead">Shop Sales</th>
+        <th className="dashboard-child-thead">Shop Fees</th>
         <th className="dashboard-child-thead">Shop Profit</th>
       </tr>
     );
@@ -146,7 +159,9 @@ const DashboardChildTable = (props) => {
                   <div className="d-flex align-items-center h-100 ">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                       <h6 className="mb-0 fs-14 fw-semibold ">
-                        ℓ{item.fuel_volume?.gross_volume}
+                        ℓ  {item.fuel_volume?.gross_volume
+                          ? formatNumber(item.fuel_volume?.gross_volume)
+                          : ""}
                       </h6>
 
                       <p
@@ -181,7 +196,9 @@ const DashboardChildTable = (props) => {
                   <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                       <h6 className="mb-0 fs-14 fw-semibold">
-                        £{item?.fuel_sales?.gross_value}
+                        £ {item?.fuel_sales?.gross_value
+                          ? formatNumber(item?.fuel_sales?.gross_value)
+                          : ""}
                       </h6>
                       <p
                         className={`me-1 ${item?.fuel_sales?.status === "up"
@@ -215,7 +232,9 @@ const DashboardChildTable = (props) => {
                   <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                       <h6 className="mb-0 fs-14 fw-semibold">
-                        £{item?.gross_profit?.gross_profit}
+                        £ {item?.gross_profit?.gross_profit
+                          ? formatNumber(item?.gross_profit?.gross_profit)
+                          : ""}
                       </h6>
                       <p
                         className={`me-1 ${item?.gross_profit?.status === "up"
@@ -249,7 +268,11 @@ const DashboardChildTable = (props) => {
                   <div className="d-flex">
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                       <h6 className="mb-0 fs-14 fw-semibold">
-                        {item?.gross_margin?.gross_margin} ppl{""}  {item?.gross_margin?.is_ppl == 1 ? (
+                        {item?.gross_margin?.gross_margin
+                          ? formatNumber(item?.gross_margin?.gross_margin)
+                          : ""}
+
+                        ppl{""}  {item?.gross_margin?.is_ppl == 1 ? (
                           <OverlayTrigger
                             placement="top"
                             overlay={
@@ -299,8 +322,10 @@ const DashboardChildTable = (props) => {
                       <h6 className="mb-0 fs-14 fw-semibold">
                         £
                         {/* {item?.shop_sales?.shop_sales} */}
+                        {item?.shop_sales?.shop_sales
+                          ? formatNumber(item?.shop_sales?.shop_sales)
+                          : ""}
 
-                        {item?.shop_sales?.shop_sales ? parseFloat(item?.shop_sales?.shop_sales)?.toLocaleString() : ""}
                       </h6>
                       <p
                         className={`me-1 ${item?.shop_sales?.status === "up"
@@ -334,7 +359,48 @@ const DashboardChildTable = (props) => {
                     <div className="ms-2 mt-0 mt-sm-2 d-block">
                       <h6 className="mb-0 fs-14 fw-semibold">
                         £
-                        {item?.shop_profit?.shop_profit ? parseFloat(item?.shop_profit?.shop_profit)?.toLocaleString() : "0.00"}
+                        {item?.shop_fees?.shop_fee
+                          ? formatNumber(item?.shop_fees?.shop_fee)
+                          : ""}
+
+                        {/* {item?.shop_fees?.shop_fees || "0.00"} */}
+                      </h6>
+                      <p
+                        className={`me-1 ${item?.shop_fees?.status === "up"
+                          ? "text-success"
+                          : "text-danger"
+                          }`}
+                        data-tip={`${item?.shop_fees?.percentage}%`}
+                      >
+                        {item?.shop_fees?.status === "up" ? (
+                          <>
+                            <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                            <span className="text-success">
+                              {item?.shop_fees?.percentage}%
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                            <span className="text-danger">
+                              {item?.shop_fees?.percentage}%
+                            </span>
+                          </>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td className="dashboard-child-tdata">
+
+                  <div className="d-flex">
+                    <div className="ms-2 mt-0 mt-sm-2 d-block">
+                      <h6 className="mb-0 fs-14 fw-semibold">
+                        £
+                        {item?.shop_profit?.shop_profit
+                          ? formatNumber(item?.shop_profit?.shop_profit)
+                          : ""}
+
                         {/* {item?.shop_profit?.shop_profit || "0.00"} */}
                       </h6>
                       <p

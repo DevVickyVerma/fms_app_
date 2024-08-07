@@ -769,9 +769,9 @@ const DashSubChild = ({
       </Row>
       <Col xl={12}>
         <Card>
-        <Card.Header>
-          Competitor Stats
-        </Card.Header>
+          <Card.Header>
+            Competitor Stats
+          </Card.Header>
           <Card.Body className="p-6">
             <div className="panel panel-primary">
               <div className=" tab-menu-heading border">

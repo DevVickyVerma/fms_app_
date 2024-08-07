@@ -8,6 +8,7 @@ const DashboardStatsBox = (props) => {
     isLoading,
     GrossVolume,
     shopmargin,
+    shop_fees,
     GrossProfitValue,
     GrossMarginValue,
     FuelValue,
@@ -71,10 +72,10 @@ const DashboardStatsBox = (props) => {
     <div>
       {GrossVolume ? (
         <Row>
-          <Col sm={12} md={6} lg={6} xl={4} key={Math.random()}>
+          <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
             <Card
               onClick={handleNavigateClick}
-              className={`card  dash-plates-1 img-card box-primary-shadow`}
+              className={`card dash-card-default-height dash-plates-1 img-card box-primary-shadow`}
             >
               <Card.Body className="statscard">
                 <div className="d-flex justify-content-between">
@@ -151,10 +152,92 @@ const DashboardStatsBox = (props) => {
               </Card.Body>
             </Card>
           </Col>
-          <Col sm={12} md={6} lg={6} xl={4} key={Math.random()}>
+          <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
             <Card
               onClick={handleNavigateClick}
-              className={`card dash-plates-6 img-card box-success-shadow`}
+              className={`card dash-card-default-height dash-plates-3 img-card box-danger-shadow`}
+            >
+              <Card.Body className="statscard">
+                <div className="d-flex justify-content-between">
+                  <div className="text-white">
+                    <h2
+                      style={{ fontSize: "18px" }}
+                      className="mb-0 number-font"
+                    >
+                      {" "}
+                      £ {FuelValue?.gross_value
+                        ? formatNumber(FuelValue?.gross_value)
+                        : ""}
+
+                    </h2>
+                    <p className="boxtitle">Fuel Sales (Ex. Vat)</p>
+                  </div>
+                  <div className="text-white" >
+                    <h2
+                      style={{ fontSize: "18px" }}
+                      className="mb-0 number-font"
+                    >
+                      {" "}
+                      £  {FuelValue?.bunkered_value
+                        ? formatNumber(FuelValue?.bunkered_value)
+                        : ""}
+                    </h2>
+                    <p className="boxtitle">Bunkered Sales</p>
+                  </div>
+
+                  <div className="">
+                    <div
+                      className="counter-icon  brround  ms-auto"
+
+                      style={{ background: "#fff", color: "#ddd" }}
+                    >
+                      <div
+                        style={{ background: "#fff", color: "#ddd" }}
+                        className="counter-icon   brround ms-auto "
+                      >
+                        {" "}
+                        <i
+                          className="icon icon-pound-sign  "
+                          style={{ color: "#000" }}
+                        >
+                          ℓ
+                        </i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p className="margin-div">
+                  <span
+                    className={`me-1 ${shopmargin?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                      }`}
+                    data-tip={`${FuelValue?.percentage}%`}
+                  >
+                    {FuelValue?.status === "up" ? (
+                      <>
+                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                        <span className="text-success">
+                          {FuelValue?.percentage}% Last Month
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                        <span className="text-danger">
+                          {FuelValue?.percentage}% Last Month
+                        </span>
+                      </>
+                    )}
+                  </span>
+                </p>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
+            <Card
+              onClick={handleNavigateClick}
+              className={`card dash-card-default-height dash-plates-6 img-card box-success-shadow`}
             >
               <Card.Body className="statscard">
                 <div className="d-flex ">
@@ -231,10 +314,10 @@ const DashboardStatsBox = (props) => {
               </Card.Body>
             </Card>
           </Col>
-          <Col sm={12} md={6} lg={6} xl={4} key={Math.random()}>
+          <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
             <Card
               onClick={handleNavigateClick}
-              className={`card dash-plates-2 img-card box-info-shadow`}
+              className={`card dash-card-default-height dash-plates-2 img-card box-info-shadow`}
             >
               <Card.Body className="statscard">
                 <div className="d-flex">
@@ -325,92 +408,11 @@ const DashboardStatsBox = (props) => {
               </Card.Body>
             </Card>
           </Col>
-          <Col sm={12} md={6} lg={6} xl={4} key={Math.random()}>
+
+          <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
             <Card
               onClick={handleNavigateClick}
-              className={`card dash-plates-3 img-card box-danger-shadow`}
-            >
-              <Card.Body className="statscard">
-                <div className="d-flex justify-content-between">
-                  <div className="text-white">
-                    <h2
-                      style={{ fontSize: "18px" }}
-                      className="mb-0 number-font"
-                    >
-                      {" "}
-                      £ {FuelValue?.gross_value
-                        ? formatNumber(FuelValue?.gross_value)
-                        : ""}
-
-                    </h2>
-                    <p className="boxtitle">Fuel Sales</p>
-                  </div>
-                  <div className="text-white" >
-                    <h2
-                      style={{ fontSize: "18px" }}
-                      className="mb-0 number-font"
-                    >
-                      {" "}
-                      £  {FuelValue?.bunkered_value
-                        ? formatNumber(FuelValue?.bunkered_value)
-                        : ""}
-                    </h2>
-                    <p className="boxtitle">Bunkered Sales</p>
-                  </div>
-
-                  <div className="">
-                    <div
-                      className="counter-icon  brround  ms-auto"
-
-                      style={{ background: "#fff", color: "#ddd" }}
-                    >
-                      <div
-                        style={{ background: "#fff", color: "#ddd" }}
-                        className="counter-icon   brround ms-auto "
-                      >
-                        {" "}
-                        <i
-                          className="icon icon-pound-sign  "
-                          style={{ color: "#000" }}
-                        >
-                          ℓ
-                        </i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <p className="margin-div">
-                  <span
-                    className={`me-1 ${shopmargin?.status === "up"
-                      ? "text-success"
-                      : "text-danger"
-                      }`}
-                    data-tip={`${FuelValue?.percentage}%`}
-                  >
-                    {FuelValue?.status === "up" ? (
-                      <>
-                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
-                        <span className="text-success">
-                          {FuelValue?.percentage}% Last Month
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
-                        <span className="text-danger">
-                          {FuelValue?.percentage}% Last Month
-                        </span>
-                      </>
-                    )}
-                  </span>
-                </p>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col sm={12} md={6} lg={6} xl={4} key={Math.random()}>
-            <Card
-              onClick={handleNavigateClick}
-              className={`card dash-plates-4 img-card box-warning-shadow`}
+              className={`card dash-card-default-height dash-plates-4 img-card box-warning-shadow`}
             >
               <Card.Body className="statscard">
                 <div className="d-flex">
@@ -426,7 +428,7 @@ const DashboardStatsBox = (props) => {
 
 
                     </h2>
-                    <p className="boxtitle">Shop Sales</p>
+                    <p className="boxtitle">Shop Sales (Ex. Vat)</p>
                   </div>
 
                   <div className="ms-auto">
@@ -478,10 +480,79 @@ const DashboardStatsBox = (props) => {
               </Card.Body>
             </Card>
           </Col>
-          <Col sm={12} md={6} lg={6} xl={4} key={Math.random()}>
+          <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
             <Card
               onClick={handleNavigateClick}
-              className={`card  dash-plates-5 img-card box-primary-shadow`}
+              className={`card dash-card-default-height dash-plates-6 img-card box-primary-shadow`}
+            >
+              <Card.Body className="statscard">
+                <div className="d-flex">
+                  <div className="text-white">
+                    <h2
+                      style={{ fontSize: "18px" }}
+                      className="mb-0 number-font"
+                    >
+                      {" "}
+                      £  {shop_fees?.shop_fee
+                        ? formatNumber(shop_fees?.shop_fee)
+                        : ""}
+                    </h2>
+                    <p className="boxtitle">Shop Fee </p>
+                  </div>
+
+                  <div className="ms-auto">
+                    <div
+                      className="counter-icon  brround  ms-auto"
+
+                      style={{ background: "#fff", color: "#ddd" }}
+                    >
+                      <div
+                        style={{ background: "#fff", color: "#ddd" }}
+                        className="counter-icon   brround ms-auto "
+                      >
+                        {" "}
+                        <i
+                          className="icon icon-pound-sign  "
+                          style={{ color: "#000" }}
+                        >
+                          ℓ
+                        </i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p className="margin-div">
+                  <span
+                    className={`me-1 ${shop_fees?.status === "up"
+                      ? "text-success"
+                      : "text-danger"
+                      }`}
+                    data-tip={`${shop_fees?.percentage}%`}
+                  >
+                    {shop_fees?.status === "up" ? (
+                      <>
+                        <i className="fa fa-chevron-circle-up text-success me-1"></i>
+                        <span className="text-success">
+                          {shop_fees?.percentage}% Last Month
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <i className="fa fa-chevron-circle-down text-danger me-1"></i>
+                        <span className="text-danger">
+                          {shop_fees?.percentage}% Last Month
+                        </span>
+                      </>
+                    )}
+                  </span>
+                </p>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
+            <Card
+              onClick={handleNavigateClick}
+              className={`card dash-card-default-height dash-plates-5 img-card box-primary-shadow`}
             >
               <Card.Body className="statscard">
                 <div className="d-flex">
@@ -501,7 +572,7 @@ const DashboardStatsBox = (props) => {
                         <OverlayTrigger
                           placement="top"
                           overlay={
-                            <Tooltip>{`The data is accurately sourced from our back-office system`}</Tooltip>
+                            <Tooltip>{`The data is accurately sourced from back-office system`}</Tooltip>
                           }
                         >
                           <i class="fa fa-info-circle" aria-hidden="true"></i>

@@ -33,27 +33,42 @@ const DashboardOverallStatsPieChart = ({ data }) => {
     colors: ["rgb(255, 99, 132)", "rgb(54, 162, 235)", "rgb(154, 62, 251)"],
   };
 
+  const formatNumber = (num) => {
+    if (Math?.abs(num) > 999999) {
+      return (num / 1000000)?.toFixed(1) + 'm';
+    } else if (Math.abs(num) > 999) {
+      return (num / 1000).toFixed(1) + 'k';
+    } else {
+      return num;
+    }
+  };
+
 
   const optionss = {
     chart: {
       type: 'donut',
-      width: 450, // Adjust width for larger chart
-      height: 450, // Adjust height for larger chart
+      width: 450,
+      height: 450,
     },
-    labels: formattedLabels, // Replace with your formattedLabels
+    labels: formattedLabels,
     colors: ["rgb(255, 99, 132)", "rgb(54, 162, 235)", "rgb(154, 62, 251)"],
     responsive: [{
       breakpoint: 180,
       options: {
         chart: {
-          width: 300, // Adjust width for responsive design
-          height: 300, // Adjust height for responsive design
+          width: 300,
+          height: 300,
         },
         legend: {
           position: 'bottom'
         }
       }
-    }]
+    }],
+    tooltip: {
+      y: {
+        formatter: (value) => formatNumber(value),
+      }
+    }
   };
 
   const series = [44, 55, 41, 17, 15]; // Data series for the donut chart

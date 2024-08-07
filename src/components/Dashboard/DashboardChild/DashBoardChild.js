@@ -18,7 +18,7 @@ const DashBoardChild = (props) => {
   const [SearchList, setSearchList] = useState(false);
   const [centerFilterModalOpen, setCenterFilterModalOpen] = useState(false);
   const [reducerState, reducerDispatch] = useReducer(reducer, initialState);
-  const { shop_margin, shop_sale, fuel_value, gross_profit_value, gross_volume, gross_margin_value,dashboard_dates } = reducerState;
+  const { shop_margin, shop_sale, shop_fees, fuel_value, gross_profit_value, gross_volume, gross_margin_value, dashboard_dates } = reducerState;
 
 
   const navigate = useNavigate();
@@ -70,7 +70,7 @@ const DashBoardChild = (props) => {
 
       const { data } = response;
       if (data) {
- 
+
         reducerDispatch({
           type: "UPDATE_DATA",
           payload: {
@@ -79,11 +79,12 @@ const DashBoardChild = (props) => {
             stacked_line_bar_data: data?.data?.line_graph?.datasets,
             stacked_line_bar_label: data?.data?.line_graph?.labels,
             pie_chart_values: data?.data?.pi_graph,
-            gross_margin_value: data?.data?.gross_margin_,
+            gross_margin_value: data?.data?.gross_margin,
             gross_volume: data?.data?.gross_volume,
             gross_profit_value: data?.data?.gross_profit,
             fuel_value: data?.data?.fuel_sales,
             shop_sale: data?.data?.shop_sales,
+            shop_fees: data?.data?.shop_fees,
             shop_margin: data?.data?.shop_profit,
             dashboard_dates: data?.data?.dateString,
           }
@@ -329,6 +330,7 @@ const DashBoardChild = (props) => {
           GrossMarginValue={gross_margin_value}
           FuelValue={fuel_value}
           shopsale={shop_sale}
+          shop_fees={shop_fees}
           searchdata={searchdata}
         />
       </Row>
