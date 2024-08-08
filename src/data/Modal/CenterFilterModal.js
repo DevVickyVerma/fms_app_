@@ -41,6 +41,8 @@ const CenterFilterModal = (props) => {
 
 
 
+  const isNotClient = localStorage.getItem("superiorRole") !== "Client";
+
   const token = localStorage.getItem("token");
 
   const axiosInstance = axios.create({
@@ -155,12 +157,36 @@ const CenterFilterModal = (props) => {
       company_id: Yup.string().required(
         "Company is required"
       ),
+      client_id: isNotClient
+        ? Yup.string().required("Client is required")
+        : Yup.mixed().notRequired(),
     }),
 
     onSubmit: (values) => {
       handlesubmitvalues(values);
     },
   });
+
+  useEffect(() => {
+    const mySearchData = JSON.parse(localStorage.getItem('mySearchData'));
+    if (mySearchData) {
+      formik.setFieldValue('client_id', mySearchData?.client_id);
+      formik.setFieldValue('client_name', mySearchData?.client_name);
+      formik.setFieldValue('company_id', mySearchData?.company_id);
+      formik.setFieldValue('company_name', mySearchData?.company_name);
+      formik.setFieldValue('site_id', mySearchData?.site_id);
+      formik.setFieldValue('site_name', mySearchData?.site_name);
+
+
+      GetCompanyList(mySearchData?.client_id);
+      GetSiteList(mySearchData?.company_id)
+    } else {
+      formik.resetForm()
+    }
+  }, [centerFilterModalOpen]);
+
+
+
   return (
     <div>
       <Dialog
@@ -204,7 +230,7 @@ const CenterFilterModal = (props) => {
                             className="form-label mt-4"
                           >
                             Client
-                            {/* <span className="text-danger">*</span> */}
+                            <span className="text-danger">*</span>
                           </label>
                           <select
                             className={`input101 ${formik.errors.client_id &&
@@ -236,7 +262,6 @@ const CenterFilterModal = (props) => {
                                   formik.setFieldValue("client_name", selectedClient?.client_name);
                                 }
                               } else {
-
                                 formik.setFieldValue("client_id", "");
                                 formik.setFieldValue("company_id", "");
                                 formik.setFieldValue("site_id", "");

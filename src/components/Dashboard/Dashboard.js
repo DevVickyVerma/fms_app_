@@ -12,7 +12,7 @@ import StackedLineBarChart from "./StackedLineBarChart";
 import DashboardOverallStatsPieChart from "./DashboardOverallStatsPieChart";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import CenterFilterModal from "../../data/Modal/CenterFilterModal";
-import { ErrorAlert, SuccessAlert } from "../../Utils/ToastUtils";
+import { ErrorAlert, handleError, SuccessAlert } from "../../Utils/ToastUtils";
 import DashboardStatsBox from "./DashboardStatsBox/DashboardStatsBox";
 import { initialState, reducer } from "../../Utils/CustomReducer";
 
@@ -152,20 +152,6 @@ const Dashboard = (props) => {
   };
 
   const navigate = useNavigate();
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      SuccessAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response?.data?.message)
-        ? error.response?.data?.message.join(" ")
-        : error.response?.data?.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
   const token = localStorage.getItem("token");
   const loggedInFlag = localStorage.getItem("justLoggedIn");
