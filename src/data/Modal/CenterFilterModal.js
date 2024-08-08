@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -14,7 +14,7 @@ import {
   Row,
 } from "react-bootstrap";
 import { Dialog, DialogActions } from "@mui/material";
-import { ErrorAlert } from "../../Utils/ToastUtils";
+import { ErrorAlert, handleError } from "../../Utils/ToastUtils";
 const CenterFilterModal = (props) => {
   const {
     title,
@@ -40,23 +40,6 @@ const CenterFilterModal = (props) => {
   const [SiteList, setSiteList] = useState([]);
 
 
-  function handleError(error) {
-    if (error.response && error.response.deduction_status === 401) {
-      localStorage.clear();
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-    } else if (
-      error.response &&
-      error.response.data.deduction_status_code === "403"
-    ) {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
   const token = localStorage.getItem("token");
 

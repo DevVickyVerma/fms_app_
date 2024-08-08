@@ -1626,7 +1626,7 @@ span.text-error {
 .margin-div {
   background: #ffffffcf;
   padding: 7px 10px;
-  width: 56%;
+  width: 100%;
   margin-top: 10px;
   border-radius: 4px;
   font-size: 14px;
@@ -1724,4 +1724,23 @@ span.text-error {
 
 .fuel-price-conent {
   min-width: 120px;
+}
+
+.coffeeandValetInvoiceImage {
+  height: 150px;
+  width: 150px;
+  object-fit: contain;
+}
+
+.invoice-image-btn {
+  position: relative;
+  left: -33px;
+}
+
+.btn-danger-color {
+  color: #b52d2d !important;
+}
+
+.btn-primary-color {
+  color: var(--primary-bg-color) !important;
 }

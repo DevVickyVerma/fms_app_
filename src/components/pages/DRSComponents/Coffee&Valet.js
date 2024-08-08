@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import { useNavigate } from "react-router-dom";
 import { Slide, toast } from "react-toastify";
-import { ElevatorSharp } from "@mui/icons-material";
+import CoffeeAndValetUploadInvoice from "./CoffeeAndValetUploadInvoice";
 
 const CoffeeValet = (props) => {
   const {
@@ -35,8 +34,10 @@ const CoffeeValet = (props) => {
 
   // const [data, setData] = useState()
   const [data, setData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const [editable, setis_editable] = useState();
   const [mySalesTotalValue, setMySalesTotalValue] = useState();
+  const [invoiceCallData, setInvoiceCallData] = useState();
   const [myCommissionValueTotalValue, setMyCommissionValueTotalValue] =
     useState();
   const [myValuesTotalValue, setMyValuesTotalValue] = useState();
@@ -291,6 +292,22 @@ const CoffeeValet = (props) => {
     console.log(editable?.is_file, editable?.is_upload_file, "show width");
   } else {
     console.log("no width");
+  }
+
+
+  const handleInvoiceModal = (row) => {
+    setShowModal(true);
+    const allPropsData = {
+      company_id,
+      client_id,
+      site_id,
+      start_date,
+      selectedRow: row,
+    };
+
+    setInvoiceCallData(allPropsData)
+    console.log(row, "row", allPropsData);
+
   }
 
   const columns = [
@@ -662,7 +679,18 @@ const CoffeeValet = (props) => {
             const is_uploadfile = editable?.is_upload_file; // Check if row.file has a non-empty value
             return (
               <div>
-                {is_uploadfile && (
+                {/* {is_uploadfile && ( */}
+                <>
+                  <div onClick={() => handleInvoiceModal(row)}>
+                    <i
+                      class="fa fa-upload btn btn-sm btn-primary"
+                      aria-hidden="true"
+                    ></i>
+                  </div>
+                </>
+                {/* // )} */}
+
+                {/* {is_uploadfile && (
                   <label
                     htmlFor={`file-${index}`}
                     className="file-upload-icon"
@@ -680,9 +708,9 @@ const CoffeeValet = (props) => {
                       title="Choose a file to upload"
                     />
                   </label>
-                )}
+                )} */}
 
-                {hasFile && (
+                {/* {hasFile && (
                   <a
                     href={row.file}
                     target="_blank"
@@ -696,7 +724,7 @@ const CoffeeValet = (props) => {
                       ></i>
                     </span>
                   </a>
-                )}
+                )} */}
               </div>
             );
           },
@@ -803,6 +831,15 @@ const CoffeeValet = (props) => {
     <>
       {isLoading ? <Loaderimg /> : null}
       <>
+        {
+
+          <CoffeeAndValetUploadInvoice
+            showModal={showModal}
+            setShowModal={setShowModal}
+            invoiceCallData={invoiceCallData}
+          />
+        }
+
         <Row className="row-sm">
           <Col lg={12}>
             <Card>
