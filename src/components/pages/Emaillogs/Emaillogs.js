@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -30,7 +30,6 @@ const ManageEmail = (props) => {
 
   const AddCloseModal = () => setaddshowModal(false);
   const handleaddshowModal = (rowId) => {
-    console.log(rowId, "rowId");
     setSelectedRowId(rowId);
     setaddshowModal(true);
   };

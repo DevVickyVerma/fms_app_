@@ -274,7 +274,7 @@ const ManageDsr = (props) => {
             handleError(error);
           } finally {
           }
-          // setIsLoading(false);
+
         };
 
         DeleteRole();
@@ -491,7 +491,6 @@ const ManageDsr = (props) => {
   const handleSuccess = (message) => {
     setSuccessMessage(message);
     GetDataHttech();
-    console.log(message, "handleSuccess");
     // Do any additional processing with the success message if needed
   };
   const handleSendEmail = async (event, values) => {

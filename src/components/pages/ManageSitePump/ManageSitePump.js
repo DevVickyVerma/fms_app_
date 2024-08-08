@@ -7,29 +7,22 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const ManageSiteTank = (props) => {
   const { apidata, isLoading, getData, postData } = props;
   const [data, setData] = useState();
-  const navigate = useNavigate();
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
-  const [AddSiteData, setAddSiteData] = useState([]);
+
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [submitSiteID, setsubmitSiteID] = useState();
   const [localStorageSiteName, setlocalStorageSiteName] = useState();
   const [localStorageSiteID, setlocalStorageSiteID] = useState();
-  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
-    localStorage.getItem("superiorId")
-  );
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
   const [selectedSiteId, setSelectedSiteId] = useState("");
@@ -76,26 +69,12 @@ const ManageSiteTank = (props) => {
             handleError(error);
           } finally {
           }
-          // setIsLoading(false);
+
         };
         DeleteRole();
       }
     });
   };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -113,20 +92,13 @@ const ManageSiteTank = (props) => {
       // Console log the response
       if (apidata.api_response === "success") {
         handleSubmit1(submitSiteID);
-        // FetchTableData();
+
       }
     } catch (error) {
       handleError(error);
     }
   };
 
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
 
   const handleSubmit1 = async (values) => {
     try {
@@ -208,7 +180,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Site Name",
       selector: (row) => [row.site],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -222,7 +194,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Site Pump Name",
       selector: (row) => [row.name],
-      sortable: true,
+      sortable: false,
       width: "15%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -235,7 +207,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Site Pump Code",
       selector: (row) => [row.code],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -248,7 +220,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "15%",
       cell: (row, index) => (
         <div className="d-flex" style={{ cursor: "default" }}>
@@ -261,7 +233,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Status",
       selector: (row) => [row.status],
-      sortable: true,
+      sortable: false,
       width: "10%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -601,7 +573,7 @@ const ManageSiteTank = (props) => {
                       </Col>
                     )}
 
-                    <Col Col lg={4} md={6}>
+                    <Col lg={4} md={6}>
                       <div className="form-group">
                         <label htmlFor="company_id" className="form-label mt-4">
                           Company

@@ -29,7 +29,7 @@ const AddCompany = (props) => {
       const response = await getData(`/site/manager/${id}`);
 
       if (response && response.data) {
-        // setData(response.data.data.roles);
+
         setDropdownValue(response.data.data);
         setSelectedSiteList1(response.data.data.reports);
       } else {

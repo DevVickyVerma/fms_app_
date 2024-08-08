@@ -285,8 +285,6 @@ const ManageSite = (props) => {
     }
   }, []);
 
-  console.log(formik?.values, "formik");
-
 
   return (
     <>

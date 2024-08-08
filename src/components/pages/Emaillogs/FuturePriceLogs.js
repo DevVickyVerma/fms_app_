@@ -282,7 +282,7 @@ const FuturePriceLogs = (props) => {
         {
             name: "Site",
             selector: (row) => [row.site_name],
-            sortable: true,
+            sortable: false,
             width: "22%",
             cell: (row, index) => (
                 <div className="d-flex future-back-color align-items-center" onClick={() => handleErrorModal(row)} style={{ backgroundColor: row?.expired }}>
@@ -310,7 +310,7 @@ const FuturePriceLogs = (props) => {
                                 }
                             >
                                 <i
-                                    class="fa fa-info-circle"
+                                    className="fa fa-info-circle"
                                     aria-hidden="true"
                                 ></i>
                             </OverlayTrigger>
@@ -322,7 +322,7 @@ const FuturePriceLogs = (props) => {
         {
             name: "Fuel",
             selector: (row) => [row?.category_name],
-            sortable: true,
+            sortable: false,
             width: "22%",
             cell: (row, index) => (
                 <div className="d-flex future-back-color  align-items-center" style={{ background: row?.expired }}>
@@ -337,7 +337,7 @@ const FuturePriceLogs = (props) => {
         {
             name: "Price Requested Date/Time",
             selector: (row) => [row.price_date],
-            sortable: true,
+            sortable: false,
             width: "20%",
             cell: (row, index) => (
                 <div className="d-flex future-back-color  align-items-center" style={{ cursor: "default", background: row?.expired }} >
@@ -350,7 +350,7 @@ const FuturePriceLogs = (props) => {
         {
             name: "Updated Price",
             selector: (row) => [row.old_price],
-            sortable: true,
+            sortable: false,
             width: "14%",
             cell: (row, index) => (
                 <div className="d-flex w-100 h-100 future-back-color" style={{ background: row?.expired }} >
@@ -375,7 +375,7 @@ const FuturePriceLogs = (props) => {
         {
             name: "Status",
             selector: (row) => [row.status],
-            sortable: true,
+            sortable: false,
             width: "12%",
             cell: (row, index) => (
                 <span className="text-muted fs-15 fw-semibold text-center future-back-color py-2" style={{ background: row?.expired }}>
@@ -410,7 +410,7 @@ const FuturePriceLogs = (props) => {
             {
                 name: "Action",
                 selector: (row) => [row.deleted_at],
-                sortable: true,
+                sortable: false,
                 width: "10%",
                 cell: (row, index) => (
                     <div className="d-flex future-back-color" style={{ background: row?.expired }}>
@@ -703,7 +703,7 @@ const FuturePriceLogs = (props) => {
                                                 </Col>
                                             )}
 
-                                            <Col Col lg={3} md={3}>
+                                            <Col lg={3} md={3}>
                                                 <div className="form-group">
                                                     <label htmlFor="company_id" className="form-label mt-4">
                                                         Company

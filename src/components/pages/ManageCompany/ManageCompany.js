@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import {
   Breadcrumb,
   Card,
@@ -27,13 +24,12 @@ import UploadSageSales from "./UploadSageSales";
 import { handleError } from "../../../Utils/ToastUtils";
 
 const ManageCompany = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { apidata, isLoading, getData, postData } = props;
   const [showUploadSageSalesModal, setShowUploadSageSalesModal] = useState(false);
   const [UploadModalTitle, setUploadModalTitle] = useState();
   const [UploadModalURLPath, setUploadModalURLPath] = useState();
   const [companyId, setCompanyId] = useState("")
   const [data, setData] = useState();
-  const navigate = useNavigate();
 
   const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -87,7 +83,7 @@ const ManageCompany = (props) => {
             handleError(error);
           } finally {
           }
-          // setIsLoading(false);
+
         };
         DeleteRole();
       }
@@ -289,7 +285,7 @@ const ManageCompany = (props) => {
       ? {
         name: "Action",
         selector: (row) => [row.action],
-        sortable: true,
+        sortable: false,
         width: "20%",
         cell: (row) => (
           <span className="text-center">
@@ -339,7 +335,7 @@ const ManageCompany = (props) => {
                       <Link to={`/companyautoreport/${row.id}`}>
                         <div className="manage-site-dropdown-item" style={{ width: "100%" }} >
                           <i className="setting-icon">
-                            {""} <i class="fa fa-magic" aria-hidden="true"></i> {" "}
+                            {""} <i className="fa fa-magic" aria-hidden="true"></i> {" "}
                           </i>
                           Company Auto Report
                         </div>

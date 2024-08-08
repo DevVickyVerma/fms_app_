@@ -142,7 +142,7 @@ const ManageSubBusinessTypes = (props) => {
     {
       name: "Business Sub Type",
       selector: (row) => [row.business_sub_name],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -155,7 +155,7 @@ const ManageSubBusinessTypes = (props) => {
     {
       name: "Business  Type",
       selector: (row) => [row.business_type],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -169,7 +169,7 @@ const ManageSubBusinessTypes = (props) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "15%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -182,7 +182,7 @@ const ManageSubBusinessTypes = (props) => {
     {
       name: "Status",
       selector: (row) => [row.status],
-      sortable: true,
+      sortable: false,
       width: "15%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">

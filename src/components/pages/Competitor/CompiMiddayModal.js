@@ -22,7 +22,6 @@ const CompiMiddayModal = ({
     onDataFromChild,
     getCompetitorsPrice,
 }) => {
-    const [isChecked, setIsChecked] = useState(false);
     const [data, setData] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [selected, setSelected] = useState([]);
@@ -191,28 +190,10 @@ const CompiMiddayModal = ({
             }
         }
     };
-    const SendNotification = (event) => {
-        setIsChecked(event.target.checked);
-    };
     const sendDataToParent = () => {
         const dataToSend = "Data from child 123";
         onDataFromChild(dataToSend); // Call the callback function with the data
     };
-
-    const handleCheckboxChange = (name) => {
-        setNotificationTypes((prevTypes) => ({
-            ...prevTypes,
-            [name]: !prevTypes[name],
-        }));
-    };
-
-    const hadndleShowDate = () => {
-        const inputDateElement = document.querySelector('input[type="date"]');
-        inputDateElement.showPicker();
-    };
-
-
-    console.log(formik?.values, "formik values");
 
 
 

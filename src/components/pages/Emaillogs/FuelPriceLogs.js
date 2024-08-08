@@ -155,7 +155,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Site",
       selector: (row) => [row.site],
-      sortable: true,
+      sortable: false,
       width: "12%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -168,7 +168,7 @@ const ManageSiteTank = (props) => {
     {
       name: "User  Name",
       selector: (row) => [row.user],
-      sortable: true,
+      sortable: false,
       width: "12%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -181,7 +181,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Fuel Name",
       selector: (row) => [row.name],
-      sortable: true,
+      sortable: false,
       width: "11%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -195,7 +195,7 @@ const ManageSiteTank = (props) => {
     {
       name: " Action type",
       selector: (row) => [row.type],
-      sortable: true,
+      sortable: false,
       width: "12%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -208,7 +208,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Prev Price",
       selector: (row) => [row.prev_price],
-      sortable: true,
+      sortable: false,
       width: "8%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -221,7 +221,7 @@ const ManageSiteTank = (props) => {
     {
       name: " Price",
       selector: (row) => [row.price],
-      sortable: true,
+      sortable: false,
       width: "8%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -234,7 +234,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Price Date",
       selector: (row) => [row.date],
-      sortable: true,
+      sortable: false,
       width: "16%",
       cell: (row, index) => (
         <div className="d-flex" style={{ cursor: "default" }}>
@@ -247,7 +247,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Log Date",
       selector: (row) => [row.created],
-      sortable: true,
+      sortable: false,
       width: "16%",
       cell: (row, index) => (
         <div className="d-flex" style={{ cursor: "default" }}>
@@ -500,7 +500,7 @@ const ManageSiteTank = (props) => {
                         </Col>
                       )}
 
-                      <Col Col lg={3} md={3}>
+                      <Col lg={3} md={3}>
                         <div className="form-group">
                           <label htmlFor="company_id" className="form-label mt-4">
                             Company

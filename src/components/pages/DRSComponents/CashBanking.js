@@ -6,19 +6,17 @@ import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import Swal from "sweetalert2";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const CashBanking = (props) => {
   const {
     apidata,
     isLoading,
-    error,
     getData,
     postData,
     SiteID,
@@ -29,13 +27,9 @@ const CashBanking = (props) => {
     site_id,
     start_date,
   } = props;
-  const [selectedFile, setSelectedFile] = useState(null);
   const [data, setData] = useState();
   const [checkState, setCheckState] = useState(true);
   const [Editdata, setEditData] = useState(false);
-  const navigate = useNavigate();
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
   const [editable, setis_editable] = useState();
 
   const handleButtonClick = () => {
@@ -79,20 +73,7 @@ const CashBanking = (props) => {
     }
   };
 
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
   useEffect(() => {
     FetchTableData();
@@ -202,7 +183,7 @@ const CashBanking = (props) => {
     {
       name: "Reference",
       selector: (row) => [row.reference],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -215,7 +196,7 @@ const CashBanking = (props) => {
     {
       name: "Value",
       selector: (row) => [row.value],
-      sortable: true,
+      sortable: false,
       width: "10%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -228,7 +209,7 @@ const CashBanking = (props) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -241,7 +222,7 @@ const CashBanking = (props) => {
     {
       name: "Type",
       selector: (row) => [row.type],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">

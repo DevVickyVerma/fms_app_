@@ -1,69 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
-import DataTable from "react-data-table-component";
 import { useNavigate } from "react-router-dom";
-import DataTableExtensions from "react-data-table-component-extensions";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  Dropdown,
-  Form,
-  FormGroup,
-  OverlayTrigger,
-  Row,
-  Tooltip,
-} from "react-bootstrap";
+import { Breadcrumb, Card, Form, Row } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
 import axios from "axios";
-import { Slide, toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
+import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
 
 const AddAddon = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, } = props;
   const [permissions, setPermissions] = useState([]);
   const [userpermissions, setUserPermissions] = useState([]);
 
-  const SuccessAlert = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-  const ErrorAlert = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
+
 
   const navigate = useNavigate();
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -251,11 +206,10 @@ const AddAddon = (props) => {
                           id="name"
                           name="name"
                           placeholder="Addon Name"
-                          className={`input101 ${
-                            formik.touched.name && formik.errors.name
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.touched.name && formik.errors.name
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           {...formik.getFieldProps("name")}
                         />
                         {formik.touched.name && formik.errors.name && (
@@ -267,19 +221,18 @@ const AddAddon = (props) => {
 
                       <div className="form-group">
                         {permissions.data &&
-                        Object.keys(permissions.data).length > 0 ? (
+                          Object.keys(permissions.data).length > 0 ? (
                           <div>
                             {Object.keys(permissions.data).map((heading) => (
                               <div key={heading}>
                                 <div className="table-heading d-flex">
                                   <div className="heading-input ">
                                     <input
-                                      className={`form-check-input ${
-                                        formik.touched.permissions &&
+                                      className={`form-check-input ${formik.touched.permissions &&
                                         formik.errors.permissions
-                                          ? "is-invalid"
-                                          : ""
-                                      }`}
+                                        ? "is-invalid"
+                                        : ""
+                                        }`}
                                       type="checkbox"
                                       checked={
                                         selectAllPermissions[heading] || false
@@ -304,12 +257,11 @@ const AddAddon = (props) => {
                                         className="form-check form-check-inline"
                                       >
                                         <input
-                                          className={`form-check-input ${
-                                            formik.touched.permissions &&
+                                          className={`form-check-input ${formik.touched.permissions &&
                                             formik.errors.permissions
-                                              ? "is-invalid"
-                                              : ""
-                                          }`}
+                                            ? "is-invalid"
+                                            : ""
+                                            }`}
                                           type="checkbox"
                                           name="permissions"
                                           value={nameItem.name}
@@ -356,7 +308,7 @@ const AddAddon = (props) => {
                         <button
                           type="submit"
                           className="btn btn-primary me-2 "
-                          // disabled={Object.keys(formik.errors).length > 0}
+                        // disabled={Object.keys(formik.errors).length > 0}
                         >
                           Save
                         </button>

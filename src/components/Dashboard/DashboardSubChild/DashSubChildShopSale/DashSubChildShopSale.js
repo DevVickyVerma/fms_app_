@@ -25,7 +25,7 @@ import { DateRangePicker } from "react-date-range";
 import withApi from "../../../../Utils/ApiHelper";
 import { useMyContext } from "../../../../Utils/MyContext";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import { ErrorAlert, SuccessAlert } from "../../../../Utils/ToastUtils";
+import { ErrorAlert, handleError, SuccessAlert } from "../../../../Utils/ToastUtils";
 import DashSubChildShopSaleCenterModal from "./DashSubChildShopSaleCenterModal";
 
 const DashSubChildShopSale = ({
@@ -51,20 +51,7 @@ const DashSubChildShopSale = ({
     dashSubChildShopSaleLoading, setDashSubChildShopSaleLoading
   } = useMyContext();
 
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   // Update windowWidth when the window is resized
@@ -456,12 +443,12 @@ const DashSubChildShopSale = ({
                 </div>
               ) : (
                 ""
-                // <span class="Smallloader"></span>
+                // <span className="Smallloader"></span>
               )}
             </Card.Header>
             <Card.Body>
               {!setDashboardShopSaleData ? (
-                <span class="Smallloader"></span>
+                <span className="Smallloader"></span>
               ) : dashboardShopSaleData?.shop_sales?.length > 0 ? (
                 <div
                   className="table-container table-responsive"
@@ -482,10 +469,10 @@ const DashSubChildShopSale = ({
                 </div>
               ) : (
                 <p className="all-center-flex" style={{ height: "150px" }}>
-                  {/* <span class="primary-loader"></span> */}
+                  {/* <span className="primary-loader"></span> */}
 
                   {dashSubChildShopSaleLoading ? <>
-                    <span class="primary-loader"></span>
+                    <span className="primary-loader"></span>
                   </> : <>
                     <span>Oops! Something Went Wrong No data Found.......</span>
                   </>}
@@ -504,13 +491,13 @@ const DashSubChildShopSale = ({
       // style={{ overflow: "auto" }}
       >
         <div
-          class="modal-header"
+          className="modal-header"
           style={{ color: "#fff", background: "#2D8BA8" }}
         >
-          <h5 class="modal-title"> Grades Date wise Reports</h5>
+          <h5 className="modal-title"> Grades Date wise Reports</h5>
           <button
             type="button"
-            class="close"
+            className="close"
             data-dismiss="modal"
             aria-label="Close"
           >

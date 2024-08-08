@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
 
@@ -10,7 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
 
 const AddCompany = (props) => {
   const { isLoading, postData } = props;
@@ -21,20 +21,7 @@ const AddCompany = (props) => {
     localStorage.getItem("superiorId")
   );
 
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
   const [selectedItems, setSelectedItems] = useState(["1"]);
 
   const handleCheckboxChange = (checkboxId) => {
@@ -47,7 +34,6 @@ const AddCompany = (props) => {
 
   useEffect(() => {
     if (localStorage.getItem("superiorRole") !== "Client") {
-      // Call the fetchClientList() function
       fetchClientList();
     }
 
@@ -211,13 +197,13 @@ const AddCompany = (props) => {
                   }}
                   validationSchema={Yup.object({
                     company_code: Yup.string()
-                      
+
                       .required("Company Code is required"),
                     company_details: Yup.string().required(
                       "Company Details is required"
                     ),
                     company_name: Yup.string()
-                      
+
                       .required("Company Name is required"),
 
                     address: Yup.string().required("Address is required"),
@@ -270,8 +256,8 @@ const AddCompany = (props) => {
                                 type="text"
                                 autoComplete="off"
                                 className={`input101 ${errors.company_code && touched.company_code
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="company_code"
                                 name="company_code"
@@ -297,8 +283,8 @@ const AddCompany = (props) => {
                                 type="text"
                                 autoComplete="off"
                                 className={`input101 ${errors.company_name && touched.company_name
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="company_name"
                                 name="company_name"
@@ -323,8 +309,8 @@ const AddCompany = (props) => {
                                 as="textarea"
                                 type="textarea"
                                 className={`input101 ${errors.address && touched.address
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="address"
                                 name="address"
@@ -349,8 +335,8 @@ const AddCompany = (props) => {
                                 type="text"
                                 autoComplete="off"
                                 className={`input101 ${errors.website && touched.website
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="website"
                                 name="website"
@@ -376,8 +362,8 @@ const AddCompany = (props) => {
                                   <Field
                                     as="select"
                                     className={`input101 ${errors.client_id && touched.client_id
-                                        ? "is-invalid"
-                                        : ""
+                                      ? "is-invalid"
+                                      : ""
                                       }`}
                                     id="client_id"
                                     name="client_id"
@@ -415,9 +401,9 @@ const AddCompany = (props) => {
                                 as="textarea"
                                 type="textarea"
                                 className={`input101 ${errors.company_details &&
-                                    touched.company_details
-                                    ? "is-invalid"
-                                    : ""
+                                  touched.company_details
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="company_details"
                                 name="company_details"
@@ -442,9 +428,9 @@ const AddCompany = (props) => {
                               <Field
                                 as="select"
                                 className={`input101 ${errors.start_month &&
-                                    touched.start_month
-                                    ? "is-invalid"
-                                    : ""
+                                  touched.start_month
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="start_month"
                                 name="start_month"
@@ -484,9 +470,9 @@ const AddCompany = (props) => {
                               <Field
                                 as="select"
                                 className={`input101 ${errors.end_month &&
-                                    touched.end_month
-                                    ? "is-invalid"
-                                    : ""
+                                  touched.end_month
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="end_month"
                                 name="end_month"
@@ -527,9 +513,9 @@ const AddCompany = (props) => {
                                 type="number"
                                 autoComplete="off"
                                 className={`input101 ${errors.bunkering_code &&
-                                    touched.bunkering_code
-                                    ? "is-invalid"
-                                    : ""
+                                  touched.bunkering_code
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="bunkering_code"
                                 name="bunkering_code"
@@ -555,8 +541,8 @@ const AddCompany = (props) => {
                                 type="number"
                                 autoComplete="off"
                                 className={`input101 ${errors.sm_sub_code && touched.sm_sub_code
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="sm_sub_code"
                                 name="sm_sub_code"
@@ -582,8 +568,8 @@ const AddCompany = (props) => {
                                 type="number"
                                 autoComplete="off"
                                 className={`input101 ${errors.sm_add_code && touched.sm_add_code
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="sm_add_code"
                                 name="sm_add_code"
@@ -609,8 +595,8 @@ const AddCompany = (props) => {
                                 type="number"
                                 autoComplete="off"
                                 className={`input101 ${errors.pc_code && touched.pc_code
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 id="pc_code"
                                 name="pc_code"

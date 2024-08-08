@@ -95,7 +95,7 @@ const ManageUser = (props) => {
     {
       name: "Full Name",
       selector: (row) => [row.full_name],
-      sortable: true,
+      sortable: false,
       width: "30%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -108,7 +108,7 @@ const ManageUser = (props) => {
     {
       name: "Role",
       selector: (row) => [row.role],
-      sortable: true,
+      sortable: false,
       width: "25%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -122,7 +122,7 @@ const ManageUser = (props) => {
     {
       name: "Email",
       selector: (row) => [row.email],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div
@@ -140,7 +140,7 @@ const ManageUser = (props) => {
     {
       name: "Action",
       selector: (row) => [row.action],
-      sortable: true,
+      sortable: false,
       width: "15%",
       cell: (row) => (
         <span className="text-center">

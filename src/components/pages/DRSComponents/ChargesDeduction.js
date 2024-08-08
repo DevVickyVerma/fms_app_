@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
-import { useNavigate } from "react-router-dom";
-import { Slide, toast } from "react-toastify";
+import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
 
 const ShopSales = (props) => {
   const {
@@ -33,47 +30,14 @@ const ShopSales = (props) => {
     sendDataToParent(allPropsData);
   };
 
-  // const [data, setData] = useState()
+
   const [data, setData] = useState([]);
   const [DeductionData, setDeductionData] = useState([]);
   const [editable, setis_editable] = useState();
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const navigate = useNavigate();
-  const SuccessToast = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-  const ErrorToast = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      SuccessToast("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorToast(errorMessage);
-    }
-  }
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -175,10 +139,10 @@ const ShopSales = (props) => {
       const responseData = await response.json(); // Read the response once
 
       if (response.ok) {
-        SuccessToast(responseData.message);
+        SuccessAlert(responseData.message);
         handleButtonClick();
       } else {
-        ErrorToast(responseData.message);
+        ErrorAlert(responseData.message);
 
         // Handle specific error cases if needed
       }
@@ -202,7 +166,7 @@ const ShopSales = (props) => {
       name: "CHARGE GROUPS",
 
       selector: (row) => row.charge_name,
-      sortable: true,
+      sortable: false,
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -251,7 +215,7 @@ const ShopSales = (props) => {
     {
       name: "DEDUCTION GROUPS",
       selector: (row) => row.deduction_name, // Update the selector to use a function
-      sortable: true,
+      sortable: false,
       center: false,
       cell: (row, index) => (
         <div className="d-flex">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
@@ -21,7 +21,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import Loaderimg from "../../../Utils/Loader";
 import { useFormik } from "formik";
-import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert } from "../../../Utils/ToastUtils";
 import { useSelector } from "react-redux";
 
 const ManageSiteTank = (props) => {
@@ -413,7 +413,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Credited By",
       selector: (row) => [row.credit],
-      sortable: true,
+      sortable: false,
       width: "23.5",
       cell: (row, index) => (
         <div className="d-flex">
@@ -431,7 +431,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Site",
       selector: (row) => [row.site],
-      sortable: true,
+      sortable: false,
       width: "23.5",
       cell: (row, index) => (
         <div className="d-flex">
@@ -445,7 +445,7 @@ const ManageSiteTank = (props) => {
     {
       name: "SMS Status",
       selector: (row) => [row.status],
-      sortable: true,
+      sortable: false,
       width: "23.5",
       cell: (row, index) => (
         <div className="d-flex">
@@ -493,7 +493,7 @@ const ManageSiteTank = (props) => {
     {
       name: "SMS By",
       selector: (row) => [row.creator],
-      sortable: true,
+      sortable: false,
       width: "23.5",
       cell: (row, index) => (
         <div className="d-flex">
@@ -506,7 +506,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "23.5",
       cell: (row, index) => (
         <div className="d-flex">
@@ -533,7 +533,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Credited By",
       selector: (row) => [row.creator],
-      sortable: true,
+      sortable: false,
       width: "23.5",
       cell: (row, index) => (
         <div className="d-flex">
@@ -546,7 +546,7 @@ const ManageSiteTank = (props) => {
     {
       name: "SMS ",
       selector: (row) => [row.credit],
-      sortable: true,
+      sortable: false,
       width: "23.5",
       cell: (row, index) => (
         <div className="d-flex">
@@ -566,7 +566,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "23.5",
       cell: (row, index) => (
         <div className="d-flex">
@@ -581,7 +581,7 @@ const ManageSiteTank = (props) => {
       ? {
         name: "Invoice",
         selector: (row) => [row.id],
-        sortable: true,
+        sortable: false,
         width: "23.5",
         cell: (row, index) => (
           <div className="d-flex">

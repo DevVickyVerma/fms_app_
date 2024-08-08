@@ -426,9 +426,7 @@ export function GroupOptionMutipleSelect() {
       ],
     },
   ];
-  function logChange(val) {
-    console.log("Selected: " + JSON.stringify(val));
-  }
+  function logChange(val) { }
   return (
     <div>
       <Select
@@ -468,9 +466,7 @@ export function Singleselectdis() {
     { value: "hyundai", label: "hyundai" },
     { value: "fiat", label: "fiat" },
   ];
-  function logChange(val) {
-    console.log("Selected: " + JSON.stringify(val));
-  }
+  function logChange(val) { }
 
   return (
     <div>
@@ -1168,7 +1164,6 @@ export const Selectbox = () => {
         if (filterInput === "") {
           return true;
         }
-        console.log(option);
         let words = filterInput.split(" ");
         let res = false;
         for (let word of words) {
@@ -1183,12 +1178,12 @@ export const Selectbox = () => {
     />
   );
 };
-// //Selectbox1
+
+
 export const Selectbox1 = () => {
   let [value, setValue] = useState(["PDF - Swap Valuation"]);
   function handleChange(selected) {
     setValue(selected);
-    console.log(selected);
   }
   const options = [
     {
@@ -1247,11 +1242,9 @@ export const Selectbox1 = () => {
         if (filterInput === "") {
           return true;
         }
-        console.log(option);
         let words = filterInput.split(" ");
         let res = false;
         for (let word of words) {
-          console.log(word);
           res = new RegExp(word, "i").test(option.label);
           if (res === false) {
             break;

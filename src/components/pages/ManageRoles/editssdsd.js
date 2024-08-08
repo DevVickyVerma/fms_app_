@@ -1,50 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
-import DataTable from "react-data-table-component";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  Dropdown,
-  Form,
-  FormGroup,
-  OverlayTrigger,
-  Row,
-  Tooltip,
-} from "react-bootstrap";
-import { Formik, Field, ErrorMessage } from "formik";
+import { Breadcrumb, Card, Row } from "react-bootstrap";
 import * as Yup from "yup";
 
 import axios from "axios";
 import { toast } from "react-toastify";
+import { handleError } from "../../../Utils/ToastUtils";
 
 export default function EditRoles() {
   const [permissions, setPermissions] = useState([]);
   const [addonitem, setAddonitem] = useState([]);
-  const [userpermissions, setUserPermissions] = useState([]);
   const SuccessAlert = (message) => toast.success(message);
   const ErrorAlert = (message) => toast.error(message);
   const [permissionArray, setPermissionArray] = useState([]);
   const [addonArray, setAddonArray] = useState([]);
 
   const navigate = useNavigate();
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -215,11 +190,10 @@ export default function EditRoles() {
                         id="name"
                         name="name"
                         placeholder="Role Name"
-                        className={`input101 ${
-                          formik.touched.name && formik.errors.name
-                            ? "is-invalid"
-                            : ""
-                        }`}
+                        className={`input101 ${formik.touched.name && formik.errors.name
+                          ? "is-invalid"
+                          : ""
+                          }`}
                         value={formik.values.name}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -242,11 +216,10 @@ export default function EditRoles() {
                               className="form-check form-check-inline"
                             >
                               <input
-                                className={`form-check-input ${
-                                  touched.addons && errors.addons
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`form-check-input ${touched.addons && errors.addons
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 type="checkbox"
                                 name="addons"
                                 value={role.id}
@@ -311,12 +284,11 @@ export default function EditRoles() {
                                     className="form-check form-check-inline"
                                   >
                                     <input
-                                      className={`form-check-input ${
-                                        touched.permissions &&
+                                      className={`form-check-input ${touched.permissions &&
                                         errors.permissions
-                                          ? "is-invalid"
-                                          : ""
-                                      }`}
+                                        ? "is-invalid"
+                                        : ""
+                                        }`}
                                       type="checkbox"
                                       name="permissions"
                                       value={nameItem.name}
@@ -374,7 +346,7 @@ export default function EditRoles() {
                       <button
                         type="submit"
                         className="btn btn-primary me-2 "
-                        // disabled={Object.keys(errors).length > 0}
+                      // disabled={Object.keys(errors).length > 0}
                       >
                         Save
                       </button>

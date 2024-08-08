@@ -26,7 +26,7 @@ const AddCompany = (props) => {
       const response = await getData(`/site/manager/detail/${id}`);
 
       if (response && response.data) {
-        // setData(response.data.data.roles);
+
         setDropdownValue(response?.data?.data);
 
         setReportsData(response?.data?.data?.reports);
@@ -82,7 +82,7 @@ const AddCompany = (props) => {
     {
       name: "Reports",
       selector: (row) => row.report_name,
-      sortable: true,
+      sortable: false,
       width: "80%",
       cell: (row) => (
         <div className="d-flex">

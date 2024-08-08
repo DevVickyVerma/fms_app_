@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import withApi from "../../../Utils/ApiHelper";
 
 import { Offcanvas } from "react-bootstrap";
@@ -7,7 +7,6 @@ const EmailDetailModal = (props) => {
 
   useEffect(() => {
     if (selectedRowId) {
-      console.log(selectedRowId?.raw_data, "selectedRowId");
     }
   }, [selectedRowId]);
   const containerStyle = {

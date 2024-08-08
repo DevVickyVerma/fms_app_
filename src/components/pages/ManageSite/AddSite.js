@@ -364,8 +364,6 @@ const AddSite = (props) => {
                                   if (selectedType.length > 0 && selectedType) {
                                     fetchCompanyList(selectedType);
                                     setFieldValue("client_id", selectedType);
-                                  } else {
-                                    // console.log(e.target.value, "dd");
                                   }
                                 }}
                               >

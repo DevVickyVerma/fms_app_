@@ -16,14 +16,13 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const ManageCards = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { apidata, isLoading, getData, postData } = props;
 
   const [searchQuery, setSearchQuery] = useState('');
   const [data, setData] = useState();
@@ -56,9 +55,6 @@ const ManageCards = (props) => {
     FetchTableData();
   }, [currentPage]);
 
-  const navigate = useNavigate();
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -98,26 +94,13 @@ const ManageCards = (props) => {
             handleError(error);
           } finally {
           }
-          // setIsLoading(false);
+
         };
         DeleteRole();
       }
     });
   };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
 
   const toggleActive = (row) => {
@@ -141,14 +124,6 @@ const ManageCards = (props) => {
       handleError(error);
     }
   };
-
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
 
   const FetchTableData = async (itemsPerPage) => {
     try {
@@ -189,7 +164,7 @@ const ManageCards = (props) => {
     {
       name: "Card Name",
       selector: (row) => [row.card_name],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -202,7 +177,7 @@ const ManageCards = (props) => {
     {
       name: "Card Logo",
       selector: (row) => [row.card_code],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex align-items-center card-img">
@@ -219,7 +194,7 @@ const ManageCards = (props) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div
@@ -236,7 +211,7 @@ const ManageCards = (props) => {
     {
       name: "Status",
       selector: (row) => [row.card_status],
-      sortable: true,
+      sortable: false,
       width: "15%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">

@@ -1,16 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Loaderimg from "../../../Utils/Loader";
 import withApi from "../../../Utils/ApiHelper";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  OverlayTrigger,
-  Row,
-  Dropdown,
-  Tooltip,
-} from "react-bootstrap";
-import axios from "axios";
+import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -22,8 +13,6 @@ import { useSelector } from "react-redux";
 import { AiOutlineEye } from "react-icons/ai";
 import CardGroupCenterModal from "./CardGroupCenterModal";
 import CustomSite from "../../../Utils/CustomSite";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { handleError } from "../../../Utils/ToastUtils";
 import Swal from "sweetalert2";
 const CardGroup = ({ isLoading, getData, postData, apidata }) => {
@@ -173,14 +162,6 @@ const CardGroup = ({ isLoading, getData, postData, apidata }) => {
     }
   };
 
-  // "cardgroup-delete",
-  // "cardgroup-list",
-  // "cardgroup-update",
-  // "cardgroupHead-delete",
-  // "chargehead-delete",
-  // "chargehead-list",
-  // "chargehead-update",
-
 
   const isEditPermissionAvailable =
     permissionsArray?.includes("cardgroup-update");
@@ -212,7 +193,6 @@ const CardGroup = ({ isLoading, getData, postData, apidata }) => {
       const response = await postData("sage/card-group/delete", formData);
       // Console log the response
       if (apidata.api_response === "success") {
-        console.log(formik.values, "formik.values");
         handleSubmit1(formik.values);
       }
     } catch (error) {
@@ -237,7 +217,7 @@ const CardGroup = ({ isLoading, getData, postData, apidata }) => {
     {
       name: "Card Group",
       selector: (row) => [row.name],
-      sortable: true,
+      sortable: false,
       width: "30%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -250,7 +230,7 @@ const CardGroup = ({ isLoading, getData, postData, apidata }) => {
     {
       name: "Cards",
       selector: (row) => [row.name],
-      sortable: true,
+      sortable: false,
       width: "30%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -269,7 +249,7 @@ const CardGroup = ({ isLoading, getData, postData, apidata }) => {
     {
       name: "Action",
       selector: (row) => [row.action],
-      sortable: true,
+      sortable: false,
       width: "30%",
       cell: (row) => (
         <span className="text-center d-flex justify-content-center gap-1 flex-wrap">

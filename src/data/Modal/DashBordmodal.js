@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import Loaderimg from "../../Utils/Loader";
 import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Card, Col, Form, FormGroup, Row } from "react-bootstrap";
-import { ErrorAlert } from "../../Utils/ToastUtils";
+import { handleError } from "../../Utils/ToastUtils";
 
 const DashBordModal = (props) => {
   const { title, visible, onClose, onSubmit } = props;
@@ -17,27 +16,7 @@ const DashBordModal = (props) => {
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [AddSiteData, setAddSiteData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
 
-
-
-  function handleError(error) {
-    if (error.response && error.response.deduction_status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (
-      error.response &&
-      error.response.data.deduction_status_code === "403"
-    ) {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
   const handleFetchData = async () => {
     const token = localStorage.getItem("token");
 

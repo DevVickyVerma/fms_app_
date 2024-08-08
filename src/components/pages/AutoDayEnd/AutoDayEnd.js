@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -14,19 +14,16 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { toast } from "react-toastify";
 
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const ManageRoles = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { apidata, isLoading, getData, postData } = props;
   const [data, setData] = useState();
   const [siteName, setSiteName] = useState("");
-  const navigate = useNavigate();
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -69,25 +66,11 @@ const ManageRoles = (props) => {
             handleError(error);
           } finally {
           }
-          // setIsLoading(false);
+
         };
         DeleteRole();
       }
     });
-  };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
   }
   const { id } = useParams();
   const FetchmannegerList = async () => {
@@ -168,7 +151,7 @@ const ManageRoles = (props) => {
     {
       name: "Subject",
       selector: (row) => [row.subject],
-      sortable: true,
+      sortable: false,
       width: "30%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -181,7 +164,7 @@ const ManageRoles = (props) => {
     {
       name: "Reports",
       selector: (row) => [row.report_name],
-      sortable: true,
+      sortable: false,
       width: "30%",
       cell: (row, index) => (
         <div

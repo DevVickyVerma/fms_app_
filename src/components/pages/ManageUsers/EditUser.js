@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Col,
@@ -19,16 +19,15 @@ import {
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const EditUsers = (props) => {
   const { isLoading, getData, postData } = props;
 
   const [selectedCountryCode, setSelectedCountryCode] = useState("+44");
-  const navigate = useNavigate();
   const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
   const [SelectedClient, setSelectedClient] = useState();
@@ -54,20 +53,7 @@ const EditUsers = (props) => {
     { code: "+81", name: "Japan", flag: "🇯🇵", shortName: "JPN" },
   ];
 
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
   const handleFetchData = async () => {
     try {
       const response = await getData("/common/client-list");
@@ -169,10 +155,10 @@ const EditUsers = (props) => {
     validationSchema: Yup.object({
       role_id: Yup.string().required("Role is required"),
       first_name: Yup.string()
-        
+
         .required("First Name is required"),
       last_name: Yup.string()
-        
+
         .required("Last Name is required"),
       // phone_number: Yup.string()
       //   .matches(phoneRegExp, "Phone number is not valid")

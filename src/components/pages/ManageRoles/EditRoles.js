@@ -1,77 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
-import DataTable from "react-data-table-component";
-import { useNavigate } from "react-router-dom";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  Dropdown,
-  Form,
-  FormGroup,
-  OverlayTrigger,
-  Row,
-  Tooltip,
-} from "react-bootstrap";
+import { Breadcrumb, Card, Row } from "react-bootstrap";
 import { useFormik } from "formik"; // Importing useFormik hook
 import * as Yup from "yup";
 
-import axios from "axios";
-import { Slide, toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 
 const EditRoles = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
 
   const [permissions, setPermissions] = useState([]);
-  const [addonitem, setAddonitem] = useState([]);
-  const [userpermissions, setUserPermissions] = useState([]);
   const { id } = useParams();
-  const SuccessAlert = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored",
-    });
-  };
-  const ErrorAlert = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored",
-    });
-  };
 
   const [permissionArray, setPermissionArray] = useState([]);
-  const [addonArray, setAddonArray] = useState([]);
-  const successToasts = {};
-
-  const navigate = useNavigate();
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
   useEffect(() => {
     FetchPermisionList();
-    console.clear();
     console.clear();
   }, []);
   const FetchPermisionList = async () => {
@@ -151,41 +97,7 @@ const EditRoles = (props) => {
       handleSubmit(values);
     },
   });
-  // const handleSubmit = async (values) => {
-  //   try {
-  //     const body = {
-  //       name: values.name,
-  //       permissions: values.permissions,
-  //       role_id: localStorage.getItem("EditRoleID"),
-  //     };
 
-  //     const token = localStorage.getItem("token");
-
-  //     const response = await fetch(
-  //       `${process.env.REACT_APP_BASE_URL}/role/update`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(body),
-  //       }
-  //     );
-
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       SuccessAlert(data.message);
-  //       navigate("/roles");
-  //     } else {
-  //       ErrorAlert(error.message);
-  //       const errorData = await response.json();
-  //       throw new Error(errorData.message);
-  //     }
-  //   } catch (error) {
-  //     handleError(error);
-  //   }
-  // };
 
   const handleSubmit = async (values) => {
     try {
@@ -206,7 +118,6 @@ const EditRoles = (props) => {
     } catch (error) { }
   };
 
-  const [selectAllChecked, setSelectAllChecked] = useState(false);
   const handleHeadingCheckboxChange = (heading, isChecked) => {
     const headingPermissions = permissions[heading]?.names;
 

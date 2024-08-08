@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 import * as Yup from "yup";
-import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import { useFormik } from "formik";
 import Loaderimg from "../../../Utils/Loader";
@@ -11,11 +10,8 @@ import { ReactMultiEmail } from "react-multi-email";
 
 const AddCompany = (props) => {
   const { isLoading, getData, postData } = props;
-  const [dropdownValue, setDropdownValue] = useState([]);
   const { id } = useParams();
   const UserPermissions = useSelector((state) => state?.data?.data?.data);
-  const [ReportsData, setReportsData] = useState();
-
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxChange1 = (event) => {
@@ -173,11 +169,10 @@ const AddCompany = (props) => {
                     </label>
                     <input
                       type="text"
-                      className={`input101 readonly ${
-                        formik.errors.client_id && formik.touched.client_id
-                          ? "is-invalid"
-                          : ""
-                      }`}
+                      className={`input101 readonly ${formik.errors.client_id && formik.touched.client_id
+                        ? "is-invalid"
+                        : ""
+                        }`}
                       id="client_id"
                       name="client_id"
                       onChange={formik.handleChange}
@@ -200,11 +195,10 @@ const AddCompany = (props) => {
                     <input
                       type="text"
                       autoComplete="off"
-                      className={`input101 ${
-                        formik.errors.subject && formik.touched.subject
-                          ? "is-invalid"
-                          : ""
-                      }`}
+                      className={`input101 ${formik.errors.subject && formik.touched.subject
+                        ? "is-invalid"
+                        : ""
+                        }`}
                       id="subject"
                       name="subject"
                       placeholder="Subject"
@@ -264,7 +258,7 @@ const AddCompany = (props) => {
                   </span>
                 </Col>
 
-                 <Col lg={4} md={6}>
+                <Col lg={4} md={6}>
                   <div className="form-group">
                     <label htmlFor="email" className="form-label mt-4">
                       Include Date
@@ -284,10 +278,9 @@ const AddCompany = (props) => {
                       </div>
                     )}
                   </div>
-                </Col> 
+                </Col>
               </Row>
             </Card.Body>
-            {console.log(formik.values, "formik.values")}
             <Card.Footer className="text-end">
               <Link
                 type="submit"

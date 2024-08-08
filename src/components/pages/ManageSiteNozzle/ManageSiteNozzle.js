@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
@@ -14,7 +14,6 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
@@ -24,7 +23,7 @@ import * as Yup from "yup";
 import CustomClient from "../../../Utils/CustomClient";
 import CustomCompany from "../../../Utils/CustomCompany";
 import CustomSite from "../../../Utils/CustomSite";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const ManageSiteTank = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -87,26 +86,12 @@ const ManageSiteTank = (props) => {
             handleError(error);
           } finally {
           }
-          // setIsLoading(false);
+
         };
         DeleteRole();
       }
     });
   };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -124,7 +109,7 @@ const ManageSiteTank = (props) => {
       // Console log the response
       if (apidata.api_response === "success") {
         handleSubmit1(submitSiteID);
-        // FetchTableData();
+
       }
     } catch (error) {
       handleError(error);
@@ -237,7 +222,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Site Name",
       selector: (row) => [row.site],
-      sortable: true,
+      sortable: false,
       width: "15%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -250,7 +235,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Pump Name",
       selector: (row) => [row.site_pump],
-      sortable: true,
+      sortable: false,
       width: "10%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -264,7 +249,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Fuel Name",
       selector: (row) => [row.fuel_name],
-      sortable: true,
+      sortable: false,
       width: "15%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -278,7 +263,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Site Nozzle Name",
       selector: (row) => [row.name],
-      sortable: true,
+      sortable: false,
       width: "15%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -291,7 +276,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Site Nozzle Code",
       selector: (row) => [row.code],
-      sortable: true,
+      sortable: false,
       width: "10%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -304,7 +289,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "10%",
       cell: (row, index) => (
         <div className="d-flex" style={{ cursor: "default" }}>
@@ -317,7 +302,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Status",
       selector: (row) => [row.status],
-      sortable: true,
+      sortable: false,
       width: "10%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">

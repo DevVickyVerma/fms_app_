@@ -135,7 +135,6 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
   }
 
   const data = getCompetitorsPrice?.competitorListing;
-  console.log(data, "getCompetitorsPrice");
   const animatedComponents = makeAnimated();
   const Optionssingle = selected?.map((item) => ({
     value: item?.id,
@@ -339,7 +338,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                   style={{ width: "50px", height: "50px" }}
                 />
               ) : (
-                <span class="Smallloader"></span>
+                <span className="Smallloader"></span>
               )}
             </Box>
             <Box>
@@ -373,7 +372,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                   {getCompetitorsPrice?.last_dayend ? (
                     moment(getCompetitorsPrice?.last_dayend).format("Do MMM")
                   ) : (
-                    <span class="Smallloader"></span>
+                    <span className="Smallloader"></span>
                   )}
                 </Typography>
               </Box>
@@ -411,7 +410,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                           "Do MMM, HH:mm"
                         )
                       ) : (
-                        <span class="Smallloader"></span>
+                        <span className="Smallloader"></span>
                       )}
                     </Typography>
                   </Typography>
@@ -448,7 +447,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                           "Do MMM, HH:mm"
                         )
                       ) : (
-                        <span class="Smallloader"></span>
+                        <span className="Smallloader"></span>
                       )}
                     </Typography>
                   </Typography>
@@ -567,7 +566,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                                     >
                                       {" "}
                                       <i
-                                        class="fa fa-info-circle ms-1"
+                                        className="fa fa-info-circle ms-1"
                                         aria-hidden="true"
                                         style={{ fontSize: "15px" }}
                                       ></i>{" "}

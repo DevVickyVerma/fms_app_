@@ -1,56 +1,24 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import {
-  Col,
-  Row,
-  Card,
-  Form,
-  FormGroup,
-  FormControl,
-  ListGroup,
-  Breadcrumb,
-} from "react-bootstrap";
+import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 
-import { Formik, Field, ErrorMessage } from "formik";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import DatePicker from "react-multi-date-picker";
+import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const EditCards = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
   const reader = new FileReader();
-  const navigate = useNavigate();
-
   const [AddSiteData, setAddSiteData] = useState([]);
   const [selectedBusinessType, setSelectedBusinessType] = useState("");
   const [subTypes, setSubTypes] = useState([]);
-  const [EditSiteData, setEditSiteData] = useState();
 
   const [previewImage, setPreviewImage] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
-  function handleError(error) {
-    if (error.response && error.response.card_status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (
-      error.response &&
-      error.response.data.card_status_code === "403"
-    ) {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
   const { id } = useParams();
 
   const handleImageChange = (event, setFieldValue) => {
@@ -79,52 +47,6 @@ const EditCards = (props) => {
     reader.readAsDataURL(file);
   };
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   const formData = new FormData();
-
-  //   formData.append("id", id); // Use the retrieved ID from the URL
-
-  //   const axiosInstance = axios.create({
-  //     baseURL: process.env.REACT_APP_BASE_URL,
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axiosInstance.get(`/card/${id}`);
-  //       if (response) {
-  //
-  //         setEditSiteData(response.data.data);
-  //         formik.setValues(response.data.data);
-  //         if (formik.values.image) {
-  //           setPreviewImage(formik.values.logo);
-  //         } else {
-  //           setPreviewImage(null);
-  //         }
-  //       }
-  //     } catch (error) {
-  //       handleError(error);
-  //     }
-  //   };
-
-  //   try {
-  //     fetchData();
-  //   } catch (error) {
-  //     handleError(error);
-  //   }
-  //   console.clear();
-  // }, [id]);
-
-  // const token = localStorage.getItem("token");
-  // const axiosInstance = axios.create({
-  //   baseURL: process.env.REACT_APP_BASE_URL,
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // });
 
   useEffect(() => {
     try {
@@ -149,13 +71,7 @@ const EditCards = (props) => {
     }
   };
 
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+
 
   const handleSubmit = async (values) => {
     try {
@@ -187,7 +103,7 @@ const EditCards = (props) => {
     },
     validationSchema: Yup.object({
       card_code: Yup.string()
-        
+
         .required("card code is required"),
 
       card_name: Yup.string()
@@ -208,20 +124,7 @@ const EditCards = (props) => {
     onSubmit: handleSubmit,
   });
 
-  const isInvalid = formik.errors && formik.touched.name ? "is-invalid" : "";
 
-  // Use the isInvalid variable to conditionally set the class name
-  const inputClass = `form-control ${isInvalid}`;
-  const handleBusinessTypeChange = (e) => {
-    const selectedType = e.target.value;
-
-    formik.setFieldValue("business_type", selectedType);
-    setSelectedBusinessType(selectedType);
-    const selectedTypeData = AddSiteData.busines_types.find(
-      (type) => type.name === selectedType
-    );
-    setSubTypes(selectedTypeData.sub_types);
-  };
 
   return (
     <>

@@ -8,12 +8,11 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import DataTableExtensions from "react-data-table-component-extensions";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import DataTable from "react-data-table-component";
@@ -21,7 +20,7 @@ import DataTable from "react-data-table-component";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { Box } from "@mui/material";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
+import { handleError } from "../../../Utils/ToastUtils";
 import CustomClient from "../../../Utils/CustomClient";
 import CustomCompany from "../../../Utils/CustomCompany";
 import CustomSite from "../../../Utils/CustomSite";
@@ -59,22 +58,7 @@ const Competitor = (props) => {
   const isEditPermissionAvailable =
     permissionsArray?.includes("competitor-edit");
 
-  const navigate = useNavigate();
 
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -243,20 +227,18 @@ const Competitor = (props) => {
               "/site/competitor/delete",
               formData
             );
-            // setCompetitorList(response.data.data);
             Swal.fire({
               title: "Deleted!",
               text: "Your item has been deleted.",
               icon: "success",
               confirmButtonText: "OK",
             });
-            handleSubmit();
-            // FetchmannegerList();
+            handleSubmit(formik?.values);
           } catch (error) {
             handleError(error);
           } finally {
           }
-          // setIsLoading(false);
+
         };
         DeleteRole();
       }
@@ -280,7 +262,7 @@ const Competitor = (props) => {
       );
 
       if (apidata.api_response === "success") {
-        handleSubmit();
+        handleSubmit(formik?.values);
       }
     } catch (error) {
       handleError(error);
@@ -317,7 +299,7 @@ const Competitor = (props) => {
     {
       name: "Suppliers",
       selector: (row) => [row.supplier],
-      sortable: true,
+      sortable: false,
       width: "15%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -331,7 +313,7 @@ const Competitor = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       // selector: "created_date",
-      sortable: true,
+      sortable: false,
       width: "15%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -345,7 +327,7 @@ const Competitor = (props) => {
       name: "Address",
       selector: (row) => [row.address],
       // selector: "created_date",
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -359,7 +341,7 @@ const Competitor = (props) => {
     {
       name: "Status",
       selector: (row) => [row.status],
-      sortable: true,
+      sortable: false,
       width: "10%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">

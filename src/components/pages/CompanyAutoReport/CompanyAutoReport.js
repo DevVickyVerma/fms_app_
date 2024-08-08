@@ -67,7 +67,7 @@ const ManageRoles = (props) => {
             handleError(error);
           } finally {
           }
-          // setIsLoading(false);
+
         };
         DeleteRole();
       }
@@ -153,7 +153,7 @@ const ManageRoles = (props) => {
     {
       name: "Subject",
       selector: (row) => [row.subject],
-      sortable: true,
+      sortable: false,
       width: "30%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -166,7 +166,7 @@ const ManageRoles = (props) => {
     {
       name: "Reports",
       selector: (row) => [row.report_name],
-      sortable: true,
+      sortable: false,
       width: "30%",
       cell: (row, index) => (
         <div

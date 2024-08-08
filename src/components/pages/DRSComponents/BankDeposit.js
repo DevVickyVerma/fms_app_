@@ -1,39 +1,25 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import { BsCurrencyPound, BsDownload } from "react-icons/bs";
-import { BiSolidFilePdf } from "react-icons/bi";
+import { BsDownload } from "react-icons/bs";
 
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  OverlayTrigger,
-  Row,
-  Tooltip,
-} from "react-bootstrap";
-import { Button } from "bootstrap";
-import axios from "axios";
+import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import Swal from "sweetalert2";
-import { FormModal } from "../../../data/Modal/Modal";
 
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
-import SearchIcon from "@mui/icons-material/Search";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import { useFormik, Field, ErrorMessage } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const BankDeposit = (props) => {
   const {
     apidata,
     isLoading,
-    error,
     getData,
     postData,
     SiteID,
@@ -44,16 +30,11 @@ const BankDeposit = (props) => {
     start_date,
     sendDataToParent,
   } = props;
-  const [selectedFile, setSelectedFile] = useState(null);
   const [Editdata, setEditData] = useState(false);
   const [bankAmount, setBankAmount] = useState();
   const [checkStateForBankDeposit, setCheckStateForBankDeposit] =
     useState(true);
   const [data, setData] = useState();
-  const navigate = useNavigate();
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
-
   const handleButtonClick = () => {
     const allPropsData = {
       company_id,
@@ -93,20 +74,7 @@ const BankDeposit = (props) => {
       handleError(error);
     }
   };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
   useEffect(() => {
     FetchTableData();
@@ -238,7 +206,7 @@ const BankDeposit = (props) => {
     {
       name: "Amount",
       selector: (row) => [row.amount],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -252,7 +220,7 @@ const BankDeposit = (props) => {
     {
       name: "Reason",
       selector: (row) => [row.reason],
-      sortable: true,
+      sortable: false,
       width: "10%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -265,7 +233,7 @@ const BankDeposit = (props) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -278,7 +246,7 @@ const BankDeposit = (props) => {
     {
       name: "slip",
       selector: (row) => [row.slip],
-      sortable: true,
+      sortable: false,
       width: "20%",
 
       cell: (row, index) => (

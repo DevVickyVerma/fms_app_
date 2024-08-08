@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import withApi from '../../../Utils/ApiHelper'
 import Loaderimg from '../../../Utils/Loader';
 import { Breadcrumb, Card, Col, OverlayTrigger, Pagination, Row, Tooltip } from 'react-bootstrap';
@@ -8,7 +8,7 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import DataTable from 'react-data-table-component';
 import Swal from 'sweetalert2';
 import axios from 'axios';
-import { ErrorAlert } from '../../../Utils/ToastUtils';
+import { handleError } from '../../../Utils/ToastUtils';
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const BunkeringBalance = ({ isLoading, getData }) => {
@@ -91,27 +91,14 @@ const BunkeringBalance = ({ isLoading, getData }) => {
                         handleError(error);
                     } finally {
                     }
-                    // setIsLoading(false);
+
                 };
                 DeleteRole();
             }
         });
     };
 
-    function handleError(error) {
-        if (error.response && error.response.status === 401) {
-            navigate("/login");
-            ErrorAlert("Invalid access token");
-            localStorage.clear();
-        } else if (error.response && error.response.data.status_code === "403") {
-            navigate("/errorpage403");
-        } else {
-            const errorMessage = Array.isArray(error.response.data.message)
-                ? error.response.data.message.join(" ")
-                : error.response.data.message;
-            ErrorAlert(errorMessage);
-        }
-    }
+
 
     const fetchBunkeringBalanceList = async () => {
         try {
@@ -137,7 +124,7 @@ const BunkeringBalance = ({ isLoading, getData }) => {
         {
             name: "Bunkering Balance Date",
             selector: (row) => [row?.balance_date],
-            sortable: true,
+            sortable: false,
             width: "33.33%",
             cell: (row, index) => (
                 <div className="d-flex">
@@ -151,7 +138,7 @@ const BunkeringBalance = ({ isLoading, getData }) => {
         {
             name: "Bunkering Balance Amount",
             selector: (row) => [row?.amount],
-            sortable: true,
+            sortable: false,
             width: "33.33%",
             cell: (row, index) => (
                 <div

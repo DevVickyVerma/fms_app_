@@ -5,7 +5,6 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { Col, Modal, Row } from "react-bootstrap";
-import PropTypes from "prop-types";
 import Loaderimg from "../../Utils/Loader";
 import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +12,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { ErrorAlert, SuccessAlert } from "../../Utils/ToastUtils";
+import { ErrorAlert, handleError, SuccessAlert } from "../../Utils/ToastUtils";
 
 const CenterAuthModal = (props) => {
   const [open, setOpen] = useState(true);
@@ -30,20 +29,6 @@ const CenterAuthModal = (props) => {
 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -112,7 +97,7 @@ const CenterAuthModal = (props) => {
     validationSchema: Yup.object({
       first_name: Yup.string().required("First name is required"),
       last_name: Yup.string()
-        
+
         .required("Last name is required"),
     }),
     onSubmit: (values, { setSubmitting }) => {

@@ -1,51 +1,19 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import {
-  Col,
-  Row,
-  Card,
-  Form,
-  FormGroup,
-  FormControl,
-  ListGroup,
-  Breadcrumb,
-} from "react-bootstrap";
+import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 
-import { Formik, Field, ErrorMessage } from "formik";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
 import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import DatePicker from "react-multi-date-picker";
+import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const EditBussiness = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
-  const navigate = useNavigate();
-
+  const { isLoading, getData, postData } = props;
   const [AddSiteData, setAddSiteData] = useState([]);
-  const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  const [subTypes, setSubTypes] = useState([]);
-  const [EditSiteData, setEditSiteData] = useState();
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
   const { id } = useParams();
 
   useEffect(() => {
@@ -75,7 +43,6 @@ const EditBussiness = (props) => {
   };
 
   useEffect(() => {
-    console.log(id);
     const token = localStorage.getItem("token");
     const axiosInstance = axios.create({
       baseURL: process.env.REACT_APP_BASE_URL,
@@ -88,9 +55,6 @@ const EditBussiness = (props) => {
       try {
         const response = await axiosInstance.get("business/types");
         setAddSiteData(response.data);
-        // if (response.data) {
-        //   setAddSiteData(response.data.data);
-        // }
       } catch (error) {
         handleError(error);
       }
@@ -100,17 +64,10 @@ const EditBussiness = (props) => {
     } catch (error) {
       handleError(error);
     }
-    // console.clear()
     console.clear();
   }, []);
 
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+
 
   const handleSubmit = async (values) => {
     try {
@@ -121,7 +78,6 @@ const EditBussiness = (props) => {
       formData.append("status", values.category_status);
       formData.append("id", id);
       formData.append("business_type_id", values.business_type_id);
-      console.log(values);
 
       const postDataUrl = "/business/category/update";
       const navigatePath = "/managebusinesscategory";
@@ -165,7 +121,7 @@ const EditBussiness = (props) => {
     onSubmit: handleSubmit,
   });
 
- 
+
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Col,
@@ -8,35 +8,18 @@ import {
 } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
 import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const Editsuppliers = (props) => {
   const { isLoading, getData, postData } = props;
-  const navigate = useNavigate();
   const reader = new FileReader();
   const [previewImage, setPreviewImage] = useState(null);
-
   const [isDragging, setIsDragging] = useState(false);
   const [dropdownValue, setDropdownValue] = useState([]);
-  function handleError(error) {
-    if (error.response && error.response.Status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.Status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
   const { id } = useParams();
 
   useEffect(() => {
@@ -125,7 +108,7 @@ const Editsuppliers = (props) => {
     },
     validationSchema: Yup.object({
       supplier_code: Yup.string()
-        
+
         .required("Supplier code is required"),
 
       supplier_name: Yup.string()

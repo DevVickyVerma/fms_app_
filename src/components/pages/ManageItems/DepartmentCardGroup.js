@@ -231,7 +231,6 @@ const DepartmentCardGroup = ({ isLoading, getData, postData, apidata }) => {
             const response = await postData("department-item/group/delete", formData);
             // Console log the response
             if (apidata.api_response === "success") {
-                console.log(formik.values, "formik.values");
                 handleSubmit1(formik.values);
             }
         } catch (error) {
@@ -254,7 +253,7 @@ const DepartmentCardGroup = ({ isLoading, getData, postData, apidata }) => {
         {
             name: "Item Group",
             selector: (row) => [row.name],
-            sortable: true,
+            sortable: false,
             width: "40%",
             cell: (row, index) => (
                 <div className="d-flex">
@@ -267,7 +266,7 @@ const DepartmentCardGroup = ({ isLoading, getData, postData, apidata }) => {
         {
             name: "Items",
             selector: (row) => [row.name],
-            sortable: true,
+            sortable: false,
             width: "30%",
             cell: (row, index) => (
                 <div className="d-flex">
@@ -281,7 +280,7 @@ const DepartmentCardGroup = ({ isLoading, getData, postData, apidata }) => {
         {
             name: "Action",
             selector: (row) => [row.action],
-            sortable: true,
+            sortable: false,
             width: "20%",
             cell: (row) => (
                 <span className="text-center d-flex justify-content-center gap-1 flex-wrap">

@@ -7,17 +7,14 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import { Breadcrumb, OverlayTrigger, Tooltip } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
+import { handleError } from "../../../Utils/ToastUtils";
+import LoaderImg from "../../../Utils/Loader";
 
 const ManageDeductions = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { apidata, isLoading, getData, postData } = props;
   const [data, setData] = useState();
-  const navigate = useNavigate();
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -60,26 +57,12 @@ const ManageDeductions = (props) => {
             handleError(error);
           } finally {
           }
-          // setIsLoading(false);
+
         };
         DeleteRole();
       }
     });
   };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
   useEffect(() => {
     FetchTableData();
@@ -108,13 +91,7 @@ const ManageDeductions = (props) => {
     }
   };
 
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+
 
   const FetchTableData = async () => {
     try {
@@ -171,7 +148,7 @@ const ManageDeductions = (props) => {
     {
       name: "Deductions Name",
       selector: (row) => [row.deduction_name],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -184,7 +161,7 @@ const ManageDeductions = (props) => {
     {
       name: "Deductions Code",
       selector: (row) => [row.deduction_code],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -197,7 +174,7 @@ const ManageDeductions = (props) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div
@@ -214,7 +191,7 @@ const ManageDeductions = (props) => {
     {
       name: "Status",
       selector: (row) => [row.deduction_status],
-      sortable: true,
+      sortable: false,
       width: "10%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -326,6 +303,7 @@ const ManageDeductions = (props) => {
 
   return (
     <>
+      {isLoading ? <LoaderImg /> : null}
       <div className="page-header ">
         <div>
           <h1 className="page-title">Manage Deductions</h1>

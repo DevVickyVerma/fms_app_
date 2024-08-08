@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import {
   Breadcrumb,
@@ -18,12 +17,11 @@ import {
 import axios from "axios";
 import Swal from "sweetalert2";
 
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const ManageSuppliers = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -35,10 +33,6 @@ const ManageSuppliers = (props) => {
   const [lastPage, setLastPage] = useState(1);
   const [perPage, setPerPage] = useState(20);
   const [total, setTotal] = useState(0);
-
-  const navigate = useNavigate();
-
-  const ErrorAlert = (message) => toast.error(message);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -81,26 +75,13 @@ const ManageSuppliers = (props) => {
             handleError(error);
           } finally {
           }
-          // setIsLoading(false);
+
         };
         DeleteRole();
       }
     });
   };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -193,7 +174,7 @@ const ManageSuppliers = (props) => {
     {
       name: "Supplier Name",
       selector: (row) => [row.supplier_name],
-      sortable: true,
+      sortable: false,
       width: "25%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -206,7 +187,7 @@ const ManageSuppliers = (props) => {
     {
       name: "Supplier Logo",
       selector: (row) => [row.supplier_logo],
-      sortable: true,
+      sortable: false,
       width: "15%",
       cell: (row, index) => (
         <div className="d-flex align-items-center card-img">
@@ -223,7 +204,7 @@ const ManageSuppliers = (props) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex" style={{ cursor: "default" }}>
@@ -236,7 +217,7 @@ const ManageSuppliers = (props) => {
     {
       name: "Status",
       selector: (row) => [row.supplier_status],
-      sortable: true,
+      sortable: false,
       width: "10%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">

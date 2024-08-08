@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
-import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import axios from "axios";
 import { handleError } from "../../../Utils/ToastUtils";
@@ -9,9 +8,6 @@ const UnderConstruction = (props) => {
   const { getData } = props;
 
   const [isLoading, setLoading] = useState(false);
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  console.log(UserPermissions.permissions, "UserPermissions");
 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");

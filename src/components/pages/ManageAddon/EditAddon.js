@@ -1,71 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
-import DataTable from "react-data-table-component";
 import { useNavigate } from "react-router-dom";
-import DataTableExtensions from "react-data-table-component-extensions";
-import {
-  Breadcrumb,
-  Card,
-
-  Form,
-
-  Row,
-  Tooltip,
-} from "react-bootstrap";
+import { Breadcrumb, Card, Form, Row } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
 import axios from "axios";
-import { Slide, toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
+import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
 
 const EditAddon = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, } = props;
   const [AddonpermissionsList, setPermissions] = useState([]);
   const [userpermissions, setUserPermissions] = useState([]);
   const [edituserDetails, setEdituserDetails] = useState("");
-  const [editName, seteditName] = useState("");
 
   const navigate = useNavigate();
 
-  const { id } = useParams;
   const [permissionArray, setPermissionArray] = useState([]);
-  const ErrorAlert = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
-  const SuccessAlert = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
 
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -204,24 +158,7 @@ const EditAddon = (props) => {
       ErrorAlert(data.message);
     }
   };
-  // const handleSubmit = async (values) => {
-  //   try {
-  //     const formData = new FormData();
 
-  //     formData.append("addon_name", values.name);
-  //     formData.append("addon_id", id);
-
-  //     // Loop through the array and append each value individually
-  //     values.permissions.forEach((permission, index) => {
-  //       formData.append(`permissions[${index}]`, permission);
-  //     });
-
-  //     const postDataUrl = "/addon/update";
-  //     const navigatePath = `/manageaddon`;
-
-  //     await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
-  //   } catch (error) {}
-  // };
 
   const [selectAllPermissions, setSelectAllPermissions] = useState({});
 
@@ -290,11 +227,10 @@ const EditAddon = (props) => {
                           id="name"
                           name="name"
                           placeholder="Addonname"
-                          className={`input101 ${
-                            formik.touched.name && formik.errors.name
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                          className={`input101 ${formik.touched.name && formik.errors.name
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           {...formik.getFieldProps("name")}
                         />
                         {formik.touched.name && formik.errors.name && (
@@ -315,12 +251,11 @@ const EditAddon = (props) => {
                                   <div className="table-heading d-flex">
                                     <div className="heading-input">
                                       <input
-                                        className={`form-check-input ${
-                                          formik.touched.permissions &&
+                                        className={`form-check-input ${formik.touched.permissions &&
                                           formik.errors.permissions
-                                            ? "is-invalid"
-                                            : ""
-                                        }`}
+                                          ? "is-invalid"
+                                          : ""
+                                          }`}
                                         type="checkbox"
                                         checked={
                                           selectAllPermissions[heading] || false
@@ -346,12 +281,11 @@ const EditAddon = (props) => {
                                         className="form-check form-check-inline"
                                       >
                                         <input
-                                          className={`form-check-input ${
-                                            formik.touched.permissionsList &&
+                                          className={`form-check-input ${formik.touched.permissionsList &&
                                             formik.errors.permissionsList
-                                              ? "is-invalid"
-                                              : ""
-                                          }`}
+                                            ? "is-invalid"
+                                            : ""
+                                            }`}
                                           type="checkbox"
                                           name={`permissionsList.${nameItem.permission_name}`}
                                           id={`permissionsList-${nameItem.id}`}

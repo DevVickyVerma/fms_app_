@@ -67,7 +67,7 @@ const AddCompany = (props) => {
     {
       name: "Addon",
       selector: (row) => row.name,
-      sortable: true,
+      sortable: false,
       width: "80%",
       cell: (row) => (
         <div className="d-flex">

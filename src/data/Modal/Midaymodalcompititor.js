@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog, DialogContent, TableContainer } from "@mui/material";
 import { Card } from "react-bootstrap";
 import { useFormik } from "formik";
@@ -6,8 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
-import { Slide, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { handleError, SuccessAlert } from "../../Utils/ToastUtils";
 
 const Competitormodal = ({
   open,
@@ -17,48 +17,13 @@ const Competitormodal = ({
   onDataFromChild,
   accordionSiteID,
 }) => {
-  const [isChecked, setIsChecked] = useState(false);
+
+
   const [data, setData] = useState(null); // Initialize data as null
   const [isLoading, setIsLoading] = useState(false);
   const [hasListing, setHasListing] = useState(false);
 
   const navigate = useNavigate();
-
-  const SuccessAlert = (message) => {
-    toast.success(message, {
-      autoClose: 500,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 500,
-      theme: "colored",
-    });
-  };
-
-  const ErrorAlert = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored",
-    });
-  };
-
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
   useEffect(() => {
     const fetchData = async () => {

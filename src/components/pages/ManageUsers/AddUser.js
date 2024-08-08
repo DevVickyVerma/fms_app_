@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { MultiSelect } from "react-multi-select-component";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
+import { handleError } from "../../../Utils/ToastUtils";
 
 
 
@@ -19,28 +19,12 @@ const AddUsers = (props) => {
   const [selectRole, setselectRole] = useState([]);
   const [selectedCountryCode, setSelectedCountryCode] = useState("+44");
 
-  const navigate = useNavigate();
 
 
   const handleCountryCodeChange = (e) => {
     setSelectedCountryCode(e.target.value);
 
   };
-
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
   const countryCodes = [
     { code: "+1", name: "United States", flag: "🇺🇸", shortName: "USA" },

@@ -278,14 +278,14 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
                 </div>
               ) : (
                 ""
-                // <span class="Smallloader"></span>
+                // <span className="Smallloader"></span>
               )}
             </Card.Header>
 
             {DashboardGradsLoading ? (
               <>
                 <p className="all-center-flex" style={{ height: "150px" }}>
-                  <span class="primary-loader"></span>
+                  <span className="primary-loader"></span>
                 </p>
               </>
             ) : (
@@ -559,7 +559,7 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
                                         }
                                       >
                                         <i
-                                          class="fa fa-info-circle"
+                                          className="fa fa-info-circle"
                                           aria-hidden="true"
                                           style={{ fontSize: "20px" }}
                                         ></i>
@@ -589,13 +589,13 @@ const DashSubChildGrads = ({ getData, getSiteStats }) => {
       // style={{ overflow: "auto" }}
       >
         <div
-          class="modal-header"
+          className="modal-header"
           style={{ color: "#fff", background: "#2D8BA8" }}
         >
-          <h5 class="modal-title"> Grades Date wise Reports</h5>
+          <h5 className="modal-title"> Grades Date wise Reports</h5>
           <button
             type="button"
-            class="close"
+            className="close"
             data-dismiss="modal"
             aria-label="Close"
           >

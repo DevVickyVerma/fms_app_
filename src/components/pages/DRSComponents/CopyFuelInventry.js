@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
-import { useNavigate } from "react-router-dom";
-import { Slide, toast } from "react-toastify";
 import moment from "moment/moment";
+import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
 
 const FuelInventry = (props) => {
   const { company_id, client_id, site_id, start_date, sendDataToParent } =
@@ -26,7 +23,7 @@ const FuelInventry = (props) => {
     sendDataToParent(allPropsData);
   };
 
-  // const [data, setData] = useState()
+
   const [data, setData] = useState([]);
   const [editable, setis_editable] = useState();
   const [CombinedVarianceData, setCombinedVarianceData] = useState([]);
@@ -34,40 +31,6 @@ const FuelInventry = (props) => {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const navigate = useNavigate();
-  const SuccessToast = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-  const ErrorToast = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      SuccessToast("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorToast(errorMessage);
-    }
-  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -96,41 +59,41 @@ const FuelInventry = (props) => {
 
           const formValues = data?.data?.listing
             ? data.data.listing.map((item) => {
-                return {
-                  id: item.id,
-                  fuel_price: item.fuel_price,
-                  metered_sale: item.metered_sale,
-                  metered_sale_value: item.metered_sale_value,
-                  adjustment: item.adjustment,
-                  adjustment_euro: item.adjustment_euro,
-                  adjusted_sale: item.adjusted_sale,
-                  adjusted_sale_value: item.adjusted_sale_value,
-                  tests: item.tests,
-                  actual_sales: item.actual_sales,
-                  due_sales: item.due_sales,
-                  bunkered_sale: item.bunkered_sale,
-                  // Add other properties as needed
-                };
-              })
+              return {
+                id: item.id,
+                fuel_price: item.fuel_price,
+                metered_sale: item.metered_sale,
+                metered_sale_value: item.metered_sale_value,
+                adjustment: item.adjustment,
+                adjustment_euro: item.adjustment_euro,
+                adjusted_sale: item.adjusted_sale,
+                adjusted_sale_value: item.adjusted_sale_value,
+                tests: item.tests,
+                actual_sales: item.actual_sales,
+                due_sales: item.due_sales,
+                bunkered_sale: item.bunkered_sale,
+                // Add other properties as needed
+              };
+            })
             : [];
 
           const Combinedvariancedata = data?.data?.combined_variance_data
             ? data.data.combined_variance_data.map((item) => ({
-                description: item.description,
-                variance: item.variance,
-                // Add other properties as needed
-              }))
+              description: item.description,
+              variance: item.variance,
+              // Add other properties as needed
+            }))
             : [];
           formik.setFieldValue("Combinedvariance", Combinedvariancedata);
 
           const Variancedata = data?.data?.variance_data
             ? data.data.variance_data.map((item) => ({
-                description: item.description,
-                variance: item.variance,
-                due_sales: item.due_sales,
-                sale_value: item.sale_value,
-                // Add other properties as needed
-              }))
+              description: item.description,
+              variance: item.variance,
+              due_sales: item.due_sales,
+              sale_value: item.sale_value,
+              // Add other properties as needed
+            }))
             : [];
           formik.setFieldValue("Variancedataformik", Variancedata);
 
@@ -229,11 +192,11 @@ const FuelInventry = (props) => {
       const responseData = await response.json(); // Read the response once
 
       if (response.ok) {
-        SuccessToast(responseData.message);
+        SuccessAlert(responseData.message);
         handleButtonClick();
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
-        ErrorToast(responseData.message);
+        ErrorAlert(responseData.message);
 
         // Handle specific error cases if needed
       }
@@ -300,13 +263,13 @@ const FuelInventry = (props) => {
                     >
                       {index === 0
                         ? `Start: ${moment(
-                            timePart,
-                            "YYYY-MM-DD HH:mm:ss"
-                          ).format("MMM DD, YYYY HH:mm A")}`
+                          timePart,
+                          "YYYY-MM-DD HH:mm:ss"
+                        ).format("MMM DD, YYYY HH:mm A")}`
                         : `End : ${moment(
-                            timePart,
-                            "YYYY-MM-DD HH:mm:ss"
-                          ).format("MMM DD, YYYY HH:mm A")}`}
+                          timePart,
+                          "YYYY-MM-DD HH:mm:ss"
+                        ).format("MMM DD, YYYY HH:mm A")}`}
                       <br />
                     </span>
                   ))}
@@ -451,8 +414,8 @@ const FuelInventry = (props) => {
                 row.update_adjustment
                   ? "UpdateValueInput"
                   : editable?.is_editable
-                  ? "table-input"
-                  : "table-input readonly"
+                    ? "table-input"
+                    : "table-input readonly"
               }
               value={formik.values.data[index]?.adjustment}
               onChange={formik.handleChange}
@@ -494,8 +457,8 @@ const FuelInventry = (props) => {
                 row.update_bunkered_sale
                   ? "UpdateValueInput"
                   : editable?.is_editable
-                  ? "table-input"
-                  : "table-input readonly"
+                    ? "table-input"
+                    : "table-input readonly"
               }
               value={formik.values.data[index]?.bunkered_sale}
               onChange={formik.handleChange}
@@ -537,8 +500,8 @@ const FuelInventry = (props) => {
                 row.update_tests
                   ? "UpdateValueInput"
                   : editable?.is_editable
-                  ? "table-input"
-                  : "table-input readonly"
+                    ? "table-input"
+                    : "table-input readonly"
               }
               value={formik.values.data[index]?.tests}
               onChange={formik.handleChange}
@@ -579,8 +542,8 @@ const FuelInventry = (props) => {
                 row.update_actual_sales
                   ? "UpdateValueInput"
                   : editable?.is_editable
-                  ? "table-input"
-                  : "table-input readonly"
+                    ? "table-input"
+                    : "table-input readonly"
               }
               value={formik.values.data[index]?.actual_sales}
               onChange={formik.handleChange}
@@ -618,8 +581,8 @@ const FuelInventry = (props) => {
                 row.update_due_sales
                   ? "UpdateValueInput"
                   : editable?.is_editable
-                  ? "table-input"
-                  : "table-input readonly"
+                    ? "table-input"
+                    : "table-input readonly"
               }
               value={formik.values.data[index]?.due_sales}
               onChange={formik.handleChange}
@@ -637,7 +600,7 @@ const FuelInventry = (props) => {
     {
       name: "DESCRIPTION",
       selector: (row) => row.description, // Update the selector to use a function
-      sortable: true,
+      sortable: false,
       center: false,
       width: "50%",
       cell: (row, index) => (
@@ -677,7 +640,7 @@ const FuelInventry = (props) => {
     {
       name: "DESCRIPTION",
       selector: (row) => row.description, // Update the selector to use a function
-      sortable: true,
+      sortable: false,
       center: false,
       width: "25%",
       cell: (row, index) => (
@@ -707,7 +670,7 @@ const FuelInventry = (props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly
-            // readOnly={editable?.is_editable ? false : true}
+          // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -731,7 +694,7 @@ const FuelInventry = (props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly
-            // readOnly={editable?.is_editable ? false : true}
+          // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -755,7 +718,7 @@ const FuelInventry = (props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             readOnly
-            // readOnly={editable?.is_editable ? false : true}
+          // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>

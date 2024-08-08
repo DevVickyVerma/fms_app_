@@ -20,7 +20,7 @@ const SiteSettings = (props) => {
   const UserPermissions = useSelector(
     (state) => state?.data?.data?.permissions
   );
-  // const [data, setData] = useState()
+
   const [data, setData] = useState([]);
   const [DeductionData, setDeductionData] = useState([]);
   const [BussinesModelData, setBussinesModelData] = useState([]);
@@ -545,7 +545,7 @@ const SiteSettings = (props) => {
             // value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            // readOnly={editable?.is_editable ? false : true}
+          // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -656,7 +656,7 @@ const SiteSettings = (props) => {
             // value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            // readOnly={editable?.is_editable ? false : true}
+          // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -766,7 +766,7 @@ const SiteSettings = (props) => {
             // value={formik.values?.data[index]?.charge_value}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            // readOnly={editable?.is_editable ? false : true}
+          // readOnly={editable?.is_editable ? false : true}
           />
           {/* Error handling code */}
         </div>
@@ -1023,11 +1023,6 @@ const SiteSettings = (props) => {
             checked={formik.values?.vat_summaryData?.[index]?.checked ?? false}
             onChange={(e) => {
               formik.handleChange(e);
-              console.log(
-                `Checkbox ${row?.id} is now ${
-                  e.target.checked ? "checked" : "unchecked"
-                }`
-              );
             }}
             onBlur={formik.handleBlur}
           />
@@ -1102,8 +1097,8 @@ const SiteSettings = (props) => {
         formData.append(key, value);
       });
 
- 
- 
+
+
       const CahsCardsFormikDataids = [];
       const CahsCardsFormikDataKey = "cash_cards";
 
@@ -1121,7 +1116,7 @@ const SiteSettings = (props) => {
         const value = item[key];
         formData.append(key, value);
       });
- 
+
       const SiteValetFormikDataids = [];
       const SiteValetFormikDataKey = "valet_department_items";
 
@@ -1145,9 +1140,9 @@ const SiteSettings = (props) => {
       const postDataUrl = "/site/update-advance-setting";
       const navigatePath = "/sites";
 
-      await postData(postDataUrl, formData,navigatePath); // Set the submission state to false after the API call is completed
+      await postData(postDataUrl, formData, navigatePath); // Set the submission state to false after the API call is completed
 
-      
+
     } catch (error) {
       handleError(error); // Set the submission state to false if an error occurs
     }

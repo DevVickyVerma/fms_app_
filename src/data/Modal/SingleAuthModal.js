@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Col, Modal, Row } from "react-bootstrap";
-import PropTypes from "prop-types";
 import Loaderimg from "../../Utils/Loader";
 import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
@@ -9,11 +8,10 @@ import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import withApi from "../../Utils/ApiHelper";
-import { ErrorAlert, SuccessAlert } from "../../Utils/ToastUtils";
+import { ErrorAlert, handleError, SuccessAlert } from "../../Utils/ToastUtils";
 
 const SingleAuthModal = (props) => {
   const { setShowTruw } = props;
-  const [open, setOpen] = useState(true);
   const [isLoading, setLoading] = useState(false);
   const [factordata, setfactordata] = useState();
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -23,20 +21,7 @@ const SingleAuthModal = (props) => {
 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
   const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -109,7 +94,7 @@ const SingleAuthModal = (props) => {
     validationSchema: Yup.object({
       first_name: Yup.string().required("First name is required"),
       last_name: Yup.string()
-        
+
         .required("Last name is required"),
     }),
     onSubmit: (values, { setSubmitting }) => {
@@ -117,13 +102,7 @@ const SingleAuthModal = (props) => {
     },
   });
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -324,13 +303,6 @@ const SingleAuthModal = (props) => {
 };
 
 SingleAuthModal.propTypes = {
-  // title: PropTypes.string.isRequired,
-  // sidebarContent: PropTypes.node.isRequired,
-  // visible: PropTypes.bool.isRequired,
-  // onClose: PropTypes.func.isRequired,
-  // onCancel: PropTypes.func.isRequired,
-  // onSubmit: PropTypes.func.isRequired,
-  // searchListstatus: PropTypes.bool.isRequired,
 };
 
 export default withApi(SingleAuthModal);

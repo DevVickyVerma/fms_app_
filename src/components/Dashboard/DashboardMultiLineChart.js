@@ -6,10 +6,6 @@ import { Line } from "react-chartjs-2";
 const DashboardMultiLineChart = ({ LinechartValues, LinechartOption }) => {
 
   useEffect(() => {
-
-    // console.log(LinechartValues, "LinechartValues");
-    // console.log(LinechartOption, "LinechartOption");
-
   }, [])
   if (!LinechartValues || !LinechartOption) {
     // Data is not available yet, return a loading state or null

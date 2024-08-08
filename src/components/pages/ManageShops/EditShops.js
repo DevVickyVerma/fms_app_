@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import {
   Col,
@@ -10,77 +10,13 @@ import {
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const EditShops = (props) => {
   const { isLoading, getData, postData } = props;
-  const navigate = useNavigate();
-
-  const [AddSiteData, setAddSiteData] = useState([]);
-  const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  const [subTypes, setSubTypes] = useState([]);
-
-
-  const [dropdownValue, setDropdownValue] = useState([]);
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   const formData = new FormData();
-
-  //   formData.append("id", id); // Use the retrieved ID from the URL
-
-  //   const axiosInstance = axios.create({
-  //     baseURL: process.env.REACT_APP_BASE_URL,
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axiosInstance.get(`/shop/${id}`);
-  //       if (response) {
-  //
-  //         setEditSiteData(response.data.data);
-  //         formik.setValues(response.data.data);
-  //       }
-  //     } catch (error) {
-  //       handleError(error);
-  //     }
-  //   };
-
-  //   try {
-  //     fetchData();
-  //   } catch (error) {
-  //     handleError(error);
-  //   }
-  //   console.clear();
-  // }, [id]);
-
-  // const token = localStorage.getItem("token");
-  // const axiosInstance = axios.create({
-  //   baseURL: process.env.REACT_APP_BASE_URL,
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // });
 
   const { id } = useParams();
 
@@ -99,8 +35,6 @@ const EditShops = (props) => {
 
       if (response) {
         formik.setValues(response.data.data);
-
-        setDropdownValue(response.data.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -109,13 +43,6 @@ const EditShops = (props) => {
     }
   };
 
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
 
   const handleSubmit = async (values) => {
     try {
@@ -144,7 +71,7 @@ const EditShops = (props) => {
     },
     validationSchema: Yup.object({
       code: Yup.string()
-        
+
         .required("Shop Name is required"),
 
       name: Yup.string()
@@ -166,20 +93,7 @@ const EditShops = (props) => {
     onSubmit: handleSubmit,
   });
 
-  const isInvalid = formik.errors && formik.touched.name ? "is-invalid" : "";
 
-  // Use the isInvalid variable to conditionally set the class name
-  const inputClass = `form-control ${isInvalid}`;
-  const handleBusinessTypeChange = (e) => {
-    const selectedType = e.target.value;
-
-    formik.setFieldValue("business_type", selectedType);
-    setSelectedBusinessType(selectedType);
-    const selectedTypeData = AddSiteData.business_types.find(
-      (type) => type.name === selectedType
-    );
-    setSubTypes(selectedTypeData.sub_types);
-  };
 
   return (
     <>

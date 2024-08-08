@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 import * as Yup from "yup";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import { useFormik } from "formik";
 import Loaderimg from "../../../Utils/Loader";
@@ -13,7 +13,7 @@ const AddCompany = (props) => {
   const { isLoading, getData, postData } = props;
   const { id } = useParams();
   const UserPermissions = useSelector((state) => state?.data?.data?.data);
-  
+
   const [selected, setSelected] = useState([]);
 
   const [dropdowSite, setdropdowSite] = useState([]);
@@ -31,7 +31,7 @@ const AddCompany = (props) => {
       if (response && response.data) {
         setData(response.data?.data)
         setIsChecked(response.data?.data?.include_date === 1 ? true : false);
-        FetchSiteList( response.data?.data?.company_id)
+        FetchSiteList(response.data?.data?.company_id)
         formik.setValues({
           client_id: response.data?.data?.report_name,
           subject: response.data?.data?.subject,
@@ -51,14 +51,13 @@ const AddCompany = (props) => {
     try {
       const response = await getData(`company/auto-report/site-list?company_id=${company_id}&detail_id=${id}`);
       if (response && response.data) {
-      console.log( response?.data?.data, " response?.data?.data?.sites");
-      const filteredItems =  response?.data?.data.filter(item => item.checked === true);
-      const transformedItems = filteredItems.map(item => ({
-        label: item.site_name,
-        value: item.id
-    }));
-      setSelected(transformedItems);
- 
+        const filteredItems = response?.data?.data.filter(item => item.checked === true);
+        const transformedItems = filteredItems.map(item => ({
+          label: item.site_name,
+          value: item.id
+        }));
+        setSelected(transformedItems);
+
         setdropdowSite(response);
       } else {
         throw new Error("No data available in the response");
@@ -68,10 +67,10 @@ const AddCompany = (props) => {
     }
   };
   const options =
-  dropdowSite?.data?.data?.map((site) => ({
-    label: site?.site_name,
-    value: site?.id,
-  })) || [];
+    dropdowSite?.data?.data?.map((site) => ({
+      label: site?.site_name,
+      value: site?.id,
+    })) || [];
   useEffect(() => {
     FetchmannegerList();
   }, [UserPermissions]);
@@ -138,7 +137,6 @@ const AddCompany = (props) => {
       handleSubmit(values);
     },
   });
-console.log(selected, "selected");
 
 
 
@@ -199,23 +197,23 @@ console.log(selected, "selected");
           <form onSubmit={(event) => formik.handleSubmit(event)}>
             <Card.Body>
               <Row>
-              <Col lg={4} md={6}>
-                    <div className="form-group">
-                        <label className="form-label mt-4">
-                         Select Sites
-                          <span className="text-danger">*</span>
-                        </label>
+                <Col lg={4} md={6}>
+                  <div className="form-group">
+                    <label className="form-label mt-4">
+                      Select Sites
+                      <span className="text-danger">*</span>
+                    </label>
 
-                        <MultiSelect
-                          value={selected}
-                          onChange={setSelected}
-                          labelledBy="Select Client"
-                          disableSearch="true"
-                          options={options}
-                          showCheckbox="false"
-                        />
-                      </div>
-                    </Col>
+                    <MultiSelect
+                      value={selected}
+                      onChange={setSelected}
+                      labelledBy="Select Client"
+                      disableSearch="true"
+                      options={options}
+                      showCheckbox="false"
+                    />
+                  </div>
+                </Col>
                 <Col lg={4} md={6}>
                   <div className="form-group">
                     <label htmlFor="client_id" className=" form-label mt-4">
@@ -223,11 +221,10 @@ console.log(selected, "selected");
                     </label>
                     <input
                       type="text"
-                      className={`input101 readonly ${
-                        formik.errors.client_id && formik.touched.client_id
-                          ? "is-invalid"
-                          : ""
-                      }`}
+                      className={`input101 readonly ${formik.errors.client_id && formik.touched.client_id
+                        ? "is-invalid"
+                        : ""
+                        }`}
                       id="client_id"
                       name="client_id"
                       onChange={formik.handleChange}
@@ -250,11 +247,10 @@ console.log(selected, "selected");
                     <input
                       type="text"
                       autoComplete="off"
-                      className={`input101 ${
-                        formik.errors.subject && formik.touched.subject
-                          ? "is-invalid"
-                          : ""
-                      }`}
+                      className={`input101 ${formik.errors.subject && formik.touched.subject
+                        ? "is-invalid"
+                        : ""
+                        }`}
                       id="subject"
                       name="subject"
                       placeholder="Subject"
@@ -314,7 +310,7 @@ console.log(selected, "selected");
                   </span>
                 </Col>
 
-                 <Col lg={4} md={6}>
+                <Col lg={4} md={6}>
                   <div className="form-group">
                     <label htmlFor="email" className="form-label mt-4">
                       Include Date
@@ -334,10 +330,9 @@ console.log(selected, "selected");
                       </div>
                     )}
                   </div>
-                </Col> 
+                </Col>
               </Row>
             </Card.Body>
-            {console.log(formik.values, "formik.values")}
             <Card.Footer className="text-end">
               <Link
                 type="submit"

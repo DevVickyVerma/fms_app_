@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Col,
@@ -8,18 +8,14 @@ import {
 } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
 
 const SiteSettings = (props) => {
   const { isLoading, getData, postData } = props;
-  const navigate = useNavigate();
-  const [ToleranceData, setToleranceData] = useState([]);
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
     localStorage.getItem("superiorId")
   );
@@ -29,20 +25,7 @@ const SiteSettings = (props) => {
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
   useEffect(() => {
     setclientIDLocalStorage(localStorage.getItem("superiorId"));
@@ -127,7 +110,7 @@ const SiteSettings = (props) => {
     },
     validationSchema: Yup.object({
       max_dip_gain_loss_variance: Yup.string()
-        
+
         .required("Max Dips Gians/Loss Variance is required"),
       max_banking_variance: Yup.string()
         .max(30, "Must be 30 characters or less")
@@ -339,7 +322,7 @@ const SiteSettings = (props) => {
                       </Col>
                     )}
 
-                    <Col Col lg={4} md={6}>
+                    <Col lg={4} md={6}>
                       <div className="form-group">
                         <label htmlFor="company_id" className="form-label mt-4">
                           Company

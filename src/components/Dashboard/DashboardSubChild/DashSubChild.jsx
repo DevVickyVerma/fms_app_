@@ -49,8 +49,6 @@ const DashSubChild = ({
 }) => {
   const [showLoader, setShowLoader] = useState(true);
   const id = useParams();
-  console.log(id, "id");
-  // console.log(DashId, "DashId");
   useEffect(() => {
     const timeout = setTimeout(() => {
       setShowLoader(false);
@@ -88,8 +86,6 @@ const DashSubChild = ({
   ];
 
   const alertStatus = getSiteStats?.data?.cash_tracker?.alert_status;
-  // const id = useParams();
-  console.log(getSiteStats, "getSiteStats");
   const [getCompetitorsPrice, setGetCompetitorsPrice] =
     useState(CompititorStats);
   const [Compititorloading, setCompititorloading] = useState(false);
@@ -167,7 +163,6 @@ const DashSubChild = ({
   }
 
   const data = getCompetitorsPrice?.competitorListing;
-  console.log(data, "getCompetitorsPrice");
   const animatedComponents = makeAnimated();
   const Optionssingle = selected?.map((item) => ({
     value: item?.id,
@@ -251,14 +246,14 @@ const DashSubChild = ({
                   {getSiteStats?.data?.opening ? (
                     moment(getSiteStats?.data?.opening).format("Do MMM, HH:mm")
                   ) : (
-                    <span class="Smallloader"></span>
+                    <span className="Smallloader"></span>
                   )}
                   <br />
                   Closing Time :{" "}
                   {getSiteStats?.data?.closing ? (
                     moment(getSiteStats?.data?.closing).format("Do MMM, HH:mm")
                   ) : (
-                    <span class="Smallloader"></span>
+                    <span className="Smallloader"></span>
                   )}
                   <br />
                 </Tooltip>
@@ -272,9 +267,9 @@ const DashSubChild = ({
                 {getSiteStats?.data?.last_dayend ? (
                   moment(getSiteStats?.data?.last_dayend).format("Do MMM")
                 ) : (
-                  <span class="Smallloader"></span>
+                  <span className="Smallloader"></span>
                 )}{" "}
-                <i class="fa fa-info-circle" aria-hidden="true">
+                <i className="fa fa-info-circle" aria-hidden="true">
                   {" "}
                 </i>
               </h1>
@@ -335,7 +330,7 @@ const DashSubChild = ({
                   }
                 >
                   <i
-                    class="fa fa-info-circle"
+                    className="fa fa-info-circle"
                     aria-hidden="true"
                     style={{ fontSize: "20px" }}
                   ></i>
@@ -373,7 +368,7 @@ const DashSubChild = ({
                     style={{ width: "50px", height: "50px" }}
                   />
                 ) : (
-                  <span class="Smallloader"></span>
+                  <span className="Smallloader"></span>
                 )}
               </Box>
               <Box>
@@ -436,7 +431,7 @@ const DashSubChild = ({
                       }
                     >
                       <i
-                        class="fa fa-info-circle"
+                        className="fa fa-info-circle"
                         aria-hidden="true"
                         style={{ fontSize: "20px" }}
                       ></i>
@@ -463,7 +458,7 @@ const DashSubChild = ({
                       {getSiteStats?.data?.cash_tracker?.cash_amount ? (
                         getSiteStats.data.cash_tracker.cash_amount
                       ) : (
-                        <span class="Smallloader"></span>
+                        <span className="Smallloader"></span>
                       )}
                     </Typography>
                   </Box>
@@ -489,7 +484,7 @@ const DashSubChild = ({
                     {getSiteStats?.data?.last_dayend ? (
                       moment(getSiteStats?.data?.last_dayend).format("Do MMM")
                     ) : (
-                      <span class="Smallloader"></span>
+                      <span className="Smallloader"></span>
                     )}
                   </Typography>
                   {localStorage.getItem("SiteDetailsModalShow") === "true" ? (
@@ -500,7 +495,7 @@ const DashSubChild = ({
                       <BsCalendarWeek />
                     </Typography>
                   ) : (
-                    <span class="Smallloader"></span>
+                    <span className="Smallloader"></span>
                   )}
                 </Box>
 
@@ -536,7 +531,7 @@ const DashSubChild = ({
                             "Do MMM, HH:mm"
                           )
                         ) : (
-                          <span class="Smallloader"></span>
+                          <span className="Smallloader"></span>
                         )}
                       </Typography>
                     </Typography>
@@ -573,7 +568,7 @@ const DashSubChild = ({
                             "Do MMM, HH:mm"
                           )
                         ) : (
-                          <span class="Smallloader"></span>
+                          <span className="Smallloader"></span>
                         )}
                       </Typography>
                     </Typography>
@@ -624,7 +619,7 @@ const DashSubChild = ({
                   {
                     moment(MonthLastDelivery, "MMM").isValid()
                       ? MonthLastDelivery
-                      : "" // <span class="Smallloader"></span>
+                      : "" // <span className="Smallloader"></span>
                   }
                 </strong>
                 <Typography
@@ -910,7 +905,7 @@ const DashSubChild = ({
                                                       >
                                                         {" "}
                                                         <i
-                                                          class="fa fa-info-circle ms-1"
+                                                          className="fa fa-info-circle ms-1"
                                                           aria-hidden="true"
                                                           style={{
                                                             fontSize: "15px",

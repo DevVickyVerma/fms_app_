@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
 import axios from "axios";
-import { Slide, toast } from "react-toastify";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { MultiSelect } from "react-multi-select-component";
 import Loaderimg from "../../../Utils/Loader";
+import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
 
 const CompanySageOtherCodes = () => {
     const urlId = useParams();
-    const [selected, setSelected] = useState([]);
     const [data, setData] = useState([]);
     const [nominalCodesData, setNominalCodesData] = useState([])
     const [isLoading, setIsLoading] = useState(false);
@@ -28,39 +27,7 @@ const CompanySageOtherCodes = () => {
     });
 
 
-    const SuccessToast = (message) => {
-        toast.success(message, {
-            autoClose: 1000,
-            position: toast.POSITION.TOP_RIGHT,
-            hideProgressBar: true,
-            transition: Slide,
-            autoClose: 1000,
-            theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-        });
-    };
-    const ErrorToast = (message) => {
-        toast.error(message, {
-            position: toast.POSITION.TOP_RIGHT,
-            hideProgressBar: true,
-            transition: Slide,
-            autoClose: 1000,
-            theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-        });
-    };
-    function handleError(error) {
-        if (error.response && error.response.status === 401) {
-            navigate("/login");
-            SuccessToast("Invalid access token");
-            localStorage.clear();
-        } else if (error.response && error.response.data.status_code === "403") {
-            navigate("/errorpage403");
-        } else {
-            const errorMessage = Array?.isArray(error?.response?.data?.message)
-                ? error?.response?.data?.message?.join(" ")
-                : error?.response?.data?.message;
-            ErrorToast(errorMessage);
-        }
-    }
+
 
     useEffect(() => {
         fetchData()
@@ -218,10 +185,10 @@ const CompanySageOtherCodes = () => {
             const responseData = await response.json(); // Read the response once
 
             if (response.ok) {
-                SuccessToast(responseData.message);
+                SuccessAlert(responseData.message);
                 navigate("/managecompany");
             } else {
-                ErrorToast(responseData.message);
+                ErrorAlert(responseData.message);
             }
         } catch (error) {
             console.log("Request Error:", error);
@@ -272,7 +239,6 @@ const CompanySageOtherCodes = () => {
                             <Card.Header>
                                 <h3 className="card-title">Sage Other Code</h3>
                             </Card.Header>
-                            {/* <Card.Body> */}
                             {data?.length > 0 ? (
                                 <>
                                     <form onSubmit={(event) => formik.handleSubmit(event)}>
@@ -318,7 +284,6 @@ const CompanySageOtherCodes = () => {
                                     />
                                 </>
                             )}
-                            {/* </Card.Body> */}
                         </Card>
                     </Col>
                 </Row>

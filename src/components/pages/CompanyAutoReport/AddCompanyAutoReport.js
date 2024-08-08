@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 import * as Yup from "yup";
-import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import { useFormik } from "formik";
@@ -24,7 +23,6 @@ const AddCompany = (props) => {
     try {
       const response = await getData(`/client/reportlist?client_id=${storedItemId}`);
       if (response && response.data) {
-        console.log(response?.data, "reportlist");
         setDropdownValue(response?.data?.data);
       } else {
         throw new Error("No data available in the response");
@@ -37,7 +35,6 @@ const AddCompany = (props) => {
     try {
       const response = await getData(`company/auto-report/site-list?company_id=${id}`);
       if (response && response.data) {
-        console.log(response?.data, "FetchSiteList");
         setdropdowSite(response);
       } else {
         throw new Error("No data available in the response");
@@ -49,26 +46,23 @@ const AddCompany = (props) => {
 
   useEffect(() => {
 
-// Retrieve the stored item ID from localStorage
-const storedItemId = localStorage.getItem('reportclientID');
+    // Retrieve the stored item ID from localStorage
+    const storedItemId = localStorage.getItem('reportclientID');
 
-// Check if the stored item ID exists and is not null
-if (storedItemId) {
-  FetchReportList(storedItemId);
-    // Use the retrieved ID as needed
-    console.log("Stored item ID:", storedItemId);
-} else {
-    console.log("No item ID stored in localStorage");
-}
+    // Check if the stored item ID exists and is not null
+    if (storedItemId) {
+      FetchReportList(storedItemId);
+      // Use the retrieved ID as needed
+    }
 
-    
+
     FetchSiteList();
   }, [UserPermissions]);
   const options =
-  dropdowSite?.data?.data?.map((site) => ({
-    label: site?.site_name,
-    value: site?.id,
-  })) || [];
+    dropdowSite?.data?.data?.map((site) => ({
+      label: site?.site_name,
+      value: site?.id,
+    })) || [];
 
   const handleSubmit = async (event, values) => {
     // event.preventDefault();
@@ -77,8 +71,8 @@ if (storedItemId) {
       const formData = new FormData();
 
       formData.append("company_id", id);
-      formData.append("report_id",  formik.values.client_id);
-      formData.append("subject",  formik.values.subject);
+      formData.append("report_id", formik.values.client_id);
+      formData.append("subject", formik.values.subject);
       formData.append("include_date", isChecked);
       if (selected !== null && selected !== undefined) {
         selected.forEach((client, index) => {
@@ -208,23 +202,23 @@ if (storedItemId) {
                 <form onSubmit={(event) => formik.handleSubmit(event)}>
                   <Card.Body>
                     <Row>
-                    <Col lg={4} md={6}>
-                    <div className="form-group">
-                        <label className="form-label mt-4">
-                         Select Sites
-                          <span className="text-danger">*</span>
-                        </label>
+                      <Col lg={4} md={6}>
+                        <div className="form-group">
+                          <label className="form-label mt-4">
+                            Select Sites
+                            <span className="text-danger">*</span>
+                          </label>
 
-                        <MultiSelect
-                          value={selected}
-                          onChange={setSelected}
-                          labelledBy="Select Client"
-                          disableSearch="true"
-                          options={options}
-                          showCheckbox="false"
-                        />
-                      </div>
-                    </Col>
+                          <MultiSelect
+                            value={selected}
+                            onChange={setSelected}
+                            labelledBy="Select Client"
+                            disableSearch="true"
+                            options={options}
+                            showCheckbox="false"
+                          />
+                        </div>
+                      </Col>
                       <Col lg={4} md={6}>
                         <div className="form-group">
                           <label
@@ -235,20 +229,18 @@ if (storedItemId) {
                           </label>
                           <select
                             as="select"
-                            className={`input101 ${
-                              formik.errors.client_id &&
+                            className={`input101 ${formik.errors.client_id &&
                               formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="client_id"
                             name="client_id"
                             onChange={formik.handleChange}
                           >
                             <option value=""> Select Report</option>
-                        {    console.log(dropdownValue, "dropdownValue")}
                             {dropdownValue.reports &&
-                            dropdownValue.reports.length > 0 ? (
+                              dropdownValue.reports.length > 0 ? (
                               dropdownValue.reports.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.report_name}
@@ -274,11 +266,10 @@ if (storedItemId) {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.subject && formik.touched.subject
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.subject && formik.touched.subject
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="subject"
                             name="subject"
                             placeholder="Subject"
@@ -351,7 +342,7 @@ if (storedItemId) {
                       <Col lg={4} md={6}>
                         <div className="form-group">
                           <label htmlFor="email" className="form-label mt-4">
-                          Include Date
+                            Include Date
                           </label>
                           <div className="mapotions">
                             <input

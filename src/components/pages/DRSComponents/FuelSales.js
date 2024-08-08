@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
-import { Slide, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
 
 const FuelSales = (props) => {
   const { company_id, client_id, site_id, start_date, sendDataToParent } =
@@ -24,44 +23,10 @@ const FuelSales = (props) => {
     sendDataToParent(allPropsData);
   };
 
-  // const [data, setData] = useState()
   const [data, setData] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
-  const SuccessToast = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-  const ErrorToast = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      SuccessToast("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorToast(errorMessage);
-    }
-  }
+
   const fetchData = async () => {
     const token = localStorage.getItem("token");
 
@@ -151,11 +116,11 @@ const FuelSales = (props) => {
       const responseData = await response.json(); // Read the response once
 
       if (response.ok) {
-        SuccessToast(responseData.message);
+        SuccessAlert(responseData.message);
         handleButtonClick();
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
-        ErrorToast(responseData.message);
+        ErrorAlert(responseData.message);
 
         // Handle specific error cases if needed
       }

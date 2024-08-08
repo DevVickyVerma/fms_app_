@@ -1,30 +1,24 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
-import { Breadcrumb, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Slide, toast } from "react-toastify";
-import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import { UploadFile } from "@mui/icons-material";
 import { useSelector } from "react-redux";
-import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import { handleError } from "../../../Utils/ToastUtils";
+
+
 const UploadCompetitor = (props) => {
   const { getData, isLoading, postData } = props;
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [CompetitorData, setCompetitorData] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
-  const [selectedCompanyId, setSelectedCompanyId] = useState("");
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [data, setData] = useState();
   const [ClientList, setClientList] = useState([]);
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
-  const [isdataLoading, setIsLoading] = useState(false);
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
@@ -149,7 +143,7 @@ const UploadCompetitor = (props) => {
     {
       name: "Name",
       selector: (row) => [row.name],
-      sortable: true,
+      sortable: false,
       width: "23%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -162,7 +156,7 @@ const UploadCompetitor = (props) => {
     {
       name: "Created By",
       selector: (row) => [row.created_by],
-      sortable: true,
+      sortable: false,
       width: "23%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -175,7 +169,7 @@ const UploadCompetitor = (props) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "23%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -212,21 +206,7 @@ const UploadCompetitor = (props) => {
       console.error("API error:", error);
     }
   };
-  const navigate = useNavigate();
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
   const Onupload = async () => {
     try {
@@ -271,7 +251,7 @@ const UploadCompetitor = (props) => {
   };
   return (
     <>
-      {isdataLoading || isLoading ? <Loaderimg /> : null}
+      {isLoading ? <Loaderimg /> : null}
       <>
         <div className="page-header ">
           <div>
@@ -373,7 +353,7 @@ const UploadCompetitor = (props) => {
                         </div>
                       </Col>
                     )}
-                    <Col Col lg={4} md={6}>
+                    <Col lg={4} md={6}>
                       <div className="form-group">
                         <label htmlFor="company_id" className="form-label mt-4">
                           Company

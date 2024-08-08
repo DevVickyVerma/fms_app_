@@ -11,7 +11,7 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
 import { useNavigate } from "react-router-dom";
-import { ErrorAlert, SuccessAlert } from "../../Utils/ToastUtils";
+import { handleError, SuccessAlert } from "../../Utils/ToastUtils";
 
 const CustomModal = ({
   open,
@@ -20,31 +20,16 @@ const CustomModal = ({
   selectedDrsDate,
   onDataFromChild,
 }) => {
-  const [isChecked, setIsChecked] = useState(false);
+
+
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const [selected, setSelected] = useState([]);
   const [notificationTypes, setNotificationTypes] = useState({
     mobileSMS: false,
     email: false,
   });
 
   const navigate = useNavigate();
-
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array?.isArray(error?.response?.data?.message)
-        ? error?.response?.data?.message?.join(" ")
-        : error?.response?.data?.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -151,8 +136,6 @@ const CustomModal = ({
       });
     });
 
-    const isMobileSelected = selected.some(option => option.value === "mobile-sms");
-    const isEmailSelected = selected.some(option => option.value === "email");
 
     formData.append("drs_date", selectedDrsDate);
     formData.append("site_id", selectedItem.id);
@@ -204,20 +187,14 @@ const CustomModal = ({
       }
     }
   };
-  const SendNotification = (event) => {
-    setIsChecked(event.target.checked);
-  };
+
+
   const sendDataToParent = () => {
     const dataToSend = "Data from child 123";
     onDataFromChild(dataToSend); // Call the callback function with the data
   };
 
-  const handleCheckboxChange = (name) => {
-    setNotificationTypes((prevTypes) => ({
-      ...prevTypes,
-      [name]: !prevTypes[name],
-    }));
-  };
+
 
   return (
     <>
@@ -331,77 +308,6 @@ const CustomModal = ({
         </DialogContent>
         <Card.Footer>
           <div className="text-end notification-class">
-            {/* <div className="Notification">
-              <input
-                type="checkbox"
-                id="notificationCheckboxmidday" // Add an id attribute here
-                checked={isChecked}
-                onChange={SendNotification}
-              />
-              <label
-                htmlFor="notificationCheckboxmidday"
-                className="form-label ms-2 "
-              >
-                Send Notifications
-              </label>
-            </div> */}
-            {/* <div
-              //  className="Notification"
-              style={{ width: "200px", textAlign: "left" }}
-            >
-              {!selected.length && (
-                <>
-                  {setSelected([{ label: "Send Notification Type", value: "", disabled: true }])}
-                </>
-              )}
-
-
-              <MultiSelect
-                value={selected}
-                onChange={(values) => {
-                  // Remove the placeholder option if it's selected
-                  const updatedSelection = values.filter((value) => value.value !== "");
-                  setSelected(updatedSelection);
-                }}
-                disableSearch={true}
-                options={[
-                  { label: "Mobile SMS Notification", value: "mobile-sms" },
-                  { label: "Email Notification", value: "email" }
-                ]}
-                showCheckbox="false"
-                style={{ width: "200px" }}
-                placeholder="Notification Type"
-              />
-
-            </div> */}
-            {/* <div>
-              <strong>Send Notification</strong>
-              <div style={{ display: "flex", gap: "10px" }}>
-                <div>
-                  <label>
-                    <input
-                      type="checkbox"
-                      name="mobileSMS"
-                      checked={notificationTypes.mobileSMS}
-                      onChange={() => handleCheckboxChange("mobileSMS")}
-                    />
-                    {" "}Mobile
-                  </label>
-                </div>
-                <div>
-                  <label>
-                    <input
-                      type="checkbox"
-                      name="email"
-                      checked={notificationTypes.email}
-                      onChange={() => handleCheckboxChange("email")}
-                    />
-                    {" "}Email
-                  </label>
-                </div>
-              </div>
-            </div> */}
-
             {data?.update_tlm_price == 1 && (<>
               <div className="pointer" onClick={() => formik.setFieldValue('update_tlm_price', !formik.values.update_tlm_price)}>
                 <div style={{ display: "flex", gap: "10px" }}>

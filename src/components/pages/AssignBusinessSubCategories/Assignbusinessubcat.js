@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import {
@@ -14,10 +14,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import DataTableExtensions from "react-data-table-component-extensions";
 import DataTable from "react-data-table-component";
-import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-import axios from "axios";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
+import { handleError } from "../../../Utils/ToastUtils";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const OpeningBalance = ({ isLoading, getData, postData, apidata }) => {
@@ -84,20 +82,7 @@ const OpeningBalance = ({ isLoading, getData, postData, apidata }) => {
     }
   };
 
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
   const fetchOpeningBalanceList = async () => {
     try {
@@ -139,7 +124,7 @@ const OpeningBalance = ({ isLoading, getData, postData, apidata }) => {
     {
       name: "Main Category Name",
       selector: (row) => [row?.main_category_name],
-      sortable: true,
+      sortable: false,
       width: "35%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -155,7 +140,7 @@ const OpeningBalance = ({ isLoading, getData, postData, apidata }) => {
     {
       name: "Sub Category Name",
       selector: (row) => [row?.sub_category_name],
-      sortable: true,
+      sortable: false,
       width: "30%",
       cell: (row, index) => (
         <div

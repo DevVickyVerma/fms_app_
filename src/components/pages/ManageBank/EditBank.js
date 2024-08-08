@@ -1,37 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import withApi from '../../../Utils/ApiHelper'
 import Loaderimg from '../../../Utils/Loader';
 import { Breadcrumb, Card, Col, Row } from 'react-bootstrap';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { toast } from 'react-toastify';
-import { ErrorAlert } from '../../../Utils/ToastUtils';
+import { handleError } from '../../../Utils/ToastUtils';
 
 
 const EditBank = ({ isLoading, getData, postData }) => {
     const [data, setData] = useState();
     const [siteName, setSiteName] = useState("");
     const { id } = useParams();
-    const navigate = useNavigate();
+
+
     useEffect(() => {
         fetchBankManagerList();
     }, [])
 
-    function handleError(error) {
-        if (error.response && error.response.status === 401) {
-            navigate("/login");
-            ErrorAlert("Invalid access token");
-            localStorage.clear();
-        } else if (error.response && error.response.data.status_code === "403") {
-            navigate("/errorpage403");
-        } else {
-            const errorMessage = Array.isArray(error.response.data.message)
-                ? error.response.data.message.join(" ")
-                : error.response.data.message;
-            ErrorAlert(errorMessage);
-        }
-    }
+
 
     const fetchBankManagerList = async () => {
         try {

@@ -1,28 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { ErrorAlert } from '../../../Utils/ToastUtils';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import withApi from '../../../Utils/ApiHelper';
+import { handleError } from '../../../Utils/ToastUtils';
+import LoaderImg from '../../../Utils/Loader';
 
 const ManageClient = (props) => {
   const { isLoading, getData, postData } = props;
-  const navigate = useNavigate();
   const [data, setData] = useState();
   const [selectedIds, setSelectedIds] = useState([]);
 
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate('/login');
-      ErrorAlert('Invalid access token');
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === '403') {
-      navigate('/errorpage403');
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(' ')
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
   const { id } = useParams();
 
@@ -40,7 +27,6 @@ const ManageClient = (props) => {
       const response = await getData(`/payroll/setup/${id}`);
 
       if (response) {
-        console.log(response?.data?.data, 'columnIndex');
         setData(response?.data?.data);
       } else {
         throw new Error('No data available in the response');
@@ -106,7 +92,7 @@ const ManageClient = (props) => {
   const renderCompanies = () => {
     return data?.companies.map((company) => (
       <div key={company.id} className="company">
-        <div className="company-header" style={{background:"Black",color:"#fff"}}>
+        <div className="company-header" style={{ background: "Black", color: "#fff" }}>
           <input
             type="checkbox"
             id={`company_${company.id}`}
@@ -125,7 +111,6 @@ const ManageClient = (props) => {
     try {
       // Assuming you want to make a POST request with selected IDs
       const response = await postData('/your/api/endpoint', { selectedIds });
-      console.log('API response:', response);
       // Handle the response as needed
     } catch (error) {
       handleError(error);
@@ -134,6 +119,7 @@ const ManageClient = (props) => {
 
   return (
     <>
+      {isLoading ? <LoaderImg /> : null}
       <form onSubmit={handleSubmit}>
         {renderCompanies()}
         <button type="submit">Submit</button>

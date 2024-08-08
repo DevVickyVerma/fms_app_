@@ -1,20 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import "react-datepicker/dist/react-datepicker.css";
-import { ErrorMessage, Field, Formik, useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
 import { AiOutlineClose } from "react-icons/ai";
 import axios from "axios";
 import {
-  Card,
-  Col,
-  Form,
-  FormGroup,
-  Row,
-  Modal, // Import Modal from react-bootstrap
+  Card, Col, Row, // Import Modal from react-bootstrap
+  Modal
 } from "react-bootstrap";
-import { ErrorAlert } from "../../Utils/ToastUtils";
 import Loaderimg from "../../Utils/Loader";
+import { handleError } from "../../Utils/ToastUtils";
 
 
 const WorkflowExceptionFilter = (props) => {
@@ -26,8 +21,6 @@ const WorkflowExceptionFilter = (props) => {
   } = props;
 
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
-  const [selectedSiteList, setSelectedSiteList] = useState([]);
-  const [AddSiteData, setAddSiteData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
@@ -36,24 +29,7 @@ const WorkflowExceptionFilter = (props) => {
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
 
-  const navigate = useNavigate();
-  function handleError(error) {
-    if (error.response && error.response.deduction_status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (
-      error.response &&
-      error.response.data.deduction_status_code === "403"
-    ) {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
   const handleCloseModal = () => {
     onClose(); // Call the onClose function passed as a prop
@@ -268,7 +244,7 @@ const WorkflowExceptionFilter = (props) => {
                 </Col>
               )}
 
-              <Col Col lg={6} md={6}>
+              <Col lg={6} md={6}>
                 <div className="form-group">
                   <label htmlFor="company_id" className="form-label mt-4">
                     Company

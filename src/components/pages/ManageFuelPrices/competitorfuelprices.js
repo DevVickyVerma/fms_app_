@@ -399,7 +399,7 @@ const CompetitorFuelPrices = (props) => {
                           </Col>
                         )}
 
-                        <Col Col lg={4} md={4}>
+                        <Col lg={4} md={4}>
                           <div className="form-group">
                             <label htmlFor="company_id" className="form-label mt-4">
                               Company

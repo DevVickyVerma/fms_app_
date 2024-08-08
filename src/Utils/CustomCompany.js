@@ -4,7 +4,7 @@ import { Col } from 'react-bootstrap';
 const CustomCompany = ({ formik, lg, md, CompanyList, setSelectedCompanyId, setSiteList, selectedClientId, GetSiteList }) => {
     return (
         <>
-            <Col Col lg={lg} md={md}>
+            <Col lg={lg} md={md}>
                 <div className="form-group">
                     <label htmlFor="company_id" className="form-label mt-4">
                         Company

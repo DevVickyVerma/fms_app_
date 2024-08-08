@@ -5,7 +5,7 @@ import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
 
 const EditOpeningBalance = ({ isLoading, postData, getData }) => {
   const [data, setData] = useState();
@@ -19,7 +19,7 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
       const response = await getData(`common/category-list`);
 
       if (response && response.data) {
-        // setData(response.data.data.roles);
+
         setCatSiteData(response.data);
       } else {
         throw new Error("No data available in the response");
@@ -76,20 +76,7 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
     }
   };
 
-  function handleError(error) {
-    if (error.response && error.response.opening_balance_type === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
   const handlePostData = async (values) => {
     try {
@@ -166,7 +153,7 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
                 linkAs={Link}
                 linkProps={{ to: `/assign-business-sub-categories/${formik.values.site_id}` }}
               >
-                 Manage Assigned Business Sub Categories
+                Manage Assigned Business Sub Categories
               </Breadcrumb.Item>
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"
@@ -201,12 +188,11 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
                         </label>
                         <select
                           as="select"
-                          className={`input101 ${
-                            formik.errors.business_category_id &&
+                          className={`input101 ${formik.errors.business_category_id &&
                             formik.touched.business_category_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="business_category_id"
                           name="business_category_id"
                           onChange={formik.handleChange}
@@ -242,12 +228,11 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
                         </label>
                         <select
                           as="select"
-                          className={`input101 ${
-                            formik.errors.business_sub_category_id &&
+                          className={`input101 ${formik.errors.business_sub_category_id &&
                             formik.touched.business_sub_category_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="business_sub_category_id"
                           name="business_sub_category_id"
                           onChange={formik.handleChange}
@@ -288,7 +273,7 @@ const EditOpeningBalance = ({ isLoading, postData, getData }) => {
                   <button
                     type="submit"
                     className="btn btn-primary me-2 "
-                    // disabled={Object.keys(errors).length > 0}
+                  // disabled={Object.keys(errors).length > 0}
                   >
                     Save
                   </button>

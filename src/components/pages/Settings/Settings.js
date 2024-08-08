@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Col,
@@ -8,34 +8,17 @@ import {
   Breadcrumb,
 } from "react-bootstrap";
 
-import { Formik, Field, ErrorMessage, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Slide, toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
-import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
 
 export default function Settings() {
-  const [userDetails, setUserDetails] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      setLoading(false);
-      ErrorAlert(errorMessage);
-    }
-    setLoading(false);
-  }
+
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -187,12 +170,11 @@ export default function Settings() {
                             Date Format<span className="text-danger">*</span>
                           </label>
                           <select
-                            className={`input101 ${
-                              formik2.errors.date_format &&
+                            className={`input101 ${formik2.errors.date_format &&
                               formik2.touched.date_format
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="date_format"
                             name="date_format"
                             onChange={formik2.handleChange}
@@ -222,12 +204,11 @@ export default function Settings() {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik2.errors.pagination &&
+                            className={`input101 ${formik2.errors.pagination &&
                               formik2.touched.pagination
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="pagination"
                             name="pagination"
                             placeholder="Pagination"
@@ -253,12 +234,11 @@ export default function Settings() {
                           <select
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik2.errors.auto_logout &&
+                            className={`input101 ${formik2.errors.auto_logout &&
                               formik2.touched.auto_logout
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="auto_logout"
                             name="auto_logout"
                             placeholder="auto_logout"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Col,
@@ -8,35 +8,15 @@ import {
 } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { ReactMultiEmail } from "react-multi-email";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const EditClient = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
-
-  const navigate = useNavigate();
-  const [dropdownValue, setDropdownValue] = useState([]);
+  const { isLoading, getData, postData } = props;
   const [LoadingFetchClientDetail, setLoadingFetchClientDetail] = useState(false);
-
-
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
-
   const { id } = useParams();
 
   useEffect(() => {
@@ -55,8 +35,6 @@ const EditClient = (props) => {
 
       if (response) {
         formik.setValues(response.data.data);
-
-        setDropdownValue(response.data.data);
         setLoadingFetchClientDetail(false)
 
       } else {
@@ -128,7 +106,7 @@ const EditClient = (props) => {
     },
     validationSchema: Yup.object({
       client_code: Yup.string()
-        
+
         .required("Client Code is required"),
       created_date: Yup.string().required("Client Code is required"),
       email: Yup.string()
@@ -136,10 +114,10 @@ const EditClient = (props) => {
         .email("Invalid email format"),
       address: Yup.string().required("Address is required"),
       first_name: Yup.string()
-        
+
         .required("First Name is required"),
       last_name: Yup.string()
-        
+
         .required("Last Name is required"),
       loomis_status: Yup.string().required("Lommis Status is required"),
       status: Yup.string().required(" Status is required"),
@@ -382,94 +360,7 @@ const EditClient = (props) => {
                           )}
                         </div>
                       </Col>
-                      {/* <Col lg={4} md={6}>
-                        <div className="form-group">
-                          <label
-                            htmlFor="financial_start_month"
-                            className="form-label mt-4"
-                          >
-                            Financial Start Month
-                            <span className="text-danger">*</span>
-                          </label>
-                          <select
-                            className={`input101 ${formik.errors.financial_start_month &&
-                              formik.touched.financial_start_month
-                              ? "is-invalid"
-                              : ""
-                              }`}
-                            id="financial_start_month"
-                            name="financial_start_month"
-                            onChange={formik.handleChange}
-                            value={formik.values.financial_start_month}
-                          >
-                            <option value="">
-                              Select a Financial Start Month
-                            </option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                          </select>
-                          {formik.errors.financial_start_month &&
-                            formik.touched.financial_start_month && (
-                              <div className="invalid-feedback">
-                                {formik.errors.financial_start_month}
-                              </div>
-                            )}
-                        </div>
-                      </Col>
-                      <Col lg={4} md={6}>
-                        <div className="form-group">
-                          <label
-                            htmlFor="financial_end_month"
-                            className="form-label mt-4"
-                          >
-                            Financial End Month
-                            <span className="text-danger">*</span>
-                          </label>
-                          <select
-                            className={`input101 ${formik.errors.financial_end_month &&
-                              formik.touched.financial_end_month
-                              ? "is-invalid"
-                              : ""
-                              }`}
-                            id="financial_end_month"
-                            name="financial_end_month"
-                            onChange={formik.handleChange}
-                            value={formik.values.financial_end_month}
-                          >
-                            <option value="">
-                              Select a Financial End Month
-                            </option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                          </select>
-                          {formik.errors.financial_end_month &&
-                            formik.touched.financial_end_month && (
-                              <div className="invalid-feedback">
-                                {formik.errors.financial_end_month}
-                              </div>
-                            )}
-                        </div>
-                      </Col> */}
+
                       <Col lg={4} md={6}>
                         <div className="form-group">
                           <label
@@ -531,59 +422,7 @@ const EditClient = (props) => {
                             )}
                         </div>
                       </Col>
-                      {/* Work Flow Status End */}
-                      {/* <Col lg={4} md={6}>
-                        <div>
-                          <label
-                            htmlFor="ma_option"
-                            className="form-label mt-4"
-                          >
-                            MA Options
-                            <span className="text-danger">*</span>
-                          </label>
-                          <div className="mapotions">
-                            <label>
-                              <input
-                                type="checkbox"
-                                name="ma_option"
-                                value="1"
-                                checked={formik.values.ma_option.includes("1")}
-                                onChange={() => handleMaOptionChange("1")}
-                                className="form-check-input"
-                              />
-                              <span className="ms-2"> Actual</span>
-                            </label>
-                          </div>
-                        </div>
-                        <div className="mapotions">
-                          <label>
-                            <input
-                              type="checkbox"
-                              name="ma_option"
-                              value="2"
-                              checked={formik.values.ma_option.includes("2")}
-                              onChange={() => handleMaOptionChange("2")}
-                              className="form-check-input"
-                            />
 
-                            <span className="ms-2"> Forecast</span>
-                          </label>
-                        </div>
-                        <div className="mapotions">
-                          <label>
-                            <input
-                              type="checkbox"
-                              name="ma_option"
-                              value="3"
-                              checked={formik.values.ma_option.includes("3")}
-                              onChange={() => handleMaOptionChange("3")}
-                              className="form-check-input"
-                            />
-
-                            <span className="ms-2"> Variance</span>
-                          </label>
-                        </div>
-                      </Col> */}
                       <Col lg={4} md={6}>
                         <label
                           htmlFor="fairbank_email"

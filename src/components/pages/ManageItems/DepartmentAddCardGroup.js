@@ -23,7 +23,6 @@ const DepartmentAddCardGroup = ({ isLoading, getData, postData }) => {
         AssignFormikCards: "",
         card_name: "",
     };
-    console.log(paramId, "paramIdparamId");
 
 
 
@@ -123,7 +122,7 @@ const DepartmentAddCardGroup = ({ isLoading, getData, postData }) => {
         {
             name: "Items",
             selector: (row) => row.name,
-            sortable: true,
+            sortable: false,
             width: "85%",
             cell: (row) => (
                 <div className="d-flex">

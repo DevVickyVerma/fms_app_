@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
-import { Breadcrumb, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
+import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const AddCompetitor = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -72,22 +71,6 @@ const AddCompetitor = (props) => {
       console.error("API error:", error);
     }
   };
-  const ErrorAlert = (message) => toast.error(message);
-
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
   useEffect(() => {
     GetDetails();
@@ -129,7 +112,7 @@ const AddCompetitor = (props) => {
       supplier: "",
 
       address: "",
-      
+
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Competitor name is required"),

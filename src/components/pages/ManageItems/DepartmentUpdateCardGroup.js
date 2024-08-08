@@ -119,7 +119,7 @@ const DepartmentUpdateCardGroup = ({ isLoading, getData, postData }) => {
         {
             name: "Items",
             selector: (row) => row.name,
-            sortable: true,
+            sortable: false,
             width: "85%",
             cell: (row) => (
                 <div className="d-flex">

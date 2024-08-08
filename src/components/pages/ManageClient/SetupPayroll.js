@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useNavigate, useParams } from "react-router-dom";
-import { Breadcrumb, Row, Col, Card } from "react-bootstrap";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
+import { useParams } from "react-router-dom";
+import { Row, Col, Card } from "react-bootstrap";
 import Loaderimg from "../../../Utils/Loader";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const validationSchema = Yup.object().shape({
   tree1: Yup.array().of(
@@ -42,27 +42,11 @@ const initialValues = {
 };
 
 const TreeForm = (props) => {
-  // const [openDropdownId, setopenDropdownId] = useState(null);
   const { isLoading, getData, postData } = props;
-  const navigate = useNavigate();
   const [tree1, setCompanyList] = useState([]);
   const [tree2, setCompanyList2] = useState([]);
   const [data, setData] = useState([]);
   const { id } = useParams();
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
   useEffect(() => {
     try {
       GetSiteData();
@@ -79,14 +63,6 @@ const TreeForm = (props) => {
         setCompanyList(response?.data?.data);
         setCompanyList2(response?.data?.data);
         setData(response?.data?.data);
-        console.log(
-          response?.data?.data?.companies,
-          " response?.data?.data?.companies"
-        );
-        console.log(
-          response?.data?.data?.roles,
-          " response?.data?.data?.roles"
-        );
         formik.setFieldValue("tree1", response?.data?.data?.companies);
         formik.setFieldValue("tree2", response?.data?.data?.roles);
       } else {
@@ -101,7 +77,6 @@ const TreeForm = (props) => {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      console.log(formik.values, "ddd");
       handleSubmit(formik.values);
     },
   });
@@ -256,7 +231,7 @@ const TreeForm = (props) => {
                                           {openDropdownId === node.id ? (
                                             <span>
                                               <i
-                                                class="fa fa-chevron-up"
+                                                className="fa fa-chevron-up"
                                                 aria-hidden="true"
                                                 style={{ color: "#fff" }}
                                               ></i>
@@ -264,7 +239,7 @@ const TreeForm = (props) => {
                                           ) : (
                                             <span>
                                               <i
-                                                class="fa fa-chevron-down"
+                                                className="fa fa-chevron-down"
                                                 aria-hidden="true"
                                                 style={{ color: "#fff" }}
                                               ></i>
@@ -284,8 +259,8 @@ const TreeForm = (props) => {
                                                 <li
                                                   key={childIndex}
                                                   className={`ms-2 ${!child.isCheckable
-                                                      ? "disabled-checkbox"
-                                                      : ""
+                                                    ? "disabled-checkbox"
+                                                    : ""
                                                     }`}
                                                 >
                                                   <label className="ms-2">
@@ -361,7 +336,7 @@ const TreeForm = (props) => {
                                           {openDropdownId === node.id ? (
                                             <span>
                                               <i
-                                                class="fa fa-chevron-up"
+                                                className="fa fa-chevron-up"
                                                 aria-hidden="true"
                                                 style={{ color: "#fff" }}
                                               ></i>
@@ -369,7 +344,7 @@ const TreeForm = (props) => {
                                           ) : (
                                             <span>
                                               <i
-                                                class="fa fa-chevron-down"
+                                                className="fa fa-chevron-down"
                                                 aria-hidden="true"
                                                 style={{ color: "#fff" }}
                                               ></i>

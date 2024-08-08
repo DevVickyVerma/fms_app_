@@ -219,7 +219,7 @@ const DashSubChildTankAnalysis = ({ getSiteStats }) => {
                                   }
                                 >
                                   <i
-                                    class="fa fa-info-circle"
+                                    className="fa fa-info-circle"
                                     aria-hidden="true"
                                   ></i>
                                 </OverlayTrigger>

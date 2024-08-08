@@ -14,8 +14,6 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
@@ -24,13 +22,11 @@ import * as Yup from "yup";
 import CustomClient from "../../../Utils/CustomClient";
 import CustomCompany from "../../../Utils/CustomCompany";
 import CustomSite from "../../../Utils/CustomSite";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const ManageSiteTank = (props) => {
   const { isLoading, getData, postData } = props;
   const [data, setData] = useState();
-  const navigate = useNavigate();
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [submitSiteID, setsubmitSiteID] = useState();
   const [localStorageSiteID, setlocalStorageSiteID] = useState();
@@ -89,26 +85,13 @@ const ManageSiteTank = (props) => {
             handleError(error);
           } finally {
           }
-          // setIsLoading(false);
+
         };
         DeleteRole();
       }
     });
   };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
   const toggleActive = (row) => {
     const formData = new FormData();
@@ -309,7 +292,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Site Name",
       selector: (row) => [row.site],
-      sortable: true,
+      sortable: false,
       width: "14%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -322,7 +305,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Fuel Name",
       selector: (row) => [row.fuel_name],
-      sortable: true,
+      sortable: false,
       width: "15%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -335,7 +318,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Site Tank Name",
       selector: (row) => [row.tank_name],
-      sortable: true,
+      sortable: false,
       width: "15%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -348,7 +331,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Site Tank Code",
       selector: (row) => [row.tank_code],
-      sortable: true,
+      sortable: false,
       width: "13%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -361,7 +344,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "10%",
       cell: (row, index) => (
         <div className="d-flex" style={{ cursor: "default" }}>
@@ -374,7 +357,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Status",
       selector: (row) => [row.status],
-      sortable: true,
+      sortable: false,
       width: "10%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">

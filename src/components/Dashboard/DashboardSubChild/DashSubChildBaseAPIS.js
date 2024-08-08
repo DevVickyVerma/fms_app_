@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { useMyContext } from "../../../Utils/MyContext";
-import { Slide, toast } from "react-toastify";
-import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
+import { handleError } from "../../../Utils/ToastUtils";
 import DashSubChild from "./DashSubChild";
 
 const DashSubChildBaseAPIS = (props) => {
@@ -258,24 +257,8 @@ const DashSubChildBaseAPIS = (props) => {
       setPermissionsArray(UserPermissions?.permissions);
     }
   }, [UserPermissions]);
-  // useEffect(() => {
-  //   const GetTabsData = async () => {
-  //     try {
-  //       const response2 = await axiosInstance.get(`/site/competitor-price/stats?site_id=${id}`);
 
-  //       if (response2 && response2.data) {
-  //         setCompititorStats(response2.data)
-  //         console.log(response2?.data, "columnIndex");
-  //       }
-  //     } catch (error) {
-  //       handleError(error);
-  //     }
-  //   };
 
-  //   GetTabsData(); // Call the async function
-
-  // }, [id]); // Dependency array - the effect will run when 'id' changes
-  console.log(CompititorStats, "CompititorStats");
   return (
     <>
       {isLoading ? <Loaderimg /> : null}

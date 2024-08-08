@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
@@ -26,12 +26,11 @@ import {
   DialogActions,
   DialogContent,
 } from "@mui/material";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
 
 const ManageRoles = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { apidata, isLoading, getData, postData } = props;
   const [data, setData] = useState();
-  const navigate = useNavigate();
   const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMorePage, setHasMorePages] = useState("");
@@ -81,26 +80,12 @@ const ManageRoles = (props) => {
             handleError(error);
           } finally {
           }
-          // setIsLoading(false);
+
         };
         DeleteRole();
       }
     });
   };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
   const { id } = useParams();
 
   const FetchmannegerList = async () => {
@@ -167,7 +152,7 @@ const ManageRoles = (props) => {
     {
       name: "Skip Date",
       selector: (row) => [row.skip_date],
-      sortable: true,
+      sortable: false,
       width: "35%",
       cell: (row, index) => (
         <div
@@ -184,7 +169,7 @@ const ManageRoles = (props) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "35%",
       cell: (row, index) => (
         <div className="d-flex">

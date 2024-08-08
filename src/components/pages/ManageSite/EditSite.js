@@ -1,11 +1,12 @@
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import * as Yup from "yup";
-
 import { Link, useParams } from "react-router-dom";
-
 import Loaderimg from "../../../Utils/Loader";
+
+
+
 
 export default function AddSite(props) {
   const { isLoading, getData, postData } = props;
@@ -40,8 +41,7 @@ export default function AddSite(props) {
       const response = await getData(`/site/detail?id=${id}`);
 
       if (response) {
-        formik.setValues(response.data.data);
-
+        formik.setValues(response?.data?.data);
         // setDropdownValue(response.data.data);
       } else {
         throw new Error("No data available in the response");

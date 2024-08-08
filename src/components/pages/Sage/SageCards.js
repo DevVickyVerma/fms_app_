@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
-import { Breadcrumb, Button, Card, Col, Form, Row } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Breadcrumb, Card, Col, Form, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -9,7 +9,7 @@ import * as Yup from "yup";
 import Loaderimg from "../../../Utils/Loader";
 
 import { useSelector } from "react-redux";
-import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, handleError } from "../../../Utils/ToastUtils";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Swal from "sweetalert2";
@@ -28,21 +28,7 @@ const SageDeduction = (props) => {
 
   const [permissionsArray, setPermissionsArray] = useState([]);
 
-  const navigate = useNavigate();
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
 
   const UserPermissions = useSelector((state) => state?.data?.data);
@@ -213,7 +199,6 @@ const SageDeduction = (props) => {
     ],
   };
   const headsvalueonsubmit = () => {
-    console.log(formik2?.values);
   };
   const formik2 = useFormik({
     initialValues: headsvalueinitialValues,
@@ -307,7 +292,6 @@ const SageDeduction = (props) => {
       // Console log the response
       if (apidata.api_response === "success") {
         const updatedRows = [...formik2.values.headsvalue];
-        console.log(updatedRows, "updatedRows");
         updatedRows.splice(index, 1);
         formik2.setFieldValue("headsvalue", updatedRows);
         handleSubmit(formik?.values)
@@ -494,7 +478,7 @@ const SageDeduction = (props) => {
                         </div>
                       </Col>
                     )}
-                    <Col Col lg={4} md={6}>
+                    <Col lg={4} md={6}>
                       <div className="form-group">
                         <label htmlFor="company_id" className="form-label mt-4">
                           Company
@@ -547,7 +531,7 @@ const SageDeduction = (props) => {
                           )}
                       </div>
                     </Col>
-                    <Col Col lg={4} md={6}>
+                    <Col lg={4} md={6}>
                       <div className="form-group">
                         <label
                           htmlFor="department_id"
@@ -581,10 +565,6 @@ const SageDeduction = (props) => {
 
                               formik.setFieldValue("site_id", "");
                             } else {
-                              console.log(
-                                selectedType,
-                                "selectedType no values"
-                              );
                               formik.setFieldValue("client_id", "");
                               formik.setFieldValue("company_id", "");
                               formik.setFieldValue("department_id", "");

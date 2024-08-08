@@ -144,7 +144,7 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
     {
       name: "Cards",
       selector: (row) => row.name,
-      sortable: true,
+      sortable: false,
       width: "85%",
       cell: (row) => (
         <div className="d-flex">
@@ -229,8 +229,8 @@ const AddCardGroup = ({ isLoading, getData, postData }) => {
                         type="text"
                         autoComplete="off"
                         className={`input101 ${formik.errors.card_name && formik.touched.card_name
-                            ? "is-invalid"
-                            : ""
+                          ? "is-invalid"
+                          : ""
                           }`}
                         id="card_name"
                         name="card_name"

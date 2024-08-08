@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -12,19 +12,15 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import Swal from "sweetalert2";
-import { toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const ManageBusinessTypes = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
 
   const [data, setData] = useState();
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
-  const navigate = useNavigate();
-  const token = localStorage.getItem("token");
 
   const FetchTableData = async () => {
     try {
@@ -70,20 +66,7 @@ const ManageBusinessTypes = (props) => {
     }
   };
 
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
   useEffect(() => {
     FetchTableData();
@@ -163,7 +146,7 @@ const ManageBusinessTypes = (props) => {
     {
       name: "Business",
       selector: (row) => [row.business_name],
-      sortable: true,
+      sortable: false,
       width: "30%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -176,7 +159,7 @@ const ManageBusinessTypes = (props) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -189,7 +172,7 @@ const ManageBusinessTypes = (props) => {
     {
       name: "Status",
       selector: (row) => [row.status],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">

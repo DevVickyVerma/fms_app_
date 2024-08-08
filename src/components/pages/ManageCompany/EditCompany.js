@@ -1,51 +1,19 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import {
-  Col,
-  Row,
-  Card,
-  Form,
-  FormGroup,
-  FormControl,
-  ListGroup,
-  Breadcrumb,
-} from "react-bootstrap";
+import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 
-import { Formik, Field, ErrorMessage } from "formik";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Slide, toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import DatePicker from "react-multi-date-picker";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
 
 const EditCompany = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData } = props;
   const navigate = useNavigate();
-
-  const [clientIDLocalStorage, setclientIDLocalStorage] = useState(
-    localStorage.getItem("superiorId")
-  );
-
-
   const [dropdownValue, setDropdownValue] = useState([]);
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -79,16 +47,15 @@ const EditCompany = (props) => {
     } catch (error) {
       handleError(error);
     }
-    // console.clear()
     console.clear();
   }, []);
+
+
   useEffect(() => {
     if (localStorage.getItem("superiorRole") !== "Client") {
-      // Call the fetchClientList() function
       handleFetchData();
     }
 
-    console.clear();
     console.clear();
   }, []);
 
@@ -179,11 +146,11 @@ const EditCompany = (props) => {
     },
     validationSchema: Yup.object({
       company_code: Yup.string()
-        
+
         .required("Company Code is required"),
       company_details: Yup.string().required("Company Details is required"),
       company_name: Yup.string()
-        
+
         .required("Company Name is required"),
 
       address: Yup.string().required("Address is required"),

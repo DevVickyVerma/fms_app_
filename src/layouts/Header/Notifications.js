@@ -93,7 +93,7 @@ const Notification = (props) => {
     {
       name: "Notification",
       selector: (row) => [row.message],
-      sortable: true,
+      sortable: false,
       width: "25%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -112,7 +112,7 @@ const Notification = (props) => {
     {
       name: "Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "15%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -125,7 +125,7 @@ const Notification = (props) => {
     {
       name: "Time",
       selector: (row) => [row.ago],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -138,7 +138,7 @@ const Notification = (props) => {
     {
       name: "Action",
       selector: (row) => [row.response],
-      sortable: true,
+      sortable: false,
       width: "30%",
       cell: (row, index) => (
         <div className="d-flex messagebox">

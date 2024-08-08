@@ -58,7 +58,6 @@ const SageCharges = (props) => {
     }
   }, [data]);
   const headsvalueonsubmit = () => {
-    console.log(formik2?.values);
   };
   const GetCompanyList = async (values) => {
     try {
@@ -311,7 +310,6 @@ const SageCharges = (props) => {
       // Console log the response
       if (apidata.api_response === "success") {
         const updatedRows = [...formik2.values.headsvalue];
-        console.log(updatedRows, "updatedRows");
         updatedRows.splice(index, 1);
         formik2.setFieldValue("headsvalue", updatedRows);
         handleSubmit(formik?.values)
@@ -528,7 +526,7 @@ const SageCharges = (props) => {
                         </div>
                       </Col>
                     )}
-                    <Col Col lg={4} md={6}>
+                    <Col lg={4} md={6}>
                       <div className="form-group">
                         <label htmlFor="company_id" className="form-label mt-4">
                           Company
@@ -581,7 +579,7 @@ const SageCharges = (props) => {
                           )}
                       </div>
                     </Col>
-                    <Col Col lg={4} md={6}>
+                    <Col lg={4} md={6}>
                       <div className="form-group">
                         <label
                           htmlFor="department_id"

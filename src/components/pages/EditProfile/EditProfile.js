@@ -20,7 +20,7 @@ import Loaderimg from "../../../Utils/Loader";
 import { useFormik } from "formik";
 import Swal from "sweetalert2";
 import { AiOutlineClose } from "react-icons/ai";
-import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
 export default function EditProfile() {
   const UserPermissions = useSelector((state) => state?.data?.data);
   const navigate = useNavigate();
@@ -88,20 +88,6 @@ export default function EditProfile() {
     password_confirmation: "",
   };
 
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
   const token = localStorage.getItem("token");
   const handlesubmit = async (values) => {
     setLoading(true);
@@ -192,7 +178,7 @@ export default function EditProfile() {
     validationSchema: Yup.object({
       first_name: Yup.string().required("First name is required"),
       last_name: Yup.string()
-        
+
         .required("Last name is required"),
     }),
     onSubmit: (values, { setSubmitting }) => {
@@ -402,8 +388,8 @@ export default function EditProfile() {
                                     : "text"
                                 }
                                 className={` input101 ${errors.old_password && touched.old_password
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 name="old_password"
                                 placeholder=" Current Password"
@@ -489,8 +475,8 @@ export default function EditProfile() {
                                   passwordVisibleForNew ? "password" : "text"
                                 }
                                 className={`input101  ${errors.password && touched.password
-                                    ? "is-invalid"
-                                    : ""
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 name="password"
                                 placeholder=" New Password"
@@ -574,9 +560,9 @@ export default function EditProfile() {
                                     : "text"
                                 }
                                 className={`input101 ${errors.password_confirmation &&
-                                    touched.password_confirmation
-                                    ? "is-invalid"
-                                    : ""
+                                  touched.password_confirmation
+                                  ? "is-invalid"
+                                  : ""
                                   }`}
                                 onKeyPress={handleKeyPress}
                                 name="password_confirmation"
@@ -681,9 +667,9 @@ export default function EditProfile() {
                             type="text"
                             autoComplete="off"
                             className={`input101 ${formik.errors.first_name &&
-                                formik.touched.first_name
-                                ? "is-invalid"
-                                : ""
+                              formik.touched.first_name
+                              ? "is-invalid"
+                              : ""
                               }`}
                             id="first_name"
                             name="first_name"
@@ -712,9 +698,9 @@ export default function EditProfile() {
                             type="text"
                             autoComplete="off"
                             className={`input101 ${formik.errors.last_name &&
-                                formik.touched.last_name
-                                ? "is-invalid"
-                                : ""
+                              formik.touched.last_name
+                              ? "is-invalid"
+                              : ""
                               }`}
                             id="last_name"
                             name="last_name"

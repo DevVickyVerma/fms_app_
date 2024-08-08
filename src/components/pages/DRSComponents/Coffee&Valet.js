@@ -5,9 +5,8 @@ import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
-import { useNavigate } from "react-router-dom";
-import { Slide, toast } from "react-toastify";
 import CoffeeAndValetUploadInvoice from "./CoffeeAndValetUploadInvoice";
+import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
 
 const CoffeeValet = (props) => {
   const {
@@ -32,7 +31,7 @@ const CoffeeValet = (props) => {
     sendDataToParent(allPropsData);
   };
 
-  // const [data, setData] = useState()
+
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editable, setis_editable] = useState();
@@ -43,40 +42,7 @@ const CoffeeValet = (props) => {
   const [myValuesTotalValue, setMyValuesTotalValue] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
-  const navigate = useNavigate();
-  const SuccessToast = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-  const ErrorToast = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      SuccessToast("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorToast(errorMessage);
-    }
-  }
+
 
   useEffect(() => {
     fetchData();
@@ -218,10 +184,10 @@ const CoffeeValet = (props) => {
       const responseData = await response.json(); // Read the response once
 
       if (response.ok) {
-        SuccessToast(responseData.message);
+        SuccessAlert(responseData.message);
         handleButtonClick();
       } else {
-        ErrorToast(responseData.message);
+        ErrorAlert(responseData.message);
 
         // Handle specific error cases if needed
       }
@@ -233,11 +199,9 @@ const CoffeeValet = (props) => {
     }
   };
   const handleFileChange = async (event, rowIndex, row) => {
-    console.log(rowIndex, "rowIndex");
 
     const file = event.target.files[0]; // Get the selected file
     // Do whatever you need to with the file, such as storing it in state or dispatching an action
-    console.log("Selected file:", file, row);
 
     const token = localStorage.getItem("token");
 
@@ -264,7 +228,7 @@ const CoffeeValet = (props) => {
       const responseData = await response.json(); // Read the response once
 
       if (response.ok) {
-        SuccessToast(responseData.message);
+        SuccessAlert(responseData.message);
         const updatedData = [...data]; // Create a copy of the existing data
         updatedData[rowIndex] = {
           ...updatedData[rowIndex],
@@ -273,10 +237,8 @@ const CoffeeValet = (props) => {
 
         setData(updatedData); // Update the state with the concatenated data
 
-        // fetchData();
-        console.log(response, "response");
       } else {
-        ErrorToast(responseData.message);
+        ErrorAlert(responseData.message);
 
         // Handle specific error cases if needed
       }
@@ -289,9 +251,6 @@ const CoffeeValet = (props) => {
   };
 
   if (editable?.is_file || editable?.is_upload_file) {
-    console.log(editable?.is_file, editable?.is_upload_file, "show width");
-  } else {
-    console.log("no width");
   }
 
 
@@ -306,7 +265,6 @@ const CoffeeValet = (props) => {
     };
 
     setInvoiceCallData(allPropsData)
-    console.log(row, "row", allPropsData);
 
   }
 
@@ -683,7 +641,7 @@ const CoffeeValet = (props) => {
                 <>
                   <div onClick={() => handleInvoiceModal(row)}>
                     <i
-                      class="fa fa-upload btn btn-sm btn-primary"
+                      className="fa fa-upload btn btn-sm btn-primary"
                       aria-hidden="true"
                     ></i>
                   </div>
@@ -696,7 +654,7 @@ const CoffeeValet = (props) => {
                     className="file-upload-icon"
                   >
                     <i
-                      class="fa fa-upload btn btn-sm btn-primary"
+                      className="fa fa-upload btn btn-sm btn-primary"
                       aria-hidden="true"
                     ></i>
                     <input
@@ -719,7 +677,7 @@ const CoffeeValet = (props) => {
                   >
                     <span>
                       <i
-                        class="fa fa-file-image-o btn btn-sm btn-info ms-2"
+                        className="fa fa-file-image-o btn btn-sm btn-info ms-2"
                         aria-hidden="true"
                       ></i>
                     </span>

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -11,23 +11,16 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import { Button } from "bootstrap";
-import axios from "axios";
 import Swal from "sweetalert2";
-import { FormModal } from "../../../data/Modal/Modal";
-import { toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const ManageBusinessCategory = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { apidata, isLoading, getData, postData } = props;
 
   const [data, setData] = useState();
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
-  const navigate = useNavigate();
-  const token = localStorage.getItem("token");
 
   const FetchTableData = async () => {
     try {
@@ -73,20 +66,7 @@ const ManageBusinessCategory = (props) => {
     }
   };
 
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
   useEffect(() => {
     FetchTableData();
@@ -170,7 +150,7 @@ const ManageBusinessCategory = (props) => {
     {
       name: "Business Category",
       selector: (row) => [row.category_name],
-      sortable: true,
+      sortable: false,
       width: "35%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -183,7 +163,7 @@ const ManageBusinessCategory = (props) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "15%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -196,7 +176,7 @@ const ManageBusinessCategory = (props) => {
     {
       name: "Status",
       selector: (row) => [row.status],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -292,18 +272,9 @@ const ManageBusinessCategory = (props) => {
     columns,
     data,
   };
-  const [searchText, setSearchText] = useState("");
   const [searchvalue, setSearchvalue] = useState();
 
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchText(value);
 
-    const filteredData = searchvalue.filter((item) =>
-      item.business_category_name.toLowerCase().includes(value.toLowerCase())
-    );
-    setData(filteredData);
-  };
 
   return (
     <>

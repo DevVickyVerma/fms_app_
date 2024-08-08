@@ -40,17 +40,6 @@ const SiteCardOpening = (props) => {
           Yup.object().shape({
             value: Yup.number()
               .required("Card value is required")
-            // .positive("Value must be positive"),
-
-            // amexValue: Yup.number()
-            //   .positive()
-            //   .when("$cardName", {
-            //     is: "Amex",
-            //     then: Yup.number().min(
-            //       Yup.ref("value"),
-            //       "Amex value must be greater than or equal to its value"
-            //     ),
-            //   }),
           })
         ),
       })
@@ -58,7 +47,6 @@ const SiteCardOpening = (props) => {
   });
   const onSubmit = async (values) => {
     try {
-      console.log(startdate, "startdate");
       const [year, month] = startdate.split("-");
       const formData = new FormData();
       formData.append(`site_id`, id);
@@ -90,7 +78,6 @@ const SiteCardOpening = (props) => {
     const month = String(today.getMonth() + 1).padStart(2, "0");
     return `${year}-${month}`;
   };
-  console.log(formik.values.year, "getCurrentDate");
   const validationSchema1 = Yup.object().shape({
     start_date: Yup.string().required("Start date is required"),
   });
@@ -138,8 +125,6 @@ const SiteCardOpening = (props) => {
             validationSchema={validationSchema1}
             onSubmit={(values, { resetForm }) => {
               const { start_date } = values; // Destructuring to extract start_date
-              console.log("Submitted date:", start_date);
-
               GetListing(start_date);
             }}
           >
@@ -156,8 +141,8 @@ const SiteCardOpening = (props) => {
                         type="month"
                         max={getCurrentDate()}
                         className={`input101 ${formik.errors.start_date && formik.touched.start_date
-                            ? "is-invalid"
-                            : ""
+                          ? "is-invalid"
+                          : ""
                           }`}
                         value={formik.values.start_date}
                         id="start_date"
@@ -229,19 +214,19 @@ const SiteCardOpening = (props) => {
                                       )}.value`}
                                       type="number"
                                       className={`input101 ${formik.errors.group_card?.[
+                                        formik.values.group_card.indexOf(
+                                          group
+                                        )
+                                      ]?.cards?.[group.cards.indexOf(card)]
+                                        ?.value &&
+                                        formik.touched.group_card?.[
                                           formik.values.group_card.indexOf(
                                             group
                                           )
                                         ]?.cards?.[group.cards.indexOf(card)]
-                                          ?.value &&
-                                          formik.touched.group_card?.[
-                                            formik.values.group_card.indexOf(
-                                              group
-                                            )
-                                          ]?.cards?.[group.cards.indexOf(card)]
-                                            ?.value
-                                          ? "is-invalid"
-                                          : ""
+                                          ?.value
+                                        ? "is-invalid"
+                                        : ""
                                         }`}
                                       onChange={formik.handleChange}
                                       onBlur={formik.handleBlur}

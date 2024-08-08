@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const AddOpeningBalance = ({ isLoading, postData, getData }) => {
-  const navigate = useNavigate();
   const { id, siteName } = useParams();
   const [AddCatSiteData, setCatSiteData] = useState([]);
 
@@ -17,7 +16,6 @@ const AddOpeningBalance = ({ isLoading, postData, getData }) => {
       const response = await getData(`common/category-list`);
 
       if (response && response.data) {
-        // setData(response.data.data.roles);
         setCatSiteData(response.data);
       } else {
         throw new Error("No data available in the response");
@@ -31,20 +29,7 @@ const AddOpeningBalance = ({ isLoading, postData, getData }) => {
     FetchCategoryList();
   }, []);
 
-  function handleError(error) {
-    if (error.response && error.response.bunkering_balance_type === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
 
   const handlePostData = async (values) => {
     try {
@@ -86,7 +71,7 @@ const AddOpeningBalance = ({ isLoading, postData, getData }) => {
         <div className="page-header">
           <div>
             <h1 className="page-title">
-               Hide Business Categories ({siteName})
+              Hide Business Categories ({siteName})
             </h1>
 
             <Breadcrumb className="breadcrumb">
@@ -110,13 +95,13 @@ const AddOpeningBalance = ({ isLoading, postData, getData }) => {
                 linkAs={Link}
                 linkProps={{ to: `/hide-business-categories/${formik.values.site_id}` }}
               >
-              Manage Hide Business Categories
+                Manage Hide Business Categories
               </Breadcrumb.Item>
               <Breadcrumb.Item
                 className="breadcrumb-item active breadcrumds"
                 aria-current="page"
               >
-                 Hide Business Categories
+                Hide Business Categories
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
@@ -142,12 +127,11 @@ const AddOpeningBalance = ({ isLoading, postData, getData }) => {
                         </label>
                         <select
                           as="select"
-                          className={`input101 ${
-                            formik.errors.business_category_id &&
+                          className={`input101 ${formik.errors.business_category_id &&
                             formik.touched.business_category_id
-                              ? "is-invalid"
-                              : ""
-                          }`}
+                            ? "is-invalid"
+                            : ""
+                            }`}
                           id="business_category_id"
                           name="business_category_id"
                           onChange={formik.handleChange}
@@ -182,7 +166,7 @@ const AddOpeningBalance = ({ isLoading, postData, getData }) => {
                     Cancel
                   </Link>
                   <button type="submit" className="btn btn-primary me-2 ">
-                  Hide Business Categories
+                    Hide Business Categories
                   </button>
                 </Card.Footer>
               </form>

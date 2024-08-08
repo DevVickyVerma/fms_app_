@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 import * as Yup from "yup";
-import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import { useFormik } from "formik";
 import Loaderimg from "../../../Utils/Loader";
@@ -19,7 +18,6 @@ const AddCompany = (props) => {
     try {
       const response = await getData(`/site/report-list?id=${id}`);
       if (response && response.data) {
-        console.log(response?.data, "columnIndex");
         setDropdownValue(response.data);
       } else {
         throw new Error("No data available in the response");
@@ -34,14 +32,12 @@ const AddCompany = (props) => {
   }, [UserPermissions]);
 
   const handleSubmit = async (event, values) => {
-    // event.preventDefault();
-
     try {
       const formData = new FormData();
 
       formData.append("site_id", id);
-      formData.append("report_id",  formik.values.client_id);
-      formData.append("subject",  formik.values.subject);
+      formData.append("report_id", formik.values.client_id);
+      formData.append("subject", formik.values.subject);
       formData.append("include_date", isChecked);
       if (emails !== null && emails !== undefined) {
         emails.forEach((client, index) => {
@@ -53,7 +49,7 @@ const AddCompany = (props) => {
           formData.append(`cc_emails[${index}]`, client);
         });
       }
-   
+
 
       const postDataUrl = "/site/auto-report/add";
       const navigatePath = `/autodayend/${id}`;
@@ -108,8 +104,6 @@ const AddCompany = (props) => {
       </span>
     </div>
   );
-  const [ccemails, setccEmails] = useState([]);
-
   const handleCCEmailChange = (newEmails) => {
     // Update Formik state when email input changes
     formik.setFieldValue("ccemails", newEmails);
@@ -178,19 +172,18 @@ const AddCompany = (props) => {
                           </label>
                           <select
                             as="select"
-                            className={`input101 ${
-                              formik.errors.client_id &&
+                            className={`input101 ${formik.errors.client_id &&
                               formik.touched.client_id
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="client_id"
                             name="client_id"
                             onChange={formik.handleChange}
                           >
                             <option value=""> Select Report</option>
                             {dropdownValue.data &&
-                            dropdownValue.data.length > 0 ? (
+                              dropdownValue.data.length > 0 ? (
                               dropdownValue.data.map((item) => (
                                 <option key={item.id} value={item.id}>
                                   {item.name}
@@ -216,11 +209,10 @@ const AddCompany = (props) => {
                           <input
                             type="text"
                             autoComplete="off"
-                            className={`input101 ${
-                              formik.errors.subject && formik.touched.subject
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                            className={`input101 ${formik.errors.subject && formik.touched.subject
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             id="subject"
                             name="subject"
                             placeholder="Subject"
@@ -293,7 +285,7 @@ const AddCompany = (props) => {
                       <Col lg={4} md={6}>
                         <div className="form-group">
                           <label htmlFor="email" className="form-label mt-4">
-                          Include Date
+                            Include Date
                           </label>
                           <div className="mapotions">
                             <input

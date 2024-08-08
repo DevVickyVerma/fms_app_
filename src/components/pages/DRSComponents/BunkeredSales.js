@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Card, Col, Row, Form } from "react-bootstrap";
 import * as Yup from "yup";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { Slide, toast } from "react-toastify";
 import Loaderimg from "../../../Utils/Loader";
-import Select from "react-select";
 import { useFormik } from "formik";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
 
 const DepartmentShop = (props) => {
   const {
@@ -45,39 +43,7 @@ const DepartmentShop = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [editable, setis_editable] = useState();
 
-  const navigate = useNavigate();
-  const SuccessToast = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      theme: "colored",
-    });
-  };
-  const ErrorToast = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      theme: "colored",
-    });
-  };
 
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      SuccessToast("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorToast(errorMessage);
-    }
-  }
   const SALESdummyData = [
     {
       card: "",
@@ -301,7 +267,7 @@ const DepartmentShop = (props) => {
   const onSubmit = (values, { resetForm }) => {
     resetForm();
     // pushbunkeredSalesRow();
-    SuccessToast("Data submitted successfully!");
+    SuccessAlert("Data submitted successfully!");
   };
 
   const nonbunkeredsalesonSubmit = (values, { resetForm }) => {
@@ -342,7 +308,7 @@ const DepartmentShop = (props) => {
         formik2.values.nonbunkeredsalesvalue
       );
     } else {
-      ErrorToast(
+      ErrorAlert(
         "Please fill all fields correctly before adding a new non-bunkered sales row."
       );
     }
@@ -357,7 +323,7 @@ const DepartmentShop = (props) => {
       });
       formik.setFieldValue("bunkeredSales", formik.values.bunkeredSales);
     } else {
-      ErrorToast(
+      ErrorAlert(
         "Please fill all fields correctly before adding a new bunkered sales row."
       );
     }
@@ -375,7 +341,7 @@ const DepartmentShop = (props) => {
       // Update the creditcardvalue array in the formik values
       formik3.setFieldValue("creditcardvalue", formik3.values.creditcardvalue);
     } else {
-      ErrorToast(
+      ErrorAlert(
         "Please fill all fields correctly before adding a new credit card  sales row."
       );
     }
@@ -505,11 +471,11 @@ const DepartmentShop = (props) => {
         handleButtonClick();
         // Call your success toast function here
         // Replace SuccessToast with your actual function that shows a success message
-        SuccessToast(responseData.message);
+        SuccessAlert(responseData.message);
       } else {
         // Call your error toast function here
-        // Replace ErrorToast with your actual function that shows an error message
-        ErrorToast(responseData.message);
+        // Replace ErrorAlert with your actual function that shows an error message
+        ErrorAlert(responseData.message);
       }
     } catch (error) {
       console.log("Request Error:", error);
@@ -543,12 +509,11 @@ const DepartmentShop = (props) => {
                           <Form.Label>FUEL:</Form.Label>
                           <Form.Control
                             type="text"
-                            className={`input101 ${
-                              formik.errors.bunkeredSales?.[index]?.diesel &&
+                            className={`input101 ${formik.errors.bunkeredSales?.[index]?.diesel &&
                               formik.touched[`bunkeredSales[${index}].diesel`]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`bunkeredSales[${index}].diesel`}
                             onChange={formik.handleChange}
                             value={
@@ -559,7 +524,7 @@ const DepartmentShop = (props) => {
                           />
                           {formik.errors.bunkeredSales?.[index]?.diesel &&
                             formik.touched[
-                              `bunkeredSales[${index}].diesel`
+                            `bunkeredSales[${index}].diesel`
                             ] && (
                               <div className="invalid-feedback">
                                 {formik.errors.bunkeredSales[index].diesel}
@@ -572,12 +537,11 @@ const DepartmentShop = (props) => {
                           <Form.Label>CARD NAME:</Form.Label>
                           <Form.Control
                             as="select"
-                            className={`input101 ${
-                              formik.errors.bunkeredSales?.[index]?.card &&
+                            className={`input101 ${formik.errors.bunkeredSales?.[index]?.card &&
                               formik.touched[`bunkeredSales[${index}].card`]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`bunkeredSales[${index}].card`}
                             onChange={formik.handleChange}
                             value={delivery?.card || ""}
@@ -605,12 +569,11 @@ const DepartmentShop = (props) => {
                           <Form.Label>VOLUME:</Form.Label>
                           <Form.Control
                             type="number"
-                            className={`input101 ${
-                              formik.errors.bunkeredSales?.[index]?.volume &&
+                            className={`input101 ${formik.errors.bunkeredSales?.[index]?.volume &&
                               formik.touched[`bunkeredSales[${index}].volume`]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`bunkeredSales[${index}].volume`}
                             onChange={formik.handleChange}
                             value={
@@ -621,7 +584,7 @@ const DepartmentShop = (props) => {
                           />
                           {formik.errors.bunkeredSales?.[index]?.volume &&
                             formik.touched[
-                              `bunkeredSales[${index}].volume`
+                            `bunkeredSales[${index}].volume`
                             ] && (
                               <div className="invalid-feedback">
                                 {formik.errors.bunkeredSales[index].volume}
@@ -634,12 +597,11 @@ const DepartmentShop = (props) => {
                           <Form.Label>VALUE:</Form.Label>
                           <Form.Control
                             type="number"
-                            className={`input101 ${
-                              formik.errors.bunkeredSales?.[index]?.value &&
+                            className={`input101 ${formik.errors.bunkeredSales?.[index]?.value &&
                               formik.touched[`bunkeredSales[${index}].value`]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`bunkeredSales[${index}].value`}
                             onChange={formik.handleChange}
                             value={
@@ -673,14 +635,14 @@ const DepartmentShop = (props) => {
                             </button>
                             {index ===
                               formik.values.bunkeredSales.length - 1 && (
-                              <button
-                                className="btn btn-primary me-2"
-                                type="button"
-                                onClick={pushbunkeredSalesRow}
-                              >
-                                <AddBoxIcon />
-                              </button>
-                            )}
+                                <button
+                                  className="btn btn-primary me-2"
+                                  type="button"
+                                  onClick={pushbunkeredSalesRow}
+                                >
+                                  <AddBoxIcon />
+                                </button>
+                              )}
                           </div>
                         ) : (
                           ""
@@ -713,15 +675,14 @@ const DepartmentShop = (props) => {
                           <Form.Label>FUEL:</Form.Label>
                           <Form.Control
                             as="select"
-                            className={`input101 ${
-                              formik2.errors.nonbunkeredsalesvalue?.[index]
-                                ?.fuel &&
+                            className={`input101 ${formik2.errors.nonbunkeredsalesvalue?.[index]
+                              ?.fuel &&
                               formik2.touched[
-                                `nonbunkeredsalesvalue[${index}].fuel`
+                              `nonbunkeredsalesvalue[${index}].fuel`
                               ]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`nonbunkeredsalesvalue[${index}].fuel`}
                             onChange={formik2.handleChange}
                             value={item?.fuel || ""}
@@ -737,7 +698,7 @@ const DepartmentShop = (props) => {
                           {formik2.errors.nonbunkeredsalesvalue?.[index]
                             ?.fuel &&
                             formik2.touched[
-                              `nonbunkeredsalesvalue[${index}].fuel`
+                            `nonbunkeredsalesvalue[${index}].fuel`
                             ] && (
                               <div className="invalid-feedback">
                                 {
@@ -755,15 +716,14 @@ const DepartmentShop = (props) => {
                           <Form.Label>CARD NAME:</Form.Label>
                           <Form.Control
                             as="select"
-                            className={`input101 ${
-                              formik2.errors.nonbunkeredsalesvalue?.[index]
-                                ?.card &&
+                            className={`input101 ${formik2.errors.nonbunkeredsalesvalue?.[index]
+                              ?.card &&
                               formik2.touched[
-                                `nonbunkeredsalesvalue[${index}].card`
+                              `nonbunkeredsalesvalue[${index}].card`
                               ]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`nonbunkeredsalesvalue[${index}].card`}
                             onChange={formik2.handleChange}
                             value={item?.card || ""}
@@ -779,7 +739,7 @@ const DepartmentShop = (props) => {
                           {formik2.errors.nonbunkeredsalesvalue?.[index]
                             ?.card &&
                             formik2.touched[
-                              `nonbunkeredsalesvalue[${index}].card`
+                            `nonbunkeredsalesvalue[${index}].card`
                             ] && (
                               <div className="invalid-feedback">
                                 {
@@ -797,15 +757,14 @@ const DepartmentShop = (props) => {
                           <Form.Label>VOLUME:</Form.Label>
                           <Form.Control
                             type="number"
-                            className={`input101 ${
-                              formik2.errors.nonbunkeredsalesvalue?.[index]
-                                ?.volume &&
+                            className={`input101 ${formik2.errors.nonbunkeredsalesvalue?.[index]
+                              ?.volume &&
                               formik2.touched[
-                                `nonbunkeredsalesvalue[${index}].volume`
+                              `nonbunkeredsalesvalue[${index}].volume`
                               ]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`nonbunkeredsalesvalue[${index}].volume`}
                             onChange={formik2.handleChange}
                             value={item?.volume || ""}
@@ -814,7 +773,7 @@ const DepartmentShop = (props) => {
                           {formik2.errors.nonbunkeredsalesvalue?.[index]
                             ?.volume &&
                             formik2.touched[
-                              `nonbunkeredsalesvalue[${index}].volume`
+                            `nonbunkeredsalesvalue[${index}].volume`
                             ] && (
                               <div className="invalid-feedback">
                                 {
@@ -832,15 +791,14 @@ const DepartmentShop = (props) => {
                           <Form.Label>VALUE:</Form.Label>
                           <Form.Control
                             type="number"
-                            className={`input101 ${
-                              formik2.errors.nonbunkeredsalesvalue?.[index]
-                                ?.value &&
+                            className={`input101 ${formik2.errors.nonbunkeredsalesvalue?.[index]
+                              ?.value &&
                               formik2.touched[
-                                `nonbunkeredsalesvalue[${index}].value`
+                              `nonbunkeredsalesvalue[${index}].value`
                               ]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`nonbunkeredsalesvalue[${index}].value`}
                             onChange={formik2.handleChange}
                             value={item?.value || ""}
@@ -849,7 +807,7 @@ const DepartmentShop = (props) => {
                           {formik2.errors.nonbunkeredsalesvalue?.[index]
                             ?.value &&
                             formik2.touched[
-                              `nonbunkeredsalesvalue[${index}].value`
+                            `nonbunkeredsalesvalue[${index}].value`
                             ] && (
                               <div className="invalid-feedback">
                                 {
@@ -877,15 +835,15 @@ const DepartmentShop = (props) => {
                             </button>
                             {index ===
                               formik2.values.nonbunkeredsalesvalue.length -
-                                1 && (
-                              <button
-                                className="btn btn-primary me-2"
-                                type="button"
-                                onClick={pushnonbunkeredSalesRow}
-                              >
-                                <AddBoxIcon />
-                              </button>
-                            )}
+                              1 && (
+                                <button
+                                  className="btn btn-primary me-2"
+                                  type="button"
+                                  onClick={pushnonbunkeredSalesRow}
+                                >
+                                  <AddBoxIcon />
+                                </button>
+                              )}
                           </div>
                         ) : (
                           ""
@@ -918,12 +876,11 @@ const DepartmentShop = (props) => {
                           <Form.Label>CARD NAME:</Form.Label>
                           <Form.Control
                             as="select"
-                            className={`input101 ${
-                              formik3.errors.creditcardvalue?.[index]?.card &&
+                            className={`input101 ${formik3.errors.creditcardvalue?.[index]?.card &&
                               formik3.touched[`creditcardvalue[${index}].card`]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`creditcardvalue[${index}].card`}
                             onChange={formik3.handleChange}
                             value={item?.card || ""}
@@ -938,7 +895,7 @@ const DepartmentShop = (props) => {
                           </Form.Control>
                           {formik3.errors.creditcardvalue?.[index]?.card &&
                             formik3.touched[
-                              `creditcardvalue[${index}].card`
+                            `creditcardvalue[${index}].card`
                             ] && (
                               <div className="invalid-feedback">
                                 {formik3.errors.creditcardvalue[index].card}
@@ -953,12 +910,11 @@ const DepartmentShop = (props) => {
                           <Form.Label>KOISK VALUE:</Form.Label>
                           <Form.Control
                             type="number"
-                            className={`input101 ${
-                              formik3.errors.creditcardvalue?.[index]?.koisk &&
+                            className={`input101 ${formik3.errors.creditcardvalue?.[index]?.koisk &&
                               formik3.touched[`creditcardvalue[${index}].koisk`]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`creditcardvalue[${index}].koisk`}
                             onChange={formik3.handleChange}
                             value={item?.koisk || ""}
@@ -966,7 +922,7 @@ const DepartmentShop = (props) => {
                           />
                           {formik3.errors.creditcardvalue?.[index]?.koisk &&
                             formik3.touched[
-                              `creditcardvalue[${index}].koisk`
+                            `creditcardvalue[${index}].koisk`
                             ] && (
                               <div className="invalid-feedback">
                                 {formik3.errors.creditcardvalue[index].koisk}
@@ -981,15 +937,14 @@ const DepartmentShop = (props) => {
                           <Form.Label>OPT VALUE:</Form.Label>
                           <Form.Control
                             type="number"
-                            className={`input101 ${
-                              formik3.errors.creditcardvalue?.[index]
-                                ?.optvalue &&
+                            className={`input101 ${formik3.errors.creditcardvalue?.[index]
+                              ?.optvalue &&
                               formik3.touched[
-                                `creditcardvalue[${index}].optvalue`
+                              `creditcardvalue[${index}].optvalue`
                               ]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`creditcardvalue[${index}].optvalue`}
                             onChange={formik3.handleChange}
                             value={item?.optvalue || ""}
@@ -997,7 +952,7 @@ const DepartmentShop = (props) => {
                           />
                           {formik3.errors.creditcardvalue?.[index]?.optvalue &&
                             formik3.touched[
-                              `creditcardvalue[${index}].optvalue`
+                            `creditcardvalue[${index}].optvalue`
                             ] && (
                               <div className="invalid-feedback">
                                 {formik3.errors.creditcardvalue[index].optvalue}
@@ -1012,15 +967,14 @@ const DepartmentShop = (props) => {
                           <Form.Label> ACCOUNT VALUE:</Form.Label>
                           <Form.Control
                             type="number"
-                            className={`input101 ${
-                              formik3.errors.creditcardvalue?.[index]
-                                ?.accountvalue &&
+                            className={`input101 ${formik3.errors.creditcardvalue?.[index]
+                              ?.accountvalue &&
                               formik3.touched[
-                                `creditcardvalue[${index}].accountvalue`
+                              `creditcardvalue[${index}].accountvalue`
                               ]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`creditcardvalue[${index}].accountvalue`}
                             onChange={formik3.handleChange}
                             value={item?.accountvalue || ""}
@@ -1029,7 +983,7 @@ const DepartmentShop = (props) => {
                           {formik3.errors.creditcardvalue?.[index]
                             ?.accountvalue &&
                             formik3.touched[
-                              `creditcardvalue[${index}].accountvalue`
+                            `creditcardvalue[${index}].accountvalue`
                             ] && (
                               <div className="invalid-feedback">
                                 {
@@ -1047,15 +1001,14 @@ const DepartmentShop = (props) => {
                           <Form.Label> NO. OF TRANSACTIONS :</Form.Label>
                           <Form.Control
                             type="number"
-                            className={`input101 ${
-                              formik3.errors.creditcardvalue?.[index]
-                                ?.transactionsvalue &&
+                            className={`input101 ${formik3.errors.creditcardvalue?.[index]
+                              ?.transactionsvalue &&
                               formik3.touched[
-                                `creditcardvalue[${index}].transactionsvalue`
+                              `creditcardvalue[${index}].transactionsvalue`
                               ]
-                                ? "is-invalid"
-                                : ""
-                            }`}
+                              ? "is-invalid"
+                              : ""
+                              }`}
                             name={`creditcardvalue[${index}].transactionsvalue`}
                             onChange={formik3.handleChange}
                             value={item?.transactionsvalue || ""}
@@ -1064,7 +1017,7 @@ const DepartmentShop = (props) => {
                           {formik3.errors.creditcardvalue?.[index]
                             ?.transactionsvalue &&
                             formik3.touched[
-                              `creditcardvalue[${index}].transactionsvalue`
+                            `creditcardvalue[${index}].transactionsvalue`
                             ] && (
                               <div className="invalid-feedback">
                                 {
@@ -1098,14 +1051,14 @@ const DepartmentShop = (props) => {
 
                               {index ===
                                 formik3.values.creditcardvalue.length - 1 && (
-                                <button
-                                  className="btn btn-primary me-2"
-                                  type="button"
-                                  onClick={pushnoncreditcardRow}
-                                >
-                                  <AddBoxIcon />
-                                </button>
-                              )}
+                                  <button
+                                    className="btn btn-primary me-2"
+                                    type="button"
+                                    onClick={pushnoncreditcardRow}
+                                  >
+                                    <AddBoxIcon />
+                                  </button>
+                                )}
                             </div>
                           ) : (
                             ""

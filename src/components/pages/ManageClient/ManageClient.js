@@ -1,32 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  Form,
-  OverlayTrigger,
-  Row,
-  Tooltip,
-  Dropdown,
-} from "react-bootstrap";
-import { Button } from "bootstrap";
-import axios from "axios";
+import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip, Dropdown } from "react-bootstrap";
 import Swal from "sweetalert2";
-
-import { toast } from "react-toastify";
-import SearchIcon from "@mui/icons-material/Search";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import SideSearchbar from "../../../data/Modal/SideSearchbar";
-import * as loderdata from "../../../data/Component/loderdata/loderdata";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-// import KeyIcon from '@mui/icons-material/Key';
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
@@ -34,9 +17,9 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CenterSearchmodal from "../../../data/Modal/CenterSearchmodal";
 import { Box } from "@mui/system";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
+import { handleError } from "../../../Utils/ToastUtils";
 const ManageClient = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { apidata, isLoading, getData, postData } = props;
   const [data, setData] = useState();
   const navigate = useNavigate();
   const [searchdata, setSearchdata] = useState({});
@@ -77,21 +60,6 @@ const ManageClient = (props) => {
     setSearchdata({});
     setSearchList(true);
   };
-  const token = localStorage.getItem("token");
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
   const handleToggleSidebar1 = () => {
     setSidebarVisible1(!sidebarVisible1);
   };
@@ -104,13 +72,7 @@ const ManageClient = (props) => {
 
     if (Object.values(filteredFormData).length > 0) {
       setSearchdata(filteredFormData);
-      const axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_BASE_URL,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
+
       const SearchList = async (row) => {
         try {
           const params = new URLSearchParams(formData).toString();
@@ -254,7 +216,7 @@ const ManageClient = (props) => {
     {
       name: "Client",
       selector: (row) => [row.full_name],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -267,7 +229,7 @@ const ManageClient = (props) => {
     {
       name: "Sms Balance",
       selector: (row) => [row.sms_balance],
-      sortable: true,
+      sortable: false,
       width: "12%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -280,7 +242,7 @@ const ManageClient = (props) => {
     {
       name: "Addons",
       selector: (row) => [row.addons],
-      sortable: true,
+      sortable: false,
       width: "24%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -293,7 +255,7 @@ const ManageClient = (props) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "12%",
       cell: (row, index) => (
         <div
@@ -310,7 +272,7 @@ const ManageClient = (props) => {
     {
       name: "Status",
       selector: (row) => [row.status],
-      sortable: true,
+      sortable: false,
       width: "10%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -351,7 +313,7 @@ const ManageClient = (props) => {
       ? {
         name: "Action",
         selector: (row) => [row.action],
-        sortable: true,
+        sortable: false,
         width: "15%",
         cell: (row) => (
           <span className="text-center">

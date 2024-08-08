@@ -1,54 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-import {
-  Col,
-  Row,
-  Card,
-  Form,
-  FormGroup,
-  FormControl,
-  ListGroup,
-  Breadcrumb,
-} from "react-bootstrap";
+import { Col, Row, Card, Breadcrumb } from "react-bootstrap";
 
-import { Formik, Field, ErrorMessage } from "formik";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
 import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import DatePicker from "react-multi-date-picker";
+import { Link, useParams } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const Editdeductions = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
-  const navigate = useNavigate();
-
-  const [AddSiteData, setAddSiteData] = useState([]);
-  const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  const [subTypes, setSubTypes] = useState([]);
-  const [EditSiteData, setEditSiteData] = useState();
-
-
-  function handleError(error) {
-    if (error.response && error.response.deduction_status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (
-      error.response &&
-      error.response.data.deduction_status_code === "403"
-    ) {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+  const { isLoading, postData } = props;
   const { id } = useParams();
 
   useEffect(() => {
@@ -68,7 +31,6 @@ const Editdeductions = (props) => {
       try {
         const response = await axiosInstance.get(`/deduction/${id}`);
         if (response) {
-          setEditSiteData(response.data.data);
           formik.setValues(response.data.data);
         }
       } catch (error) {
@@ -112,7 +74,7 @@ const Editdeductions = (props) => {
     },
     validationSchema: Yup.object({
       deduction_code: Yup.string()
-        
+
         .required("Deduction code is required"),
 
       deduction_name: Yup.string()
@@ -134,20 +96,7 @@ const Editdeductions = (props) => {
     onSubmit: handleSubmit,
   });
 
-  const isInvalid = formik.errors && formik.touched.name ? "is-invalid" : "";
 
-  // Use the isInvalid variable to conditionally set the class name
-  const inputClass = `form-control ${isInvalid}`;
-  const handleBusinessTypeChange = (e) => {
-    const selectedType = e.target.value;
-
-    formik.setFieldValue("business_type", selectedType);
-    setSelectedBusinessType(selectedType);
-    const selectedTypeData = AddSiteData.busines_types.find(
-      (type) => type.name === selectedType
-    );
-    setSubTypes(selectedTypeData.sub_types);
-  };
 
   return (
     <>

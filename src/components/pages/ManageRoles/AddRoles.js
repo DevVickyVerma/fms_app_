@@ -1,28 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
-import DataTable from "react-data-table-component";
-import { useNavigate } from "react-router-dom";
-import DataTableExtensions from "react-data-table-component-extensions";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  Dropdown,
-  Form,
-  FormGroup,
-  OverlayTrigger,
-  Row,
-  Tooltip,
-} from "react-bootstrap";
+import { Breadcrumb, Card, Row } from "react-bootstrap";
 
-import axios from "axios";
 import { Slide, toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const ErrorAlert = (message) => {
   toast.error(message, {
@@ -70,27 +56,13 @@ const validationSchema = Yup.object().shape({
 });
 
 const AddRoles = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
   const [permissions, setPermissions] = useState([]);
 
   const [userpermissions, setUserPermissions] = useState([]);
-  // const SuccessAlert = (message) => toast.success(message);
-  // const ErrorAlert = (message) => toast.error(message);
-  const navigate = useNavigate();
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
+
+
+
   useEffect(() => {
     FetchTableData();
     console.clear();

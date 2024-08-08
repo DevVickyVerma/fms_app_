@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -12,7 +12,6 @@ import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { Slide, toast } from "react-toastify";
 import { ErrorAlert } from "../../../Utils/ToastUtils";
 const ManageDsr = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -451,9 +450,6 @@ const ManageDsr = (props) => {
     }),
 
     onSubmit: (values) => {
-
-      console.log(values, "valuesvalues");
-
       localStorage.setItem('fuelPurchasePrice', JSON.stringify(values));
       // onSubmit: handleSubmit,
       handleSubmit(values);
@@ -715,7 +711,7 @@ const ManageDsr = (props) => {
                         </Col>
                       )}
 
-                      <Col Col lg={3} md={3}>
+                      <Col lg={3} md={3}>
                         <div className="form-group">
                           <label
                             htmlFor="company_id"

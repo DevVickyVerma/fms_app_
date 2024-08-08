@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
-import { useNavigate } from "react-router-dom";
-import { Slide, toast } from "react-toastify";
 import moment from "moment/moment";
+import { ErrorAlert, handleError, SuccessAlert } from "../../../Utils/ToastUtils";
 
 const FuelInventry = (props) => {
   const { company_id, client_id, site_id, start_date, sendDataToParent } =
@@ -16,7 +13,6 @@ const FuelInventry = (props) => {
 
   const [fuelInventoryFinalDataArray, setFuelInventoryFinalDataArray] =
     useState();
-  // const [myFuelPriceValue, setMyFuelPriceValue] = useState();
   const [myDueSalesValue, setMyDueSalesValue] = useState();
   const [myBunkeredSalesValue, setMyBunkeredSalesValue] = useState();
   const [myAdjustmentValue, setMyAdjustmentValue] = useState();
@@ -34,47 +30,14 @@ const FuelInventry = (props) => {
     sendDataToParent(allPropsData);
   };
 
-  // const [data, setData] = useState()
   const [data, setData] = useState([]);
   const [editable, setis_editable] = useState();
   const [CombinedVarianceData, setCombinedVarianceData] = useState([]);
   const [VarianceDataa, setVarianceDataa] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const navigate = useNavigate();
-  const SuccessToast = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-  const ErrorToast = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      SuccessToast("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorToast(errorMessage);
-    }
-  }
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -235,14 +198,11 @@ const FuelInventry = (props) => {
       const responseData = await response.json(); // Read the response once
 
       if (response.ok) {
-        //
-        SuccessToast(responseData.message);
+        SuccessAlert(responseData.message);
         handleButtonClick();
         window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
-        ErrorToast(responseData.message);
-
-        // Handle specific error cases if needed
+        ErrorAlert(responseData.message);
       }
     } catch (error) {
       // Handle request error
@@ -415,10 +375,10 @@ const FuelInventry = (props) => {
               name={`data[${index}].fuel_price`}
               step="0.010"
               className={`table-input ${row?.fuel_price_status === "UP"
-                  ? "table-inputGreen"
-                  : row?.fuel_price_status === "DOWN"
-                    ? "table-inputRed"
-                    : ""
+                ? "table-inputGreen"
+                : row?.fuel_price_status === "DOWN"
+                  ? "table-inputRed"
+                  : ""
                 } ${!editable?.is_price_editable ? "readonly" : ""}`}
               value={formik.values.data[index]?.fuel_price}
               onChange={formik.handleChange}
@@ -429,7 +389,7 @@ const FuelInventry = (props) => {
               }}
               readOnly={editable?.is_price_editable ? false : true}
             />
-            {/* Error handling code */}
+
           </div>
         ),
     },
@@ -464,7 +424,7 @@ const FuelInventry = (props) => {
               onBlur={formik.handleBlur}
               readOnly
             />
-            {/* Error handling code */}
+
           </div>
         ),
     },
@@ -497,7 +457,7 @@ const FuelInventry = (props) => {
               onBlur={formik.handleBlur}
               readOnly
             />
-            {/* Error handling code */}
+
           </div>
         ),
     },
@@ -541,7 +501,7 @@ const FuelInventry = (props) => {
               }}
               readOnly={editable?.is_editable ? false : true}
             />
-            {/* Error handling code */}
+
           </div>
         ),
     },
@@ -588,7 +548,7 @@ const FuelInventry = (props) => {
               }}
               readOnly={editable?.is_editable ? false : true}
             />
-            {/* Error handling code */}
+
           </div>
         ),
     },
@@ -633,7 +593,7 @@ const FuelInventry = (props) => {
               }}
               readOnly={editable?.is_editable ? false : true}
             />
-            {/* Error handling code */}
+
           </div>
         ),
     },
@@ -672,7 +632,7 @@ const FuelInventry = (props) => {
               onBlur={formik.handleBlur}
               readOnly
             />
-            {/* Error handling code */}
+
           </div>
         ),
     },
@@ -712,7 +672,7 @@ const FuelInventry = (props) => {
               onBlur={formik.handleBlur}
               readOnly
             />
-            {/* Error handling code */}
+
           </div>
         ),
     },
@@ -723,7 +683,7 @@ const FuelInventry = (props) => {
     {
       name: "DESCRIPTION",
       selector: (row) => row.description, // Update the selector to use a function
-      sortable: true,
+      sortable: false,
       center: false,
       width: "50%",
       cell: (row, index) => (
@@ -754,7 +714,7 @@ const FuelInventry = (props) => {
             onBlur={formik.handleBlur}
             readOnly
           />
-          {/* Error handling code */}
+
         </div>
       ),
     },
@@ -763,7 +723,7 @@ const FuelInventry = (props) => {
     {
       name: "DESCRIPTION",
       selector: (row) => row.description, // Update the selector to use a function
-      sortable: true,
+      sortable: false,
       center: false,
       width: "25%",
       cell: (row, index) => (
@@ -795,7 +755,7 @@ const FuelInventry = (props) => {
             readOnly
           // readOnly={editable?.is_editable ? false : true}
           />
-          {/* Error handling code */}
+
         </div>
       ),
     },
@@ -819,7 +779,7 @@ const FuelInventry = (props) => {
             readOnly
           // readOnly={editable?.is_editable ? false : true}
           />
-          {/* Error handling code */}
+
         </div>
       ),
     },
@@ -843,7 +803,7 @@ const FuelInventry = (props) => {
             readOnly
           // readOnly={editable?.is_editable ? false : true}
           />
-          {/* Error handling code */}
+
         </div>
       ),
     },

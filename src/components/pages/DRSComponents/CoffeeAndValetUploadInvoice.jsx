@@ -141,7 +141,7 @@ const CoffeeAndValetUploadInvoice = (props) => {
                 className="custom-modal-width custom-modal-height"
             >
                 <div
-                    class="modal-header"
+                    className="modal-header"
                     style={{ color: "#fff", background: "#2D8BA8" }}
                 >
 

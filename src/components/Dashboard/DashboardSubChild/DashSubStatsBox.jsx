@@ -227,7 +227,7 @@ const DashSubStatsBox = (props) => {
                           <Tooltip>{`Gross Profit = Total Sales - Opening Stock- Purchases(Deliveries) + Closing Stock`}</Tooltip>
                         }
                       >
-                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        <i className="fa fa-info-circle" aria-hidden="true"></i>
                       </OverlayTrigger>
                     </span>
                   </p>
@@ -305,7 +305,7 @@ const DashSubStatsBox = (props) => {
                           <Tooltip>{`${singleSiteGrossMargin?.ppl_msg}%`}</Tooltip>
                         }
                       >
-                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        <i className="fa fa-info-circle" aria-hidden="true"></i>
                       </OverlayTrigger>
                     ) : (
                       ""
@@ -320,7 +320,7 @@ const DashSubStatsBox = (props) => {
                           <Tooltip>{`Gross Margin = (Gross Profit/Sales) * 100`}</Tooltip>
                         }
                       >
-                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        <i className="fa fa-info-circle" aria-hidden="true"></i>
                       </OverlayTrigger>
                     </span>
                   </p>
@@ -543,7 +543,7 @@ const DashSubStatsBox = (props) => {
                           <Tooltip>{`The data is accurately sourced from back-office system`}</Tooltip>
                         }
                       >
-                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        <i className="fa fa-info-circle" aria-hidden="true"></i>
                       </OverlayTrigger>
                     </span>
                   </p>

@@ -301,7 +301,7 @@ const AddShops = (props) => {
                         </Col>
                       )}
 
-                      <Col Col lg={4} md={6}>
+                      <Col lg={4} md={6}>
                         <div className="form-group">
                           <label htmlFor="company_id" className="form-label mt-4">
                             Company

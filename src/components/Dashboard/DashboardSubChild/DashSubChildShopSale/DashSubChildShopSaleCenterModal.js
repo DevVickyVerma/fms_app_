@@ -106,13 +106,13 @@ const DashSubChildShopSaleCenterModal = (props) => {
       className="custom-modal-width custom-modal-height"
     >
       <div
-        class="modal-header"
+        className="modal-header"
         style={{ color: "#fff", background: "#2D8BA8" }}
       >
-        <h5 class="modal-title">{shopPerformanceData?.name}</h5>
+        <h5 className="modal-title">{shopPerformanceData?.name}</h5>
         <button
           type="button"
-          class="close"
+          className="close"
           data-dismiss="modal"
           aria-label="Close"
         >

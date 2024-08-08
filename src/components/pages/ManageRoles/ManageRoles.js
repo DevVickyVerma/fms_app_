@@ -14,37 +14,15 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { Slide, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const ManageRoles = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { getData, isLoading, } = props;
   const [data, setData] = useState();
-  const navigate = useNavigate();
-  // const SuccessAlert = (message) => toast.success(message);
-  // const ErrorAlert = (message) => toast.error(message);
-  const SuccessAlert = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored",
-    });
-  };
-  const ErrorAlert = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored",
-    });
-  };
+
   const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -83,38 +61,17 @@ const ManageRoles = (props) => {
             handleError(error);
           } finally {
           }
-          // setIsLoading(false);
         };
         DeleteRole();
       }
     });
   };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
   useEffect(() => {
     FetchTableData();
     console.clear();
   }, []);
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+
 
   const handleEdit = (row) => {
     localStorage.setItem("EditRole_name", row.name);
@@ -165,7 +122,7 @@ const ManageRoles = (props) => {
     {
       name: "Role",
       selector: (row) => [row.name],
-      sortable: true,
+      sortable: false,
       width: "30%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -178,13 +135,12 @@ const ManageRoles = (props) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "30%",
       cell: (row, index) => (
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-        // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.created_date}</h6>

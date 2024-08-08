@@ -158,7 +158,7 @@ export default function ForgotPassword() {
                                 <strong className="  font-weight-bold">
                                   2FA
                                 </strong>
-                                {" "}  <i class="fa fa-shield" aria-hidden="true"></i>
+                                {" "}  <i className="fa fa-shield" aria-hidden="true"></i>
                               </span>
                             </Card.Footer>
                           </Form>

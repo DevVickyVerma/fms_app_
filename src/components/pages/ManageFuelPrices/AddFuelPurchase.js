@@ -382,7 +382,7 @@ const ManageDsr = (props) => {
                       </Col>
                     )}
 
-                    <Col Col lg={3} md={3}>
+                    <Col lg={3} md={3}>
                       <div className="form-group">
                         <label htmlFor="company_id" className="form-label mt-4">
                           Company

@@ -60,7 +60,6 @@ export function FormModal(props) {
     try {
       const baseUrl = process.env.REACT_APP_BASE_URL;
       let uploadEndpoint;
-      console.log(props.PropsType, "props.PropsFile");
       if (props.PropsType === "HTECH") {
         uploadEndpoint = "/drs/htech-upload";
       } else if (props.PropsType === "PRISM") {
@@ -78,7 +77,6 @@ export function FormModal(props) {
         body: formData,
       });
 
-      console.log(response?.status, "columnIndex");
 
       if (response?.status == 200) {
         props.onSuccess(" Child message");
@@ -164,9 +162,8 @@ export function FormModal(props) {
                   <div className="form-group">
                     <label htmlFor="image">Image</label>
                     <div
-                      className={`dropzone ${
-                        errors.image && touched.image ? "is-invalid" : ""
-                      }`}
+                      className={`dropzone ${errors.image && touched.image ? "is-invalid" : ""
+                        }`}
                       onDrop={(event) => handleDrop(event, setFieldValue)}
                       onDragOver={(event) => event.preventDefault()}
                     >

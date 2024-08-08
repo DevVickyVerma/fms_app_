@@ -8,7 +8,7 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loaderimg from "../../../Utils/Loader";
 import axios from "axios";
 import {
@@ -285,7 +285,7 @@ const CompititorDashStats = ({ isLoading, getData, id }) => {
                   style={{ width: "50px", height: "50px" }}
                 />
               ) : (
-                <span class="Smallloader"></span>
+                <span className="Smallloader"></span>
               )}
             </Box>
             <Box>
@@ -319,7 +319,7 @@ const CompititorDashStats = ({ isLoading, getData, id }) => {
                   {getCompetitorsPrice?.last_dayend ? (
                     moment(getCompetitorsPrice?.last_dayend).format("Do MMM")
                   ) : (
-                    <span class="Smallloader"></span>
+                    <span className="Smallloader"></span>
                   )}
                 </Typography>
               </Box>
@@ -357,7 +357,7 @@ const CompititorDashStats = ({ isLoading, getData, id }) => {
                           "Do MMM, HH:mm"
                         )
                       ) : (
-                        <span class="Smallloader"></span>
+                        <span className="Smallloader"></span>
                       )}
                     </Typography>
                   </Typography>
@@ -394,7 +394,7 @@ const CompititorDashStats = ({ isLoading, getData, id }) => {
                           "Do MMM, HH:mm"
                         )
                       ) : (
-                        <span class="Smallloader"></span>
+                        <span className="Smallloader"></span>
                       )}
                     </Typography>
                   </Typography>
@@ -503,7 +503,7 @@ const CompititorDashStats = ({ isLoading, getData, id }) => {
                                     >
                                       {" "}
                                       <i
-                                        class="fa fa-info-circle ms-1"
+                                        className="fa fa-info-circle ms-1"
                                         aria-hidden="true"
                                         style={{ fontSize: "15px" }}
                                       ></i>{" "}

@@ -1,45 +1,24 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
-import * as Yup from "yup";
-import axios from "axios";
-import Loaderimg from "../../../Utils/Loader";
-import { Slide, toast } from "react-toastify";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import withApi from "../../../Utils/ApiHelper";
+import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import LoaderImg from "../../../Utils/Loader";
+import { useSelector } from "react-redux";
 
-const CompanySageFuels = (props) => {
+const CompanySageFuels = ({ getData }) => {
   const id = useParams();
 
-  // const [data, setData] = useState()
+  const UserPermissions = useSelector(
+    (state) => state?.data?.data?.permissions || [],
+  );
+  const isUpdatePermissionAvailable = UserPermissions?.includes('company-sage-config');
   const [data, setData] = useState([]);
-  const [taxCodes, setTaxCodes] = useState([]);
-  const [typesData, setTypesData] = useState([]);
-
-  const [editable, setis_editable] = useState();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const SuccessToast = (message) => {
-    toast.success(message, {
-      autoClose: 1000,
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 3000ms = 3 seconds)
-    });
-  };
-  const ErrorToast = (message) => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_RIGHT,
-      hideProgressBar: true,
-      transition: Slide,
-      autoClose: 1000,
-      theme: "colored", // Set the duration in milliseconds (e.g., 5000ms = 5 seconds)
-    });
-  };
-
 
   document.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
@@ -47,12 +26,33 @@ const CompanySageFuels = (props) => {
     }
   });
 
+  useEffect(() => {
+    FetchSubCategoryList()
+  }, [])
+
+
+  const FetchSubCategoryList = async () => {
+    try {
+      const response = await getData(`/company/sage-items/${id?.id}`);
+
+
+      if (response && response.data) {
+        formik.setFieldValue("data", response?.data?.data?.items)
+        setData(response?.data?.data?.items);
+      } else {
+        throw new Error("No data available in the response");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
+  };
+
   const columns = [
     {
       name: "ITEMS",
       selector: (row) => row.name,
       sortable: false,
-      width: "33.2%",
+      width: "40%",
       center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -66,7 +66,7 @@ const CompanySageFuels = (props) => {
 
       selector: (row) => row.sage_sale_code,
       sortable: false,
-      width: "33.2%",
+      width: "30%",
       center: true,
 
       cell: (row, index) =>
@@ -98,7 +98,7 @@ const CompanySageFuels = (props) => {
       name: "Sage Purchage Code",
       selector: (row) => row.sage_purchage_code,
       sortable: false,
-      width: "33.8%",
+      width: "30%",
       center: true,
 
       cell: (row, index) =>
@@ -126,143 +126,6 @@ const CompanySageFuels = (props) => {
           </div>
         ),
     },
-    // {
-    //     name: "Positive Nominal Type",
-    //     selector: (row) => row.positive_nominal_type_id,
-    //     sortable: false,
-    //     width: "14.4%",
-    //     center: true,
-
-    //     cell: (row, index) =>
-    //         row.name === "Total" ? (
-    //             <div>
-    //                 <input
-    //                     type="number"
-    //                     className={"table-input readonly"}
-
-    //                     value={row.positive_nominal_type_id}
-    //                     readOnly
-    //                 />
-    //             </div>
-    //         ) : (
-    //             <div>
-    //                 <select
-    //                     name={`data[${index}].positive_nominal_type_id`}
-    //                     value={formik.values.data[index]?.positive_nominal_type_id}
-    //                     onChange={(e) => handlePositiveNominalData(index, e.target.value)}
-    //                     onBlur={formik.handleBlur}
-    //                     className="w-100"
-    //                     style={{ height: "36px" }}
-    //                 >
-    //                     <option value="" className="table-input ">
-    //                         Select Positive Nominal Type Data
-    //                     </option>
-    //                     {typesData?.map((SingleType) => (
-    //                         <option
-    //                             key={SingleType.id}
-    //                             value={SingleType.id}
-    //                             className="table-input "
-    //                         >
-    //                             {SingleType.name}
-    //                         </option>
-    //                     ))}
-    //                 </select>
-    //             </div>
-    //         ),
-    // },
-    // {
-    //     name: "Negative Nominal Type",
-    //     selector: (row) => row.negative_nominal_type_id,
-    //     sortable: false,
-    //     width: "14.4%",
-    //     center: true,
-
-    //     cell: (row, index) =>
-    //         row.name === "Total" ? (
-    //             <div>
-    //                 <input
-    //                     type="number"
-    //                     className={"table-input readonly"}
-    //                     value={row.negative_nominal_type_id}
-    //                     readOnly
-    //                 />
-    //             </div>
-    //         ) : (
-    //             <div>
-    //                 <select
-
-    //                     name={`data[${index}].negative_nominal_type_id`}
-    //                     value={formik.values.data[index]?.negative_nominal_type_id}
-    //                     onChange={(e) => handleNegativeNominalData(index, e.target.value)}
-    //                     onBlur={formik.handleBlur}
-    //                     className="w-100"
-    //                     style={{ height: "36px" }}
-    //                 >
-    //                     <option value="" className="table-input ">
-    //                         Select Negative Nominal Type
-    //                     </option>
-    //                     {typesData?.map((SingleType) => (
-    //                         <option
-    //                             key={SingleType.id}
-    //                             value={SingleType.id}
-    //                             className="table-input "
-    //                         >
-    //                             {SingleType.name}
-    //                         </option>
-    //                     ))}
-    //                 </select>
-    //                 {/* Error handling code */}
-    //             </div>
-    //         ),
-    // },
-    // {
-    //     name: "Nominal Tax Code",
-    //     selector: (row) => row.nominal_tax_code_id,
-    //     sortable: false,
-    //     width: "14.6%",
-    //     center: true,
-
-    //     cell: (row, index) =>
-    //         row.name === "Total" ? (
-    //             <div>
-    //                 <input
-    //                     type="number"
-    //                     className={"table-input readonly"}
-    //                     value={row.nominal_tax_code_id}
-    //                     readOnly
-    //                 />
-    //             </div>
-    //         ) : (
-    //             <div className=" w-100">
-    //                 <select
-
-    //                     name={`data[${index}].nominal_tax_code_id`}
-    //                     value={formik.values.data[index]?.nominal_tax_code_id}
-    //                     onChange={(e) => handleTaxCodeData(index, e.target.value)}
-    //                     onBlur={formik.handleBlur}
-    //                     className="w-100"
-    //                     style={{ height: "36px" }}
-    //                 >
-    //                     <option value="" className="table-input ">
-    //                         Select Nominal Tax Code
-    //                     </option>
-    //                     {taxCodes?.map((SingleType) => (
-    //                         <option
-    //                             key={SingleType.id}
-    //                             value={SingleType.id}
-    //                             className="table-input "
-    //                         >
-    //                             {SingleType.name}
-    //                         </option>
-    //                     ))}
-    //                 </select>
-
-    //                 {/* Error handling code */}
-    //             </div>
-    //         ),
-    // },
-
-    // ... remaining columns
   ];
 
   const tableDatas = {
@@ -287,7 +150,6 @@ const CompanySageFuels = (props) => {
     for (const obj of values.data) {
       const {
         id,
-
         sage_sale_code,
         sage_purchage_code,
       } = obj;
@@ -315,10 +177,10 @@ const CompanySageFuels = (props) => {
       const responseData = await response.json(); // Read the response once
 
       if (response.ok) {
-        SuccessToast(responseData.message);
+        SuccessAlert(responseData.message);
         navigate("/managecompany");
       } else {
-        ErrorToast(responseData.message);
+        ErrorAlert(responseData.message);
       }
     } catch (error) {
       console.log("Request Error:", error);
@@ -328,9 +190,10 @@ const CompanySageFuels = (props) => {
     }
   };
 
+
   return (
     <>
-      {isLoading ? <Loaderimg /> : null}
+      {isLoading ? <LoaderImg /> : null}
       <>
         <div className="page-header ">
           <div>
@@ -389,9 +252,12 @@ const CompanySageFuels = (props) => {
                       </div>
 
                       <Card.Footer className="text-end">
-                        <button className="btn btn-primary me-2" type="submit">
-                          Save
-                        </button>
+                        {isUpdatePermissionAvailable && (<>
+                          <button className="btn btn-primary me-2" type="submit">
+                            Save
+                          </button>
+                        </>)}
+
                       </Card.Footer>
                     </form>
                   </>
@@ -413,4 +279,4 @@ const CompanySageFuels = (props) => {
   );
 };
 
-export default CompanySageFuels;
+export default withApi(CompanySageFuels);

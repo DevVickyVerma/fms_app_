@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import DataTableExtensions from "react-data-table-component-extensions";
@@ -17,15 +17,12 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import { ErrorAlert } from "../../../Utils/ToastUtils";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const ManageUser = (props) => {
   const { apidata, isLoading, getData, postData } = props;
-  const [searchText, setSearchText] = useState("");
-  const [searchvalue, setSearchvalue] = useState();
 
   const [data, setData] = useState();
-  const navigate = useNavigate();
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -55,30 +52,8 @@ const ManageUser = (props) => {
       handleError(error);
     }
   };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchText(value);
 
-    const filteredData = searchvalue.filter((item) =>
-      item.role.toLowerCase().includes(value.toLowerCase())
-    );
-    setData(filteredData);
-  };
 
   useEffect(() => {
     handleFetchData();
@@ -91,7 +66,6 @@ const ManageUser = (props) => {
 
       if (response && response.data && response.data.data) {
         setData(response.data.data);
-        setSearchvalue(response.data.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -160,7 +134,7 @@ const ManageUser = (props) => {
     {
       name: "Full Name",
       selector: (row) => [row.full_name],
-      sortable: true,
+      sortable: false,
       width: "18%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -173,7 +147,7 @@ const ManageUser = (props) => {
     {
       name: "Role",
       selector: (row) => [row.role],
-      sortable: true,
+      sortable: false,
       width: "13%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -186,7 +160,7 @@ const ManageUser = (props) => {
     {
       name: "Addons",
       selector: (row) => [row.addons],
-      sortable: true,
+      sortable: false,
       width: "16%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -199,7 +173,7 @@ const ManageUser = (props) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "14%",
       cell: (row, index) => (
         <div
@@ -216,7 +190,7 @@ const ManageUser = (props) => {
     {
       name: "Status",
       selector: (row) => [row.status],
-      sortable: true,
+      sortable: false,
       width: "11%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
@@ -256,7 +230,7 @@ const ManageUser = (props) => {
     {
       name: "Action",
       selector: (row) => [row.action],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row) => (
         <span className="text-center d-flex justify-content-center gap-1 flex-wrap">

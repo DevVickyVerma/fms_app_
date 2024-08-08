@@ -16,17 +16,16 @@ import {
 import axios from "axios";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { handleError } from "../../../Utils/ToastUtils";
 
 const ManageCharges = (props) => {
   const { apidata, isLoading, getData, postData } = props;
   const [searchQuery, setSearchQuery] = useState('');
   const [data, setData] = useState();
-  const navigate = useNavigate();
   const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMorePage, setHasMorePages] = useState("");
@@ -94,26 +93,12 @@ const ManageCharges = (props) => {
             handleError(error);
           } finally {
           }
-          // setIsLoading(false);
+
         };
         DeleteRole();
       }
     });
   };
-  function handleError(error) {
-    if (error.response && error.response.status === 401) {
-      navigate("/login");
-      ErrorAlert("Invalid access token");
-      localStorage.clear();
-    } else if (error.response && error.response.data.status_code === "403") {
-      navigate("/errorpage403");
-    } else {
-      const errorMessage = Array.isArray(error.response.data.message)
-        ? error.response.data.message.join(" ")
-        : error.response.data.message;
-      ErrorAlert(errorMessage);
-    }
-  }
 
 
   const toggleActive = (row) => {
@@ -176,7 +161,7 @@ const ManageCharges = (props) => {
     {
       name: "Charges Name",
       selector: (row) => [row.charge_name],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -189,7 +174,7 @@ const ManageCharges = (props) => {
     {
       name: "Charges Code",
       selector: (row) => [row.charge_code],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -202,7 +187,7 @@ const ManageCharges = (props) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "20%",
       cell: (row, index) => (
         <div className="d-flex" style={{ cursor: "default" }}>
@@ -215,7 +200,7 @@ const ManageCharges = (props) => {
     {
       name: "Status",
       selector: (row) => [row.charge_status],
-      sortable: true,
+      sortable: false,
       width: "10%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">

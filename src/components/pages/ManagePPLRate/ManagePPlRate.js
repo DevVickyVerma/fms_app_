@@ -77,7 +77,7 @@ const ManageSiteTank = (props) => {
             handleError(error);
           } finally {
           }
-          // setIsLoading(false);
+
         };
         DeleteRole();
       }
@@ -178,7 +178,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Site Name",
       selector: (row) => [row.site],
-      sortable: true,
+      sortable: false,
       width: "14.2%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -192,7 +192,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Client  Name",
       selector: (row) => [row.client],
-      sortable: true,
+      sortable: false,
       width: "14.2%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -205,7 +205,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Company Name",
       selector: (row) => [row.company],
-      sortable: true,
+      sortable: false,
       width: "14.2%",
       cell: (row, index) => (
         <div className="d-flex">
@@ -218,7 +218,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Created Date",
       selector: (row) => [row.created_date],
-      sortable: true,
+      sortable: false,
       width: "8.2%",
       cell: (row, index) => (
         <div className="d-flex" style={{ cursor: "default" }}>
@@ -231,7 +231,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Pence Per Liter",
       selector: (row) => [row.pence_per_liter],
-      sortable: true,
+      sortable: false,
       width: "14.2%",
       cell: (row, index) => (
         <div className="d-flex" style={{ cursor: "default" }}>
@@ -244,7 +244,7 @@ const ManageSiteTank = (props) => {
     {
       name: "Sales Volume",
       selector: (row) => [row.sales_volume],
-      sortable: true,
+      sortable: false,
       width: "14.2%",
       cell: (row, index) => (
         <div className="d-flex" style={{ cursor: "default" }}>
