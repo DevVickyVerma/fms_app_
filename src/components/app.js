@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import Header from "../layouts/Header/Header";
 import Sidebar from "../layouts/SideBar/SideBar";
 import Footer from "../layouts/Footer/Footer";
@@ -8,53 +8,24 @@ import TopLoadingBar from "react-top-loading-bar";
 import Swal from "sweetalert2";
 import withApi from "../Utils/ApiHelper";
 import { MyProvider } from "../Utils/MyContext";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../Redux/dataSlice";
+import BlankDashboard from "./Dashboard/BlankDashboard";
 
 const App = (props) => {
-  const { getData } = props;
-  const token = localStorage.getItem("token");
-  const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  const logout = async () => {
-    try {
-      const response = await getData("/logout");
-
-      if (response.data.api_response === "success") {
-        localStorage.clear();
-
-        setTimeout(() => {
-          window.location.replace("/");
-        }, 500);
-      } else {
-        throw new Error("No data available in the responses");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-      // Handle the error here, such as displaying an error message or performing other actions
-    }
-  };
   const loadingBarRef = useRef();
   const location = useLocation();
   const simulateLoadingAndNavigate = () => {
-    loadingBarRef.current.continuousStart();
-
+    loadingBarRef?.current?.continuousStart();
     // simulate loading
     setTimeout(() => {
-      loadingBarRef.current.complete();
+      loadingBarRef?.current?.complete();
       // navigate("/new-url"); // replace "/new-url" with the URL you want to navigate to
     }, 50);
   };
 
   useEffect(() => {
     simulateLoadingAndNavigate();
-
     // console.clear();
   }, [location.pathname]);
   const [autoLogout, setAutoLogout] = useState(
@@ -99,11 +70,6 @@ const App = (props) => {
   }, [logoutTime]);
 
   const handleConfirm = () => {
-    localStorage.clear();
-    window.location.replace("/");
-  };
-
-  const handleCancel = () => {
     localStorage.clear();
     window.location.replace("/");
   };
@@ -166,32 +132,42 @@ const App = (props) => {
     };
   }, []);
 
+  const UserPermissions = useSelector((state) => state?.data?.data);
+
+
+
   return (
     <MyProvider>
       <Fragment>
-        <div className="horizontalMenucontainer">
-          <TabToTop />
-          <div className="page">
-            <div className="page-main">
-              <TopLoadingBar
-                style={{ height: "4px" }}
-                color="#fff"
-                ref={loadingBarRef}
-              />
 
-              <Header />
-              <Sidebar />
-              <div className="main-content app-content ">
-                <div className="side-app">
-                  <div className="main-container container-fluid">
-                    <Outlet />
+        {UserPermissions?.permissions?.length > 0 ? <>
+          <div className="horizontalMenucontainer">
+            <TabToTop />
+            <div className="page">
+              <div className="page-main">
+                <TopLoadingBar
+                  style={{ height: "4px" }}
+                  color="#fff"
+                  ref={loadingBarRef}
+                />
+
+                <Header />
+                <Sidebar />
+                <div className="main-content app-content ">
+                  <div className="side-app">
+                    <div className="main-container container-fluid">
+                      <Outlet />
+                    </div>
                   </div>
                 </div>
               </div>
+              <Footer />
             </div>
-            <Footer />
           </div>
-        </div>
+        </> : <>
+          <BlankDashboard />
+        </>}
+
       </Fragment>
     </MyProvider>
   );

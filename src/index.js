@@ -1,11 +1,11 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.scss";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./Utils/PrivateRoutes";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import dataReducer, { fetchData } from "./Redux/dataSlice";
+import dataReducer from "./Redux/dataSlice";
 import withApi from "./Utils/ApiHelper";
 import Loaderimg from "./Utils/Loader";
 import SiteEvobossStatus from "./components/pages/EvobossStatus/SiteEvobossStatus";
@@ -34,7 +34,6 @@ import EditOpeningBalance from "./components/pages/OpeningBalance/EditOpeningBal
 import BunkeringBalance from "./components/pages/BunkeringBalance/BunkeringBalance";
 import EditBunkeringBalance from "./components/pages/BunkeringBalance/EditBunkeringBalance";
 import AddBunkeringBalance from "./components/pages/BunkeringBalance/AddBunkeringBalance";
-import sitecardopening from "./components/pages/ManageSite/SiteCardOpening";
 import SetFuelGrades from "./components/pages/ManageSite/SetFuelGrades";
 import FuturePriceLogs from "./components/pages/Emaillogs/FuturePriceLogs";
 //App

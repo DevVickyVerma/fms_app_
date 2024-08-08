@@ -12,7 +12,7 @@ import StackedLineBarChart from "./StackedLineBarChart";
 import DashboardOverallStatsPieChart from "./DashboardOverallStatsPieChart";
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import CenterFilterModal from "../../data/Modal/CenterFilterModal";
-import { ErrorAlert, handleError, SuccessAlert } from "../../Utils/ToastUtils";
+import { handleError, SuccessAlert } from "../../Utils/ToastUtils";
 import DashboardStatsBox from "./DashboardStatsBox/DashboardStatsBox";
 import { initialState, reducer } from "../../Utils/CustomReducer";
 
@@ -614,7 +614,6 @@ const Dashboard = (props) => {
         <Row style={{ marginBottom: "10px", marginTop: "20px" }}>
           <Col
             lg={8}
-          // style={{ width: "60%" }}
           >
             <Card>
               <Card.Header className="card-header">

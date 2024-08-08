@@ -753,34 +753,6 @@ const ManageDsr = (props) => {
                 ) : (
                   ""
                 )}
-
-                {/* {showModal ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: "10vh",
-                    }}
-                  >
-                    <Col md={3} xl={3}>
-                      <FormModal
-                        open={showModal}
-                        PropsSiteId={PropsSiteId}
-                        PropsCompanyId={PropsCompanyId}
-                        selectedClientId={selectedClientId}
-                        PropsFile={PropsFile}
-                        DRSDate={DRSDate}
-                        onClose={() => setShowModal(false)}
-                        modalTitle={modalTitle} // Use the modalTitle variable
-                        modalCancelButtonLabel="Cancel"
-                        modalSaveButtonLabel="Save"
-                      />
-                    </Col>
-                  </div>
-                ) : (
-                  ""
-                )} */}
               </Card>
             </Col>
           </Row>

@@ -6,18 +6,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import Loaderimg from "../../Utils/Loader";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {
-  Card,
-  Col,
-  Row,
-} from "react-bootstrap";
+import { Card, Col, Row, } from "react-bootstrap";
 import { Dialog, DialogActions } from "@mui/material";
 import { ErrorAlert, handleError } from "../../Utils/ToastUtils";
 const CenterFilterModal = (props) => {
   const {
-    title,
     visible,
     onClose,
     onSubmit,
@@ -31,7 +25,6 @@ const CenterFilterModal = (props) => {
   const [myclientID, setMyClientID] = useState(localStorage.getItem("superiorId"));
   const [myClientRole, setMyClientRole] = useState(localStorage.getItem("superiorRole"));
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
   const [selectedSiteId, setSelectedSiteId] = useState("");
@@ -292,7 +285,7 @@ const CenterFilterModal = (props) => {
                       </Col>
                     )}
 
-                    <Col Col lg={6} md={6}>
+                    <Col lg={6} md={6}>
                       <div className="form-group">
                         <label htmlFor="company_id" className="form-label mt-4">
                           Company
