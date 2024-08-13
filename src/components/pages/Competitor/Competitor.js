@@ -278,23 +278,12 @@ const Competitor = (props) => {
   };
 
   const columns = [
-    {
-      name: "Sr. No.",
-      selector: (row, index) => index + 1,
-      sortable: false,
-      width: "7%",
-      center: false,
-      cell: (row, index) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
-          {index + 1}
-        </span>
-      ),
-    },
+
     {
       name: "Name",
       selector: (row, index) => [row.name],
       sortable: false,
-      width: "18%",
+      width: "20%",
       center: false,
       cell: (row, index) => (
         <div className="d-flex">
@@ -308,7 +297,7 @@ const Competitor = (props) => {
       name: "Suppliers",
       selector: (row) => [row.supplier],
       sortable: false,
-      width: "15%",
+      width: "18%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -322,7 +311,7 @@ const Competitor = (props) => {
       selector: (row) => [row.created_date],
       // selector: "created_date",
       sortable: false,
-      width: "15%",
+      width: "17%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
