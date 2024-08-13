@@ -150,7 +150,8 @@ const CustomModal = ({
                 priceAtIndex === ""
               ) {
                 isValid = false;
-                validationMessage += `  Row ${fuelItemIndex+1}:  must be non-empty.\n`;
+                validationMessage += `Row ${fuelItemIndex + 1}:\nInput ${fuelArrayIndex + 1} must not be empty.\n`;
+
               }
             });
           }
@@ -396,7 +397,7 @@ const CustomModal = ({
                 </div>
               </>
             )}
-            {Showerrormessage && <span style={{fontSize:"18px"}} className="custom-error-class">{Showerrormessage}</span>}
+            {Showerrormessage && <span style={{fontSize:"13"}} className="custom-error-class">{Showerrormessage}</span>}
 
             <button
               className="btn btn-danger me-2"
