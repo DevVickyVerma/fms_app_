@@ -8,13 +8,16 @@ import * as Yup from "yup";
 import CustomCompany from "../../../Utils/CustomCompany";
 import CustomClient from "../../../Utils/CustomClient";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { useSelector } from "react-redux";
 import { AiOutlineEye } from "react-icons/ai";
 import CardGroupCenterModal from "./CardGroupCenterModal";
 import CustomSite from "../../../Utils/CustomSite";
 import { handleError } from "../../../Utils/ToastUtils";
 import Swal from "sweetalert2";
+
+
+
+
 const CardGroup = ({ isLoading, getData, postData, apidata }) => {
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
@@ -428,22 +431,16 @@ const CardGroup = ({ isLoading, getData, postData, apidata }) => {
               {data?.length > 0 ? (
                 <>
                   <div className="table-responsive deleted-table">
-                    <DataTableExtensions {...tableDatas}>
-                      <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        striped={true}
-                        // center={true}
-                        persistTableHead
-                        pagination
-                        paginationPerPage={20}
-                        highlightOnHover
-                        searchable={true}
-                      />
-                    </DataTableExtensions>
+                    <DataTable
+                      columns={columns}
+                      data={data}
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      striped={true}
+                      persistTableHead
+                      highlightOnHover
+                    />
                   </div>
                 </>
               ) : (

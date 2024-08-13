@@ -1466,7 +1466,7 @@ const SiteSettings = (props) => {
                                 striped={true}
                                 persistTableHead
                                 highlightOnHover
-                                searchable={true}
+
                                 responsive
                               />
                             </div>

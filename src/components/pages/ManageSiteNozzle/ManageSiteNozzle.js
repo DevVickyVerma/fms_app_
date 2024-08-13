@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import {
   Breadcrumb,
   Card,
@@ -14,7 +13,6 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
@@ -26,10 +24,8 @@ import CustomSite from "../../../Utils/CustomSite";
 import { handleError } from "../../../Utils/ToastUtils";
 
 const ManageSiteTank = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { apidata, isLoading, getData, postData } = props;
   const [data, setData] = useState();
-  const navigate = useNavigate();
-
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
   const [SiteId, setSiteId] = useState();
@@ -659,22 +655,16 @@ const ManageSiteTank = (props) => {
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table">
-                      <DataTableExtensions {...tableDatas}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          // center={true}
-                          persistTableHead
-                          pagination
-                          paginationPerPage={20}
-                          highlightOnHover
-                          searchable={true}
-                        />
-                      </DataTableExtensions>
+                      <DataTable
+                        columns={columns}
+                        data={data}
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        striped={true}
+                        persistTableHead
+                        highlightOnHover
+                      />
                     </div>
                   </>
                 ) : (

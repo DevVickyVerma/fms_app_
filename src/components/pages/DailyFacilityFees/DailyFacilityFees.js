@@ -9,19 +9,14 @@ import { Link, useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { useSelector } from "react-redux";
 import CustomCompany from "../../../Utils/CustomCompany";
 import CustomClient from "../../../Utils/CustomClient";
 
 const SiteSettings = (props) => {
   const { isLoading, getData, postData } = props;
-  const navigate = useNavigate();
-
   const [ClientList, setClientList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
-  // const [selectedBusinessType, setSelectedBusinessType] = useState("");
-  // const [subTypes, setSubTypes] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
@@ -30,17 +25,9 @@ const SiteSettings = (props) => {
   );
   const [CompanyList, setCompanyList] = useState([]);
   const [data, setData] = useState();
-  const [permissionsArray, setPermissionsArray] = useState([]);
 
-  const UserPermissions = useSelector((state) => state?.data?.data);
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions.permissions);
-    }
-  }, [UserPermissions]);
-  const isEditPermissionAvailable = permissionsArray?.includes(
-    "shop-update-facility-fees"
-  );
+  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const isEditPermissionAvailable = UserPermissions?.includes("shop-update-facility-fees");
 
 
   const fetchCommonListData = async () => {
@@ -219,7 +206,7 @@ const SiteSettings = (props) => {
       selector: (row) => row.site_name,
       sortable: false,
       width: "33%",
-      center: true,
+      center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           {row.site_name !== undefined ? `${row.site_name}` : ""}
@@ -231,7 +218,7 @@ const SiteSettings = (props) => {
       selector: (row) => row.date,
       sortable: false,
       width: "33%",
-      center: true,
+      center: false,
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           {row.date !== undefined ? `${row.date}` : ""}
@@ -244,7 +231,7 @@ const SiteSettings = (props) => {
       selector: (row) => row.value,
       sortable: false,
       width: "33%",
-      center: true,
+      center: false,
 
       cell: (row, index) =>
         row.fuel_name === "Total" ? (
@@ -387,19 +374,16 @@ const SiteSettings = (props) => {
                   <>
                     <form onSubmit={handleSubmitForm1}>
                       <div className="table-responsive deleted-table">
-                        <DataTableExtensions {...tableDatas}>
-                          <DataTable
-                            columns={columns}
-                            data={data}
-                            noHeader
-                            defaultSortField="id"
-                            defaultSortAsc={false}
-                            striped={true}
-                            persistTableHead
-                            highlightOnHover
-                            searchable={false}
-                          />
-                        </DataTableExtensions>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                        />
                       </div>
                       {isEditPermissionAvailable ? (
                         <div className="d-flex justify-content-end mt-3">

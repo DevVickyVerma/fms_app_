@@ -155,9 +155,8 @@ export default function AddSite(props) {
       sage_department_id: Yup.string().required(
         "Sage Department ID is required"
       ),
-      bank_ref: Yup.number()
-        .required("Bank Reference Number is required")
-        .min(1, "Number should be greater than zero"),
+      bank_ref: Yup.string()
+        .required("Bank Reference Number is required"),
       department_sage_code: Yup.string().required(
         "Department Sage Code is required"
       ),
@@ -527,11 +526,11 @@ export default function AddSite(props) {
                       <Col lg={4} md={6}>
                         <div className="form-group">
                           <label htmlFor="bank_ref" className="form-label mt-4">
-                            Bank Reference Number
+                            Bank Reference
                             <span className="text-danger">*</span>
                           </label>
                           <input
-                            type="number" // Change the <select> element to <input> and set the "type" attribute to "number"
+                            type="text" // Change the <select> element to <input> and set the "type" attribute to "number"
                             className={`input101 ${formik.errors.bank_ref && formik.touched.bank_ref
                               ? "is-invalid"
                               : ""
@@ -539,7 +538,7 @@ export default function AddSite(props) {
                             id="bank_ref"
                             name="bank_ref"
                             onChange={formik.handleChange}
-                            placeholder=" Bank Reference Number"
+                            placeholder=" Bank Reference "
                             value={formik.values.bank_ref}
                           />
                           {formik.errors.bank_ref &&

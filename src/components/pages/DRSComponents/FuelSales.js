@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { useFormik } from "formik";
 import axios from "axios";
 import Loaderimg from "../../../Utils/Loader";
@@ -288,10 +287,6 @@ const FuelSales = (props) => {
     // ... remaining columns
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
 
   const formik = useFormik({
     initialValues: {
@@ -316,19 +311,17 @@ const FuelSales = (props) => {
                   <>
                     <form onSubmit={formik.SubmitFuelSalesForm}>
                       <div className="table-responsive deleted-table">
-                        <DataTableExtensions {...tableDatas}>
-                          <DataTable
-                            columns={columns}
-                            data={data}
-                            noHeader
-                            defaultSortField="id"
-                            defaultSortAsc={false}
-                            striped={true}
-                            persistTableHead
-                            highlightOnHover
-                            searchable={false}
-                          />
-                        </DataTableExtensions>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                        />
                       </div>
                     </form>
                   </>

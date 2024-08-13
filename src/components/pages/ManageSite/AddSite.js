@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-
+import { useEffect, useState } from "react";
 import { Col, Row, Card, Form, FormGroup, Breadcrumb } from "react-bootstrap";
-
 import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -297,9 +295,8 @@ const AddSite = (props) => {
                     Bp_nctt_site_no: Yup.string().required(
                       "Bp Nctt Site No is required"
                     ),
-                    bank_ref: Yup.number()
-                      .required("Bank Reference Number is required")
-                      .min(1, "Number should be greater than zero"),
+                    bank_ref: Yup.string()
+                      .required("Bank Reference  is required"),
                     security_amount: Yup.string().required(
                       "Security Amount is required"
                     ),
@@ -751,11 +748,11 @@ const AddSite = (props) => {
                                 htmlFor="bank_ref"
                                 className=" form-label mt-4"
                               >
-                                Bank Reference Number{" "}
+                                Bank Reference {" "}
                                 <span className="text-danger">*</span>
                               </label>
                               <Field
-                                type="number"
+                                type="text"
                                 autoComplete="off"
                                 className={`input101 ${errors.bank_ref && touched.bank_ref
                                   ? "is-invalid"
@@ -763,7 +760,7 @@ const AddSite = (props) => {
                                   }`}
                                 id="bank_ref"
                                 name="bank_ref"
-                                placeholder="Bank Reference Number"
+                                placeholder="Bank Reference "
                               />
                               <ErrorMessage
                                 component="div"

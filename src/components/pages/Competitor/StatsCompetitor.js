@@ -369,22 +369,16 @@ const StatsCompetitor = ({ isLoading, getData }) => {
                             <div
                                 className="table-responsive deleted-table"
                             >
-                                <DataTableExtensions {...tableDatas}>
-                                    <DataTable
-                                        columns={columns}
-                                        data={data}
-                                        noHeader
-                                        defaultSortField="id"
-                                        defaultSortAsc={false}
-                                        striped={true}
-                                        persistTableHead
-                                        pagination
-                                        paginationPerPage={20}
-                                        highlightOnHover
-                                        searchable={true}
-                                    //   onChangePage={(newPage) => setCurrentPage(newPage)}
-                                    />
-                                </DataTableExtensions>
+                                <DataTable
+                                    columns={columns}
+                                    data={data}
+                                    noHeader
+                                    defaultSortField="id"
+                                    defaultSortAsc={false}
+                                    striped={true}
+                                    persistTableHead
+                                    highlightOnHover
+                                />
                             </div>
                         </>
                     ) : (

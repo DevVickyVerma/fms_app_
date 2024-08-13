@@ -18,11 +18,30 @@ import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { handleError } from "../../../Utils/ToastUtils";
+import CustomPagination from "../../../Utils/CustomPagination";
+import SearchBar from "../../../Utils/SearchBar";
 
 const ManageUser = (props) => {
   const { apidata, isLoading, getData, postData } = props;
 
   const [data, setData] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  const handleSearch = (searchTerm) => {
+    setSearchTerm(searchTerm);
+  };
+
+  const handleReset = () => {
+    setSearchTerm('');
+  };
+
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -58,14 +77,21 @@ const ManageUser = (props) => {
   useEffect(() => {
     handleFetchData();
     console.clear();
-  }, []);
+  }, [searchTerm, currentPage]);
 
   const handleFetchData = async () => {
     try {
-      const response = await getData("/user/list");
+      let apiUrl = `/user/list?page=${currentPage}`;
+      if (searchTerm) {
+        apiUrl += `&keyword=${searchTerm}`;
+      }
+      const response = await getData(apiUrl);
 
       if (response && response.data && response.data.data) {
-        setData(response.data.data);
+        setData(response.data.data?.users);
+
+        setCurrentPage(response.data.data?.currentPage || 1);
+        setLastPage(response.data.data?.lastPage || 1);
       } else {
         throw new Error("No data available in the response");
       }
@@ -295,10 +321,6 @@ const ManageUser = (props) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
 
   return (
     <>
@@ -344,29 +366,29 @@ const ManageUser = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Manage Users</h3>
+                <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
+                  <h3 className="card-title">Manage Users</h3>
+                  <div className="mt-2 mt-sm-0">
+                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                  </div>
+                </div>
               </Card.Header>
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table">
-                      <DataTableExtensions {...tableDatas}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          // center={true}
-                          persistTableHead
-                          pagination
-                          paginationPerPage={20}
-                          highlightOnHover
-                          searchable={true}
-                          responsive={true}
-                        />
-                      </DataTableExtensions>
+                      <DataTable
+                        columns={columns}
+                        data={data}
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        striped={true}
+                        persistTableHead
+                        highlightOnHover
+
+                        responsive={true}
+                      />
                     </div>
                   </>
                 ) : (
@@ -379,6 +401,13 @@ const ManageUser = (props) => {
                   </>
                 )}
               </Card.Body>
+              {data?.length > 0 && lastPage > 1 && (
+                <CustomPagination
+                  currentPage={currentPage}
+                  lastPage={lastPage}
+                  handlePageChange={handlePageChange}
+                />
+              )}
             </Card>
           </Col>
         </Row>

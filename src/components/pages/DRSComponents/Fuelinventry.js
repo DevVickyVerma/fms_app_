@@ -809,10 +809,6 @@ const FuelInventry = (props) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
 
   const formik = useFormik({
     initialValues: {
@@ -834,20 +830,24 @@ const FuelInventry = (props) => {
               </Card.Header>
               <Card.Body>
                 <form onSubmit={formik.handleSubmit}>
-                  <div className="table-responsive deleted-table">
+                  <div >
                     {data?.length > 0 ? (
                       <>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          persistTableHead
-                          highlightOnHover
-                          searchable={false}
-                        />
+
+                        <div className="table-responsive deleted-table">
+                          <DataTable
+                            columns={columns}
+                            data={data}
+                            noHeader
+                            defaultSortField="id"
+                            defaultSortAsc={false}
+                            striped={true}
+                            persistTableHead
+                            highlightOnHover
+                            searchable={false}
+                          />
+                        </div>
+
                       </>
                     ) : (
                       <>
@@ -860,7 +860,7 @@ const FuelInventry = (props) => {
                     )}
 
                     <Row className="mt-4">
-                      <Card>
+                      <>
                         <Card.Header>
                           <h3 className="card-title">Variance for Report</h3>
                         </Card.Header>
@@ -892,10 +892,10 @@ const FuelInventry = (props) => {
                             )}
                           </Col>
                         </Card.Body>
-                      </Card>
+                      </>
                     </Row>
                     <Row>
-                      <Card>
+                      <>
                         <Card.Header>
                           <h3 className="card-title">Combined Variance</h3>
                         </Card.Header>
@@ -927,7 +927,7 @@ const FuelInventry = (props) => {
                             )}
                           </Col>
                         </Card.Body>
-                      </Card>
+                      </>
                     </Row>
                   </div>
                   <div className="d-flex justify-content-end mt-3">

@@ -373,22 +373,18 @@ const ManageSite = (props) => {
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table">
-                      <DataTableExtensions {...tableDatas}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          // center={true}
-                          persistTableHead
-                          paginationPerPage={20}
-                          highlightOnHover
-                          searchable={false}
-                          responsive={true}
-                        />
-                      </DataTableExtensions>
+                      <DataTable
+                        columns={columns}
+                        data={data}
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        striped={true}
+                        persistTableHead
+                        highlightOnHover
+                        searchable={false}
+                        responsive={true}
+                      />
                     </div>
                   </>
                 ) : (

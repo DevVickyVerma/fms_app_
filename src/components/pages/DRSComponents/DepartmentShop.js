@@ -67,7 +67,7 @@ const DepartmentShop = (props) => {
   }, [site_id, client_id]);
 
   const _renderFunction = () => {
-    return Object.keys(data).map((item, index) => {
+    return Object.keys(data)?.map((item, index) => {
       const displayName = item
         .replace(/_/g, " ")
         .split(" ")

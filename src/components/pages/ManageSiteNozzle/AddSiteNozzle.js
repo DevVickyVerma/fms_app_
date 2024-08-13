@@ -105,17 +105,7 @@ const AddSiteNozzle = (props) => {
     }
   };
 
-  const handlePumpChange = async (id) => {
-    try {
-      const response = await axiosInstance.get(`/site-pump/list?site_id=${id}`);
 
-      if (response.data) {
-        setSelectedFuelList(response.data);
-      }
-    } catch (error) {
-      // handleError(error);
-    }
-  };
 
   const formik = useFormik({
     initialValues: {

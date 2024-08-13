@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import Loaderimg from "../../../Utils/Loader";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import withApi from "../../../Utils/ApiHelper";
 import { Box } from "@mui/system";
 import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
-import { RxCross2 } from "react-icons/rx";
 
 const SiteEvobossStatus = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, } = props;
   const [data, setData] = useState();
   const [siteData, setSiteData] = useState();
-  const navigate = useNavigate();
 
   useEffect(() => {
     FetchTableData();
@@ -23,7 +20,6 @@ const SiteEvobossStatus = (props) => {
   const FetchTableData = async () => {
     try {
       const response = await getData(`/evobos-site/listing`);
-      //   setData(response);
       setData(response?.data?.data?.sites);
     } catch (error) {
       console.error("API error:", error);
@@ -78,111 +74,11 @@ const SiteEvobossStatus = (props) => {
         </div>
       ),
     },
-    // {
-    //   name: "Site Code",
-    //   selector: (row) => [row?.site_code],
-    //   sortable: false,
-    //   width: "25%",
-    //   cell: (row, index) => (
-    //     <div className="d-flex">
-    //       <div className="ms-2 mt-0 mt-sm-2 d-block">
-    //         <h6 className="mb-0 fs-14 fw-semibold">{row?.site_code}</h6>
-    //       </div>
-    //     </div>
-    //   ),
-    // },
-    // {
-    //   name: "Company Code",
-    //   selector: (row) => [row?.site_company_code],
-    //   sortable: false,
-    //   width: "25%",
-    //   cell: (row, index) => (
-    //     <div className="d-flex">
-    //       <div className="ms-2 mt-0 mt-sm-2 d-block">
-    //         <h6 className="mb-0 fs-14 fw-semibold">{row?.site_company_code}</h6>
-    //       </div>
-    //     </div>
-    //   ),
-    // },
   ];
 
-  const secondColumns = [
-    {
-      name: "Sr. No.",
-      selector: (row, index) => index + 1,
-      sortable: false,
-      width: "10%",
-      center: true,
-      cell: (row, index) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
-          {index + 1}
-        </span>
-      ),
-    },
-    {
-      name: "Site Name",
-      selector: (row) => [row?.site_display_name],
-      sortable: false,
-      width: "22.5%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row?.site_display_name}</h6>
-          </div>
-        </div>
-      ),
-    },
-    {
-      name: "Company Name",
-      selector: (row) => [row?.company],
-      sortable: false,
-      width: "22.5%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row?.company}</h6>
-          </div>
-        </div>
-      ),
-    },
 
-    {
-      name: "Site Code",
-      selector: (row) => [row?.site_code],
-      sortable: false,
-      width: "22.5%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row?.site_code}</h6>
-          </div>
-        </div>
-      ),
-    },
-    {
-      name: "Company Code",
-      selector: (row) => [row?.company_code],
-      sortable: false,
-      width: "22.5%",
-      cell: (row, index) => (
-        <div className="d-flex">
-          <div className="ms-2 mt-0 mt-sm-2 d-block">
-            <h6 className="mb-0 fs-14 fw-semibold">{row?.company_code}</h6>
-          </div>
-        </div>
-      ),
-    },
-  ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
 
-  const secondTableDatas = {
-    secondColumns,
-    siteData,
-  };
 
   return (
     <>
@@ -265,7 +161,6 @@ const SiteEvobossStatus = (props) => {
                       display={"flex"}
                       flexDirection={"column"}
                       minHeight={"513px"}
-                      // justifyContent={"center"}
                       gap={"10px"}
                     >
                       <span style={{ fontSize: "16px", fontWeight: "bold" }}>
@@ -295,22 +190,16 @@ const SiteEvobossStatus = (props) => {
                         className="table-responsive deleted-table"
                         style={{ height: "510px" }}
                       >
-                        <DataTableExtensions {...tableDatas}>
-                          <DataTable
-                            columns={columns}
-                            data={data}
-                            noHeader
-                            defaultSortField="id"
-                            defaultSortAsc={false}
-                            striped={true}
-                            persistTableHead
-                            pagination
-                            paginationPerPage={20}
-                            highlightOnHover
-                            searchable={true}
-                          //   onChangePage={(newPage) => setCurrentPage(newPage)}
-                          />
-                        </DataTableExtensions>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                        />
                       </div>
                     </>
                   ) : (

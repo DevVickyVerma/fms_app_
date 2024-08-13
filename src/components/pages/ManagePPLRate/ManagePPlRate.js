@@ -2,10 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
-import axios from "axios";
-import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import withApi from "../../../Utils/ApiHelper";
@@ -16,18 +13,13 @@ import * as Yup from "yup";
 import CustomClient from "../../../Utils/CustomClient";
 import CustomCompany from "../../../Utils/CustomCompany";
 import CustomSite from "../../../Utils/CustomSite";
-import { handleError } from "../../../Utils/ToastUtils";
+import useCustomDelete from "../../../Utils/useCustomDelete";
 
 const ManageSiteTank = (props) => {
-  const { isLoading, getData, } = props;
+  const { isLoading, getData, postData } = props;
   const [data, setData] = useState();
-  const navigate = useNavigate();
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [submitSiteID, setsubmitSiteID] = useState();
-  const [localStorageSiteName, setlocalStorageSiteName] = useState();
-  const [localStorageSiteID, setlocalStorageSiteID] = useState();
   const [selectedClientId, setSelectedClientId] = useState("");
   const [selectedCompanyId, setSelectedCompanyId] = useState("");
   const [selectedSiteId, setSelectedSiteId] = useState("");
@@ -35,60 +27,32 @@ const ManageSiteTank = (props) => {
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
   const [SiteId, setSiteId] = useState();
+  const { customDelete } = useCustomDelete();
+
+
+
 
   const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const token = localStorage.getItem("token");
-
-        const formData = new FormData();
-        formData.append("id", id);
-
-        const axiosInstance = axios.create({
-          baseURL: process.env.REACT_APP_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-        const DeleteRole = async () => {
-          try {
-            const response = await axiosInstance.post(
-              "/site-ppl/delete",
-              formData
-            );
-            setData(response.data.data);
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your item has been deleted.",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-            FetchDatawithlocalstorage();
-          } catch (error) {
-            handleError(error);
-          } finally {
-          }
-
-        };
-        DeleteRole();
-      }
-    });
+    const formData = new FormData();
+    formData.append("id", id);
+    customDelete(postData, 'site-ppl/delete', formData, handleSuccess);
   };
+
+
+  const handleSuccess = () => {
+    const localPPLRate = JSON.parse(localStorage.getItem('localPPLRate'));
+    if (localPPLRate) {
+      handleSubmit1(localPPLRate)
+    }
+  };
+
+
 
 
 
   const handleSubmit1 = async (values) => {
     try {
-      setsubmitSiteID(values.site_id);
+      setsubmitSiteID(values?.site_id);
       const response = await getData(
         `/site-ppl/list?site_id=${values.site_id}`
       );
@@ -112,55 +76,12 @@ const ManageSiteTank = (props) => {
   };
 
 
-  const FetchDatawithlocalstorage = async (values) => {
-    try {
-      setsubmitSiteID(values?.site_id);
-      const response = await getData(
-        `/site-ppl/list?site_id=${localStorageSiteID}`
-      );
 
-      if (response && response.data && response.data.data) {
-        setData(response.data.data);
-        setlocalStorageSiteName(response?.data?.data[0].site);
-      } else {
-        throw new Error("No data available in the response");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
 
-  useEffect(() => {
-    const localStorageData = localStorage.getItem("SitePump");
-
-    // Parse the data as JSON
-    const parsedData = JSON.parse(localStorageData);
-
-    // Get the value of site_id
-    const siteId = parsedData?.site_id;
-
-    const siteName = parsedData?.sitename;
-
-    setlocalStorageSiteID(siteId);
-    setlocalStorageSiteName(siteName);
-    if (localStorageSiteID) {
-      FetchDatawithlocalstorage();
-    }
-  }, [localStorageSiteID]);
-
-  const [permissionsArray, setPermissionsArray] = useState([]);
-
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions.permissions);
-    }
-  }, [UserPermissions]);
-
-  const isEditPermissionAvailable = permissionsArray?.includes("ppl-edit");
-  const isAddPermissionAvailable = permissionsArray?.includes("ppl-create");
-  const isDeletePermissionAvailable = permissionsArray?.includes("ppl-delete");
+  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const isEditPermissionAvailable = UserPermissions?.includes("ppl-edit");
+  const isAddPermissionAvailable = UserPermissions?.includes("ppl-create");
+  const isDeletePermissionAvailable = UserPermissions?.includes("ppl-delete");
 
   const columns = [
     {
@@ -310,10 +231,7 @@ const ManageSiteTank = (props) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
+
 
   const formik = useFormik({
     initialValues: {
@@ -556,29 +474,23 @@ const ManageSiteTank = (props) => {
               <Card.Header>
                 <h3 className="card-title">
                   Site PPL Rate{" "}
-                  {localStorageSiteName ? `(${localStorageSiteName})` : ""}{" "}
                 </h3>
               </Card.Header>
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table">
-                      <DataTableExtensions {...tableDatas}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          // center={true}
-                          persistTableHead
-                          pagination
-                          paginationPerPage={20}
-                          highlightOnHover
-                          searchable={true}
-                        />
-                      </DataTableExtensions>
+                      <DataTable
+                        columns={columns}
+                        data={data}
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        striped={true}
+                        persistTableHead
+                        highlightOnHover
+
+                      />
                     </div>
                   </>
                 ) : (

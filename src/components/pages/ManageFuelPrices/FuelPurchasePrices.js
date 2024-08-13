@@ -873,9 +873,9 @@ const ManageDsr = (props) => {
                 {data?.length > 0 ? (
                   <>
                     <form onSubmit={handleSubmitForm1}>
-                      <Col lg={6} md={6}>
-                        <FormGroup>
-                          <label className="form-label mt-4">
+                      <Col lg={6} md={6} className="m-0 p-0">
+                        <FormGroup className="my-4">
+                          <label className="form-label ">
                             Select Sites
                             <span className="text-danger">*</span>
                           </label>
@@ -890,19 +890,16 @@ const ManageDsr = (props) => {
                         </FormGroup>
                       </Col>
                       <div className="table-responsive deleted-table">
-                        <DataTableExtensions {...tableDatas}>
-                          <DataTable
-                            columns={columns}
-                            data={data}
-                            noHeader
-                            defaultSortField="id"
-                            defaultSortAsc={false}
-                            striped={true}
-                            persistTableHead
-                            highlightOnHover
-                            searchable={false}
-                          />
-                        </DataTableExtensions>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                        />
                       </div>
                       {isEditPermissionAvailable ? (
                         <div className="d-flex justify-content-end mt-3">

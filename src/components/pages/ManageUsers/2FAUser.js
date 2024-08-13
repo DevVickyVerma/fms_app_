@@ -196,22 +196,17 @@ const ManageUser = (props) => {
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table">
-                      <DataTableExtensions {...tableDatas}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          persistTableHead
-                          pagination
-                          paginationPerPage={20}
-                          highlightOnHover
-                          searchable={true}
-                          responsive={true}
-                        />
-                      </DataTableExtensions>
+                      <DataTable
+                        columns={columns}
+                        data={data}
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        striped={true}
+                        persistTableHead
+                        highlightOnHover
+                        responsive={true}
+                      />
                     </div>
                   </>
                 ) : (

@@ -5,16 +5,7 @@ import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  Modal,
-  Pagination,
-  Row,
-  Tab,
-  Tabs,
-} from "react-bootstrap";
+import { Breadcrumb, Card, Col, Modal, Row, Tab, Tabs } from "react-bootstrap";
 import * as Yup from "yup";
 import withApi from "../../../Utils/ApiHelper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,6 +14,7 @@ import Loaderimg from "../../../Utils/Loader";
 import { useFormik } from "formik";
 import { ErrorAlert } from "../../../Utils/ToastUtils";
 import { useSelector } from "react-redux";
+import CustomPagination from "../../../Utils/CustomPagination";
 
 const ManageSiteTank = (props) => {
   const { apidata, error, getData, postData, SiteID, ReportDate, isLoading } =
@@ -32,13 +24,8 @@ const ManageSiteTank = (props) => {
   const [BuyMoree, setBuyMore] = useState();
   const [count, setCount] = useState(0);
   const [AddSiteData, setAddSiteData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [selectedCompanyList, setSelectedCompanyList] = useState([]);
   const [selectedSiteList, setSelectedSiteList] = useState([]);
-  const [hasMorePage, setHasMorePages] = useState("");
-  const [lastPage, setLastPage] = useState(1);
-  const [perPage, setPerPage] = useState(20);
-  const [total, setTotal] = useState(0);
   const [selectedClientId, setSelectedClientId] = useState("");
   const [Tabvalue, setTabvalue] = useState("");
   const [selectedClientIdOnSubmit, setSelectedClientIdOnSubmit] = useState("");
@@ -48,8 +35,14 @@ const ManageSiteTank = (props) => {
   const [activeTab, setActiveTab] = useState("tab5"); // 'tab5' is the default active tab
   const [downloadedInvoice, setDownloadedInvoice] = useState(null);
   const [permissionsArray, setPermissionsArray] = useState([]);
-
   const UserPermissions = useSelector((state) => state?.data?.data);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
 
   useEffect(() => {
     if (UserPermissions) {
@@ -64,39 +57,7 @@ const ManageSiteTank = (props) => {
     }
   }, [currentPage]);
 
-  const maxPagesToShow = 5;
-  const pages = [];
 
-  // Calculate the range of pages to display
-  let startPage = Math.max(currentPage - Math.floor(maxPagesToShow / 2), 1);
-  let endPage = Math.min(startPage + maxPagesToShow - 1, lastPage);
-
-  // Handle cases where the range is near the beginning or end
-  if (endPage - startPage + 1 < maxPagesToShow) {
-    startPage = Math.max(endPage - maxPagesToShow + 1, 1);
-  }
-
-  // Render the pagination items
-  for (let i = startPage; i <= endPage; i++) {
-    pages.push(
-      <Pagination.Item
-        key={i}
-        active={i === currentPage}
-        onClick={() => handlePageChange(i)}
-      >
-        {i}
-      </Pagination.Item>
-    );
-  }
-
-  // Add ellipsis if there are more pages before or after the displayed range
-  if (startPage > 1) {
-    pages.unshift(<Pagination.Ellipsis key="ellipsis-start" disabled />);
-  }
-
-  if (endPage < lastPage) {
-    pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
-  }
 
   const handleSubmit1 = async (values) => {
     setTabvalue(values?.client_id);
@@ -113,17 +74,8 @@ const ManageSiteTank = (props) => {
         setbalance(response?.data?.data?.balance);
         setBuyMore(response?.data?.data?.buy_more);
 
-        setCount(response.data.data.count);
-        setCurrentPage(
-          response?.data?.data?.currentPage
-            ? response?.data?.data?.currentPage
-            : 1
-        );
-        setHasMorePages(response?.data?.data?.hasMorePages);
-
-        setLastPage(response?.data?.data?.lastPage);
-        setPerPage(response?.data?.data?.perPage);
-        setTotal(response?.data?.data?.total);
+        setCurrentPage(response?.data?.data?.currentPage || 1);
+        setLastPage(response?.data?.data?.lastPage || 1);
       } else {
         throw new Error("No data available in the response");
       }
@@ -661,9 +613,7 @@ const ManageSiteTank = (props) => {
     }
   }, []);
 
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
+
 
   const handleClearForm = async (resetForm) => {
     formik.setFieldValue("site_id", "");
@@ -748,16 +698,8 @@ const ManageSiteTank = (props) => {
         setData(response?.data?.data);
         setbalance(response?.data?.data?.balance);
         setBuyMore(response?.data?.data?.buy_more);
-        setCount(response.data.data.count);
-        setCurrentPage(
-          response?.data?.data?.currentPage
-            ? response?.data?.data?.currentPage
-            : 1
-        );
-        setHasMorePages(response?.data?.data?.hasMorePages);
-        setLastPage(response?.data?.data?.lastPage);
-        setPerPage(response?.data?.data?.perPage);
-        setTotal(response?.data?.data?.total);
+        setCurrentPage(response?.data?.data?.currentPage || 1);
+        setLastPage(response?.data?.data?.lastPage || 1);
       } else {
         throw new Error("No data available in the response");
       }
@@ -934,10 +876,8 @@ const ManageSiteTank = (props) => {
                                       defaultSortField="id"
                                       defaultSortAsc={false}
                                       striped={true}
-                                      // center={true}
                                       persistTableHead
                                       highlightOnHover
-                                      searchable={true}
                                     />
                                   ) : (
                                     <img
@@ -963,10 +903,10 @@ const ManageSiteTank = (props) => {
                                       defaultSortField="id"
                                       defaultSortAsc={false}
                                       striped={true}
-                                      // center={true}
+
                                       persistTableHead
                                       highlightOnHover
-                                      searchable={true}
+
                                     />
                                   </div>
                                 ) : (
@@ -979,6 +919,13 @@ const ManageSiteTank = (props) => {
                               </Tab>
                             </Tabs>
                           </div>
+                          {data?.history?.length > 0 && lastPage > 1 && (
+                            <CustomPagination
+                              currentPage={currentPage}
+                              lastPage={lastPage}
+                              handlePageChange={handlePageChange}
+                            />
+                          )}
                         </Card>
                       </Col>
                     </Row>
@@ -993,32 +940,11 @@ const ManageSiteTank = (props) => {
                   </>
                 )}
               </Card.Body>
-              {data?.length > 0 ? (
-                <>
-                  <Card.Footer>
-                    <div style={{ float: "right" }}>
-                      <Pagination>
-                        <Pagination.First onClick={() => handlePageChange(1)} />
-                        <Pagination.Prev
-                          onClick={() => handlePageChange(currentPage - 1)}
-                          disabled={currentPage === 1}
-                        />
-                        {pages}
-                        <Pagination.Next
-                          onClick={() => handlePageChange(currentPage + 1)}
-                          disabled={currentPage === lastPage}
-                        />
-                        <Pagination.Last
-                          onClick={() => handlePageChange(lastPage)}
-                        />
-                      </Pagination>
-                    </div>
-                  </Card.Footer>
-                </>
-              ) : (
-                <></>
-              )}
+
+
             </Card>
+
+
             <Modal
               show={showModal}
               onHide={handleCloseModal}

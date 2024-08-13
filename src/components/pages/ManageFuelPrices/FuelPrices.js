@@ -37,8 +37,6 @@ const FuelPrices = (props) => {
   const [CompanyList, setCompanyList] = useState([]);
   const [SiteList, setSiteList] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
-
-  const [selected, setSelected] = useState([]);
   const [notificationTypes, setNotificationTypes] = useState({
     mobileSMS: false,
     email: false,
@@ -785,7 +783,7 @@ const FuelPrices = (props) => {
                                         ? "text-muted fs-15 fw-semibold  flex-grow-1 "
                                         : "text-muted fs-15 fw-semibold  flex-grow-1"
                                     }
-                                    onClick={item?.link_clickable ? () => handleModalOpen(item) : null}
+                                    onClick={item?.link_clickable && item?.count > 0 ? () => handleModalOpen(item) : null}
                                   >
                                     {item?.site_name} <span className="itemcount ">
                                       <span className=" d-flex justify-content-center">

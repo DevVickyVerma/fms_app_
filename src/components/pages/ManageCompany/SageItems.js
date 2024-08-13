@@ -236,19 +236,17 @@ const CompanySageFuels = ({ getData }) => {
                     // onSubmit={formik.SubmitFuelSalesForm}
                     >
                       <div className="table-responsive deleted-table">
-                        <DataTableExtensions {...tableDatas}>
-                          <DataTable
-                            columns={columns}
-                            data={data}
-                            noHeader
-                            defaultSortField="id"
-                            defaultSortAsc={false}
-                            striped={true}
-                            persistTableHead
-                            highlightOnHover
-                            searchable={false}
-                          />
-                        </DataTableExtensions>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                        />
                       </div>
 
                       <Card.Footer className="text-end">

@@ -618,19 +618,17 @@ const ManageDsr = (props) => {
                   <>
                     <form onSubmit={formik.handleSubmit}>
                       <div className="table-responsive deleted-table">
-                        <DataTableExtensions {...tableDatas}>
-                          <DataTable
-                            columns={columns}
-                            data={data}
-                            noHeader
-                            defaultSortField="id"
-                            defaultSortAsc={false}
-                            striped={true}
-                            persistTableHead
-                            highlightOnHover
-                            searchable={false}
-                          />
-                        </DataTableExtensions>
+                        <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          striped={true}
+                          persistTableHead
+                          highlightOnHover
+                          searchable={false}
+                        />
                       </div>
                       <div className="d-flex justify-content-end mt-3">
                         {editable ? (

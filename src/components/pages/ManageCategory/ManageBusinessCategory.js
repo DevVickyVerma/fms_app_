@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import {
   Breadcrumb,
   Card,
@@ -11,24 +10,40 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import Swal from "sweetalert2";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import { handleError } from "../../../Utils/ToastUtils";
+import useToggleStatus from "../../../Utils/useToggleStatus";
+import useCustomDelete from "../../../Utils/useCustomDelete";
+import SearchBar from "../../../Utils/SearchBar";
 
 const ManageBusinessCategory = (props) => {
-  const { apidata, isLoading, getData, postData } = props;
-
+  const { isLoading, getData, postData } = props;
+  const { customDelete } = useCustomDelete();
+  const { toggleStatus } = useToggleStatus();
   const [data, setData] = useState();
+  const [searchTerm, setSearchTerm] = useState('');
+
+
+  const handleSearch = (searchTerm) => {
+    setSearchTerm(searchTerm);
+  };
+
+  const handleReset = () => {
+    setSearchTerm('');
+  };
 
   const FetchTableData = async () => {
     try {
-      const response = await getData("/business/category");
+      let apiUrl = `/business/category`;
+      if (searchTerm) {
+        apiUrl += `?keyword=${searchTerm}`;
+      }
+
+      const response = await getData(apiUrl);
 
       if (response && response.data && response.data.data) {
         setData(response.data.data);
-        setSearchvalue(response.data.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -38,101 +53,35 @@ const ManageBusinessCategory = (props) => {
   };
 
   const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const formData = new FormData();
-        formData.append("id", id);
-        DeleteClient(formData);
-      }
-    });
+    const formData = new FormData();
+    formData.append("id", id);
+    customDelete(postData, 'business/category/delete', formData, handleSuccess);
   };
-  const DeleteClient = async (formData) => {
-    try {
-      const response = await postData("business/category/delete", formData);
-      // Console log the response
-      if (apidata.api_response === "success") {
-        FetchTableData();
-      }
-    } catch (error) {
-      handleError(error);
-    }
-  };
-
-
-
-  useEffect(() => {
-    FetchTableData();
-    console.clear();
-  }, []);
 
   const toggleActive = (row) => {
     const formData = new FormData();
     formData.append("id", row.id);
 
-    const newStatus = row.status === 1 ? 0 : 1;
-    formData.append("status", newStatus);
-
-    ToggleStatus(formData);
+    formData.append('status', (row.status == 1 ? 0 : 1).toString());
+    toggleStatus(postData, '/business/category/update-status', formData, handleSuccess);
   };
 
-  const ToggleStatus = async (formData) => {
-    try {
-      const response = await postData(
-        "business/category/update-status",
-        formData
-      );
-      // Console log the response
-      if (apidata.api_response === "success") {
-        FetchTableData();
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const handleSuccess = () => {
+    FetchTableData();
   };
-
-  const permissionsToCheck = [
-    "business-type-list",
-    "business-type-create",
-    "business-type-edit",
-    "business-type--detail",
-    "business-type--delete",
-  ];
-  let isPermissionAvailable = false;
-  const [permissionsArray, setPermissionsArray] = useState([]);
-
-  const UserPermissions = useSelector((state) => state?.data?.data);
 
   useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions.permissions);
-    }
-  }, [UserPermissions]);
+    FetchTableData();
+    console.clear();
+  }, [searchTerm]);
 
-  const isStatusPermissionAvailable = permissionsArray?.includes(
-    "business-status-update"
-  );
-  const isEditPermissionAvailable = permissionsArray?.includes(
-    "business-category-edit"
-  );
-  const isAddPermissionAvailable = permissionsArray?.includes(
-    "business-category-create"
-  );
-  const isDeletePermissionAvailable = permissionsArray?.includes(
-    "business-category-delete"
-  );
-  const isDetailsPermissionAvailable = permissionsArray?.includes(
-    "business-type-detail"
-  );
-  const isAssignPermissionAvailable =
-    permissionsArray?.includes("business-assign");
+
+
+
+  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const isEditPermissionAvailable = UserPermissions?.includes("business-category-edit");
+  const isAddPermissionAvailable = UserPermissions?.includes("business-category-create");
+  const isDeletePermissionAvailable = UserPermissions?.includes("business-category-delete");
 
   const columns = [
     {
@@ -268,10 +217,7 @@ const ManageBusinessCategory = (props) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
+
   const [searchvalue, setSearchvalue] = useState();
 
 
@@ -320,28 +266,29 @@ const ManageBusinessCategory = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Manage Business Category</h3>
+                <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
+                  <h3 className="card-title">Manage Business Category</h3>
+                  <div className="mt-2 mt-sm-0">
+                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                  </div>
+                </div>
               </Card.Header>
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table">
-                      <DataTableExtensions {...tableDatas}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          // center={true}
-                          persistTableHead
-                          pagination
-                          paginationPerPage={20}
-                          highlightOnHover
-                          searchable={true}
-                        />
-                      </DataTableExtensions>
+                      <DataTable
+                        columns={columns}
+                        data={data}
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        striped={true}
+
+                        persistTableHead
+                        highlightOnHover
+
+                      />
                     </div>
                   </>
                 ) : (

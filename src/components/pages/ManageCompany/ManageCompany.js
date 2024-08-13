@@ -2,17 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  Dropdown,
-  OverlayTrigger,
-  Pagination,
-  Row,
-  Tooltip,
-} from "react-bootstrap";
+import { Breadcrumb, Card, Col, Dropdown, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -22,6 +12,8 @@ import { useSelector } from "react-redux";
 import { Box } from "@mui/material";
 import UploadSageSales from "./UploadSageSales";
 import { handleError } from "../../../Utils/ToastUtils";
+import CustomPagination from "../../../Utils/CustomPagination";
+import SearchBar from "../../../Utils/SearchBar";
 
 const ManageCompany = (props) => {
   const { apidata, isLoading, getData, postData } = props;
@@ -31,15 +23,20 @@ const ManageCompany = (props) => {
   const [companyId, setCompanyId] = useState("")
   const [data, setData] = useState();
 
-  const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [hasMorePage, setHasMorePages] = useState("");
   const [lastPage, setLastPage] = useState(1);
-  const [perPage, setPerPage] = useState(20);
-  const [total, setTotal] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
+  };
+
+  const handleSearch = (searchTerm) => {
+    setSearchTerm(searchTerm);
+  };
+
+  const handleReset = () => {
+    setSearchTerm('');
   };
 
   const handleDelete = (id) => {
@@ -116,20 +113,21 @@ const ManageCompany = (props) => {
   useEffect(() => {
     FetchTableData();
     console.clear();
-  }, [currentPage]);
+  }, [currentPage, searchTerm]);
 
   const FetchTableData = async () => {
     try {
-      const response = await getData(`/company/list?page=${currentPage}`);
+
+      let apiUrl = `/company/list?page=${currentPage}`;
+      if (searchTerm) {
+        apiUrl += `&keyword=${searchTerm}`;
+      }
+      const response = await getData(apiUrl);
 
       if (response && response.data && response.data.data.companies) {
         setData(response.data.data.companies);
-        setCount(response.data.data.count);
         setCurrentPage(response?.data?.data?.currentPage || 1);
-        setHasMorePages(response?.data?.data?.hasMorePages);
-        setLastPage(response?.data?.data?.lastPage);
-        setPerPage(response?.data?.data?.perPage);
-        setTotal(response?.data?.data?.total);
+        setLastPage(response?.data?.data?.lastPage || 1);
       } else {
         throw new Error("No data available in the response");
       }
@@ -470,44 +468,6 @@ const ManageCompany = (props) => {
   };
 
 
-  const tableDatas = {
-    columns,
-    data,
-  };
-
-  const maxPagesToShow = 5; // Adjust the number of pages to show in the center
-  const pages = [];
-
-  // Calculate the range of pages to display
-  let startPage = Math.max(currentPage - Math.floor(maxPagesToShow / 2), 1);
-  let endPage = Math.min(startPage + maxPagesToShow - 1, lastPage);
-
-  // Handle cases where the range is near the beginning or end
-  if (endPage - startPage + 1 < maxPagesToShow) {
-    startPage = Math.max(endPage - maxPagesToShow + 1, 1);
-  }
-
-  // Render the pagination items
-  for (let i = startPage; i <= endPage; i++) {
-    pages.push(
-      <Pagination.Item
-        key={i}
-        active={i === currentPage}
-        onClick={() => handlePageChange(i)}
-      >
-        {i}
-      </Pagination.Item>
-    );
-  }
-
-  // Add ellipsis if there are more pages before or after the displayed range
-  if (startPage > 1) {
-    pages.unshift(<Pagination.Ellipsis key="ellipsis-start" disabled />);
-  }
-
-  if (endPage < lastPage) {
-    pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
-  }
 
 
 
@@ -553,33 +513,33 @@ const ManageCompany = (props) => {
             ) : null}
           </div>
         </div>
-        <Row className=" row-sm">
+        <Row className=" row-sm ">
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Manage Companies</h3>
+                <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
+                  <h3 className="card-title">Manage Companies</h3>
+                  <div className="mt-2 mt-sm-0">
+                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                  </div>
+                </div>
               </Card.Header>
 
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table site_deleted_table">
-                      <DataTableExtensions {...tableDatas}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          // center={true}
-                          persistTableHead
-                          // pagination
-                          // paginationPerPage={20}
-                          highlightOnHover
-                          searchable={true}
-                        />
-                      </DataTableExtensions>
+                      <DataTable
+                        columns={columns}
+                        data={data}
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        striped={true}
+                        persistTableHead
+                        highlightOnHover
+
+                      />
                     </div>
                   </>
                 ) : (
@@ -592,31 +552,13 @@ const ManageCompany = (props) => {
                   </>
                 )}
               </Card.Body>
-              <Card.Footer>
-                {data?.length > 0 ? (
-                  <>
-                    <div style={{ float: "right" }}>
-                      <Pagination>
-                        <Pagination.First onClick={() => handlePageChange(1)} />
-                        <Pagination.Prev
-                          onClick={() => handlePageChange(currentPage - 1)}
-                          disabled={currentPage === 1}
-                        />
-                        {pages}
-                        <Pagination.Next
-                          onClick={() => handlePageChange(currentPage + 1)}
-                          disabled={currentPage === lastPage}
-                        />
-                        <Pagination.Last
-                          onClick={() => handlePageChange(lastPage)}
-                        />
-                      </Pagination>
-                    </div>
-                  </>
-                ) : (
-                  <></>
-                )}
-              </Card.Footer>
+              {data?.length > 0 && lastPage > 1 && (
+                <CustomPagination
+                  currentPage={currentPage}
+                  lastPage={lastPage}
+                  handlePageChange={handlePageChange}
+                />
+              )}
             </Card>
           </Col>
         </Row>

@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import {
   Breadcrumb,
   Card,
@@ -11,27 +10,58 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import Swal from "sweetalert2";
-import { toast } from "react-toastify";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import { handleError } from "../../../Utils/ToastUtils";
+import useCustomDelete from "../../../Utils/useCustomDelete";
+import useToggleStatus from "../../../Utils/useToggleStatus";
+import SearchBar from "../../../Utils/SearchBar";
 
 const ManageSubBusinessCategory = (props) => {
-  const { apidata, isLoading, getData, postData } = props;
-
+  const { isLoading, getData, postData } = props;
+  const { customDelete } = useCustomDelete();
+  const { toggleStatus } = useToggleStatus();
   const [data, setData] = useState();
-  const ErrorAlert = (message) => toast.error(message);
-  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
 
+
+  const handleSearch = (searchTerm) => {
+    setSearchTerm(searchTerm);
+  };
+
+  const handleReset = () => {
+    setSearchTerm('');
+  };
+
+
+  const handleDelete = (id) => {
+    const formData = new FormData();
+    formData.append("id", id);
+    customDelete(postData, 'business/subcategory/delete', formData, handleSuccess);
+  };
+
+  const toggleActive = (row) => {
+    const formData = new FormData();
+    formData.append("id", row.id);
+
+    formData.append('status', (row.status == 1 ? 0 : 1).toString());
+    toggleStatus(postData, '/business/subcategory/update-status', formData, handleSuccess);
+  };
+
+  const handleSuccess = () => {
+    FetchTableData();
+  };
   const FetchTableData = async () => {
     try {
-      const response = await getData("/business/subcategory");
+
+      let apiUrl = `/business/subcategory`;
+      if (searchTerm) {
+        apiUrl += `?keyword=${searchTerm}`;
+      }
+      const response = await getData(apiUrl);
 
       if (response && response.data && response.data.data) {
         setData(response.data.data);
-        setSearchvalue(response.data.data);
       } else {
         throw new Error("No data available in the response");
       }
@@ -40,102 +70,22 @@ const ManageSubBusinessCategory = (props) => {
     }
   };
 
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const formData = new FormData();
-        formData.append("id", id);
-        DeleteClient(formData);
-      }
-    });
-  };
-  const DeleteClient = async (formData) => {
-    try {
-      const response = await postData("/business/subcategory/delete", formData);
-      // Console log the response
-      if (apidata.api_response === "success") {
-        FetchTableData();
-      }
-    } catch (error) {
-      handleError(error);
-    }
-  };
+
 
 
 
   useEffect(() => {
     FetchTableData();
     console.clear();
-  }, []);
+  }, [searchTerm]);
 
-  const toggleActive = (row) => {
-    const formData = new FormData();
-    formData.append("id", row.id);
 
-    const newStatus = row.status === 1 ? 0 : 1;
-    formData.append("status", newStatus);
 
-    ToggleStatus(formData);
-  };
+  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const isEditPermissionAvailable = UserPermissions?.includes("business-sub-category-edit");
+  const isAddPermissionAvailable = UserPermissions?.includes("business-sub-category-create");
+  const isDeletePermissionAvailable = UserPermissions?.includes("business-sub-category-delete");
 
-  const ToggleStatus = async (formData) => {
-    try {
-      const response = await postData(
-        "/business/subcategory/update-status",
-        formData
-      );
-      // Console log the response
-      if (apidata.api_response === "success") {
-        FetchTableData();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const permissionsToCheck = [
-    "business-type-list",
-    "business-type-create",
-    "business-type-edit",
-    "business-type--detail",
-    "business-type--delete",
-  ];
-  let isPermissionAvailable = false;
-  const [permissionsArray, setPermissionsArray] = useState([]);
-
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions.permissions);
-    }
-  }, [UserPermissions]);
-
-  const isStatusPermissionAvailable = permissionsArray?.includes(
-    "business-status-update"
-  );
-  const isEditPermissionAvailable = permissionsArray?.includes(
-    "business-sub-category-edit"
-  );
-  const isAddPermissionAvailable = permissionsArray?.includes(
-    "business-sub-category-create"
-  );
-  const isDeletePermissionAvailable = permissionsArray?.includes(
-    "business-sub-category-delete"
-  );
-  const isDetailsPermissionAvailable = permissionsArray?.includes(
-    "business-type-detail"
-  );
-  const isAssignPermissionAvailable =
-    permissionsArray?.includes("business-assign");
 
   const columns = [
     {
@@ -284,22 +234,7 @@ const ManageSubBusinessCategory = (props) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
-  const [searchText, setSearchText] = useState("");
-  const [searchvalue, setSearchvalue] = useState();
 
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchText(value);
-
-    const filteredData = searchvalue.filter((item) =>
-      item.business_name.toLowerCase().includes(value.toLowerCase())
-    );
-    setData(filteredData);
-  };
 
   return (
     <>
@@ -345,28 +280,27 @@ const ManageSubBusinessCategory = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Manage Sub-Business Category</h3>
+                <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
+                  <h3 className="card-title">Manage Sub-Business Category</h3>
+                  <div className="mt-2 mt-sm-0">
+                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                  </div>
+                </div>
               </Card.Header>
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table">
-                      <DataTableExtensions {...tableDatas}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          // center={true}
-                          persistTableHead
-                          pagination
-                          paginationPerPage={20}
-                          highlightOnHover
-                          searchable={true}
-                        />
-                      </DataTableExtensions>
+                      <DataTable
+                        columns={columns}
+                        data={data}
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        striped={true}
+                        persistTableHead
+                        highlightOnHover
+                      />
                     </div>
                   </>
                 ) : (

@@ -24,6 +24,7 @@ import { handleError } from "../../../Utils/ToastUtils";
 import CustomClient from "../../../Utils/CustomClient";
 import CustomCompany from "../../../Utils/CustomCompany";
 import CustomSite from "../../../Utils/CustomSite";
+import CustomPagination from "../../../Utils/CustomPagination";
 
 const Competitor = (props) => {
   const { apidata, isLoading, error, getData, postData } = props;
@@ -36,13 +37,17 @@ const Competitor = (props) => {
   const [selectedSiteId, setSelectedSiteId] = useState("");
   const [SiteId, setSiteId] = useState();
   const [SupplierData, setSupplierData] = useState({});
-
   const [CompetitorList, setCompetitorList] = useState();
-  // const [storedDataInLocal, setStoredDataInLocal] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
 
   const UserPermissions = useSelector((state) => state?.data?.data);
 
   const [permissionsArray, setPermissionsArray] = useState([]);
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
 
   useEffect(() => {
     if (UserPermissions) {
@@ -101,16 +106,6 @@ const Competitor = (props) => {
     }),
 
     onSubmit: (values) => {
-      // const formData = {
-      //   client_id: values.client_id,
-      //   company_id: values.company_id,
-      //   site_id: values.site_id,
-      // };
-      // // Serialize the object to a JSON string
-      // const competitorId = JSON.stringify(formData);
-
-      // // Store the JSON string in local storage
-      // localStorage.setItem("competitorId", competitorId);
 
       handleSubmit(values);
     },
@@ -165,11 +160,13 @@ const Competitor = (props) => {
       };
       localStorage.setItem("manageCompetitor", JSON.stringify(competitor));
       const response = await getData(
-        `site/competitor/list?site_id=${values?.site_id}`
+        `site/competitor/list?site_id=${values?.site_id}&page=${currentPage}`
       );
 
       if (response && response.data && response.data.data) {
         setCompetitorList(response.data.data.competitors);
+        setCurrentPage(response.data.data?.currentPage || 1);
+        setLastPage(response.data.data?.lastPage || 1);
       } else {
         throw new Error("No data available in the response");
 
@@ -197,6 +194,17 @@ const Competitor = (props) => {
       handleSubmit(parsedDataFromLocal)
     }
   }, [])
+  useEffect(() => {
+    const clientId = localStorage.getItem("superiorId");
+    if (localStorage.getItem("manageCompetitor")) {
+      let parsedDataFromLocal = JSON.parse(
+        localStorage.getItem("manageCompetitor")
+      ) ? JSON.parse(
+        localStorage.getItem("manageCompetitor")
+      ) : "null"
+      handleSubmit(parsedDataFromLocal)
+    }
+  }, [currentPage])
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -609,6 +617,13 @@ const Competitor = (props) => {
                   </>
                 )}
               </Card.Body>
+              {CompetitorList?.length > 0 && lastPage > 1 && (
+                <CustomPagination
+                  currentPage={currentPage}
+                  lastPage={lastPage}
+                  handlePageChange={handlePageChange}
+                />
+              )}
             </Card>
           </Col>
         </Row>

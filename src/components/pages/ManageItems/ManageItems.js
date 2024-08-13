@@ -2,130 +2,83 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  OverlayTrigger,
-  Pagination,
-  Row,
-  Tooltip,
-} from "react-bootstrap";
-import axios from "axios";
-import Swal from "sweetalert2";
+import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import { handleError } from "../../../Utils/ToastUtils";
+import useCustomDelete from "../../../Utils/useCustomDelete";
+import useToggleStatus from "../../../Utils/useToggleStatus";
+import SearchBar from "../../../Utils/SearchBar";
+import CustomPagination from "../../../Utils/CustomPagination";
 
 const ManageItems = (props) => {
-  const { apidata, isLoading, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
   const [data, setData] = useState();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [hasMorePage, setHasMorePages] = useState("");
   const [lastPage, setLastPage] = useState(1);
-  const [perPage, setPerPage] = useState(20);
-  const [total, setTotal] = useState(0);
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const token = localStorage.getItem("token");
-
-        const formData = new FormData();
-        formData.append("id", id);
-
-        const axiosInstance = axios.create({
-          baseURL: process.env.REACT_APP_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-        const DeleteRole = async () => {
-          try {
-            const response = await axiosInstance.post(
-              "/department-item/delete",
-              formData
-            );
-            setData(response.data.data);
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your item has been deleted.",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-            FetchTableData();
-          } catch (error) {
-            handleError(error);
-          } finally {
-          }
-
-        };
-        DeleteRole();
-      }
-    });
-  };
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
 
-  useEffect(() => {
-    FetchTableData(currentPage);
-    console.clear();
-  }, [currentPage]);
+  const handleSearch = (searchTerm) => {
+    setSearchTerm(searchTerm);
+  };
+
+  const handleReset = () => {
+    setSearchTerm('');
+  };
+
+
+
+
+
+  const { customDelete } = useCustomDelete();
+  const { toggleStatus } = useToggleStatus();
+
+
+  const handleDelete = (id) => {
+    const formData = new FormData();
+    formData.append("id", id);
+    customDelete(postData, 'department-item/delete', formData, handleSuccess);
+  };
 
   const toggleActive = (row) => {
     const formData = new FormData();
     formData.append("id", row.id);
 
-    const newStatus = row.status === 1 ? 0 : 1;
-    formData.append("status", newStatus);
-
-    ToggleStatus(formData);
+    formData.append('status', (row.status == 1 ? 0 : 1).toString());
+    toggleStatus(postData, '/department-item/update-status', formData, handleSuccess);
   };
 
-  const ToggleStatus = async (formData) => {
-    try {
-      const response = await postData(
-        "/department-item/update-status",
-        formData
-      );
-      // Console log the response
-      if (apidata.api_response === "success") {
-        FetchTableData();
-      }
-    } catch (error) {
-      handleError(error);
-    }
+  const handleSuccess = () => {
+    FetchTableData();
   };
+
+
+
+
+  useEffect(() => {
+    FetchTableData(currentPage);
+    console.clear();
+  }, [currentPage, searchTerm]);
+
+
 
   const FetchTableData = async (pageNumber) => {
     try {
-      const response = await getData(
-        `/department-item/list?page=${currentPage}&search_keywords=${searchQuery}`
-      );
+
+      let apiUrl = `/department-item/list?page=${currentPage}`;
+      if (searchTerm) {
+        apiUrl += `&keyword=${searchTerm}`;
+      }
+      const response = await getData(apiUrl);
 
       if (response && response.data && response.data.data) {
         setData(response.data.data.items);
-        setCount(response.data.data.count);
         setCurrentPage(response?.data?.data?.currentPage || 1);
-        setHasMorePages(response?.data?.data?.hasMorePages);
-
-        setLastPage(response?.data?.data?.lastPage);
-        setPerPage(response?.data?.data?.perPage);
-        setTotal(response?.data?.data?.total);
+        setLastPage(response?.data?.data?.lastPage || 1);
       } else {
         throw new Error("No data available in the response");
       }
@@ -134,25 +87,11 @@ const ManageItems = (props) => {
     }
   };
 
-  const [permissionsArray, setPermissionsArray] = useState([]);
 
-  const UserPermissions = useSelector((state) => state?.data?.data);
-
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions.permissions);
-    }
-  }, [UserPermissions]);
-
-  const isEditPermissionAvailable = permissionsArray?.includes(
-    "department-item-edit"
-  );
-  const isAddPermissionAvailable = permissionsArray?.includes(
-    "department-item-create"
-  );
-  const isDeletePermissionAvailable = permissionsArray?.includes(
-    "department-item-delete"
-  );
+  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const isEditPermissionAvailable = UserPermissions?.includes("department-item-edit");
+  const isAddPermissionAvailable = UserPermissions?.includes("department-item-create");
+  const isDeletePermissionAvailable = UserPermissions?.includes("department-item-delete");
 
   const columns = [
     {
@@ -303,69 +242,7 @@ const ManageItems = (props) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
 
-  const maxPagesToShow = 5; // Adjust the number of pages to show in the center
-  const pages = [];
-
-  // Calculate the range of pages to display
-  let startPage = Math.max(currentPage - Math.floor(maxPagesToShow / 2), 1);
-  let endPage = Math.min(startPage + maxPagesToShow - 1, lastPage);
-
-  // Handle cases where the range is near the beginning or end
-  if (endPage - startPage + 1 < maxPagesToShow) {
-    startPage = Math.max(endPage - maxPagesToShow + 1, 1);
-  }
-
-  // Render the pagination items
-  for (let i = startPage; i <= endPage; i++) {
-    pages.push(
-      <Pagination.Item
-        key={i}
-        active={i === currentPage}
-        onClick={() => handlePageChange(i)}
-      >
-        {i}
-      </Pagination.Item>
-    );
-  }
-
-  // Add ellipsis if there are more pages before or after the displayed range
-  if (startPage > 1) {
-    pages.unshift(<Pagination.Ellipsis key="ellipsis-start" disabled />);
-  }
-
-  if (endPage < lastPage) {
-    pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
-  }
-
-
-  const handleBlur = () => {
-    FetchTableData();
-  };
-
-  const handleResetSearch = async () => {
-    try {
-      const response = await getData(`/department-item/list?page=${currentPage}&search_keywords=${''}`);
-      if (response && response.data && response.data.data) {
-        setSearchQuery("")
-        setData(response.data.data.items);
-        setCount(response.data.data.count);
-        setCurrentPage(response?.data?.data?.currentPage);
-        setHasMorePages(response?.data?.data?.hasMorePages);
-        setLastPage(response?.data?.data?.lastPage);
-        setPerPage(response?.data?.data?.perPage);
-        setTotal(response?.data?.data?.total);
-      } else {
-        throw new Error("No data available in the response");
-      }
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  }
 
   return (
     <>
@@ -392,21 +269,7 @@ const ManageItems = (props) => {
           </div>
           <div className="ms-auto pageheader-btn d-flex align-items-center">
 
-            <div className="ms-auto pageheader-btn">
-              <div className="input-group">
-                {searchQuery ? (
-                  <div className="badge">
-                    <span className="badge-key"> Search Query : {searchQuery}</span>
-                  </div>
-                ) : null}
-              </div>
-            </div>
 
-            <div>
-              {searchQuery ? (
-                <button className="btn btn-danger btn-sm ms-2" onClick={handleResetSearch}> <RestartAltIcon /></button>
-              ) : null}
-            </div>
             <div className="input-group">
               {isAddPermissionAvailable ? (
                 <Link
@@ -425,33 +288,17 @@ const ManageItems = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Manage Department Items</h3>
+                <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
+                  <h3 className="card-title">Manage Department Items</h3>
+                  <div className="mt-2 mt-sm-0">
+                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                  </div>
+                </div>
               </Card.Header>
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table">
-
-
-                      <div className="data-table-extensions">
-                        <input
-                          type="text"
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          onBlur={handleBlur} // Call the API on blur
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                              handleBlur();
-                            }
-                          }}
-                          placeholder="Search"
-                          className="data-table-extensions-filter"
-                          style={{
-                            border: "1px solid #eaedf1",
-                            padding: "10px",
-                          }}
-                        />
-                      </div>
                       <DataTable
                         columns={columns}
                         data={data}
@@ -478,30 +325,12 @@ const ManageItems = (props) => {
                   </>
                 )}
               </Card.Body>
-              {data?.length > 0 ? (
-                <>
-                  <Card.Footer>
-                    <div style={{ float: "right" }}>
-                      <Pagination>
-                        <Pagination.First onClick={() => handlePageChange(1)} />
-                        <Pagination.Prev
-                          onClick={() => handlePageChange(currentPage - 1)}
-                          disabled={currentPage === 1}
-                        />
-                        {pages}
-                        <Pagination.Next
-                          onClick={() => handlePageChange(currentPage + 1)}
-                          disabled={currentPage === lastPage}
-                        />
-                        <Pagination.Last
-                          onClick={() => handlePageChange(lastPage)}
-                        />
-                      </Pagination>
-                    </div>
-                  </Card.Footer>
-                </>
-              ) : (
-                <></>
+              {data?.length > 0 && lastPage > 1 && (
+                <CustomPagination
+                  currentPage={currentPage}
+                  lastPage={lastPage}
+                  handlePageChange={handlePageChange}
+                />
               )}
             </Card>
           </Col>

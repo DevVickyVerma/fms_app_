@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import {
   Breadcrumb,
   Card,
@@ -12,71 +11,28 @@ import {
   Row,
   Tooltip,
 } from "react-bootstrap";
-import axios from "axios";
-import Swal from "sweetalert2";
-import { toast } from "react-toastify";
 
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
-import { handleError } from "../../../Utils/ToastUtils";
+import useCustomDelete from "../../../Utils/useCustomDelete";
 
 const ManageRoles = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, postData } = props;
   const [data, setData] = useState();
   const [siteName, setSiteName] = useState("");
-  const navigate = useNavigate();
-  const SuccessAlert = (message) => toast.success(message);
-  const ErrorAlert = (message) => toast.error(message);
+  const { customDelete } = useCustomDelete();
+  const { id } = useParams();
+  const handleSuccess = () => {
+    FetchmannegerList();
+  };
+
 
   const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this item!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const token = localStorage.getItem("token");
-
-        const formData = new FormData();
-        formData.append("id", id);
-
-        const axiosInstance = axios.create({
-          baseURL: process.env.REACT_APP_BASE_URL,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
-        const DeleteRole = async () => {
-          try {
-            const response = await axiosInstance.post(
-              "/site/manager/delete",
-              formData
-            );
-            setData(response.data.data);
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your item has been deleted.",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-            FetchmannegerList();
-          } catch (error) {
-            handleError(error);
-          } finally {
-          }
-
-        };
-        DeleteRole();
-      }
-    });
+    const formData = new FormData();
+    formData.append("id", id);
+    customDelete(postData, 'site/manager/delete', formData, handleSuccess);
   };
-  const { id } = useParams();
 
 
 
@@ -157,7 +113,6 @@ const ManageRoles = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-        // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.reports}</h6>
@@ -174,7 +129,6 @@ const ManageRoles = (props) => {
         <div
           className="d-flex"
           style={{ cursor: "default" }}
-        // onClick={() => handleToggleSidebar(row)}
         >
           <div className="ms-2 mt-0 mt-sm-2 d-block">
             <h6 className="mb-0 fs-14 fw-semibold ">{row.role}</h6>
@@ -300,22 +254,16 @@ const ManageRoles = (props) => {
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table">
-                      <DataTableExtensions {...tableDatas}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          // center={true}
-                          persistTableHead
-                          pagination
-                          paginationPerPage={20}
-                          highlightOnHover
-                          searchable={true}
-                        />
-                      </DataTableExtensions>
+                      <DataTable
+                        columns={columns}
+                        data={data}
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        striped={true}
+                        persistTableHead
+                        highlightOnHover
+                      />
                     </div>
                   </>
                 ) : (

@@ -347,22 +347,16 @@ const ManageDeductions = (props) => {
         </div>
       </div>
 
-      <DataTableExtensions {...tableDatas}>
-        <DataTable
-          columns={columns}
-          data={data}
-          noHeader
-          defaultSortField="id"
-          defaultSortAsc={false}
-          striped={true}
-          // center={true}
-          persistTableHead
-          pagination
-          paginationPerPage={20}
-          highlightOnHover
-          searchable={true}
-        />
-      </DataTableExtensions>
+      <DataTable
+        columns={columns}
+        data={data}
+        noHeader
+        defaultSortField="id"
+        defaultSortAsc={false}
+        striped={true}
+        persistTableHead
+        highlightOnHover
+      />
     </>
   );
 };

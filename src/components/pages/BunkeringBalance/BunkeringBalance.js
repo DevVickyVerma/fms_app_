@@ -309,23 +309,21 @@ const BunkeringBalance = ({ isLoading, getData }) => {
                                 {data?.length > 0 ? (
                                     <>
                                         <div className="table-responsive deleted-table">
-                                            <DataTableExtensions {...tableDatas}>
-                                                <DataTable
-                                                    columns={columns}
-                                                    data={data}
-                                                    noHeader
-                                                    defaultSortField="id"
-                                                    defaultSortAsc={false}
-                                                    striped={true}
-                                                    center={true}
-                                                    persistTableHead
-                                                    highlightOnHover
-                                                    className=' overflow-hidden'
-                                                    style={{ overflow: "hidden" }}
+                                            <DataTable
+                                                columns={columns}
+                                                data={data}
+                                                noHeader
+                                                defaultSortField="id"
+                                                defaultSortAsc={false}
+                                                striped={true}
+                                                center={true}
+                                                persistTableHead
+                                                highlightOnHover
+                                                className=' overflow-hidden'
+                                                style={{ overflow: "hidden" }}
 
 
-                                                />
-                                            </DataTableExtensions>
+                                            />
                                         </div>
                                     </>
                                 ) : (

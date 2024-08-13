@@ -16,40 +16,55 @@ import {
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
 import EmailDetailModal from "./EmailDetailModal";
+import CustomPagination from "../../../Utils/CustomPagination";
+import SearchBar from "../../../Utils/SearchBar";
 
 const ManageEmail = (props) => {
   const { isLoading, getData } = props;
   const [data, setData] = useState();
-
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const [lastPage, setLastPage] = useState(1);
-
   const [selectedRowId, setSelectedRowId] = useState(null);
   const [addshowModal, setaddshowModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  const handleSearch = (searchTerm) => {
+    setSearchTerm(searchTerm);
+  };
+
+  const handleReset = () => {
+    setSearchTerm('');
+  };
+
 
   const AddCloseModal = () => setaddshowModal(false);
+
+
   const handleaddshowModal = (rowId) => {
     setSelectedRowId(rowId);
     setaddshowModal(true);
-  };
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
   };
 
   useEffect(() => {
     FetchTableData(currentPage);
     console.clear();
-  }, [currentPage]);
+  }, [currentPage, searchTerm]);
 
   const FetchTableData = async (pageNumber) => {
     try {
-      const response = await getData(`/email/logs?page=${pageNumber}`);
+
+      let apiUrl = `/email/logs?page=${currentPage}`;
+      if (searchTerm) {
+        apiUrl += `&keyword=${searchTerm}`;
+      }
+      const response = await getData(apiUrl);
       setData(response?.data?.data?.logs);
-
-      setCurrentPage(response?.data?.data?.currentPage);
-
-      setLastPage(response?.data?.data?.lastPage);
+      setCurrentPage(response?.data?.data?.currentPage || 1);
+      setLastPage(response?.data?.data?.lastPage || 1);
     } catch (error) {
       console.error("API error:", error);
     }
@@ -167,43 +182,6 @@ const ManageEmail = (props) => {
     },
   ];
 
-  const tableDatas = {
-    columns,
-    data,
-  };
-  const maxPagesToShow = 5; // Adjust the number of pages to show in the center
-  const pages = [];
-
-  // Calculate the range of pages to display
-  let startPage = Math.max(currentPage - Math.floor(maxPagesToShow / 2), 1);
-  let endPage = Math.min(startPage + maxPagesToShow - 1, lastPage);
-
-  // Handle cases where the range is near the beginning or end
-  if (endPage - startPage + 1 < maxPagesToShow) {
-    startPage = Math.max(endPage - maxPagesToShow + 1, 1);
-  }
-
-  // Render the pagination items
-  for (let i = startPage; i <= endPage; i++) {
-    pages.push(
-      <Pagination.Item
-        key={i}
-        active={i === currentPage}
-        onClick={() => handlePageChange(i)}
-      >
-        {i}
-      </Pagination.Item>
-    );
-  }
-
-  // Add ellipsis if there are more pages before or after the displayed range
-  if (startPage > 1) {
-    pages.unshift(<Pagination.Ellipsis key="ellipsis-start" disabled />);
-  }
-
-  if (endPage < lastPage) {
-    pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
-  }
 
   return (
     <>
@@ -234,7 +212,12 @@ const ManageEmail = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title"> Email Logs</h3>
+                <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
+                  <h3 className="card-title">Email Logs</h3>
+                  <div className="mt-2 mt-sm-0">
+                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                  </div>
+                </div>
               </Card.Header>
               <EmailDetailModal
                 addshowModal={addshowModal}
@@ -246,22 +229,16 @@ const ManageEmail = (props) => {
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table">
-                      <DataTableExtensions {...tableDatas}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          persistTableHead
-                          // pagination
-                          // paginationPerPage={20}
-                          highlightOnHover
-                          searchable={true}
-                          onChangePage={(newPage) => setCurrentPage(newPage)}
-                        />
-                      </DataTableExtensions>
+                      <DataTable
+                        columns={columns}
+                        data={data}
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        striped={true}
+                        persistTableHead
+                        highlightOnHover
+                      />
                     </div>
                   </>
                 ) : (
@@ -274,30 +251,12 @@ const ManageEmail = (props) => {
                   </>
                 )}
               </Card.Body>
-              {data?.length > 0 ? (
-                <>
-                  <Card.Footer>
-                    <div style={{ float: "right" }}>
-                      <Pagination>
-                        <Pagination.First onClick={() => handlePageChange(1)} />
-                        <Pagination.Prev
-                          onClick={() => handlePageChange(currentPage - 1)}
-                          disabled={currentPage === 1}
-                        />
-                        {pages}
-                        <Pagination.Next
-                          onClick={() => handlePageChange(currentPage + 1)}
-                          disabled={currentPage === lastPage}
-                        />
-                        <Pagination.Last
-                          onClick={() => handlePageChange(lastPage)}
-                        />
-                      </Pagination>
-                    </div>
-                  </Card.Footer>
-                </>
-              ) : (
-                <></>
+              {data?.length > 0 && lastPage > 1 && (
+                <CustomPagination
+                  currentPage={currentPage}
+                  lastPage={lastPage}
+                  handlePageChange={handlePageChange}
+                />
               )}
             </Card>
           </Col>

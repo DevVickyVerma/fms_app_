@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import SortIcon from "@mui/icons-material/Sort";
 import {
   Breadcrumb,
@@ -17,20 +16,18 @@ import {
 
 import withApi from "../../../Utils/ApiHelper";
 import Loaderimg from "../../../Utils/Loader";
-import { useSelector } from "react-redux";
 import WorkflowExceptionFilter from "../../../data/Modal/DsrFilterModal";
 import { Box } from "@mui/material";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import CustomPagination from "../../../Utils/CustomPagination";
+
+
+
 const ManageEmail = (props) => {
-  const { apidata, isLoading, error, getData, postData } = props;
+  const { isLoading, getData, } = props;
   const [data, setData] = useState();
-  const navigate = useNavigate();
-  const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [hasMorePage, setHasMorePages] = useState("");
   const [lastPage, setLastPage] = useState(1);
-  const [perPage, setPerPage] = useState(20);
-  const [total, setTotal] = useState(0);
   const [formValues, setFormValues] = useState(null);
 
   const handlePageChange = (newPage) => {
@@ -48,13 +45,8 @@ const ManageEmail = (props) => {
     try {
       const response = await getData(`/drs/api-logs?page=${currentPage}`);
       setData(response?.data?.data?.logs);
-      setCount(response.data.data.count);
-      setCurrentPage(response?.data?.data?.currentPage);
-      setHasMorePages(response?.data?.data?.hasMorePages);
-
-      setLastPage(response?.data?.data?.lastPage);
-      setPerPage(response?.data?.data?.perPage);
-      setTotal(response?.data?.data?.total);
+      setCurrentPage(response?.data?.data?.currentPage || 1);
+      setLastPage(response?.data?.data?.lastPage || 1);
     } catch (error) {
       console.error("API error:", error);
     }
@@ -213,17 +205,14 @@ const ManageEmail = (props) => {
         `/drs/api-logs?site_id=${values?.site_id}&drs_date=${values?.start_date}&page=${currentPage}`
       );
       setData(response?.data?.data?.logs);
-      setCount(response.data.data.count);
-      setCurrentPage(response?.data?.data?.currentPage);
-      setHasMorePages(response?.data?.data?.hasMorePages);
-
-      setLastPage(response?.data?.data?.lastPage);
-      setPerPage(response?.data?.data?.perPage);
-      setTotal(response?.data?.data?.total);
+      setCurrentPage(response?.data?.data?.currentPage || 1);
+      setLastPage(response?.data?.data?.lastPage || 1);
     } catch (error) {
       console.error("API error:", error);
     }
   };
+
+
   const handleFormSubmit = (values) => {
     closeModal();
     handleFetchSiteData(values);
@@ -235,6 +224,8 @@ const ManageEmail = (props) => {
     FetchTableData(currentPage);
     setFormValues();
   };
+
+
   return (
     <>
       {isLoading ? <Loaderimg /> : null}
@@ -390,22 +381,17 @@ const ManageEmail = (props) => {
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table">
-                      <DataTableExtensions {...tableDatas}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          persistTableHead
-                          // pagination
-                          // paginationPerPage={20}
-                          highlightOnHover
-                          searchable={true}
-                          onChangePage={(newPage) => setCurrentPage(newPage)}
-                        />
-                      </DataTableExtensions>
+                      <DataTable
+                        columns={columns}
+                        data={data}
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        striped={true}
+                        persistTableHead
+                        highlightOnHover
+
+                      />
                     </div>
                   </>
                 ) : (
@@ -418,30 +404,12 @@ const ManageEmail = (props) => {
                   </>
                 )}
               </Card.Body>
-              {data?.length > 0 ? (
-                <>
-                  <Card.Footer>
-                    <div style={{ float: "right" }}>
-                      <Pagination>
-                        <Pagination.First onClick={() => handlePageChange(1)} />
-                        <Pagination.Prev
-                          onClick={() => handlePageChange(currentPage - 1)}
-                          disabled={currentPage === 1}
-                        />
-                        {pages}
-                        <Pagination.Next
-                          onClick={() => handlePageChange(currentPage + 1)}
-                          disabled={currentPage === lastPage}
-                        />
-                        <Pagination.Last
-                          onClick={() => handlePageChange(lastPage)}
-                        />
-                      </Pagination>
-                    </div>
-                  </Card.Footer>
-                </>
-              ) : (
-                <></>
+              {data?.length > 0 && lastPage > 1 && (
+                <CustomPagination
+                  currentPage={currentPage}
+                  lastPage={lastPage}
+                  handlePageChange={handlePageChange}
+                />
               )}
             </Card>
           </Col>

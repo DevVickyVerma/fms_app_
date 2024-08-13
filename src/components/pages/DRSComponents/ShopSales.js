@@ -11,8 +11,7 @@ import {
 } from "../../../Utils/ToastUtils";
 
 const ShopSales = (props) => {
-  const { company_id, client_id, site_id, start_date, sendDataToParent } =
-    props;
+  const { company_id, client_id, site_id, start_date, sendDataToParent } = props;
 
   const handleButtonClick = () => {
     const allPropsData = { company_id, client_id, site_id, start_date };
@@ -401,7 +400,7 @@ const ShopSales = (props) => {
                 {data?.length > 0 ? (
                   <>
                     <form onSubmit={formik.handleSubmit}>
-                      <div className="table-responsive deleted-table">
+                      <div className=" deleted-table">
                         <Row>
                           <Col lg={6} md={6}>
                             <DataTable

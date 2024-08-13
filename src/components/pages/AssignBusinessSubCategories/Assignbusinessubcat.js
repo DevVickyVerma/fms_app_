@@ -310,21 +310,19 @@ const OpeningBalance = ({ isLoading, getData, postData, apidata }) => {
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table">
-                      <DataTableExtensions {...tableDatas}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          center={true}
-                          persistTableHead
-                          highlightOnHover
-                          className=" overflow-hidden"
-                          style={{ overflow: "hidden" }}
-                        />
-                      </DataTableExtensions>
+                      <DataTable
+                        columns={columns}
+                        data={data}
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        striped={true}
+                        center={true}
+                        persistTableHead
+                        highlightOnHover
+                        className=" overflow-hidden"
+                        style={{ overflow: "hidden" }}
+                      />
                     </div>
                   </>
                 ) : (

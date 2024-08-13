@@ -1,16 +1,6 @@
-import React from "react";
-import {
-  Breadcrumb,
-  Card,
-  Col,
-  OverlayTrigger,
-  Pagination,
-  Row,
-  Tooltip,
-} from "react-bootstrap";
+import { Breadcrumb, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { useState } from "react";
 import { useEffect } from "react";
 import Select from "react-select";
@@ -18,30 +8,35 @@ import makeAnimated from "react-select/animated";
 import Loaderimg from "../../../Utils/Loader";
 import { useSelector } from "react-redux";
 import { ErrorAlert, SuccessAlert } from "../../../Utils/ToastUtils";
+import CustomPagination from "../../../Utils/CustomPagination";
+import SearchBar from "../../../Utils/SearchBar";
 
 const CronModule = ({ getData, isLoading, postData }) => {
   const [data, setData] = useState();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [count, setCount] = useState(0);
-  const [hasMorePage, setHasMorePages] = useState("");
-  const [lastPage, setLastPage] = useState(1);
-  const [perPage, setPerPage] = useState(20);
-  const [total, setTotal] = useState(0);
   const [cronList, setCronList] = useState();
   const [selectedCronList, setSelectedCronList] = useState();
-  const [permissionsArray, setPermissionsArray] = useState([]);
 
-  const UserPermissions = useSelector((state) => state?.data?.data);
+  const UserPermissions = useSelector((state) => state?.data?.data?.permissions || []);
+  const isLogsPermissionAvailable = UserPermissions?.includes("cronjob-logs");
+  const isHitPermissionAvailable = UserPermissions?.includes("cronjob-hit");
 
-  const isLogsPermissionAvailable = permissionsArray?.includes("cronjob-logs");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const isHitPermissionAvailable = permissionsArray?.includes("cronjob-hit");
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
 
-  useEffect(() => {
-    if (UserPermissions) {
-      setPermissionsArray(UserPermissions?.permissions);
-    }
-  }, [UserPermissions, permissionsArray]);
+  const handleSearch = (searchTerm) => {
+    setSearchTerm(searchTerm);
+  };
+
+  const handleReset = () => {
+    setSearchTerm('');
+  };
+
+
 
   useEffect(() => {
     FetchCronListApi();
@@ -110,47 +105,6 @@ const CronModule = ({ getData, isLoading, postData }) => {
     }
   };
 
-  const tableDatas = {
-    columns,
-    data,
-  };
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
-
-  const maxPagesToShow = 5; // Adjust the number of pages to show in the center
-  const pages = [];
-
-  // Calculate the range of pages to display
-  let startPage = Math.max(currentPage - Math.floor(maxPagesToShow / 2), 1);
-  let endPage = Math.min(startPage + maxPagesToShow - 1, lastPage);
-
-  // Handle cases where the range is near the beginning or end
-  if (endPage - startPage + 1 < maxPagesToShow) {
-    startPage = Math.max(endPage - maxPagesToShow + 1, 1);
-  }
-
-  // Render the pagination items
-  for (let i = startPage; i <= endPage; i++) {
-    pages.push(
-      <Pagination.Item
-        key={i}
-        active={i === currentPage}
-        onClick={() => handlePageChange(i)}
-      >
-        {i}
-      </Pagination.Item>
-    );
-  }
-
-  if (startPage > 1) {
-    pages.unshift(<Pagination.Ellipsis key="ellipsis-start" disabled />);
-  }
-
-  if (endPage < lastPage) {
-    pages.push(<Pagination.Ellipsis key="ellipsis-end" disabled />);
-  }
-
   const animatedComponents = makeAnimated();
   const Optionssingle = cronList?.map((item) => ({
     value: item?.id,
@@ -159,19 +113,23 @@ const CronModule = ({ getData, isLoading, postData }) => {
     status: item?.status,
   }));
 
+  useEffect(() => {
+    if (selectedCronList?.value) {
+      fetchCronJobApi()
+    }
+  }, [currentPage, searchTerm, selectedCronList?.value])
+
   const fetchCronJobApi = async () => {
     try {
-      const response = await getData(
-        `/cron-job/logs?cron_job_id=${selectedCronList?.value}`
-      );
+      let apiUrl = `cron-job/logs?cron_job_id=${selectedCronList?.value}&page=${currentPage}`;
+      if (searchTerm) {
+        apiUrl += `&keyword=${searchTerm}`;
+      }
+      const response = await getData(apiUrl);
       setData(response?.data?.data?.cronLogs);
-      setCount(response.data.data.count);
-      setCurrentPage(response?.data?.data?.currentPage);
-      setHasMorePages(response?.data?.data?.hasMorePages);
+      setCurrentPage(response?.data?.data?.currentPage || 1);
+      setLastPage(response?.data?.data?.lastPage || 1);
 
-      setLastPage(response?.data?.data?.lastPage);
-      setPerPage(response?.data?.data?.perPage);
-      setTotal(response?.data?.data?.total);
     } catch (error) {
       console.error("API error:", error);
     }
@@ -289,29 +247,33 @@ const CronModule = ({ getData, isLoading, postData }) => {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <h3 className="card-title"> Cron Module Logs</h3>
+              <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
+                <h3 className="card-title">Cron Module Logs</h3>
+                {
+                  selectedCronList?.value && (<>
+                    <div className="mt-2 mt-sm-0">
+                      <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                    </div>
+                  </>)
+                }
+
+              </div>
             </Card.Header>
 
             <Card.Body>
               {data?.length > 0 ? (
                 <>
                   <div className="table-responsive deleted-table">
-                    <DataTableExtensions {...tableDatas}>
-                      <DataTable
-                        columns={columns}
-                        data={data}
-                        noHeader
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        striped={true}
-                        persistTableHead
-                        // pagination
-                        // paginationPerPage={20}
-                        highlightOnHover
-                        searchable={true}
-                        onChangePage={(newPage) => setCurrentPage(newPage)}
-                      />
-                    </DataTableExtensions>
+                    <DataTable
+                      columns={columns}
+                      data={data}
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      striped={true}
+                      persistTableHead
+                      highlightOnHover
+                    />
                   </div>
                 </>
               ) : (
@@ -324,30 +286,12 @@ const CronModule = ({ getData, isLoading, postData }) => {
                 </>
               )}
             </Card.Body>
-            {data?.length > 0 ? (
-              <>
-                <Card.Footer>
-                  <div style={{ float: "right" }}>
-                    <Pagination>
-                      <Pagination.First onClick={() => handlePageChange(1)} />
-                      <Pagination.Prev
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
-                      />
-                      {pages}
-                      <Pagination.Next
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === lastPage}
-                      />
-                      <Pagination.Last
-                        onClick={() => handlePageChange(lastPage)}
-                      />
-                    </Pagination>
-                  </div>
-                </Card.Footer>
-              </>
-            ) : (
-              <></>
+            {data?.length > 0 && lastPage > 1 && (
+              <CustomPagination
+                currentPage={currentPage}
+                lastPage={lastPage}
+                handlePageChange={handlePageChange}
+              />
             )}
           </Card>
         </Col>

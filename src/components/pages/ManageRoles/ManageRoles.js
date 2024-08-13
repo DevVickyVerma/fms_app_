@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-
 import { Link } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import {
   Breadcrumb,
   Card,
@@ -18,10 +16,31 @@ import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
 import { handleError } from "../../../Utils/ToastUtils";
+import CustomPagination from "../../../Utils/CustomPagination";
+import SearchBar from "../../../Utils/SearchBar";
+
+
+
 
 const ManageRoles = (props) => {
   const { getData, isLoading, } = props;
   const [data, setData] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  const handleSearch = (searchTerm) => {
+    setSearchTerm(searchTerm);
+  };
+
+  const handleReset = () => {
+    setSearchTerm('');
+  };
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -70,7 +89,7 @@ const ManageRoles = (props) => {
   useEffect(() => {
     FetchTableData();
     console.clear();
-  }, []);
+  }, [searchTerm, currentPage]);
 
 
   const handleEdit = (row) => {
@@ -78,10 +97,17 @@ const ManageRoles = (props) => {
   };
   const FetchTableData = async () => {
     try {
-      const response = await getData("/role/list");
+      let apiUrl = `/role/list?page=${currentPage}`;
+      if (searchTerm) {
+        apiUrl += `&keyword=${searchTerm}`;
+      }
+
+      const response = await getData(apiUrl);
 
       if (response && response.data && response.data.data.roles) {
         setData(response.data.data.roles);
+        setCurrentPage(response.data.data?.currentPage || 1);
+        setLastPage(response.data.data?.lastPage || 1);
       } else {
         throw new Error("No data available in the response");
       }
@@ -254,29 +280,29 @@ const ManageRoles = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Manage Roles</h3>
+                <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
+                  <h3 className="card-title">Manage Roles</h3>
+                  <div className="mt-2 mt-sm-0">
+                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                  </div>
+                </div>
               </Card.Header>
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
                     <div className="table-responsive deleted-table">
-                      <DataTableExtensions {...tableDatas}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          // center={true}
-                          persistTableHead
-                          pagination
-                          paginationPerPage={20}
-                          highlightOnHover
-                          searchable={true}
-                          responsive={true}
-                        />
-                      </DataTableExtensions>
+                      <DataTable
+                        columns={columns}
+                        data={data}
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        striped={true}
+                        persistTableHead
+                        highlightOnHover
+
+                        responsive={true}
+                      />
                     </div>
                   </>
                 ) : (
@@ -289,6 +315,13 @@ const ManageRoles = (props) => {
                   </>
                 )}
               </Card.Body>
+              {data?.length > 0 && lastPage > 1 && (
+                <CustomPagination
+                  currentPage={currentPage}
+                  lastPage={lastPage}
+                  handlePageChange={handlePageChange}
+                />
+              )}
             </Card>
           </Col>
         </Row>

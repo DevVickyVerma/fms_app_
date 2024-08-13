@@ -1513,9 +1513,11 @@ li.ms-2.disabled-checkbox {
   /* background-color: var(--primary-bg-color); */
 }
 
-/* .rdt_TableBody {
-  min-height: 700px !important;
-} */
+.rdt_TableBody {
+  min-height: 500px !important;
+  overflow: auto !important;
+}
+
 .accordion-button {
   background-color: #fff !important;
   border-bottom: 1px solid #ddd;
@@ -1523,20 +1525,23 @@ li.ms-2.disabled-checkbox {
 
 .manage-site-dropdown-item {
   position: relative;
-  /* Ensure the parent has a relative position */
 }
 
 .dropdown-menu {
   z-index: 1000;
-  /* Set a higher z-index value */
   position: absolute;
-  /* Add any other necessary styles */
 }
 
 
 .site_deleted_table.table-responsive .rdt_Table {
-  min-height: 1000px;
+  height: 559px;
+  overflow: auto;
 }
+
+/* .table-responsive {
+  height: 559px;
+  overflow: auto;
+} */
 
 span.text-error {
   background: #b52d2d;
@@ -1766,4 +1771,27 @@ span.text-error {
 .blank-icon-image {
   animation: pulse 3s ease-in-out infinite;
   transition: transform 0.2s ease-in-out;
+}
+
+.search-input {
+  min-width: 190px;
+}
+
+@media (max-width: 768px) {
+  .chart-small-screen {
+    height: 300px;
+  }
+
+  .nodata-image {
+    height: 250px;
+    width: 250px;
+  }
+
+  .page-header {
+    margin: 1rem 0rem 1rem;
+  }
+
+  .page-title {
+    font-size: 16px;
+  }
 }

@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "react-data-table-component-extensions/dist/index.css";
 import DataTable from "react-data-table-component";
-import DataTableExtensions from "react-data-table-component-extensions";
 import { Breadcrumb, Card, Col, OverlayTrigger, Row, Tooltip, Dropdown } from "react-bootstrap";
 import Swal from "sweetalert2";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import withApi from "../../../Utils/ApiHelper";
 import { useSelector } from "react-redux";
 import Loaderimg from "../../../Utils/Loader";
@@ -15,9 +13,12 @@ import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CenterSearchmodal from "../../../data/Modal/CenterSearchmodal";
 import { Box } from "@mui/system";
 import { handleError } from "../../../Utils/ToastUtils";
+import CustomPagination from "../../../Utils/CustomPagination";
+import SearchBar from "../../../Utils/SearchBar";
+
+
 const ManageClient = (props) => {
   const { apidata, isLoading, getData, postData } = props;
   const [data, setData] = useState();
@@ -25,6 +26,21 @@ const ManageClient = (props) => {
   const [searchdata, setSearchdata] = useState({});
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [SearchList, setSearchList] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = (searchTerm) => {
+    setSearchTerm(searchTerm);
+  };
+
+  const handleReset = () => {
+    setSearchTerm('');
+  };
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -80,6 +96,8 @@ const ManageClient = (props) => {
 
           if (response && response.data && response.data.data) {
             setData(response.data.data.clients);
+            setCurrentPage(response.data.data?.currentPage || 1);
+            setLastPage(response.data.data?.lastPage || 1);
           } else {
             throw new Error("No data available in the response");
           }
@@ -98,14 +116,21 @@ const ManageClient = (props) => {
   useEffect(() => {
     handleFetchData();
     console.clear();
-  }, []);
+  }, [currentPage, searchTerm]);
 
   const handleFetchData = async () => {
     try {
-      const response = await getData("/client/list");
+      let apiUrl = `/client/list?page=${currentPage}`;
+      if (searchTerm) {
+        apiUrl += `&keyword=${searchTerm}`;
+      }
+
+      const response = await getData(apiUrl);
 
       if (response && response.data && response.data.data) {
         setData(response.data.data.clients);
+        setCurrentPage(response.data.data?.currentPage || 1);
+        setLastPage(response.data.data?.lastPage || 1);
       } else {
         throw new Error("No data available in the response");
       }
@@ -243,7 +268,7 @@ const ManageClient = (props) => {
       name: "Addons",
       selector: (row) => [row.addons],
       sortable: false,
-      width: "24%",
+      width: "20%",
       cell: (row, index) => (
         <div className="d-flex">
           <div className="ms-2 mt-0 mt-sm-2 d-block">
@@ -256,7 +281,7 @@ const ManageClient = (props) => {
       name: "Created Date",
       selector: (row) => [row.created_date],
       sortable: false,
-      width: "12%",
+      width: "14%",
       cell: (row, index) => (
         <div
           className="d-flex"
@@ -273,7 +298,7 @@ const ManageClient = (props) => {
       name: "Status",
       selector: (row) => [row.status],
       sortable: false,
-      width: "10%",
+      width: "12%",
       cell: (row) => (
         <span className="text-muted fs-15 fw-semibold text-center">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
@@ -416,6 +441,11 @@ const ManageClient = (props) => {
     data,
   };
 
+
+  console.log(currentPage, "current page");
+  console.log(lastPage, "lastPage page");
+
+
   const dynamicClass = "dynamicClass"; /* your dynamic class */
   return (
     <>
@@ -442,7 +472,7 @@ const ManageClient = (props) => {
             </Breadcrumb>
           </div>
           <div className="ms-auto pageheader-btn d-flex">
-            <Box component="span" display={["none", "flex"]} alignItems={"center"} className="Search-data">
+            {/* <Box component="span" display={["none", "flex"]} alignItems={"center"} className="Search-data">
               {Object.entries(searchdata).map(([key, value]) => (
                 <div key={key} className="badge">
                   <span className="badge-key">
@@ -481,7 +511,7 @@ const ManageClient = (props) => {
               </Link>
             ) : (
               ""
-            )}
+            )} */}
 
 
             {isAddPermissionAvailable ? (
@@ -498,7 +528,7 @@ const ManageClient = (props) => {
           </div>
         </div>
 
-        <Box display={["flex", "none"]} justifyContent={"space-between"} alignItems={"center"} mb={"10px"}>
+        {/* <Box display={["flex", "none"]} justifyContent={"space-between"} alignItems={"center"} mb={"10px"}>
           <span className="Search-data gap-1 d-flex flex-wrap">
             {Object.entries(searchdata).map(([key, value]) => (
               <div key={key} className="badge">
@@ -521,34 +551,37 @@ const ManageClient = (props) => {
           ) : (
             ""
           )}
-        </Box>
+        </Box> */}
 
         <Row className=" row-sm">
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Manage Client</h3>
+                <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
+                  <h3 className="card-title">Manage Client</h3>
+                  <div className="mt-2 mt-sm-0">
+                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                  </div>
+                </div>
               </Card.Header>
               <Card.Body>
                 {data?.length > 0 ? (
                   <>
-                    <div className="table-responsive deleted-table site_deleted_table">
-                      <DataTableExtensions {...tableDatas}>
-                        <DataTable
-                          columns={columns}
-                          data={data}
-                          noHeader
-                          defaultSortField="id"
-                          defaultSortAsc={false}
-                          striped={true}
-                          persistTableHead
-                          pagination
-                          highlightOnHover
-                          searchable={false}
-                          className={dynamicClass}
-                        // className="custom-datatable" // Add your custom class here
-                        />
-                      </DataTableExtensions>
+                    <div className=" deleted-table site_deleted_table">
+                      <DataTable
+                        columns={columns}
+                        data={data}
+                        noHeader
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        striped={true}
+                        persistTableHead
+                        // pagination
+                        highlightOnHover
+                        searchable={false}
+                        className={dynamicClass}
+                      // className="custom-datatable" // Add your custom class here
+                      />
                     </div>
                   </>
                 ) : (
@@ -561,6 +594,13 @@ const ManageClient = (props) => {
                   </>
                 )}
               </Card.Body>
+              {data?.length > 0 && lastPage > 1 && (
+                <CustomPagination
+                  currentPage={currentPage}
+                  lastPage={lastPage}
+                  handlePageChange={handlePageChange}
+                />
+              )}
             </Card>
           </Col>
         </Row>
