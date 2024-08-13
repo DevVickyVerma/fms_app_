@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  TableContainer,
-} from "@mui/material";
+import { Dialog, DialogContent, TableContainer } from "@mui/material";
 import { Card } from "react-bootstrap";
 import { useFormik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,10 +16,9 @@ const CustomModal = ({
   selectedDrsDate,
   onDataFromChild,
 }) => {
-
-
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [Showerrormessage, setShowerrormessage] = useState("");
   const [notificationTypes, setNotificationTypes] = useState({
     mobileSMS: false,
     email: false,
@@ -67,12 +62,9 @@ const CustomModal = ({
           })),
         });
 
-
         if (responseData?.update_tlm_price == 1) {
-          formik.setFieldValue("update_tlm_price", true)
+          formik.setFieldValue("update_tlm_price", true);
         }
-
-
       } catch (error) {
         console?.error("API error:", error);
         handleError(error);
@@ -96,7 +88,7 @@ const CustomModal = ({
   const formik = useFormik({
     initialValues: {
       listing: data?.listing || [], // Initialize with fetched data or an empty array
-      update_tlm_price: false
+      update_tlm_price: false,
     },
     onSubmit: (values) => {
       // Handle form submission
@@ -108,66 +100,133 @@ const CustomModal = ({
   const handleSubmit = async (values) => {
     setIsLoading(true);
     const formData = new FormData();
+    console.log(values.listing, "values.listing");
+    //   values?.listing.forEach(item => {
+    //     // Check if fuels array exists and iterate over it
+    //     if (Array.isArray(item.fuels)) {
+    //         item.fuels.forEach((fuelArray, fuelIndex) => {
+    //             console.log(`Fuel Array Index ${fuelIndex}:`);
 
-    values.listing.forEach((listing) => {
-      listing.fuels.forEach((fuelGroup) => {
-        fuelGroup.forEach((fuel) => {
-          const siteId = values.siteId;
-          const priceId = fuel.priceid;
+    //             // Iterate over each fuel item and log the price with its index
+    //             fuelArray.forEach((fuelItem, index) => {
+    //                 console.log(`  Fuel Item Index ${index}: Price - ${fuelItem.price}`);
+    //             });
+    //         });
+    //     }
+    // });
 
-          const fieldKey = `fuels[${siteId}][${priceId}]`;
-          const timeKey = `time[${siteId}][${priceId}]`;
-          const fieldValue = fuel.price.toString();
-          const fieldTime = fuel.time;
-          // Add validation to check if fieldValue and fieldTime are not empty, null, or undefined
-          if (
-            fieldValue !== "" &&
-            fieldValue !== null &&
-            fieldValue !== undefined &&
-            fieldTime !== "" &&
-            fieldTime !== null &&
-            fieldTime !== undefined
-          ) {
-            // Append the fuel price and time to the FormData
-            formData.append(fieldKey, fieldValue);
-            formData.append(timeKey, fieldTime);
+    let isValid = true;
+    let validationMessage = "";
+
+    values?.listing.forEach((item) => {
+      if (Array.isArray(item.fuels)) {
+        // Iterate over all fuel arrays
+        item.fuels[0].forEach((_, fuelItemIndex) => {
+          let hasPriceAtIndex = false;
+
+          // Check if any fuel array has a price at the current index
+          item.fuels.forEach((fuelArray, fuelArrayIndex) => {
+            const priceAtIndex = fuelArray[fuelItemIndex].price;
+
+            // If any price at the current index is not null, undefined, or empty string, set flag
+            if (
+              priceAtIndex !== null &&
+              priceAtIndex !== undefined &&
+              priceAtIndex !== ""
+            ) {
+              hasPriceAtIndex = true;
+            }
+          });
+
+          // If hasPriceAtIndex is true, check all fuel arrays at the current index
+          if (hasPriceAtIndex) {
+            item.fuels.forEach((fuelArray, fuelArrayIndex) => {
+              const priceAtIndex = fuelArray[fuelItemIndex].price;
+
+              // If price is null, undefined, or an empty string, mark as invalid and store a validation message Column ${fuelArrayIndex+1},
+              if (
+                priceAtIndex === null ||
+                priceAtIndex === undefined ||
+                priceAtIndex === ""
+              ) {
+                isValid = false;
+                validationMessage += `  Row ${fuelItemIndex+1}:  must be non-empty.\n`;
+              }
+            });
           }
         });
-      });
-    });
-
-
-    formData.append("drs_date", selectedDrsDate);
-    formData.append("site_id", selectedItem.id);
-    formData.append("send_sms", notificationTypes?.mobileSMS);
-    formData.append("notify_operator", notificationTypes?.email);
-    formData.append("update_tlm_price", values?.update_tlm_price);
-    const token = localStorage.getItem("token");
-    const axiosInstance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    try {
-      const response = await axiosInstance.post(
-        "/site/fuel-price/update-siteprice",
-        formData
-      );
-
-      if (response.status === 200 && response.data.api_response === "success") {
-        sendDataToParent();
-        SuccessAlert(response.data.message);
-        navigate("/fuelprice");
-        onClose();
-      } else {
-        // Handle other cases or errors here
       }
-    } catch (error) {
-      handleError(error);
-    } finally {
+    });
+
+    if (!isValid) {
+      setShowerrormessage(validationMessage);
       setIsLoading(false);
+      console.log(validationMessage);
+    } else {
+      setShowerrormessage("");
+      values.listing.forEach((listing) => {
+        listing.fuels.forEach((fuelGroup) => {
+          fuelGroup.forEach((fuel) => {
+            const siteId = values.siteId;
+            const priceId = fuel.priceid;
+
+            const fieldKey = `fuels[${siteId}][${priceId}]`;
+            const timeKey = `time[${siteId}][${priceId}]`;
+            const fieldValue = fuel.price.toString();
+            const fieldTime = fuel.time;
+            // Add validation to check if fieldValue and fieldTime are not empty, null, or undefined
+            if (
+              fieldValue !== "" &&
+              fieldValue !== null &&
+              fieldValue !== undefined &&
+              fieldTime !== "" &&
+              fieldTime !== null &&
+              fieldTime !== undefined
+            ) {
+              // Append the fuel price and time to the FormData
+              formData.append(fieldKey, fieldValue);
+              formData.append(timeKey, fieldTime);
+            }
+          });
+        });
+      });
+
+      formData.append("drs_date", selectedDrsDate);
+      formData.append("site_id", selectedItem.id);
+      formData.append("send_sms", notificationTypes?.mobileSMS);
+      formData.append("notify_operator", notificationTypes?.email);
+      formData.append("update_tlm_price", values?.update_tlm_price);
+      const token = localStorage.getItem("token");
+      const axiosInstance = axios.create({
+        baseURL: process.env.REACT_APP_BASE_URL,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      try {
+        const response = await axiosInstance.post(
+          "/site/fuel-price/update-siteprice",
+          formData
+        );
+
+        if (
+          response.status === 200 &&
+          response.data.api_response === "success"
+        ) {
+          sendDataToParent();
+          SuccessAlert(response.data.message);
+          // navigate("/fuelprice");
+          // onClose();
+        } else {
+          // Handle other cases or errors here
+        }
+      } catch (error) {
+        handleError(error);
+      } finally {
+        setIsLoading(false);
+      }
+      console.log("Validation passed for all Fuel Item Indexes.");
     }
   };
   const handleTimeChange = (columnIndex, rowIndex, newTime) => {
@@ -188,13 +247,10 @@ const CustomModal = ({
     }
   };
 
-
   const sendDataToParent = () => {
     const dataToSend = "Data from child 123";
     onDataFromChild(dataToSend); // Call the callback function with the data
   };
-
-
 
   return (
     <>
@@ -276,12 +332,13 @@ const CustomModal = ({
                           <td key={columnIndex} className="middayModal-td">
                             {fuelPrices[rowIndex]?.is_editable ? (
                               <input
-                                className={`table-input ${fuelPrices[rowIndex]?.status === "UP"
-                                  ? "table-inputGreen"
-                                  : fuelPrices[rowIndex]?.status === "DOWN"
+                                className={`table-input ${
+                                  fuelPrices[rowIndex]?.status === "UP"
+                                    ? "table-inputGreen"
+                                    : fuelPrices[rowIndex]?.status === "DOWN"
                                     ? "table-inputRed"
                                     : ""
-                                  }`}
+                                }`}
                                 type="number"
                                 placeholder="Enter Values"
                                 name={`listing[0].fuels[${columnIndex}][${rowIndex}].price`}
@@ -308,27 +365,38 @@ const CustomModal = ({
         </DialogContent>
         <Card.Footer>
           <div className="text-end notification-class">
-            {data?.update_tlm_price == 1 && (<>
-              <div className="pointer" onClick={() => formik.setFieldValue('update_tlm_price', !formik.values.update_tlm_price)}>
-                <div style={{ display: "flex", gap: "10px" }}>
-                  <div>
-                    <input
-                      type="checkbox"
-                      name="update_tlm_price"
-                      onChange={formik?.handleChange}
-                      checked={formik.values.update_tlm_price}
-                      className="form-check-input pointer mx-2"
-                    />
-                    <label htmlFor={"update_tlm_price"} className="mt-1 ms-6 pointer">
-                      Update TLM Price
-                    </label>
-
+            {data?.update_tlm_price == 1 && (
+              <>
+                <div
+                  className="pointer"
+                  onClick={() =>
+                    formik.setFieldValue(
+                      "update_tlm_price",
+                      !formik.values.update_tlm_price
+                    )
+                  }
+                >
+                  <div style={{ display: "flex", gap: "10px" }}>
+                    <div>
+                      <input
+                        type="checkbox"
+                        name="update_tlm_price"
+                        onChange={formik?.handleChange}
+                        checked={formik.values.update_tlm_price}
+                        className="form-check-input pointer mx-2"
+                      />
+                      <label
+                        htmlFor={"update_tlm_price"}
+                        className="mt-1 ms-6 pointer"
+                      >
+                        Update TLM Price
+                      </label>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </>)}
-
-
+              </>
+            )}
+            {Showerrormessage && <span style={{fontSize:"18px"}} className="custom-error-class">{Showerrormessage}</span>}
 
             <button
               className="btn btn-danger me-2"
@@ -350,7 +418,7 @@ const CustomModal = ({
             )}
           </div>
         </Card.Footer>
-      </Dialog >
+      </Dialog>
     </>
   );
 };
