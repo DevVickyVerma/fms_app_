@@ -219,7 +219,7 @@ const ManageUser = (props) => {
       sortable: false,
       width: "11%",
       cell: (row) => (
-        <span className="text-muted fs-15 fw-semibold text-center">
+        <span className="text-muted fs-15 fw-semibold ">
           <OverlayTrigger placement="top" overlay={<Tooltip>Status</Tooltip>}>
             {row.status === 1 ? (
               <button
