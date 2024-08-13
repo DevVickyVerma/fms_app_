@@ -24,6 +24,7 @@ import DateRangeIcon from "@mui/icons-material/DateRange";
 import { handleError } from "../../../Utils/ToastUtils";
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import CustomPagination from "../../../Utils/CustomPagination";
+import SearchBar from "../../../Utils/SearchBar";
 
 
 const ManageSite = (props) => {
@@ -34,17 +35,25 @@ const ManageSite = (props) => {
   const [sidebarVisible1, setSidebarVisible1] = useState(true);
   const [sidebardata, setSideData] = useState();
   const [searchdata, setSearchdata] = useState({});
-  const [SearchList, setSearchList] = useState(false);
   const [sidebardataobject, setSideDataobject] = useState();
-
-  const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
+
+  const [searchTerm, setSearchTerm] = useState('');
+
 
 
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
+  };
+
+  const handleSearch = (searchTerm) => {
+    setSearchTerm(searchTerm);
+  };
+
+  const handleReset = () => {
+    setSearchTerm('');
   };
 
 
@@ -148,7 +157,12 @@ const ManageSite = (props) => {
 
   const FetchTableData = async () => {
     try {
-      const response = await getData(`/site/list?page=${currentPage}&search_keywords=${searchQuery}`);
+
+      let apiUrl = `/site/list?page=${currentPage}`;
+      if (searchTerm) {
+        apiUrl += `&keyword=${searchTerm}`;
+      }
+      const response = await getData(apiUrl);
 
       if (response && response.data && response.data.data.sites) {
         setData(response.data.data.sites);
@@ -576,13 +590,9 @@ const ManageSite = (props) => {
   useEffect(() => {
     FetchTableData();
     console.clear();
-  }, [currentPage]);
+  }, [currentPage, searchTerm]);
 
-  const handleSearchReset = () => {
-    FetchTableData();
-    setSearchdata({});
-    setSearchList(true);
-  };
+
 
   const handleSubmit = (formData) => {
     const filteredFormData = Object.fromEntries(
@@ -596,8 +606,14 @@ const ManageSite = (props) => {
 
       const SearchList = async (row) => {
         try {
-          const params = new URLSearchParams(formData).toString();
-          const response = await getData(`/site/list?${params}&search_keywords=${searchQuery}`);
+
+          let apiUrl = `/site/list?page=${currentPage}`;
+          if (searchTerm) {
+            apiUrl += `&keyword=${searchTerm}`;
+          }
+
+
+          const response = await getData(apiUrl);
 
           if (response && response.data && response.data.data) {
             setCurrentPage(response?.data?.data?.currentPage || 1);
@@ -654,55 +670,7 @@ const ManageSite = (props) => {
               // gap: "10px",
             }}
           >
-            <Box
-              display={["none", "flex"]}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-            >
-              <span className="Search-data gap-1 d-flex flex-wrap">
-                {Object.entries(searchdata).map(([key, value]) => (
-                  <div key={key} className="badge">
-                    <span className="badge-key">
-                      {key.charAt(0).toUpperCase() + key.slice(1)}:
-                    </span>
-                    <span className="badge-value">{value}</span>
-                  </div>
-                ))}
-              </span>
-              {Object.keys(searchdata).length > 0 ? (
-                <Link
-                  className="btn btn-danger  ms-2"
-                  onClick={handleSearchReset}
-                  style={{ width: "100px" }}
-                >
-                  Reset <RestartAltIcon />
-                </Link>
-              ) : (
-                ""
-              )}
 
-
-            </Box>
-
-            <Link
-              onClick={() => {
-                handleToggleSidebar1();
-              }}
-              className="btn-sm"
-            >
-              <span className="">
-                <CenterSearchmodal
-                  title="Search"
-                  visible={sidebarVisible1}
-                  onClick={() => {
-                    handleToggleSidebar1();
-                  }}
-                  onClose={handleToggleSidebar1}
-                  onSubmit={handleSubmit}
-                  searchListstatus={SearchList}
-                />{" "}
-              </span>
-            </Link>
 
             {isAddPermissionAvailable ? (
               <Link to="/addsite" className="btn btn-primary">
@@ -715,34 +683,7 @@ const ManageSite = (props) => {
           </div>
         </div>
 
-        <Box
-          display={["flex", "none"]}
-          justifyContent={"space-between"}
-          alignItems={"center"}
-          mb={"10px"}
-        >
-          <span className="Search-data gap-1 d-flex flex-wrap">
-            {Object.entries(searchdata).map(([key, value]) => (
-              <div key={key} className="badge">
-                <span className="badge-key">
-                  {key.charAt(0).toUpperCase() + key.slice(1)}:
-                </span>
-                <span className="badge-value">{value}</span>
-              </div>
-            ))}
-          </span>
-          {Object.keys(searchdata).length > 0 ? (
-            <Link
-              className="btn btn-danger  ms-2"
-              onClick={handleSearchReset}
-              style={{ width: "100px" }}
-            >
-              Reset <RestartAltIcon />
-            </Link>
-          ) : (
-            ""
-          )}
-        </Box>
+
 
         <Suspense fallback={<img src={Loaderimg} alt="Loading" />}>
           <CommonSidebar
@@ -756,7 +697,13 @@ const ManageSite = (props) => {
           <Col lg={12}>
             <Card>
               <Card.Header>
-                <h3 className="card-title">Manage Site</h3>
+
+                <div className=" d-flex justify-content-between w-100 align-items-center flex-wrap">
+                  <h3 className="card-title">Manage Site</h3>
+                  <div className="mt-2 mt-sm-0">
+                    <SearchBar onSearch={handleSearch} onReset={handleReset} hideReset={searchTerm} />
+                  </div>
+                </div>
               </Card.Header>
               <Card.Body  >
                 {data?.length > 0 ? (
