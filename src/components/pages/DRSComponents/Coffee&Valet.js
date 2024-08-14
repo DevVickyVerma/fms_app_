@@ -429,7 +429,7 @@ const CoffeeValet = (props) => {
                 formik.handleBlur(e);
                 calculateSum(index);
               }}
-              readOnly={editable?.is_editable ? false : true}
+              readOnly={editable?.is_adjust_editable ? false : true}
             />
             {/* Error handling code */}
           </div>
