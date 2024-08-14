@@ -1806,7 +1806,7 @@ span.text-error {
   }
 }
 
-.header {
+/* .header {
   background: linear-gradient(to right,
       rgb(255, 153, 51),
       rgb(255, 255, 255),
@@ -1820,4 +1820,4 @@ span.text-error {
       rgb(255, 255, 255),
       rgb(19, 136, 8),
       rgb(132, 136, 110));
-}
+} */
