@@ -1805,19 +1805,3 @@ span.text-error {
     padding-right: 2px !important;
   }
 }
-
-/* .header {
-  background: linear-gradient(to right,
-      rgb(255, 153, 51),
-      rgb(255, 255, 255),
-      rgb(19, 136, 8),
-      rgb(132, 136, 110));
-}
-
-.footer {
-  background: linear-gradient(to right,
-      rgb(255, 153, 51),
-      rgb(255, 255, 255),
-      rgb(19, 136, 8),
-      rgb(132, 136, 110));
-} */
