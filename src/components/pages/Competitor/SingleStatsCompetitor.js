@@ -610,7 +610,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                                                     justifyContent: "flex-start",
                                                   }}
                                                 >
-                                                  gov.uk
+                                                  GOV.UK
                                                 </Tooltip>
                                               }
                                             >
