@@ -540,13 +540,13 @@ const CompititorDashStats = ({ isLoading, getData, id }) => {
                                               justifyContent: "flex-start",
                                             }}
                                           >
-                                            PetrolPrices
+                                            <span>{data?.[fuelType]?.[rowIndex]?.logo_tip}</span>
                                           </Tooltip>
                                         }
                                       >
                                         <img
                                           alt=""
-                                          src={require("../../../assets/images/SingleStatsCompetitor/PetrolPrices-Icon-512px (2).png")}
+                                          src={data?.[fuelType]?.[rowIndex]?.logo}
                                           className=""
                                           style={{
                                             objectFit: "contain",

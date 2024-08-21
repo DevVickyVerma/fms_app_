@@ -587,7 +587,46 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                                     <>
 
 
-                                      {data[fuelType]?.[rowIndex]?.is_gov == "1" ? (
+                                      <>
+                                        <span
+                                          className="PetrolPrices-img"
+                                          style={{
+                                            width: "25px",
+                                            height: "25px",
+                                            fontSize: "20px",
+                                            cursor: "pointer",
+                                            marginLeft: "10px",
+                                            display: "flex"
+                                          }}
+                                        >
+                                          <OverlayTrigger
+                                            placement="top"
+                                            overlay={
+                                              <Tooltip
+                                                style={{
+                                                  display: "flex",
+                                                  alignItems: "flex-start",
+                                                  justifyContent: "flex-start",
+                                                }}
+                                              >
+                                                <span>{data?.[fuelType]?.[rowIndex]?.logo_tip}</span>
+                                              </Tooltip>
+                                            }
+                                          >
+                                            <img
+                                              alt=""
+                                              src={data?.[fuelType]?.[rowIndex]?.logo}
+                                              className=""
+                                              style={{
+                                                objectFit: "contain",
+                                              }}
+                                            />
+                                          </OverlayTrigger>
+                                        </span>
+                                      </>
+
+
+                                      {/* {data[fuelType]?.[rowIndex]?.is_gov == "1" ? (
                                         <>
                                           <span
                                             className="PetrolPrices-img"
@@ -663,7 +702,7 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
                                             </OverlayTrigger>
                                           </span>
                                         </>
-                                      )}
+                                      )} */}
 
                                     </>
                                   )}
