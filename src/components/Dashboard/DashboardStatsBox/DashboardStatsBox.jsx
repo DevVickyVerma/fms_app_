@@ -65,7 +65,7 @@ const DashboardStatsBox = (props) => {
               onClick={handleNavigateClick}
               className={`card dash-card-default-height dash-plates-1 img-card box-primary-shadow`}
             >
-              <Card.Body className="statscard">
+              <Card.Body className="statscard c-stats-card">
                 <div className="d-flex justify-content-between">
                   <div className="text-white">
                     <h2
@@ -145,7 +145,7 @@ const DashboardStatsBox = (props) => {
               onClick={handleNavigateClick}
               className={`card dash-card-default-height dash-plates-3 img-card box-danger-shadow`}
             >
-              <Card.Body className="statscard">
+              <Card.Body className="statscard c-stats-card">
                 <div className="d-flex justify-content-between">
                   <div className="text-white">
                     <h2
@@ -188,7 +188,7 @@ const DashboardStatsBox = (props) => {
                           className="icon icon-pound-sign  "
                           style={{ color: "#000" }}
                         >
-                          ℓ
+                          £
                         </i>
                       </div>
                     </div>
@@ -227,7 +227,7 @@ const DashboardStatsBox = (props) => {
               onClick={handleNavigateClick}
               className={`card dash-card-default-height dash-plates-6 img-card box-success-shadow`}
             >
-              <Card.Body className="statscard">
+              <Card.Body className="statscard c-stats-card">
                 <div className="d-flex ">
                   <div className="text-white">
                     <h2
@@ -307,7 +307,7 @@ const DashboardStatsBox = (props) => {
               onClick={handleNavigateClick}
               className={`card dash-card-default-height dash-plates-2 img-card box-info-shadow`}
             >
-              <Card.Body className="statscard">
+              <Card.Body className="statscard c-stats-card">
                 <div className="d-flex">
                   <div className="text-white">
                     <h2
@@ -347,7 +347,7 @@ const DashboardStatsBox = (props) => {
                     </p>
                   </div>
 
-                  <div className="ms-auto">
+                  {/* <div className="ms-auto">
                     <div
                       className="counter-icon  brround  ms-auto"
 
@@ -366,7 +366,7 @@ const DashboardStatsBox = (props) => {
                         </i>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <p className="margin-div">
                   <span
@@ -402,7 +402,7 @@ const DashboardStatsBox = (props) => {
               onClick={handleNavigateClick}
               className={`card dash-card-default-height dash-plates-4 img-card box-warning-shadow`}
             >
-              <Card.Body className="statscard">
+              <Card.Body className="statscard c-stats-card">
                 <div className="d-flex">
                   <div className="text-white">
                     <h2
@@ -434,7 +434,7 @@ const DashboardStatsBox = (props) => {
                           className="icon icon-pound-sign  "
                           style={{ color: "#000" }}
                         >
-                          ℓ
+                          £
                         </i>
                       </div>
                     </div>
@@ -473,7 +473,7 @@ const DashboardStatsBox = (props) => {
               onClick={handleNavigateClick}
               className={`card dash-card-default-height dash-plates-6 img-card box-primary-shadow`}
             >
-              <Card.Body className="statscard">
+              <Card.Body className="statscard c-stats-card">
                 <div className="d-flex">
                   <div className="text-white">
                     <h2
@@ -503,7 +503,7 @@ const DashboardStatsBox = (props) => {
                           className="icon icon-pound-sign  "
                           style={{ color: "#000" }}
                         >
-                          ℓ
+                          £
                         </i>
                       </div>
                     </div>
@@ -542,7 +542,7 @@ const DashboardStatsBox = (props) => {
               onClick={handleNavigateClick}
               className={`card dash-card-default-height dash-plates-5 img-card box-primary-shadow`}
             >
-              <Card.Body className="statscard">
+              <Card.Body className="statscard c-stats-card">
                 <div className="d-flex">
                   <div className="text-white">
                     <h2
@@ -584,7 +584,7 @@ const DashboardStatsBox = (props) => {
                           className="icon icon-pound-sign  "
                           style={{ color: "#000" }}
                         >
-                          ℓ
+                          £
                         </i>
                       </div>
                     </div>

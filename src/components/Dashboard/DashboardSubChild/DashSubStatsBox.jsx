@@ -43,9 +43,9 @@ const DashSubStatsBox = (props) => {
         <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
           <Card
 
-            className={`card  dash-plates-1 img-card box-primary-shadow`}
+            className={`card dash-card-default-height dash-plates-1 img-card box-primary-shadow`}
           >
-            <Card.Body className="statscard">
+            <Card.Body className="statscard c-stats-card">
               <div className="d-flex justify-content-between">
                 <div className="text-white">
                   <h2
@@ -123,9 +123,9 @@ const DashSubStatsBox = (props) => {
         <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
           <Card
 
-            className={`card dash-plates-3 img-card box-danger-shadow`}
+            className={`card dash-card-default-height dash-plates-3 img-card box-danger-shadow`}
           >
-            <Card.Body className="statscard">
+            <Card.Body className="statscard c-stats-card">
               <div className="d-flex justify-content-between">
                 <div className="text-white">
                   <h2
@@ -167,7 +167,7 @@ const DashSubStatsBox = (props) => {
                         className="icon icon-pound-sign  "
                         style={{ color: "#000" }}
                       >
-                        ℓ
+                        £
                       </i>
                     </div>
                   </div>
@@ -204,9 +204,9 @@ const DashSubStatsBox = (props) => {
         <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
           <Card
 
-            className={`card dash-plates-6 img-card box-success-shadow`}
+            className={`card dash-card-default-height dash-plates-6 img-card box-success-shadow`}
           >
-            <Card.Body className="statscard">
+            <Card.Body className="statscard c-stats-card">
               <div className="d-flex">
                 <div className="text-white">
                   <h2
@@ -284,9 +284,9 @@ const DashSubStatsBox = (props) => {
         <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
           <Card
 
-            className={`card dash-plates-2 img-card box-info-shadow`}
+            className={`card dash-card-default-height dash-plates-2 img-card box-info-shadow`}
           >
-            <Card.Body className="statscard">
+            <Card.Body className="statscard c-stats-card">
               <div className="d-flex">
                 <div className="text-white">
                   <h2
@@ -326,7 +326,7 @@ const DashSubStatsBox = (props) => {
                   </p>
                 </div>
 
-                <div className="ms-auto">
+                {/* <div className="ms-auto">
                   <div
                     className="counter-icon  brround  ms-auto"
 
@@ -345,7 +345,7 @@ const DashSubStatsBox = (props) => {
                       </i>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
               <p className="margin-div">
                 <span
@@ -379,9 +379,9 @@ const DashSubStatsBox = (props) => {
         <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
           <Card
 
-            className={`card dash-plates-4 img-card box-warning-shadow`}
+            className={`card dash-card-default-height dash-plates-4 img-card box-warning-shadow`}
           >
-            <Card.Body className="statscard">
+            <Card.Body className="statscard c-stats-card">
               <div className="d-flex">
                 <div className="text-white">
                   <h2
@@ -411,7 +411,7 @@ const DashSubStatsBox = (props) => {
                         className="icon icon-pound-sign  "
                         style={{ color: "#000" }}
                       >
-                        ℓ
+                        £
                       </i>
                     </div>
                   </div>
@@ -448,9 +448,9 @@ const DashSubStatsBox = (props) => {
         <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
           <Card
 
-            className={`card  dash-plates-6 img-card box-primary-shadow`}
+            className={`card dash-card-default-height dash-plates-6 img-card box-primary-shadow`}
           >
-            <Card.Body className="statscard">
+            <Card.Body className="statscard c-stats-card">
               <div className="d-flex">
                 <div className="text-white">
                   <h2
@@ -482,7 +482,7 @@ const DashSubStatsBox = (props) => {
                         className="icon icon-pound-sign  "
                         style={{ color: "#000" }}
                       >
-                        ℓ
+                        £
                       </i>
                     </div>
                   </div>
@@ -519,9 +519,9 @@ const DashSubStatsBox = (props) => {
         <Col sm={12} md={6} lg={6} xl={3} key={Math.random()}>
           <Card
 
-            className={`card  dash-plates-5 img-card box-primary-shadow`}
+            className={`card dash-card-default-height dash-plates-5 img-card box-primary-shadow`}
           >
-            <Card.Body className="statscard">
+            <Card.Body className="statscard c-stats-card">
               <div className="d-flex">
                 <div className="text-white">
                   <h2
@@ -564,7 +564,7 @@ const DashSubStatsBox = (props) => {
                         className="icon icon-pound-sign  "
                         style={{ color: "#000" }}
                       >
-                        ℓ
+                        £
                       </i>
                     </div>
                   </div>

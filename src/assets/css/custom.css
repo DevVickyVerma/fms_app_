@@ -1805,3 +1805,10 @@ span.text-error {
     padding-right: 2px !important;
   }
 }
+
+
+.c-stats-card {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
