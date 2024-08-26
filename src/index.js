@@ -36,6 +36,7 @@ import EditBunkeringBalance from "./components/pages/BunkeringBalance/EditBunker
 import AddBunkeringBalance from "./components/pages/BunkeringBalance/AddBunkeringBalance";
 import SetFuelGrades from "./components/pages/ManageSite/SetFuelGrades";
 import FuturePriceLogs from "./components/pages/Emaillogs/FuturePriceLogs";
+import DashboardWetStock from "./components/Dashboard/DashboardWetStock/DashboardWetStock";
 //App
 const App = React.lazy(() => import("./components/app"));
 const Custompages = React.lazy(() => import("./components/custompages"));
@@ -726,6 +727,7 @@ const Root = () => {
   const WrappedActivitylogs = withApi(Activitylogs);
   const Wrappedmanagesms = withApi(managesms);
   const WrappedShopRevenueCommission = withApi(ShopRevenueCommission);
+  const WrappedDashboardWetStock = withApi(DashboardWetStock);
 
   return (
     <Fragment>
@@ -744,6 +746,7 @@ const Root = () => {
                     element={<WrappeAddEditClient />}
                   />
                   <Route path={`addclient`} element={<WrappedAddClient />} />
+                  <Route path={`/wet-stock-dashboard/`} element={<WrappedDashboardWetStock />} />
 
                   {/* client  Components End */}
 
