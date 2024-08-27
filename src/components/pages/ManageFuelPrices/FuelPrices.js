@@ -273,6 +273,7 @@ const FuelPrices = (props) => {
           client_id: selectedClientId,
           company_id: selectedCompanyId,
         };
+        handleModalClose()
         handleSubmit1(values);
       }
       // Set the submission state to false after the API call is completed

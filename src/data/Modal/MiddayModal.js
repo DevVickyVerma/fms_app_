@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent, TableContainer } from "@mui/material";
 import { Card } from "react-bootstrap";
 import { useFormik } from "formik";
@@ -8,6 +8,7 @@ import axios from "axios";
 import Loaderimg from "../../Utils/Loader";
 import { useNavigate } from "react-router-dom";
 import { handleError, SuccessAlert } from "../../Utils/ToastUtils";
+import InputTime from "../../components/pages/Competitor/InputTime";
 
 const CustomModal = ({
   open,
@@ -24,7 +25,6 @@ const CustomModal = ({
     email: false,
   });
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,61 +38,53 @@ const CustomModal = ({
       });
 
       try {
-        setIsLoading(true); // Set loading state to true before fetching data
+        setIsLoading(true);
 
         const response = await axiosInstance.get(
           `/site/fuel-price/mid-day?site_id=${selectedItem.id}&drs_date=${selectedDrsDate}`
         );
 
         const responseData = response?.data?.data;
-        setData(responseData);
+        if(responseData){
+          setData(responseData);
 
-        // Initialize Formik values with the fetched data
-        formik.setValues({
-          siteId: selectedItem.id, // Save site_id in Formik
-          siteName: selectedItem.site_name,
-          listing: responseData?.listing?.map((listingItem) => ({
-            fuels: listingItem?.fuels?.map((fuelArray) =>
-              fuelArray.map((fuel) => ({
-                time: fuel.time,
-                price: fuel.price || "",
-                priceid: fuel.id || "",
-              }))
-            ),
-          })),
-        });
+          formik.setValues({
+            siteId: selectedItem.id,
+            siteName: selectedItem.site_name,
+            listing: responseData?.listing?.map((listingItem) => ({
+              fuels: listingItem?.fuels?.map((fuelArray) =>
+                fuelArray.map((fuel) => ({
+                  time: fuel.time,
+                  price: fuel.price || "",
+                  priceid: fuel.id || "",
+                }))
+              ),
+            })),
+          });
 
-        if (responseData?.update_tlm_price == 1) {
+        }
+     
+
+        if (responseData?.update_tlm_price === 1) {
           formik.setFieldValue("update_tlm_price", true);
         }
       } catch (error) {
         console?.error("API error:", error);
         handleError(error);
       } finally {
-        setIsLoading(false); // Set loading state to false after data fetching is complete
+        setIsLoading(false);
       }
     };
 
     fetchData();
-  }, [selectedItem, selectedDrsDate]); // Add selectedDrsDate to the dependency array
-
-  let initialValues = {}; // Initialize initialValues as an empty object
-
-  if (data) {
-    initialValues = {
-      ...data,
-      // You might need to adjust this part depending on your data structure
-    };
-  }
+  }, [selectedItem, selectedDrsDate]);
 
   const formik = useFormik({
     initialValues: {
-      listing: data?.listing || [], // Initialize with fetched data or an empty array
+      listing: data?.listing || [],
       update_tlm_price: false,
     },
     onSubmit: (values) => {
-      // Handle form submission
-
       handleSubmit(values);
     },
   });
@@ -100,35 +92,18 @@ const CustomModal = ({
   const handleSubmit = async (values) => {
     setIsLoading(true);
     const formData = new FormData();
-    console.log(values.listing, "values.listing");
-    //   values?.listing.forEach(item => {
-    //     // Check if fuels array exists and iterate over it
-    //     if (Array.isArray(item.fuels)) {
-    //         item.fuels.forEach((fuelArray, fuelIndex) => {
-    //             console.log(`Fuel Array Index ${fuelIndex}:`);
-
-    //             // Iterate over each fuel item and log the price with its index
-    //             fuelArray.forEach((fuelItem, index) => {
-    //                 console.log(`  Fuel Item Index ${index}: Price - ${fuelItem.price}`);
-    //             });
-    //         });
-    //     }
-    // });
 
     let isValid = true;
     let validationMessage = "";
 
     values?.listing.forEach((item) => {
       if (Array.isArray(item.fuels)) {
-        // Iterate over all fuel arrays
         item.fuels[0].forEach((_, fuelItemIndex) => {
           let hasPriceAtIndex = false;
 
-          // Check if any fuel array has a price at the current index
-          item.fuels.forEach((fuelArray, fuelArrayIndex) => {
+          item.fuels.forEach((fuelArray) => {
             const priceAtIndex = fuelArray[fuelItemIndex].price;
 
-            // If any price at the current index is not null, undefined, or empty string, set flag
             if (
               priceAtIndex !== null &&
               priceAtIndex !== undefined &&
@@ -138,20 +113,17 @@ const CustomModal = ({
             }
           });
 
-          // If hasPriceAtIndex is true, check all fuel arrays at the current index
           if (hasPriceAtIndex) {
-            item.fuels.forEach((fuelArray, fuelArrayIndex) => {
+            item.fuels.forEach((fuelArray) => {
               const priceAtIndex = fuelArray[fuelItemIndex].price;
 
-              // If price is null, undefined, or an empty string, mark as invalid and store a validation message Column ${fuelArrayIndex+1},
               if (
                 priceAtIndex === null ||
                 priceAtIndex === undefined ||
                 priceAtIndex === ""
               ) {
                 isValid = false;
-                validationMessage += `Row ${fuelItemIndex + 1}:\nInput ${fuelArrayIndex + 1} must not be empty.\n`;
-
+                validationMessage += `Row ${fuelItemIndex + 1}:\nInput must not be empty.\n`;
               }
             });
           }
@@ -162,7 +134,6 @@ const CustomModal = ({
     if (!isValid) {
       setShowerrormessage(validationMessage);
       setIsLoading(false);
-      console.log(validationMessage);
     } else {
       setShowerrormessage("");
       values.listing.forEach((listing) => {
@@ -175,7 +146,7 @@ const CustomModal = ({
             const timeKey = `time[${siteId}][${priceId}]`;
             const fieldValue = fuel.price.toString();
             const fieldTime = fuel.time;
-            // Add validation to check if fieldValue and fieldTime are not empty, null, or undefined
+
             if (
               fieldValue !== "" &&
               fieldValue !== null &&
@@ -184,7 +155,6 @@ const CustomModal = ({
               fieldTime !== null &&
               fieldTime !== undefined
             ) {
-              // Append the fuel price and time to the FormData
               formData.append(fieldKey, fieldValue);
               formData.append(timeKey, fieldTime);
             }
@@ -196,7 +166,13 @@ const CustomModal = ({
       formData.append("site_id", selectedItem.id);
       formData.append("send_sms", notificationTypes?.mobileSMS);
       formData.append("notify_operator", notificationTypes?.email);
-      formData.append("update_tlm_price", values?.update_tlm_price);
+      if(
+        values?.update_tlm_price
+      ){
+        formData.append("update_tlm_price", values?.update_tlm_price);
+      }
+    
+
       const token = localStorage.getItem("token");
       const axiosInstance = axios.create({
         baseURL: process.env.REACT_APP_BASE_URL,
@@ -215,10 +191,9 @@ const CustomModal = ({
           response.status === 200 &&
           response.data.api_response === "success"
         ) {
+          onClose()
           sendDataToParent();
           SuccessAlert(response.data.message);
-          // navigate("/fuelprice");
-          // onClose();
         } else {
           // Handle other cases or errors here
         }
@@ -227,10 +202,10 @@ const CustomModal = ({
       } finally {
         setIsLoading(false);
       }
-      console.log("Validation passed for all Fuel Item Indexes.");
     }
   };
-  const handleTimeChange = (columnIndex, rowIndex, newTime) => {
+
+  const handleTimeChange = (rowIndex, columnIndex, newTime) => {
     formik.setFieldValue(
       `listing[0].fuels[${columnIndex}][${rowIndex}].time`,
       newTime
@@ -250,12 +225,12 @@ const CustomModal = ({
 
   const sendDataToParent = () => {
     const dataToSend = "Data from child 123";
-    onDataFromChild(dataToSend); // Call the callback function with the data
+    onDataFromChild(dataToSend);
   };
 
   return (
     <>
-      {isLoading ? <Loaderimg /> : null}
+      {isLoading && <Loaderimg />}
       <Dialog
         open={open}
         onClose={onClose}
@@ -280,8 +255,7 @@ const CustomModal = ({
             </button>
           </span>
         </span>
-        {isLoading ? <Loaderimg /> : null}
-
+        {isLoading && <Loaderimg />}
         <DialogContent>
           <TableContainer>
             <div className="table-container table-responsive">
@@ -305,18 +279,13 @@ const CustomModal = ({
                     <tr key={rowIndex} className="middayModal-tr">
                       <td className="middayModal-td">
                         {fuel.is_editable ? (
-                          <input
-                            className="table-input"
-                            name={`listing[0].fuels[0][${rowIndex}].time`}
-                            type="time"
-                            placeholder="Enter Values"
+                          <InputTime
+                            label="Time"
                             value={
-                              formik.values?.listing[0]?.fuels[0][rowIndex]
-                                ?.time
+                              formik.values?.listing[0]?.fuels[0][rowIndex]?.time
                             }
-                            onChange={
-                              (e) =>
-                                handleTimeChange(0, rowIndex, e.target.value) // Column index is 0
+                            onChange={(newValue) =>
+                              handleTimeChange(rowIndex, 0, newValue)
                             }
                           />
                         ) : (
@@ -328,35 +297,33 @@ const CustomModal = ({
                           </span>
                         )}
                       </td>
-                      {data?.listing?.[0]?.fuels?.map(
-                        (fuelPrices, columnIndex) => (
-                          <td key={columnIndex} className="middayModal-td">
-                            {fuelPrices[rowIndex]?.is_editable ? (
-                              <input
-                                className={`table-input ${
-                                  fuelPrices[rowIndex]?.status === "UP"
-                                    ? "table-inputGreen"
-                                    : fuelPrices[rowIndex]?.status === "DOWN"
-                                    ? "table-inputRed"
-                                    : ""
-                                }`}
-                                type="number"
-                                placeholder="Enter Values"
-                                name={`listing[0].fuels[${columnIndex}][${rowIndex}].price`}
-                                value={
-                                  formik.values?.listing[0]?.fuels[columnIndex][
-                                    rowIndex
-                                  ]?.price
-                                }
-                                onChange={formik.handleChange}
-                                step="0.010"
-                              />
-                            ) : (
-                              <span>{fuelPrices[rowIndex]?.price}</span>
-                            )}
-                          </td>
-                        )
-                      )}
+                      {data?.listing?.[0]?.fuels?.map((fuelPrices, columnIndex) => (
+                        <td key={columnIndex} className="middayModal-td">
+                          {fuelPrices[rowIndex]?.is_editable ? (
+                            <input
+                              className={`table-input ${
+                                fuelPrices[rowIndex]?.status === "UP"
+                                  ? "table-inputGreen"
+                                  : fuelPrices[rowIndex]?.status === "DOWN"
+                                  ? "table-inputRed"
+                                  : ""
+                              }`}
+                              type="number"
+                              placeholder="Enter Values"
+                              name={`listing[0].fuels[${columnIndex}][${rowIndex}].price`}
+                              value={
+                                formik.values?.listing[0]?.fuels[columnIndex][
+                                  rowIndex
+                                ]?.price
+                              }
+                              onChange={formik.handleChange}
+                              step="0.010"
+                            />
+                          ) : (
+                            <span>{fuelPrices[rowIndex]?.price}</span>
+                          )}
+                        </td>
+                      ))}
                     </tr>
                   ))}
                 </tbody>
@@ -366,56 +333,56 @@ const CustomModal = ({
         </DialogContent>
         <Card.Footer>
           <div className="text-end notification-class">
-            {data?.update_tlm_price == 1 && (
-              <>
-                <div
-                  className="pointer"
-                  onClick={() =>
-                    formik.setFieldValue(
-                      "update_tlm_price",
-                      !formik.values.update_tlm_price
-                    )
-                  }
-                >
-                  <div style={{ display: "flex", gap: "10px" }}>
-                    <div>
-                      <input
-                        type="checkbox"
-                        name="update_tlm_price"
-                        onChange={formik?.handleChange}
-                        checked={formik.values.update_tlm_price}
-                        className="form-check-input pointer mx-2"
-                      />
-                      <label
-                        htmlFor={"update_tlm_price"}
-                        className="mt-1 ms-6 pointer"
-                      >
-                        Update TLM Price
-                      </label>
-                    </div>
+            {data?.update_tlm_price === 1 && (
+              <div
+                className="pointer"
+                onClick={() =>
+                  formik.setFieldValue(
+                    "update_tlm_price",
+                    !formik.values.update_tlm_price
+                  )
+                }
+              >
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <div>
+                    <input
+                      type="checkbox"
+                      name="update_tlm_price"
+                      onChange={formik.handleChange}
+                      checked={formik.values.update_tlm_price}
+                      className="form-check-input pointer mx-2"
+                    />
+                    <label
+                      htmlFor={"update_tlm_price"}
+                      className="mt-1 ms-6 pointer"
+                    >
+                      Update TLM Price
+                    </label>
                   </div>
                 </div>
-              </>
+              </div>
             )}
-            {Showerrormessage && <span style={{fontSize:"13"}} className="custom-error-class">{Showerrormessage}</span>}
+            {Showerrormessage && (
+              <span style={{ fontSize: "13px" }} className="custom-error-class">
+                {Showerrormessage}
+              </span>
+            )}
 
             <button
               className="btn btn-danger me-2"
-              type="submit"
+              type="button"
               onClick={onClose}
             >
               Close
             </button>
-            {data?.btn_clickable ? (
+            {data?.btn_clickable && (
               <button
                 className="btn btn-primary me-2"
-                type="submit"
+                type="button"
                 onClick={formik.handleSubmit}
               >
                 Submit
               </button>
-            ) : (
-              ""
             )}
           </div>
         </Card.Footer>
