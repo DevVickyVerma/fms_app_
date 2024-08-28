@@ -1,18 +1,15 @@
+
+
 import { useEffect, useState } from "react";
-import {
-    Dialog,
-    DialogContent,
-    TableContainer,
-} from "@mui/material";
+import { Dialog, DialogContent, TableContainer } from "@mui/material";
 import { Card, Col, Row } from "react-bootstrap";
 import { useFormik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import LoaderImg from "../../../Utils/Loader";
 import { handleError, SuccessAlert } from "../../../Utils/ToastUtils";
+import LoaderImg from "../../../Utils/Loader";
 import InputTime from "./InputTime";
-
 
 const CompiMiddayModal = ({
     open,
@@ -21,7 +18,6 @@ const CompiMiddayModal = ({
     selectedDrsDate,
     setSelectedDrsDate,
     onDataFromChild,
-    getCompetitorsPrice,
 }) => {
     const [data, setData] = useState();
     const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +26,6 @@ const CompiMiddayModal = ({
         mobileSMS: false,
         email: false,
     });
-
 
 
     useEffect(() => {
@@ -45,63 +40,53 @@ const CompiMiddayModal = ({
             });
 
             try {
-                setIsLoading(true); // Set loading state to true before fetching data
+                setIsLoading(true);
 
                 const response = await axiosInstance.get(
-                    `/site/fuel-price/mid-day?site_id=${selectedItem}&drs_date=${selectedDrsDate}`
+                    `/site/fuel-price/mid-day?site_id=${selectedItem.id}&drs_date=${selectedDrsDate}`
                 );
 
                 const responseData = response?.data?.data;
-                setData(responseData);
+                if (responseData) {
+                    setData(responseData);
 
-                // Initialize Formik values with the fetched data
-                formik.setValues({
-                    siteId: selectedItem, // Save site_id in Formik
-                    siteName: selectedItem?.site_name,
-                    listing: responseData?.listing?.map((listingItem) => ({
-                        fuels: listingItem?.fuels?.map((fuelArray) =>
-                            fuelArray.map((fuel) => ({
-                                time: fuel.time,
-                                price: fuel.price || "",
-                                priceid: fuel.id || "",
-                            }))
-                        ),
-                    })),
-                });
+                    formik.setValues({
+                        siteId: selectedItem.id,
+                        siteName: selectedItem.site_name,
+                        listing: responseData?.listing?.map((listingItem) => ({
+                            fuels: listingItem?.fuels?.map((fuelArray) =>
+                                fuelArray.map((fuel) => ({
+                                    time: fuel.time,
+                                    price: fuel.price || "",
+                                    priceid: fuel.id || "",
+                                }))
+                            ),
+                        })),
+                    });
 
-
-                if (responseData?.update_tlm_price == 1) {
-                    formik.setFieldValue("update_tlm_price", true)
                 }
 
 
+                if (responseData?.update_tlm_price === 1) {
+                    formik.setFieldValue("update_tlm_price", true);
+                }
             } catch (error) {
                 console?.error("API error:", error);
                 handleError(error);
             } finally {
-                setIsLoading(false); // Set loading state to false after data fetching is complete
+                setIsLoading(false);
             }
         };
 
         fetchData();
-    }, [selectedItem, selectedDrsDate]); // Add selectedDrsDate to the dependency array
-
-    let initialValues = {}; // Initialize initialValues as an empty object
-
-    if (data) {
-        initialValues = {
-            ...data,
-            // You might need to adjust this part depending on your data structure
-        };
-    }
+    }, [selectedItem, selectedDrsDate]);
 
     const formik = useFormik({
         initialValues: {
-            listing: data?.listing || [], // Initialize with fetched data or an empty array
-            update_tlm_price: false
+            listing: data?.listing || [],
+            update_tlm_price: false,
         },
         onSubmit: (values) => {
-            // Handle form submission
             handleSubmit(values);
         },
     });
@@ -221,7 +206,8 @@ const CompiMiddayModal = ({
             }
         }
     };
-    const handleTimeChange = (columnIndex, rowIndex, newTime) => {
+
+    const handleTimeChange = (rowIndex, columnIndex, newTime) => {
         formik.setFieldValue(
             `listing[0].fuels[${columnIndex}][${rowIndex}].time`,
             newTime
@@ -238,16 +224,17 @@ const CompiMiddayModal = ({
             }
         }
     };
+
     const sendDataToParent = () => {
         const dataToSend = "Data from child 123";
-        onDataFromChild(dataToSend); // Call the callback function with the data
+        onDataFromChild(dataToSend);
     };
 
 
 
     return (
         <>
-            {isLoading ? <LoaderImg /> : null}
+            {isLoading && <LoaderImg />}
             <Dialog
                 open={open}
                 onClose={onClose}
@@ -263,7 +250,7 @@ const CompiMiddayModal = ({
                     className="ModalTitle"
                 >
                     <div className="ModalTitle-date">
-                        {getCompetitorsPrice ? getCompetitorsPrice?.siteName : ""}{" "}
+                        <span> {selectedItem?.site_name}</span>
                         <span> ({selectedDrsDate})</span>
                     </div>
                     <span onClick={onClose}>
@@ -272,7 +259,10 @@ const CompiMiddayModal = ({
                         </button>
                     </span>
                 </span>
-                {isLoading ? <LoaderImg /> : null}
+                {isLoading && <LoaderImg />}
+
+
+
 
                 <DialogContent>
 

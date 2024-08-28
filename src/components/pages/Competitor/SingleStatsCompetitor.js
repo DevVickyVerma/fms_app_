@@ -166,7 +166,13 @@ const SingleStatsCompetitor = ({ isLoading, getData }) => {
 
 
   const handleModalOpen = (item) => {
-    setSelectedItem(id); // Set the selected item
+
+    let items = {
+      "id": id,
+      "site_name": getCompetitorsPrice?.siteName,
+    }
+
+    setSelectedItem(items); // Set the selected item
     setModalOpen(true);
   };
 
