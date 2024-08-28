@@ -123,7 +123,7 @@ const DashBoardChild = (props) => {
           justifyContent={"space-between"}
           alignItems={"center"}
           flexDirection={["row",]}
-          className="center-filter-modal-responsive"
+          className="center-filter-modal-responsive  flex-wrap"
         >
           <Box alignSelf={["center", "flex-start"]}
             mt={["0px", "33px"]}>

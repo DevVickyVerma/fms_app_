@@ -366,9 +366,9 @@ const Dashboard = (props) => {
           justifyContent={"space-between"}
           alignItems={"center"}
           flexDirection={["row"]}
-          className="center-filter-modal-responsive"
+          className="center-filter-modal-responsive flex-wrap"
         >
-          <Box alignSelf={["center", "flex-start"]} mt={["0px", "33px"]}>
+          <Box alignSelf={["center", "flex-start"]} mt={["0px", "33px"]} className=" ">
             <h1
               className="page-title dashboard-page-title"
               style={{ alignItems: "center" }}
@@ -377,6 +377,7 @@ const Dashboard = (props) => {
               {dashboard_dates ? dashboard_dates : UserPermissions?.dates})
             </h1>
           </Box>
+
 
           {localStorage.getItem("superiorRole") === "Client" &&
             localStorage.getItem("role") === "Operator" ? (
